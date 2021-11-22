@@ -16,7 +16,7 @@ import com.mojang.blaze3d.vertex.VertexFormat
 import com.mojang.blaze3d.vertex.VertexFormatElement
 import com.mojang.math.Quaternion
 import com.mojang.math.Vector3f
-import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.GameRenderer
 
 /**
  * The renderer used to render `.smd` models.
@@ -37,7 +37,7 @@ class SmdModelRenderer {
     fun render(matrix: PoseStack, model: SmdModel) {
         // Get the next frame of current animation, if there is one
         // TODO: Remove this and make a separate animation handler
-//        if (model.currentAnimation != null) model.currentAnimation?.animate()
+        //if (model.currentAnimation != null) model.currentAnimation?.animate()
 
         /* Apply transformations that apply to every vertex in the model
          *
@@ -50,7 +50,8 @@ class SmdModelRenderer {
 
         // TODO: Check if this has performance impact
         // ANSWER: Almost fucking certainly, texture binding is expensive and more expensive than everything else
-        Minecraft.getInstance().textureManager.bindForSetup(model.skeleton.mesh.texture)
+        RenderSystem.setShader { GameRenderer.getPositionTexShader() }
+        RenderSystem.setShaderTexture(0, model.skeleton.mesh.texture)
 
         // Start drawing every vertex in the model's mesh
         val buffer = Tesselator.getInstance().builder
