@@ -39,8 +39,6 @@ object PokemonCobbledMod {
         }
 
         MinecraftForge.EVENT_BUS.register(CommandRegistrar)
-
-
     }
 
     @SubscribeEvent
