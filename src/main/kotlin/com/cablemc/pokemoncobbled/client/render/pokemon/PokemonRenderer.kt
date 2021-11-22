@@ -9,15 +9,19 @@ import com.cablemc.pokemoncobbled.client.render.models.smd.loaders.files.SmdAnim
 import com.cablemc.pokemoncobbled.client.render.models.smd.loaders.files.SmdModelFileLoader
 import com.cablemc.pokemoncobbled.client.render.models.smd.loaders.files.SmdPQCFileLoader
 import com.cablemc.pokemoncobbled.client.render.models.smd.renderer.SmdModelRenderer
-import com.cablemc.pokemoncobbled.client.render.models.smd.repository.DefaultModelRepository
+import com.cablemc.pokemoncobbled.client.render.models.smd.repository.CachedModelRepository
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.google.common.cache.CacheBuilder
+import com.google.common.cache.CacheLoader
+import com.google.common.cache.LoadingCache
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.culling.Frustum
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.resources.ResourceLocation
+
 
 class PokemonRenderer(
     ctx: EntityRendererProvider.Context,
@@ -29,7 +33,13 @@ class PokemonRenderer(
         val modelFileLoader = SmdModelFileLoader()
         val modelLoader = SmdModelLoader(modelFileLoader)
         val pqcLoader = SmdPQCLoader(fileLoader, modelLoader, SmdAnimationLoader(SmdAnimationFileLoader()))
-        val modelRepo = DefaultModelRepository(pqcLoader)
+        val loadingCache: LoadingCache<ResourceLocation, SmdModel> = CacheBuilder.newBuilder()
+            .build(object : CacheLoader<ResourceLocation, SmdModel>() {
+                override fun load(location: ResourceLocation): SmdModel {
+                    return pqcLoader.load(location)
+                }
+            })
+        val modelRepo = CachedModelRepository(loadingCache)
     }
 
     override fun render(
