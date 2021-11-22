@@ -18,7 +18,7 @@ import net.minecraftforge.registries.ForgeRegistries
 class EntityRegistry {
     private val ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokemonCobbled.MODID)
     val POKEMON: RegistryObject<EntityType<PokemonEntity>> = registerEntity(
-        name = "assets/kotlinmod/pokemon",
+        name = "assets/pokemoncobbled/pokemon",
         classification = MobCategory.MISC,
         factory = { type, level -> PokemonEntity(type, level) }, // TODO Landon's use of an actual factory is still a great idea for here
         builderModifiers = { builder -> builder.sized(1f, 1f).fireImmune() }
