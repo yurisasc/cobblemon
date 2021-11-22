@@ -1,0 +1,37 @@
+before_script:
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+stages:
+  - build
+  - deploy
+
+#TODO add client reference test process, delete client from sources and see if compilation is successful
+
+build-job:
+  stage: build
+  script:
+      - export GRADLE_OPTS="-Xmx3G -Xms3G"
+      - chmod +x ./gradlew
+      - ./gradlew build
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: push
+    paths:
+      - build/libs
+
+# Separate step to deploy the artifacts, save Norry the headache of keeping even more shit around
+deploy-job:
+  stage: deploy
+  when: manual
+  cache:
+    key: "$CI_COMMIT_REF_NAME"
+    policy: pull
+    paths:
+      - build/libs/*
+  script: 
+    - echo "Collecting artifacts..."
+    - mv build/libs/*.jar ./
+  artifacts:
+    expire_in: 10 days  
+    paths:
+      - ./*.jar
