@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon.stats
 
-open class Stat {
-    lateinit var name: String
+interface Stat {
+    val id: String
+    val name: String
+        get() = "stat.$id.name"
 }
