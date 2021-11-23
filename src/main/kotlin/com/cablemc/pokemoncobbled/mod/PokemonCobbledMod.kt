@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.mod
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.MinecraftForge
@@ -33,6 +34,9 @@ object PokemonCobbledMod {
         event.enqueueWork {
             // Load spawns, for instance
         }
+
+        // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
+        LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
 
         event.enqueueWork {
             DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable { PokemonCobbledClient.initialize() } }
