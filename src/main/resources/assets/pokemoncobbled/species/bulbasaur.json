@@ -1,0 +1,13 @@
+{
+  "name": "bulbasaur",
+  "nationalPokedexNumber": 1,
+  "maleRatio": 0.85,
+  "baseStats": {
+    "hp": 45,
+    "attack": 49,
+    "defence": 49,
+    "special_attack": 65,
+    "special_defence": 65,
+    "speed": 45
+  }
+}
