@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.client.render.blockbench
+package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.mojang.blaze3d.vertex.PoseStack
@@ -13,10 +13,10 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
 
-class EeveeModel(root: ModelPart) : EntityModel<PokemonEntity?>() {
+class EeveeModel(root: ModelPart) : EntityModel<PokemonEntity>() {
     private val eevee: ModelPart
     override fun setupAnim(
-        entity: PokemonEntity?,
+        entity: PokemonEntity,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,
