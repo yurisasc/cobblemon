@@ -22,6 +22,7 @@ object PokemonModelRepository {
     init {
         registerBaseSpeciesModel(PokemonSpecies.EEVEE, PokemonModel(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
         registerBaseSpeciesModelTexture(PokemonSpecies.EEVEE, ResourceLocation(PokemonCobbled.MODID, "textures/pokemon/eevee-base.png"))
+        // TODO: Remove when we have another appropriate entity to demonstrate renderer
         registerBaseSpeciesModel(PokemonSpecies.BULBASAUR, PokemonModel(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) })
         registerBaseSpeciesModelTexture(PokemonSpecies.BULBASAUR, ResourceLocation(PokemonCobbled.MODID, "textures/pokemon/pokeball-base.png"))
     }

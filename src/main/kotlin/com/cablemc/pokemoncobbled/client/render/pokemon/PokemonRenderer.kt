@@ -20,6 +20,7 @@ class PokemonRenderer(
     }
 
     override fun getTextureLocation(pEntity: PokemonEntity): ResourceLocation {
+        // TODO: Remove when pokemon entity development is more matured
         val pokemon = if (pEntity.uuid.leastSignificantBits % 2 == 0L) {
             Pokemon().apply { this.species = PokemonSpecies.EEVEE }
         }
@@ -37,6 +38,7 @@ class PokemonRenderer(
         pBuffer: MultiBufferSource,
         pPackedLight: Int
     ) {
+        // TODO: Remove when pokemon entity development is more matured
         if (pEntity.uuid.leastSignificantBits % 2 == 0L) {
             model = PokemonModelRepository.getModel(Pokemon().apply { this.species = PokemonSpecies.EEVEE }).entityModel
         }
