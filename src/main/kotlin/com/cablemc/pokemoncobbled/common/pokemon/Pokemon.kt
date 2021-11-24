@@ -4,8 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 
 class Pokemon {
-    var species: Species = PokemonSpecies.BULBASAUR
-        private set
+    var species: Species = PokemonSpecies.EEVEE
     var form: PokemonForm = species.forms.first()
         private set
 
