@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
+import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
@@ -19,6 +20,7 @@ import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 object PokemonCobbledMod {
     val LOGGER = LogManager.getLogger()
     var entityRegistry: EntityRegistry
+    var itemRegistry: ItemRegistry
 
     init {
         with(MOD_CONTEXT.getKEventBus()) {
@@ -26,6 +28,8 @@ object PokemonCobbledMod {
             addListener(this@PokemonCobbledMod::on)
             entityRegistry = EntityRegistry()
             entityRegistry.register(this)
+            itemRegistry = ItemRegistry()
+            itemRegistry.register(this)
         }
     }
 
