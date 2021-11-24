@@ -4,13 +4,11 @@ import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.SpeciesLoader
 
 object PokemonSpecies {
+    private val allSpecies = mutableListOf<Species>()
+
     val BULBASAUR = register(SpeciesLoader.loadFromAssets("bulbasaur"))
     val EEVEE = register(SpeciesLoader.loadFromAssets("eevee"))
 
-    private val allSpecies = mutableListOf(
-        BULBASAUR,
-        EEVEE
-    )
     val species: List<Species>
         get() = species.toList()
 

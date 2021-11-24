@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.client
 
 import com.cablemc.pokemoncobbled.client.keybinding.PartySendBinding
-import com.cablemc.pokemoncobbled.client.render.models.smd.renderer.SmdModelRenderer
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import net.minecraft.client.renderer.entity.EntityRenderer
@@ -17,7 +17,7 @@ object PokemonCobbledClient {
         ClientRegistry.registerKeyBinding(PartySendBinding)
     }
 
-    val pokemonRendererProvider = EntityRendererProvider { PokemonRenderer(it, SmdModelRenderer()) }
+    val pokemonRendererProvider = EntityRendererProvider { PokemonRenderer(it) }
 
     fun registerRenderers() {
         registerEntityRenderer(PokemonCobbledMod.entityRegistry.POKEMON) { pokemonRendererProvider.create(it) }
@@ -26,6 +26,7 @@ object PokemonCobbledClient {
     fun initialize() {
         registerKeybinds()
         registerRenderers()
+        PokemonModelRepository.initializeModelLayers()
     }
 
     private fun <T : Entity> registerEntityRenderer(
