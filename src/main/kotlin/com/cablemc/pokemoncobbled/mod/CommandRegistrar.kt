@@ -1,22 +1,27 @@
 package com.cablemc.pokemoncobbled.mod
 
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.brigadier.Command.SINGLE_SUCCESS
 import net.minecraft.commands.Commands
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.entity.MobSpawnType
 import net.minecraftforge.event.RegisterCommandsEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 object CommandRegistrar {
     @SubscribeEvent
     fun on(event: RegisterCommandsEvent) {
+        var pokemonEntity: PokemonEntity? = null
         val command = Commands.literal("runtest")
             .executes { cmdSrc ->
-                println("hello")
                 val player = cmdSrc.source.playerOrException
-                val pokemonResource = PokemonCobbledMod.entityRegistry.POKEMON
-                val pokemonType = pokemonResource.get()
-                player.level.addFreshEntity(pokemonType.spawn(player.level as ServerLevel, null, null, null, player.onPos, MobSpawnType.COMMAND, true, true)!!)
+                pokemonEntity = PokemonEntity(player.level as ServerLevel)
+                pokemonEntity?.let {
+                    it.pokemon = Pokemon()
+                    it.dexNumber.set(it.pokemon.species.nationalPokedexNumber)
+                }
+                player.level.addFreshEntity(pokemonEntity!!)
+                pokemonEntity!!.setPos(player.position())
                 return@executes SINGLE_SUCCESS
             }
 

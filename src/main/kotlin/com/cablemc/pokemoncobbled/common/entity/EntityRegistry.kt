@@ -20,7 +20,7 @@ class EntityRegistry {
     val POKEMON: RegistryObject<EntityType<PokemonEntity>> = registerEntity(
         name = "assets/pokemoncobbled/pokemon",
         classification = MobCategory.MISC,
-        factory = { type, level -> PokemonEntity(type, level) }, // TODO Landon's use of an actual factory is still a great idea for here
+        factory = { _, level -> PokemonEntity(level) }, // TODO Landon's use of an actual factory is still a great idea for here
         builderModifiers = { builder -> builder.sized(1f, 1f).fireImmune() }
     )
 
@@ -40,7 +40,6 @@ class EntityRegistry {
     }
 
     fun registerAttributes(event: EntityAttributeCreationEvent) {
-        println("Registering attribute")
         event.put(POKEMON.get(), createLivingAttributes()
             .add(Attributes.FOLLOW_RANGE) // TODO: Probably not needed?
             .build())

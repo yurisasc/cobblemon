@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -12,33 +13,40 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Mth
 
 class EeveeModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val eevee: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
+    private val eevee: ModelPart = root.getChild("eevee")
+    private val head = eevee.getChild("body").getChild("head")
+    private val rightHindLeg = eevee.getChild("body").getChild("rightbackleg")
+    private val leftHindLeg = eevee.getChild("body").getChild("leftbackleg")
+    private val rightFrontLeg = eevee.getChild("body").getChild("rightleg")
+    private val leftFrontLeg = eevee.getChild("body").getChild("leftleg")
+    private val tail = eevee.getChild("body").getChild("tail")
+
+    override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
+        val clientDelegate = entity.delegate as PokemonClientDelegate
+        clientDelegate.animTick += if (entity.isMoving.currentValue) 3 else 1
+        if (clientDelegate.animTick > TAIL_ANIMATION_TOTAL) {
+            clientDelegate.animTick = 0
+        }
+
+        head.xRot = headPitch * (Math.PI.toFloat() / 180f)
+        head.yRot = netHeadYaw * (Math.PI.toFloat() / 180f)
+        rightHindLeg.xRot = Mth.cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
+        leftHindLeg.xRot = Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
+        rightFrontLeg.xRot = Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
+        leftFrontLeg.xRot = Mth.cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
+
+        tail.yRot = Mth.cos(clientDelegate.animTick * 6 * Math.PI.toFloat() / 180) * Math.PI.toFloat() / 6
     }
 
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
+    override fun renderToBuffer(poseStack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
         eevee.render(poseStack, buffer, packedLight, packedOverlay)
     }
 
     companion object {
+        private const val TAIL_ANIMATION_TOTAL = 60
         // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
         val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("pokemoncobbled", "eevee"), "main")
         fun createBodyLayer(): LayerDefinition {
@@ -144,9 +152,5 @@ class EeveeModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
-    }
-
-    init {
-        eevee = root.getChild("eevee")
     }
 }
