@@ -6,6 +6,8 @@ import com.cablemc.pokemoncobbled.common.pokemon.SpeciesLoader
 object PokemonSpecies {
     private val allSpecies = mutableListOf<Species>()
 
+    // TODO rework to create read-optimized views for dex number, name, others
+
     val BULBASAUR = register(SpeciesLoader.loadFromAssets("bulbasaur"))
     val EEVEE = register(SpeciesLoader.loadFromAssets("eevee"))
 
@@ -20,6 +22,8 @@ object PokemonSpecies {
     fun getByName(name: String): Species? {
         return allSpecies.firstOrNull { species -> species.name == name }
     }
+
+    fun getByPokedexNumber(ndex: Int): Species? = allSpecies.find { it.nationalPokedexNumber == ndex }
 
     fun count() = allSpecies.size
 }
