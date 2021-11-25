@@ -12,6 +12,10 @@ class PokemonRenderer(
     context: EntityRendererProvider.Context
 ) : MobRenderer<PokemonEntity, EntityModel<PokemonEntity>>(context, null, 0.5f) {
 
+    companion object {
+        var DELTA_TICKS = 0F
+    }
+
     // TODO register models in a more clearly defined place
     init {
         PokemonModelRepository.initializeModels(context)
@@ -19,6 +23,7 @@ class PokemonRenderer(
 
     override fun getTextureLocation(pEntity: PokemonEntity) = PokemonModelRepository.getModelTexture(pEntity.pokemon)
     override fun render(pEntity: PokemonEntity, pEntityYaw: Float, pPartialTicks: Float, pMatrixStack: PoseStack, pBuffer: MultiBufferSource, pPackedLight: Int) {
+        DELTA_TICKS = pPartialTicks
         model = PokemonModelRepository.getModel(pEntity.pokemon).entityModel
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight)
     }

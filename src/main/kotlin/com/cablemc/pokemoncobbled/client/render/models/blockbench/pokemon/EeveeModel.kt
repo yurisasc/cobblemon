@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.client.entity.PokemonClientDelegate
+import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -26,9 +27,9 @@ class EeveeModel(root: ModelPart) : EntityModel<PokemonEntity>() {
 
     override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
         val clientDelegate = entity.delegate as PokemonClientDelegate
-        clientDelegate.animTick += if (entity.isMoving.currentValue) 3 else 1
+        clientDelegate.animTick += if (entity.isMoving.currentValue) 6 * DELTA_TICKS else 3 * DELTA_TICKS
         if (clientDelegate.animTick > TAIL_ANIMATION_TOTAL) {
-            clientDelegate.animTick = 0
+            clientDelegate.animTick = 0F
         }
 
         head.xRot = headPitch * (Math.PI.toFloat() / 180f)
@@ -38,7 +39,7 @@ class EeveeModel(root: ModelPart) : EntityModel<PokemonEntity>() {
         rightFrontLeg.xRot = Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
         leftFrontLeg.xRot = Mth.cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
 
-        tail.yRot = Mth.cos(clientDelegate.animTick * 6 * Math.PI.toFloat() / 180) * Math.PI.toFloat() / 6
+        tail.yRot = Mth.cos(clientDelegate.animTick * 6 * Math.PI.toFloat() / 180) * Math.PI.toFloat() / 7
     }
 
     override fun renderToBuffer(poseStack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
@@ -46,7 +47,7 @@ class EeveeModel(root: ModelPart) : EntityModel<PokemonEntity>() {
     }
 
     companion object {
-        private const val TAIL_ANIMATION_TOTAL = 60
+        private const val TAIL_ANIMATION_TOTAL = 60F
         // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
         val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("pokemoncobbled", "eevee"), "main")
         fun createBodyLayer(): LayerDefinition {
