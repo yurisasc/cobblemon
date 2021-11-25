@@ -19,17 +19,13 @@ import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 @Mod(PokemonCobbled.MODID)
 object PokemonCobbledMod {
     val LOGGER = LogManager.getLogger()
-    var entityRegistry: EntityRegistry
-    var itemRegistry: ItemRegistry
 
     init {
         with(MOD_CONTEXT.getKEventBus()) {
             addListener(this@PokemonCobbledMod::initialize)
             addListener(this@PokemonCobbledMod::on)
-            entityRegistry = EntityRegistry()
-            entityRegistry.register(this)
-            itemRegistry = ItemRegistry()
-            itemRegistry.register(this)
+            EntityRegistry.register(this)
+            ItemRegistry.register(this)
         }
     }
 
@@ -56,7 +52,7 @@ object PokemonCobbledMod {
     }
 
     fun on(event: EntityAttributeCreationEvent) {
-        entityRegistry.registerAttributes(event)
+        EntityRegistry.registerAttributes(event)
     }
 
 //    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD

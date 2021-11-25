@@ -1,7 +1,7 @@
 {
   "name": "bulbasaur",
   "nationalPokedexNumber": 1,
-  "maleRatio": 0.85,
+  "maleRatio": 0.875,
   "baseStats": {
     "hp": 45,
     "attack": 49,

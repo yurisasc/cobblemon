@@ -1,0 +1,13 @@
+{
+  "name": "charmeleon",
+  "nationalPokedexNumber": 5,
+  "maleRatio": 0.875,
+  "baseStats": {
+    "hp": 58,
+    "attack": 64,
+    "defence": 58,
+    "special_attack": 80,
+    "special_defence": 65,
+    "speed": 80
+  }
+}

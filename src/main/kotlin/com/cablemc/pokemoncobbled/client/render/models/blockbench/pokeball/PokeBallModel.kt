@@ -1,6 +1,6 @@
-package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
+package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokeball
 
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.entity.pokeball.PokeBallEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.model.EntityModel
@@ -14,10 +14,10 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
 
 
-class PokeBallModel(root: ModelPart) : EntityModel<PokemonEntity>() {
+class PokeBallModel(root: ModelPart) : EntityModel<PokeBallEntity>() {
     private val pokeball: ModelPart
     override fun setupAnim(
-        entity: PokemonEntity,
+        entity: PokeBallEntity,
         limbSwing: Float,
         limbSwingAmount: Float,
         ageInTicks: Float,

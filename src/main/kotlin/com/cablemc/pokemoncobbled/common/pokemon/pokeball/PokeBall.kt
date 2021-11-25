@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation
  * @property name the pokeball registry name
  * @constructor Creates a Pokeball
  */
-open class Pokeball(
+open class PokeBall(
     val name : ResourceLocation
 ) {
 
