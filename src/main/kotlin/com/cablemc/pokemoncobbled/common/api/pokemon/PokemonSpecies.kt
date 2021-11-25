@@ -9,10 +9,21 @@ object PokemonSpecies {
     // TODO rework to create read-optimized views for dex number, name, others
 
     val BULBASAUR = register(SpeciesLoader.loadFromAssets("bulbasaur"))
+    val IVYSAUR = register(SpeciesLoader.loadFromAssets("ivysaur"))
+    val VENUSAUR = register(SpeciesLoader.loadFromAssets("venusaur"))
+    val CHARMANDER = register(SpeciesLoader.loadFromAssets("charmander"))
+    val CHARMELEON = register(SpeciesLoader.loadFromAssets("charmeleon"))
+    val CHARIZARD = register(SpeciesLoader.loadFromAssets("charizard"))
+    val SQUIRTLE = register(SpeciesLoader.loadFromAssets("squirtle"))
+    val WARTORTLE = register(SpeciesLoader.loadFromAssets("wartortle"))
+    val BLASTOISE = register(SpeciesLoader.loadFromAssets("blastoise"))
+    val EKANS = register(SpeciesLoader.loadFromAssets("ekans"))
+    val ZUBAT = register(SpeciesLoader.loadFromAssets("zubat"))
+    val MAGIKARP = register(SpeciesLoader.loadFromAssets("magikarp"))
     val EEVEE = register(SpeciesLoader.loadFromAssets("eevee"))
 
     val species: List<Species>
-        get() = species.toList()
+        get() = allSpecies
 
     fun register(species: Species): Species {
         allSpecies.add(species)

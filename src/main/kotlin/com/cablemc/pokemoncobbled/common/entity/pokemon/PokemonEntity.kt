@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
@@ -17,7 +17,7 @@ import net.minecraft.world.level.Level
 
 class PokemonEntity(
     level: Level,
-    type: EntityType<out PokemonEntity> = PokemonCobbledMod.entityRegistry.POKEMON.get()
+    type: EntityType<out PokemonEntity> = EntityRegistry.POKEMON.get()
 ) : TamableAnimal(type, level) {
     companion object {
         private val SPECIES_DEX = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
