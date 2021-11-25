@@ -1,0 +1,13 @@
+{
+  "name": "blastoise",
+  "nationalPokedexNumber": 9,
+  "maleRatio": 0.875,
+  "baseStats": {
+    "hp": 79,
+    "attack": 83,
+    "defence": 100,
+    "special_attack": 85,
+    "special_defence": 105,
+    "speed": 78
+  }
+}
