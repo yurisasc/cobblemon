@@ -1,0 +1,13 @@
+{
+  "name": "venusaur",
+  "nationalPokedexNumber": 3,
+  "maleRatio": 0.875,
+  "baseStats": {
+    "hp": 80,
+    "attack": 82,
+    "defence": 83,
+    "special_attack": 100,
+    "special_defence": 100,
+    "speed": 80
+  }
+}

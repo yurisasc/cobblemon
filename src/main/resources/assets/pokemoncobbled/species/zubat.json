@@ -1,0 +1,13 @@
+{
+  "name": "zubat",
+  "nationalPokedexNumber": 41,
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 40,
+    "attack": 45,
+    "defence": 35,
+    "special_attack": 30,
+    "special_defence": 40,
+    "speed": 55
+  }
+}

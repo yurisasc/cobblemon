@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.mod
 
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.brigadier.Command.SINGLE_SUCCESS
@@ -17,7 +18,7 @@ object CommandRegistrar {
                 val player = cmdSrc.source.playerOrException
                 pokemonEntity = PokemonEntity(player.level as ServerLevel)
                 pokemonEntity?.let {
-                    it.pokemon = Pokemon()
+                    it.pokemon = Pokemon().apply { species = PokemonSpecies.species.random() }
                     it.dexNumber.set(it.pokemon.species.nationalPokedexNumber)
                 }
                 player.level.addFreshEntity(pokemonEntity!!)

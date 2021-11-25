@@ -1,53 +1,48 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.repository
 
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.EeveeModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.PokeBallModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.PokemonModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.BlockBenchModelWrapper
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.*
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
-import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.resources.ResourceLocation
-import net.minecraftforge.client.ForgeHooksClient
 
-object PokemonModelRepository {
+object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
-    private val modelsBySpecies: MutableMap<Species, PokemonModel> = mutableMapOf()
-    private val allModels: MutableList<PokemonModel> = mutableListOf()
-
+    private val modelsBySpecies: MutableMap<Species, BlockBenchModelWrapper<PokemonEntity>> = mutableMapOf()
     private val modelTexturesBySpecies: MutableMap<Species, ResourceLocation> = mutableMapOf()
-    private val allModelTextures: MutableList<ResourceLocation> = mutableListOf()
 
     init {
-        registerBaseSpeciesModel(PokemonSpecies.EEVEE, PokemonModel(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
-        registerBaseSpeciesModelTexture(PokemonSpecies.EEVEE, ResourceLocation(PokemonCobbled.MODID, "textures/pokemon/eevee-base.png"))
-        // TODO: Remove when we have another appropriate entity to demonstrate renderer for bulbasaur
-        registerBaseSpeciesModel(PokemonSpecies.BULBASAUR, PokemonModel(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) })
-        registerBaseSpeciesModelTexture(PokemonSpecies.BULBASAUR, ResourceLocation(PokemonCobbled.MODID, "textures/pokemon/pokeball-base.png"))
+        registerBaseSpeciesModel(PokemonSpecies.BULBASAUR, BlockBenchModelWrapper(BulbasaurModel.LAYER_LOCATION, BulbasaurModel::createBodyLayer) { BulbasaurModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.IVYSAUR, BlockBenchModelWrapper(IvysaurModel.LAYER_LOCATION, IvysaurModel::createBodyLayer) { IvysaurModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.VENUSAUR, BlockBenchModelWrapper(VenusaurModel.LAYER_LOCATION, VenusaurModel::createBodyLayer) { VenusaurModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.CHARMANDER, BlockBenchModelWrapper(CharmanderModel.LAYER_LOCATION, CharmanderModel::createBodyLayer) { CharmanderModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.CHARMELEON, BlockBenchModelWrapper(CharmeleonModel.LAYER_LOCATION, CharmeleonModel::createBodyLayer) { CharmeleonModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.CHARIZARD, BlockBenchModelWrapper(CharizardModel.LAYER_LOCATION, CharizardModel::createBodyLayer) { CharizardModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.SQUIRTLE, BlockBenchModelWrapper(SquirtleModel.LAYER_LOCATION, SquirtleModel::createBodyLayer) { SquirtleModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.WARTORTLE, BlockBenchModelWrapper(WartortleModel.LAYER_LOCATION, WartortleModel::createBodyLayer) { WartortleModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.BLASTOISE, BlockBenchModelWrapper(BlastoiseModel.LAYER_LOCATION, BlastoiseModel::createBodyLayer) { BlastoiseModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.EKANS, BlockBenchModelWrapper(EkansModel.LAYER_LOCATION, EkansModel::createBodyLayer) { EkansModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.ZUBAT, BlockBenchModelWrapper(ZubatModel.LAYER_LOCATION, ZubatModel::createBodyLayer) { ZubatModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.MAGIKARP, BlockBenchModelWrapper(MagikarpModel.LAYER_LOCATION, MagikarpModel::createBodyLayer) { MagikarpModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.EEVEE, BlockBenchModelWrapper(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
     }
 
-    private fun registerBaseSpeciesModel(species: Species, model: PokemonModel) {
+    private fun registerBaseSpeciesModel(species: Species, model: BlockBenchModelWrapper<PokemonEntity>) {
         modelsBySpecies[species] = model
-        allModels.add(model)
+        addModel(model)
+        registerBaseSpeciesModelTexture(species)
     }
 
-    private fun registerBaseSpeciesModelTexture(species: Species, resourceLocation: ResourceLocation) {
-        modelTexturesBySpecies[species] = resourceLocation
-        allModelTextures.add(resourceLocation)
+    private fun registerBaseSpeciesModelTexture(species: Species) {
+        modelTexturesBySpecies[species] = baseTextureFor(species)
     }
 
-    fun initializeModelLayers() {
-        allModels.forEach { model ->
-            ForgeHooksClient.registerLayerDefinition(model.layerLocation, model.layerDefinitionSupplier)
-        }
-    }
+    private fun baseTextureFor(species: Species) = ResourceLocation(PokemonCobbled.MODID, "textures/pokemon/${species.name}-base.png")
 
-    fun initializeModels(context: EntityRendererProvider.Context) {
-        allModels.forEach { model -> model.initialize(context) }
-    }
-
-    fun getModel(pokemon: Pokemon): PokemonModel {
+    fun getModel(pokemon: Pokemon): BlockBenchModelWrapper<PokemonEntity> {
         // TODO: This is just fetching by species at the moment. This will be developed further.
         return modelsBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate model")
     }

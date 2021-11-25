@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation
 class StaticRatePokeBall(
     name : ResourceLocation,
     val catchRate : Float
-) : Pokeball(name) {
+) : PokeBall(name) {
 
     override fun getCatchRateModifier(pokemon : PokemonEntity) : Float {
         return catchRate
