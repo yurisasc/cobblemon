@@ -11,6 +11,7 @@ import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fmlserverevents.FMLServerStartingEvent
 import org.apache.logging.log4j.LogManager
@@ -26,6 +27,7 @@ object PokemonCobbledMod {
         with(MOD_CONTEXT.getKEventBus()) {
             addListener(this@PokemonCobbledMod::initialize)
             addListener(this@PokemonCobbledMod::on)
+            addListener(PokemonCobbledClient::onAddLayer)
             entityRegistry = EntityRegistry()
             entityRegistry.register(this)
             itemRegistry = ItemRegistry()
