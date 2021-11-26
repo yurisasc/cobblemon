@@ -3,6 +3,8 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.NbtKeys
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
@@ -32,6 +34,7 @@ class PokemonEntity(
     }
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
+
     var pokemon = Pokemon()
     val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
     val isMoving = addEntityProperty(MOVING, false)
@@ -47,9 +50,20 @@ class PokemonEntity(
         delegate.tick(this)
     }
 
-    override fun getSpeed() = 0.15F
+    override fun save(nbt: CompoundTag): Boolean {
+        nbt.put(NbtKeys.POKEMON, pokemon.save(CompoundTag()))
+        return super.save(nbt)
+    }
+
+    override fun load(nbt: CompoundTag) {
+        super.load(nbt)
+        pokemon = Pokemon().load(nbt.getCompound(NbtKeys.POKEMON))
+        dexNumber.set(pokemon.species.nationalPokedexNumber)
+        speed = 0.35F
+    }
+
     override fun registerGoals() {
-        goalSelector.addGoal(1, WaterAvoidingRandomStrollGoal(this, 1.0))
+        goalSelector.addGoal(1, WaterAvoidingRandomStrollGoal(this, speed.toDouble()))
         goalSelector.addGoal(2, LookAtPlayerGoal(this, Player::class.java, 5F))
     }
 
