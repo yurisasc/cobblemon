@@ -1,0 +1,13 @@
+{
+  "name": "charizard",
+  "nationalPokedexNumber": 6,
+  "maleRatio": 0.875,
+  "baseStats": {
+    "hp": 78,
+    "attack": 84,
+    "defence": 78,
+    "special_attack": 109,
+    "special_defence": 85,
+    "speed": 100
+  }
+}

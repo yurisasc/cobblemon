@@ -1,7 +1,10 @@
 package com.cablemc.pokemoncobbled.common.entity
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.common.entity.pokeball.OccupiedPokeBallEntity
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
@@ -15,13 +18,25 @@ import net.minecraftforge.fmllegacy.RegistryObject
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
 
-class EntityRegistry {
+object EntityRegistry {
     private val ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokemonCobbled.MODID)
-    val POKEMON: RegistryObject<EntityType<PokemonEntity>> = registerEntity(
-        name = "assets/pokemoncobbled/pokemon",
+    val POKEMON : RegistryObject<EntityType<PokemonEntity>> = registerEntity(
+        name = "pokemon",
         classification = MobCategory.MISC,
-        factory = { type, level -> PokemonEntity(type, level) }, // TODO Landon's use of an actual factory is still a great idea for here
+        factory = { _, level -> PokemonEntity(level) }, // TODO Landon's use of an actual factory is still a great idea for here
         builderModifiers = { builder -> builder.sized(1f, 1f).fireImmune() }
+    )
+    val EMPTY_POKEBALL : RegistryObject<EntityType<EmptyPokeBallEntity>> = registerEntity(
+        name = "empty_pokeball",
+        classification = MobCategory.MISC,
+        factory = { type, level -> EmptyPokeBallEntity(type, level) },
+        builderModifiers = { builder -> builder.sized(1f, 1f).fireImmune() } // TODO: Specify better modifiers
+    )
+    val OCCUPIED_POKEBALL : RegistryObject<EntityType<OccupiedPokeBallEntity>> = registerEntity(
+        name = "occupied_pokeball",
+        classification = MobCategory.MISC,
+        factory = { type, level -> OccupiedPokeBallEntity(type, Pokemon(), level) },
+        builderModifiers = { builder -> builder.sized(1f, 1f).fireImmune() } // TODO: Specify better modifiers
     )
 
     private inline fun <reified T : Entity> registerEntity(
@@ -40,7 +55,6 @@ class EntityRegistry {
     }
 
     fun registerAttributes(event: EntityAttributeCreationEvent) {
-        println("Registering attribute")
         event.put(POKEMON.get(), createLivingAttributes()
             .add(Attributes.FOLLOW_RANGE) // TODO: Probably not needed?
             .build())
