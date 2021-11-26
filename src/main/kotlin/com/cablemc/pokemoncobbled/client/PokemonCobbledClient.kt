@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.client
 import com.cablemc.pokemoncobbled.client.keybinding.PartySendBinding
 import com.cablemc.pokemoncobbled.client.render.layer.PokemonOnShoulderLayer
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
