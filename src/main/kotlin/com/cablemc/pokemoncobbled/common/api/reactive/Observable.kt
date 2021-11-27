@@ -1,10 +1,12 @@
 package com.cablemc.pokemoncobbled.common.api.reactive
 
 import com.cablemc.pokemoncobbled.common.api.reactive.pipes.FilterTransform
+import com.cablemc.pokemoncobbled.common.api.reactive.pipes.IgnoreFirstTransform
 import com.cablemc.pokemoncobbled.common.api.reactive.pipes.MapTransform
 import com.cablemc.pokemoncobbled.common.api.reactive.pipes.TakeFirstTransform
 import com.cablemc.pokemoncobbled.common.api.reactive.pipes.TakeWhileTransform
 import java.lang.Thread.sleep
+import java.util.concurrent.CompletableFuture
 
 /**
  * An object that emits values of the generic type. This can be subscribed to and unsubscribed from, as well as
@@ -21,16 +23,16 @@ interface Observable<T> {
     fun unsubscribe(subscription: ObservableSubscription<T>)
 
     // This isn't pretty, ik
+    /**
+     * Runs a transformation to this [Observable] to create a new [TransformObservable] that reflects the original.
+     * Overloads exist to maintain type safety.
+     */
     fun <O> pipe(transform: Transform<T, O>): Observable<O> = TransformObservable(this, transform)
-    fun <O1, O2> pipe(t1: Transform<T, O1>, t2: Transform<O1, O2>) = TransformObservable<T, O2>(this, map { t2(t1(it)) })
-    fun <O1, O2, O3> pipe(t1: Transform<T, O1>, t2: Transform<O1, O2>, t3: Transform<O2, O3>) =
-        TransformObservable<T, O3>(this, map { t3(t2(t1(it))) })
-    fun <O1, O2, O3, O4> pipe(t1: Transform<T, O1>, t2: Transform<O1, O2>, t3: Transform<O2, O3>, t4: Transform<O3, O4>) =
-        TransformObservable<T, O4>(this, map { t4(t3(t2(t1(it)))) })
-    fun <O1, O2, O3, O4, O5> pipe(t1: Transform<T, O1>, t2: Transform<O1, O2>, t3: Transform<O2, O3>, t4: Transform<O3, O4>, t5: Transform<O4, O5>) =
-        TransformObservable<T, O5>(this, map { t5(t4(t3(t2(t1(it))))) })
-    fun <O1, O2, O3, O4, O5, O6> pipe(t1: Transform<T, O1>, t2: Transform<O1, O2>, t3: Transform<O2, O3>, t4: Transform<O3, O4>, t5: Transform<O4, O5>, t6: Transform<O5, O6>) =
-        TransformObservable<T, O6>(this, map { t6(t5(t4(t3(t2(t1(it)))))) })
+    fun <O1, O2> pipe(t1: Transform<T, O1>, t2: Transform<O1, O2>) = TransformObservable(this, map { t2(t1(it)) })
+    fun <O1, O2, O3> pipe(t1: Transform<T, O1>, t2: Transform<O1, O2>, t3: Transform<O2, O3>) = TransformObservable(this, map { t3(t2(t1(it))) })
+    fun <O1, O2, O3, O4> pipe(t1: Transform<T, O1>, t2: Transform<O1, O2>, t3: Transform<O2, O3>, t4: Transform<O3, O4>) = TransformObservable(this, map { t4(t3(t2(t1(it)))) })
+    fun <O1, O2, O3, O4, O5> pipe(t1: Transform<T, O1>, t2: Transform<O1, O2>, t3: Transform<O2, O3>, t4: Transform<O3, O4>, t5: Transform<O4, O5>) = TransformObservable(this, map { t5(t4(t3(t2(t1(it))))) })
+    fun <O1, O2, O3, O4, O5, O6> pipe(t1: Transform<T, O1>, t2: Transform<O1, O2>, t3: Transform<O2, O3>, t4: Transform<O3, O4>, t5: Transform<O4, O5>, t6: Transform<O5, O6>) = TransformObservable(this, map { t6(t5(t4(t3(t2(t1(it)))))) })
 
     /** Wildly unsafe as it blocks the thread. Only use this when you absolutely must get the value before your current thread continues. */
     fun await(): T {
@@ -43,14 +45,30 @@ interface Observable<T> {
     }
 
     companion object {
+        /** Creates a completed [Observable] with the given values. This [Observable] cannot receive new values. */
         fun <T> just(vararg values: T): Observable<T> {
             return SingularObservable<T>().also { it.emit(*values) }
         }
+
+        fun <T> of(future: CompletableFuture<T>): Observable<T> {
+            val observable = SingularObservable<T>()
+            future.thenAccept { observable.emit(it) }
+            return observable
+        }
+
+        /** Gets a [TakeFirstTransform] */
         fun <T> takeFirst(amount: Int = 1) = TakeFirstTransform<T>(amount)
+        /** Gets a [IgnoreFirstTransform] */
+        fun <T> ignoreFirst(amount: Int = 1) = IgnoreFirstTransform<T>(amount)
+        /** Gets a [FilterTransform] */
         fun <T> filter(predicate: (T) -> Boolean) = FilterTransform(predicate)
+        /** Gets a [MapTransform] */
         fun <T, O> map(mapping: (T) -> O) = MapTransform(mapping)
+        /** Gets a [TakeWhileTransform] */
         fun <T> takeWhile(predicate: (T) -> Boolean) = TakeWhileTransform(predicate)
+        /** Gets a transform which will take values until the given predicate is met. */
         fun <T> takeUntil(predicate: (T) -> Boolean) = TakeWhileTransform<T> { !predicate(it) }
+        /** Gets a transform which does not change the value but lets you access the value at this stage of the pipe. */
         fun <T> tap(handler: (T) -> Unit) = map<T, T> { handler(it); return@map it }
     }
 }
