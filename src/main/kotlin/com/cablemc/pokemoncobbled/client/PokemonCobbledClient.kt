@@ -1,12 +1,13 @@
 package com.cablemc.pokemoncobbled.client
 
 import com.cablemc.pokemoncobbled.client.keybinding.PartySendBinding
+import com.cablemc.pokemoncobbled.client.net.ClientPacketRegistrar
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
-import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.EntityRenderers
@@ -27,6 +28,9 @@ object PokemonCobbledClient {
     }
 
     fun initialize() {
+        PokemonCobbledMod.EVENT_BUS.register(ClientPacketRegistrar)
+        ClientPacketRegistrar.registerHandlers()
+
         registerKeybinds()
         registerRenderers()
         PokemonModelRepository.initializeModelLayers()

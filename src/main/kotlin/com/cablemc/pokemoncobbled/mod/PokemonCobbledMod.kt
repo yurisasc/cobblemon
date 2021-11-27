@@ -5,9 +5,12 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
+import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
+import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
+import net.minecraftforge.eventbus.api.BusBuilder
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.common.Mod
@@ -19,6 +22,7 @@ import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 @Mod(PokemonCobbled.MODID)
 object PokemonCobbledMod {
     val LOGGER = LogManager.getLogger()
+    val EVENT_BUS = BusBuilder.builder().build()
 
     init {
         with(MOD_CONTEXT.getKEventBus()) {
@@ -31,15 +35,15 @@ object PokemonCobbledMod {
 
     fun initialize(event: FMLCommonSetupEvent) {
         LOGGER.info("Initializing...")
-        event.enqueueWork {
-            // Load spawns, for instance
-        }
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
 
         event.enqueueWork {
             DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable { PokemonCobbledClient.initialize() } }
+            EVENT_BUS.register(ServerPacketRegistrar)
+            ServerPacketRegistrar.registerHandlers()
+            PokemonCobbledNetwork.register()
         }
 
         MinecraftForge.EVENT_BUS.register(CommandRegistrar)
