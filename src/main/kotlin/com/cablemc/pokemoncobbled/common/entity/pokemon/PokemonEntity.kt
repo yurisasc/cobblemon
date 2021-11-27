@@ -9,18 +9,21 @@ import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.AgeableMob
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.TamableAnimal
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
+import net.minecraft.world.entity.animal.ShoulderRidingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 
 class PokemonEntity(
     level: Level,
     type: EntityType<out PokemonEntity> = EntityRegistry.POKEMON.get()
-) : TamableAnimal(type, level) {
+) : ShoulderRidingEntity(type, level) {
     companion object {
         private val SPECIES_DEX = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
         private val MOVING = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
@@ -55,6 +58,11 @@ class PokemonEntity(
         return super.save(nbt)
     }
 
+    override fun saveWithoutId(nbt: CompoundTag): CompoundTag {
+        nbt.put(NbtKeys.POKEMON, pokemon.save(CompoundTag()))
+        return super.saveWithoutId(nbt)
+    }
+
     override fun load(nbt: CompoundTag) {
         super.load(nbt)
         pokemon = Pokemon().load(nbt.getCompound(NbtKeys.POKEMON))
@@ -79,5 +87,21 @@ class PokemonEntity(
 
     override fun getBreedOffspring(level: ServerLevel, partner: AgeableMob): AgeableMob? {
         return null
+    }
+
+    override fun canSitOnShoulder(): Boolean {
+        // TODO: Determine what can or can't be shouldered
+        return true
+    }
+
+    override fun mobInteract(player : Player, hand : InteractionHand) : InteractionResult {
+        // TODO: Move to proper pokemon interaction menu
+        if(player.isCrouching && hand == InteractionHand.MAIN_HAND) {
+            if(canSitOnShoulder() && player is ServerPlayer) {
+                // TODO: Check ownership as well
+                this.setEntityOnShoulder(player)
+            }
+        }
+        return super.mobInteract(player, hand)
     }
 }
