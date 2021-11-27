@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
+import com.cablemc.pokemoncobbled.common.event.InteractListener
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.MinecraftForge
@@ -45,6 +46,7 @@ object PokemonCobbledMod {
         }
 
         MinecraftForge.EVENT_BUS.register(CommandRegistrar)
+        MinecraftForge.EVENT_BUS.register(InteractListener)
     }
 
     @SubscribeEvent
