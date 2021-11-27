@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.NbtKeys
+import com.cablemc.pokemoncobbled.common.util.isPokemonEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.model.PlayerModel
 import net.minecraft.client.renderer.MultiBufferSource
@@ -46,23 +47,21 @@ class PokemonOnShoulderLayer<T : Player>(renderLayerParent: RenderLayerParent<T,
         pLeftShoulder: Boolean
     ) {
         val compoundTag = if (pLeftShoulder) pLivingEntity.shoulderEntityLeft else pLivingEntity.shoulderEntityRight
-        EntityType.byString(compoundTag.getString("id"))
-            .filter { entityType -> entityType === EntityRegistry.POKEMON.get() }
-            .ifPresent { entityType: EntityType<*>? ->
-                pMatrixStack.pushPose()
-                pMatrixStack.scale(0.5f, 0.5f, 0.5f)
-                pMatrixStack.translate(
-                    if (pLeftShoulder) 0.7f.toDouble() else (-0.7f).toDouble(),
-                    if (pLivingEntity.isCrouching) -1.3 else -1.5,
-                    0.0
-                )
-                val pokemon = Pokemon().load(compoundTag.getCompound(NbtKeys.POKEMON))
-                val model = PokemonModelRepository.getModel(pokemon).entityModel
-                val vertexConsumer = pBuffer.getBuffer(model.renderType(PokemonModelRepository.getModelTexture(pokemon)))
-                val i = LivingEntityRenderer.getOverlayCoords(pLivingEntity, 0.0f)
-                model.renderToBuffer(pMatrixStack, vertexConsumer, pPackedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)
-                pMatrixStack.popPose();
-            }
+        if (compoundTag.isPokemonEntity()) {
+            pMatrixStack.pushPose()
+            pMatrixStack.scale(0.5f, 0.5f, 0.5f)
+            pMatrixStack.translate(
+                if (pLeftShoulder) 0.7f.toDouble() else (-0.7f).toDouble(),
+                if (pLivingEntity.isCrouching) -1.3 else -1.5,
+                0.0
+            )
+            val pokemon = Pokemon().load(compoundTag.getCompound(NbtKeys.POKEMON))
+            val model = PokemonModelRepository.getModel(pokemon).entityModel
+            val vertexConsumer = pBuffer.getBuffer(model.renderType(PokemonModelRepository.getModelTexture(pokemon)))
+            val i = LivingEntityRenderer.getOverlayCoords(pLivingEntity, 0.0f)
+            model.renderToBuffer(pMatrixStack, vertexConsumer, pPackedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)
+            pMatrixStack.popPose();
+        }
     }
 
 }

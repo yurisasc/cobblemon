@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.mixin;
 
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry;
+import com.cablemc.pokemoncobbled.common.util.CompoundTagExtensionsKt;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,11 +29,11 @@ public abstract class PlayerMixin extends LivingEntity
     @Overwrite
     public void removeEntitiesOnShoulder() {
         if (this.timeEntitySatOnShoulder + 20L < this.level.getGameTime()) {
-            if (!this.getShoulderEntityLeft().getString("id").equals(EntityRegistry.INSTANCE.getPOKEMON().getId().toString())) {
+            if (!CompoundTagExtensionsKt.isPokemonEntity(this.getShoulderEntityLeft())) {
                 this.respawnEntityOnShoulder(this.getShoulderEntityLeft());
                 this.setShoulderEntityLeft(new CompoundTag());
             }
-            if (!this.getShoulderEntityRight().getString("id").equals(EntityRegistry.INSTANCE.getPOKEMON().getId().toString())) {
+            if (!CompoundTagExtensionsKt.isPokemonEntity(this.getShoulderEntityRight())) {
                 this.respawnEntityOnShoulder(this.getShoulderEntityRight());
                 this.setShoulderEntityRight(new CompoundTag());
             }
