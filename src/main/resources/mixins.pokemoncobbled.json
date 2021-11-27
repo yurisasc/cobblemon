@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "package": "com.cablemc.pokemoncobbled.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "mixins.pokemoncobbled.refmap.json",
+  "mixins": [
+    "PlayerMixin"
+  ],
+  "minVersion": "0.8"
+}
