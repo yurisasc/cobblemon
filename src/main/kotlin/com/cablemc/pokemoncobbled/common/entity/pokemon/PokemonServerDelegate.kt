@@ -6,6 +6,9 @@ import com.cablemc.pokemoncobbled.common.api.entity.EntitySideDelegate
 class PokemonServerDelegate : EntitySideDelegate<PokemonEntity> {
     override fun initialize(entity: PokemonEntity) {
         entity.speed = 0.35F
+        entity.scaleModifier.listen {
+            entity.refreshDimensions()
+        }
     }
 
 

@@ -49,13 +49,14 @@ class PokemonOnShoulderLayer<T : Player>(renderLayerParent: RenderLayerParent<T,
         val compoundTag = if (pLeftShoulder) pLivingEntity.shoulderEntityLeft else pLivingEntity.shoulderEntityRight
         if (compoundTag.isPokemonEntity()) {
             pMatrixStack.pushPose()
-            pMatrixStack.scale(0.5f, 0.5f, 0.5f)
+            val pokemon = Pokemon().load(compoundTag.getCompound(NbtKeys.POKEMON))
+            val scale = pokemon.species.baseScale * pokemon.scaleModifier
             pMatrixStack.translate(
-                if (pLeftShoulder) 0.7f.toDouble() else (-0.7f).toDouble(),
-                if (pLivingEntity.isCrouching) -1.3 else -1.5,
+                if (pLeftShoulder) 0.7f.toDouble() - scale / 2 else -0.7f.toDouble() + scale / 2,
+                (if (pLivingEntity.isCrouching) -1.3 else -1.5) * scale,
                 0.0
             )
-            val pokemon = Pokemon().load(compoundTag.getCompound(NbtKeys.POKEMON))
+            pMatrixStack.scale(scale, scale, scale)
             val model = PokemonModelRepository.getModel(pokemon).entityModel
             val vertexConsumer = pBuffer.getBuffer(model.renderType(PokemonModelRepository.getModelTexture(pokemon)))
             val i = LivingEntityRenderer.getOverlayCoords(pLivingEntity, 0.0f)

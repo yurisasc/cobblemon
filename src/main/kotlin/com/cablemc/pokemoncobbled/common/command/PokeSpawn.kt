@@ -10,6 +10,7 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.server.level.ServerLevel
+import kotlin.random.Random
 
 object PokeSpawn {
 
@@ -29,7 +30,10 @@ object PokeSpawn {
         val pokemonEntity = PokemonEntity(player.level as ServerLevel)
         pokemonEntity.let {
             it.pokemon = Pokemon().apply { species = speciesArg }
+            it.pokemon.scaleModifier = 0.5f
             it.dexNumber.set(it.pokemon.species.nationalPokedexNumber)
+            it.scaleModifier.set(it.pokemon.scaleModifier)
+            it.refreshDimensions()
         }
         player.level.addFreshEntity(pokemonEntity)
         pokemonEntity.setPos(player.position())

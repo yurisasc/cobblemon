@@ -25,7 +25,11 @@ class PokemonRenderer(
     override fun render(pEntity: PokemonEntity, pEntityYaw: Float, pPartialTicks: Float, pMatrixStack: PoseStack, pBuffer: MultiBufferSource, pPackedLight: Int) {
         DELTA_TICKS = pPartialTicks
         model = PokemonModelRepository.getModel(pEntity.pokemon).entityModel
-        pMatrixStack.scale(0.5f, 0.5f, 0.5f)
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight)
+    }
+
+    override fun scale(pEntity: PokemonEntity, pMatrixStack: PoseStack, pPartialTickTime: Float) {
+        val scale = pEntity.pokemon.species.baseScale * pEntity.pokemon.scaleModifier
+        pMatrixStack.scale(scale, scale, scale)
     }
 }
