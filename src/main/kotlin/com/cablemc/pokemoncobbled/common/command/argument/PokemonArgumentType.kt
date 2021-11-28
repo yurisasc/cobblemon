@@ -28,15 +28,8 @@ class PokemonArgumentType: ArgumentType<Species> {
     }
 
     override fun parse(reader: StringReader): Species {
-        val start = reader.cursor
 
-        if (!reader.canRead())
-            reader.skip()
-
-        while (reader.canRead() && reader.peek() != ' ')
-            reader.skip()
-
-        val pkmString = reader.string.substring(start, reader.cursor)
+        val pkmString = reader.readString()
 
         return PokemonSpecies.getByName(pkmString.lowercase())
             ?: throw SimpleCommandExceptionType(LiteralMessage("Invalid Pokemon name supplied")).createWithContext(
