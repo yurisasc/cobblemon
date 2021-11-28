@@ -83,13 +83,22 @@ class CharmeleonModel(root: ModelPart) : EntityModel<PokemonEntity>() {
                     .texOffs(58, 0).addBox(-8.05f, -1.0f, -1.5f, 0.0f, 2.0f, 3.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(4.025f, 0.0f, 0.0f, 0.2618f, 0.0f, 0.0f)
             )
-            val tail = body.addOrReplaceChild(
-                "tail",
-                CubeListBuilder.create().texOffs(0, 16)
-                    .addBox(0.0f, -17.0f, 9.5f, 0.0f, 10.0f, 7.0f, CubeDeformation(0.0f))
-                    .texOffs(0, 0).addBox(0.0f, -7.0f, 0.0f, 0.0f, 9.0f, 14.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, 4.5f, 3.0f)
+
+            val tail = body.addOrReplaceChild("tail",
+                CubeListBuilder.create().texOffs(42, 52).addBox(-2.0F, -2.5F, -1.0F, 4.0F, 5.0F, 7.0F, CubeDeformation(0.0F)),
+                PartPose.offset(0.0F, 3.75F, 3.0F)
             )
+
+            val tail2 = tail.addOrReplaceChild("tail2",
+                CubeListBuilder.create().texOffs(8, 52).addBox(-1.5F, -2.0F, 0.0F, 3.0F, 4.0F, 8.0F, CubeDeformation(0.0F)),
+                PartPose.offset(0.0F, 0.5F, 6.0F)
+            )
+
+            val fire = tail2.addOrReplaceChild("fire",
+                CubeListBuilder.create().texOffs(0, 16).addBox(0.0F, -10.0F, -3.5F, 0.0F, 10.0F, 7.0F, CubeDeformation(0.0F)),
+                PartPose.offset(0.0F, -2.0F, 7.0F)
+            )
+
             val leftleg = body.addOrReplaceChild(
                 "leftleg",
                 CubeListBuilder.create().texOffs(18, 21)

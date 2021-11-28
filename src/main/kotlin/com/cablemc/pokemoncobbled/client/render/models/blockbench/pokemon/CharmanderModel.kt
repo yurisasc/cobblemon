@@ -63,13 +63,25 @@ class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
                     .texOffs(18, 36).addBox(-3.5f, -3.0f, -5.0f, 7.0f, 3.0f, 2.0f, CubeDeformation(0.0f)),
                 PartPose.offset(0.0f, -5.5f, 0.0f)
             )
+
             val tail = body.addOrReplaceChild(
                 "tail",
-                CubeListBuilder.create().texOffs(0, 2)
-                    .addBox(0.0f, -7.0f, 0.0f, 0.0f, 9.0f, 14.0f, CubeDeformation(0.0f))
-                    .texOffs(54, 0).addBox(0.0f, -15.0f, 10.5f, 0.0f, 8.0f, 5.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, 3.5f, 2.5f)
+                CubeListBuilder.create().texOffs(0, 14)
+                    .addBox(-2.0F, -2.0F, -1.0F, 4.0F, 4.0F, 7.0F, CubeDeformation(0.0F)),
+                PartPose.offset(0.0F, 3.25F, 2.5F)
             )
+
+            val tail2 = tail.addOrReplaceChild("tail2",
+                CubeListBuilder.create().texOffs(42, 53).addBox(-1.5F, -1.5F, 0.0F, 3.0F, 3.0F, 7.0F, CubeDeformation(0.0F)),
+                PartPose.offset(0.0F, 0.5F, 6.0F)
+            )
+
+            val fire = tail2.addOrReplaceChild("fire",
+                CubeListBuilder.create().texOffs(54, 0)
+                    .addBox(0.0F, -8.0F, -2.5F, 0.0F, 8.0F, 5.0F, CubeDeformation(0.0F)),
+                PartPose.offset(0.0F, -1.5F, 6.0F)
+            )
+
             val leftarm = body.addOrReplaceChild(
                 "leftarm",
                 CubeListBuilder.create().texOffs(22, 0)
