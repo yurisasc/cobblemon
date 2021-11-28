@@ -10,6 +10,7 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.commands.SharedSuggestionProvider
+import net.minecraft.network.chat.TranslatableComponent
 import java.util.concurrent.CompletableFuture
 
 //Very helpful for all command related stuff: https://fabricmc.net/wiki/tutorial:commands#brigadier_explained
@@ -17,10 +18,9 @@ class PokemonArgumentType: ArgumentType<Species> {
 
     companion object {
         val EXAMPLES: MutableList<String> = mutableListOf("Eevee")
+        val INVALID_POKEMON = TranslatableComponent("pokemoncobbled.command.pokespawn.invalid-pokemon")
 
-        fun pokemon(): PokemonArgumentType {
-            return PokemonArgumentType()
-        }
+        fun pokemon() = PokemonArgumentType()
 
         fun <S> getPokemon(context: CommandContext<S>, name: String): Species {
             return context.getArgument(name, Species::class.java)
@@ -32,7 +32,7 @@ class PokemonArgumentType: ArgumentType<Species> {
         val pkmString = reader.readString()
 
         return PokemonSpecies.getByName(pkmString.lowercase())
-            ?: throw SimpleCommandExceptionType(LiteralMessage("Invalid Pokemon name supplied")).createWithContext(
+            ?: throw SimpleCommandExceptionType(INVALID_POKEMON).createWithContext(
                 reader
             )
     }
