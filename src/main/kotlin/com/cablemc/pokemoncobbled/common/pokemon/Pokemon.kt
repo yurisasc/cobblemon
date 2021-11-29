@@ -5,9 +5,9 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
-import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
-import com.cablemc.pokemoncobbled.common.api.storage.StorageCoordinates
-import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
+import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
+import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
@@ -19,8 +19,8 @@ import com.cablemc.pokemoncobbled.common.util.writeMapK
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.world.entity.player.Player
 import java.util.UUID
-import java.util.function.Supplier
 
 class Pokemon {
     var uuid: UUID = UUID.randomUUID()
@@ -33,6 +33,8 @@ class Pokemon {
     var level = 5
         set(value) { field = value ; _level.emit(value) }
 
+    var entity: PokemonEntity? = null
+
     val stats = pokemonStatsOf(
         Stats.HP to 20,
         Stats.ATTACK to 10,
@@ -42,7 +44,7 @@ class Pokemon {
         Stats.SPEED to 15
     )
 
-    val storageCoordinates: SettableObservable<StorageCoordinates<*>?> = SettableObservable(null)
+    val storeCoordinates: SettableObservable<StoreCoordinates<*>?> = SettableObservable(null)
 
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
@@ -109,22 +111,21 @@ class Pokemon {
         return this
     }
 
+    fun belongsTo(player: Player) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
+    fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
+    fun isWild() = storeCoordinates.get() == null
+
     fun notify(packet: PokemonUpdatePacket) {
-        storageCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }
+        storeCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }
     }
 
-    fun generateIntrinsics() {
-
-    }
-
-    fun generateSpecies() {
-
-    }
-
-    fun <T> registerObservable(observable: SimpleObservable<T>, defaultSubscription: ((T) -> Unit)? = null): SimpleObservable<T> {
+    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket)? = null): SimpleObservable<T> {
         observables.add(observable)
-        if (defaultSubscription != null) {
-            observable.subscribe(defaultSubscription)
+        if (notifyPacket != null) {
+            observable.subscribe {
+                storeCoordinates.get() ?: return@subscribe
+                notify(notifyPacket(it))
+            }
         }
         observable.subscribe { anyChangeObservable.emit(Unit) }
         return observable
@@ -137,7 +138,7 @@ class Pokemon {
     fun getChangeObservable(): Observable<Unit> = anyChangeObservable
 
     private val _form = SimpleObservable<PokemonForm>()
-    private val _species = registerObservable(SimpleObservable<Species>()) { notify(SpeciesUpdatePacket(this, it)) }
-    private val _level = registerObservable(SimpleObservable<Int>()) { notify(LevelUpdatePacket(this, it)) }
+    private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
+    private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
     private val _health = SimpleObservable<Int>()
 }

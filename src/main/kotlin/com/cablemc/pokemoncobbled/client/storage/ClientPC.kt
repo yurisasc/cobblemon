@@ -34,4 +34,16 @@ class ClientPC(uuid: UUID, boxCount: Int) : ClientStorage<PCPosition>(uuid) {
         }
         return boxes[position.box].slots[position.slot]
     }
+
+    override fun getPosition(pokemon: Pokemon): PCPosition? {
+        for (boxNumber in boxes.indices) {
+            val box = boxes[boxNumber]
+            for (slotNumber in box.slots.indices) {
+                if (box.slots[slotNumber] == pokemon) {
+                    return PCPosition(boxNumber, slotNumber)
+                }
+            }
+        }
+        return null
+    }
 }

@@ -38,7 +38,7 @@ class PokemonEntity(
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
-    var pokemon = Pokemon()
+    var pokemon = Pokemon().also { it.entity = this }
     val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
     val isMoving = addEntityProperty(MOVING, false)
     // properties like the above are synced and can be subscribed to changes for on either side
@@ -59,7 +59,7 @@ class PokemonEntity(
     }
 
     override fun saveWithoutId(nbt: CompoundTag): CompoundTag {
-        nbt.put(NbtKeys.POKEMON, pokemon.save(CompoundTag()))
+        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(CompoundTag()))
         return super.saveWithoutId(nbt)
     }
 
@@ -85,9 +85,7 @@ class PokemonEntity(
         return property
     }
 
-    override fun getBreedOffspring(level: ServerLevel, partner: AgeableMob): AgeableMob? {
-        return null
-    }
+    override fun getBreedOffspring(level: ServerLevel, partner: AgeableMob) = null
 
     override fun canSitOnShoulder(): Boolean {
         // TODO: Determine what can or can't be shouldered
@@ -96,8 +94,8 @@ class PokemonEntity(
 
     override fun mobInteract(player : Player, hand : InteractionHand) : InteractionResult {
         // TODO: Move to proper pokemon interaction menu
-        if(player.isCrouching && hand == InteractionHand.MAIN_HAND) {
-            if(canSitOnShoulder() && player is ServerPlayer) {
+        if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
+            if (canSitOnShoulder() && player is ServerPlayer) {
                 // TODO: Check ownership as well
                 this.setEntityOnShoulder(player)
             }

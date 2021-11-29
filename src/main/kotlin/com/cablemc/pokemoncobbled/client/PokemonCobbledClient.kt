@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.client
 import com.cablemc.pokemoncobbled.client.gui.PartyOverlay
 import com.cablemc.pokemoncobbled.client.keybinding.PartySendBinding
 import com.cablemc.pokemoncobbled.client.net.ClientPacketRegistrar
+import com.cablemc.pokemoncobbled.client.render.layer.PokemonOnShoulderLayer
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.client.render.pokeball.PokeBallRenderer
@@ -40,12 +41,15 @@ object PokemonCobbledClient {
 
     fun initialize() {
         PokemonCobbledMod.EVENT_BUS.register(ClientPacketRegistrar)
+        MinecraftForge.EVENT_BUS.register(storage)
+
         ClientPacketRegistrar.registerHandlers()
 
         registerKeybinds()
         registerRenderers()
         PokemonModelRepository.initializeModelLayers()
         PokeBallModelRepository.initializeModelLayers()
+
     }
 
     fun onAddLayer(event : EntityRenderersEvent.AddLayers) {

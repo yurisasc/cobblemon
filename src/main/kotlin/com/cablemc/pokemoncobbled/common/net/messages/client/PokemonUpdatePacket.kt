@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.net.messages.client
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.network.FriendlyByteBuf
 import java.util.UUID
 
@@ -10,7 +10,7 @@ import java.util.UUID
  * Base packet for all the single-field Pokémon update packets.
  *
  * @author Hiroku
- * @since November 28, 2021
+ * @since November 28th, 2021
  */
 abstract class PokemonUpdatePacket : NetworkPacket {
     /** The UUID of the [PokemonStore] the Pokémon is in. */
@@ -19,7 +19,7 @@ abstract class PokemonUpdatePacket : NetworkPacket {
     var pokemonID = UUID.randomUUID()
 
     fun setTarget(pokemon: Pokemon) {
-        this.storeID = pokemon.storageCoordinates.get()!!.store.getUUID()
+        this.storeID = pokemon.storeCoordinates.get()!!.store.uuid
         this.pokemonID = pokemon.uuid
     }
 

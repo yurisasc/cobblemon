@@ -24,4 +24,13 @@ class ClientParty(uuid: UUID, slots: Int) : ClientStorage<PartyPosition>(uuid), 
 
         return slots[position.slot]
     }
+
+    override fun getPosition(pokemon: Pokemon): PartyPosition? {
+        for (slotNumber in slots.indices) {
+            if (slots[slotNumber] == pokemon) {
+                return PartyPosition(slotNumber)
+            }
+        }
+        return null
+    }
 }

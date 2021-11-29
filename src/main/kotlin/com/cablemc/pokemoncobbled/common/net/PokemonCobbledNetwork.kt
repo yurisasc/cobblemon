@@ -4,6 +4,12 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.event.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -38,8 +44,17 @@ object PokemonCobbledNetwork {
     )
 
     fun register() {
-        buildMessage<PokemonUpdatePacket>(NetworkDirection.PLAY_TO_CLIENT)
+        buildClientMessage<PokemonUpdatePacket>()
+        buildClientMessage<InitializePartyPacket>()
+        buildClientMessage<SetPartyPokemonPacket>()
+        buildClientMessage<RemovePartyPokemonPacket>()
+        buildClientMessage<MovePartyPokemonPacket>()
+        buildClientMessage<SwapPartyPokemonPacket>()
+        buildClientMessage<SetPartyReferencePacket>()
     }
+
+    private inline fun <reified P : NetworkPacket> buildClientMessage() = buildMessage<P>(NetworkDirection.PLAY_TO_CLIENT)
+    private inline fun <reified P : NetworkPacket> buildServerMessage() = buildMessage<P>(NetworkDirection.PLAY_TO_SERVER)
 
     private inline fun <reified P : NetworkPacket> buildMessage(direction: NetworkDirection) {
         val messageBuilder = channel.messageBuilder(P::class.java, discriminator++, direction)

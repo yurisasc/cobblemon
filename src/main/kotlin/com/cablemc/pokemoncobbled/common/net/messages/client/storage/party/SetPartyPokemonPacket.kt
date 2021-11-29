@@ -6,6 +6,15 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.network.FriendlyByteBuf
 import java.util.UUID
 
+/**
+ * Adds the given Pokémon to a specific location in the client storage. This should be a new
+ * Pokémon that the client doesn't know about yet.
+ *
+ * Handled by [com.cablemc.pokemoncobbled.client.net.storage.party.SetPartyPokemonHandler]
+ *
+ * @author Hiroku
+ * @since November 29th, 2021
+*/
 class SetPartyPokemonPacket() : SetPokemonPacket<PartyPosition>() {
     constructor(storeID: UUID, storePosition: PartyPosition, pokemon: Pokemon): this() {
         this.storeID = storeID
