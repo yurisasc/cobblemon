@@ -29,7 +29,7 @@ class ClientPC(uuid: UUID, boxCount: Int) : ClientStorage<PCPosition>(uuid) {
     }
 
     override fun get(position: PCPosition): Pokemon? {
-        if (position.slot >= 30 || position.box >= boxes.size) {
+        if (position.slot >= POKEMON_PER_BOX || position.box >= boxes.size) {
             return null
         }
         return boxes[position.box].slots[position.slot]
