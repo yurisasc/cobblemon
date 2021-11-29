@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.NbtKeys
+import com.cablemc.pokemoncobbled.common.util.DataKeys
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
@@ -51,25 +51,25 @@ class PokemonEntity(
     }
 
     override fun save(nbt: CompoundTag): Boolean {
-        nbt.put(NbtKeys.POKEMON, pokemon.save(CompoundTag()))
+        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(CompoundTag()))
         return super.save(nbt)
     }
 
     override fun load(nbt: CompoundTag) {
         super.load(nbt)
-        pokemon = Pokemon().load(nbt.getCompound(NbtKeys.POKEMON))
+        pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         dexNumber.set(pokemon.species.nationalPokedexNumber)
         speed = 0.35F
     }
 
-    override fun registerGoals() {
+    public override fun registerGoals() {
         goalSelector.addGoal(1, WaterAvoidingRandomStrollGoal(this, speed.toDouble()))
         goalSelector.addGoal(2, LookAtPlayerGoal(this, Player::class.java, 5F))
     }
 
     fun <T> addEntityProperty(accessor: EntityDataAccessor<T>, initialValue: T): EntityProperty<T> {
         val property = EntityProperty(
-            entity = this,
+            entityData = entityData,
             accessor = accessor,
             initialValue = initialValue
         )

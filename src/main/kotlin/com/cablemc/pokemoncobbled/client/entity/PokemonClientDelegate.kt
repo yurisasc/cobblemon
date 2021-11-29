@@ -9,7 +9,7 @@ class PokemonClientDelegate : EntitySideDelegate<PokemonEntity> {
     // Put any client-only variables or functions in here. This delegate is 1-1 with the entity on the client side
     var animTick = 0F
     override fun initialize(entity: PokemonEntity) {
-        entity.dexNumber.listen {
+        entity.dexNumber.subscribeIncludingCurrent {
             entity.pokemon.species = PokemonSpecies.getByPokedexNumber(it)!! // TODO exception handling
         }
     }

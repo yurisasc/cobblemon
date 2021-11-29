@@ -30,6 +30,10 @@ open class SettableObservable<T>(private var value: T) : Observable<T> {
         if (this.value?.equals(newValue) == true || (this.value == null && newValue == null)) {
             return
         }
+        emit(newValue)
+    }
+
+    open fun emit(newValue: T) {
         this.value = newValue
         subscriptions.forEach { it.handle(newValue) }
     }

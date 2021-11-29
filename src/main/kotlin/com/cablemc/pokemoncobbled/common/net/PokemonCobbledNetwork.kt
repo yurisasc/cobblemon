@@ -28,6 +28,7 @@ object PokemonCobbledNetwork {
     fun sendToPlayer(player: ServerPlayer, packet: NetworkPacket) = channel.send(PacketDistributor.PLAYER.with { player }, packet)
     fun sendToServer(packet: NetworkPacket) = channel.sendToServer(packet)
     fun sendToAllPlayers(packet: NetworkPacket) = channel.sendToServer(packet)
+    fun sendToPlayers(players: Iterable<ServerPlayer>, packet: NetworkPacket) = players.forEach { sendToPlayer(it, packet) }
 
     val channel = NetworkRegistry.newSimpleChannel(
         ResourceLocation(PokemonCobbled.MODID, "main"),
