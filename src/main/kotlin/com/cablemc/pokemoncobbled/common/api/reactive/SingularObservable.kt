@@ -30,5 +30,6 @@ open class SingularObservable<T> : SimpleObservable<T>() {
         completed = true
         completedValue.addAll(values)
         super.emit(*values)
+        subscriptions.clear()
     }
 }
