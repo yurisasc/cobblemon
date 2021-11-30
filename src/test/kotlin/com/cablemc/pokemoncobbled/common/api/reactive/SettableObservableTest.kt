@@ -35,4 +35,32 @@ internal class SettableObservableTest {
         assertEquals(null, observable.get())
     }
 
+    @Test
+    fun `unsubscribing from observable stops observable from invoking callback on emit`() {
+        val observable = SettableObservable(0)
+        val callbackValues = mutableListOf<Int>()
+        val subscription = observable.subscribe { value -> callbackValues.add(value) }
+        observable.emit(1)
+        observable.emit(2)
+        observable.emit(3)
+        observable.unsubscribe(subscription)
+        observable.emit(4)
+        assertEquals(3, callbackValues.size)
+        assertEquals(6, callbackValues.reduce { a, b -> a + b })
+    }
+
+    @Test
+    fun `unsubscribing from observable stops observable from invoking callback on set`() {
+        val observable = SettableObservable(0)
+        val callbackValues = mutableListOf<Int>()
+        val subscription = observable.subscribe { value -> callbackValues.add(value) }
+        observable.set(1)
+        observable.set(2)
+        observable.set(3)
+        observable.unsubscribe(subscription)
+        observable.set(4)
+        assertEquals(3, callbackValues.size)
+        assertEquals(6, callbackValues.reduce { a, b -> a + b })
+    }
+
 }
