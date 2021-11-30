@@ -21,6 +21,15 @@ open class SimpleObservable<T> : Observable<T> {
     }
 
     open fun emit(vararg values: T) {
-        values.forEach { value -> subscriptions.forEach { it.handle(value) } }
+        values.forEach { value ->
+            // One or more of these subscriptions might be removed during emission, snapshot handles this.
+            val subscriptionsSnapshot = subscriptions.toList()
+            subscriptionsSnapshot.forEach { subscription ->
+                // A subscription might unsubscribe OTHER subscriptions, obey immediately.
+                if (subscription in subscriptionsSnapshot) {
+                    subscription.handle(value)
+                }
+            }
+        }
     }
 }
