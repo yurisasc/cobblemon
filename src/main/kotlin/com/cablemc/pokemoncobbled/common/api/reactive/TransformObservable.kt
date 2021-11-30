@@ -16,11 +16,10 @@ class TransformObservable<I, O>(
     private val observable: Observable<I>,
     private val transform: Transform<I, O>
 ) : SimpleObservable<O>() {
-    var subscribedToRoot = false
     var rootSubscription: ObservableSubscription<I>? = null
 
     override fun subscribe(handler: (O) -> Unit): ObservableSubscription<O> {
-        if (!subscribedToRoot) {
+        if (rootSubscription == null) {
             rootSubscription = observable.subscribe { parentHandler(it) }
         }
 
