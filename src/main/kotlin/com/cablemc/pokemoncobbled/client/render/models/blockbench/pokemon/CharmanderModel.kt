@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
+import net.minecraft.client.model.AnimationUtils
 import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -14,6 +15,9 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
     private val charmander: ModelPart = root.getChild("charmander")
@@ -27,17 +31,30 @@ class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
     private val tailFlame = tailTip.getChild("fire")
 
     override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
-        head.xRot = headPitch * (Math.PI.toFloat() / 180f)
-        head.yRot = netHeadYaw * (Math.PI.toFloat() / 180f)
+        head.xRot = headPitch * (PI.toFloat() / 180f)
+        head.yRot = netHeadYaw * (PI.toFloat() / 180f)
 
-        rightLeg.xRot = Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
-        leftLeg.xRot = Mth.cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
-
+        // Base rotation
         rightArm.zRot = (-70f).toRadians()
         leftArm.zRot = 70f.toRadians()
-        rightArm.yRot = Mth.cos(limbSwing * 0.6662f) * 1f * limbSwingAmount
-        leftArm.yRot = Mth.cos(limbSwing * 0.6662f) * 1f * limbSwingAmount
 
+        // Leg and arm swinging
+        rightLeg.xRot = cos(limbSwing * 0.6662f + PI.toFloat()) * 1.4f * limbSwingAmount
+        leftLeg.xRot = cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
+        rightArm.yRot = cos(limbSwing * 0.6662f) * 1f * limbSwingAmount
+        leftArm.yRot = cos(limbSwing * 0.6662f) * 1f * limbSwingAmount
+
+        // Idle sway
+        rightArm.zRot += 1.0f * (cos(ageInTicks * 0.09f) * 0.05f + 0.05f)
+        rightArm.yRot += 1.0f * sin(ageInTicks * 0.067f) * 0.05f
+        leftArm.zRot += -1.0f * (cos(ageInTicks * 0.09f) * 0.05f + 0.05f)
+        leftArm.yRot += -1.0f * sin(ageInTicks * 0.067f) * 0.05f
+
+        // Tail sway
+        tail.yRot = cos(ageInTicks * 0.09f) * 0.2f
+        tailTip.yRot = cos(ageInTicks * 0.09f) * 0.3f
+
+        // Tail upwards bend
         tailTip.xRot = 35f.toRadians()
         tailFlame.xRot = (-35f).toRadians()
     }
@@ -84,7 +101,7 @@ class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
                 "tail",
                 CubeListBuilder.create().texOffs(0, 14)
                     .addBox(-2.0F, -2.0F, -1.0F, 4.0F, 4.0F, 7.0F, CubeDeformation(0.0F)),
-                PartPose.offset(0.0F, 3.25F, 1.5F)
+                PartPose.offset(0.0F, 3.25F, 2.5F)
             )
 
             val tail2 = tail.addOrReplaceChild("tail2",
