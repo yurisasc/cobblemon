@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.storage.factory
 
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
+import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import java.util.UUID
 
@@ -19,5 +20,5 @@ import java.util.UUID
 interface PokemonStoreFactory {
     fun getPlayerParty(uuid: UUID): PlayerPartyStore?
 //    fun providePCForPlayerUUID(uuid: UUID): PCStore?
-    fun <E, T : PokemonStore<E>> getCustomStore(uuid: UUID): T?
+    fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID): T?
 }
