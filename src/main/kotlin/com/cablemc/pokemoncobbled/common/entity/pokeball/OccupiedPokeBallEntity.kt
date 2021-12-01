@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.entity.pokeball
 
-import com.cablemc.pokemoncobbled.common.api.pokemon.pokeball.PokeBalls
+import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.pokeball.PokeBall

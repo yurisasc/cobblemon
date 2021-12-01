@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.api.pokemon.pokeball
+package com.cablemc.pokemoncobbled.common.api.pokeball
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.pokemon.pokeball.PokeBall
