@@ -124,7 +124,7 @@ class PokemonEntity(
     }
 
     override fun writeSpawnData(buffer: FriendlyByteBuf) {
-        buffer.writeFloat(scaleModifier.currentValue)
+        buffer.writeFloat(scaleModifier.get())
         buffer.writeShort(pokemon.species.nationalPokedexNumber)
         buffer.writeUtf(pokemon.form.name)
     }

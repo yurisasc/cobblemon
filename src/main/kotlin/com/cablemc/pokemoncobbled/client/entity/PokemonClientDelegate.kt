@@ -12,7 +12,7 @@ class PokemonClientDelegate : EntitySideDelegate<PokemonEntity> {
         entity.dexNumber.subscribeIncludingCurrent {
             entity.pokemon.species = PokemonSpecies.getByPokedexNumber(it)!! // TODO exception handling
         }
-        entity.scaleModifier.listen {
+        entity.scaleModifier.subscribe {
             entity.pokemon.scaleModifier = it // TODO exception handling
         }
     }

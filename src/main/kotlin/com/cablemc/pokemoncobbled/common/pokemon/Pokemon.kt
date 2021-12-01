@@ -66,7 +66,7 @@ class Pokemon {
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         health = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
-        scaleModifier = nbt.getFloat(NbtKeys.POKEMON_SCALE_MODIFIER)
+        scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         return this
     }
 

@@ -44,7 +44,7 @@ class PokemonOnShoulderLayer<T : Player>(renderLayerParent: RenderLayerParent<T,
         val compoundTag = if (pLeftShoulder) pLivingEntity.shoulderEntityLeft else pLivingEntity.shoulderEntityRight
         if (compoundTag.isPokemonEntity()) {
             pMatrixStack.pushPose()
-            val pokemon = Pokemon().loadFromNBT(compoundTag.getCompound(NbtKeys.POKEMON))
+            val pokemon = Pokemon().loadFromNBT(compoundTag.getCompound(DataKeys.POKEMON))
             val scale = pokemon.form.baseScale * pokemon.scaleModifier
             val width = pokemon.form.hitbox.width
             pMatrixStack.translate(
