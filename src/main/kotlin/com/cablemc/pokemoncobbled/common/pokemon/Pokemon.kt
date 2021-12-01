@@ -43,6 +43,7 @@ class Pokemon {
         Stats.SPECIAL_DEFENCE to 10,
         Stats.SPEED to 15
     )
+    var scaleModifier = 1f
 
     val storeCoordinates: SettableObservable<StoreCoordinates<*>?> = SettableObservable(null)
 
@@ -53,6 +54,7 @@ class Pokemon {
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_HEALTH, health.toShort())
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
+        nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
         return nbt
     }
 
@@ -64,6 +66,7 @@ class Pokemon {
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         health = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
+        scaleModifier = nbt.getFloat(NbtKeys.POKEMON_SCALE_MODIFIER)
         return this
     }
 

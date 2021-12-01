@@ -8,6 +8,7 @@ object DataKeys {
     const val POKEMON_LEVEL = "Level"
     const val POKEMON_STATS = "Stats"
     const val POKEMON_HEALTH = "Health"
+    const val POKEMON_SCALE_MODIFIER = "ScaleModifier"
 
     const val STORE_SLOT = "Slot"
     const val STORE_BOX = "Box"

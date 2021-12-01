@@ -9,5 +9,10 @@
     "special_attack": 109,
     "special_defence": 85,
     "speed": 100
-  }
+  },
+  "forms": [
+    {
+      "name": "normal"
+    }
+  ]
 }
