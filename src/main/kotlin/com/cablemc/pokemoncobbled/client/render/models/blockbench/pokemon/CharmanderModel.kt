@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.model.EntityModel
@@ -12,18 +13,27 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
-
+import net.minecraft.util.Mth
 
 class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val charmander: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
+    private val charmander: ModelPart = root.getChild("charmander")
+    private val head = charmander.getChild("body").getChild("head")
+    private val rightLeg = charmander.getChild("body").getChild("rightleg")
+    private val leftLeg = charmander.getChild("body").getChild("leftleg")
+    private val rightArm = charmander.getChild("body").getChild("rightarm")
+    private val leftArm = charmander.getChild("body").getChild("leftarm")
+
+    override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
+        head.xRot = headPitch * (Math.PI.toFloat() / 180f)
+        head.yRot = netHeadYaw * (Math.PI.toFloat() / 180f)
+
+        rightLeg.xRot = Mth.cos(limbSwing * 0.6662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
+        leftLeg.xRot = Mth.cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
+
+        rightArm.zRot = (-70f).toRadians()
+        leftArm.zRot = 70f.toRadians()
+        rightArm.yRot = Mth.cos(limbSwing * 0.4662f + Math.PI.toFloat()) * 1.4f * limbSwingAmount
+        leftArm.yRot = Mth.cos(limbSwing * 0.4662f) * 1.4f * limbSwingAmount
     }
 
     override fun renderToBuffer(
@@ -114,9 +124,5 @@ class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
-    }
-
-    init {
-        charmander = root.getChild("charmander")
     }
 }
