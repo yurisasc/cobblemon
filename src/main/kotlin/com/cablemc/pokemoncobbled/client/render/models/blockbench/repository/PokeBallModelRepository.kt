@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokeball.PokeB
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.entity.pokeball.PokeBallEntity
-import com.cablemc.pokemoncobbled.common.pokemon.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import net.minecraft.resources.ResourceLocation
 
 object PokeBallModelRepository : ModelRepository<PokeBallEntity>() {

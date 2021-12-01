@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokeball
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.pokemon.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult

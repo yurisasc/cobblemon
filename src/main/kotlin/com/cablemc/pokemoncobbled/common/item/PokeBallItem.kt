@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.item
 
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import com.cablemc.pokemoncobbled.common.pokemon.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player

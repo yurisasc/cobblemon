@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.entity.pokeball
 
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
-import com.cablemc.pokemoncobbled.common.pokemon.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import net.minecraft.network.protocol.Packet
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile

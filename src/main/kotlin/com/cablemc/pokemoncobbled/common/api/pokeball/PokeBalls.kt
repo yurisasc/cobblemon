@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.api.pokeball
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.pokemon.pokeball.PokeBall
-import com.cablemc.pokemoncobbled.common.pokemon.pokeball.StaticRatePokeBall
+import com.cablemc.pokemoncobbled.common.api.pokeball.catch.modifiers.MultiplierModifier
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import net.minecraft.resources.ResourceLocation
 
 /**
@@ -13,9 +13,9 @@ import net.minecraft.resources.ResourceLocation
 object PokeBalls {
     private val allPokeBalls = mutableListOf<PokeBall>()
 
-    val POKE_BALL = registerPokeBall(StaticRatePokeBall(ResourceLocation(PokemonCobbled.MODID, "poke_ball"), 1f))
-    val GREAT_BALL = registerPokeBall(StaticRatePokeBall(ResourceLocation(PokemonCobbled.MODID, "great_ball"), 1.5f))
-    val ULTRA_BALL = registerPokeBall(StaticRatePokeBall(ResourceLocation(PokemonCobbled.MODID, "great_ball"), 2f))
+    val POKE_BALL = registerPokeBall(PokeBall(ResourceLocation(PokemonCobbled.MODID, "poke_ball")))
+    val GREAT_BALL = registerPokeBall(PokeBall(ResourceLocation(PokemonCobbled.MODID, "great_ball"), listOf(MultiplierModifier(1.5f))))
+    val ULTRA_BALL = registerPokeBall(PokeBall(ResourceLocation(PokemonCobbled.MODID, "ultra_ball"), listOf(MultiplierModifier(2f))))
 
     /**
      * Registers a new pokeball type.
