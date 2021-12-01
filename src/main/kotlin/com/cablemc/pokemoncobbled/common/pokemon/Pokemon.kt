@@ -11,7 +11,6 @@ class Pokemon {
     var uuid: UUID = UUID.randomUUID()
     var species: Species = PokemonSpecies.EEVEE
     var form: PokemonForm = species.forms.first()
-        private set
 
     var health = 10
     var level = 5
@@ -23,6 +22,7 @@ class Pokemon {
         Stats.SPECIAL_DEFENCE to 10,
         Stats.SPEED to 15
     )
+    var scaleModifier = 1f
 
     fun save(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(NbtKeys.POKEMON_UUID, uuid)
@@ -31,6 +31,7 @@ class Pokemon {
         nbt.putShort(NbtKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(NbtKeys.POKEMON_HEALTH, health.toShort())
         nbt.put(NbtKeys.POKEMON_STATS, stats.save(CompoundTag()))
+        nbt.putFloat(NbtKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
         return nbt
     }
 
@@ -42,6 +43,7 @@ class Pokemon {
         level = nbt.getShort(NbtKeys.POKEMON_LEVEL).toInt()
         health = nbt.getShort(NbtKeys.POKEMON_HEALTH).toInt()
         stats = PokemonStats().load(nbt.getCompound(NbtKeys.POKEMON_STATS))
+        scaleModifier = nbt.getFloat(NbtKeys.POKEMON_SCALE_MODIFIER)
         return this
     }
 
