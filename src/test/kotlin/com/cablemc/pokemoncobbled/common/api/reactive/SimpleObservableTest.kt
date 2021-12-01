@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.reactive
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class SimpleObservableTest {
@@ -36,6 +37,17 @@ internal class SimpleObservableTest {
         observable.emit(4)
         assertEquals(3, callbackValues.size)
         assertEquals(6, callbackValues.reduce { a, b -> a + b })
+    }
+
+    @Disabled("Might be redundant, depending on if implementation behaviour makes sense. When decision is made, this should be re-enabled or removed.")
+    @Test
+    fun `unsubscribing in another subscription obeys immediately and does not invoke on observable emit`() {
+        val observable = SimpleObservable<Unit>()
+        var result = false
+        val subscription = observable.subscribe { result = true }
+        observable.subscribe { subscription.unsubscribe() }
+        observable.emit(Unit)
+        assertFalse(result)
     }
 
 }
