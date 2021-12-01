@@ -13,9 +13,10 @@
   "forms": [
     {
       "name": "normal",
+      "baseScale": "0.7",
       "hitbox": {
         "width": 0.7,
-        "height": 1.0625,
+        "height": 1.15,
         "fixed": false
       }
     }
