@@ -12,6 +12,9 @@ class PokemonClientDelegate : EntitySideDelegate<PokemonEntity> {
         entity.dexNumber.listen {
             entity.pokemon.species = PokemonSpecies.getByPokedexNumber(it)!! // TODO exception handling
         }
+        entity.scaleModifier.listen {
+            entity.pokemon.scaleModifier = it // TODO exception handling
+        }
     }
 
     override fun tick(entity: PokemonEntity) {

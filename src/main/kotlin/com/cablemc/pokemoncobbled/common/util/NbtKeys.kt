@@ -8,6 +8,5 @@ object NbtKeys {
     const val POKEMON_LEVEL = "Level"
     const val POKEMON_STATS = "Stats"
     const val POKEMON_HEALTH = "Health"
-
-
+    const val POKEMON_SCALE_MODIFIER = "ScaleModifier"
 }
