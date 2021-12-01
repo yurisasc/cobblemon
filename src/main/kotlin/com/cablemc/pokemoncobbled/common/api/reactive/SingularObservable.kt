@@ -5,6 +5,8 @@ package com.cablemc.pokemoncobbled.common.api.reactive
  * a second time throws an exception. Subscribing to a completed [SingularObservable] immediately processes
  * the values that were emitted and doesn't bother subscribing as new values will not be emitted.
  *
+ * This is similar in function to a [java.util.concurrent.CompletableFuture].
+ *
  * @author Hiroku
  * @since November 26th, 2021
  */

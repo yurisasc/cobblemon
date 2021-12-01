@@ -15,7 +15,8 @@ import java.io.PrintWriter
 import java.util.UUID
 
 /**
- * A [FileStoreAdapter] for JSON files. This allows a [PokemonStore] to be serialized to a .json file.
+ * A [FileStoreAdapter] for JSON files. This allows a [PokemonStore] to be serialized to a .json file. This is usually
+ * slower and makes for a larger file per storage by several times compared to a [NBTStoreAdapter].
  *
  * @author Hiroku
  * @since November 29th, 2021
@@ -24,14 +25,15 @@ open class JSONStoreAdapter(
     override val rootFolder: String,
     override val useNestedFolders: Boolean,
     override val folderPerClass: Boolean,
-    override val fileExtension: String,
     private val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
 ) : OneToOneFileStoreAdapter<JsonObject> {
+    override val fileExtension: String = "json"
     override fun <E : StorePosition, T : PokemonStore<E>> serialize(store: T) = store.saveToJSON(JsonObject())
 
     override fun save(file: File, serialized: JsonObject) {
         val pw = PrintWriter(file)
-        gson.toJson(serialized, pw)
+        val json = gson.toJson(serialized)
+        pw.write(json)
         pw.flush()
         pw.close()
     }

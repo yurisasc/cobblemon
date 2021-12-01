@@ -7,6 +7,9 @@ import com.cablemc.pokemoncobbled.common.api.storage.adapter.FileStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.SerializedStore
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.util.subscribeOnServer
+import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod.LOGGER
+import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.event.TickEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fmlserverevents.FMLServerStartingEvent
 import net.minecraftforge.fmlserverevents.FMLServerStoppingEvent
@@ -24,6 +27,10 @@ open class FileBackedPokemonStoreFactory<S>(
     protected val adapter: FileStoreAdapter<S>,
     protected val createIfMissing: Boolean
 ) : PokemonStoreFactory {
+    init {
+        MinecraftForge.EVENT_BUS.register(this)
+    }
+
     protected var saveExecutor = Executors.newSingleThreadExecutor()
     protected val storeCaches = mutableMapOf<Class<out PokemonStore<*>>, StoreCache<*, *>>()
     protected inner class StoreCache<E : StorePosition, T : PokemonStore<E>> {
@@ -60,7 +67,7 @@ open class FileBackedPokemonStoreFactory<S>(
             loaded.initialize()
             track(loaded)
             cache[uuid] = loaded
-            return cached
+            return loaded
         }
     }
 
@@ -71,9 +78,14 @@ open class FileBackedPokemonStoreFactory<S>(
     }
 
     fun saveAll() {
+        LOGGER.debug("Serializing ${dirtyStores.size} Pokémon stores.")
         val serializedStores = dirtyStores.map { SerializedStore(it::class.java, it.uuid, adapter.serialize(it)) }
         dirtyStores.clear()
-        saveExecutor.submit { serializedStores.forEach { adapter.save(it.storeClass, it.uuid, it.serializedForm) } }
+        LOGGER.debug("Queueing save.")
+        saveExecutor.submit {
+            serializedStores.forEach { adapter.save(it.storeClass, it.uuid, it.serializedForm) }
+            LOGGER.debug("Saved ${serializedStores.size} Pokémon stores.")
+        }
     }
 
     fun isCached(store: PokemonStore<*>) = storeCaches[store::class.java]?.cacheMap?.containsKey(store.uuid) == true
@@ -84,10 +96,23 @@ open class FileBackedPokemonStoreFactory<S>(
             .subscribeOnServer { dirtyStores.add(store) }
     }
 
+    var passedTicks = 0
     @SubscribeEvent
     fun onServerStarted(event: FMLServerStartingEvent) {
         if (saveExecutor.isShutdown) {
             saveExecutor = Executors.newSingleThreadExecutor()
+        }
+    }
+
+    @SubscribeEvent
+    fun onTick(event: TickEvent.ServerTickEvent) {
+        if (event.phase == TickEvent.Phase.START) {
+            passedTicks++
+            // TODO config option
+            if (passedTicks > 20 * 30) {
+                saveAll()
+                passedTicks = 0
+            }
         }
     }
 

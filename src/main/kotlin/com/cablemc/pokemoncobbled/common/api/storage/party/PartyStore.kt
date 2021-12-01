@@ -13,6 +13,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPa
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getServer
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
@@ -31,6 +32,9 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
     protected val slots = MutableList<Pokemon?>(6) { null }
     protected val anyChangeObservable = SimpleObservable<Unit>()
 
+    /** A list of player UUIDs representing players that are observing this store. This is NOT serialized/deserialized. */
+    var observerUUIDs = mutableListOf<UUID>()
+
     override fun iterator() = slots.filterNotNull().iterator()
     override fun getAll() = slots.filterNotNull()
 
@@ -45,7 +49,8 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
             throw IllegalArgumentException("Slot position is out of bounds")
         } else {
             slots[position.slot] = pokemon
-            pokemon?.storeCoordinates?.set(StoreCoordinates(this, position)) ?: anyChangeObservable.emit(Unit)
+            pokemon?.storeCoordinates?.set(StoreCoordinates(this, position))
+            anyChangeObservable.emit(Unit)
         }
     }
 
@@ -59,9 +64,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return null
     }
 
-    override fun getObservingPlayers(): Iterable<ServerPlayer> {
-        TODO("Not yet implemented")
-    }
+    override fun getObservingPlayers() = getServer().playerList.players.filter { it.uuid in observerUUIDs }
 
     override fun sendTo(player: ServerPlayer) {
         player.sendPacket(InitializePartyPacket(false, uuid, slots.size))
