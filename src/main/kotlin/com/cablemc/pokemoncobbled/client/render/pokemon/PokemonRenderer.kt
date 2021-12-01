@@ -29,7 +29,7 @@ class PokemonRenderer(
     }
 
     override fun scale(pEntity: PokemonEntity, pMatrixStack: PoseStack, pPartialTickTime: Float) {
-        val scale = pEntity.pokemon.species.baseScale * pEntity.pokemon.scaleModifier
+        val scale = pEntity.pokemon.form.baseScale * pEntity.pokemon.scaleModifier
         pMatrixStack.scale(scale, scale, scale)
     }
 }

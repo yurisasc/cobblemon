@@ -10,7 +10,9 @@ object InteractListener {
 
     @SubscribeEvent
     fun onInteract(event : PlayerInteractEvent) {
-        if(event is PlayerInteractEvent.RightClickEmpty || event is PlayerInteractEvent.RightClickItem || event is PlayerInteractEvent.RightClickBlock) {
+        if(event.player.level.isClientSide) return
+
+        if(event is PlayerInteractEvent.RightClickItem || event is PlayerInteractEvent.RightClickBlock) {
             if(event.player.isCrouching) {
                 if (event.player.shoulderEntityLeft.isPokemonEntity()) {
                     event.player.respawnEntityOnShoulder(event.player.shoulderEntityLeft)

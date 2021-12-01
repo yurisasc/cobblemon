@@ -11,7 +11,6 @@ class Pokemon {
     var uuid: UUID = UUID.randomUUID()
     var species: Species = PokemonSpecies.EEVEE
     var form: PokemonForm = species.forms.first()
-        private set
 
     var health = 10
     var level = 5

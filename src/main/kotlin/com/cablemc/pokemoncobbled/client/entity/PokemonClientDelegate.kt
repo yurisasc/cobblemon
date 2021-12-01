@@ -14,7 +14,6 @@ class PokemonClientDelegate : EntitySideDelegate<PokemonEntity> {
         }
         entity.scaleModifier.listen {
             entity.pokemon.scaleModifier = it // TODO exception handling
-            entity.refreshDimensions()
         }
     }
 

@@ -50,9 +50,10 @@ class PokemonOnShoulderLayer<T : Player>(renderLayerParent: RenderLayerParent<T,
         if (compoundTag.isPokemonEntity()) {
             pMatrixStack.pushPose()
             val pokemon = Pokemon().load(compoundTag.getCompound(NbtKeys.POKEMON))
-            val scale = pokemon.species.baseScale * pokemon.scaleModifier
+            val scale = pokemon.form.baseScale * pokemon.scaleModifier
+            val width = pokemon.form.hitbox.width
             pMatrixStack.translate(
-                if (pLeftShoulder) 0.7f.toDouble() - scale / 2 else -0.7f.toDouble() + scale / 2,
+                if (pLeftShoulder) 0.7f.toDouble() - width / 2 else -0.7f.toDouble() + width / 2,
                 (if (pLivingEntity.isCrouching) -1.3 else -1.5) * scale,
                 0.0
             )
