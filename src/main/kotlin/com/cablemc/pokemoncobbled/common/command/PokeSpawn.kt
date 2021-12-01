@@ -26,7 +26,7 @@ object PokeSpawn {
 
     private fun execute(context: CommandContext<CommandSourceStack>) : Int {
         val entity = context.source.entity
-        if(entity is ServerPlayer && !entity.level.isClientSide) {
+        if (entity is ServerPlayer && !entity.level.isClientSide) {
             val speciesName = StringArgumentType.getString(context, "species")
             val speciesArg = PokemonSpecies.getByName(speciesName) ?: PokemonSpecies.species.random()
             val player = context.source.playerOrException
@@ -37,8 +37,6 @@ object PokeSpawn {
                     form = species.forms.first()
                 }
                 it.dexNumber.set(it.pokemon.species.nationalPokedexNumber)
-                it.pokemon.scaleModifier = 0.8f
-                it.scaleModifier.set(it.pokemon.scaleModifier)
             }
             pokemonEntity.refreshDimensions()
             player.level.addFreshEntity(pokemonEntity)

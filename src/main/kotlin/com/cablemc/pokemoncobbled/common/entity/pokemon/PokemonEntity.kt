@@ -107,8 +107,8 @@ class PokemonEntity(
 
     override fun mobInteract(player : Player, hand : InteractionHand) : InteractionResult {
         // TODO: Move to proper pokemon interaction menu
-        if(player.isCrouching && hand == InteractionHand.MAIN_HAND) {
-            if(canSitOnShoulder() && player is ServerPlayer) {
+        if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
+            if (canSitOnShoulder() && player is ServerPlayer) {
                 // TODO: Check ownership as well
                 this.setEntityOnShoulder(player)
             }
@@ -118,9 +118,7 @@ class PokemonEntity(
 
     override fun getDimensions(pPose: Pose): EntityDimensions {
         val scale = pokemon.form.baseScale * pokemon.scaleModifier
-        val clientside = level.isClientSide
-        val result =  pokemon.form.hitbox.scale(scale)
-        return result
+        return pokemon.form.hitbox.scale(scale)
     }
 
     override fun getAddEntityPacket(): Packet<*> {
@@ -134,7 +132,7 @@ class PokemonEntity(
     }
 
     override fun readSpawnData(buffer: FriendlyByteBuf) {
-        if(this.level.isClientSide) {
+        if (this.level.isClientSide) {
             pokemon.scaleModifier = buffer.readFloat()
             pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!! // TODO exception handling
             pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readUtf() }!! // TODO exception handling
