@@ -11,5 +11,7 @@ object DataKeys {
     const val POKEMON_SCALE_MODIFIER = "ScaleModifier"
 
     const val STORE_SLOT = "Slot"
+    const val STORE_SLOT_COUNT = "SlotCount"
     const val STORE_BOX = "Box"
+    const val STORE_BOX_COUNT = "BoxCount"
 }

@@ -1,5 +1,8 @@
 package com.cablemc.pokemoncobbled.common.api.storage.party
 
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
+import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendPacket
@@ -9,6 +12,10 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.Remov
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.google.gson.JsonObject
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
 import java.util.UUID
 
@@ -22,8 +29,11 @@ import java.util.UUID
  * @since November 29th, 2021
  */
 open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
-    // Allow more or fewer than 6 as a maximum perhaps?
     protected val slots = MutableList<Pokemon?>(6) { null }
+    protected val anyChangeObservable = SimpleObservable<Unit>()
+
+    /** A list of player UUIDs representing players that are observing this store. This is NOT serialized/deserialized. */
+    var observerUUIDs = mutableListOf<UUID>()
 
     override fun iterator() = slots.filterNotNull().iterator()
     override fun getAll() = slots.filterNotNull()
@@ -32,6 +42,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
     fun get(slot: Int) = slot.takeIf { it < slots.size }?.let { slots[it] }
     override fun get(position: PartyPosition) = get(position.slot)
 
+    /** Sets the Pokémon at the specified slot. */
     fun set(slot: Int, pokemon: Pokemon) = super.set(PartyPosition(slot), pokemon)
     override fun setAtPosition(position: PartyPosition, pokemon: Pokemon?) {
         if (position.slot >= slots.size) {
@@ -39,6 +50,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         } else {
             slots[position.slot] = pokemon
             pokemon?.storeCoordinates?.set(StoreCoordinates(this, position))
+            anyChangeObservable.emit(Unit)
         }
     }
 
@@ -48,12 +60,11 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
                 return PartyPosition(i)
             }
         }
+
         return null
     }
 
-    override fun getObservingPlayers(): Iterable<ServerPlayer> {
-        TODO("Not yet implemented")
-    }
+    override fun getObservingPlayers() = getServer().playerList.players.filter { it.uuid in observerUUIDs }
 
     override fun sendTo(player: ServerPlayer) {
         player.sendPacket(InitializePartyPacket(false, uuid, slots.size))
@@ -78,6 +89,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         }
     }
 
+    /** Swaps the contents of the two given slots. */
     fun swap(slot1: Int, slot2: Int) {
         if (slot1 !in slots.indices || slot2 !in slots.indices) {
             return
@@ -98,11 +110,64 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         }
     }
 
-    override fun setupStoreCoordinates() {
+    override fun initialize() {
         for (slot in slots.indices) {
             val pokemon = get(slot) ?: continue
             pokemon.storeCoordinates.set(StoreCoordinates(this, PartyPosition(slot)))
+            pokemon.getChangeObservable()
+                .pipe(emitWhile { pokemon.storeCoordinates.get()?.store == this })
+                .subscribe { anyChangeObservable.emit(Unit) }
         }
     }
+
+    override fun saveToNBT(nbt: CompoundTag): CompoundTag {
+        nbt.putInt(DataKeys.STORE_SLOT_COUNT, slots.size)
+        for (slot in slots.indices) {
+            val pokemon = get(slot)
+            if (pokemon != null) {
+                nbt.put(DataKeys.STORE_SLOT + slot, pokemon.saveToNBT(CompoundTag()))
+            }
+        }
+        return nbt
+    }
+
+    override fun loadFromNBT(nbt: CompoundTag): PartyStore {
+        val slotCount = nbt.getInt(DataKeys.STORE_SLOT_COUNT)
+        while (slotCount > slots.size) { slots.removeLast() }
+        while (slotCount < slots.size) { slots.add(null) }
+        for (slot in slots.indices) {
+            val pokemonNBT = nbt.getCompound(DataKeys.STORE_SLOT + slot)
+            if (!pokemonNBT.isEmpty) {
+                slots[slot] = Pokemon().loadFromNBT(pokemonNBT)
+            }
+        }
+        return this
+    }
+
+    override fun saveToJSON(json: JsonObject): JsonObject {
+        json.addProperty(DataKeys.STORE_SLOT_COUNT, slots.size)
+        for (slot in slots.indices) {
+            val pokemon = get(slot)
+            if (pokemon != null) {
+                json.add(DataKeys.STORE_SLOT + slot, pokemon.saveToJSON(JsonObject()))
+            }
+        }
+        return json
+    }
+
+    override fun loadFromJSON(json: JsonObject): PokemonStore<PartyPosition> {
+        val slotCount = json.get(DataKeys.STORE_SLOT_COUNT).asInt
+        while (slotCount > slots.size) { slots.removeLast() }
+        while (slotCount < slots.size) { slots.add(null) }
+        for (slot in slots.indices) {
+            val key = DataKeys.STORE_SLOT + slot
+            if (json.has(key)) {
+                slots[slot] = Pokemon().loadFromJSON(json.get(key).asJsonObject)
+            }
+        }
+        return this
+    }
+
+    override fun getAnyChangeObservable(): Observable<Unit> = anyChangeObservable
 }
 
