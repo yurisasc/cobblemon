@@ -1,8 +1,10 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
+import net.minecraft.client.model.AnimationUtils
 import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -12,18 +14,49 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
-
+import net.minecraft.util.Mth
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val charmander: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
+    private val charmander: ModelPart = root.getChild("charmander")
+    private val head = charmander.getChild("body").getChild("head")
+    private val rightLeg = charmander.getChild("body").getChild("rightleg")
+    private val leftLeg = charmander.getChild("body").getChild("leftleg")
+    private val rightArm = charmander.getChild("body").getChild("rightarm")
+    private val leftArm = charmander.getChild("body").getChild("leftarm")
+    private val tail = charmander.getChild("body").getChild("tail")
+    private val tailTip = tail.getChild("tail2")
+    private val tailFlame = tailTip.getChild("fire")
+
+    override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
+        head.xRot = headPitch * (PI.toFloat() / 180f)
+        head.yRot = netHeadYaw * (PI.toFloat() / 180f)
+
+        // Base rotation
+        rightArm.zRot = (-70f).toRadians()
+        leftArm.zRot = 70f.toRadians()
+
+        // Leg and arm swinging
+        rightLeg.xRot = cos(limbSwing * 0.6662f + PI.toFloat()) * 1.4f * limbSwingAmount
+        leftLeg.xRot = cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
+        rightArm.yRot = cos(limbSwing * 0.6662f) * 1f * limbSwingAmount
+        leftArm.yRot = cos(limbSwing * 0.6662f) * 1f * limbSwingAmount
+
+        // Idle sway
+        rightArm.zRot += 1.0f * (cos(ageInTicks * 0.09f) * 0.05f + 0.05f)
+        rightArm.yRot += 1.0f * sin(ageInTicks * 0.067f) * 0.05f
+        leftArm.zRot += -1.0f * (cos(ageInTicks * 0.09f) * 0.05f + 0.05f)
+        leftArm.yRot += -1.0f * sin(ageInTicks * 0.067f) * 0.05f
+
+        // Tail sway
+        tail.yRot = cos(ageInTicks * 0.09f) * 0.2f
+        tailTip.yRot = cos(ageInTicks * 0.09f) * 0.3f
+
+        // Tail upwards bend
+        tailTip.xRot = 35f.toRadians()
+        tailFlame.xRot = (-35f).toRadians()
     }
 
     override fun renderToBuffer(
@@ -73,13 +106,13 @@ class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
 
             val tail2 = tail.addOrReplaceChild("tail2",
                 CubeListBuilder.create().texOffs(42, 53).addBox(-1.5F, -1.5F, 0.0F, 3.0F, 3.0F, 7.0F, CubeDeformation(0.0F)),
-                PartPose.offset(0.0F, 0.5F, 6.0F)
+                PartPose.offset(0.0F, 0.5F, 5.0F)
             )
 
             val fire = tail2.addOrReplaceChild("fire",
                 CubeListBuilder.create().texOffs(54, 0)
                     .addBox(0.0F, -8.0F, -2.5F, 0.0F, 8.0F, 5.0F, CubeDeformation(0.0F)),
-                PartPose.offset(0.0F, -1.5F, 6.0F)
+                PartPose.offset(0.0F, -1.5F, 6.5F)
             )
 
             val leftarm = body.addOrReplaceChild(
@@ -114,9 +147,5 @@ class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
-    }
-
-    init {
-        charmander = root.getChild("charmander")
     }
 }

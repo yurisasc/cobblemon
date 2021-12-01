@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.command.argument
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.pokemon.Species
-import com.mojang.brigadier.LiteralMessage
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -17,7 +16,7 @@ import java.util.concurrent.CompletableFuture
 class PokemonArgumentType: ArgumentType<Species> {
 
     companion object {
-        val EXAMPLES: MutableList<String> = mutableListOf("Eevee")
+        val EXAMPLES: List<String> = listOf("eevee")
         val INVALID_POKEMON = TranslatableComponent("pokemoncobbled.command.pokespawn.invalid-pokemon")
 
         fun pokemon() = PokemonArgumentType()
@@ -44,7 +43,5 @@ class PokemonArgumentType: ArgumentType<Species> {
         return SharedSuggestionProvider.suggest(PokemonSpecies.species.map { it.name }, builder)
     }
 
-    override fun getExamples(): MutableCollection<String> {
-        return EXAMPLES
-    }
+    override fun getExamples() = EXAMPLES
 }
