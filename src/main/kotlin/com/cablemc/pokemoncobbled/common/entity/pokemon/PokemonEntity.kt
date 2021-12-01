@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.NbtKeys
+import com.cablemc.pokemoncobbled.common.util.DataKeys
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.protocol.Packet
@@ -47,7 +47,7 @@ class PokemonEntity(
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
-    var pokemon = Pokemon()
+    var pokemon = Pokemon().also { it.entity = this }
     val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
     val isMoving = addEntityProperty(MOVING, false)
     val scaleModifier = addEntityProperty(SCALE_MODIFIER, pokemon.scaleModifier)
@@ -64,31 +64,31 @@ class PokemonEntity(
     }
 
     override fun save(nbt: CompoundTag): Boolean {
-        nbt.put(NbtKeys.POKEMON, pokemon.save(CompoundTag()))
+        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(CompoundTag()))
         return super.save(nbt)
     }
 
     override fun saveWithoutId(nbt: CompoundTag): CompoundTag {
-        nbt.put(NbtKeys.POKEMON, pokemon.save(CompoundTag()))
+        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(CompoundTag()))
         return super.saveWithoutId(nbt)
     }
 
     override fun load(nbt: CompoundTag) {
         super.load(nbt)
-        pokemon = Pokemon().load(nbt.getCompound(NbtKeys.POKEMON))
+        pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         dexNumber.set(pokemon.species.nationalPokedexNumber)
         scaleModifier.set(pokemon.scaleModifier)
         speed = 0.35F
     }
 
-    override fun registerGoals() {
+    public override fun registerGoals() {
         goalSelector.addGoal(1, WaterAvoidingRandomStrollGoal(this, speed.toDouble()))
         goalSelector.addGoal(2, LookAtPlayerGoal(this, Player::class.java, 5F))
     }
 
     fun <T> addEntityProperty(accessor: EntityDataAccessor<T>, initialValue: T): EntityProperty<T> {
         val property = EntityProperty(
-            entity = this,
+            entityData = entityData,
             accessor = accessor,
             initialValue = initialValue
         )
@@ -96,9 +96,7 @@ class PokemonEntity(
         return property
     }
 
-    override fun getBreedOffspring(level: ServerLevel, partner: AgeableMob): AgeableMob? {
-        return null
-    }
+    override fun getBreedOffspring(level: ServerLevel, partner: AgeableMob) = null
 
     override fun canSitOnShoulder(): Boolean {
         // TODO: Determine what can or can't be shouldered
@@ -126,7 +124,7 @@ class PokemonEntity(
     }
 
     override fun writeSpawnData(buffer: FriendlyByteBuf) {
-        buffer.writeFloat(scaleModifier.currentValue)
+        buffer.writeFloat(scaleModifier.get())
         buffer.writeShort(pokemon.species.nationalPokedexNumber)
         buffer.writeUtf(pokemon.form.name)
     }
