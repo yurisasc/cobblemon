@@ -52,10 +52,11 @@ object PokemonStoreManager {
         return parties.asIterable()
     }
 
-    fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(uuid: UUID): T? {
+    inline fun <E : StorePosition, reified T : PokemonStore<E>> getCustomStore(uuid: UUID) = getCustomStore(T::class.java, uuid)
+    fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID): T? {
         for (factoryList in factories) {
             for (provider in factoryList) {
-                provider.getCustomStore<E, T>(uuid)?.run { return this }
+                provider.getCustomStore(storeClass, uuid)?.run { return this }
             }
         }
 

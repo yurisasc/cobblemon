@@ -135,6 +135,7 @@ class Pokemon {
     private val anyChangeObservable = SimpleObservable<Unit>()
 
     fun getAllObservables() = observables.asIterable()
+    /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
     fun getChangeObservable(): Observable<Unit> = anyChangeObservable
 
     private val _form = SimpleObservable<PokemonForm>()
