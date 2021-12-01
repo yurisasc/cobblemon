@@ -9,6 +9,8 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.player.Player
 
 object PokeSpawn {
 
@@ -22,15 +24,21 @@ object PokeSpawn {
     }
 
     private fun execute(context: CommandContext<CommandSourceStack>) : Int {
-        val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
-        val player = context.source.playerOrException
-        val pokemonEntity = PokemonEntity(player.level as ServerLevel)
-        pokemonEntity.let {
-            it.pokemon = Pokemon().apply { species = pkm }
-            it.dexNumber.set(it.pokemon.species.nationalPokedexNumber)
+        val entity = context.source.entity
+        if (entity is ServerPlayer && !entity.level.isClientSide) {
+            val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
+            val player = context.source.playerOrException
+            val pokemonEntity = PokemonEntity(entity.level as ServerLevel)
+            pokemonEntity.let {
+                it.pokemon = Pokemon().apply {
+                    species = pkm
+                    form = species.forms.first()
+                }
+                it.dexNumber.set(it.pokemon.species.nationalPokedexNumber)
+            }
+            entity.level.addFreshEntity(pokemonEntity)
+            pokemonEntity.setPos(entity.position())
         }
-        player.level.addFreshEntity(pokemonEntity)
-        pokemonEntity.setPos(player.position())
         return Command.SINGLE_SUCCESS
     }
 

@@ -117,8 +117,12 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
 
     /** Removes the specified Pokémon from this store. Returns true if the Pokémon was in this store and was successfully removed. */
     open fun remove(pokemon: Pokemon): Boolean {
-        val currentPosition = pokemon.storeCoordinates.get()?.let { it as StoreCoordinates<T> } ?: return false
-        if (currentPosition.store != this || get(currentPosition.position) != pokemon) { // Whacky synchronization issue?
+        val currentPosition = pokemon.storeCoordinates.get() ?: return false
+        if (currentPosition.store != this) {
+            return false
+        }
+        currentPosition as StoreCoordinates<T>
+        if (get(currentPosition.position) != pokemon) {
             return false
         }
         setAtPosition(currentPosition.position, null)
