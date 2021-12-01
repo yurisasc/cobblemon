@@ -9,9 +9,6 @@
     "special_attack": 60,
     "special_defence": 50,
     "speed": 65
-<<<<<<< Updated upstream
-  }
-=======
   },
   "forms": [
     {
@@ -24,5 +21,4 @@
       }
     }
   ]
->>>>>>> Stashed changes
 }

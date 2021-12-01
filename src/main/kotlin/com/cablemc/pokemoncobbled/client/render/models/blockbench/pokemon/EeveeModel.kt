@@ -27,7 +27,7 @@ class EeveeModel(root: ModelPart) : EntityModel<PokemonEntity>() {
 
     override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
         val clientDelegate = entity.delegate as PokemonClientDelegate
-        if (entity.isMoving.currentValue) {
+        if (entity.isMoving.get()) {
             clientDelegate.animTick += DELTA_TICKS * 4
             if (clientDelegate.animTick > TAIL_ANIMATION_TOTAL) {
                 clientDelegate.animTick = 0F
