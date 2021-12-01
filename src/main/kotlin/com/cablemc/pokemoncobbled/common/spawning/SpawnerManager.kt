@@ -1,8 +1,10 @@
 package com.cablemc.pokemoncobbled.common.spawning
 
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.level.chunk.LevelChunk
 import net.minecraftforge.event.TickEvent
+import net.minecraftforge.event.entity.EntityLeaveWorldEvent
 import net.minecraftforge.event.world.ChunkEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.LogicalSide
@@ -10,34 +12,31 @@ import net.minecraftforge.fml.LogicalSide
 /**
  * Just a testing object
  */
-object SpawningTest {
+object SpawnerManager {
 
-    val chunkSpawners: MutableMap<LevelChunk, SpawnChunkInfo> = mutableMapOf()
+    private val chunkSpawners: MutableMap<LevelChunk, ChunkSpawner> = mutableMapOf()
 
     @SubscribeEvent
     fun on(event: TickEvent.WorldTickEvent) {
-        if(event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
+        if/*space*/(event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
             val level = event.world as ServerLevel
             val chunkSrc = level.chunkSource
-            chunkSpawners.forEach { (_, info) ->
-                info.spawner.update()
-            }
             chunkSrc.chunkMap.chunks.forEach { chunkHolder ->
                 chunkHolder.tickingChunk?.let { chunk ->
                     val pos = chunk.pos
-                    if(level.isPositionEntityTicking(pos) && !chunkSrc.chunkMap.noPlayersCloseForSpawning(pos)) {
+                    if/*space*/(level.isPositionEntityTicking(pos) && !chunkSrc.chunkMap.noPlayersCloseForSpawning(pos)) {
                         val spawner: ChunkSpawner
-                        if(chunkSpawners.containsKey(chunk))
-                            spawner = chunkSpawners[chunk]!!.spawner
+                        if/*space*/(chunkSpawners.containsKey(chunk))
+                            spawner = chunkSpawners[chunk]!!
                         else {
                             spawner = ChunkSpawner()
-                            chunkSpawners[chunk] = SpawnChunkInfo(spawner)
+                            chunkSpawners[chunk] = spawner
                         }
 
                         spawner.trySpawn(chunk)
 
                     } else {
-                        if(chunkSpawners.containsKey(chunk)) {
+                        if/*space*/(chunkSpawners.containsKey(chunk)) {
                             chunkSpawners.remove(chunk)
                         }
                     }
@@ -47,10 +46,18 @@ object SpawningTest {
     }
 
     @SubscribeEvent
+    fun on(event: EntityLeaveWorldEvent) {
+        if/*space*/(event.entity is PokemonEntity)
+            chunkSpawners.forEach { (_, spawner) ->
+                spawner.update()
+            }
+    }
+
+    @SubscribeEvent
     fun on(event: ChunkEvent.Unload) {
         val chunk = event.chunk as LevelChunk
-        if(chunkSpawners.containsKey(chunk)) {
-            chunkSpawners[chunk]?.spawner?.despawn()
+        if/*space*/(chunkSpawners.containsKey(chunk)) {
+            chunkSpawners[chunk]?.despawn()
         }
     }
 }

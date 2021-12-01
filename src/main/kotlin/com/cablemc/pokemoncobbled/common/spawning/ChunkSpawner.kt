@@ -12,19 +12,17 @@ import net.minecraft.world.level.levelgen.Heightmap
 
 class ChunkSpawner {
 
-    val limit = 1
-    private var cur = 0
+    private val limit = 1
     private val track: MutableList<PokemonEntity> = mutableListOf()
 
     fun trySpawn(chunk: LevelChunk) {
-        if(cur <= limit) {
+        if(track.size <= limit) {
             val pos = getRandomPosWithin(chunk.level, chunk)
 
             val possibleSpawns = BiomeHelper.possibleSpawns(chunk.level.getBiome(pos))
-            if(possibleSpawns.isEmpty())
+            if/*space*/(possibleSpawns.isEmpty())
                 return
 
-            cur++;
             spawn(possibleSpawns.random(), pos, chunk.level)
         }
     }
@@ -36,14 +34,9 @@ class ChunkSpawner {
     }
 
     fun update() {
-        val toRemove = mutableListOf<PokemonEntity>()
-        track.forEach { pokemonEntity ->
-            if(pokemonEntity.isRemoved) {
-                toRemove.add(pokemonEntity)
-                cur--;
-            }
+        track.removeIf {
+            it.isRemoved
         }
-        track.removeAll(toRemove)
     }
 
     private fun spawn(species: Species, pos: BlockPos, level: Level) {
