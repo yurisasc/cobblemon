@@ -17,9 +17,12 @@ import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
 import com.cablemc.pokemoncobbled.common.util.readMapK
 import com.cablemc.pokemoncobbled.common.util.writeMapK
 import com.google.gson.JsonObject
+import com.mojang.math.Vector3d
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.phys.Vec3
 import java.util.UUID
 
 class Pokemon {
@@ -32,7 +35,6 @@ class Pokemon {
         set(value) { field = value ; _health.emit(value) }
     var level = 5
         set(value) { field = value ; _level.emit(value) }
-
     var entity: PokemonEntity? = null
 
     val stats = pokemonStatsOf(
@@ -46,6 +48,14 @@ class Pokemon {
     var scaleModifier = 1f
 
     val storeCoordinates: SettableObservable<StoreCoordinates<*>?> = SettableObservable(null)
+
+    fun sendOut(level: ServerLevel, position: Vec3): PokemonEntity {
+        val entity = PokemonEntity(level)
+        this.entity = entity
+        entity.setPos(position)
+        level.addFreshEntity(entity)
+        return entity
+    }
 
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)

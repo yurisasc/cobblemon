@@ -13,6 +13,7 @@ class PartyOverlay(
 ) : Gui(minecraft) {
     var selectedSlot = 0
     val partyResource = ResourceLocation("pokemoncobbled", "party/background.png")
+    val selectedResource = ResourceLocation("pokemoncobbled", "party/selected_slot.png")
 
     @SubscribeEvent
     fun onRenderGameOverlay(event: RenderGameOverlayEvent.Pre) {
@@ -25,17 +26,17 @@ class PartyOverlay(
         val pokemonSlotHeight = 20
         val panelX = 10
         val panelHeight = 6 + party.slots.size * pokemonSlotHeight
-        val panelWidth = 40
+        val panelWidth = 26
         val panelY = minecraft.window.guiScaledHeight / 2 - panelHeight / 2
 
         blitk(
             poseStack = event.matrixStack,
             texture = partyResource,
-            x = panelX,
+            x = panelX - 2,
             y = panelY,
             height = panelHeight,
             width = panelWidth,
-            alpha = 0.3
+            alpha = 0.4
         )
 
         party.forEachIndexed { index, pokemon ->
@@ -49,6 +50,16 @@ class PartyOverlay(
                     height = pokemonSlotHeight,
                     width = pokemonSlotHeight
                 )
+                if (PokemonCobbledClient.storage.selectedSlot == index) {
+                    blitk(
+                        poseStack = event.matrixStack,
+                        texture = selectedResource,
+                        x = panelX,
+                        y = spriteY - 2,
+                        height = pokemonSlotHeight + 2,
+                        width = pokemonSlotHeight + 2
+                    )
+                }
             }
         }
     }

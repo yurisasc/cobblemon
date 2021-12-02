@@ -24,7 +24,6 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
 import net.minecraft.world.entity.animal.ShoulderRidingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
-import net.minecraftforge.fmllegacy.common.network.ByteBufUtils
 import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData
 import net.minecraftforge.fmllegacy.network.NetworkHooks
 
@@ -137,5 +136,7 @@ class PokemonEntity(
         }
     }
 
-
+    override fun shouldBeSaved(): Boolean {
+        return pokemon.isWild()
+    }
 }
