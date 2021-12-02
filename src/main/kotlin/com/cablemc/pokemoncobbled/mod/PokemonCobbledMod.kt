@@ -13,6 +13,7 @@ import com.cablemc.pokemoncobbled.common.event.InteractListener
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
+import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
 import net.minecraft.world.level.storage.LevelResource
@@ -61,6 +62,7 @@ object PokemonCobbledMod {
         MinecraftForge.EVENT_BUS.register(InteractListener)
         MinecraftForge.EVENT_BUS.register(PokemonStoreManager)
         MinecraftForge.EVENT_BUS.register(this)
+        MinecraftForge.EVENT_BUS.register(SpawnerManager)
 
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
