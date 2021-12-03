@@ -51,8 +51,7 @@ class Pokemon {
     val storeCoordinates: SettableObservable<StoreCoordinates<*>?> = SettableObservable(null)
 
     fun sendOut(level: ServerLevel, position: Vec3): PokemonEntity {
-        val entity = PokemonEntity(level)
-        this.entity = entity
+        val entity = PokemonEntity(level, this)
         entity.setPos(position)
         level.addFreshEntity(entity)
         return entity
