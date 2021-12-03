@@ -14,12 +14,16 @@ object PartySendBinding : KeyMapping(
     InputConstants.KEY_R,
     CATEGORY_GAMEPLAY
 ) {
+    var wasDown = false
     @SubscribeEvent
     fun onKeyInput(event: InputEvent.KeyInputEvent) {
-        if (this.isDown) {
+        if (isDown && !wasDown) {
+            wasDown = true
             if (PokemonCobbledClient.storage.selectedSlot != -1) {
                 PokemonCobbledNetwork.sendToServer(SendOutPokemonPacket(PokemonCobbledClient.storage.selectedSlot))
             }
+        } else if (!this.isDown) {
+            wasDown = false
         }
     }
 }

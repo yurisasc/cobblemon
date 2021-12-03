@@ -14,6 +14,8 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
             val pokemon = party.get(slot) ?: return@enqueueWork
             if (pokemon.entity == null) {
                 pokemon.sendOut(player.getLevel(), player.position())
+            } else {
+                pokemon.recall()
             }
         }
     }

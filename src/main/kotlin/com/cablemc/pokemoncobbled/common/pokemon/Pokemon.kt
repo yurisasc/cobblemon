@@ -17,10 +17,10 @@ import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
 import com.cablemc.pokemoncobbled.common.util.readMapK
 import com.cablemc.pokemoncobbled.common.util.writeMapK
 import com.google.gson.JsonObject
-import com.mojang.math.Vector3d
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 import java.util.UUID
@@ -35,6 +35,7 @@ class Pokemon {
         set(value) { field = value ; _health.emit(value) }
     var level = 5
         set(value) { field = value ; _level.emit(value) }
+
     var entity: PokemonEntity? = null
 
     val stats = pokemonStatsOf(
@@ -55,6 +56,11 @@ class Pokemon {
         entity.setPos(position)
         level.addFreshEntity(entity)
         return entity
+    }
+
+    fun recall() {
+        this.entity?.remove(Entity.RemovalReason.DISCARDED)
+        this.entity = null
     }
 
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
