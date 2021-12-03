@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.client.gui
 
+import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.gui.Gui
@@ -20,6 +21,9 @@ fun blitk(
     RenderSystem.setShader { GameRenderer.getPositionTexShader() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
     RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha.toFloat())
+    RenderSystem.enableBlend()
+    RenderSystem.defaultBlendFunc()
+    RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
     Gui.blit(
         poseStack,
         x.toInt(), y.toInt(),

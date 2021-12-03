@@ -43,9 +43,9 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
     override fun get(position: PartyPosition) = get(position.slot)
 
     /** Sets the Pokémon at the specified slot. */
-    fun set(slot: Int, pokemon: Pokemon) = super.set(PartyPosition(slot), pokemon)
+    fun set(slot: Int, pokemon: Pokemon) = set(PartyPosition(slot), pokemon)
     override fun setAtPosition(position: PartyPosition, pokemon: Pokemon?) {
-        if (position.slot >= slots.size) {
+            if (position.slot >= slots.size) {
             throw IllegalArgumentException("Slot position is out of bounds")
         } else {
             slots[position.slot] = pokemon
