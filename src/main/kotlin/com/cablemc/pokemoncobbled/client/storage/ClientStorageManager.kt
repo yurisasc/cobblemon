@@ -24,6 +24,28 @@ class ClientStorageManager {
     var selectedSlot = -1
     private var selectedPokemon: UUID? = null
 
+    fun shiftSelected(forward: Boolean) {
+        val partyHasSome = myParty.slots.any { it != null }
+        if (!partyHasSome) {
+            selectedSlot = 0
+            selectedPokemon = null
+            return
+        }
+
+        selectedSlot += if (forward) 1 else -1
+        if (selectedSlot >= myParty.slots.size) {
+            selectedSlot = -1
+            shiftSelected(forward)
+        } else if (selectedSlot < 0) {
+            selectedSlot = myParty.slots.size
+            shiftSelected(forward)
+        } else if (myParty.get(selectedSlot) == null) {
+            shiftSelected(forward)
+        } else {
+            selectedPokemon = myParty.get(selectedSlot)?.uuid
+        }
+    }
+
     fun checkSelectedPokemon() {
         if (selectedSlot == -1) {
             val pokemon = myParty.firstOrNull { it != null } ?: return

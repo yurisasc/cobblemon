@@ -1,7 +1,9 @@
 package com.cablemc.pokemoncobbled.client
 
 import com.cablemc.pokemoncobbled.client.gui.PartyOverlay
+import com.cablemc.pokemoncobbled.client.keybinding.DownShiftPartyBinding
 import com.cablemc.pokemoncobbled.client.keybinding.PartySendBinding
+import com.cablemc.pokemoncobbled.client.keybinding.UpShiftPartyBinding
 import com.cablemc.pokemoncobbled.client.net.ClientPacketRegistrar
 import com.cablemc.pokemoncobbled.client.render.layer.PokemonOnShoulderLayer
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
@@ -33,6 +35,8 @@ object PokemonCobbledClient {
 
     fun registerKeyBinds() {
         registerKeyBind(PartySendBinding)
+        registerKeyBind(DownShiftPartyBinding)
+        registerKeyBind(UpShiftPartyBinding)
     }
 
     fun registerKeyBind(binding: KeyMapping) {
