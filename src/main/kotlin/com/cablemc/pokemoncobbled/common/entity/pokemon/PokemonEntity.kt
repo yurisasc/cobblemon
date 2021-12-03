@@ -24,20 +24,15 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
 import net.minecraft.world.entity.animal.ShoulderRidingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
-import net.minecraftforge.fmllegacy.common.network.ByteBufUtils
 import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData
 import net.minecraftforge.fmllegacy.network.NetworkHooks
 
 class PokemonEntity(
     level: Level,
+    pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = EntityRegistry.POKEMON.get()
 ) : ShoulderRidingEntity(type, level), IEntityAdditionalSpawnData {
-    companion object {
-        private val SPECIES_DEX = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
-        private val MOVING = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
-        private val SCALE_MODIFIER = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.FLOAT)
-    }
-
+    var pokemon: Pokemon
     val delegate = if (level.isClientSide) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
         com.cablemc.pokemoncobbled.client.entity.PokemonClientDelegate()
@@ -45,17 +40,23 @@ class PokemonEntity(
         PokemonServerDelegate()
     }
 
+    init {
+        this.pokemon = pokemon.also { it.entity = this }
+        delegate.initialize(this)
+    }
+
+    companion object {
+        private val SPECIES_DEX = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
+        private val MOVING = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
+        private val SCALE_MODIFIER = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.FLOAT)
+    }
+
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
-    var pokemon = Pokemon().also { it.entity = this }
     val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
     val isMoving = addEntityProperty(MOVING, false)
     val scaleModifier = addEntityProperty(SCALE_MODIFIER, pokemon.scaleModifier)
     // properties like the above are synced and can be subscribed to changes for on either side
-
-    init {
-        delegate.initialize(this)
-    }
 
     override fun tick() {
         super.tick()
@@ -137,5 +138,7 @@ class PokemonEntity(
         }
     }
 
-
+    override fun shouldBeSaved(): Boolean {
+        return pokemon.isWild()
+    }
 }
