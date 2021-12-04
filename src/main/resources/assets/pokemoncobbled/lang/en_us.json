@@ -1,5 +1,6 @@
 {
   "item.pokemoncobbled.poke_ball": "Pokeball",
   "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
-  "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name"
+  "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
+  "itemGroup.pokemoncobbled.pokeballtab": "Poké Balls"
 }
