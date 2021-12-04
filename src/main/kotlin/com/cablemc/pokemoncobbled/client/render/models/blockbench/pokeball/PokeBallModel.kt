@@ -13,9 +13,10 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
 
-
 class PokeBallModel(root: ModelPart) : EntityModel<PokeBallEntity>() {
-    private val pokeball: ModelPart
+
+    val pokeball: ModelPart = root.getChild("pokeball")
+
     override fun setupAnim(
         entity: PokeBallEntity,
         limbSwing: Float,
@@ -24,6 +25,11 @@ class PokeBallModel(root: ModelPart) : EntityModel<PokeBallEntity>() {
         netHeadYaw: Float,
         headPitch: Float
     ) {
+        // Throwing animation
+
+        // Catching animation
+        val frame = entity.shakeAnimation.currentFrame ?: -1
+        entity.shakeAnimation.animate(this, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, frame + 1)
     }
 
     override fun renderToBuffer(
@@ -59,9 +65,5 @@ class PokeBallModel(root: ModelPart) : EntityModel<PokeBallEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 32, 32)
         }
-    }
-
-    init {
-        pokeball = root.getChild("pokeball")
     }
 }

@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.pokeball
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.pokeball.catch.modifiers.MultiplierModifier
+import com.cablemc.pokemoncobbled.common.api.pokeball.catching.modifiers.MultiplierModifier
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import net.minecraft.resources.ResourceLocation
 

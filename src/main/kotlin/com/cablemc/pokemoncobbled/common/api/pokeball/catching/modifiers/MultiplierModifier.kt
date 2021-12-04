@@ -1,6 +1,6 @@
-package com.cablemc.pokemoncobbled.common.api.pokeball.catch.modifiers
+package com.cablemc.pokemoncobbled.common.api.pokeball.catching.modifiers
 
-import com.cablemc.pokemoncobbled.common.api.pokeball.catch.CatchRateModifier
+import com.cablemc.pokemoncobbled.common.api.pokeball.catching.CatchRateModifier
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.server.level.ServerPlayer
 

@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.client.render.pokeball
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.common.entity.pokeball.PokeBallEntity
 import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.math.Vector3f
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
@@ -31,10 +30,9 @@ class PokeBallRenderer<T : PokeBallEntity>(context: EntityRendererProvider.Conte
     ) {
         val model = PokeBallModelRepository.getModel(pEntity.pokeBall).entityModel
         pMatrixStack.pushPose()
-        pMatrixStack.translate(0.0, 1.8, 0.0)
-        pMatrixStack.mulPose(Vector3f.YP.rotationDegrees(pEntity.tickCount * 15f))
-        pMatrixStack.mulPose(Vector3f.ZP.rotationDegrees(180f))
+        pMatrixStack.translate(0.0, -1.0, 0.0)
         val vertexconsumer = ItemRenderer.getFoilBufferDirect(pBuffer, model.renderType(getTextureLocation(pEntity)), false, false)
+        model.setupAnim(pEntity, 0f, 0f, pEntity.tickCount + pPartialTicks, pEntity.yRot, pEntity.xRot)
         model.renderToBuffer(pMatrixStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f)
         pMatrixStack.popPose()
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight)

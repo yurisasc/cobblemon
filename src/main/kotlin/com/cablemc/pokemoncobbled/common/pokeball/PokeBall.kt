@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.pokeball
 
-import com.cablemc.pokemoncobbled.common.api.pokeball.catch.CatchRateModifier
+import com.cablemc.pokemoncobbled.common.api.pokeball.catching.CatchRateModifier
 import net.minecraft.resources.ResourceLocation
 
 /**

@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.api.pokeball.catch
+package com.cablemc.pokemoncobbled.common.api.pokeball.catching
 
 data class CaptureContext(
     val numberOfShakes: Int,
