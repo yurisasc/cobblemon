@@ -1,17 +1,17 @@
 package com.cablemc.pokemoncobbled.common.item
 
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.common.item.creativetabs.PokeBallTab
 import com.cablemc.pokemoncobbled.common.pokemon.pokeball.PokeBall
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 
 class PokeBallItem(
     val pokeBall : PokeBall
-) : CobbledItem(Properties().tab(CreativeModeTab.TAB_TOOLS)) {
+) : CobbledItem(Properties().tab(PokeBallTab)) {
 
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getItemInHand(usedHand)
