@@ -22,10 +22,10 @@ class AnimationController<T : Entity> {
      * Low priorities should be for animations that will act as default animations, or animations that will very
      * commonly run.
      */
-    private var animationsByPriority = Array(EventPriority.values().size) { mutableListOf<AnimationRegistry<T>>() }
+    private var animationsByPriority = Array(EventPriority.values().size) { mutableListOf<AnimationRegistry<T, ModelAnimation<out EntityModel<T>>>>() }
 
     /** The current animation that is running. If this is null, there is currently no animation for the model and it will t-pose. */
-    var currentAnimation: ModelAnimation<EntityModel<T>>? = null
+    var currentAnimation: ModelAnimation<out EntityModel<T>>? = null
         private set
     private var currentAnimationFrame = 0
 
@@ -45,7 +45,7 @@ class AnimationController<T : Entity> {
         // TODO: Run the animation frame
     }
 
-    private fun getAnimationFromPrioritySet(entity: T): ModelAnimation<EntityModel<T>>? {
+    private fun getAnimationFromPrioritySet(entity: T): ModelAnimation<out EntityModel<T>>? {
         for (prioritySet in animationsByPriority) {
             for (animationRegistry in prioritySet) {
                 if (animationRegistry.predicate(entity)) {
@@ -56,7 +56,7 @@ class AnimationController<T : Entity> {
         return null
     }
 
-    fun registerAnimation(priority: EventPriority, animation: ModelAnimation<EntityModel<T>>, animationPredicate: (T) -> Boolean) {
+    fun <M: EntityModel<T>, A : ModelAnimation<M>> registerAnimation(priority: EventPriority, animation: A, animationPredicate: (T) -> Boolean) {
         animationsByPriority[priority.ordinal].add(AnimationRegistry(animationPredicate, animation))
     }
 
