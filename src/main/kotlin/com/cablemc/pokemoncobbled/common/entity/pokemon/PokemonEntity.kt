@@ -40,6 +40,13 @@ class PokemonEntity(
         PokemonServerDelegate()
     }
 
+    val entityProperties = mutableListOf<EntityProperty<*>>()
+
+    val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
+    val isMoving = addEntityProperty(MOVING, false)
+    val scaleModifier = addEntityProperty(SCALE_MODIFIER, pokemon.scaleModifier)
+    // properties like the above are synced and can be subscribed to changes for on either side
+
     init {
         this.pokemon = pokemon.also { it.entity = this }
         delegate.initialize(this)
@@ -50,13 +57,6 @@ class PokemonEntity(
         private val MOVING = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
         private val SCALE_MODIFIER = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.FLOAT)
     }
-
-    val entityProperties = mutableListOf<EntityProperty<*>>()
-
-    val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
-    val isMoving = addEntityProperty(MOVING, false)
-    val scaleModifier = addEntityProperty(SCALE_MODIFIER, pokemon.scaleModifier)
-    // properties like the above are synced and can be subscribed to changes for on either side
 
     override fun tick() {
         super.tick()
