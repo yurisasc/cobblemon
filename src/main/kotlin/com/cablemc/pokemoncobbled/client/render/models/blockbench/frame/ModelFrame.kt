@@ -1,3 +1,7 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.frame
 
-interface ModelFrame
+import net.minecraft.client.model.geom.ModelPart
+
+interface ModelFrame {
+    val rootPart: ModelPart
+}

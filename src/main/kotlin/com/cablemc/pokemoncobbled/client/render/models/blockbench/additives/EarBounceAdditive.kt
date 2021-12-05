@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.additives
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.addRotation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.EaredFrame
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.getRotation
 import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -19,16 +19,16 @@ class EarBounceAdditive(val intensity: Float, val durationTicks: Int = 20) : Pos
     var leftTotalMovement: Float = 0F
     var rightTotalMovement: Float = 0F
 
-    override fun run(entity: PokemonEntity, frame: ModelFrame): Boolean {
-        if (frame !is EaredFrame) {
+    override fun run(entity: PokemonEntity, model: PoseableEntityModel<PokemonEntity>): Boolean {
+        if (model !is EaredFrame) {
             return false
         }
 
         if (!initialized) {
-            leftStartAngle = frame.leftEarJoint.modelPart.getRotation(frame.leftEarJoint.axis)
-            rightStartAngle = frame.rightEarJoint.modelPart.getRotation(frame.rightEarJoint.axis)
-            leftTotalMovement = frame.leftEarJoint.rangeOfMotion.low - leftStartAngle
-            rightTotalMovement = frame.rightEarJoint.rangeOfMotion.low - rightStartAngle
+            leftStartAngle = model.leftEarJoint.modelPart.getRotation(model.leftEarJoint.axis)
+            rightStartAngle = model.rightEarJoint.modelPart.getRotation(model.rightEarJoint.axis)
+            leftTotalMovement = model.leftEarJoint.rangeOfMotion.low - leftStartAngle
+            rightTotalMovement = model.rightEarJoint.rangeOfMotion.low - rightStartAngle
             initialized = true
         }
 
@@ -38,8 +38,8 @@ class EarBounceAdditive(val intensity: Float, val durationTicks: Int = 20) : Pos
         val leftApply = ratioInRange * leftTotalMovement * intensity
         val rightApply = ratioInRange * rightTotalMovement * intensity
 
-        frame.leftEarJoint.modelPart.addRotation(frame.leftEarJoint.axis, leftApply)
-        frame.rightEarJoint.modelPart.addRotation(frame.rightEarJoint.axis, rightApply)
+        model.leftEarJoint.modelPart.addRotation(model.leftEarJoint.axis, leftApply)
+        model.rightEarJoint.modelPart.addRotation(model.rightEarJoint.axis, rightApply)
 
         return passedTicks < durationTicks
     }
