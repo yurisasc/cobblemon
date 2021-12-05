@@ -2,7 +2,15 @@ package com.cablemc.pokemoncobbled.client.render.models.blockbench.pose
 
 import net.minecraft.client.model.geom.ModelPart
 
+/**
+ * Represents a [ModelPart] with some changes to position and rotation. This is to take a snapshot
+ * and store mutations for the purpose of poses.
+ *
+ * @author Hiroku
+ * @since December 5th, 2021
+ */
 class TransformedModelPart(
+    /** The [ModelPart] that is being transformed. */
     val modelPart: ModelPart
 ) {
     companion object {
@@ -17,11 +25,13 @@ class TransformedModelPart(
     var position = floatArrayOf(modelPart.x, modelPart.y, modelPart.z)
     var rotation = floatArrayOf(modelPart.xRot, modelPart.yRot, modelPart.zRot)
 
+    /** Applies the transformation to the model part. */
     fun apply() {
         modelPart.setPos(position[0], position[1], position[2])
         modelPart.setRotation(rotation[0], rotation[1], rotation[2])
     }
 
+    /** Sets the part back to its original location, prior to this transformation. */
     fun applyDefaults() {
         modelPart.setPos(initialPosition[0], initialPosition[1], initialPosition[2])
         modelPart.setRotation(initialRotation[0], initialRotation[1], initialRotation[2])

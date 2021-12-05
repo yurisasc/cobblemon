@@ -4,8 +4,11 @@ import com.cablemc.pokemoncobbled.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.EarJoint
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.RangeOfMotion
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.EaredQuadrupedFrame
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.QuadPose
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.EaredFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
 import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -20,26 +23,18 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 
-class EeveeModel(root: ModelPart) : PokemonPoseableModel<EaredQuadrupedFrame>() {
+class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFrame, QuadrupedFrame {
     override val rootPart = registerRelevantPart(root.getChild("eevee"))
-    private val head = registerRelevantPart(rootPart.getChild("body").getChild("head"))
-    private val rightHindLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightbackleg"))
-    private val leftHindLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftbackleg"))
-    private val rightFrontLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightleg"))
-    private val leftFrontLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftleg"))
+    override val head = registerRelevantPart(rootPart.getChild("body").getChild("head"))
+    override val hindRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightbackleg"))
+    override val hindLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftbackleg"))
+    override val foreRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightleg"))
+    override val foreLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftleg"))
     private val tail = registerRelevantPart(rootPart.getChild("body").getChild("tail"))
     private val leftEar = registerRelevantPart(head.getChild("leftear"))
     private val rightEar = registerRelevantPart(head.getChild("rightear"))
-
-    override val frame = object : EaredQuadrupedFrame {
-        override val foreLeftLeg = leftFrontLeg
-        override val foreRightLeg = rightFrontLeg
-        override val hindLeftLeg = leftHindLeg
-        override val hindRightLeg = rightHindLeg
-        override val head = this@EeveeModel.head
-        override val leftEarJoint = EarJoint(leftEar, Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
-        override val rightEarJoint = EarJoint(rightEar, Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
-    }
+    override val leftEarJoint = EarJoint(leftEar, Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
+    override val rightEarJoint = EarJoint(rightEar, Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
     init {
         registerPoses()
@@ -47,13 +42,19 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel<EaredQuadrupedFrame>() 
 
     override fun registerPoses() {
         registerPose(
-            pose = QuadPose(),
-            idleAnimations = listOf(QuadrupedWalkAnimation()),
-            transformedParts = emptyList()
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf(
+                QuadrupedWalkAnimation(this),
+                SingleBoneLookAnimation(this)
+            ),
+            transformedParts = arrayOf()
         )
     }
 
     override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
+
         val clientDelegate = entity.delegate as PokemonClientDelegate
         if (entity.isMoving.get()) {
             clientDelegate.animTick += DELTA_TICKS * 4
@@ -63,12 +64,6 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel<EaredQuadrupedFrame>() 
         } else {
             clientDelegate.animTick = 0F
         }
-
-        head.xRot = pHeadPitch * (Math.PI.toFloat() / 180f)
-        head.yRot = pNetHeadYaw * (Math.PI.toFloat() / 180f)
-
-        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
-
         tail.yRot = Mth.sin(clientDelegate.animTick * 6 * Math.PI.toFloat() / 180) * Math.PI.toFloat() / 7
     }
 
