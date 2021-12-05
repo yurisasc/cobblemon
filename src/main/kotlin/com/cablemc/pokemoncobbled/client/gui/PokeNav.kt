@@ -112,9 +112,9 @@ class PokeNav: Screen(TextComponent("PokeNav")) {
             }
         }
         if(pKeyCode == InputConstants.KEY_SPACE) {
-            buttons.first {
+            buttons.firstOrNull {
                 it.posX == currentSelectionPos.first && it.posY == currentSelectionPos.second
-            }.onPress()
+            }?.onPress()
         }
         if(pKeyCode == PokeNavigatorBinding.key.value || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) {
             aboutToClose = true
