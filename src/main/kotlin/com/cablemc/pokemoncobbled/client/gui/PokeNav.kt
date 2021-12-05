@@ -11,9 +11,10 @@ import net.minecraft.client.gui.components.ImageButton
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.network.chat.TextComponent
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.resources.ResourceLocation
 
-class PokeNav: Screen(TextComponent("PokeNav")) {
+class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) {
 
     companion object {
         // Limiting
@@ -28,7 +29,7 @@ class PokeNav: Screen(TextComponent("PokeNav")) {
         private const val buttonHeight = 50
         private const val buttonWidth = 50
         // Textures
-        private val background = ResourceLocation("pokemoncobbled", "ui/pokenav/test.png")
+        private val background = ResourceLocation(PokemonCobbled.MODID, "ui/pokenav/test.png")
         private val pokedex = ResourceLocation(PokemonCobbled.MODID, "ui/pokenav/pokedex.png")
         private val bag = ResourceLocation(PokemonCobbled.MODID, "ui/pokenav/bag.png")
         private val question = ResourceLocation(PokemonCobbled.MODID, "ui/pokenav/question.png")
