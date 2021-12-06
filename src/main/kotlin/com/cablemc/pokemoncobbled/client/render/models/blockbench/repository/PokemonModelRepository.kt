@@ -8,6 +8,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.Charma
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.CharmeleonModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.EeveeModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.EkansModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.GyaradosModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.IvysaurModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.MagikarpModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.SquirtleModel
@@ -39,6 +40,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerBaseSpeciesModel(PokemonSpecies.EKANS, BlockBenchModelWrapper(EkansModel.LAYER_LOCATION, EkansModel::createBodyLayer) { EkansModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.ZUBAT, BlockBenchModelWrapper(ZubatModel.LAYER_LOCATION, ZubatModel::createBodyLayer) { ZubatModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.MAGIKARP, BlockBenchModelWrapper(MagikarpModel.LAYER_LOCATION, MagikarpModel::createBodyLayer) { MagikarpModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.GYARADOS, BlockBenchModelWrapper(GyaradosModel.LAYER_LOCATION, GyaradosModel::createBodyLayer) { GyaradosModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.EEVEE, BlockBenchModelWrapper(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
     }
 

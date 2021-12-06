@@ -52,7 +52,6 @@ class TransformedModelPart(
         set(value) {
             position[2] = value
         }
-
     var xRot: Float
         get() = rotation[0]
         set(value) {

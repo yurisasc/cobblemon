@@ -1,0 +1,13 @@
+{
+  "name": "gyarados",
+  "nationalPokedexNumber": 130,
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 95,
+    "attack": 125,
+    "defence": 79,
+    "special_attack": 60,
+    "special_defence": 100,
+    "speed": 81
+  }
+}

@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
@@ -22,7 +23,7 @@ import net.minecraft.world.entity.Entity
  * @since December 5th, 2021
  */
 abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
-    val poses = mutableListOf<Pose<T, out ModelFrame>>()
+    val poses = mutableMapOf<PoseType, Pose<T, out ModelFrame>>()
     /**
      * A list of [TransformedModelPart] that are relevant to any frame or animation.
      * This allows the original rotations to be reset.
@@ -47,7 +48,7 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
         idleAnimations: Array<StatelessAnimation<T, out F>>,
         transformedParts: Array<TransformedModelPart>
     ) {
-        poses.add(Pose(poseType, condition, idleAnimations, transformedParts))
+        poses[poseType] = Pose(poseType, condition, idleAnimations, transformedParts)
     }
 
     fun registerRelevantPart(part: ModelPart): ModelPart {
@@ -60,7 +61,7 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
     }
 
     /** Applies the given pose type to the model, if there is a matching pose. */
-    fun applyPose(pose: PoseType) = poses.find { it.poseType == pose }?.transformedParts?.forEach { it.apply() }
+    fun applyPose(pose: PoseType) = poses[pose]?.transformedParts?.forEach { it.apply() }
     /** Puts the model back to its original location and rotations. */
     fun setDefault() = relevantParts.forEach { it.applyDefaults() }
 
@@ -70,28 +71,43 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
      */
     fun setupAnimStateless(poseType: PoseType, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F) {
         setDefault()
-        val pose = poses.find { it.poseType == poseType } ?: poses.first()
+        val pose = poses[poseType] ?: poses.values.first()
         pose.idleStateless(limbSwing, limbSwingAmount, 0F, headYaw, headPitch)
     }
 
     override fun setupAnim(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
         setDefault()
         val state = getState(entity)
+        state.currentModel = this
         var poseType = state.getPose()
-        var pose = poses.find { it.poseType == poseType }
+        var pose = poses[poseType]
         if (poseType == null || pose == null || !pose.condition(entity)) {
-            pose = poses.firstOrNull { it.condition(entity) } ?: run {
-                LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
-                return@run Pose(PoseType.NONE, { true }, emptyArray(), emptyArray())
+            if (poseType == null || pose == null || state.statefulAnimations.none { it is PoseTransitionAnimation }) {
+                val previousPose = pose
+                pose = poses.values.firstOrNull { it.condition(entity) } ?: run {
+                    LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
+                    return@run Pose(PoseType.NONE, { true }, emptyArray(), emptyArray())
+                }
+                poseType = pose.poseType
+
+                if (previousPose != null) {
+                    state.statefulAnimations.add(
+                        PoseTransitionAnimation(
+                            frame = this,
+                            beforePose = previousPose,
+                            afterPose = pose,
+                            durationTicks = 30
+                        )
+                    )
+                } else {
+                    getState(entity).setPose(poseType)
+                }
             }
-            poseType = pose.poseType
-            // TODO animate between poses? Ideally yes, it would probably look pretty sweet
-            getState(entity).setPose(poseType)
         }
 
         applyPose(poseType)
         pose.idleStateful(entity, state, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
         getState(entity).applyAdditives(entity, this)
-        state.statefulAnimations.removeIf { !it.run(entity) }
+        state.statefulAnimations.removeIf { !it.run(entity, this) }
     }
 }
