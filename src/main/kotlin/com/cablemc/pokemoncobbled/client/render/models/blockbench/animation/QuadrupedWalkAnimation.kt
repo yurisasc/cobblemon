@@ -21,9 +21,9 @@ class QuadrupedWalkAnimation(
 ) : StatelessAnimation<PokemonEntity, QuadrupedFrame>(frame) {
     override val targetFrame: Class<QuadrupedFrame> = QuadrupedFrame::class.java
     override fun setAngles(entity: PokemonEntity?, frame: QuadrupedFrame, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        frame.hindRightLeg.xRot = Mth.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier
-        frame.hindLeftLeg.xRot = Mth.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier
-        frame.foreRightLeg.xRot = Mth.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier
-        frame.foreLeftLeg.xRot = Mth.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier
+        frame.hindRightLeg.xRot += Mth.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier
+        frame.hindLeftLeg.xRot += Mth.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier
+        frame.foreRightLeg.xRot += Mth.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier
+        frame.foreLeftLeg.xRot += Mth.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier
     }
 }

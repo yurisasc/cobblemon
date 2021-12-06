@@ -64,6 +64,10 @@ class PokemonEntity(
         delegate.tick(this)
     }
 
+    override fun canBreatheUnderwater(): Boolean {
+        return true
+    }
+
     override fun save(nbt: CompoundTag): Boolean {
         nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(CompoundTag()))
         return super.save(nbt)
