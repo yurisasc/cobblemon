@@ -1,5 +1,10 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -14,29 +19,29 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
 
 
-class IvysaurModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val ivysaur: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
+class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
+
+    override val rootPart = registerRelevantPart(root.getChild("ivysaur"))
+    override val head = registerRelevantPart(rootPart.getChild("body").getChild("head"))
+    override val hindRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightbackleg"))
+    override val hindLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftbackleg"))
+    override val foreRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightleg"))
+    override val foreLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftleg"))
+
+    init {
+        registerPoses()
     }
 
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        ivysaur.render(poseStack, buffer, packedLight, packedOverlay)
+    override fun registerPoses() {
+        registerPose(
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf(
+                QuadrupedWalkAnimation(this),
+                SingleBoneLookAnimation(this)
+            ),
+            transformedParts = arrayOf()
+        )
     }
 
     companion object {
@@ -183,14 +188,14 @@ class IvysaurModel(root: ModelPart) : EntityModel<PokemonEntity>() {
                     .addBox(-15.5f, 4.5f, -3.75f, 6.0f, 0.0f, 6.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(9.5f, -4.463f, 0.9456f, -0.0436f, 0.0f, 0.0f)
             )
-            val rightfrontleg = body.addOrReplaceChild(
-                "rightfrontleg",
+            val rightleg = body.addOrReplaceChild(
+                "rightleg",
                 CubeListBuilder.create().texOffs(0, 0)
                     .addBox(-1.5f, -1.0f, -1.5f, 3.0f, 6.0f, 3.0f, CubeDeformation(0.0f)),
                 PartPose.offset(-3.5f, 0.5528f, -4.2424f)
             )
-            val leftfrontleg = body.addOrReplaceChild(
-                "leftfrontleg",
+            val leftleg = body.addOrReplaceChild(
+                "leftleg",
                 CubeListBuilder.create().texOffs(0, 37)
                     .addBox(-1.5f, -1.0f, -1.5f, 3.0f, 6.0f, 3.0f, CubeDeformation(0.0f)),
                 PartPose.offset(3.5f, 0.5528f, -4.2424f)
@@ -209,9 +214,5 @@ class IvysaurModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
-    }
-
-    init {
-        ivysaur = root.getChild("ivysaur")
     }
 }
