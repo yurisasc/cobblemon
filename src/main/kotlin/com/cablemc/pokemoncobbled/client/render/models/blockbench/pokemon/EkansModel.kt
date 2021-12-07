@@ -1,5 +1,8 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.entity.PokemonClientDelegate
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.ModelPartChain
+import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -12,10 +15,21 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
+import kotlin.math.PI
+import kotlin.math.cos
 
 
 class EkansModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val ekans: ModelPart
+    private val ekans: ModelPart = root.getChild("ekans")
+    private val head = ekans.getChild("body").getChild("head")
+    private val tail = ekans.getChild("body").getChild("tail")
+    private val tail2 = tail.getChild("tail2")
+    private val tail3 = tail2.getChild("tail3")
+    private val tail4 = tail3.getChild("tail4")
+    private val tail5 = tail4.getChild("tail5")
+    private val tail6 = tail5.getChild("tail6")
+    private val tailChain = ModelPartChain(listOf(tail, tail2, tail3, tail4, tail5, tail6))
+
     override fun setupAnim(
         entity: PokemonEntity,
         limbSwing: Float,
@@ -24,6 +38,19 @@ class EkansModel(root: ModelPart) : EntityModel<PokemonEntity>() {
         netHeadYaw: Float,
         headPitch: Float
     ) {
+        val clientDelegate = entity.delegate as PokemonClientDelegate
+        if (entity.isMoving.get()) {
+            clientDelegate.animTick += 0.15f * PokemonRenderer.DELTA_TICKS
+        }
+
+        head.xRot = headPitch * (PI.toFloat() / 180f)
+        head.yRot = netHeadYaw * (PI.toFloat() / 180f)
+
+        // Tail sway
+        tailChain.setupAnim(partHandler = { modelPart, placement ->
+            // 0.1f base and then 0.1f increment to the multiplier per placement
+            modelPart.yRot = cos(clientDelegate.animTick * 0.09f + (placement * 5)) * (0.3f + 0.15f * placement)
+        })
     }
 
     override fun renderToBuffer(
@@ -110,9 +137,5 @@ class EkansModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
-    }
-
-    init {
-        ekans = root.getChild("ekans")
     }
 }
