@@ -9,6 +9,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.chunk.LevelChunk
 import net.minecraft.world.level.levelgen.Heightmap
+import net.minecraft.world.phys.AABB
 
 class ChunkSpawner {
 
@@ -16,6 +17,11 @@ class ChunkSpawner {
     private val track: MutableList<PokemonEntity> = mutableListOf()
 
     fun trySpawn(chunk: LevelChunk) {
+        // Temp hack fix to stop over spawning
+        val zone = AABB(chunk.pos.getMiddleBlockPosition(80)).inflate(100.0)
+        if(chunk.level.getEntities(null, zone).filter { it is PokemonEntity }.size > 20)
+            return
+
         if(track.size <= limit) {
             val pos = getRandomPosWithin(chunk.level, chunk)
 
