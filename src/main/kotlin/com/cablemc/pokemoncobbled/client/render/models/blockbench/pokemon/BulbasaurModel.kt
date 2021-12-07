@@ -1,5 +1,10 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -14,29 +19,29 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
 
 
-class BulbasaurModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val bulbasaur: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
+class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
+
+    override val rootPart = registerRelevantPart(root.getChild("bulbasaur"))
+    override val head = registerRelevantPart(rootPart.getChild("body").getChild("head"))
+    override val hindRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightbackleg"))
+    override val hindLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftbackleg"))
+    override val foreRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightleg"))
+    override val foreLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftleg"))
+
+    init {
+        registerPoses()
     }
 
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        bulbasaur.render(poseStack, buffer, packedLight, packedOverlay)
+    override fun registerPoses() {
+        registerPose(
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf(
+                QuadrupedWalkAnimation(this),
+                SingleBoneLookAnimation(this)
+            ),
+            transformedParts = arrayOf()
+        )
     }
 
     companion object {
@@ -101,14 +106,14 @@ class BulbasaurModel(root: ModelPart) : EntityModel<PokemonEntity>() {
                     .addBox(-1.0f, -3.0f, 0.0f, 4.0f, 3.0f, 0.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-3.75f, -5.25f, -0.5f, 0.0f, 0.0f, -0.3491f)
             )
-            val leftfrontleg = body.addOrReplaceChild(
-                "leftfrontleg",
+            val leftleg = body.addOrReplaceChild(
+                "leftleg",
                 CubeListBuilder.create().texOffs(27, 0)
                     .addBox(-1.5f, -1.0f, -1.5f, 3.0f, 5.0f, 3.0f, CubeDeformation(0.0f)),
                 PartPose.offset(2.75f, 0.4981f, -3.5436f)
             )
-            val rightfrontleg = body.addOrReplaceChild(
-                "rightfrontleg",
+            val rightleg = body.addOrReplaceChild(
+                "rightleg",
                 CubeListBuilder.create().texOffs(0, 30)
                     .addBox(-1.5f, -1.0f, -1.5f, 3.0f, 5.0f, 3.0f, CubeDeformation(0.0f)),
                 PartPose.offset(-2.75f, 0.4981f, -3.5436f)
@@ -127,9 +132,5 @@ class BulbasaurModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
-    }
-
-    init {
-        bulbasaur = root.getChild("bulbasaur")
     }
 }
