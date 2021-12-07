@@ -1,0 +1,11 @@
+{
+  "item.pokemoncobbled.poke_ball": "Poké Ball",
+  "pokemoncobbled.storage.party.party-full": "Dein Team ist voll!",
+  "pokemoncobbled.command.pokespawn.invalid-pokemon": "Ungültiger Pokémon Name.",
+  "itemGroup.pokemoncobbled.pokeballtab": "Poké Balls",
+  "pokemoncobbled.ui.pokenav.title": "PokéNav",
+  "pokemoncobbled.ui.summary.title": "Überblick",
+  "pokemoncobbled.ui.moves": "Attacken",
+  "pokemoncobbled.ui.stats": "Stats",
+  "pokemoncobbled.ui.info": "Infos"
+}

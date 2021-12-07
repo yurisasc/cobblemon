@@ -63,7 +63,7 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
 
         buttons.forEach { button ->
             rows[button.posY]++ // To know how many buttons are in one row
-            addRenderableOnly(button)
+            addRenderableWidget(button)
         }
         addRenderableWidget(selection)
 
