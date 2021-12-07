@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.ModelPartChain
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.blaze3d.vertex.PoseStack
@@ -29,6 +30,7 @@ class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
     private val tail = charmander.getChild("body").getChild("tail")
     private val tailTip = tail.getChild("tail2")
     private val tailFlame = tailTip.getChild("fire")
+    private val tailChain = ModelPartChain(listOf(tail, tailTip))
 
     override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
         head.xRot = headPitch * (PI.toFloat() / 180f)
@@ -51,8 +53,10 @@ class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
         leftArm.yRot += -1.0f * sin(ageInTicks * 0.067f) * 0.05f
 
         // Tail sway
-        tail.yRot = cos(ageInTicks * 0.09f) * 0.2f
-        tailTip.yRot = cos(ageInTicks * 0.09f) * 0.3f
+        tailChain.setupAnim(partHandler = { modelPart, placement ->
+            // 0.1f base and then 0.1f increment to the multiplier per placement
+            modelPart.yRot = cos(ageInTicks * 0.09f) * (0.1f + 0.1f * placement)
+        })
 
         // Tail upwards bend
         tailTip.xRot = 35f.toRadians()
