@@ -1,5 +1,10 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.QuadrupedWalkAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.QuadrupedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -14,29 +19,29 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
 
 
-class VenusaurModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val venusaur: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
+class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
+
+    override val rootPart = registerRelevantPart(root.getChild("venusaur"))
+    override val head = registerRelevantPart(rootPart.getChild("body").getChild("head"))
+    override val hindRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightbackleg"))
+    override val hindLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftbackleg"))
+    override val foreRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightleg"))
+    override val foreLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftleg"))
+
+    init {
+        registerPoses()
     }
 
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        venusaur.render(poseStack, buffer, packedLight, packedOverlay)
+    override fun registerPoses() {
+        registerPose(
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf(
+                QuadrupedWalkAnimation(this),
+                SingleBoneLookAnimation(this)
+            ),
+            transformedParts = arrayOf()
+        )
     }
 
     companion object {
@@ -178,8 +183,8 @@ class VenusaurModel(root: ModelPart) : EntityModel<PokemonEntity>() {
                     .addBox(0.0f, -4.0f, -2.5f, 0.0f, 4.0f, 5.0f, CubeDeformation(0.02f)),
                 PartPose.offsetAndRotation(6.0f, -4.5f, -3.0f, 0.0341f, 0.1264f, 0.264f)
             )
-            val rightfrontleg = body.addOrReplaceChild(
-                "rightfrontleg",
+            val rightleg = body.addOrReplaceChild(
+                "rightleg",
                 CubeListBuilder.create().texOffs(0, 3)
                     .addBox(0.0f, 6.5f, -3.5f, 0.0f, 1.0f, 1.0f, CubeDeformation(0.0f))
                     .texOffs(2, 3).addBox(-2.0f, 6.5f, -3.5f, 0.0f, 1.0f, 1.0f, CubeDeformation(0.0f))
@@ -188,8 +193,8 @@ class VenusaurModel(root: ModelPart) : EntityModel<PokemonEntity>() {
                     .mirror(false),
                 PartPose.offsetAndRotation(-6.0f, -0.7502f, -5.0109f, 0.0f, 0.0436f, 0.0f)
             )
-            val leftfrontleg = body.addOrReplaceChild(
-                "leftfrontleg",
+            val leftleg = body.addOrReplaceChild(
+                "leftleg",
                 CubeListBuilder.create().texOffs(20, 44)
                     .addBox(-2.5f, -1.5f, -2.5f, 5.0f, 9.0f, 5.0f, CubeDeformation(0.0f))
                     .texOffs(4, 3).addBox(2.0f, 6.5f, -3.5f, 0.0f, 1.0f, 1.0f, CubeDeformation(0.0f))
@@ -221,9 +226,5 @@ class VenusaurModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 128, 128)
         }
-    }
-
-    init {
-        venusaur = root.getChild("venusaur")
     }
 }
