@@ -19,7 +19,10 @@ import com.cablemc.pokemoncobbled.common.util.writeMapK
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.phys.Vec3
 import java.util.UUID
 
 class Pokemon {
@@ -46,6 +49,18 @@ class Pokemon {
     var scaleModifier = 1f
 
     val storeCoordinates: SettableObservable<StoreCoordinates<*>?> = SettableObservable(null)
+
+    fun sendOut(level: ServerLevel, position: Vec3): PokemonEntity {
+        val entity = PokemonEntity(level, this)
+        entity.setPos(position)
+        level.addFreshEntity(entity)
+        return entity
+    }
+
+    fun recall() {
+        this.entity?.remove(Entity.RemovalReason.DISCARDED)
+        this.entity = null
+    }
 
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
@@ -138,6 +153,7 @@ class Pokemon {
     private val anyChangeObservable = SimpleObservable<Unit>()
 
     fun getAllObservables() = observables.asIterable()
+    /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
     fun getChangeObservable(): Observable<Unit> = anyChangeObservable
 
     private val _form = SimpleObservable<PokemonForm>()

@@ -10,6 +10,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.Remov
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -51,6 +52,8 @@ object PokemonCobbledNetwork {
         buildClientMessage<MovePartyPokemonPacket>()
         buildClientMessage<SwapPartyPokemonPacket>()
         buildClientMessage<SetPartyReferencePacket>()
+
+        buildServerMessage<SendOutPokemonPacket>()
     }
 
     private inline fun <reified P : NetworkPacket> buildClientMessage() = buildMessage<P>(NetworkDirection.PLAY_TO_CLIENT)

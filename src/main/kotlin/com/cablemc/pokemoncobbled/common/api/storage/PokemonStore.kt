@@ -1,9 +1,13 @@
 package com.cablemc.pokemoncobbled.common.api.storage
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable
+import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.api.storage.factory.PokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.google.gson.JsonObject
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
 import java.util.UUID
 
@@ -13,6 +17,9 @@ import java.util.UUID
  *
  * Saving of a store is not done automatically, and in fact a store has no concept of persistence on its own.
  * You may find [PokemonStoreFactory] instructive, as the factory is responsible for handling a storage's persistence.
+ *
+ * <strong>Note:</strong> If you are implementing this and will rely on one of Pokémon Cobbled's save solutions
+ * such as a [FileBackedPokemonStoreFactory], then you must include a constructor that accepts a single [UUID] parameter.
  *
  * @author Hiroku
  * @since November 29th, 2021
@@ -30,13 +37,16 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
     abstract fun getObservingPlayers(): Iterable<ServerPlayer>
     /** Sends the contents of this store to a player as if they've never seen it before. This initializes the store then sends each contained Pokémon. */
     abstract fun sendTo(player: ServerPlayer)
+
     /**
-     * Iterates over all the Pokémon in this store and sets their store coordinates. This might not be necessary
-     * depending on the save method being used, this should be called internally when a store is first loaded.
+     * Runs initialization logic for this store, knowing that it has just been constructed in a [PokemonStoreFactory].
+     *
+     * The minimum of what this function should do is iterate over all the Pokémon in this store and set their store
+     * coordinates.
      *
      * If this does not get called, or it does not do its job properly, serious de-sync issues may follow.
      */
-    abstract fun setupStoreCoordinates()
+    abstract fun initialize()
 
     /**
      * Sets the given position with the given [Pokemon], which can be null. This is for internal use only because
@@ -118,4 +128,16 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
         setAtPosition(currentPosition.position, null)
         return true
     }
+
+    abstract fun saveToNBT(nbt: CompoundTag): CompoundTag
+    abstract fun loadFromNBT(nbt: CompoundTag): PokemonStore<T>
+    abstract fun saveToJSON(json: JsonObject): JsonObject
+    abstract fun loadFromJSON(json: JsonObject): PokemonStore<T>
+
+    /**
+     * Returns an [Observable] that emits Unit whenever there is a change to this store. This includes any save-worthy
+     * change to a [Pokemon] contained in the store. You can access an [Observable] in each [Pokemon] that emits Unit for
+     * each change, accessed by [Pokemon.getChangeObservable].
+     */
+    abstract fun getAnyChangeObservable(): Observable<Unit>
 }

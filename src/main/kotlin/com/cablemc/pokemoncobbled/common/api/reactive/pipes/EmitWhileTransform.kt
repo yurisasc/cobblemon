@@ -10,7 +10,7 @@ import com.cablemc.pokemoncobbled.common.api.reactive.Transform
  * @author Hiroku
  * @since November 26th, 2021
  */
-class TakeWhileTransform<I>(private val predicate: (I) -> Boolean) : Transform<I, I> {
+class EmitWhileTransform<I>(private val predicate: (I) -> Boolean) : Transform<I, I> {
     override fun invoke(input: I): I {
         if (predicate(input)) {
             return input

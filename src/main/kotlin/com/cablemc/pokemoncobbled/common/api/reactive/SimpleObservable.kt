@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.api.reactive
 
 /**
  * A straightforward implementation of [Observable] that can emit values but holds no state.
- * This is similar in function to a [java.util.concurrent.CompletableFuture]
  *
  * @author Hiroku
  * @since November 26th, 2021

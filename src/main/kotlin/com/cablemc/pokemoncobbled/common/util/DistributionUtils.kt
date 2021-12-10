@@ -1,9 +1,11 @@
 package com.cablemc.pokemoncobbled.common.util
 
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import net.minecraft.util.thread.BlockableEventLoop
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.LogicalSide
+import net.minecraftforge.fml.util.thread.EffectiveSide
 import net.minecraftforge.fmllegacy.LogicalSidedProvider
 import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks
 import java.util.concurrent.CompletableFuture
@@ -13,10 +15,20 @@ fun ifClient(runnable: Runnable) {
     DistExecutor.unsafeRunWhenOn(Dist.CLIENT) { runnable }
 }
 
+fun ifLogicallyServer(runnable: Runnable) = ifLogically(LogicalSide.SERVER, runnable)
+fun ifLogicallyClient(runnable: Runnable) = ifLogically(LogicalSide.CLIENT, runnable)
+
+fun ifLogically(side: LogicalSide, runnable: Runnable) {
+    if (EffectiveSide.get() == side) {
+        runnable.run()
+    }
+}
+
 /*
  * Schedules the given block of code to run on the main thread and returns a [CompletableFuture] that completes with the result of the block when the code has executed.
  */
 fun <T> runOnServer(block: () -> T) = runOnSide(side = LogicalSide.SERVER, block)
+fun <T> Observable<T>.subscribeOnServer(block: () -> Unit) = subscribe { runOnServer(block) }
 
 fun getServer() = ServerLifecycleHooks.getCurrentServer()
 
