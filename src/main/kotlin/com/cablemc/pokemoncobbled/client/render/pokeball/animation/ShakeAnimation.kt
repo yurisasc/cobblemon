@@ -4,10 +4,11 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokeball.PokeB
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.util.Mth
 
-class ShakeAnimation : ModelAnimation<PokeBallModel> {
+class ShakeAnimation(val numShakes: Int) : ModelAnimation<PokeBallModel> {
 
     override var currentFrame: Int? = null
         private set
+    private var shakesComplete = 0
 
     override fun animate(
         model: PokeBallModel,
@@ -18,14 +19,22 @@ class ShakeAnimation : ModelAnimation<PokeBallModel> {
         headPitch: Float,
         frame: Int
     ) {
-        currentFrame = frame
-        if (currentFrame!! >= 60) {
-            currentFrame = 0
-        }
-
+        currentFrame = frame % 63
+        model.pokeball.y = 20f
         model.pokeball.xRot = 180f.toRadians()
-        if (currentFrame!! <= 42) {
-            model.pokeball.zRot = Mth.sin(currentFrame!!.toFloat() * 0.15f) * 30f.toRadians()
+        model.pokeball.yRot = 0f
+        model.pokeballLid.xRot = 0f
+        if (shakesComplete < numShakes) {
+            if (currentFrame == 62) {
+                currentFrame = 0
+                shakesComplete++
+            }
+            if (currentFrame!! <= 42) {
+                model.pokeball.zRot = Mth.sin(currentFrame!!.toFloat() * 0.15f) * 30f.toRadians()
+            }
+            else {
+                model.pokeball.zRot = 0f
+            }
         }
         else {
             model.pokeball.zRot = 0f

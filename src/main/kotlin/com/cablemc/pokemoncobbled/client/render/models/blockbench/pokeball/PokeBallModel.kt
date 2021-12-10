@@ -16,6 +16,7 @@ import net.minecraft.resources.ResourceLocation
 class PokeBallModel(root: ModelPart) : EntityModel<PokeBallEntity>() {
 
     val pokeball: ModelPart = root.getChild("pokeball")
+    val pokeballLid: ModelPart = root.getChild("pokeball").getChild("pokeball_lid")
 
     override fun setupAnim(
         entity: PokeBallEntity,
@@ -28,8 +29,8 @@ class PokeBallModel(root: ModelPart) : EntityModel<PokeBallEntity>() {
         // Throwing animation
 
         // Catching animation
-        val frame = entity.shakeAnimation.currentFrame ?: -1
-        entity.shakeAnimation.animate(this, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, frame + 1)
+        val frame = entity.currentAnimation?.currentFrame ?: -1
+        entity.currentAnimation?.animate(this, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, frame + 1)
     }
 
     override fun renderToBuffer(

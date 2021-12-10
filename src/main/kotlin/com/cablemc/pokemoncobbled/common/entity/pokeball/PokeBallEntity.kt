@@ -1,6 +1,10 @@
 package com.cablemc.pokemoncobbled.common.entity.pokeball
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokeball.PokeBallModel
+import com.cablemc.pokemoncobbled.client.render.pokeball.animation.ModelAnimation
+import com.cablemc.pokemoncobbled.client.render.pokeball.animation.OpenAnimation
 import com.cablemc.pokemoncobbled.client.render.pokeball.animation.ShakeAnimation
+import com.cablemc.pokemoncobbled.client.render.pokeball.animation.SpinAnimation
 import com.cablemc.pokemoncobbled.common.entity.animation.AnimationController
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
@@ -18,11 +22,11 @@ abstract class PokeBallEntity(
     level: Level
 ) : ThrowableItemProjectile(entityType, level) {
 
-    val animationController = AnimationController<PokeBallEntity>()
-    val shakeAnimation = ShakeAnimation()
+    var currentAnimation: ModelAnimation<PokeBallModel>? = null
+        protected set
 
     init {
-        animationController.registerAnimation(EventPriority.HIGH, ShakeAnimation()) { true }
+        currentAnimation = SpinAnimation()
     }
 
     override fun getDefaultItem(): Item = ItemRegistry.POKE_BALL.get()
@@ -32,7 +36,6 @@ abstract class PokeBallEntity(
     }
 
     override fun tick() {
-        setDeltaMovement(0.0, 0.0, 0.0)
         super.tick()
     }
 
