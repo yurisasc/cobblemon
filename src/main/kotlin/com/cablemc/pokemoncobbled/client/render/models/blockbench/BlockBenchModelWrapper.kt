@@ -23,7 +23,11 @@ class BlockBenchModelWrapper<T : Entity>(
 
     fun initializeModel(context: EntityRendererProvider.Context) {
         if (!isModelInitialized) {
-            entityModel = modelFactory(context.bakeLayer(layerLocation))
+            entityModel = modelFactory(context.bakeLayer(layerLocation)).also {
+                if (it is PoseableEntityModel<T>) {
+                    it.registerPoses()
+                }
+            }
             isModelInitialized = true
         }
     }
