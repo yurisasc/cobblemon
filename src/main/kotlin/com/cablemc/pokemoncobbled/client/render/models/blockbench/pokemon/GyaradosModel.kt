@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
@@ -19,17 +20,10 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.client.model.geom.builders.PartDefinition
 import net.minecraft.resources.ResourceLocation
 
-// Made with Blockbench 4.0.5
-// Exported for Minecraft version 1.17 with Mojang mappings
-// Paste this class into your mod and generate all required imports
 class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = registerRelevantPart(root.getChild("gyarados"))
     val spine = registerRelevantPart(rootPart.getChild("body").getChild("spine"))
-    val neck = registerRelevantPart(rootPart.getChild("body").getChild("spine").getChild("spine2").getChild("spine3").getChild("spinefinal").getChild("neck"))
-
-    init {
-        registerPoses()
-    }
+    val neck = registerRelevantPart(rootPart.getChildOf("body", "spine", "spine2", "spine3", "spinefinal", "neck"))
 
     override fun registerPoses() {
         registerPose(

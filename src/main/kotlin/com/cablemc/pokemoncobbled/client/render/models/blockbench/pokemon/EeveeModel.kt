@@ -36,10 +36,6 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     override val leftEarJoint = EarJoint(leftEar, Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
     override val rightEarJoint = EarJoint(rightEar, Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
-    init {
-        registerPoses()
-    }
-
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
@@ -54,7 +50,6 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
 
     override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
-
         val clientDelegate = entity.delegate as PokemonClientDelegate
         if (entity.isMoving.get()) {
             clientDelegate.animTick += DELTA_TICKS * 4
