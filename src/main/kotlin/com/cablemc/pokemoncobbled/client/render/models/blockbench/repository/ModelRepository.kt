@@ -22,4 +22,15 @@ abstract class ModelRepository<T : Entity> {
         _models.forEach { it.initializeModel(context) }
     }
 
+    abstract fun registerAll()
+
+    fun init() {
+        clear()
+        registerAll()
+        initializeModelLayers()
+    }
+
+    open fun clear() {
+        _models.clear()
+    }
 }

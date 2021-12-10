@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.mod
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
@@ -18,6 +20,7 @@ import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
 import net.minecraft.world.level.storage.LevelResource
 import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.client.event.ModelBakeEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.eventbus.api.BusBuilder
@@ -39,6 +42,7 @@ object PokemonCobbledMod {
         with(MOD_CONTEXT.getKEventBus()) {
             addListener(this@PokemonCobbledMod::initialize)
             addListener(this@PokemonCobbledMod::on)
+            addListener(this@PokemonCobbledMod::onBake)
             addListener(PokemonCobbledClient::onAddLayer)
             EntityRegistry.register(this)
             ItemRegistry.register(this)
@@ -66,6 +70,12 @@ object PokemonCobbledMod {
 
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
+    }
+
+    fun onBake(event: ModelBakeEvent) {
+        PokemonModelRepository.init()
+        PokeBallModelRepository.init()
+        PokemonCobbledClient.registerRenderers()
     }
 
     @SubscribeEvent

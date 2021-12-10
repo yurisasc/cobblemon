@@ -8,8 +8,6 @@ import com.cablemc.pokemoncobbled.client.keybinding.SummaryBinding
 import com.cablemc.pokemoncobbled.client.keybinding.UpShiftPartyBinding
 import com.cablemc.pokemoncobbled.client.net.ClientPacketRegistrar
 import com.cablemc.pokemoncobbled.client.render.layer.PokemonOnShoulderLayer
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.client.storage.ClientStorageManager
@@ -52,21 +50,16 @@ object PokemonCobbledClient {
         registerEntityRenderer(EntityRegistry.POKEMON) { PokemonRenderer(it) }
         registerEntityRenderer(EntityRegistry.EMPTY_POKEBALL) { PokeBallRenderer(it) }
         registerEntityRenderer(EntityRegistry.OCCUPIED_POKEBALL) { PokeBallRenderer(it) }
-
-        MinecraftForge.EVENT_BUS.register(PartyOverlay())
     }
 
     fun initialize() {
         PokemonCobbledMod.EVENT_BUS.register(ClientPacketRegistrar)
         MinecraftForge.EVENT_BUS.register(storage)
         MinecraftForge.EVENT_BUS.register(this)
+        MinecraftForge.EVENT_BUS.register(PartyOverlay())
 
         ClientPacketRegistrar.registerHandlers()
-
         registerKeyBinds()
-        registerRenderers()
-        PokemonModelRepository.initializeModelLayers()
-        PokeBallModelRepository.initializeModelLayers()
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
