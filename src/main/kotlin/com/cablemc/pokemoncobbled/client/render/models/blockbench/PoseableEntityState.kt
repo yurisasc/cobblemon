@@ -22,6 +22,7 @@ abstract class PoseableEntityState<T : Entity> {
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     var idling: Boolean = true
+    var animationTick = 0F
 
     fun getPose(): PoseType? {
         return currentPose

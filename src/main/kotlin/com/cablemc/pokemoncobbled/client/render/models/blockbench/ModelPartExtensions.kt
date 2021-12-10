@@ -32,3 +32,10 @@ fun ModelPart.withPosition(xPos: Float, yPos: Float, zPos: Float) = TransformedM
 fun ModelPart.withRotation(axis: Int, angleRadians: Float) = TransformedModelPart(this).withRotation(axis, angleRadians)
 fun ModelPart.withRotation(xRot: Float, yRot: Float, zRot: Float) = TransformedModelPart(this).withRotation(xRot, yRot, zRot)
 fun ModelPart.asTransformed() = TransformedModelPart(this)
+fun ModelPart.getChildOf(vararg path: String): ModelPart {
+    var part = this
+    for (piece in path) {
+        part = part.getChild(piece)
+    }
+    return part
+}
