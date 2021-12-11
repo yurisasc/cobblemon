@@ -9,4 +9,5 @@ class Species {
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
     var maleRatio = 0.5
     var forms = mutableListOf(NORMAL_FORM)
+    var catchRate = 45
 }

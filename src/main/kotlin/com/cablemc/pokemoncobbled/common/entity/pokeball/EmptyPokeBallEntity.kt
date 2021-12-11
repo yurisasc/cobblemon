@@ -47,9 +47,6 @@ class EmptyPokeBallEntity(
                 currentAnimation is OpenAnimation && (currentAnimation as OpenAnimation).isComplete() -> {
                     currentAnimation = ShakeAnimation(3)
                 }
-                currentAnimation is ShakeAnimation && (currentAnimation as ShakeAnimation).isComplete() -> {
-
-                }
             }
         }
         super.tick()

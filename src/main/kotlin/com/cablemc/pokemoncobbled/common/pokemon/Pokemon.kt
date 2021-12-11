@@ -160,4 +160,6 @@ class Pokemon {
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
     private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
     private val _health = SimpleObservable<Int>()
+
+    fun getMaxHealth(): Int = TODO("needs to be calculated properly. NOT just the base stat value")
 }
