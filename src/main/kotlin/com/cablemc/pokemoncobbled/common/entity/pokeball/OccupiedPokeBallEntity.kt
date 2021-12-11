@@ -2,8 +2,8 @@ package com.cablemc.pokemoncobbled.common.entity.pokeball
 
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.Level
 
@@ -13,6 +13,9 @@ class OccupiedPokeBallEntity(
     entityType: EntityType<out OccupiedPokeBallEntity>,
     level: Level
 ) : PokeBallEntity(pokeBall, entityType, level) {
+    init {
+        delegate.initialize(this)
+    }
 
     constructor(
         entityType: EntityType<out OccupiedPokeBallEntity>,

@@ -2,10 +2,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokeball
 
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokeball.PokeBallModel
 import com.cablemc.pokemoncobbled.client.render.pokeball.animation.ModelAnimation
-import com.cablemc.pokemoncobbled.client.render.pokeball.animation.OpenAnimation
-import com.cablemc.pokemoncobbled.client.render.pokeball.animation.ShakeAnimation
 import com.cablemc.pokemoncobbled.client.render.pokeball.animation.SpinAnimation
-import com.cablemc.pokemoncobbled.common.entity.animation.AnimationController
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import net.minecraft.network.protocol.Packet
@@ -13,7 +10,6 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.Level
-import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.fmllegacy.network.NetworkHooks
 
 abstract class PokeBallEntity(
@@ -25,8 +21,16 @@ abstract class PokeBallEntity(
     var currentAnimation: ModelAnimation<PokeBallModel>? = null
         protected set
 
+    val delegate = if (level.isClientSide) {
+        // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
+        com.cablemc.pokemoncobbled.client.entity.PokeBallClientDelegate()
+    } else {
+        PokeBallServerDelegate()
+    }
+
     init {
         currentAnimation = SpinAnimation()
+        delegate.initialize(this)
     }
 
     override fun getDefaultItem(): Item = ItemRegistry.POKE_BALL.get()
@@ -37,6 +41,7 @@ abstract class PokeBallEntity(
 
     override fun tick() {
         super.tick()
+        delegate.tick(this)
     }
 
 }

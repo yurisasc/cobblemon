@@ -16,6 +16,9 @@ class EmptyPokeBallEntity(
     entityType: EntityType<out EmptyPokeBallEntity>,
     level: Level
 ) : PokeBallEntity(pokeBall, entityType, level) {
+    init {
+        delegate.initialize(this)
+    }
 
     private var isAttemptingCatch = false
 
@@ -37,6 +40,7 @@ class EmptyPokeBallEntity(
     }
 
     override fun tick() {
+        delegate.tick(this)
         if (isAttemptingCatch) {
             setDeltaMovement(0.0, 0.0, 0.0)
             when {
