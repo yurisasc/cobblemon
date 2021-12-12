@@ -6,6 +6,8 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
+import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult
@@ -16,11 +18,24 @@ class EmptyPokeBallEntity(
     entityType: EntityType<out EmptyPokeBallEntity>,
     level: Level
 ) : PokeBallEntity(pokeBall, entityType, level) {
+    enum class CaptureState {
+        NOT,
+        HIT,
+        FALL,
+        SHAKE
+    }
+
+    companion object {
+        private val CAPTURE_STATE = SynchedEntityData.defineId(EmptyPokeBallEntity::class.java, EntityDataSerializers.BYTE)
+    }
+
     init {
         delegate.initialize(this)
     }
 
     private var isAttemptingCatch = false
+
+    val captureState = addEntityProperty(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
 
     constructor(entityType: EntityType<out EmptyPokeBallEntity>, level: Level) : this(PokeBalls.POKE_BALL, entityType, level)
 
