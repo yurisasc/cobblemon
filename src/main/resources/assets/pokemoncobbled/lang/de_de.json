@@ -7,5 +7,8 @@
   "pokemoncobbled.ui.summary.title": "Überblick",
   "pokemoncobbled.ui.moves": "Attacken",
   "pokemoncobbled.ui.stats": "Stats",
-  "pokemoncobbled.ui.info": "Infos"
+  "pokemoncobbled.ui.info": "Infos",
+  "pokemoncobbled.ui.power": "Stärke",
+  "pokemoncobbled.ui.accuracy": "Genauigkeit",
+  "pokemoncobbled.ui.effect": "Effekt"
 }
