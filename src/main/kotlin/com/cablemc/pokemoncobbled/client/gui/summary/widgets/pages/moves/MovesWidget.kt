@@ -11,12 +11,12 @@ import net.minecraft.resources.ResourceLocation
 class MovesWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    val summary: Summary
+    summary: Summary
 ): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent("MovesWidget")) {
 
     companion object {
-        private const val moveWidth = 121
-        private const val moveHeight = 31
+        private const val moveWidth = 120
+        private const val moveHeight = 30
         private val movesBaseResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves.png")
         private val moveMoveButtonResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_swap.png")
     }
@@ -24,7 +24,9 @@ class MovesWidget(
     private var index = -1
     private val moves = summary.pokemonMoves().filterNotNull().map { move ->
         index++
-        MoveWidget(x + 19, y + 27 + (moveHeight + 3) * index, moveWidth, moveHeight, move)
+        MoveWidget(x + 20, y + 28 + (moveHeight + 3) * index, moveWidth, moveHeight, move, x + 5, y + 165)
+    }.onEach {
+        addWidget(it)
     }
 
     override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

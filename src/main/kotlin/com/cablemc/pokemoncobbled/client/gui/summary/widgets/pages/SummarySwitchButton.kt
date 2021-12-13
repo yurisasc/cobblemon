@@ -15,8 +15,8 @@ class SummarySwitchButton(
 ): Button(pX, pY, pWidth, pHeight, component, onPress) {
 
     companion object {
-        private val HOVER_COLOUR = 0xB5C42F
-        private val NORMAL_COLOUR = 0xFFFFFF
+        private const val HOVER_COLOUR = 0xB5C42F
+        private const val NORMAL_COLOUR = 0xFFFFFF
     }
 
     override fun updateNarration(pNarrationElementOutput: NarrationElementOutput) {

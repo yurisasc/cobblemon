@@ -1,19 +1,17 @@
 package com.cablemc.pokemoncobbled.client.gui.summary
 
+import com.cablemc.pokemoncobbled.client.gui.blitk
 import com.cablemc.pokemoncobbled.client.gui.summary.mock.DamageCategories
-import com.cablemc.pokemoncobbled.client.gui.summary.mock.DamageCategory
-import com.cablemc.pokemoncobbled.client.gui.summary.mock.ElementalType
 import com.cablemc.pokemoncobbled.client.gui.summary.mock.PokemonMove
 import com.cablemc.pokemoncobbled.client.gui.summary.mock.PokemonTypes
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.info.InfoWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.stats.StatWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.SummarySwitchButton
+import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.moves.MoveWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.moves.MovesWidget
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.util.collections.ImmutableArray
-import com.cablemc.pokemoncobbled.common.util.collections.immutableArrayOf
-import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
+import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.TranslatableComponent
@@ -38,6 +36,7 @@ class Summary: Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) 
     private lateinit var currentWidget: AbstractWidget
 
     override fun init() {
+        super.init()
 
         val x = (width - baseWidth) / 2
         val y = (height - baseHeight) / 2
@@ -54,6 +53,9 @@ class Summary: Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) 
             switchTo(STATS)
         })
 
+        addRenderableWidget(ExitButton(x + 296, y + 6, 25, 14, 0, 0, 0, exitButtonResource, 25, 14) {
+            Minecraft.getInstance().setScreen(null)
+        })
         addRenderableWidget(currentWidget)
     }
 
@@ -85,14 +87,13 @@ class Summary: Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) 
     override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         renderBackground(pMatrixStack)
 
-        RenderSystem.setShaderTexture(0, baseResource)
-        RenderSystem.enableDepthTest()
-        blit(pMatrixStack, (width - baseWidth) / 2, (height - baseHeight) / 2,
-            0F, 0F, baseWidth, baseHeight, baseWidth, baseHeight)
+        blitk(pMatrixStack, baseResource,
+            (width - baseWidth) / 2, (height - baseHeight) / 2,
+            baseHeight, baseWidth
+        )
 
         super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
     }
-
 
     override fun isPauseScreen(): Boolean {
         return false
