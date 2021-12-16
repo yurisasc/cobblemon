@@ -22,6 +22,7 @@ object PokemonSpecies {
     val MAGIKARP = register(SpeciesLoader.loadFromAssets("magikarp"))
     val GYARADOS = register(SpeciesLoader.loadFromAssets("gyarados"))
     val EEVEE = register(SpeciesLoader.loadFromAssets("eevee"))
+    val DUGTRIO = register(SpeciesLoader.loadFromAssets("dugtrio"))
 
     val species: List<Species>
         get() = allSpecies

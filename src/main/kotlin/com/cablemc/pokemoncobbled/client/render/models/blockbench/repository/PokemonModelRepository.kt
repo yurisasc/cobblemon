@@ -1,20 +1,7 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.repository
 
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.BlockBenchModelWrapper
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.BlastoiseModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.BulbasaurModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.CharizardModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.CharmanderModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.CharmeleonModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.EeveeModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.EkansModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.GyaradosModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.IvysaurModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.MagikarpModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.SquirtleModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.VenusaurModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.WartortleModel
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.ZubatModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.*
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -39,6 +26,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerBaseSpeciesModel(PokemonSpecies.BLASTOISE, BlockBenchModelWrapper(BlastoiseModel.LAYER_LOCATION, BlastoiseModel::createBodyLayer) { BlastoiseModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.EKANS, BlockBenchModelWrapper(EkansModel.LAYER_LOCATION, EkansModel::createBodyLayer) { EkansModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.ZUBAT, BlockBenchModelWrapper(ZubatModel.LAYER_LOCATION, ZubatModel::createBodyLayer) { ZubatModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.DUGTRIO, BlockBenchModelWrapper(DugtrioModel.LAYER_LOCATION, DugtrioModel::createBodyLayer) { DugtrioModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.MAGIKARP, BlockBenchModelWrapper(MagikarpModel.LAYER_LOCATION, MagikarpModel::createBodyLayer) { MagikarpModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.GYARADOS, BlockBenchModelWrapper(GyaradosModel.LAYER_LOCATION, GyaradosModel::createBodyLayer) { GyaradosModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.EEVEE, BlockBenchModelWrapper(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
