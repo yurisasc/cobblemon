@@ -8,8 +8,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFra
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.LineFunction
-import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod.LOGGER
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -81,7 +80,7 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
     override fun setupAnim(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
         setDefault()
         val state = getState(entity)
-        state.animationTick += DELTA_TICKS
+        state.preRender()
         state.currentModel = this
         var poseType = state.getPose()
         var pose = poses[poseType]
@@ -116,7 +115,7 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
     }
 
     fun ModelPart.translation(
-        function: LineFunction,
+        function: WaveFunction,
         axis: Int
     ) = TranslationFunctionStatelessAnimation<T>(
         part = this,
