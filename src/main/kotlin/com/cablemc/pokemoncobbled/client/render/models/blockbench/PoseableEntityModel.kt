@@ -1,9 +1,6 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench
 
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.PoseTransitionAnimation
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatefulAnimation
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.*
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
@@ -119,6 +116,16 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
         function: LineFunction,
         axis: Int
     ) = TranslationFunctionStatelessAnimation<T>(
+        part = this,
+        function = function,
+        axis = axis,
+        frame = this@PoseableEntityModel
+    )
+
+    fun ModelPart.rotation(
+        function: LineFunction,
+        axis: Int
+    ) = RotationFunctionStatelessAnimation<T>(
         part = this,
         function = function,
         axis = axis,

@@ -19,10 +19,11 @@ object PokemonSpecies {
     val BLASTOISE = register(SpeciesLoader.loadFromAssets("blastoise"))
     val EKANS = register(SpeciesLoader.loadFromAssets("ekans"))
     val ZUBAT = register(SpeciesLoader.loadFromAssets("zubat"))
+    val DIGLETT = register(SpeciesLoader.loadFromAssets("diglett"))
+    val DUGTRIO = register(SpeciesLoader.loadFromAssets("dugtrio"))
     val MAGIKARP = register(SpeciesLoader.loadFromAssets("magikarp"))
     val GYARADOS = register(SpeciesLoader.loadFromAssets("gyarados"))
     val EEVEE = register(SpeciesLoader.loadFromAssets("eevee"))
-    val DUGTRIO = register(SpeciesLoader.loadFromAssets("dugtrio"))
 
     val species: List<Species>
         get() = allSpecies
