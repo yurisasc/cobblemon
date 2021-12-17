@@ -1,9 +1,19 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.EarJoint
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.RangeOfMotion
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BiWingedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.EaredFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.triangleFunction
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.EntityModel
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -12,36 +22,58 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Mth.PI
 
+class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, EaredFrame {
+    override val rootPart: ModelPart = root.getChild("zubat")
+    override val leftWing = rootPart.getChildOf("body", "leftwing")
+    override val rightWing = rootPart.getChildOf("body", "rightwing")
+    private val leftEar = registerRelevantPart(rootPart.getChildOf("body", "leftear"))
+    private val rightEar = registerRelevantPart(rootPart.getChildOf("body", "rightear"))
+    override val leftEarJoint = EarJoint(leftEar, Z_AXIS, RangeOfMotion(70F.toRadians(), 40F.toRadians()))
+    override val rightEarJoint = EarJoint(rightEar, Z_AXIS, RangeOfMotion((-70F).toRadians(), (-40F).toRadians()))
 
-class ZubatModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val zubat: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
+    override fun registerPoses() {
+        registerPose(
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf(
+                rootPart.translation(
+                    function = sineFunction(
+                        amplitude = 2.5F,
+                        period = 2F
+                    ),
+                    axis = X_AXIS
+                ),
+                rootPart.translation(
+                    function = sineFunction(
+                        amplitude = 2.5F,
+                        period = 1F
+                    ),
+                    axis = Y_AXIS
+                ),
+                wingFlap(
+                    flapFunction = triangleFunction(
+                        amplitude = PI / 3,
+                        period = 0.3F
+                    ),
+                    axis = Z_AXIS
+                )
+            ),
+            transformedParts = emptyArray()
+        )
     }
 
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        zubat.render(poseStack, buffer, packedLight, packedOverlay)
+    override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
+        leftWing.xRot = PI / 3
+        rightWing.xRot = PI / 3
+        rootPart.xRot = 20f.toRadians()
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
     }
 
     companion object {
         // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "zubat"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation(PokemonCobbled.MODID, "zubat"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
@@ -92,9 +124,5 @@ class ZubatModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 32, 32)
         }
-    }
-
-    init {
-        zubat = root.getChild("zubat")
     }
 }

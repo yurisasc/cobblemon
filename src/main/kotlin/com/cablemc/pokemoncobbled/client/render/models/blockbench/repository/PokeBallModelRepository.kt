@@ -13,7 +13,7 @@ object PokeBallModelRepository : ModelRepository<PokeBallEntity>() {
     private val modelsByPokeBall: MutableMap<PokeBall, BlockBenchModelWrapper<PokeBallEntity>> = mutableMapOf()
     private val modelTexturesByPokeBall: MutableMap<PokeBall, ResourceLocation> = mutableMapOf()
 
-    init {
+    override fun registerAll() {
         registerModel(PokeBalls.POKE_BALL, BlockBenchModelWrapper(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) })
         registerModelTexture(PokeBalls.POKE_BALL, ResourceLocation(PokemonCobbled.MODID, "textures/pokemon/pokeball-base.png"))
     }

@@ -3,10 +3,12 @@ package com.cablemc.pokemoncobbled.client.render.models.blockbench
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod.LOGGER
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -72,12 +74,13 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
     fun setupAnimStateless(poseType: PoseType, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F) {
         setDefault()
         val pose = poses[poseType] ?: poses.values.first()
-        pose.idleStateless(limbSwing, limbSwingAmount, 0F, headYaw, headPitch)
+        pose.idleStateless(this, limbSwing, limbSwingAmount, 0F, headYaw, headPitch)
     }
 
     override fun setupAnim(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
         setDefault()
         val state = getState(entity)
+        state.preRender()
         state.currentModel = this
         var poseType = state.getPose()
         var pose = poses[poseType]
@@ -106,8 +109,18 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
         }
 
         applyPose(poseType)
-        pose.idleStateful(entity, state, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
+        pose.idleStateful(entity, this, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
         getState(entity).applyAdditives(entity, this)
         state.statefulAnimations.removeIf { !it.run(entity, this) }
     }
+
+    fun ModelPart.translation(
+        function: WaveFunction,
+        axis: Int
+    ) = TranslationFunctionStatelessAnimation<T>(
+        part = this,
+        function = function,
+        axis = axis,
+        frame = this@PoseableEntityModel
+    )
 }
