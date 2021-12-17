@@ -18,6 +18,7 @@ object SpawnerManager {
 
     @SubscribeEvent
     fun on(event: TickEvent.WorldTickEvent) {
+        return
         if/*space*/(event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
             val level = event.world as ServerLevel
             val chunkSrc = level.chunkSource
