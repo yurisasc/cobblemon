@@ -15,6 +15,11 @@ fun ifClient(runnable: Runnable) {
     DistExecutor.unsafeRunWhenOn(Dist.CLIENT) { runnable }
 }
 
+/** Runs the given [Runnable] if the caller is on the SERVER side. */
+fun ifServer(runnable: Runnable) {
+    DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER) { runnable }
+}
+
 fun ifLogicallyServer(runnable: Runnable) = ifLogically(LogicalSide.SERVER, runnable)
 fun ifLogicallyClient(runnable: Runnable) = ifLogically(LogicalSide.CLIENT, runnable)
 
