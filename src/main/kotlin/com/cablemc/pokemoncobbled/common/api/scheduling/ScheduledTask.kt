@@ -53,6 +53,10 @@ class ScheduledTask(
         }
     }
 
+    fun expire() {
+        this.expired = true
+    }
+
     class Builder {
         private var action: ((ScheduledTask) -> Unit)? = null
 
