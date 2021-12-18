@@ -26,7 +26,6 @@ object PokeSpawn {
         val entity = context.source.entity
         if (entity is ServerPlayer && !entity.level.isClientSide) {
             val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
-            val player = context.source.playerOrException
             val pokemonEntity = PokemonEntity(entity.level as ServerLevel)
             pokemonEntity.let {
                 it.pokemon = Pokemon().apply {
