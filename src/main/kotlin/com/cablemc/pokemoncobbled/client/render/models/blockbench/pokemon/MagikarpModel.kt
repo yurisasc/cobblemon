@@ -4,11 +4,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -26,36 +22,36 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     private val leftFlipper = rootPart.getChildOf("body").getChildOf("leftflipper")
 
     override fun registerPoses() {
-        registerPose(
-            poseType = PoseType.SWIM,
-            condition = { it.isUnderWater },
-            idleAnimations = arrayOf(
-                tail.rotation(
-                    function = sineFunction(
-                        amplitude = 15f.toRadians(),
-                        period = 15f
-                    ),
-                    axis = TransformedModelPart.Y_AXIS
-                ),
-                rightFlipper.rotation(
-                    function = sineFunction(
-                        amplitude = 5f.toRadians(),
-                        period = 15f,
-                        verticalShift = (-15f).toRadians()
-                    ),
-                    axis = TransformedModelPart.Y_AXIS
-                ),
-                leftFlipper.rotation(
-                    function = sineFunction(
-                        amplitude = (-5f).toRadians(),
-                        period = 15f,
-                        verticalShift = 15f.toRadians()
-                    ),
-                    axis = TransformedModelPart.Y_AXIS
-                )
+registerPose(
+    poseType = PoseType.SWIM,
+    condition = { it.isUnderWater },
+    idleAnimations = arrayOf(
+        tail.rotation(
+            function = sineFunction(
+                amplitude = 15f.toRadians(),
+                period = 7f
             ),
-            transformedParts = emptyArray()
+            axis = TransformedModelPart.Y_AXIS
+        ),
+        rightFlipper.rotation(
+            function = sineFunction(
+                amplitude = 5f.toRadians(),
+                period = 7f,
+                verticalShift = (-15f).toRadians()
+            ),
+            axis = TransformedModelPart.Y_AXIS
+        ),
+        leftFlipper.rotation(
+            function = sineFunction(
+                amplitude = (-5f).toRadians(),
+                period = 7f,
+                verticalShift = 15f.toRadians()
+            ),
+            axis = TransformedModelPart.Y_AXIS
         )
+    ),
+    transformedParts = emptyArray()
+)
     }
 
     companion object {

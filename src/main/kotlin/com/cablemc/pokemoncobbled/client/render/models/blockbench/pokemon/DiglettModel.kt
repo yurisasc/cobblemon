@@ -30,7 +30,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
                 body.translation(
                     function = sineFunction(
                         amplitude = -1F,
-                        period = 12F,
+                        period = 4F,
                         verticalShift = -4F
                     ),
                     axis = TransformedModelPart.Y_AXIS

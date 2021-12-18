@@ -30,7 +30,7 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
                 body1.translation(
                     function = sineFunction(
                         amplitude = -2F,
-                        period = 17F,
+                        period = 5F,
                         verticalShift = -5F
                     ),
                     axis = TransformedModelPart.Y_AXIS
@@ -38,7 +38,7 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
                 body2.translation(
                     function = sineFunction(
                         amplitude = 1F,
-                        period = 15F,
+                        period = 4F,
                         verticalShift = -4F
                     ),
                     axis = TransformedModelPart.Y_AXIS
@@ -46,7 +46,7 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
                 body3.translation(
                     function = sineFunction(
                         amplitude = -1.5F,
-                        period = 12F,
+                        period = 3F,
                         verticalShift = -9F
                     ),
                     axis = TransformedModelPart.Y_AXIS
