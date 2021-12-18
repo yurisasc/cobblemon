@@ -1,42 +1,41 @@
 package com.cablemc.pokemoncobbled.client.render.pokeball.animation
 
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokeball.PokeBallModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatefulAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.PokeBallFrame
+import com.cablemc.pokemoncobbled.common.entity.pokeball.PokeBallEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
+import net.minecraft.util.Mth.PI
 
-class OpenAnimation : ModelAnimation<PokeBallModel> {
+class OpenAnimation(frame: PokeBallFrame) : StatefulAnimation<PokeBallEntity, PokeBallFrame>(frame) {
+    companion object {
+        const val DURATION_SECONDS = 3F
+    }
 
-    override var currentFrame: Int = 0
-        private set
+    var initialized = false
+    override fun preventsIdle(entity: PokeBallEntity, idleAnimation: StatelessAnimation<PokeBallEntity, *>) = true
+    override fun run(entity: PokeBallEntity, model: PoseableEntityModel<PokeBallEntity>): Boolean {
+        if (!initialized) {
+            model.getState(entity).animationSeconds = 0F
+            initialized = true
+        }
 
-    override fun animate(
-        model: PokeBallModel,
-        limbSwing: Float,
-        limbSwingAmout: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float,
-        frame: Int
-    ) {
-        currentFrame = frame
-        model.pokeballLid.zRot = 0f
-        model.pokeballLid.yRot = 0f
+        val animationSeconds = model.getState(entity).animationSeconds
+
         when {
-            currentFrame <= 20 -> {
-                model.pokeballLid.xRot = 0 + (currentFrame * (-1.5f).toRadians())
+            animationSeconds <= 1 -> {
+                frame.lid.xRot = -animationSeconds * PI / 3
             }
-            currentFrame >= 41 -> {
-                model.pokeballLid.xRot = -30f.toRadians() + ((currentFrame - 41) * (1.5f).toRadians())
+            animationSeconds > 2 -> {
+                frame.lid.xRot = -30f.toRadians() + ((animationSeconds - 2) * (1.5f).toRadians()) / 20F
             }
             else -> {
-                model.pokeballLid.xRot = -30f.toRadians()
+                frame.lid.xRot = 30f.toRadians()
+                return false
             }
         }
+
+        return true
     }
-
-    override fun resetAnimation() {
-        currentFrame = 0
-    }
-
-    fun isComplete() : Boolean = currentFrame >= 60
-
 }

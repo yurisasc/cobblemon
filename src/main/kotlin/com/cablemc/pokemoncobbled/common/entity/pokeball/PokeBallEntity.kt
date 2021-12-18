@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.entity.pokeball
 
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokeball.PokeBallModel
 import com.cablemc.pokemoncobbled.client.render.pokeball.animation.ModelAnimation
-import com.cablemc.pokemoncobbled.client.render.pokeball.animation.SpinAnimation
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
@@ -32,11 +31,6 @@ abstract class PokeBallEntity(
         PokeBallServerDelegate()
     }
 
-    init {
-        currentAnimation = SpinAnimation()
-        delegate.initialize(this)
-    }
-
     override fun getDefaultItem(): Item = ItemRegistry.POKE_BALL.get()
 
     override fun getAddEntityPacket(): Packet<*> {
@@ -46,6 +40,7 @@ abstract class PokeBallEntity(
     override fun tick() {
         super.tick()
         delegate.tick(this)
+        entityProperties.forEach { it.checkForUpdate() }
     }
 
     fun <T> addEntityProperty(accessor: EntityDataAccessor<T>, initialValue: T): EntityProperty<T> {

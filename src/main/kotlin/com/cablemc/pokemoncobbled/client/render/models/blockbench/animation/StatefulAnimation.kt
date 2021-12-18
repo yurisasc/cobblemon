@@ -20,6 +20,6 @@ abstract class StatefulAnimation<T : Entity, F : ModelFrame>(val frame: F) {
      * of the model and would conflict.
      */
     abstract fun preventsIdle(entity: T, idleAnimation: StatelessAnimation<T, *>): Boolean
-    /** Runs the animation. You can access the frame from the class properties. */
+    /** Runs the animation. You can access the frame from the class properties. Returns true if the animation should continue. */
     abstract fun run(entity: T, model: PoseableEntityModel<T>): Boolean
 }

@@ -20,29 +20,28 @@ class ShakeAnimation(val numShakes: Int) : ModelAnimation<PokeBallModel> {
         frame: Int
     ) {
         currentFrame = frame % 63
-        model.pokeball.y = 20f
-        model.pokeball.xRot = 180f.toRadians()
-        model.pokeball.yRot = 0f
-        model.pokeballLid.xRot = 0f
+        model.rootPart.y = 20f
+        model.rootPart.xRot = 180f.toRadians()
+        model.rootPart.yRot = 0f
+        model.lid.xRot = 0f
         if (shakesComplete < numShakes) {
             if (currentFrame == 62) {
                 currentFrame = 0
                 shakesComplete++
             }
             if (currentFrame!! <= 42) {
-                model.pokeball.zRot = Mth.sin(currentFrame!!.toFloat() * 0.15f) * 30f.toRadians()
+                model.rootPart.zRot = Mth.sin(currentFrame!!.toFloat() * 0.15f) * 30f.toRadians()
             }
             else {
-                model.pokeball.zRot = 0f
+                model.rootPart.zRot = 0f
             }
         }
         else {
-            model.pokeball.zRot = 0f
+            model.rootPart.zRot = 0f
         }
     }
 
     override fun resetAnimation() {
         currentFrame = 0
     }
-
 }
