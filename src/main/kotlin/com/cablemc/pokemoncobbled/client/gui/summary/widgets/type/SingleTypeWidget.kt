@@ -9,6 +9,7 @@ class SingleTypeWidget(
     pWidth: Int, pHeight: Int,
     private val type: ElementalType
 ) : TypeWidget(pX, pY, pWidth, pHeight, TextComponent("SingleTypeWidget - ${type.name}")) {
+
     override fun render(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         renderType(type, pPoseStack)
     }
