@@ -27,6 +27,13 @@ abstract class ParentWidget(
         return super.mouseScrolled(pMouseX, pMouseY, pDelta)
     }
 
+    override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
+        children.forEach {
+            it.mouseClicked(pMouseX, pMouseY, pButton)
+        }
+        return super.mouseClicked(pMouseX, pMouseY, pButton)
+    }
+
     override fun keyPressed(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
         children.forEach {
             it.keyPressed(pKeyCode, pScanCode, pModifiers)
