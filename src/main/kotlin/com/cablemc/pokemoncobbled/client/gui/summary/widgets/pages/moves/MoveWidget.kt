@@ -25,9 +25,9 @@ class MoveWidget(
     companion object {
         private val moveResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_slot.png")
         private val movePpResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_pp.png")
-        private const val ppWidthDiff = 3
-        private const val ppHeight = 10
-        private const val ppHeightDiff = 20
+        private const val PP_WIDTH_DIFF = 3
+        private const val PP_HEIGHT = 10
+        private const val PP_HEIGHT_DIFF = 20
         private const val MOVE_BUTTON_WIDTH = 15
         private const val MOVE_BUTTON_HEIGHT = 12
     }
@@ -35,6 +35,7 @@ class MoveWidget(
     private val typeWidget = SingleTypeWidget(x + 3, y + 2, 18, 18, move.type)
     private val moveInfoWidget = MoveInfoWidget(x, y, width, height, move, infoX, infoY)
     private val moveUpButton = MovesMoveButton(x - 15, y + 2, MOVE_BUTTON_WIDTH, MOVE_BUTTON_HEIGHT) {
+        println("Moving ${move.name}")
         movesWidget.moveMove(this, true)
     }.apply {
         addWidget(this)
@@ -43,6 +44,11 @@ class MoveWidget(
         movesWidget.moveMove(this, false)
     }.apply {
         addWidget(this)
+    }
+
+    fun update() {
+        typeWidget.y = y + 2
+        moveUpButton.y = y + 2
     }
 
     override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
@@ -59,7 +65,7 @@ class MoveWidget(
         RenderSystem.enableDepthTest()
         pMatrixStack.pushPose()
         pMatrixStack.scale(1F, 0.945F, 1F)
-        blit(pMatrixStack, ((x + ppWidthDiff) / 1F).roundToInt(), ((y + ppHeightDiff) / 0.945F).roundToInt(), 0F, 0F, ((width - ppWidthDiff * 2) * getPpAsPercentage(move)).toInt() + 2, ppHeight, width - 4, ppHeight)
+        blit(pMatrixStack, ((x + PP_WIDTH_DIFF) / 1F).roundToInt(), ((y + PP_HEIGHT_DIFF) / 0.945F).roundToInt(), 0F, 0F, ((width - PP_WIDTH_DIFF * 2) * getPpAsPercentage(move)).toInt() + 2, PP_HEIGHT, width - 4, PP_HEIGHT)
         pMatrixStack.popPose()
 
         // Render remaining PP Text
