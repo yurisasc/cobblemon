@@ -26,12 +26,10 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<PokeBallEntity>(), Po
             poseType = PoseType.NONE,
             condition = { true },
             idleAnimations = arrayOf(
-                RotationFunctionStatelessAnimation(
-                    rootPart,
+                rootPart.rotation(
                     function = { t -> t * PI / 10 }, // 1 rotation per second = 2pi per 20 ticks = 2pi / 20 = pi / 10 per tick
                     axis = Y_AXIS,
-                    timeProvider = { _, _, ageInTicks -> ageInTicks },
-                    frame = this
+                    timeVariable = { _, _, ageInTicks -> ageInTicks }
                 )
             ),
             transformedParts = arrayOf()
