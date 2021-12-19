@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiComponent
 import net.minecraft.client.gui.components.Button
-import net.minecraft.client.gui.narration.NarrationElementOutput
 import net.minecraft.network.chat.Component
 
 class SummarySwitchButton(
@@ -17,10 +16,6 @@ class SummarySwitchButton(
     companion object {
         private const val HOVER_COLOUR = 0xB5C42F
         private const val NORMAL_COLOUR = 0xFFFFFF
-    }
-
-    override fun updateNarration(pNarrationElementOutput: NarrationElementOutput) {
-
     }
 
     override fun renderButton(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
