@@ -15,7 +15,9 @@ abstract class TypeWidget(
     pMessage: Component
 ): SoundlessWidget(pX, pY, pWidth, pHeight, pMessage) {
 
-    private val typeResource = ResourceLocation(PokemonCobbled.MODID, "ui/types.png")
+    companion object {
+        private val typeResource = ResourceLocation(PokemonCobbled.MODID, "ui/types.png")
+    }
 
     fun renderType(type: ElementalType, pPoseStack: PoseStack, pX: Int = x, pY: Int = y) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader)
