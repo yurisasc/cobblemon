@@ -11,12 +11,12 @@ import net.minecraft.resources.ResourceLocation
 class MovesWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    private val summary: Summary
+    summary: Summary
 ): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent("MovesWidget")) {
 
     companion object {
-        private const val moveWidth = 120
-        private const val moveHeight = 30
+        private const val MOVE_WIDTH = 120
+        private const val MOVE_HEIGHT = 30
         private val movesBaseResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves.png")
         private val moveMoveButtonResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_swap.png")
     }
@@ -24,7 +24,7 @@ class MovesWidget(
     private var index = -1
     private val moves = summary.pokemonMoves().filterNotNull().map { move ->
         index++
-        MoveWidget(x + 19, y + 27 + (moveHeight + 3) * index, moveWidth, moveHeight, move, x + 5, y + 165, width, height, this)
+        MoveWidget(x + 19, y + 27 + (MOVE_HEIGHT + 3) * index, MOVE_WIDTH, MOVE_HEIGHT, move, x + 5, y + 165, width, height, this)
     }.toMutableList().onEach {
         addWidget(it)
     }
@@ -41,22 +41,17 @@ class MovesWidget(
 
     private fun updateMoves() {
         moves.forEach {
-            it.y = y + 27 + (moveHeight + 3) * moves.indexOf(it)
+            it.y = y + 27 + (MOVE_HEIGHT + 3) * moves.indexOf(it)
+            it.update()
         }
     }
 
     fun moveMove(move: MoveWidget, up: Boolean) {
-        println("Begin")
-        for(i in 0..3) {
-            println("$i is ${moves[i].move.name}")
-        }
-        val movePos = moves.indexOfFirst { it == move }
-        println("MovePos $movePos")
+        val movePos = moves.indexOf(move)
         if(moves.size <= movePos || movePos == -1) {
             return
         }
         var targetSlot: Int
-        println("Moving Move")
         if(up) {
             targetSlot = movePos - 1
             if(targetSlot == -1)
@@ -67,12 +62,9 @@ class MovesWidget(
                 targetSlot = 0
         }
         val temp = moves[targetSlot]
-        moves.set(targetSlot, moves[movePos])
-        moves.set(movePos, temp)
+        moves[targetSlot] = moves[movePos]
+        moves[movePos] = temp
         updateMoves()
-        for(i in 0..3) {
-            println("$i is ${moves[i].move.name}")
-        }
     }
 
 }
