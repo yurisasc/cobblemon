@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.client.gui.summary.mock.PokemonTypes
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.info.InfoWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.stats.StatWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.SummarySwitchButton
-import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.moves.MoveWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.moves.MovesWidget
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.mojang.blaze3d.vertex.PoseStack
@@ -78,9 +77,9 @@ class Summary: Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) 
     fun pokemonMoves(): Array<PokemonMove?> {
         return arrayOf(
             PokemonMove("Flare Blitz", PokemonTypes.FIRE, DamageCategories.PHYSICAL, "Does fire stuff1", 100.0, 120.0, 10.0, 3, 10),
-            PokemonMove("Flare Blitz", PokemonTypes.FIRE, DamageCategories.PHYSICAL, "Does fire stuff2", 100.0, 120.0, 10.0, 10, 10),
-            PokemonMove("Flare Blitz", PokemonTypes.FIRE, DamageCategories.PHYSICAL, "Does fire stuff3", 100.0, 120.0, 10.0, 5, 10),
-            PokemonMove("Flare Blitz", PokemonTypes.FIRE, DamageCategories.PHYSICAL, "Does fire stuff4", 100.0, 120.0, 10.0, 9, 10)
+            PokemonMove("Dragon Pulse", PokemonTypes.DRAGON, DamageCategories.PHYSICAL, "Does fire stuff2", 100.0, 100.0, 10.0, 10, 10),
+            PokemonMove("Scald", PokemonTypes.WATER, DamageCategories.SPECIAL, "Does fire stuff3", 100.0, 80.0, 10.0, 5, 10),
+            PokemonMove("Zauberblatt", PokemonTypes.GRASS, DamageCategories.SPECIAL, "Does fire stuff4", 100.0, 60.0, 10.0, 9, 10)
         )
     }
 
