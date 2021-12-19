@@ -1,9 +1,12 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -22,36 +25,45 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     private val leftFlipper = rootPart.getChildOf("body").getChildOf("leftflipper")
 
     override fun registerPoses() {
-registerPose(
-    poseType = PoseType.SWIM,
-    condition = { it.isUnderWater },
-    idleAnimations = arrayOf(
-        tail.rotation(
-            function = sineFunction(
-                amplitude = 15f.toRadians(),
-                period = 7f
+        registerPose(
+            poseType = PoseType.SWIM,
+            condition = { it.isUnderWater },
+            idleAnimations = arrayOf(
+                tail.rotation(
+                    function = sineFunction(
+                        amplitude = 15f.toRadians(),
+                        period = 7f
+                    ),
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
+                ),
+                rightFlipper.rotation(
+                    function = sineFunction(
+                        amplitude = 5f.toRadians(),
+                        period = 7f,
+                        verticalShift = (-15f).toRadians()
+                    ),
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
+                ),
+                leftFlipper.rotation(
+                    function = sineFunction(
+                        amplitude = (-5f).toRadians(),
+                        period = 7f,
+                        verticalShift = 15f.toRadians()
+                    ),
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
+                )
             ),
-            axis = TransformedModelPart.Y_AXIS
-        ),
-        rightFlipper.rotation(
-            function = sineFunction(
-                amplitude = 5f.toRadians(),
-                period = 7f,
-                verticalShift = (-15f).toRadians()
-            ),
-            axis = TransformedModelPart.Y_AXIS
-        ),
-        leftFlipper.rotation(
-            function = sineFunction(
-                amplitude = (-5f).toRadians(),
-                period = 7f,
-                verticalShift = 15f.toRadians()
-            ),
-            axis = TransformedModelPart.Y_AXIS
+            transformedParts = emptyArray()
         )
-    ),
-    transformedParts = emptyArray()
-)
+        registerPose(
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf<StatelessAnimation<PokemonEntity, out ModelFrame>>(),
+            transformedParts = emptyArray()
+        )
     }
 
     companion object {

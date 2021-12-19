@@ -146,6 +146,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
                     rotationAxis = X_AXIS,
                     motionAxis = Y_AXIS,
                     headLength = 4F,
+                    moveHead = true,
                     segments = arrayOf(
                         spineFinalWaveSegment,
                         spine3WaveSegment,

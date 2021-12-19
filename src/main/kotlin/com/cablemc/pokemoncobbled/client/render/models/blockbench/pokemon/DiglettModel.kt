@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -20,20 +19,40 @@ import net.minecraft.resources.ResourceLocation
 // Paste this class into your mod and generate all required imports
 class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart: ModelPart = root.getChild("diglett")
-    private val body: ModelPart = rootPart.getChildOf("body")
+    private val body: ModelPart = registerRelevantPart(rootPart.getChildOf("body"))
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.WALK,
-            condition = { true },
+            poseType = PoseType.NONE,
+            condition = { it.isMoving.get() },
+            transformTicks = 0,
             idleAnimations = arrayOf(
                 body.translation(
                     function = sineFunction(
                         amplitude = -1F,
-                        period = 4F,
+                        period = 0.6F,
                         verticalShift = -4F
                     ),
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
+                )
+            ),
+            transformedParts = arrayOf()
+        )
+
+        registerPose(
+            poseType = PoseType.WALK,
+            condition = { !it.isMoving.get() },
+            transformTicks = 0,
+            idleAnimations = arrayOf(
+                body.translation(
+                    function = sineFunction(
+                        amplitude = -1F,
+                        period = 1F,
+                        verticalShift = -4F
+                    ),
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
                 )
             ),
             transformedParts = emptyArray()

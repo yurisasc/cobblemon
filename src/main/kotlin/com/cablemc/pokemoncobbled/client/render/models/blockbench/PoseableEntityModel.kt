@@ -1,6 +1,10 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench
 
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.*
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.PoseTransitionAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatefulAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
@@ -44,10 +48,11 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
     fun <F : ModelFrame> registerPose(
         poseType: PoseType,
         condition: (T) -> Boolean,
+        transformTicks: Int = 30,
         idleAnimations: Array<StatelessAnimation<T, out F>>,
         transformedParts: Array<TransformedModelPart>
     ) {
-        poses[poseType] = Pose(poseType, condition, idleAnimations, transformedParts)
+        poses[poseType] = Pose(poseType, condition, transformTicks, idleAnimations, transformedParts)
     }
 
     fun registerRelevantPart(part: ModelPart): ModelPart {
@@ -86,17 +91,17 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
                 val previousPose = pose
                 pose = poses.values.firstOrNull { it.condition(entity) } ?: run {
                     LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
-                    return@run Pose(PoseType.NONE, { true }, emptyArray(), emptyArray())
+                    return@run Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
                 }
                 poseType = pose.poseType
 
-                if (previousPose != null) {
+                if (previousPose != null && pose.transformTicks > 0) {
                     state.statefulAnimations.add(
                         PoseTransitionAnimation(
                             frame = this,
                             beforePose = previousPose,
                             afterPose = pose,
-                            durationTicks = 30
+                            durationTicks = pose.transformTicks
                         )
                     )
                 } else {
@@ -113,21 +118,25 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
 
     fun ModelPart.translation(
         function: WaveFunction,
-        axis: Int
-    ) = TranslationFunctionStatelessAnimation<T>(
+        axis: Int,
+        timeVariable: (state: PoseableEntityState<T>?, limbSwing: Float, ageInTicks: Float) -> Float?
+    ) = TranslationFunctionStatelessAnimation(
         part = this,
         function = function,
         axis = axis,
+        timeVariable = timeVariable,
         frame = this@PoseableEntityModel
     )
 
     fun ModelPart.rotation(
-        function: LineFunction,
-        axis: Int
+        function: WaveFunction,
+        axis: Int,
+        timeVariable: (state: PoseableEntityState<T>?, limbSwing: Float, ageInTicks: Float) -> Float?
     ) = RotationFunctionStatelessAnimation<T>(
         part = this,
         function = function,
         axis = axis,
+        timeVariable = timeVariable,
         frame = this@PoseableEntityModel
     )
 }

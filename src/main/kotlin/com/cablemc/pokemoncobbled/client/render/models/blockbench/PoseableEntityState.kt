@@ -42,7 +42,7 @@ abstract class PoseableEntityState<T : Entity> {
         }
 
         val beforePose = model.poses[currentPose ?: PoseType.NONE]
-            ?: Pose(PoseType.NONE, { true }, emptyArray(), emptyArray())
+            ?: Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
         val afterPose = model.poses[toPoseType]
             ?: run {
                 LOGGER.error("Tried transitioning ${model::class.java} to pose type $toPoseType but there is no registered pose of that type.")
