@@ -30,26 +30,30 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
                 body1.translation(
                     function = sineFunction(
                         amplitude = -2F,
-                        period = 5F,
+                        period = 1F,
                         verticalShift = -5F
                     ),
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
                 ),
                 body2.translation(
                     function = sineFunction(
                         amplitude = 1F,
-                        period = 4F,
+                        period = 1F,
+                        phaseShift = 0.5F,
                         verticalShift = -4F
                     ),
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
                 ),
                 body3.translation(
                     function = sineFunction(
                         amplitude = -1.5F,
-                        period = 3F,
+                        period = 1F,
                         verticalShift = -9F
                     ),
-                    axis = TransformedModelPart.Y_AXIS
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
                 )
             ),
             transformedParts = emptyArray()
@@ -86,7 +90,7 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
                 CubeListBuilder.create().texOffs(0, 18)
                     .addBox(-2.0f, -1.5f, -2.5f, 4.0f, 2.0f, 1.0f, CubeDeformation(0.0f))
                     .texOffs(0, 0).addBox(-3.5f, -5.0f, -1.5f, 7.0f, 11.0f, 7.0f, CubeDeformation(0.0f)),
-                PartPose.offsetAndRotation(4.5f, -3.25f, -5.0f, 0.0f, 0.0873f, 0.1309f)
+                PartPose.offsetAndRotation(4.5f, -3.25f, -6f, 0.0f, 0.0873f, 0.1309f)
             )
             val eyes2 = body2.addOrReplaceChild(
                 "eyes2",

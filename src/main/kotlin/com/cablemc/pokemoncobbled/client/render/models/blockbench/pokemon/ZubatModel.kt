@@ -43,6 +43,7 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
                         amplitude = 2.5F,
                         period = 2F
                     ),
+                    timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = X_AXIS
                 ),
                 rootPart.translation(
@@ -50,6 +51,7 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
                         amplitude = 2.5F,
                         period = 1F
                     ),
+                    timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = Y_AXIS
                 ),
                 wingFlap(

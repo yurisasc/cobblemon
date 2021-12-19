@@ -11,6 +11,7 @@ import net.minecraft.world.entity.Entity
 class Pose<T : Entity, F : ModelFrame>(
     val poseType: PoseType,
     val condition: (T) -> Boolean,
+    val transformTicks: Int,
     val idleAnimations: Array<StatelessAnimation<T, out F>>,
     val transformedParts: Array<TransformedModelPart>
 ) {
