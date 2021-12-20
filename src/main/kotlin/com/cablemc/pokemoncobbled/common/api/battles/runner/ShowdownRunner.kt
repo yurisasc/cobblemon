@@ -37,7 +37,6 @@ fun main(args: Array<String>) {
 object ShowdownRunner {
 
     fun initialize() {
-
         val v8Ref = AtomicReference<V8Runtime>()
         val battleMap = HashMap<String, Any>()
         val thread = Thread {
@@ -47,36 +46,52 @@ object ShowdownRunner {
             println("2")
             runtime.use { it.getExecutor(File("./showdown/scripts/index.js").toPath().toAbsolutePath()).execute<V8Value>().close() }
             println("3")
+        }
+
+        val connectionThread = Thread() {
             Timer().schedule(object : TimerTask() {
                 override fun run() {
                     println("Gonna attempt connection")
-                    val sock = Socket("127.0.0.1", 3001, InetAddress.getLocalHost(), 3002)
+                    val sock = Socket(InetAddress.getLocalHost(), 3001, InetAddress.getLocalHost(), 3005)
                     val writer = sock.getOutputStream().writer(charset = Charset.forName("ascii"))
                     val streamReader = InputStreamReader(sock.getInputStream())
                     val reader = BufferedReader(streamReader)
-                    writer.write(">start {\"formatid\": \"gen7randombattle\"}")
-                    writer.flush()
-                    Thread.sleep(1L)
-                    writer.write(">player p1 {\"name\": \"Alice\"}")
-                    writer.flush()
-                    Thread.sleep(1L)
-                    writer.write(">player p2 {\"name\": \"Bob\"}")
-                    writer.flush()
-                    Thread.sleep(1L)
-                    println("Got to scheduling second timer")
-                    Timer().schedule(object : TimerTask() {
-                        override fun run() {
-                            println("Running second timer")
-                            val buffer = CharBuffer.allocate(4096)
-                            reader.read(buffer)
-                            val str = buffer.toString()
-                            println(str)
-                        }
-                    }, 5000L)
+                    readUntil(reader, "ready")
+
+
+                    writer.write(">start {\"formatid\": \"gen7randombattle\"}\n")
+                    writer.flush();
+                    readUntil(reader, "cobble-accepted")
+                    writer.write(">player p1 {\"name\": \"Alice\"}\n")
+                    writer.flush();
+                    println("testUntil2")
+                    readUntil(reader, "cobble-accepted")
+                    writer.write(">player p2 {\"name\": \"Bob\"}\n")
+                    writer.flush();
+                    println("testUntil3")
+                    while (true) {
+                        println(readUntil(reader, "cobble-incoming"))
+                    }
                 }
             }, 5000L)
         }
         thread.isDaemon = true
         thread.start()
+
+        connectionThread.isDaemon = true;
+        connectionThread.start()
+    }
+
+    fun readUntil(reader: BufferedReader, str: String, size: Int = 4096): String {
+        val buffer = CharArray(size)
+        while (true) {
+            val chars = reader.read(buffer)
+            if(chars == 0)
+                continue;
+            val readStr = String(buffer);
+            if(readStr.contains(str)) {
+                return readStr.replace(str, "")
+            }
+        }
     }
 }

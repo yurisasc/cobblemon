@@ -17,12 +17,14 @@ server.listen(port, function () {
 server.on('connection', function (socket) {
     battle = new pokemon.BattleStream()
     console.log('A new connection has been established.');
+    socket.write("ready")
 
     // The server can also receive data from the client by reading from its socket.
     socket.on('data', function (chunk) {
         console.log('Data received from client: ' + chunk.toString());
         try {
-            battle._write(chunk.toString())
+            socket.write("cobble-accepted")
+            battle._writeLines(chunk.toString())
         } catch (error) {
             socket.write(error.toString())
         }
@@ -30,6 +32,7 @@ server.on('connection', function (socket) {
 
     (async () => {
         for await (const output of battle) {
+            socket.write("cobble-incoming")
             socket.write(output)
         }
     })();

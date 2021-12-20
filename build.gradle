@@ -118,9 +118,14 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
 
     // For Showdown
-    shadow 'com.caoccao.javet:javet:1.0.5' // Linux or Windows
-    shadow 'com.caoccao.javet:javet-macos:1.0.5' // Mac OS (x86_64 Only)
+    shadow 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
+    shadow 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
     shadow group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    // For Showdown
+    runtimeOnly 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
+    runtimeOnly 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
+    runtimeOnly  group: 'commons-io', name: 'commons-io', version: '2.6'
 }
 
 
@@ -169,7 +174,7 @@ jar.finalizedBy('reobfShadowJar')
 shadowJar {
     classifier = null
     configurations = [project.configurations.shadow]
-    minimize()
+    //minimize()
     exclude "**/module-info.class"
     exclude "**/NOTICE"
 //    exclude '**/*.kotlin_metadata'
