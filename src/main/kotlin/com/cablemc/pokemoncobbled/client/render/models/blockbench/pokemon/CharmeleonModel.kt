@@ -6,11 +6,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BipedFra
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -45,8 +41,8 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
                 SingleBoneLookAnimation(this),
                 CascadeAnimation(
                     frame = this,
-                    cosineFunction = cosineFunction(
-                        phaseShift = 0.09f
+                    rootFunction = sineFunction(
+                        period = 0.09f
                     ),
                     amplitudeFunction = gradualFunction(
                         base = 0.1f,

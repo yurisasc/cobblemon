@@ -40,8 +40,8 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
                 SingleBoneLookAnimation(this),
                 CascadeAnimation(
                     frame = this,
-                    cosineFunction = cosineFunction(
-                        phaseShift = 0.09f
+                    rootFunction = cosineFunction(
+                        period = 0.09f
                     ),
                     amplitudeFunction = gradualFunction(
                         base = 0.1f,
