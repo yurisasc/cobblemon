@@ -30,6 +30,8 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     private val tail = body.getChild("tail")
     private val tailTip = tail.getChild("tail2")
     private val tailFlame = tailTip.getChild("fire")
+    private val leftHand = leftArm.getChild("lefthand")
+    private val rightHand = rightArm.getChild("righthand")
 
     override fun registerPoses() {
         registerPose(
@@ -56,7 +58,9 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             ),
             transformedParts = arrayOf(
                 leftArm.withRotation(2, 70f.toRadians()),
+                leftHand.withRotation(2, 10f.toRadians()),
                 rightArm.withRotation(2, (-70f).toRadians()),
+                rightHand.withRotation(2, (-10f).toRadians()),
                 tailTip.withRotation(0, 35f.toRadians()),
                 tailFlame.withRotation(0, (-35f).toRadians())
             )
