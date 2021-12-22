@@ -18,7 +18,6 @@ class MovesWidget(
         private const val MOVE_WIDTH = 120
         private const val MOVE_HEIGHT = 30
         private val movesBaseResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves.png")
-        private val moveMoveButtonResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_swap.png")
     }
 
     private var index = -1
