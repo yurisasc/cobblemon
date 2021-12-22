@@ -15,18 +15,26 @@ import net.minecraft.resources.ResourceLocation
 class MovesMoveButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
+    private val pTextureWidth: Int, private val pTextureHeight: Int,
+    private val isUp: Boolean,
     onPress: OnPress
 ): Button(pX, pY, pWidth, pHeight, TextComponent("MoveButton"), onPress) {
 
     companion object {
-        private val buttonResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_swap.png")
+        private val upButtonResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_swap_up.png")
+        private val downButtonResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_swap_down.png")
         private var blocked = false
     }
 
     override fun renderButton(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if(isHovered) {
-            RenderSystem.setShaderTexture(0, buttonResource)
-            blit(pMatrixStack, x, y, 0F, 0F, width, height, width, height)
+            if(isUp) {
+                RenderSystem.setShaderTexture(0, upButtonResource)
+                blit(pMatrixStack, x - 4, y - 29, 0F, 0F, pTextureWidth, pTextureHeight, pTextureWidth, pTextureHeight)
+            } else {
+                RenderSystem.setShaderTexture(0, downButtonResource)
+                blit(pMatrixStack, x - 4, y - 41, 0F, 0F, pTextureWidth, pTextureHeight, pTextureWidth, pTextureHeight)
+            }
         }
     }
 
