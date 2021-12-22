@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.client.keybinding.PartySendBinding
 import com.cablemc.pokemoncobbled.client.keybinding.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.client.keybinding.SummaryBinding
 import com.cablemc.pokemoncobbled.client.keybinding.UpShiftPartyBinding
+import com.cablemc.pokemoncobbled.client.listener.ClientSchedulingListener
 import com.cablemc.pokemoncobbled.client.net.ClientPacketRegistrar
 import com.cablemc.pokemoncobbled.client.render.layer.PokemonOnShoulderLayer
 import com.cablemc.pokemoncobbled.client.render.pokeball.PokeBallRenderer
@@ -55,6 +56,7 @@ object PokemonCobbledClient {
     fun initialize() {
         PokemonCobbledMod.EVENT_BUS.register(ClientPacketRegistrar)
         MinecraftForge.EVENT_BUS.register(storage)
+        MinecraftForge.EVENT_BUS.register(ClientSchedulingListener)
         MinecraftForge.EVENT_BUS.register(this)
         MinecraftForge.EVENT_BUS.register(PartyOverlay())
 

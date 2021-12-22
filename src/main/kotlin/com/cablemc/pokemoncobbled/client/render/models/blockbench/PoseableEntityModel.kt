@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench
 
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.PoseTransitionAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
@@ -8,8 +9,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFra
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.LineFunction
-import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod.LOGGER
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
@@ -48,10 +48,11 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
     fun <F : ModelFrame> registerPose(
         poseType: PoseType,
         condition: (T) -> Boolean,
+        transformTicks: Int = 30,
         idleAnimations: Array<StatelessAnimation<T, out F>>,
         transformedParts: Array<TransformedModelPart>
     ) {
-        poses[poseType] = Pose(poseType, condition, idleAnimations, transformedParts)
+        poses[poseType] = Pose(poseType, condition, transformTicks, idleAnimations, transformedParts)
     }
 
     fun registerRelevantPart(part: ModelPart): ModelPart {
@@ -81,7 +82,7 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
     override fun setupAnim(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
         setDefault()
         val state = getState(entity)
-        state.animationTick += DELTA_TICKS
+        state.preRender()
         state.currentModel = this
         var poseType = state.getPose()
         var pose = poses[poseType]
@@ -90,17 +91,17 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
                 val previousPose = pose
                 pose = poses.values.firstOrNull { it.condition(entity) } ?: run {
                     LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
-                    return@run Pose(PoseType.NONE, { true }, emptyArray(), emptyArray())
+                    return@run Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
                 }
                 poseType = pose.poseType
 
-                if (previousPose != null) {
+                if (previousPose != null && pose.transformTicks > 0) {
                     state.statefulAnimations.add(
                         PoseTransitionAnimation(
                             frame = this,
                             beforePose = previousPose,
                             afterPose = pose,
-                            durationTicks = 30
+                            durationTicks = pose.transformTicks
                         )
                     )
                 } else {
@@ -116,12 +117,26 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
     }
 
     fun ModelPart.translation(
-        function: LineFunction,
-        axis: Int
-    ) = TranslationFunctionStatelessAnimation<T>(
+        function: WaveFunction,
+        axis: Int,
+        timeVariable: (state: PoseableEntityState<T>?, limbSwing: Float, ageInTicks: Float) -> Float?
+    ) = TranslationFunctionStatelessAnimation(
         part = this,
         function = function,
         axis = axis,
+        timeVariable = timeVariable,
+        frame = this@PoseableEntityModel
+    )
+
+    fun ModelPart.rotation(
+        function: WaveFunction,
+        axis: Int,
+        timeVariable: (state: PoseableEntityState<T>?, limbSwing: Float, ageInTicks: Float) -> Float?
+    ) = RotationFunctionStatelessAnimation<T>(
+        part = this,
+        function = function,
+        axis = axis,
+        timeVariable = timeVariable,
         frame = this@PoseableEntityModel
     )
 }

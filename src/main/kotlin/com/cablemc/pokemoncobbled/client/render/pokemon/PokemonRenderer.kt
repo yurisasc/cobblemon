@@ -23,7 +23,7 @@ class PokemonRenderer(
 
     override fun getTextureLocation(pEntity: PokemonEntity) = PokemonModelRepository.getModelTexture(pEntity.pokemon)
     override fun render(pEntity: PokemonEntity, pEntityYaw: Float, pPartialTicks: Float, pMatrixStack: PoseStack, pBuffer: MultiBufferSource, pPackedLight: Int) {
-        DELTA_TICKS = pPartialTicks
+        DELTA_TICKS = pPartialTicks // TODO move this somewhere universal
         model = PokemonModelRepository.getModel(pEntity.pokemon).entityModel
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight)
     }

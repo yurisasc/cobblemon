@@ -1,9 +1,13 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.EntityModel
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -14,29 +18,52 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
 
 
-class MagikarpModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val magikarp: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
-    }
+class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
+    override val rootPart: ModelPart = root.getChild("magikarp")
+    private val tail = rootPart.getChildOf("body").getChildOf("tail")
+    private val rightFlipper = rootPart.getChildOf("body").getChildOf("rightflipper")
+    private val leftFlipper = rootPart.getChildOf("body").getChildOf("leftflipper")
 
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        magikarp.render(poseStack, buffer, packedLight, packedOverlay)
+    override fun registerPoses() {
+        registerPose(
+            poseType = PoseType.SWIM,
+            condition = { it.isUnderWater },
+            idleAnimations = arrayOf(
+                tail.rotation(
+                    function = sineFunction(
+                        amplitude = 15f.toRadians(),
+                        period = 7f
+                    ),
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
+                ),
+                rightFlipper.rotation(
+                    function = sineFunction(
+                        amplitude = 5f.toRadians(),
+                        period = 7f,
+                        verticalShift = (-15f).toRadians()
+                    ),
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
+                ),
+                leftFlipper.rotation(
+                    function = sineFunction(
+                        amplitude = (-5f).toRadians(),
+                        period = 7f,
+                        verticalShift = 15f.toRadians()
+                    ),
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
+                )
+            ),
+            transformedParts = emptyArray()
+        )
+        registerPose(
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf<StatelessAnimation<PokemonEntity, out ModelFrame>>(),
+            transformedParts = emptyArray()
+        )
     }
 
     companion object {
@@ -97,22 +124,18 @@ class MagikarpModel(root: ModelPart) : EntityModel<PokemonEntity>() {
                 PartPose.offset(5.0f, 0.0f, 0.0f)
             )
             val rightlfipper = body.addOrReplaceChild(
-                "rightlfipper",
+                "rightflipper",
                 CubeListBuilder.create().texOffs(18, 21)
                     .addBox(0.0f, -2.5f, 0.0f, 0.0f, 5.0f, 7.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(-2.0f, 1.9167f, -3.5f, 0.0f, -0.2618f, 0.0f)
             )
             val leftlfipper = body.addOrReplaceChild(
-                "leftlfipper",
+                "leftflipper",
                 CubeListBuilder.create().texOffs(18, 26)
                     .addBox(0.0f, -2.5f, 0.0f, 0.0f, 5.0f, 7.0f, CubeDeformation(0.0f)),
                 PartPose.offsetAndRotation(2.0f, 1.9167f, -3.5f, 0.0f, 0.2618f, 0.0f)
             )
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
-    }
-
-    init {
-        magikarp = root.getChild("magikarp")
     }
 }

@@ -1,0 +1,13 @@
+{
+  "name": "dugtrio",
+  "nationalPokedexNumber": 51,
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 35,
+    "attack": 100,
+    "defence": 60,
+    "special_attack": 50,
+    "special_defence": 70,
+    "speed": 110
+  }
+}
