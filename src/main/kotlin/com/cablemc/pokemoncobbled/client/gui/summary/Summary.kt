@@ -64,7 +64,7 @@ class Summary: Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) 
         // Add Buttons to change Pages - END
 
         // Add Exit Button
-        addRenderableWidget(ExitButton(x + 296, y + 6, 25, 14, 0, 0, 0, exitButtonResource, 25, 14) {
+        addRenderableWidget(ExitButton(x + 296, y + 6, 25, 14, 0, 0, 0, exitButtonResource, BASE_WIDTH, BASE_HEIGHT) {
             Minecraft.getInstance().setScreen(null)
         })
 
