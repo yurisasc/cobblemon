@@ -1,19 +1,17 @@
 package com.cablemc.pokemoncobbled.common.api.battles.runner
 
-import com.caoccao.javet.interop.V8Host
 import com.caoccao.javet.interop.V8Runtime
-import com.caoccao.javet.values.V8Value
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.net.InetAddress
 import java.net.Socket
-import java.nio.CharBuffer
 import java.nio.charset.Charset
 import java.util.Scanner
 import java.util.Timer
 import java.util.TimerTask
 import java.util.concurrent.atomic.AtomicReference
+import kotlin.concurrent.thread
 
 var running = true
 fun main(args: Array<String>) {
@@ -36,19 +34,29 @@ fun main(args: Array<String>) {
 
 object ShowdownRunner {
 
+    var process: Process? = null
+
     fun initialize() {
         val v8Ref = AtomicReference<V8Runtime>()
         val battleMap = HashMap<String, Any>()
-        val thread = Thread {
-            println("1")
-            val runtime = V8Host.getNodeInstance().createV8Runtime<V8Runtime>()
-            v8Ref.set(runtime)
-            println("2")
-            runtime.use { it.getExecutor(File("./showdown/scripts/index.js").toPath().toAbsolutePath()).execute<V8Value>().close() }
-            println("3")
-        }
+//        val thread = thread(
+//            isDaemon = true,
+//            start = false
+//        ) {
+//            println("1")
+//            val runtime = V8Host.getNodeInstance().createV8Runtime<V8Runtime>()
+//            v8Ref.set(runtime)
+//            println("2")
+//            runtime.use { it.getExecutor(Path(File("../showdown/scripts/index.js").canonicalPath)).execute<V8Value>().close() }
+//            println("3")
+//        }
 
-        val connectionThread = Thread() {
+        process = exec(ShowdownServer.javaClass, listOf(File("../showdown/scripts/index.js").canonicalPath))
+
+        val connectionThread = thread(
+            isDaemon = true,
+            start = false
+        ) {
             Timer().schedule(object : TimerTask() {
                 override fun run() {
                     println("Gonna attempt connection")
@@ -75,10 +83,8 @@ object ShowdownRunner {
                 }
             }, 5000L)
         }
-        thread.isDaemon = true
-        thread.start()
+        //thread.start()
 
-        connectionThread.isDaemon = true;
         connectionThread.start()
     }
 
@@ -92,6 +98,12 @@ object ShowdownRunner {
             if(readStr.contains(str)) {
                 return readStr.replace(str, "")
             }
+        }
+    }
+
+    fun exit() {
+        process?.run {
+            this.destroy()
         }
     }
 }
