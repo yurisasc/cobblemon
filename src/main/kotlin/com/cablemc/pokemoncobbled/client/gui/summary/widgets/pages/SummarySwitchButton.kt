@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages
 
+import com.cablemc.pokemoncobbled.client.gui.Fonts
+import com.cablemc.pokemoncobbled.client.gui.drawCenteredText
 import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.GuiComponent
 import net.minecraft.client.gui.components.Button
 import net.minecraft.network.chat.Component
 
@@ -20,8 +20,8 @@ class SummarySwitchButton(
 
     override fun renderButton(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if(isHovered())
-            GuiComponent.drawCenteredString(pPoseStack, Minecraft.getInstance().font, component, x + width / 2 , y + 4, HOVER_COLOUR)
+            drawCenteredText(pPoseStack, Fonts.OSWALD, component, x + width / 2, y, HOVER_COLOUR)
         else
-            GuiComponent.drawCenteredString(pPoseStack, Minecraft.getInstance().font, component, x + width / 2 , y + 4, NORMAL_COLOUR)
+            drawCenteredText(pPoseStack, Fonts.OSWALD, component, x + width / 2, y, NORMAL_COLOUR)
     }
 }
