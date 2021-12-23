@@ -75,7 +75,7 @@ class MoveWidget(
         // Render remaining PP Text
         pMatrixStack.pushPose()
         pMatrixStack.scale(0.6F, 0.6F, 0.6F)
-        drawCenteredText(pMatrixStack, Fonts.OSWALD_SMALL, TextComponent("${move.curPp} / ${move.maxPp}"), ((x + width / 2) / 0.6) + 3, ((y + 23) / 0.6) + 1, 0xFFFFFF)
+        drawCenteredText(pMatrixStack, Fonts.OSWALD_SMALL, TextComponent("${move.curPp} / ${move.maxPp}"), ((x + width / 2) / 0.6) + 3, ((y + 23) / 0.6) + 1, 0xFFFFFF, false)
         pMatrixStack.popPose()
 
         // Render Type Icon
@@ -83,8 +83,8 @@ class MoveWidget(
 
         // Render Move Name
         pMatrixStack.pushPose()
-        pMatrixStack.scale(0.75F, 0.75F, 0.75F)
-        drawCenteredText(pMatrixStack, Fonts.OSWALD, TextComponent(move.name), (x + 85) / 0.75F, y / 0.75F + 7, MOVE_NAME_COLOUR, false)
+        pMatrixStack.scale(0.5F, 0.5F, 0.5F)
+        drawCenteredText(pMatrixStack, Fonts.OSWALD, TextComponent(move.name), (x + 85) / 0.5F, y / 0.5F + 14, MOVE_NAME_COLOUR, false)
         pMatrixStack.popPose()
 
         // Render Move Info
