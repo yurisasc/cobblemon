@@ -1,15 +1,14 @@
 package com.cablemc.pokemoncobbled.common.api.battles.runner
 
 import com.caoccao.javet.interop.V8Runtime
+import org.apache.logging.log4j.LogManager
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
 import java.net.InetAddress
 import java.net.Socket
 import java.nio.charset.Charset
-import java.util.Scanner
-import java.util.Timer
-import java.util.TimerTask
+import java.util.*
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.concurrent.thread
 
@@ -53,12 +52,19 @@ object ShowdownRunner {
 
         process = exec(ShowdownServer.javaClass, listOf(File("../showdown/scripts/index.js").canonicalPath))
 
+        Runtime.getRuntime().addShutdownHook(object : Thread() {
+            override fun run() {
+                process!!.destroy()
+            }
+        })
+
         val connectionThread = thread(
             isDaemon = true,
             start = false
         ) {
             Timer().schedule(object : TimerTask() {
                 override fun run() {
+                    val LOGGER = LogManager.getLogger()
                     println("Gonna attempt connection")
                     val sock = Socket(InetAddress.getLocalHost(), 3001, InetAddress.getLocalHost(), 3005)
                     val writer = sock.getOutputStream().writer(charset = Charset.forName("ascii"))
@@ -69,16 +75,18 @@ object ShowdownRunner {
 
                     writer.write(">start {\"formatid\": \"gen7randombattle\"}\n")
                     writer.flush();
-                    readUntil(reader, "cobble-accepted")
+                    LOGGER.info("(Battle Start) ${readUntil(reader, "cobble-incoming")}")
+
                     writer.write(">player p1 {\"name\": \"Alice\"}\n")
                     writer.flush();
-                    println("testUntil2")
-                    readUntil(reader, "cobble-accepted")
+                    LOGGER.info("(Battle Define P1) ${readUntil(reader, "cobble-incoming")}")
+
                     writer.write(">player p2 {\"name\": \"Bob\"}\n")
-                    writer.flush();
-                    println("testUntil3")
+                    writer.flush()
+                    LOGGER.info("(Battle Define P2) ${readUntil(reader, "cobble-incoming")}")
+
                     while (true) {
-                        println(readUntil(reader, "cobble-incoming"))
+                        LOGGER.info("(Battle) ${readUntil(reader, "cobble-incoming")}")
                     }
                 }
             }, 5000L)
