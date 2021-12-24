@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.battles.runner
 
 import com.caoccao.javet.interop.V8Runtime
-import org.apache.logging.log4j.LogManager
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -64,7 +63,6 @@ object ShowdownRunner {
         ) {
             Timer().schedule(object : TimerTask() {
                 override fun run() {
-                    val LOGGER = LogManager.getLogger()
                     println("Gonna attempt connection")
                     val sock = Socket(InetAddress.getLocalHost(), 25567, null, 0)
                     val writer = sock.getOutputStream().writer(charset = Charset.forName("ascii"))
@@ -72,21 +70,18 @@ object ShowdownRunner {
                     val reader = BufferedReader(streamReader)
                     readUntil(reader, "ready")
 
-
                     writer.write(">start {\"formatid\": \"gen7randombattle\"}\n")
                     writer.flush();
-                    LOGGER.info("(Battle Start) ${readUntil(reader, "cobble-incoming")}")
-
                     writer.write(">player p1 {\"name\": \"Alice\"}\n")
                     writer.flush();
-                    LOGGER.info("(Battle Define P1) ${readUntil(reader, "cobble-incoming")}")
-
                     writer.write(">player p2 {\"name\": \"Bob\"}\n")
                     writer.flush()
-                    LOGGER.info("(Battle Define P2) ${readUntil(reader, "cobble-incoming")}")
+
+                    writer.write(">p1 team 123456")
+                    writer.flush()
 
                     while (true) {
-                        LOGGER.info("(Battle) ${readUntil(reader, "cobble-incoming")}")
+                        println("(Battle) ${readUntil(reader, "cobble-incoming")}")
                     }
                 }
             }, 5000L)
