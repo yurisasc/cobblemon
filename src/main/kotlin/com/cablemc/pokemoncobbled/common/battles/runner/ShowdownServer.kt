@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.api.battles.runner
+package com.cablemc.pokemoncobbled.common.battles.runner
 
 import com.caoccao.javet.interop.V8Host
 import com.caoccao.javet.interop.V8Runtime

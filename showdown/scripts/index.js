@@ -1,7 +1,7 @@
 var pokemon = require('pokemon-showdown')
 var Net = require('net')
 
-const port = 3001;
+const port = 25567;
 
 // Use net.createServer() in your code. This is just for illustration purpose.
 // Create a new TCP server.

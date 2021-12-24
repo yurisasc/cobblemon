@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.api.battles.runner
+package com.cablemc.pokemoncobbled.common.battles.runner
 
 import java.io.File
 import java.io.IOException

@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.api.battles.runner
+package com.cablemc.pokemoncobbled.common.battles.runner
 
 import com.caoccao.javet.interop.V8Runtime
 import org.apache.logging.log4j.LogManager
@@ -13,23 +13,23 @@ import java.util.concurrent.atomic.AtomicReference
 import kotlin.concurrent.thread
 
 var running = true
-fun main(args: Array<String>) {
-    ShowdownRunner.initialize()
-
-    val scanner = Scanner(System.`in`)
-    while (running) {
-        if (scanner.hasNext()) {
-            val input = scanner.nextLine();
-            when (input.lowercase()) {
-                "quit" -> {
-                    println("Attempting to shut down....")
-                    running = false;
-                }
-                else -> {}
-            }
-        }
-    }
-}
+//fun main(args: Array<String>) {
+//    ShowdownRunner.initialize()
+//
+//    val scanner = Scanner(System.`in`)
+//    while (running) {
+//        if (scanner.hasNext()) {
+//            val input = scanner.nextLine();
+//            when (input.lowercase()) {
+//                "quit" -> {
+//                    println("Attempting to shut down....")
+//                    running = false;
+//                }
+//                else -> {}
+//            }
+//        }
+//    }
+//}
 
 object ShowdownRunner {
 
@@ -66,7 +66,7 @@ object ShowdownRunner {
                 override fun run() {
                     val LOGGER = LogManager.getLogger()
                     println("Gonna attempt connection")
-                    val sock = Socket(InetAddress.getLocalHost(), 3001, InetAddress.getLocalHost(), 3005)
+                    val sock = Socket(InetAddress.getLocalHost(), 25567, null, 0)
                     val writer = sock.getOutputStream().writer(charset = Charset.forName("ascii"))
                     val streamReader = InputStreamReader(sock.getInputStream())
                     val reader = BufferedReader(streamReader)
