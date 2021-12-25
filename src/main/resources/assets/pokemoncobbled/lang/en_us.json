@@ -10,5 +10,12 @@
   "pokemoncobbled.ui.info": "Info",
   "pokemoncobbled.ui.power": "Power",
   "pokemoncobbled.ui.accuracy": "Accuracy",
-  "pokemoncobbled.ui.effect": "Effect"
+  "pokemoncobbled.ui.effect": "Effect",
+  "key.pokemoncobbled.upshiftparty": "Party Shift Up",
+  "key.pokemoncobbled.downshiftparty": "Party Shift Down",
+  "key.pokemoncobbled.hideparty": "Hide Party Overlay",
+  "key.pokemoncobbled.throwpartypokemon": "Throw Selected Pokémon",
+  "key.pokemoncobbled.pokenavigator": "Open PokéNav",
+  "key.pokemoncobbled.summary": "Open Summary",
+  "key.pokemoncobbled.categories.pokemoncobbled": "Pokémon Cobbled"
 }

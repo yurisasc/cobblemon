@@ -10,5 +10,12 @@
   "pokemoncobbled.ui.info": "Infos",
   "pokemoncobbled.ui.power": "Stärke",
   "pokemoncobbled.ui.accuracy": "Genauigkeit",
-  "pokemoncobbled.ui.effect": "Effekt"
+  "pokemoncobbled.ui.effect": "Effekt",
+  "key.pokemoncobbled.upshiftparty": "Party Auswahl nach oben",
+  "key.pokemoncobbled.downshiftparty": "Party Auswahl nach unten",
+  "key.pokemoncobbled.hideparty": "Party verstecken",
+  "key.pokemoncobbled.throwpartypokemon": "Pokémon rauswerfen",
+  "key.pokemoncobbled.pokenavigator": "PokéNav öffnen",
+  "key.pokemoncobbled.summary": "Überblick öffnen",
+  "key.pokemoncobbled.categories.pokemoncobbled": "Pokémon Cobbled"
 }
