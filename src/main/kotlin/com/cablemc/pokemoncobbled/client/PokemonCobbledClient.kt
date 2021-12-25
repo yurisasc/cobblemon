@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.client
 
 import com.cablemc.pokemoncobbled.client.gui.PartyOverlay
 import com.cablemc.pokemoncobbled.client.keybinding.DownShiftPartyBinding
+import com.cablemc.pokemoncobbled.client.keybinding.HidePartyBinding
 import com.cablemc.pokemoncobbled.client.keybinding.PartySendBinding
 import com.cablemc.pokemoncobbled.client.keybinding.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.client.keybinding.SummaryBinding
@@ -40,6 +41,7 @@ object PokemonCobbledClient {
         registerKeyBind(UpShiftPartyBinding)
         registerKeyBind(PokeNavigatorBinding)
         registerKeyBind(SummaryBinding)
+        registerKeyBind(HidePartyBinding)
     }
 
     fun registerKeyBind(binding: KeyMapping) {
