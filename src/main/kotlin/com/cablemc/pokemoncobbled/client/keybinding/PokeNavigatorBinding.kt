@@ -11,7 +11,7 @@ object PokeNavigatorBinding : KeyMapping(
     "key.pokemoncobbled.pokenavigator",
     InputConstants.Type.KEYSYM,
     InputConstants.KEY_C,
-    CATEGORY_GAMEPLAY
+    KeybindCategories.COBBLED_CATEGORY
 ) {
     var wasDown = false
     @SubscribeEvent

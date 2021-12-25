@@ -12,7 +12,7 @@ object PartySendBinding : KeyMapping(
     "key.pokemoncobbled.throwpartypokemon",
     InputConstants.Type.KEYSYM,
     InputConstants.KEY_R,
-    CATEGORY_GAMEPLAY
+    KeybindCategories.COBBLED_CATEGORY
 ) {
     var wasDown = false
     @SubscribeEvent

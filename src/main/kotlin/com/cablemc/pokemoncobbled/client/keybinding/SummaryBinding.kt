@@ -11,7 +11,7 @@ object SummaryBinding : KeyMapping(
     "key.pokemoncobbled.summary",
     InputConstants.Type.KEYSYM,
     InputConstants.KEY_X,
-    CATEGORY_GAMEPLAY
+    KeybindCategories.COBBLED_CATEGORY
 ) {
     var wasDown = false
     @SubscribeEvent
