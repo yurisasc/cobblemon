@@ -38,7 +38,7 @@ class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnecti
                     data += char.toChar()
                 }
             }
-            return data
+            data
         } catch (exception: IOException) {
             null
         }
