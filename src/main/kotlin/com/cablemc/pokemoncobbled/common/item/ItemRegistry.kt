@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.item
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.pokemon.pokeball.PokeBalls
+import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import net.minecraft.world.item.Item
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.fmllegacy.RegistryObject

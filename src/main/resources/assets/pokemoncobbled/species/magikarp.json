@@ -9,5 +9,6 @@
     "special_attack": 15,
     "special_defence": 20,
     "speed": 80
-  }
+  },
+  "catchRate": 255
 }

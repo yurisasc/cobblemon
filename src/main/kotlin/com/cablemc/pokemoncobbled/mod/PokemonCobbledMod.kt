@@ -5,6 +5,8 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.Pok
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
+import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskListener
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
@@ -38,6 +40,7 @@ import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 object PokemonCobbledMod {
     val LOGGER = LogManager.getLogger()
     val EVENT_BUS = BusBuilder.builder().build()
+    var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
 
     init {
         with(MOD_CONTEXT.getKEventBus()) {
@@ -96,15 +99,4 @@ object PokemonCobbledMod {
     fun on(event: EntityAttributeCreationEvent) {
         EntityRegistry.registerAttributes(event)
     }
-
-//    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-//    // Event bus for receiving Registry Events)
-//    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
-//    object RegistryEvents {
-//        @SubscribeEvent
-//        fun onBlocksRegistry(blockRegistryEvent: Register<Block?>?) {
-//            // register a new block here
-//            LOGGER.info("HELLO from Register Block")
-//        }
-//    }
 }

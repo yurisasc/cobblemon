@@ -98,7 +98,6 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
                 if (previousPose != null && pose.transformTicks > 0) {
                     state.statefulAnimations.add(
                         PoseTransitionAnimation(
-                            frame = this,
                             beforePose = previousPose,
                             afterPose = pose,
                             durationTicks = pose.transformTicks
