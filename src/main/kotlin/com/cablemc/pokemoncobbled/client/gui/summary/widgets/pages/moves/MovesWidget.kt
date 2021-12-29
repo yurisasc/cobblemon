@@ -23,7 +23,7 @@ class MovesWidget(
     private var index = -1
     private val moves = summary.pokemonMoves().filterNotNull().map { move ->
         index++
-        MoveWidget(x + 19, y + 27 + (MOVE_HEIGHT + 3) * index, MOVE_WIDTH, MOVE_HEIGHT, move, x + 5, y + 165, width, height, this)
+        MoveWidget(x + 19, y + 27 + (MOVE_HEIGHT + 3) * index, MOVE_WIDTH, MOVE_HEIGHT, move, x + 5, y + 165, width, height, this, index)
     }.toMutableList().onEach {
         addWidget(it)
     }

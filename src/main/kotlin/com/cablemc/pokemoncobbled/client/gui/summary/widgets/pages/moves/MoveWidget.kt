@@ -7,11 +7,9 @@ import com.cablemc.pokemoncobbled.client.gui.summary.mock.PokemonMove
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.TextComponent
 import net.minecraft.resources.ResourceLocation
-import kotlin.math.roundToInt
 
 class MoveWidget(
     pX: Int, pY: Int,
@@ -19,15 +17,15 @@ class MoveWidget(
     val move: PokemonMove,
     infoX: Int, infoY: Int,
     private val textureWidth: Int, private val textureHeight: Int,
-    private val movesWidget: MovesWidget
+    private val movesWidget: MovesWidget, private val index: Int
 ): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent(move.name)) {
 
     companion object {
         private val moveResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_slot.png")
         private val movePpResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_pp.png")
         private const val PP_WIDTH_DIFF = 3
-        private const val PP_HEIGHT = 10
-        private const val PP_HEIGHT_DIFF = 20
+        private const val PP_HEIGHT = 9F
+        private const val PP_HEIGHT_DIFF = 20.5F
         private const val MOVE_BUTTON_WIDTH = 15
         private const val MOVE_BUTTON_HEIGHT = 12
         private const val TYPE_WIDGET_Y_OFFSET = 2
@@ -65,12 +63,15 @@ class MoveWidget(
         )
 
         // Rendering PP Texture
-        RenderSystem.setShaderTexture(0, movePpResource)
-        RenderSystem.enableDepthTest()
-        pMatrixStack.pushPose()
-        pMatrixStack.scale(1F, 0.945F, 1F)
-        blit(pMatrixStack, ((x + PP_WIDTH_DIFF) / 1F).roundToInt(), ((y + PP_HEIGHT_DIFF) / 0.945F).roundToInt(), 0F, 0F, ((width - PP_WIDTH_DIFF * 2) * getPpAsPercentage(move)).toInt() + 2, PP_HEIGHT, width - 4, PP_HEIGHT)
-        pMatrixStack.popPose()
+        blitk(
+            poseStack = pMatrixStack,
+            texture = movePpResource,
+            x = (x + PP_WIDTH_DIFF),
+            y = y + PP_HEIGHT_DIFF - 0.15F + specificOffset(index),
+            height = PP_HEIGHT,
+            width = ((width - PP_WIDTH_DIFF * 2) * getPpAsPercentage(move)) + 1.25F,
+            textureWidth = width - 4.75F
+        )
 
         // Render remaining PP Text
         pMatrixStack.pushPose()
@@ -100,5 +101,15 @@ class MoveWidget(
     // Get the remaining PP as percentage
     private fun getPpAsPercentage(move: PokemonMove): Double {
         return move.curPp.toDouble() / move.maxPp.toDouble()
+    }
+
+    private fun specificOffset(pos: Int): Float {
+        when(pos) {
+            0 -> return 0F
+            1 -> return 0F
+            2 -> return 0F
+            3 -> return 0F
+        }
+        return 0F
     }
 }
