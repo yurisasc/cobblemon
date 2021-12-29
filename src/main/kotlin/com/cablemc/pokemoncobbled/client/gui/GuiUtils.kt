@@ -2,9 +2,13 @@ package com.cablemc.pokemoncobbled.client.gui
 
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
+import com.mojang.blaze3d.vertex.BufferUploader
+import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.Tesselator
+import com.mojang.blaze3d.vertex.VertexFormat
+import com.mojang.math.Matrix4f
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
@@ -19,6 +23,9 @@ fun blitk(
     width: Number = 0,
     uOffset: Number = 0,
     vOffset: Number = 0,
+    textureWidth: Number = width,
+    textureHeight: Number = height,
+    blitOffset: Number = 0,
     alpha: Number = 1F
 ) {
     RenderSystem.setShader { GameRenderer.getPositionTexShader() }
@@ -27,13 +34,36 @@ fun blitk(
     RenderSystem.enableBlend()
     RenderSystem.defaultBlendFunc()
     RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
-    Gui.blit(
-        poseStack,
-        x.toInt(), y.toInt(),
-        uOffset.toFloat(), vOffset.toFloat(),
-        width.toInt(), height.toInt(),
-        width.toInt(), height.toInt()
+
+    drawRectangle(
+        poseStack.last().pose(),
+        x.toFloat(), y.toFloat(), x.toFloat() + width.toFloat(), y.toFloat() + height.toFloat(),
+        blitOffset.toFloat(),
+        uOffset.toFloat() / textureWidth.toFloat(), (uOffset.toFloat() + width.toFloat()) / textureWidth.toFloat(),
+        vOffset.toFloat() / textureHeight.toFloat(), (vOffset.toFloat() + height.toFloat()) / textureHeight.toFloat()
     )
+}
+
+fun drawRectangle(
+    matrix: Matrix4f,
+    x: Float,
+    y: Float,
+    endX: Float,
+    endY: Float,
+    blitOffset: Float,
+    minU: Float,
+    maxU: Float,
+    minV: Float,
+    maxV: Float
+) {
+    val bufferbuilder = Tesselator.getInstance().builder
+    bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX)
+    bufferbuilder.vertex(matrix, x, endY, blitOffset).uv(minU, maxV).endVertex()
+    bufferbuilder.vertex(matrix, endX, endY, blitOffset).uv(maxU, maxV).endVertex()
+    bufferbuilder.vertex(matrix, endX, y, blitOffset).uv(maxU, minV).endVertex()
+    bufferbuilder.vertex(matrix, x, y, blitOffset).uv(minU, minV).endVertex()
+    bufferbuilder.end()
+    BufferUploader.end(bufferbuilder)
 }
 
 fun drawCenteredText(
