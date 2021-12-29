@@ -52,7 +52,7 @@ fun parabolaFunction(
     verticalShift: Float = 1F
 ): WaveFunction {
     /*
-     * To understand the parameters for this, type y=t(x-p)+v into https://www.desmos.com/calculator and play
+     * To understand the parameters for this, type y=t(x-p)^2+v into https://www.desmos.com/calculator and play
      * around with tightness, phase shift, and vertical shift
      */
 
