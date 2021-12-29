@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
+import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
@@ -7,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
@@ -37,6 +39,11 @@ class Pokemon {
         set(value) { field = value ; _level.emit(value) }
 
     var entity: PokemonEntity? = null
+
+    lateinit var primaryType: ElementalType
+    var secondaryType: ElementalType? = null
+
+    var moveSet: MoveSet = MoveSet()
 
     val stats = pokemonStatsOf(
         Stats.HP to 20,
