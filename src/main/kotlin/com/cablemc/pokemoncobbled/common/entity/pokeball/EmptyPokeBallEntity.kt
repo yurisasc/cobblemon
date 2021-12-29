@@ -76,7 +76,7 @@ class EmptyPokeBallEntity(
         if (captureState.get() == CaptureState.NOT.ordinal.toByte()) {
             if (level.isServerSide()) {
                 super.onHitBlock(hitResult)
-                kill()
+                dispose()
                 spawnAtLocation(defaultItem)
             }
         } else {
@@ -91,7 +91,7 @@ class EmptyPokeBallEntity(
             if (hitResult.entity is PokemonEntity && level.isServerSide()) {
                 val pokemon = hitResult.entity as PokemonEntity
                 if (pokemon.isBeingCaptured || !pokemon.pokemon.isWild()) {
-                    kill()
+                    dispose()
                     return
                 }
                 capturingPokemon = pokemon
@@ -109,7 +109,7 @@ class EmptyPokeBallEntity(
         super.tick()
         if (level.isServerSide()) {
             if (owner == null || !owner!!.isAlive || (captureState.get() != CaptureState.NOT.ordinal.toByte() && capturingPokemon?.isAlive != true)) {
-                kill()
+                dispose()
                 return
             }
 
@@ -129,7 +129,7 @@ class EmptyPokeBallEntity(
                     .interval(TICKS_BETWEEN_SHAKES)
                     .execute {
                         if (capturingPokemon?.isAlive != true) {
-                            kill()
+                            dispose()
                         }
 
                         if (!isAlive) {
@@ -140,7 +140,7 @@ class EmptyPokeBallEntity(
                         if (rollsRemaining <= 0) {
                             if (captureResult.isSuccessfulCapture) {
                                 // Do a capture
-                                capturingPokemon!!.kill()
+                                capturingPokemon!!.dispose()
                                 val party = PokemonStoreManager.getParty(this.owner!!.uuid)
                                 party.add(capturingPokemon!!.pokemon)
                             } else {
@@ -162,7 +162,7 @@ class EmptyPokeBallEntity(
         capturingPokemon!!.setPos(position())
         capturingPokemon!!.isInvisible = false
         capturingPokemon!!.isBeingCaptured = false
-        kill()
+        dispose()
     }
 
     private fun attemptCatch(pokemonEntity: PokemonEntity) {
