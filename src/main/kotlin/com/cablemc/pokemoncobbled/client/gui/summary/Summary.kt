@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.client.gui.blitk
 import com.cablemc.pokemoncobbled.client.gui.summary.mock.DamageCategories
 import com.cablemc.pokemoncobbled.client.gui.summary.mock.PokemonMove
 import com.cablemc.pokemoncobbled.client.gui.summary.mock.PokemonTypes
+import com.cablemc.pokemoncobbled.client.gui.summary.widgets.PartyWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.info.InfoWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.stats.StatWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.SummarySwitchButton
@@ -67,6 +68,9 @@ class Summary: Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) 
         addRenderableWidget(ExitButton(x + 296, y + 6, 25, 14, 0, 0, 0, exitButtonResource, BASE_WIDTH, BASE_HEIGHT) {
             Minecraft.getInstance().setScreen(null)
         })
+
+        // Add Party
+        addRenderableWidget(PartyWidget(x, y, BASE_WIDTH, BASE_HEIGHT, 3))
 
         // Add CurrentPage
         addRenderableWidget(currentPage)
