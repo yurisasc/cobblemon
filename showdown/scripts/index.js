@@ -1,4 +1,4 @@
-var pokemon = require('pokemon-showdown')
+const PokemonShowdown = require('pokemon-showdown');
 var Net = require('net')
 
 const port = 25567;
@@ -15,24 +15,21 @@ server.listen(port, function () {
 // When a client requests a connection with the server, the server creates a new
 // socket dedicated to that client.
 server.on('connection', function (socket) {
-    battle = new pokemon.BattleStream()
+    battleStream = new PokemonShowdown.BattleStream();
     console.log('A new connection has been established.');
-    socket.write("ready")
 
     // The server can also receive data from the client by reading from its socket.
     socket.on('data', function (chunk) {
         console.log('Data received from client: ' + chunk.toString());
         try {
-            socket.write("cobble-accepted")
-            battle._writeLines(chunk.toString())
+            battleStream.write(chunk.toString())
         } catch (error) {
             socket.write(error.toString())
         }
     });
 
     (async () => {
-        for await (const output of battle) {
-            socket.write("cobble-incoming")
+        for await (const output of stream) {
             socket.write(output)
         }
     })();
