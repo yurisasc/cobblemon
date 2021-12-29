@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import net.minecraft.util.thread.BlockableEventLoop
+import net.minecraft.world.level.Level
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.LogicalSide
@@ -43,3 +44,5 @@ internal fun <T> runOnSide(side: LogicalSide, block: () -> T): CompletableFuture
     LogicalSidedProvider.WORKQUEUE.get<BlockableEventLoop<*>>(side).submit { future.complete(block()) }
     return future
 }
+
+fun Level.isServerSide() = !isClientSide

@@ -10,7 +10,7 @@ import net.minecraft.world.entity.Entity
 
 /**
  * Represents the entity-specific state for a poseable model. The implementation is responsible for
- * handling all of the state for an entity's model, and needs to be conscious of the fact that the
+ * handling all the state for an entity's model, and needs to be conscious of the fact that the
  * model may change without this state changing.
  *
  * @author Hiroku
@@ -49,7 +49,7 @@ abstract class PoseableEntityState<T : Entity> {
                 return
             }
 
-        val animation = PoseTransitionAnimation(model, beforePose, afterPose, durationTicks)
+        val animation = PoseTransitionAnimation(beforePose, afterPose, durationTicks)
         statefulAnimations.add(animation)
     }
 

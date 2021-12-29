@@ -161,5 +161,8 @@ class Pokemon {
     private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
     private val _health = SimpleObservable<Int>()
 
-    fun getMaxHealth(): Int = TODO("needs to be calculated properly. NOT just the base stat value")
+    val ivHP = 1
+    val evHP = 1
+
+    fun getMaxHealth(): Int = (2 * stats[Stats.HP]!! + ivHP + (evHP / 4) * level) / 100 + level + 10
 }

@@ -42,6 +42,8 @@ class PokemonEntity(
         PokemonServerDelegate()
     }
 
+    var isBeingCaptured = false
+
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)

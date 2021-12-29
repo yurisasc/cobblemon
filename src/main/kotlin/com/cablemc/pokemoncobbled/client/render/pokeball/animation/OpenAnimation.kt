@@ -4,18 +4,38 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.PoseableEntity
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.PokeBallFrame
-import com.cablemc.pokemoncobbled.common.entity.pokeball.PokeBallEntity
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
+import com.cablemc.pokemoncobbled.common.util.math.toVec3
+import net.minecraft.commands.arguments.EntityAnchorArgument
+import net.minecraft.util.Mth
 import net.minecraft.util.Mth.PI
+import net.minecraft.world.phys.Vec3
+import kotlin.math.min
 
-class OpenAnimation(frame: PokeBallFrame) : StatefulAnimation<PokeBallEntity, PokeBallFrame>(frame) {
+/**
+ * Animation that opens a PokéBall upon hitting a Pokémon, and then shuts it.
+ *
+ * @author Hiroku
+ * @since December 24th, 2021
+ */
+class OpenAnimation : StatefulAnimation<EmptyPokeBallEntity, PokeBallFrame> {
     companion object {
-        const val DURATION_SECONDS = 3F
+        const val OPEN_START = 0.1F
+        const val OPEN_END = 0.3F
+        const val CLOSE_START = 1F
+        const val CLOSE_END = 1.2F
+        const val OPEN_ANGLE = PI / 3F
     }
 
     var initialized = false
-    override fun preventsIdle(entity: PokeBallEntity, idleAnimation: StatelessAnimation<PokeBallEntity, *>) = true
-    override fun run(entity: PokeBallEntity, model: PoseableEntityModel<PokeBallEntity>): Boolean {
+    var startedClosing = false
+    var maxPitch = 0F
+
+    override fun preventsIdle(entity: EmptyPokeBallEntity, idleAnimation: StatelessAnimation<EmptyPokeBallEntity, *>) = true
+    override fun run(entity: EmptyPokeBallEntity, model: PoseableEntityModel<EmptyPokeBallEntity>): Boolean {
+        val frame = model as PokeBallFrame
+
         if (!initialized) {
             model.getState(entity).animationSeconds = 0F
             initialized = true
@@ -23,19 +43,29 @@ class OpenAnimation(frame: PokeBallFrame) : StatefulAnimation<PokeBallEntity, Po
 
         val animationSeconds = model.getState(entity).animationSeconds
 
-        when {
-            animationSeconds <= 1 -> {
-                frame.lid.xRot = -animationSeconds * PI / 3
+        entity.lookAt(EntityAnchorArgument.Anchor.EYES, entity.hitTargetPosition.get().toVec3())
+        val xDist = entity.hitTargetPosition.get().x - entity.x
+        val zDist = entity.hitTargetPosition.get().z - entity.z
+        frame.rootPart.yRot = Mth.atan2(-zDist, xDist).toFloat() + PI / 2
+        frame.rootPart.xRot = -entity.xRotO.toRadians() - PI / 2
+
+        val minPitch = -PI
+
+        if (animationSeconds >= OPEN_START && animationSeconds < CLOSE_START) {
+            val portion = min((animationSeconds - OPEN_START)/OPEN_END, 1F)
+            frame.lid.xRot = -portion * OPEN_ANGLE
+        } else if (animationSeconds >= CLOSE_START) {
+            if (!startedClosing) {
+                startedClosing = true
+                maxPitch = frame.rootPart.xRot
             }
-            animationSeconds > 2 -> {
-                frame.lid.xRot = -30f.toRadians() + ((animationSeconds - 2) * (1.5f).toRadians()) / 20F
-            }
-            else -> {
-                frame.lid.xRot = 30f.toRadians()
-                return false
-            }
+
+            val portion = min((animationSeconds - CLOSE_START) / (CLOSE_END - CLOSE_START), 1F)
+            frame.lid.xRot = (portion - 1) * OPEN_ANGLE
+            val dist = maxPitch - minPitch
+            frame.rootPart.xRot = minPitch + (1 - portion) * dist
         }
 
-        return true
+        return entity.captureState.get() == EmptyPokeBallEntity.CaptureState.HIT.ordinal.toByte()
     }
 }

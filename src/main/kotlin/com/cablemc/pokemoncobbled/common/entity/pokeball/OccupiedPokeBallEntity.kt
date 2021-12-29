@@ -13,6 +13,12 @@ class OccupiedPokeBallEntity(
     entityType: EntityType<out OccupiedPokeBallEntity>,
     level: Level
 ) : PokeBallEntity(pokeBall, entityType, level) {
+    override val delegate = if (level.isClientSide) {
+        com.cablemc.pokemoncobbled.client.entity.OccupiedPokeBallClientDelegate()
+    } else {
+        OccupiedPokeBallServerDelegate()
+    }
+
     init {
         delegate.initialize(this)
     }

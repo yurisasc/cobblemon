@@ -2,6 +2,4 @@ package com.cablemc.pokemoncobbled.common.entity.pokeball
 
 import com.cablemc.pokemoncobbled.common.api.entity.EntitySideDelegate
 
-class PokeBallServerDelegate : EntitySideDelegate<PokeBallEntity> {
-
-}
+interface PokeBallDelegate<T : PokeBallEntity> : EntitySideDelegate<T>

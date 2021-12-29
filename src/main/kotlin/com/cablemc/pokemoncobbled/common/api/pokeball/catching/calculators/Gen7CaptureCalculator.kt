@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.server.level.ServerPlayer
+import kotlin.math.pow
 import kotlin.random.Random.Default.nextInt
 
 /**
@@ -22,7 +23,7 @@ class Gen7CaptureCalculator : CaptureCalculator {
             return CaptureContext(isSuccessfulCapture = true, isCriticalCapture = true, numberOfShakes = 1)
         }
         else {
-            val shakeProbability = (25536 / Math.pow(255 / catchRate.toDouble(), 3.0 / 16))
+            val shakeProbability = (25536 / (255 / catchRate.toDouble()).pow(3.0 / 16))
 
             var numShakes = 0
             for (i in 0..3) {
@@ -31,13 +32,13 @@ class Gen7CaptureCalculator : CaptureCalculator {
                 }
                 numShakes++
             }
-            return CaptureContext(isSuccessfulCapture = true, isCriticalCapture = false, numberOfShakes = numShakes)
+            return CaptureContext(isSuccessfulCapture = numShakes == 4, isCriticalCapture = false, numberOfShakes = numShakes)
         }
     }
 
     fun getCatchRate(player: ServerPlayer, pokemon: Pokemon, pokeBall: PokeBall): Float {
         var catchRate = pokemon.species.catchRate.toFloat()
-        pokeBall.catchRateModifiers.forEach { modifier -> catchRate = modifier.modifyCatchRate(catchRate, player, pokemon) }
+        pokeBall.catchRateModifiers.forEach { catchRate = it.modifyCatchRate(catchRate, player, pokemon) }
         val maxHealth = pokemon.getMaxHealth()
         val currentHealth = pokemon.health
         val statusBonus = getStatusBonus(pokemon)

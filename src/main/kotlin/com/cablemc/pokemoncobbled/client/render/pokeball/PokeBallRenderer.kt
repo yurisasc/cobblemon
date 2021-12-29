@@ -30,9 +30,9 @@ class PokeBallRenderer<T : PokeBallEntity>(context: EntityRendererProvider.Conte
     ) {
         val model = PokeBallModelRepository.getModel(pEntity.pokeBall).entityModel
         pMatrixStack.pushPose()
-        pMatrixStack.translate(0.0, -1.0, 0.0)
+        pMatrixStack.scale(0.7F, 0.7F, 0.7F)
         val vertexconsumer = ItemRenderer.getFoilBufferDirect(pBuffer, model.renderType(getTextureLocation(pEntity)), false, false)
-        model.setupAnim(pEntity, 0f, 0f, pEntity.tickCount + pPartialTicks, pEntity.yRot, pEntity.xRot)
+        model.setupAnim(pEntity, 0f, 0f, pEntity.tickCount + pPartialTicks, pEntity.yRotO, pEntity.xRotO)
         model.renderToBuffer(pMatrixStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f)
         pMatrixStack.popPose()
         super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight)
