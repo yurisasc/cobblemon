@@ -16,11 +16,10 @@ import java.lang.Float.min
  * @since December 5th, 2021
  */
 class PoseTransitionAnimation<T : Entity>(
-    frame: ModelFrame,
     beforePose: Pose<T, *>,
     val afterPose: Pose<T, *>,
     private val durationTicks: Int = 20
-) : StatefulAnimation<T, ModelFrame>(frame) {
+) : StatefulAnimation<T, ModelFrame> {
     var passedTicks = 0F
 
     val transforms = mutableListOf<GradualTransform>()
