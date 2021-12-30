@@ -76,6 +76,7 @@ class Pokemon {
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_HEALTH, health.toShort())
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
+        nbt.put(DataKeys.POKEMON_MOVESET, moveSet.saveToNBT(CompoundTag()))
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
         return nbt
     }
@@ -89,6 +90,8 @@ class Pokemon {
         health = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
+        moveSet = MoveSet.loadFromNBT(nbt)
+        println("Set MoveSet to ${moveSet.moves[1]?.name}")
         return this
     }
 

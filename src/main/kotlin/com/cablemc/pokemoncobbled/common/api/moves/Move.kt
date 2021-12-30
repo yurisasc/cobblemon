@@ -2,6 +2,8 @@ package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 
 class Move(
@@ -29,4 +31,22 @@ class Move(
 
     val accuracy: Double
         get() = template.accuracy
+
+    val effectChance: Double
+        get() = template.effectChance
+
+    fun saveToNBT(nbt: CompoundTag): CompoundTag {
+        nbt.putString(DataKeys.POKEMON_MOVESET_MOVENAME, name)
+        nbt.putInt(DataKeys.POKEMON_MOVESET_MOVEPP, currentPp)
+        return nbt
+    }
+
+    companion object {
+        fun loadFromNBT(nbt: CompoundTag): Move {
+            val template = Moves.getByName(nbt.getString(DataKeys.POKEMON_MOVESET_MOVENAME))
+                ?: throw IllegalStateException("Tried to get non-existent MoveTemplate ${nbt.getString(DataKeys.POKEMON_MOVESET_MOVENAME)}")
+            println("Creating Move from Template ${template.name}")
+            return template.create(nbt.getInt(DataKeys.POKEMON_MOVESET_MOVEPP))
+        }
+    }
 }

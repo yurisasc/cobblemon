@@ -1,5 +1,8 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import net.minecraft.nbt.CompoundTag
+
 class MoveSet {
 
     val moves = arrayOfNulls<Move>(4)
@@ -8,7 +11,7 @@ class MoveSet {
      * So no Pokémon can end up with no Moves assigned...
      */
     init {
-        if(moves.isEmpty()) {
+        if(moves.filterNotNull().isEmpty()) {
             moves[0] = Moves.TACKLE.create()
         }
     }
@@ -27,6 +30,7 @@ class MoveSet {
         if(pos < 0 || pos > 3)
             return
         moves[pos] = move
+        println("Set Move on $pos to ${move.name}")
     }
 
     /**
@@ -38,4 +42,25 @@ class MoveSet {
         }
     }
 
+    fun saveToNBT(nbt: CompoundTag): CompoundTag {
+        moves.forEachIndexed { index, move ->  move?.run { nbt.put(index.toString(), this.saveToNBT(CompoundTag())) } }
+        return nbt
+    }
+
+    companion object {
+        fun loadFromNBT(nbt: CompoundTag): MoveSet {
+            val moveSetComp = nbt.getCompound(DataKeys.POKEMON_MOVESET)
+            val moveSet = MoveSet()
+            for(i in 0..3) {
+                val moveComp = moveSetComp.getCompound(i.toString())
+                moveComp.run {
+                    moveSet.setMove(
+                        pos = i,
+                        move = Move.loadFromNBT(this))
+                }
+            }
+            println("Passing MoveSet consisting of ${moveSet.moves[1]?.name} and ${moveSet.moves[2]?.name}")
+            return moveSet
+        }
+    }
 }

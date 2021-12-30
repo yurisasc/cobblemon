@@ -9,6 +9,9 @@ object DataKeys {
     const val POKEMON_STATS = "Stats"
     const val POKEMON_HEALTH = "Health"
     const val POKEMON_SCALE_MODIFIER = "ScaleModifier"
+    const val POKEMON_MOVESET = "MoveSet"
+    const val POKEMON_MOVESET_MOVENAME = "MoveName"
+    const val POKEMON_MOVESET_MOVEPP = "MovePP"
 
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
