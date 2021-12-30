@@ -1,19 +1,13 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationFrameAdapter
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationFrameSchema
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationGroupSchema
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.fromJson
-import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import net.minecraft.client.model.geom.ModelLayerLocation
@@ -51,7 +45,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.WALK,
+            poseType = PoseType.SWIM,
             { it.isUnderWater },
             idleAnimations = arrayOf(BedrockStatelessAnimation(this, animation.animations["animation.magikarp.fly"]!!)),
             transformedParts = emptyArray()
