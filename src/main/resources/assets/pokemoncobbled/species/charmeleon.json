@@ -9,5 +9,16 @@
     "special_attack": 80,
     "special_defence": 65,
     "speed": 80
-  }
+  },
+  "forms": [
+    {
+      "name": "normal",
+      "baseScale": "0.8",
+      "hitbox": {
+        "width": 0.7,
+        "height": 1.15,
+        "fixed": false
+      }
+    }
+  ]
 }
