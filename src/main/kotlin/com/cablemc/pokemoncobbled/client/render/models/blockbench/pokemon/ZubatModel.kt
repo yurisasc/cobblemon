@@ -28,8 +28,8 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
     override val rootPart: ModelPart = root.getChild("zubat")
     override val leftWing = rootPart.getChildOf("body", "leftwing")
     override val rightWing = rootPart.getChildOf("body", "rightwing")
-    private val leftEar = registerRelevantPart(rootPart.getChildOf("body", "leftear"))
-    private val rightEar = registerRelevantPart(rootPart.getChildOf("body", "rightear"))
+    private val leftEar = registerRelevantPart("leftear", rootPart.getChildOf("body", "leftear"))
+    private val rightEar = registerRelevantPart("rightear", rootPart.getChildOf("body", "rightear"))
     override val leftEarJoint = EarJoint(leftEar, Z_AXIS, RangeOfMotion(70F.toRadians(), 40F.toRadians()))
     override val rightEarJoint = EarJoint(rightEar, Z_AXIS, RangeOfMotion((-70F).toRadians(), (-40F).toRadians()))
 

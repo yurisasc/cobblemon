@@ -21,9 +21,9 @@ import net.minecraft.client.model.geom.builders.PartDefinition
 import net.minecraft.resources.ResourceLocation
 
 class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart = registerRelevantPart(root.getChild("gyarados"))
-    val spine = registerRelevantPart(rootPart.getChild("body").getChild("spine"))
-    val neck = registerRelevantPart(rootPart.getChildOf("body", "spine", "spine2", "spine3", "spinefinal", "neck"))
+    override val rootPart = registerRelevantPart("gyarados", root.getChild("gyarados"))
+    val spine = registerRelevantPart("spine", rootPart.getChild("body").getChild("spine"))
+    val neck = registerRelevantPart("neck", rootPart.getChildOf("body", "spine", "spine2", "spine3", "spinefinal", "neck"))
 
     override fun registerPoses() {
         registerPose(

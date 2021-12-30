@@ -21,12 +21,12 @@ import net.minecraft.resources.ResourceLocation
 
 class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
 
-    override val rootPart = registerRelevantPart(root.getChild("ivysaur"))
-    override val head = registerRelevantPart(rootPart.getChild("body").getChild("head"))
-    override val hindRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightbackleg"))
-    override val hindLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftbackleg"))
-    override val foreRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightleg"))
-    override val foreLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftleg"))
+    override val rootPart = registerRelevantPart("ivysaur", root.getChild("ivysaur"))
+    override val head = registerRelevantPart("head", rootPart.getChild("body").getChild("head"))
+    override val hindRightLeg = registerRelevantPart("rightbackleg", rootPart.getChild("body").getChild("rightbackleg"))
+    override val hindLeftLeg = registerRelevantPart("leftbackleg", rootPart.getChild("body").getChild("leftbackleg"))
+    override val foreRightLeg = registerRelevantPart("rightleg", rootPart.getChild("body").getChild("rightleg"))
+    override val foreLeftLeg = registerRelevantPart("leftleg", rootPart.getChild("body").getChild("leftleg"))
 
     init {
         registerPoses()

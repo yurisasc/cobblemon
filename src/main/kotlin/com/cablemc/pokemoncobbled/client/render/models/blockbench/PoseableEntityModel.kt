@@ -32,6 +32,7 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
      * This allows the original rotations to be reset.
      */
     val relevantParts = mutableListOf<TransformedModelPart>()
+    val relevantPartsByName = mutableMapOf<String, TransformedModelPart>()
     /** Registers the different poses this model is capable of ahead of time. Should use [registerPose] religiously. */
     abstract fun registerPoses()
     /** Gets the [PoseableEntityState] for an entity. */
@@ -54,8 +55,10 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
         poses[poseType] = Pose(poseType, condition, idleAnimations, transformedParts)
     }
 
-    fun registerRelevantPart(part: ModelPart): ModelPart {
-        relevantParts.add(part.asTransformed())
+    fun registerRelevantPart(name: String, part: ModelPart): ModelPart {
+        val transformedPart = part.asTransformed()
+        relevantParts.add(transformedPart)
+        relevantPartsByName[name] = transformedPart
         return part
     }
 

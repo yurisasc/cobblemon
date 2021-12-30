@@ -1,9 +1,21 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.StatelessAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationFrameAdapter
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationFrameSchema
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationGroupSchema
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.EntityModel
+import com.cablemc.pokemoncobbled.common.util.fromJson
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.GsonBuilder
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -12,31 +24,45 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
+import java.io.InputStreamReader
 
+class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
+    override val rootPart: ModelPart = registerRelevantPart("magikarp", root.getChild("magikarp"))
+    val body: ModelPart = registerRelevantPart("body", rootPart.getChildOf("body"))
+    val leftMustache: ModelPart = registerRelevantPart("leftmustache", rootPart.getChildOf("body", "leftmustache"))
+    val leftMustacheTip: ModelPart = registerRelevantPart("leftmustachetip", rootPart.getChildOf("body", "leftmustache", "leftmustachetip"))
+    val leftFlipper: ModelPart = registerRelevantPart("leftlfipper", rootPart.getChildOf("body", "leftlfipper"))
+    val rightMustache: ModelPart = registerRelevantPart("rightmustache", rootPart.getChildOf("body", "rightmustache"))
+    val rightMustacheTip: ModelPart = registerRelevantPart("rightmustachetip", rootPart.getChildOf("body", "rightmustache", "rightmustachetip"))
+    val rightFlipper: ModelPart = registerRelevantPart("rightlfipper", rootPart.getChildOf("body", "rightlfipper"))
+    val tail: ModelPart = registerRelevantPart("tail", rootPart.getChildOf("body", "tail"))
+    val animation: BedrockAnimationGroupSchema
 
-class MagikarpModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val magikarp: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
+    init {
+        // TODO: Figure out a repository for this and where it should be initialized
+        val gson = GsonBuilder()
+                .disableHtmlEscaping()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .registerTypeAdapter(BedrockAnimationFrameSchema::class.java, BedrockAnimationFrameAdapter)
+                .create()
+        val inputStream = javaClass.getResourceAsStream("/assets/${PokemonCobbled.MODID}/animations/magikarp.animation.json")!!
+        animation = gson.fromJson<BedrockAnimationGroupSchema>(InputStreamReader(inputStream))
     }
 
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        magikarp.render(poseStack, buffer, packedLight, packedOverlay)
+    override fun registerPoses() {
+        registerPose(
+            poseType = PoseType.WALK,
+            { it.isUnderWater },
+            idleAnimations = arrayOf(BedrockStatelessAnimation(this, animation.animations["animation.magikarp.fly"]!!)),
+            transformedParts = emptyArray()
+        )
+
+        registerPose(
+            poseType = PoseType.WALK,
+            { !it.isUnderWater },
+            idleAnimations = arrayOf(BedrockStatelessAnimation(this, animation.animations["animation.magikarp.flop"]!!)),
+            transformedParts = emptyArray()
+        )
     }
 
     companion object {
@@ -110,9 +136,5 @@ class MagikarpModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
-    }
-
-    init {
-        magikarp = root.getChild("magikarp")
     }
 }
