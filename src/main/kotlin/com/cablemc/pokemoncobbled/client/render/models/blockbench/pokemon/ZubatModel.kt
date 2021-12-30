@@ -25,7 +25,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth.PI
 
 class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, EaredFrame {
-    override val rootPart: ModelPart = root.getChild("zubat")
+    override val rootPart: ModelPart = registerRelevantPart(root.getChild("zubat"))
     override val leftWing = rootPart.getChildOf("body", "leftwing")
     override val rightWing = rootPart.getChildOf("body", "rightwing")
     private val leftEar = registerRelevantPart(rootPart.getChildOf("body", "leftear"))
@@ -41,18 +41,18 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
                 rootPart.translation(
                     function = sineFunction(
                         amplitude = 2.5F,
-                        period = 2F
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = X_AXIS
-                ),
-                rootPart.translation(
-                    function = sineFunction(
-                        amplitude = 2.5F,
                         period = 1F
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = Y_AXIS
+                ),
+                rootPart.translation(
+                    function = sineFunction(
+                        amplitude = 2.5F,
+                        period = 2F
+                    ),
+                    timeVariable = { state, _, _ -> state?.animationSeconds },
+                    axis = X_AXIS
                 ),
                 wingFlap(
                     flapFunction = triangleFunction(
@@ -79,8 +79,7 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
-            val zubat =
-                partdefinition.addOrReplaceChild("zubat", CubeListBuilder.create(), PartPose.offset(0.0f, 24.0f, 0.0f))
+            val zubat = partdefinition.addOrReplaceChild("zubat", CubeListBuilder.create(), PartPose.offset(0.0f, 24.0f, 0.0f))
             val body = zubat.addOrReplaceChild(
                 "body",
                 CubeListBuilder.create().texOffs(0, 16)

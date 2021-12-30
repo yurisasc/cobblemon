@@ -11,8 +11,9 @@ class Species {
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
     val maleRatio = 0.5F
     val catchRate = 45
-    val baseScale = 1F
-    val hitbox = EntityDimensions(1F, 1F, false)
+    // Only modifiable for debugging sizes
+    var baseScale = 1F
+    var hitbox = EntityDimensions(1F, 1F, false)
 
     var forms = mutableListOf(FormData())
 }

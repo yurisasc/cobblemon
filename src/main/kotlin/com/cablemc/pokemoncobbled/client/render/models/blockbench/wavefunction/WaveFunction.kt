@@ -18,7 +18,7 @@ operator fun WaveFunction.plus(other: WaveFunction): WaveFunction = { t -> this(
 operator fun WaveFunction.times(other: WaveFunction): WaveFunction = { t -> this(t) * other(t) }
 fun WaveFunction.aggregate(func: WaveFunction): WaveFunction = { t -> func(this(t)) }
 fun linearFunction(gradient: Float = 1F, yIntercept: Float = 0F): WaveFunction = { t -> gradient * t + yIntercept }
-fun sineFunction(amplitude: Float = 1F, period: Float = 1F, phaseShift: Float = 0F, verticalShift: Float = 0F): WaveFunction = { t -> sin(2*PI/period * (t - phaseShift)) * amplitude  + verticalShift }
+fun sineFunction(amplitude: Float = 1F, period: Float = 1F, phaseShift: Float = 0F, verticalShift: Float = 0F): WaveFunction = { t -> sin(2*PI/period * (t - phaseShift)) * amplitude + verticalShift }
 fun cosineFunction(amplitude: Float = 1F, period: Float = 1F, phaseShift: Float = 0F, verticalShift: Float = 0F): WaveFunction = { t -> cos(2*PI/period * (t - phaseShift)) * amplitude + verticalShift }
 fun triangleFunction(amplitude: Float = 1F, period: Float = 1F, phaseShift: Float = 0F, verticalShift: Float = 0F): WaveFunction = { t ->
     var time = t
