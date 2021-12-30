@@ -18,6 +18,8 @@ object MoveLoader {
 
     fun loadFromAssets(name: String): MoveTemplate {
         val inputStream = javaClass.getResourceAsStream("/assets/${PokemonCobbled.MODID}/moves/$name.json")!!
-        return GSON.fromJson<MoveTemplate>(InputStreamReader(inputStream))
+        val moveTemplate = GSON.fromJson<MoveTemplate>(InputStreamReader(inputStream))
+        moveTemplate.createTextComponents()
+        return moveTemplate
     }
 }

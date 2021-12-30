@@ -13,17 +13,10 @@ class MoveTemplate(
     val effectChance: Double,
     val maxPp: Int
 ) {
-    companion object {
-        private const val PREFIX = "pokemoncobbled.move."
-
-        fun nameComp(name: String) = TranslatableComponent(PREFIX + name.lowercase())
-        fun descComp(name: String) = TranslatableComponent(PREFIX + name.lowercase() + ".desc")
-    }
-
     @Transient
-    val displayName = nameComp(name)
+    lateinit var displayName: TranslatableComponent
     @Transient
-    val description = descComp(name)
+    lateinit var description: TranslatableComponent
 
     fun create() = create(maxPp)
 
@@ -33,5 +26,11 @@ class MoveTemplate(
             maxPp = maxPp,
             template = this
         )
+    }
+
+    fun createTextComponents() {
+        val prefix = "pokemoncobbled.move."
+        displayName = TranslatableComponent(prefix + name.lowercase())
+        description = TranslatableComponent(prefix + name.lowercase() + ".desc")
     }
 }
