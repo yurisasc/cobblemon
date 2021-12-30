@@ -10,6 +10,7 @@ class MoveTemplate(
     val damageCategory: DamageCategory,
     val power: Double,
     val accuracy: Double,
+    val effectChance: Double,
     val maxPp: Int
 ) {
     companion object {
