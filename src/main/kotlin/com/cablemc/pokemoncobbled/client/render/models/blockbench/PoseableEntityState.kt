@@ -22,7 +22,14 @@ abstract class PoseableEntityState<T : Entity> {
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     var idling: Boolean = true
-    var animationTick = 0F
+    var animationSeconds = 0F
+    var timeLastRendered = System.currentTimeMillis()
+
+    fun preRender() {
+        val now = System.currentTimeMillis()
+        animationSeconds += (now - timeLastRendered) / 1000F
+        timeLastRendered = now
+    }
 
     fun getPose(): PoseType? {
         return currentPose
@@ -35,7 +42,7 @@ abstract class PoseableEntityState<T : Entity> {
         }
 
         val beforePose = model.poses[currentPose ?: PoseType.NONE]
-            ?: Pose(PoseType.NONE, { true }, emptyArray(), emptyArray())
+            ?: Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
         val afterPose = model.poses[toPoseType]
             ?: run {
                 LOGGER.error("Tried transitioning ${model::class.java} to pose type $toPoseType but there is no registered pose of that type.")

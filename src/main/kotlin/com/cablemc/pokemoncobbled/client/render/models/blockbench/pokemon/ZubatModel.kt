@@ -41,23 +41,23 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
                 rootPart.translation(
                     function = sineFunction(
                         amplitude = 2.5F,
-                        period = 20F,
-                        verticalShift = 0.5F
+                        period = 2F
                     ),
+                    timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = X_AXIS
                 ),
                 rootPart.translation(
                     function = sineFunction(
                         amplitude = 2.5F,
-                        period = 10F,
-                        verticalShift = 0.5F
+                        period = 1F
                     ),
+                    timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = Y_AXIS
                 ),
                 wingFlap(
                     flapFunction = triangleFunction(
                         amplitude = PI / 3,
-                        period = 10F
+                        period = 0.3F
                     ),
                     axis = Z_AXIS
                 )
