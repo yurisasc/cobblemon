@@ -1,13 +1,13 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
-import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategories
-import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
+import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import net.minecraft.network.chat.TranslatableComponent
 
-data class MoveTemplate(
+class MoveTemplate(
     val name: String,
-    val type: String,
-    val damageCategory: String,
+    val elementalType: ElementalType,
+    val damageCategory: DamageCategory,
     val power: Double,
     val accuracy: Double,
     val maxPp: Int
@@ -15,27 +15,22 @@ data class MoveTemplate(
     companion object {
         private const val PREFIX = "pokemoncobbled.move."
 
-        fun nameComp(name: String): TranslatableComponent {
-            return TranslatableComponent(PREFIX + name.lowercase())
-        }
-
-        fun descComp(name: String): TranslatableComponent {
-            return TranslatableComponent(PREFIX + name.lowercase() + ".desc")
-        }
+        fun nameComp(name: String) = TranslatableComponent(PREFIX + name.lowercase())
+        fun descComp(name: String) = TranslatableComponent(PREFIX + name.lowercase() + ".desc")
     }
 
-    fun move() = move(maxPp)
+    @Transient
+    val displayName = nameComp(name)
+    @Transient
+    val description = descComp(name)
 
-    fun move(currentPp: Int): Move {
+    fun create() = create(maxPp)
+
+    fun create(currentPp: Int): Move {
         return Move(
-            name = nameComp(name),
-            description = descComp(name),
-            type = ElementalTypes.getOrException(type),
-            damageCategory = DamageCategories.getOrException(damageCategory),
-            power = power,
-            accuracy = accuracy,
             currentPp = currentPp,
-            maxPp = maxPp
+            maxPp = maxPp,
+            template = this
         )
     }
 }

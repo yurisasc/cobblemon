@@ -9,7 +9,7 @@ class MoveSet {
      */
     init {
         if(moves.isEmpty()) {
-            moves[0] = Moves.TACKLE.move()
+            moves[0] = Moves.TACKLE.create()
         }
     }
 
