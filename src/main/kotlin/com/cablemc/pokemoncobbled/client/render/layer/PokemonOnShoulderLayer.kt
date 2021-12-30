@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.client.render.layer
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
@@ -47,8 +49,9 @@ class PokemonOnShoulderLayer<T : Player>(renderLayerParent: RenderLayerParent<T,
             val pokemon = Pokemon().loadFromNBT(compoundTag.getCompound(DataKeys.POKEMON))
             val scale = pokemon.form.baseScale * pokemon.scaleModifier
             val width = pokemon.form.hitbox.width
+            val offset = width / 2 - 0.7
             pMatrixStack.translate(
-                if (pLeftShoulder) 0.7f.toDouble() - width / 2 else -0.7f.toDouble() + width / 2,
+                if (pLeftShoulder) -offset else offset,
                 (if (pLivingEntity.isCrouching) -1.3 else -1.5) * scale,
                 0.0
             )
@@ -56,6 +59,13 @@ class PokemonOnShoulderLayer<T : Player>(renderLayerParent: RenderLayerParent<T,
             val model = PokemonModelRepository.getModel(pokemon).entityModel
             val vertexConsumer = pBuffer.getBuffer(model.renderType(PokemonModelRepository.getModelTexture(pokemon)))
             val i = LivingEntityRenderer.getOverlayCoords(pLivingEntity, 0.0f)
+            if (model is PoseableEntityModel) {
+                model.setupAnimStateless(
+                    poseType = PoseType.SHOULDER,
+                    headYaw = pNetHeadYaw,
+                    headPitch = pHeadPitch
+                )
+            }
             model.renderToBuffer(pMatrixStack, vertexConsumer, pPackedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)
             pMatrixStack.popPose();
         }
