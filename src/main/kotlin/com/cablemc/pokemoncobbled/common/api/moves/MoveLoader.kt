@@ -1,12 +1,18 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.moves.adapters.DamageCategoryAdapter
+import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
 import java.io.InputStreamReader
 
 object MoveLoader {
     val GSON = GsonBuilder()
+        .registerTypeAdapter(DamageCategory::class.java, DamageCategoryAdapter)
+        .registerTypeAdapter(ElementalType::class.java, ElementalTypeAdapter)
         .disableHtmlEscaping()
         .create()
 
