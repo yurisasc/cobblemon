@@ -11,4 +11,5 @@ class Species : SpeciesData {
     override var maleRatio = 0.5F
 
     var forms = mutableListOf(NORMAL_FORM)
+    var catchRate = 45
 }
