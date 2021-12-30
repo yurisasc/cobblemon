@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.mixin;
 
-import com.cablemc.pokemoncobbled.common.entity.EntityRegistry;
 import com.cablemc.pokemoncobbled.common.util.CompoundTagExtensionsKt;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;

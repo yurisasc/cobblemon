@@ -8,4 +8,8 @@ class BattleRegistry() {
 
     private val battleMap: ConcurrentHashMap<UUID, Battle> = ConcurrentHashMap()
 
+    fun startBattle() {
+
+    }
+
 }
