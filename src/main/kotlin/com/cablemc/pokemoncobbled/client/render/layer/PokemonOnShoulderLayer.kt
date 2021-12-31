@@ -61,9 +61,12 @@ class PokemonOnShoulderLayer<T : Player>(renderLayerParent: RenderLayerParent<T,
             val i = LivingEntityRenderer.getOverlayCoords(pLivingEntity, 0.0f)
             if (model is PoseableEntityModel) {
                 model.setupAnimStateless(
-                    poseType = PoseType.SHOULDER,
+                    poseType = if (pLeftShoulder) PoseType.SHOULDER_LEFT else PoseType.SHOULDER_RIGHT,
                     headYaw = pNetHeadYaw,
-                    headPitch = pHeadPitch
+                    headPitch = pHeadPitch,
+                    limbSwing = pLimbSwing,
+                    limbSwingAmount = pLimbSwingAmount,
+                    ageInTicks = pLivingEntity.tickCount.toFloat()
                 )
             }
             model.renderToBuffer(pMatrixStack, vertexConsumer, pPackedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)

@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.ModelPartChain
 import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.model.EntityModel
@@ -14,7 +15,6 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
 import kotlin.math.PI
 import kotlin.math.cos
 
@@ -67,8 +67,7 @@ class EkansModel(root: ModelPart) : EntityModel<PokemonEntity>() {
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "ekans"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("ekans"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

@@ -1,13 +1,10 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
-import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
-import com.cablemc.pokemoncobbled.common.api.reactive.SingularObservable
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.FriendlyByteBuf
 
 /**
  * Holds a mapping from a Stat to value that should be reducible to a short for NBT and net.

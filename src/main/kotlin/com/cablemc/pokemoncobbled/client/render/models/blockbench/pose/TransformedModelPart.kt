@@ -85,4 +85,12 @@ class TransformedModelPart(
     fun withRotation(xRot: Float, yRot: Float, zRot: Float): TransformedModelPart {
         return withRotation(X_AXIS, xRot).withRotation(Y_AXIS, yRot).withRotation(Z_AXIS, zRot)
     }
+
+    fun addPosition(axis: Int, distance: Float): TransformedModelPart {
+        return withPosition(axis, position[axis] + distance)
+    }
+
+    fun addRotation(axis: Int, angleRadians: Float): TransformedModelPart {
+        return withRotation(axis, rotation[axis] + angleRadians)
+    }
 }

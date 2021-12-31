@@ -5,7 +5,6 @@ import net.minecraft.util.Mth.sqrt
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.pow
-import kotlin.math.sign
 import kotlin.math.sin
 
 typealias WaveFunction = (Float) -> Float

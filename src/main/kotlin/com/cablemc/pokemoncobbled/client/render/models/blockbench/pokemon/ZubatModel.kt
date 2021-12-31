@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.EarJoint
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.RangeOfMotion
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.asTransformed
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BiWingedFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.EaredFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
@@ -11,8 +12,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.Transform
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.triangleFunction
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -21,7 +21,6 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth.PI
 
 class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, EaredFrame {
@@ -36,7 +35,6 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
-            condition = { true },
             idleAnimations = arrayOf(
                 rootPart.translation(
                     function = sineFunction(
@@ -59,23 +57,58 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
                         amplitude = PI / 3,
                         period = 0.3F
                     ),
+                    timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = Z_AXIS
                 )
             ),
-            transformedParts = emptyArray()
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addRotation(X_AXIS, PI / 9),
+                leftWing.asTransformed().addRotation(X_AXIS, PI / 3),
+                rightWing.asTransformed().addRotation(X_AXIS, PI / 3)
+            )
+        )
+
+        registerPose(
+            poseType = PoseType.SHOULDER_LEFT,
+            idleAnimations = arrayOf(
+                leftWing.rotation(
+                    function = sineFunction(
+                        amplitude = PI / 3,
+                        period = 1F
+                    ),
+                    axis = Z_AXIS,
+                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
+                )
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addRotation(X_AXIS, PI / 9).addPosition(Y_AXIS, 4F).addPosition(Z_AXIS, 3F),
+                leftWing.asTransformed().addRotation(X_AXIS, PI / 3),
+                rightWing.asTransformed().addRotation(X_AXIS, PI / 3).addRotation(Z_AXIS, -PI / 2)
+            )
+        )
+        registerPose(
+            poseType = PoseType.SHOULDER_RIGHT,
+            idleAnimations = arrayOf(
+                rightWing.rotation(
+                    function = sineFunction(
+                        amplitude = PI / 3,
+                        period = 1F
+                    ),
+                    axis = Z_AXIS,
+                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
+                )
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addRotation(X_AXIS, PI / 9).addPosition(Y_AXIS, 4F).addPosition(Z_AXIS, 3F),
+                leftWing.asTransformed().addRotation(X_AXIS, PI / 3).addRotation(Z_AXIS, PI / 2),
+                rightWing.asTransformed().addRotation(X_AXIS, PI / 3)
+            )
         )
     }
 
-    override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
-        leftWing.xRot = PI / 3
-        rightWing.xRot = PI / 3
-        rootPart.xRot = 20f.toRadians()
-        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
-    }
-
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation(PokemonCobbled.MODID, "zubat"), "main")
+        
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("zubat"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

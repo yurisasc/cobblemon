@@ -2,10 +2,10 @@ package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.ModelPartChain
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.AnimationUtils
 import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -14,8 +14,6 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.Mth
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
@@ -77,8 +75,7 @@ class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "charmander"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("charmander"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

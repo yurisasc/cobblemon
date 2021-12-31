@@ -10,7 +10,6 @@ import com.cablemc.pokemoncobbled.common.util.math.toVec3
 import net.minecraft.commands.arguments.EntityAnchorArgument
 import net.minecraft.util.Mth
 import net.minecraft.util.Mth.PI
-import net.minecraft.world.phys.Vec3
 import kotlin.math.min
 
 /**

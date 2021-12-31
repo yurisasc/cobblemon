@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.client.render.models.smd.loaders.files
 import com.cablemc.pokemoncobbled.client.render.models.smd.loaders.files.schemas.PQCAnimationSchema
 import com.cablemc.pokemoncobbled.client.render.models.smd.loaders.files.schemas.PQCSchema
 import com.cablemc.pokemoncobbled.client.render.models.smd.loaders.getParentPath
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.GeometricPoint
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.math.Vector3f
@@ -25,14 +25,14 @@ class SmdPQCFileLoader {
                     checkArgumentSize(2, split.size)
                     val modelFile = split[1]
                     checkFileFormat(".smd", modelFile)
-                    builder.modelPath = ResourceLocation(PokemonCobbled.MODID, "$parentPath/$modelFile")
+                    builder.modelPath = cobbledResource("$parentPath/$modelFile")
                 }
                 "\$anim" -> {
                     checkArgumentSize(3, split.size)
                     val animationName = split[1]
                     val animationFile = split[2]
                     checkFileFormat(".smd", animationFile)
-                    val resourceLoc = ResourceLocation(PokemonCobbled.MODID, "$parentPath/animations/$animationFile")
+                    val resourceLoc = cobbledResource("$parentPath/animations/$animationFile")
                     animations.add(PQCAnimationSchema(animationName, resourceLoc))
                 }
                 "\$scale" -> {
