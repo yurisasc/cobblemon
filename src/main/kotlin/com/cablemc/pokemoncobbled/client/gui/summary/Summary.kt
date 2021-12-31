@@ -32,7 +32,6 @@ class Summary: Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) 
         // Resources
         private val baseResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_base.png")
         private val displayBackgroundResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_display.png")
-        private val exitButtonResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_overlay_exit.png")
     }
 
     /**
@@ -65,12 +64,12 @@ class Summary: Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) 
         // Add Buttons to change Pages - END
 
         // Add Exit Button
-        addRenderableWidget(ExitButton(x + 296, y + 6, 25, 14, 0, 0, 0, exitButtonResource, BASE_WIDTH, BASE_HEIGHT) {
+        addRenderableWidget(ExitButton(x + 296, y + 4, 28, 16, 0, 0, 0) {
             Minecraft.getInstance().setScreen(null)
         })
 
         // Add Party
-        addRenderableWidget(PartyWidget(x, y, BASE_WIDTH, BASE_HEIGHT, 3))
+        addRenderableWidget(PartyWidget(x + BASE_WIDTH, y, BASE_WIDTH, BASE_HEIGHT, 6))
 
         // Add CurrentPage
         addRenderableWidget(currentPage)

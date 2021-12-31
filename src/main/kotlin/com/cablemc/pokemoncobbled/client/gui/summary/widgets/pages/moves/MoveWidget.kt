@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.moves
 
+import com.cablemc.pokemoncobbled.client.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.client.gui.Fonts
 import com.cablemc.pokemoncobbled.client.gui.blitk
 import com.cablemc.pokemoncobbled.client.gui.drawCenteredText
@@ -16,32 +17,37 @@ class MoveWidget(
     pWidth: Int, pHeight: Int,
     val move: PokemonMove,
     infoX: Int, infoY: Int,
-    private val textureWidth: Int, private val textureHeight: Int,
     private val movesWidget: MovesWidget, private val index: Int
 ): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent(move.name)) {
 
     companion object {
         private val moveResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_slot.png")
         private val movePpResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_pp.png")
+        private const val PP_WIDTH = 115.6F
         private const val PP_WIDTH_DIFF = 3
-        private const val PP_HEIGHT = 9F
-        private const val PP_HEIGHT_DIFF = 20.5F
-        private const val MOVE_BUTTON_WIDTH = 15
-        private const val MOVE_BUTTON_HEIGHT = 12
-        private const val TYPE_WIDGET_Y_OFFSET = 2
+        private const val PP_HEIGHT = 6.85F
+        private const val PP_HEIGHT_DIFF = 22.5F
+
+        private const val MOVE_BUTTON_WIDTH = 12
+        private const val MOVE_BUTTON_HEIGHT = 11
         private const val MOVE_UP_BUTTON_Y_OFFSET = 2
         private const val MOVE_DOWN_BUTTON_Y_OFFSET = 14
+
         private const val MOVE_NAME_COLOUR = 0x0A0A0A
+        private const val MOVE_WIDTH = 119.7F
+        private const val MOVE_HEIGHT = 29.5F
+
+        private const val TYPE_WIDGET_Y_OFFSET = 2
     }
 
     private val typeWidget = SingleTypeWidget(x + 3, y + TYPE_WIDGET_Y_OFFSET, 18, 18, move.type)
     private val moveInfoWidget = MoveInfoWidget(x, y, width, height, move, infoX, infoY)
-    private val moveUpButton = MovesMoveButton(x - 15, y + MOVE_UP_BUTTON_Y_OFFSET, MOVE_BUTTON_WIDTH, MOVE_BUTTON_HEIGHT, textureWidth, textureHeight, true) {
+    private val moveUpButton = MovesMoveButton(x - 15, y + MOVE_UP_BUTTON_Y_OFFSET, MOVE_BUTTON_WIDTH, MOVE_BUTTON_HEIGHT, true) {
         movesWidget.moveMove(this, true)
     }.apply {
         addWidget(this)
     }
-    private val moveDownButton = MovesMoveButton(x - 15, y + MOVE_DOWN_BUTTON_Y_OFFSET, MOVE_BUTTON_WIDTH, MOVE_BUTTON_HEIGHT, textureWidth, textureHeight, false) {
+    private val moveDownButton = MovesMoveButton(x - 15, y + MOVE_DOWN_BUTTON_Y_OFFSET + 4, MOVE_BUTTON_WIDTH, MOVE_BUTTON_HEIGHT, false) {
         movesWidget.moveMove(this, false)
     }.apply {
         addWidget(this)
@@ -57,9 +63,10 @@ class MoveWidget(
         isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
         // Rendering Move Texture
         blitk(
-            pMatrixStack,
-            moveResource,
-            x - 19, y - 27, textureHeight, textureWidth
+            poseStack = pMatrixStack,
+            texture = moveResource,
+            x = x + 0.8F, y = y,
+            width = MOVE_WIDTH, height = MOVE_HEIGHT
         )
 
         // Rendering PP Texture
@@ -67,7 +74,7 @@ class MoveWidget(
             poseStack = pMatrixStack,
             texture = movePpResource,
             x = (x + PP_WIDTH_DIFF),
-            y = y + PP_HEIGHT_DIFF - 0.15F + specificOffset(index),
+            y = y + PP_HEIGHT_DIFF,
             height = PP_HEIGHT,
             width = ((width - PP_WIDTH_DIFF * 2) * getPpAsPercentage(move)) + 1.25F,
             textureWidth = width - 4.75F
@@ -76,7 +83,13 @@ class MoveWidget(
         // Render remaining PP Text
         pMatrixStack.pushPose()
         pMatrixStack.scale(0.6F, 0.6F, 0.6F)
-        drawCenteredText(pMatrixStack, Fonts.OSWALD_SMALL, TextComponent("${move.curPp} / ${move.maxPp}"), ((x + width / 2) / 0.6) + 3, ((y + 23) / 0.6) + 1, 0xFFFFFF, false)
+        drawCenteredText(
+            poseStack = pMatrixStack,
+            font = Fonts.OSWALD_SMALL,
+            text = TextComponent("${move.curPp} / ${move.maxPp}"),
+            x = (x + width / 2) / 0.6 + 3, y = (y + 23) / 0.6 + 1,
+            colour = ColourLibrary.WHITE, shadow = false
+        )
         pMatrixStack.popPose()
 
         // Render Type Icon
@@ -85,7 +98,12 @@ class MoveWidget(
         // Render Move Name
         pMatrixStack.pushPose()
         pMatrixStack.scale(0.5F, 0.5F, 0.5F)
-        drawCenteredText(pMatrixStack, Fonts.OSWALD, TextComponent(move.name), (x + 85) / 0.5F, y / 0.5F + 14, MOVE_NAME_COLOUR, false)
+        drawCenteredText(
+            poseStack = pMatrixStack, font = Fonts.OSWALD,
+            text = TextComponent(move.name),
+            x =(x + 85) / 0.5F, y = y / 0.5F + 14,
+            colour = MOVE_NAME_COLOUR, shadow = false
+        )
         pMatrixStack.popPose()
 
         // Render Move Info

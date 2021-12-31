@@ -82,3 +82,20 @@ fun drawCenteredText(
     else
         mcFont.draw(poseStack, comp, x.toFloat() - mcFont.width(comp) / 2, y.toFloat(), colour)
 }
+
+fun drawText(
+    poseStack: PoseStack,
+    font: ResourceLocation,
+    text: Component,
+    x: Number,
+    y: Number,
+    colour: Int,
+    shadow: Boolean = true
+) {
+    val comp = (text as MutableComponent).withStyle(text.style.withFont(font))
+    val mcFont = Minecraft.getInstance().font
+    if(shadow)
+        mcFont.drawShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
+    else
+        mcFont.draw(poseStack, comp, x.toFloat(), y.toFloat(), colour)
+}

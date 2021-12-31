@@ -11,13 +11,14 @@ class PartyWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     private val partySize: Int
-) : SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent("PartyOverlay")) {
+) : SoundlessWidget(pX - PARTY_BOX_WIDTH.toInt(), pY + 50, pWidth, pHeight, TextComponent("PartyOverlay")) {
 
     companion object {
         private val partyResourceMiddle = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_party_1.png")
         private val partyResourceEnd = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_party_2.png")
-        private const val PARTY_BOX_TEXTURE_HEIGHT = 85
-        private const val PARTY_BOX_HEIGHT = 30
+        private const val PARTY_BOX_WIDTH = 30.2F
+        private const val PARTY_BOX_HEIGHT = 32.84F
+        private const val PARTY_BOX_HEIGHT_DIFF = 30.2F
     }
 
     private var iMax = partySize - 2
@@ -33,18 +34,18 @@ class PartyWidget(
         if (partySize > 1) {
             for (i in 0 .. iMax) {
                 blitk(
-                    pPoseStack,
-                    partyResourceMiddle,
-                    x, y + i * PARTY_BOX_HEIGHT + specificOffset(i),
-                    PARTY_BOX_TEXTURE_HEIGHT, width
+                    poseStack = pPoseStack,
+                    texture = partyResourceMiddle,
+                    x = x - 0.1F, y = y + i * PARTY_BOX_HEIGHT_DIFF + specificOffset(i),
+                    width =  PARTY_BOX_WIDTH, height = PARTY_BOX_HEIGHT
                 )
             }
             if (partySize == 6)
                 blitk(
-                    pPoseStack,
-                    partyResourceEnd,
-                    x, y,
-                    height, width
+                    poseStack = pPoseStack,
+                    texture = partyResourceEnd,
+                    x = x - 0.75F, y = y + 4 * PARTY_BOX_HEIGHT_DIFF - 2.75F,
+                    width = 30.84F, height = 32
                 )
         }
     }
