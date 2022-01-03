@@ -1,0 +1,9 @@
+{
+  "capture_succeeded": {
+    "subtitle": "pokemoncobbled.subtitle.capture_succeeded",
+    "sounds": [ "pokemoncobbled:pokeball/capture_succeeded" ]
+  },
+  "shake": {
+    "sounds": [ "pokemoncobbled:pokeball/shake" ]
+  }
+}

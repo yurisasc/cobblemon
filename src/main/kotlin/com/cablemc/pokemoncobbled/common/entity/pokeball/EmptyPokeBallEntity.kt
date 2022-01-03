@@ -8,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.util.isServerSide
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import net.minecraft.core.particles.ParticleTypes
@@ -15,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth.PI
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.level.Level
@@ -140,6 +142,7 @@ class EmptyPokeBallEntity(
                             if (captureResult.isSuccessfulCapture) {
                                 // Do a capture
                                 (level as ServerLevel).sendParticles(ParticleTypes.CRIT, x, y, z, 10, 0.1, -0.5, 0.1, 0.2)
+                                (level as ServerLevel).playSound(null, x, y, z, SoundRegistry.CAPTURE_SUCCEEDED.get(), SoundSource.NEUTRAL, 0.3F, 1F)
                                 val pokemon = capturingPokemon ?: return@execute
                                 val player = this.owner as? ServerPlayer ?: return@execute
 
@@ -158,6 +161,7 @@ class EmptyPokeBallEntity(
                         }
 
                         rollsRemaining--
+                        (level as ServerLevel).playSound(null, x, y, z, SoundRegistry.POKEBALL_SHAKE.get(), SoundSource.NEUTRAL, 1F, 1F)
                         shakeEmitter.set(!shakeEmitter.get())
                     }
                     .build()
