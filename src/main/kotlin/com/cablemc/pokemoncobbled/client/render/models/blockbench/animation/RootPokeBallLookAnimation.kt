@@ -26,6 +26,7 @@ class RootPokeBallLookAnimation(frame: PokeBallFrame) : StatelessAnimation<PokeB
                 0F
             }
         }?.toFloat() ?: 0F
+
         model.rootPart.yRot += yRot
     }
 }

@@ -10,8 +10,10 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPa
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
+import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.server.level.ServerPlayer
 import net.minecraftforge.fmllegacy.network.NetworkDirection
 import net.minecraftforge.fmllegacy.network.NetworkRegistry
@@ -44,6 +46,8 @@ object PokemonCobbledNetwork {
     )
 
     fun register() {
+        EntityDataSerializers.registerSerializer(Vec3DataSerializer)
+
         buildClientMessage<PokemonUpdatePacket>()
         buildClientMessage<InitializePartyPacket>()
         buildClientMessage<SetPartyPokemonPacket>()

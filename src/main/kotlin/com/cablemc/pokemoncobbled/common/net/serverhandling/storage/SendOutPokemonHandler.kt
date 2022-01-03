@@ -1,8 +1,12 @@
 package com.cablemc.pokemoncobbled.common.net.serverhandling.storage
 
+import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.util.toVec3
+import com.cablemc.pokemoncobbled.common.util.traceBlockCollision
+import net.minecraft.core.Direction
 import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
@@ -12,10 +16,27 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
         ctx.enqueueWork {
             val party = PokemonStoreManager.getParty(player)
             val pokemon = party.get(slot) ?: return@enqueueWork
-            if (pokemon.entity == null) {
-                pokemon.sendOut(player.getLevel(), player.position())
-            } else {
-                pokemon.recall()
+            val entity = pokemon.entity
+
+            if (entity == null) {
+                val trace = player.traceBlockCollision(maxDistance = 15F)
+                if (trace != null && trace.direction == Direction.UP && !player.level.getBlockState(trace.blockPos.above()).material.isSolid) {
+                    val position = trace.blockPos.above().toVec3().add(trace.location.x - trace.location.x.toInt(), 0.0, trace.location.z - trace.location.z.toInt())
+                    pokemon.sendOut(player.getLevel(), position) {
+                        it.phasingTargetId.set(player.id)
+                        it.beamModeEmitter.set(1)
+
+                        after(seconds = 1.1F) {
+                            it.phasingTargetId.set(-1)
+                            it.beamModeEmitter.set(0)
+                        }
+                    }
+                }
+            } else if (entity.phasingTargetId.get() == -1) {
+                entity.phasingTargetId.set(player.id)
+                entity.beamModeEmitter.set(2)
+
+                after(seconds = 1.1F) { pokemon.recall() }
             }
         }
     }

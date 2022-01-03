@@ -7,6 +7,8 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFra
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.VertexConsumer
 
 /**
  * A poseable model for a Pokémon. Just handles the state accessor to the [PokemonClientDelegate].
@@ -16,6 +18,11 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
  */
 abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
     override fun getState(entity: PokemonEntity) = entity.delegate as PokemonClientDelegate
+
+    var red = 1F
+    var green = 1F
+    var blue = 1F
+    var alpha = 1F
 
     /** Registers the same configuration for both left and right shoulder poses. */
     fun <F : ModelFrame> registerShoulderPoses(
@@ -39,5 +46,9 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
             idleAnimations = idleAnimations,
             transformedParts = transformedParts
         )
+    }
+
+    override fun renderToBuffer(stack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
+        super.renderToBuffer(stack, buffer, packedLight, packedOverlay, red * r, green * g, blue * b, alpha * a)
     }
 }
