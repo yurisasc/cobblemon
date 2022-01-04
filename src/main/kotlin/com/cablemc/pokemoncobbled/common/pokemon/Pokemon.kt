@@ -91,7 +91,6 @@ class Pokemon {
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         moveSet = MoveSet.loadFromNBT(nbt)
-        println("Set MoveSet to ${moveSet.moves[1]?.name}")
         return this
     }
 
@@ -123,6 +122,7 @@ class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(health)
         buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        //moveSet.saveToBuffer(buffer)
         return buffer
     }
 
@@ -136,6 +136,8 @@ class Pokemon {
         health = buffer.readUnsignedShort()
         // TODO throw exception or dummy stat?
         buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
+        // This errors...
+        //moveSet = MoveSet.loadFromBuffer(buffer)
         return this
     }
 

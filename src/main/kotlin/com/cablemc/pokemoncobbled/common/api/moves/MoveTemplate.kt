@@ -20,10 +20,12 @@ class MoveTemplate(
 
     fun create() = create(maxPp)
 
-    fun create(currentPp: Int): Move {
+    fun create(currentPp: Int) = create(currentPp, maxPp)
+
+    fun create(currentPp: Int, pMaxPp: Int): Move {
         return Move(
             currentPp = currentPp,
-            maxPp = maxPp,
+            maxPp = pMaxPp,
             template = this
         )
     }

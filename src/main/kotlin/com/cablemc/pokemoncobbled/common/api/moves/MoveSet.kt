@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.FriendlyByteBuf
 
 class MoveSet {
 
@@ -43,8 +44,16 @@ class MoveSet {
     }
 
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
-        moves.forEachIndexed { index, move ->  move?.run { nbt.put(index.toString(), this.saveToNBT(CompoundTag())) } }
+        getMoves().forEachIndexed { index, move -> nbt.put(index.toString(), move.saveToNBT(CompoundTag())) }
         return nbt
+    }
+
+    fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
+        buffer.writeInt(getMoves().size)
+        getMoves().forEach {
+            it.saveToBuffer(buffer)
+        }
+        return buffer
     }
 
     companion object {
@@ -52,14 +61,25 @@ class MoveSet {
             val moveSetComp = nbt.getCompound(DataKeys.POKEMON_MOVESET)
             val moveSet = MoveSet()
             for(i in 0..3) {
-                val moveComp = moveSetComp.getCompound(i.toString())
-                moveComp.run {
-                    moveSet.setMove(
-                        pos = i,
-                        move = Move.loadFromNBT(this))
+                try {
+                    val moveComp = moveSetComp.getCompound(i.toString())
+                    moveComp.run {
+                        moveSet.setMove(
+                            pos = i,
+                            move = Move.loadFromNBT(this))
+                    }
+                } catch (e: Exception) {
                 }
             }
-            println("Passing MoveSet consisting of ${moveSet.moves[1]?.name} and ${moveSet.moves[2]?.name}")
+            return moveSet
+        }
+
+        fun loadFromBuffer(buffer: FriendlyByteBuf): MoveSet {
+            val amountMoves = buffer.readInt()
+            val moveSet = MoveSet()
+            for(i in 0..amountMoves) {
+                moveSet.setMove(i, Move.loadFromBuffer(buffer))
+            }
             return moveSet
         }
     }

@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.chat.Component
 
 class Move(
@@ -38,15 +39,28 @@ class Move(
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putString(DataKeys.POKEMON_MOVESET_MOVENAME, name)
         nbt.putInt(DataKeys.POKEMON_MOVESET_MOVEPP, currentPp)
+        nbt.putInt(DataKeys.POKEMON_MOVESET_MAXPP, maxPp)
         return nbt
+    }
+
+    fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
+        buffer.writeUtf(name)
+        buffer.writeInt(currentPp)
+        buffer.writeInt(maxPp)
+        return buffer
     }
 
     companion object {
         fun loadFromNBT(nbt: CompoundTag): Move {
             val template = Moves.getByName(nbt.getString(DataKeys.POKEMON_MOVESET_MOVENAME))
                 ?: throw IllegalStateException("Tried to get non-existent MoveTemplate ${nbt.getString(DataKeys.POKEMON_MOVESET_MOVENAME)}")
-            println("Creating Move from Template ${template.name}")
-            return template.create(nbt.getInt(DataKeys.POKEMON_MOVESET_MOVEPP))
+            return template.create(nbt.getInt(DataKeys.POKEMON_MOVESET_MOVEPP), nbt.getInt(DataKeys.POKEMON_MOVESET_MAXPP))
+        }
+
+        fun loadFromBuffer(buffer: FriendlyByteBuf): Move {
+            val template = Moves.getByName(buffer.readUtf())
+                ?: throw IllegalStateException("Tried to get non-existent MoveTemplate ${buffer.readUtf()}")
+            return template.create(buffer.readInt(), buffer.readInt())
         }
     }
 }
