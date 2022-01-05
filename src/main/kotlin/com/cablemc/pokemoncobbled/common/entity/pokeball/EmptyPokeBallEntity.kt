@@ -116,6 +116,7 @@ class EmptyPokeBallEntity(
             }
 
             if (isOnGround && captureState.get() == CaptureState.FALL.ordinal.toByte()) {
+                capturingPokemon?.setPos(position())
                 captureState.set(CaptureState.SHAKE.ordinal.toByte())
 
                 val captureResult = PokemonCobbledMod.captureCalculator.processCapture(owner as ServerPlayer, capturingPokemon!!.pokemon, pokeBall)
@@ -203,7 +204,6 @@ class EmptyPokeBallEntity(
             pokemonEntity.phasingTargetId.set(-1)
             pokemonEntity.beamModeEmitter.set(0.toByte())
             pokemonEntity.isInvisible = true
-            pokemonEntity.setPos(position())
             // TODO can we turn off collision or something
             captureState.set(CaptureState.FALL.ordinal.toByte())
         }
