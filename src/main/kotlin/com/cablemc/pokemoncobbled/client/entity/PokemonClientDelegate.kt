@@ -13,8 +13,8 @@ import java.lang.Float.min
 
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), EntitySideDelegate<PokemonEntity> {
     companion object {
-        const val BEAM_SHRINK_TIME = 0.5F
-        const val BEAM_EXTEND_TIME = 0.2F
+        const val BEAM_SHRINK_TIME = 0.7F
+        const val BEAM_EXTEND_TIME = 0.3F
     }
 
     lateinit var entity: PokemonEntity

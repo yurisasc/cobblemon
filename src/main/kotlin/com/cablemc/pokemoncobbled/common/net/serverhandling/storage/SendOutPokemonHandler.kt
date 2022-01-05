@@ -4,9 +4,11 @@ import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.util.toVec3
 import com.cablemc.pokemoncobbled.common.util.traceBlockCollision
 import net.minecraft.core.Direction
+import net.minecraft.sounds.SoundSource
 import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
@@ -23,20 +25,22 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
                 if (trace != null && trace.direction == Direction.UP && !player.level.getBlockState(trace.blockPos.above()).material.isSolid) {
                     val position = trace.blockPos.above().toVec3().add(trace.location.x - trace.location.x.toInt(), 0.0, trace.location.z - trace.location.z.toInt())
                     pokemon.sendOut(player.getLevel(), position) {
+                        player.getLevel().playSound(null, position.x, position.y, position.z, SoundRegistry.SEND_OUT.get(), SoundSource.NEUTRAL, 1F, 1F)
                         it.phasingTargetId.set(player.id)
                         it.beamModeEmitter.set(1)
 
-                        after(seconds = 1.1F) {
+                        after(seconds = 1.5F) {
                             it.phasingTargetId.set(-1)
                             it.beamModeEmitter.set(0)
                         }
                     }
                 }
             } else if (entity.phasingTargetId.get() == -1) {
+                player.getLevel().playSound(null, entity.x, entity.y, entity.z, SoundRegistry.RECALL.get(), SoundSource.NEUTRAL, 1F, 1F)
                 entity.phasingTargetId.set(player.id)
                 entity.beamModeEmitter.set(2)
 
-                after(seconds = 1.1F) { pokemon.recall() }
+                after(seconds = 1.5F) { pokemon.recall() }
             }
         }
     }

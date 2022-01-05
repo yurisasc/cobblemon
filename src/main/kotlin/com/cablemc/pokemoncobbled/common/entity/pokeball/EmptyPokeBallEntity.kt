@@ -16,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvents
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth.PI
 import net.minecraft.world.entity.EntityType
@@ -178,6 +179,7 @@ class EmptyPokeBallEntity(
         after(seconds = 0.25F) {
             pokemon.isBeingCaptured = false
             (level as ServerLevel).sendParticles(ParticleTypes.CLOUD, x, y, z, 20, 0.0, 0.2, 0.0, 0.05)
+            (level as ServerLevel).playSound(null, x, y, z, SoundEvents.GLASS_BREAK, SoundSource.NEUTRAL, 1F, 1F)
             discard()
         }
     }
@@ -187,11 +189,13 @@ class EmptyPokeBallEntity(
         val displace = deltaMovement
         captureState.set(CaptureState.HIT.ordinal.toByte())
         val mul = if (random.nextBoolean()) 1 else -1
+        (level as ServerLevel).playSound(null, x, y, z, SoundRegistry.POKEBALL_HIT.get(), SoundSource.NEUTRAL, 1F, 1F)
         deltaMovement = displace.multiply(-1.0, 0.0, -1.0).normalize().yRot(mul * PI/3).multiply(0.1, 0.0, 0.1).add(0.0, 1.0 / 3, 0.0)
         pokemonEntity.phasingTargetId.set(this.id)
         after(seconds = 0.7F) {
             deltaMovement = Vec3.ZERO
             isNoGravity = true
+            (level as ServerLevel).playSound(null, x, y, z, SoundRegistry.CAPTURE_STARTED.get(), SoundSource.NEUTRAL, 0.5F, 1F)
             pokemonEntity.beamModeEmitter.set(2.toByte())
         }
 

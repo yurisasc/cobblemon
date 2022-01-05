@@ -5,5 +5,17 @@
   },
   "shake": {
     "sounds": [ "pokemoncobbled:pokeball/shake" ]
+  },
+  "capture_started": {
+    "sounds": [ "pokemoncobbled:pokeball/capture_started" ]
+  },
+  "recall": {
+    "sounds": [ "pokemoncobbled:pokeball/recall" ]
+  },
+  "send_out": {
+    "sounds": [ "pokemoncobbled:pokeball/send_out" ]
+  },
+  "hit": {
+    "sounds": [ "pokemoncobbled:pokeball/hit" ]
   }
 }
