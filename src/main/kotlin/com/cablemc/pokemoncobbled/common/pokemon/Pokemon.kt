@@ -50,9 +50,10 @@ class Pokemon {
 
     val storeCoordinates: SettableObservable<StoreCoordinates<*>?> = SettableObservable(null)
 
-    fun sendOut(level: ServerLevel, position: Vec3): PokemonEntity {
+    fun sendOut(level: ServerLevel, position: Vec3, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
         val entity = PokemonEntity(level, this)
         entity.setPos(position)
+        mutation(entity)
         level.addFreshEntity(entity)
         return entity
     }
