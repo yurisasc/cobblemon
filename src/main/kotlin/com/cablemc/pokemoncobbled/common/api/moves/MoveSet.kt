@@ -2,6 +2,8 @@ package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.Tag
 import net.minecraft.network.FriendlyByteBuf
 
 class MoveSet {
@@ -43,9 +45,10 @@ class MoveSet {
         }
     }
 
-    fun saveToNBT(nbt: CompoundTag): CompoundTag {
-        getMoves().forEachIndexed { index, move -> nbt.put(index.toString(), move.saveToNBT(CompoundTag())) }
-        return nbt
+    fun getNBT(): ListTag {
+        val listTag = ListTag()
+        listTag.addAll(getMoves().map { it.saveToNBT(CompoundTag()) })
+        return listTag
     }
 
     fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
@@ -58,18 +61,9 @@ class MoveSet {
 
     companion object {
         fun loadFromNBT(nbt: CompoundTag): MoveSet {
-            val moveSetComp = nbt.getCompound(DataKeys.POKEMON_MOVESET)
             val moveSet = MoveSet()
-            for(i in 0..3) {
-                try {
-                    val moveComp = moveSetComp.getCompound(i.toString())
-                    moveComp.run {
-                        moveSet.setMove(
-                            pos = i,
-                            move = Move.loadFromNBT(this))
-                    }
-                } catch (e: Exception) {
-                }
+            nbt.getList(DataKeys.POKEMON_MOVESET, Tag.TAG_COMPOUND.toInt()).forEachIndexed { index, tag ->
+                moveSet.setMove(index, Move.loadFromNBT(tag as CompoundTag))
             }
             return moveSet
         }

@@ -76,7 +76,7 @@ class Pokemon {
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_HEALTH, health.toShort())
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
-        nbt.put(DataKeys.POKEMON_MOVESET, moveSet.saveToNBT(CompoundTag()))
+        nbt.put(DataKeys.POKEMON_MOVESET, moveSet.getNBT())
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
         return nbt
     }
