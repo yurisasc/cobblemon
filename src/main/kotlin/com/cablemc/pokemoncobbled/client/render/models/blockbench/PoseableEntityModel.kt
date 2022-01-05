@@ -47,7 +47,7 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
      */
     fun <F : ModelFrame> registerPose(
         poseType: PoseType,
-        condition: (T) -> Boolean,
+        condition: (T) -> Boolean = { true },
         transformTicks: Int = 30,
         idleAnimations: Array<StatelessAnimation<T, out F>>,
         transformedParts: Array<TransformedModelPart>
@@ -73,10 +73,11 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
      * Sets up the angles and positions for the model knowing that there is no state. Is given a pose type to use,
      * and optionally things like limb swinging and head rotations.
      */
-    fun setupAnimStateless(poseType: PoseType, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F) {
+    fun setupAnimStateless(poseType: PoseType, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, ageInTicks: Float = 0F) {
         setDefault()
         val pose = poses[poseType] ?: poses.values.first()
-        pose.idleStateless(this, limbSwing, limbSwingAmount, 0F, headYaw, headPitch)
+        pose.transformedParts.forEach { it.apply() }
+        pose.idleStateless(this, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
 
     override fun setupAnim(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
@@ -98,7 +99,6 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
                 if (previousPose != null && pose.transformTicks > 0) {
                     state.statefulAnimations.add(
                         PoseTransitionAnimation(
-                            frame = this,
                             beforePose = previousPose,
                             afterPose = pose,
                             durationTicks = pose.transformTicks

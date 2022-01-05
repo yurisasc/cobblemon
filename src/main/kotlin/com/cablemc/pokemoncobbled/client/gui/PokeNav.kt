@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.client.gui
 
 import com.cablemc.pokemoncobbled.client.keybinding.PokeNavigatorBinding
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.platform.InputConstants
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
@@ -28,11 +28,11 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
         private const val buttonHeight = 50
         private const val buttonWidth = 50
         // Textures
-        private val background = ResourceLocation(PokemonCobbled.MODID, "ui/pokenav/test.png")
-        private val pokedex = ResourceLocation(PokemonCobbled.MODID, "ui/pokenav/pokedex.png")
-        private val bag = ResourceLocation(PokemonCobbled.MODID, "ui/pokenav/bag.png")
-        private val question = ResourceLocation(PokemonCobbled.MODID, "ui/pokenav/question.png")
-        private val selectionTexture = ResourceLocation(PokemonCobbled.MODID, "ui/pokenav/selection.png")
+        private val background = cobbledResource("ui/pokenav/test.png")
+        private val pokedex = cobbledResource("ui/pokenav/pokedex.png")
+        private val bag = cobbledResource("ui/pokenav/bag.png")
+        private val question = cobbledResource("ui/pokenav/question.png")
+        private val selectionTexture = cobbledResource("ui/pokenav/selection.png")
     }
 
     private val buttons = mutableListOf<PositionAwareImageButton>()

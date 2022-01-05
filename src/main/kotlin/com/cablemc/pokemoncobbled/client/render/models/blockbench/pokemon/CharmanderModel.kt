@@ -1,12 +1,11 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.*
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BimanualFrame
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BipedFrame
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.ModelPartChain
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
+import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.VertexConsumer
+import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -15,8 +14,9 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.resources.ResourceLocation
-
-class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
     override val rootPart = registerRelevantPart(root.getChild("charmander"))
     val body = registerRelevantPart(rootPart.getChild("body"))
@@ -63,8 +63,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "charmander"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("charmander"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

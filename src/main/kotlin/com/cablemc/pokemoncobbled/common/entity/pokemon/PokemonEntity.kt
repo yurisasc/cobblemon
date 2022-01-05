@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -41,6 +42,8 @@ class PokemonEntity(
     } else {
         PokemonServerDelegate()
     }
+
+    var isBeingCaptured = false
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
@@ -117,7 +120,10 @@ class PokemonEntity(
         if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
             if (canSitOnShoulder() && player is ServerPlayer) {
                 // TODO: Check ownership as well
-                this.setEntityOnShoulder(player)
+                val store = pokemon.storeCoordinates.get()?.store
+                if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
+                    this.setEntityOnShoulder(player)
+                }
             }
         }
         return super.mobInteract(player, hand)

@@ -12,14 +12,14 @@ import net.minecraft.world.entity.Entity
  * @author Hiroku
  * @since December 5th, 2021
  */
-abstract class StatefulAnimation<T : Entity, F : ModelFrame>(val frame: F) {
+interface StatefulAnimation<T : Entity, F : ModelFrame> {
     /**
      * Whether this animation should prevent the given idle animation from occurring.
      *
      * This is for cases where this animation and the idle animation work on the same parts
      * of the model and would conflict.
      */
-    abstract fun preventsIdle(entity: T, idleAnimation: StatelessAnimation<T, *>): Boolean
-    /** Runs the animation. You can access the frame from the class properties. */
-    abstract fun run(entity: T, model: PoseableEntityModel<T>): Boolean
+    fun preventsIdle(entity: T, idleAnimation: StatelessAnimation<T, *>): Boolean
+    /** Runs the animation. You can check that the model fits a particular frame. Returns true if the animation should continue. */
+    fun run(entity: T, model: PoseableEntityModel<T>): Boolean
 }

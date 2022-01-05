@@ -10,7 +10,7 @@ import com.cablemc.pokemoncobbled.client.render.models.smd.mesh.SmdMesh
 import com.cablemc.pokemoncobbled.client.render.models.smd.mesh.SmdMeshVertex
 import com.cablemc.pokemoncobbled.client.render.models.smd.skeleton.SmdModelBone
 import com.cablemc.pokemoncobbled.client.render.models.smd.skeleton.SmdModelSkeleton
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.resources.ResourceLocation
 
 /**
@@ -57,7 +57,7 @@ class SmdModelLoader(
         val parentPath = split.subList(0, split.size - 1)
             .reduce { acc, s -> "$acc/$s" }
         val fileName = split.last().replace(".smd", "")
-        return ResourceLocation(PokemonCobbled.MODID, "$parentPath/textures/$fileName.png")
+        return cobbledResource("$parentPath/textures/$fileName.png")
     }
 
     private fun getSkeleton(schema: SmdModelSchema, mesh: SmdMesh): SmdModelSkeleton {
