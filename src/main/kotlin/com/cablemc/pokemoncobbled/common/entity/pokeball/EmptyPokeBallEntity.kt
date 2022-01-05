@@ -4,32 +4,41 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
+import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.util.isServerSide
+import com.cablemc.pokemoncobbled.common.util.playSoundServer
+import com.cablemc.pokemoncobbled.common.util.sendParticlesServer
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.network.protocol.Packet
+import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
-import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
-import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth.PI
+import net.minecraft.world.entity.EntityDimensions
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.Pose
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile
+import net.minecraft.world.item.Item
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
 import net.minecraft.world.phys.Vec3
+import net.minecraftforge.fmllegacy.network.NetworkHooks
 
 class EmptyPokeBallEntity(
-    pokeBall: PokeBall,
+    val pokeBall: PokeBall,
     entityType: EntityType<out EmptyPokeBallEntity>,
     level: Level
-) : PokeBallEntity(pokeBall, entityType, level) {
+) : ThrowableItemProjectile(entityType, level) {
     enum class CaptureState {
         NOT,
         HIT,
@@ -47,13 +56,16 @@ class EmptyPokeBallEntity(
         const val TICKS_BEFORE_SHAKE = 10
     }
 
+    val DIMENSIONS = EntityDimensions(0.4F, 0.4F, true)
+    val entityProperties = mutableListOf<EntityProperty<*>>()
+
     var capturingPokemon: PokemonEntity? = null
     val captureState = addEntityProperty(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
     val hitTargetPosition = addEntityProperty(HIT_TARGET_POSITION, Vec3.ZERO)
     val hitVelocity = addEntityProperty(HIT_VELOCITY, Vec3.ZERO)
     val shakeEmitter = addEntityProperty(SHAKE, false)
 
-    override val delegate = if (level.isClientSide) {
+    val delegate = if (level.isClientSide) {
         com.cablemc.pokemoncobbled.client.entity.EmptyPokeBallClientDelegate()
     } else {
         EmptyPokeBallServerDelegate()
@@ -108,6 +120,7 @@ class EmptyPokeBallEntity(
 
     override fun tick() {
         delegate.tick(this)
+        entityProperties.forEach { it.checkForUpdate() }
         super.tick()
         if (level.isServerSide()) {
             if (owner == null || !owner!!.isAlive || (captureState.get() != CaptureState.NOT.ordinal.toByte() && capturingPokemon?.isAlive != true)) {
@@ -143,8 +156,8 @@ class EmptyPokeBallEntity(
                         if (rollsRemaining <= 0) {
                             if (captureResult.isSuccessfulCapture) {
                                 // Do a capture
-                                (level as ServerLevel).sendParticles(ParticleTypes.CRIT, x, y, z, 10, 0.1, -0.5, 0.1, 0.2)
-                                (level as ServerLevel).playSound(null, x, y, z, SoundRegistry.CAPTURE_SUCCEEDED.get(), SoundSource.NEUTRAL, 0.3F, 1F)
+                                level.sendParticlesServer(ParticleTypes.CRIT, position(), 10, Vec3(0.1, -0.5, 0.1), 0.2)
+                                level.playSoundServer(position(), SoundRegistry.CAPTURE_SUCCEEDED.get(), volume = 0.3F, pitch = 1F)
                                 val pokemon = capturingPokemon ?: return@execute
                                 val player = this.owner as? ServerPlayer ?: return@execute
 
@@ -163,7 +176,7 @@ class EmptyPokeBallEntity(
                         }
 
                         rollsRemaining--
-                        (level as ServerLevel).playSound(null, x, y, z, SoundRegistry.POKEBALL_SHAKE.get(), SoundSource.NEUTRAL, 1F, 1F)
+                        level.playSoundServer(position(), SoundRegistry.POKEBALL_SHAKE.get())
                         shakeEmitter.set(!shakeEmitter.get())
                     }
                     .build()
@@ -179,10 +192,27 @@ class EmptyPokeBallEntity(
 
         after(seconds = 0.25F) {
             pokemon.isBeingCaptured = false
-            (level as ServerLevel).sendParticles(ParticleTypes.CLOUD, x, y, z, 20, 0.0, 0.2, 0.0, 0.05)
-            (level as ServerLevel).playSound(null, x, y, z, SoundEvents.GLASS_BREAK, SoundSource.NEUTRAL, 1F, 1F)
+            level.sendParticlesServer(ParticleTypes.CLOUD, position(), 20, Vec3(0.0, 0.2, 0.0), 0.05)
+            level.playSoundServer(position(), SoundEvents.GLASS_BREAK)
             discard()
         }
+    }
+
+    override fun getDefaultItem(): Item = ItemRegistry.POKE_BALL.get()
+
+    override fun getAddEntityPacket(): Packet<*> {
+        return NetworkHooks.getEntitySpawningPacket(this)
+    }
+
+    override fun getDimensions(pPose: Pose) = DIMENSIONS
+    fun <T> addEntityProperty(accessor: EntityDataAccessor<T>, initialValue: T): EntityProperty<T> {
+        val property = EntityProperty(
+            entityData = entityData,
+            accessor = accessor,
+            initialValue = initialValue
+        )
+        entityProperties.add(property)
+        return property
     }
 
     private fun attemptCatch(pokemonEntity: PokemonEntity) {
@@ -190,13 +220,13 @@ class EmptyPokeBallEntity(
         val displace = deltaMovement
         captureState.set(CaptureState.HIT.ordinal.toByte())
         val mul = if (random.nextBoolean()) 1 else -1
-        (level as ServerLevel).playSound(null, x, y, z, SoundRegistry.POKEBALL_HIT.get(), SoundSource.NEUTRAL, 1F, 1F)
+        level.playSoundServer(position(), SoundRegistry.POKEBALL_HIT.get())
         deltaMovement = displace.multiply(-1.0, 0.0, -1.0).normalize().yRot(mul * PI/3).multiply(0.1, 0.0, 0.1).add(0.0, 1.0 / 3, 0.0)
         pokemonEntity.phasingTargetId.set(this.id)
         after(seconds = 0.7F) {
             deltaMovement = Vec3.ZERO
             isNoGravity = true
-            (level as ServerLevel).playSound(null, x, y, z, SoundRegistry.CAPTURE_STARTED.get(), SoundSource.NEUTRAL, 0.5F, 1F)
+            level.playSoundServer(position(), SoundRegistry.CAPTURE_STARTED.get(), volume = 0.2F)
             pokemonEntity.beamModeEmitter.set(2.toByte())
         }
 
@@ -204,7 +234,6 @@ class EmptyPokeBallEntity(
             pokemonEntity.phasingTargetId.set(-1)
             pokemonEntity.beamModeEmitter.set(0.toByte())
             pokemonEntity.isInvisible = true
-            // TODO can we turn off collision or something
             captureState.set(CaptureState.FALL.ordinal.toByte())
         }
     }

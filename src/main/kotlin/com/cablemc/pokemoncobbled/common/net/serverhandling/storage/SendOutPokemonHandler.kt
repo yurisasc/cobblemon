@@ -5,10 +5,10 @@ import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
+import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.toVec3
 import com.cablemc.pokemoncobbled.common.util.traceBlockCollision
 import net.minecraft.core.Direction
-import net.minecraft.sounds.SoundSource
 import net.minecraftforge.fmllegacy.network.NetworkEvent
 
 object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
@@ -25,7 +25,7 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
                 if (trace != null && trace.direction == Direction.UP && !player.level.getBlockState(trace.blockPos.above()).material.isSolid) {
                     val position = trace.blockPos.above().toVec3().add(trace.location.x - trace.location.x.toInt(), 0.0, trace.location.z - trace.location.z.toInt())
                     pokemon.sendOut(player.getLevel(), position) {
-                        player.getLevel().playSound(null, position.x, position.y, position.z, SoundRegistry.SEND_OUT.get(), SoundSource.NEUTRAL, 1F, 1F)
+                        player.getLevel().playSoundServer(position, SoundRegistry.SEND_OUT.get(), volume = 0.2F)
                         it.phasingTargetId.set(player.id)
                         it.beamModeEmitter.set(1)
 
@@ -36,7 +36,7 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
                     }
                 }
             } else if (entity.phasingTargetId.get() == -1) {
-                player.getLevel().playSound(null, entity.x, entity.y, entity.z, SoundRegistry.RECALL.get(), SoundSource.NEUTRAL, 1F, 1F)
+                player.getLevel().playSoundServer(entity.position(), SoundRegistry.RECALL.get(), volume = 0.2F)
                 entity.phasingTargetId.set(player.id)
                 entity.beamModeEmitter.set(2)
 

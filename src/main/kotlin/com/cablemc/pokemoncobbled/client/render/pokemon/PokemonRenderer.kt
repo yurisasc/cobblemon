@@ -1,19 +1,17 @@
 package com.cablemc.pokemoncobbled.client.render.pokemon
 
-import com.cablemc.pokemoncobbled.client.CobbledResources
 import com.cablemc.pokemoncobbled.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
 import com.cablemc.pokemoncobbled.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
+import com.cablemc.pokemoncobbled.client.render.addVertex
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.parabolaFunction
-import com.cablemc.pokemoncobbled.common.entity.pokeball.PokeBallEntity
+import com.cablemc.pokemoncobbled.client.render.renderBeaconBeam
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import com.mojang.math.Matrix3f
-import com.mojang.math.Matrix4f
 import com.mojang.math.Quaternion
 import com.mojang.math.Vector3f
 import com.mojang.math.Vector4f
@@ -23,8 +21,6 @@ import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
-import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth.PI
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
@@ -113,7 +109,7 @@ class PokemonRenderer(
 
     fun renderBeam(matrixStack: PoseStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, buffer: MultiBufferSource) {
         val pokemonPosition = entity.position().add(0.0, entity.bbHeight / 2.0, 0.0)
-        val beamSourcePosition = if (beamTarget is PokeBallEntity) {
+        val beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
             beamTarget.position().let { it.add(pokemonPosition.subtract(it).normalize().multiply(0.4, 0.0, 0.4)) }
         } else {
             beamTarget as Player
@@ -153,11 +149,10 @@ class PokemonRenderer(
         val dot = direction.dot(yAxis)
         val cross = yAxis.copy()
         cross.cross(direction)
-
         val q = Quaternion(cross.x(), cross.y(), cross.z(), 1 + dot)
         q.normalize()
-
         matrixStack.mulPose(q)
+
         renderBeaconBeam(
             matrixStack = matrixStack,
             buffer = buffer,
@@ -172,6 +167,7 @@ class PokemonRenderer(
             glowRadius = 0.07F,
             glowAlpha = 0.4F
         )
+
         matrixStack.popPose()
     }
 
@@ -200,6 +196,7 @@ class PokemonRenderer(
         val startX = 0F
         val endX = startX + glowLength
 
+        // Draw 4 rays of red.
         repeat(times = 4) {
             matrixStack.pushPose()
 
@@ -220,6 +217,10 @@ class PokemonRenderer(
             farTop.transform(poseM)
             farBottom.transform(poseM)
 
+            // "Why are you drawing two quads?" because for some weird reason, a specific vertex order
+            // only shows a visible quad for 180 degrees, and which 180 degrees changes with the order.
+            // No idea why, it's like the vertices rotate wrong or something, idk.
+
             addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearTop.y(), nearTop.x(), nearTop.z(), 0F, 1F) // A
             addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearBottom.y(), nearBottom.x(), nearBottom.z(), 0F, 1F) // B
             addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farBottom.y(), farBottom.x(), farBottom.z(), 0F, 1F) // C
@@ -232,223 +233,5 @@ class PokemonRenderer(
 
             matrixStack.popPose()
         }
-
-
-
-
-
-        /*
-        addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMax, x1, z1, 1F, 0F)
-        addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMin, x1, z1, 1F, 1F)
-        addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMin, x2, z2, 0F, 1F)
-        addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMax, x2, z2, 0F, 0F)
-         */
-
-//            buffer = vectorBuffer,
-//            red = red,
-//            green = green,
-//            blue = blue,
-//            alpha = alpha,
-//            yMin = 0F,
-//            yMax = 1F,
-//            x1 = 0F,
-//            x2 = 1F,
-//            z1 = 0F,
-//            z2 = 1F
-    }
-
-
-    fun renderBeaconBeam(
-        matrixStack: PoseStack,
-        buffer: MultiBufferSource,
-        textureLocation: ResourceLocation = CobbledResources.PHASE_BEAM,
-        partialTicks: Float,
-        totalLevelTime: Long,
-        yOffset: Float = 0F,
-        height: Float,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float,
-        beamRadius: Float,
-        glowRadius: Float,
-        glowAlpha: Float
-    ) {
-        val i = yOffset + height
-        val beamRotation = Math.floorMod(totalLevelTime, 40).toFloat() + partialTicks
-        matrixStack.pushPose()
-        matrixStack.mulPose(Vector3f.YP.rotationDegrees(beamRotation * 2.25f - 45.0f))
-        var f9 = -beamRadius
-        val f12 = -beamRadius
-        renderPart(
-            matrixStack,
-            buffer.getBuffer(RenderType.beaconBeam(textureLocation, false)),
-            red,
-            green,
-            blue,
-            alpha,
-            yOffset,
-            i,
-            0.0f,
-            beamRadius,
-            beamRadius,
-            0.0f,
-            f9,
-            0.0f,
-            0.0f,
-            f12
-        )
-        // Undo the rotation so that the glow is at a rotated offset
-        matrixStack.popPose()
-        val f6 = -glowRadius
-        val f7 = -glowRadius
-        val f8 = -glowRadius
-        f9 = -glowRadius
-        renderPart(
-            matrixStack,
-            buffer.getBuffer(RenderType.beaconBeam(textureLocation, true)),
-            red,
-            green,
-            blue,
-            glowAlpha,
-            yOffset,
-            i,
-            f6,
-            f7,
-            glowRadius,
-            f8,
-            f9,
-            glowRadius,
-            glowRadius,
-            glowRadius
-        )
-    }
-
-    private fun renderPart(
-        matrixStack: PoseStack,
-        vertexBuffer: VertexConsumer,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float,
-        yMin: Float,
-        yMax: Float,
-        p_112164_: Float,
-        p_112165_: Float,
-        p_112166_: Float,
-        p_112167_: Float,
-        p_112168_: Float,
-        p_112169_: Float,
-        p_112170_: Float,
-        p_112171_: Float
-    ) {
-        val pose = matrixStack.last()
-        val matrix4f = pose.pose()
-        val matrix3f = pose.normal()
-        renderQuad(
-            matrix4f,
-            matrix3f,
-            vertexBuffer,
-            red,
-            green,
-            blue,
-            alpha,
-            yMin,
-            yMax,
-            p_112164_,
-            p_112165_,
-            p_112166_,
-            p_112167_
-        )
-        renderQuad(
-            matrix4f,
-            matrix3f,
-            vertexBuffer,
-            red,
-            green,
-            blue,
-            alpha,
-            yMin,
-            yMax,
-            p_112170_,
-            p_112171_,
-            p_112168_,
-            p_112169_
-        )
-        renderQuad(
-            matrix4f,
-            matrix3f,
-            vertexBuffer,
-            red,
-            green,
-            blue,
-            alpha,
-            yMin,
-            yMax,
-            p_112166_,
-            p_112167_,
-            p_112170_,
-            p_112171_
-        )
-        renderQuad(
-            matrix4f,
-            matrix3f,
-            vertexBuffer,
-            red,
-            green,
-            blue,
-            alpha,
-            yMin,
-            yMax,
-            p_112168_,
-            p_112169_,
-            p_112164_,
-            p_112165_
-        )
-    }
-
-    private fun renderQuad(
-        matrixPos: Matrix4f,
-        matrixNormal: Matrix3f,
-        buffer: VertexConsumer,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float,
-        yMin: Float,
-        yMax: Float,
-        x1: Float,
-        z1: Float,
-        x2: Float,
-        z2: Float
-    ) {
-        addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMax, x1, z1, 1F, 0F)
-        addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMin, x1, z1, 1F, 1F)
-        addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMin, x2, z2, 0F, 1F)
-        addVertex(matrixPos, matrixNormal, buffer, red, green, blue, alpha, yMax, x2, z2, 0F, 0F)
-    }
-
-    private fun addVertex(
-        matrixPos: Matrix4f,
-        matrixNormal: Matrix3f,
-        buffer: VertexConsumer,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float,
-        y: Float,
-        x: Float,
-        z: Float,
-        texU: Float,
-        texV: Float
-    ) {
-        buffer
-            .vertex(matrixPos, x, y, z)
-            .color(red, green, blue, alpha)
-            .uv(texU, texV)
-            .overlayCoords(OverlayTexture.NO_OVERLAY)
-            .uv2(15728880)
-            .normal(matrixNormal, 0.0f, 1.0f, 0.0f)
-            .endVertex()
     }
 }

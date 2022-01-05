@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.client.render.pokeball
 
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
-import com.cablemc.pokemoncobbled.common.entity.pokeball.PokeBallEntity
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer
@@ -10,18 +10,18 @@ import net.minecraft.client.renderer.entity.ItemRenderer
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.resources.ResourceLocation
 
-class PokeBallRenderer<T : PokeBallEntity>(context: EntityRendererProvider.Context) : EntityRenderer<T>(context) {
+class PokeBallRenderer(context: EntityRendererProvider.Context) : EntityRenderer<EmptyPokeBallEntity>(context) {
 
     init {
         PokeBallModelRepository.initializeModels(context)
     }
 
-    override fun getTextureLocation(pEntity: T): ResourceLocation {
+    override fun getTextureLocation(pEntity: EmptyPokeBallEntity): ResourceLocation {
         return PokeBallModelRepository.getModelTexture(pEntity.pokeBall)
     }
 
     override fun render(
-        pEntity: T,
+        pEntity: EmptyPokeBallEntity,
         pEntityYaw: Float,
         pPartialTicks: Float,
         pMatrixStack: PoseStack,
