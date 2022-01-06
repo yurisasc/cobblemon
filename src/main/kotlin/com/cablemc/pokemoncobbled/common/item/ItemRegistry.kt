@@ -17,7 +17,7 @@ object ItemRegistry {
 
     val POKE_BALL = registerItem("poke_ball", PokeBallItem(PokeBalls.POKE_BALL))
 
-    private inline fun registerItem(
+    private fun registerItem(
         name: String,
         item: Item
     ): RegistryObject<Item> {
@@ -27,5 +27,4 @@ object ItemRegistry {
     fun register(bus: IEventBus) {
         ITEMS.register(bus)
     }
-
 }
