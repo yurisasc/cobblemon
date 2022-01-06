@@ -10,7 +10,7 @@ import net.minecraft.world.entity.Entity
 
 /**
  * Represents the entity-specific state for a poseable model. The implementation is responsible for
- * handling all of the state for an entity's model, and needs to be conscious of the fact that the
+ * handling all the state for an entity's model, and needs to be conscious of the fact that the
  * model may change without this state changing.
  *
  * @author Hiroku
@@ -22,7 +22,14 @@ abstract class PoseableEntityState<T : Entity> {
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     var idling: Boolean = true
-    var animationTick = 0F
+    var animationSeconds = 0F
+    var timeLastRendered = System.currentTimeMillis()
+
+    fun preRender() {
+        val now = System.currentTimeMillis()
+        animationSeconds += (now - timeLastRendered) / 1000F
+        timeLastRendered = now
+    }
 
     fun getPose(): PoseType? {
         return currentPose
@@ -35,14 +42,14 @@ abstract class PoseableEntityState<T : Entity> {
         }
 
         val beforePose = model.poses[currentPose ?: PoseType.NONE]
-            ?: Pose(PoseType.NONE, { true }, emptyArray(), emptyArray())
+            ?: Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
         val afterPose = model.poses[toPoseType]
             ?: run {
                 LOGGER.error("Tried transitioning ${model::class.java} to pose type $toPoseType but there is no registered pose of that type.")
                 return
             }
 
-        val animation = PoseTransitionAnimation(model, beforePose, afterPose, durationTicks)
+        val animation = PoseTransitionAnimation(beforePose, afterPose, durationTicks)
         statefulAnimations.add(animation)
     }
 

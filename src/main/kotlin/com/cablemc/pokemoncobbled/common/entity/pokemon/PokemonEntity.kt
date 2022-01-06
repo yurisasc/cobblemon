@@ -1,10 +1,13 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getBitForByte
+import com.cablemc.pokemoncobbled.common.util.setBitForByte
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.protocol.Packet
@@ -40,11 +43,14 @@ class PokemonEntity(
         PokemonServerDelegate()
     }
 
+    var isBeingCaptured = false
+
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
     val isMoving = addEntityProperty(MOVING, false)
     val scaleModifier = addEntityProperty(SCALE_MODIFIER, pokemon.scaleModifier)
+    val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
     // properties like the above are synced and can be subscribed to changes for on either side
 
     init {
@@ -56,6 +62,7 @@ class PokemonEntity(
         private val SPECIES_DEX = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
         private val MOVING = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
         private val SCALE_MODIFIER = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.FLOAT)
+        private val BEHAVIOUR_FLAGS = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
     }
 
     override fun tick() {
@@ -113,7 +120,10 @@ class PokemonEntity(
         if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
             if (canSitOnShoulder() && player is ServerPlayer) {
                 // TODO: Check ownership as well
-                this.setEntityOnShoulder(player)
+                val store = pokemon.storeCoordinates.get()?.store
+                if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
+                    this.setEntityOnShoulder(player)
+                }
             }
         }
         return super.mobInteract(player, hand)
@@ -145,4 +155,10 @@ class PokemonEntity(
     override fun shouldBeSaved(): Boolean {
         return pokemon.isWild()
     }
+
+    fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
+        behaviourFlags.set(setBitForByte(behaviourFlags.get(), flag.bit, on))
+    }
+
+    fun getBehaviourFlag(flag: PokemonBehaviourFlag): Boolean = getBitForByte(behaviourFlags.get(), flag.bit)
 }

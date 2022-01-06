@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.mixin;
 
-import com.cablemc.pokemoncobbled.common.entity.EntityRegistry;
 import com.cablemc.pokemoncobbled.common.util.CompoundTagExtensionsKt;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
@@ -12,13 +11,11 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin extends LivingEntity
-{
+public abstract class PlayerMixin extends LivingEntity {
     @Shadow
     private long timeEntitySatOnShoulder;
 
-    protected PlayerMixin(EntityType<? extends LivingEntity> p_20966_, Level p_20967_)
-    {
+    protected PlayerMixin(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
         super(p_20966_, p_20967_);
     }
 
@@ -41,9 +38,7 @@ public abstract class PlayerMixin extends LivingEntity
     }
 
     @Shadow
-    private void respawnEntityOnShoulder(CompoundTag p_36371_) {
-
-    }
+    private void respawnEntityOnShoulder(CompoundTag p_36371_) {}
 
     @Shadow
     public abstract CompoundTag getShoulderEntityLeft();
@@ -56,5 +51,4 @@ public abstract class PlayerMixin extends LivingEntity
 
     @Shadow
     protected abstract void setShoulderEntityRight(CompoundTag pTag);
-
 }

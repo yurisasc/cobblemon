@@ -12,6 +12,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
 import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -20,16 +21,16 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth
 
 class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFrame, QuadrupedFrame {
     override val rootPart = registerRelevantPart("eevee", root.getChild("eevee"))
-    override val head = registerRelevantPart("head", rootPart.getChild("body").getChild("head"))
+    val body = registerRelevantPart("body", rootPart.getChild("body"))
+    override val head = registerRelevantPart("head", body.getChild("head"))
     override val hindRightLeg = registerRelevantPart("rightbackleg", rootPart.getChild("body").getChild("rightbackleg"))
     override val hindLeftLeg = registerRelevantPart("leftbackleg", rootPart.getChild("body").getChild("leftbackleg"))
     override val foreRightLeg = registerRelevantPart("rightleg", rootPart.getChild("body").getChild("rightleg"))
-    override val foreLeftLeg = registerRelevantPart("leftleg", rootPart.getChild("body").getChild("leftleg"))
+    override val foreLeftLeg = registerRelevantPart("leftlag", rootPart.getChild("body").getChild("leftleg"))
     private val tail = registerRelevantPart("tail", rootPart.getChild("body").getChild("tail"))
     private val leftEar = registerRelevantPart("leftear", head.getChild("leftear"))
     private val rightEar = registerRelevantPart("rightear", head.getChild("rightear"))
@@ -44,6 +45,12 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
                 QuadrupedWalkAnimation(this),
                 SingleBoneLookAnimation(this)
             ),
+            transformedParts = arrayOf()
+        )
+
+        registerShoulderPoses(
+            condition = { true },
+            idleAnimations = arrayOf(SingleBoneLookAnimation(this)),
             transformedParts = arrayOf()
         )
     }
@@ -64,7 +71,7 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
 
     companion object {
         private const val TAIL_ANIMATION_TOTAL = 60F
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("pokemoncobbled", "eevee"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("eevee"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshDefinition = MeshDefinition()
             val partDefinition = meshDefinition.root

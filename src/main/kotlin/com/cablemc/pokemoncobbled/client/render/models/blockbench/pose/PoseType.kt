@@ -7,15 +7,17 @@ package com.cablemc.pokemoncobbled.client.render.models.blockbench.pose
  * @since December 5th, 2021
  */
 enum class PoseType {
-    /** An on-ground stationary and moving pose type. */
+    /** A grounded stationary and moving pose type. */
     WALK,
     SLEEP,
     /** An air-borne stationary or moving pose type. */
     FLY,
     /** An underwater stationary or moving pose type. */
     SWIM,
-    /** A pose for rendering statelessly on the shoulder. */
-    SHOULDER,
+    /** A pose for rendering statelessly on the left shoulder. Stateless animations are given the player head yaw, pitch, and ageInTicks. */
+    SHOULDER_LEFT,
+    /** A pose for rendering statelessly on the right shoulder. Stateless animations are given the player head yaw, pitch, and ageInTicks. */
+    SHOULDER_RIGHT,
     /** A simple type for non-living entities or errant cases. */
     NONE
 }

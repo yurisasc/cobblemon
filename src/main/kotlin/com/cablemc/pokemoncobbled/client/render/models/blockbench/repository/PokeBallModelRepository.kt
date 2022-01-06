@@ -2,10 +2,10 @@ package com.cablemc.pokemoncobbled.client.render.models.blockbench.repository
 
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.BlockBenchModelWrapper
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokeball.PokeBallModel
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.pokemon.pokeball.PokeBalls
+import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.entity.pokeball.PokeBallEntity
-import com.cablemc.pokemoncobbled.common.pokemon.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.resources.ResourceLocation
 
 object PokeBallModelRepository : ModelRepository<PokeBallEntity>() {
@@ -15,7 +15,7 @@ object PokeBallModelRepository : ModelRepository<PokeBallEntity>() {
 
     override fun registerAll() {
         registerModel(PokeBalls.POKE_BALL, BlockBenchModelWrapper(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) })
-        registerModelTexture(PokeBalls.POKE_BALL, ResourceLocation(PokemonCobbled.MODID, "textures/pokemon/pokeball-base.png"))
+        registerModelTexture(PokeBalls.POKE_BALL, cobbledResource("textures/pokemon/pokeball-base.png"))
     }
 
     private fun registerModel(pokeBall: PokeBall, model: BlockBenchModelWrapper<PokeBallEntity>) {

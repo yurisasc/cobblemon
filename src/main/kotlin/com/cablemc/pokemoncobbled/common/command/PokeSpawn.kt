@@ -10,7 +10,6 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.entity.player.Player
 
 object PokeSpawn {
 
@@ -27,7 +26,6 @@ object PokeSpawn {
         val entity = context.source.entity
         if (entity is ServerPlayer && !entity.level.isClientSide) {
             val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
-            val player = context.source.playerOrException
             val pokemonEntity = PokemonEntity(entity.level as ServerLevel)
             pokemonEntity.let {
                 it.pokemon = Pokemon().apply {
@@ -39,6 +37,7 @@ object PokeSpawn {
             entity.level.addFreshEntity(pokemonEntity)
             pokemonEntity.setPos(entity.position())
         }
+
         return Command.SINGLE_SUCCESS
     }
 

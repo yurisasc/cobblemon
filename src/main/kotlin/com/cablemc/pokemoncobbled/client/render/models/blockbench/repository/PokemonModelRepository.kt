@@ -6,6 +6,8 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.Bulbas
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.CharizardModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.CharmanderModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.CharmeleonModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.DiglettModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.DugtrioModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.EeveeModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.EkansModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.GyaradosModel
@@ -15,11 +17,11 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.Squirt
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.VenusaurModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.ZubatModel
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.resources.ResourceLocation
 
 object PokemonModelRepository : ModelRepository<PokemonEntity>() {
@@ -39,6 +41,8 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerBaseSpeciesModel(PokemonSpecies.BLASTOISE, BlockBenchModelWrapper(BlastoiseModel.LAYER_LOCATION, BlastoiseModel::createBodyLayer) { BlastoiseModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.EKANS, BlockBenchModelWrapper(EkansModel.LAYER_LOCATION, EkansModel::createBodyLayer) { EkansModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.ZUBAT, BlockBenchModelWrapper(ZubatModel.LAYER_LOCATION, ZubatModel::createBodyLayer) { ZubatModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.DIGLETT, BlockBenchModelWrapper(DiglettModel.LAYER_LOCATION, DiglettModel::createBodyLayer) { DiglettModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.DUGTRIO, BlockBenchModelWrapper(DugtrioModel.LAYER_LOCATION, DugtrioModel::createBodyLayer) { DugtrioModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.MAGIKARP, BlockBenchModelWrapper(MagikarpModel.LAYER_LOCATION, MagikarpModel::createBodyLayer) { MagikarpModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.GYARADOS, BlockBenchModelWrapper(GyaradosModel.LAYER_LOCATION, GyaradosModel::createBodyLayer) { GyaradosModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.EEVEE, BlockBenchModelWrapper(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
@@ -60,7 +64,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         modelTexturesBySpecies[species] = baseTextureFor(species)
     }
 
-    private fun baseTextureFor(species: Species) = ResourceLocation(PokemonCobbled.MODID, "textures/pokemon/${species.name}-base.png")
+    private fun baseTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-base.png")
 
     fun getModel(pokemon: Pokemon): BlockBenchModelWrapper<PokemonEntity> {
         // TODO: This is just fetching by species at the moment. This will be developed further.

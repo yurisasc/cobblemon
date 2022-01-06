@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.entity.pokeball.OccupiedPokeBallEntity
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.resources.ResourceLocation
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity.createLivingAttributes
@@ -45,12 +45,11 @@ object EntityRegistry {
         crossinline factory: (EntityType<T>, Level) -> T,
         builderModifiers: (EntityType.Builder<T>) -> EntityType.Builder<T>
     ): RegistryObject<EntityType<T>> {
-        val resourceLoc = ResourceLocation(PokemonCobbled.MODID, name)
         val entityFactory: EntityType.EntityFactory<T> = EntityType.EntityFactory { type, level ->
             return@EntityFactory factory(type, level)
         }
         val builder = EntityType.Builder.of(entityFactory, classification)
-        val type = builderModifiers(builder).build(resourceLoc.toString())
+        val type = builderModifiers(builder).build(cobbledResource(name).toString())
         return ENTITIES.register(name) { type }
     }
 
