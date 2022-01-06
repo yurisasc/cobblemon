@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.item
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.pokemon.pokeball.PokeBalls
+import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import net.minecraft.world.item.Item
 import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.fmllegacy.RegistryObject
@@ -17,7 +17,7 @@ object ItemRegistry {
 
     val POKE_BALL = registerItem("poke_ball", PokeBallItem(PokeBalls.POKE_BALL))
 
-    private inline fun registerItem(
+    private fun registerItem(
         name: String,
         item: Item
     ): RegistryObject<Item> {
@@ -27,5 +27,4 @@ object ItemRegistry {
     fun register(bus: IEventBus) {
         ITEMS.register(bus)
     }
-
 }

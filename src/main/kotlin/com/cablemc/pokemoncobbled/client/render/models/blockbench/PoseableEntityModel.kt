@@ -15,6 +15,8 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.client.renderer.RenderType
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
 
 /**
@@ -25,7 +27,11 @@ import net.minecraft.world.entity.Entity
  * @author Hiroku
  * @since December 5th, 2021
  */
-abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
+abstract class PoseableEntityModel<T : Entity>(
+    renderTypeFunc: (ResourceLocation) -> RenderType = RenderType::entityCutout
+) : EntityModel<T>(renderTypeFunc), ModelFrame {
+    var currentEntity: T? = null
+
     val poses = mutableMapOf<PoseType, Pose<T, out ModelFrame>>()
     /**
      * A list of [TransformedModelPart] that are relevant to any frame or animation.
@@ -47,7 +53,7 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
      */
     fun <F : ModelFrame> registerPose(
         poseType: PoseType,
-        condition: (T) -> Boolean,
+        condition: (T) -> Boolean = { true },
         transformTicks: Int = 30,
         idleAnimations: Array<StatelessAnimation<T, out F>>,
         transformedParts: Array<TransformedModelPart>
@@ -73,13 +79,16 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
      * Sets up the angles and positions for the model knowing that there is no state. Is given a pose type to use,
      * and optionally things like limb swinging and head rotations.
      */
-    fun setupAnimStateless(poseType: PoseType, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F) {
+    fun setupAnimStateless(poseType: PoseType, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, ageInTicks: Float = 0F) {
+        currentEntity = null
         setDefault()
         val pose = poses[poseType] ?: poses.values.first()
-        pose.idleStateless(this, limbSwing, limbSwingAmount, 0F, headYaw, headPitch)
+        pose.transformedParts.forEach { it.apply() }
+        pose.idleStateless(this, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
 
     override fun setupAnim(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
+        currentEntity = entity
         setDefault()
         val state = getState(entity)
         state.preRender()
@@ -98,7 +107,6 @@ abstract class PoseableEntityModel<T : Entity> : EntityModel<T>(), ModelFrame {
                 if (previousPose != null && pose.transformTicks > 0) {
                     state.statefulAnimations.add(
                         PoseTransitionAnimation(
-                            frame = this,
                             beforePose = previousPose,
                             afterPose = pose,
                             durationTicks = pose.transformTicks

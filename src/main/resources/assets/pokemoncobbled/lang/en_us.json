@@ -4,6 +4,8 @@
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
   "itemGroup.pokemoncobbled.pokeballtab": "Poké Balls",
   "pokemoncobbled.ui.pokenav.title": "PokeNav",
+  "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!"
+  "pokemoncobbled.ui.pokenav.title": "PokeNav",
   "pokemoncobbled.type.fire": "Fire",
   "pokemoncobbled.type.water": "Water",
   "pokemoncobbled.type.grass": "Grass",

@@ -57,9 +57,10 @@ class Pokemon {
 
     val storeCoordinates: SettableObservable<StoreCoordinates<*>?> = SettableObservable(null)
 
-    fun sendOut(level: ServerLevel, position: Vec3): PokemonEntity {
+    fun sendOut(level: ServerLevel, position: Vec3, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
         val entity = PokemonEntity(level, this)
         entity.setPos(position)
+        mutation(entity)
         level.addFreshEntity(entity)
         return entity
     }
@@ -168,8 +169,13 @@ class Pokemon {
     /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
     fun getChangeObservable(): Observable<Unit> = anyChangeObservable
 
-    private val _form = SimpleObservable<PokemonForm>()
+    private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
     private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
     private val _health = SimpleObservable<Int>()
+
+    val ivHP = 1
+    val evHP = 1
+
+    fun getMaxHealth(): Int = (2 * stats[Stats.HP]!! + ivHP + (evHP / 4) * level) / 100 + level + 10
 }
