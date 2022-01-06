@@ -24,7 +24,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.util.Mth.PI
 
 class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, EaredFrame {
-    override val rootPart: ModelPart = registerRelevantPart(root.getChild("zubat"))
+    override val rootPart: ModelPart = registerRelevantPart("zubat", root.getChild("zubat"))
     override val leftWing = rootPart.getChildOf("body", "leftwing")
     override val rightWing = rootPart.getChildOf("body", "rightwing")
     private val leftEar = registerRelevantPart("leftear", rootPart.getChildOf("body", "leftear"))

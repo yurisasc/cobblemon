@@ -23,7 +23,6 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = registerRelevantPart("gyarados", root.getChild("gyarados"))
     val spine = registerRelevantPart("tailjoint", rootPart.getChild("tailjoint"))
     val spineFinal = registerRelevantPart("spinefinal", spine.getChild("spinefinal"))
-    val neck = registerRelevantPart("neck", rootPart.getChildOf("body", "spine", "spine2", "spine3", "spinefinal", "neck"))
     val spine3 = registerRelevantPart("spine3", spineFinal.getChild("spine3"))
     val spine2 = registerRelevantPart("spine2", spine3.getChild("spine2"))
     val spine1 = registerRelevantPart("spine", spine2.getChild("spine"))

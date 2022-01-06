@@ -22,7 +22,7 @@ class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: Bed
     override val targetFrame: Class<ModelFrame> = ModelFrame::class.java
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        var animationTick = (entity?.let { model.getState(it).animationTick } ?: 0F) / 40.0 // TODO: Refactor this into a render-cycle independent tick system.
+        var animationTick = (entity?.let { model.getState(it).animationSeconds } ?: 0F).toDouble()
         if (animation.shouldLoop) {
             animationTick %= animation.animationLength
         }
