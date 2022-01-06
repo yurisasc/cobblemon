@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.mod
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
@@ -73,6 +74,7 @@ object PokemonCobbledMod {
     }
 
     fun onBake(event: ModelBakeEvent) {
+        BedrockAnimationRepository.loadAnimationsFromAssets()
         PokemonModelRepository.init()
         PokeBallModelRepository.init()
         PokemonCobbledClient.registerRenderers()
@@ -94,15 +96,4 @@ object PokemonCobbledMod {
     fun on(event: EntityAttributeCreationEvent) {
         EntityRegistry.registerAttributes(event)
     }
-
-//    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-//    // Event bus for receiving Registry Events)
-//    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
-//    object RegistryEvents {
-//        @SubscribeEvent
-//        fun onBlocksRegistry(blockRegistryEvent: Register<Block?>?) {
-//            // register a new block here
-//            LOGGER.info("HELLO from Register Block")
-//        }
-//    }
 }
