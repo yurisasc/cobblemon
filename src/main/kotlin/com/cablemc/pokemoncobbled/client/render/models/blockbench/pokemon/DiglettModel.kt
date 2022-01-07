@@ -19,7 +19,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 // Paste this class into your mod and generate all required imports
 class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart: ModelPart = root.getChild("diglett")
-    private val body: ModelPart = registerRelevantPart(rootPart.getChildOf("body"))
+    private val body: ModelPart = registerRelevantPart("body", rootPart.getChildOf("body"))
 
     override fun registerPoses() {
         registerPose(

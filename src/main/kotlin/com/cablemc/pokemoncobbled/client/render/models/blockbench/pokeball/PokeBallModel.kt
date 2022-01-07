@@ -18,9 +18,9 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.util.Mth.PI
 
 class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(), PokeBallFrame {
-    override val rootPart = registerRelevantPart(root.getChild("root"))
-    override val subRoot = registerRelevantPart(rootPart.getChild("pokeball"))
-    override val lid = registerRelevantPart(subRoot.getChild("pokeball_lid"))
+    override val rootPart = registerRelevantPart("root", root.getChild("root"))
+    override val subRoot = registerRelevantPart("pokeball", rootPart.getChild("pokeball"))
+    override val lid = registerRelevantPart("pokeball_lid", subRoot.getChild("pokeball_lid"))
 
     override fun registerPoses() {
         registerPose(
