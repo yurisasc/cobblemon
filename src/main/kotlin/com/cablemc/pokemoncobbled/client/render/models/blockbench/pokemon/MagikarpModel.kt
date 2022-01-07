@@ -29,14 +29,14 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseType = PoseType.WALK,
             { !it.isUnderWater },
-            idleAnimations = arrayOf(BedrockStatelessAnimation(this, BedrockAnimationRepository.getAnimation("animation.magikarp.flop")!!)),
+            idleAnimations = arrayOf(BedrockStatelessAnimation(this, BedrockAnimationRepository.getAnimation("magikarp.animation.json", "animation.magikarp.flop"))),
             transformedParts = emptyArray()
         )
 
         registerPose(
             poseType = PoseType.SWIM,
             { it.isUnderWater },
-            idleAnimations = arrayOf(BedrockStatelessAnimation(this, BedrockAnimationRepository.getAnimation("animation.magikarp.fly")!!)),
+            idleAnimations = arrayOf(BedrockStatelessAnimation(this, BedrockAnimationRepository.getAnimation("magikarp.animation.json","animation.magikarp.fly"))),
             transformedParts = emptyArray()
         )
     }

@@ -22,10 +22,11 @@ object BedrockAnimationRepository {
 
     private val animations: MutableMap<String, BedrockAnimation> = mutableMapOf()
 
-    fun getAnimation(name: String): BedrockAnimation? = animations[name]
-
-    fun loadAnimationsFromAssets() {
-        animationFileNames.forEach { loadAnimationsFromFile(it) }
+    fun getAnimation(fileName: String, animationName: String): BedrockAnimation {
+        if (animations[animationName] == null) {
+            loadAnimationsFromFile(fileName)
+        }
+        return animations[animationName] ?: throw IllegalArgumentException("animation is not in specified file")
     }
 
     fun loadAnimationsFromFile(fileName: String) {
@@ -33,10 +34,5 @@ object BedrockAnimationRepository {
         val animationGroup = gson.fromJson<BedrockAnimationGroup>(stream.reader())
         animationGroup.animations.forEach { (name, animation) -> animations[name] = animation }
     }
-
-    private val animationFileNames: MutableList<String> = mutableListOf(
-        "magikarp.animation.json",
-        "magikarp.test-animation.json"
-    )
 
 }

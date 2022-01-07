@@ -79,7 +79,6 @@ object PokemonCobbledMod {
     }
 
     fun onBake(event: ModelBakeEvent) {
-        BedrockAnimationRepository.loadAnimationsFromAssets()
         PokemonModelRepository.init()
         PokeBallModelRepository.init()
         PokemonCobbledClient.registerRenderers()
