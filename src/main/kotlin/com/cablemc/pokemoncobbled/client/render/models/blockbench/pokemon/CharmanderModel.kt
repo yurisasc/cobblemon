@@ -22,17 +22,17 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 
 class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
-    override val rootPart = registerRelevantPart(root.getChild("charmander"))
-    val body = registerRelevantPart(rootPart.getChild("body"))
-    override val head = registerRelevantPart(rootPart.getChild("body").getChild("head"))
-    override val rightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightleg"))
-    override val leftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftleg"))
-    override val rightArm = registerRelevantPart(rootPart.getChild("body").getChild("rightarm"))
-    override val leftArm = registerRelevantPart(rootPart.getChild("body").getChild("leftarm"))
+    override val rootPart = registerRelevantPart("charmander", root.getChild("charmander"))
+    val body = registerRelevantPart("body", rootPart.getChild("body"))
+    override val head = registerRelevantPart("head", body.getChild("head"))
+    override val rightLeg = registerRelevantPart("rightleg", body.getChild("rightleg"))
+    override val leftLeg = registerRelevantPart("leftleg", body.getChild("leftleg"))
+    override val rightArm = registerRelevantPart("rightarm", body.getChild("rightarm"))
+    override val leftArm = registerRelevantPart("leftarm", body.getChild("leftarm"))
 
-    private val tail = rootPart.getChild("body").getChild("tail")
-    private val tailTip = tail.getChild("tail2")
-    private val tailFlame = tailTip.getChild("fire")
+    private val tail = registerRelevantPart("tail", body.getChild("tail"))
+    private val tailTip = registerRelevantPart("tail2", tail.getChild("tail2"))
+    private val tailFlame = registerRelevantPart("fire", tailTip.getChild("fire"))
 
     override fun registerPoses() {
         registerPose(

@@ -19,15 +19,15 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 
 class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
-    override val rootPart = registerRelevantPart(root.getChild("ekans"))
-    private val body = registerRelevantPart(rootPart.getChild("body"))
-    override val head = registerRelevantPart(body.getChild("head"))
-    private val tail = registerRelevantPart(body.getChild("tail"))
-    private val tail2 = registerRelevantPart(tail.getChild("tail2"))
-    private val tail3 = registerRelevantPart(tail2.getChild("tail3"))
-    private val tail4 = registerRelevantPart(tail3.getChild("tail4"))
-    private val tail5 = registerRelevantPart(tail4.getChild("tail5"))
-    private val tail6 = registerRelevantPart(tail5.getChild("tail6"))
+    override val rootPart = registerRelevantPart("ekans", root.getChild("ekans"))
+    private val body = registerRelevantPart("body", rootPart.getChild("body"))
+    override val head = registerRelevantPart("head", body.getChild("head"))
+    private val tail = registerRelevantPart("tail", body.getChild("tail"))
+    private val tail2 = registerRelevantPart("tail2", tail.getChild("tail2"))
+    private val tail3 = registerRelevantPart("tail3", tail2.getChild("tail3"))
+    private val tail4 = registerRelevantPart("tail4", tail3.getChild("tail4"))
+    private val tail5 = registerRelevantPart("tail5", tail4.getChild("tail5"))
+    private val tail6 = registerRelevantPart("tail6", tail5.getChild("tail6"))
 
     val tailSegment = WaveSegment(modelPart = tail, length = 9F)
     val tail2Segment = WaveSegment(modelPart = tail2, length = 9F)

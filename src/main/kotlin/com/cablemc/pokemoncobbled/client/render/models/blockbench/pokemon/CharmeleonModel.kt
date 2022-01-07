@@ -1,12 +1,17 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.*
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.CascadeAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.gradualFunction
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.sineFunction
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BimanualFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BipedFrame
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -19,19 +24,19 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 
 class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
 
-    override val rootPart = registerRelevantPart(root.getChild("charmeleon"))
-    val body = registerRelevantPart(rootPart.getChild("body"))
-    override val head = registerRelevantPart(body.getChild("neck").getChild("head"))
-    override val rightLeg = registerRelevantPart(body.getChild("rightleg"))
-    override val leftLeg = registerRelevantPart(body.getChild("leftleg"))
-    override val rightArm = registerRelevantPart(body.getChild("rightarm"))
-    override val leftArm = registerRelevantPart(body.getChild("leftarm"))
+    override val rootPart = registerRelevantPart("charmeleon", root.getChild("charmeleon"))
+    val body = registerRelevantPart("body", rootPart.getChild("body"))
+    override val head = registerRelevantPart("head", body.getChild("neck").getChild("head"))
+    override val rightLeg = registerRelevantPart("rightleg", body.getChild("rightleg"))
+    override val leftLeg = registerRelevantPart("leftleg", body.getChild("leftleg"))
+    override val rightArm = registerRelevantPart("rightarm", body.getChild("rightarm"))
+    override val leftArm = registerRelevantPart("leftarm", body.getChild("leftarm"))
 
-    private val tail = body.getChild("tail")
-    private val tailTip = tail.getChild("tail2")
-    private val tailFlame = tailTip.getChild("fire")
-    private val leftHand = leftArm.getChild("lefthand")
-    private val rightHand = rightArm.getChild("righthand")
+    private val tail = registerRelevantPart("tail", body.getChild("tail"))
+    private val tailTip = registerRelevantPart("tail2", tail.getChild("tail2"))
+    private val tailFlame = registerRelevantPart("fire", tailTip.getChild("fire"))
+    private val leftHand = registerRelevantPart("lefthand", leftArm.getChild("lefthand"))
+    private val rightHand = registerRelevantPart("righthand", rightArm.getChild("righthand"))
 
     override fun registerPoses() {
         registerPose(

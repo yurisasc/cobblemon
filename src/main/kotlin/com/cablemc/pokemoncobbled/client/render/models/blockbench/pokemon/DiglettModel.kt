@@ -15,8 +15,8 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 
 
 class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart: ModelPart = registerRelevantPart(root.getChild("diglett"))
-    private val body: ModelPart = registerRelevantPart(rootPart.getChildOf("body"))
+    override val rootPart: ModelPart = registerRelevantPart("diglett", root.getChild("diglett"))
+    private val body: ModelPart = registerRelevantPart("body", rootPart.getChildOf("body"))
 
     override fun registerPoses() {
         registerPose(
