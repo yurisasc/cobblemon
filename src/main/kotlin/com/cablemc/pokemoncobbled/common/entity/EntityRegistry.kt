@@ -2,9 +2,7 @@ package com.cablemc.pokemoncobbled.common.entity
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import com.cablemc.pokemoncobbled.common.entity.pokeball.OccupiedPokeBallEntity
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
@@ -30,12 +28,6 @@ object EntityRegistry {
         name = "empty_pokeball",
         classification = MobCategory.MISC,
         factory = { type, level -> EmptyPokeBallEntity(type, level) },
-        builderModifiers = { builder -> builder.sized(1f, 1f).fireImmune() } // TODO: Specify better modifiers
-    )
-    val OCCUPIED_POKEBALL : RegistryObject<EntityType<OccupiedPokeBallEntity>> = registerEntity(
-        name = "occupied_pokeball",
-        classification = MobCategory.MISC,
-        factory = { type, level -> OccupiedPokeBallEntity(type, Pokemon(), level) },
         builderModifiers = { builder -> builder.sized(1f, 1f).fireImmune() } // TODO: Specify better modifiers
     )
 
