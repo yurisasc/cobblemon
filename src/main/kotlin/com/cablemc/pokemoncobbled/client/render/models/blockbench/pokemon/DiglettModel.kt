@@ -14,9 +14,6 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 
 
-// Made with Blockbench 4.0.5
-// Exported for Minecraft version 1.17 with Mojang mappings
-// Paste this class into your mod and generate all required imports
 class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart: ModelPart = registerRelevantPart(root.getChild("diglett"))
     private val body: ModelPart = registerRelevantPart(rootPart.getChildOf("body"))

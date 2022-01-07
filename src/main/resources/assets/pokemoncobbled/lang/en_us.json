@@ -3,5 +3,6 @@
   "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
   "itemGroup.pokemoncobbled.pokeballtab": "Poké Balls",
-  "pokemoncobbled.ui.pokenav.title": "PokeNav"
+  "pokemoncobbled.ui.pokenav.title": "PokeNav",
+  "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!"
 }

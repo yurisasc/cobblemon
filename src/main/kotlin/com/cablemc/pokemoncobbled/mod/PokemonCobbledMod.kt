@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.mod
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
@@ -18,6 +19,7 @@ import com.cablemc.pokemoncobbled.common.event.InteractListener
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
+import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -50,6 +52,7 @@ object PokemonCobbledMod {
             addListener(PokemonCobbledClient::onAddLayer)
             EntityRegistry.register(this)
             ItemRegistry.register(this)
+            SoundRegistry.register(this)
         }
     }
 
