@@ -1,11 +1,18 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.ModelPartChain
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.CascadeAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.cosineFunction
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.gradualFunction
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BimanualFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BipedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -13,11 +20,8 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 
+class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = registerRelevantPart(root.getChild("charmander"))
     val body = registerRelevantPart(rootPart.getChild("body"))
     override val head = registerRelevantPart(rootPart.getChild("body").getChild("head"))

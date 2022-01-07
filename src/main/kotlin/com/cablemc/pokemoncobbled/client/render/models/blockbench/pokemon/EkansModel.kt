@@ -1,11 +1,14 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.*
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.WaveAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.WaveSegment
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -13,23 +16,19 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import kotlin.math.PI
-import kotlin.math.cos
-
 
 class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
-    override val rootPart: ModelPart = root.getChild("ekans")
-    private val body = rootPart.getChild("body")
-    override val head = body.getChild("head")
-    private val tail = body.getChild("tail")
-    private val tail2 = tail.getChild("tail2")
-    private val tail3 = tail2.getChild("tail3")
-    private val tail4 = tail3.getChild("tail4")
-    private val tail5 = tail4.getChild("tail5")
-    private val tail6 = tail5.getChild("tail6")
+    override val rootPart = registerRelevantPart(root.getChild("ekans"))
+    private val body = registerRelevantPart(rootPart.getChild("body"))
+    override val head = registerRelevantPart(body.getChild("head"))
+    private val tail = registerRelevantPart(body.getChild("tail"))
+    private val tail2 = registerRelevantPart(tail.getChild("tail2"))
+    private val tail3 = registerRelevantPart(tail2.getChild("tail3"))
+    private val tail4 = registerRelevantPart(tail3.getChild("tail4"))
+    private val tail5 = registerRelevantPart(tail4.getChild("tail5"))
+    private val tail6 = registerRelevantPart(tail5.getChild("tail6"))
 
-    val bodySegment = WaveSegment(modelPart = body, length = 9F)
     val tailSegment = WaveSegment(modelPart = tail, length = 9F)
     val tail2Segment = WaveSegment(modelPart = tail2, length = 9F)
     val tail3Segment = WaveSegment(modelPart = tail3, length = 9F)
@@ -42,21 +41,21 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseType = PoseType.WALK,
             condition = { true },
             idleAnimations = arrayOf(
-                //SingleBoneLookAnimation(this),
+                SingleBoneLookAnimation(this),
                 WaveAnimation(
                     frame = this,
-                    waveFunction = com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction(
-                        period = 10f,
-                        amplitude = 0.05F
+                    waveFunction = sineFunction(
+                        period = 8F,
+                        amplitude = 0.8F
                     ),
                     basedOnLimbSwing = true,
-                    oscillationsScalar = 1F,
-                    head = body,
-                    rotationAxis = TransformedModelPart.Y_AXIS,
-                    motionAxis = TransformedModelPart.X_AXIS,
-                    headLength = 0F,
+                    oscillationsScalar = 5F,
+                    head = head,
+                    rotationAxis = Y_AXIS,
+                    motionAxis = X_AXIS,
+                    moveHead = false,
+                    headLength = 16F,
                     segments = arrayOf(
-                        bodySegment,
                         tailSegment,
                         tail2Segment,
                         tail3Segment,
@@ -71,42 +70,6 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
-
-    /*override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
-        val clientDelegate = entity.delegate as PokemonClientDelegate
-        if (entity.isMoving.get()) {
-            clientDelegate.animTick += 0.15f * PokemonRenderer.DELTA_TICKS
-        }
-
-        head.xRot = headPitch * (PI.toFloat() / 180f)
-        head.yRot = netHeadYaw * (PI.toFloat() / 180f)
-
-        // Tail sway
-        tailChain.setupAnim(partHandler = { modelPart, placement ->
-            // 0.1f base and then 0.1f increment to the multiplier per placement
-            modelPart.yRot = cos(clientDelegate.animTick * 0.09f + (placement * 5)) * (0.3f + 0.15f * placement)
-        })
-    }
-
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        ekans.render(poseStack, buffer, packedLight, packedOverlay)
-    }*/
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("ekans"), "main")

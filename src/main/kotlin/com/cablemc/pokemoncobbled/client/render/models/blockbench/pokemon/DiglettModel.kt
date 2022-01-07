@@ -18,7 +18,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition
 // Exported for Minecraft version 1.17 with Mojang mappings
 // Paste this class into your mod and generate all required imports
 class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart: ModelPart = root.getChild("diglett")
+    override val rootPart: ModelPart = registerRelevantPart(root.getChild("diglett"))
     private val body: ModelPart = registerRelevantPart(rootPart.getChildOf("body"))
 
     override fun registerPoses() {
@@ -31,7 +31,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
                     function = sineFunction(
                         amplitude = -1F,
                         period = 0.6F,
-                        verticalShift = -4F
+                        verticalShift = 0.5F
                     ),
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
@@ -49,7 +49,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
                     function = sineFunction(
                         amplitude = -1F,
                         period = 1F,
-                        verticalShift = -4F
+                        verticalShift = 0.5F
                     ),
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
