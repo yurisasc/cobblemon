@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
+import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
+import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
@@ -40,10 +42,14 @@ class Pokemon {
 
     var entity: PokemonEntity? = null
 
-    lateinit var primaryType: ElementalType
-    var secondaryType: ElementalType? = null
+    val primaryType: ElementalType
+        get() = form.primaryType
+    val secondaryType: ElementalType?
+        get() = form.secondaryType
 
     var moveSet: MoveSet = MoveSet()
+
+    var ability: Ability = form.standardAbilities.random().create()
 
     val stats = pokemonStatsOf(
         Stats.HP to 20,
@@ -70,6 +76,8 @@ class Pokemon {
         this.entity = null
     }
 
+    val types = form.types
+
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
@@ -79,6 +87,7 @@ class Pokemon {
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
         nbt.put(DataKeys.POKEMON_MOVESET, moveSet.getNBT())
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
+        ability.saveToNBT(nbt)
         return nbt
     }
 
@@ -92,6 +101,7 @@ class Pokemon {
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         moveSet = MoveSet.loadFromNBT(nbt)
+        ability = Abilities.getOrException(nbt.getString(DataKeys.POKEMON_ABILITY_NAME)).create(nbt)
         return this
     }
 
