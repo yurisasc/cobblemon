@@ -18,6 +18,10 @@ class MoveTemplate(
     @Transient
     lateinit var description: TranslatableComponent
 
+    companion object {
+        const val PREFIX = "pokemoncobbled.move."
+    }
+
     fun create() = create(maxPp)
 
     fun create(currentPp: Int) = create(currentPp, maxPp)
@@ -31,8 +35,7 @@ class MoveTemplate(
     }
 
     fun createTextComponents() {
-        val prefix = "pokemoncobbled.move."
-        displayName = TranslatableComponent(prefix + name.lowercase())
-        description = TranslatableComponent(prefix + name.lowercase() + ".desc")
+        displayName = TranslatableComponent(PREFIX + name.lowercase())
+        description = TranslatableComponent(PREFIX + name.lowercase() + ".desc")
     }
 }
