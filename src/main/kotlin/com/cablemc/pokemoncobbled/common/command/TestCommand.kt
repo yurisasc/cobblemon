@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.api.abilities.extensions.Test
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -26,6 +28,13 @@ object TestCommand {
         pkm?.moveSet?.getMoves()?.forEach {
             println("Move ${it.name}")
         }
+
+        println("Eevee Type ${PokemonSpecies.EEVEE.primaryType.name}")
+        println("Slot 1 Ability: ${pkm?.ability?.name} & ${pkm?.ability?.displayName?.string}")
+        val ability = pkm?.ability
+        if(ability is Test)
+            println("TestValue: ${ability.testValue}")
+
         return Command.SINGLE_SUCCESS
     }
 
