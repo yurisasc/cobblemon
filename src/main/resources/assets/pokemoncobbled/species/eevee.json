@@ -16,5 +16,10 @@
     "width": 0.7,
     "height": 0.8,
     "fixed": false
-  }
+  },
+  "primaryType": "normal",
+  "standardAbilities": [
+    "flash_fire"
+  ],
+  "hiddenAbility": "drought"
 }
