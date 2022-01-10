@@ -21,6 +21,7 @@ import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
+import com.cablemc.pokemoncobbled.mod.config.CobbledConfig
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
 import net.minecraft.world.level.storage.LevelResource
@@ -32,7 +33,9 @@ import net.minecraftforge.eventbus.api.BusBuilder
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.DistExecutor
+import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fmlserverevents.FMLServerStartingEvent
 import org.apache.logging.log4j.LogManager
@@ -54,6 +57,8 @@ object PokemonCobbledMod {
             ItemRegistry.register(this)
             SoundRegistry.register(this)
         }
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CobbledConfig.spec)
     }
 
     fun initialize(event: FMLCommonSetupEvent) {
