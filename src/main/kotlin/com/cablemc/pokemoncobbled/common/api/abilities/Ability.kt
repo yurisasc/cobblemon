@@ -4,11 +4,16 @@ import com.cablemc.pokemoncobbled.common.util.DataKeys
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 
-open class Ability(
+/**
+ * Representing an Ability with all its attributes
+ *
+ * Can be extended to allow for custom attributes (be sure to overwrite the load and save methods)
+ */
+open class Ability internal constructor(
     var template: AbilityTemplate
 ) {
 
-    constructor() : this(fallbackTemplate)
+    internal constructor() : this(fallbackTemplate)
 
     companion object {
         val fallbackTemplate = AbilityTemplate(

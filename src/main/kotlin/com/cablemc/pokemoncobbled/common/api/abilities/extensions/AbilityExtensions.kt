@@ -2,6 +2,11 @@ package com.cablemc.pokemoncobbled.common.api.abilities.extensions
 
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 
+/**
+ * Registry for all known extended Abilities
+ *
+ * You need to register your extended Ability here or else it doesn't get loaded.
+ */
 object AbilityExtensions {
 
     private val extensionMap = mutableMapOf<String, Class<out Ability>>()

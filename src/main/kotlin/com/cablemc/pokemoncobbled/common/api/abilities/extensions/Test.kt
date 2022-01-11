@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import net.minecraft.nbt.CompoundTag
 
-class Test: Ability(template = Abilities.getOrException("flash_fire")) {
+internal class Test: Ability(template = Abilities.getOrException("flash_fire")) {
 
     var testValue = "TestValue"
 

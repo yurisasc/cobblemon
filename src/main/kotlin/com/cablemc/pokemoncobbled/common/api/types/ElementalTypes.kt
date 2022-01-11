@@ -3,6 +3,9 @@ package com.cablemc.pokemoncobbled.common.api.types
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
 
+/**
+ * Registry for all known ElementalTypes
+ */
 object ElementalTypes {
 
     private val allTypes = mutableListOf<ElementalType>()

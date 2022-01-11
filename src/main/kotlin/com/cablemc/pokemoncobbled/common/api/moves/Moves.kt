@@ -2,6 +2,9 @@ package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.api.moves.MoveLoader.loadFromAssets
 
+/**
+ * Registry for all known Moves
+ */
 object Moves {
     private val allMoves = mutableListOf<MoveTemplate>()
 

@@ -7,6 +7,9 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.chat.Component
 
+/**
+ * Representing a Move with all its attributes
+ */
 class Move(
     var currentPp: Int,
     val maxPp: Int,

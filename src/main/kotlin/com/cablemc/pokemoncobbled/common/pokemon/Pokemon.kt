@@ -105,6 +105,7 @@ class Pokemon {
         return this
     }
 
+    // TODO Ability, MoveSet
     fun saveToJSON(json: JsonObject): JsonObject {
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber)
@@ -115,6 +116,7 @@ class Pokemon {
         return json
     }
 
+    // TODO Ability, MoveSet
     fun loadFromJSON(json: JsonObject): Pokemon {
         uuid = UUID.fromString(json.get(DataKeys.POKEMON_UUID).asString)
         species = PokemonSpecies.getByPokedexNumber(json.get(DataKeys.POKEMON_SPECIES_DEX).asInt)
@@ -126,6 +128,7 @@ class Pokemon {
         return this
     }
 
+    // TODO Ability, MoveSet - Last time I tries it errored :(
     fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
         buffer.writeUUID(uuid)
         buffer.writeShort(species.nationalPokedexNumber)
@@ -137,6 +140,7 @@ class Pokemon {
         return buffer
     }
 
+    // TODO Ability, MoveSet - Last time I tries it errored :(
     fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
         uuid = buffer.readUUID()
         species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())

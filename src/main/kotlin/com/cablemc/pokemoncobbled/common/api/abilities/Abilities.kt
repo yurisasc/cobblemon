@@ -2,6 +2,9 @@ package com.cablemc.pokemoncobbled.common.api.abilities
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilitiesLoader.loadFromAssets
 
+/**
+ * Registry for all known Abilities
+ */
 object Abilities {
     private val allAbilities = mutableListOf<AbilityTemplate>()
 

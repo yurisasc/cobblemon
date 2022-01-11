@@ -45,12 +45,18 @@ class MoveSet {
         }
     }
 
+    /**
+     * Returns a ListTag containing all the Moves
+     */
     fun getNBT(): ListTag {
         val listTag = ListTag()
         listTag.addAll(getMoves().map { it.saveToNBT(CompoundTag()) })
         return listTag
     }
 
+    /**
+     * Writes the MoveSet to Buffer
+     */
     fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
         buffer.writeInt(getMoves().size)
         getMoves().forEach {
@@ -60,6 +66,9 @@ class MoveSet {
     }
 
     companion object {
+        /**
+         * Returns a MoveSet built from given NBT
+         */
         fun loadFromNBT(nbt: CompoundTag): MoveSet {
             val moveSet = MoveSet()
             nbt.getList(DataKeys.POKEMON_MOVESET, Tag.TAG_COMPOUND.toInt()).forEachIndexed { index, tag ->
@@ -68,6 +77,9 @@ class MoveSet {
             return moveSet
         }
 
+        /**
+         * Returns a MoveSet build from given Buffer
+         */
         fun loadFromBuffer(buffer: FriendlyByteBuf): MoveSet {
             val amountMoves = buffer.readInt()
             val moveSet = MoveSet()

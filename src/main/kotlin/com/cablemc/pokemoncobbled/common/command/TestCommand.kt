@@ -34,7 +34,6 @@ object TestCommand {
         val ability = pkm?.ability
         if(ability is Test)
             println("TestValue: ${ability.testValue}")
-
         return Command.SINGLE_SUCCESS
     }
 
