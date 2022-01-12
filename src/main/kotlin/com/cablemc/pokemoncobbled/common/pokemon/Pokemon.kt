@@ -1,5 +1,8 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
+import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
+import com.cablemc.pokemoncobbled.common.api.abilities.Ability
+import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
@@ -7,6 +10,7 @@ import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
@@ -38,6 +42,15 @@ class Pokemon {
 
     var entity: PokemonEntity? = null
 
+    val primaryType: ElementalType
+        get() = form.primaryType
+    val secondaryType: ElementalType?
+        get() = form.secondaryType
+
+    var moveSet: MoveSet = MoveSet()
+
+    var ability: Ability = form.standardAbilities.random().create()
+
     val stats = pokemonStatsOf(
         Stats.HP to 20,
         Stats.ATTACK to 10,
@@ -63,6 +76,8 @@ class Pokemon {
         this.entity = null
     }
 
+    val types = form.types
+
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
@@ -70,7 +85,9 @@ class Pokemon {
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_HEALTH, health.toShort())
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
+        nbt.put(DataKeys.POKEMON_MOVESET, moveSet.getNBT())
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
+        ability.saveToNBT(nbt)
         return nbt
     }
 
@@ -83,9 +100,12 @@ class Pokemon {
         health = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
+        moveSet = MoveSet.loadFromNBT(nbt)
+        ability = Abilities.getOrException(nbt.getString(DataKeys.POKEMON_ABILITY_NAME)).create(nbt)
         return this
     }
 
+    // TODO Ability, MoveSet
     fun saveToJSON(json: JsonObject): JsonObject {
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber)
@@ -96,6 +116,7 @@ class Pokemon {
         return json
     }
 
+    // TODO Ability, MoveSet
     fun loadFromJSON(json: JsonObject): Pokemon {
         uuid = UUID.fromString(json.get(DataKeys.POKEMON_UUID).asString)
         species = PokemonSpecies.getByPokedexNumber(json.get(DataKeys.POKEMON_SPECIES_DEX).asInt)
@@ -107,6 +128,7 @@ class Pokemon {
         return this
     }
 
+    // TODO Ability, MoveSet - Last time I tries it errored :(
     fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
         buffer.writeUUID(uuid)
         buffer.writeShort(species.nationalPokedexNumber)
@@ -114,9 +136,11 @@ class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(health)
         buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        //moveSet.saveToBuffer(buffer)
         return buffer
     }
 
+    // TODO Ability, MoveSet - Last time I tries it errored :(
     fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
         uuid = buffer.readUUID()
         species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())
@@ -127,6 +151,8 @@ class Pokemon {
         health = buffer.readUnsignedShort()
         // TODO throw exception or dummy stat?
         buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
+        // This errors...
+        //moveSet = MoveSet.loadFromBuffer(buffer)
         return this
     }
 

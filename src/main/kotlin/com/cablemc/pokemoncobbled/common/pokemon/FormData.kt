@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
+import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.google.gson.annotations.SerializedName
 import net.minecraft.world.entity.EntityDimensions
@@ -16,7 +18,15 @@ data class FormData(
     @SerializedName("hitbox")
     private var _hitbox: EntityDimensions? = null,
     @SerializedName("catchRate")
-    private var _catchRate: Int? = null
+    private var _catchRate: Int? = null,
+    @SerializedName("primaryType")
+    private val _primaryType: ElementalType? = null,
+    @SerializedName("secondaryType")
+    private val _secondaryType: ElementalType? = null,
+    @SerializedName("standardAbilities")
+    private val _standardAbilities: List<AbilityTemplate>? = null,
+    @SerializedName("hiddenAbility")
+    private val _hiddenAbility: AbilityTemplate? = null
 ) {
     val baseStats: MutableMap<Stat, Int>
         get() = _baseStats ?: species.baseStats
@@ -29,6 +39,20 @@ data class FormData(
         get() = _hitbox ?: species.hitbox
     val catchRate: Int
         get() = _catchRate ?: species.catchRate
+
+    val primaryType: ElementalType
+        get() = _primaryType ?: species.primaryType
+    val secondaryType: ElementalType?
+        get() = _secondaryType
+
+    val standardAbilities: List<AbilityTemplate>
+        get() = _standardAbilities ?: species.standardAbilities
+
+    val hiddenAbility: AbilityTemplate?
+        get() = _hiddenAbility
+
+    val types: Iterable<ElementalType>
+        get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
 
     @Transient
     lateinit var species: Species
