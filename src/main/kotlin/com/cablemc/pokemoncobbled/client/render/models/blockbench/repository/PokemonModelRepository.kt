@@ -22,12 +22,15 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.exists
 import net.minecraft.resources.ResourceLocation
 
 object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     private val modelsBySpecies: MutableMap<Species, BlockBenchModelWrapper<PokemonEntity>> = mutableMapOf()
     private val modelTexturesBySpecies: MutableMap<Species, ResourceLocation> = mutableMapOf()
+    // TODO: Temporary until we decide the texture system we want to go with and its capabilities
+    private val shinyModelTexturesBySpecies: MutableMap<Species, ResourceLocation> = mutableMapOf()
 
     override fun registerAll() {
         registerBaseSpeciesModel(PokemonSpecies.BULBASAUR, BlockBenchModelWrapper(BulbasaurModel.LAYER_LOCATION, BulbasaurModel::createBodyLayer) { BulbasaurModel(it) })
@@ -58,13 +61,21 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         modelsBySpecies[species] = model
         addModel(model)
         registerBaseSpeciesModelTexture(species)
+        registerShinySpeciesModelTexture(species)
     }
 
     private fun registerBaseSpeciesModelTexture(species: Species) {
         modelTexturesBySpecies[species] = baseTextureFor(species)
     }
 
+    private fun registerShinySpeciesModelTexture(species: Species) {
+        val shinyTexture = shinyTextureFor(species)
+        shinyModelTexturesBySpecies[species] = if(shinyTexture.exists()) shinyTexture else baseTextureFor(species)
+    }
+
     private fun baseTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-base.png")
+
+    private fun shinyTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-shiny.png")
 
     fun getModel(pokemon: Pokemon): BlockBenchModelWrapper<PokemonEntity> {
         // TODO: This is just fetching by species at the moment. This will be developed further.
@@ -73,6 +84,9 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     fun getModelTexture(pokemon: Pokemon): ResourceLocation {
         // TODO: This is just fetching by species at the moment. This will be developed further.
+        if(pokemon.shiny) {
+            return shinyModelTexturesBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate shiny model texture")
+        }
         return modelTexturesBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate model texture")
     }
 

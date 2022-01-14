@@ -50,6 +50,7 @@ class PokemonEntity(
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
+    val shiny = addEntityProperty(SHINY, pokemon.shiny)
     val isMoving = addEntityProperty(MOVING, false)
     val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
@@ -64,6 +65,7 @@ class PokemonEntity(
 
     companion object {
         private val SPECIES_DEX = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
+        private val SHINY = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
         private val MOVING = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
         private val BEHAVIOUR_FLAGS = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
         private val PHASING_TARGET_ID = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
@@ -94,6 +96,7 @@ class PokemonEntity(
         super.load(nbt)
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         dexNumber.set(pokemon.species.nationalPokedexNumber)
+        shiny.set(pokemon.shiny)
         speed = 0.35F
     }
 
@@ -157,6 +160,7 @@ class PokemonEntity(
         buffer.writeUtf(pokemon.form.name)
         buffer.writeInt(phasingTargetId.get())
         buffer.writeByte(beamModeEmitter.get().toInt())
+        buffer.writeBoolean(pokemon.shiny)
     }
 
     override fun readSpawnData(buffer: FriendlyByteBuf) {
@@ -166,6 +170,7 @@ class PokemonEntity(
             pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readUtf() }!! // TODO exception handling
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
+            shiny.set(buffer.readBoolean())
         }
     }
 
