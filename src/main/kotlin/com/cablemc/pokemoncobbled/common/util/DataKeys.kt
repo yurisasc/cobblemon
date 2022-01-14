@@ -14,6 +14,7 @@ object DataKeys {
     const val POKEMON_MOVESET_MOVEPP = "MovePP"
     const val POKEMON_MOVESET_MAXPP = "MaxPP"
     const val POKEMON_ABILITY_NAME = "Ability"
+    const val POKEMON_SHINY = "Shiny"
 
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"

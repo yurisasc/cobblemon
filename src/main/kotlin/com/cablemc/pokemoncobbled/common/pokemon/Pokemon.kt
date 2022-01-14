@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.pokemon
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
+import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
@@ -15,6 +16,8 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
@@ -46,6 +49,14 @@ class Pokemon {
         get() = form.primaryType
     val secondaryType: ElementalType?
         get() = form.secondaryType
+
+    var shiny = false
+        set(value) { field = value ; _shiny.emit(value) }
+
+    var nature = Natures.getRandomNature()
+        set(value) { field = value ; _nature.emit(value.name.toString()) }
+    var mintedNature: Nature? = null
+        set(value) { field = value ; _mintedNature.emit(value?.name?.toString() ?: "") }
 
     var moveSet: MoveSet = MoveSet()
 
@@ -87,6 +98,7 @@ class Pokemon {
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
         nbt.put(DataKeys.POKEMON_MOVESET, moveSet.getNBT())
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
+        nbt.putBoolean(DataKeys.POKEMON_SHINY, shiny)
         ability.saveToNBT(nbt)
         return nbt
     }
@@ -102,6 +114,7 @@ class Pokemon {
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         moveSet = MoveSet.loadFromNBT(nbt)
         ability = Abilities.getOrException(nbt.getString(DataKeys.POKEMON_ABILITY_NAME)).create(nbt)
+        shiny = nbt.getBoolean(DataKeys.POKEMON_SHINY)
         return this
     }
 
@@ -113,6 +126,7 @@ class Pokemon {
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
         json.addProperty(DataKeys.POKEMON_HEALTH, health)
         json.add(DataKeys.POKEMON_STATS, stats.saveToJSON(JsonObject()))
+        json.addProperty(DataKeys.POKEMON_SHINY, shiny)
         return json
     }
 
@@ -125,6 +139,7 @@ class Pokemon {
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         health = json.get(DataKeys.POKEMON_HEALTH).asInt
         stats.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_STATS))
+        shiny = json.get(DataKeys.POKEMON_SHINY).asBoolean
         return this
     }
 
@@ -137,6 +152,7 @@ class Pokemon {
         buffer.writeShort(health)
         buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
         //moveSet.saveToBuffer(buffer)
+        buffer.writeBoolean(shiny)
         return buffer
     }
 
@@ -153,6 +169,7 @@ class Pokemon {
         buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
         // This errors...
         //moveSet = MoveSet.loadFromBuffer(buffer)
+        shiny = buffer.readBoolean()
         return this
     }
 
@@ -187,6 +204,9 @@ class Pokemon {
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
     private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
     private val _health = SimpleObservable<Int>()
+    private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
+    private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
+    private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
 
     val ivHP = 1
     val evHP = 1
