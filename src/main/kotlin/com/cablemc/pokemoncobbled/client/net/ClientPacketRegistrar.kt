@@ -9,6 +9,7 @@ import com.cablemc.pokemoncobbled.client.net.storage.party.SetPartyReferenceHand
 import com.cablemc.pokemoncobbled.client.net.storage.party.SwapPartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.api.net.SidedPacketRegistrar
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
 
 /**
@@ -23,6 +24,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
     override fun registerHandlers() {
         registerHandler<LevelUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<SpeciesUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<ShinyUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler(InitializePartyHandler)
         registerHandler(SetPartyPokemonHandler)
         registerHandler(MovePartyPokemonHandler)

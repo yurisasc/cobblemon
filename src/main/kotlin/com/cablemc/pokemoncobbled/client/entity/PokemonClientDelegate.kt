@@ -39,6 +39,10 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), EntitySideDe
             entity.pokemon.species = PokemonSpecies.getByPokedexNumber(it)!! // TODO exception handling
         }
 
+        entity.shiny.subscribeIncludingCurrent {
+            entity.pokemon.shiny = it
+        }
+
         entity.phasingTargetId.subscribe {
             if (it != -1) {
                 setPhaseTarget(it)
