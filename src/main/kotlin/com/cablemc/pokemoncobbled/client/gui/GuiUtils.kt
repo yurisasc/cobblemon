@@ -18,6 +18,7 @@ fun blitk(
     vOffset: Number = 0,
     alpha: Number = 1F
 ) {
+    val previousShader = RenderSystem.getShader()
     RenderSystem.setShader { GameRenderer.getPositionTexShader() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
     RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha.toFloat())
@@ -31,4 +32,5 @@ fun blitk(
         width.toInt(), height.toInt(),
         width.toInt(), height.toInt()
     )
+    RenderSystem.setShader { previousShader }
 }

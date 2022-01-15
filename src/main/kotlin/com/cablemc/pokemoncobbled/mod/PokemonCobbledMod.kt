@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.mod
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
@@ -21,8 +20,13 @@ import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.ifServer
+import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.storage.LevelResource
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.event.ModelBakeEvent
@@ -43,6 +47,7 @@ object PokemonCobbledMod {
     val LOGGER = LogManager.getLogger()
     val EVENT_BUS = BusBuilder.builder().build()
     var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
+    var isDedicatedServer = false
 
     init {
         with(MOD_CONTEXT.getKEventBus()) {
@@ -64,6 +69,9 @@ object PokemonCobbledMod {
 
         event.enqueueWork {
             DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable { PokemonCobbledClient.initialize() } }
+            ifServer {
+                isDedicatedServer = true
+            }
             EVENT_BUS.register(ServerPacketRegistrar)
             ServerPacketRegistrar.registerHandlers()
             PokemonCobbledNetwork.register()
@@ -101,5 +109,20 @@ object PokemonCobbledMod {
 
     fun on(event: EntityAttributeCreationEvent) {
         EntityRegistry.registerAttributes(event)
+    }
+
+    fun getLevel(dimension: ResourceKey<Level>): Level? {
+        return if (isDedicatedServer) {
+            getServer().getLevel(dimension)
+        } else {
+            val mc = Minecraft.getInstance()
+            if (mc.singleplayerServer != null) {
+                mc.singleplayerServer!!.getLevel(dimension)
+            } else if (mc.level?.dimension() == dimension) {
+                mc.level
+            } else {
+                null
+            }
+        }
     }
 }

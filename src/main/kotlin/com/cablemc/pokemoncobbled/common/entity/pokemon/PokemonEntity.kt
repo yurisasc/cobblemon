@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
@@ -58,7 +59,7 @@ class PokemonEntity(
     // properties like the above are synced and can be subscribed to changes for on either side
 
     init {
-        this.pokemon = pokemon.also { it.entity = this }
+        this.pokemon = pokemon.also { it.state = SentOutState(this) }
         delegate.initialize(this)
     }
 
@@ -128,11 +129,10 @@ class PokemonEntity(
         return true
     }
 
-    override fun mobInteract(player : Player, hand : InteractionHand) : InteractionResult {
+    override fun mobInteract(player: Player, hand: InteractionHand) : InteractionResult {
         // TODO: Move to proper pokemon interaction menu
         if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
             if (canSitOnShoulder() && player is ServerPlayer) {
-                // TODO: Check ownership as well
                 val store = pokemon.storeCoordinates.get()?.store
                 if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
                     this.setEntityOnShoulder(player)
@@ -142,7 +142,7 @@ class PokemonEntity(
         return super.mobInteract(player, hand)
     }
 
-    override fun getDimensions(pPose: Pose): EntityDimensions {
+    override fun getDimensions(pose: Pose): EntityDimensions {
         val scale = pokemon.form.baseScale * pokemon.scaleModifier
         return pokemon.form.hitbox.scale(scale)
     }

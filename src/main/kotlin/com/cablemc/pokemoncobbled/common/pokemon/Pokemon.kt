@@ -11,7 +11,11 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
 import com.cablemc.pokemoncobbled.common.util.readMapK
@@ -35,8 +39,11 @@ class Pokemon {
         set(value) { field = value ; _health.emit(value) }
     var level = 5
         set(value) { field = value ; _level.emit(value) }
+    var state: PokemonState = InactivePokemonState()
+        set(value) { field = value ; _state.emit(value) }
 
-    var entity: PokemonEntity? = null
+    val entity: PokemonEntity?
+        get() = state.let { if (it is ActivePokemonState) it.entity else null }
 
     val stats = pokemonStatsOf(
         Stats.HP to 20,
@@ -60,7 +67,7 @@ class Pokemon {
 
     fun recall() {
         this.entity?.remove(Entity.RemovalReason.DISCARDED)
-        this.entity = null
+        this.state = InactivePokemonState()
     }
 
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
@@ -71,6 +78,7 @@ class Pokemon {
         nbt.putShort(DataKeys.POKEMON_HEALTH, health.toShort())
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
+        state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
         return nbt
     }
 
@@ -83,6 +91,12 @@ class Pokemon {
         health = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
+        if (nbt.contains(DataKeys.POKEMON_STATE)) {
+            val stateNBT = nbt.getCompound(DataKeys.POKEMON_STATE)
+            val type = stateNBT.getString(DataKeys.POKEMON_STATE_TYPE)
+            val clazz = PokemonState.states[type]
+            state = clazz?.newInstance()?.readFromNBT(stateNBT) ?: InactivePokemonState()
+        }
         return this
     }
 
@@ -93,6 +107,7 @@ class Pokemon {
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
         json.addProperty(DataKeys.POKEMON_HEALTH, health)
         json.add(DataKeys.POKEMON_STATS, stats.saveToJSON(JsonObject()))
+        state.writeToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATE, it) }
         return json
     }
 
@@ -104,6 +119,12 @@ class Pokemon {
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         health = json.get(DataKeys.POKEMON_HEALTH).asInt
         stats.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_STATS))
+        if (json.has(DataKeys.POKEMON_STATE)) {
+            val stateJson = json.get(DataKeys.POKEMON_STATE).asJsonObject
+            val type = stateJson.get(DataKeys.POKEMON_STATE_TYPE).asString
+            val clazz = PokemonState.states[type]
+            state = clazz?.newInstance()?.readFromJSON(stateJson) ?: InactivePokemonState()
+        }
         return this
     }
 
@@ -114,6 +135,7 @@ class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(health)
         buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        state.writeToBuffer(buffer)
         return buffer
     }
 
@@ -127,6 +149,7 @@ class Pokemon {
         health = buffer.readUnsignedShort()
         // TODO throw exception or dummy stat?
         buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
+        state = PokemonState.fromBuffer(buffer)
         return this
     }
 
@@ -161,6 +184,7 @@ class Pokemon {
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
     private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
     private val _health = SimpleObservable<Int>()
+    private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
 
     val ivHP = 1
     val evHP = 1
