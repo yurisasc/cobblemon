@@ -143,7 +143,7 @@ class Pokemon {
         return this
     }
 
-    // TODO Ability, MoveSet - Last time I tries it errored :(
+    // TODO Ability
     fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
         buffer.writeUUID(uuid)
         buffer.writeShort(species.nationalPokedexNumber)
@@ -151,12 +151,12 @@ class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(health)
         buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
-        //moveSet.saveToBuffer(buffer)
+        moveSet.saveToBuffer(buffer)
         buffer.writeBoolean(shiny)
         return buffer
     }
 
-    // TODO Ability, MoveSet - Last time I tries it errored :(
+    // TODO Ability
     fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
         uuid = buffer.readUUID()
         species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())
@@ -167,8 +167,7 @@ class Pokemon {
         health = buffer.readUnsignedShort()
         // TODO throw exception or dummy stat?
         buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
-        // This errors...
-        //moveSet = MoveSet.loadFromBuffer(buffer)
+        moveSet = MoveSet.loadFromBuffer(buffer)
         shiny = buffer.readBoolean()
         return this
     }

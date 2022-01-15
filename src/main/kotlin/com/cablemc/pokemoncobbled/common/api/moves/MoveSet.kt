@@ -33,7 +33,6 @@ class MoveSet {
         if(pos < 0 || pos > 3)
             return
         moves[pos] = move
-        println("Set Move on $pos to ${move.name}")
     }
 
     /**
@@ -57,12 +56,11 @@ class MoveSet {
     /**
      * Writes the MoveSet to Buffer
      */
-    fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
+    fun saveToBuffer(buffer: FriendlyByteBuf) {
         buffer.writeInt(getMoves().size)
         getMoves().forEach {
             it.saveToBuffer(buffer)
         }
-        return buffer
     }
 
     companion object {
@@ -83,7 +81,7 @@ class MoveSet {
         fun loadFromBuffer(buffer: FriendlyByteBuf): MoveSet {
             val amountMoves = buffer.readInt()
             val moveSet = MoveSet()
-            for(i in 0..amountMoves) {
+            for(i in 0 until amountMoves) {
                 moveSet.setMove(i, Move.loadFromBuffer(buffer))
             }
             return moveSet
