@@ -11,8 +11,11 @@ import com.mojang.math.Matrix4f
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.FormattedText
 import net.minecraft.network.chat.MutableComponent
+import net.minecraft.network.chat.TextComponent
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.FormattedCharSequence
 
 fun blitk(
     poseStack: PoseStack,
@@ -93,6 +96,27 @@ fun drawText(
     shadow: Boolean = true
 ) {
     val comp = (text as MutableComponent).withStyle(text.style.withFont(font))
+    val mcFont = Minecraft.getInstance().font
+    if(shadow)
+        mcFont.drawShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
+    else
+        mcFont.draw(poseStack, comp, x.toFloat(), y.toFloat(), colour)
+}
+
+fun drawString(
+    poseStack: PoseStack,
+    text: String,
+    x: Number,
+    y: Number,
+    colour: Int,
+    shadow: Boolean = true,
+    font: ResourceLocation? = null
+) {
+    val comp = TextComponent(text).also {
+        font?.run {
+            it.withStyle(it.style.withFont(this))
+        }
+    }
     val mcFont = Minecraft.getInstance().font
     if(shadow)
         mcFont.drawShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
