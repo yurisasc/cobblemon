@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation
 class MovesWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    summary: Summary
+    val summary: Summary
 ): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent("MovesWidget")) {
 
     companion object {
@@ -21,7 +21,7 @@ class MovesWidget(
     }
 
     private var index = -1
-    private val moves = summary.pokemonMoves().filterNotNull().map { move ->
+    private val moves = summary.currentPokemon.moveSet.getMoves().map { move ->
         index++
         MoveWidget(x + 19, y + 27 + (MOVE_HEIGHT + 3) * index, MOVE_WIDTH, MOVE_HEIGHT, move, x + 5, y + 165, this, index)
     }.toMutableList().onEach {
@@ -63,6 +63,7 @@ class MovesWidget(
         val temp = moves[targetSlot]
         moves[targetSlot] = moves[movePos]
         moves[movePos] = temp
+        summary.currentPokemon.moveSet.swapMove(targetSlot, movePos)
         updateMoves()
     }
 

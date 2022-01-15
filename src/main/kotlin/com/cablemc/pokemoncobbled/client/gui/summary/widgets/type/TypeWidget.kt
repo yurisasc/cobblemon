@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.type
 
-import com.cablemc.pokemoncobbled.client.gui.summary.mock.ElementalType
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.renderer.GameRenderer
@@ -24,7 +24,7 @@ abstract class TypeWidget(
         RenderSystem.setShaderTexture(0, typeResource)
         blit(
             pPoseStack, pX, pY,
-            width * type.xMultiplier.toFloat(), 0F, width, height , width * 18, height
+            width * type.textureXMultiplier.toFloat(), 0F, width, height , width * 18, height
         )
     }
 

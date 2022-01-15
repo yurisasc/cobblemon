@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.type
 
-import com.cablemc.pokemoncobbled.client.gui.summary.mock.ElementalType
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.Component
 

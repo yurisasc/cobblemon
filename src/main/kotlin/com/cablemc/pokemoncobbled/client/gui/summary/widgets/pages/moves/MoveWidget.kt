@@ -4,10 +4,10 @@ import com.cablemc.pokemoncobbled.client.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.client.gui.Fonts
 import com.cablemc.pokemoncobbled.client.gui.blitk
 import com.cablemc.pokemoncobbled.client.gui.drawCenteredText
-import com.cablemc.pokemoncobbled.client.gui.summary.mock.PokemonMove
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.moves.Move
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.TextComponent
 import net.minecraft.resources.ResourceLocation
@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation
 class MoveWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    val move: PokemonMove,
+    val move: Move,
     infoX: Int, infoY: Int,
     private val movesWidget: MovesWidget, private val index: Int
 ): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent(move.name)) {
@@ -86,7 +86,7 @@ class MoveWidget(
         drawCenteredText(
             poseStack = pMatrixStack,
             font = Fonts.OSWALD_SMALL,
-            text = TextComponent("${move.curPp} / ${move.maxPp}"),
+            text = TextComponent("${move.currentPp} / ${move.maxPp}"),
             x = (x + width / 2) / 0.6 + 3, y = (y + 23) / 0.6 + 1,
             colour = ColourLibrary.WHITE, shadow = false
         )
@@ -100,8 +100,8 @@ class MoveWidget(
         pMatrixStack.scale(0.5F, 0.5F, 0.5F)
         drawCenteredText(
             poseStack = pMatrixStack, font = Fonts.OSWALD,
-            text = TextComponent(move.name),
-            x =(x + 85) / 0.5F, y = y / 0.5F + 14,
+            text = move.displayName,
+            x = (x + 85) / 0.5F, y = y / 0.5F + 14,
             colour = MOVE_NAME_COLOUR, shadow = false
         )
         pMatrixStack.popPose()
@@ -117,8 +117,8 @@ class MoveWidget(
     }
 
     // Get the remaining PP as percentage
-    private fun getPpAsPercentage(move: PokemonMove): Double {
-        return move.curPp.toDouble() / move.maxPp.toDouble()
+    private fun getPpAsPercentage(move: Move): Double {
+        return move.currentPp.toDouble() / move.maxPp.toDouble()
     }
 
     private fun specificOffset(pos: Int): Float {
