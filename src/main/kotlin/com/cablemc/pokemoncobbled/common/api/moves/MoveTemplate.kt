@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.google.gson.annotations.SerializedName
 import net.minecraft.network.chat.TranslatableComponent
 
 /**
@@ -18,6 +19,7 @@ import net.minecraft.network.chat.TranslatableComponent
  */
 class MoveTemplate(
     val name: String,
+    @SerializedName("type")
     val elementalType: ElementalType,
     val damageCategory: DamageCategory,
     val power: Double,
