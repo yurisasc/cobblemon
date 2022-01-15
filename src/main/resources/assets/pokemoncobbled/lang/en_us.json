@@ -17,10 +17,8 @@
   "key.pokemoncobbled.throwpartypokemon": "Throw Selected Pokémon",
   "key.pokemoncobbled.pokenavigator": "Open PokéNav",
   "key.pokemoncobbled.summary": "Open Summary",
-  "key.pokemoncobbled.categories.pokemoncobbled": "Pokémon Cobbled"
-  "pokemoncobbled.ui.pokenav.title": "PokeNav",
-  "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!"
-  "pokemoncobbled.ui.pokenav.title": "PokeNav",
+  "key.pokemoncobbled.categories.pokemoncobbled": "Pokémon Cobbled",
+  "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!",
   "pokemoncobbled.type.fire": "Fire",
   "pokemoncobbled.type.water": "Water",
   "pokemoncobbled.type.grass": "Grass",
@@ -43,5 +41,11 @@
   "pokemoncobbled.move.category.special": "Special",
   "pokemoncobbled.move.category.status": "Status",
   "pokemoncobbled.move.tackle": "Tackle",
-  "pokemoncobbled.move.tackle.desc": "A physical attack in which the user charges and slams into the target with its whole body."
+  "pokemoncobbled.move.tackle.desc": "A physical attack in which the user charges and slams into the target with its whole body.",
+  "pokemoncobbled.move.aerial_ace":  "Aerial Ace",
+  "pokemoncobbled.move.aerial_ace.desc":  "The user confounds the target with speed, then slashes. This attack never misses.",
+  "pokemoncobbled.move.air_slash":  "Air Slash",
+  "pokemoncobbled.move.air_slash.desc":  "The user attacks with a blade of air that slices even the sky. This may also make the target flinch.",
+  "pokemoncobbled.move.aura_sphere":  "Aura Sphere",
+  "pokemoncobbled.move.aura_sphere.desc":  "The user lets loose a blast of aura power from deep within its body at the target. This attack never misses."
 }
