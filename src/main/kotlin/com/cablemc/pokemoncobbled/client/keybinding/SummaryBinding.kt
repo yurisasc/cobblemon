@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.client.keybinding
 
+import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.client.gui.summary.Summary
 import com.mojang.blaze3d.platform.InputConstants
 import net.minecraft.client.KeyMapping
@@ -17,7 +18,7 @@ object SummaryBinding : KeyMapping(
     @SubscribeEvent
     fun onKeyInput(event: InputEvent.KeyInputEvent) {
         if (this.isDown && !wasDown) {
-            Minecraft.getInstance().setScreen(Summary())
+            Minecraft.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
             wasDown = true
         } else if (!this.isDown) {
             wasDown = false
