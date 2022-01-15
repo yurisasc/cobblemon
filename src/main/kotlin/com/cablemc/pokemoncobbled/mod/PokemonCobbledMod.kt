@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.Pok
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
@@ -66,6 +67,9 @@ object PokemonCobbledMod {
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
+
+        // Same as PokemonSpecies
+        LOGGER.info("Loaded ${Moves.count()} Moves.")
 
         event.enqueueWork {
             DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable { PokemonCobbledClient.initialize() } }

@@ -1,5 +1,9 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
+import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
+import com.cablemc.pokemoncobbled.common.api.abilities.Ability
+import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
+import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
@@ -7,11 +11,14 @@ import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
@@ -45,6 +52,23 @@ class Pokemon {
     val entity: PokemonEntity?
         get() = state.let { if (it is ActivePokemonState) it.entity else null }
 
+    val primaryType: ElementalType
+        get() = form.primaryType
+    val secondaryType: ElementalType?
+        get() = form.secondaryType
+
+    var shiny = false
+        set(value) { field = value ; _shiny.emit(value) }
+
+    var nature = Natures.getRandomNature()
+        set(value) { field = value ; _nature.emit(value.name.toString()) }
+    var mintedNature: Nature? = null
+        set(value) { field = value ; _mintedNature.emit(value?.name?.toString() ?: "") }
+
+    var moveSet: MoveSet = MoveSet()
+
+    var ability: Ability = form.standardAbilities.random().create()
+
     val stats = pokemonStatsOf(
         Stats.HP to 20,
         Stats.ATTACK to 10,
@@ -70,6 +94,8 @@ class Pokemon {
         this.state = InactivePokemonState()
     }
 
+    val types = form.types
+
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
@@ -77,7 +103,10 @@ class Pokemon {
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_HEALTH, health.toShort())
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
+        nbt.put(DataKeys.POKEMON_MOVESET, moveSet.getNBT())
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
+        nbt.putBoolean(DataKeys.POKEMON_SHINY, shiny)
+        ability.saveToNBT(nbt)
         state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
         return nbt
     }
@@ -91,6 +120,9 @@ class Pokemon {
         health = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
+        moveSet = MoveSet.loadFromNBT(nbt)
+        ability = Abilities.getOrException(nbt.getString(DataKeys.POKEMON_ABILITY_NAME)).create(nbt)
+        shiny = nbt.getBoolean(DataKeys.POKEMON_SHINY)
         if (nbt.contains(DataKeys.POKEMON_STATE)) {
             val stateNBT = nbt.getCompound(DataKeys.POKEMON_STATE)
             val type = stateNBT.getString(DataKeys.POKEMON_STATE_TYPE)
@@ -100,6 +132,7 @@ class Pokemon {
         return this
     }
 
+    // TODO Ability, MoveSet
     fun saveToJSON(json: JsonObject): JsonObject {
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber)
@@ -107,10 +140,12 @@ class Pokemon {
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
         json.addProperty(DataKeys.POKEMON_HEALTH, health)
         json.add(DataKeys.POKEMON_STATS, stats.saveToJSON(JsonObject()))
+        json.addProperty(DataKeys.POKEMON_SHINY, shiny)
         state.writeToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATE, it) }
         return json
     }
 
+    // TODO Ability, MoveSet
     fun loadFromJSON(json: JsonObject): Pokemon {
         uuid = UUID.fromString(json.get(DataKeys.POKEMON_UUID).asString)
         species = PokemonSpecies.getByPokedexNumber(json.get(DataKeys.POKEMON_SPECIES_DEX).asInt)
@@ -119,6 +154,7 @@ class Pokemon {
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         health = json.get(DataKeys.POKEMON_HEALTH).asInt
         stats.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_STATS))
+        shiny = json.get(DataKeys.POKEMON_SHINY).asBoolean
         if (json.has(DataKeys.POKEMON_STATE)) {
             val stateJson = json.get(DataKeys.POKEMON_STATE).asJsonObject
             val type = stateJson.get(DataKeys.POKEMON_STATE_TYPE).asString
@@ -128,6 +164,7 @@ class Pokemon {
         return this
     }
 
+    // TODO Ability, MoveSet - Last time I tries it errored :(
     fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
         buffer.writeUUID(uuid)
         buffer.writeShort(species.nationalPokedexNumber)
@@ -135,10 +172,13 @@ class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(health)
         buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        //moveSet.saveToBuffer(buffer)
+        buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
         return buffer
     }
 
+    // TODO Ability, MoveSet - Last time I tries it errored :(
     fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
         uuid = buffer.readUUID()
         species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())
@@ -149,6 +189,9 @@ class Pokemon {
         health = buffer.readUnsignedShort()
         // TODO throw exception or dummy stat?
         buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
+        // This errors...
+        //moveSet = MoveSet.loadFromBuffer(buffer)
+        shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
         return this
     }
@@ -184,6 +227,9 @@ class Pokemon {
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
     private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
     private val _health = SimpleObservable<Int>()
+    private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
+    private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
+    private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
 
     val ivHP = 1
