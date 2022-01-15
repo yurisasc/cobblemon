@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.client.gui
 
+import com.cablemc.pokemoncobbled.client.CobbledResources
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
@@ -14,6 +15,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import kotlin.math.roundToInt
@@ -52,9 +54,21 @@ class PartyOverlay(
         val downscaledFrameOffsetY = originalFrameOffsetY * ratio
 
         party.forEachIndexed { index, pokemon ->
+
+            RenderSystem.viewport(0, 0, minecraft.window.width, minecraft.window.height)
+
             if (pokemon != null) {
                 val scaleIt: (Int) -> Int = { (it * minecraft.window.guiScale).toInt() }
                 val y = minecraft.window.guiScaledHeight - (startY + slotHeight * (index + 1) + 1) + if (index == 0) 0 else 1
+
+                blitk(
+                    poseStack = event.matrixStack,
+                    texture = underlay,
+                    x = panelX,
+                    y = startY + slotHeight * index,
+                    height = slotHeight,
+                    width = ratio * slotHeight
+                )
 
                 RenderSystem.viewport(
                     scaleIt(panelX),
@@ -64,20 +78,21 @@ class PartyOverlay(
                 )
 //
                 drawPokemon(pokemon)
+            } else {
+                blitk(
+                    poseStack = event.matrixStack,
+                    texture = underlay,
+                    x = panelX,
+                    y = startY + slotHeight * index,
+                    height = slotHeight,
+                    width = ratio * slotHeight
+                )
             }
         }
 
         RenderSystem.viewport(0, 0, minecraft.window.width, minecraft.window.height)
 
         party.slots.forEachIndexed { index, pokemon ->
-            blitk(
-                poseStack = event.matrixStack,
-                texture = underlay,
-                x = panelX,
-                y = startY + slotHeight * index,
-                height = slotHeight,
-                width = ratio * slotHeight
-            )
 
 //            if (index == 0) {
                 blitk(
@@ -90,7 +105,18 @@ class PartyOverlay(
                 )
 
             if (pokemon != null) {
-
+                event.matrixStack.pushPose()
+                val fontScale = 0.85F
+                val horizontalScale = fontScale * 0.8F
+                event.matrixStack.scale(horizontalScale, fontScale, 1F)
+                minecraft.font.draw(
+                    event.matrixStack,
+                    TranslatableComponent(pokemon.species.name).also { it.style = it.style.withFont(CobbledResources.shulVokalFontSmall) },
+                    (panelX + 14F) / horizontalScale,
+                    (startY + slotHeight * index + slotHeight * 0.84F) / fontScale,
+                    0xFFFFFF
+                )
+                event.matrixStack.popPose()
             }
 //            } else {
 //                blitk(
