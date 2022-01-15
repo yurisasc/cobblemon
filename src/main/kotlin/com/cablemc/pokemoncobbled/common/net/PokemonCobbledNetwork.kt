@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.net
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.event.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
@@ -11,8 +10,10 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPa
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.serializers.Vec3DataSerializer
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.server.level.ServerPlayer
 import net.minecraftforge.fmllegacy.network.NetworkDirection
 import net.minecraftforge.fmllegacy.network.NetworkRegistry
@@ -38,13 +39,15 @@ object PokemonCobbledNetwork {
     fun sendToPlayers(players: Iterable<ServerPlayer>, packet: NetworkPacket) = players.forEach { sendToPlayer(it, packet) }
 
     val channel = NetworkRegistry.newSimpleChannel(
-        ResourceLocation(PokemonCobbled.MODID, "main"),
+        cobbledResource("main"),
         { PROTOCOL_VERSION },
         PROTOCOL_VERSION::equals,
         PROTOCOL_VERSION::equals
     )
 
     fun register() {
+        EntityDataSerializers.registerSerializer(Vec3DataSerializer)
+
         buildClientMessage<PokemonUpdatePacket>()
         buildClientMessage<InitializePartyPacket>()
         buildClientMessage<SetPartyPokemonPacket>()

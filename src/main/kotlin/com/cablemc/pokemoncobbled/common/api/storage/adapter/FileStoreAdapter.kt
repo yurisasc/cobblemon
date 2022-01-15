@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.api.storage.adapter
 
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
-import java.io.File
 import java.util.UUID
 
 /**

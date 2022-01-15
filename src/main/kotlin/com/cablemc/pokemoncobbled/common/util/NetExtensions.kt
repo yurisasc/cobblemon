@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.net.IntSize
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.IntUpdatePacket
 import io.netty.buffer.ByteBuf
 
 fun ByteBuf.writeConditional(condition: () -> Boolean, writer: () -> Unit) {

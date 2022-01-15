@@ -1,12 +1,14 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.client.entity.PokemonClientDelegate
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.ModelPartChain
-import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.EntityModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.WaveAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.WaveSegment
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -14,61 +16,63 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
-import kotlin.math.PI
-import kotlin.math.cos
 
+class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
-class EkansModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val ekans: ModelPart = root.getChild("ekans")
-    private val head = ekans.getChild("body").getChild("head")
-    private val tail = ekans.getChild("body").getChild("tail")
-    private val tail2 = tail.getChild("tail2")
-    private val tail3 = tail2.getChild("tail3")
-    private val tail4 = tail3.getChild("tail4")
-    private val tail5 = tail4.getChild("tail5")
-    private val tail6 = tail5.getChild("tail6")
-    private val tailChain = ModelPartChain(listOf(tail, tail2, tail3, tail4, tail5, tail6))
+    override val rootPart = registerRelevantPart("ekans", root.getChild("ekans"))
+    private val body = registerRelevantPart("body", rootPart.getChild("body"))
+    override val head = registerRelevantPart("head", body.getChild("head"))
+    private val tail = registerRelevantPart("tail", body.getChild("tail"))
+    private val tail2 = registerRelevantPart("tail2", tail.getChild("tail2"))
+    private val tail3 = registerRelevantPart("tail3", tail2.getChild("tail3"))
+    private val tail4 = registerRelevantPart("tail4", tail3.getChild("tail4"))
+    private val tail5 = registerRelevantPart("tail5", tail4.getChild("tail5"))
+    private val tail6 = registerRelevantPart("tail6", tail5.getChild("tail6"))
 
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
-        val clientDelegate = entity.delegate as PokemonClientDelegate
-        if (entity.isMoving.get()) {
-            clientDelegate.animTick += 0.15f * PokemonRenderer.DELTA_TICKS
-        }
+    val tailSegment = WaveSegment(modelPart = tail, length = 9F)
+    val tail2Segment = WaveSegment(modelPart = tail2, length = 9F)
+    val tail3Segment = WaveSegment(modelPart = tail3, length = 9F)
+    val tail4Segment = WaveSegment(modelPart = tail4, length = 9F)
+    val tail5Segment = WaveSegment(modelPart = tail5, length = 10F)
+    val tail6Segment = WaveSegment(modelPart = tail6, length = 10F)
 
-        head.xRot = headPitch * (PI.toFloat() / 180f)
-        head.yRot = netHeadYaw * (PI.toFloat() / 180f)
+    override fun registerPoses() {
+        registerPose(
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf(
+                SingleBoneLookAnimation(this),
+                WaveAnimation(
+                    frame = this,
+                    waveFunction = sineFunction(
+                        period = 8F,
+                        amplitude = 0.8F
+                    ),
+                    basedOnLimbSwing = true,
+                    oscillationsScalar = 5F,
+                    head = head,
+                    rotationAxis = Y_AXIS,
+                    motionAxis = X_AXIS,
+                    moveHead = false,
+                    headLength = 16F,
+                    segments = arrayOf(
+                        tailSegment,
+                        tail2Segment,
+                        tail3Segment,
+                        tail4Segment,
+                        tail5Segment,
+                        tail6Segment
+                    )
+                )
+            ),
+            transformedParts = arrayOf(
 
-        // Tail sway
-        tailChain.setupAnim(partHandler = { modelPart, placement ->
-            // 0.1f base and then 0.1f increment to the multiplier per placement
-            modelPart.yRot = cos(clientDelegate.animTick * 0.09f + (placement * 5)) * (0.3f + 0.15f * placement)
-        })
-    }
-
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        ekans.render(poseStack, buffer, packedLight, packedOverlay)
+            )
+        )
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "ekans"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("ekans"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

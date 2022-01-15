@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.client.gui
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.client.keybinding.HidePartyBinding
 import com.cablemc.pokemoncobbled.client.util.PokemonSpriteProvider
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.gui.screens.ChatScreen
@@ -15,6 +16,8 @@ class PartyOverlay(
     minecraft: Minecraft = Minecraft.getInstance()
 ) : Gui(minecraft) {
     var selectedSlot = 0
+    val partyResource = cobbledResource("party/background.png")
+    val selectedResource = cobbledResource("party/selected_slot.png")
     val partyResource = ResourceLocation("pokemoncobbled", "party/background.png")
     val selectedResource = ResourceLocation("pokemoncobbled", "party/selected_slot.png")
     val screenExemptions: List<Class<out Screen>> = listOf(

@@ -1,12 +1,18 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.ModelPartChain
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.CascadeAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.cosineFunction
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.gradualFunction
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BimanualFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BipedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.AnimationUtils
-import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -14,71 +20,54 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.Mth
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 
-class CharmanderModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val charmander: ModelPart = root.getChild("charmander")
-    private val head = charmander.getChild("body").getChild("head")
-    private val rightLeg = charmander.getChild("body").getChild("rightleg")
-    private val leftLeg = charmander.getChild("body").getChild("leftleg")
-    private val rightArm = charmander.getChild("body").getChild("rightarm")
-    private val leftArm = charmander.getChild("body").getChild("leftarm")
-    private val tail = charmander.getChild("body").getChild("tail")
-    private val tailTip = tail.getChild("tail2")
-    private val tailFlame = tailTip.getChild("fire")
-    private val tailChain = ModelPartChain(listOf(tail, tailTip))
+class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+    override val rootPart = registerRelevantPart("charmander", root.getChild("charmander"))
+    val body = registerRelevantPart("body", rootPart.getChild("body"))
+    override val head = registerRelevantPart("head", body.getChild("head"))
+    override val rightLeg = registerRelevantPart("rightleg", body.getChild("rightleg"))
+    override val leftLeg = registerRelevantPart("leftleg", body.getChild("leftleg"))
+    override val rightArm = registerRelevantPart("rightarm", body.getChild("rightarm"))
+    override val leftArm = registerRelevantPart("leftarm", body.getChild("leftarm"))
 
-    override fun setupAnim(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, netHeadYaw: Float, headPitch: Float) {
-        head.xRot = headPitch * (PI.toFloat() / 180f)
-        head.yRot = netHeadYaw * (PI.toFloat() / 180f)
+    private val tail = registerRelevantPart("tail", body.getChild("tail"))
+    private val tailTip = registerRelevantPart("tail2", tail.getChild("tail2"))
+    private val tailFlame = registerRelevantPart("fire", tailTip.getChild("fire"))
 
-        // Base rotation
-        rightArm.zRot = (-70f).toRadians()
-        leftArm.zRot = 70f.toRadians()
-
-        // Leg and arm swinging
-        rightLeg.xRot = cos(limbSwing * 0.6662f + PI.toFloat()) * 1.4f * limbSwingAmount
-        leftLeg.xRot = cos(limbSwing * 0.6662f) * 1.4f * limbSwingAmount
-        rightArm.yRot = cos(limbSwing * 0.6662f) * 1f * limbSwingAmount
-        leftArm.yRot = cos(limbSwing * 0.6662f) * 1f * limbSwingAmount
-
-        // Idle sway
-        rightArm.zRot += 1.0f * (cos(ageInTicks * 0.09f) * 0.05f + 0.05f)
-        rightArm.yRot += 1.0f * sin(ageInTicks * 0.067f) * 0.05f
-        leftArm.zRot += -1.0f * (cos(ageInTicks * 0.09f) * 0.05f + 0.05f)
-        leftArm.yRot += -1.0f * sin(ageInTicks * 0.067f) * 0.05f
-
-        // Tail sway
-        tailChain.setupAnim(partHandler = { modelPart, placement ->
-            // 0.1f base and then 0.1f increment to the multiplier per placement
-            modelPart.yRot = cos(ageInTicks * 0.09f) * (0.1f + 0.1f * placement)
-        })
-
-        // Tail upwards bend
-        tailTip.xRot = 35f.toRadians()
-        tailFlame.xRot = (-35f).toRadians()
-    }
-
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        charmander.render(poseStack, buffer, packedLight, packedOverlay)
+    override fun registerPoses() {
+        registerPose(
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf(
+                BipedWalkAnimation(this),
+                BimanualSwingAnimation(this),
+                SingleBoneLookAnimation(this),
+                CascadeAnimation(
+                    frame = this,
+                    rootFunction = cosineFunction(
+                        period = 0.09f
+                    ),
+                    amplitudeFunction = gradualFunction(
+                        base = 0.1f,
+                        step = 0.1f
+                    ),
+                    segments = arrayOf(
+                        tail,
+                        tailTip
+                    )
+                )
+            ),
+            transformedParts = arrayOf(
+                leftArm.withRotation(2, 70f.toRadians()),
+                rightArm.withRotation(2, (-70f).toRadians()),
+                tailTip.withRotation(0, 35f.toRadians()),
+                tailFlame.withRotation(0, (-35f).toRadians())
+            )
+        )
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "charmander"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("charmander"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

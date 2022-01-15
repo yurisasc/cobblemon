@@ -5,10 +5,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.Sing
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.EntityModel
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -16,17 +13,16 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
 
 
 class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
 
-    override val rootPart = registerRelevantPart(root.getChild("ivysaur"))
-    override val head = registerRelevantPart(rootPart.getChild("body").getChild("head"))
-    override val hindRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightbackleg"))
-    override val hindLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftbackleg"))
-    override val foreRightLeg = registerRelevantPart(rootPart.getChild("body").getChild("rightleg"))
-    override val foreLeftLeg = registerRelevantPart(rootPart.getChild("body").getChild("leftleg"))
+    override val rootPart = registerRelevantPart("ivysaur", root.getChild("ivysaur"))
+    override val head = registerRelevantPart("head", rootPart.getChild("body").getChild("head"))
+    override val hindRightLeg = registerRelevantPart("rightbackleg", rootPart.getChild("body").getChild("rightbackleg"))
+    override val hindLeftLeg = registerRelevantPart("leftbackleg", rootPart.getChild("body").getChild("leftbackleg"))
+    override val foreRightLeg = registerRelevantPart("rightleg", rootPart.getChild("body").getChild("rightleg"))
+    override val foreLeftLeg = registerRelevantPart("leftleg", rootPart.getChild("body").getChild("leftleg"))
 
     init {
         registerPoses()
@@ -45,8 +41,7 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "ivysaur"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("ivysaur"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

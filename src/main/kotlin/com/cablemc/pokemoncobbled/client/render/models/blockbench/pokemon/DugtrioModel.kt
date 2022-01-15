@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -11,27 +12,23 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
 
-// Made with Blockbench 4.0.5
-// Exported for Minecraft version 1.17 with Mojang mappings
-// Paste this class into your mod and generate all required imports
 class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart: ModelPart = root.getChild("dugtrio")
-    private val body1: ModelPart = rootPart.getChildOf("body")
-    private val body2: ModelPart = rootPart.getChildOf("body2")
-    private val body3: ModelPart = rootPart.getChildOf("body3")
+    override val rootPart: ModelPart = registerRelevantPart("dugtrio", root.getChild("dugtrio"))
+    private val body1: ModelPart = registerRelevantPart("body1", rootPart.getChildOf("body"))
+    private val body2: ModelPart = registerRelevantPart("body2", rootPart.getChildOf("body2"))
+    private val body3: ModelPart = registerRelevantPart("body3", rootPart.getChildOf("body3"))
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.WALK,
+            poseType = PoseType.NONE,
             condition = { true },
             idleAnimations = arrayOf(
                 body1.translation(
                     function = sineFunction(
                         amplitude = -2F,
-                        period = 1F,
-                        verticalShift = -5F
+                        period = 1.4F,
+                        verticalShift = 1F
                     ),
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
@@ -39,9 +36,9 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
                 body2.translation(
                     function = sineFunction(
                         amplitude = 1F,
-                        period = 1F,
+                        period = 1.2F,
                         phaseShift = 0.5F,
-                        verticalShift = -4F
+                        verticalShift = 0F
                     ),
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
@@ -50,7 +47,7 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
                     function = sineFunction(
                         amplitude = -1.5F,
                         period = 1F,
-                        verticalShift = -9F
+                        verticalShift = 2F
                     ),
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
@@ -61,8 +58,7 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "dugtrio"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("dugtrio"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

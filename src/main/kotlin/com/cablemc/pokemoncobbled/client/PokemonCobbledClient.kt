@@ -52,7 +52,6 @@ object PokemonCobbledClient {
     fun registerRenderers() {
         registerEntityRenderer(EntityRegistry.POKEMON) { PokemonRenderer(it) }
         registerEntityRenderer(EntityRegistry.EMPTY_POKEBALL) { PokeBallRenderer(it) }
-        registerEntityRenderer(EntityRegistry.OCCUPIED_POKEBALL) { PokeBallRenderer(it) }
     }
 
     fun initialize() {
