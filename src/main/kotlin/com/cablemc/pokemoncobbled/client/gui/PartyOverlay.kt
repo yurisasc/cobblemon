@@ -8,7 +8,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.gui.screens.ChatScreen
 import net.minecraft.client.gui.screens.Screen
-import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
@@ -18,8 +17,6 @@ class PartyOverlay(
     var selectedSlot = 0
     val partyResource = cobbledResource("party/background.png")
     val selectedResource = cobbledResource("party/selected_slot.png")
-    val partyResource = ResourceLocation("pokemoncobbled", "party/background.png")
-    val selectedResource = ResourceLocation("pokemoncobbled", "party/selected_slot.png")
     val screenExemptions: List<Class<out Screen>> = listOf(
         ChatScreen::class.java
     )
