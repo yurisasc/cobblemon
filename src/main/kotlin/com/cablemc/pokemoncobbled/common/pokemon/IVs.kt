@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
-import com.cablemc.pokemoncobbled.common.util.random
+import com.cablemc.pokemoncobbled.common.util.randomNoCopy
 import kotlin.random.Random
 
 class IVs : PokemonStats() {
@@ -23,7 +23,7 @@ class IVs : PokemonStats() {
 
             // Add in minimum perfect IVs
             if(minPerfectIVs > 0) {
-                val perfectStats = Stats.mainStats.random(minPerfectIVs)
+                val perfectStats = Stats.mainStats.randomNoCopy(minPerfectIVs)
                 for(stat in perfectStats) {
                     ivs[stat] = maxStatValue
                 }
