@@ -3,13 +3,16 @@ package com.cablemc.pokemoncobbled.common.net
 import com.cablemc.pokemoncobbled.common.api.event.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
@@ -49,14 +52,17 @@ object PokemonCobbledNetwork {
         EntityDataSerializers.registerSerializer(Vec3DataSerializer)
 
         buildClientMessage<PokemonUpdatePacket>()
+        buildClientMessage<MoveSetUpdatePacket>()
         buildClientMessage<InitializePartyPacket>()
         buildClientMessage<SetPartyPokemonPacket>()
         buildClientMessage<RemovePartyPokemonPacket>()
         buildClientMessage<MovePartyPokemonPacket>()
         buildClientMessage<SwapPartyPokemonPacket>()
         buildClientMessage<SetPartyReferencePacket>()
+        buildClientMessage<SummaryUIPacket>()
 
         buildServerMessage<SendOutPokemonPacket>()
+        buildServerMessage<RequestMoveSwapPacket>()
     }
 
     private inline fun <reified P : NetworkPacket> buildClientMessage() = buildMessage<P>(NetworkDirection.PLAY_TO_CLIENT)
