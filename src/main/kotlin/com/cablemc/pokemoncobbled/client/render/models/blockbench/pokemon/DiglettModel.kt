@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -11,15 +12,11 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
 
 
-// Made with Blockbench 4.0.5
-// Exported for Minecraft version 1.17 with Mojang mappings
-// Paste this class into your mod and generate all required imports
 class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart: ModelPart = root.getChild("diglett")
-    private val body: ModelPart = registerRelevantPart(rootPart.getChildOf("body"))
+    override val rootPart: ModelPart = registerRelevantPart("diglett", root.getChild("diglett"))
+    private val body: ModelPart = registerRelevantPart("body", rootPart.getChildOf("body"))
 
     override fun registerPoses() {
         registerPose(
@@ -31,7 +28,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
                     function = sineFunction(
                         amplitude = -1F,
                         period = 0.6F,
-                        verticalShift = -4F
+                        verticalShift = 0.5F
                     ),
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
@@ -49,7 +46,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
                     function = sineFunction(
                         amplitude = -1F,
                         period = 1F,
-                        verticalShift = -4F
+                        verticalShift = 0.5F
                     ),
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
@@ -60,8 +57,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "diglett"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("diglett"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

@@ -9,5 +9,12 @@
     "special_attack": 35,
     "special_defence": 45,
     "speed": 95
+  },
+  "catchRate": 255,
+  "baseScale": 0.95,
+  "hitbox": {
+    "width": 0.5,
+    "height": 0.7,
+    "fixed": false
   }
 }

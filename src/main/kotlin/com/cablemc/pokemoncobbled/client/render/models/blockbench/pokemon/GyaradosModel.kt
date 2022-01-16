@@ -9,7 +9,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.Transform
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.withPosition
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -18,26 +18,24 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
-
 
 class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart = registerRelevantPart(root.getChild("gyarados"))
-    val spine = registerRelevantPart(rootPart.getChild("tailjoint"))
-    val spineFinal = registerRelevantPart(spine.getChild("spinefinal"))
-    val spine3 = registerRelevantPart(spineFinal.getChild("spine3"))
-    val spine2 = registerRelevantPart(spine3.getChild("spine2"))
-    val spine1 = registerRelevantPart(spine2.getChild("spine"))
-    val bodyJoint = registerRelevantPart(spine1.getChild("bodyjoint"))
-    val body = registerRelevantPart(bodyJoint.getChild("body"))
-    val tail = registerRelevantPart(body.getChild("tail"))
-    val tail2 = registerRelevantPart(tail.getChild("tail2"))
-    val tail3 = registerRelevantPart(tail2.getChild("tail3"))
-    val tail4 = registerRelevantPart(tail3.getChild("tail4"))
-    val tail5 = registerRelevantPart(tail4.getChild("tail5"))
-    val tail6 = registerRelevantPart(tail5.getChild("tail6"))
-    val tail7 = registerRelevantPart(tail6.getChild("tail7"))
-    val head = registerRelevantPart(rootPart.getChildOf("head"))
+    override val rootPart = registerRelevantPart("gyarados", root.getChild("gyarados"))
+    val spine = registerRelevantPart("tailjoint", rootPart.getChild("tailjoint"))
+    val spineFinal = registerRelevantPart("spinefinal", spine.getChild("spinefinal"))
+    val spine3 = registerRelevantPart("spine3", spineFinal.getChild("spine3"))
+    val spine2 = registerRelevantPart("spine2", spine3.getChild("spine2"))
+    val spine1 = registerRelevantPart("spine", spine2.getChild("spine"))
+    val bodyJoint = registerRelevantPart("bodyJoint", spine1.getChild("bodyjoint"))
+    val body = registerRelevantPart("body", bodyJoint.getChild("body"))
+    val tail = registerRelevantPart("tail", body.getChild("tail"))
+    val tail2 = registerRelevantPart("tail2", tail.getChild("tail2"))
+    val tail3 = registerRelevantPart("tail3", tail2.getChild("tail3"))
+    val tail4 = registerRelevantPart("tail4", tail3.getChild("tail4"))
+    val tail5 = registerRelevantPart("tail5", tail4.getChild("tail5"))
+    val tail6 = registerRelevantPart("tail6", tail5.getChild("tail6"))
+    val tail7 = registerRelevantPart("tail7", tail6.getChild("tail7"))
+    val head = registerRelevantPart("head", rootPart.getChildOf("head"))
 
     val spineFinalWaveSegment = WaveSegment(
         modelPart = spineFinal,
@@ -169,8 +167,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
 
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(ResourceLocation(PokemonCobbled.MODID, "gyarados"), "main")
+        val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(cobbledResource("gyarados"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

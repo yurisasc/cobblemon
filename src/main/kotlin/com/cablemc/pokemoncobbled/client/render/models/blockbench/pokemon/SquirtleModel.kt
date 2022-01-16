@@ -1,6 +1,16 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.*
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BimanualFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BipedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.client.model.EntityModel
@@ -11,37 +21,44 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
 
 
-class SquirtleModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val squirtle: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
-    }
+class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+    override val rootPart = registerRelevantPart("squirtle", root.getChild("squirtle"))
+    val body = registerRelevantPart("body", rootPart.getChild("body"))
+    override val head = registerRelevantPart("head", body.getChild("head"))
+    override val rightLeg = registerRelevantPart("rightleg", body.getChild("rightleg"))
+    override val leftLeg = registerRelevantPart("leftleg", body.getChild("leftleg"))
+    override val rightArm = registerRelevantPart("rightarm", body.getChild("rightarm"))
+    override val leftArm = registerRelevantPart("leftarm", body.getChild("leftarm"))
+    private val tail = registerRelevantPart("tail", body.getChild("tail"))
 
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        squirtle.render(poseStack, buffer, packedLight, packedOverlay)
+    override fun registerPoses() {
+        registerPose(
+                poseType = PoseType.WALK,
+                condition = { true },
+                idleAnimations = arrayOf(
+                        BipedWalkAnimation(this),
+                        BimanualSwingAnimation(this),
+                        SingleBoneLookAnimation(this),
+                        tail.rotation(
+                                function = sineFunction(
+                                        amplitude = 0.5F,
+                                        period = 5F
+                                ),
+                                axis = TransformedModelPart.Y_AXIS,
+                                timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
+                        )
+                ),
+                transformedParts = arrayOf(
+                        leftArm.withRotation(2, 70f.toRadians()),
+                        rightArm.withRotation(2, (-70f).toRadians()),
+                )
+        )
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "squirtle"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("squirtle"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
@@ -102,9 +119,5 @@ class SquirtleModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
-    }
-
-    init {
-        squirtle = root.getChild("squirtle")
     }
 }

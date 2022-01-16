@@ -30,6 +30,7 @@ object PokemonSpecies {
 
     fun register(species: Species): Species {
         allSpecies.add(species)
+        species.forms.forEach { it.species = species }
         return species
     }
 

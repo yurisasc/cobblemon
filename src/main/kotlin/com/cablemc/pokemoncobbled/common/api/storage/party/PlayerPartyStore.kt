@@ -1,7 +1,5 @@
 package com.cablemc.pokemoncobbled.common.api.storage.party
 
-import com.cablemc.pokemoncobbled.common.util.getServer
-import net.minecraft.server.level.ServerPlayer
 import java.util.UUID
 
 /**

@@ -1,9 +1,18 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.EntityModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.CascadeAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.gradualFunction
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.animation.sineFunction
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BimanualFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BipedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -11,37 +20,60 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.resources.ResourceLocation
 
 
-class CharmeleonModel(root: ModelPart) : EntityModel<PokemonEntity>() {
-    private val charmeleon: ModelPart
-    override fun setupAnim(
-        entity: PokemonEntity,
-        limbSwing: Float,
-        limbSwingAmount: Float,
-        ageInTicks: Float,
-        netHeadYaw: Float,
-        headPitch: Float
-    ) {
-    }
+class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
 
-    override fun renderToBuffer(
-        poseStack: PoseStack,
-        buffer: VertexConsumer,
-        packedLight: Int,
-        packedOverlay: Int,
-        red: Float,
-        green: Float,
-        blue: Float,
-        alpha: Float
-    ) {
-        charmeleon.render(poseStack, buffer, packedLight, packedOverlay)
+    override val rootPart = registerRelevantPart("charmeleon", root.getChild("charmeleon"))
+    val body = registerRelevantPart("body", rootPart.getChild("body"))
+    override val head = registerRelevantPart("head", body.getChild("neck").getChild("head"))
+    override val rightLeg = registerRelevantPart("rightleg", body.getChild("rightleg"))
+    override val leftLeg = registerRelevantPart("leftleg", body.getChild("leftleg"))
+    override val rightArm = registerRelevantPart("rightarm", body.getChild("rightarm"))
+    override val leftArm = registerRelevantPart("leftarm", body.getChild("leftarm"))
+
+    private val tail = registerRelevantPart("tail", body.getChild("tail"))
+    private val tailTip = registerRelevantPart("tail2", tail.getChild("tail2"))
+    private val tailFlame = registerRelevantPart("fire", tailTip.getChild("fire"))
+    private val leftHand = registerRelevantPart("lefthand", leftArm.getChild("lefthand"))
+    private val rightHand = registerRelevantPart("righthand", rightArm.getChild("righthand"))
+
+    override fun registerPoses() {
+        registerPose(
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf(
+                BipedWalkAnimation(this),
+                BimanualSwingAnimation(this),
+                SingleBoneLookAnimation(this),
+                CascadeAnimation(
+                    frame = this,
+                    rootFunction = sineFunction(
+                        period = 0.09f
+                    ),
+                    amplitudeFunction = gradualFunction(
+                        base = 0.1f,
+                        step = 0.1f
+                    ),
+                    segments = arrayOf(
+                        tail,
+                        tailTip
+                    )
+                )
+            ),
+            transformedParts = arrayOf(
+                leftArm.withRotation(2, 70f.toRadians()),
+                leftHand.withRotation(2, 10f.toRadians()),
+                rightArm.withRotation(2, (-70f).toRadians()),
+                rightHand.withRotation(2, (-10f).toRadians()),
+                tailTip.withRotation(0, 35f.toRadians()),
+                tailFlame.withRotation(0, (-35f).toRadians())
+            )
+        )
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-        val LAYER_LOCATION = ModelLayerLocation(ResourceLocation("modid", "charmeleon"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("charmeleon"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root
@@ -149,9 +181,5 @@ class CharmeleonModel(root: ModelPart) : EntityModel<PokemonEntity>() {
             )
             return LayerDefinition.create(meshdefinition, 64, 64)
         }
-    }
-
-    init {
-        charmeleon = root.getChild("charmeleon")
     }
 }

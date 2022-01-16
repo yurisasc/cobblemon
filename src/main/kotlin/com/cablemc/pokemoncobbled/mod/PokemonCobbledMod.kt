@@ -1,12 +1,16 @@
 package com.cablemc.pokemoncobbled.mod
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.battles.runner.StandardShowdownConnection
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
+import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskListener
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
@@ -18,6 +22,7 @@ import com.cablemc.pokemoncobbled.common.event.InteractListener
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
+import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -42,6 +47,7 @@ object PokemonCobbledMod {
     val LOGGER = LogManager.getLogger()
     val EVENT_BUS = BusBuilder.builder().build()
     lateinit var showdown: ShowdownConnection //TODO: Move to more appropriate place
+    var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
 
     init {
         with(MOD_CONTEXT.getKEventBus()) {
@@ -51,6 +57,7 @@ object PokemonCobbledMod {
             addListener(PokemonCobbledClient::onAddLayer)
             EntityRegistry.register(this)
             ItemRegistry.register(this)
+            SoundRegistry.register(this)
         }
     }
 
@@ -61,6 +68,9 @@ object PokemonCobbledMod {
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
+
+        // Same as PokemonSpecies
+        LOGGER.info("Loaded ${Moves.count()} Moves.")
 
         event.enqueueWork {
             DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable { PokemonCobbledClient.initialize() } }

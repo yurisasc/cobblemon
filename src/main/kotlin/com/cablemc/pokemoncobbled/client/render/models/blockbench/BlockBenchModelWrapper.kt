@@ -38,7 +38,4 @@ class BlockBenchModelWrapper<T : Entity>(
             isLayerInitialized = true
         }
     }
-
-    // TODO: Probably some custom rendering / animation functions
-
 }
