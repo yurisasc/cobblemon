@@ -6,7 +6,9 @@ import kotlin.random.Random
 
 class IVs : PokemonStats() {
 
-    // TODO: Decide if we want to force caps on values?
+    // TODO: Force caps on values
+
+    // TODO: Hyper training
 
     companion object {
         val maxStatValue = 31
