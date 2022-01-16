@@ -15,7 +15,7 @@ server.listen(port, function () {
 // When a client requests a connection with the server, the server creates a new
 // socket dedicated to that client.
 server.on('connection', function (socket) {
-    battleStream = new PokemonShowdown.BattleStream();
+    const battleStream = new PokemonShowdown.BattleStream();
     console.log('A new connection has been established.');
 
     // The server can also receive data from the client by reading from its socket.
@@ -29,7 +29,7 @@ server.on('connection', function (socket) {
     });
 
     (async () => {
-        for await (const output of stream) {
+        for await (const output of battleStream) {
             socket.write(output)
         }
     })();
