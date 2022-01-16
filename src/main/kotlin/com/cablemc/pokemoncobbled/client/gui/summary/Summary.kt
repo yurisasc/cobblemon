@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.client.gui.summary
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.client.gui.blitk
+import com.cablemc.pokemoncobbled.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.PartyWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.info.InfoWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.stats.StatWidget
@@ -97,6 +98,11 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     private lateinit var currentPage: AbstractWidget
 
     /**
+     * The Model display Widget
+     */
+    private lateinit var modelWidget: ModelWidget
+
+    /**
      * Initializes the Summary Screen
      */
     override fun init() {
@@ -154,8 +160,18 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
             PartyWidget(
                 pX = x + BASE_WIDTH, pY = y,
                 pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
-                partySize = partySize
+                pokemonList = pokemonList
             )
+        )
+
+        // Add Model Preview
+        modelWidget = ModelWidget(
+            pX = x, pY = y,
+            pWidth = 400, pHeight = 400,
+            pokemon = currentPokemon
+        )
+        addRenderableWidget(
+            modelWidget
         )
 
         // Add CurrentPage
@@ -171,6 +187,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         }
         moveSetSubscription?.unsubscribe()
         listenToMoveSet()
+        modelWidget.pokemon = currentPokemon
     }
 
     private var moveSetSubscription: ObservableSubscription<MoveSet>? = null
@@ -184,7 +201,6 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
             .subscribe {
                 if(currentPage is MovesWidget)
                     switchTo(MOVES)
-                println("Emitted...")
             }
     }
 
