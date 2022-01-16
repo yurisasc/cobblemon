@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.client.gui
+package com.cablemc.pokemoncobbled.client.gui.pokenav
 
 import com.cablemc.pokemoncobbled.client.keybinding.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -205,7 +205,8 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
         RenderSystem.enableDepthTest()
         blit(pMatrixStack,
             (width - backgroundWidth) / 2, (height - backgroundHeight) / 2,
-            0F, 0F, backgroundWidth, backgroundHeight, backgroundWidth, backgroundHeight)
+            0F, 0F, backgroundWidth, backgroundHeight, backgroundWidth, backgroundHeight
+        )
 
         super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
     }

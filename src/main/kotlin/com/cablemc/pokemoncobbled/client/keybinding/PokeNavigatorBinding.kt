@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.client.keybinding
 
-import com.cablemc.pokemoncobbled.client.gui.PokeNav
+import com.cablemc.pokemoncobbled.client.gui.pokenav.PokeNav
 import com.mojang.blaze3d.platform.InputConstants
 import net.minecraft.client.KeyMapping
 import net.minecraft.client.Minecraft

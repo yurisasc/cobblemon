@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.client.gui
+package com.cablemc.pokemoncobbled.client.gui.pokenav
 
 import net.minecraft.client.gui.components.ImageButton
 import net.minecraft.resources.ResourceLocation
