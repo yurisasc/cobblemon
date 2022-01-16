@@ -8,14 +8,16 @@ import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.stats.StatWid
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.SummarySwitchButton
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.moves.MovesWidget
 import com.cablemc.pokemoncobbled.client.storage.ClientParty
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
+import com.cablemc.pokemoncobbled.common.api.reactive.ObservableSubscription
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.TranslatableComponent
-import net.minecraft.resources.ResourceLocation
 import java.security.InvalidParameterException
 
 class Summary private constructor(): Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) {
@@ -31,17 +33,19 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         private const val STATS = 2
 
         // Resources
-        private val baseResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_base.png")
-        private val displayBackgroundResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_display.png")
+        private val baseResource = cobbledResource("ui/summary/summary_base.png")
+        private val displayBackgroundResource = cobbledResource("ui/summary/summary_display.png")
     }
 
-    constructor(vararg pokemon: Pokemon, selection: Int = 0) : this() {
+    constructor(vararg pokemon: Pokemon, editable: Boolean = true, selection: Int = 0) : this() {
         pokemon.forEach {
             pokemonList.add(it)
         }
         currentPokemon = pokemonList[selection]
             ?: pokemonList.filterNotNull().first()
-        check()
+        commonInit()
+        partySize = pokemon.size
+        this.editable = editable
     }
 
     constructor(party: ClientParty) : this() {
@@ -50,25 +54,37 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         }
         currentPokemon = pokemonList[PokemonCobbledClient.storage.selectedSlot]
             ?: pokemonList.filterNotNull().first()
-        check()
+        commonInit()
+        partySize = party.slots.filterNotNull().size
     }
 
     /**
      * The Pokémon that shall be displayed
      */
-    internal val pokemonList = mutableListOf<Pokemon?>()
+    private val pokemonList = mutableListOf<Pokemon?>()
 
     /**
      * Make sure that we have at least one Pokemon and not more than 6
      */
-    private fun check() {
+    private fun commonInit() {
         if(pokemonList.isEmpty()) {
             throw InvalidParameterException("Summary UI cannot display zero Pokemon")
         }
         if(pokemonList.size > 6) {
             throw InvalidParameterException("Summary UI cannot display more than six Pokemon")
         }
+        listenToMoveSet()
     }
+
+    /**
+     * Party size (amount of slots shown on the right side of the UI)
+     */
+    private var partySize = 1
+
+    /**
+     * Whether or not you shall be able to edit Pokemon (Move reordering)
+     */
+    private var editable = true
 
     /**
      * The currently selected Pokemon
@@ -90,31 +106,92 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         val y = (height - BASE_HEIGHT) / 2
 
         // Currently always starting with the MovesWidget
-        currentPage = MovesWidget(x, y, BASE_WIDTH, BASE_HEIGHT, this)
+        currentPage = MovesWidget(
+            pX = x, pY = y,
+            pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
+            summary = this
+        )
 
         // Add Buttons to change Pages - START
-        addRenderableWidget(SummarySwitchButton(x + 3, y + 4, 55, 17, TranslatableComponent("pokemoncobbled.ui.info")) {
+        addRenderableWidget(
+            SummarySwitchButton(
+                pX = x + 3, pY = y + 4,
+                pWidth = 55, pHeight =  17,
+                component = TranslatableComponent("pokemoncobbled.ui.info")
+            ) {
             switchTo(INFO)
         })
-        addRenderableWidget(SummarySwitchButton(x + 62, y + 4, 55, 17, TranslatableComponent("pokemoncobbled.ui.moves")) {
+        addRenderableWidget(
+            SummarySwitchButton(
+                pX = x + 62, pY = y + 4,
+                pWidth = 55, pHeight = 17,
+                component = TranslatableComponent("pokemoncobbled.ui.moves")
+            ) {
             switchTo(MOVES)
         })
-        addRenderableWidget(SummarySwitchButton(x + 121, y + 4, 55, 17, TranslatableComponent("pokemoncobbled.ui.stats")) {
+        addRenderableWidget(
+            SummarySwitchButton(
+                pX = x + 121, pY = y + 4,
+                pWidth = 55, pHeight = 17,
+                component = TranslatableComponent("pokemoncobbled.ui.stats")
+            ) {
             switchTo(STATS)
         })
         // Add Buttons to change Pages - END
 
         // Add Exit Button
-        addRenderableWidget(ExitButton(x + 296, y + 4, 28, 16, 0, 0, 0) {
+        addRenderableWidget(
+            ExitButton(
+                pX = x + 296, pY = y + 4,
+                pWidth = 28, pHeight = 16,
+                pXTexStart = 0, pYTexStart = 0, pYDiffText = 0
+            ) {
             Minecraft.getInstance().setScreen(null)
         })
 
         // Add Party
-        addRenderableWidget(PartyWidget(x + BASE_WIDTH, y, BASE_WIDTH, BASE_HEIGHT, 6))
+        addRenderableWidget(
+            PartyWidget(
+                pX = x + BASE_WIDTH, pY = y,
+                pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
+                partySize = partySize
+            )
+        )
 
         // Add CurrentPage
         addRenderableWidget(currentPage)
     }
+
+    /**
+     * Switches the selected PKM
+     */
+    private fun switchSelection(newSelection: Int) {
+        pokemonList[newSelection]?.run {
+            currentPokemon = this
+        }
+        moveSetSubscription?.unsubscribe()
+        listenToMoveSet()
+    }
+
+    private var moveSetSubscription: ObservableSubscription<MoveSet>? = null
+
+    /**
+     * Start observing the MoveSet of the current PKM for changes
+     */
+    private fun listenToMoveSet() {
+        moveSetSubscription = currentPokemon.getMoveSetObservable()
+            .pipe(emitWhile { isOpen() })
+            .subscribe {
+                if(currentPage is MovesWidget)
+                    switchTo(MOVES)
+                println("Emitted...")
+            }
+    }
+
+    /**
+     * Returns if this Screen is open or not
+     */
+    private fun isOpen() = Minecraft.getInstance().screen == this
 
     /**
      * Switches to the given Page
@@ -123,13 +200,23 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         removeWidget(currentPage)
         when (page) {
             INFO -> {
-                currentPage = InfoWidget((width - BASE_WIDTH) / 2, (height - BASE_HEIGHT) / 2, BASE_WIDTH, BASE_HEIGHT)
+                currentPage = InfoWidget(
+                    pX = (width - BASE_WIDTH) / 2, pY = (height - BASE_HEIGHT) / 2,
+                    pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT
+                )
             }
             MOVES -> {
-                currentPage = MovesWidget((width - BASE_WIDTH) / 2, (height - BASE_HEIGHT) / 2, BASE_WIDTH, BASE_HEIGHT, this)
+                currentPage = MovesWidget(
+                    pX = (width - BASE_WIDTH) / 2, pY = (height - BASE_HEIGHT) / 2,
+                    pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
+                    summary = this
+                )
             }
             STATS -> {
-                currentPage = StatWidget((width - BASE_WIDTH) / 2, (height - BASE_HEIGHT) / 2, BASE_WIDTH, BASE_HEIGHT)
+                currentPage = StatWidget(
+                    pX = (width - BASE_WIDTH) / 2, pY = (height - BASE_HEIGHT) / 2,
+                    pWidth = BASE_WIDTH, pHeight =  BASE_HEIGHT
+                )
             }
         }
         addRenderableWidget(currentPage)
@@ -138,10 +225,20 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         renderBackground(pMatrixStack)
 
+        // Render Display Background
+        blitk(
+            poseStack = pMatrixStack,
+            texture = displayBackgroundResource,
+            x = (width - BASE_WIDTH) / 2, y = (height - BASE_HEIGHT) / 2,
+            width = BASE_WIDTH, height = BASE_HEIGHT
+        )
+
         // Render Base Resource
-        blitk(pMatrixStack, baseResource,
-            (width - BASE_WIDTH) / 2, (height - BASE_HEIGHT) / 2,
-            BASE_HEIGHT, BASE_WIDTH
+        blitk(
+            poseStack = pMatrixStack,
+            texture = baseResource,
+            x = (width - BASE_WIDTH) / 2, y = (height - BASE_HEIGHT) / 2,
+            width = BASE_WIDTH, height = BASE_HEIGHT
         )
 
         // Render all added Widgets
