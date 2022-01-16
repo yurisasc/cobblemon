@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets
 
 import com.cablemc.pokemoncobbled.client.gui.blitk
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.TextComponent
@@ -9,7 +10,7 @@ import java.security.InvalidParameterException
 class PartyWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    private val partySize: Int
+    private val pokemonList: List<Pokemon?>
 ) : SoundlessWidget(pX - PARTY_BOX_WIDTH.toInt(), pY + 50, pWidth, pHeight, TextComponent("PartyOverlay")) {
 
     companion object {
@@ -20,6 +21,7 @@ class PartyWidget(
         private const val PARTY_BOX_HEIGHT_DIFF = 30.2F
     }
 
+    private val partySize = pokemonList.size
     private var iMax = partySize - 2
 
     init {
