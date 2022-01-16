@@ -70,6 +70,7 @@ class Pokemon {
         Stats.SPECIAL_DEFENCE to 10,
         Stats.SPEED to 15
     )
+    var ivs = IVs.createRandomIVs()
     var scaleModifier = 1f
 
     val storeCoordinates: SettableObservable<StoreCoordinates<*>?> = SettableObservable(null)
