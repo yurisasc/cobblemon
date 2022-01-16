@@ -1,12 +1,14 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.moves
 
+import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.client.gui.summary.Summary
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.SoundlessWidget
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
+import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.TextComponent
-import net.minecraft.resources.ResourceLocation
 
 class MovesWidget(
     pX: Int, pY: Int,
@@ -17,7 +19,7 @@ class MovesWidget(
     companion object {
         private const val MOVE_WIDTH = 120
         private const val MOVE_HEIGHT = 30
-        private val movesBaseResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves.png")
+        private val movesBaseResource = cobbledResource("ui/summary/summary_moves.png")
     }
 
     private var index = -1
@@ -60,11 +62,18 @@ class MovesWidget(
             if(targetSlot >= moves.size)
                 targetSlot = 0
         }
-        val temp = moves[targetSlot]
-        moves[targetSlot] = moves[movePos]
-        moves[movePos] = temp
-        summary.currentPokemon.moveSet.swapMove(targetSlot, movePos)
-        updateMoves()
+//        moves[targetSlot] = moves[movePos].also {
+//            moves[movePos] = moves[targetSlot]
+//        }
+        //summary.currentPokemon.moveSet.swapMove(targetSlot, movePos)
+        PokemonCobbledNetwork.sendToServer(
+            RequestMoveSwapPacket(
+                move1 = movePos,
+                move2 = targetSlot,
+                slot = PokemonCobbledClient.storage.myParty.getPosition(summary.currentPokemon.uuid)
+            )
+        )
+        //updateMoves()
     }
 
 }
