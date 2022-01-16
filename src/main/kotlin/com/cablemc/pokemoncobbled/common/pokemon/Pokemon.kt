@@ -70,6 +70,8 @@ class Pokemon {
         Stats.SPECIAL_DEFENCE to 10,
         Stats.SPEED to 15
     )
+    var ivs = IVs.createRandomIVs()
+    var evs = EVs.createEmpty()
     var scaleModifier = 1f
 
     val storeCoordinates: SettableObservable<StoreCoordinates<*>?> = SettableObservable(null)
@@ -96,6 +98,8 @@ class Pokemon {
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_HEALTH, health.toShort())
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
+        nbt.put(DataKeys.POKEMON_IVS, ivs.saveToNBT(CompoundTag()))
+        nbt.put(DataKeys.POKEMON_EVS, evs.saveToNBT(CompoundTag()))
         nbt.put(DataKeys.POKEMON_MOVESET, moveSet.getNBT())
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
         nbt.putBoolean(DataKeys.POKEMON_SHINY, shiny)
@@ -111,6 +115,8 @@ class Pokemon {
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         health = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
+        ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
+        evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         moveSet = MoveSet.loadFromNBT(nbt)
         ability = Abilities.getOrException(nbt.getString(DataKeys.POKEMON_ABILITY_NAME)).create(nbt)
@@ -126,6 +132,8 @@ class Pokemon {
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
         json.addProperty(DataKeys.POKEMON_HEALTH, health)
         json.add(DataKeys.POKEMON_STATS, stats.saveToJSON(JsonObject()))
+        json.add(DataKeys.POKEMON_IVS, ivs.saveToJSON(JsonObject()))
+        json.add(DataKeys.POKEMON_EVS, evs.saveToJSON(JsonObject()))
         json.addProperty(DataKeys.POKEMON_SHINY, shiny)
         return json
     }
@@ -139,6 +147,8 @@ class Pokemon {
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         health = json.get(DataKeys.POKEMON_HEALTH).asInt
         stats.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_STATS))
+        ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
+        evs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_EVS))
         shiny = json.get(DataKeys.POKEMON_SHINY).asBoolean
         return this
     }
@@ -151,6 +161,7 @@ class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(health)
         buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        buffer.writeMapK(map = evs) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
         //moveSet.saveToBuffer(buffer)
         buffer.writeBoolean(shiny)
         return buffer
@@ -167,6 +178,8 @@ class Pokemon {
         health = buffer.readUnsignedShort()
         // TODO throw exception or dummy stat?
         buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
+        // TODO throw exception or dummy stat?
+        buffer.readMapK(map = evs) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
         // This errors...
         //moveSet = MoveSet.loadFromBuffer(buffer)
         shiny = buffer.readBoolean()
@@ -208,8 +221,5 @@ class Pokemon {
     private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
     private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
 
-    val ivHP = 1
-    val evHP = 1
-
-    fun getMaxHealth(): Int = (2 * stats[Stats.HP]!! + ivHP + (evHP / 4) * level) / 100 + level + 10
+    fun getMaxHealth(): Int = (2 * stats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4) * level) / 100 + level + 10
 }
