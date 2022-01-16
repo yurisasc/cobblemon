@@ -9,6 +9,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.EaredFra
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -23,6 +24,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.util.Mth
 
 
 class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, EaredFrame {
@@ -47,23 +49,18 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                         BipedWalkAnimation(this),
                         BimanualSwingAnimation(this),
                         SingleBoneLookAnimation(this),
-                        CascadeAnimation(
-                                frame = this,
-                                rootFunction = cosineFunction(
-                                        period = 0.09f
+                        tail.rotation(
+                                function = sineFunction(
+                                        amplitude = 0.5F,
+                                        period = 5F
                                 ),
-                                amplitudeFunction = gradualFunction(
-                                        base = 0.1f,
-                                        step = 0.1f
-                                ),
-                                segments = arrayOf(
-                                        tail
-                                )
+                                axis = TransformedModelPart.Y_AXIS,
+                                timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                         )
                 ),
                 transformedParts = arrayOf(
                         leftArm.withRotation(2, 70f.toRadians()),
-                        rightArm.withRotation(2, (-70f).toRadians()),
+                        rightArm.withRotation(2, (-70f).toRadians())
                 )
         )
     }
