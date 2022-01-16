@@ -1,12 +1,11 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.moves
 
 import com.cablemc.pokemoncobbled.client.gui.blitk
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Vector3f
 import net.minecraft.client.gui.components.Button
 import net.minecraft.network.chat.TextComponent
-import net.minecraft.resources.ResourceLocation
 
 /**
  * This Button is specifically made for the Summary to change the order of the Moves
@@ -23,7 +22,7 @@ class MovesMoveButton(
     companion object {
         private const val MOVE_BUTTON_WIDTH = 11
         private const val MOVE_BUTTON_HEIGHT = 8.2F
-        private val buttonResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_swap_up.png")
+        private val buttonResource = cobbledResource("ui/summary/summary_moves_overlay_swap_up.png")
         private var blocked = false
     }
 
