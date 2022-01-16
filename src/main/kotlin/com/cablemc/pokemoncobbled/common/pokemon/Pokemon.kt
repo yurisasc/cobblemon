@@ -16,6 +16,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
@@ -59,6 +60,7 @@ class Pokemon {
         set(value) { field = value ; _mintedNature.emit(value?.name?.toString() ?: "") }
 
     var moveSet: MoveSet = MoveSet()
+        set(value) { field = value ; _moveSet.emit(value) }
 
     var ability: Ability = form.standardAbilities.random().create()
 
@@ -206,6 +208,9 @@ class Pokemon {
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
     private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
     private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
+    private val _moveSet = registerObservable(SimpleObservable<MoveSet>()) { MoveSetUpdatePacket(this, moveSet) }
+
+    fun getMoveSetObservable() = _moveSet
 
     val ivHP = 1
     val evHP = 1
