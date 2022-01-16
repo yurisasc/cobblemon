@@ -6,11 +6,10 @@ import com.cablemc.pokemoncobbled.client.gui.blitk
 import com.cablemc.pokemoncobbled.client.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.type.SingleTypeWidget
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.moves.Move
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.TextComponent
-import net.minecraft.resources.ResourceLocation
 
 class MoveWidget(
     pX: Int, pY: Int,
@@ -21,9 +20,8 @@ class MoveWidget(
 ): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent(move.name)) {
 
     companion object {
-        private val moveResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_slot.png")
-        private val movePpResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_moves_overlay_pp.png")
-        private const val PP_WIDTH = 115.6F
+        private val moveResource = cobbledResource("ui/summary/summary_moves_slot.png")
+        private val movePpResource = cobbledResource("ui/summary/summary_moves_overlay_pp.png")
         private const val PP_WIDTH_DIFF = 3
         private const val PP_HEIGHT = 6.85F
         private const val PP_HEIGHT_DIFF = 22.5F

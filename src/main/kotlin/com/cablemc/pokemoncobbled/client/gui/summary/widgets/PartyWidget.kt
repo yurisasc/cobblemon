@@ -1,10 +1,9 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets
 
 import com.cablemc.pokemoncobbled.client.gui.blitk
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.TextComponent
-import net.minecraft.resources.ResourceLocation
 import java.security.InvalidParameterException
 
 class PartyWidget(
@@ -14,8 +13,8 @@ class PartyWidget(
 ) : SoundlessWidget(pX - PARTY_BOX_WIDTH.toInt(), pY + 50, pWidth, pHeight, TextComponent("PartyOverlay")) {
 
     companion object {
-        private val partyResourceMiddle = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_party_1.png")
-        private val partyResourceEnd = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_party_2.png")
+        private val partyResourceMiddle = cobbledResource("ui/summary/summary_party_1.png")
+        private val partyResourceEnd = cobbledResource("ui/summary/summary_party_2.png")
         private const val PARTY_BOX_WIDTH = 30.2F
         private const val PARTY_BOX_HEIGHT = 32.84F
         private const val PARTY_BOX_HEIGHT_DIFF = 30.2F

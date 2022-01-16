@@ -1,13 +1,12 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.type
 
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.SoundlessWidget
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
 
 abstract class TypeWidget(
     pX: Int, pY: Int,
@@ -16,7 +15,7 @@ abstract class TypeWidget(
 ): SoundlessWidget(pX, pY, pWidth, pHeight, pMessage) {
 
     companion object {
-        private val typeResource = ResourceLocation(PokemonCobbled.MODID, "ui/types.png")
+        private val typeResource = cobbledResource("ui/types.png")
     }
 
     fun renderType(type: ElementalType, pPoseStack: PoseStack, pX: Int = x, pY: Int = y) {

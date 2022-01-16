@@ -1,10 +1,9 @@
 package com.cablemc.pokemoncobbled.client.gui.summary
 
 import com.cablemc.pokemoncobbled.client.gui.blitk
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.gui.components.ImageButton
-import net.minecraft.resources.ResourceLocation
 
 class ExitButton(
     pX: Int, pY: Int,
@@ -16,7 +15,7 @@ class ExitButton(
     companion object {
         private const val EXIT_BUTTON_WIDTH = 25
         private const val EXIT_BUTTON_HEIGHT = 14.2F
-        private val exitButtonResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_overlay_exit.png")
+        private val exitButtonResource = cobbledResource("ui/summary/summary_overlay_exit.png")
     }
 
     override fun renderButton(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

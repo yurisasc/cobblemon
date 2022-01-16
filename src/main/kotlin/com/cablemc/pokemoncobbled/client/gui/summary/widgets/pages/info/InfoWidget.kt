@@ -1,11 +1,10 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.info
 
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.SoundlessWidget
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.TextComponent
-import net.minecraft.resources.ResourceLocation
 
 class InfoWidget(
     pX: Int, pY: Int,
@@ -13,7 +12,7 @@ class InfoWidget(
 ): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent("InfoWidget")) {
 
     companion object {
-        private val infoBaseResource = ResourceLocation(PokemonCobbled.MODID, "ui/summary/summary_info.png")
+        private val infoBaseResource = cobbledResource("ui/summary/summary_info.png")
     }
 
     override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
