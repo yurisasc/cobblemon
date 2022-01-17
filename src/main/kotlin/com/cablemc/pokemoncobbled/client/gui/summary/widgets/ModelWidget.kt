@@ -11,7 +11,7 @@ class ModelWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     pokemon: Pokemon
-): SoundlessWidget(pX + 150, pY + 200, pWidth, pHeight, TextComponent("Summary - ModelWidget")) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent("Summary - ModelWidget")) {
 
     var pokemon = pokemon
     private val minecraft = Minecraft.getInstance()
@@ -24,11 +24,13 @@ class ModelWidget(
     private fun renderPKM(poseStack: PoseStack) {
         poseStack.pushPose()
 
+        val scaleIt: (Int) -> Int = { (it * minecraft.window.guiScale).toInt() }
+
         RenderSystem.viewport(0, 0, minecraft.window.width, minecraft.window.height)
 
         RenderSystem.viewport(
-            x, y,
-            width, height
+            scaleIt(x), scaleIt(y),
+            scaleIt(width), scaleIt(height)
         ) // <-- Coords
 
         drawPokemon(
