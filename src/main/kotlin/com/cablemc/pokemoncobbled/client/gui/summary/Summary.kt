@@ -166,8 +166,8 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
 
         // Add Model Preview
         modelWidget = ModelWidget(
-            pX = x, pY = y,
-            pWidth = 400, pHeight = 400,
+            pX = x + 180, pY = y + 75,
+            pWidth = 110, pHeight = 95,
             pokemon = currentPokemon
         )
         addRenderableWidget(
