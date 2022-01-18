@@ -13,6 +13,7 @@ class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnecti
     private lateinit var socket: Socket
     private lateinit var writer: OutputStreamWriter
     private lateinit var reader: BufferedReader
+    private var lineEnder: String = "{EOT}"
 
     override fun open() {
         socket = Socket(InetAddress.getLocalHost(), 25567, InetAddress.getLocalHost(), 25566)
@@ -25,7 +26,7 @@ class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnecti
     }
 
     override fun write(input: String) {
-        writer.write(input)
+        writer.write(input + lineEnder)
         writer.flush()
     }
 

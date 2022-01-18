@@ -15,6 +15,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.google.gson.JsonObject
+import joptsimple.internal.Strings
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
 import java.util.UUID
@@ -166,6 +167,48 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
             }
         }
         return this
+    }
+
+    /**
+     * Packs a team into the showdown format
+     * @return a string of the packed team
+     */
+    fun packTeam() : String {
+        val team = mutableListOf<String>()
+        for(pokemon in this) {
+            val packedTeamBuilder = StringBuilder()
+            // If no nickname, write species first and leave next blank
+            packedTeamBuilder.append("${pokemon.species.name}|")
+            // Species, left empty if no nickname
+            packedTeamBuilder.append("|")
+            // Held item, empty if non TODO: Replace with actual held item
+            packedTeamBuilder.append("|")
+            // Ability
+            packedTeamBuilder.append("${pokemon.ability.name.replace("_", "")}|")
+            // Moves
+            packedTeamBuilder.append("${Strings.join(pokemon.moveSet.getMoves().map { move -> move.name.replace("_", "") }, ",")}|")
+            // Nature
+            packedTeamBuilder.append("${pokemon.nature.name.path}|")
+            // EVs
+            packedTeamBuilder.append("${Strings.join(pokemon.evs.map { ev -> ev.value.toString() }, ",")}|")
+            // Gender TODO: Replace with actual gender variable
+            packedTeamBuilder.append("M|")
+            // IVs
+            packedTeamBuilder.append("${Strings.join(pokemon.ivs.map { iv -> iv.value.toString() }, ",")}|")
+            // Shiny
+            packedTeamBuilder.append("${if(pokemon.shiny) "S" else ""}|")
+            // Level
+            packedTeamBuilder.append("${pokemon.level}|")
+            // Happiness TODO: Replace with actual happiness variable
+            packedTeamBuilder.append("255|")
+            // Caught Ball TODO: Replace with actual pokeball variable
+            packedTeamBuilder.append("|")
+            // Hidden Power Type
+            packedTeamBuilder.append("|")
+
+            team.add(packedTeamBuilder.toString())
+        }
+        return Strings.join(team, "]")
     }
 
     override fun getAnyChangeObservable(): Observable<Unit> = anyChangeObservable
