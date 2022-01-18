@@ -18,6 +18,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = registerRelevantPart("gyarados", root.getChild("gyarados"))
@@ -458,4 +459,10 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
             return LayerDefinition.create(meshdefinition, 128, 128)
         }
     }
+
+    override val profileScale: Float
+        get() = 0.4F
+
+    override val profileTranslation: Vec3
+        get() = Vec3(0.0, 0.5, 0.0)
 }
