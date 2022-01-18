@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.texture.OverlayTexture
 
-fun drawPokemon(
+fun drawProfilePokemon(
     pokemon: Pokemon,
     poseStack: PoseStack
 ) {
@@ -22,7 +22,7 @@ fun drawPokemon(
 
     val renderType = model.renderType(texture)
 
-    val scale = 1200F / minecraft.window.guiScale.toFloat()
+    val scale = minecraft.window.guiScaledHeight.toFloat()
     RenderSystem.applyModelViewMatrix()
     poseStack.translate(minecraft.window.guiScaledWidth / 2.0, 0.0, -100.0)
     poseStack.scale(scale, scale * 0.75F, -scale * 0.1F)
@@ -30,8 +30,8 @@ fun drawPokemon(
 
     if (model is PokemonPoseableModel) {
         model.setupAnimStateless(PoseType.NONE)
-        poseStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z)
-        poseStack.scale(model.portraitScale, model.portraitScale, model.portraitScale)
+        poseStack.translate(model.profileTranslation.x, model.profileTranslation.y, model.profileTranslation.z)
+        poseStack.scale(model.profileScale, model.profileScale, model.profileScale)
     }
 
     poseStack.mulPose(quaternion1)
