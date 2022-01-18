@@ -11,7 +11,6 @@ class JavetShowdownConnection : ShowdownConnection {
     private lateinit var socket: Socket
     private lateinit var writer: OutputStreamWriter
     private lateinit var reader: BufferedReader
-    private var lineEnder: String = "{EOT}"
 
     fun initializeServer() {
         ShowdownRunner.process = exec(ShowdownServer.javaClass, listOf(File("../showdown/scripts/index.js").canonicalPath))
@@ -29,7 +28,7 @@ class JavetShowdownConnection : ShowdownConnection {
     }
 
     override fun write(input: String) {
-        writer.write(input + lineEnder)
+        writer.write(input + ShowdownConnection.lineEnder)
         writer.flush()
     }
 

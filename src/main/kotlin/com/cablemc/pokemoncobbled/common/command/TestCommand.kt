@@ -1,14 +1,13 @@
 package com.cablemc.pokemoncobbled.common.command
 
-import com.cablemc.pokemoncobbled.common.api.abilities.extensions.Test
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
-import com.cablemc.pokemoncobbled.common.battles.ai.RandomArtificialDecider
-import com.cablemc.pokemoncobbled.common.battles.subject.PlayerSubject
-import com.cablemc.pokemoncobbled.common.battles.subject.PokemonSubject
+import com.cablemc.pokemoncobbled.common.battles.ai.RandomBattleAI
+import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
+import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -33,7 +32,7 @@ object TestCommand {
         }
         // Player variables
         val player: ServerPlayer = context.source.entity as ServerPlayer
-        val playerSubject = PlayerSubject("p1", player.uuid, PokemonStoreManager.getParty(player))
+        val playerSubject = PlayerBattleActor("p1", player.uuid, PokemonStoreManager.getParty(player))
 
         // Enemy variables
         val enemyId = UUID.randomUUID()
@@ -44,7 +43,7 @@ object TestCommand {
         pokemon.moveSet.setMove(2, Moves.AIR_SLASH.create())
         pokemon.moveSet.setMove(3, Moves.AURA_SPHERE.create())
         enemyParty.add(pokemon)
-        val enemySubject = PokemonSubject("p2", enemyId, enemyParty, RandomArtificialDecider())
+        val enemySubject = PokemonBattleActor("p2", enemyId, enemyParty, RandomBattleAI())
 
         // Start the battle
         BattleRegistry.startBattle(playerSubject, enemySubject)

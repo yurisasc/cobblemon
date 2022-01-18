@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model
 
-import com.cablemc.pokemoncobbled.common.api.battles.model.subject.BattleSubject
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import java.util.*
 
 /**
@@ -10,25 +10,25 @@ import java.util.*
  * @author Deltric
  */
 class Battle(
-    val subjects: List<BattleSubject>
+    val actors: List<BattleActor>
 ) {
 
     val battleId: UUID = UUID.randomUUID()
     val format: String = "gen7ou"
 
     /**
-     * Gets a subject by their showdown id
-     * @return the subject if found otherwise null
+     * Gets an actor by their showdown id
+     * @return the actor if found otherwise null
      */
-    fun getSubject(showdownId: String) : BattleSubject? {
-        return subjects.find { subject -> subject.showdownId == showdownId }
+    fun getActor(showdownId: String) : BattleActor? {
+        return actors.find { actor -> actor.showdownId == showdownId }
     }
 
     /**
-     * Gets a subject by their game id
-     * @return the subject if found otherwise null
+     * Gets an actor by their game id
+     * @return the actor if found otherwise null
      */
-    fun getSubject(gameId: UUID) : BattleSubject? {
-        return subjects.find { subject -> subject.gameId == gameId }
+    fun getActor(gameId: UUID) : BattleActor? {
+        return actors.find { actor -> actor.gameId == gameId }
     }
 }

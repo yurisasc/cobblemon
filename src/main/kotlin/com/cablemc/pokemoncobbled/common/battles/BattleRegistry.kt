@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.api.battles.model.Battle
-import com.cablemc.pokemoncobbled.common.api.battles.model.subject.BattleSubject
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import com.google.gson.Gson
@@ -20,8 +20,8 @@ object BattleRegistry {
      * Temporary starting method for a battle.
      * TODO: Replace with a builder for battle definition and then a starting method that takes the built result?
      */
-    fun startBattle(vararg battleSubjects: BattleSubject) {
-        val battle = Battle(battleSubjects.asList())
+    fun startBattle(vararg battleActors: BattleActor) {
+        val battle = Battle(battleActors.asList())
         battleMap[battle.battleId] = battle
 
         // Build request message

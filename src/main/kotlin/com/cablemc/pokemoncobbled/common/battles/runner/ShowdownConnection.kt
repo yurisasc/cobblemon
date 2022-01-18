@@ -5,4 +5,8 @@ interface ShowdownConnection {
     fun close()
     fun write(input: String)
     fun read(): String?
+
+    companion object {
+        val lineEnder: String = "{EOT}"
+    }
 }
