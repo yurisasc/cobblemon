@@ -7,14 +7,15 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.math.Vector3f
+import com.mojang.math.Quaternion
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.texture.OverlayTexture
 
 fun drawProfilePokemon(
     pokemon: Pokemon,
-    poseStack: PoseStack
+    poseStack: PoseStack,
+    rotation: Quaternion
 ) {
     val model = PokemonModelRepository.getModel(pokemon).entityModel
     val texture = PokemonModelRepository.getModelTexture(pokemon)
@@ -26,19 +27,19 @@ fun drawProfilePokemon(
     RenderSystem.applyModelViewMatrix()
     poseStack.translate(minecraft.window.guiScaledWidth / 2.0, 0.0, -100.0)
     poseStack.scale(scale, scale * 0.75F, -scale * 0.1F)
-    val quaternion1 = Vector3f.YP.rotationDegrees(-32F)
+
 
     if (model is PokemonPoseableModel) {
-        model.setupAnimStateless(PoseType.NONE)
+        model.setupAnimStateless(PoseType.PROFILE)
         poseStack.translate(model.profileTranslation.x, model.profileTranslation.y, model.profileTranslation.z)
         poseStack.scale(model.profileScale, model.profileScale, model.profileScale)
     }
 
-    poseStack.mulPose(quaternion1)
+    poseStack.mulPose(rotation)
     Lighting.setupForEntityInInventory()
     val entityRenderDispatcher = minecraft.entityRenderDispatcher
-    quaternion1.conj()
-    entityRenderDispatcher.overrideCameraOrientation(quaternion1)
+    rotation.conj()
+    entityRenderDispatcher.overrideCameraOrientation(rotation)
     entityRenderDispatcher.setRenderShadow(false)
 
     val bufferSource = minecraft.renderBuffers().bufferSource()

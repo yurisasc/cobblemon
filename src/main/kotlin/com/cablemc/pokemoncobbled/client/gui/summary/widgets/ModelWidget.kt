@@ -4,6 +4,8 @@ import com.cablemc.pokemoncobbled.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.math.Quaternion
+import com.mojang.math.Vector3f
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.TextComponent
 
@@ -15,6 +17,7 @@ class ModelWidget(
 
     var pokemon = pokemon
     private val minecraft = Minecraft.getInstance()
+    private var rotVec = Vector3f(13F, 35F, 0F)
 
     override fun render(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
@@ -35,7 +38,8 @@ class ModelWidget(
 
         drawProfilePokemon(
             pokemon = pokemon,
-            poseStack = poseStack
+            poseStack = poseStack,
+            rotation = Quaternion.fromXYZDegrees(rotVec)
         ) // <-- Render
 
         RenderSystem.viewport(0, 0, minecraft.window.width, minecraft.window.height) // <-- Reset
