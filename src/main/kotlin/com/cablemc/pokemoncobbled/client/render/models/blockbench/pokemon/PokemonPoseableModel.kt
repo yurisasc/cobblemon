@@ -56,4 +56,7 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
     open val portraitScale: Float = 1F
     open val portraitTranslation: Vec3 = Vec3(0.0, 0.0, 0.0)
 
+    open val profileScale: Float = 1F
+    open val profileTranslation: Vec3 = Vec3(0.0, 0.0, 0.0)
+
 }
