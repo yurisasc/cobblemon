@@ -15,7 +15,6 @@ import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
-import com.cablemc.pokemoncobbled.common.event.InteractListener
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
@@ -82,7 +81,6 @@ object PokemonCobbledMod {
         }
 
         MinecraftForge.EVENT_BUS.register(CommandRegistrar)
-        MinecraftForge.EVENT_BUS.register(InteractListener)
         MinecraftForge.EVENT_BUS.register(PokemonStoreManager)
         MinecraftForge.EVENT_BUS.register(ScheduledTaskListener)
         MinecraftForge.EVENT_BUS.register(this)

@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
@@ -60,7 +60,7 @@ class PokemonEntity(
     // properties like the above are synced and can be subscribed to changes for on either side
 
     init {
-        this.pokemon = pokemon.also { it.state = SentOutState(this) }
+        this.pokemon = pokemon
         delegate.initialize(this)
     }
 
@@ -138,7 +138,11 @@ class PokemonEntity(
             if (canSitOnShoulder() && player is ServerPlayer) {
                 val store = pokemon.storeCoordinates.get()?.store
                 if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
-                    this.setEntityOnShoulder(player)
+                    val isLeft = player.shoulderEntityLeft.isEmpty
+                    if (!isLeft || player.shoulderEntityRight.isEmpty) {
+                        pokemon.state = ShoulderedState(player.uuid, isLeft)
+                        this.setEntityOnShoulder(player)
+                    }
                 }
             }
         }
