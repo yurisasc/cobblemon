@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets
 
-import com.cablemc.pokemoncobbled.client.gui.drawPokemon
+import com.cablemc.pokemoncobbled.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
@@ -33,7 +33,7 @@ class ModelWidget(
             scaleIt(width), scaleIt(height)
         ) // <-- Coords
 
-        drawPokemon(
+        drawProfilePokemon(
             pokemon = pokemon,
             poseStack = poseStack
         ) // <-- Render
