@@ -103,13 +103,8 @@ class PokemonEntity(
 
     public override fun registerGoals() {
         goalSelector.addGoal(0, object : Goal() {
-            override fun canUse(): Boolean {
-                return this@PokemonEntity.phasingTargetId.get() != -1
-            }
-
-            override fun getFlags(): EnumSet<Flag> {
-                return EnumSet.allOf(Flag::class.java)
-            }
+            override fun canUse() = this@PokemonEntity.phasingTargetId.get() != -1
+            override fun getFlags() = EnumSet.allOf(Flag::class.java)
         })
         goalSelector.addGoal(1, WaterAvoidingRandomStrollGoal(this, speed.toDouble()))
         goalSelector.addGoal(2, LookAtPlayerGoal(this, Player::class.java, 5F))
