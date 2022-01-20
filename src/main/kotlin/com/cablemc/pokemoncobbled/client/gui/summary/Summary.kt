@@ -45,7 +45,6 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         currentPokemon = pokemonList[selection]
             ?: pokemonList.filterNotNull().first()
         commonInit()
-        partySize = pokemon.size
         this.editable = editable
     }
 
@@ -56,7 +55,6 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         currentPokemon = pokemonList[PokemonCobbledClient.storage.selectedSlot]
             ?: pokemonList.filterNotNull().first()
         commonInit()
-        partySize = party.slots.filterNotNull().size
     }
 
     /**
@@ -78,12 +76,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     }
 
     /**
-     * Party size (amount of slots shown on the right side of the UI)
-     */
-    private var partySize = 1
-
-    /**
-     * Whether or not you shall be able to edit Pokemon (Move reordering)
+     * Whether you shall be able to edit Pokemon (Move reordering)
      */
     private var editable = true
 
@@ -166,8 +159,8 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
 
         // Add Model Preview
         modelWidget = ModelWidget(
-            pX = x + 180, pY = y + 75,
-            pWidth = 110, pHeight = 95,
+            pX = x + 183, pY = y + 24,
+            pWidth = 104, pHeight = 97,
             pokemon = currentPokemon
         )
         addRenderableWidget(
