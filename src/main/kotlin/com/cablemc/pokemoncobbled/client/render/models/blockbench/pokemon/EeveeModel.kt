@@ -164,5 +164,5 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     }
 
     override val profileScale: Float
-        get() = 0.75F
+        get() = 1F
 }
