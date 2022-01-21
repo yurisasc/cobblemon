@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
@@ -46,7 +47,9 @@ class PokemonEntity(
         PokemonServerDelegate()
     }
 
-    var isBeingCaptured = false
+    val busyLocks = mutableListOf<Any>()
+    val isBusy: Boolean
+        get() = busyLocks.isNotEmpty()
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
@@ -130,13 +133,22 @@ class PokemonEntity(
     override fun mobInteract(player: Player, hand: InteractionHand) : InteractionResult {
         // TODO: Move to proper pokemon interaction menu
         if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
-            if (canSitOnShoulder() && player is ServerPlayer) {
+            if (canSitOnShoulder() && player is ServerPlayer && !isBusy) {
                 val store = pokemon.storeCoordinates.get()?.store
                 if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
-                    val isLeft = player.shoulderEntityLeft.isEmpty
-                    if (!isLeft || player.shoulderEntityRight.isEmpty) {
-                        pokemon.state = ShoulderedState(player.uuid, isLeft)
-                        this.setEntityOnShoulder(player)
+                    val dirToPlayer = player.eyePosition.subtract(position()).multiply(1.0, 0.0, 1.0).normalize()
+                    deltaMovement = dirToPlayer.scale(0.8).add(0.0, 0.5, 0.0)
+                    val lock = Any()
+                    busyLocks.add(lock)
+                    after(seconds = 0.5F) {
+                        busyLocks.remove(lock)
+                        if (!isBusy && isAlive) {
+                            val isLeft = player.shoulderEntityLeft.isEmpty
+                            if (!isLeft || player.shoulderEntityRight.isEmpty) {
+                                pokemon.state = ShoulderedState(player.uuid, isLeft)
+                                this.setEntityOnShoulder(player)
+                            }
+                        }
                     }
                 }
             }

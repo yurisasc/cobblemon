@@ -42,7 +42,7 @@ class Pokemon {
         set(value) { field = value ; _species.emit(value) }
     var form = species.forms.first()
         set(value) { field = value ; _form.emit(value) }
-    var health = 10
+    var health = 20
         set(value) { field = value ; _health.emit(value) }
     var level = 5
         set(value) { field = value ; _level.emit(value) }
