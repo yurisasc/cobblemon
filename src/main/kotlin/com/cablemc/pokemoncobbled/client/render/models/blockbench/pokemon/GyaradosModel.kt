@@ -166,8 +166,8 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
         )
     }
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3(-2.1, 1.9, 0.0)
+    override val portraitScale = 1.9F
+    override val portraitTranslation = Vec3(-1.8, 1.9, 0.0)
 
     companion object {
         val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(cobbledResource("gyarados"), "main")

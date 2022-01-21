@@ -10,9 +10,11 @@ import com.mojang.math.Matrix3f
 import com.mojang.math.Matrix4f
 import com.mojang.math.Vector3f
 import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.Font
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
 fun renderImage(texture: ResourceLocation, x: Double, y: Double, height: Double, width: Double) {
@@ -30,6 +32,20 @@ fun renderImage(texture: ResourceLocation, x: Double, y: Double, height: Double,
     Tesselator.getInstance().end()
 }
 
+fun Font.drawScaled(
+    poseStack: PoseStack,
+    text: Component,
+    x: Float,
+    y: Float,
+    scaleX: Float = 1F,
+    scaleY: Float = 1F,
+    colour: Int = 0xFFFFFF
+) {
+    poseStack.pushPose()
+    poseStack.scale(scaleX, scaleY, 1F)
+    draw(poseStack, text, x / scaleX, y / scaleY, colour)
+    poseStack.popPose()
+}
 
 fun renderBeaconBeam(
     matrixStack: PoseStack,

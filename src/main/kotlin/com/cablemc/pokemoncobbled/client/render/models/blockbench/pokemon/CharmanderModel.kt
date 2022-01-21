@@ -67,7 +67,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         )
     }
 
-    override val portraitScale = 1.4F
+    override val portraitScale = 1.5F
     override val portraitTranslation = Vec3(0.0, 0.3, 0.0)
 
     companion object {

@@ -1,11 +1,12 @@
 package com.cablemc.pokemoncobbled.client.gui
 
-import com.cablemc.pokemoncobbled.client.CobbledResources
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.client.render.drawScaled
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
@@ -18,12 +19,13 @@ import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
+import kotlin.math.roundToInt
 
 class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecraft) {
-    var selectedSlot = 0
     val partyBase = cobbledResource("ui/party/party_base.png")
     val partySlot = cobbledResource("ui/party/party_slot.png")
     val underlay = cobbledResource("ui/party/party_slot_underlay.png")
+    val underlaySelected = cobbledResource("ui/party/party_slot_underlay_selected.png")
     val expBar = cobbledResource("ui/party/party_overlay_exp.png")
     val hpBar = cobbledResource("ui/party/party_overlay_hp.png")
 
@@ -41,7 +43,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
 
         val slotHeight = 36
         val portraitRadius = 28
-        val baseExtra = 9
+        val baseExtra = 10
         val totalHeight = party.slots.size * slotHeight + baseExtra
         val ratio = 384 / 270F
         val midY = minecraft.window.guiScaledHeight / 2
@@ -50,10 +52,9 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         val originalFrameOffsetY = 10
 
         party.forEachIndexed { index, pokemon ->
-
             blitk(
                 poseStack = event.matrixStack,
-                texture = underlay,
+                texture = if (PokemonCobbledClient.storage.selectedSlot == index) underlaySelected else underlay,
                 x = panelX + originalFrameOffsetX,
                 y = startY + slotHeight * index + originalFrameOffsetY,
                 height = portraitRadius,
@@ -64,13 +65,14 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                 val scaleIt: (Int) -> Int = { (it * minecraft.window.guiScale).toInt() }
                 val y = startY + slotHeight * index + originalFrameOffsetY
 
-                val unscaledStartY = minecraft.window.height / 2 + scaleIt(party.slots.size * 22) / 2 + scaleIt(baseExtra)
+                val height = minecraft.window.height
+                val scaledTotalHeight = (totalHeight / 4 * minecraft.window.guiScale).roundToInt()
 
                 RenderSystem.enableScissor(
-                    scaleIt(panelX + originalFrameOffsetX),
-                    unscaledStartY - scaleIt(slotHeight) * index,
-                    scaleIt(portraitRadius),
-                    scaleIt(portraitRadius)
+                    ((panelX + originalFrameOffsetX) * minecraft.window.guiScale).roundToInt(),
+                    height / 2 + scaledTotalHeight / 2 + (137 / 4 * minecraft.window.guiScale).roundToInt() - scaleIt(slotHeight * index),// - scaleIt(slotHeight) * index,
+                    (portraitRadius * minecraft.window.guiScale).roundToInt(),
+                    (portraitRadius * minecraft.window.guiScale).roundToInt()
                 )
 
                 val poseStack = PoseStack()
@@ -87,7 +89,6 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         }
 
         party.slots.forEachIndexed { index, pokemon ->
-
             if (index == 0) {
                 blitk(
                     poseStack = event.matrixStack,
@@ -109,31 +110,101 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
             }
 
             if (pokemon != null) {
-                event.matrixStack.pushPose()
-                val fontScale = 1F
-                val horizontalScale = fontScale * 1F
-                event.matrixStack.scale(horizontalScale, fontScale, 1F)
-                minecraft.font.draw(
-                    event.matrixStack,
-                    TranslatableComponent("Crabominable"/*"pokemon.species.name"*/).also {
-                        it.style = it.style.withFont(CobbledResources.shulVokalFontSmall)
-                    },
-                    (panelX + 14F) / horizontalScale,
-                    (startY + slotHeight * index + slotHeight * 0.84F + 9.5F) / fontScale,
-                    0xFFFFFF
+                val hpRatio = (5 - index + 1) / 6F  //pokemon.health / (pokemon.stats[Stats.HP] ?: pokemon.health).toFloat()
+                val barHeightMax = 25.25F
+                val hpBarHeight = hpRatio * barHeightMax
+                val expRatio = 1.0
+                val expBarHeight = expRatio * barHeightMax
+                val hpWidthToHeight = 75 / 188F
+                val expWidthToHeight = 49 / 188F
+
+                val m = -2
+
+                val r = if (hpRatio > 0.2) {
+                    m * hpRatio - m
+                } else {
+                    1.0
+                }
+
+                val g = if (hpRatio > 0.5) {
+                    1.0
+                } else if (hpRatio > 0.2) {
+                    hpRatio * 2.0
+                } else {
+                    0.0
+                }
+
+                val b = 0
+
+                blitk(
+                    poseStack = event.matrixStack,
+                    texture = hpBar,
+                    x = panelX + 37F,
+                    y = startY + slotHeight * index + baseExtra + 1.5F + (barHeightMax - hpBarHeight) + if (index == 0) 0F else 0.25F,
+                    width = hpWidthToHeight * barHeightMax,
+                    height = hpBarHeight,
+                    textureHeight = hpBarHeight / hpRatio,
+                    vOffset = barHeightMax - hpBarHeight,
+                    red = r,
+                    green = g,
+                    blue = b
                 )
-                event.matrixStack.popPose()
+
+                blitk(
+                    poseStack = event.matrixStack,
+                    texture = expBar,
+                    x = panelX + 42.5F,
+                    y = startY + slotHeight * index + baseExtra + 1.5F + (barHeightMax - expBarHeight) + if (index == 0) 0F else 0.25F,
+                    width = expWidthToHeight * barHeightMax,
+                    height = expBarHeight,
+                    textureHeight = expBarHeight / expRatio,
+                    vOffset = barHeightMax - expBarHeight,
+                    red = 0,
+                    green = 0.784,
+                    blue = 1.0
+                )
+
+                val fontScale = 0.5F
+                val horizontalScale = fontScale * 1F
+
+                minecraft.font.drawScaled(
+                    poseStack = event.matrixStack,
+                    text = pokemon.species.translatedName.asTranslated(),
+                    x = panelX + 15F,
+                    y = startY + slotHeight * index + slotHeight * 0.84F + baseExtra - 0.5F,
+                    scaleX = fontScale,
+                    scaleY = horizontalScale
+                )
+
+                minecraft.font.drawScaled(
+                    poseStack = event.matrixStack,
+                    text = "pokemoncobbled.ui.lv".asTranslated(),
+                    x = panelX + 2.75F,
+                    y = startY + slotHeight * index + slotHeight * 0.84F + baseExtra - 4.5F,
+                    scaleX = 0.4F,
+                    scaleY = 0.4F
+                )
+
+                val width = minecraft.font.width(pokemon.level.toString())
+                minecraft.font.drawScaled(
+                    poseStack = event.matrixStack,
+                    text = TranslatableComponent(pokemon.level.toString()),
+                    x = panelX + 7F - width / 4F,
+                    y = startY + slotHeight * index + slotHeight * 0.84F + baseExtra - 0.5F,
+                    scaleX = 0.5F,
+                    scaleY = 0.5F
+                )
             }
         }
 
-        minecraft.font.draw(
-            event.matrixStack,
-            TranslatableComponent("Pokémon Team").also {
-                it.style = it.style.withFont(CobbledResources.shulVokalFontSmall)
-            },
-            panelX + 3F,
-            startY + 5F,
-            0xFFFFFF
+        val headingFontScale = 0.6F
+        minecraft.font.drawScaled(
+            poseStack = event.matrixStack,
+            text = "pokemoncobbled.ui.pokemonteam".asTranslated(),
+            x = panelX + 3F,
+            y = startY + 2.5F,
+            scaleX = headingFontScale,
+            scaleY = headingFontScale
         )
     }
 
