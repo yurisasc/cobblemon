@@ -32,6 +32,30 @@ fun renderImage(texture: ResourceLocation, x: Double, y: Double, height: Double,
     Tesselator.getInstance().end()
 }
 
+fun getDepletableRedGreen(
+    ratio: Float,
+    yellowRatio: Float = 0.5F,
+    redRatio: Float = 0.2F
+): Pair<Float, Float> {
+    val m = -2
+
+    val r = if (ratio > redRatio) {
+        m * ratio - m
+    } else {
+        1.0
+    }
+
+    val g = if (ratio > yellowRatio) {
+        1.0
+    } else if (ratio > redRatio) {
+        ratio * 1 / yellowRatio
+    } else {
+        0.0
+    }
+
+    return r.toFloat() to g.toFloat()
+}
+
 fun Font.drawScaled(
     poseStack: PoseStack,
     text: Component,

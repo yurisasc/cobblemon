@@ -2,9 +2,11 @@ package com.cablemc.pokemoncobbled.client.gui
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.client.render.drawScaled
+import com.cablemc.pokemoncobbled.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -35,7 +37,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
             return
         }
 
-        val panelX = 4
+        val panelX = 2
         val party = PokemonCobbledClient.storage.myParty
         if (party.slots.none { it != null }) {
             return
@@ -48,36 +50,38 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         val ratio = 384 / 270F
         val midY = minecraft.window.guiScaledHeight / 2
         val startY = midY - totalHeight / 2
-        val originalFrameOffsetX = 14
-        val originalFrameOffsetY = 10
+        val frameOffsetX = 14
+        val frameOffsetY = 10
+
+        val scaleIt: (Int) -> Int = { (it * minecraft.window.guiScale).toInt() }
+        val downscaleIt: (Number) -> Int = { (it.toFloat() / 4F * minecraft.window.guiScale).roundToInt() }
 
         party.forEachIndexed { index, pokemon ->
             blitk(
                 poseStack = event.matrixStack,
                 texture = if (PokemonCobbledClient.storage.selectedSlot == index) underlaySelected else underlay,
-                x = panelX + originalFrameOffsetX,
-                y = startY + slotHeight * index + originalFrameOffsetY,
+                x = panelX + frameOffsetX,
+                y = startY + slotHeight * index + frameOffsetY,
                 height = portraitRadius,
                 width = portraitRadius
             )
 
             if (pokemon != null) {
-                val scaleIt: (Int) -> Int = { (it * minecraft.window.guiScale).toInt() }
-                val y = startY + slotHeight * index + originalFrameOffsetY
+                val y = startY + slotHeight * index + frameOffsetY
 
                 val height = minecraft.window.height
-                val scaledTotalHeight = (totalHeight / 4 * minecraft.window.guiScale).roundToInt()
+                val scaledTotalHeight = downscaleIt(totalHeight)
 
                 RenderSystem.enableScissor(
-                    ((panelX + originalFrameOffsetX) * minecraft.window.guiScale).roundToInt(),
-                    height / 2 + scaledTotalHeight / 2 + (137 / 4 * minecraft.window.guiScale).roundToInt() - scaleIt(slotHeight * index),// - scaleIt(slotHeight) * index,
+                    ((panelX + frameOffsetX) * minecraft.window.guiScale).roundToInt(),
+                    height / 2 + scaledTotalHeight * 2 - downscaleIt(baseExtra) - scaleIt(slotHeight * (index + 1)),// - scaleIt(slotHeight) * index,
                     (portraitRadius * minecraft.window.guiScale).roundToInt(),
                     (portraitRadius * minecraft.window.guiScale).roundToInt()
                 )
 
                 val poseStack = PoseStack()
                 poseStack.translate(
-                    (panelX + originalFrameOffsetX).toDouble() + portraitRadius / 2.0,
+                    (panelX + frameOffsetX).toDouble() + portraitRadius / 2.0,
                     y.toDouble(),
                     0.0
                 )
@@ -110,7 +114,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
             }
 
             if (pokemon != null) {
-                val hpRatio = (5 - index + 1) / 6F  //pokemon.health / (pokemon.stats[Stats.HP] ?: pokemon.health).toFloat()
+                val hpRatio = pokemon.health / (pokemon.stats[Stats.HP] ?: pokemon.health).toFloat()
                 val barHeightMax = 25.25F
                 val hpBarHeight = hpRatio * barHeightMax
                 val expRatio = 1.0
@@ -118,22 +122,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                 val hpWidthToHeight = 75 / 188F
                 val expWidthToHeight = 49 / 188F
 
-                val m = -2
-
-                val r = if (hpRatio > 0.2) {
-                    m * hpRatio - m
-                } else {
-                    1.0
-                }
-
-                val g = if (hpRatio > 0.5) {
-                    1.0
-                } else if (hpRatio > 0.2) {
-                    hpRatio * 2.0
-                } else {
-                    0.0
-                }
-
+                val (r, g) = getDepletableRedGreen(hpRatio)
                 val b = 0
 
                 blitk(
