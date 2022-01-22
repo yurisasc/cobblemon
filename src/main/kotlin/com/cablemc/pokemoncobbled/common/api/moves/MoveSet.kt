@@ -33,7 +33,6 @@ class MoveSet {
         if(pos < 0 || pos > 3)
             return
         moves[pos] = move
-        println("Set Move on $pos to ${move.name}")
     }
 
     /**

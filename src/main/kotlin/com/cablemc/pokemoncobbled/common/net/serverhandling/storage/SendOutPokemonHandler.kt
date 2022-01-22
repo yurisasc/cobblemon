@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.toVec3
@@ -18,9 +19,9 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
         ctx.enqueueWork {
             val party = PokemonStoreManager.getParty(player)
             val pokemon = party.get(slot) ?: return@enqueueWork
-            val entity = pokemon.entity
+            val state = pokemon.state
 
-            if (entity == null) {
+            if (state !is ActivePokemonState) {
                 val trace = player.traceBlockCollision(maxDistance = 15F)
                 if (trace != null && trace.direction == Direction.UP && !player.level.getBlockState(trace.blockPos.above()).material.isSolid) {
                     val position = trace.blockPos.above().toVec3().add(trace.location.x - trace.location.x.toInt(), 0.0, trace.location.z - trace.location.z.toInt())
@@ -35,12 +36,16 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
                         }
                     }
                 }
-            } else if (entity.phasingTargetId.get() == -1) {
-                player.getLevel().playSoundServer(entity.position(), SoundRegistry.RECALL.get(), volume = 0.2F)
-                entity.phasingTargetId.set(player.id)
-                entity.beamModeEmitter.set(2)
-
-                after(seconds = 1.5F) { pokemon.recall() }
+            } else {
+                val entity = state.entity
+                if (entity != null && entity.phasingTargetId.get() == -1) {
+                    player.getLevel().playSoundServer(entity.position(), SoundRegistry.RECALL.get(), volume = 0.2F)
+                    entity.phasingTargetId.set(player.id)
+                    entity.beamModeEmitter.set(2)
+                    after(seconds = 1.5F) { pokemon.recall() }
+                } else {
+                    pokemon.recall()
+                }
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.mod
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
@@ -20,14 +19,18 @@ import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonSt
 import com.cablemc.pokemoncobbled.common.battles.ShowdownInterpreter
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
-import com.cablemc.pokemoncobbled.common.event.InteractListener
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.ifServer
+import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
+import net.minecraft.resources.ResourceKey
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.storage.LevelResource
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.event.ModelBakeEvent
@@ -50,6 +53,7 @@ object PokemonCobbledMod {
     val EVENT_BUS = BusBuilder.builder().build()
     lateinit var showdown: ShowdownConnection //TODO: Move to more appropriate place
     var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
+    var isDedicatedServer = false
 
     init {
         with(MOD_CONTEXT.getKEventBus()) {
@@ -86,13 +90,15 @@ object PokemonCobbledMod {
 
         event.enqueueWork {
             DistExecutor.safeRunWhenOn(Dist.CLIENT) { DistExecutor.SafeRunnable { PokemonCobbledClient.initialize() } }
+            ifServer {
+                isDedicatedServer = true
+            }
             EVENT_BUS.register(ServerPacketRegistrar)
             ServerPacketRegistrar.registerHandlers()
             PokemonCobbledNetwork.register()
         }
 
         MinecraftForge.EVENT_BUS.register(CommandRegistrar)
-        MinecraftForge.EVENT_BUS.register(InteractListener)
         MinecraftForge.EVENT_BUS.register(PokemonStoreManager)
         MinecraftForge.EVENT_BUS.register(ScheduledTaskListener)
         MinecraftForge.EVENT_BUS.register(this)
@@ -125,14 +131,18 @@ object PokemonCobbledMod {
         EntityRegistry.registerAttributes(event)
     }
 
-//    // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
-//    // Event bus for receiving Registry Events)
-//    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
-//    object RegistryEvents {
-//        @SubscribeEvent
-//        fun onBlocksRegistry(blockRegistryEvent: Register<Block?>?) {
-//            // register a new block here
-//            LOGGER.info("HELLO from Register Block")
-//        }
-//    }
+    fun getLevel(dimension: ResourceKey<Level>): Level? {
+        return if (isDedicatedServer) {
+            getServer().getLevel(dimension)
+        } else {
+            val mc = Minecraft.getInstance()
+            if (mc.singleplayerServer != null) {
+                mc.singleplayerServer!!.getLevel(dimension)
+            } else if (mc.level?.dimension() == dimension) {
+                mc.level
+            } else {
+                null
+            }
+        }
+    }
 }
