@@ -1,0 +1,10 @@
+{
+  "name": "webserver",
+  "version": "1.0.0",
+  "main": "scripts/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "net": "^1.0.2",
+    "pokemon-showdown": "^0.11.7"
+  }
+}
