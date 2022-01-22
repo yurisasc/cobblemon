@@ -168,7 +168,7 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     }
 
     override val profileScale: Float
-        get() = 2.5F
+        get() = 1.0F
     override val profileTranslation: Vec3
-        get() = Vec3(0.0, 0.55, 0.0)
+        get() = Vec3(0.0, 0.00, 0.0)
 }

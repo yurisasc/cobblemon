@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets
 
+import com.cablemc.pokemoncobbled.client.CobbledResources
 import com.cablemc.pokemoncobbled.client.gui.blitk
 import com.cablemc.pokemoncobbled.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -24,8 +25,8 @@ class PartyWidget(
         private const val PARTY_BOX_WIDTH = 32.0F
         private const val PARTY_BOX_HEIGHT = 32.5F
         private const val PARTY_BOX_HEIGHT_DIFF = 30.2F
-        private const val PARTY_PORTRAIT_WIDTH = 25
-        private const val PARTY_PORTRAIT_HEIGHT = 25
+        private const val PARTY_PORTRAIT_WIDTH = 27.5
+        private const val PARTY_PORTRAIT_HEIGHT = 27.5
     }
 
     private val partySize = pokemonList.size
@@ -61,16 +62,28 @@ class PartyWidget(
     }
 
     private fun renderPKM(poseStack: PoseStack) {
-        poseStack.pushPose()
-
         pokemonList.forEachIndexed { index, pokemon ->
             pokemon?.run {
+                poseStack.pushPose()
                 RenderSystem.enableScissor(
-                    (x * minecraft.window.guiScale + 5).toInt(), (minecraft.window.height - (y * minecraft.window.guiScale)).toInt(),
-                    (PARTY_PORTRAIT_WIDTH * minecraft.window.guiScale).toInt(), (PARTY_PORTRAIT_HEIGHT * minecraft.window.guiScale).toInt()
+                    ((x + 2) * minecraft.window.guiScale).toInt(),
+                    (minecraft.window.height - (y * minecraft.window.guiScale) - index * (PARTY_PORTRAIT_HEIGHT + 2.2) * minecraft.window.guiScale).toInt(),
+                    (PARTY_PORTRAIT_WIDTH * minecraft.window.guiScale).toInt(),
+                    (PARTY_PORTRAIT_HEIGHT * minecraft.window.guiScale).toInt()
                 )
 
-                poseStack.translate((x + width / 21.0), height / 4.0, -100.0)
+//                blitk(
+//                    x = 0,
+//                    y = 0,
+//                    width = 1000,
+//                    height = 1000,
+//                    texture = CobbledResources.RED,
+//                    poseStack = poseStack,
+//                    alpha = 0.5
+//                )
+
+                poseStack.translate((x + width / 21.0), y - 26.0 + index * 30, -100.0)
+                poseStack.scale(2.5F, 2.5F, 2.5F)
 
                 drawProfilePokemon(
                     pokemon = this,
@@ -80,10 +93,10 @@ class PartyWidget(
                 )
 
                 RenderSystem.disableScissor()
+
+                poseStack.popPose()
             }
         }
-
-        poseStack.popPose()
     }
 
     private fun renderPokemonPortraits(poseStack: PoseStack) {

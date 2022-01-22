@@ -28,11 +28,16 @@ class ModelWidget(
         poseStack.pushPose()
 
         RenderSystem.enableScissor(
-            (x * minecraft.window.guiScale).toInt(), (minecraft.window.height - (y * minecraft.window.guiScale) - (height * minecraft.window.guiScale)).toInt(),
-            (width * minecraft.window.guiScale).toInt(), (height * minecraft.window.guiScale).toInt()
+            (x * minecraft.window.guiScale).toInt(),
+            (minecraft.window.height - (y * minecraft.window.guiScale) - (height * minecraft.window.guiScale)).toInt(),
+            (width * minecraft.window.guiScale).toInt(),
+            (height * minecraft.window.guiScale).toInt()
         )
 
-        poseStack.translate((x + width * 0.5), y.toDouble(), -100.0)
+        val baseScale = 1.5F
+        poseStack.translate(x + width * 0.5, y.toDouble() + height / 2 / baseScale, 0.0)
+        poseStack.scale(baseScale, baseScale, baseScale)
+        poseStack.pushPose()
 
         drawProfilePokemon(
             pokemon = pokemon,
@@ -40,6 +45,7 @@ class ModelWidget(
             rotation = Quaternion.fromXYZDegrees(rotVec)
         )
 
+        poseStack.popPose()
         RenderSystem.disableScissor()
 
         poseStack.popPose()

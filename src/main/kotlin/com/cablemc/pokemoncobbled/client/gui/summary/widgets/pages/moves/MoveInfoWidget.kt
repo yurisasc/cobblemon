@@ -61,7 +61,7 @@ class MoveInfoWidget(
             font = CobbledResources.NOTO_SANS_REGULAR
         ).renderLeftAligned(
             poseStack = pMatrixStack,
-            x = (infoX + 65.0) / SCALE, y = (infoY) / SCALE + 1.5,
+            x = (infoX + 67.0) / SCALE, y = (infoY) / SCALE + 1.5,
             ySpacing = 8.0 / SCALE,
             colour = ColourLibrary.WHITE, shadow = false
         )
