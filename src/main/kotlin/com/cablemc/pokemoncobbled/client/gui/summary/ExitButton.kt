@@ -23,7 +23,7 @@ class ExitButton(
         if(isHovered()) {
             blitk(
                 poseStack = pMatrixStack,
-                x = x + 0.8F, y = y + 1.25F,
+                x = x + 0.7F, y = y + 1.25F,
                 texture = exitButtonResource,
                 width = EXIT_BUTTON_WIDTH, height = EXIT_BUTTON_HEIGHT
             )
