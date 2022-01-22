@@ -461,4 +461,10 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
             return LayerDefinition.create(meshdefinition, 128, 128)
         }
     }
+
+    override val profileScale: Float
+        get() = 0.4F
+
+    override val profileTranslation: Vec3
+        get() = Vec3(0.0, 0.5, 0.0)
 }

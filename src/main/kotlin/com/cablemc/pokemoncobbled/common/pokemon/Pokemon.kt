@@ -16,6 +16,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
@@ -72,6 +73,7 @@ class Pokemon {
         set(value) { field = value ; _mintedNature.emit(value?.name?.toString() ?: "") }
 
     var moveSet: MoveSet = MoveSet()
+        set(value) { field = value ; _moveSet.emit(value) }
 
     var ability: Ability = form.standardAbilities.random().create()
 
@@ -182,7 +184,7 @@ class Pokemon {
         return this
     }
 
-    // TODO Ability, MoveSet - Last time I tries it errored :(
+    // TODO Ability
     fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
         buffer.writeUUID(uuid)
         buffer.writeShort(species.nationalPokedexNumber)
@@ -190,14 +192,14 @@ class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(health)
         buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        moveSet.saveToBuffer(buffer)
         buffer.writeMapK(map = evs) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
-        //moveSet.saveToBuffer(buffer)
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
         return buffer
     }
 
-    // TODO Ability, MoveSet - Last time I tries it errored :(
+    // TODO Ability
     fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
         uuid = buffer.readUUID()
         species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())
@@ -208,10 +210,9 @@ class Pokemon {
         health = buffer.readUnsignedShort()
         // TODO throw exception or dummy stat?
         buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
+        moveSet = MoveSet.loadFromBuffer(buffer)
         // TODO throw exception or dummy stat?
         buffer.readMapK(map = evs) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
-        // This errors...
-        //moveSet = MoveSet.loadFromBuffer(buffer)
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
         return this
@@ -251,7 +252,10 @@ class Pokemon {
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
     private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
     private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
+    private val _moveSet = registerObservable(SimpleObservable<MoveSet>()) { MoveSetUpdatePacket(this, moveSet) }
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
+
+    fun getMoveSetObservable() = _moveSet
 
     fun getMaxHealth(): Int = (2 * stats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4) * level) / 100 + level + 10
 }

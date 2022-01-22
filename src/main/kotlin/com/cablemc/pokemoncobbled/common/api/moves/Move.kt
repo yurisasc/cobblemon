@@ -46,11 +46,10 @@ open class Move(
         return nbt
     }
 
-    fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
+    fun saveToBuffer(buffer: FriendlyByteBuf) {
         buffer.writeUtf(name)
         buffer.writeInt(currentPp)
         buffer.writeInt(maxPp)
-        return buffer
     }
 
     companion object {
@@ -61,9 +60,12 @@ open class Move(
         }
 
         fun loadFromBuffer(buffer: FriendlyByteBuf): Move {
-            val template = Moves.getByName(buffer.readUtf())
-                ?: throw IllegalStateException("Tried to get non-existent MoveTemplate ${buffer.readUtf()}")
-            return template.create(buffer.readInt(), buffer.readInt())
+            val moveName = buffer.readUtf()
+            val currentPp = buffer.readInt()
+            val maxPp = buffer.readInt()
+            val template = Moves.getByName(moveName)
+                ?: throw IllegalStateException("Tried to get non-existent MoveTemplate $moveName")
+            return template.create(currentPp, maxPp)
         }
     }
 }

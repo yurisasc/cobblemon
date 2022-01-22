@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.moves.categories
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.resources.ResourceLocation
@@ -11,23 +11,29 @@ object DamageCategories {
     val PHYSICAL = register(
         name = "physical",
         displayName = TranslatableComponent("pokemoncobbled.move.category.physical"),
-        resourceLocation = ResourceLocation(PokemonCobbled.MODID)
+        textureXMultiplier = 0
     )
     val SPECIAL = register(
         name = "special",
         displayName = TranslatableComponent("pokemoncobbled.move.category.special"),
-        resourceLocation = ResourceLocation(PokemonCobbled.MODID)
+        textureXMultiplier = 1
     )
     val STATUS = register(
         name = "status",
         displayName = TranslatableComponent("pokemoncobbled.move.category.status"),
-        resourceLocation = ResourceLocation(PokemonCobbled.MODID)
+        textureXMultiplier = 2
     )
 
-    fun register(name: String, displayName: Component, resourceLocation: ResourceLocation): DamageCategory {
+    fun register(
+        name: String,
+        displayName: Component,
+        resourceLocation: ResourceLocation = cobbledResource("ui/categories.png"),
+        textureXMultiplier: Int
+    ): DamageCategory {
         return DamageCategory(
             name = name,
             displayName = displayName,
+            textureXMultiplier = textureXMultiplier,
             resourceLocation = resourceLocation
         ).also {
             allCategories.add(it)

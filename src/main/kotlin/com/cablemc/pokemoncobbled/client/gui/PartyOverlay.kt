@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.client.gui
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.client.keybinding.HidePartyBinding
+import com.cablemc.pokemoncobbled.client.util.PokemonSpriteProvider
 import com.cablemc.pokemoncobbled.client.render.drawScaled
 import com.cablemc.pokemoncobbled.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -16,6 +18,8 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Vector3f
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
+import net.minecraft.client.gui.screens.ChatScreen
+import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.network.chat.TranslatableComponent
@@ -30,12 +34,23 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
     val underlaySelected = cobbledResource("ui/party/party_slot_underlay_selected.png")
     val expBar = cobbledResource("ui/party/party_overlay_exp.png")
     val hpBar = cobbledResource("ui/party/party_overlay_hp.png")
+    val screenExemptions: List<Class<out Screen>> = listOf(
+        ChatScreen::class.java
+    )
 
     @SubscribeEvent
     fun onRenderGameOverlay(event: RenderGameOverlayEvent.Pre) {
         if (event.type != RenderGameOverlayEvent.ElementType.ALL) {
             return
         }
+        // Hiding if a Screen is open and not exempt
+        if(minecraft.screen != null) {
+            if(!screenExemptions.contains(minecraft.screen?.javaClass as Class<out Screen>))
+                return
+        }
+        // Hiding if toggled via Keybind
+        if(HidePartyBinding.shouldHide)
+            return
 
         val panelX = 2
         val party = PokemonCobbledClient.storage.myParty
