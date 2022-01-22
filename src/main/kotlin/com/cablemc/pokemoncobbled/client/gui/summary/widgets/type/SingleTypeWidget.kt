@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.type
 
+import com.cablemc.pokemoncobbled.client.CobbledResources
 import com.cablemc.pokemoncobbled.client.gui.ColourLibrary
-import com.cablemc.pokemoncobbled.client.gui.Fonts
 import com.cablemc.pokemoncobbled.client.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.mojang.blaze3d.vertex.PoseStack
@@ -17,11 +17,11 @@ class SingleTypeWidget(
         renderType(type, pPoseStack)
         // Render Type Name
         pPoseStack.pushPose()
-        pPoseStack.scale(0.4F, 0.4F, 0.4F)
+        pPoseStack.scale(0.35F, 0.35F, 0.35F)
         drawCenteredText(
-            poseStack = pPoseStack, font = Fonts.OSWALD,
+            poseStack = pPoseStack, font = CobbledResources.NOTO_SANS_BOLD,
             text = type.displayName,
-            x = (x + 30) / 0.4F, y = y / 0.4F + 3,
+            x = (x + 34) / 0.35F, y = y / 0.35F + 5.75,
             colour = ColourLibrary.WHITE, shadow = false
         )
         pPoseStack.popPose()
