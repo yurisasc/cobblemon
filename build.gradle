@@ -118,7 +118,6 @@ mixin {
 
 repositories {
     mavenCentral()
-    jcenter()
     maven { url "https://repo.codemc.org/repository/maven-public" }
     maven { url "https://repo.aikar.co/content/groups/aikar/" }
     maven { url "https://jitpack.io/" }

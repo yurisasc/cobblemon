@@ -8,6 +8,8 @@ import net.minecraft.world.entity.EntityDimensions
 
 class Species {
     var name: String = "bulbasaur"
+    val translatedName: String
+        get() = "pokemoncobbled.species.$name.name"
     var nationalPokedexNumber = 1
 
     val baseStats: MutableMap<Stat, Int> = mutableMapOf()

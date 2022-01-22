@@ -17,12 +17,12 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.Squirt
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.VenusaurModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.ZubatModel
+import com.cablemc.pokemoncobbled.client.util.exists
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.cablemc.pokemoncobbled.common.util.exists
 import net.minecraft.resources.ResourceLocation
 
 object PokemonModelRepository : ModelRepository<PokemonEntity>() {
@@ -70,11 +70,10 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     private fun registerShinySpeciesModelTexture(species: Species) {
         val shinyTexture = shinyTextureFor(species)
-        shinyModelTexturesBySpecies[species] = if(shinyTexture.exists()) shinyTexture else baseTextureFor(species)
+        shinyModelTexturesBySpecies[species] = if (shinyTexture.exists()) shinyTexture else baseTextureFor(species)
     }
 
     private fun baseTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-base.png")
-
     private fun shinyTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-shiny.png")
 
     fun getModel(pokemon: Pokemon): BlockBenchModelWrapper<PokemonEntity> {

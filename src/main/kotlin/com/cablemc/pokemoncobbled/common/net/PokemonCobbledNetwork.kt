@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.net
 import com.cablemc.pokemoncobbled.common.api.event.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
@@ -55,6 +56,7 @@ object PokemonCobbledNetwork {
         buildClientMessage<MovePartyPokemonPacket>()
         buildClientMessage<SwapPartyPokemonPacket>()
         buildClientMessage<SetPartyReferencePacket>()
+        buildClientMessage<PokemonStateUpdatePacket>()
 
         buildServerMessage<SendOutPokemonPacket>()
     }

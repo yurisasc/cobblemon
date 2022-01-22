@@ -104,7 +104,7 @@ class EmptyPokeBallEntity(
         if (captureState.get() == CaptureState.NOT.ordinal.toByte()) {
             if (hitResult.entity is PokemonEntity && level.isServerSide()) {
                 val pokemon = hitResult.entity as PokemonEntity
-                if (pokemon.isBeingCaptured || !pokemon.pokemon.isWild()) {
+                if (pokemon.isBusy || !pokemon.pokemon.isWild()) {
                     discard()
                     return
                 }
@@ -124,6 +124,7 @@ class EmptyPokeBallEntity(
         super.tick()
         if (level.isServerSide()) {
             if (owner == null || !owner!!.isAlive || (captureState.get() != CaptureState.NOT.ordinal.toByte() && capturingPokemon?.isAlive != true)) {
+                breakFree()
                 discard()
                 return
             }
@@ -191,7 +192,7 @@ class EmptyPokeBallEntity(
         pokemon.isInvisible = false
 
         after(seconds = 0.25F) {
-            pokemon.isBeingCaptured = false
+            pokemon.busyLocks.remove(this)
             level.sendParticlesServer(ParticleTypes.CLOUD, position(), 20, Vec3(0.0, 0.2, 0.0), 0.05)
             level.playSoundServer(position(), SoundEvents.GLASS_BREAK)
             discard()
@@ -216,7 +217,7 @@ class EmptyPokeBallEntity(
     }
 
     private fun attemptCatch(pokemonEntity: PokemonEntity) {
-        pokemonEntity.isBeingCaptured = true
+        pokemonEntity.busyLocks.add(this)
         val displace = deltaMovement
         captureState.set(CaptureState.HIT.ordinal.toByte())
         val mul = if (random.nextBoolean()) 1 else -1

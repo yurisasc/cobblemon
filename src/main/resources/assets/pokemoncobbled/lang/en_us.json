@@ -4,8 +4,7 @@
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
   "itemGroup.pokemoncobbled.pokeballtab": "Poké Balls",
   "pokemoncobbled.ui.pokenav.title": "PokeNav",
-  "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!"
-  "pokemoncobbled.ui.pokenav.title": "PokeNav",
+  "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!",
   "pokemoncobbled.type.fire": "Fire",
   "pokemoncobbled.type.water": "Water",
   "pokemoncobbled.type.grass": "Grass",
@@ -28,5 +27,25 @@
   "pokemoncobbled.move.category.special": "Special",
   "pokemoncobbled.move.category.status": "Status",
   "pokemoncobbled.move.tackle": "Tackle",
-  "pokemoncobbled.move.tackle.desc": "A physical attack in which the user charges and slams into the target with its whole body."
+  "pokemoncobbled.move.tackle.desc": "A physical attack in which the user charges and slams into the target with its whole body.",
+
+  "pokemoncobbled.ui.pokemonteam": "Pokémon Team",
+  "pokemoncobbled.ui.lv": "Lv.",
+
+  "pokemoncobbled.species.bulbasaur.name": "Bulbasaur",
+  "pokemoncobbled.species.ivysaur.name": "Ivysaur",
+  "pokemoncobbled.species.venusaur.name": "Venusaur",
+  "pokemoncobbled.species.charmander.name": "Charmander",
+  "pokemoncobbled.species.charmeleon.name": "Charmeleon",
+  "pokemoncobbled.species.charizard.name": "Charizard",
+  "pokemoncobbled.species.squirtle.name": "Squirtle",
+  "pokemoncobbled.species.wartortle.name": "Wartortle",
+  "pokemoncobbled.species.blastoise.name": "Blastoise",
+  "pokemoncobbled.species.ekans.name": "Ekans",
+  "pokemoncobbled.species.zubat.name": "Zubat",
+  "pokemoncobbled.species.diglett.name": "Diglett",
+  "pokemoncobbled.species.dugtrio.name": "Dugtrio",
+  "pokemoncobbled.species.magikarp.name": "Magikarp",
+  "pokemoncobbled.species.gyarados.name": "Gyarados",
+  "pokemoncobbled.species.eevee.name": "Eevee"
 }
