@@ -20,10 +20,18 @@ object DataKeys {
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
+    const val POKEMON_STATE_SHOULDER = "StateShoulder"
+    const val POKEMON_STATE_ID = "StateId"
+    const val POKEMON_STATE_PLAYER_UUID = "PlayerUUID"
 
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
     const val STORE_BOX = "Box"
     const val STORE_BOX_COUNT = "BoxCount"
+
+    const val REQUEST_TYPE = "RequestType"
+    const val REQUEST_BATTLE_ID = "RequestBattleId"
+    const val REQUEST_BATTLE_START = "StartBattle"
+    const val REQUEST_MESSAGES = "RequestMessages"
 
 }

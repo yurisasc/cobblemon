@@ -5,17 +5,20 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.Pok
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
+import com.cablemc.pokemoncobbled.common.battles.runner.StandardShowdownConnection
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskListener
+import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
+import com.cablemc.pokemoncobbled.common.battles.ShowdownInterpreter
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
-import com.cablemc.pokemoncobbled.common.event.InteractListener
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
@@ -42,11 +45,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fmlserverevents.FMLServerStartingEvent
 import org.apache.logging.log4j.LogManager
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
+import java.net.InetAddress
 
 @Mod(PokemonCobbled.MODID)
 object PokemonCobbledMod {
     val LOGGER = LogManager.getLogger()
     val EVENT_BUS = BusBuilder.builder().build()
+    lateinit var showdown: ShowdownConnection //TODO: Move to more appropriate place
     var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
     var isDedicatedServer = false
 
@@ -64,6 +69,18 @@ object PokemonCobbledMod {
 
     fun initialize(event: FMLCommonSetupEvent) {
         LOGGER.info("Initializing...")
+        showdown = StandardShowdownConnection(InetAddress.getLocalHost(), 25567)
+        showdown.open()
+
+        // Read messages every 10 ticks TODO: move off of this as this is client side
+        taskBuilder()
+            .infiniteIterations()
+            .interval(10)
+            .execute {
+                showdown.read(ShowdownInterpreter::interpretMessage)
+            }
+            .identifier("ShowdownReadingTask")
+            .build()
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
@@ -82,7 +99,6 @@ object PokemonCobbledMod {
         }
 
         MinecraftForge.EVENT_BUS.register(CommandRegistrar)
-        MinecraftForge.EVENT_BUS.register(InteractListener)
         MinecraftForge.EVENT_BUS.register(PokemonStoreManager)
         MinecraftForge.EVENT_BUS.register(ScheduledTaskListener)
         MinecraftForge.EVENT_BUS.register(this)

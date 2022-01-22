@@ -16,13 +16,14 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
 import com.cablemc.pokemoncobbled.common.util.readMapK
@@ -31,7 +32,6 @@ import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 import java.util.UUID
@@ -42,12 +42,18 @@ class Pokemon {
         set(value) { field = value ; _species.emit(value) }
     var form = species.forms.first()
         set(value) { field = value ; _form.emit(value) }
-    var health = 10
+    var health = 20
         set(value) { field = value ; _health.emit(value) }
     var level = 5
         set(value) { field = value ; _level.emit(value) }
     var state: PokemonState = InactivePokemonState()
-        set(value) { field = value ; _state.emit(value) }
+        set(value) {
+            if (field is ActivePokemonState) {
+                (field as ActivePokemonState).recall()
+            }
+            field = value
+            _state.emit(value)
+        }
 
     val entity: PokemonEntity?
         get() = state.let { if (it is ActivePokemonState) it.entity else null }
@@ -88,11 +94,11 @@ class Pokemon {
         entity.setPos(position)
         mutation(entity)
         level.addFreshEntity(entity)
+        state = SentOutState(entity)
         return entity
     }
 
     fun recall() {
-        this.entity?.remove(Entity.RemovalReason.DISCARDED)
         this.state = InactivePokemonState()
     }
 
@@ -112,7 +118,7 @@ class Pokemon {
         nbt.putBoolean(DataKeys.POKEMON_SHINY, shiny)
         ability.saveToNBT(nbt)
         state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
-        return nbt
+            return nbt
     }
 
     fun loadFromNBT(nbt: CompoundTag): Pokemon {
@@ -127,6 +133,8 @@ class Pokemon {
         evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         moveSet = MoveSet.loadFromNBT(nbt)
+        nbt.putString(DataKeys.POKEMON_ABILITY_NAME, "drought")
+
         ability = Abilities.getOrException(nbt.getString(DataKeys.POKEMON_ABILITY_NAME)).create(nbt)
         shiny = nbt.getBoolean(DataKeys.POKEMON_SHINY)
         if (nbt.contains(DataKeys.POKEMON_STATE)) {

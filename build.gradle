@@ -7,7 +7,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7.+'
         classpath 'org.parchmentmc:librarian:1.+'
@@ -15,7 +15,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.github.johnrengelman.shadow' version '6.1.0'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
 }
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
@@ -34,7 +34,7 @@ archivesBaseName = 'PokemonCobbled'
 minecraft {
     mappings channel: 'parchment', version: '2021.08.15-1.17.1'
 
-     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 
     runs {
         client {
@@ -84,6 +84,22 @@ minecraft {
     }
 }
 
+configurations {
+    // Create the library configuration, where our non-mod libraries will be added to
+    library
+    // Any dependency in the library configuration will also be added to the implementation configuration
+    implementation.extendsFrom library
+}
+
+// Configure all runs with the following
+minecraft.runs.all {
+    // Set the minecraft_classpath token to the paths of all jars in the library configuration
+    // This is added with the actual Minecraft classpath to get the real classpath information later on
+    lazyToken('minecraft_classpath') {
+        configurations.library.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
+    }
+}
+
 mixin {
     // Refmaps for each SourceSet
     add sourceSets.main, 'mixins.pokemoncobbled.refmap.json'
@@ -102,7 +118,6 @@ mixin {
 
 repositories {
     mavenCentral()
-    jcenter()
     maven { url "https://repo.codemc.org/repository/maven-public" }
     maven { url "https://repo.aikar.co/content/groups/aikar/" }
     maven { url "https://jitpack.io/" }
@@ -116,19 +131,30 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.17.1-37.0.103'
     implementation('thedarkcolour:kotlinforforge:2.0.1')
     annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
-}
 
-test {
-    useJUnitPlatform()
-}
+    // For Showdown
+    shadow 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
+    shadow 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
+    shadow group: 'commons-io', name: 'commons-io', version: '2.6'
 
-dependencies {
+    // For Showdown
+    library 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
+    library 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
+    library group: 'commons-io', name: 'commons-io', version: '2.6'
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
     testImplementation 'org.mockito:mockito-core:3.3.3'
     testImplementation 'io.mockk:mockk:1.12.1'
 }
+
+
+// Testing -------------
+test {
+    useJUnitPlatform()
+}
+// ---------------------
 
 jar {
     manifest {
@@ -157,8 +183,23 @@ compileKotlin {
 
 // Example configuration to allow publishing using the maven-publish plugin
 // This is the preferred method to reobfuscate your jar file
-jar.finalizedBy('reobfJar')
+jar.finalizedBy('reobfShadowJar')
 
+shadowJar {
+    classifier = null
+    configurations = [project.configurations.shadow]
+    //minimize()
+    exclude "**/module-info.class"
+    exclude "**/NOTICE"
+//    exclude '**/*.kotlin_metadata'
+//    exclude '**/*.kotlin_module'
+//    exclude '**/*.kotlin_builtins'
+    // relocate('kotlin', 'shaded.kotlin4')
+}
+
+reobf {
+    shadowJar {}
+}
 // Mojang ships Java 16 to end users in 1.17+ instead of Java 8 in 1.16 or lower, so your mod should target Java 16.
 java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 

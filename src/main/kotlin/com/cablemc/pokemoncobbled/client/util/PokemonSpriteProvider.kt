@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.client.util
 
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.cablemc.pokemoncobbled.common.util.exists
 import net.minecraft.resources.ResourceLocation
 
 object PokemonSpriteProvider {
