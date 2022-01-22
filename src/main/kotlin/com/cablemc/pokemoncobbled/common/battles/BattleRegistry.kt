@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import net.minecraft.server.level.ServerPlayer
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -46,8 +47,23 @@ object BattleRegistry {
         PokemonCobbledMod.showdown.write(gson.toJson(request))
     }
 
+    fun closeBattle(battle: Battle) {
+        battleMap.remove(battle.battleId)
+    }
+
     fun getBattle(id: UUID) : Battle? {
         return battleMap[id]
+    }
+
+    fun getBattleByParticipatingPlayer(serverPlayer: ServerPlayer) : Battle? {
+        for(entry in battleMap.entries) {
+            val found = entry.value.actors.find {
+                it.gameId.equals(serverPlayer.uuid)
+            }
+            if(found != null)
+                return entry.value
+        }
+        return null
     }
 
 }

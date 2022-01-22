@@ -8,10 +8,6 @@ import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import net.minecraft.ChatFormatting
-import net.minecraft.Util
-import net.minecraft.network.chat.ClickEvent
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.Style
 import net.minecraft.network.chat.TextComponent
 import java.util.*
 import kotlin.random.Random
@@ -20,7 +16,7 @@ object ShowdownInterpreter {
 
     private val updateInstructions = mutableMapOf<String, (Battle, String) -> Unit>()
     private val sideUpdateInstructions = mutableMapOf<String, (Battle, BattleActor, String) -> Unit>()
-    private val switchUpdateInstructions = mutableMapOf<String, (Battle, BattleActor, String, String) -> Unit>()
+    private val splitUpdateInstructions = mutableMapOf<String, (Battle, BattleActor, String, String) -> Unit>()
 
     init {
         updateInstructions["|player|"] = this::handlePlayerInstruction
@@ -35,10 +31,14 @@ object ShowdownInterpreter {
         updateInstructions["|teampreview"] = this::handleTeamPreviewInstruction
         updateInstructions["|start"] = this::handleStartInstruction
         updateInstructions["|turn|"] = this::handleTurnInstruction
+        updateInstructions["|faint|"] = this::handleFaintInstruction
+        updateInstructions["|win|"] = this::handleWinInstruction
+        updateInstructions["|move|"] = this::handleMoveInstruction
+        updateInstructions["|cant|"] = this::handleCantInstruction
 
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
 
-        switchUpdateInstructions["|switch|"] = this::handleSwitchInstruction
+        splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
     }
 
     fun interpretMessage(message: String) {
@@ -71,7 +71,7 @@ object ShowdownInterpreter {
                         return
                     }
 
-                    for(instruction in switchUpdateInstructions.entries) {
+                    for(instruction in splitUpdateInstructions.entries) {
                         if(line.startsWith(instruction.key)) {
                             instruction.value(battle, targetActor, lines[i+1], lines[i+2])
                         }
@@ -294,6 +294,64 @@ object ShowdownInterpreter {
 
     /**
      * Format:
+     * |faint|POKEMON
+     *
+     * The Pokémon POKEMON has fainted.
+     */
+    private fun handleFaintInstruction(battle: Battle, message: String) {
+        val player = message.split("|faint|")[1].substring(0, 2)
+        val pokemon = message.split("|faint|")[1].split(" ")[1]
+        val actor = battle.getActor(player)
+
+        battle.broadcastChatMessage(TextComponent(""))
+        battle.broadcastChatMessage(TextComponent("${ChatFormatting.RED}" + ">>> ${ChatFormatting.BOLD}${actor!!.getName()}'s $pokemon has fainted!"))
+        battle.broadcastChatMessage(TextComponent(""))
+    }
+
+    private fun handleWinInstruction(battle: Battle, message: String) {
+        val id = message.split("|win|")[1]
+        val actor = battle.getActor(UUID.fromString(id))
+
+        battle.broadcastChatMessage(TextComponent(""))
+        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}" + ">>> ${ChatFormatting.BOLD}${actor!!.getName()} has won the battle!!"))
+        battle.broadcastChatMessage(TextComponent(""))
+
+        BattleRegistry.closeBattle(battle)
+    }
+
+    // |move|p1a: Charizard|Tackle|p2a: Magikarp
+    private fun handleMoveInstruction(battle: Battle, message: String) {
+        var editMessaged = message.replace("|move|", "")
+
+        val playerA = editMessaged.split("|")[0].substring(0, 2)
+        val pokemonA = editMessaged.split("|")[0].split(" ")[1]
+        val actorA = battle.getActor(playerA)
+
+        val playerB = editMessaged.split("|")[2].substring(0, 2)
+        val pokemonB = editMessaged.split("|")[2].split(" ")[1]
+        val actorB = battle.getActor(playerB)
+
+        val move = editMessaged.split("|")[1].split("|")[0]
+        battle.broadcastChatMessage(TextComponent(""))
+        battle.broadcastChatMessage(TextComponent("${ChatFormatting.YELLOW}" + ">>> ${ChatFormatting.BOLD}${actorA!!.getName()}'s $pokemonA has used $move on ${actorB!!.getName()}'s $pokemonB!!"))
+    }
+
+    private fun handleCantInstruction(battle: Battle, message: String) {
+        var editMessaged = message.replace("|cant|", "")
+
+        val playerA = editMessaged.split("|")[0].substring(0, 2)
+        val pokemonA = editMessaged.split("|")[0].split(" ")[1]
+        val actorA = battle.getActor(playerA)
+
+        val action = editMessaged.split("|")[1]
+        val actionText = if(action == "flinch") "flinched" else action
+
+        battle.broadcastChatMessage(TextComponent("${ChatFormatting.RED}" + ">>> ${ChatFormatting.BOLD}${actorA!!.getName()}'s $pokemonA has $actionText"))
+    }
+
+
+        /**
+     * Format:
      * |request|REQUEST
      *
      * The protocol message to tell you that it's time for you to make a decision is:
@@ -313,30 +371,27 @@ object ShowdownInterpreter {
             battle.writeShowdownAction(">${battleActor.showdownId} move ${Random.nextInt(1, 5)}")
         } else if(battleActor is PlayerBattleActor) {
             // TODO: Ask them for a input choice
-            taskBuilder().delay(1).execute {
-                battleActor.sendMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Pick A Move:"))
-                for(move in request.active[0].moves) {
-                    battleActor.sendMessage(moveComponent(battleActor.showdownId, move.move))
-                }
-            }.build()
+
+            // Force switch to toggle
+            if(message.contains("forceSwitch")) {
+                battleActor.sendMessage(TextComponent(""))
+                battleActor.sendMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Switch your Pokemon! (/switch <1-3>)"))
+            } else {
+                taskBuilder().delay(1).execute {
+                    battleActor.sendMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Pick A Move: (/move <1-4>)"))
+
+                    var i = 1;
+                    for(move in request.active[0].moves) {
+                        battleActor.sendMessage(TextComponent("$i. ${move.move}"))
+                        i++
+                    }
+                }.build()
+            }
         }
     }
 
     private fun handleSwitchInstruction(battle: Battle, battleActor: BattleActor, publicMessage: String, privateMessage: String) {
 
-    }
-
-    private fun moveComponent(showdownId : String, moveName : String) : Component {
-        val style = Style.EMPTY
-            .withClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/say $moveName"))
-            .withColor(ChatFormatting.GREEN)
-        return TextComponent(" - $moveName").withStyle(style)
-        /*return TextComponent("[$moveName] ")
-            .setStyle(
-                Style.EMPTY
-                    .withClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "say $moveName"))
-                    .withColor(ChatFormatting.GREEN)
-            )*/
     }
 
 }

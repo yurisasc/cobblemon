@@ -12,6 +12,4 @@ class PokemonBattleActor(
     artificialDecider: BattleAI
 ) : AIBattleActor(showdownId, gameId, party, artificialDecider) {
 
-
-
 }

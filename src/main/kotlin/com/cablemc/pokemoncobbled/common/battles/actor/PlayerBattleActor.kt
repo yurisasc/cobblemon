@@ -25,4 +25,8 @@ class PlayerBattleActor(
         getPlayerEntity()!!.sendMessage(message, Util.NIL_UUID)
     }
 
+    override fun getName() : String {
+        return getPlayerEntity()!!.name.string
+    }
+
 }
