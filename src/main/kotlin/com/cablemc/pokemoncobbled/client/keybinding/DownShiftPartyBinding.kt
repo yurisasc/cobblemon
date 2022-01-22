@@ -10,7 +10,7 @@ object DownShiftPartyBinding : KeyMapping(
     "key.pokemoncobbled.downshiftparty",
     InputConstants.Type.KEYSYM,
     InputConstants.KEY_DOWN,
-    CATEGORY_GAMEPLAY
+    KeybindCategories.COBBLED_CATEGORY
 ) {
     var wasDown = false
     @SubscribeEvent

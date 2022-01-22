@@ -166,4 +166,9 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
             return LayerDefinition.create(meshDefinition, 64, 64)
         }
     }
+
+    override val profileScale: Float
+        get() = 2.5F
+    override val profileTranslation: Vec3
+        get() = Vec3(0.0, 0.55, 0.0)
 }
