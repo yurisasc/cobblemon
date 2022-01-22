@@ -32,6 +32,7 @@ object DataKeys {
     const val REQUEST_TYPE = "RequestType"
     const val REQUEST_BATTLE_ID = "RequestBattleId"
     const val REQUEST_BATTLE_START = "StartBattle"
+    const val REQUEST_BATTLE_SEND_MESSAGE = "SendMessage"
     const val REQUEST_MESSAGES = "RequestMessages"
 
 }

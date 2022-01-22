@@ -58,6 +58,14 @@ server.on('connection', function (socket) {
                         })();
                         break;
                     }
+                    case 'SendMessage': {
+                      const battleStream = battleMap.get(request.RequestBattleId)
+                      for(const element of request.RequestMessages) {
+                        console.log(element);
+                        battleStream.write(element);
+                      }
+                      break;
+                    }
                 }
             } catch (error) {
                 console.error(error);

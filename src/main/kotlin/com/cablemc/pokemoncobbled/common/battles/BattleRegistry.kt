@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 object BattleRegistry {
 
-    private val gson: Gson = GsonBuilder().disableHtmlEscaping().create()
+    val gson: Gson = GsonBuilder().disableHtmlEscaping().create()
     private val battleMap: ConcurrentHashMap<UUID, Battle> = ConcurrentHashMap()
 
     /**

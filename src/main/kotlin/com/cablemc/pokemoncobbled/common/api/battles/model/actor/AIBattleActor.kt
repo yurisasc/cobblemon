@@ -8,7 +8,7 @@ open class AIBattleActor(
     showdownId: String,
     gameId: UUID,
     party: PartyStore,
-    val artificialDecider: BattleAI
+    val battleAI: BattleAI
 ) : BattleActor(showdownId, gameId, party) {
 
 }

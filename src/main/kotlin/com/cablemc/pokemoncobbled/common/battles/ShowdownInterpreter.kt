@@ -1,13 +1,26 @@
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.api.battles.model.Battle
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.AIBattleActor
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
+import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
+import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
+import net.minecraft.ChatFormatting
+import net.minecraft.Util
+import net.minecraft.network.chat.ClickEvent
+import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.Style
+import net.minecraft.network.chat.TextComponent
 import java.util.*
+import kotlin.random.Random
 
 object ShowdownInterpreter {
 
     private val updateInstructions = mutableMapOf<String, (Battle, String) -> Unit>()
+    private val sideUpdateInstructions = mutableMapOf<String, (Battle, BattleActor, String) -> Unit>()
+    private val switchUpdateInstructions = mutableMapOf<String, (Battle, BattleActor, String, String) -> Unit>()
 
     init {
         updateInstructions["|player|"] = this::handlePlayerInstruction
@@ -19,7 +32,13 @@ object ShowdownInterpreter {
         updateInstructions["|rule|"] = this::handleRuleInstruction
         updateInstructions["|clearpoke"] = this::handleClearPokeInstruction
         updateInstructions["|poke|"] = this::handlePokeInstruction
+        updateInstructions["|teampreview"] = this::handleTeamPreviewInstruction
         updateInstructions["|start"] = this::handleStartInstruction
+        updateInstructions["|turn|"] = this::handleTurnInstruction
+
+        sideUpdateInstructions["|request|"] = this::handleRequestInstruction
+
+        switchUpdateInstructions["|switch|"] = this::handleSwitchInstruction
     }
 
     fun interpretMessage(message: String) {
@@ -38,18 +57,53 @@ object ShowdownInterpreter {
         if(lines[0] == "update") {
             println("WE HAVE UPDATE FOR $battleId")
 
-            for (i in 1 until lines.size) {
-                for(instruction in updateInstructions.entries) {
-                    val message = lines[i]
-                    if(message.startsWith(instruction.key)) {
-                        instruction.value(battle, message)
+            var i = 1;
+            while(i < lines.size) {
+                val line = lines[i]
+
+                // Split blocks have a public and private message below
+                if(line.startsWith("|split|")) {
+                    val showdownId = line.split("|split|")[1]
+                    val targetActor = battle.getActor(showdownId)
+
+                    if(targetActor == null) {
+                        PokemonCobbledMod.LOGGER.info("No actor could be found with the showdown id: $showdownId")
+                        return
                     }
+
+                    for(instruction in switchUpdateInstructions.entries) {
+                        if(line.startsWith(instruction.key)) {
+                            instruction.value(battle, targetActor, lines[i+1], lines[i+2])
+                        }
+                    }
+
+                    i += 2;
+                } else {
+                    for(instruction in updateInstructions.entries) {
+                        if(line.startsWith(instruction.key)) {
+                            instruction.value(battle, line)
+                        }
+                    }
+                    i++
                 }
             }
         }
         else if(lines[0] == "sideupdate") {
             println("WE HAVE SIDE UPDATE FOR $battleId")
-            // TODO: lines[1] is the player id
+            val showdownId = lines[1]
+            val targetActor = battle.getActor(showdownId)
+            val line = lines[2]
+
+            if(targetActor == null) {
+                PokemonCobbledMod.LOGGER.info("No actor could be found with the showdown id: $showdownId")
+                return
+            }
+
+            for(instruction in sideUpdateInstructions.entries) {
+                if(line.startsWith(instruction.key)) {
+                    instruction.value(battle, targetActor, line)
+                }
+            }
         }
     }
 
@@ -88,6 +142,13 @@ object ShowdownInterpreter {
      */
     private fun handleGameTypeInstruction(battle: Battle, message: String) {
         PokemonCobbledMod.LOGGER.info("Game Type Instruction")
+
+        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Type:"))
+
+        val tierName = message.split("|gametype|")[1]
+        var textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
+        battle.broadcastChatMessage(textComponent)
+        battle.broadcastChatMessage(TextComponent(""))
     }
 
     /**
@@ -111,6 +172,13 @@ object ShowdownInterpreter {
      */
     private fun handleTierInstruction(battle: Battle, message: String) {
         PokemonCobbledMod.LOGGER.info("Tier Instruction")
+
+        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Tier:"))
+
+        val tierName = message.split("|tier|")[1]
+        var textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
+        battle.broadcastChatMessage(textComponent)
+        battle.broadcastChatMessage(TextComponent(""))
     }
 
     /**
@@ -135,6 +203,16 @@ object ShowdownInterpreter {
      */
     private fun handleRuleInstruction(battle: Battle, message: String) {
         PokemonCobbledMod.LOGGER.info("Rule Instruction")
+
+        if(battle.announcingRules == false) {
+            battle.announcingRules = true
+            var textComponent = TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Rules:")
+            battle.broadcastChatMessage(textComponent)
+        }
+
+        val rule = message.split("|rule|")[1]
+        var textComponent = TextComponent("${ChatFormatting.GRAY} - ${rule}")
+        battle.broadcastChatMessage(textComponent)
     }
 
     /**
@@ -159,6 +237,37 @@ object ShowdownInterpreter {
      */
     private fun handlePokeInstruction(battle: Battle, message: String) {
         PokemonCobbledMod.LOGGER.info("Poke Instruction")
+
+        val args = message.split("|")
+        val showdownId = args[2]
+        val pokemon = args[3]
+
+        val targetActor = battle.getActor(showdownId)
+
+        if(targetActor == null) {
+            PokemonCobbledMod.LOGGER.info("No actor could be found with the showdown id: $showdownId")
+            return
+        }
+
+        if(targetActor is PlayerBattleActor) {
+            if(targetActor.announcingPokemon == false) {
+                battle.broadcastChatMessage(TextComponent(""))
+                targetActor.announcingPokemon = true
+                var textComponent = TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Your Team:")
+                targetActor.sendMessage(textComponent)
+            }
+
+            var textComponent = TextComponent("${ChatFormatting.YELLOW} - ${pokemon}")
+            battle.broadcastChatMessage(textComponent)
+        }
+    }
+
+    /**
+     * Format:
+     * |teampreview indicates team preview is over
+     */
+    private fun handleTeamPreviewInstruction(battle: Battle, message: String) {
+        PokemonCobbledMod.LOGGER.info("Start Team Preview Instruction")
     }
 
     /**
@@ -169,6 +278,65 @@ object ShowdownInterpreter {
      */
     private fun handleStartInstruction(battle: Battle, message: String) {
         PokemonCobbledMod.LOGGER.info("Start Instruction")
+    }
+
+    /**
+     * Format:
+     * |turn|NUMBER
+     *
+     * It is now turn NUMBER.
+     */
+    private fun handleTurnInstruction(battle: Battle, message: String) {
+        battle.broadcastChatMessage(TextComponent(""))
+        battle.broadcastChatMessage(TextComponent("${ChatFormatting.AQUA}" + ">>> ${ChatFormatting.BOLD}It is now turn " + message.split("|turn|")[1]))
+        battle.broadcastChatMessage(TextComponent(""))
+    }
+
+    /**
+     * Format:
+     * |request|REQUEST
+     *
+     * The protocol message to tell you that it's time for you to make a decision is:
+     */
+    private fun handleRequestInstruction(battle: Battle, battleActor: BattleActor, message: String) {
+        PokemonCobbledMod.LOGGER.info("Request Instruction")
+
+        if(message.contains("teamPreview"))
+            return
+
+        // Parse Json message and update state info for actor
+        val request: ShowdownActionRequest = BattleRegistry.gson.fromJson(message.split("|request|")[1], ShowdownActionRequest::class.java)
+
+        // Then request decision
+        if(battleActor is AIBattleActor) {
+            //battleActor.battleAI.chooseMove(battle, battleActor, emptyList())
+            battle.writeShowdownAction(">${battleActor.showdownId} move ${Random.nextInt(1, 5)}")
+        } else if(battleActor is PlayerBattleActor) {
+            // TODO: Ask them for a input choice
+            taskBuilder().delay(1).execute {
+                battleActor.sendMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Pick A Move:"))
+                for(move in request.active[0].moves) {
+                    battleActor.sendMessage(moveComponent(battleActor.showdownId, move.move))
+                }
+            }.build()
+        }
+    }
+
+    private fun handleSwitchInstruction(battle: Battle, battleActor: BattleActor, publicMessage: String, privateMessage: String) {
+
+    }
+
+    private fun moveComponent(showdownId : String, moveName : String) : Component {
+        val style = Style.EMPTY
+            .withClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/say $moveName"))
+            .withColor(ChatFormatting.GREEN)
+        return TextComponent(" - $moveName").withStyle(style)
+        /*return TextComponent("[$moveName] ")
+            .setStyle(
+                Style.EMPTY
+                    .withClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "say $moveName"))
+                    .withColor(ChatFormatting.GREEN)
+            )*/
     }
 
 }
