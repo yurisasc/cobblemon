@@ -1,15 +1,14 @@
-package com.cablemc.pokemoncobbled.client.gui
+package com.cablemc.pokemoncobbled.client.gui.pokenav
 
+import com.cablemc.pokemoncobbled.client.gui.blitk
 import com.cablemc.pokemoncobbled.client.keybinding.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.platform.InputConstants
-import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.Button
-import net.minecraft.client.gui.components.ImageButton
 import net.minecraft.client.gui.screens.Screen
-import net.minecraft.client.renderer.GameRenderer
+import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.resources.ResourceLocation
 
@@ -17,55 +16,42 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
 
     companion object {
         // Limiting
-        private const val MAX_BUTTONS_PER_ROW = 4
-        private const val MAX_BUTTONS_PER_COLUMN = 3
+        private const val MAX_BUTTONS_PER_ROW = 3
+        private const val MAX_BUTTONS_PER_COLUMN = 2
         // Spacing between Button and Border / other Buttons
-        private const val SPACING = 10
+        private const val HORIZONTAL_SPACING = 8
+        private const val VERTICAL_SPACING = 26
         // Size of Background
-        private const val backgroundHeight = 130
-        private const val backgroundWidth = 130
+        private const val backgroundHeight = 125
+        private const val backgroundWidth = 218
         // Size of Buttons
-        private const val buttonHeight = 50
-        private const val buttonWidth = 50
+        private const val buttonHeight = 39
+        private const val buttonWidth = 64
         // Textures
-        private val background = cobbledResource("ui/pokenav/test.png")
-        private val pokedex = cobbledResource("ui/pokenav/pokedex.png")
-        private val bag = cobbledResource("ui/pokenav/bag.png")
-        private val question = cobbledResource("ui/pokenav/question.png")
-        private val selectionTexture = cobbledResource("ui/pokenav/selection.png")
+        private val background = cobbledResource("ui/pokenav/pokenav_base.png")
+        private val exit = cobbledResource("ui/pokenav/pokenav_exit.png")
+        private val pokemon = cobbledResource("ui/pokenav/pokenav_pokemon.png")
+        private val select = cobbledResource("ui/pokenav/pokenav_select.png")
     }
 
-    private val buttons = mutableListOf<PositionAwareImageButton>()
-    private lateinit var selection: ImageButton
+    private val buttons = mutableListOf<PokeNavImageButton>()
     private var currentSelectionPos: Pair<Int, Int> = Pair(0, 0)
     // ^ always start at the first entry
     private val rows = IntArray(MAX_BUTTONS_PER_COLUMN)
     private var aboutToClose = false
 
     override fun init() {
-        // Selection Button
-        selection = PositionAwareImageButton(
-            0, 0,
-            (width - backgroundWidth) / 2 + SPACING - 2, (height - backgroundHeight) / 2 + SPACING - 2,
-            buttonWidth + 4, buttonHeight + 4,
-            0, 0, 0,
-            selectionTexture, buttonWidth + 4, buttonHeight + 4
-        ) {}
+        buttons.clear()
+        // Pokemon Button
+        buttons.add(pokeNavImageButtonOf(0, 0, pokemon, this::onPressPokemon, TranslatableComponent("pokemoncobbled.ui.pokemon")))
 
-        // Pokedex Button
-        buttons.add(posImageButtonOf(0, 0, pokedex, this::onPressPokedex))
-
-        // Bag Button
-        buttons.add(posImageButtonOf(1, 0, bag, this::onPressBag))
-
-        // ? Button
-        buttons.add(posImageButtonOf(0, 1, question, this::onPressQuestion))
+        // EXIT Button
+        buttons.add(pokeNavImageButtonOf(1, 0, exit, this::onPressExit, TranslatableComponent("pokemoncobbled.ui.exit")))
 
         buttons.forEach { button ->
             rows[button.posY]++ // To know how many buttons are in one row
-            addRenderableOnly(button)
+            addRenderableWidget(button)
         }
-        addRenderableWidget(selection)
 
         super.init()
     }
@@ -134,9 +120,6 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
      * Change the currentSelection thingy to the position of another Button
      */
     private fun changeSelectionToPos(posX: Int, posY: Int) {
-        val newWidth = getWidthForPos(posX) - 2
-        val newHeight = getHeightFor(posY) - 2
-        selection.setPosition(newWidth, newHeight)
         currentSelectionPos = Pair(posX, posY)
     }
 
@@ -144,32 +127,33 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
      * Method for calculating the width based on the background, spacing and button position
      */
     private fun getWidthForPos(posX: Int): Int {
-        return (width - backgroundWidth) / 2 + (posX + 1) * SPACING + (posX) * buttonWidth
+        return (width - backgroundWidth) / 2 + (posX + 1) * HORIZONTAL_SPACING + posX * buttonWidth - if(posX != 0) 3 else 0
     }
 
     /**
      * Method for calculating the height based on the background, spacing and button position
      */
     private fun getHeightFor(posY: Int): Int {
-        return (height - backgroundHeight) / 2 + (posY + 1) * SPACING + (posY) * buttonHeight
+        return (height - backgroundHeight) / 2 + posY * buttonHeight + posY * VERTICAL_SPACING + if (posY == 0) 8 else 0
     }
 
     /**
      * To simplify creating PositionAwareImageButtons
      */
-    private fun posImageButtonOf(
+    private fun pokeNavImageButtonOf(
         posX: Int,
         posY: Int,
         resourceLocation: ResourceLocation,
-        onPress: Button.OnPress
-    ): PositionAwareImageButton {
-        return PositionAwareImageButton(
+        onPress: Button.OnPress,
+        component: Component
+    ): PokeNavImageButton {
+        return PokeNavImageButton(
             posX, posY,
             getWidthForPos(posX), getHeightFor(posY),
             buttonWidth, buttonHeight,
             0, 0, 0,
             resourceLocation, buttonWidth, buttonHeight,
-            onPress
+            onPress, component
         )
     }
 
@@ -177,16 +161,12 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
      * What should happen on Button press - START
      */
 
-    private fun onPressPokedex(button: Button) {
-        println("Pressed Pokedex")
+    private fun onPressPokemon(button: Button) {
+        println("Pressed Pokemon")
     }
 
-    private fun onPressBag(button: Button) {
-        println("Pressed Bag")
-    }
-
-    private fun onPressQuestion(button: Button) {
-        println("Pressed Question")
+    private fun onPressExit(button: Button) {
+        Minecraft.getInstance().setScreen(null)
     }
 
     /**
@@ -200,14 +180,22 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
         renderBackground(pMatrixStack)
 
         // Rendering UI Background
-        RenderSystem.setShader(GameRenderer::getPositionTexShader)
-        RenderSystem.setShaderTexture(0, background)
-        RenderSystem.enableDepthTest()
-        blit(pMatrixStack,
-            (width - backgroundWidth) / 2, (height - backgroundHeight) / 2,
-            0F, 0F, backgroundWidth, backgroundHeight, backgroundWidth, backgroundHeight)
+        blitk(
+            poseStack = pMatrixStack,
+            texture = background,
+            x = (width - backgroundWidth) / 2, y = (height - backgroundHeight) / 2,
+            width = backgroundWidth, height = backgroundHeight
+        )
 
         super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+
+        // Rendering Selection
+        blitk(
+            poseStack = pMatrixStack,
+            texture = select,
+            x = getWidthForPos(currentSelectionPos.first) + 2.55, y = getHeightFor(currentSelectionPos.second) + 2.45,
+            width = 59, height = 34.5
+        )
     }
 
     /**

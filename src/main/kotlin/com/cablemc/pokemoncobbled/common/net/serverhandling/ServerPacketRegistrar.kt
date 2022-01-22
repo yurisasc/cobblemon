@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.net.serverhandling
 
 import com.cablemc.pokemoncobbled.common.api.net.SidedPacketRegistrar
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SendOutPokemonHandler
+import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.RequestMoveSwapHandler
 
 /**
  * Registers packet handlers that the server will need. This is separated from the client ones
@@ -14,5 +15,6 @@ import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SendOutPokem
 object ServerPacketRegistrar : SidedPacketRegistrar() {
     override fun registerHandlers() {
         registerHandler(SendOutPokemonHandler)
+        registerHandler(RequestMoveSwapHandler)
     }
 }
