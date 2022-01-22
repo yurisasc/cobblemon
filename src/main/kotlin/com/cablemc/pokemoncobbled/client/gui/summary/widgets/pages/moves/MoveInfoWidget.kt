@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.moves
 
+import com.cablemc.pokemoncobbled.client.CobbledResources
 import com.cablemc.pokemoncobbled.client.gui.ColourLibrary
-import com.cablemc.pokemoncobbled.client.gui.Fonts
 import com.cablemc.pokemoncobbled.client.gui.MultiLineLabelK
 import com.cablemc.pokemoncobbled.client.gui.drawText
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.SoundlessWidget
@@ -24,7 +24,8 @@ class MoveInfoWidget(
         private val accuracyText = TranslatableComponent("pokemoncobbled.ui.accuracy")
         private val effectText = TranslatableComponent("pokemoncobbled.ui.effect")
 
-        private const val MOVE_INFO_SPACING = 12.25F
+        private const val MOVE_INFO_SPACING = 20.25F
+        private const val SCALE = 0.60F
 
         private val decimalFormat = DecimalFormat("#.##").also {
             it.roundingMode = RoundingMode.CEILING
@@ -33,39 +34,35 @@ class MoveInfoWidget(
 
     override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         pMatrixStack.pushPose()
-        pMatrixStack.scale(0.9F, 0.9F, 1F)
+        pMatrixStack.scale(SCALE, SCALE, 1F)
         drawText(
-            poseStack = pMatrixStack, font = Fonts.OSWALD_SMALL,
+            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = powerText.copy().append(TextComponent(": ${move.power.toInt()}")),
-            x = infoX / 0.9F, y = infoY / 0.9F,
+            x = infoX / SCALE + 0.5, y = infoY / SCALE + 2.25,
             colour = ColourLibrary.WHITE, shadow = false
         )
         drawText(
-            poseStack = pMatrixStack, font = Fonts.OSWALD_SMALL,
+            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = accuracyText.copy().append(TextComponent(": ${format(move.accuracy)}")),
-            x = infoX / 0.9F, y = infoY / 0.9F + MOVE_INFO_SPACING,
+            x = infoX / SCALE + 0.5, y = infoY / SCALE + MOVE_INFO_SPACING + 0.25,
             colour = ColourLibrary.WHITE, shadow = false
         )
         drawText(
-            poseStack = pMatrixStack, font = Fonts.OSWALD_SMALL,
+            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = effectText.copy().append(TextComponent(": ${format(move.effectChance)}")),
-            x = infoX / 0.9F, y = infoY / 0.9F + MOVE_INFO_SPACING * 2,
+            x = infoX / SCALE + 0.5, y = infoY / SCALE + MOVE_INFO_SPACING * 2 - 1.0,
             colour = ColourLibrary.WHITE, shadow = false
         )
-        /**
-         * static MultiLineLabel create(Font p_94346_, FormattedText p_94347_, int p_94348_, int p_94349_)
-         *                              ^ Font          ^ Component             ^ x size        ^ y spacing
-         */
-        //MultiLineLabel.create(Minecraft.getInstance().font, move.description, 30, 10).renderLeftAlignedNoShadow(pMatrixStack, 30, 30, 30, 30)
+
         MultiLineLabelK.create(
             component = move.description,
-            width = 175,
+            width = 185,
             maxLines = 4,
-            font = Fonts.OSWALD_SMALL
+            font = CobbledResources.NOTO_SANS_REGULAR
         ).renderLeftAligned(
             poseStack = pMatrixStack,
-            x = (infoX + 60.0) / 0.9, y = (infoY - 1.15) / 0.9,
-            ySpacing = 8.0 / 0.9,
+            x = (infoX + 65.0) / SCALE, y = (infoY) / SCALE + 1.5,
+            ySpacing = 8.0 / SCALE,
             colour = ColourLibrary.WHITE, shadow = false
         )
         pMatrixStack.popPose()
