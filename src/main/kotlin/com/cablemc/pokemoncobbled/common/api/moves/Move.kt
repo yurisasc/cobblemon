@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component
 /**
  * Representing a Move with all its attributes
  */
-class Move(
+open class Move(
     var currentPp: Int,
     val maxPp: Int,
     val template: MoveTemplate

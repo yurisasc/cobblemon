@@ -7,6 +7,8 @@ object DataKeys {
     const val POKEMON_FORM_ID = "FormId"
     const val POKEMON_LEVEL = "Level"
     const val POKEMON_STATS = "Stats"
+    const val POKEMON_IVS = "IVs"
+    const val POKEMON_EVS = "EVs"
     const val POKEMON_HEALTH = "Health"
     const val POKEMON_SCALE_MODIFIER = "ScaleModifier"
     const val POKEMON_MOVESET = "MoveSet"
@@ -26,5 +28,10 @@ object DataKeys {
     const val STORE_SLOT_COUNT = "SlotCount"
     const val STORE_BOX = "Box"
     const val STORE_BOX_COUNT = "BoxCount"
+
+    const val REQUEST_TYPE = "RequestType"
+    const val REQUEST_BATTLE_ID = "RequestBattleId"
+    const val REQUEST_BATTLE_START = "StartBattle"
+    const val REQUEST_MESSAGES = "RequestMessages"
 
 }
