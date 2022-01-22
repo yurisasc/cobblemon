@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages
 
-import com.cablemc.pokemoncobbled.client.gui.Fonts
+import com.cablemc.pokemoncobbled.client.CobbledResources
+import com.cablemc.pokemoncobbled.client.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.client.gui.drawCenteredText
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.gui.components.Button
@@ -14,14 +15,28 @@ class SummarySwitchButton(
 ): Button(pX, pY, pWidth, pHeight, component, onPress) {
 
     companion object {
-        private const val HOVER_COLOUR = 0xB5C42F
-        private const val NORMAL_COLOUR = 0xFFFFFF
+        private const val SCALE = 0.75F
     }
 
     override fun renderButton(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        pPoseStack.pushPose()
+        pPoseStack.scale(SCALE, SCALE, SCALE)
         if(isHovered())
-            drawCenteredText(pPoseStack, Fonts.OSWALD, component, x + width / 2, y, HOVER_COLOUR)
+            drawCenteredText(
+                poseStack = pPoseStack,
+                font = CobbledResources.NOTO_SANS_BOLD,
+                text = component,
+                x = (x + width / 2) / SCALE - 0.1, y = y / SCALE,
+                colour = ColourLibrary.BUTTON_HOVER_COLOUR
+            )
         else
-            drawCenteredText(pPoseStack, Fonts.OSWALD, component, x + width / 2, y, NORMAL_COLOUR)
+            drawCenteredText(
+                poseStack = pPoseStack,
+                font = CobbledResources.NOTO_SANS_BOLD,
+                text = component,
+                x = (x + width / 2) / SCALE - 0.1, y = y / SCALE,
+                colour = ColourLibrary.BUTTON_NORMAL_COLOUR
+            )
+        pPoseStack.popPose()
     }
 }
