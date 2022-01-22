@@ -19,9 +19,9 @@ object ShowdownReadCommand {
     }
 
     private fun execute(context: CommandContext<CommandSourceStack>) : Int {
-        val input = PokemonCobbledMod.showdown.read()
-        context.source.playerOrException.sendMessage(TextComponent(input ?: "No input"), Util.NIL_UUID)
-        println(input ?: "No input")
+        //val input = PokemonCobbledMod.showdown.read()
+        //context.source.playerOrException.sendMessage(TextComponent(input ?: "No input"), Util.NIL_UUID)
+        //println(input ?: "No input")
         return Command.SINGLE_SUCCESS
     }
 

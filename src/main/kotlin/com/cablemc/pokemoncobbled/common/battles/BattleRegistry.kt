@@ -29,13 +29,13 @@ object BattleRegistry {
         jsonArray.add(""">start {"formatid":"${battle.format}"}""")
 
         // -> Add the players and team
-        for(subject in battle.subjects) {
-            jsonArray.add(""">player ${subject.showdownId} {"name":"${subject.gameId}","team":"${subject.party.packTeam()}"}""")
+        for(actor in battle.actors) {
+            jsonArray.add(""">player ${actor.showdownId} {"name":"${actor.gameId}","team":"${actor.party.packTeam()}"}""")
         }
 
         // -> Set team size
-        for(subject in battle.subjects) {
-            jsonArray.add(""">${subject.showdownId} team ${subject.party.count()}""")
+        for(actor in battle.actors) {
+            jsonArray.add(""">${actor.showdownId} team ${actor.party.count()}""")
         }
 
         // Compiles the request and sends it off
@@ -44,6 +44,10 @@ object BattleRegistry {
         request.addProperty(DataKeys.REQUEST_BATTLE_ID, battle.battleId.toString())
         request.add(DataKeys.REQUEST_MESSAGES, jsonArray)
         PokemonCobbledMod.showdown.write(gson.toJson(request))
+    }
+
+    fun getBattle(id: UUID) : Battle? {
+        return battleMap[id]
     }
 
 }

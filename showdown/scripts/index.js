@@ -48,7 +48,12 @@ server.on('connection', function (socket) {
                         // TODO: Add a way to cancel battle earlier and close stream
                         (async () => {
                             for await (const output of battleStream) {
-                                socket.write(output)
+                                socket.write(request.RequestBattleId + "{SOT}" + output + "{EOT}")
+                                console.log('Sending data out');
+                                console.log('===================================');
+                                console.log(output);
+                                console.log('===================================');
+                                console.log();
                             }
                         })();
                         break;

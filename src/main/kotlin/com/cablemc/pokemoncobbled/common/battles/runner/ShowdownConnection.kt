@@ -4,9 +4,10 @@ interface ShowdownConnection {
     fun open()
     fun close()
     fun write(input: String)
-    fun read(): String?
+    fun read(messageHandler: (String) -> Unit)
 
     companion object {
         val lineEnder: String = "{EOT}"
+        val lineStarter: String = "{SOT}"
     }
 }

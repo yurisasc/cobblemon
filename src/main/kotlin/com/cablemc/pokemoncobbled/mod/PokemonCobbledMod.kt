@@ -13,9 +13,11 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Captu
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskListener
+import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
+import com.cablemc.pokemoncobbled.common.battles.ShowdownInterpreter
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.event.InteractListener
@@ -65,6 +67,16 @@ object PokemonCobbledMod {
         LOGGER.info("Initializing...")
         showdown = StandardShowdownConnection(InetAddress.getLocalHost(), 25567)
         showdown.open()
+
+        // Read messages every 10 ticks TODO: move off of this as this is client side
+        taskBuilder()
+            .infiniteIterations()
+            .interval(10)
+            .execute {
+                showdown.read(ShowdownInterpreter::interpretMessage)
+            }
+            .identifier("ShowdownReadingTask")
+            .build()
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")

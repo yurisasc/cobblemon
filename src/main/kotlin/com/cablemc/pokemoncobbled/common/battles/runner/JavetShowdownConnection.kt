@@ -32,12 +32,13 @@ class JavetShowdownConnection : ShowdownConnection {
         writer.flush()
     }
 
-    override fun read(): String? {
-        return try {
-            reader.readLine()
-        } catch (exception: IOException) {
-            null
-        }
+    override fun read(messageHandler: (String) -> Unit) {
+        // TODO: Add a command buffering system and do like standard showdown connection
+//        return try {
+//            reader.readLine()
+//        } catch (exception: IOException) {
+//            null
+//        }
     }
 
     /**

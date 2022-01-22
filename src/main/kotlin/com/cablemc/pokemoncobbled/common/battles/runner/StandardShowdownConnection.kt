@@ -13,6 +13,7 @@ class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnecti
     private lateinit var socket: Socket
     private lateinit var writer: OutputStreamWriter
     private lateinit var reader: BufferedReader
+    private var data = ""
 
     override fun open() {
         socket = Socket(InetAddress.getLocalHost(), 25567, InetAddress.getLocalHost(), 25566)
@@ -29,18 +30,20 @@ class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnecti
         writer.flush()
     }
 
-    override fun read(): String? {
-        return try {
-            var data = ""
+    override fun read(messageHandler: (String) -> Unit) {
+        try {
             while (reader.ready()) {
                 val char = reader.read()
                 if (char > -1) {
                     data += char.toChar()
+                    if(data.endsWith(ShowdownConnection.lineEnder)) {
+                        messageHandler(data.replace(ShowdownConnection.lineEnder, ""))
+                        data = ""
+                    }
                 }
             }
-            data
         } catch (exception: IOException) {
-            null
+            exception.printStackTrace()
         }
     }
 }
