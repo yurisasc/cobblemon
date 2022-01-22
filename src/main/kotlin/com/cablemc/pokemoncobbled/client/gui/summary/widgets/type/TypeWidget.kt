@@ -1,11 +1,10 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.type
 
+import com.cablemc.pokemoncobbled.client.gui.blitk
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.network.chat.Component
 
 abstract class TypeWidget(
@@ -16,14 +15,17 @@ abstract class TypeWidget(
 
     companion object {
         private val typeResource = cobbledResource("ui/types.png")
+        private const val OFFSET = 0.5
     }
 
     fun renderType(type: ElementalType, pPoseStack: PoseStack, pX: Int = x, pY: Int = y) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader)
-        RenderSystem.setShaderTexture(0, typeResource)
-        blit(
-            pPoseStack, pX, pY,
-            width * type.textureXMultiplier.toFloat(), 0F, width, height , width * 18, height
+        blitk(
+            poseStack = pPoseStack,
+            texture = typeResource,
+            x = pX + OFFSET, y = pY,
+            width = width, height = height,
+            uOffset = width * type.textureXMultiplier.toFloat() + 0.1,
+            textureWidth = width * 18
         )
     }
 
