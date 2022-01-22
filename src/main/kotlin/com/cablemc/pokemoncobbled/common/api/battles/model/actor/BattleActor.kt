@@ -9,4 +9,8 @@ open class BattleActor(
     val party: PartyStore
 ) {
 
+    open fun getName() : String {
+        return "Bob"
+    }
+
 }

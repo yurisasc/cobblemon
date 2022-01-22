@@ -12,13 +12,8 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.ChatFormatting
-import net.minecraft.Util
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.network.chat.ClickEvent
-import net.minecraft.network.chat.Style
-import net.minecraft.network.chat.TextComponent
 import net.minecraft.server.level.ServerPlayer
 import java.util.*
 
@@ -49,14 +44,6 @@ object TestCommand {
         pokemon.moveSet.setMove(3, Moves.AURA_SPHERE.create())
         enemyParty.add(pokemon)
         val enemySubject = PokemonBattleActor("p2", enemyId, enemyParty, RandomBattleAI())
-
-        val test = TextComponent(" - Testing")
-        val style = test.style
-            .withClickEvent(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/say Testing"))
-            .withColor(ChatFormatting.GREEN)
-        test.style = style
-        player.sendMessage(test, Util.NIL_UUID)
-        player.sendMessage(TextComponent("hello").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)), Util.NIL_UUID)
 
         // Start the battle
         BattleRegistry.startBattle(playerSubject, enemySubject)
