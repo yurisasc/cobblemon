@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.client.gui.summary.widgets.pages.moves
 
+import com.cablemc.pokemoncobbled.client.CobbledResources
 import com.cablemc.pokemoncobbled.client.gui.ColourLibrary
-import com.cablemc.pokemoncobbled.client.gui.Fonts
 import com.cablemc.pokemoncobbled.client.gui.blitk
 import com.cablemc.pokemoncobbled.client.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.client.gui.summary.widgets.SoundlessWidget
@@ -83,7 +83,7 @@ class MoveWidget(
         pMatrixStack.scale(0.6F, 0.6F, 0.6F)
         drawCenteredText(
             poseStack = pMatrixStack,
-            font = Fonts.OSWALD_SMALL,
+            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = TextComponent("${move.currentPp} / ${move.maxPp}"),
             x = (x + width / 2) / 0.6 + 3, y = (y + 23) / 0.6 + 1,
             colour = ColourLibrary.WHITE, shadow = false
@@ -93,13 +93,25 @@ class MoveWidget(
         // Render Type Icon
         typeWidget.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
 
+        // Render Damage Category
+        val dmgCatWidth = 25.00
+        val dmgCatHeight = 7.5
+        blitk(
+            poseStack = pMatrixStack,
+            texture = move.damageCategory.resourceLocation,
+            x = x + 25.25, y = y + 12,
+            width = dmgCatWidth, height = dmgCatHeight,
+            vOffset = dmgCatHeight * move.damageCategory.textureXMultiplier,
+            textureHeight = dmgCatHeight * 3
+        )
+
         // Render Move Name
         pMatrixStack.pushPose()
-        pMatrixStack.scale(0.5F, 0.5F, 0.5F)
+        pMatrixStack.scale(0.4F, 0.4F, 0.4F)
         drawCenteredText(
-            poseStack = pMatrixStack, font = Fonts.OSWALD,
+            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD,
             text = move.displayName,
-            x = (x + 85) / 0.5F, y = y / 0.5F + 14,
+            x = (x + 88.55) / 0.4F, y = y / 0.4F + 19,
             colour = MOVE_NAME_COLOUR, shadow = false
         )
         pMatrixStack.popPose()
