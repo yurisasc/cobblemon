@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen
+import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.resources.ResourceLocation
 
@@ -27,10 +28,10 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
         private const val buttonHeight = 39
         private const val buttonWidth = 64
         // Textures
-        private val background = cobbledResource("ui/pokenav/base.png")
-        private val exit = cobbledResource("ui/pokenav/exit.png")
-        private val pokemon = cobbledResource("ui/pokenav/pokemon.png")
-        private val select = cobbledResource("ui/pokenav/select.png")
+        private val background = cobbledResource("ui/pokenav/pokenav_base.png")
+        private val exit = cobbledResource("ui/pokenav/pokenav_exit.png")
+        private val pokemon = cobbledResource("ui/pokenav/pokenav_pokemon.png")
+        private val select = cobbledResource("ui/pokenav/pokenav_select.png")
     }
 
     private val buttons = mutableListOf<PokeNavImageButton>()
@@ -42,10 +43,10 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     override fun init() {
         buttons.clear()
         // Pokemon Button
-        buttons.add(pokeNavImageButtonOf(0, 0, pokemon, this::onPressPokemon))
+        buttons.add(pokeNavImageButtonOf(0, 0, pokemon, this::onPressPokemon, TranslatableComponent("pokemoncobbled.ui.pokemon")))
 
         // EXIT Button
-        buttons.add(pokeNavImageButtonOf(1, 0, exit, this::onPressExit))
+        buttons.add(pokeNavImageButtonOf(1, 0, exit, this::onPressExit, TranslatableComponent("pokemoncobbled.ui.exit")))
 
         buttons.forEach { button ->
             rows[button.posY]++ // To know how many buttons are in one row
@@ -143,7 +144,8 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
         posX: Int,
         posY: Int,
         resourceLocation: ResourceLocation,
-        onPress: Button.OnPress
+        onPress: Button.OnPress,
+        component: Component
     ): PokeNavImageButton {
         return PokeNavImageButton(
             posX, posY,
@@ -151,7 +153,7 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
             buttonWidth, buttonHeight,
             0, 0, 0,
             resourceLocation, buttonWidth, buttonHeight,
-            onPress
+            onPress, component
         )
     }
 
