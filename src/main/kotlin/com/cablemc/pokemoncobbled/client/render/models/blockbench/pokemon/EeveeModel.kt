@@ -22,6 +22,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.util.Mth
+import net.minecraft.world.phys.Vec3
 
 class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFrame, QuadrupedFrame {
     override val rootPart = registerRelevantPart("eevee", root.getChild("eevee"))
@@ -164,5 +165,7 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     }
 
     override val profileScale: Float
-        get() = 1F
+        get() = 2.5F
+    override val profileTranslation: Vec3
+        get() = Vec3(0.0, 0.55, 0.0)
 }
