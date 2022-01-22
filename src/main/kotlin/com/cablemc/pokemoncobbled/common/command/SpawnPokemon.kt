@@ -11,10 +11,10 @@ import net.minecraft.commands.Commands
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 
-object PokeSpawn {
+object SpawnPokemon {
 
     fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
-        val command = Commands.literal("pokespawn")
+        val command = Commands.literal("spawnpokemon")
             .requires { it.hasPermission(4) }
             .then(
                 Commands.argument("pokemon", PokemonArgumentType.pokemon())
