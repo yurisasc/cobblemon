@@ -9,7 +9,7 @@ import net.minecraft.nbt.CompoundTag
 /**
  * Holds a mapping from a Stat to value that should be reducible to a short for NBT and net.
  */
-class PokemonStats : HashMap<Stat, Int>() {
+open class PokemonStats : HashMap<Stat, Int>() {
     @Transient
     private val statObservables = mutableMapOf<Stat, SimpleObservable<Int>>()
     /** Emits any stat change. */

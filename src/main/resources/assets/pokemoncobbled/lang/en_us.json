@@ -49,5 +49,25 @@
   "pokemoncobbled.move.air_slash":  "Air Slash",
   "pokemoncobbled.move.air_slash.desc":  "The user attacks with a blade of air that slices even the sky. This may also make the target flinch.",
   "pokemoncobbled.move.aura_sphere":  "Aura Sphere",
-  "pokemoncobbled.move.aura_sphere.desc":  "The user lets loose a blast of aura power from deep within its body at the target. This attack never misses."
+  "pokemoncobbled.move.aura_sphere.desc":  "The user lets loose a blast of aura power from deep within its body at the target. This attack never misses.",
+
+  "pokemoncobbled.ui.pokemonteam": "Pokémon Team",
+  "pokemoncobbled.ui.lv": "Lv.",
+
+  "pokemoncobbled.species.bulbasaur.name": "Bulbasaur",
+  "pokemoncobbled.species.ivysaur.name": "Ivysaur",
+  "pokemoncobbled.species.venusaur.name": "Venusaur",
+  "pokemoncobbled.species.charmander.name": "Charmander",
+  "pokemoncobbled.species.charmeleon.name": "Charmeleon",
+  "pokemoncobbled.species.charizard.name": "Charizard",
+  "pokemoncobbled.species.squirtle.name": "Squirtle",
+  "pokemoncobbled.species.wartortle.name": "Wartortle",
+  "pokemoncobbled.species.blastoise.name": "Blastoise",
+  "pokemoncobbled.species.ekans.name": "Ekans",
+  "pokemoncobbled.species.zubat.name": "Zubat",
+  "pokemoncobbled.species.diglett.name": "Diglett",
+  "pokemoncobbled.species.dugtrio.name": "Dugtrio",
+  "pokemoncobbled.species.magikarp.name": "Magikarp",
+  "pokemoncobbled.species.gyarados.name": "Gyarados",
+  "pokemoncobbled.species.eevee.name": "Eevee"
 }

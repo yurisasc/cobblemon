@@ -13,21 +13,22 @@ import net.minecraft.world.phys.AABB
 
 class ChunkSpawner {
 
-    private val limit = 1
+    private val limit = 5
     private val track: MutableList<PokemonEntity> = mutableListOf()
 
     fun trySpawn(chunk: LevelChunk) {
         // Temp hack fix to stop over spawning
         val zone = AABB(chunk.pos.getMiddleBlockPosition(80)).inflate(100.0)
-        if(chunk.level.getEntities(null, zone).filter { it is PokemonEntity }.size > 20)
+        if (chunk.level.getEntities(null, zone).count { it is PokemonEntity } > limit)
             return
 
-        if(track.size <= limit) {
+        if (track.size <= limit) {
             val pos = getRandomPosWithin(chunk.level, chunk)
 
             val possibleSpawns = BiomeHelper.possibleSpawns(chunk.level.getBiome(pos))
-            if/*space*/(possibleSpawns.isEmpty())
+            if (possibleSpawns.isEmpty()) {
                 return
+            }
 
             spawn(possibleSpawns.random(), pos, chunk.level)
         }

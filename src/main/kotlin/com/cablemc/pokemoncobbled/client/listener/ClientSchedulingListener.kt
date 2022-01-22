@@ -12,7 +12,8 @@ import net.minecraftforge.fml.LogicalSide
 object ClientSchedulingListener {
     @SubscribeEvent
     fun on(event: ClientPlayerNetworkEvent.LoggedOutEvent) {
-        ScheduledTaskTracker.clear()
+        // Reinstate
+        //ScheduledTaskTracker.clear()
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

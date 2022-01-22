@@ -29,11 +29,14 @@ fun blitk(
     textureWidth: Number = width,
     textureHeight: Number = height,
     blitOffset: Number = 0,
+    red: Number = 1,
+    green: Number = 1,
+    blue: Number = 1,
     alpha: Number = 1F
 ) {
     RenderSystem.setShader { GameRenderer.getPositionTexShader() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
-    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha.toFloat())
+    RenderSystem.setShaderColor(red.toFloat(), green.toFloat(), blue.toFloat(), alpha.toFloat())
     RenderSystem.enableBlend()
     RenderSystem.defaultBlendFunc()
     RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)

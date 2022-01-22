@@ -70,6 +70,9 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
         tail.yRot = Mth.sin(clientDelegate.animTick * 6 * Math.PI.toFloat() / 180) * Math.PI.toFloat() / 7
     }
 
+    override val portraitScale = 1.55F
+    override val portraitTranslation = Vec3(-0.15, 0.2, 0.0)
+
     companion object {
         private const val TAIL_ANIMATION_TOTAL = 60F
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("eevee"), "main")

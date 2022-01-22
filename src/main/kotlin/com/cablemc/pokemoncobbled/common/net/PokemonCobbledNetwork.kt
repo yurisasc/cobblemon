@@ -8,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.Move
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
@@ -73,6 +74,7 @@ object PokemonCobbledNetwork {
         buildClientMessage<MovePartyPokemonPacket>()
         buildClientMessage<SwapPartyPokemonPacket>()
         buildClientMessage<SetPartyReferencePacket>()
+        buildClientMessage<PokemonStateUpdatePacket>()
 
         // UI Packets
         buildClientMessage<SummaryUIPacket>()

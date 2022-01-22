@@ -13,6 +13,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.Leve
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
 
 /**
@@ -27,6 +28,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
     override fun registerHandlers() {
         registerHandler<LevelUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<SpeciesUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<PokemonStateUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<ShinyUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<NatureUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<MoveSetUpdatePacket>(SingleUpdatePacketHandler())

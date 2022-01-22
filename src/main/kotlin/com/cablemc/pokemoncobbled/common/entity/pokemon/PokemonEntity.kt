@@ -1,10 +1,12 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
@@ -45,7 +47,9 @@ class PokemonEntity(
         PokemonServerDelegate()
     }
 
-    var isBeingCaptured = false
+    val busyLocks = mutableListOf<Any>()
+    val isBusy: Boolean
+        get() = busyLocks.isNotEmpty()
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
@@ -59,7 +63,7 @@ class PokemonEntity(
     // properties like the above are synced and can be subscribed to changes for on either side
 
     init {
-        this.pokemon = pokemon.also { it.entity = this }
+        this.pokemon = pokemon
         delegate.initialize(this)
     }
 
@@ -102,13 +106,8 @@ class PokemonEntity(
 
     public override fun registerGoals() {
         goalSelector.addGoal(0, object : Goal() {
-            override fun canUse(): Boolean {
-                return this@PokemonEntity.phasingTargetId.get() != -1
-            }
-
-            override fun getFlags(): EnumSet<Flag> {
-                return EnumSet.allOf(Flag::class.java)
-            }
+            override fun canUse() = this@PokemonEntity.phasingTargetId.get() != -1
+            override fun getFlags() = EnumSet.allOf(Flag::class.java)
         })
         goalSelector.addGoal(1, WaterAvoidingRandomStrollGoal(this, speed.toDouble()))
         goalSelector.addGoal(2, LookAtPlayerGoal(this, Player::class.java, 5F))
@@ -131,21 +130,33 @@ class PokemonEntity(
         return true
     }
 
-    override fun mobInteract(player : Player, hand : InteractionHand) : InteractionResult {
+    override fun mobInteract(player: Player, hand: InteractionHand) : InteractionResult {
         // TODO: Move to proper pokemon interaction menu
         if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
-            if (canSitOnShoulder() && player is ServerPlayer) {
-                // TODO: Check ownership as well
+            if (canSitOnShoulder() && player is ServerPlayer && !isBusy) {
                 val store = pokemon.storeCoordinates.get()?.store
                 if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
-                    this.setEntityOnShoulder(player)
+                    val dirToPlayer = player.eyePosition.subtract(position()).multiply(1.0, 0.0, 1.0).normalize()
+                    deltaMovement = dirToPlayer.scale(0.8).add(0.0, 0.5, 0.0)
+                    val lock = Any()
+                    busyLocks.add(lock)
+                    after(seconds = 0.5F) {
+                        busyLocks.remove(lock)
+                        if (!isBusy && isAlive) {
+                            val isLeft = player.shoulderEntityLeft.isEmpty
+                            if (!isLeft || player.shoulderEntityRight.isEmpty) {
+                                pokemon.state = ShoulderedState(player.uuid, isLeft)
+                                this.setEntityOnShoulder(player)
+                            }
+                        }
+                    }
                 }
             }
         }
         return super.mobInteract(player, hand)
     }
 
-    override fun getDimensions(pPose: Pose): EntityDimensions {
+    override fun getDimensions(pose: Pose): EntityDimensions {
         val scale = pokemon.form.baseScale * pokemon.scaleModifier
         return pokemon.form.hitbox.scale(scale)
     }
