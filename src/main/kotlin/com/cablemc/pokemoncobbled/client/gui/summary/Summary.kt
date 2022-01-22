@@ -114,7 +114,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         // Add Buttons to change Pages - START
         addRenderableWidget(
             SummarySwitchButton(
-                pX = x + 3, pY = y + 4,
+                pX = x + 3, pY = y + 6,
                 pWidth = 55, pHeight =  17,
                 component = TranslatableComponent("pokemoncobbled.ui.info")
             ) {
@@ -122,7 +122,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         })
         addRenderableWidget(
             SummarySwitchButton(
-                pX = x + 62, pY = y + 4,
+                pX = x + 62, pY = y + 6,
                 pWidth = 55, pHeight = 17,
                 component = TranslatableComponent("pokemoncobbled.ui.moves")
             ) {
@@ -130,7 +130,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         })
         addRenderableWidget(
             SummarySwitchButton(
-                pX = x + 121, pY = y + 4,
+                pX = x + 121, pY = y + 6,
                 pWidth = 55, pHeight = 17,
                 component = TranslatableComponent("pokemoncobbled.ui.stats")
             ) {
