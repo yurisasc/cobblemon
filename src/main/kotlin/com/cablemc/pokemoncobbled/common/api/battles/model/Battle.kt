@@ -28,7 +28,7 @@ class Battle(
      * Gets an actor by their game id
      * @return the actor if found otherwise null
      */
-    fun getActor(gameId: UUID) : BattleActor? {
-        return actors.find { actor -> actor.gameId == gameId }
+    fun getActor(actorId: UUID) : BattleActor? {
+        return actors.find { actor -> actor.gameId == actorId }
     }
 }

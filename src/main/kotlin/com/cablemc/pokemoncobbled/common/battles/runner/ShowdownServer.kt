@@ -9,11 +9,8 @@ object ShowdownServer {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        println("1")
         val runtime = V8Host.getNodeInstance().createV8Runtime<V8Runtime>()
-        println("2")
         runtime.use { it.getExecutor(Path(args[0])).execute<V8Value>().close() }
-        println("3")
     }
 
 }
