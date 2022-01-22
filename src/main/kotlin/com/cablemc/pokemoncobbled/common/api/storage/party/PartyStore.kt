@@ -15,7 +15,6 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.google.gson.JsonObject
-import joptsimple.internal.Strings
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
 import java.util.UUID
@@ -186,17 +185,21 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
             // Ability
             packedTeamBuilder.append("${pokemon.ability.name.replace("_", "")}|")
             // Moves
-            packedTeamBuilder.append("${Strings.join(pokemon.moveSet.getMoves().map { move -> move.name.replace("_", "") }, ",")}|")
+            packedTeamBuilder.append(
+                "${
+                    pokemon.moveSet.getMoves().map { move -> move.name.replace("_", "") }.joinToString(",")
+                }|"
+            )
             // Nature
             packedTeamBuilder.append("${pokemon.nature.name.path}|")
             // EVs
-            packedTeamBuilder.append("${Strings.join(pokemon.evs.map { ev -> ev.value.toString() }, ",")}|")
+            packedTeamBuilder.append("${pokemon.evs.map { ev -> ev.value }.joinToString(",")}|")
             // Gender TODO: Replace with actual gender variable
             packedTeamBuilder.append("M|")
             // IVs
-            packedTeamBuilder.append("${Strings.join(pokemon.ivs.map { iv -> iv.value.toString() }, ",")}|")
+            packedTeamBuilder.append("${pokemon.ivs.map { iv -> iv.value }.joinToString(",")}|")
             // Shiny
-            packedTeamBuilder.append("${if(pokemon.shiny) "S" else ""}|")
+            packedTeamBuilder.append("${if (pokemon.shiny) "S" else ""}|")
             // Level
             packedTeamBuilder.append("${pokemon.level}|")
             // Happiness TODO: Replace with actual happiness variable
@@ -208,7 +211,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
 
             team.add(packedTeamBuilder.toString())
         }
-        return Strings.join(team, "]")
+        return team.joinToString("]")
     }
 
     override fun getAnyChangeObservable(): Observable<Unit> = anyChangeObservable
