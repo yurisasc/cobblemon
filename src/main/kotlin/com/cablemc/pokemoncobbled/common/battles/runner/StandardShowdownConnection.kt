@@ -14,15 +14,18 @@ class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnecti
     private lateinit var writer: OutputStreamWriter
     private lateinit var reader: BufferedReader
     private var data = ""
+    private var closed: Boolean = false
 
     override fun open() {
         socket = Socket(InetAddress.getLocalHost(), 25567, InetAddress.getLocalHost(), 25566)
+        socket.keepAlive = true
         writer = socket.getOutputStream().writer(charset = Charset.forName("ascii"))
         reader = BufferedReader(InputStreamReader(socket.getInputStream()))
     }
 
     override fun close() {
         socket.close()
+        closed = true
     }
 
     override fun write(input: String) {
@@ -45,5 +48,13 @@ class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnecti
         } catch (exception: IOException) {
             exception.printStackTrace()
         }
+    }
+
+    override fun isClosed(): Boolean {
+        return closed
+    }
+
+    override fun isConnected(): Boolean {
+        return socket.isConnected
     }
 }

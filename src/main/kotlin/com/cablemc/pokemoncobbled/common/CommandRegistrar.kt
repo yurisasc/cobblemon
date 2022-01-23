@@ -9,11 +9,7 @@ object CommandRegistrar {
     fun on(event: RegisterCommandsEvent) {
         PokeSpawn.register(event.dispatcher)
         GivePokemon.register(event.dispatcher)
-        ShowdownWriteCommand.register(event.dispatcher)
-        ShowdownReadCommand.register(event.dispatcher)
         ChangeScaleAndSize.register(event.dispatcher)
         TestCommand.register(event.dispatcher)
-        MoveCommand.register(event.dispatcher)
-        SwitchCommand.register(event.dispatcher)
     }
 }
