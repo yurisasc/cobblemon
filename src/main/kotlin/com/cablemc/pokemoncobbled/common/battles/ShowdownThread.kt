@@ -16,13 +16,13 @@ class ShowdownThread : Thread() {
         var tries = 0
 
         // If connection fails, wait another two seconds
-        while(!attemptConnection() && tries < 5) {
+        while (!attemptConnection() && tries < 5) {
             tries++
             sleep(2000)
         }
 
         // Max attempts
-        if(tries == 5) {
+        if (tries == 5) {
             PokemonCobbledMod.LOGGER.error("Failed to connect to showdown after 5 tries.")
             Minecraft.getInstance().close()
         }
@@ -33,18 +33,18 @@ class ShowdownThread : Thread() {
         tries = 0
 
         // While showdown is not closed, continue to check connection and read messages
-        while(!PokemonCobbledMod.showdown.isClosed()) {
+        while (!PokemonCobbledMod.showdown.isClosed()) {
             val showdown = PokemonCobbledMod.showdown
 
             // Attempt reconnection if not connected
-            if(!showdown.isConnected()) {
-                while(!attemptConnection() && tries < 5) {
+            if (!showdown.isConnected()) {
+                while (!attemptConnection() && tries < 5) {
                     tries++
                     sleep(2000)
                 }
 
                 // Max attempts
-                if(tries == 5) {
+                if (tries == 5) {
                     PokemonCobbledMod.LOGGER.error("Failed to connect to showdown after 5 tries.")
                     Minecraft.getInstance().close()
                 }
