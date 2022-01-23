@@ -138,8 +138,4 @@ object PokemonCobbledMod {
             }
         }
     }
-
-    private fun launchShowdownReader() {
-
-    }
 }
