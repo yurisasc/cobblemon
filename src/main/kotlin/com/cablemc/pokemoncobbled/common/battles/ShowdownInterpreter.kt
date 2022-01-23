@@ -118,7 +118,7 @@ object ShowdownInterpreter {
      * RATING is unused currently
      */
     private fun handlePlayerInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Player Instruction")
+
     }
 
     /**
@@ -130,7 +130,7 @@ object ShowdownInterpreter {
      * NUMBER is number of Pokemon your opponent starts with for team preview.
      */
     private fun handleTeamSizeInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Team Size Instruction")
+
     }
 
     /**
@@ -141,14 +141,7 @@ object ShowdownInterpreter {
      * GAMETYPE is singles, doubles, triples, multi, and or freeforall
      */
     private fun handleGameTypeInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Game Type Instruction")
 
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Type:"))
-
-        val tierName = message.split("|gametype|")[1]
-        var textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
-        battle.broadcastChatMessage(textComponent)
-        battle.broadcastChatMessage(TextComponent(""))
     }
 
     /**
@@ -160,7 +153,7 @@ object ShowdownInterpreter {
      * Let's Go counts as 7, and modded formats count as whatever gen they were based on.
      */
     private fun handleGenInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Gen Instruction")
+
     }
 
     /**
@@ -171,14 +164,7 @@ object ShowdownInterpreter {
      * FORMATNAME is the name of the format being played.
      */
     private fun handleTierInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Tier Instruction")
 
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Tier:"))
-
-        val tierName = message.split("|tier|")[1]
-        var textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
-        battle.broadcastChatMessage(textComponent)
-        battle.broadcastChatMessage(TextComponent(""))
     }
 
     /**
@@ -191,7 +177,7 @@ object ShowdownInterpreter {
      * Does not actually mean the game is rated.
      */
     private fun handleRatedInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Rated Instruction")
+
     }
 
     /**
@@ -202,17 +188,7 @@ object ShowdownInterpreter {
      * RULE is a rule and its description
      */
     private fun handleRuleInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Rule Instruction")
 
-        if(battle.announcingRules == false) {
-            battle.announcingRules = true
-            var textComponent = TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Rules:")
-            battle.broadcastChatMessage(textComponent)
-        }
-
-        val rule = message.split("|rule|")[1]
-        var textComponent = TextComponent("${ChatFormatting.GRAY} - ${rule}")
-        battle.broadcastChatMessage(textComponent)
     }
 
     /**
@@ -222,7 +198,7 @@ object ShowdownInterpreter {
      * Marks the start of Team Preview
      */
     private fun handleClearPokeInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Clear Poke Instruction")
+
     }
 
     /**
@@ -236,30 +212,7 @@ object ShowdownInterpreter {
      * ITEM will be a item if the pokemon is holding an item or blank if it isn't
      */
     private fun handlePokeInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Poke Instruction")
 
-        val args = message.split("|")
-        val showdownId = args[2]
-        val pokemon = args[3]
-
-        val targetActor = battle.getActor(showdownId)
-
-        if(targetActor == null) {
-            PokemonCobbledMod.LOGGER.info("No actor could be found with the showdown id: $showdownId")
-            return
-        }
-
-        if(targetActor is PlayerBattleActor) {
-            if(targetActor.announcingPokemon == false) {
-                battle.broadcastChatMessage(TextComponent(""))
-                targetActor.announcingPokemon = true
-                var textComponent = TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Your Team:")
-                targetActor.sendMessage(textComponent)
-            }
-
-            var textComponent = TextComponent("${ChatFormatting.YELLOW} - ${pokemon}")
-            battle.broadcastChatMessage(textComponent)
-        }
     }
 
     /**
@@ -277,7 +230,7 @@ object ShowdownInterpreter {
      * Indicates that the game has started.
      */
     private fun handleStartInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Start Instruction")
+
     }
 
     /**
@@ -287,9 +240,7 @@ object ShowdownInterpreter {
      * It is now turn NUMBER.
      */
     private fun handleTurnInstruction(battle: Battle, message: String) {
-        battle.broadcastChatMessage(TextComponent(""))
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.AQUA}" + ">>> ${ChatFormatting.BOLD}It is now turn " + message.split("|turn|")[1]))
-        battle.broadcastChatMessage(TextComponent(""))
+
     }
 
     /**
@@ -299,95 +250,34 @@ object ShowdownInterpreter {
      * The Pokémon POKEMON has fainted.
      */
     private fun handleFaintInstruction(battle: Battle, message: String) {
-        val player = message.split("|faint|")[1].substring(0, 2)
-        val pokemon = message.split("|faint|")[1].split(" ")[1]
-        val actor = battle.getActor(player)
 
-        battle.broadcastChatMessage(TextComponent(""))
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.RED}" + ">>> ${ChatFormatting.BOLD}${actor!!.getName()}'s $pokemon has fainted!"))
-        battle.broadcastChatMessage(TextComponent(""))
     }
 
+    /**
+     * Format:
+     * |win|GAMEUUID
+     */
     private fun handleWinInstruction(battle: Battle, message: String) {
-        val id = message.split("|win|")[1]
-        val actor = battle.getActor(UUID.fromString(id))
 
-        battle.broadcastChatMessage(TextComponent(""))
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}" + ">>> ${ChatFormatting.BOLD}${actor!!.getName()} has won the battle!!"))
-        battle.broadcastChatMessage(TextComponent(""))
-
-        BattleRegistry.closeBattle(battle)
     }
 
     // |move|p1a: Charizard|Tackle|p2a: Magikarp
     private fun handleMoveInstruction(battle: Battle, message: String) {
-        var editMessaged = message.replace("|move|", "")
 
-        val playerA = editMessaged.split("|")[0].substring(0, 2)
-        val pokemonA = editMessaged.split("|")[0].split(" ")[1]
-        val actorA = battle.getActor(playerA)
-
-        val playerB = editMessaged.split("|")[2].substring(0, 2)
-        val pokemonB = editMessaged.split("|")[2].split(" ")[1]
-        val actorB = battle.getActor(playerB)
-
-        val move = editMessaged.split("|")[1].split("|")[0]
-        battle.broadcastChatMessage(TextComponent(""))
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.YELLOW}" + ">>> ${ChatFormatting.BOLD}${actorA!!.getName()}'s $pokemonA has used $move on ${actorB!!.getName()}'s $pokemonB!!"))
     }
 
     private fun handleCantInstruction(battle: Battle, message: String) {
-        var editMessaged = message.replace("|cant|", "")
 
-        val playerA = editMessaged.split("|")[0].substring(0, 2)
-        val pokemonA = editMessaged.split("|")[0].split(" ")[1]
-        val actorA = battle.getActor(playerA)
-
-        val action = editMessaged.split("|")[1]
-        val actionText = if(action == "flinch") "flinched" else action
-
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.RED}" + ">>> ${ChatFormatting.BOLD}${actorA!!.getName()}'s $pokemonA has $actionText"))
     }
 
-
-        /**
+    /**
      * Format:
      * |request|REQUEST
      *
      * The protocol message to tell you that it's time for you to make a decision is:
      */
     private fun handleRequestInstruction(battle: Battle, battleActor: BattleActor, message: String) {
-        PokemonCobbledMod.LOGGER.info("Request Instruction")
 
-        if(message.contains("teamPreview"))
-            return
-
-        // Parse Json message and update state info for actor
-        val request: ShowdownActionRequest = BattleRegistry.gson.fromJson(message.split("|request|")[1], ShowdownActionRequest::class.java)
-
-        // Then request decision
-        if(battleActor is AIBattleActor) {
-            //battleActor.battleAI.chooseMove(battle, battleActor, emptyList())
-            battle.writeShowdownAction(">${battleActor.showdownId} move ${Random.nextInt(1, 5)}")
-        } else if(battleActor is PlayerBattleActor) {
-            // TODO: Ask them for a input choice
-
-            // Force switch to toggle
-            if(message.contains("forceSwitch")) {
-                battleActor.sendMessage(TextComponent(""))
-                battleActor.sendMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Switch your Pokemon! (/switch <1-3>)"))
-            } else {
-                taskBuilder().delay(1).execute {
-                    battleActor.sendMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Pick A Move: (/move <1-4>)"))
-
-                    var i = 1;
-                    for(move in request.active[0].moves) {
-                        battleActor.sendMessage(TextComponent("$i. ${move.move}"))
-                        i++
-                    }
-                }.build()
-            }
-        }
     }
 
     private fun handleSwitchInstruction(battle: Battle, battleActor: BattleActor, publicMessage: String, privateMessage: String) {
