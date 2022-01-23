@@ -3,6 +3,11 @@ package com.cablemc.pokemoncobbled.common.net
 import com.cablemc.pokemoncobbled.common.api.event.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
@@ -10,7 +15,9 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.Remov
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
@@ -49,7 +56,18 @@ object PokemonCobbledNetwork {
     fun register() {
         EntityDataSerializers.registerSerializer(Vec3DataSerializer)
 
-        buildClientMessage<PokemonUpdatePacket>()
+        /**
+         * Client Packets
+         */
+
+        // Pokemon Update Packets
+        buildClientMessage<LevelUpdatePacket>()
+        buildClientMessage<MoveSetUpdatePacket>()
+        buildClientMessage<NatureUpdatePacket>()
+        buildClientMessage<ShinyUpdatePacket>()
+        buildClientMessage<SpeciesUpdatePacket>()
+
+        // Storage Packets
         buildClientMessage<InitializePartyPacket>()
         buildClientMessage<SetPartyPokemonPacket>()
         buildClientMessage<RemovePartyPokemonPacket>()
@@ -58,7 +76,16 @@ object PokemonCobbledNetwork {
         buildClientMessage<SetPartyReferencePacket>()
         buildClientMessage<PokemonStateUpdatePacket>()
 
+        // UI Packets
+        buildClientMessage<SummaryUIPacket>()
+
+        /**
+         * Server Packets
+         */
+
+        // Storage Packets
         buildServerMessage<SendOutPokemonPacket>()
+        buildServerMessage<RequestMoveSwapPacket>()
     }
 
     private inline fun <reified P : NetworkPacket> buildClientMessage() = buildMessage<P>(NetworkDirection.PLAY_TO_CLIENT)

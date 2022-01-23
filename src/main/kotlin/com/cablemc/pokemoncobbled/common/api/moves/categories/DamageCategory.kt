@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.moves.categories
 
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
@@ -13,6 +14,7 @@ import net.minecraft.resources.ResourceLocation
 class DamageCategory(
     val name: String,
     val displayName: Component,
-    val resourceLocation: ResourceLocation
+    val textureXMultiplier: Int,
+    val resourceLocation: ResourceLocation = cobbledResource("ui/categories.png")
 ) {
 }

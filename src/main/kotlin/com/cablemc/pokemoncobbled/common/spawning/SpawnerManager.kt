@@ -18,16 +18,15 @@ object SpawnerManager {
 
     @SubscribeEvent
     fun on(event: TickEvent.WorldTickEvent) {
-        return
-        if/*space*/(event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
+        if (event.phase == TickEvent.Phase.START && event.side == LogicalSide.SERVER) {
             val level = event.world as ServerLevel
             val chunkSrc = level.chunkSource
             chunkSrc.chunkMap.chunks.forEach { chunkHolder ->
                 chunkHolder.tickingChunk?.let { chunk ->
                     val pos = chunk.pos
-                    if/*space*/(level.isPositionEntityTicking(pos) && !chunkSrc.chunkMap.noPlayersCloseForSpawning(pos)) {
+                    if (level.isPositionEntityTicking(pos) && !chunkSrc.chunkMap.noPlayersCloseForSpawning(pos)) {
                         val spawner: ChunkSpawner
-                        if/*space*/(chunkSpawners.containsKey(chunk))
+                        if (chunkSpawners.containsKey(chunk))
                             spawner = chunkSpawners[chunk]!!
                         else {
                             spawner = ChunkSpawner()
@@ -37,7 +36,7 @@ object SpawnerManager {
                         spawner.trySpawn(chunk)
 
                     } else {
-                        if/*space*/(chunkSpawners.containsKey(chunk)) {
+                        if (chunkSpawners.containsKey(chunk)) {
                             chunkSpawners.remove(chunk)
                         }
                     }
@@ -48,17 +47,15 @@ object SpawnerManager {
 
     @SubscribeEvent
     fun on(event: EntityLeaveWorldEvent) {
-        if/*space*/(event.entity is PokemonEntity)
+        if (event.entity is PokemonEntity) {
             chunkSpawners.forEach { (_, spawner) ->
                 spawner.update()
             }
+        }
     }
 
     @SubscribeEvent
     fun on(event: ChunkEvent.Unload) {
-        val chunk = event.chunk as LevelChunk
-        if/*space*/(chunkSpawners.containsKey(chunk)) {
-            chunkSpawners[chunk]?.despawn()
-        }
+        chunkSpawners[event.chunk as LevelChunk]?.despawn()
     }
 }
