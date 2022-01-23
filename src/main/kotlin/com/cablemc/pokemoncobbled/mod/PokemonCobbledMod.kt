@@ -6,7 +6,6 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.Pok
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.common.battles.runner.StandardShowdownConnection
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
@@ -17,6 +16,8 @@ import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.battles.ShowdownInterpreter
+import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
+import com.cablemc.pokemoncobbled.common.battles.runner.JavetShowdownConnection
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
@@ -26,6 +27,7 @@ import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifServer
+import kotlinx.coroutines.Job
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -54,6 +56,7 @@ object PokemonCobbledMod {
     lateinit var showdown: ShowdownConnection //TODO: Move to more appropriate place
     var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
     var isDedicatedServer = false
+    var showdownThread: ShowdownThread = ShowdownThread()
 
     init {
         with(MOD_CONTEXT.getKEventBus()) {
@@ -69,18 +72,8 @@ object PokemonCobbledMod {
 
     fun initialize(event: FMLCommonSetupEvent) {
         LOGGER.info("Initializing...")
-        showdown = StandardShowdownConnection(InetAddress.getLocalHost(), 25567)
-        showdown.open()
 
-        // Read messages every 10 ticks TODO: move off of this as this is client side
-        taskBuilder()
-            .infiniteIterations()
-            .interval(10)
-            .execute {
-                showdown.read(ShowdownInterpreter::interpretMessage)
-            }
-            .identifier("ShowdownReadingTask")
-            .build()
+        showdownThread.start()
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
