@@ -23,9 +23,10 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.server.level.ServerPlayer
-import net.minecraftforge.fmllegacy.network.NetworkDirection
-import net.minecraftforge.fmllegacy.network.NetworkRegistry
-import net.minecraftforge.fmllegacy.network.PacketDistributor
+import net.minecraftforge.network.NetworkDirection
+import net.minecraftforge.network.NetworkRegistry
+import net.minecraftforge.network.PacketDistributor
+
 
 /**
  * Registers Pokémon Cobbled packets. Packet handlers are set up on handling the [MessageBuiltEvent] dispatched from here.

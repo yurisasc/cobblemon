@@ -10,9 +10,10 @@ import com.cablemc.pokemoncobbled.common.util.subscribeOnServer
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod.LOGGER
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
+import net.minecraftforge.event.server.ServerStartingEvent
+import net.minecraftforge.event.server.ServerStoppingEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent
-import net.minecraftforge.fmlserverevents.FMLServerStoppingEvent
+
 import java.util.UUID
 import java.util.concurrent.Executors
 
@@ -98,7 +99,7 @@ open class FileBackedPokemonStoreFactory<S>(
 
     var passedTicks = 0
     @SubscribeEvent
-    fun onServerStarted(event: FMLServerStartingEvent) {
+    fun onServerStarted(event: ServerStartingEvent) {
         if (saveExecutor.isShutdown) {
             saveExecutor = Executors.newSingleThreadExecutor()
         }
@@ -117,7 +118,7 @@ open class FileBackedPokemonStoreFactory<S>(
     }
 
     @SubscribeEvent
-    fun onServerStopping(event: FMLServerStoppingEvent) {
+    fun onServerStopping(event: ServerStoppingEvent) {
         saveAll()
         saveExecutor.shutdown()
     }
