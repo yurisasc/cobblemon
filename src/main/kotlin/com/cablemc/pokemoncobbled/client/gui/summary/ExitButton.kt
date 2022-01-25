@@ -20,7 +20,7 @@ class ExitButton(
 
     override fun renderButton(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
-        if(isHovered()) {
+        if(isHovered) {
             blitk(
                 poseStack = pMatrixStack,
                 x = x + 0.7F, y = y + 1.25F,

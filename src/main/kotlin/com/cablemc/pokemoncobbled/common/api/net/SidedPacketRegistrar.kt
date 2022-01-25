@@ -3,8 +3,9 @@ package com.cablemc.pokemoncobbled.common.api.net
 import com.cablemc.pokemoncobbled.common.api.event.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fmllegacy.network.NetworkEvent
-import net.minecraftforge.fmllegacy.network.simple.SimpleChannel
+import net.minecraftforge.network.NetworkEvent
+import net.minecraftforge.network.simple.SimpleChannel
+
 import java.util.function.Supplier
 
 /**

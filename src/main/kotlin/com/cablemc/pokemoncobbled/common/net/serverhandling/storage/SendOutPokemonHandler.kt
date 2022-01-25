@@ -10,7 +10,7 @@ import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.toVec3
 import com.cablemc.pokemoncobbled.common.util.traceBlockCollision
 import net.minecraft.core.Direction
-import net.minecraftforge.fmllegacy.network.NetworkEvent
+import net.minecraftforge.network.NetworkEvent
 
 object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
     override fun invoke(packet: SendOutPokemonPacket, ctx: NetworkEvent.Context) {

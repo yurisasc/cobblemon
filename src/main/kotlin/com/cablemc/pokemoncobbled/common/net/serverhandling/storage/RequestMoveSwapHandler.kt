@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.net.serverhandling.storage
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
-import net.minecraftforge.fmllegacy.network.NetworkEvent
+import net.minecraftforge.network.NetworkEvent
 
 object RequestMoveSwapHandler: PacketHandler<RequestMoveSwapPacket> {
     override fun invoke(packet: RequestMoveSwapPacket, ctx: NetworkEvent.Context) {
