@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation
  * @author Hiroku
  * @since January 24th, 2022
  */
-open class SpawningCondition {
+abstract class SpawningCondition<T : SpawningContext> {
     lateinit var type: String
     val dimensions: MutableList<ResourceLocation> = mutableListOf()
     val biomes = BiomeList()
@@ -27,8 +27,17 @@ open class SpawningCondition {
     var minLight: Int? = null
     var maxLight: Int? = null
 
-    open fun contextClass() = SpawningContext::class.java
-    open fun fits(ctx: SpawningContext): Boolean {
+    abstract fun contextClass(): Class<out T>
+
+    fun satisfiedBy(ctx: SpawningContext): Boolean {
+        return if (contextClass().isAssignableFrom(ctx::class.java)) {
+            fits(ctx as T)
+        } else {
+            false
+        }
+    }
+
+    protected open fun fits(ctx: T): Boolean {
         if (ctx.position.x < minX.orMin() || ctx.position.x > maxX.orMax()) {
             return false
         } else if (ctx.position.y < minY.orMin() || ctx.position.y > maxY.orMax()) {
@@ -44,7 +53,6 @@ open class SpawningCondition {
         } else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
             return false
         }
-
 
         return true
     }
