@@ -25,6 +25,7 @@ import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
+import com.cablemc.pokemoncobbled.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifServer
 import kotlinx.coroutines.Job
@@ -43,7 +44,9 @@ import net.minecraftforge.eventbus.api.BusBuilder
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.DistExecutor
+import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import org.apache.logging.log4j.LogManager
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
@@ -68,6 +71,8 @@ object PokemonCobbledMod {
             ItemRegistry.register(this)
             SoundRegistry.register(this)
         }
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CobbledConfig.spec)
     }
 
     fun initialize(event: FMLCommonSetupEvent) {
