@@ -4,11 +4,11 @@ import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import net.minecraft.util.thread.BlockableEventLoop
 import net.minecraft.world.level.Level
 import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.common.util.LogicalSidedProvider
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.util.thread.EffectiveSide
-import net.minecraftforge.fmllegacy.LogicalSidedProvider
-import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks
+import net.minecraftforge.server.ServerLifecycleHooks
 import java.util.concurrent.CompletableFuture
 
 /** Runs the given [Runnable] if the caller is on the CLIENT side. */
@@ -41,7 +41,7 @@ fun getServer() = ServerLifecycleHooks.getCurrentServer()
 /** If you are not Pokémon Cobbled, don't touch this. If you end up doing client side stuff, you'll probably break stuff. */
 internal fun <T> runOnSide(side: LogicalSide, block: () -> T): CompletableFuture<T> {
     val future = CompletableFuture<T>()
-    LogicalSidedProvider.WORKQUEUE.get<BlockableEventLoop<*>>(side).submit { future.complete(block()) }
+    LogicalSidedProvider.WORKQUEUE.get(side).submit { future.complete(block()) }
     return future
 }
 

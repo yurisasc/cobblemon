@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.client.net
 
+import com.cablemc.pokemoncobbled.client.net.gui.SummaryUIPacketHandler
 import com.cablemc.pokemoncobbled.client.net.pokemon.update.SingleUpdatePacketHandler
 import com.cablemc.pokemoncobbled.client.net.storage.party.InitializePartyHandler
 import com.cablemc.pokemoncobbled.client.net.storage.party.MovePartyPokemonHandler
@@ -9,6 +10,10 @@ import com.cablemc.pokemoncobbled.client.net.storage.party.SetPartyReferenceHand
 import com.cablemc.pokemoncobbled.client.net.storage.party.SwapPartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.api.net.SidedPacketRegistrar
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
 
 /**
@@ -23,12 +28,17 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
     override fun registerHandlers() {
         registerHandler<LevelUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<SpeciesUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<PokemonStateUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<ShinyUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<NatureUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<MoveSetUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler(InitializePartyHandler)
         registerHandler(SetPartyPokemonHandler)
         registerHandler(MovePartyPokemonHandler)
         registerHandler(RemovePartyPokemonHandler)
         registerHandler(SwapPartyPokemonHandler)
         registerHandler(SetPartyReferenceHandler)
+        registerHandler(SummaryUIPacketHandler)
     }
 }
 

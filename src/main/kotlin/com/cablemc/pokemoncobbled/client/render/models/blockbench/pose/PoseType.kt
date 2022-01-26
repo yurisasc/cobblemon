@@ -18,6 +18,8 @@ enum class PoseType {
     SHOULDER_LEFT,
     /** A pose for rendering statelessly on the right shoulder. Stateless animations are given the player head yaw, pitch, and ageInTicks. */
     SHOULDER_RIGHT,
+    /** A pose for rendering in the SummaryUI */
+    PROFILE,
     /** A simple type for non-living entities or errant cases. */
     NONE
 }

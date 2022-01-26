@@ -22,6 +22,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.util.Mth
+import net.minecraft.world.phys.Vec3
 
 class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFrame, QuadrupedFrame {
     override val rootPart = registerRelevantPart("eevee", root.getChild("eevee"))
@@ -68,6 +69,9 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
         }
         tail.yRot = Mth.sin(clientDelegate.animTick * 6 * Math.PI.toFloat() / 180) * Math.PI.toFloat() / 7
     }
+
+    override val portraitScale = 1.55F
+    override val portraitTranslation = Vec3(-0.15, 0.2, 0.0)
 
     companion object {
         private const val TAIL_ANIMATION_TOTAL = 60F
@@ -162,4 +166,9 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
             return LayerDefinition.create(meshDefinition, 64, 64)
         }
     }
+
+    override val profileScale: Float
+        get() = 1.0F
+    override val profileTranslation: Vec3
+        get() = Vec3(0.0, 0.00, 0.0)
 }

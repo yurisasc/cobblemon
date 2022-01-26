@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.client.net
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.util.ifClient
-import net.minecraftforge.fmllegacy.network.NetworkEvent
+import net.minecraftforge.network.NetworkEvent
 
 /*
  * A packet handler which will queue and safely execute the invocation on the physical client thread.

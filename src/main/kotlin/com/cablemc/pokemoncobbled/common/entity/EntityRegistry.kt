@@ -12,9 +12,9 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.level.Level
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.eventbus.api.IEventBus
-import net.minecraftforge.fmllegacy.RegistryObject
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
+import net.minecraftforge.registries.RegistryObject
 
 object EntityRegistry {
     private val ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokemonCobbled.MODID)
