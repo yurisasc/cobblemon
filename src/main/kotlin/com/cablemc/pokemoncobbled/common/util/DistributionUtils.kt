@@ -4,11 +4,11 @@ import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import net.minecraft.util.thread.BlockableEventLoop
 import net.minecraft.world.level.Level
 import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.common.util.LogicalSidedProvider
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.util.thread.EffectiveSide
-import net.minecraftforge.fmllegacy.LogicalSidedProvider
-import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks
+import net.minecraftforge.server.ServerLifecycleHooks
 import java.util.concurrent.CompletableFuture
 
 /** Runs the given [Runnable] if the caller is on the CLIENT side. */

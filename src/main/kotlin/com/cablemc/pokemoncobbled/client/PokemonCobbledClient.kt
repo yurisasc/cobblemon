@@ -24,13 +24,13 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.player.Player
+import net.minecraftforge.client.ClientRegistry
 import net.minecraftforge.client.event.EntityRenderersEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fmlclient.registry.ClientRegistry
-import net.minecraftforge.fmllegacy.RegistryObject
+import net.minecraftforge.registries.RegistryObject
 
 object PokemonCobbledClient {
     val storage = ClientStorageManager()

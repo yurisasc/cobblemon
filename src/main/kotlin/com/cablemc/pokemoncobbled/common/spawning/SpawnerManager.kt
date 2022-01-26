@@ -24,7 +24,7 @@ object SpawnerManager {
             chunkSrc.chunkMap.chunks.forEach { chunkHolder ->
                 chunkHolder.tickingChunk?.let { chunk ->
                     val pos = chunk.pos
-                    if (level.isPositionEntityTicking(pos) && !chunkSrc.chunkMap.noPlayersCloseForSpawning(pos)) {
+                    if (level.isPositionEntityTicking(pos) && !chunkSrc.chunkMap.getPlayersCloseForSpawning(pos).isEmpty()) {
                         val spawner: ChunkSpawner
                         if (chunkSpawners.containsKey(chunk))
                             spawner = chunkSpawners[chunk]!!
