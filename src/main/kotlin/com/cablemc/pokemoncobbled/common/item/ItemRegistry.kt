@@ -4,9 +4,9 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import net.minecraft.world.item.Item
 import net.minecraftforge.eventbus.api.IEventBus
-import net.minecraftforge.fmllegacy.RegistryObject
 import net.minecraftforge.registries.DeferredRegister
 import net.minecraftforge.registries.ForgeRegistries
+import net.minecraftforge.registries.RegistryObject
 
 /**
  * Registry for cobbled items

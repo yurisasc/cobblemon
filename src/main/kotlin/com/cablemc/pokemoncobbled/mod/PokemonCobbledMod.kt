@@ -38,13 +38,13 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.event.ModelBakeEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent
+import net.minecraftforge.event.server.ServerStartingEvent
 import net.minecraftforge.eventbus.api.BusBuilder
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent
 import org.apache.logging.log4j.LogManager
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 import java.net.InetAddress
@@ -108,7 +108,7 @@ object PokemonCobbledMod {
     }
 
     @SubscribeEvent
-    fun onServerStarting(event: FMLServerStartingEvent) {
+    fun onServerStarting(event: ServerStartingEvent) {
         // TODO config options for default storage
         val pokemonStoreRoot = event.server.getWorldPath(LevelResource.PLAYER_DATA_DIR).parent.resolve("pokemon").toFile()
         PokemonStoreManager.registerFactory(
