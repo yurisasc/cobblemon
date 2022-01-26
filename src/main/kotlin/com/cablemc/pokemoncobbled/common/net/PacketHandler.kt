@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.net
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import net.minecraftforge.fmllegacy.network.NetworkEvent
+import net.minecraftforge.network.NetworkEvent
 
 /**
  * A simple packet handler as an SAM interface. If this packet handler is invoked, it

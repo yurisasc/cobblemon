@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.client.net.pokemon.update
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.client.net.ClientPacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
-import net.minecraftforge.fmllegacy.network.NetworkEvent
+import net.minecraftforge.network.NetworkEvent
 
 class SingleUpdatePacketHandler<T : PokemonUpdatePacket> : ClientPacketHandler<T> {
     override fun invokeOnClient(packet: T, ctx: NetworkEvent.Context) {

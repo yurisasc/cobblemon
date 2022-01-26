@@ -117,7 +117,7 @@ class MoveWidget(
         pMatrixStack.popPose()
 
         // Render Move Info
-        if(isHovered()) {
+        if(isHovered) {
             moveInfoWidget.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
         }
 
