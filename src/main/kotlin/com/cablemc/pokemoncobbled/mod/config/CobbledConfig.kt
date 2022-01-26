@@ -9,6 +9,7 @@ import kotlin.reflect.full.memberProperties
 
 object CobbledConfig {
 
+    /** Example usages:
     @Configurable(category="Numbers", name="Example Int", description = "This is an example Int")
     @IntValue(100)
     var testInt : ConfigValue<Int>? = null
@@ -28,6 +29,7 @@ object CobbledConfig {
     @Configurable(category="Non Numbers", name="Example Boolean", description = "This is an example Boolean")
     @BooleanValue(false)
     var testBoolean : ConfigValue<Boolean>? = null
+     */
 
     var spec: ForgeConfigSpec
 
