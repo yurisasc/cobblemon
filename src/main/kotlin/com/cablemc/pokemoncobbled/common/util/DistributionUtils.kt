@@ -41,7 +41,7 @@ fun getServer() = ServerLifecycleHooks.getCurrentServer()
 /** If you are not Pokémon Cobbled, don't touch this. If you end up doing client side stuff, you'll probably break stuff. */
 internal fun <T> runOnSide(side: LogicalSide, block: () -> T): CompletableFuture<T> {
     val future = CompletableFuture<T>()
-    LogicalSidedProvider.WORKQUEUE.get<BlockableEventLoop<*>>(side).submit { future.complete(block()) }
+    LogicalSidedProvider.WORKQUEUE.get(side).submit { future.complete(block()) }
     return future
 }
 
