@@ -16,5 +16,6 @@
     "width": 0.7,
     "height": 1.15,
     "fixed": false
-  }
+  },
+  "shoulderEffect": "light_source"
 }
