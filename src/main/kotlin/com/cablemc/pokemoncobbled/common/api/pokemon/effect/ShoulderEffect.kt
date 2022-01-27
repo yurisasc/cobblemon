@@ -12,6 +12,6 @@ import net.minecraft.server.level.ServerPlayer
 abstract class ShoulderEffect {
     abstract val name: String
 
-    abstract fun applyEffect(pokemonEntity: PokemonEntity, player: ServerPlayer)
-    abstract fun removeEffect(pokemonEntity: PokemonEntity, player: ServerPlayer)
+    abstract fun applyEffect(pokemonEntity: PokemonEntity?, player: ServerPlayer)
+    abstract fun removeEffect(pokemonEntity: PokemonEntity?, player: ServerPlayer)
 }
