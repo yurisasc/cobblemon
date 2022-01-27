@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.effect
 
+import com.cablemc.pokemoncobbled.common.api.pokemon.effect.effects.LightSourceEffect
+
 /**
  * Registry object for ShoulderEffects
  *
