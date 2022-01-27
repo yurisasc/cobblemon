@@ -31,6 +31,10 @@ object CobbledConfig {
     var testBoolean : ConfigValue<Boolean>? = null
      */
 
+    @Configurable(category = "Showdown", name="Auto Update", description = "Should the mods showdown get auto updated for you?")
+    @BooleanValue(true)
+    var autoUpdateShowdown : ConfigValue<Boolean>? = null
+
     var spec: ForgeConfigSpec
 
     init {
