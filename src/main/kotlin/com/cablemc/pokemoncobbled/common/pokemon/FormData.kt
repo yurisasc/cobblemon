@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.google.gson.annotations.SerializedName
@@ -26,7 +27,11 @@ data class FormData(
     @SerializedName("standardAbilities")
     private val _standardAbilities: List<AbilityTemplate>? = null,
     @SerializedName("hiddenAbility")
-    private val _hiddenAbility: AbilityTemplate? = null
+    private val _hiddenAbility: AbilityTemplate? = null,
+    @SerializedName("shoulderMountable")
+    private val _shoulderMountable: Boolean? = null,
+    @SerializedName("shoulderEffect")
+    private val _shoulderEffect: MutableList<ShoulderEffect>? = null
 ) {
     val baseStats: MutableMap<Stat, Int>
         get() = _baseStats ?: species.baseStats
@@ -50,6 +55,12 @@ data class FormData(
 
     val hiddenAbility: AbilityTemplate?
         get() = _hiddenAbility
+
+    val shoulderMountable: Boolean
+        get() = _shoulderMountable ?: species.shoulderMountable
+
+    val shoulderEffect: MutableList<ShoulderEffect>
+        get() = _shoulderEffect ?: species.shoulderEffect
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
