@@ -137,7 +137,7 @@ class PokemonEntity(
         if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
             if (canSitOnShoulder() && player is ServerPlayer && !isBusy) {
                 val store = pokemon.storeCoordinates.get()?.store
-                if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
+                if (store is PlayerPartyStore && store.playerUUID == player.uuid && pokemon.form.shoulderMountable) {
                     ShoulderMountEvent(
                         player = player,
                         pokemon = pokemon,
@@ -152,9 +152,9 @@ class PokemonEntity(
                             if (!isBusy && isAlive) {
                                 val isLeft = player.shoulderEntityLeft.isEmpty
                                 if (!isLeft || player.shoulderEntityRight.isEmpty) {
-                                    pokemon.state = ShoulderedState(player.uuid, isLeft)
+                                    pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
                                     this.setEntityOnShoulder(player)
-                                    this.pokemon.species.shoulderEffect?.applyEffect(this, player)
+                                    this.pokemon.form.shoulderEffect.forEach { it.applyEffect(this, player) }
                                 }
                             }
                         }
