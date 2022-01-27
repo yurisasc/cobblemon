@@ -17,5 +17,8 @@
     "height": 1.15,
     "fixed": false
   },
-  "shoulderEffect": "light_source"
+  "shoulderMountable": true,
+  "shoulderEffect": [
+    "light_source"
+  ]
 }
