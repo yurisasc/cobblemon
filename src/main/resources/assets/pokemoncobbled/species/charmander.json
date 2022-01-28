@@ -19,6 +19,9 @@
   },
   "shoulderMountable": true,
   "shoulderEffect": [
-    "light_source"
+    {
+      "type": "light_source",
+      "Test": "Baguette"
+    }
   ]
 }
