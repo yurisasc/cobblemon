@@ -26,3 +26,5 @@ forge*changelog.txt
 /src/main/resources/showdown/package-lock.json
 /src/main/resources/showdown/node_modules/
 /showdown/
+/src/main/resources/assets/pokemoncobbled/showdown/
+/logs/
