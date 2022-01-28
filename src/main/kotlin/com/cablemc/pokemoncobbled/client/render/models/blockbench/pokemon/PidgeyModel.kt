@@ -48,15 +48,30 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             condition = { it.isMoving.get() },
             transformTicks = 0,
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this),
                 SingleBoneLookAnimation(this),
                 rootPart.translation(
                     function = parabolaFunction(
-                        peak = -8F,
+                        peak = -4F,
                         period = 0.4F
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = TransformedModelPart.Y_AXIS
+                ),
+                leftLeg.rotation(
+                    function = sineFunction(
+                        amplitude = (-30F).toRadians(),
+                        period = 0.4F
+                    ),
+                    axis = TransformedModelPart.X_AXIS,
+                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
+                ),
+                rightLeg.rotation(
+                    function = sineFunction(
+                        amplitude = (-30F).toRadians(),
+                        period = 0.4F
+                    ),
+                    axis = TransformedModelPart.X_AXIS,
+                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 wingFlap(
                     flapFunction = sineFunction(
