@@ -21,6 +21,8 @@ object ShoulderEffectRegistry {
         }
     }
 
+    fun unregister(name: String) = effects.remove(get(name))
+
     fun get(name: String): ShoulderEffect? {
         return effects.find { it.name.equals(name, ignoreCase = true) }
     }
