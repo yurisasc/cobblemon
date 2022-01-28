@@ -86,7 +86,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     fun getModelTexture(pokemon: Pokemon): ResourceLocation {
         // TODO: This is just fetching by species at the moment. This will be developed further.
-        if(pokemon.shiny) {
+        if (pokemon.shiny) {
             return shinyModelTexturesBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate shiny model texture")
         }
         return modelTexturesBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate model texture")

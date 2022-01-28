@@ -42,10 +42,10 @@ object CobbledConfig {
 
         CobbledConfig::class.memberProperties.forEach {
             // Check for annotations
-            if(it.annotations.isEmpty() || it.annotations.size != 2) return@forEach
+            if (it.annotations.isEmpty() || it.annotations.size != 2) return@forEach
 
             // Look for first annotation
-            if(it.annotations[0] is Configurable) {
+            if (it.annotations[0] is Configurable) {
                 memberMap[ConfigurableNode(it.annotations[0] as Configurable, it.annotations[1])] = it as KMutableProperty1<CobbledConfig, ConfigValue<*>> // TODO: proper safety checking
             }
         }
@@ -58,13 +58,13 @@ object CobbledConfig {
             val configurable = node.configurable
 
             // For first entry
-            if(currentCategory == null) {
+            if (currentCategory == null) {
                 builder.push(configurable.category)
                 currentCategory = configurable.category
             }
 
             // Current category has changed, so pop and start the next
-            if(currentCategory != configurable.category) {
+            if (currentCategory != configurable.category) {
                 builder.pop()
                 builder.push(configurable.category)
                 currentCategory = configurable.category

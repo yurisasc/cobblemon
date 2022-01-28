@@ -14,7 +14,7 @@ class EVs : PokemonStats() {
         fun createEmpty() : EVs {
             val evs = EVs()
             // Initialize base empty values
-            for(stat in Stats.mainStats) {
+            for (stat in Stats.mainStats) {
                 evs[stat] = 0
             }
             return evs

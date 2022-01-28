@@ -17,14 +17,14 @@ class IVs : PokemonStats() {
             val ivs = IVs()
 
             // Initialize base random values
-            for(stat in Stats.mainStats) {
+            for (stat in Stats.mainStats) {
                 ivs[stat] = Random.nextInt(maxStatValue)
             }
 
             // Add in minimum perfect IVs
-            if(minPerfectIVs > 0) {
+            if (minPerfectIVs > 0) {
                 val perfectStats = Stats.mainStats.randomNoCopy(minPerfectIVs)
-                for(stat in perfectStats) {
+                for (stat in perfectStats) {
                     ivs[stat] = maxStatValue
                 }
             }

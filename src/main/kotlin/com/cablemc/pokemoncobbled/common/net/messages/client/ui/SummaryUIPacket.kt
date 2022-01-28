@@ -28,7 +28,7 @@ class SummaryUIPacket internal constructor(): NetworkPacket {
     override fun decode(buffer: FriendlyByteBuf) {
         editable = buffer.readBoolean()
         val amount = buffer.readInt()
-        for(i in 0 until amount) {
+        for (i in 0 until amount) {
             pokemonArray.add(Pokemon().loadFromBuffer(buffer))
         }
     }

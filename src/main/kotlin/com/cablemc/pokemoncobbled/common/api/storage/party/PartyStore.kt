@@ -174,7 +174,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
      */
     fun packTeam() : String {
         val team = mutableListOf<String>()
-        for(pokemon in this) {
+        for (pokemon in this) {
             val packedTeamBuilder = StringBuilder()
             // If no nickname, write species first and leave next blank
             packedTeamBuilder.append("${pokemon.species.name}|")

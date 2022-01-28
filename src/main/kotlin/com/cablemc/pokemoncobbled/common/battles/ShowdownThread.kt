@@ -27,22 +27,22 @@ class ShowdownThread : Thread() {
         val showdownMetadata = loadShowdownMetadata()
 
         // Check if showdown needs to be installed
-        if(!showdownDir.exists() || CobbledConfig.autoUpdateShowdown!!.get()) {
+        if (!showdownDir.exists() || CobbledConfig.autoUpdateShowdown!!.get()) {
             val showdownZip = File(showdownDir, "showdown.zip")
             val showdownMetadataFile = File(showdownDir, "showdown.json")
 
             var extract = true
 
-            if(showdownMetadataFile.exists()) {
+            if (showdownMetadataFile.exists()) {
                 val localShowdownMetadata = gson.fromJson<ShowdownMetadata>(InputStreamReader(FileInputStream(showdownMetadataFile)))
-                if(showdownMetadata!!.showdownVersion == localShowdownMetadata.showdownVersion) {
+                if (showdownMetadata!!.showdownVersion == localShowdownMetadata.showdownVersion) {
                     extract = false
                 } else {
                     showdownDir.renameTo(File("showdown-backup"))
                 }
             }
 
-            if(extract) {
+            if (extract) {
                 showdownDir = File("showdown")
                 showdownDir.mkdir()
                 ResourceLocation(PokemonCobbled.MODID, "showdown.zip").extractTo(showdownZip)

@@ -16,20 +16,20 @@ class NatureUpdatePacket(
 
     override fun set(pokemon: Pokemon, value: String) {
         // Check for removing mint
-        if(mintNature && value.isEmpty()) {
+        if (mintNature && value.isEmpty()) {
             pokemon.mintedNature = null
             return
         }
 
         val nature = Natures.getNature(cobbledResource(value))
         // Validate the nature locally
-        if(nature == null) {
+        if (nature == null) {
             PokemonCobbledMod.LOGGER.warn("A invalid nature of '$value' was attempted to be put onto: '$pokemon'")
             return
         }
 
         // Check which nature to modify
-        if(!mintNature) {
+        if (!mintNature) {
             pokemon.nature = nature
         } else {
             pokemon.mintedNature = nature

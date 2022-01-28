@@ -11,7 +11,7 @@ fun ResourceLocation.extractTo(directory : File) {
     }
     ifClient {
         val resource = Minecraft.getInstance().resourceManager.getResources(this).firstOrNull()
-        if(resource != null) {
+        if (resource != null) {
             Files.copy(resource.inputStream, directory.toPath())
         }
     }
