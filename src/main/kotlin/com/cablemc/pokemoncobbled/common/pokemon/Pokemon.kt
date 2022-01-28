@@ -15,12 +15,7 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
@@ -47,6 +42,8 @@ class Pokemon {
         set(value) { field = value ; _health.emit(value) }
     var level = 5
         set(value) { field = value ; _level.emit(value) }
+    var happiness = 0
+        set(value) { field = value ; _happiness.emit(value) }
     var state: PokemonState = InactivePokemonState()
         set(value) {
             if (field is ActivePokemonState) {
@@ -111,6 +108,8 @@ class Pokemon {
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
         nbt.putString(DataKeys.POKEMON_FORM_ID, form.name)
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
+        nbt.putShort(DataKeys.POKEMON_HAPPINESS, happiness.toShort())
+
         nbt.putShort(DataKeys.POKEMON_HEALTH, health.toShort())
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
         nbt.put(DataKeys.POKEMON_IVS, ivs.saveToNBT(CompoundTag()))
@@ -129,6 +128,7 @@ class Pokemon {
             ?: throw IllegalStateException("Tried to read a species with national PokéDex number ${nbt.getInt(DataKeys.POKEMON_SPECIES_DEX)}")
         form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.forms.first()
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
+        happiness = nbt.getShort(DataKeys.POKEMON_HAPPINESS).toInt()
         health = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
@@ -154,6 +154,7 @@ class Pokemon {
         json.addProperty(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber)
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.name)
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
+        json.addProperty(DataKeys.POKEMON_HAPPINESS, happiness)
         json.addProperty(DataKeys.POKEMON_HEALTH, health)
         json.add(DataKeys.POKEMON_STATS, stats.saveToJSON(JsonObject()))
         json.add(DataKeys.POKEMON_IVS, ivs.saveToJSON(JsonObject()))
@@ -170,6 +171,7 @@ class Pokemon {
             ?: throw IllegalStateException("Tried to read a species with national pokedex number ${json.get(DataKeys.POKEMON_SPECIES_DEX).asInt}")
         form = species.forms.find { it.name == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.forms.first()
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
+        happiness = json.get(DataKeys.POKEMON_HAPPINESS).asInt
         health = json.get(DataKeys.POKEMON_HEALTH).asInt
         stats.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_STATS))
         ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
@@ -190,6 +192,7 @@ class Pokemon {
         buffer.writeShort(species.nationalPokedexNumber)
         buffer.writeUtf(form.name)
         buffer.writeByte(level)
+        buffer.writeShort(happiness)
         buffer.writeShort(health)
         buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
         moveSet.saveToBuffer(buffer)
@@ -207,6 +210,7 @@ class Pokemon {
         val formId = buffer.readUtf()
         form = species.forms.find { it.name == formId } ?: species.forms.first()
         level = buffer.readUnsignedByte().toInt()
+        happiness = buffer.readUnsignedShort()
         health = buffer.readUnsignedShort()
         // TODO throw exception or dummy stat?
         buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
@@ -248,6 +252,7 @@ class Pokemon {
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
     private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
+    private val _happiness = registerObservable(SimpleObservable<Int>()) { HappinessUpdatePacket(this, it) }
     private val _health = SimpleObservable<Int>()
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
     private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
@@ -258,4 +263,23 @@ class Pokemon {
     fun getMoveSetObservable() = _moveSet
 
     fun getMaxHealth(): Int = (2 * stats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4) * level) / 100 + level + 10
+
+    private fun validHappiness (value : Int) : Boolean {
+        return value in 0..250
+    }
+    fun incrementHappiness (amount : Int) : Boolean {
+        val value = happiness + amount
+        if(validHappiness(value)){
+            happiness = value
+        }
+        return happiness == value
+    }
+
+    fun decrementHappiness (amount : Int) : Boolean {
+        val value = happiness - amount
+        if(validHappiness(value)){
+            happiness = value
+        }
+        return happiness == value
+    }
 }
