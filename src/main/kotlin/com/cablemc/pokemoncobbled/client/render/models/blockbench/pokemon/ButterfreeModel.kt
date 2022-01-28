@@ -6,9 +6,10 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.BiWinged
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.sineFunction
-import com.cablemc.pokemoncobbled.client.render.models.blockbench.wavefunction.triangleFunction
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.withRotation
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
@@ -31,7 +32,44 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 
     override fun registerPoses() {
         registerPose(
+            poseType = PoseType.NONE,
+            condition = { !it.isMoving.get() },
+            transformTicks = 3,
+            idleAnimations = arrayOf(
+                SingleBoneLookAnimation(this),
+                WingFlapIdleAnimation(
+                    frame = this,
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = Y_AXIS,
+                    flapFunction = sineFunction(
+                        amplitude = (-30F).toRadians(),
+                        period = 0.4F,
+                        verticalShift = (-35F).toRadians()
+                    )
+                ),
+                WingFlapIdleAnimation(
+                    frame = object : BiWingedFrame {
+                        override val leftWing = leftWingBack
+                        override val rightWing = rightWingBack
+                        override val rootPart = this@ButterfreeModel.rootPart
+                    },
+                    timeVariable = { state, _, _ -> state?.animationSeconds ?: 0F },
+                    axis = Y_AXIS,
+                    flapFunction = sineFunction(
+                        amplitude = (-30F).toRadians(),
+                        period = 0.4F,
+                        phaseShift = 0.00F,
+                        verticalShift = (-45F).toRadians()
+                    )
+                )
+            ),
+            transformedParts = arrayOf()
+        )
+
+        registerPose(
             poseType = PoseType.WALK,
+            condition = { it.isMoving.get() },
+            transformTicks = 3,
             idleAnimations = arrayOf(
                 SingleBoneLookAnimation(this),
                 WingFlapIdleAnimation(
@@ -41,7 +79,7 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
                     flapFunction = sineFunction(
                         amplitude = (-30F).toRadians(),
                         period = 0.3F,
-                        verticalShift = (-15F).toRadians()
+                        verticalShift = (-35F).toRadians()
                     )
                 ),
                 WingFlapIdleAnimation(
@@ -56,13 +94,11 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
                         amplitude = (-30F).toRadians(),
                         period = 0.3F,
                         phaseShift = 0.00F,
-                        verticalShift = (-20F).toRadians()
+                        verticalShift = (-45F).toRadians()
                     )
                 )
             ),
-            transformedParts = arrayOf(
-
-            )
+            transformedParts = arrayOf(rootPart.withRotation(X_AXIS, 20F.toRadians()))
         )
     }
 
