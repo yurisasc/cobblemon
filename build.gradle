@@ -32,7 +32,7 @@ apply from: 'https://raw.githubusercontent.com/thedarkcolour/KotlinForForge/site
 apply plugin: "maven-publish"
 apply plugin: 'org.spongepowered.mixin'
 
-version = '0.0.2'
+version = '0.0.1'
 group = 'com.cablemc.pokemoncobbled'
 archivesBaseName = 'PokemonCobbled'
 
