@@ -1,0 +1,20 @@
+{
+  "name": "pidgeotto",
+  "nationalPokedexNumber": 17,
+  "maleRatio": 0.50,
+  "baseStats": {
+    "hp": 63,
+    "attack": 60,
+    "defence": 55,
+    "special_attack": 50,
+    "special_defence": 50,
+    "speed": 71
+  },
+  "catchRate": 120,
+  "baseScale": 0.9,
+  "hitbox": {
+    "width": 0.7,
+    "height": 0.9,
+    "fixed": false
+  }
+}
