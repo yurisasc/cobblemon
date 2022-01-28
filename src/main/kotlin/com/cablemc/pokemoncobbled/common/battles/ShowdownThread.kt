@@ -22,7 +22,7 @@ class ShowdownThread : Thread() {
         .create()
 
     override fun run() {
-        var showdownDir = File("./showdown/")
+        var showdownDir = File("showdown/")
 
         val showdownMetadata = loadShowdownMetadata()
 
@@ -38,12 +38,12 @@ class ShowdownThread : Thread() {
                 if(showdownMetadata!!.showdownVersion == localShowdownMetadata.showdownVersion) {
                     extract = false
                 } else {
-                    showdownDir.renameTo(File("./showdown-backup/"))
+                    showdownDir.renameTo(File("showdown-backup"))
                 }
             }
 
             if(extract) {
-                showdownDir = File("./showdown/")
+                showdownDir = File("showdown")
                 showdownDir.mkdir()
                 ResourceLocation(PokemonCobbled.MODID, "showdown.zip").extractTo(showdownZip)
                 ResourceLocation(PokemonCobbled.MODID, "showdown.json").extractTo(showdownMetadataFile)

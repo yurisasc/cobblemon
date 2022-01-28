@@ -20,17 +20,11 @@ object FileUtils {
 
             // While the zip has more entries in it
             while (zipEntry != null) {
-                var isDirectory = false
-
-                // Check if the entry is a directory
-                if (zipEntry.name.endsWith(File.separator)) {
-                    isDirectory = true
-                }
 
                 // Verify the path to protect from "zip slip" exploit
                 val newPath: Path = checkPath(zipEntry, target)
 
-                if (!isDirectory) {
+                if (!zipEntry.isDirectory) {
                     // Check if a parent directory needs to be created
                     if (newPath.parent != null) {
                         if (Files.notExists(newPath.parent)) {
