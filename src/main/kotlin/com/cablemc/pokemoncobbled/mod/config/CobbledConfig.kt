@@ -96,9 +96,6 @@ object CobbledConfig {
             }
         }
 
-        // Pop after last entry
-        builder.pop()
-
         spec = builder.build()
     }
 

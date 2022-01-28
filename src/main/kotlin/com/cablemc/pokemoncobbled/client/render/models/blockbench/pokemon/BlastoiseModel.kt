@@ -43,25 +43,25 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     override fun registerPoses() {
         registerPose(
-                poseType = PoseType.WALK,
-                condition = { true },
-                idleAnimations = arrayOf(
-                        BipedWalkAnimation(this),
-                        BimanualSwingAnimation(this),
-                        SingleBoneLookAnimation(this),
-                        tail.rotation(
-                                function = sineFunction(
-                                        amplitude = 0.5F,
-                                        period = 5F
-                                ),
-                                axis = TransformedModelPart.Y_AXIS,
-                                timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-                        )
-                ),
-                transformedParts = arrayOf(
-                        leftArm.withRotation(2, 70f.toRadians()),
-                        rightArm.withRotation(2, (-70f).toRadians())
+            poseType = PoseType.WALK,
+            condition = { true },
+            idleAnimations = arrayOf(
+                BipedWalkAnimation(this),
+                BimanualSwingAnimation(this),
+                SingleBoneLookAnimation(this),
+                tail.rotation(
+                    function = sineFunction(
+                        amplitude = 0.5F,
+                        period = 5F
+                    ),
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 )
+            ),
+            transformedParts = arrayOf(
+                leftArm.withRotation(2, 70f.toRadians()),
+                rightArm.withRotation(2, (-70f).toRadians())
+            )
         )
     }
 

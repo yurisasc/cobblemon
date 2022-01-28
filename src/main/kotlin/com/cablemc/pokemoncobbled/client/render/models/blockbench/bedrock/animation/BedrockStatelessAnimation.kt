@@ -22,15 +22,15 @@ class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: Bed
     override val targetFrame: Class<ModelFrame> = ModelFrame::class.java
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        var animationTick = (entity?.let { model.getState(it).animationSeconds } ?: 0F).toDouble()
+        var animationSeconds = (entity?.let { model.getState(it).animationSeconds } ?: 0F).toDouble()
         if (animation.shouldLoop) {
-            animationTick %= animation.animationLength
+            animationSeconds %= animation.animationLength
         }
         animation.boneTimelines.forEach { (boneName, timeline) ->
             val part = model.relevantPartsByName[boneName]
             if (part != null) {
                 if (timeline.position.isNotEmpty()) {
-                    val position = interpolate(timeline.position, animationTick)
+                    val position = interpolate(timeline.position, animationSeconds)
                     part.modelPart.apply {
                         x += position.x.toFloat()
                         y += position.y.toFloat()
@@ -39,7 +39,7 @@ class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: Bed
                 }
 
                 if (timeline.rotation.isNotEmpty()) {
-                    val rotation = interpolate(timeline.rotation, animationTick)
+                    val rotation = interpolate(timeline.rotation, animationSeconds)
                     part.modelPart.apply {
                         xRot += rotation.x.toFloat().toRadians()
                         yRot += rotation.y.toFloat().toRadians()
