@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.mod
 
 import com.cablemc.pokemoncobbled.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
@@ -11,13 +12,10 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Captu
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskListener
-import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
-import com.cablemc.pokemoncobbled.common.battles.ShowdownInterpreter
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
-import com.cablemc.pokemoncobbled.common.battles.runner.JavetShowdownConnection
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
@@ -28,7 +26,6 @@ import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifServer
-import kotlinx.coroutines.Job
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -50,7 +47,6 @@ import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import org.apache.logging.log4j.LogManager
 import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
-import java.net.InetAddress
 
 @Mod(PokemonCobbled.MODID)
 object PokemonCobbledMod {
@@ -107,6 +103,7 @@ object PokemonCobbledMod {
     }
 
     fun onBake(event: ModelBakeEvent) {
+        BedrockAnimationRepository.clear()
         PokemonModelRepository.init()
         PokeBallModelRepository.init()
         PokemonCobbledClient.registerRenderers()
