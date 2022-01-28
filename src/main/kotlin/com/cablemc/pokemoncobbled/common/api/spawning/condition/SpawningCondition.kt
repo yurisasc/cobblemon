@@ -18,6 +18,7 @@ abstract class SpawningCondition<T : SpawningContext> {
     val dimensions: MutableList<ResourceLocation> = mutableListOf()
     val biomes = BiomeList()
     val moonPhase: Int? = null
+    var skyAbove: Boolean? = null
     var minX: Float? = null
     var minY: Float? = null
     var minZ: Float? = null
@@ -26,11 +27,13 @@ abstract class SpawningCondition<T : SpawningContext> {
     var maxZ: Float? = null
     var minLight: Int? = null
     var maxLight: Int? = null
+    var timeRange: TimeRange? = null
 
     abstract fun contextClass(): Class<out T>
+    fun contextMatches(ctx: SpawningContext) = contextClass().isAssignableFrom(ctx::class.java)
 
-    fun satisfiedBy(ctx: SpawningContext): Boolean {
-        return if (contextClass().isAssignableFrom(ctx::class.java)) {
+    fun isSatisfiedBy(ctx: SpawningContext): Boolean {
+        return if (contextMatches(ctx)) {
             fits(ctx as T)
         } else {
             false
@@ -51,6 +54,10 @@ abstract class SpawningCondition<T : SpawningContext> {
         } else if (biomes.isNotEmpty() && biomes.none { it != ctx.biome }) {
             return false
         } else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
+            return false
+        } else if (timeRange != null && timeRange!!.contains((ctx.level.dayTime() % 24000).toInt())) {
+            return false
+        } else if (skyAbove != null && skyAbove != ctx.skyAbove) {
             return false
         }
 

@@ -1,5 +1,8 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.context
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnDetail
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextInput
 import com.cablemc.pokemoncobbled.common.util.toBlockPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.biome.Biome
@@ -13,16 +16,43 @@ import net.minecraft.world.phys.Vec3
  * @since January 24th, 2022
  */
 abstract class SpawningContext {
+    companion object {
+        val contexts = mutableListOf<RegisteredSpawningContext<*>>()
+
+        fun getByName(name: String) = contexts.find { it.name == name }
+        fun <I : SpawningContextInput, T : SpawningContext> register(
+            name: String,
+            clazz: Class<T>,
+            calculator: SpawningContextCalculator<I, T>
+        ) {
+            contexts.add(
+                RegisteredSpawningContext(
+                    name = name,
+                    clazz = clazz,
+                    calculator = calculator
+                )
+            )
+        }
+    }
+
     /** What caused the spawn context. Almost always will be a player entity. */
     abstract val cause: Any
-    /** What [Level] the spawning context exists. */
+    /** The [Level] the spawning context exists in. */
     abstract val level: Level
     /** The exact vector location of the spawning attempt. */
     abstract val position: Vec3
     /** The light level at this location. */
     abstract val light: Float
+    /** Whether or not the sky is visible at this location. */
+    abstract val skyAbove: Boolean
     /** The current phase of the moon at this location. */
     val moonPhase: Int by lazy { level.moonPhase }
     /** The biome of this location. */
     val biome: Biome by lazy { level.getBiome(position.toBlockPos()) }
+
+    /**
+     * Filters a spawning detail by some extra condition defined by the context itself. This is for API purposes.
+     * @return true if the [SpawnDetail] is acceptable by the context's own logic.
+     */
+    open fun preFilter(detail: SpawnDetail): Boolean = true
 }

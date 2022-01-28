@@ -9,8 +9,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.level.biome.Biome
-import net.minecraftforge.fmllegacy.common.registry.GameRegistry
+import net.minecraftforge.registries.ForgeRegistries
 import java.lang.reflect.Type
 
 /**
@@ -31,7 +30,7 @@ object BiomeListAdapter : JsonSerializer<BiomeList>, JsonDeserializer<BiomeList>
         val list = BiomeList()
         json.asJsonArray.forEach { element ->
             val biomeName = ResourceLocation(element.asString)
-            val biome = GameRegistry.findRegistry(Biome::class.java).entries.find { it.key.registryName == biomeName }?.value
+            val biome = ForgeRegistries.BIOMES.entries.find { it.key.registryName == biomeName }?.value
             if (biome == null) {
                 PokemonCobbledMod.LOGGER.warn("Unrecognized biome: $biomeName")
             } else {
