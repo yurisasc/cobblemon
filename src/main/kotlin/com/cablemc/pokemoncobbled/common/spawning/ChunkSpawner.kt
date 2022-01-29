@@ -17,6 +17,7 @@ class ChunkSpawner {
     private val track: MutableList<PokemonEntity> = mutableListOf()
 
     fun trySpawn(chunk: LevelChunk) {
+        return
         // Temp hack fix to stop over spawning
         val zone = AABB(chunk.pos.getMiddleBlockPosition(80)).inflate(100.0)
         if (chunk.level.getEntities(null, zone).count { it is PokemonEntity } > limit)
