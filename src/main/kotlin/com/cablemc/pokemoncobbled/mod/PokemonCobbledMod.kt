@@ -98,6 +98,7 @@ object PokemonCobbledMod {
         MinecraftForge.EVENT_BUS.register(ScheduledTaskListener)
         MinecraftForge.EVENT_BUS.register(this)
         MinecraftForge.EVENT_BUS.register(SpawnerManager)
+
         MinecraftForge.EVENT_BUS.register(HappinessUpdateEvent(null, null))
 
         //Command Arguments
