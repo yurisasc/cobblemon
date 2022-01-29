@@ -45,7 +45,7 @@ class Battle(
 
     fun broadcastChatMessage(component: TextComponent) {
         return actors.forEach {
-            if(it is PlayerBattleActor) {
+            if (it is PlayerBattleActor) {
                 val player = it.getPlayerEntity() ?: return@forEach
                 player.sendMessage(component, Util.NIL_UUID)
             }
@@ -54,7 +54,7 @@ class Battle(
 
     fun writeShowdownAction(vararg messages: String) {
         val jsonArray = JsonArray()
-        for(message in messages) {
+        for (message in messages) {
             jsonArray.add(message)
         }
         val request = JsonObject()

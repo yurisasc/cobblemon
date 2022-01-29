@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.client.render.models.blockbench.repository
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.BlockBenchModelWrapper
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.BlastoiseModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.BulbasaurModel
+import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.ButterfreeModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.CharizardModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.CharmanderModel
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pokemon.CharmeleonModel
@@ -42,6 +43,8 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerBaseSpeciesModel(PokemonSpecies.SQUIRTLE, BlockBenchModelWrapper(SquirtleModel.LAYER_LOCATION, SquirtleModel::createBodyLayer) { SquirtleModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.WARTORTLE, BlockBenchModelWrapper(WartortleModel.LAYER_LOCATION, WartortleModel::createBodyLayer) { WartortleModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.BLASTOISE, BlockBenchModelWrapper(BlastoiseModel.LAYER_LOCATION, BlastoiseModel::createBodyLayer) { BlastoiseModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.BUTTERFREE, BlockBenchModelWrapper(ButterfreeModel.LAYER_LOCATION, ButterfreeModel::createBodyLayer) { ButterfreeModel(it) })
+
         registerBaseSpeciesModel(PokemonSpecies.EKANS, BlockBenchModelWrapper(EkansModel.LAYER_LOCATION, EkansModel::createBodyLayer) { EkansModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.ZUBAT, BlockBenchModelWrapper(ZubatModel.LAYER_LOCATION, ZubatModel::createBodyLayer) { ZubatModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.DIGLETT, BlockBenchModelWrapper(DiglettModel.LAYER_LOCATION, DiglettModel::createBodyLayer) { DiglettModel(it) })
@@ -83,7 +86,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     fun getModelTexture(pokemon: Pokemon): ResourceLocation {
         // TODO: This is just fetching by species at the moment. This will be developed further.
-        if(pokemon.shiny) {
+        if (pokemon.shiny) {
             return shinyModelTexturesBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate shiny model texture")
         }
         return modelTexturesBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate model texture")

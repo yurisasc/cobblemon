@@ -39,7 +39,7 @@ class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnecti
                 val char = reader.read()
                 if (char > -1) {
                     data += char.toChar()
-                    if(data.endsWith(ShowdownConnection.lineEnder)) {
+                    if (data.endsWith(ShowdownConnection.lineEnder)) {
                         messageHandler(data.replace(ShowdownConnection.lineEnder, ""))
                         data = ""
                     }

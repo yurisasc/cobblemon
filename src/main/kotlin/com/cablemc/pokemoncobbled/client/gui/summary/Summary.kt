@@ -66,10 +66,10 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
      * Make sure that we have at least one Pokemon and not more than 6
      */
     private fun commonInit() {
-        if(pokemonList.isEmpty()) {
+        if (pokemonList.isEmpty()) {
             throw InvalidParameterException("Summary UI cannot display zero Pokemon")
         }
-        if(pokemonList.size > 6) {
+        if (pokemonList.size > 6) {
             throw InvalidParameterException("Summary UI cannot display more than six Pokemon")
         }
         listenToMoveSet()
@@ -192,7 +192,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         moveSetSubscription = currentPokemon.getMoveSetObservable()
             .pipe(emitWhile { isOpen() })
             .subscribe {
-                if(currentPage is MovesWidget)
+                if (currentPage is MovesWidget)
                     switchTo(MOVES)
             }
     }

@@ -27,7 +27,7 @@ object TestCommand {
     }
 
     private fun execute(context: CommandContext<CommandSourceStack>): Int {
-        if(context.source.entity !is ServerPlayer) {
+        if (context.source.entity !is ServerPlayer) {
             return Command.SINGLE_SUCCESS
         }
         // Player variables

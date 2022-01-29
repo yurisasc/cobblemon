@@ -83,7 +83,7 @@ fun drawCenteredText(
 ) {
     val comp = (text as MutableComponent).withStyle(text.style.withFont(font))
     val mcFont = Minecraft.getInstance().font
-    if(shadow)
+    if (shadow)
         mcFont.drawShadow(poseStack, comp, x.toFloat() - mcFont.width(comp) / 2, y.toFloat(), colour)
     else
         mcFont.draw(poseStack, comp, x.toFloat() - mcFont.width(comp) / 2, y.toFloat(), colour)
@@ -100,7 +100,7 @@ fun drawText(
 ) {
     val comp = (text as MutableComponent).withStyle(text.style.withFont(font))
     val mcFont = Minecraft.getInstance().font
-    if(shadow)
+    if (shadow)
         mcFont.drawShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
     else
         mcFont.draw(poseStack, comp, x.toFloat(), y.toFloat(), colour)
@@ -121,7 +121,7 @@ fun drawString(
         }
     }
     val mcFont = Minecraft.getInstance().font
-    if(shadow)
+    if (shadow)
         mcFont.drawShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
     else
         mcFont.draw(poseStack, comp, x.toFloat(), y.toFloat(), colour)

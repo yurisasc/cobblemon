@@ -9,7 +9,7 @@ class ConfigurableComparator : Comparator<ConfigurableNode> {
             return 1
         }
         /*val value = o1.category.compareTo(o2.category)
-        if(value == 0)
+        if (value == 0)
             return 1
         return value*/
         return "${o1.configurable.category}${o1.configurable.name}".compareTo("${o2.configurable.category}${o2.configurable.name}")

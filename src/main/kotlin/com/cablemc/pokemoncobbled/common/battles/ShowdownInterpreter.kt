@@ -49,38 +49,38 @@ object ShowdownInterpreter {
 
         val battle = BattleRegistry.getBattle(UUID.fromString(battleId))
 
-        if(battle == null) {
+        if (battle == null) {
             PokemonCobbledMod.LOGGER.info("No battle could be found with the id: $battleId")
             return
         }
 
-        if(lines[0] == "update") {
+        if (lines[0] == "update") {
             println("WE HAVE UPDATE FOR $battleId")
 
             var i = 1;
-            while(i < lines.size) {
+            while (i < lines.size) {
                 val line = lines[i]
 
                 // Split blocks have a public and private message below
-                if(line.startsWith("|split|")) {
+                if (line.startsWith("|split|")) {
                     val showdownId = line.split("|split|")[1]
                     val targetActor = battle.getActor(showdownId)
 
-                    if(targetActor == null) {
+                    if (targetActor == null) {
                         PokemonCobbledMod.LOGGER.info("No actor could be found with the showdown id: $showdownId")
                         return
                     }
 
-                    for(instruction in splitUpdateInstructions.entries) {
-                        if(line.startsWith(instruction.key)) {
+                    for (instruction in splitUpdateInstructions.entries) {
+                        if (line.startsWith(instruction.key)) {
                             instruction.value(battle, targetActor, lines[i+1], lines[i+2])
                         }
                     }
 
                     i += 2;
                 } else {
-                    for(instruction in updateInstructions.entries) {
-                        if(line.startsWith(instruction.key)) {
+                    for (instruction in updateInstructions.entries) {
+                        if (line.startsWith(instruction.key)) {
                             instruction.value(battle, line)
                         }
                     }
@@ -88,19 +88,19 @@ object ShowdownInterpreter {
                 }
             }
         }
-        else if(lines[0] == "sideupdate") {
+        else if (lines[0] == "sideupdate") {
             println("WE HAVE SIDE UPDATE FOR $battleId")
             val showdownId = lines[1]
             val targetActor = battle.getActor(showdownId)
             val line = lines[2]
 
-            if(targetActor == null) {
+            if (targetActor == null) {
                 PokemonCobbledMod.LOGGER.info("No actor could be found with the showdown id: $showdownId")
                 return
             }
 
-            for(instruction in sideUpdateInstructions.entries) {
-                if(line.startsWith(instruction.key)) {
+            for (instruction in sideUpdateInstructions.entries) {
+                if (line.startsWith(instruction.key)) {
                     instruction.value(battle, targetActor, line)
                 }
             }

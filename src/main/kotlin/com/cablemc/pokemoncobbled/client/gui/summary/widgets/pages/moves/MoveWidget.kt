@@ -117,7 +117,7 @@ class MoveWidget(
         pMatrixStack.popPose()
 
         // Render Move Info
-        if(isHovered) {
+        if (isHovered) {
             moveInfoWidget.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
         }
 
@@ -132,7 +132,7 @@ class MoveWidget(
     }
 
     private fun specificOffset(pos: Int): Float {
-        when(pos) {
+        when (pos) {
             0 -> return 0F
             1 -> return 0F
             2 -> return 0F

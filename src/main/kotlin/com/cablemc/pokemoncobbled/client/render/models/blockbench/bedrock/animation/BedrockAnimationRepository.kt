@@ -35,4 +35,7 @@ object BedrockAnimationRepository {
         animationGroup.animations.forEach { (name, animation) -> animations[name] = animation }
     }
 
+    fun clear() {
+        animations.clear()
+    }
 }

@@ -13,6 +13,7 @@ object MoveLoader {
     val GSON = GsonBuilder()
         .registerTypeAdapter(DamageCategory::class.java, DamageCategoryAdapter)
         .registerTypeAdapter(ElementalType::class.java, ElementalTypeAdapter)
+        .setLenient()
         .disableHtmlEscaping()
         .create()
 
