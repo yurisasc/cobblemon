@@ -45,13 +45,13 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
         registerPose(
             poseType = PoseType.WALK,
             condition = { it.isMoving.get() },
-            transformTicks = 10,
+            transformTicks = 5,
             idleAnimations = arrayOf(
                 SingleBoneLookAnimation(this),
                 rootPart.translation(
                     function = parabolaFunction(
                         peak = -4F,
-                        period = 0.5F
+                        period = 0.4F
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = TransformedModelPart.Y_AXIS
@@ -67,18 +67,18 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                 ),
                 leftLeg.rotation(
                     function = parabolaFunction(
-                        tightness = -10F,
+                        tightness = -20F,
                         phaseShift = 0F,
-                        verticalShift = (25F).toRadians()
+                        verticalShift = (30F).toRadians()
                     ),
                     axis = TransformedModelPart.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 rightLeg.rotation(
                     function = parabolaFunction(
-                        tightness = -10F,
+                        tightness = -20F,
                         phaseShift = 0F,
-                        verticalShift = (25F).toRadians()
+                        verticalShift = (30F).toRadians()
                     ),
                     axis = TransformedModelPart.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
@@ -100,7 +100,25 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = TransformedModelPart.Z_AXIS
-                )
+                ),
+                rightWing.translation(
+                    function = parabolaFunction(
+                        tightness = -10F,
+                        phaseShift = 30F,
+                        verticalShift = (25F).toRadians()
+                    ),
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
+                ),
+                leftWing.translation(
+                    function = parabolaFunction(
+                        tightness = -10F,
+                        phaseShift = 30F,
+                        verticalShift = (25F).toRadians()
+                    ),
+                    axis = TransformedModelPart.Y_AXIS,
+                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
+                ),
             ),
             transformedParts = arrayOf(),
         )
