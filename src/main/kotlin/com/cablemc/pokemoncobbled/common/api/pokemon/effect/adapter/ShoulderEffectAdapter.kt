@@ -12,13 +12,13 @@ import java.lang.reflect.Type
 
 object ShoulderEffectAdapter: JsonDeserializer<ShoulderEffect>, JsonSerializer<ShoulderEffect> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): ShoulderEffect {
-        return ShoulderEffectRegistry.get(json.asJsonObject.get("type").asString)?.also { it.deserialize(json.asJsonObject) }
-            ?: throw NoSuchElementException("Error reading ShouldEffect ${json.asString}")
+        return ShoulderEffectRegistry.get(json.asJsonObject.get("type").asString)?.newInstance()?.deserialize(json.asJsonObject)
+            ?: throw NoSuchElementException()
     }
 
     override fun serialize(src: ShoulderEffect, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
         val json = JsonObject()
-        json.addProperty("type", src.name)
+        json.addProperty("type", ShoulderEffectRegistry.getName(src::class.java))
         return src.serialize(json)
     }
 }
