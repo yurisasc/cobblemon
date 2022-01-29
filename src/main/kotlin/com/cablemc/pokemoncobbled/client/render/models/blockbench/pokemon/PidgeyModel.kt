@@ -22,13 +22,15 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 
 
-class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
+class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame{
     override val rootPart = registerRelevantPart("pidgey", root.getChild("pidgey"))
     override val leftWing = registerRelevantPart("leftwing", rootPart.getChildOf("body","leftwing"))
     override val rightWing = registerRelevantPart("rightwing", rootPart.getChildOf("body","rightwing"))
     override val leftLeg = registerRelevantPart("leftleg", rootPart.getChildOf("body","leftleg"))
     override val rightLeg = registerRelevantPart("rightleg", rootPart.getChildOf("body","rightleg"))
     override val head = registerRelevantPart("head", rootPart.getChildOf("body","head"))
+    private val tail = registerRelevantPart("tail", rootPart.getChildOf("body","tail"))
+
 
     override fun registerPoses() {
         registerPose(
@@ -43,13 +45,13 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
         registerPose(
             poseType = PoseType.WALK,
             condition = { it.isMoving.get() },
-            transformTicks = 0,
+            transformTicks = 4,
             idleAnimations = arrayOf(
                 SingleBoneLookAnimation(this),
                 rootPart.translation(
                     function = parabolaFunction(
                         peak = -4F,
-                        period = 0.4F
+                        period = 0.5F
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = TransformedModelPart.Y_AXIS
@@ -64,17 +66,27 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                     timeVariable = { state, _, _ -> state?.animationSeconds }
                 ),
                 leftLeg.rotation(
-                    function = sineFunction(
-                        amplitude = (-30F).toRadians(),
-                        period = 0.8F
+                    function = parabolaFunction(
+                        tightness = -10F,
+                        phaseShift = 0F,
+                        verticalShift = (26F).toRadians()
                     ),
                     axis = TransformedModelPart.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 rightLeg.rotation(
+                    function = parabolaFunction(
+                        tightness = -10F,
+                        phaseShift = 0F,
+                        verticalShift = (26F).toRadians()
+                    ),
+                    axis = TransformedModelPart.X_AXIS,
+                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
+                ),
+                tail.rotation(
                     function = sineFunction(
-                        amplitude = (-30F).toRadians(),
-                        period = 0.8F
+                        amplitude = (-5F).toRadians(),
+                        period = 1F
                     ),
                     axis = TransformedModelPart.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
@@ -90,38 +102,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                     axis = TransformedModelPart.Z_AXIS
                 )
             ),
-            transformedParts = arrayOf()
-        )
-        registerPose(
-            poseType = PoseType.FLY,
-            condition = { !it.isOnGround()},
-            transformTicks = 0,
-            idleAnimations = arrayOf(
-                SingleBoneLookAnimation(this),
-                head.translation(
-                    function = sineFunction(
-                        amplitude = (-20F).toRadians(),
-                        period = 1F,
-                        verticalShift = (-10F).toRadians()
-                    ),
-                    axis = TransformedModelPart.X_AXIS,
-                    timeVariable = { state, _, _ -> state?.animationSeconds }
-                ),
-                wingFlap(
-                    flapFunction = sineFunction(
-                        amplitude = (-5F).toRadians(),
-                        period = 0.4F,
-                        phaseShift = 0.00F,
-                        verticalShift = (-20F).toRadians()
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = TransformedModelPart.Z_AXIS
-                )
-            ),
-            transformedParts = arrayOf(
-                leftLeg.withRotation(X_AXIS, -30F.toRadians()),
-                rightLeg.withRotation(X_AXIS, -30F.toRadians())
-            ),
+            transformedParts = arrayOf(),
         )
     }
 
