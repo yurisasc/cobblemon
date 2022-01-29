@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.PoseableEntity
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.withPosition
-import com.cablemc.pokemoncobbled.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.world.entity.Entity
 import java.lang.Float.min
@@ -18,11 +17,12 @@ import java.lang.Float.min
 class PoseTransitionAnimation<T : Entity>(
     beforePose: Pose<T, *>,
     val afterPose: Pose<T, *>,
-    private val durationTicks: Int = 20
+    durationTicks: Int = 20
 ) : StatefulAnimation<T, ModelFrame> {
-    var passedTicks = 0F
-
+    var changedPose = false
     val transforms = mutableListOf<GradualTransform>()
+    val startTime = System.currentTimeMillis()
+    val endTime = startTime + durationTicks * 50L
 
     inner class GradualTransform(
         val modelPart: ModelPart,
@@ -83,17 +83,29 @@ class PoseTransitionAnimation<T : Entity>(
         }
     }
 
-    override fun preventsIdle(entity: T, idleAnimation: StatelessAnimation<T, *>) = true
+    override fun preventsIdle(entity: T, idleAnimation: StatelessAnimation<T, *>) = false
     override fun run(entity: T, model: PoseableEntityModel<T>): Boolean {
-        passedTicks = min(passedTicks + DELTA_TICKS, durationTicks.toFloat())
+        val now = System.currentTimeMillis()
+        val durationMillis = (endTime - startTime).toFloat()
+        val passedMillis = (now - startTime).toFloat()
+        val ratio = min(passedMillis / durationMillis, 1F)
 
-        val ratio = passedTicks / durationTicks
-        transforms.forEach { it.apply(ratio) }
-
-        if (passedTicks == durationTicks.toFloat()) {
+        if (!changedPose && ratio >= 0.5) {
             model.getState(entity).setPose(afterPose.poseType)
-            return false
+            transforms.forEach { it.apply(1F) }
+            changedPose = true
+        } else if (!changedPose) {
+            transforms.forEach { it.apply(min(ratio * 2F, 1F)) }
         }
-        return true
+
+        val factor = if (changedPose) {
+            (ratio - 0.5F) * 2F
+        } else {
+            1 - ratio * 2F
+        }
+
+        model.relevantParts.forEach { it.changeFactor = factor }
+
+        return ratio < 1F
     }
 }
