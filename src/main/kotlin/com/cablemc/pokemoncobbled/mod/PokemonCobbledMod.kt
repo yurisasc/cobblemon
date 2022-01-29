@@ -15,6 +15,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
+import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
