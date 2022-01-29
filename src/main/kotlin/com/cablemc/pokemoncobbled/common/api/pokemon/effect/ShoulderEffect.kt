@@ -13,8 +13,8 @@ import net.minecraft.server.level.ServerPlayer
 interface ShoulderEffect {
     val name: String
 
-    fun applyEffect(pokemonEntity: PokemonEntity?, player: ServerPlayer)
-    fun removeEffect(pokemonEntity: PokemonEntity?, player: ServerPlayer)
+    fun applyEffect(pokemonEntity: PokemonEntity?, player: ServerPlayer, isLeft: Boolean)
+    fun removeEffect(pokemonEntity: PokemonEntity?, player: ServerPlayer, isLeft: Boolean)
 
     fun serialize(json: JsonObject): JsonObject
     fun deserialize(json: JsonObject): ShoulderEffect
