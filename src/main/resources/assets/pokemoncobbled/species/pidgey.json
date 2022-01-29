@@ -11,9 +11,9 @@
     "speed": 56
   },
   "catchRate": 255,
-  "baseScale": 0.8,
+  "baseScale": 0.7,
   "hitbox": {
-    "width": 0.6,
+    "width": 0.5,
     "height": 0.8,
     "fixed": false
   }

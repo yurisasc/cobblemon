@@ -27,6 +27,8 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val leftLeg = registerRelevantPart("leftleg", rootPart.getChildOf("body","leftleg"))
     override val rightLeg = registerRelevantPart("rightleg", rootPart.getChildOf("body","rightleg"))
     override val head = registerRelevantPart("head", rootPart.getChildOf("body","head"))
+    private val tail = registerRelevantPart("tail", rootPart.getChildOf("body","tail"))
+
 
     override fun registerPoses() {
         registerPose(
@@ -41,36 +43,55 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         registerPose(
             poseType = PoseType.WALK,
             condition = { it.isMoving.get() },
-            transformTicks = 0,
+            transformTicks = 10,
             idleAnimations = arrayOf(
                 SingleBoneLookAnimation(this),
                 rootPart.translation(
                     function = parabolaFunction(
                         peak = -4F,
-                        period = 0.4F
+                        period = 0.5F
                     ),
                     timeVariable = { state, _, _ -> state?.animationSeconds },
                     axis = TransformedModelPart.Y_AXIS
                 ),
-                leftLeg.rotation(
+                head.translation(
                     function = sineFunction(
-                        amplitude = (-30F).toRadians(),
-                        period = 0.4F
+                        amplitude = (-20F).toRadians(),
+                        period = 1F,
+                        verticalShift = (-10F).toRadians()
+                    ),
+                    axis = TransformedModelPart.X_AXIS,
+                    timeVariable = { state, _, _ -> state?.animationSeconds }
+                ),
+                leftLeg.rotation(
+                    function = parabolaFunction(
+                        tightness = -10F,
+                        phaseShift = 0F,
+                        verticalShift = (25F).toRadians()
                     ),
                     axis = TransformedModelPart.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 rightLeg.rotation(
+                    function = parabolaFunction(
+                        tightness = -10F,
+                        phaseShift = 0F,
+                        verticalShift = (25F).toRadians()
+                    ),
+                    axis = TransformedModelPart.X_AXIS,
+                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
+                ),
+                tail.rotation(
                     function = sineFunction(
-                        amplitude = (-30F).toRadians(),
-                        period = 0.4F
+                        amplitude = (-5F).toRadians(),
+                        period = 1F
                     ),
                     axis = TransformedModelPart.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
                 wingFlap(
                     flapFunction = sineFunction(
-                        amplitude = (-40F).toRadians(),
+                        amplitude = (-5F).toRadians(),
                         period = 0.4F,
                         phaseShift = 0.00F,
                         verticalShift = (-20F).toRadians()
@@ -79,7 +100,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                     axis = TransformedModelPart.Z_AXIS
                 )
             ),
-            transformedParts = arrayOf()
+            transformedParts = arrayOf(),
         )
     }
 

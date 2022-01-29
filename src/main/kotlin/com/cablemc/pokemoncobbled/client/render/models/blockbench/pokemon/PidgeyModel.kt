@@ -45,7 +45,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
         registerPose(
             poseType = PoseType.WALK,
             condition = { it.isMoving.get() },
-            transformTicks = 4,
+            transformTicks = 10,
             idleAnimations = arrayOf(
                 SingleBoneLookAnimation(this),
                 rootPart.translation(
@@ -69,7 +69,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                     function = parabolaFunction(
                         tightness = -10F,
                         phaseShift = 0F,
-                        verticalShift = (26F).toRadians()
+                        verticalShift = (25F).toRadians()
                     ),
                     axis = TransformedModelPart.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
@@ -78,7 +78,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                     function = parabolaFunction(
                         tightness = -10F,
                         phaseShift = 0F,
-                        verticalShift = (26F).toRadians()
+                        verticalShift = (25F).toRadians()
                     ),
                     axis = TransformedModelPart.X_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
