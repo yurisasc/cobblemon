@@ -9,7 +9,6 @@ import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.fml.util.thread.EffectiveSide
 import net.minecraftforge.server.ServerLifecycleHooks
-
 import java.util.concurrent.CompletableFuture
 
 /** Runs the given [Runnable] if the caller is on the CLIENT side. */

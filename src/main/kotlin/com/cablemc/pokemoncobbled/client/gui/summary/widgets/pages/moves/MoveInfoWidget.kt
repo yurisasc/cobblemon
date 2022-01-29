@@ -69,7 +69,7 @@ class MoveInfoWidget(
     }
 
     private fun format(input: Double): String {
-        if(input == -1.0)
+        if (input == -1.0)
             return "—"
         return "${decimalFormat.format(input)}%"
     }

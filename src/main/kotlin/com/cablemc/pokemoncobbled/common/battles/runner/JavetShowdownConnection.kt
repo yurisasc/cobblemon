@@ -19,7 +19,7 @@ class JavetShowdownConnection : ShowdownConnection {
     }
 
     fun initializeServer() {
-        process = exec(ShowdownServer.javaClass, listOf(File("../showdown/scripts/index.js").canonicalPath))
+        process = exec(ShowdownServer.javaClass, listOf(File("showdown/scripts/index.js").canonicalPath))
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
                 close()
@@ -51,7 +51,7 @@ class JavetShowdownConnection : ShowdownConnection {
                 val char = reader.read()
                 if (char > -1) {
                     data += char.toChar()
-                    if(data.endsWith(ShowdownConnection.lineEnder)) {
+                    if (data.endsWith(ShowdownConnection.lineEnder)) {
                         messageHandler(data.replace(ShowdownConnection.lineEnder, ""))
                         data = ""
                     }

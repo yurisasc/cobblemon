@@ -13,7 +13,6 @@ import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.server.ServerStartingEvent
 import net.minecraftforge.event.server.ServerStoppingEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
-
 import java.util.UUID
 import java.util.concurrent.Executors
 

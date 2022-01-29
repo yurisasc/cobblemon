@@ -17,6 +17,7 @@ object PokemonSpecies {
     val SQUIRTLE = register(SpeciesLoader.loadFromAssets("squirtle"))
     val WARTORTLE = register(SpeciesLoader.loadFromAssets("wartortle"))
     val BLASTOISE = register(SpeciesLoader.loadFromAssets("blastoise"))
+    val BUTTERFREE = register(SpeciesLoader.loadFromAssets("butterfree"))
     val EKANS = register(SpeciesLoader.loadFromAssets("ekans"))
     val ZUBAT = register(SpeciesLoader.loadFromAssets("zubat"))
     val DIGLETT = register(SpeciesLoader.loadFromAssets("diglett"))

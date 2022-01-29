@@ -27,8 +27,8 @@ class MovesMoveButton(
     }
 
     override fun renderButton(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        if(isHovered) {
-            if(isUp) {
+        if (isHovered) {
+            if (isUp) {
                 blitk(
                     poseStack = pMatrixStack,
                     x = x + 1.5F, y = y + 1.8F,
@@ -54,7 +54,7 @@ class MovesMoveButton(
     }
 
     override fun onClick(pMouseX: Double, pMouseY: Double) {
-        if(!blocked) {
+        if (!blocked) {
             blocked = true
             onPress.onPress(this)
         }

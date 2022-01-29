@@ -8,7 +8,7 @@ object PokemonSpriteProvider {
     fun getSprite(pokemon: Pokemon): ResourceLocation {
         // Check for shiny
         val shinySprite = cobbledResource("sprites/pokemon/${pokemon.species.name}-shiny.png")
-        if(pokemon.shiny && shinySprite.exists()) {
+        if (pokemon.shiny && shinySprite.exists()) {
             return shinySprite
         }
         // If nothing else return base species sprite

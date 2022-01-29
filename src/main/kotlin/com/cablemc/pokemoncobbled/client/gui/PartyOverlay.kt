@@ -44,12 +44,12 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
             return
         }
         // Hiding if a Screen is open and not exempt
-        if(minecraft.screen != null) {
-            if(!screenExemptions.contains(minecraft.screen?.javaClass as Class<out Screen>))
+        if (minecraft.screen != null) {
+            if (!screenExemptions.contains(minecraft.screen?.javaClass as Class<out Screen>))
                 return
         }
         // Hiding if toggled via Keybind
-        if(HidePartyBinding.shouldHide)
+        if (HidePartyBinding.shouldHide)
             return
 
         val panelX = 2

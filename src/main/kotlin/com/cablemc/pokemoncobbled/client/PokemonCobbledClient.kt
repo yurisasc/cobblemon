@@ -32,7 +32,6 @@ import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.registries.RegistryObject
 
-
 object PokemonCobbledClient {
     val storage = ClientStorageManager()
 

@@ -27,7 +27,6 @@ import net.minecraftforge.network.NetworkDirection
 import net.minecraftforge.network.NetworkRegistry
 import net.minecraftforge.network.PacketDistributor
 
-
 /**
  * Registers Pokémon Cobbled packets. Packet handlers are set up on handling the [MessageBuiltEvent] dispatched from here.
  *
