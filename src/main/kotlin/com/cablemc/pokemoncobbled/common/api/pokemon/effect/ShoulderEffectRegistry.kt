@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.effect
 
-import com.cablemc.pokemoncobbled.common.api.pokemon.effect.effects.LightSourceEffect
+import com.cablemc.pokemoncobbled.common.pokemon.effects.LightSourceEffect
+import com.cablemc.pokemoncobbled.common.pokemon.effects.SlowFallEffect
 
 /**
  * Registry object for ShoulderEffects
@@ -9,21 +10,26 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.effects.LightSourceE
  * @since 2022-01-26
  */
 object ShoulderEffectRegistry {
-    private val effects = mutableListOf<ShoulderEffect>()
+    private val effects = mutableMapOf<String, Class<out ShoulderEffect>>()
 
     // Effects - START
-    val LIGHT_SOURCE = register(LightSourceEffect)
+    val LIGHT_SOURCE = register("light_source", LightSourceEffect::class.java)
+    val SLOW_FALL = register("slow_fall", SlowFallEffect::class.java)
     // Effects - END
 
-    fun register(effect: ShoulderEffect): ShoulderEffect {
+    fun register(name: String, effect: Class<out ShoulderEffect>): Class<out ShoulderEffect> {
         return effect.also {
-            effects.add(it)
+            effects[name] = it
         }
     }
 
-    fun unregister(name: String) = effects.remove(get(name))
+    fun unregister(name: String) = effects.remove(name)
 
-    fun get(name: String): ShoulderEffect? {
-        return effects.find { it.name.equals(name, ignoreCase = true) }
+    fun getName(clazz: Class<out ShoulderEffect>): String {
+        return effects.firstNotNullOf { if (it.value == clazz) it.key else null }
+    }
+
+    fun get(name: String): Class<out ShoulderEffect>? {
+        return effects[name]
     }
 }
