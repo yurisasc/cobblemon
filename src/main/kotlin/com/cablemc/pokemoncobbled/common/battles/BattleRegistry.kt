@@ -30,12 +30,12 @@ object BattleRegistry {
         jsonArray.add(""">start {"formatid":"${battle.format}"}""")
 
         // -> Add the players and team
-        for(actor in battle.actors) {
+        for (actor in battle.actors) {
             jsonArray.add(""">player ${actor.showdownId} {"name":"${actor.gameId}","team":"${actor.party.packTeam()}"}""")
         }
 
         // -> Set team size
-        for(actor in battle.actors) {
+        for (actor in battle.actors) {
             jsonArray.add(""">${actor.showdownId} team ${actor.party.count()}""")
         }
 
@@ -56,12 +56,13 @@ object BattleRegistry {
     }
 
     fun getBattleByParticipatingPlayer(serverPlayer: ServerPlayer) : Battle? {
-        for(entry in battleMap.entries) {
+        for (entry in battleMap.entries) {
             val found = entry.value.actors.find {
                 it.gameId.equals(serverPlayer.uuid)
             }
-            if(found != null)
+            if (found != null) {
                 return entry.value
+            }
         }
         return null
     }

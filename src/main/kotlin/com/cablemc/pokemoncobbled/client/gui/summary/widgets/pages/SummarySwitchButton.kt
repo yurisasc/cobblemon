@@ -21,7 +21,7 @@ class SummarySwitchButton(
     override fun renderButton(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         pPoseStack.pushPose()
         pPoseStack.scale(SCALE, SCALE, SCALE)
-        if(isHovered)
+        if (isHovered)
             drawCenteredText(
                 poseStack = pPoseStack,
                 font = CobbledResources.NOTO_SANS_BOLD,

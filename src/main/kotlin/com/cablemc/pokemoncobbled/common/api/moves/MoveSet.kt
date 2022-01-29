@@ -14,7 +14,7 @@ class MoveSet {
      * So no Pokémon can end up with no Moves assigned...
      */
     init {
-        if(moves.filterNotNull().isEmpty()) {
+        if (moves.filterNotNull().isEmpty()) {
             moves[0] = Moves.TACKLE.create()
         }
     }
@@ -30,7 +30,7 @@ class MoveSet {
      * Sets the given Move to given position
      */
     fun setMove(pos: Int, move: Move) {
-        if(pos < 0 || pos > 3)
+        if (pos < 0 || pos > 3)
             return
         moves[pos] = move
     }
@@ -81,7 +81,7 @@ class MoveSet {
         fun loadFromBuffer(buffer: FriendlyByteBuf): MoveSet {
             val amountMoves = buffer.readInt()
             val moveSet = MoveSet()
-            for(i in 0 until amountMoves) {
+            for (i in 0 until amountMoves) {
                 moveSet.setMove(i, Move.loadFromBuffer(buffer))
             }
             return moveSet

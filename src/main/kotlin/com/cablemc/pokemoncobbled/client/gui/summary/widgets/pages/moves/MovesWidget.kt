@@ -49,17 +49,17 @@ class MovesWidget(
 
     fun moveMove(move: MoveWidget, up: Boolean) {
         val movePos = moves.indexOf(move)
-        if(moves.size <= movePos || movePos == -1) {
+        if (moves.size <= movePos || movePos == -1) {
             return
         }
         var targetSlot: Int
-        if(up) {
+        if (up) {
             targetSlot = movePos - 1
-            if(targetSlot == -1)
+            if (targetSlot == -1)
                 targetSlot = moves.size - 1
         } else {
             targetSlot = movePos + 1
-            if(targetSlot >= moves.size)
+            if (targetSlot >= moves.size)
                 targetSlot = 0
         }
 //        moves[targetSlot] = moves[movePos].also {
