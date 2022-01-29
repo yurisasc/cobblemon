@@ -154,7 +154,7 @@ class PokemonEntity(
                                 if (!isLeft || player.shoulderEntityRight.isEmpty) {
                                     pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
                                     this.setEntityOnShoulder(player)
-                                    this.pokemon.form.shoulderEffect.forEach { it.applyEffect(this, player) }
+                                    this.pokemon.form.shoulderEffect.forEach { it.applyEffect(this, player, isLeft) }
                                 }
                             }
                         }

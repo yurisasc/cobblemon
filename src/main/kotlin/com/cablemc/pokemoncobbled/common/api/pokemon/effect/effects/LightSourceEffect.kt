@@ -10,11 +10,11 @@ object LightSourceEffect: ShoulderEffect {
 
     private var test = "AAA"
 
-    override fun applyEffect(pokemonEntity: PokemonEntity?, player: ServerPlayer) {
+    override fun applyEffect(pokemonEntity: PokemonEntity?, player: ServerPlayer, isLeft: Boolean) {
         println("Applying effect... $test")
     }
 
-    override fun removeEffect(pokemonEntity: PokemonEntity?, player: ServerPlayer) {
+    override fun removeEffect(pokemonEntity: PokemonEntity?, player: ServerPlayer, isLeft: Boolean) {
         println("Removing effect...")
     }
 
