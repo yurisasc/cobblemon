@@ -128,8 +128,7 @@ class PokemonEntity(
     override fun getBreedOffspring(level: ServerLevel, partner: AgeableMob) = null
 
     override fun canSitOnShoulder(): Boolean {
-        // TODO: Determine what can or can't be shouldered
-        return true
+        return pokemon.form.shoulderMountable
     }
 
     override fun mobInteract(player: Player, hand: InteractionHand) : InteractionResult {
@@ -137,7 +136,7 @@ class PokemonEntity(
         if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
             if (canSitOnShoulder() && player is ServerPlayer && !isBusy) {
                 val store = pokemon.storeCoordinates.get()?.store
-                if (store is PlayerPartyStore && store.playerUUID == player.uuid && pokemon.form.shoulderMountable) {
+                if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
                     ShoulderMountEvent(
                         player = player,
                         pokemon = pokemon,
