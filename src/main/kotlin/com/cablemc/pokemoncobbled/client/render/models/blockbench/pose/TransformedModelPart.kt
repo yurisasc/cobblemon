@@ -19,6 +19,8 @@ class TransformedModelPart(
         const val Z_AXIS = 2
     }
 
+    var changeFactor = 1F
+
     val initialPosition = floatArrayOf(modelPart.x, modelPart.y, modelPart.z)
     val initialRotation = floatArrayOf(modelPart.xRot, modelPart.yRot, modelPart.zRot)
 
@@ -87,10 +89,10 @@ class TransformedModelPart(
     }
 
     fun addPosition(axis: Int, distance: Float): TransformedModelPart {
-        return withPosition(axis, position[axis] + distance)
+        return withPosition(axis, position[axis] + distance * changeFactor)
     }
 
     fun addRotation(axis: Int, angleRadians: Float): TransformedModelPart {
-        return withRotation(axis, rotation[axis] + angleRadians)
+        return withRotation(axis, rotation[axis] + angleRadians * changeFactor)
     }
 }
