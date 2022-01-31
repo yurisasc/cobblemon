@@ -11,10 +11,17 @@ import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
 
 /**
+ * Adapter for serializing and deserializing [TimeRange]. It deserializes from comma separated time ranges
+ * in either name (referencing [TimeRange.Companion.ranges]) or in the format minTick-maxTick.
+ *
+ * For example, it can deserialize "day,18000-20000" as a [TimeRange]
+ *
+ * @author Hiroku
  * @since January 26th, 2022
  */
 object TimeRangeAdapter : JsonSerializer<TimeRange>, JsonDeserializer<TimeRange> {
     override fun serialize(timeRange: TimeRange, type: Type, ctx: JsonSerializationContext): JsonElement {
+        // TODO check whether it's a known range and save the name instead?
         return JsonPrimitive(timeRange.ranges.joinToString { "${it.first}-${it.last}" })
     }
 

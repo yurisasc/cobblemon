@@ -22,10 +22,9 @@ import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
-import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
-import com.cablemc.pokemoncobbled.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifServer
+import com.cablemc.pokemoncobbled.mod.config.CobbledConfig
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -96,7 +95,6 @@ object PokemonCobbledMod {
         MinecraftForge.EVENT_BUS.register(PokemonStoreManager)
         MinecraftForge.EVENT_BUS.register(ScheduledTaskListener)
         MinecraftForge.EVENT_BUS.register(this)
-        MinecraftForge.EVENT_BUS.register(SpawnerManager)
 
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))

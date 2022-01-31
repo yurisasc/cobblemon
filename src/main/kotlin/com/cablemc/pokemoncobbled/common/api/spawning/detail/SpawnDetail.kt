@@ -1,23 +1,39 @@
-package com.cablemc.pokemoncobbled.common.api.spawning
+package com.cablemc.pokemoncobbled.common.api.spawning.detail
 
+import com.cablemc.pokemoncobbled.common.api.spawning.ContextProperties
+import com.cablemc.pokemoncobbled.common.api.spawning.ContextPropertyMap
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawningAction
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.CompositeSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 
+/**
+ * A spawnable unit in the Best Spawner API. This is extended for any kind of entity
+ * you want to spawn.
+ *
+ * @author Hiroku
+ * @since January 31st, 2022
+ */
 abstract class SpawnDetail {
-    lateinit var type: String
+    companion object {
+        val spawnDetailTypes = mutableMapOf<String, RegisteredSpawnDetail<*, *>>()
+        fun <T : SpawnDetail, U : ContextProperties> registerSpawnType(name: String, detailClass: Class<T>, contextualPropertiesClass: Class<U>) {
+            spawnDetailTypes[name] = RegisteredSpawnDetail(detailClass, contextualPropertiesClass)
+        }
+    }
 
+    abstract val type: String
     var id = ""
     var conditions = mutableListOf<SpawningCondition<*>>()
     var anticonditions = mutableListOf<SpawningCondition<*>>()
     var compositeCondition: CompositeSpawningCondition? = null
 
-    var rarity = 0F
-    var percentage = 0F
+    var rarity = -1F
+    var percentage = -1F
 
     var labels = mutableListOf<String>()
-    var size = 1F
+    var contextProperties: ContextPropertyMap? = null
 
     // TODO consider precalculating the possible contexts
 

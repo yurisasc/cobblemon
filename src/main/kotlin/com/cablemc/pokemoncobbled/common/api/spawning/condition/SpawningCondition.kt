@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.condition
 
 import com.cablemc.pokemoncobbled.common.api.spawning.BiomeList
+import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.util.math.orMax
 import com.cablemc.pokemoncobbled.common.util.math.orMin
@@ -14,7 +15,7 @@ import net.minecraft.resources.ResourceLocation
  * @since January 24th, 2022
  */
 abstract class SpawningCondition<T : SpawningContext> {
-    lateinit var type: String
+    lateinit var context: RegisteredSpawningContext<*>
     val dimensions: MutableList<ResourceLocation> = mutableListOf()
     val biomes = BiomeList()
     val moonPhase: Int? = null
