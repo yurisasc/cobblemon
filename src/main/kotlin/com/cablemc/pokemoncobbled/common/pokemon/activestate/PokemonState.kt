@@ -161,7 +161,7 @@ class ShoulderedState() : ActivePokemonState() {
         if (shoulderNBT.isPokemonEntity() && shoulderNBT.getCompound(DataKeys.POKEMON).getCompound(DataKeys.POKEMON_STATE).getUUID(DataKeys.POKEMON_STATE_ID) == stateId) {
             player.level.playSoundServer(player.position(), SoundEvents.CANDLE_FALL)
             player.party().find { it.uuid == pokemonUUID }?.let { pkm ->
-                pkm.form.shoulderEffect.forEach { it.removeEffect(null, player, isLeftShoulder) }
+                pkm.form.shoulderEffect.forEach { it.removeEffect(pkm, player, isLeftShoulder) }
             }
             if (isLeftShoulder) {
                 player.shoulderEntityLeft = CompoundTag()
