@@ -13,7 +13,7 @@ import java.util.UUID
 fun ServerPlayer.party() = PokemonStoreManager.getParty(this)
 
 fun UUID.player() : ServerPlayer? {
-    return getServer().playerList.players.firstOrNull { it.uuid == this }
+    return getServer().playerList.getPlayer(this)
 }
 
 class TraceResult(
