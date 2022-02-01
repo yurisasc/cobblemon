@@ -12,7 +12,7 @@ import net.minecraftforge.eventbus.api.Event
  * @since 2022-01-26
  */
 @Cancelable
-class ShoulderMountEvent(
+data class ShoulderMountEvent(
     val player: ServerPlayer,
     val pokemon: Pokemon,
     val isLeft: Boolean
