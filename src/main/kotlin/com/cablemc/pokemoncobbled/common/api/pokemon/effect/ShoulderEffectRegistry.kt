@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.effect
 
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
-import com.cablemc.pokemoncobbled.common.pokemon.effects.HighJumpEffect
 import com.cablemc.pokemoncobbled.common.pokemon.effects.LightSourceEffect
 import com.cablemc.pokemoncobbled.common.pokemon.effects.SlowFallEffect
 import com.cablemc.pokemoncobbled.common.util.party
