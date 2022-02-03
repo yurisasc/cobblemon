@@ -12,9 +12,7 @@ import java.util.UUID
 // Stuff like getting their party
 fun ServerPlayer.party() = PokemonStoreManager.getParty(this)
 
-fun UUID.player() : ServerPlayer? {
-    return getServer().playerList.getPlayer(this)
-}
+fun UUID.getPlayer() = getServer().playerList.getPlayer(this)
 
 class TraceResult(
     val location: Vec3,
