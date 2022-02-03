@@ -26,7 +26,7 @@ class Species {
     val standardAbilities = listOf<AbilityTemplate>()
     val hiddenAbility: AbilityTemplate? = null
     val shoulderMountable: Boolean = false
-    val shoulderEffect = mutableListOf<ShoulderEffect>()
+    val shoulderEffects = mutableListOf<ShoulderEffect>()
 
     var forms = mutableListOf(FormData())
 
