@@ -30,8 +30,8 @@ data class FormData(
     private val _hiddenAbility: AbilityTemplate? = null,
     @SerializedName("shoulderMountable")
     private val _shoulderMountable: Boolean? = null,
-    @SerializedName("shoulderEffect")
-    private val _shoulderEffect: MutableList<ShoulderEffect>? = null
+    @SerializedName("shoulderEffects")
+    private val _shoulderEffects: MutableList<ShoulderEffect>? = null
 ) {
     val baseStats: MutableMap<Stat, Int>
         get() = _baseStats ?: species.baseStats
@@ -59,8 +59,8 @@ data class FormData(
     val shoulderMountable: Boolean
         get() = _shoulderMountable ?: species.shoulderMountable
 
-    val shoulderEffect: MutableList<ShoulderEffect>
-        get() = _shoulderEffect ?: species.shoulderEffect
+    val shoulderEffects: MutableList<ShoulderEffect>
+        get() = _shoulderEffects ?: species.shoulderEffects
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
