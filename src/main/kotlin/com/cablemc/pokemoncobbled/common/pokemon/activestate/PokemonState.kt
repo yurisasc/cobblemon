@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.isPokemonEntity
+import com.cablemc.pokemoncobbled.common.util.party
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import com.google.gson.JsonObject
@@ -91,11 +92,13 @@ class SentOutState() : ActivePokemonState() {
 class ShoulderedState() : ActivePokemonState() {
     var isLeftShoulder = false
     lateinit var playerUUID: UUID
+    lateinit var pokemonUUID: UUID
     var stateId = UUID.randomUUID()
 
-    constructor(playerUUID: UUID, isLeftShoulder: Boolean): this() {
+    constructor(playerUUID: UUID, isLeftShoulder: Boolean, pokemonUUID: UUID): this() {
         this.isLeftShoulder = isLeftShoulder
         this.playerUUID = playerUUID
+        this.pokemonUUID = pokemonUUID
     }
 
     override val entity: PokemonEntity? = null
@@ -104,6 +107,7 @@ class ShoulderedState() : ActivePokemonState() {
         nbt.putBoolean(DataKeys.POKEMON_STATE_SHOULDER, isLeftShoulder)
         nbt.putUUID(DataKeys.POKEMON_STATE_PLAYER_UUID, playerUUID)
         nbt.putUUID(DataKeys.POKEMON_STATE_ID, stateId)
+        nbt.putUUID(DataKeys.POKEMON_STATE_POKEMON_UUID, pokemonUUID)
         return nbt
     }
 
@@ -112,6 +116,7 @@ class ShoulderedState() : ActivePokemonState() {
         isLeftShoulder = nbt.getBoolean(DataKeys.POKEMON_STATE_SHOULDER)
         playerUUID = nbt.getUUID(DataKeys.POKEMON_STATE_PLAYER_UUID)
         stateId = nbt.getUUID(DataKeys.POKEMON_STATE_ID)
+        pokemonUUID = nbt.getUUID(DataKeys.POKEMON_STATE_POKEMON_UUID)
         return this
     }
 
@@ -120,6 +125,7 @@ class ShoulderedState() : ActivePokemonState() {
         json.addProperty(DataKeys.POKEMON_STATE_SHOULDER, isLeftShoulder)
         json.addProperty(DataKeys.POKEMON_STATE_PLAYER_UUID, playerUUID.toString())
         json.addProperty(DataKeys.POKEMON_STATE_ID, stateId.toString())
+        json.addProperty(DataKeys.POKEMON_STATE_POKEMON_UUID, pokemonUUID.toString())
         return json
     }
 
@@ -128,6 +134,7 @@ class ShoulderedState() : ActivePokemonState() {
         isLeftShoulder = json.get(DataKeys.POKEMON_STATE_SHOULDER).asBoolean
         playerUUID = UUID.fromString(json.get(DataKeys.POKEMON_STATE_PLAYER_UUID).asString)
         stateId = UUID.fromString(json.get(DataKeys.POKEMON_STATE_ID).asString)
+        pokemonUUID = UUID.fromString(json.get(DataKeys.POKEMON_STATE_POKEMON_UUID).asString)
         return this
     }
 
@@ -136,6 +143,7 @@ class ShoulderedState() : ActivePokemonState() {
         buffer.writeBoolean(isLeftShoulder)
         buffer.writeUUID(playerUUID)
         buffer.writeUUID(stateId)
+        buffer.writeUUID(pokemonUUID)
     }
 
     override fun readFromBuffer(buffer: FriendlyByteBuf): PokemonState {
@@ -143,6 +151,7 @@ class ShoulderedState() : ActivePokemonState() {
         isLeftShoulder = buffer.readBoolean()
         playerUUID = buffer.readUUID()
         stateId = buffer.readUUID()
+        pokemonUUID = buffer.readUUID()
         return this
     }
 
@@ -151,6 +160,9 @@ class ShoulderedState() : ActivePokemonState() {
         val shoulderNBT = if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight
         if (shoulderNBT.isPokemonEntity() && shoulderNBT.getCompound(DataKeys.POKEMON).getCompound(DataKeys.POKEMON_STATE).getUUID(DataKeys.POKEMON_STATE_ID) == stateId) {
             player.level.playSoundServer(player.position(), SoundEvents.CANDLE_FALL)
+            player.party().find { it.uuid == pokemonUUID }?.let { pkm ->
+                pkm.form.shoulderEffects.forEach { it.removeEffect(pkm, player, isLeftShoulder) }
+            }
             if (isLeftShoulder) {
                 player.shoulderEntityLeft = CompoundTag()
             } else {
