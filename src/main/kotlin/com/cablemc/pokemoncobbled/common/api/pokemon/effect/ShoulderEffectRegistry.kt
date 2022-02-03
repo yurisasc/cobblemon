@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.effect
 
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
+import com.cablemc.pokemoncobbled.common.pokemon.effects.HighJumpEffect
 import com.cablemc.pokemoncobbled.common.pokemon.effects.LightSourceEffect
 import com.cablemc.pokemoncobbled.common.pokemon.effects.SlowFallEffect
 import com.cablemc.pokemoncobbled.common.util.party
@@ -38,7 +39,7 @@ object ShoulderEffectRegistry {
     fun onPlayerJoin(event: PlayerEvent.PlayerLoggedInEvent) {
         val player = event.player as ServerPlayer
         player.party().filter { it.state is ShoulderedState }.forEach { pkm ->
-            pkm.form.shoulderEffect.forEach {
+            pkm.form.shoulderEffects.forEach {
                 it.applyEffect(
                     pokemon = pkm,
                     player = player,
@@ -52,7 +53,7 @@ object ShoulderEffectRegistry {
     fun onPlayerLeave(event: PlayerEvent.PlayerLoggedOutEvent) {
         val player = event.player as ServerPlayer
         player.party().filter { it.state is ShoulderedState }.forEach { pkm ->
-            pkm.form.shoulderEffect.forEach {
+            pkm.form.shoulderEffects.forEach {
                 it.removeEffect(
                     pokemon = pkm,
                     player = player,
