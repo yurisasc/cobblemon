@@ -21,8 +21,8 @@ import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
  * @since January 31st, 2022
  */
 interface SpawningPrecalculation<T : Any> {
-    /** Retrieves the precalculation key for the given spawn detail, if that key exists for this detail. */
-    fun select(detail: SpawnDetail): T?
+    /** Retrieves the precalculation keys for the given spawn detail. */
+    fun select(detail: SpawnDetail): List<T>
     /** Retrieves the precalculation key for the given context, if that key exists for this context. */
     fun select(ctx: SpawningContext): T?
 
@@ -36,8 +36,10 @@ interface SpawningPrecalculation<T : Any> {
      */
     fun generate(details: List<SpawnDetail>, next: List<SpawningPrecalculation<*>>): PrecalculationResult<T> {
         val mapping = details
-            .filter { select(it) != null }
-            .groupBy { select(it)!! }
+            .filter { select(it).isNotEmpty() }
+            .flatMap { detail -> select(detail).map { it to detail } }
+            .groupBy({ it.first }, { it.second })
+            .toMap()
 
         if (next.isEmpty()) {
             return FinalPrecalculationResult(calculation = this, mapping = mapping)
@@ -60,7 +62,7 @@ interface SpawningPrecalculation<T : Any> {
  * @since January 31st, 2022
  */
 object RootPrecalculation : SpawningPrecalculation<Any> {
-    override fun select(detail: SpawnDetail): Any = Unit
+    override fun select(detail: SpawnDetail): List<Any> = listOf(Unit)
     override fun select(ctx: SpawningContext): Any = Unit
 }
 

@@ -1,9 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.context
 
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextInput
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
+import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.core.BlockPos
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.biome.Biome
 
@@ -19,18 +19,9 @@ abstract class SpawningContext {
         val contexts = mutableListOf<RegisteredSpawningContext<*>>()
 
         fun getByName(name: String) = contexts.find { it.name == name }
-        fun <I : SpawningContextInput, T : SpawningContext> register(
-            name: String,
-            clazz: Class<T>,
-            calculator: SpawningContextCalculator<I, T>
-        ) {
-            contexts.add(
-                RegisteredSpawningContext(
-                    name = name,
-                    clazz = clazz,
-                    calculator = calculator
-                )
-            )
+        fun <T : SpawningContext> register(name: String, clazz: Class<T>) {
+            // TODO consider trashing the wrapping class and just make the contexts a map
+            contexts.add(RegisteredSpawningContext(name = name, clazz = clazz))
         }
     }
 
@@ -41,9 +32,11 @@ abstract class SpawningContext {
     /** The location of the spawning attempt. */
     abstract val position: BlockPos
     /** The light level at this location. */
-    abstract val light: Float
+    abstract val light: Int
     /** Whether or not the sky is visible at this location. */
     abstract val skyAbove: Boolean
+    /** A list of [SpawningInfluence]s that apply due to this specific context. */
+    abstract val influences: MutableList<SpawningInfluence>
     /** The current phase of the moon at this location. */
     val moonPhase: Int by lazy { level.moonPhase }
     /** The biome of this location. */
@@ -54,4 +47,15 @@ abstract class SpawningContext {
      * @return true if the [SpawnDetail] is acceptable by the context's own logic.
      */
     open fun preFilter(detail: SpawnDetail): Boolean = true
+    open fun afterSpawn(entity: Entity) {
+        influences.forEach { it.affectSpawn(entity) }
+    }
+
+    open fun getRarity(detail: SpawnDetail): Float {
+        var rarity = detail.getContextProperties(this)?.rarity ?: detail.rarity
+        for (influence in influences) {
+            rarity = influence.affectRarity(detail, rarity)
+        }
+        return rarity
+    }
 }

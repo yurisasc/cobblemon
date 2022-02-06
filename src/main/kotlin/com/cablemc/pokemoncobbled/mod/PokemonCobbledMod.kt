@@ -11,6 +11,18 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Captu
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskListener
+import com.cablemc.pokemoncobbled.common.api.spawning.context.GroundedSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.LavafloorSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.SeafloorSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderlavaSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderwaterSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.GroundedSpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.LavafloorSpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SeafloorSpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderlavaSpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderwaterSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
@@ -98,6 +110,18 @@ object PokemonCobbledMod {
 
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
+
+        SpawningContextCalculator.register(GroundedSpawningContextCalculator)
+        SpawningContextCalculator.register(SeafloorSpawningContextCalculator)
+        SpawningContextCalculator.register(LavafloorSpawningContextCalculator)
+        SpawningContextCalculator.register(UnderwaterSpawningContextCalculator)
+        SpawningContextCalculator.register(UnderlavaSpawningContextCalculator)
+
+        SpawningContext.register(name = "grounded", clazz = GroundedSpawningContext::class.java)
+        SpawningContext.register(name = "seafloor", clazz = SeafloorSpawningContext::class.java)
+        SpawningContext.register(name = "lavafloor", clazz = LavafloorSpawningContext::class.java)
+        SpawningContext.register(name = "underwater", clazz = UnderwaterSpawningContext::class.java)
+        SpawningContext.register(name = "underlava", clazz = UnderlavaSpawningContext::class.java)
     }
 
     fun onBake(event: ModelBakeEvent) {

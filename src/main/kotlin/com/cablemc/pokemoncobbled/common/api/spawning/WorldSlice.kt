@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
+import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
@@ -21,33 +22,43 @@ class WorldSlice(
     val baseX: Int,
     val baseY: Int,
     val baseZ: Int,
-    val blocks: Array<Array<Array<BlockState>>>,
-    val lights: Array<Array<Array<Int>>>,
+    val blocks: Array<Array<Array<BlockData>>>,
     val skyLevel: Array<Array<Int>>
 ) {
+    class BlockData(
+        val state: BlockState,
+        val light: Int
+    )
+
     val length = blocks.size
     val height = blocks[0].size
     val width = blocks[0][0].size
 
-    val stoneState = Blocks.STONE.defaultBlockState()
+    companion object {
+        val stoneState = Blocks.STONE.defaultBlockState()
+    }
 
     fun isInBounds(x: Int, y: Int, z: Int) = x >= baseX && x < baseX + length && y >= baseY && y < baseY + height && z >= baseZ && z < baseZ + width
+    fun getBlockData(x: Int, y: Int, z: Int): BlockData = blocks[x][y][z]
+    fun getBlockData(position: BlockPos) = getBlockData(position.x, position.y, position.z)
 
     fun getBlockState(x: Int, y: Int, z: Int, elseBlock: BlockState = stoneState): BlockState {
         return if (!isInBounds(x, y, z)) {
             elseBlock
         } else {
-            blocks[x][y][z]
+            blocks[x][y][z].state
         }
     }
+    fun getBlockState(position: BlockPos, elseBlock: BlockState = stoneState) = getBlockState(position.x, position.y, position.z, elseBlock)
 
     fun getLight(x: Int, y: Int, z: Int, elseLight: Int = 0): Int {
         return if (!isInBounds(x, y, z)) {
             elseLight
         } else {
-            lights[x][y][z]
+            getBlockData(x, y, z).light
         }
     }
+    fun getLight(position: BlockPos, elseLight: Int = 0) = getLight(position.x, position.y, position.z, elseLight)
 
     fun skySpaceAbove(x: Int, y: Int, z: Int): Int {
         return if (!isInBounds(x, y, z) || skyLevel[x][z] > y) {
@@ -56,6 +67,7 @@ class WorldSlice(
             max(0, level.maxBuildHeight - y)
         }
     }
+    fun skySpaceAbove(position: BlockPos) = skySpaceAbove(position.x, position.y, position.z)
 
     fun skyAbove(x: Int, y: Int, z: Int, elseSkyAbove: Boolean = false): Boolean {
         return if (!isInBounds(x, y, z)) {
@@ -64,7 +76,79 @@ class WorldSlice(
             skyLevel[x][z] <= y
         }
     }
+    fun skyAbove(position: BlockPos, elseSkyAbove: Boolean = false) = skyAbove(position.x, position.y, position.z, elseSkyAbove)
 
+    fun nearbyBlocks(position: BlockPos, maxRadius: Int) = nearbyBlocks(position.x, position.y, position.z, maxRadius)
+    fun nearbyBlocks(centerX: Int, centerY: Int, centerZ: Int, maxRadius: Int): Set<BlockState> {
+        val blocks = hashSetOf<BlockState>()
+        var radius = 1
+        while (radius <= maxRadius) {
+            val minX = centerX - radius
+            val maxX = centerX + radius
+            val minZ = centerZ - radius
+            val maxZ = centerZ + radius
+            val minY = centerY - radius
+            val maxY = centerY + radius
+
+            if (!isInBounds(minX, minY, minZ) || !isInBounds(maxX, maxY, maxZ)) {
+                return blocks
+            }
+
+            var x: Int
+            var z: Int
+
+            for (y in (minY + 1) until maxY) {
+                // Check left side of square
+                x = minX
+                z = minZ
+                while (z <= maxZ) {
+                    blocks.add(getBlockState(x, y, z))
+                    z++
+                }
+
+                // Check right side of square
+                x = maxX
+                z = minZ
+                while (z <= maxZ) {
+                    blocks.add(getBlockState(x, y, z))
+                    z++
+                }
+
+                // Check bottom side of square minus the corners (minX and maxX)
+                z = minZ
+                x = minX + 1
+                while (x < maxX) {
+                    blocks.add(getBlockState(x, y, z))
+                    x++
+                }
+
+                // Check top side of square minus the corners (minX and maxX)
+                z = maxZ
+                x = minX + 1
+                while (x < maxX) {
+                    blocks.add(getBlockState(x, y, z))
+                    x++
+                }
+            }
+
+            x = minX
+            z = minZ
+
+            while (x < maxX) {
+                while (z < maxZ) {
+                    blocks.add(getBlockState(x, minY, z))
+                    blocks.add(getBlockState(x, maxY, z))
+                }
+            }
+
+            radius++
+        }
+
+        return blocks
+    }
+
+    fun horizontalSpace(position: BlockPos, condition: (BlockState) -> Boolean, maximum: Int)
+        = horizontalSpace(position.x, position.y, position.z, condition, maximum)
     fun horizontalSpace(centerX: Int, centerY: Int, centerZ: Int, condition: (BlockState) -> Boolean, maximum: Int): Int {
         var space = 1
         var radius = 1
@@ -85,7 +169,6 @@ class WorldSlice(
                 if (!condition(getBlockState(x, centerY, z))) {
                     return space
                 }
-
                 z++
             }
 
@@ -96,7 +179,6 @@ class WorldSlice(
                 if (!condition(getBlockState(x, centerY, z))) {
                     return space
                 }
-
                 z++
             }
 
@@ -107,7 +189,6 @@ class WorldSlice(
                 if (!condition(getBlockState(x, centerY, z))) {
                     return space
                 }
-
                 x++
             }
 
@@ -118,7 +199,6 @@ class WorldSlice(
                 if (!condition(getBlockState(x, centerY, z))) {
                     return space
                 }
-
                 x++
             }
 

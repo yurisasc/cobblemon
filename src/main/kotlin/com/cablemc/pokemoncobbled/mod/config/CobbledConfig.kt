@@ -1,6 +1,10 @@
 package com.cablemc.pokemoncobbled.mod.config
 
-import com.cablemc.pokemoncobbled.mod.config.value.*
+import com.cablemc.pokemoncobbled.mod.config.value.BooleanValue
+import com.cablemc.pokemoncobbled.mod.config.value.DoubleValue
+import com.cablemc.pokemoncobbled.mod.config.value.IntValue
+import com.cablemc.pokemoncobbled.mod.config.value.LongValue
+import com.cablemc.pokemoncobbled.mod.config.value.StringValue
 import net.minecraftforge.common.ForgeConfigSpec
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue
 import kotlin.reflect.KMutableProperty1
@@ -31,9 +35,21 @@ object CobbledConfig {
     var testBoolean : ConfigValue<Boolean>? = null
      */
 
-    @Configurable(category = "Showdown", name="Auto Update", description = "Should the mods showdown get auto updated for you?")
+    @Configurable(category = "Showdown", name= "Auto Update", description = "Should the mods showdown get auto updated for you?")
     @BooleanValue(true)
     var autoUpdateShowdown : ConfigValue<Boolean>? = null
+
+    @Configurable(category = "Spawning", name= "Max Vertical Space", description = "The largest possible vertical diameter for a spawning location. If too low, some tall Pokémon might be unable to spawn.")
+    @IntValue(defaultValue = 10, min = 1)
+    var maxVerticalSpace = 1
+
+    @Configurable(category = "Spawning", name= "Max Horizontal Space", description = "The largest possible horizontal diameter for a spawning location. If too low, some wide Pokémon might be unable to spawn.")
+    @IntValue(defaultValue = 10, min = 1)
+    var maxHorizontalSpace = 1
+
+    @Configurable(category = "Spawning", name= "Max Nearby Blocks Range", description = "The longest distance to look for particular blocks as a condition for spawning.")
+    @IntValue(defaultValue = 6, min = 1)
+    var maxNearbyBlocksRange = 6
 
     var spec: ForgeConfigSpec
 

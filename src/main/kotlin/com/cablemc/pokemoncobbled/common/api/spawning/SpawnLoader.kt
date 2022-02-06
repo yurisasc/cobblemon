@@ -34,6 +34,7 @@ object SpawnLoader {
         .create()
 
     var deserializingRegisteredSpawnDetail: RegisteredSpawnDetail<*, *>? = null
+
     fun loadFromFolder(path: String): List<SpawnDetail> {
         TODO("Load sets and details")
     }

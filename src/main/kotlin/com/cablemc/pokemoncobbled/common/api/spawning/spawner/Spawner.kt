@@ -6,7 +6,10 @@ import com.cablemc.pokemoncobbled.common.api.spawning.condition.RootPrecalculati
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningPrecalculation
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
-import java.util.UUID
+import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
+import com.cablemc.pokemoncobbled.common.api.spawning.selection.SpawningSelector
+import net.minecraft.world.entity.Entity
+import java.util.concurrent.Executors
 
 /**
  * Interface representing something that performs the action of spawning. Various functions
@@ -16,23 +19,24 @@ import java.util.UUID
  * @since January 24th, 2022
  */
 interface Spawner {
-    val spawnedEntities: MutableList<UUID>
-    val spawnDetails: MutableList<SpawnDetail>
-    val precalculators: MutableList<SpawningPrecalculation<*>>
-    fun getPrecalculationResult(): PrecalculationResult<*>
-    fun setPrecalculationResult(precalculation: PrecalculationResult<*>)
-
-    fun run(ctx: SpawningContext) {
-        if (canSpawn()) {
-
-        }
-        // TODO DO TOO
+    companion object {
+        var worker = Executors.newSingleThreadExecutor { r -> Thread(r, "Spawning Worker") }
     }
 
+    val name: String
+    val precalculators: MutableList<SpawningPrecalculation<*>>
+    val influences: MutableList<SpawningInfluence>
+    fun getPrecalculationResult(): PrecalculationResult<*>?
+    fun setPrecalculationResult(precalculation: PrecalculationResult<*>)
+    fun getSpawningSelector(): SpawningSelector
+    fun setSpawningSelector(selector: SpawningSelector)
+    fun getSpawnDetails(): MutableList<SpawnDetail>
+    fun setSpawnDetails(details: MutableList<SpawnDetail>)
 
+    fun modifySpawn(entity: Entity) {}
+    fun afterSpawn(entity: Entity) {}
     fun canSpawn(): Boolean
-
-    fun getMatchingSpawns(ctx: SpawningContext) = getPrecalculationResult().retrieve(ctx).filter { it.isSatisfiedBy(ctx) }
+    fun getMatchingSpawns(ctx: SpawningContext) = ((getPrecalculationResult()?.retrieve(ctx)) ?: getSpawnDetails()).filter { it.isSatisfiedBy(ctx) }
 
     fun registerPrecalculator(precalculation: SpawningPrecalculation<*>) {
         precalculators.add(precalculation)
@@ -43,11 +47,13 @@ interface Spawner {
             setPrecalculationResult(
                 FinalPrecalculationResult<Any>(
                     calculation = RootPrecalculation,
-                    mapping = mutableMapOf(Unit to spawnDetails)
+                    mapping = mutableMapOf(Unit to getSpawnDetails())
                 )
             )
         }
 
-        setPrecalculationResult(precalculators.first().generate(spawnDetails, precalculators.subList(1, precalculators.size)))
+        setPrecalculationResult(precalculators.first().generate(getSpawnDetails(), precalculators.subList(1, precalculators.size)))
     }
+
+    fun copyInfluences() = influences.toMutableList()
 }

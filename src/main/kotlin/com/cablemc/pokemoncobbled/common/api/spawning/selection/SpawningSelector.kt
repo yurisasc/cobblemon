@@ -13,9 +13,6 @@ import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
  * @since January 31st, 2022
  */
 interface SpawningSelector {
-    fun select(spawner: Spawner, possible: Map<SpawningContext, List<SpawnDetail>>): Pair<SpawningContext, SpawnDetail>?
-    fun getProbabilities(spawner: Spawner, possible: Map<SpawningContext, List<SpawnDetail>>): Map<String, Float>
-
-    fun selectAtSpot(spawner: Spawner, ctx: SpawningContext, possible: List<SpawnDetail>): SpawnDetail?
-    fun getProbabilitiesAtSpot(spawner: Spawner, ctx: SpawningContext, possible: List<SpawnDetail>): Map<String, Float>
+    fun select(spawner: Spawner, contexts: List<SpawningContext>, spawnDetails: List<SpawnDetail>): Pair<SpawningContext, SpawnDetail>?
+    fun getProbabilities(spawner: Spawner, contexts: List<SpawningContext>, spawnDetails: List<SpawnDetail>): Map<String, Float>
 }

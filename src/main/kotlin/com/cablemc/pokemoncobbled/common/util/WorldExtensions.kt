@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.util
 
+import net.minecraft.core.BlockPos
 import net.minecraft.core.particles.ParticleOptions
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.sounds.SoundEvent
@@ -22,3 +23,13 @@ fun <T : ParticleOptions> Level.sendParticlesServer(
     offset: Vec3,
     speed: Double
 ) = (this as ServerLevel).sendParticles(particleType, position.x, position.y, position.z, particles, offset.x, offset.y, offset.z, speed)
+
+fun Level.squeezeWithinBounds(pos: BlockPos): BlockPos {
+    return if (pos.y < minBuildHeight) {
+        BlockPos(pos.x, minBuildHeight, pos.z)
+    } else if (pos.y > maxBuildHeight) {
+        BlockPos(pos.x, maxBuildHeight, pos.z)
+    } else {
+        pos
+    }
+}

@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.api.spawning.detail
 
 import com.cablemc.pokemoncobbled.common.api.spawning.ContextProperties
 import com.cablemc.pokemoncobbled.common.api.spawning.ContextPropertyMap
-import com.cablemc.pokemoncobbled.common.api.spawning.SpawningAction
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.CompositeSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
@@ -35,6 +34,10 @@ abstract class SpawnDetail {
     var labels = mutableListOf<String>()
     var contextProperties: ContextPropertyMap? = null
 
+    fun getContextProperties(ctx: SpawningContext): ContextProperties? {
+        return contextProperties?.entries?.find { it.key.clazz.isAssignableFrom(ctx::class.java) }?.value
+    }
+
     // TODO consider precalculating the possible contexts
 
     open fun autoLabel() {}
@@ -42,15 +45,15 @@ abstract class SpawnDetail {
     open fun isSatisfiedBy(ctx: SpawningContext): Boolean {
         if (!ctx.preFilter(this)) {
             return false
-        } else if (conditions.isNotEmpty() && conditions.none { it.isSatisfiedBy(ctx) }) {
+        } else if (conditions.isNotEmpty() && conditions.none { it.isSatisfiedBy(ctx, this) }) {
             return false
-        } else if (anticonditions.isNotEmpty() && anticonditions.any { it.isSatisfiedBy(ctx) }) {
+        } else if (anticonditions.isNotEmpty() && anticonditions.any { it.isSatisfiedBy(ctx, this) }) {
             return false
-        } else if (compositeCondition?.satisfiedBy(ctx) == false) {
+        } else if (compositeCondition?.satisfiedBy(ctx, this) == false) {
             return false
         }
         return true
     }
 
-    abstract fun doSpawn(spawner: Spawner, ctx: SpawningContext): SpawningAction<*>
+    abstract fun doSpawn(spawner: Spawner, ctx: SpawningContext): SpawnAction<*>
 }
