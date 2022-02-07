@@ -23,6 +23,7 @@ object DataKeys {
     const val POKEMON_STATE_SHOULDER = "StateShoulder"
     const val POKEMON_STATE_ID = "StateId"
     const val POKEMON_STATE_PLAYER_UUID = "PlayerUUID"
+    const val POKEMON_STATE_POKEMON_UUID = "PokemonUUID"
 
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
