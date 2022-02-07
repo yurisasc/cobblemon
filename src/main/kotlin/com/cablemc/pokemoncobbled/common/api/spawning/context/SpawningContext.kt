@@ -20,7 +20,13 @@ abstract class SpawningContext {
         val contexts = mutableListOf<RegisteredSpawningContext<*>>()
         fun getByName(name: String) = contexts.find { it.name == name }
         fun <T : SpawningContext> register(name: String, clazz: Class<T>, defaultCondition: String = BasicSpawningCondition.NAME) {
-            contexts.add(RegisteredSpawningContext(name = name, clazz = clazz, defaultCondition = defaultCondition))
+            contexts.add(
+                RegisteredSpawningContext(
+                    name = name,
+                    clazz = clazz,
+                    defaultCondition = defaultCondition
+                )
+            )
         }
     }
 
