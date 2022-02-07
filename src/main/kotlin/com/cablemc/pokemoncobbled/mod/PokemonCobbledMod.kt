@@ -11,6 +11,11 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Captu
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskListener
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.AreaSpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.BasicSpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.GroundedSpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.SubmergedSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.GroundedSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.LavafloorSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SeafloorSpawningContext
@@ -117,11 +122,16 @@ object PokemonCobbledMod {
         SpawningContextCalculator.register(UnderwaterSpawningContextCalculator)
         SpawningContextCalculator.register(UnderlavaSpawningContextCalculator)
 
-        SpawningContext.register(name = "grounded", clazz = GroundedSpawningContext::class.java)
-        SpawningContext.register(name = "seafloor", clazz = SeafloorSpawningContext::class.java)
-        SpawningContext.register(name = "lavafloor", clazz = LavafloorSpawningContext::class.java)
-        SpawningContext.register(name = "underwater", clazz = UnderwaterSpawningContext::class.java)
-        SpawningContext.register(name = "underlava", clazz = UnderlavaSpawningContext::class.java)
+        SpawningCondition.register(BasicSpawningCondition.NAME, BasicSpawningCondition::class.java)
+        SpawningCondition.register(AreaSpawningCondition.NAME, AreaSpawningCondition::class.java)
+        SpawningCondition.register(SubmergedSpawningCondition.NAME, SubmergedSpawningCondition::class.java)
+        SpawningCondition.register(GroundedSpawningCondition.NAME, GroundedSpawningCondition::class.java)
+
+        SpawningContext.register(name = "grounded", clazz = GroundedSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
+        SpawningContext.register(name = "seafloor", clazz = SeafloorSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
+        SpawningContext.register(name = "lavafloor", clazz = LavafloorSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
+        SpawningContext.register(name = "underwater", clazz = UnderwaterSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
+        SpawningContext.register(name = "underlava", clazz = UnderlavaSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
     }
 
     fun onBake(event: ModelBakeEvent) {

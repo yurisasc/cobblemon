@@ -1,14 +1,15 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.RegisteredSpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.util.adapters.BiomeListAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.ContextPropertyMapAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.RegisteredSpawningContextAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.ResourceLocationAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.SpawnDetailAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.SpawningConditionAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.TimeRangeAdapter
 import com.google.gson.GsonBuilder
 import net.minecraft.resources.ResourceLocation
@@ -26,14 +27,15 @@ object SpawnLoader {
         .disableHtmlEscaping()
         .setLenient()
         .registerTypeAdapter(BiomeList::class.java, BiomeListAdapter)
-        .registerTypeAdapter(ContextPropertyMap::class.java, ContextPropertyMapAdapter)
         .registerTypeAdapter(RegisteredSpawningContext::class.java, RegisteredSpawningContextAdapter)
         .registerTypeAdapter(ResourceLocation::class.java, ResourceLocationAdapter)
         .registerTypeAdapter(SpawnDetail::class.java, SpawnDetailAdapter)
+        .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
         .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
         .create()
 
-    var deserializingRegisteredSpawnDetail: RegisteredSpawnDetail<*, *>? = null
+    var deserializingRegisteredSpawnDetail: RegisteredSpawnDetail<*>? = null
+    var deserializingConditionClass: Class<out SpawningCondition<*>>? = null
 
     fun loadFromFolder(path: String): List<SpawnDetail> {
         TODO("Load sets and details")

@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.context
 
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.BasicSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.core.BlockPos
@@ -17,11 +18,9 @@ import net.minecraft.world.level.biome.Biome
 abstract class SpawningContext {
     companion object {
         val contexts = mutableListOf<RegisteredSpawningContext<*>>()
-
         fun getByName(name: String) = contexts.find { it.name == name }
-        fun <T : SpawningContext> register(name: String, clazz: Class<T>) {
-            // TODO consider trashing the wrapping class and just make the contexts a map
-            contexts.add(RegisteredSpawningContext(name = name, clazz = clazz))
+        fun <T : SpawningContext> register(name: String, clazz: Class<T>, defaultCondition: String = BasicSpawningCondition.NAME) {
+            contexts.add(RegisteredSpawningContext(name = name, clazz = clazz, defaultCondition = defaultCondition))
         }
     }
 
@@ -52,7 +51,7 @@ abstract class SpawningContext {
     }
 
     open fun getRarity(detail: SpawnDetail): Float {
-        var rarity = detail.getContextProperties(this)?.rarity ?: detail.rarity
+        var rarity = detail.rarity
         for (influence in influences) {
             rarity = influence.affectRarity(detail, rarity)
         }

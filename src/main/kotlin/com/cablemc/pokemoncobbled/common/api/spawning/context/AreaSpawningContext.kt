@@ -25,4 +25,6 @@ open class AreaSpawningContext(
     val height: Int,
     val nearbyBlocks: Set<BlockState>,
     val slice: WorldSlice
-) : SpawningContext()
+) : SpawningContext() {
+    val nearbyBlockTypes = nearbyBlocks.mapNotNull { it.block.registryName }
+}

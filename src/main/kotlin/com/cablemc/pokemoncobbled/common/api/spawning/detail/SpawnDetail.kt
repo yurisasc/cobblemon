@@ -1,9 +1,8 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.detail
 
-import com.cablemc.pokemoncobbled.common.api.spawning.ContextProperties
-import com.cablemc.pokemoncobbled.common.api.spawning.ContextPropertyMap
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.CompositeSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 
@@ -16,14 +15,15 @@ import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
  */
 abstract class SpawnDetail {
     companion object {
-        val spawnDetailTypes = mutableMapOf<String, RegisteredSpawnDetail<*, *>>()
-        fun <T : SpawnDetail, U : ContextProperties> registerSpawnType(name: String, detailClass: Class<T>, contextualPropertiesClass: Class<U>) {
-            spawnDetailTypes[name] = RegisteredSpawnDetail(detailClass, contextualPropertiesClass)
+        val spawnDetailTypes = mutableMapOf<String, RegisteredSpawnDetail<*>>()
+        fun <T : SpawnDetail> registerSpawnType(name: String, detailClass: Class<T>) {
+            spawnDetailTypes[name] = RegisteredSpawnDetail(detailClass)
         }
     }
 
     abstract val type: String
     var id = ""
+    lateinit var context: RegisteredSpawningContext<*>
     var conditions = mutableListOf<SpawningCondition<*>>()
     var anticonditions = mutableListOf<SpawningCondition<*>>()
     var compositeCondition: CompositeSpawningCondition? = null
@@ -32,13 +32,6 @@ abstract class SpawnDetail {
     var percentage = -1F
 
     var labels = mutableListOf<String>()
-    var contextProperties: ContextPropertyMap? = null
-
-    fun getContextProperties(ctx: SpawningContext): ContextProperties? {
-        return contextProperties?.entries?.find { it.key.clazz.isAssignableFrom(ctx::class.java) }?.value
-    }
-
-    // TODO consider precalculating the possible contexts
 
     open fun autoLabel() {}
 
