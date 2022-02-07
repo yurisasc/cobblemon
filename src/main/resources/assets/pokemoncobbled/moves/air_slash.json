@@ -1,9 +1,9 @@
-﻿{
-    "name":  "air_slash",
-    "type":  "flying",
-    "damageCategory":  "special",
-    "power":  75,
-    "accuracy":  95,
-    "effectChance":  30,
-    "maxPp":  15
+{
+  "name": "air_slash",
+  "type": "flying",
+  "damageCategory": "special",
+  "power": 75,
+  "accuracy": 95,
+  "effectChance": 30,
+  "maxPp": 15
 }
