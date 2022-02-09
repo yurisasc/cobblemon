@@ -1,7 +1,9 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
+import com.cablemc.pokemoncobbled.common.api.event.pokemon.HappinessUpdateEvent
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
@@ -20,17 +22,16 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
-import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
-import com.cablemc.pokemoncobbled.common.util.readMapK
-import com.cablemc.pokemoncobbled.common.util.writeMapK
+import com.cablemc.pokemoncobbled.common.util.*
+import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
-import java.util.UUID
+import java.util.*
 
 class Pokemon {
     var uuid: UUID = UUID.randomUUID()
@@ -222,6 +223,15 @@ class Pokemon {
         return this
     }
 
+    fun getOwner() : ServerPlayer? {
+        storeCoordinates.get().let {
+            if (it != null) {
+                return getServer().playerList.getPlayer(it.store.uuid)
+            }
+        }
+        return null
+    }
+
     fun belongsTo(player: Player) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
     fun isWild() = storeCoordinates.get() == null
@@ -267,19 +277,22 @@ class Pokemon {
     private fun validHappiness (value : Int) : Boolean {
         return value in 0..250
     }
+
+    fun setHappiness (amount : Int) : Boolean {
+        PokemonCobbledMod.EVENT_BUS.post(this.getOwner()?.let { HappinessUpdateEvent(it, this, this.happiness) })
+        if(validHappiness(amount)) happiness = amount
+        return happiness == amount
+    }
+
     fun incrementHappiness (amount : Int) : Boolean {
         val value = happiness + amount
-        if(validHappiness(value)){
-            happiness = value
-        }
+        if(validHappiness(value)) happiness = value
         return happiness == value
     }
 
     fun decrementHappiness (amount : Int) : Boolean {
         val value = happiness - amount
-        if(validHappiness(value)){
-            happiness = value
-        }
+        if(validHappiness(value)) happiness = value
         return happiness == value
     }
 }

@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.Pok
 import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.event.net.HappinessUpdateEvent
+import com.cablemc.pokemoncobbled.common.api.event.pokemon.HappinessUpdateEvent
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
@@ -99,7 +99,8 @@ object PokemonCobbledMod {
         MinecraftForge.EVENT_BUS.register(this)
         MinecraftForge.EVENT_BUS.register(SpawnerManager)
 
-        MinecraftForge.EVENT_BUS.register(HappinessUpdateEvent(null, null))
+        //API Events
+        EVENT_BUS.register(HappinessUpdateEvent::class)
 
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
