@@ -1,12 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.spawner
 
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.PrecalculationResult
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.RootPrecalculation
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningPrecalculation
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
+import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import com.cablemc.pokemoncobbled.common.api.spawning.selection.ContextWeightedSelector
 import com.cablemc.pokemoncobbled.common.api.spawning.selection.SpawningSelector
@@ -23,25 +21,17 @@ import java.util.UUID
  */
 abstract class TickingSpawner(
     override val name: String,
-    private var details: MutableList<SpawnDetail> = mutableListOf(),
+    var spawns: SpawnPool,
     val manager: SpawnerManager
 ) : Spawner {
     private var selector: SpawningSelector = ContextWeightedSelector
-    private var precalculation: PrecalculationResult<*> = RootPrecalculation.generate(details, emptyList())
-
-    override val precalculators = mutableListOf<SpawningPrecalculation<*>>()
     override val influences = mutableListOf<SpawningInfluence>()
 
     override fun canSpawn() = active
-    override fun getPrecalculationResult() = precalculation
-    override fun setPrecalculationResult(precalculation: PrecalculationResult<*>) { this.precalculation = precalculation }
     override fun getSpawningSelector() = selector
     override fun setSpawningSelector(selector: SpawningSelector) { this.selector = selector }
-    override fun getSpawnDetails() = details
-    override fun setSpawnDetails(details: MutableList<SpawnDetail>) {
-        this.details = details
-        precalculate()
-    }
+    override fun getSpawnPool() = spawns
+    override fun setSpawnPool(spawnPool: SpawnPool) { spawns = spawnPool }
 
     abstract fun run(): Pair<SpawningContext, SpawnDetail>?
 

@@ -7,6 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.AreaSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator.Companion.prioritizedAreaCalculators
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
+import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
 
 /**
@@ -23,9 +24,9 @@ import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspe
  */
 abstract class AreaSpawner(
     name: String,
-    details: MutableList<SpawnDetail>,
+    spawns: SpawnPool,
     manager: SpawnerManager
-) : TickingSpawner(name, details, manager) {
+) : TickingSpawner(name, spawns, manager) {
     abstract fun getArea(): SpawningArea?
 
     var prospector: SpawningProspector = PokemonCobbled.prospector
@@ -37,7 +38,7 @@ abstract class AreaSpawner(
         if (area != null) {
             val slice = prospector.prospect(this, area)
             val contexts = resolver.resolve(this, contextCalculators, slice)
-            return getSpawningSelector().select(this, contexts, getSpawnDetails())
+            return getSpawningSelector().select(this, contexts, getSpawnPool().details)
         }
 
         return null

@@ -39,6 +39,7 @@ import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
+import com.cablemc.pokemoncobbled.common.spawning.CobbledSpawnPools
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifServer
 import com.cablemc.pokemoncobbled.mod.config.CobbledConfig
@@ -90,6 +91,8 @@ object PokemonCobbledMod {
     fun initialize(event: FMLCommonSetupEvent) {
         LOGGER.info("Initializing...")
 
+        // debug purposes
+        CobbledSpawnPools.WORLD_SPAWN_POOL
 //        showdownThread.start()
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats

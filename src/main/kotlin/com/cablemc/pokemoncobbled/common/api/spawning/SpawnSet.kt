@@ -13,14 +13,17 @@ import net.minecraftforge.fml.ModList
 class SpawnSet : Iterable<SpawnDetail> {
     var id = ""
 
+    var enabled = true
     var version = "1"
     var preventOverwrite = false
     var neededInstalledMods = listOf<String>()
     var neededUninstalledMods = listOf<String>()
     var spawns = mutableListOf<SpawnDetail>()
 
-    fun isValid(): Boolean {
-        return if (neededInstalledMods.isNotEmpty() && neededInstalledMods.any { !ModList.get().isLoaded(it) }) {
+    fun isEnabled(): Boolean {
+        return if (!enabled) {
+            false
+        } else if (neededInstalledMods.isNotEmpty() && neededInstalledMods.any { !ModList.get().isLoaded(it) }) {
             false
         } else if (neededUninstalledMods.isNotEmpty() && neededUninstalledMods.any { ModList.get().isLoaded(it) }) {
             false

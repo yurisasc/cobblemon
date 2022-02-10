@@ -51,6 +51,9 @@ object CobbledConfig {
     @IntValue(defaultValue = 6, min = 1)
     var maxNearbyBlocksRange = 6
 
+    @Configurable(category = "Spawning", name = "Use Custom Spawn Files", description = "Whether or not spawn files will be extracted so that they can be edited.")
+    var useCustomSpawnFiles = false
+
     var spec: ForgeConfigSpec
 
     init {

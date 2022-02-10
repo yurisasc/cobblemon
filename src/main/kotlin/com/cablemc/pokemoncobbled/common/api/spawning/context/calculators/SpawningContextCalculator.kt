@@ -11,7 +11,7 @@ import net.minecraftforge.eventbus.api.EventPriority
  * is necessary when you create a new type of [SpawningContext] with [SpawningContext.register]
  * to know how to actually create these contexts.
  *
- * If you are adding to the world spawner, then you probably actually want to create a
+ * If you are adding to the world spawner, then you probably actually want to create an
  * [AreaSpawningContextCalculator].
  *
  * @author Hiroku
