@@ -16,5 +16,12 @@
     "width": 0.7,
     "height": 1.15,
     "fixed": false
-  }
+  },
+  "shoulderMountable": true,
+  "shoulderEffect": [
+    {
+      "type": "light_source",
+      "Test": "Baguette"
+    }
+  ]
 }
