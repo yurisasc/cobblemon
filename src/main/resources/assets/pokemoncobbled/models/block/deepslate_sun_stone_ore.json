@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "pokemoncobbled:blocks/deepslate_sun_stone_ore"
+  }
+}
