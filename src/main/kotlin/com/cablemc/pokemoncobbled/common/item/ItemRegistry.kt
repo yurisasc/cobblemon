@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.item
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.blocks.BlockRegistry
+import com.cablemc.pokemoncobbled.common.item.evo.FireStone
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
@@ -25,6 +26,7 @@ object ItemRegistry {
     val DEEPSLATE_FIRE_STONE_ORE = ITEMS.register("deepslate_fire_stone_ore") {
         BlockItem(BlockRegistry.DEEPSLATE_FIRE_STONE_ORE, Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS))
     }
+    val FIRE_STONE = registerItem("fire_stone", FireStone())
 
     private fun registerItem(
         name: String,
