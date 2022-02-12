@@ -279,7 +279,6 @@ class Pokemon {
     }
 
     fun setHappiness (amount : Int) : Boolean {
-        PokemonCobbledMod.EVENT_BUS.post(this.getOwner()?.let { HappinessUpdateEvent(it, this, this.happiness) })
         if(validHappiness(amount)) happiness = amount
         return happiness == amount
     }

@@ -106,6 +106,12 @@ object PokemonCobbledMod {
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
     }
 
+    @SubscribeEvent
+    fun onHappinessUpdate(event: HappinessUpdateEvent){
+        println("${event.player}'s ${event.pokemon.species.translatedName} had their happiness " +
+                "change from ${event.oldHappiness} to ${event.pokemon.happiness}")
+    }
+
     fun onBake(event: ModelBakeEvent) {
         BedrockAnimationRepository.clear()
         PokemonModelRepository.init()
