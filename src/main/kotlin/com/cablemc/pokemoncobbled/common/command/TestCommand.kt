@@ -36,12 +36,6 @@ object TestCommand {
         val player: ServerPlayer = context.source.entity as ServerPlayer
         val playerSubject = PlayerBattleActor("p1", player.uuid, PokemonStoreManager.getParty(player))
 
-        val poke = playerSubject.party.get(0)
-        poke?.setHappiness(69)
-        println(poke?.happiness)
-
-        poke!!.getOwner()?.let { poke.let { it1 -> HappinessUpdateEvent(it, it1, 0).postAndThen {} } }
-
         // Enemy variables
         val enemyId = UUID.randomUUID()
         val enemyParty = PartyStore(enemyId)

@@ -1,9 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
-import com.cablemc.pokemoncobbled.common.api.event.pokemon.HappinessUpdateEvent
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
@@ -23,7 +21,6 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonStat
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.util.*
-import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
@@ -223,11 +220,16 @@ class Pokemon {
         return this
     }
 
-    fun getOwner() : ServerPlayer? {
+    fun getOwnerPlayer() : ServerPlayer? {
         storeCoordinates.get().let {
-            if (it != null) {
-                return getServer().playerList.getPlayer(it.store.uuid)
-            }
+            if(isPlayerOwned()) return getServer().playerList.getPlayer(it!!.store.uuid);
+        }
+        return null
+    }
+
+    fun getOwnerUUID() : UUID? {
+        storeCoordinates.get().let {
+            if(isPlayerOwned()) return it!!.store.uuid;
         }
         return null
     }
