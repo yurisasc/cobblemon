@@ -44,6 +44,8 @@ abstract class PoseableEntityModel<T : Entity>(
     /** Gets the [PoseableEntityState] for an entity. */
     abstract fun getState(entity: T): PoseableEntityState<T>
 
+    fun scaleForPart(part: ModelPart, value: Float) = (relevantParts.find { it.modelPart == part }?.changeFactor ?: 1F) * value
+
     /**
      * Registers a pose for this model.
      *
@@ -55,7 +57,7 @@ abstract class PoseableEntityModel<T : Entity>(
     fun <F : ModelFrame> registerPose(
         poseType: PoseType,
         condition: (T) -> Boolean = { true },
-        transformTicks: Int = 30,
+        transformTicks: Int = 20,
         idleAnimations: Array<StatelessAnimation<T, out F>>,
         transformedParts: Array<TransformedModelPart>
     ) {
@@ -98,33 +100,41 @@ abstract class PoseableEntityModel<T : Entity>(
         state.currentModel = this
         var poseType = state.getPose()
         var pose = poses[poseType]
-        if (poseType == null || pose == null || !pose.condition(entity)) {
-            if (poseType == null || pose == null || state.statefulAnimations.none { it is PoseTransitionAnimation }) {
-                val previousPose = pose
-                pose = poses.values.firstOrNull { it.condition(entity) } ?: run {
-                    LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
-                    return@run Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
-                }
-                poseType = pose.poseType
 
-                if (previousPose != null && pose.transformTicks > 0) {
-                    state.statefulAnimations.add(
-                        PoseTransitionAnimation(
-                            beforePose = previousPose,
-                            afterPose = pose,
-                            durationTicks = pose.transformTicks
+        if (poseType == null || pose == null || !pose.condition(entity)) {
+            val previousPose = pose
+            val desirablePose = poses.values.firstOrNull { it.condition(entity) } ?: run {
+                LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
+                return@run Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
+            }
+            val desirablePoseType = desirablePose.poseType
+
+            // If this condition matches then it just no longer fits this pose
+            if (pose != null && poseType != null) {
+                if (state.statefulAnimations.none { it is PoseTransitionAnimation }) {
+                    if (previousPose != null && pose.transformTicks > 0) {
+                        state.statefulAnimations.add(
+                            PoseTransitionAnimation(
+                                beforePose = previousPose,
+                                afterPose = desirablePose,
+                                durationTicks = pose.transformTicks
+                            )
                         )
-                    )
-                } else {
-                    getState(entity).setPose(poseType)
+                    } else {
+                        getState(entity).setPose(desirablePoseType)
+                    }
                 }
+            } else {
+                pose = desirablePose
+                poseType = desirablePoseType
+                getState(entity).setPose(desirablePoseType)
             }
         }
 
         applyPose(poseType)
+        state.statefulAnimations.removeIf { !it.run(entity, this) }
         pose.idleStateful(entity, this, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
         getState(entity).applyAdditives(entity, this)
-        state.statefulAnimations.removeIf { !it.run(entity, this) }
     }
 
     fun ModelPart.translation(

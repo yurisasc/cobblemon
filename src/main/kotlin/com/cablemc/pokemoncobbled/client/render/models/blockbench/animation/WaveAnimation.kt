@@ -55,7 +55,7 @@ class WaveAnimation<T : Entity>(
         var totalTimeDisplacement = (headLength + segments.map { it.length }.sum()) / oscillationsScalar
         if (moveHead) {
             val headDisplacement = waveFunction(t + totalTimeDisplacement - headLength / oscillationsScalar) * 16
-            head.addPosition(motionAxis, -headDisplacement)
+            head.addPosition(motionAxis, model.scaleForPart(head, -headDisplacement))
         }
 
         totalTimeDisplacement -= headLength / oscillationsScalar
@@ -63,9 +63,6 @@ class WaveAnimation<T : Entity>(
         var previousTheta = 0F
 
         for (segment in segments) {
-            val dt2 = totalTimeDisplacement
-            val dt1 = dt2 + segment.length / 2 / oscillationsScalar
-
             val t2 = totalTimeDisplacement + previousSegmentLength / 2 / oscillationsScalar
             val t1 = totalTimeDisplacement - segment.length / 2 / oscillationsScalar
 
@@ -81,7 +78,7 @@ class WaveAnimation<T : Entity>(
              * To do this perfectly, we need to calculate the error of this action and apply a
              * translation to this part so that it counters the error. In most cases the error is insignificant.
              */
-            segment.modelPart.addRotation(rotationAxis, theta - previousTheta)
+            segment.modelPart.addRotation(rotationAxis, model.scaleForPart(segment.modelPart, theta - previousTheta))
             previousTheta = theta
             previousSegmentLength = segment.length
             totalTimeDisplacement -= segment.length / oscillationsScalar
