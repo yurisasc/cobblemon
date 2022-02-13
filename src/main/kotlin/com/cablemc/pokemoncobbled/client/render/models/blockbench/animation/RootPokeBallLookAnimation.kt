@@ -22,6 +22,6 @@ class RootPokeBallLookAnimation(frame: PokeBallFrame) : StatelessAnimation<Empty
             Mth.atan2(-dispZ, dispX) + PI / 2
         }?.toFloat() ?: 0F
 
-        model.rootPart.yRot += yRot
+        model.rootPart.yRot = yRot
     }
 }
