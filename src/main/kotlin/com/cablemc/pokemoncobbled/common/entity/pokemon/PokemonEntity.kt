@@ -94,21 +94,21 @@ class PokemonEntity(
      * Prevents water type Pokémon from taking drowning damage.
      */
     override fun canBreatheUnderwater(): Boolean {
-        return pokemon.types.contains(ElementalTypes.WATER)
+        return ElementalTypes.WATER in pokemon.types
     }
 
     /**
      * Prevents fire type Pokémon from taking fire damage.
      */
     override fun fireImmune(): Boolean {
-        return pokemon.types.contains(ElementalTypes.FIRE)
+        return ElementalTypes.FIRE in pokemon.types
     }
 
     /**
      * Prevents flying type Pokémon from taking fall damage.
      */
     override fun checkFallDamage(pY: Double, pOnGround: Boolean, pState: BlockState, pPos: BlockPos) {
-        if (pokemon.types.contains(ElementalTypes.FLYING)) {
+        if (ElementalTypes.FLYING in pokemon.types) {
             super.resetFallDistance()
         }
         else {
