@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
@@ -14,6 +15,7 @@ import com.cablemc.pokemoncobbled.common.util.adapters.ResourceLocationAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.SpawnDetailAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.SpawningConditionAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.TimeRangeAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.pokemonPropertiesShortAdapter
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.cablemc.pokemoncobbled.common.util.isHigherVersion
@@ -49,6 +51,7 @@ object SpawnLoader {
         .registerTypeAdapter(SpawnDetail::class.java, SpawnDetailAdapter)
         .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
         .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
+        .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
         .create()
 
     var deserializingRegisteredSpawnDetail: RegisteredSpawnDetail<*>? = null
