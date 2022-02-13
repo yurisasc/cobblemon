@@ -4,6 +4,8 @@ import com.cablemc.pokemoncobbled.common.api.event.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -12,6 +14,7 @@ import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.postAndThen
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
+import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.protocol.Packet
@@ -32,6 +35,7 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
 import net.minecraft.world.entity.animal.ShoulderRidingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraftforge.entity.IEntityAdditionalSpawnData
 import net.minecraftforge.network.NetworkHooks
 import java.util.EnumSet
@@ -84,8 +88,30 @@ class PokemonEntity(
         delegate.tick(this)
     }
 
+    /**
+     * Prevents water type Pokémon from taking drowning damage.
+     */
     override fun canBreatheUnderwater(): Boolean {
-        return true
+        return pokemon.types.contains(ElementalTypes.WATER)
+    }
+
+    /**
+     * Prevents fire type Pokémon from taking fire damage.
+     */
+    override fun fireImmune(): Boolean {
+        return pokemon.types.contains(ElementalTypes.FIRE)
+    }
+
+    /**
+     * Prevents flying type Pokémon from taking fall damage.
+     */
+    override fun checkFallDamage(pY: Double, pOnGround: Boolean, pState: BlockState, pPos: BlockPos) {
+        if (pokemon.types.contains(ElementalTypes.FLYING)) {
+            super.resetFallDistance()
+        }
+        else {
+            super.checkFallDamage(pY, pOnGround, pState, pPos)
+        }
     }
 
     override fun save(nbt: CompoundTag): Boolean {
