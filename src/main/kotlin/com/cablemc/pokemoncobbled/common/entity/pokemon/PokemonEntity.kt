@@ -66,6 +66,7 @@ class PokemonEntity(
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
     /** 0 is do nothing, 1 is appearing from a pokeball so needs to be downscaled at first, 2 is being captured*/
     val beamModeEmitter = addEntityProperty(BEAM_MODE, 0.toByte())
+    val hoverHeight = addEntityProperty(HOVER_HEIGHT, 0)
     // properties like the above are synced and can be subscribed to changes for on either side
 
     init {
@@ -80,6 +81,7 @@ class PokemonEntity(
         private val BEHAVIOUR_FLAGS = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
         private val PHASING_TARGET_ID = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
         private val BEAM_MODE = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
+        private val HOVER_HEIGHT = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
     }
 
     override fun tick() {
@@ -206,6 +208,7 @@ class PokemonEntity(
         buffer.writeInt(phasingTargetId.get())
         buffer.writeByte(beamModeEmitter.get().toInt())
         buffer.writeBoolean(pokemon.shiny)
+        buffer.writeByte(hoverHeight.get().toInt())
     }
 
     override fun readSpawnData(buffer: FriendlyByteBuf) {
@@ -216,6 +219,7 @@ class PokemonEntity(
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
             shiny.set(buffer.readBoolean())
+            hoverHeight.set(buffer.readByte())
         }
     }
 
