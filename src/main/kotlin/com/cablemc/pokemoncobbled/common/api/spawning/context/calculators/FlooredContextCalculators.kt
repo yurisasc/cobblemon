@@ -51,8 +51,8 @@ object GroundedSpawningContextCalculator : FlooredSpawningContextCalculator<Grou
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
-            width = getHorizontalSpace(input, surroundingCondition, maxHorizontalSpace, offsetY = 1),
-            height = getHeight(input, surroundingCondition, maxVerticalSpace, offsetY = 1),
+            width = getHorizontalSpace(input, surroundingCondition, maxHorizontalSpace.get(), offsetY = 1),
+            height = getHeight(input, surroundingCondition, maxVerticalSpace.get(), offsetY = 1),
             slice = input.slice,
             nearbyBlocks = getNearbyBlocks(input)
         )
@@ -78,8 +78,8 @@ object SeafloorSpawningContextCalculator : FlooredSpawningContextCalculator<Seaf
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
-            width = getHorizontalSpace(input, surroundingCondition, maxHorizontalSpace, offsetY = 1),
-            height = getHeight(input, surroundingCondition, maxVerticalSpace, offsetY = 1),
+            width = getHorizontalSpace(input, surroundingCondition, maxHorizontalSpace.get(), offsetY = 1),
+            height = getHeight(input, surroundingCondition, maxVerticalSpace.get(), offsetY = 1),
             slice = input.slice,
             nearbyBlocks = getNearbyBlocks(input)
         )
@@ -105,8 +105,8 @@ object LavafloorSpawningContextCalculator : FlooredSpawningContextCalculator<Lav
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
-            width = getHorizontalSpace(input, surroundingCondition, maxHorizontalSpace, offsetY = 1),
-            height = getHeight(input, surroundingCondition, maxVerticalSpace, offsetY = 1),
+            width = getHorizontalSpace(input, surroundingCondition, maxHorizontalSpace.get(), offsetY = 1),
+            height = getHeight(input, surroundingCondition, maxVerticalSpace.get(), offsetY = 1),
             slice = input.slice,
             nearbyBlocks = getNearbyBlocks(input)
         )

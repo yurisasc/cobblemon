@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.detail
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.PrecalculationResult
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.RootPrecalculation
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningPrecalculation
+import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 
@@ -21,14 +22,17 @@ class SpawnPool : Iterable<SpawnDetail> {
     val details = mutableListOf<SpawnDetail>()
     var precalculation: PrecalculationResult<*> = RootPrecalculation.generate(details, emptyList())
     val precalculators = mutableListOf<SpawningPrecalculation<*>>()
+    /** A set of all [RegisteredSpawningContext]s that are mentioned in this pool. */
+    val contexts = mutableSetOf<RegisteredSpawningContext<*>>()
 
     override fun iterator() = details.iterator()
 
     /**
      * Precalculates spawns into hash mappings using the [precalculators] included
-     * in this pool. This will speed up retrieval later, and thins the herd of spawns
-     * that need to be thoroughly examined when a spawn is occurring. This function
-     * will probably be slow, especially if there are many precalculators and spawns.
+     * in this pool as well as the range of contexts mentioned in the pool. This
+     * will speed up retrieval later, and thins the herd of spawns that need to be
+     * thoroughly examined when a spawn is occurring. This function will probably
+     * be slow, especially if there are many precalculators and spawns.
      */
     fun precalculate() {
         if (precalculators.isEmpty()) {
@@ -36,6 +40,8 @@ class SpawnPool : Iterable<SpawnDetail> {
         }
 
         precalculation = precalculators.first().generate(details, precalculators.subList(1, precalculators.size))
+
+        details.forEach { contexts.add(it.context) }
     }
 
     /**

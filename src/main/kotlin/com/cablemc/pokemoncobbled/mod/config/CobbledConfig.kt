@@ -37,22 +37,23 @@ object CobbledConfig {
 
     @Configurable(category = "Showdown", name= "Auto Update", description = "Should the mods showdown get auto updated for you?")
     @BooleanValue(true)
-    var autoUpdateShowdown : ConfigValue<Boolean>? = null
+    lateinit var autoUpdateShowdown : ConfigValue<Boolean>
 
     @Configurable(category = "Spawning", name= "Max Vertical Space", description = "The largest possible vertical diameter for a spawning location. If too low, some tall Pokémon might be unable to spawn.")
     @IntValue(defaultValue = 10, min = 1)
-    var maxVerticalSpace = 1
+    lateinit var maxVerticalSpace: ConfigValue<Int>
 
     @Configurable(category = "Spawning", name= "Max Horizontal Space", description = "The largest possible horizontal diameter for a spawning location. If too low, some wide Pokémon might be unable to spawn.")
     @IntValue(defaultValue = 10, min = 1)
-    var maxHorizontalSpace = 1
+    lateinit var maxHorizontalSpace: ConfigValue<Int>
 
     @Configurable(category = "Spawning", name= "Max Nearby Blocks Range", description = "The longest distance to look for particular blocks as a condition for spawning.")
     @IntValue(defaultValue = 6, min = 1)
-    var maxNearbyBlocksRange = 6
+    lateinit var maxNearbyBlocksRange: ConfigValue<Int>
 
-    @Configurable(category = "Spawning", name = "Use Custom Spawn Files", description = "Whether or not spawn files will be extracted so that they can be edited.")
-    var useCustomSpawnFiles = false
+    @Configurable(category = "Spawning", name = "Export Spawns To Config", description = "Whether or not spawn files will be extracted so that they can be edited from the config directory.")
+    @BooleanValue(defaultValue = false)
+    lateinit var exportSpawnsToConfig: ConfigValue<Boolean>
 
     var spec: ForgeConfigSpec
 

@@ -40,9 +40,9 @@ object UnderwaterSpawningContextCalculator : SubmergedContextCalculator<Underwat
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
-            width = getHorizontalSpace(input, fluidCondition, maxHorizontalSpace),
-            height = getHeight(input, fluidCondition, ceil(maxVerticalSpace / 2F)),
-            depth = getDepth(input, fluidCondition, ceil(maxVerticalSpace / 2F)),
+            width = getHorizontalSpace(input, fluidCondition, maxHorizontalSpace.get()),
+            height = getHeight(input, fluidCondition, ceil(maxVerticalSpace.get() / 2F)),
+            depth = getDepth(input, fluidCondition, ceil(maxVerticalSpace.get() / 2F)),
             slice = input.slice,
             nearbyBlocks = getNearbyBlocks(input)
         )
@@ -66,9 +66,9 @@ object UnderlavaSpawningContextCalculator : SubmergedContextCalculator<Underlava
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
-            width = getHorizontalSpace(input, fluidCondition, maxHorizontalSpace),
-            height = getHeight(input, fluidCondition, ceil(maxVerticalSpace / 2F)),
-            depth = getDepth(input, fluidCondition, ceil(maxVerticalSpace / 2F)),
+            width = getHorizontalSpace(input, fluidCondition, maxHorizontalSpace.get()),
+            height = getHeight(input, fluidCondition, ceil(maxVerticalSpace.get() / 2F)),
+            depth = getDepth(input, fluidCondition, ceil(maxVerticalSpace.get() / 2F)),
             slice = input.slice,
             nearbyBlocks = getNearbyBlocks(input)
         )

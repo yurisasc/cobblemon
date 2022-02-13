@@ -39,7 +39,7 @@ interface AreaSpawningContextCalculator<O : AreaSpawningContext> : SpawningConte
         = input.slice.getLight(input.position.x, input.position.y + 1, input.position.z, elseLight)
     fun getSkyAbove(input: AreaSpawningInput): Boolean = input.slice.skyAbove(input.position.x, input.position.y + 1, input.position.z)
     fun getSkySpaceAbove(input: AreaSpawningInput): Int = input.slice.skySpaceAbove(input.position.x, input.position.y, input.position.z)
-    fun getNearbyBlocks(input: AreaSpawningInput, radius: Int = maxNearbyBlocksRange) = input.slice.nearbyBlocks(input.position, radius)
+    fun getNearbyBlocks(input: AreaSpawningInput, radius: Int = maxNearbyBlocksRange.get()) = input.slice.nearbyBlocks(input.position, radius)
 }
 
 open class AreaSpawningInput(val spawner: Spawner, val position: BlockPos, val slice: WorldSlice) : SpawningContextInput(slice.cause, slice.level)

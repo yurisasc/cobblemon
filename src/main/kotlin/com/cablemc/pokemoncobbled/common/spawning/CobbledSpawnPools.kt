@@ -14,5 +14,5 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
  */
 object CobbledSpawnPools {
     /** [SpawnPool] used for standard world spawning. */
-    var WORLD_SPAWN_POOL = SpawnLoader.loadInternalFolder(cobbledResource("spawns/world/"))
+    var WORLD_SPAWN_POOL = SpawnLoader.load("world")
 }
