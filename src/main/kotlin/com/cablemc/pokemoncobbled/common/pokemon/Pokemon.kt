@@ -60,9 +60,13 @@ class Pokemon {
         get() = state.let { if (it is ActivePokemonState) it.entity else null }
 
     val primaryType: ElementalType
-        get() = form.primaryType
+        get() = species.primaryType
+
     val secondaryType: ElementalType?
-        get() = form.secondaryType
+        get() = species.secondaryType
+
+    val types: Iterable<ElementalType>
+        get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
 
     var shiny = false
         set(value) { field = value ; _shiny.emit(value) }
@@ -103,8 +107,6 @@ class Pokemon {
     fun recall() {
         this.state = InactivePokemonState()
     }
-
-    val types = form.types
 
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
