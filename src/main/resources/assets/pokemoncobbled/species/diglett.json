@@ -1,6 +1,8 @@
 {
   "name": "diglett",
   "nationalPokedexNumber": 50,
+  "primaryType": "ground",
+  "secondaryType": null,
   "maleRatio": 0.5,
   "baseStats": {
     "hp": 10,

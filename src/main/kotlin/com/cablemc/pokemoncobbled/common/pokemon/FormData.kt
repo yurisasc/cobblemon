@@ -47,8 +47,9 @@ data class FormData(
 
     val primaryType: ElementalType
         get() = _primaryType ?: species.primaryType
+
     val secondaryType: ElementalType?
-        get() = _secondaryType
+        get() = _secondaryType ?: species.secondaryType
 
     val standardAbilities: List<AbilityTemplate>
         get() = _standardAbilities ?: species.standardAbilities
