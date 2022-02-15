@@ -1,6 +1,8 @@
 {
   "name": "pidgeot",
   "nationalPokedexNumber": 18,
+  "primaryType": "normal",
+  "secondaryType": "flying",
   "maleRatio": 0.50,
   "baseStats": {
     "hp": 83,
