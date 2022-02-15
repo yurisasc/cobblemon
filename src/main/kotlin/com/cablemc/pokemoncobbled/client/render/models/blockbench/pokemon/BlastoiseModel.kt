@@ -25,6 +25,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.util.Mth
+import net.minecraft.world.phys.Vec3
 
 
 class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, EaredFrame {
@@ -64,6 +65,9 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             )
         )
     }
+
+    override val portraitScale = 1.35F
+    override val portraitTranslation = Vec3(0.09, 1.25, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("blastoise"), "main")
@@ -201,4 +205,9 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             return LayerDefinition.create(meshdefinition, 128, 128)
         }
     }
+
+    override val profileScale: Float
+        get() = 1.0F
+    override val profileTranslation: Vec3
+        get() = Vec3(0.0, 0.00, 0.0)
 }

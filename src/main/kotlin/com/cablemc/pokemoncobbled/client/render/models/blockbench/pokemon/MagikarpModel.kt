@@ -12,6 +12,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 
 class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
@@ -40,6 +41,10 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
             transformedParts = emptyArray()
         )
     }
+
+
+    override val portraitScale = 1.65F
+    override val portraitTranslation = Vec3(-0.05, -0.1, 0.0)
 
     companion object {
         // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor

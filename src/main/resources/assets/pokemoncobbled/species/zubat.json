@@ -1,8 +1,6 @@
 {
   "name": "zubat",
   "nationalPokedexNumber": 41,
-  "primaryType": "poison",
-  "secondaryType": "flying",
   "maleRatio": 0.5,
   "baseStats": {
     "hp": 40,

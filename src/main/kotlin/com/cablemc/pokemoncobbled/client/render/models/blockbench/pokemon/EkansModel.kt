@@ -16,6 +16,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
@@ -70,6 +71,9 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
+
+    override val portraitScale = 1.85F
+    override val portraitTranslation = Vec3(-1.3, -0.75, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("ekans"), "main")

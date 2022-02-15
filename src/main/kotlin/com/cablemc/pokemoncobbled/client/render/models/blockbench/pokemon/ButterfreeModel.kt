@@ -19,6 +19,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame {
     override val rootPart = registerRelevantPart("butterfree", root.getChild("butterfree"))
@@ -102,7 +103,8 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         )
     }
 
-
+    override val portraitScale = 1.25F
+    override val portraitTranslation = Vec3(0.29, 0.65, 0.0)
 
     companion object {
         val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(cobbledResource("butterfree"), "main")

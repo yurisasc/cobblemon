@@ -22,6 +22,7 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.util.Mth.PI
+import net.minecraft.world.phys.Vec3
 
 
 class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, EaredFrame {
@@ -106,6 +107,9 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
             )
         )
     }
+
+    override val portraitScale = 2.05F
+    override val portraitTranslation = Vec3(-0.22, -0.15, 0.0)
 
     companion object {
         

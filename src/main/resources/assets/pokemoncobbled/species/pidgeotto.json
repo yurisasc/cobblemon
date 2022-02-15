@@ -1,8 +1,6 @@
 {
   "name": "pidgeotto",
   "nationalPokedexNumber": 17,
-  "primaryType": "normal",
-  "secondaryType": "flying",
   "maleRatio": 0.50,
   "baseStats": {
     "hp": 63,

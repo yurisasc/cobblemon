@@ -1,8 +1,6 @@
 {
   "name": "venusaur",
   "nationalPokedexNumber": 3,
-  "primaryType": "grass",
-  "secondaryType": "poison",
   "maleRatio": 0.875,
   "baseStats": {
     "hp": 80,

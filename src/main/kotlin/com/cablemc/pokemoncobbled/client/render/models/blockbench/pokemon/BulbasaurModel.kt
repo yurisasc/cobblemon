@@ -13,6 +13,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 
 class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
@@ -39,6 +40,9 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             transformedParts = arrayOf()
         )
     }
+
+    override val portraitScale = 1.65F
+    override val portraitTranslation = Vec3(0.03, -0.1, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("bulbasaur"), "main")

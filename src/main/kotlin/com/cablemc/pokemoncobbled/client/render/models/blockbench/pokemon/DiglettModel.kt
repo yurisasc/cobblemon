@@ -12,6 +12,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 
 class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
@@ -55,6 +56,9 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
             transformedParts = emptyArray()
         )
     }
+
+    override val portraitScale = 1.65F
+    override val portraitTranslation = Vec3(0.0, -0.4, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("diglett"), "main")

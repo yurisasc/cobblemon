@@ -1,8 +1,6 @@
 {
   "name": "butterfree",
   "nationalPokedexNumber": 12,
-  "primaryType": "bug",
-  "secondaryType": "flying",
   "maleRatio": 0.5,
   "baseStats": {
     "hp": 60,

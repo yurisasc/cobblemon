@@ -24,6 +24,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 
 class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, BiWingedFrame {
@@ -96,6 +97,9 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             )
         )
     }
+
+    override val portraitScale = 1.25F
+    override val portraitTranslation = Vec3(0.09, 1.25, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("charizard"), "main")

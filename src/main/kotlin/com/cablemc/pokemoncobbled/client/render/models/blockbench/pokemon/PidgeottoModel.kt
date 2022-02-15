@@ -18,6 +18,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 
 class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
@@ -120,6 +121,9 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformedParts = arrayOf(),
         )
     }
+
+    override val portraitScale = 1.75F
+    override val portraitTranslation = Vec3(-0.05, 0.00, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("pidgeotto"), "main")
