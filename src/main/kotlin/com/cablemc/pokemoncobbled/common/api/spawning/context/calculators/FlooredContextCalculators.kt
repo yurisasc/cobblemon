@@ -27,7 +27,9 @@ interface FlooredSpawningContextCalculator<T : FlooredSpawningContext> : AreaSpa
     val surroundingCondition: (BlockState) -> Boolean
 
     override fun fits(input: AreaSpawningInput): Boolean {
-        return baseCondition(input.slice.getBlockState(input.position)) && surroundingCondition(input.slice.getBlockState(input.position.above()))
+        val floorState = input.slice.getBlockState(input.position)
+        val aboveState = input.slice.getBlockState(input.position.above())
+        return baseCondition(floorState) && surroundingCondition(aboveState)
     }
 }
 
@@ -47,7 +49,7 @@ object GroundedSpawningContextCalculator : FlooredSpawningContextCalculator<Grou
         return GroundedSpawningContext(
             cause = input.cause,
             level = input.level,
-            position = input.position,
+            position = input.position.immutable(),
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
@@ -74,7 +76,7 @@ object SeafloorSpawningContextCalculator : FlooredSpawningContextCalculator<Seaf
         return SeafloorSpawningContext(
             cause = input.cause,
             level = input.level,
-            position = input.position,
+            position = input.position.immutable(),
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
@@ -101,7 +103,7 @@ object LavafloorSpawningContextCalculator : FlooredSpawningContextCalculator<Lav
         return LavafloorSpawningContext(
             cause = input.cause,
             level = input.level,
-            position = input.position,
+            position = input.position.immutable(),
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),

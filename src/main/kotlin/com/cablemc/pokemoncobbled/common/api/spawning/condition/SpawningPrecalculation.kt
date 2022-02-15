@@ -67,6 +67,17 @@ object RootPrecalculation : SpawningPrecalculation<Any> {
 }
 
 /**
+ * A precalculation based on what context a spawn can be. This is a pretty sweet precalc.
+ *
+ * @author Hiroku
+ * @since February 14th, 2022
+ */
+object ContextPrecalculation : SpawningPrecalculation<Class<out SpawningContext>> {
+    override fun select(detail: SpawnDetail) = listOf(detail.context.clazz)
+    override fun select(ctx: SpawningContext) = ctx::class.java
+}
+
+/**
  * The result of a precalculation. This is mostly just a delegate so that the next
  * result of a precalculation can either be an actual list of spawns or merely another
  * layer of precalculation.

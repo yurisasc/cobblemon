@@ -130,7 +130,11 @@ open class PokemonProperties {
                 var species: String? = null
 
                 val keyPair = keyPairs.find { pair ->
-                    species = PokemonSpecies.species.firstOrNull { it.name.lowercase() == pair.first }?.name
+                    if (pair.second == null && pair.first.lowercase() == "random") {
+                        species = "random"
+                    } else {
+                        species = PokemonSpecies.species.firstOrNull { it.name.lowercase() == pair.first }?.name
+                    }
                     return@find species != null
                 }
 
@@ -298,5 +302,9 @@ open class PokemonProperties {
         // This is still kinda gross
         custom?.forEach { customProperties.addAll(parse(it.asString).customProperties) }
         return this
+    }
+
+    fun copy(): PokemonProperties {
+        return readFromJSON(writeToJSON())
     }
 }

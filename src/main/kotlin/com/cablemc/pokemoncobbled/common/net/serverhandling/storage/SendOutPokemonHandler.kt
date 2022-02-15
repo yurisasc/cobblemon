@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.net.serverhandling.storage
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
-import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
@@ -17,7 +17,7 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
         val player = ctx.sender ?: return
         val slot = packet.slot.takeIf { it >= 0 } ?: return
         ctx.enqueueWork {
-            val party = PokemonStoreManager.getParty(player)
+            val party = PokemonCobbled.storage.getParty(player)
             val pokemon = party.get(slot) ?: return@enqueueWork
             val state = pokemon.state
 

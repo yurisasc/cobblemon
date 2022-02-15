@@ -9,6 +9,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluenc
 import com.cablemc.pokemoncobbled.common.api.spawning.selection.ContextWeightedSelector
 import com.cablemc.pokemoncobbled.common.api.spawning.selection.SpawningSelector
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.level.entity.EntityInLevelCallback
 import java.util.UUID
 
 /**
@@ -37,17 +38,18 @@ abstract class TickingSpawner(
 
     var active = true
     val spawnedEntities = mutableListOf<UUID>()
+    var maximumSpawned = 15
 
     var lastSpawnTime = 0L
     var ticksUntilNextSpawn = 100F
-    var ticksBetweenSpawns = 120F
+    var ticksBetweenSpawns = 60F
     var tickTimerMultiplier = 1F
 
     @Volatile
     var scheduledSpawn: SpawnAction<*>? = null
 
     open fun tick() {
-        if (!active) {
+        if (!active || spawnedEntities.size >= maximumSpawned) {
             return
         }
 
@@ -73,6 +75,12 @@ abstract class TickingSpawner(
     override fun afterSpawn(entity: Entity) {
         super.afterSpawn(entity)
         spawnedEntities.add(entity.uuid)
+        entity.setLevelCallback(object : EntityInLevelCallback {
+            override fun onMove() {}
+            override fun onRemove(pReason: Entity.RemovalReason) {
+                spawnedEntities.remove(entity.uuid)
+            }
+        })
         lastSpawnTime = System.currentTimeMillis()
     }
 

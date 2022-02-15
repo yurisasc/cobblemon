@@ -4,6 +4,8 @@ import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.AreaSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.AreaSpawningInput
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
+import com.cablemc.pokemoncobbled.common.util.toVec3
+import com.cablemc.pokemoncobbled.mod.config.CobbledConfig.minimumDistanceBetweenEntities
 import net.minecraft.core.BlockPos
 
 /**
@@ -25,7 +27,7 @@ interface AreaContextResolver {
         contextCalculators: List<AreaSpawningContextCalculator<*>>,
         slice: WorldSlice
     ): List<AreaSpawningContext> {
-        val pos = BlockPos.MutableBlockPos(1, 2, 3)
+        var pos = BlockPos.MutableBlockPos(1, 2, 3)
         val input = AreaSpawningInput(spawner, pos, slice)
         val contexts = mutableListOf<AreaSpawningContext>()
 
@@ -37,18 +39,30 @@ interface AreaContextResolver {
             while (y < slice.baseY + slice.height) {
                 while (z < slice.baseZ + slice.width) {
                     pos.set(x, y, z)
-                    val fittedContextCalculator = contextCalculators.firstOrNull { it.fits(input) }
-                    if (fittedContextCalculator != null) {
-                        val context = fittedContextCalculator.calculate(input)
-                        if (context != null) {
-                            contexts.add(context)
+                    val vec = pos.toVec3()
+                    if (slice.nearbyEntityPositions.none { it.closerThan(vec, minimumDistanceBetweenEntities.get()) }) {
+                        val fittedContextCalculator = contextCalculators.firstOrNull { it.fits(input) }
+                        if (fittedContextCalculator != null) {
+                            val context = fittedContextCalculator.calculate(input)
+                            if (context != null) {
+                                contexts.add(context)
+                                // The position BlockPos has been used in a context, editing the same one
+                                // will cause entities to spawn at the wrong location (buried in walls, usually)
+                                // I made it so that our context calculators specifically take a copy of the
+                                // BlockPos but it'd still be exposed in custom contexts so fixing it here too.
+                                pos = BlockPos.MutableBlockPos(1, 2, 3)
+                                input.position = pos
+                            }
                         }
                     }
                     z++
                 }
                 y++
+                z = slice.baseZ
             }
             x++
+            y = slice.baseY
+            z = slice.baseZ
         }
 
         return contexts

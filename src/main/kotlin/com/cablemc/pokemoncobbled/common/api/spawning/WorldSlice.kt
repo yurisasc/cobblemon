@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.Vec3
 import kotlin.math.max
 
 /**
@@ -23,7 +24,8 @@ class WorldSlice(
     val baseY: Int,
     val baseZ: Int,
     val blocks: Array<Array<Array<BlockData>>>,
-    val skyLevel: Array<Array<Int>>
+    val skyLevel: Array<Array<Int>>,
+    var nearbyEntityPositions: List<Vec3>
 ) {
     class BlockData(
         val state: BlockState,
@@ -39,14 +41,14 @@ class WorldSlice(
     }
 
     fun isInBounds(x: Int, y: Int, z: Int) = x >= baseX && x < baseX + length && y >= baseY && y < baseY + height && z >= baseZ && z < baseZ + width
-    fun getBlockData(x: Int, y: Int, z: Int): BlockData = blocks[x][y][z]
+    fun getBlockData(x: Int, y: Int, z: Int): BlockData = blocks[x - baseX][y - baseY][z - baseZ]
     fun getBlockData(position: BlockPos) = getBlockData(position.x, position.y, position.z)
 
     fun getBlockState(x: Int, y: Int, z: Int, elseBlock: BlockState = stoneState): BlockState {
         return if (!isInBounds(x, y, z)) {
             elseBlock
         } else {
-            blocks[x][y][z].state
+            blocks[x - baseX][y - baseY][z - baseZ].state
         }
     }
     fun getBlockState(position: BlockPos, elseBlock: BlockState = stoneState) = getBlockState(position.x, position.y, position.z, elseBlock)
@@ -61,7 +63,7 @@ class WorldSlice(
     fun getLight(position: BlockPos, elseLight: Int = 0) = getLight(position.x, position.y, position.z, elseLight)
 
     fun skySpaceAbove(x: Int, y: Int, z: Int): Int {
-        return if (!isInBounds(x, y, z) || skyLevel[x][z] > y) {
+        return if (!isInBounds(x, y, z) || skyLevel[x - baseX][z - baseZ] > y) {
             0
         } else {
             max(0, level.maxBuildHeight - y)
@@ -73,7 +75,7 @@ class WorldSlice(
         return if (!isInBounds(x, y, z)) {
             elseSkyAbove
         } else {
-            skyLevel[x][z] <= y
+            skyLevel[x - baseX][z - baseZ] <= y
         }
     }
     fun skyAbove(position: BlockPos, elseSkyAbove: Boolean = false) = skyAbove(position.x, position.y, position.z, elseSkyAbove)
@@ -138,7 +140,9 @@ class WorldSlice(
                 while (z < maxZ) {
                     blocks.add(getBlockState(x, minY, z))
                     blocks.add(getBlockState(x, maxY, z))
+                    z++
                 }
+                x++
             }
 
             radius++

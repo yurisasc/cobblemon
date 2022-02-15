@@ -185,8 +185,10 @@ class PokemonEntity(
     override fun readSpawnData(buffer: FriendlyByteBuf) {
         if (this.level.isClientSide) {
             pokemon.scaleModifier = buffer.readFloat()
-            pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!! // TODO exception handling
-            pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readUtf() }!! // TODO exception handling
+            // TODO exception handling
+            pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!!
+            // TODO exception handling
+            pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readUtf() }!!
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
             shiny.set(buffer.readBoolean())
@@ -194,7 +196,7 @@ class PokemonEntity(
     }
 
     override fun shouldBeSaved(): Boolean {
-        return pokemon.isWild()
+        return false
     }
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {

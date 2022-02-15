@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
-import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.brigadier.Command
@@ -30,7 +30,7 @@ object GivePokemon {
             val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
             val player = context.getArgument("player", EntitySelector::class.java).findSinglePlayer(context.source)
             val pokemon = Pokemon().apply { species = pkm }
-            val party = PokemonStoreManager.getParty(player)
+            val party = PokemonCobbled.storage.getParty(player)
             pokemon.moveSet.setMove(0, Moves.TACKLE.create())
             pokemon.moveSet.setMove(1, Moves.AERIAL_ACE.create())
             pokemon.moveSet.setMove(2, Moves.AIR_SLASH.create())

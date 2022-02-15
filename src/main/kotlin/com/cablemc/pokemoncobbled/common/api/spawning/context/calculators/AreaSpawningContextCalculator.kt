@@ -42,4 +42,4 @@ interface AreaSpawningContextCalculator<O : AreaSpawningContext> : SpawningConte
     fun getNearbyBlocks(input: AreaSpawningInput, radius: Int = maxNearbyBlocksRange.get()) = input.slice.nearbyBlocks(input.position, radius)
 }
 
-open class AreaSpawningInput(val spawner: Spawner, val position: BlockPos, val slice: WorldSlice) : SpawningContextInput(slice.cause, slice.level)
+open class AreaSpawningInput(val spawner: Spawner, var position: BlockPos, val slice: WorldSlice) : SpawningContextInput(slice.cause, slice.level)

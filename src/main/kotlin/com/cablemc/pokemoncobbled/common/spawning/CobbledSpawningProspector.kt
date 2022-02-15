@@ -5,8 +5,13 @@ import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.SpawningArea
+import com.cablemc.pokemoncobbled.mod.config.CobbledConfig.minimumDistanceBetweenEntities
 import net.minecraft.core.BlockPos
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.material.Material
+import net.minecraft.world.phys.AABB
+import net.minecraft.world.phys.Vec3
 
 /**
  * A spawning prospector that takes a straightforward approach
@@ -41,6 +46,17 @@ object CobbledSpawningProspector : SpawningProspector {
             }
         }
 
+        val minimumDistanceBetweenEntities = minimumDistanceBetweenEntities.get()
+        val nearbyEntityPositions = area.level.getEntities(
+            if (area.cause is Entity) area.cause else null,
+            AABB.ofSize(
+                Vec3(area.baseX + area.length / 2.0, baseY + height / 2.0, area.baseZ + area.width / 2.0),
+                area.length / 2.0 + minimumDistanceBetweenEntities,
+                height / 2.0 + minimumDistanceBetweenEntities,
+                area.width / 2.0 + minimumDistanceBetweenEntities
+            )
+        ).map { it.position() }
+
         val blocks = Array(area.length) { Array(height) { Array(area.width) { WorldSlice.BlockData(Blocks.STONE.defaultBlockState(), 0) } } }
         val skyLevel = Array(area.length) { Array(area.width) { level.maxBuildHeight } }
         val pos = BlockPos.MutableBlockPos()
@@ -51,15 +67,15 @@ object CobbledSpawningProspector : SpawningProspector {
                 var skyAbove = true
                 for (y in yRange) {
                     val state = level.getBlockState(pos.set(x, y, z))
-                    blocks[x][y][z] = WorldSlice.BlockData(
+                    blocks[x - area.baseX][y - baseY][z - area.baseZ] = WorldSlice.BlockData(
                         state = state,
                         light = state.getLightBlock(level, pos)
                     )
 
                     // TODO don't just check solid, have some property somewhere modifiable that excludes some blocks from occluding
-                    if (skyAbove && state.material.isSolid) {
+                    if (skyAbove && state.material.isSolid && state.material != Material.LEAVES) {
                         skyAbove = false
-                        skyLevel[x][z] = y + 1
+                        skyLevel[x - area.baseX][z - area.baseZ] = y + 1
                     }
                 }
             }
@@ -72,7 +88,8 @@ object CobbledSpawningProspector : SpawningProspector {
             baseY = baseY,
             baseZ = area.baseZ,
             blocks = blocks,
-            skyLevel = skyLevel
+            skyLevel = skyLevel,
+            nearbyEntityPositions = nearbyEntityPositions
         )
     }
 }

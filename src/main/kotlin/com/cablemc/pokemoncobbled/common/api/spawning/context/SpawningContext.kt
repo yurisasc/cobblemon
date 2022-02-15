@@ -19,6 +19,7 @@ abstract class SpawningContext {
     companion object {
         val contexts = mutableListOf<RegisteredSpawningContext<*>>()
         fun getByName(name: String) = contexts.find { it.name == name }
+        fun getByClass(ctx: SpawningContext) = contexts.find { it.clazz == ctx::class.java }
         fun <T : SpawningContext> register(name: String, clazz: Class<T>, defaultCondition: String = BasicSpawningCondition.NAME) {
             contexts.add(
                 RegisteredSpawningContext(

@@ -22,7 +22,7 @@ import java.lang.reflect.Type
  */
 object SpawningConditionAdapter : JsonDeserializer<SpawningCondition<*>> {
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): SpawningCondition<*> {
-        val name = json.asJsonObject.get("type").asString
+        val name = json.asJsonObject.get("type")?.asString
         return if (name == null) {
             if (deserializingConditionClass == null) {
                 ctx.deserialize(json, BasicSpawningCondition::class.java)

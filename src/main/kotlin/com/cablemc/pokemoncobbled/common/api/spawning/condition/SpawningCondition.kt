@@ -67,7 +67,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
             return false
-        } else if (timeRange != null && timeRange!!.contains((ctx.level.dayTime() % 24000).toInt())) {
+        } else if (timeRange != null && !timeRange!!.contains((ctx.level.dayTime() % 24000).toInt())) {
             return false
         } else if (skyAbove != null && skyAbove != ctx.skyAbove) {
             return false

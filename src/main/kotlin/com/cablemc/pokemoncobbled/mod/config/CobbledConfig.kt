@@ -35,21 +35,37 @@ object CobbledConfig {
     var testBoolean : ConfigValue<Boolean>? = null
      */
 
-    @Configurable(category = "Showdown", name= "Auto Update", description = "Should the mods showdown get auto updated for you?")
+    @Configurable(category = "Showdown", name = "Auto Update", description = "Should the mods showdown get auto updated for you?")
     @BooleanValue(true)
     lateinit var autoUpdateShowdown : ConfigValue<Boolean>
 
-    @Configurable(category = "Spawning", name= "Max Vertical Space", description = "The largest possible vertical diameter for a spawning location. If too low, some tall Pokémon might be unable to spawn.")
+    @Configurable(category = "Spawning", name = "Max Vertical Space", description = "The largest possible vertical diameter for a spawning location. If too low, some tall Pokémon might be unable to spawn.")
     @IntValue(defaultValue = 10, min = 1)
     lateinit var maxVerticalSpace: ConfigValue<Int>
 
-    @Configurable(category = "Spawning", name= "Max Horizontal Space", description = "The largest possible horizontal diameter for a spawning location. If too low, some wide Pokémon might be unable to spawn.")
+    @Configurable(category = "Spawning", name = "Max Horizontal Space", description = "The largest possible horizontal diameter for a spawning location. If too low, some wide Pokémon might be unable to spawn.")
     @IntValue(defaultValue = 10, min = 1)
     lateinit var maxHorizontalSpace: ConfigValue<Int>
 
-    @Configurable(category = "Spawning", name= "Max Nearby Blocks Range", description = "The longest distance to look for particular blocks as a condition for spawning.")
+    @Configurable(category = "Spawning", name = "Max Nearby Blocks Range", description = "The longest distance to look for particular blocks as a condition for spawning.")
     @IntValue(defaultValue = 6, min = 1)
     lateinit var maxNearbyBlocksRange: ConfigValue<Int>
+
+    @Configurable(category = "Spawning", name = "World Slice Diameter", description = "The block diameter (horizontal) of spawning slices. Reduce this value for improved performance but harder to spawn large Pokémon.")
+    @IntValue(defaultValue = 12, min = 1)
+    lateinit var worldSliceDiameter: ConfigValue<Int>
+
+    @Configurable(category = "Spawning", name = "World Slice Height", description = "The block height (vertical) of spawning slices. Reduce this value for improved performance but harder to spawn large Pokémon.")
+    @IntValue(defaultValue = 8, min = 1)
+    lateinit var worldSliceHeight: ConfigValue<Int>
+
+    @Configurable(category = "Spawning", name = "Player Motion Factor", description = "The multiplier applied to a player's velocity to move where the center of a spawn attempt is.")
+    @DoubleValue(defaultValue = 10.0, min = 0.0)
+    lateinit var playerMotionFactor: ConfigValue<Double>
+
+    @Configurable(category = "Spawning", name = "Minimum Distance Between Entities", description = "The minimum distance that will be forced between spawns and existing entities. Decreasing this clusters Pokémon together.")
+    @DoubleValue(defaultValue = 8.0, min = 0.0)
+    lateinit var minimumDistanceBetweenEntities: ConfigValue<Double>
 
     @Configurable(category = "Spawning", name = "Export Spawns To Config", description = "Whether or not spawn files will be extracted so that they can be edited from the config directory.")
     @BooleanValue(defaultValue = false)

@@ -27,6 +27,13 @@ class SpawnPool : Iterable<SpawnDetail> {
 
     override fun iterator() = details.iterator()
 
+
+    fun addPrecalculators(vararg precalculators: SpawningPrecalculation<*>): SpawnPool {
+        this.precalculators.addAll(precalculators)
+        precalculate()
+        return this
+    }
+
     /**
      * Precalculates spawns into hash mappings using the [precalculators] included
      * in this pool as well as the range of contexts mentioned in the pool. This
@@ -37,10 +44,11 @@ class SpawnPool : Iterable<SpawnDetail> {
     fun precalculate() {
         if (precalculators.isEmpty()) {
             precalculation = RootPrecalculation.generate(details, emptyList())
+        } else {
+            precalculation = precalculators.first().generate(details, precalculators.subList(1, precalculators.size))
         }
 
-        precalculation = precalculators.first().generate(details, precalculators.subList(1, precalculators.size))
-
+        contexts.clear()
         details.forEach { contexts.add(it.context) }
     }
 

@@ -28,7 +28,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.Seaflo
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderlavaSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderwaterSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
+import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
@@ -39,7 +39,7 @@ import com.cablemc.pokemoncobbled.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.sound.SoundRegistry
-import com.cablemc.pokemoncobbled.common.spawning.CobbledSpawnPools
+import com.cablemc.pokemoncobbled.common.spawning.detail.PokemonSpawnDetail
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifServer
 import com.cablemc.pokemoncobbled.mod.config.CobbledConfig
@@ -91,8 +91,6 @@ object PokemonCobbledMod {
     fun initialize(event: FMLCommonSetupEvent) {
         LOGGER.info("Initializing...")
 
-        // debug purposes
-        CobbledSpawnPools.WORLD_SPAWN_POOL
 //        showdownThread.start()
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
@@ -112,7 +110,7 @@ object PokemonCobbledMod {
         }
 
         MinecraftForge.EVENT_BUS.register(CommandRegistrar)
-        MinecraftForge.EVENT_BUS.register(PokemonStoreManager)
+        MinecraftForge.EVENT_BUS.register(PokemonCobbled.storage)
         MinecraftForge.EVENT_BUS.register(ScheduledTaskListener)
         MinecraftForge.EVENT_BUS.register(this)
 
@@ -135,6 +133,11 @@ object PokemonCobbledMod {
         SpawningContext.register(name = "lavafloor", clazz = LavafloorSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
         SpawningContext.register(name = "underwater", clazz = UnderwaterSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
         SpawningContext.register(name = "underlava", clazz = UnderlavaSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
+
+        SpawnDetail.registerSpawnType(name = PokemonSpawnDetail.TYPE, PokemonSpawnDetail::class.java)
+
+        // debug purposes
+        PokemonCobbled.spawnerManagers.forEach { MinecraftForge.EVENT_BUS.register(it) }
     }
 
     fun onBake(event: ModelBakeEvent) {
@@ -148,7 +151,7 @@ object PokemonCobbledMod {
     fun onServerStarting(event: ServerStartingEvent) {
         // TODO config options for default storage
         val pokemonStoreRoot = event.server.getWorldPath(LevelResource.PLAYER_DATA_DIR).parent.resolve("pokemon").toFile()
-        PokemonStoreManager.registerFactory(
+        PokemonCobbled.storage.registerFactory(
             priority = EventPriority.LOWEST,
             factory = FileBackedPokemonStoreFactory(
                 adapter = NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true),

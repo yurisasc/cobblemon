@@ -36,7 +36,7 @@ object UnderwaterSpawningContextCalculator : SubmergedContextCalculator<Underwat
         return UnderwaterSpawningContext(
             cause = input.cause,
             level = input.level,
-            position = input.position,
+            position = input.position.immutable(),
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
@@ -62,7 +62,7 @@ object UnderlavaSpawningContextCalculator : SubmergedContextCalculator<Underlava
         return UnderlavaSpawningContext(
             cause = input.cause,
             level = input.level,
-            position = input.position,
+            position = input.position.immutable(),
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),

@@ -22,7 +22,7 @@ object SpawnDetailAdapter : JsonDeserializer<SpawnDetail> {
     override fun deserialize(element: JsonElement, type: Type, ctx: JsonDeserializationContext): SpawnDetail {
         val spawnDetailTypeName = element.asJsonObject.get("type").asString
         val registeredSpawnDetail = SpawnDetail.spawnDetailTypes[spawnDetailTypeName]
-            ?: throw IllegalStateException("Spawn detail type name $spawnDetailTypeName is not recognized.")
+            ?: throw IllegalStateException("Spawn detail type name '$spawnDetailTypeName' is not recognized.")
         val ctxName = element.asJsonObject.get("context").asString
         val ctxType = SpawningContext.getByName(ctxName)
             ?: throw IllegalStateException("Unrecognized context name: $ctxName")

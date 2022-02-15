@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.common.api.spawning
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.TickingSpawner
-import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.server.ServerStartedEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -19,22 +18,19 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
  */
 open class SpawnerManager {
     val spawners = mutableListOf<Spawner>()
-    // TODO plug in
     val influences = mutableListOf<SpawningInfluence>()
-
-    init {
-        MinecraftForge.EVENT_BUS.register(this)
-    }
 
     inline fun <reified T : Spawner> getSpawnersOfType() = spawners.filterIsInstance<T>()
     fun getSpawnerByName(name: String) = spawners.find { it.name == name }
 
     fun registerSpawner(spawner: Spawner) {
         spawners.add(spawner)
+        spawner.influences.addAll(influences)
     }
 
     fun unregisterSpawner(spawner: Spawner) {
         spawners.remove(spawner)
+        spawner.influences.removeAll(influences)
     }
 
     @SubscribeEvent

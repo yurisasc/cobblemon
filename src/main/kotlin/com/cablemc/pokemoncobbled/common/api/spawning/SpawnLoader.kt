@@ -28,9 +28,7 @@ import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.PrintWriter
-import java.net.URI
 import java.nio.file.Path
-import java.nio.file.Paths
 import kotlin.io.path.pathString
 
 /**
@@ -109,14 +107,16 @@ object SpawnLoader {
 
     fun getExternalSets(folder: String): MutableList<SpawnSet> {
         val sets = mutableListOf<SpawnSet>()
-        val files = AssetLoading.fileSearch(
-            dir = Paths.get(URI.create("./config/spawns/$folder")),
-            filter = { it.toAbsolutePath().endsWith(".json") },
-            recursive = true
+        val files = mutableListOf<File>()
+        AssetLoading.searchFor(
+            dir = "config/spawns/$folder",
+            suffix = ".json",
+            list = files
         )
+        val paths = files.map { it.toPath() }
 
         sets.addAll(
-            files.mapNotNull {
+            paths.mapNotNull {
                 try {
                     loadSetFromPath(it)
                 } catch (exception : Exception) {

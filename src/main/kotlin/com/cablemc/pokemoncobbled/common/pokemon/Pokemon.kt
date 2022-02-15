@@ -38,6 +38,10 @@ import net.minecraft.world.phys.Vec3
 import java.util.UUID
 
 class Pokemon {
+    companion object {
+        const val MAXIMUM_LEVEL = 100
+    }
+
     var uuid: UUID = UUID.randomUUID()
     var species = PokemonSpecies.EEVEE
         set(value) { field = value ; _species.emit(value) }
