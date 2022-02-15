@@ -61,8 +61,12 @@ class Pokemon {
 
     val primaryType: ElementalType
         get() = form.primaryType
+
     val secondaryType: ElementalType?
         get() = form.secondaryType
+
+    val types: Iterable<ElementalType>
+        get() = form.types
 
     var shiny = false
         set(value) { field = value ; _shiny.emit(value) }
@@ -103,8 +107,6 @@ class Pokemon {
     fun recall() {
         this.state = InactivePokemonState()
     }
-
-    val types = form.types
 
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)

@@ -1,6 +1,8 @@
 {
   "name": "gyarados",
   "nationalPokedexNumber": 130,
+  "primaryType": "water",
+  "secondaryType": "flying",
   "maleRatio": 0.5,
   "baseStats": {
     "hp": 95,

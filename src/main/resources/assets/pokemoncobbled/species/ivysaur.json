@@ -1,6 +1,8 @@
 {
   "name": "ivysaur",
   "nationalPokedexNumber": 2,
+  "primaryType": "grass",
+  "secondaryType": "poison",
   "maleRatio": 0.875,
   "baseStats": {
     "hp": 60,
