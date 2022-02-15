@@ -13,12 +13,13 @@ import java.lang.reflect.Type
  * "2-4", and one-element ranges are serialized as single integers such that IntRange(10, 10) which
  * serializes as "10".
  *
- * Because of the hyphen separator, this adapter should never be used for ranges that can be negative.
- *
  * @author Hiroku
  * @since February 14th, 2022
  */
-object PositiveIntRangeAdapter : JsonSerializer<IntRange>, JsonDeserializer<IntRange> {
+object IntRangeAdapter : JsonSerializer<IntRange>, JsonDeserializer<IntRange> {
+
+    private val PATTERN = "(-?\\d+)-?(-?\\d+)?".toRegex()
+
     override fun serialize(range: IntRange, type: Type, ctx: JsonSerializationContext): JsonElement {
         return if (range.first == range.last) {
             JsonPrimitive(range.first)
@@ -28,11 +29,11 @@ object PositiveIntRangeAdapter : JsonSerializer<IntRange>, JsonDeserializer<IntR
     }
 
     override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext): IntRange {
-        val splits = json.asString.split("-")
-        return if (splits.size == 1) {
-            splits[0].toInt().let { IntRange(it, it) }
+        val (start, end) = PATTERN.find(json.asString)!!.destructured
+        return if (end.isEmpty()) {
+            IntRange(start.toInt(), start.toInt())
         } else {
-            IntRange(splits[0].toInt(), splits[1].toInt())
+            IntRange(start.toInt(), end.toInt())
         }
     }
 }
