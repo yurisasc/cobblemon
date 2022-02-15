@@ -60,13 +60,13 @@ class Pokemon {
         get() = state.let { if (it is ActivePokemonState) it.entity else null }
 
     val primaryType: ElementalType
-        get() = species.primaryType
+        get() = form.primaryType
 
     val secondaryType: ElementalType?
-        get() = species.secondaryType
+        get() = form.secondaryType
 
     val types: Iterable<ElementalType>
-        get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
+        get() = form.types
 
     var shiny = false
         set(value) { field = value ; _shiny.emit(value) }
