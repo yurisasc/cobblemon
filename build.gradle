@@ -15,9 +15,12 @@ subprojects {
     loom {
         silentMojangMappingsLicense()
     }
+
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.mc_version}"
         mappings loom.officialMojangMappings()
+
+        implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.6.10'
     }
 
     compileKotlin {
@@ -36,6 +39,7 @@ subprojects {
 allprojects {
     apply plugin: "java"
     apply plugin: "architectury-plugin"
+    apply plugin: "kotlin"
 
     archivesBaseName = rootProject.mod_id
     version = rootProject.mc_version+ "-" + rootProject.mod_version
