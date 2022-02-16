@@ -1,0 +1,154 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.1"
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+    shadowModImplementation
+    modImplementation.extendsFrom shadowModImplementation
+}
+
+dependencies {
+    forge "net.minecraftforge:forge:${rootProject.mc_version}-${rootProject.forge_version}"
+    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+
+//    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+
+    // For Showdown
+    shadowCommon 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
+    shadowCommon 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
+    shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    // For Showdown
+    common 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
+    common 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
+    common group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
+    testImplementation 'org.mockito:mockito-core:3.3.3'
+    testImplementation 'io.mockk:mockk:1.12.1'
+}
+
+loom {
+    launches {
+        all {
+            arg "-mixin.config"//, "mixin.imdlib.json"
+            /*property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"*/
+        }
+    }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon, project.configurations.shadowModImplementation]
+    classifier "dev-shadow"
+    exclude "architectury-common.accessWidener"
+}
+
+loom {
+    forge {
+        mixinConfig "mixins.pokemoncobbled.json", "mixins.pokemoncobbled-forge.json"
+    }
+}
+
+remapJar {
+    dependsOn shadowJar
+    input.set shadowJar.archiveFile
+    classifier "remap"
+}
+
+task fixJar(type: Jar) {
+    dependsOn remapJar
+    from remapJar.archiveFile.map { zipTree(it) }
+    manifest {
+        from {
+            zipTree(remapJar.archiveFile).find {
+                it.name == "MANIFEST.MF"
+            }
+        }
+    }
+    classifier "forge"
+}
+
+sourcesJar.dependsOn fixJar
+
+jar {
+    classifier "dev"
+    manifest {
+        mainAttributes(
+                "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
+                "Specification-Title": rootProject.mod_id,
+                "Specification-Vendor": "Cable MC",
+                "Specification-Version": "1",
+                "Implementation-Title": rootProject.mod_id,
+                "Implementation-Version": project.version,
+                "Implementation-Vendor": "itsmeow",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
+        )
+    }
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+    manifest {
+        mainAttributes(
+                "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
+                "Specification-Title": rootProject.mod_id,
+                "Specification-Vendor": "Cable MC",
+                "Specification-Version": "1",
+                "Implementation-Title": rootProject.mod_id,
+                "Implementation-Version": project.version,
+                "Implementation-Vendor": "Cable MC",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
+        )
+    }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+//mixin {
+//    // Refmaps for each SourceSet
+//    add sourceSets.main, 'mixins.pokemoncobbled.refmap.json'
+//
+//    // Configs to add to runs and jars
+//    config 'mixins.pokemoncobbled.json'
+//
+//    // Specify options for dev run configs
+//    debug.verbose = true
+//    debug.export = true
+//    dumpTargetOnFailure = true
+//
+//    // Options for the Annotation Processor
+//    quiet
+//}

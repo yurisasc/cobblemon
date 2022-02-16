@@ -1,0 +1,123 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.1.1"
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+    shadowModImplementation
+    modImplementation.extendsFrom shadowModImplementation
+}
+
+repositories {
+}
+
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive = false }
+
+    // For Showdown
+    shadowCommon 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
+    shadowCommon 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
+    shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    // For Showdown
+    common 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
+    common 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
+    common group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.2'
+    testImplementation 'org.mockito:mockito-core:3.3.3'
+    testImplementation 'io.mockk:mockk:1.12.1'
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon, project.configurations.shadowModImplementation]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    classifier "remap"
+}
+
+task fixJar(type: Jar) {
+    dependsOn remapJar
+    from remapJar.archiveFile.map { zipTree(it) }
+    manifest {
+        from {
+            zipTree(remapJar.archiveFile).find {
+                it.name == "MANIFEST.MF"
+            }
+        }
+    }
+    classifier "fabric"
+}
+
+sourcesJar.dependsOn fixJar
+
+jar {
+    classifier "dev"
+    manifest {
+        mainAttributes(
+                "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
+                "Specification-Title": rootProject.mod_id,
+                "Specification-Vendor": "Cable MC",
+                "Specification-Version": "1.0.0",
+                "Implementation-Title": rootProject.mod_id,
+                "Implementation-Version": project.version,
+                "Implementation-Vendor": "Cable MC",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                "Built-On": "${rootProject.mc_version}-${rootProject.fabric_api_version}"
+        )
+    }
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    manifest {
+        mainAttributes(
+                "Maven-Artifact": "${rootProject.maven_group}:${rootProject.mod_id}-${project.name}:${rootProject.version}",
+                "Specification-Title": rootProject.mod_id,
+                "Specification-Vendor": "Cable MC",
+                "Specification-Version": "1.0.0",
+                "Implementation-Title": rootProject.mod_id,
+                "Implementation-Version": project.version,
+                "Implementation-Vendor": "Cable MC",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                "Built-On": "${rootProject.mc_version}-${rootProject.fabric_api_version}"
+        )
+    }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
