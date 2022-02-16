@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.command
 
-import com.cablemc.pokemoncobbled.common.api.event.pokemon.HappinessUpdateEvent
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
@@ -10,7 +9,6 @@ import com.cablemc.pokemoncobbled.common.battles.ai.RandomBattleAI
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.postAndThen
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext

@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.api.event.pokemon
 
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.server.level.ServerPlayer
-import net.minecraftforge.eventbus.api.Cancelable
 import net.minecraftforge.eventbus.api.Event
 
 /**
@@ -11,9 +10,9 @@ import net.minecraftforge.eventbus.api.Event
  * @author Blue
  * @since 2022-02-08
  */
-@Cancelable
-data class HappinessUpdateEvent(
+
+data class FriendshipUpdateEvent(
     val player: ServerPlayer,
     val pokemon: Pokemon,
-    val oldHappiness: Int
+    val newFriendship: Int
 ) : Event()

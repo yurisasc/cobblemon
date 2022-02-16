@@ -23,7 +23,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
     override fun registerHandlers() {
         registerHandler<LevelUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<SpeciesUpdatePacket>(SingleUpdatePacketHandler())
-        registerHandler<HappinessUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<FriendshipUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<PokemonStateUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<ShinyUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<NatureUpdatePacket>(SingleUpdatePacketHandler())
