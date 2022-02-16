@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.client.render.models.blockbench.animation
 
-import com.cablemc.pokemoncobbled.common.util.math.geometry.toDegrees
+import com.cablemc.pokemoncobbled.common.utils.math.geometry.toDegrees
 import com.cablemc.pokemoncobbled.common.util.toVec3
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Vector3f

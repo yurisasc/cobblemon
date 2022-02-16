@@ -1,8 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.storage
 
-import com.cablemc.pokemoncobbled.common.api.storage.party.PartyPosition
-import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.forge.common.api.storage.party.PartyPosition
+import com.cablemc.pokemoncobbled.forge.common.api.storage.pc.PCPosition
+import com.cablemc.pokemoncobbled.forge.common.api.storage.PokemonStore
+import com.cablemc.pokemoncobbled.forge.common.api.storage.StoreCoordinates
+import com.cablemc.pokemoncobbled.forge.common.pokemon.Pokemon
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.*
