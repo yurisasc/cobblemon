@@ -42,13 +42,11 @@ import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.ModLoadingContext
-import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import org.apache.logging.log4j.LogManager
-import thedarkcolour.kotlinforforge.forge.MOD_CONTEXT
 
-@Mod(PokemonCobbled.MODID)
 object PokemonCobbledMod {
     val LOGGER = LogManager.getLogger()
     val EVENT_BUS = BusBuilder.builder().build()
@@ -58,7 +56,7 @@ object PokemonCobbledMod {
     var showdownThread: ShowdownThread = ShowdownThread()
 
     init {
-        with(MOD_CONTEXT.getKEventBus()) {
+        with(FMLJavaModLoadingContext.get().modEventBus) {
             addListener(this@PokemonCobbledMod::initialize)
             addListener(this@PokemonCobbledMod::on)
             addListener(this@PokemonCobbledMod::onBake)

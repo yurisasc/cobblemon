@@ -23,17 +23,19 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-//    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
-
     // For Showdown
     shadowCommon 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
     shadowCommon 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
     shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
+    // Testing - It needs this!
+    forgeRuntimeLibrary 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
+    forgeRuntimeLibrary group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.6.10'
+
     // For Showdown
-    common 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
-    common 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
-    common group: 'commons-io', name: 'commons-io', version: '2.6'
+    modCompileOnly 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
+    modCompileOnly 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
+    modCompileOnly group: 'commons-io', name: 'commons-io', version: '2.6'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.2'
@@ -42,22 +44,13 @@ dependencies {
     testImplementation 'io.mockk:mockk:1.12.1'
 }
 
-loom {
-    launches {
-        all {
-            arg "-mixin.config"//, "mixin.imdlib.json"
-            /*property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"*/
-        }
-    }
-}
-
+// TODO Figure out why this errors...
 processResources {
-    inputs.property "version", project.version
-
-    filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
-    }
+//    inputs.property "version", project.version
+//
+//    filesMatching("META-INF/mods.toml") {
+//        expand "version": project.version
+//    }
 }
 
 shadowJar {
@@ -68,7 +61,7 @@ shadowJar {
 
 loom {
     forge {
-        mixinConfig "mixins.pokemoncobbled.json", "mixins.pokemoncobbled-forge.json"
+        mixinConfig /** "mixins.pokemoncobbled.json", */ "mixins.pokemoncobbled-forge.json"
     }
 }
 
@@ -103,7 +96,7 @@ jar {
                 "Specification-Version": "1",
                 "Implementation-Title": rootProject.mod_id,
                 "Implementation-Version": project.version,
-                "Implementation-Vendor": "itsmeow",
+                "Implementation-Vendor": "Cable MC",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "Built-On-Java": "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
                 "Built-On": "${rootProject.mc_version}-${rootProject.forge_version}"
@@ -136,19 +129,3 @@ components.java {
         skip()
     }
 }
-
-//mixin {
-//    // Refmaps for each SourceSet
-//    add sourceSets.main, 'mixins.pokemoncobbled.refmap.json'
-//
-//    // Configs to add to runs and jars
-//    config 'mixins.pokemoncobbled.json'
-//
-//    // Specify options for dev run configs
-//    debug.verbose = true
-//    debug.export = true
-//    dumpTargetOnFailure = true
-//
-//    // Options for the Annotation Processor
-//    quiet
-//}
