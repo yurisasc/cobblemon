@@ -71,6 +71,7 @@ allprojects {
 
     dependencies {
         implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10"
         implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.6.10'
     }
 
