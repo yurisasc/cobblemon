@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.mixin;
+package com.cablemc.pokemoncobbled.forge.mixin;
 
 import com.cablemc.pokemoncobbled.forge.common.util.CompoundTagExtensionsKt;
 import net.minecraft.nbt.CompoundTag;
