@@ -5,6 +5,7 @@ object PokemonCobbled {
     const val VERSION = "0.0.1"
 
     fun initialize() {
+        CobbledItems.register()
         CobbledSounds.register()
     }
 }

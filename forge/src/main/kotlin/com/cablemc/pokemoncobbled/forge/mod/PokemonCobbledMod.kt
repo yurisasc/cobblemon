@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.forge.mod
 
+import com.cablemc.pokemoncobbled.common.CobbledItems
 import com.cablemc.pokemoncobbled.common.CobbledSounds
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.forge.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
@@ -61,7 +63,7 @@ object PokemonCobbledMod {
             addListener(PokemonCobbledClient::onAddLayer)
             EntityRegistry.register(this)
             ItemRegistry.register(this)
-            CobbledSounds.register()
+            PokemonCobbled.initialize()
         }
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CobbledConfig.spec)
