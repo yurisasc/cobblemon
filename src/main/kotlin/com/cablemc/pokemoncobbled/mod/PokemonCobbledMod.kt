@@ -17,6 +17,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
+import com.cablemc.pokemoncobbled.common.blocks.BlockRegistry
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.item.ItemRegistry
@@ -64,9 +65,10 @@ object PokemonCobbledMod {
             addListener(this@PokemonCobbledMod::on)
             addListener(this@PokemonCobbledMod::onBake)
             addListener(PokemonCobbledClient::onAddLayer)
+            BlockRegistry.register(this)
             EntityRegistry.register(this)
-            ItemRegistry.register(this)
             SoundRegistry.register(this)
+            ItemRegistry.register(this)
         }
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CobbledConfig.spec)
