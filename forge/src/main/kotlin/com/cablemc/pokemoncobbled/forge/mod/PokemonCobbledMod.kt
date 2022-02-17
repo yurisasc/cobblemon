@@ -1,12 +1,12 @@
 package com.cablemc.pokemoncobbled.forge.mod
 
+import com.cablemc.pokemoncobbled.common.CobbledSounds
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.forge.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.forge.common.CommandRegistrar
-import com.cablemc.pokemoncobbled.forge.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.forge.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.forge.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.forge.common.api.pokemon.PokemonSpecies
@@ -15,15 +15,15 @@ import com.cablemc.pokemoncobbled.forge.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.forge.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.forge.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.forge.common.battles.ShowdownThread
+import com.cablemc.pokemoncobbled.forge.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.forge.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.forge.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.forge.common.item.ItemRegistry
 import com.cablemc.pokemoncobbled.forge.common.net.serverhandling.ServerPacketRegistrar
-import com.cablemc.pokemoncobbled.forge.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.forge.common.spawning.SpawnerManager
-import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.forge.common.util.getServer
 import com.cablemc.pokemoncobbled.forge.common.util.ifServer
+import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -61,7 +61,7 @@ object PokemonCobbledMod {
             addListener(PokemonCobbledClient::onAddLayer)
             EntityRegistry.register(this)
             ItemRegistry.register(this)
-            SoundRegistry.register(this)
+            CobbledSounds.register()
         }
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CobbledConfig.spec)

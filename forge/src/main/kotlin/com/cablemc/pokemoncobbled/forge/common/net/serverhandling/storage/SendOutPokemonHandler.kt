@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.forge.common.net.serverhandling.storage
 
+import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.forge.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.forge.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.forge.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemoncobbled.forge.common.pokemon.activestate.ActivePokemonState
-import com.cablemc.pokemoncobbled.forge.common.sound.SoundRegistry
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.toVec3
 import com.cablemc.pokemoncobbled.forge.common.net.PacketHandler
@@ -27,7 +27,7 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
                 if (trace != null && trace.direction == Direction.UP && !player.level.getBlockState(trace.blockPos.above()).material.isSolid) {
                     val position = Vec3(trace.location.x, trace.blockPos.above().toVec3().y, trace.location.z)
                     pokemon.sendOut(player.getLevel(), position) {
-                        player.getLevel().playSoundServer(position, SoundRegistry.SEND_OUT.get(), volume = 0.2F)
+                        player.getLevel().playSoundServer(position, CobbledSounds.SEND_OUT.get(), volume = 0.2F)
                         it.phasingTargetId.set(player.id)
                         it.beamModeEmitter.set(1)
 
@@ -40,7 +40,7 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
             } else {
                 val entity = state.entity
                 if (entity != null && entity.phasingTargetId.get() == -1) {
-                    player.getLevel().playSoundServer(entity.position(), SoundRegistry.RECALL.get(), volume = 0.2F)
+                    player.getLevel().playSoundServer(entity.position(), CobbledSounds.RECALL.get(), volume = 0.2F)
                     entity.phasingTargetId.set(player.id)
                     entity.beamModeEmitter.set(2)
                     after(seconds = 1.5F) { pokemon.recall() }
