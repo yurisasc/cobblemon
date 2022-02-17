@@ -81,7 +81,7 @@ shadowJar {
 
 loom {
     forge {
-        mixinConfig /** "mixins.pokemoncobbled-common.json", */ "mixins.pokemoncobbled-forge.json"
+        mixinConfig "mixins.pokemoncobbled-common.json",  "mixins.pokemoncobbled-forge.json"
     }
 }
 

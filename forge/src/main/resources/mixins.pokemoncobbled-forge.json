@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.cablemc.pokemoncobbled.mixin",
+  "package": "com.cablemc.pokemoncobbled.forge.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "mixins.pokemoncobbled.refmap.json",
   "mixins": [
