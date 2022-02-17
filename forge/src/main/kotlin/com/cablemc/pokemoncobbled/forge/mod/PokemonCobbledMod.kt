@@ -19,6 +19,7 @@ import com.cablemc.pokemoncobbled.forge.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.forge.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.forge.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.forge.common.item.ItemRegistry
+import com.cablemc.pokemoncobbled.forge.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.forge.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.forge.common.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.forge.common.util.getServer
@@ -85,7 +86,7 @@ object PokemonCobbledMod {
             }
             EVENT_BUS.register(ServerPacketRegistrar)
             ServerPacketRegistrar.registerHandlers()
-            com.cablemc.pokemoncobbled.forge.common.net.PokemonCobbledNetwork.register()
+            PokemonCobbledNetwork.register()
         }
 
         MinecraftForge.EVENT_BUS.register(CommandRegistrar)
