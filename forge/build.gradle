@@ -17,6 +17,20 @@ configurations {
     modImplementation.extendsFrom shadowModImplementation
 }
 
+minecraft {
+    runs {
+        client {
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+        }
+    }
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "17"
+    kotlinOptions.freeCompilerArgs = ["-Xjvm-default=all"]
+}
+
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.mc_version}-${rootProject.forge_version}"
     modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
@@ -26,13 +40,14 @@ dependencies {
     // For Showdown
     shadowCommon 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
     shadowCommon 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
-    shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
+    //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
     // Testing - It needs this!
     forgeRuntimeLibrary 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
     forgeRuntimeLibrary group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.6.10'
     // TODO move to common or project build.gradle
     shadowCommon 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
+    shadowCommon "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10"
     shadowCommon group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.6.10'
 
     // For Showdown
