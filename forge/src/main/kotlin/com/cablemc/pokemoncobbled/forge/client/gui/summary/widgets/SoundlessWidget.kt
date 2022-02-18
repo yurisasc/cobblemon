@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets
 
-import com.cablemc.pokemoncobbled.forge.client.gui.ParentWidget
+import com.cablemc.pokemoncobbled.common.api.gui.ParentWidget
 import net.minecraft.client.sounds.SoundManager
 import net.minecraft.network.chat.Component
 

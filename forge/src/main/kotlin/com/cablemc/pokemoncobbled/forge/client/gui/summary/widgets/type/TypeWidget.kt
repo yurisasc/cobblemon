@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.type
 
-import com.cablemc.pokemoncobbled.forge.client.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.util.cobbledResource

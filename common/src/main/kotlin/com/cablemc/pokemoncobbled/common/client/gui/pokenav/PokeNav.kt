@@ -1,7 +1,9 @@
-package com.cablemc.pokemoncobbled.forge.client.gui.pokenav
+package com.cablemc.pokemoncobbled.common.client.gui.pokenav
 
-import com.cablemc.pokemoncobbled.forge.client.gui.blitk
-import com.cablemc.pokemoncobbled.forge.client.keybinding.PokeNavigatorBinding
+import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
+import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.platform.InputConstants
 import com.mojang.blaze3d.vertex.PoseStack
@@ -102,7 +104,7 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
                 it.posX == currentSelectionPos.first && it.posY == currentSelectionPos.second
             }?.onPress() // Executes the onPress action for the currently selected button
         }
-        if (pKeyCode == PokeNavigatorBinding.key.value || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) {
+        if (pKeyCode == PokeNavigatorBinding.currentKey().value || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) {
             aboutToClose = true // This is needed so the UI doesn't open itself afterwards again (Closing with same key as opening) -> KeyReleased
         }
 
@@ -110,7 +112,7 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     }
 
     override fun keyReleased(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
-        if ((pKeyCode == PokeNavigatorBinding.key.value || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) && aboutToClose) {
+        if ((pKeyCode == PokeNavigatorBinding.currentKey().value || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) && aboutToClose) {
             Minecraft.getInstance().setScreen(null) // So we only close if the Key was released
         }
         return super.keyReleased(pKeyCode, pScanCode, pModifiers)

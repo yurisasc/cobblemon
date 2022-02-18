@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.forge.client.gui
+package com.cablemc.pokemoncobbled.common.api.gui
 
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft

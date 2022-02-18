@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.forge.client.gui
+package com.cablemc.pokemoncobbled.common.api.gui
 
 object ColourLibrary {
     const val WHITE = 0xFFFFFF

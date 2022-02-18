@@ -1,9 +1,9 @@
 package com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.pages.moves
 
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.cablemc.pokemoncobbled.forge.client.gui.ColourLibrary
-import com.cablemc.pokemoncobbled.forge.client.gui.blitk
-import com.cablemc.pokemoncobbled.forge.client.gui.drawCenteredText
+import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
+import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cablemc.pokemoncobbled.common.api.moves.Move

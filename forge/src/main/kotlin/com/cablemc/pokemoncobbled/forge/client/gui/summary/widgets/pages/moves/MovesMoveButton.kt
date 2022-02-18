@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.pages.moves
 
-import com.cablemc.pokemoncobbled.forge.client.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Vector3f

@@ -1,9 +1,9 @@
 package com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.pages.moves
 
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.cablemc.pokemoncobbled.forge.client.gui.ColourLibrary
-import com.cablemc.pokemoncobbled.forge.client.gui.MultiLineLabelK
-import com.cablemc.pokemoncobbled.forge.client.gui.drawText
+import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
+import com.cablemc.pokemoncobbled.common.api.gui.MultiLineLabelK
+import com.cablemc.pokemoncobbled.common.api.gui.drawText
 import com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.api.moves.Move
 import com.mojang.blaze3d.vertex.PoseStack
