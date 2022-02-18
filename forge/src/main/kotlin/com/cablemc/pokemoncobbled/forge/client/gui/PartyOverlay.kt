@@ -2,11 +2,11 @@ package com.cablemc.pokemoncobbled.forge.client.gui
 
 import com.cablemc.pokemoncobbled.forge.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.forge.client.keybinding.HidePartyBinding
-import com.cablemc.pokemoncobbled.forge.client.render.drawScaled
-import com.cablemc.pokemoncobbled.forge.client.render.getDepletableRedGreen
-import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.PoseType
-import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cablemc.pokemoncobbled.common.client.render.drawScaled
+import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated

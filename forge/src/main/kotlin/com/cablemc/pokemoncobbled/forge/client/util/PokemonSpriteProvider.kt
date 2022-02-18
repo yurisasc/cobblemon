@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.forge.client.util
 
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.resources.ResourceLocation
 
