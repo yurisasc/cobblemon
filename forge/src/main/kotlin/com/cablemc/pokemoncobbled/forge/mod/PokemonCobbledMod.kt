@@ -58,6 +58,7 @@ object PokemonCobbledMod {
 
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
+            EventBuses.registerModEventBus(PokemonCobbled.MODID, this)
             addListener(this@PokemonCobbledMod::initialize)
             addListener(this@PokemonCobbledMod::on)
             addListener(this@PokemonCobbledMod::onBake)
