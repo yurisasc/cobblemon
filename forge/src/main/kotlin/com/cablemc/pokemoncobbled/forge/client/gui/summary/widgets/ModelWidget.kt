@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets
 
 import com.cablemc.pokemoncobbled.forge.client.gui.drawProfilePokemon
-import com.cablemc.pokemoncobbled.forge.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Quaternion

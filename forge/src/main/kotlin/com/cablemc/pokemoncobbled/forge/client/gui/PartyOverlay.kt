@@ -7,8 +7,8 @@ import com.cablemc.pokemoncobbled.forge.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cablemc.pokemoncobbled.forge.common.api.pokemon.stats.Stats
-import com.cablemc.pokemoncobbled.forge.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
+import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.platform.Lighting

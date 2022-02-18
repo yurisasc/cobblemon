@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.forge.client.gui
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cablemc.pokemoncobbled.forge.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
 import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack

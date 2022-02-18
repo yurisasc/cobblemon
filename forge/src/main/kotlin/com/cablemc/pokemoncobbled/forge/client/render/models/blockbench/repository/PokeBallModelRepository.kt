@@ -2,9 +2,9 @@ package com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.reposit
 
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.BlockBenchModelWrapper
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pokeball.PokeBallModel
-import com.cablemc.pokemoncobbled.forge.common.api.pokeball.PokeBalls
-import com.cablemc.pokemoncobbled.forge.common.entity.pokeball.EmptyPokeBallEntity
-import com.cablemc.pokemoncobbled.forge.common.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.resources.ResourceLocation
 

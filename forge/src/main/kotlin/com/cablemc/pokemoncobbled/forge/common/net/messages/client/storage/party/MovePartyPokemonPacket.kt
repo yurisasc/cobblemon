@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.forge.common.net.messages.client.storage.party
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import com.cablemc.pokemoncobbled.forge.common.api.storage.party.PartyPosition
+import com.cablemc.pokemoncobbled.common.api.storage.party.PartyPosition
 import net.minecraft.network.FriendlyByteBuf
 import java.util.UUID
 

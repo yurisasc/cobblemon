@@ -8,11 +8,11 @@ import com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.pages.info.In
 import com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.pages.stats.StatWidget
 import com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.pages.SummarySwitchButton
 import com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.pages.moves.MovesWidget
-import com.cablemc.pokemoncobbled.forge.client.storage.ClientParty
+import com.cablemc.pokemoncobbled.common.client.storage.ClientParty
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
 import com.cablemc.pokemoncobbled.common.api.reactive.ObservableSubscription
-import com.cablemc.pokemoncobbled.forge.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.Minecraft

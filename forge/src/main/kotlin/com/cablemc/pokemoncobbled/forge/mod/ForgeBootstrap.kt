@@ -5,7 +5,5 @@ import net.minecraftforge.fml.common.Mod
 
 @Mod(PokemonCobbled.MODID)
 class ForgeBootstrap {
-    init {
-        PokemonCobbledMod
-    }
+    init { PokemonCobbledMod }
 }

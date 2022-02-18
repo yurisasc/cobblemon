@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update
 
-import com.cablemc.pokemoncobbled.forge.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.forge.common.pokemon.activestate.InactivePokemonState
-import com.cablemc.pokemoncobbled.forge.common.pokemon.activestate.PokemonState
+import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.entity.pokemon.activestate.InactivePokemonState
+import com.cablemc.pokemoncobbled.common.entity.pokemon.activestate.PokemonState
 import net.minecraft.network.FriendlyByteBuf
 
 class PokemonStateUpdatePacket(): SingleUpdatePacket<PokemonState>(InactivePokemonState()) {

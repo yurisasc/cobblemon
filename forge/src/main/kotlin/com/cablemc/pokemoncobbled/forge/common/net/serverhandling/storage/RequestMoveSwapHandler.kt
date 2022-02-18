@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.forge.common.net.serverhandling.storage
 
-import com.cablemc.pokemoncobbled.forge.common.api.storage.PokemonStoreManager
+import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.forge.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.forge.common.net.messages.server.RequestMoveSwapPacket
 import net.minecraftforge.network.NetworkEvent

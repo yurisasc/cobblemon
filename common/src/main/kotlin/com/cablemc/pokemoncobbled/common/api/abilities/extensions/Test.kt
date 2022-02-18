@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.abilities.extensions
 
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
-import com.cablemc.pokemoncobbled.common.utils.DataKeys
+import com.cablemc.pokemoncobbled.common.util.DataKeys
 import net.minecraft.nbt.CompoundTag
 
 internal class Test: Ability(template = Abilities.getOrException("flash_fire")) {

@@ -1,32 +1,26 @@
 package com.cablemc.pokemoncobbled.forge.mod
 
-import com.cablemc.pokemoncobbled.common.CobbledItems
-import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.isDedicatedServer
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskListener
+import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
+import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
+import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.ifServer
 import com.cablemc.pokemoncobbled.forge.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.forge.common.CommandRegistrar
-import com.cablemc.pokemoncobbled.forge.common.api.pokeball.catching.calculators.CaptureCalculator
-import com.cablemc.pokemoncobbled.forge.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
-import com.cablemc.pokemoncobbled.forge.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.forge.common.api.scheduling.ScheduledTaskListener
-import com.cablemc.pokemoncobbled.forge.common.api.storage.PokemonStoreManager
-import com.cablemc.pokemoncobbled.forge.common.api.storage.adapter.NBTStoreAdapter
-import com.cablemc.pokemoncobbled.forge.common.api.storage.factory.FileBackedPokemonStoreFactory
-import com.cablemc.pokemoncobbled.forge.common.battles.ShowdownThread
-import com.cablemc.pokemoncobbled.forge.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.forge.common.command.argument.PokemonArgumentType
-import com.cablemc.pokemoncobbled.forge.common.entity.EntityRegistry
-import com.cablemc.pokemoncobbled.forge.common.item.ItemRegistry
+import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.forge.common.net.PokemonCobbledNetwork
 import com.cablemc.pokemoncobbled.forge.common.net.serverhandling.ServerPacketRegistrar
-import com.cablemc.pokemoncobbled.forge.common.spawning.SpawnerManager
-import com.cablemc.pokemoncobbled.forge.common.util.getServer
-import com.cablemc.pokemoncobbled.forge.common.util.ifServer
 import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
+import dev.architectury.platform.forge.EventBuses
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -36,7 +30,6 @@ import net.minecraft.world.level.storage.LevelResource
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.event.ModelBakeEvent
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent
 import net.minecraftforge.event.server.ServerStartingEvent
 import net.minecraftforge.eventbus.api.BusBuilder
 import net.minecraftforge.eventbus.api.EventPriority
@@ -51,19 +44,14 @@ import org.apache.logging.log4j.LogManager
 object PokemonCobbledMod {
     val LOGGER = LogManager.getLogger()
     val EVENT_BUS = BusBuilder.builder().build()
-    lateinit var showdown: ShowdownConnection //TODO: Move to more appropriate place
-    var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
-    var isDedicatedServer = false
-    var showdownThread: ShowdownThread = ShowdownThread()
 
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
+            EventBuses.registerModEventBus(PokemonCobbled.MODID, this)
             addListener(this@PokemonCobbledMod::initialize)
-            addListener(this@PokemonCobbledMod::on)
+//            addListener(this@PokemonCobbledMod::on)
             addListener(this@PokemonCobbledMod::onBake)
             addListener(PokemonCobbledClient::onAddLayer)
-            EntityRegistry.register(this)
-            ItemRegistry.register(this)
             PokemonCobbled.initialize()
         }
 
@@ -122,9 +110,9 @@ object PokemonCobbledMod {
         )
     }
 
-    fun on(event: EntityAttributeCreationEvent) {
-        EntityRegistry.registerAttributes(event)
-    }
+//    fun on(event: EntityAttributeCreationEvent) {
+//        EntityRegistry.registerAttributes(event)
+//    }
 
     fun getLevel(dimension: ResourceKey<Level>): Level? {
         return if (isDedicatedServer) {

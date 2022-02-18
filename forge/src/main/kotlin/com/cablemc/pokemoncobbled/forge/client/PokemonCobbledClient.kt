@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.forge.client
 
+import com.cablemc.pokemoncobbled.common.CobbledEntities
 import com.cablemc.pokemoncobbled.forge.client.gui.PartyOverlay
 import com.cablemc.pokemoncobbled.forge.client.keybinding.DownShiftPartyBinding
 import com.cablemc.pokemoncobbled.forge.client.keybinding.HidePartyBinding
@@ -12,8 +13,7 @@ import com.cablemc.pokemoncobbled.forge.client.net.ClientPacketRegistrar
 import com.cablemc.pokemoncobbled.forge.client.render.layer.PokemonOnShoulderLayer
 import com.cablemc.pokemoncobbled.forge.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.forge.client.render.pokemon.PokemonRenderer
-import com.cablemc.pokemoncobbled.forge.client.storage.ClientStorageManager
-import com.cablemc.pokemoncobbled.forge.common.entity.EntityRegistry
+import com.cablemc.pokemoncobbled.common.client.storage.ClientStorageManager
 import com.cablemc.pokemoncobbled.forge.mod.PokemonCobbledMod
 import net.minecraft.client.KeyMapping
 import net.minecraft.client.model.PlayerModel
@@ -30,7 +30,6 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.registries.RegistryObject
 
 object PokemonCobbledClient {
     val storage = ClientStorageManager()
@@ -50,8 +49,8 @@ object PokemonCobbledClient {
     }
 
     fun registerRenderers() {
-        registerEntityRenderer(EntityRegistry.POKEMON) { PokemonRenderer(it) }
-        registerEntityRenderer(EntityRegistry.EMPTY_POKEBALL) { PokeBallRenderer(it) }
+        registerEntityRenderer(CobbledEntities.POKEMON_TYPE) { PokemonRenderer(it) }
+        registerEntityRenderer(CobbledEntities.EMPTY_POKEBALL_TYPE) { PokeBallRenderer(it) }
     }
 
     fun initialize() {
@@ -78,9 +77,9 @@ object PokemonCobbledClient {
     }
 
     private fun <T : Entity> registerEntityRenderer(
-        registry: RegistryObject<EntityType<T>>,
+        type: EntityType<T>,
         renderer: (EntityRendererProvider.Context) -> EntityRenderer<T>
     ) {
-        EntityRenderers.register(registry.get(), renderer)
+        EntityRenderers.register(type, renderer)
     }
 }

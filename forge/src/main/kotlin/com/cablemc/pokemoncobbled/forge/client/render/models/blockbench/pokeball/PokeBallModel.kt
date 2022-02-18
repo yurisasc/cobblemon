@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.animatio
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.frame.PokeBallFrame
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
-import com.cablemc.pokemoncobbled.forge.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart

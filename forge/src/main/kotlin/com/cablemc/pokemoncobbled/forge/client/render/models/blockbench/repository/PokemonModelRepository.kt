@@ -3,10 +3,10 @@ package com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.reposit
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.BlockBenchModelWrapper
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pokemon.*
 import com.cablemc.pokemoncobbled.forge.client.util.exists
-import com.cablemc.pokemoncobbled.forge.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.forge.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.forge.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.forge.common.pokemon.Species
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.entity.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.resources.ResourceLocation
 

@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.addRotat
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.frame.EaredFrame
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.getRotation
 import com.cablemc.pokemoncobbled.forge.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
-import com.cablemc.pokemoncobbled.forge.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.util.Mth.PI
 import net.minecraft.util.Mth.sin
 import java.lang.Float.min

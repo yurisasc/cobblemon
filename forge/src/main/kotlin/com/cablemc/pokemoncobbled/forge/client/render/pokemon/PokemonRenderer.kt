@@ -8,9 +8,9 @@ import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pokemon.
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cablemc.pokemoncobbled.forge.client.render.renderBeaconBeam
-import com.cablemc.pokemoncobbled.forge.common.entity.pokeball.EmptyPokeBallEntity
-import com.cablemc.pokemoncobbled.forge.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.utils.math.geometry.toRadians
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Quaternion
 import com.mojang.math.Vector3f

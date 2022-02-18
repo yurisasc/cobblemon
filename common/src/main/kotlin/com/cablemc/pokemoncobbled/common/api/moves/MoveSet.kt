@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
-import com.cablemc.pokemoncobbled.common.utils.DataKeys
+import com.cablemc.pokemoncobbled.common.util.DataKeys
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.Tag

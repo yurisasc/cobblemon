@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.animati
 
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.frame.PokeBallFrame
-import com.cablemc.pokemoncobbled.forge.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.util.Mth
 import net.minecraft.util.Mth.PI
 

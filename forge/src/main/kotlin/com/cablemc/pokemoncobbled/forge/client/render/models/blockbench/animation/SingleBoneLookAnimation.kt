@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.addRotat
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
-import com.cablemc.pokemoncobbled.common.utils.math.geometry.toRadians
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.world.entity.Entity
 
 /**

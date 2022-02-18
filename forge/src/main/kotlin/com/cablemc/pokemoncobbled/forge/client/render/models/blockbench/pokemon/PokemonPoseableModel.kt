@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.animatio
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.TransformedModelPart
-import com.cablemc.pokemoncobbled.forge.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
 import net.minecraft.world.phys.Vec3

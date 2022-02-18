@@ -13,7 +13,7 @@ import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.Tra
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.wavefunction.triangleFunction
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.cablemc.pokemoncobbled.common.utils.math.geometry.toRadians
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose

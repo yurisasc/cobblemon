@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.forge.client.net
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.forge.common.net.PacketHandler
-import com.cablemc.pokemoncobbled.forge.common.util.ifClient
+import com.cablemc.pokemoncobbled.common.util.ifClient
 import net.minecraftforge.network.NetworkEvent
 
 /*

@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.forge.client.render.pokeball
 
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokeBallModelRepository
-import com.cablemc.pokemoncobbled.forge.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer

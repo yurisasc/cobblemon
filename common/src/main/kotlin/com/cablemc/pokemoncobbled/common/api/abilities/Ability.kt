@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.abilities
 
-import com.cablemc.pokemoncobbled.common.utils.DataKeys
+import com.cablemc.pokemoncobbled.common.util.DataKeys
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 

@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.bedrock
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.frame.ModelFrame
-import com.cablemc.pokemoncobbled.common.utils.math.geometry.toRadians
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.math.Vector3d
 import net.minecraft.world.entity.Entity
 import java.util.*

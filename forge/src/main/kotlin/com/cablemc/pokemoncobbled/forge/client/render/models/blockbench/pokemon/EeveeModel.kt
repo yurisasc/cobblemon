@@ -11,9 +11,9 @@ import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.frame.Qu
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
 import com.cablemc.pokemoncobbled.forge.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
-import com.cablemc.pokemoncobbled.forge.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.cablemc.pokemoncobbled.common.utils.math.geometry.toRadians
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose

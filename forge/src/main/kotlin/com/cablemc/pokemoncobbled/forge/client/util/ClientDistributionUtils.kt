@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.forge.client.util
 
-import com.cablemc.pokemoncobbled.forge.common.util.runOnSide
+import com.cablemc.pokemoncobbled.common.util.runOnSide
 import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceLocation
 import net.minecraftforge.fml.LogicalSide

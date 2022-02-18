@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.forge.common.net.messages.client.ui
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import com.cablemc.pokemoncobbled.forge.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
 import net.minecraft.network.FriendlyByteBuf
 
 class SummaryUIPacket internal constructor(): NetworkPacket {

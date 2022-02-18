@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.Poseable
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.frame.PokeBallFrame
-import com.cablemc.pokemoncobbled.forge.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.util.Mth
 import net.minecraft.util.Mth.PI
 import kotlin.math.min

@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.forge.client.listener
 
-import com.cablemc.pokemoncobbled.forge.common.api.scheduling.ScheduledTaskTracker
-import com.cablemc.pokemoncobbled.forge.common.util.ifClient
+import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
+import com.cablemc.pokemoncobbled.common.util.ifClient
 import net.minecraft.client.Minecraft
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent
 import net.minecraftforge.event.TickEvent

@@ -3,9 +3,9 @@ package com.cablemc.pokemoncobbled.forge.client.render.layer
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cablemc.pokemoncobbled.forge.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.utils.DataKeys
-import com.cablemc.pokemoncobbled.forge.common.util.isPokemonEntity
+import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.isPokemonEntity
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.model.PlayerModel
 import net.minecraft.client.renderer.MultiBufferSource

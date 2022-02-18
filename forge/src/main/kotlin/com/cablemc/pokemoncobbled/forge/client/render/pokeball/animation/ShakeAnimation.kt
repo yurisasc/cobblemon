@@ -9,7 +9,7 @@ import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.pose.Tra
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.wavefunction.linearFunction
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.wavefunction.times
-import com.cablemc.pokemoncobbled.forge.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.util.Mth.PI
 
 /**

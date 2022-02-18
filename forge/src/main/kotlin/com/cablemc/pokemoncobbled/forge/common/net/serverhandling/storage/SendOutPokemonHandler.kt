@@ -1,14 +1,14 @@
 package com.cablemc.pokemoncobbled.forge.common.net.serverhandling.storage
 
 import com.cablemc.pokemoncobbled.common.CobbledSounds
-import com.cablemc.pokemoncobbled.forge.common.api.scheduling.after
-import com.cablemc.pokemoncobbled.forge.common.api.storage.PokemonStoreManager
+import com.cablemc.pokemoncobbled.common.api.scheduling.after
+import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.forge.common.net.messages.server.SendOutPokemonPacket
-import com.cablemc.pokemoncobbled.forge.common.pokemon.activestate.ActivePokemonState
+import com.cablemc.pokemoncobbled.common.entity.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.toVec3
 import com.cablemc.pokemoncobbled.forge.common.net.PacketHandler
-import com.cablemc.pokemoncobbled.forge.common.util.traceBlockCollision
+import com.cablemc.pokemoncobbled.common.util.traceBlockCollision
 import net.minecraft.core.Direction
 import net.minecraft.world.phys.Vec3
 import net.minecraftforge.network.NetworkEvent
