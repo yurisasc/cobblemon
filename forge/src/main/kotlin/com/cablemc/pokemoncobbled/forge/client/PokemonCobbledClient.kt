@@ -2,9 +2,7 @@ package com.cablemc.pokemoncobbled.forge.client
 
 import com.cablemc.pokemoncobbled.forge.client.gui.PartyOverlay
 import com.cablemc.pokemoncobbled.forge.client.keybinding.DownShiftPartyBinding
-import com.cablemc.pokemoncobbled.forge.client.keybinding.HidePartyBinding
 import com.cablemc.pokemoncobbled.forge.client.keybinding.PartySendBinding
-import com.cablemc.pokemoncobbled.forge.client.keybinding.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.forge.client.keybinding.SummaryBinding
 import com.cablemc.pokemoncobbled.forge.client.keybinding.UpShiftPartyBinding
 import com.cablemc.pokemoncobbled.forge.client.listener.ClientSchedulingListener
@@ -39,9 +37,7 @@ object PokemonCobbledClient {
         registerKeyBind(PartySendBinding)
         registerKeyBind(DownShiftPartyBinding)
         registerKeyBind(UpShiftPartyBinding)
-        registerKeyBind(PokeNavigatorBinding)
         registerKeyBind(SummaryBinding)
-        registerKeyBind(HidePartyBinding)
     }
 
     fun registerKeyBind(binding: KeyMapping) {

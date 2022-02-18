@@ -1,9 +1,8 @@
 package com.cablemc.pokemoncobbled.forge.mod
 
-import com.cablemc.pokemoncobbled.common.CobbledItems
-import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.forge.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.forge.client.render.models.blockbench.repository.PokeBallModelRepository
@@ -27,6 +26,7 @@ import com.cablemc.pokemoncobbled.forge.common.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.forge.common.util.getServer
 import com.cablemc.pokemoncobbled.forge.common.util.ifServer
 import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
+import dev.architectury.platform.forge.EventBuses
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -62,6 +62,7 @@ object PokemonCobbledMod {
             addListener(this@PokemonCobbledMod::on)
             addListener(this@PokemonCobbledMod::onBake)
             addListener(PokemonCobbledClient::onAddLayer)
+            CobbledKeybinds
             EntityRegistry.register(this)
             ItemRegistry.register(this)
             PokemonCobbled.initialize()
