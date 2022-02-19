@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.forge.client.gui
+package com.cablemc.pokemoncobbled.common.api.gui
 
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.components.Widget

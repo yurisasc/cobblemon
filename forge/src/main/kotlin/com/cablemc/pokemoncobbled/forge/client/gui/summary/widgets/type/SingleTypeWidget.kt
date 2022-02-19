@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.forge.client.gui.summary.widgets.type
 
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.cablemc.pokemoncobbled.forge.client.gui.ColourLibrary
-import com.cablemc.pokemoncobbled.forge.client.gui.drawCenteredText
+import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
+import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.TextComponent

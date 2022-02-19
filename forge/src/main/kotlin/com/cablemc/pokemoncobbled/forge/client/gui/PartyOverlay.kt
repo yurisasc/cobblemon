@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.forge.client.gui
 
+import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.forge.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.forge.client.keybinding.HidePartyBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaled

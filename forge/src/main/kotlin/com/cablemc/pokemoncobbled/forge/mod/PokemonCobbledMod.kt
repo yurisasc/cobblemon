@@ -15,11 +15,14 @@ import com.cablemc.pokemoncobbled.common.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.common.util.ifServer
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.forge.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.forge.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
+import dev.architectury.platform.forge.EventBuses
 import dev.architectury.platform.forge.EventBuses
 import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceKey
@@ -39,11 +42,12 @@ object PokemonCobbledMod : PokemonCobbledModImplementation {
 
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
-            EventBuses.registerModEventBus(PokemonCobbled.MODID, this)
             addListener(this@PokemonCobbledMod::initialize)
 //            addListener(this@PokemonCobbledMod::on)
             addListener(this@PokemonCobbledMod::onBake)
             addListener(PokemonCobbledClient::onAddLayer)
+            CobbledKeybinds
+            PokemonCobbled.initialize()
             PokemonCobbled.preinitialize(this@PokemonCobbledMod)
         }
 
