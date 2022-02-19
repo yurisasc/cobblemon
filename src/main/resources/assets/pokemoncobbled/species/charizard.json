@@ -1,6 +1,8 @@
 {
   "name": "charizard",
   "nationalPokedexNumber": 6,
+  "primaryType": "fire",
+  "secondaryType": "flying",
   "maleRatio": 0.875,
   "baseStats": {
     "hp": 78,

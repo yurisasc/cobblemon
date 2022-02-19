@@ -1,6 +1,8 @@
 {
   "name": "bulbasaur",
   "nationalPokedexNumber": 1,
+  "primaryType": "grass",
+  "secondaryType": "poison",
   "maleRatio": 0.875,
   "baseStats": {
     "hp": 45,

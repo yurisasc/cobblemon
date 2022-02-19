@@ -19,7 +19,7 @@ import java.util.UUID
 
 object TestCommand {
 
-    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
+    fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
         val command = Commands.literal("testcommand")
             .requires { it.hasPermission(4) }
             .executes { execute(it) }
@@ -49,5 +49,4 @@ object TestCommand {
         BattleRegistry.startBattle(playerSubject, enemySubject)
         return Command.SINGLE_SUCCESS
     }
-
 }

@@ -10,6 +10,7 @@ import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.toVec3
 import com.cablemc.pokemoncobbled.common.util.traceBlockCollision
 import net.minecraft.core.Direction
+import net.minecraft.world.phys.Vec3
 import net.minecraftforge.network.NetworkEvent
 
 object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
@@ -24,7 +25,7 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
             if (state !is ActivePokemonState) {
                 val trace = player.traceBlockCollision(maxDistance = 15F)
                 if (trace != null && trace.direction == Direction.UP && !player.level.getBlockState(trace.blockPos.above()).material.isSolid) {
-                    val position = trace.blockPos.above().toVec3().add(trace.location.x - trace.location.x.toInt(), 0.0, trace.location.z - trace.location.z.toInt())
+                    val position = Vec3(trace.location.x, trace.blockPos.above().toVec3().y, trace.location.z)
                     pokemon.sendOut(player.getLevel(), position) {
                         player.getLevel().playSoundServer(position, SoundRegistry.SEND_OUT.get(), volume = 0.2F)
                         it.phasingTargetId.set(player.id)
