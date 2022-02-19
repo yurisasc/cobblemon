@@ -19,20 +19,20 @@ import java.util.UUID
  * @author Hiroku
  * @since November 29th, 2021
  */
-object PokemonStoreManager {
+open class PokemonStoreManager {
     private val factories = Array(EventPriority.values().size) { mutableListOf<PokemonStoreFactory>() }
 
-    fun registerFactory(priority: EventPriority, factory: PokemonStoreFactory) {
+    open fun registerFactory(priority: EventPriority, factory: PokemonStoreFactory) {
         factories[priority.ordinal].add(factory)
     }
 
-    fun unregisterFactory(factory: PokemonStoreFactory) {
+    open fun unregisterFactory(factory: PokemonStoreFactory) {
         factories.forEach { it.remove(factory) }
     }
 
-    fun getParty(player: ServerPlayer) = getParty(player.uuid)
+    open fun getParty(player: ServerPlayer) = getParty(player.uuid)
 
-    fun getParty(uuid: UUID): PartyStore {
+    open fun getParty(uuid: UUID): PartyStore {
         for (factoryList in factories) {
             for (factory in factoryList) {
                 factory.getPlayerParty(uuid)?.run { return this }
@@ -42,7 +42,7 @@ object PokemonStoreManager {
         throw NoPokemonStoreException("No factory was able to provide a party for $uuid - this should not be possible unless someone has removed the default provider!")
     }
 
-    fun getParties(uuid: UUID): Iterable<PartyStore> {
+    open fun getParties(uuid: UUID): Iterable<PartyStore> {
         val parties = mutableListOf<PartyStore>()
         for (factoryList in factories) {
             for (factory in factoryList) {
@@ -53,7 +53,7 @@ object PokemonStoreManager {
     }
 
     inline fun <E : StorePosition, reified T : PokemonStore<E>> getCustomStore(uuid: UUID) = getCustomStore(T::class.java, uuid)
-    fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID): T? {
+    open fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID): T? {
         for (factoryList in factories) {
             for (factory in factoryList) {
                 factory.getCustomStore(storeClass, uuid)?.run { return this }
@@ -64,7 +64,7 @@ object PokemonStoreManager {
     }
 
     @SubscribeEvent
-    fun on(event: PlayerEvent.PlayerLoggedInEvent) {
+    open fun on(event: PlayerEvent.PlayerLoggedInEvent) {
         val player = event.player
         if (player is ServerPlayer) {
             val parties = getParties(player.uuid)
