@@ -3,8 +3,9 @@ package com.cablemc.pokemoncobbled.common.api.scheduling
 import kotlin.math.max
 
 /**
- * A task to be executed synchronously in beat with ticking. The precision of tasks is such that the delay
- * is never more than one tick from the scheduled time. Pinched from Cable Libs.
+ * A task to be executed synchronously. The precision of tasks is such that the delay
+ * is never more than one tick from the scheduled time on the server, and bound to render
+ * speeds on the client. Pinched from Cable Libs and expanded.
  *
  * @author landonjw, Hiroku
  */
@@ -14,23 +15,31 @@ class ScheduledTask(
     /** The identifier, optional. */
     val identifier: String? = null,
     /** How long until the task should execute. */
-    delayTicks: Int,
-    /** The ticks between each execution, if this is repeated. */
-    val intervalTicks: Int = 0,
+    delaySeconds: Float,
+    /** The seconds between each execution, if this is repeated. */
+    val intervalSeconds: Float = 0F,
     /** The number of times this task should iterate. */
     val iterations: Int = 1
 ) {
     var currentIteration: Int = 0
         private set
-    var ticksRemaining: Int = 0
+    var secondsRemaining: Float = 0F
         private set
     var expired = false
         private set
     var paused = false
+        set(value) {
+            field = value
+            if (!value) {
+                lastExecutedTime = System.currentTimeMillis()
+            }
+        }
+
+    var lastExecutedTime = System.currentTimeMillis()
 
     init {
-        if (delayTicks > 0) {
-            ticksRemaining = delayTicks
+        if (delaySeconds > 0) {
+            secondsRemaining = delaySeconds
         }
     }
 
@@ -38,14 +47,18 @@ class ScheduledTask(
         return identifier?.let { "Task-$it" } ?: super.toString()
     }
 
-    fun tick() {
+    fun update() {
+        val now = System.currentTimeMillis()
+        val passed = now - lastExecutedTime
+        lastExecutedTime = now
+
         if (!expired && !paused) {
-            ticksRemaining = max(0, --ticksRemaining)
-            if (ticksRemaining == 0) {
+            secondsRemaining = max(0F, secondsRemaining - passed / 1000F)
+            if (secondsRemaining == 0F) {
                 action(this)
                 currentIteration++
-                if (intervalTicks > 0 && (currentIteration < iterations || iterations == -1)) {
-                    ticksRemaining = intervalTicks
+                if (intervalSeconds > 0 && (currentIteration < iterations || iterations == -1)) {
+                    secondsRemaining = intervalSeconds
                 } else {
                     expired = true
                 }
@@ -60,11 +73,11 @@ class ScheduledTask(
     class Builder {
         private var action: ((ScheduledTask) -> Unit)? = null
 
-        /** The number of ticks before the task will first be executed. */
-        private var delayTicks: Int = 0
+        /** The number of seconds before the task will first be executed. */
+        private var delaySeconds: Float = 0F
 
-        /** The number of ticks before the task will be executed after it's already executed. */
-        private var interval: Int = 0
+        /** The number of seconds before the task will be executed after it's already executed. */
+        private var interval: Float = 0F
 
         /** The number of times the task will run. -1 to run indefinitely. */
         private var iterations: Int = 1
@@ -90,24 +103,24 @@ class ScheduledTask(
         /**
          * Sets the delay of the task.
          *
-         * @param delayTicks the number of ticks before the task will first be executed
+         * @param delaySeconds the number of seconds before the task will first be executed
          * @return builder with delay set
          * @throws IllegalArgumentException if delay is below 0
          */
-        fun delay(delayTicks: Int): Builder {
-            require(delayTicks >= 0) { "Delay must not be below 0" }
-            this.delayTicks = delayTicks
+        fun delay(delaySeconds: Float): Builder {
+            require(delaySeconds >= 0) { "Delay must not be below 0" }
+            this.delaySeconds = delaySeconds
             return this
         }
 
         /**
          * Sets the interval between task executions.
          *
-         * @param interval the number of ticks before the task will execute after already executing
+         * @param interval the number of seconds before the task will execute after already executing
          * @return builder with interval set
          * @throws IllegalArgumentException if interval is below 0
          */
-        fun interval(interval: Int): Builder {
+        fun interval(interval: Float): Builder {
             require(interval >= 0) { "Interval must not be below 0" }
             this.interval = interval
             return this
@@ -147,8 +160,8 @@ class ScheduledTask(
             val task = ScheduledTask(
                 action = action!!,
                 identifier = identifier,
-                delayTicks = delayTicks,
-                intervalTicks = interval,
+                delaySeconds = delaySeconds,
+                intervalSeconds = interval,
                 iterations = iterations
             )
             ScheduledTaskTracker.addTask(task)

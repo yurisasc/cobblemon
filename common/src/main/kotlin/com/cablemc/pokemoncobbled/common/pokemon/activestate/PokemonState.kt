@@ -155,7 +155,7 @@ class ShoulderedState() : ActivePokemonState() {
     }
 
     override fun recall() {
-        val player = getServer().playerList.getPlayer(playerUUID) ?: return
+        val player = getServer()!!.playerList.getPlayer(playerUUID) ?: return
         val shoulderNBT = if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight
         if (shoulderNBT.isPokemonEntity() && shoulderNBT.getCompound(DataKeys.POKEMON).getCompound(DataKeys.POKEMON_STATE).getUUID(
                 DataKeys.POKEMON_STATE_ID) == stateId) {

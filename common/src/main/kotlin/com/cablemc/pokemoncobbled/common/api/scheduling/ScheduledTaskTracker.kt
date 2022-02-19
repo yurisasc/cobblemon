@@ -7,9 +7,9 @@ object ScheduledTaskTracker {
         tasks.clear()
     }
 
-    fun tick() {
+    fun update() {
         for (task in tasks.toList()) {
-            task.tick()
+            task.update()
             if (task.expired) {
                 tasks.remove(task)
             }

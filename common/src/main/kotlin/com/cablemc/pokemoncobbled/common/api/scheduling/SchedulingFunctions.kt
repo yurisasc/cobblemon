@@ -1,35 +1,31 @@
 package com.cablemc.pokemoncobbled.common.api.scheduling
 
-import net.minecraft.util.Mth.ceil
-import kotlin.math.roundToInt
-
 fun after(ticks: Int = 0, seconds: Float = 0F, action: () -> Unit) {
     ScheduledTaskTracker.addTask(
         ScheduledTask(
             action = { action() },
-            delayTicks = ticks + ceil(seconds * 20)
+            delaySeconds = ticks / 20F + seconds
         )
     )
 }
 
-fun lerp(ticks: Int, action: (Float) -> Unit) {
-    var tick = 0F
-    if (ticks == 0) {
+fun lerp(seconds: Float = 0F, action: (Float) -> Unit) {
+    val startedTime = System.currentTimeMillis()
+    var passed = 0F
+    if (seconds == 0F) {
         action(1F)
         return
     }
-    action(tick / ticks)
-    if (tick / ticks != 1F) {
-        taskBuilder().interval(1).iterations(Int.MAX_VALUE).execute { task ->
-            tick++
-            action(tick / ticks)
-            if (tick >= ticks) {
+    action(passed / seconds)
+    if (passed / seconds != 1F) {
+        taskBuilder().interval(0F).iterations(-1).execute { task ->
+            passed = (System.currentTimeMillis() - startedTime)/1000F
+            action(passed / seconds)
+            if (passed >= seconds) {
                 task.expire()
             }
         }.build()
     }
 }
-
-fun lerp(seconds: Float, action: (Float) -> Unit) = lerp(ticks = (seconds * 20F).roundToInt(), action)
 
 fun taskBuilder() = ScheduledTask.Builder()

@@ -5,7 +5,6 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.isDedicatedServer
 import com.cablemc.pokemoncobbled.common.PokemonCobbledModImplementation
-import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskListener
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokeBallModelRepository
@@ -56,7 +55,6 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
         }
 
         MinecraftForge.EVENT_BUS.register(CommandRegistrar)
-        MinecraftForge.EVENT_BUS.register(ScheduledTaskListener)
         MinecraftForge.EVENT_BUS.register(this)
     }
 

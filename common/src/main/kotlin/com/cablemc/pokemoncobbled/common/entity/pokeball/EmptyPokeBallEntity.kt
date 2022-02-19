@@ -50,8 +50,8 @@ class EmptyPokeBallEntity(
         private val HIT_VELOCITY = SynchedEntityData.defineId(EmptyPokeBallEntity::class.java, Vec3DataSerializer)
         private val SHAKE = SynchedEntityData.defineId(EmptyPokeBallEntity::class.java, EntityDataSerializers.BOOLEAN)
 
-        const val TICKS_BETWEEN_SHAKES = 40
-        const val TICKS_BEFORE_SHAKE = 10
+        const val SECONDS_BETWEEN_SHAKES = 2F
+        const val SECONDS_BEFORE_SHAKE = 0.5F
     }
 
     val DIMENSIONS = EntityDimensions(0.4F, 0.4F, true)
@@ -139,8 +139,8 @@ class EmptyPokeBallEntity(
 
                 taskBuilder()
                     .iterations(captureResult.numberOfShakes + 1)
-                    .delay(TICKS_BEFORE_SHAKE)
-                    .interval(TICKS_BETWEEN_SHAKES)
+                    .delay(SECONDS_BEFORE_SHAKE)
+                    .interval(SECONDS_BETWEEN_SHAKES)
                     .execute {
                         if (capturingPokemon?.isAlive != true) {
                             discard()

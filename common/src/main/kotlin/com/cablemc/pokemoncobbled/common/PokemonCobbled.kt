@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Captu
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegistry
+import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
@@ -14,7 +15,11 @@ import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.ifClient
+import com.cablemc.pokemoncobbled.common.util.ifServer
+import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
+import dev.architectury.event.events.common.TickEvent
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -57,6 +62,9 @@ object PokemonCobbled {
 
         // Same as PokemonSpecies
         LOGGER.info("Loaded ${Moves.count()} Moves.")
+
+        ifServer { TickEvent.SERVER_POST.register { ScheduledTaskTracker.update() } }
+        ifClient { ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() }) }
     }
 
     fun onServerStarted(server: MinecraftServer) {
