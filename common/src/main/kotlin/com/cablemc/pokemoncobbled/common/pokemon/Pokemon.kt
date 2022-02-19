@@ -14,13 +14,6 @@ import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
-import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
@@ -29,6 +22,13 @@ import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
 import com.cablemc.pokemoncobbled.common.util.readMapK
 import com.cablemc.pokemoncobbled.common.util.writeMapK
+import com.cablemc.pokemoncobbled.forge.common.net.messages.client.PokemonUpdatePacket
+import com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
+import com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
+import com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update.ShinyUpdatePacket
+import com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf

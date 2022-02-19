@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.reactive
 
+import com.cablemc.pokemoncobbled.common.api.Priority
 import com.cablemc.pokemoncobbled.common.api.reactive.pipes.EmitWhileTransform
 import com.cablemc.pokemoncobbled.common.api.reactive.pipes.FilterTransform
 import com.cablemc.pokemoncobbled.common.api.reactive.pipes.IgnoreFirstTransform
@@ -19,7 +20,7 @@ import java.util.concurrent.CompletableFuture
  * @since November 26th, 2021
  */
 interface Observable<T> {
-    fun subscribe(handler: (T) -> Unit): ObservableSubscription<T>
+    fun subscribe(priority: Priority = Priority.NORMAL, handler: (T) -> Unit): ObservableSubscription<T>
     fun unsubscribe(subscription: ObservableSubscription<T>)
 
     // This isn't pretty, ik

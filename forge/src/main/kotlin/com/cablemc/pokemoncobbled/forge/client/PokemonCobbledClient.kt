@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.forge.client
 
 import com.cablemc.pokemoncobbled.common.CobbledEntities
 import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
+import com.cablemc.pokemoncobbled.common.api.Priority
 import com.cablemc.pokemoncobbled.common.client.render.layer.PokemonOnShoulderLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer
@@ -25,7 +26,6 @@ import net.minecraftforge.client.ClientRegistry
 import net.minecraftforge.client.event.EntityRenderersEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.player.PlayerEvent
-import net.minecraftforge.eventbus.api.Priority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 object PokemonCobbledClient : PokemonCobbledClientImplementation {
@@ -63,6 +63,7 @@ object PokemonCobbledClient : PokemonCobbledClientImplementation {
 
     @SubscribeEvent(priority = Priority.HIGH)
     fun on(event: PlayerEvent.PlayerLoggedInEvent) {
+
         storage.checkSelectedPokemon()
     }
 

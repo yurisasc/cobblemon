@@ -1,6 +1,6 @@
-package com.cablemc.pokemoncobbled.forge.common.net.serverhandling
+package com.cablemc.pokemoncobbled.common.net.serverhandling
 
-import com.cablemc.pokemoncobbled.forge.common.api.net.SidedPacketRegistrar
+import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
 import com.cablemc.pokemoncobbled.forge.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cablemc.pokemoncobbled.forge.common.net.serverhandling.storage.RequestMoveSwapHandler
 

@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.reactive
 
+import com.cablemc.pokemoncobbled.common.api.Priority
+
 /**
  * An [SimpleObservable] implementation created by piping a root [Observable]. It will try to emit values
  * whenever the root [Observable] emits a value by running the emitted value through the given [Transform].
@@ -18,12 +20,12 @@ class TransformObservable<I, O>(
 ) : SimpleObservable<O>() {
     var rootSubscription: ObservableSubscription<I>? = null
 
-    override fun subscribe(handler: (O) -> Unit): ObservableSubscription<O> {
+    override fun subscribe(priority: Priority, handler: (O) -> Unit): ObservableSubscription<O> {
         if (rootSubscription == null) {
-            rootSubscription = observable.subscribe { parentHandler(it) }
+            rootSubscription = observable.subscribe(priority) { parentHandler(it) }
         }
 
-        return super.subscribe(handler)
+        return super.subscribe(priority, handler)
     }
 
     fun terminate() {

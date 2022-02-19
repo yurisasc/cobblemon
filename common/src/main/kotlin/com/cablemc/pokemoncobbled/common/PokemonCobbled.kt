@@ -1,8 +1,10 @@
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
@@ -31,6 +33,7 @@ object PokemonCobbled {
         CobbledEntities.register()
         CobbledItems.register()
         CobbledSounds.register()
+        CobbledNetwork.register()
 
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
@@ -40,6 +43,14 @@ object PokemonCobbled {
         if (isDedicatedServer) {
             implementation.client.initialize()
         }
+
+        //        showdownThread.start()
+
+        // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
+        LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
+
+        // Same as PokemonSpecies
+        LOGGER.info("Loaded ${Moves.count()} Moves.")
     }
 
     fun onServerStarted(server: MinecraftServer) {

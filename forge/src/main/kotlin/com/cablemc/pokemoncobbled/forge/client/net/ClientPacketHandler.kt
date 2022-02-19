@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.forge.client.net
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import com.cablemc.pokemoncobbled.forge.common.net.PacketHandler
+import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.util.ifClient
 import net.minecraftforge.network.NetworkEvent
 
@@ -11,7 +11,7 @@ import net.minecraftforge.network.NetworkEvent
  * @author Hiroku
  * @since November 28th, 2021
  */
-interface ClientPacketHandler<T : NetworkPacket> : com.cablemc.pokemoncobbled.forge.common.net.PacketHandler<T> {
+interface ClientPacketHandler<T : NetworkPacket> : PacketHandler<T> {
     override fun invoke(packet: T, ctx: NetworkEvent.Context) {
         ctx.enqueueWork { ifClient { invokeOnClient(packet, ctx) } }
     }

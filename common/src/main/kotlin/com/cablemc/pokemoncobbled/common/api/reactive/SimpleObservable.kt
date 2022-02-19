@@ -1,5 +1,8 @@
 package com.cablemc.pokemoncobbled.common.api.reactive
 
+import com.cablemc.pokemoncobbled.common.api.PrioritizedList
+import com.cablemc.pokemoncobbled.common.api.Priority
+
 /**
  * A straightforward implementation of [Observable] that can emit values but holds no state.
  *
@@ -7,11 +10,11 @@ package com.cablemc.pokemoncobbled.common.api.reactive
  * @since November 26th, 2021
  */
 open class SimpleObservable<T> : Observable<T> {
-    private val subscriptions = mutableListOf<ObservableSubscription<T>>()
+    protected val subscriptions = PrioritizedList<ObservableSubscription<T>>()
 
-    override fun subscribe(handler: (T) -> Unit): ObservableSubscription<T> {
+    override fun subscribe(priority: Priority, handler: (T) -> Unit): ObservableSubscription<T> {
         val subscription = ObservableSubscription(this, handler)
-        subscriptions.add(subscription)
+        subscriptions.add(priority, subscription)
         return subscription
     }
 
@@ -20,6 +23,9 @@ open class SimpleObservable<T> : Observable<T> {
     }
 
     open fun emit(vararg values: T) {
+        if (subscriptions.isEmpty()) {
+            return
+        }
         values.forEach { value ->
             // One or more of these subscriptions might be removed during emission, snapshot handles this.
             val subscriptionsSnapshot = subscriptions.toList()

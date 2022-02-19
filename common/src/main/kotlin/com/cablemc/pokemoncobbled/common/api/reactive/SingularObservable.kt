@@ -1,5 +1,8 @@
 package com.cablemc.pokemoncobbled.common.api.reactive
 
+import com.cablemc.pokemoncobbled.common.api.PrioritizedList
+import com.cablemc.pokemoncobbled.common.api.Priority
+
 /**
  * A simple implementation of [Observable] that can only emit a singular set of values. Attempts at emitting
  * a second time throws an exception. Subscribing to a completed [SingularObservable] immediately processes
@@ -13,14 +16,14 @@ package com.cablemc.pokemoncobbled.common.api.reactive
 open class SingularObservable<T> : SimpleObservable<T>() {
     private var completed = false
     private var completedValue = mutableListOf<T>()
-    private val subscriptions = mutableListOf<ObservableSubscription<T>>()
+    private val subscriptions = PrioritizedList<ObservableSubscription<T>>()
 
-    override fun subscribe(handler: (T) -> Unit): ObservableSubscription<T> {
+    override fun subscribe(priority: Priority, handler: (T) -> Unit): ObservableSubscription<T> {
         val subscription = ObservableSubscription(this, handler)
         if (completed) {
             completedValue.forEach { handler(it) }
         } else {
-            subscriptions.add(subscription)
+            subscriptions.add(priority, subscription)
         }
         return subscription
     }

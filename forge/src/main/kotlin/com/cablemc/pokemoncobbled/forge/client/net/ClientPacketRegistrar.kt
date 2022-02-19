@@ -8,7 +8,7 @@ import com.cablemc.pokemoncobbled.forge.client.net.storage.party.RemovePartyPoke
 import com.cablemc.pokemoncobbled.forge.client.net.storage.party.SetPartyPokemonHandler
 import com.cablemc.pokemoncobbled.forge.client.net.storage.party.SetPartyReferenceHandler
 import com.cablemc.pokemoncobbled.forge.client.net.storage.party.SwapPartyPokemonHandler
-import com.cablemc.pokemoncobbled.forge.common.api.net.SidedPacketRegistrar
+import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
 import com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update.LevelUpdatePacket
 import com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update.NatureUpdatePacket

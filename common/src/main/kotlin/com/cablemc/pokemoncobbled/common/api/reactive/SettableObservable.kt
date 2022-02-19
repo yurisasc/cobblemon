@@ -1,5 +1,8 @@
 package com.cablemc.pokemoncobbled.common.api.reactive
 
+import com.cablemc.pokemoncobbled.common.api.PrioritizedList
+import com.cablemc.pokemoncobbled.common.api.Priority
+
 /**
  * A type of [Observable] that wraps around a value. This means you can immediately get the current value of
  * the observable, and it's expected that external users can set the value.
@@ -8,17 +11,17 @@ package com.cablemc.pokemoncobbled.common.api.reactive
  * @since November 26th, 2021
  */
 open class SettableObservable<T>(private var value: T) : Observable<T> {
-    val subscriptions = mutableListOf<ObservableSubscription<T>>()
+    val subscriptions = PrioritizedList<ObservableSubscription<T>>()
 
-    fun subscribeIncludingCurrent(handler: (T) -> Unit): ObservableSubscription<T> {
-        val subscription = subscribe(handler)
+    fun subscribeIncludingCurrent(priority: Priority = Priority.NORMAL, handler: (T) -> Unit): ObservableSubscription<T> {
+        val subscription = subscribe(priority, handler)
         subscription.handle(value)
         return subscription
     }
 
-    override fun subscribe(handler: (T) -> Unit): ObservableSubscription<T> {
+    override fun subscribe(priority: Priority, handler: (T) -> Unit): ObservableSubscription<T> {
         val subscription = ObservableSubscription(this, handler)
-        subscriptions.add(subscription)
+        subscriptions.add(priority, subscription)
         return subscription
     }
 

@@ -7,7 +7,7 @@ import com.cablemc.pokemoncobbled.forge.common.net.messages.server.SendOutPokemo
 import com.cablemc.pokemoncobbled.common.entity.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.toVec3
-import com.cablemc.pokemoncobbled.forge.common.net.PacketHandler
+import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.util.traceBlockCollision
 import net.minecraft.core.Direction
 import net.minecraft.world.phys.Vec3

@@ -1,15 +1,11 @@
-package com.cablemc.pokemoncobbled.forge.common.net.messages.client.ui
+package com.cablemc.pokemoncobbled.common.net.messages.client.ui
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.network.FriendlyByteBuf
 
 class SummaryUIPacket internal constructor(): NetworkPacket {
-
-    constructor(
-        vararg pokemon: Pokemon,
-        editable: Boolean = true
-    ) : this() {
+    constructor(vararg pokemon: Pokemon, editable: Boolean = true) : this() {
         pokemonArray.addAll(pokemon)
         this.editable = editable
     }

@@ -1,13 +1,9 @@
-package com.cablemc.pokemoncobbled.forge.common.api.net
+package com.cablemc.pokemoncobbled.common.net
 
-import com.cablemc.pokemoncobbled.forge.common.api.event.net.MessageBuiltEvent
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import com.cablemc.pokemoncobbled.forge.common.net.PacketHandler
-import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.network.NetworkEvent
-import net.minecraftforge.network.simple.SimpleChannel
-
-import java.util.function.Supplier
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 
 /**
  * Registers packet handlers for a particular side. It's a bit hellish because of a desire for generic type conformity
@@ -19,7 +15,10 @@ import java.util.function.Supplier
 abstract class SidedPacketRegistrar {
     abstract fun registerHandlers()
 
-    @SubscribeEvent
+    init {
+        CobbledEvents.MESSAGE_BUILT.pipe(takeFirst()).subscribe { on(it) }
+    }
+
     fun on(event: MessageBuiltEvent<*>) {
         handleEvent(event)
     }
@@ -31,10 +30,7 @@ abstract class SidedPacketRegistrar {
     }
 
     inline fun <reified T : NetworkPacket> register(event: MessageBuiltEvent<T>, handler: PacketHandler<T>) {
-        event.messageBuilder.consumer(SimpleChannel.MessageBuilder.ToBooleanBiFunction<T, Supplier<NetworkEvent.Context>> { packet, ctx ->
-            handler(packet, ctx.get())
-            return@ToBooleanBiFunction true
-        })
+        event.messageBuilder.registerHandler(handler)
     }
 
     protected inline fun <reified T : NetworkPacket> registerHandler(handler: PacketHandler<T>) {

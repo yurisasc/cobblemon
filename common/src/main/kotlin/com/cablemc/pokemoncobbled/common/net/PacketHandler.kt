@@ -1,7 +1,7 @@
-package com.cablemc.pokemoncobbled.forge.common.net
+package com.cablemc.pokemoncobbled.common.net
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import net.minecraftforge.network.NetworkEvent
 
 /**
  * A simple packet handler as an SAM interface. If this packet handler is invoked, it
@@ -10,6 +10,6 @@ import net.minecraftforge.network.NetworkEvent
  * @since November 27th, 2021
  */
 interface PacketHandler<T: NetworkPacket> {
-    operator fun invoke(packet: T, ctx: NetworkEvent.Context)
+    operator fun invoke(packet: T, ctx: CobbledNetwork.NetworkContext)
 }
 
