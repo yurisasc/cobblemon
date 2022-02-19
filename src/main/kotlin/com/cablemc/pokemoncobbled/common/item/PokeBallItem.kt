@@ -27,7 +27,7 @@ class PokeBallItem(
 
     private fun throwPokeBall(level: Level, player: ServerPlayer) {
         val pokeBallEntity = EmptyPokeBallEntity(pokeBall, player.level).apply {
-            setPos(player.x, player.y + 1.5, player.z)
+            setPos(player.x, player.y + player.eyeHeight - 0.2, player.z)
             shootFromRotation(player, player.xRot - 7, player.yRot, 0.0f, 1.5f, 1.0f)
             owner = player
         }
