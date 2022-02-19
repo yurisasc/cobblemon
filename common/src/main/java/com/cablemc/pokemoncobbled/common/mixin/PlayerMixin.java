@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.forge.mixin;
+package com.cablemc.pokemoncobbled.common.mixin;
 
 import com.cablemc.pokemoncobbled.common.util.CompoundTagExtensionsKt;
 import net.minecraft.nbt.CompoundTag;
@@ -22,6 +22,7 @@ public abstract class PlayerMixin extends LivingEntity {
     /**
      * @author Cobbled Mod Team
      * mixin requires this
+     * @reason Enabling the removal of entities on the shoulder
      */
     @Overwrite
     public void removeEntitiesOnShoulder() {
