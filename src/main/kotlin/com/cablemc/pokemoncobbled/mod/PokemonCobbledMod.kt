@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.client.render.models.blockbench.repository.Pok
 import com.cablemc.pokemoncobbled.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.event.pokemon.FriendshipUpdateEvent
-import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator

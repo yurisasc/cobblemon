@@ -57,7 +57,10 @@ object CobbledSpawningProspector : SpawningProspector {
             )
         ).map { it.position() }
 
-        val blocks = Array(area.length) { Array(height) { Array(area.width) { WorldSlice.BlockData(Blocks.STONE.defaultBlockState(), 0) } } }
+        val defaultState = Blocks.STONE.defaultBlockState()
+        val defaultBlockData = WorldSlice.BlockData(defaultState, 0)
+
+        val blocks = Array(area.length) { Array(height) { Array(area.width) { defaultBlockData } } }
         val skyLevel = Array(area.length) { Array(area.width) { level.maxBuildHeight } }
         val pos = BlockPos.MutableBlockPos()
 
