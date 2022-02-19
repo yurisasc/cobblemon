@@ -14,10 +14,9 @@ import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
 import dev.architectury.registry.level.entity.EntityRendererRegistry
 import net.minecraft.client.KeyMapping
 import net.minecraft.client.model.PlayerModel
+import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.LivingEntityRenderer
 import net.minecraft.world.entity.player.Player
-import net.minecraftforge.client.event.EntityRenderersEvent
-import net.minecraftforge.common.MinecraftForge
 
 object PokemonCobbledClient : PokemonCobbledClientImplementation {
     val storage = ClientStorageManager()
@@ -48,7 +47,6 @@ object PokemonCobbledClient : PokemonCobbledClientImplementation {
             ClientSchedulingListener.onLogout()
         }
 
-        MinecraftForge.EVENT_BUS.register(this)
         val overlay = PartyOverlay()
         ClientGuiEvent.RENDER_HUD.register(overlay::onRenderGameOverlay)
         ClientPacketRegistrar.register()
@@ -56,10 +54,10 @@ object PokemonCobbledClient : PokemonCobbledClientImplementation {
         registerKeyBinds()
     }
 
-    fun onAddLayer(event : EntityRenderersEvent.AddLayers) {
-        var renderer: LivingEntityRenderer<Player, PlayerModel<Player>>? = event.getSkin("default")
+    fun onAddLayer(skinMap: Map<String, EntityRenderer<out Player>>?) {
+        var renderer: LivingEntityRenderer<Player, PlayerModel<Player>>? = skinMap?.get("default") as LivingEntityRenderer<Player, PlayerModel<Player>>
         renderer?.addLayer(PokemonOnShoulderLayer(renderer))
-        renderer = event.getSkin("slim")
+        renderer = skinMap?.get("slim") as LivingEntityRenderer<Player, PlayerModel<Player>>
         renderer?.addLayer(PokemonOnShoulderLayer(renderer))
     }
 }

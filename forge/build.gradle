@@ -82,6 +82,8 @@ shadowJar {
 loom {
     forge {
         mixinConfig "mixins.pokemoncobbled-common.json",  "mixins.pokemoncobbled-forge.json"
+
+        convertAccessWideners.set(true)
     }
 }
 
