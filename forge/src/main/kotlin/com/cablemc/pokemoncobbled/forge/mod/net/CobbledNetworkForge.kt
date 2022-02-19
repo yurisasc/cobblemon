@@ -31,6 +31,8 @@ class ForgeNetworkContext(val ctx: NetworkEvent.Context) : CobbledNetwork.Networ
 }
 
 object CobbledForgeNetworkDelegate : NetworkDelegate {
+    var discriminator = 0
+
     val channel = NetworkRegistry.newSimpleChannel(
         cobbledResource("main"),
         { CobbledNetwork.PROTOCOL_VERSION },
@@ -48,13 +50,12 @@ object CobbledForgeNetworkDelegate : NetworkDelegate {
 
     override fun <T : NetworkPacket> buildMessage(
         packetClass: Class<T>,
-        discriminator: Int,
         toServer: Boolean
     ): CobbledNetwork.PreparedMessage<T> {
         return PreparedForgeMessage(
             channel.messageBuilder(
                 packetClass,
-                discriminator,
+                discriminator++,
                 if (toServer) NetworkDirection.PLAY_TO_SERVER else NetworkDirection.PLAY_TO_CLIENT
             )
                 .encoder { packet, buffer -> packet.encode(buffer) }

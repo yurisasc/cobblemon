@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.client.render.pokemon
 
-import com.cablemc.pokemoncobbled.forge.client.entity.PokemonClientDelegate
-import com.cablemc.pokemoncobbled.forge.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
-import com.cablemc.pokemoncobbled.forge.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
+import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
+import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
+import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
 import com.cablemc.pokemoncobbled.common.client.render.addVertex
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository

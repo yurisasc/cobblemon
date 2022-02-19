@@ -1,7 +1,7 @@
-package com.cablemc.pokemoncobbled.forge.common.net.messages.server
+package com.cablemc.pokemoncobbled.common.net.messages.server
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import com.cablemc.pokemoncobbled.forge.common.net.serverhandling.storage.SendOutPokemonHandler
+import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SendOutPokemonHandler
 import net.minecraft.network.FriendlyByteBuf
 
 /**

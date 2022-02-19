@@ -1,7 +1,7 @@
-package com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update
+package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update
 
-import com.cablemc.pokemoncobbled.forge.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import net.minecraft.network.FriendlyByteBuf
 
 /**

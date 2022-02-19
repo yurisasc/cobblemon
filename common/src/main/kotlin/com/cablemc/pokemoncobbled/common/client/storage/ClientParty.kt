@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.storage
 
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyPosition
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import java.util.UUID
 
 class ClientParty(uuid: UUID, slots: Int) : ClientStorage<PartyPosition>(uuid), Iterable<Pokemon?> {

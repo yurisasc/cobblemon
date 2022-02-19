@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.util
 
-import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
+import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON
 import net.minecraft.nbt.CompoundTag
 
 fun CompoundTag.isPokemonEntity() : Boolean {
-    return this.getString("id").equals(EntityRegistry.POKEMON.id.toString())
+    return this.getString("id").equals(POKEMON.id.toString())
 }

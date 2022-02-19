@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.forge.client.entity.PokemonClientDelegate
+import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.EarJoint
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.RangeOfMotion
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation

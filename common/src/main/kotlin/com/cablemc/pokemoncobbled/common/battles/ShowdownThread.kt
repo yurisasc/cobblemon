@@ -1,12 +1,11 @@
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.battles.runner.JavetShowdownConnection
 import com.cablemc.pokemoncobbled.common.util.FileUtils
 import com.cablemc.pokemoncobbled.common.util.extractTo
 import com.cablemc.pokemoncobbled.common.util.fromJson
-import com.cablemc.pokemoncobbled.forge.mod.PokemonCobbledMod
-import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
 import com.google.gson.GsonBuilder
 import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceLocation
@@ -27,7 +26,8 @@ class ShowdownThread : Thread() {
         val showdownMetadata = loadShowdownMetadata()
 
         // Check if showdown needs to be installed
-        if (!showdownDir.exists() || CobbledConfig.autoUpdateShowdown!!.get()) {
+        // TODO CONFIG
+        if (!showdownDir.exists() || /*CobbledConfig.autoUpdateShowdown!!.get()*/ true) {
             val showdownZip = File(showdownDir, "showdown.zip")
             val showdownMetadataFile = File(showdownDir, "showdown.json")
 
@@ -52,8 +52,8 @@ class ShowdownThread : Thread() {
         }
 
         // Initialize showdown connection
-        PokemonCobbledMod.showdown = JavetShowdownConnection()
-        (PokemonCobbledMod.showdown as JavetShowdownConnection).initializeServer()
+        PokemonCobbled.showdown = JavetShowdownConnection()
+        (PokemonCobbled.showdown as JavetShowdownConnection).initializeServer()
 
         // Sleep for two seconds before attempting connection
         sleep(2000)
@@ -68,18 +68,18 @@ class ShowdownThread : Thread() {
 
         // Max attempts
         if (tries == 5) {
-            PokemonCobbledMod.LOGGER.error("Failed to connect to showdown after 5 tries.")
+            LOGGER.error("Failed to connect to showdown after 5 tries.")
             Minecraft.getInstance().close()
         }
 
-        PokemonCobbledMod.LOGGER.info("Showdown has been connected!")
+        LOGGER.info("Showdown has been connected!")
 
         // Reset tries as this will be used by reconnection attempts
         tries = 0
 
         // While showdown is not closed, continue to check connection and read messages
-        while (!PokemonCobbledMod.showdown.isClosed()) {
-            val showdown = PokemonCobbledMod.showdown
+        while (!PokemonCobbled.showdown.isClosed()) {
+            val showdown = PokemonCobbled.showdown
 
             // Attempt reconnection if not connected
             if (!showdown.isConnected()) {
@@ -90,16 +90,16 @@ class ShowdownThread : Thread() {
 
                 // Max attempts
                 if (tries == 5) {
-                    PokemonCobbledMod.LOGGER.error("Failed to connect to showdown after 5 tries.")
+                    LOGGER.error("Failed to connect to showdown after 5 tries.")
                     Minecraft.getInstance().close()
                 }
 
                 tries = 0
-                PokemonCobbledMod.LOGGER.info("Showdown has been reconnected!")
+                LOGGER.info("Showdown has been reconnected!")
             }
 
             // Reads messages
-            PokemonCobbledMod.showdown.read(ShowdownInterpreter::interpretMessage)
+            PokemonCobbled.showdown.read(ShowdownInterpreter::interpretMessage)
 
             // Read messages every half a second
             sleep(500)
@@ -108,7 +108,7 @@ class ShowdownThread : Thread() {
 
     private fun attemptConnection() : Boolean {
         try {
-            PokemonCobbledMod.showdown.open()
+            PokemonCobbled.showdown.open()
             return true
         } catch (exception: IOException) {
             return false

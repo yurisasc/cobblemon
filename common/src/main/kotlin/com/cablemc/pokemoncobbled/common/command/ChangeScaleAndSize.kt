@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.command
 
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
-import com.cablemc.pokemoncobbled.common.entity.pokemon.FormData
+import com.cablemc.pokemoncobbled.common.pokemon.FormData
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.FloatArgumentType

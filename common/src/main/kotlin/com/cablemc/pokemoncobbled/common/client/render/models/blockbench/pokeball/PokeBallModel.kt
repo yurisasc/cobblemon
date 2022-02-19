@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokeball
 
-import com.cablemc.pokemoncobbled.forge.client.entity.EmptyPokeBallClientDelegate
+import com.cablemc.pokemoncobbled.common.client.entity.EmptyPokeBallClientDelegate
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.RootPokeBallLookAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.PokeBallFrame

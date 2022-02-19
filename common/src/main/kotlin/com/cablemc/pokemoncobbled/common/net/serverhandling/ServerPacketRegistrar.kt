@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.net.serverhandling
 
 import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
-import com.cablemc.pokemoncobbled.forge.common.net.serverhandling.storage.SendOutPokemonHandler
-import com.cablemc.pokemoncobbled.forge.common.net.serverhandling.storage.RequestMoveSwapHandler
+import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SendOutPokemonHandler
+import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.RequestMoveSwapHandler
 
 /**
  * Registers packet handlers that the server will need. This is separated from the client ones

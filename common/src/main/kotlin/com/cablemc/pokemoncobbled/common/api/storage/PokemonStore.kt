@@ -1,11 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.storage
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendPacket
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.api.storage.factory.PokemonStoreFactory
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag

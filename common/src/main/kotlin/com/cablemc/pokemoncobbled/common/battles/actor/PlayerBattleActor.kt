@@ -18,7 +18,7 @@ class PlayerBattleActor(
     var announcingPokemon = false
 
     fun getPlayerEntity() : ServerPlayer? {
-        return getServer().playerList.getPlayer(gameId)
+        return getServer()!!.playerList.getPlayer(gameId)
     }
 
     fun sendMessage(message: Component) {

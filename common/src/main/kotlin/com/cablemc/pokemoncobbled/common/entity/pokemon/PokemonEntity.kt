@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledEntities
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
@@ -33,7 +35,7 @@ import net.minecraft.world.entity.animal.ShoulderRidingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
-import java.util.*
+import java.util.EnumSet
 
 class PokemonEntity(
     level: Level,
@@ -158,11 +160,7 @@ class PokemonEntity(
             if (canSitOnShoulder() && player is ServerPlayer && !isBusy) {
                 val store = pokemon.storeCoordinates.get()?.store
                 if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
-                    ShoulderMountEvent(
-                        player = player,
-                        pokemon = pokemon,
-                        isLeft = player.shoulderEntityLeft.isEmpty
-                    ).postAndThen {
+                    CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
                         val dirToPlayer = player.eyePosition.subtract(position()).multiply(1.0, 0.0, 1.0).normalize()
                         deltaMovement = dirToPlayer.scale(0.8).add(0.0, 0.5, 0.0)
                         val lock = Any()

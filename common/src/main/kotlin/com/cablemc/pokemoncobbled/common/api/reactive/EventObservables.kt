@@ -26,8 +26,8 @@ open class CancelableObservable<T : Cancelable> : EventObservable<T>() {
         }
     }
 
-    fun postThen(value: T, ifCanceled: (T) -> Unit = {}, ifSucceeded: (T) -> Unit) {
-        post(value) {
+    fun postThen(event: T, ifCanceled: (T) -> Unit = {}, ifSucceeded: (T) -> Unit) {
+        post(event) {
             if (it.isCanceled) {
                 ifCanceled(it)
             } else {

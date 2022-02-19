@@ -2,8 +2,8 @@ package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import dev.architectury.registry.registries.DeferredRegister
 import net.minecraft.core.Registry
 import net.minecraft.world.entity.Entity

@@ -15,7 +15,7 @@ import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeF
 abstract class SidedPacketRegistrar {
     abstract fun registerHandlers()
 
-    init {
+    fun register() {
         CobbledEvents.MESSAGE_BUILT.pipe(takeFirst()).subscribe { on(it) }
     }
 

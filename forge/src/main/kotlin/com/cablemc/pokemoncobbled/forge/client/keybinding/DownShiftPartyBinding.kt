@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.forge.client.keybinding
 
 import com.cablemc.pokemoncobbled.common.client.keybind.KeybindCategories
-import com.cablemc.pokemoncobbled.forge.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.mojang.blaze3d.platform.InputConstants
 import net.minecraft.client.KeyMapping
 import net.minecraftforge.client.event.InputEvent

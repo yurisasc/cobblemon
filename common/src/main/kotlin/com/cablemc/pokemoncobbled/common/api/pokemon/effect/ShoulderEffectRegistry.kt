@@ -4,10 +4,9 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.pokemon.effects.LightSourceEffect
 import com.cablemc.pokemoncobbled.common.pokemon.effects.SlowFallEffect
 import com.cablemc.pokemoncobbled.common.util.party
+import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
+import dev.architectury.event.events.common.PlayerEvent.PLAYER_QUIT
 import net.minecraft.server.level.ServerPlayer
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.event.entity.player.PlayerEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
 
 /**
  * Registry object for ShoulderEffects
@@ -16,15 +15,17 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
  * @since 2022-01-26
  */
 object ShoulderEffectRegistry {
-    init {
-        MinecraftForge.EVENT_BUS.register(this)
-    }
     private val effects = mutableMapOf<String, Class<out ShoulderEffect>>()
 
     // Effects - START
     val LIGHT_SOURCE = register("light_source", LightSourceEffect::class.java)
     val SLOW_FALL = register("slow_fall", SlowFallEffect::class.java)
     // Effects - END
+
+    fun register() {
+        PLAYER_JOIN.register { onPlayerJoin(it) }
+        PLAYER_QUIT.register { onPlayerLeave(it) }
+    }
 
     fun register(name: String, effect: Class<out ShoulderEffect>) = effect.also { effects[name] = it }
 
@@ -34,9 +35,7 @@ object ShoulderEffectRegistry {
 
     fun get(name: String): Class<out ShoulderEffect>? = effects[name]
 
-    @SubscribeEvent
-    fun onPlayerJoin(event: PlayerEvent.PlayerLoggedInEvent) {
-        val player = event.player as ServerPlayer
+    fun onPlayerJoin(player: ServerPlayer) {
         player.party().filter { it.state is ShoulderedState }.forEach { pkm ->
             pkm.form.shoulderEffects.forEach {
                 it.applyEffect(
@@ -48,9 +47,7 @@ object ShoulderEffectRegistry {
         }
     }
 
-    @SubscribeEvent
-    fun onPlayerLeave(event: PlayerEvent.PlayerLoggedOutEvent) {
-        val player = event.player as ServerPlayer
+    fun onPlayerLeave(player: ServerPlayer) {
         player.party().filter { it.state is ShoulderedState }.forEach { pkm ->
             pkm.form.shoulderEffects.forEach {
                 it.removeEffect(

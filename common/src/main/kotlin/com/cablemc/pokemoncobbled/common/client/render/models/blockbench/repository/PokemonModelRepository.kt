@@ -1,12 +1,31 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository
 
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.BlockBenchModelWrapper
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.*
-import com.cablemc.pokemoncobbled.forge.client.util.exists
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.BlockBenchModelWrapper
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BlastoiseModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BulbasaurModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ButterfreeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharizardModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmanderModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmeleonModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DiglettModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EkansModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GyaradosModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.IvysaurModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeotModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeottoModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeyModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.SquirtleModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VenusaurModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
+import com.cablemc.pokemoncobbled.common.client.util.exists
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Species
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.resources.ResourceLocation
 

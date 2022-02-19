@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.forge.common.net.messages.server
+package com.cablemc.pokemoncobbled.common.net.messages.server
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import net.minecraft.network.FriendlyByteBuf

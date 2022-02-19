@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.storage
 
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition
 import com.cablemc.pokemoncobbled.common.api.storage.pc.POKEMON_PER_BOX
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import java.util.UUID
 
 class ClientPC(uuid: UUID, boxCount: Int) : ClientStorage<PCPosition>(uuid) {

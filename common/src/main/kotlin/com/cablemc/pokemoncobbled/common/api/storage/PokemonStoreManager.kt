@@ -1,14 +1,11 @@
 package com.cablemc.pokemoncobbled.common.api.storage
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendPacket
 import com.cablemc.pokemoncobbled.common.api.Priority
 import com.cablemc.pokemoncobbled.common.api.storage.factory.PokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
-import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
 import net.minecraft.server.level.ServerPlayer
-import net.minecraftforge.event.entity.player.PlayerEvent
-import net.minecraftforge.eventbus.api.Priority
-import net.minecraftforge.eventbus.api.SubscribeEvent
 import java.util.UUID
 
 /**
@@ -64,13 +61,9 @@ object PokemonStoreManager {
         return null
     }
 
-    @SubscribeEvent
-    fun on(event: PlayerEvent.PlayerLoggedInEvent) {
-        val player = event.player
-        if (player is ServerPlayer) {
-            val parties = getParties(player.uuid)
-            parties.forEach { party -> party.sendTo(player) }
-            player.sendPacket(SetPartyReferencePacket(parties.first().uuid))
-        }
+    fun onPlayerLogin(player: ServerPlayer) {
+        val parties = getParties(player.uuid)
+        parties.forEach { party -> party.sendTo(player) }
+        player.sendPacket(SetPartyReferencePacket(parties.first().uuid))
     }
 }

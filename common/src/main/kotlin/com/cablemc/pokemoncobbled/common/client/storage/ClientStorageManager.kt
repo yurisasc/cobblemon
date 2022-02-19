@@ -1,10 +1,8 @@
 package com.cablemc.pokemoncobbled.common.client.storage
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyPosition
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.forge.mod.PokemonCobbledMod.LOGGER
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import java.util.UUID
 
 /**
@@ -111,11 +109,11 @@ class ClientStorageManager {
         checkSelectedPokemon()
     }
 
-    @SubscribeEvent
-    fun on(event: ClientPlayerNetworkEvent.LoggedOutEvent) {
+    fun onLogin() {
         partyStores.clear()
         pcStores.clear()
         myPC = ClientPC(UUID.randomUUID(), 1)
         myParty = ClientParty(UUID.randomUUID(), 1)
+        checkSelectedPokemon()
     }
 }

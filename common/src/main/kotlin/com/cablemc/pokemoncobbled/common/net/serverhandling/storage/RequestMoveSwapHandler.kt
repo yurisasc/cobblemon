@@ -1,10 +1,9 @@
-package com.cablemc.pokemoncobbled.forge.common.net.serverhandling.storage
+package com.cablemc.pokemoncobbled.common.net.serverhandling.storage
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
-import com.cablemc.pokemoncobbled.forge.common.net.messages.server.RequestMoveSwapPacket
-import net.minecraftforge.network.NetworkEvent
+import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 
 object RequestMoveSwapHandler: PacketHandler<RequestMoveSwapPacket> {
     override fun invoke(packet: RequestMoveSwapPacket, ctx: CobbledNetwork.NetworkContext) {

@@ -6,7 +6,6 @@ import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.isPokemonEntity
 import com.cablemc.pokemoncobbled.common.util.party
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
-import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
@@ -80,7 +79,7 @@ class SentOutState() : ActivePokemonState() {
     override fun readFromBuffer(buffer: FriendlyByteBuf): SentOutState {
         super.readFromBuffer(buffer)
         entityId = buffer.readInt()
-        dimension = ResourceKey.create(ResourceKey.createRegistryKey(dimension.registryName), ResourceLocation(buffer.readUtf()))
+        dimension = ResourceKey.create(ResourceKey.createRegistryKey(dimension.location()), ResourceLocation(buffer.readUtf()))
         return this
     }
 
@@ -164,6 +163,7 @@ class ShoulderedState() : ActivePokemonState() {
             player.party().find { it.uuid == pokemonUUID }?.let { pkm ->
                 pkm.form.shoulderEffects.forEach { it.removeEffect(pkm, player, isLeftShoulder) }
             }
+            // Requires mixin to bypass access transformer not existing here
             if (isLeftShoulder) {
                 player.shoulderEntityLeft = CompoundTag()
             } else {

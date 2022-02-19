@@ -1,8 +1,8 @@
-package com.cablemc.pokemoncobbled.forge.common.net.messages.client.storage
+package com.cablemc.pokemoncobbled.common.net.messages.client.storage
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import io.netty.buffer.ByteBuf
 import net.minecraft.network.FriendlyByteBuf
 import java.util.UUID

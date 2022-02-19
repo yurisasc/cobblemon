@@ -12,8 +12,7 @@ import dev.architectury.registry.client.keymappings.KeyMappingRegistry
  */
 object CobbledKeybinds {
     private val keybinds = mutableListOf<CobbledKeyMapping>()
-
-    init {
+    fun register() {
         registerKeybind(HidePartyBinding)
         registerKeybind(PokeNavigatorBinding)
 

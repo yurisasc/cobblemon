@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.storage.factory
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
@@ -7,7 +8,6 @@ import com.cablemc.pokemoncobbled.common.api.storage.adapter.FileStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.SerializedStore
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.util.subscribeOnServer
-import com.cablemc.pokemoncobbled.mod.PokemonCobbledMod.LOGGER
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.TickEvent
 import net.minecraftforge.event.server.ServerStartingEvent

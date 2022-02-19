@@ -1,9 +1,9 @@
-package com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update
+package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.cablemc.pokemoncobbled.forge.mod.PokemonCobbledMod
 
 class NatureUpdatePacket(
     private var mintNature : Boolean = false
@@ -24,7 +24,7 @@ class NatureUpdatePacket(
         val nature = Natures.getNature(cobbledResource(value))
         // Validate the nature locally
         if (nature == null) {
-            PokemonCobbledMod.LOGGER.warn("A invalid nature of '$value' was attempted to be put onto: '$pokemon'")
+            LOGGER.warn("A invalid nature of '$value' was attempted to be put onto: '$pokemon'")
             return
         }
 

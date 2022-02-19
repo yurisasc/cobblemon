@@ -152,7 +152,7 @@ abstract class PoseableEntityModel<T : Entity>(
         function: WaveFunction,
         axis: Int,
         timeVariable: (state: PoseableEntityState<T>?, limbSwing: Float, ageInTicks: Float) -> Float?
-    ) = RotationFunctionStatelessAnimation<T>(
+    ) = RotationFunctionStatelessAnimation(
         part = this,
         function = function,
         axis = axis,

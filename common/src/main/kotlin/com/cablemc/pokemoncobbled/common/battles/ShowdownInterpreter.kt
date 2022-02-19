@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.common.battles
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.Battle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.forge.mod.PokemonCobbledMod
-import java.util.*
+import java.util.UUID
 
 object ShowdownInterpreter {
 
@@ -44,7 +44,7 @@ object ShowdownInterpreter {
         val battle = BattleRegistry.getBattle(UUID.fromString(battleId))
 
         if (battle == null) {
-            PokemonCobbledMod.LOGGER.info("No battle could be found with the id: $battleId")
+            LOGGER.info("No battle could be found with the id: $battleId")
             return
         }
 
@@ -61,7 +61,7 @@ object ShowdownInterpreter {
                     val targetActor = battle.getActor(showdownId)
 
                     if (targetActor == null) {
-                        PokemonCobbledMod.LOGGER.info("No actor could be found with the showdown id: $showdownId")
+                        LOGGER.info("No actor could be found with the showdown id: $showdownId")
                         return
                     }
 
@@ -89,7 +89,7 @@ object ShowdownInterpreter {
             val line = lines[2]
 
             if (targetActor == null) {
-                PokemonCobbledMod.LOGGER.info("No actor could be found with the showdown id: $showdownId")
+                LOGGER.info("No actor could be found with the showdown id: $showdownId")
                 return
             }
 
@@ -214,7 +214,7 @@ object ShowdownInterpreter {
      * |teampreview indicates team preview is over
      */
     private fun handleTeamPreviewInstruction(battle: Battle, message: String) {
-        PokemonCobbledMod.LOGGER.info("Start Team Preview Instruction")
+        LOGGER.info("Start Team Preview Instruction")
     }
 
     /**

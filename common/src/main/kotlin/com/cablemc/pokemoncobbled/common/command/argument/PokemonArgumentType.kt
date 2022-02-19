@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.command.argument
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Species
+import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext

@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.api.reactive
 
-import com.cablemc.pokemoncobbled.common.api.PrioritizedList
 import com.cablemc.pokemoncobbled.common.api.Priority
 
 /**
@@ -16,7 +15,6 @@ import com.cablemc.pokemoncobbled.common.api.Priority
 open class SingularObservable<T> : SimpleObservable<T>() {
     private var completed = false
     private var completedValue = mutableListOf<T>()
-    private val subscriptions = PrioritizedList<ObservableSubscription<T>>()
 
     override fun subscribe(priority: Priority, handler: (T) -> Unit): ObservableSubscription<T> {
         val subscription = ObservableSubscription(this, handler)

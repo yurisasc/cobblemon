@@ -1,25 +1,26 @@
-package com.cablemc.pokemoncobbled.forge.common.net.serverhandling.storage
+package com.cablemc.pokemoncobbled.common.net.serverhandling.storage
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
-import com.cablemc.pokemoncobbled.forge.common.net.messages.server.SendOutPokemonPacket
-import com.cablemc.pokemoncobbled.common.entity.pokemon.activestate.ActivePokemonState
+import com.cablemc.pokemoncobbled.common.net.PacketHandler
+import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
+import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.toVec3
-import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.util.traceBlockCollision
 import net.minecraft.core.Direction
 import net.minecraft.world.phys.Vec3
-import net.minecraftforge.network.NetworkEvent
 
 object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
-    override fun invoke(packet: SendOutPokemonPacket, ctx: NetworkEvent.Context) {
-        val player = ctx.sender ?: return
+    override fun invoke(packet: SendOutPokemonPacket, ctx: CobbledNetwork.NetworkContext) {
+        val player = ctx.player ?: return
         val slot = packet.slot.takeIf { it >= 0 } ?: return
-        ctx.enqueueWork {
+        getServer()?.submit {
             val party = PokemonStoreManager.getParty(player)
-            val pokemon = party.get(slot) ?: return@enqueueWork
+            val pokemon = party.get(slot) ?: return@submit
             val state = pokemon.state
 
             if (state !is ActivePokemonState) {

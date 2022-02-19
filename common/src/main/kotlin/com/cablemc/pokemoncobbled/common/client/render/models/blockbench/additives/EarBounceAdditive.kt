@@ -3,9 +3,9 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additi
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.EaredFrame
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addRotation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.getRotation
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.util.Mth.PI
 import net.minecraft.util.Mth.sin
 import java.lang.Float.min

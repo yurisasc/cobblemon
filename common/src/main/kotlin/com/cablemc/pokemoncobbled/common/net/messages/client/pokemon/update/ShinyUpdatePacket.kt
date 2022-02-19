@@ -1,6 +1,6 @@
-package com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update
+package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update
 
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 
 class ShinyUpdatePacket() : BooleanUpdatePacket() {
     constructor(pokemon: Pokemon, value: Boolean): this() {

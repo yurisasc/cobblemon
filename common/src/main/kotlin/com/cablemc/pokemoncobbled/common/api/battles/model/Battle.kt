@@ -1,15 +1,15 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
-import com.cablemc.pokemoncobbled.forge.common.battles.BattleRegistry
-import com.cablemc.pokemoncobbled.forge.common.battles.actor.PlayerBattleActor
+import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
+import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.forge.mod.PokemonCobbledMod
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.Util
 import net.minecraft.network.chat.TextComponent
-import java.util.*
+import java.util.UUID
 
 /**
  * Individual battle instance
@@ -61,6 +61,6 @@ class Battle(
         request.addProperty(DataKeys.REQUEST_TYPE, DataKeys.REQUEST_BATTLE_SEND_MESSAGE)
         request.addProperty(DataKeys.REQUEST_BATTLE_ID, battleId.toString())
         request.add(DataKeys.REQUEST_MESSAGES, jsonArray)
-        PokemonCobbledMod.showdown.write(BattleRegistry.gson.toJson(request))
+        PokemonCobbled.showdown.write(BattleRegistry.gson.toJson(request))
     }
 }

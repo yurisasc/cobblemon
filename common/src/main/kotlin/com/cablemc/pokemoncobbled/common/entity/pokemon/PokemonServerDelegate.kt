@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.api.entity.EntitySideDelegate
 
 /** Handles purely server logic for a Pokémon */

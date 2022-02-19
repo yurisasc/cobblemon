@@ -5,12 +5,15 @@ import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
+import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
+import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
 import net.minecraft.server.MinecraftServer
@@ -34,16 +37,15 @@ object PokemonCobbled {
         CobbledItems.register()
         CobbledSounds.register()
         CobbledNetwork.register()
+        CobbledKeybinds.register()
+        ShoulderEffectRegistry.register()
+        PLAYER_JOIN.register { PokemonStoreManager.onPlayerLogin(it) }
 
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
     }
 
     fun initialize() {
-        if (isDedicatedServer) {
-            implementation.client.initialize()
-        }
-
         //        showdownThread.start()
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats

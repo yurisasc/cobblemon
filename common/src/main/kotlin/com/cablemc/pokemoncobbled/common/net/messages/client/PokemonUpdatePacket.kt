@@ -1,8 +1,8 @@
-package com.cablemc.pokemoncobbled.forge.common.net.messages.client
+package com.cablemc.pokemoncobbled.common.net.messages.client
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.network.FriendlyByteBuf
 import java.util.UUID
 

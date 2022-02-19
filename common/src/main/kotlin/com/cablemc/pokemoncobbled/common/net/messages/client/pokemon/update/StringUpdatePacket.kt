@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.forge.common.net.messages.client.pokemon.update
+package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update
 
 import net.minecraft.network.FriendlyByteBuf
 

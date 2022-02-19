@@ -23,7 +23,6 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 
-
 class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, EaredFrame {
     override val rootPart = registerRelevantPart("blastoise", root.getChild("blastoise"))
     val body = registerRelevantPart("body", rootPart.getChild("body"))

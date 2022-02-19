@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.storage
 
 import com.cablemc.pokemoncobbled.common.api.storage.pc.POKEMON_PER_BOX
-import com.cablemc.pokemoncobbled.common.entity.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 
 class ClientBox : Iterable<Pokemon?> {
     val slots = MutableList<Pokemon?>(POKEMON_PER_BOX) { null }
