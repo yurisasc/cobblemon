@@ -106,6 +106,7 @@ class EmptyPokeBallEntity(
                 val pokemon = hitResult.entity as PokemonEntity
                 if (pokemon.isBusy || !pokemon.pokemon.isWild()) {
                     discard()
+                    spawnAtLocation(defaultItem)
                     return
                 }
                 capturingPokemon = pokemon
