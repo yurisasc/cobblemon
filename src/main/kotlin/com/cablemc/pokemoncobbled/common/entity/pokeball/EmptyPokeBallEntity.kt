@@ -1,9 +1,9 @@
 package com.cablemc.pokemoncobbled.common.entity.pokeball
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
-import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.EntityRegistry
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -165,7 +165,7 @@ class EmptyPokeBallEntity(
                                 after(seconds = 1F) {
                                     pokemon.discard()
                                     discard()
-                                    val party = PokemonStoreManager.getParty(player.uuid)
+                                    val party = PokemonCobbled.storage.getParty(player.uuid)
                                     party.add(pokemon.pokemon)
                                 }
 

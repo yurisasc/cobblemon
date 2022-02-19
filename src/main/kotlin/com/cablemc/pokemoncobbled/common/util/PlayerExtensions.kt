@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.util
 
-import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerPlayer
@@ -10,7 +10,7 @@ import net.minecraft.world.phys.Vec3
 import java.util.UUID
 
 // Stuff like getting their party
-fun ServerPlayer.party() = PokemonStoreManager.getParty(this)
+fun ServerPlayer.party() = PokemonCobbled.storage.getParty(this)
 
 fun UUID.getPlayer() = getServer().playerList.getPlayer(this)
 

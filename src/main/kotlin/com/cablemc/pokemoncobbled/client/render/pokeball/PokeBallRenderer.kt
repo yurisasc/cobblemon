@@ -20,22 +20,14 @@ class PokeBallRenderer(context: EntityRendererProvider.Context) : EntityRenderer
         return PokeBallModelRepository.getModelTexture(pEntity.pokeBall)
     }
 
-    override fun render(
-        pEntity: EmptyPokeBallEntity,
-        pEntityYaw: Float,
-        pPartialTicks: Float,
-        pMatrixStack: PoseStack,
-        pBuffer: MultiBufferSource,
-        pPackedLight: Int
-    ) {
-        val model = PokeBallModelRepository.getModel(pEntity.pokeBall).entityModel
-        pMatrixStack.pushPose()
-        pMatrixStack.scale(0.7F, 0.7F, 0.7F)
-        val vertexconsumer = ItemRenderer.getFoilBufferDirect(pBuffer, model.renderType(getTextureLocation(pEntity)), false, false)
-        model.setupAnim(pEntity, 0f, 0f, pEntity.tickCount + pPartialTicks, 0F, 0F)
-        model.renderToBuffer(pMatrixStack, vertexconsumer, pPackedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f)
-        pMatrixStack.popPose()
-        super.render(pEntity, pEntityYaw, pPartialTicks, pMatrixStack, pBuffer, pPackedLight)
+    override fun render(entity: EmptyPokeBallEntity, yaw: Float, partialTicks: Float, poseStack: PoseStack, buffer: MultiBufferSource, packedLight: Int) {
+        val model = PokeBallModelRepository.getModel(entity.pokeBall).entityModel
+        poseStack.pushPose()
+        poseStack.scale(0.7F, 0.7F, 0.7F)
+        val vertexConsumer = ItemRenderer.getFoilBufferDirect(buffer, model.renderType(getTextureLocation(entity)), false, false)
+        model.setupAnim(entity, 0f, 0f, entity.tickCount + partialTicks, 0F, 0F)
+        model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0f, 1.0f, 1.0f, 1.0f)
+        poseStack.popPose()
+        super.render(entity, yaw, partialTicks, poseStack, buffer, packedLight)
     }
-
 }

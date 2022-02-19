@@ -1,0 +1,34 @@
+{
+  "id": "random-spawns",
+  "version": "1",
+  "neededInstalledMods": [],
+  "neededUninstalledMods": [],
+  "spawns": [
+    {
+      "type": "pokemon",
+      "id": "random-day-spawn",
+      "pokemon": "random",
+      "context": "grounded",
+      "rarity": 10,
+      "conditions": [
+        {
+          "timeRange": "day",
+          "skyAbove": true
+        }
+      ]
+    },
+    {
+      "type": "pokemon",
+      "id": "random-night-spawn",
+      "pokemon": "random",
+      "context": "grounded",
+      "rarity": 10,
+      "conditions": [
+        {
+          "timeRange": "night",
+          "skyAbove": true
+        }
+      ]
+    }
+  ]
+}
