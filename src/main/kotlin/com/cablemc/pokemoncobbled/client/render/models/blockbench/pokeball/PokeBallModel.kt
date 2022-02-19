@@ -42,10 +42,10 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
                 ),
                 rootPart.translation(
                     function = { t ->
-                        if (t > 8) {
+                        if (t > 4) {
                             0F
                         } else {
-                            -(8F - t) * 3F
+                            -(4F - t) * 2F
                         }
                     },
                     axis = Y_AXIS,
