@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.isDedicatedServer
-import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.PokemonCobbledModImplementation
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskListener
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
@@ -12,15 +11,11 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
-import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.common.util.ifServer
 import com.cablemc.pokemoncobbled.forge.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
-import net.minecraft.client.Minecraft
-import net.minecraft.resources.ResourceKey
-import net.minecraft.world.level.Level
 import net.minecraftforge.client.event.ModelBakeEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.server.ServerStartingEvent
@@ -37,6 +32,7 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
 //            addListener(this@PokemonCobbledMod::on)
             addListener(this@PokemonCobbledForge::onBake)
             addListener(PokemonCobbledClient::onAddLayer)
+            CobbledNetwork.networkDelegate = CobbledForgeNetworkDelegate
             PokemonCobbled.initialize()
             PokemonCobbled.preinitialize(this@PokemonCobbledForge)
         }
@@ -79,21 +75,4 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
 //    fun on(event: EntityAttributeCreationEvent) {
 //        EntityRegistry.registerAttributes(event)
 //    }
-
-    fun getLevel(dimension: ResourceKey<Level>): Level? {
-        return if (isDedicatedServer) {
-            getServer()?.getLevel(dimension)
-        } else {
-            val mc = Minecraft.getInstance()
-            if (mc.singleplayerServer != null) {
-                mc.singleplayerServer!!.getLevel(dimension)
-            } else if (mc.level?.dimension() == dimension) {
-                mc.level
-            } else {
-                null
-            }
-        }
-    }
-
-    override val networkDelegate = CobbledForgeNetworkDelegate
 }

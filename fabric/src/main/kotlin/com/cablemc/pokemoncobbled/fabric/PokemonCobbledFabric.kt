@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_S
 
 object PokemonCobbledFabric : PokemonCobbledModImplementation {
     fun initialize() {
+        CobbledNetwork.networkDelegate = CobbledFabricNetworkDelegate
         PokemonCobbled.preinitialize(this)
         PokemonCobbled.initialize()
         SERVER_STARTED.register { PokemonCobbled.onServerStarted(it) }
@@ -17,6 +18,4 @@ object PokemonCobbledFabric : PokemonCobbledModImplementation {
         ServerPacketRegistrar.registerHandlers()
         CobbledNetwork.register()
     }
-
-    override val networkDelegate = CobbledFabricNetworkDelegate
 }

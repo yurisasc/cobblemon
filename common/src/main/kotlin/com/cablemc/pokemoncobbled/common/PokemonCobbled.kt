@@ -13,10 +13,14 @@ import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
+import com.cablemc.pokemoncobbled.common.util.getServer
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
+import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
+import net.minecraft.resources.ResourceKey
 import net.minecraft.server.MinecraftServer
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.storage.LevelResource
 import org.apache.logging.log4j.LogManager
 
@@ -65,5 +69,20 @@ object PokemonCobbled {
                 createIfMissing = true
             )
         )
+    }
+
+    fun getLevel(dimension: ResourceKey<Level>): Level? {
+        return if (isDedicatedServer) {
+            getServer()?.getLevel(dimension)
+        } else {
+            val mc = Minecraft.getInstance()
+            if (mc.singleplayerServer != null) {
+                mc.singleplayerServer!!.getLevel(dimension)
+            } else if (mc.level?.dimension() == dimension) {
+                mc.level
+            } else {
+                null
+            }
+        }
     }
 }

@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import net.minecraft.server.level.ServerPlayer
 
 interface PokemonCobbledModImplementation {
-    val networkDelegate: NetworkDelegate
 }
 
 interface PokemonCobbledClientImplementation {
