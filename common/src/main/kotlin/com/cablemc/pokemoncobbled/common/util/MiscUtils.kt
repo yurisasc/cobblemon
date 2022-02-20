@@ -7,3 +7,5 @@ import net.minecraft.resources.ResourceLocation
 fun cobbledResource(path: String) = ResourceLocation(PokemonCobbled.MODID, path)
 
 fun String.asTranslated() = TranslatableComponent(this)
+
+fun String.asResource() = ResourceLocation(this)
