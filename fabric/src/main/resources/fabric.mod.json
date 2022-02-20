@@ -26,7 +26,8 @@
     ]
   },
   "mixins": [
-    "mixins.pokemoncobbled-common.json"
+    "mixins.pokemoncobbled-common.json",
+    "mixins.pokemoncobbled-fabric.json"
   ],
 
   "depends": {
