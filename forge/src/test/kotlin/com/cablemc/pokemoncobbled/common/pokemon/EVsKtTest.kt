@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
-import com.cablemc.pokemoncobbled.common.entity.pokemon.EVs
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 
