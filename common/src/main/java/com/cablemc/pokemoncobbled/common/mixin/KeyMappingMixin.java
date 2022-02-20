@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 /**
- * Mixin allowing to get the current key and not just the default key from a {@link net.minecraft.client.KeyMapping}
+ * Mixin allowing to get the current key and not just the default key from a {@link KeyMapping}
  *
  * @author Qu
  * @since 2022-02-17
