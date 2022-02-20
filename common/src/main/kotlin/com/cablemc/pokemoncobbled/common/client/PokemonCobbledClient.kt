@@ -44,7 +44,8 @@ object PokemonCobbledClient : PokemonCobbledClientImplementation {
         }
 
         CLIENT_PLAYER_QUIT.register {
-            ClientSchedulingListener.onLogout()
+            // TODO why removed?
+            //ClientSchedulingListener.onLogout()
         }
 
         val overlay = PartyOverlay()
