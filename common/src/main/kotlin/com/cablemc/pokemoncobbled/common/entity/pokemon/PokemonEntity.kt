@@ -14,6 +14,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
+import dev.architectury.extensions.network.EntitySpawnExtension
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
@@ -41,7 +42,7 @@ class PokemonEntity(
     level: Level,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
-) : ShoulderRidingEntity(type, level) {
+) : ShoulderRidingEntity(type, level), EntitySpawnExtension {
     var pokemon: Pokemon
     val delegate = if (level.isClientSide) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
@@ -188,7 +189,7 @@ class PokemonEntity(
         return pokemon.form.hitbox.scale(scale)
     }
 
-    override fun writeSpawnData(buffer: FriendlyByteBuf) {
+    override fun saveAdditionalSpawnData(buffer: FriendlyByteBuf) {
         buffer.writeFloat(pokemon.scaleModifier)
         buffer.writeShort(pokemon.species.nationalPokedexNumber)
         buffer.writeUtf(pokemon.form.name)
@@ -197,7 +198,7 @@ class PokemonEntity(
         buffer.writeBoolean(pokemon.shiny)
     }
 
-    override fun readSpawnData(buffer: FriendlyByteBuf) {
+    override fun loadAdditionalSpawnData(buffer: FriendlyByteBuf) {
         if (this.level.isClientSide) {
             pokemon.scaleModifier = buffer.readFloat()
             pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!! // TODO exception handling
