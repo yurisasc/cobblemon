@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.pokemon.activestate
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
@@ -60,7 +61,7 @@ class SentOutState() : ActivePokemonState() {
     private var dimension = Level.OVERWORLD
 
     override val entity: PokemonEntity?
-        get() = PokemonCobbledMod.getLevel(dimension)?.getEntity(entityId) as? PokemonEntity
+        get() = PokemonCobbled.getLevel(dimension)?.getEntity(entityId) as? PokemonEntity
 
     constructor(entity: PokemonEntity): this() {
         this.entityId = entity.id
