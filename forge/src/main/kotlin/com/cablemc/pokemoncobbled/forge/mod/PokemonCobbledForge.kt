@@ -15,6 +15,7 @@ import com.cablemc.pokemoncobbled.common.util.ifServer
 import com.cablemc.pokemoncobbled.forge.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
+import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.client.event.ModelBakeEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.server.ServerStartingEvent
@@ -27,10 +28,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 object PokemonCobbledForge : PokemonCobbledModImplementation {
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
+            EventBuses.registerModEventBus(PokemonCobbled.MODID, this)
             addListener(this@PokemonCobbledForge::initialize)
 //            addListener(this@PokemonCobbledMod::on)
             addListener(this@PokemonCobbledForge::onBake)
-            addListener(PokemonCobbledClient::onAddLayer)
             CobbledNetwork.networkDelegate = CobbledForgeNetworkDelegate
             PokemonCobbled.initialize()
             PokemonCobbled.preinitialize(this@PokemonCobbledForge)
