@@ -5,11 +5,6 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.google.gson.JsonObject
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.ai.attributes.AttributeModifier
-import net.minecraftforge.common.ForgeMod
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.event.entity.living.LivingEvent
-import net.minecraftforge.event.entity.living.LivingFallEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
 import java.util.UUID
 
 /**
@@ -22,7 +17,7 @@ import java.util.UUID
 class SlowFallEffect: ShoulderEffect {
     companion object {
         init {
-            MinecraftForge.EVENT_BUS.register(this)
+            //MinecraftForge.EVENT_BUS.register(this)
         }
         private val SLOW_FALLING_ID = UUID.fromString("A5B6CF2A-2F7C-31EF-9022-7C3E7D5E6ABB")
         private val SLOW_FALLING = AttributeModifier(
@@ -35,26 +30,26 @@ class SlowFallEffect: ShoulderEffect {
         private const val SLOW_AFTER_PROPERTY = "slowAfter"
         private val observeMap = mutableMapOf<ServerPlayer, SlowFallEffect>()
 
-        @SubscribeEvent
-        fun onLivingUpdate(event: LivingEvent.LivingUpdateEvent) {
-            if (event.entity !is ServerPlayer) return
-            val player = event.entity as ServerPlayer
-            if (player !in observeMap) return
-
-            if (!player.gameMode.isSurvival) return
-
-            if (player.fallDistance > 0) observeMap[player]?.onFall(player)
-        }
-
-        @SubscribeEvent
-        fun onFallEnd(event: LivingFallEvent) {
-            if (event.entity !is ServerPlayer) return
-            val player = event.entity as ServerPlayer
-            if (player !in observeMap) return
-
-            event.damageMultiplier = 0.0F
-            observeMap[player]?.onFallEnd(player)
-        }
+//        @SubscribeEvent
+//        fun onLivingUpdate(event: LivingEvent.LivingUpdateEvent) {
+//            if (event.entity !is ServerPlayer) return
+//            val player = event.entity as ServerPlayer
+//            if (player !in observeMap) return
+//
+//            if (!player.gameMode.isSurvival) return
+//
+//            if (player.fallDistance > 0) observeMap[player]?.onFall(player)
+//        }
+//
+//        @SubscribeEvent
+//        fun onFallEnd(event: LivingFallEvent) {
+//            if (event.entity !is ServerPlayer) return
+//            val player = event.entity as ServerPlayer
+//            if (player !in observeMap) return
+//
+//            event.damageMultiplier = 0.0F
+//            observeMap[player]?.onFallEnd(player)
+//        }
     }
 
     /**
@@ -89,15 +84,15 @@ class SlowFallEffect: ShoulderEffect {
     }
 
     private fun addEffect(player: ServerPlayer) {
-        player.getAttribute(ForgeMod.ENTITY_GRAVITY.get())?.let {
-            if (!it.hasModifier(SLOW_FALLING)) it.addTransientModifier(SLOW_FALLING)
-        }
+//        player.getAttribute(ForgeMod.ENTITY_GRAVITY.get())?.let {
+//            if (!it.hasModifier(SLOW_FALLING)) it.addTransientModifier(SLOW_FALLING)
+//        }
     }
 
     private fun removeEffect(player: ServerPlayer) {
-        player.getAttribute(ForgeMod.ENTITY_GRAVITY.get())?.let {
-            if (it.hasModifier(SLOW_FALLING)) it.removeModifier(SLOW_FALLING)
-        }
+//        player.getAttribute(ForgeMod.ENTITY_GRAVITY.get())?.let {
+//            if (it.hasModifier(SLOW_FALLING)) it.removeModifier(SLOW_FALLING)
+//        }
     }
 
     override fun serialize(json: JsonObject): JsonObject {
