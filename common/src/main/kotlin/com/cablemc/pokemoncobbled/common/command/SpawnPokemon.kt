@@ -37,7 +37,6 @@ object SpawnPokemon {
             entity.level.addFreshEntity(pokemonEntity)
             pokemonEntity.setPos(entity.position())
         }
-
         return Command.SINGLE_SUCCESS
     }
 

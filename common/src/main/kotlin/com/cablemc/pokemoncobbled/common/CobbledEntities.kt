@@ -1,29 +1,57 @@
 package com.cablemc.pokemoncobbled.common
 
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.events.entity.EntityAttributeEvent
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
+import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.registries.DeferredRegister
+import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.core.Registry
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.MobCategory
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier
+import net.minecraft.world.entity.ai.attributes.Attributes
 
 object CobbledEntities {
     private val registry = DeferredRegister.create(PokemonCobbled.MODID, Registry.ENTITY_TYPE_REGISTRY)
-    fun register() = registry.register()
+    fun register() {
+        registry.register()
+
+        EntityAttributeRegistry.register(
+            { POKEMON_TYPE },
+            {
+                AttributeSupplier
+                    .builder()
+                    .add(Attributes.FOLLOW_RANGE, 6.0)
+                    .add(Attributes.MAX_HEALTH, 20.0)
+                    .also { CobbledEvents.ENTITY_ATTRIBUTE_EVENT.post(EntityAttributeEvent(POKEMON_TYPE, it)) }
+            }
+        )
+
+
+    }
     private fun <T : Entity> entity(
         name: String,
-        builder: EntityType.Builder<T>
-    ) = registry.register(name) {
-        builder
-            .build(cobbledResource(name).toString())
+        entityTypeBuilder: EntityType.Builder<T>
+    ): RegistrySupplier<EntityType<T>> {
+        return registry.register(name) { entityTypeBuilder.build(cobbledResource(name).toString()) }
     }
 
-    val POKEMON = entity(
+    private fun <T : LivingEntity> livingEntity(
+        name: String,
+        entityTypeBuilder: EntityType.Builder<T>
+    ): RegistrySupplier<EntityType<T>> {
+        return registry.register(name) { entityTypeBuilder.build(cobbledResource("pokemon").toString()) }
+    }
+
+    val POKEMON = livingEntity(
         name = "pokemon",
-        builder = EntityType.Builder.of<PokemonEntity>(
+        entityTypeBuilder = EntityType.Builder.of<PokemonEntity>(
             { _, level -> PokemonEntity(level) },
             MobCategory.CREATURE
         )
@@ -31,7 +59,7 @@ object CobbledEntities {
 
     val EMPTY_POKEBALL = entity(
         name = "empty_pokeball",
-        builder = EntityType.Builder.of<EmptyPokeBallEntity>(
+        entityTypeBuilder = EntityType.Builder.of<EmptyPokeBallEntity>(
             { _, level -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, level) },
             MobCategory.MISC
         )

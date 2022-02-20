@@ -1,10 +1,14 @@
 package com.cablemc.pokemoncobbled.forge.mod
 
+import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.isDedicatedServer
 import com.cablemc.pokemoncobbled.common.PokemonCobbledModImplementation
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokeBallModelRepository
@@ -17,6 +21,7 @@ import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
 import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.client.event.ModelBakeEvent
+import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.server.ServerStartingEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -29,9 +34,21 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(PokemonCobbled.MODID, this)
+
+            CobbledEvents.ENTITY_ATTRIBUTE_EVENT.pipe(filter { it.entityType == POKEMON_TYPE }, takeFirst())
+                .subscribe {
+                    it.attributeSupplier
+                        .add(ForgeMod.ENTITY_GRAVITY.get())
+                        .add(ForgeMod.NAMETAG_DISTANCE.get())
+                        .add(ForgeMod.SWIM_SPEED.get())
+                        .add(ForgeMod.REACH_DISTANCE.get())
+                }
+
             addListener(this@PokemonCobbledForge::initialize)
             addListener(this@PokemonCobbledForge::onBake)
+//            addListener(this@PokemonCobbledForge::onEntityAttributeCreation)
             CobbledNetwork.networkDelegate = CobbledForgeNetworkDelegate
+
             PokemonCobbled.preinitialize(this@PokemonCobbledForge)
         }
 
@@ -69,7 +86,7 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
         PokemonCobbled.onServerStarted(event.server)
     }
 
-//    fun on(event: EntityAttributeCreationEvent) {
-//        EntityRegistry.registerAttributes(event)
+//    fun onEntityAttributeCreation(event: EntityAttributeCreationEvent) {
+//        EntityAttributeRegistryImpl.event(event)
 //    }
 }
