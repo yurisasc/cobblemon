@@ -16,7 +16,7 @@ abstract class SidedPacketRegistrar {
     abstract fun registerHandlers()
 
     fun register() {
-        CobbledEvents.MESSAGE_BUILT.pipe(takeFirst()).subscribe { on(it) }
+        CobbledEvents.MESSAGE_BUILT.subscribe { on(it) }
     }
 
     fun on(event: MessageBuiltEvent<*>) {

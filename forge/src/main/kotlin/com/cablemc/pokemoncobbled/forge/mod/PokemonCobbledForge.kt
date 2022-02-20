@@ -30,10 +30,8 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(PokemonCobbled.MODID, this)
             addListener(this@PokemonCobbledForge::initialize)
-//            addListener(this@PokemonCobbledMod::on)
             addListener(this@PokemonCobbledForge::onBake)
             CobbledNetwork.networkDelegate = CobbledForgeNetworkDelegate
-            PokemonCobbled.initialize()
             PokemonCobbled.preinitialize(this@PokemonCobbledForge)
         }
 
