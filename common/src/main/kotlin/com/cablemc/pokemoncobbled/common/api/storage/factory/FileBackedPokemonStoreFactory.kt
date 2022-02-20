@@ -8,11 +8,8 @@ import com.cablemc.pokemoncobbled.common.api.storage.adapter.FileStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.SerializedStore
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.util.subscribeOnServer
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.event.TickEvent
-import net.minecraftforge.event.server.ServerStartingEvent
-import net.minecraftforge.event.server.ServerStoppingEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
+import dev.architectury.event.events.common.LifecycleEvent
+import dev.architectury.event.events.common.TickEvent
 import java.util.UUID
 import java.util.concurrent.Executors
 
@@ -27,8 +24,29 @@ open class FileBackedPokemonStoreFactory<S>(
     protected val adapter: FileStoreAdapter<S>,
     protected val createIfMissing: Boolean
 ) : PokemonStoreFactory {
+
+    var passedTicks = 0
+
     init {
-        MinecraftForge.EVENT_BUS.register(this)
+        LifecycleEvent.SERVER_STARTING.register {
+            if (saveExecutor.isShutdown) {
+                saveExecutor = Executors.newSingleThreadExecutor()
+            }
+        }
+
+        TickEvent.SERVER_PRE.register {
+            passedTicks++
+            // TODO config option
+            if (passedTicks > 20 * 30) {
+                saveAll()
+                passedTicks = 0
+            }
+        }
+
+        LifecycleEvent.SERVER_STOPPING.register {
+            saveAll()
+            saveExecutor.shutdown()
+        }
     }
 
     protected var saveExecutor = Executors.newSingleThreadExecutor()
@@ -94,31 +112,5 @@ open class FileBackedPokemonStoreFactory<S>(
         store.getAnyChangeObservable()
             .pipe(emitWhile { isCached(store) })
             .subscribeOnServer { dirtyStores.add(store) }
-    }
-
-    var passedTicks = 0
-    @SubscribeEvent
-    fun onServerStarted(event: ServerStartingEvent) {
-        if (saveExecutor.isShutdown) {
-            saveExecutor = Executors.newSingleThreadExecutor()
-        }
-    }
-
-    @SubscribeEvent
-    fun onTick(event: TickEvent.ServerTickEvent) {
-        if (event.phase == TickEvent.Phase.START) {
-            passedTicks++
-            // TODO config option
-            if (passedTicks > 20 * 30) {
-                saveAll()
-                passedTicks = 0
-            }
-        }
-    }
-
-    @SubscribeEvent
-    fun onServerStopping(event: ServerStoppingEvent) {
-        saveAll()
-        saveExecutor.shutdown()
     }
 }
