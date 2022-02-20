@@ -1,2 +1,7 @@
 accessWidener	v1	named
 accessible method net/minecraft/client/renderer/entity/LivingEntityRenderer addLayer (Lnet/minecraft/client/renderer/entity/layers/RenderLayer;)Z
+accessible method net/minecraft/world/entity/player/Player setShoulderEntityLeft (Lnet/minecraft/nbt/CompoundTag;)V
+accessible method net/minecraft/world/entity/player/Player setShoulderEntityRight (Lnet/minecraft/nbt/CompoundTag;)V
+accessible method net/minecraft/world/entity/player/Player respawnEntityOnShoulder (Lnet/minecraft/nbt/CompoundTag;)V
+accessible method net/minecraft/world/entity/player/Player getShoulderEntityLeft ()Lnet/minecraft/nbt/CompoundTag;
+accessible method net/minecraft/world/entity/player/Player getShoulderEntityRight ()Lnet/minecraft/nbt/CompoundTag;
