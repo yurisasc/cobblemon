@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 /**
- * Mixin injecting our {@link net.minecraft.client.model.geom.builders.LayerDefinition}s from {@link com.cablemc.pokemoncobbled.common.client.render.CobbledLayerDefinitions} into Minecraft
+ * Mixin injecting our {@link LayerDefinition}s from {@link CobbledLayerDefinitions} into Minecraft
  *
  * @author Qu
  * @since 2022-02-17

@@ -27,13 +27,14 @@ object CobbledEntities {
             {
                 AttributeSupplier
                     .builder()
-                    .add(Attributes.FOLLOW_RANGE, 6.0)
-                    .add(Attributes.MAX_HEALTH, 20.0)
+                    .add(Attributes.FOLLOW_RANGE)
+                    .add(Attributes.MAX_HEALTH)
+                    .add(Attributes.MOVEMENT_SPEED)
+                    .add(Attributes.JUMP_STRENGTH)
+                    .add(Attributes.KNOCKBACK_RESISTANCE)
                     .also { CobbledEvents.ENTITY_ATTRIBUTE_EVENT.post(EntityAttributeEvent(POKEMON_TYPE, it)) }
             }
         )
-
-
     }
     private fun <T : Entity> entity(
         name: String,

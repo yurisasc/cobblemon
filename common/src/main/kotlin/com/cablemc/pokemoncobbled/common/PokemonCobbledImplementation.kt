@@ -6,10 +6,6 @@ import net.minecraft.server.level.ServerPlayer
 interface PokemonCobbledModImplementation {
 }
 
-interface PokemonCobbledClientImplementation {
-    fun initialize()
-}
-
 interface NetworkDelegate {
     fun sendPacketToPlayer(player: ServerPlayer, packet: NetworkPacket)
     fun sendPacketToServer(packet: NetworkPacket)

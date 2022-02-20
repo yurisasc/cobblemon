@@ -19,10 +19,8 @@ public class EntityRenderDispatcherMixin {
     @Shadow private Map<String, EntityRenderer<? extends Player>> playerRenderers;
 
     @Inject(
-            method = "onResourceManagerReload",
-            at = @At(
-                    value = "TAIL"
-            )
+        method = "onResourceManagerReload",
+        at = @At(value = "TAIL")
     )
     public void resourceManagerReloadHook(ResourceManager resourceManager, CallbackInfo ci) {
         PokemonCobbledClient.INSTANCE.onAddLayer(this.playerRenderers);
