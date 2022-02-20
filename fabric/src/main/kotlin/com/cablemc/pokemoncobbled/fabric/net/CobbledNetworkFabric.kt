@@ -45,7 +45,7 @@ class FabricClientNetworkContext(override val player: ServerPlayer? = null) : Co
 class RegisteredMessage<T : NetworkPacket>(
     val packetClass: Class<T>
 ) {
-    val identifier = cobbledResource(packetClass.simpleName)
+    val identifier = cobbledResource(packetClass.simpleName.lowercase())
     fun encode(packet: NetworkPacket): FriendlyByteBuf? {
         if (packetClass.isInstance(packet)) {
             return FriendlyByteBuf(Unpooled.buffer()).also { packet.encode(it) }
