@@ -7,7 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.reactive.CancelableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.EventObservable
 
 object CobbledEvents {
-    internal val MESSAGE_BUILT = EventObservable<MessageBuiltEvent<*>>()
+    val MESSAGE_BUILT = EventObservable<MessageBuiltEvent<*>>()
     val ENTITY_ATTRIBUTE_EVENT = EventObservable<EntityAttributeEvent>()
     val SHOULDER_MOUNT = CancelableObservable<ShoulderMountEvent>()
 }

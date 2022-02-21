@@ -3,10 +3,7 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
-import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
-import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
@@ -19,9 +16,10 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.Remov
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
-import net.minecraft.network.syncher.EntityDataSerializers
+import com.cablemc.pokemoncobbled.common.util.getServer
 import net.minecraft.server.level.ServerPlayer
 
 /**
@@ -54,8 +52,6 @@ object CobbledNetwork {
 
 
     fun register() {
-        EntityDataSerializers.registerSerializer(Vec3DataSerializer)
-
         /**
          * Client Packets
          */

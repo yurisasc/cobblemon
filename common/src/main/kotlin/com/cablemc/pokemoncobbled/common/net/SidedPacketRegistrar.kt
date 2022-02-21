@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.net
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 
 /**
@@ -15,29 +16,13 @@ import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeF
 abstract class SidedPacketRegistrar {
     abstract fun registerHandlers()
 
-    fun register() {
-        CobbledEvents.MESSAGE_BUILT.subscribe { on(it) }
-    }
-
-    fun on(event: MessageBuiltEvent<*>) {
-        handleEvent(event)
-    }
-
-    protected val packetHandlerRegistrations = mutableMapOf<Class<*>, (MessageBuiltEvent<*>) -> Unit>()
-
-    fun handleEvent(event: MessageBuiltEvent<*>) {
-        packetHandlerRegistrations[event.clazz ]?.invoke(event)
-    }
-
     inline fun <reified T : NetworkPacket> register(event: MessageBuiltEvent<T>, handler: PacketHandler<T>) {
         event.messageBuilder.registerHandler(handler)
     }
 
     protected inline fun <reified T : NetworkPacket> registerHandler(handler: PacketHandler<T>) {
-        onRegistering<T> { register(it as MessageBuiltEvent<T>, handler) }
-    }
-
-    protected inline fun <reified P: NetworkPacket> onRegistering(noinline handler: (MessageBuiltEvent<*>) -> Unit) {
-        packetHandlerRegistrations[P::class.java] = handler
+        CobbledEvents.MESSAGE_BUILT
+            .pipe(filter { it.clazz == T::class.java }, takeFirst())
+            .subscribe { register(it as MessageBuiltEvent<T>, handler) }
     }
 }

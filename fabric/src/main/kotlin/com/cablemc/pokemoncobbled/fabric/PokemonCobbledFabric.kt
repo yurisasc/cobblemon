@@ -14,7 +14,6 @@ object PokemonCobbledFabric : PokemonCobbledModImplementation {
         PokemonCobbled.initialize()
         SERVER_STARTED.register { PokemonCobbled.onServerStarted(it) }
 
-        ServerPacketRegistrar.register()
         ServerPacketRegistrar.registerHandlers()
         CobbledNetwork.register()
     }

@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
@@ -23,6 +24,7 @@ import dev.architectury.event.events.common.TickEvent
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
+import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.resources.ResourceKey
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.level.Level
@@ -49,7 +51,7 @@ object PokemonCobbled {
         CobbledKeybinds.register()
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { PokemonStoreManager.onPlayerLogin(it) }
-
+        EntityDataSerializers.registerSerializer(Vec3DataSerializer)
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
     }

@@ -20,7 +20,7 @@ class PreparedClientBoundFabricMessage<T : NetworkPacket>(registeredMessage: Reg
         ClientPlayNetworking.registerGlobalReceiver(
             registeredMessage.identifier
         ) { _, _, buf, _ ->
-            val packet = registeredMessage.packetClass.newInstance().also { it.decode(buf) }
+            val packet = registeredMessage.packetClass.getDeclaredConstructor().newInstance().also { it.decode(buf) }
             val context = FabricClientNetworkContext()
             handler(packet, context)
         }
@@ -32,7 +32,7 @@ class PreparedServerBoundFabricMessage<T : NetworkPacket>(registeredMessage: Reg
         ServerPlayNetworking.registerGlobalReceiver(
             registeredMessage.identifier
         ) { _, player, _, buf, _ ->
-            val packet = registeredMessage.packetClass.newInstance().also { it.decode(buf) }
+            val packet = registeredMessage.packetClass.getDeclaredConstructor().newInstance().also { it.decode(buf) }
             val context = FabricServerNetworkContext(player)
             handler(packet, context)
         }

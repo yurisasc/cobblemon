@@ -22,7 +22,6 @@ object PokemonCobbledClient {
 
         val overlay = PartyOverlay()
         ClientGuiEvent.RENDER_HUD.register(overlay::onRenderGameOverlay)
-        ClientPacketRegistrar.register()
         ClientPacketRegistrar.registerHandlers()
     }
 

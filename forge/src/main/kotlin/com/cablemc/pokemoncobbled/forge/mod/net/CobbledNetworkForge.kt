@@ -59,7 +59,7 @@ object CobbledForgeNetworkDelegate : NetworkDelegate {
                 if (toServer) NetworkDirection.PLAY_TO_SERVER else NetworkDirection.PLAY_TO_CLIENT
             )
                 .encoder { packet, buffer -> packet.encode(buffer) }
-                .decoder { buffer -> packetClass.newInstance().also { it.decode(buffer) } }
+                .decoder { buffer -> packetClass.getDeclaredConstructor().newInstance().also { it.decode(buffer) } }
         )
     }
 }

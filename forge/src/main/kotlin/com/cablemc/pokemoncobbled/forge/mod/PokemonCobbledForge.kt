@@ -71,7 +71,6 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
                 EntityRenderers.register(EMPTY_POKEBALL_TYPE) { PokeBallRenderer(it) }
             }
             ifServer { isDedicatedServer = true }
-            ServerPacketRegistrar.register()
             ServerPacketRegistrar.registerHandlers()
             CobbledNetwork.register()
         }
