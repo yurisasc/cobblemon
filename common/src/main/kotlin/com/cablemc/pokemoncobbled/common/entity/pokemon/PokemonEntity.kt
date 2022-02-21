@@ -15,9 +15,11 @@ import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
 import dev.architectury.extensions.network.EntitySpawnExtension
+import dev.architectury.networking.NetworkManager
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.protocol.Packet
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
@@ -128,6 +130,10 @@ class PokemonEntity(
         dexNumber.set(pokemon.species.nationalPokedexNumber)
         shiny.set(pokemon.shiny)
         speed = 0.35F
+    }
+
+    override fun getAddEntityPacket(): Packet<*> {
+        return NetworkManager.createAddEntityPacket(this)
     }
 
     public override fun registerGoals() {
