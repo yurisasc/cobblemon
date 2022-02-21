@@ -17,7 +17,7 @@ class ScheduledTask(
     /** How long until the task should execute. */
     delaySeconds: Float,
     /** The seconds between each execution, if this is repeated. */
-    val intervalSeconds: Float = 0F,
+    val intervalSeconds: Float = -1F,
     /** The number of times this task should iterate. */
     val iterations: Int = 1
 ) {
@@ -57,7 +57,7 @@ class ScheduledTask(
             if (secondsRemaining == 0F) {
                 action(this)
                 currentIteration++
-                if (intervalSeconds > 0 && (currentIteration < iterations || iterations == -1)) {
+                if (intervalSeconds != -1F && (currentIteration < iterations || iterations == -1)) {
                     secondsRemaining = intervalSeconds
                 } else {
                     expired = true
@@ -77,7 +77,7 @@ class ScheduledTask(
         private var delaySeconds: Float = 0F
 
         /** The number of seconds before the task will be executed after it's already executed. */
-        private var interval: Float = 0F
+        private var interval: Float = -1F
 
         /** The number of times the task will run. -1 to run indefinitely. */
         private var iterations: Int = 1

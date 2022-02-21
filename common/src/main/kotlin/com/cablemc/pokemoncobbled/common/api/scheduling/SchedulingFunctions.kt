@@ -20,6 +20,9 @@ fun lerp(seconds: Float = 0F, action: (Float) -> Unit) {
     if (passed / seconds != 1F) {
         taskBuilder().interval(0F).iterations(-1).execute { task ->
             passed = (System.currentTimeMillis() - startedTime)/1000F
+            if (passed > seconds) {
+                passed = seconds
+            }
             action(passed / seconds)
             if (passed >= seconds) {
                 task.expire()
