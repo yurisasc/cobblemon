@@ -1,11 +1,11 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves
 
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.MultiLineLabelK
 import com.cablemc.pokemoncobbled.common.api.gui.drawText
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.api.moves.Move
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.TextComponent
 import net.minecraft.network.chat.TranslatableComponent
@@ -17,7 +17,7 @@ class MoveInfoWidget(
     pWidth: Int, pHeight: Int,
     val move: Move,
     private val infoX: Int, private val infoY: Int
-): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent(move.name),) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent(move.name)) {
 
     companion object {
         private val powerText = TranslatableComponent("pokemoncobbled.ui.power")

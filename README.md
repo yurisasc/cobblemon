@@ -1,10 +1,12 @@
 # Pokémon Cobbled
 
-An open-source Pokémon mod written in Kotlin.
+An open-source Pokémon mod written in Kotlin for Fabric and Forge.
 
 ## Getting started
 
-To set up the development workspace, first clone the project and open the build.gradle with Intellij. This will automatically
+To set up the development workspace, first clone the project and open the build.gradle with Intellij.  There will be
+errors until you go to File -> Settings -> Build, Execution, Deployment -> Build Tools -> Gradle and change the Gradle JVM
+to 17. After changing this, click the icon for reloading the project. This will automatically
 put together all the dependencies and project setup.
 
 Run `gradlew genIntellijRuns`, and then in Intellij go to your run configurations, and change whichever you plan on
