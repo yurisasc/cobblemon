@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.fabric.client
 
 import com.cablemc.pokemoncobbled.common.CobbledEntities.EMPTY_POKEBALL_TYPE
 import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer
@@ -13,5 +14,6 @@ class FabricClientBootstrap: ClientModInitializer {
         PokemonCobbledClient.initialize()
         EntityRendererRegistry.register(POKEMON_TYPE) { PokemonRenderer(it) }
         EntityRendererRegistry.register(EMPTY_POKEBALL_TYPE) { PokeBallRenderer(it) }
+        CobbledNetwork.register()
     }
 }
