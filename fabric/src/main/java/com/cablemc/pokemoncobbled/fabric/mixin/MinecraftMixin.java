@@ -8,6 +8,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Mixin to add a hook for us to put stuff onto the first ResourceManager reload
+ *
+ * @author Qu
+ * @since 2022-02-21
+ */
 @Mixin(Minecraft.class)
 public class MinecraftMixin {
     @Inject(
