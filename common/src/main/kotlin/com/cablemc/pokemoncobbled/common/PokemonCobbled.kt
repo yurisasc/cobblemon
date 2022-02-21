@@ -19,6 +19,7 @@ import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.common.util.ifServer
 import dev.architectury.event.events.client.ClientGuiEvent
+import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.TickEvent
 import net.minecraft.client.Minecraft
@@ -49,6 +50,7 @@ object PokemonCobbled {
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledKeybinds.register()
+
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { PokemonStoreManager.onPlayerLogin(it) }
         EntityDataSerializers.registerSerializer(Vec3DataSerializer)
@@ -64,6 +66,8 @@ object PokemonCobbled {
 
         // Same as PokemonSpecies
         LOGGER.info("Loaded ${Moves.count()} Moves.")
+
+        CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 
         ifServer { TickEvent.SERVER_POST.register { ScheduledTaskTracker.update() } }
         ifClient { ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() }) }

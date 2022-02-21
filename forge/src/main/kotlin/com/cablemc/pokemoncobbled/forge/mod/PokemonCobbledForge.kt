@@ -19,7 +19,6 @@ import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.common.util.ifServer
-import com.cablemc.pokemoncobbled.forge.common.CommandRegistrar
 import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
 import dev.architectury.platform.forge.EventBuses
@@ -75,7 +74,6 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
             CobbledNetwork.register()
         }
 
-        MinecraftForge.EVENT_BUS.register(CommandRegistrar)
         MinecraftForge.EVENT_BUS.register(this)
     }
 

@@ -8,7 +8,7 @@ import net.minecraft.sounds.SoundEvent
 
 object CobbledSounds {
     private val soundRegister = DeferredRegister.create(MODID, Registry.SOUND_EVENT_REGISTRY)
-    private fun queue(name: String) = soundRegister.register(name) { SoundEvent(cobbledResource(name.replace("_", "."))) }
+    private fun queue(name: String) = soundRegister.register(name) { SoundEvent(cobbledResource(name)) }
 
     val CAPTURE_SUCCEEDED = queue("capture_succeeded")
     val POKEBALL_SHAKE = queue("shake")

@@ -1,19 +1,27 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
-import com.cablemc.pokemoncobbled.common.util.toBlockPos
+import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.Vec3
 import java.util.UUID
 
-// Stuff like getting their party
 fun ServerPlayer.party() = PokemonStoreManager.getParty(this)
 
 fun UUID.getPlayer() = getServer()?.playerList?.getPlayer(this)
+
+fun Player.sendServerMessage(component: Component) {
+    sendMessage(component, Util.NIL_UUID)
+}
+
+fun Player.sendServerMessage(text: String) {
+    sendServerMessage(text.asTranslated())
+}
 
 class TraceResult(
     val location: Vec3,

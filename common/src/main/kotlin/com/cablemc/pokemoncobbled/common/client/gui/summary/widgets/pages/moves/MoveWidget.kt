@@ -1,12 +1,12 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves
 
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
+import com.cablemc.pokemoncobbled.common.api.moves.Move
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.SingleTypeWidget
-import com.cablemc.pokemoncobbled.common.api.moves.Move
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.network.chat.TextComponent
