@@ -20,22 +20,34 @@ import net.minecraft.server.packs.resources.ResourceManager
 
 class FabricClientBootstrap: ClientModInitializer {
     override fun onInitializeClient() {
-        PokemonCobbledClient.initialize()
-        EntityRendererRegistry.register(POKEMON_TYPE) { PokemonRenderer(it) }
-        EntityRendererRegistry.register(EMPTY_POKEBALL_TYPE) { PokeBallRenderer(it) }
-        CobbledNetwork.register()
-
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(object : SimpleSynchronousResourceReloadListener {
             override fun getFabricId() = cobbledResource("resources")
             override fun onResourceManagerReload(resourceManager: ResourceManager) {
-                LOGGER.info("Loading models")
-                BedrockAnimationRepository.clear()
-                LOGGER.info("Bedrock animations loaded")
-                PokemonModelRepository.init()
-                LOGGER.info("Pokémon models loaded")
-                PokeBallModelRepository.init()
-                LOGGER.info("PokéBall models loaded")
+                loadAssets()
             }
         })
+        PokemonCobbledClient.initialize()
+
+        loadAssets()
+        EntityRendererRegistry.register(POKEMON_TYPE) {
+            PokemonModelRepository.initializeModels(it)
+            return@register PokemonRenderer(it)
+        }
+        EntityRendererRegistry.register(EMPTY_POKEBALL_TYPE) {
+            PokeBallModelRepository.initializeModels(it)
+            return@register PokeBallRenderer(it)
+        }
+        LOGGER.info("Registered entity renderers")
+
+        CobbledNetwork.register()
+    }
+
+    fun loadAssets() {
+        LOGGER.info("Loading models")
+        BedrockAnimationRepository.clear()
+        PokemonModelRepository.init()
+        LOGGER.info("Pokémon models loaded")
+        PokeBallModelRepository.init()
+        LOGGER.info("PokéBall models loaded")
     }
 }

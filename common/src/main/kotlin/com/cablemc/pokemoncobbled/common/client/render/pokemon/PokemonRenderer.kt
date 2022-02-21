@@ -38,11 +38,6 @@ class PokemonRenderer(
         )
     }
 
-    // TODO register models in a more clearly defined place
-    init {
-        PokemonModelRepository.initializeModels(context)
-    }
-
     override fun getTextureLocation(pEntity: PokemonEntity) = PokemonModelRepository.getModelTexture(pEntity.pokemon)
     override fun render(entity: PokemonEntity, pEntityYaw: Float, partialTicks: Float, poseMatrix: PoseStack, buffer: MultiBufferSource, pPackedLight: Int) {
         DELTA_TICKS = partialTicks // TODO move this somewhere universal

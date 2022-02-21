@@ -12,10 +12,6 @@ import net.minecraft.resources.ResourceLocation
 
 class PokeBallRenderer(context: EntityRendererProvider.Context) : EntityRenderer<EmptyPokeBallEntity>(context) {
 
-    init {
-        PokeBallModelRepository.initializeModels(context)
-    }
-
     override fun getTextureLocation(pEntity: EmptyPokeBallEntity): ResourceLocation {
         return PokeBallModelRepository.getModelTexture(pEntity.pokeBall)
     }
