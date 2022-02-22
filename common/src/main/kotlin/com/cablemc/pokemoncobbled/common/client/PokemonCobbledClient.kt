@@ -12,6 +12,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.reposit
 import com.cablemc.pokemoncobbled.common.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.common.client.storage.ClientStorageManager
+import com.mojang.blaze3d.vertex.PoseStack
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
@@ -24,18 +25,23 @@ import net.minecraft.world.entity.player.Player
 object PokemonCobbledClient {
     val storage = ClientStorageManager()
 
+    lateinit var overlay: PartyOverlay
+
     fun initialize() {
         CLIENT_PLAYER_JOIN.register { storage.onLogin() }
         CLIENT_PLAYER_QUIT.register { ScheduledTaskTracker.clear() }
 
-        val overlay = PartyOverlay()
-        ClientGuiEvent.RENDER_HUD.register(overlay::onRenderGameOverlay)
+        overlay = PartyOverlay()
         ClientPacketRegistrar.registerHandlers()
 
         PokemonModelRepository.init()
         PokeBallModelRepository.init()
 
         registerRenderers()
+    }
+
+    fun beforeChatRender(poseStack: PoseStack, partialDeltaTicks: Float) {
+        overlay.onRenderGameOverlay(poseStack = poseStack, partialDeltaTicks = partialDeltaTicks)
     }
 
     fun onAddLayer(skinMap: Map<String, EntityRenderer<out Player>>?) {
