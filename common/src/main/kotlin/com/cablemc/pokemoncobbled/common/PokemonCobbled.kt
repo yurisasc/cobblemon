@@ -21,6 +21,7 @@ import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.cablemc.pokemoncobbled.common.util.ifServer
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.CommandRegistrationEvent
+import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.TickEvent
 import net.minecraft.client.Minecraft
@@ -73,18 +74,17 @@ object PokemonCobbled {
         ifDedicatedServer { isDedicatedServer = true }
         ifServer { TickEvent.SERVER_POST.register { ScheduledTaskTracker.update() } }
         ifClient { ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() }) }
-    }
-
-    fun onServerStarted(server: MinecraftServer) {
-        // TODO config options for default storage
-        val pokemonStoreRoot = server.getWorldPath(LevelResource.PLAYER_DATA_DIR).parent.resolve("pokemon").toFile()
-        PokemonStoreManager.registerFactory(
-            priority = Priority.LOWEST,
-            factory = FileBackedPokemonStoreFactory(
-                adapter = NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true),
-                createIfMissing = true
+        SERVER_STARTED.register {
+            // TODO config options for default storage
+            val pokemonStoreRoot = it.getWorldPath(LevelResource.PLAYER_DATA_DIR).parent.resolve("pokemon").toFile()
+            PokemonStoreManager.registerFactory(
+                priority = Priority.LOWEST,
+                factory = FileBackedPokemonStoreFactory(
+                    adapter = NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true),
+                    createIfMissing = true
+                )
             )
-        )
+        }
     }
 
     fun getLevel(dimension: ResourceKey<Level>): Level? {

@@ -17,8 +17,6 @@ import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.client.event.ModelBakeEvent
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.event.server.ServerStartingEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
@@ -65,10 +63,5 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
 
     fun onBake(event: ModelBakeEvent) {
         PokemonCobbledClient.reloadCodedAssets()
-    }
-
-    @SubscribeEvent
-    fun onServerStarting(event: ServerStartingEvent) {
-        PokemonCobbled.onServerStarted(event.server)
     }
 }
