@@ -18,8 +18,10 @@ class BlockBenchModelWrapper<T : Entity>(
 ) {
 
     lateinit var entityModel: EntityModel<T>
-    private var isModelInitialized = false
-    private var isLayerInitialized = false
+    var isModelInitialized = false
+        private set
+    var isLayerInitialized = false
+        private set
 
     fun initializeModel(context: EntityRendererProvider.Context) {
         if (!isModelInitialized) {

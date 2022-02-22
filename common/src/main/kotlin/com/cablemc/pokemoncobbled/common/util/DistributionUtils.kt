@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import dev.architectury.utils.Env
 import dev.architectury.utils.EnvExecutor
 import dev.architectury.utils.GameInstance
+import net.fabricmc.api.EnvType
 import net.minecraft.world.level.Level
 
 /** Runs the given [Runnable] if the caller is on the CLIENT side. */
@@ -15,6 +16,11 @@ fun ifClient(runnable: Runnable) {
 /** Runs the given [Runnable] if the caller is on the SERVER side. */
 fun ifServer(runnable: Runnable) {
     EnvExecutor.runInEnv(Env.SERVER) { runnable }
+}
+
+/** Runs the given [Runnable] if the caller is a dedicated server. */
+fun ifDedicatedServer(action: Runnable) {
+    EnvExecutor.runInEnv(EnvType.SERVER) { action }
 }
 
 /*

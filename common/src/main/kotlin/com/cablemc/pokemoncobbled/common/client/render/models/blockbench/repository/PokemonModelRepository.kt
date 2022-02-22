@@ -59,12 +59,6 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerBaseSpeciesModel(PokemonSpecies.EEVEE, BlockBenchModelWrapper(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
     }
 
-    override fun clear() {
-        super.clear()
-        modelsBySpecies.clear()
-        modelTexturesBySpecies.clear()
-    }
-
     private fun registerBaseSpeciesModel(species: Species, model: BlockBenchModelWrapper<PokemonEntity>) {
         modelsBySpecies[species] = model
         addModel(model)
@@ -78,7 +72,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     private fun registerShinySpeciesModelTexture(species: Species) {
         val shinyTexture = shinyTextureFor(species)
-        shinyModelTexturesBySpecies[species] = if (shinyTexture.exists()) shinyTexture else baseTextureFor(species)
+        shinyModelTexturesBySpecies[species] = /* TODO do this later or just wait until resolved texture searchin if (shinyTexture.exists()) shinyTexture else */ baseTextureFor(species)
     }
 
     private fun baseTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-base.png")

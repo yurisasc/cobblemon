@@ -17,6 +17,7 @@ import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifClient
+import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.cablemc.pokemoncobbled.common.util.ifServer
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.CommandRegistrationEvent
@@ -69,6 +70,7 @@ object PokemonCobbled {
 
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 
+        ifDedicatedServer { isDedicatedServer = true }
         ifServer { TickEvent.SERVER_POST.register { ScheduledTaskTracker.update() } }
         ifClient { ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() }) }
     }

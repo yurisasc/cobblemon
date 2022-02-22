@@ -5,3 +5,4 @@ accessible method net/minecraft/world/entity/player/Player setShoulderEntityRigh
 accessible method net/minecraft/world/entity/player/Player respawnEntityOnShoulder (Lnet/minecraft/nbt/CompoundTag;)V
 accessible method net/minecraft/world/entity/player/Player getShoulderEntityLeft ()Lnet/minecraft/nbt/CompoundTag;
 accessible method net/minecraft/world/entity/player/Player getShoulderEntityRight ()Lnet/minecraft/nbt/CompoundTag;
+accessible method net/minecraft/client/renderer/entity/EntityRenderers register (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/client/renderer/entity/EntityRendererProvider;)V

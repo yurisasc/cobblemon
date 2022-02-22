@@ -9,7 +9,6 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.resources.ResourceLocation
 
 object PokeBallModelRepository : ModelRepository<EmptyPokeBallEntity>() {
-
     private val modelsByPokeBall: MutableMap<PokeBall, BlockBenchModelWrapper<EmptyPokeBallEntity>> = mutableMapOf()
     private val modelTexturesByPokeBall: MutableMap<PokeBall, ResourceLocation> = mutableMapOf()
 
@@ -34,5 +33,4 @@ object PokeBallModelRepository : ModelRepository<EmptyPokeBallEntity>() {
     fun getModelTexture(pokeBall: PokeBall): ResourceLocation {
         return modelTexturesByPokeBall[pokeBall] ?: throw IllegalStateException("pokeball has no appropriate model texture")
     }
-
 }

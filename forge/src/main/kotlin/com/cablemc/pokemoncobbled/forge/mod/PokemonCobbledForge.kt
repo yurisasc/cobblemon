@@ -1,28 +1,19 @@
 package com.cablemc.pokemoncobbled.forge.mod
 
-import com.cablemc.pokemoncobbled.common.CobbledEntities.EMPTY_POKEBALL_TYPE
 import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
-import com.cablemc.pokemoncobbled.common.PokemonCobbled.isDedicatedServer
 import com.cablemc.pokemoncobbled.common.PokemonCobbledModImplementation
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokeBallModelRepository
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cablemc.pokemoncobbled.common.client.render.pokeball.PokeBallRenderer
-import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.util.ifClient
-import com.cablemc.pokemoncobbled.common.util.ifServer
 import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
 import dev.architectury.platform.forge.EventBuses
-import net.minecraft.client.renderer.entity.EntityRenderers
 import net.minecraftforge.client.event.ModelBakeEvent
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
@@ -64,12 +55,7 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
         PokemonCobbled.initialize()
 
         event.enqueueWork {
-            ifClient {
-                PokemonCobbledClient.initialize()
-                EntityRenderers.register(POKEMON_TYPE) { PokemonRenderer(it) }
-                EntityRenderers.register(EMPTY_POKEBALL_TYPE) { PokeBallRenderer(it) }
-            }
-            ifServer { isDedicatedServer = true }
+            ifClient { PokemonCobbledClient.initialize() }
             ServerPacketRegistrar.registerHandlers()
             CobbledNetwork.register()
         }
@@ -78,18 +64,11 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
     }
 
     fun onBake(event: ModelBakeEvent) {
-        LOGGER.info("Loading models")
-        BedrockAnimationRepository.clear()
-        PokemonModelRepository.init()
-        PokeBallModelRepository.init()
+        PokemonCobbledClient.reloadCodedAssets()
     }
 
     @SubscribeEvent
     fun onServerStarting(event: ServerStartingEvent) {
         PokemonCobbled.onServerStarted(event.server)
     }
-
-//    fun onEntityAttributeCreation(event: EntityAttributeCreationEvent) {
-//        EntityAttributeRegistryImpl.event(event)
-//    }
 }

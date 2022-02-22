@@ -5,7 +5,6 @@
   "refmap": "mixins.pokemoncobbled.refmap.json",
   "minVersion": "0.8",
   "client": [
-    "MinecraftMixin"
   ],
   "mixins": [
   ]
