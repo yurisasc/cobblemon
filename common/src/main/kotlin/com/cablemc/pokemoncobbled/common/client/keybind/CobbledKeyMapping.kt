@@ -17,11 +17,9 @@ abstract class CobbledKeyMapping(
     category: String
 ): KeyMapping(name, type, key, category) {
 
-    private var wasDown = false
-
     abstract fun onPress()
 
-    fun onKeyInput() {
+    open fun onKeyInput() {
         if (this.consumeClick())
             onPress()
     }
