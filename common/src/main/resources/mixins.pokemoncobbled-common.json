@@ -2,7 +2,7 @@
   "required": true,
   "package": "com.cablemc.pokemoncobbled.common.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "mixins.pokemoncobbled.refmap.json",
+  "refmap": "pokemoncobbled-common-refmap.json",
   "minVersion": "0.8",
   "client": [
     "LayerDefinitionsMixin",
