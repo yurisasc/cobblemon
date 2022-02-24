@@ -27,6 +27,11 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive = false }
 
+    // Kotlin
+    shadowCommon 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
+    shadowCommon "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10"
+    shadowCommon group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.6.10'
+
     // For Showdown
     shadowCommon 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
     shadowCommon 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)

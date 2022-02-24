@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -44,7 +45,16 @@ object GivePokemon {
             pokemon.moveSet.setMove(2, Moves.AIR_SLASH.create())
             pokemon.moveSet.setMove(3, Moves.AURA_SPHERE.create())
             party.add(pokemon)
-            context.source.sendSuccess(TextComponent("Gave ").append(player.name).append(" a ${pkm.name}"), true)
+            // TODO make the whole thing translatable
+            context.source.sendSuccess(
+                TextComponent("Gave ")
+                    .append(player.name)
+                    .append(" a ")
+                    .append(pkm.translatedName.asTranslated()
+                    .append(".")
+                    ),
+                true
+            )
         } catch (e: Exception) {
             e.printStackTrace()
         }

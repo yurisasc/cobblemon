@@ -19,14 +19,13 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(LayerDefinitions.class)
 public class LayerDefinitionsMixin {
     @Redirect(
-            method = "createRoots",
+            method = "createRoots()Ljava/util/Map;",
             at = @At(
                     value = "INVOKE",
                     target = "Lcom/google/common/collect/ImmutableMap;builder()Lcom/google/common/collect/ImmutableMap$Builder;",
                     opcode = Opcodes.INVOKESTATIC,
                     remap = false
-            ),
-            remap = false
+            )
     )
     private static ImmutableMap.Builder<ModelLayerLocation, LayerDefinition> builderRedirect() {
         ImmutableMap.Builder<ModelLayerLocation, LayerDefinition> builder = ImmutableMap.builder();

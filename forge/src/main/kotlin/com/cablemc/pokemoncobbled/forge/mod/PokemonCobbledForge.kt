@@ -8,17 +8,15 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbledModImplementation
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
-import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
 import dev.architectury.platform.forge.EventBuses
-import net.minecraftforge.client.event.ModelBakeEvent
 import net.minecraftforge.common.ForgeMod
-import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.ModLoadingContext
 import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
+import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 
 object PokemonCobbledForge : PokemonCobbledModImplementation {
@@ -36,11 +34,18 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
                 }
 
             addListener(this@PokemonCobbledForge::initialize)
-            addListener(this@PokemonCobbledForge::onBake)
-//            addListener(this@PokemonCobbledForge::onEntityAttributeCreation)
+            addListener(this@PokemonCobbledForge::serverInit)
             CobbledNetwork.networkDelegate = CobbledForgeNetworkDelegate
 
             PokemonCobbled.preinitialize(this@PokemonCobbledForge)
+        }
+    }
+
+    fun serverInit(event: FMLDedicatedServerSetupEvent) {
+        println("Dedi init")
+        event.enqueueWork {
+            ServerPacketRegistrar.registerHandlers()
+            CobbledNetwork.register()
         }
     }
 
@@ -49,16 +54,5 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
 
         PokemonCobbled.initialize()
 
-        event.enqueueWork {
-            ifClient { PokemonCobbledClient.initialize() }
-            ServerPacketRegistrar.registerHandlers()
-            CobbledNetwork.register()
-        }
-
-        MinecraftForge.EVENT_BUS.register(this)
-    }
-
-    fun onBake(event: ModelBakeEvent) {
-        PokemonCobbledClient.reloadCodedAssets()
     }
 }
