@@ -6,6 +6,8 @@ object DataKeys {
     const val POKEMON_SPECIES_DEX = "SpeciesDex"
     const val POKEMON_FORM_ID = "FormId"
     const val POKEMON_LEVEL = "Level"
+    const val POKEMON_FRIENDSHIP = "Friendship"
+
     const val POKEMON_STATS = "Stats"
     const val POKEMON_IVS = "IVs"
     const val POKEMON_EVS = "EVs"
@@ -36,4 +38,8 @@ object DataKeys {
     const val REQUEST_BATTLE_SEND_MESSAGE = "SendMessage"
     const val REQUEST_MESSAGES = "RequestMessages"
 
+    const val POKEMON_PROPERTIES = "Properties"
+    const val POKEMON_PROPERTIES_CUSTOM = "CustomProperties"
+    const val POKEMON_PROPERTIES_ORIGINAL_TEXT = "OriginalText"
+    const val POKEMON_SPECIES_TEXT = "SpeciesText"
 }

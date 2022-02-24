@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
@@ -58,6 +59,7 @@ object CobbledNetwork {
 
         // Pokemon Update Packets
         buildClientMessage<LevelUpdatePacket>()
+        buildClientMessage<FriendshipUpdatePacket>()
         buildClientMessage<MoveSetUpdatePacket>()
         buildClientMessage<NatureUpdatePacket>()
         buildClientMessage<ShinyUpdatePacket>()

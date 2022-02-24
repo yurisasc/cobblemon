@@ -14,6 +14,9 @@ import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
+import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
@@ -29,15 +32,21 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.Natu
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.util.*
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 import java.util.UUID
 
 class Pokemon {
+    companion object {
+        const val MAXIMUM_LEVEL = 100
+    }
+
     var uuid: UUID = UUID.randomUUID()
     var species = PokemonSpecies.EEVEE
         set(value) { field = value ; _species.emit(value) }
@@ -47,6 +56,8 @@ class Pokemon {
         set(value) { field = value ; _health.emit(value) }
     var level = 5
         set(value) { field = value ; _level.emit(value) }
+    var friendship = 0
+        set(value) { field = value ; _friendship.emit(value) }
     var state: PokemonState = InactivePokemonState()
         set(value) {
             if (field is ActivePokemonState) {
@@ -113,6 +124,8 @@ class Pokemon {
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
         nbt.putString(DataKeys.POKEMON_FORM_ID, form.name)
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
+        nbt.putShort(DataKeys.POKEMON_FRIENDSHIP, friendship.toShort())
+
         nbt.putShort(DataKeys.POKEMON_HEALTH, health.toShort())
         nbt.put(DataKeys.POKEMON_STATS, stats.saveToNBT(CompoundTag()))
         nbt.put(DataKeys.POKEMON_IVS, ivs.saveToNBT(CompoundTag()))
@@ -131,6 +144,7 @@ class Pokemon {
             ?: throw IllegalStateException("Tried to read a species with national PokéDex number ${nbt.getInt(DataKeys.POKEMON_SPECIES_DEX)}")
         form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.forms.first()
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
+        friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt()
         health = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
@@ -156,6 +170,7 @@ class Pokemon {
         json.addProperty(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber)
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.name)
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
+        json.addProperty(DataKeys.POKEMON_FRIENDSHIP, friendship)
         json.addProperty(DataKeys.POKEMON_HEALTH, health)
         json.add(DataKeys.POKEMON_STATS, stats.saveToJSON(JsonObject()))
         json.add(DataKeys.POKEMON_IVS, ivs.saveToJSON(JsonObject()))
@@ -172,6 +187,7 @@ class Pokemon {
             ?: throw IllegalStateException("Tried to read a species with national pokedex number ${json.get(DataKeys.POKEMON_SPECIES_DEX).asInt}")
         form = species.forms.find { it.name == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.forms.first()
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
+        friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt
         health = json.get(DataKeys.POKEMON_HEALTH).asInt
         stats.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_STATS))
         ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
@@ -192,6 +208,7 @@ class Pokemon {
         buffer.writeShort(species.nationalPokedexNumber)
         buffer.writeUtf(form.name)
         buffer.writeByte(level)
+        buffer.writeShort(friendship)
         buffer.writeShort(health)
         buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
         moveSet.saveToBuffer(buffer)
@@ -209,6 +226,7 @@ class Pokemon {
         val formId = buffer.readUtf()
         form = species.forms.find { it.name == formId } ?: species.forms.first()
         level = buffer.readUnsignedByte().toInt()
+        friendship = buffer.readUnsignedShort()
         health = buffer.readUnsignedShort()
         // TODO throw exception or dummy stat?
         buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
@@ -218,6 +236,20 @@ class Pokemon {
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
         return this
+    }
+
+    fun getOwnerPlayer() : ServerPlayer? {
+        storeCoordinates.get().let {
+            if(isPlayerOwned()) return getServer().playerList.getPlayer(it!!.store.uuid);
+        }
+        return null
+    }
+
+    fun getOwnerUUID() : UUID? {
+        storeCoordinates.get().let {
+            if(isPlayerOwned()) return it!!.store.uuid;
+        }
+        return null
     }
 
     fun belongsTo(player: Player) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
@@ -250,6 +282,7 @@ class Pokemon {
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
     private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
+    private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket(this, it) }
     private val _health = SimpleObservable<Int>()
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
     private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
@@ -260,4 +293,25 @@ class Pokemon {
     fun getMoveSetObservable() = _moveSet
 
     fun getMaxHealth(): Int = (2 * stats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4) * level) / 100 + level + 10
+
+    private fun validFriendship (value : Int) : Boolean {
+        return value in 0..255
+    }
+
+    fun setFriendship (amount : Int) : Boolean {
+        if(validFriendship(amount)) friendship = amount
+        return friendship == amount
+    }
+
+    fun incrementFriendship (amount : Int) : Boolean {
+        val value = friendship + amount
+        if(validFriendship(value)) friendship = value
+        return friendship == value
+    }
+
+    fun decrementFriendship (amount : Int) : Boolean {
+        val value = friendship - amount
+        if(validFriendship(value)) friendship = value
+        return friendship == value
+    }
 }

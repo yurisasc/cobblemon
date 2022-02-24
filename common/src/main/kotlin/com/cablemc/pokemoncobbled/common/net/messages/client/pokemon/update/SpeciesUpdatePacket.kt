@@ -11,6 +11,6 @@ class SpeciesUpdatePacket() : IntUpdatePacket() {
         value = species.nationalPokedexNumber
     }
     override fun getSize() = IntSize.U_SHORT
-    override fun set(pokemon: Pokemon, value: Int) { pokemon.species = PokemonSpecies.getByPokedexNumber(value)!! // TODO: Proper check
-    }
+    // TODO: Proper check
+    override fun set(pokemon: Pokemon, value: Int) { pokemon.species = PokemonSpecies.getByPokedexNumber(value)!! }
 }

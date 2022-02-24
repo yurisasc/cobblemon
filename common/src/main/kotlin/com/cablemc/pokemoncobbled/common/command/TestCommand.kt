@@ -1,13 +1,13 @@
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
-import com.cablemc.pokemoncobbled.common.battles.ai.RandomBattleAI
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
+import com.cablemc.pokemoncobbled.common.battles.ai.RandomBattleAI
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -15,11 +15,11 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.server.level.ServerPlayer
-import java.util.*
+import java.util.UUID
 
 object TestCommand {
 
-    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
+    fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
         val command = Commands.literal("testcommand")
             .requires { it.hasPermission(4) }
             .executes { execute(it) }
@@ -32,7 +32,7 @@ object TestCommand {
         }
         // Player variables
         val player: ServerPlayer = context.source.entity as ServerPlayer
-        val playerSubject = PlayerBattleActor("p1", player.uuid, PokemonStoreManager.getParty(player))
+        val playerSubject = PlayerBattleActor("p1", player.uuid, PokemonCobbled.storage.getParty(player))
 
         // Enemy variables
         val enemyId = UUID.randomUUID()
@@ -49,5 +49,4 @@ object TestCommand {
         BattleRegistry.startBattle(playerSubject, enemySubject)
         return Command.SINGLE_SUCCESS
     }
-
 }
