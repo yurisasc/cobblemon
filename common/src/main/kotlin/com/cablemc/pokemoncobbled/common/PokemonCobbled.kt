@@ -15,10 +15,13 @@ import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
+import com.cablemc.pokemoncobbled.common.config.CobbledConfig
+import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.cablemc.pokemoncobbled.common.util.ifServer
+import com.google.gson.GsonBuilder
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
@@ -33,6 +36,11 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.storage.LevelResource
 import org.apache.logging.log4j.LogManager
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 
 object PokemonCobbled {
     const val MODID = "pokemoncobbled"
@@ -44,8 +52,10 @@ object PokemonCobbled {
     var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
     var isDedicatedServer = false
     var showdownThread: ShowdownThread = ShowdownThread()
+    var config: CobbledConfig = CobbledConfig()
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
+        this.loadConfig()
         this.implementation = implementation
         CobbledEntities.register()
         CobbledItems.register()
@@ -74,6 +84,7 @@ object PokemonCobbled {
         ifDedicatedServer { isDedicatedServer = true }
         ifServer { TickEvent.SERVER_POST.register { ScheduledTaskTracker.update() } }
         ifClient { ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() }) }
+
         SERVER_STARTED.register {
             // TODO config options for default storage
             val pokemonStoreRoot = it.getWorldPath(LevelResource.PLAYER_DATA_DIR).parent.resolve("pokemon").toFile()
@@ -99,6 +110,61 @@ object PokemonCobbled {
             } else {
                 null
             }
+        }
+    }
+
+    fun loadConfig() {
+        val configFile = File("config/$MODID.json")
+        val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
+
+        LOGGER.info(configFile.absolutePath)
+
+        // Check config existence and load if it exists, otherwise create default.
+        if(configFile.exists()) {
+            try {
+                val fileReader = FileReader(configFile)
+                this.config = gson.fromJson(fileReader, CobbledConfig::class.java)
+                fileReader.close()
+            } catch (exception: Exception) {
+                LOGGER.error("Failed to load the config! Using default config until the following has been addressed:")
+                this.config = CobbledConfig()
+                exception.printStackTrace()
+            }
+
+            this.config::class.memberProperties.forEach {
+                // Member must have annotations and must be mutable
+                if (it.annotations.isEmpty() || it !is KMutableProperty<*>) return@forEach
+
+                var value = it.getter.call(config)
+                for(annotation in it.annotations) {
+                    when(annotation) {
+                        is IntConstraint -> {
+                            if(value !is Int) break
+                            value = value.coerceIn(annotation.min, annotation.max)
+                            it.setter.call(config, value)
+                        }
+                    }
+                }
+            }
+        } else {
+            this.config = CobbledConfig()
+            this.saveConfig()
+        }
+    }
+
+    fun saveConfig() {
+        try {
+            val configFile = File("config/$MODID.json")
+            val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
+            val fileWriter = FileWriter(configFile)
+
+            // Put the config to json then flush the writer to commence writing.
+            gson.toJson(this.config, fileWriter)
+            fileWriter.flush()
+            fileWriter.close()
+        } catch (exception: Exception) {
+            LOGGER.error("Failed to save the config! Please consult the following stack trace:")
+            exception.printStackTrace()
         }
     }
 }

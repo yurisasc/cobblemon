@@ -25,3 +25,4 @@ run
 forge*changelog.txt
 /showdown/
 /logs/
+.vscode/launch.json

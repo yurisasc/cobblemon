@@ -11,7 +11,6 @@ import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeF
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.util.ifClient
-import com.cablemc.pokemoncobbled.forge.mod.config.CobbledConfig
 import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
 import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.client.event.ModelBakeEvent
@@ -43,8 +42,6 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
 
             PokemonCobbled.preinitialize(this@PokemonCobbledForge)
         }
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CobbledConfig.spec)
     }
 
     fun initialize(event: FMLCommonSetupEvent) {
