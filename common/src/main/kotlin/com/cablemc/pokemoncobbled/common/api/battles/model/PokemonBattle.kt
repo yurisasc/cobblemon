@@ -1,13 +1,15 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.Util
+import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.TextComponent
 import java.util.UUID
 
@@ -17,12 +19,12 @@ import java.util.UUID
  * @since January 16th, 2022
  * @author Deltric
  */
-class Battle(
+class PokemonBattle(
     val actors: List<BattleActor>
 ) {
 
-    val battleId: UUID = UUID.randomUUID()
-    val format: String = "gen7ou"
+    val battleId = UUID.randomUUID()
+    val format = "gen7ou"
 
     // TEMP battle showcase stuff
     var announcingRules = false
@@ -43,13 +45,8 @@ class Battle(
         return actors.find { actor -> actor.gameId == actorId }
     }
 
-    fun broadcastChatMessage(component: TextComponent) {
-        return actors.forEach {
-            if (it is PlayerBattleActor) {
-                val player = it.getPlayerEntity() ?: return@forEach
-                player.sendMessage(component, Util.NIL_UUID)
-            }
-        }
+    fun broadcastChatMessage(component: Component) {
+        return actors.forEach { it.sendMessage(component) }
     }
 
     fun writeShowdownAction(vararg messages: String) {
@@ -61,6 +58,6 @@ class Battle(
         request.addProperty(DataKeys.REQUEST_TYPE, DataKeys.REQUEST_BATTLE_SEND_MESSAGE)
         request.addProperty(DataKeys.REQUEST_BATTLE_ID, battleId.toString())
         request.add(DataKeys.REQUEST_MESSAGES, jsonArray)
-        PokemonCobbled.showdown.write(BattleRegistry.gson.toJson(request))
+        showdown.write(BattleRegistry.gson.toJson(request))
     }
 }

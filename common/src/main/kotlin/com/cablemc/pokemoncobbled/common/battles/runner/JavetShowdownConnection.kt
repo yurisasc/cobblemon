@@ -12,11 +12,7 @@ class JavetShowdownConnection : ShowdownConnection {
     private lateinit var writer: OutputStreamWriter
     private lateinit var reader: BufferedReader
     private var data = ""
-    private var closed: Boolean = false
-
-    companion object {
-        var process: Process? = null
-    }
+    private var closed = false
 
     fun initializeServer() {
         process = exec(ShowdownServer.javaClass, listOf(File("showdown/scripts/index.js").canonicalPath))
@@ -41,7 +37,7 @@ class JavetShowdownConnection : ShowdownConnection {
     }
 
     override fun write(input: String) {
-        writer.write(input + ShowdownConnection.lineEnder)
+        writer.write(input + ShowdownConnection.LINE_END)
         writer.flush()
     }
 
@@ -51,8 +47,8 @@ class JavetShowdownConnection : ShowdownConnection {
                 val char = reader.read()
                 if (char > -1) {
                     data += char.toChar()
-                    if (data.endsWith(ShowdownConnection.lineEnder)) {
-                        messageHandler(data.replace(ShowdownConnection.lineEnder, ""))
+                    if (data.endsWith(ShowdownConnection.LINE_END)) {
+                        messageHandler(data.replace(ShowdownConnection.LINE_END, ""))
                         data = ""
                     }
                 }
@@ -69,26 +65,4 @@ class JavetShowdownConnection : ShowdownConnection {
     override fun isConnected(): Boolean {
         return socket.isConnected
     }
-
-    /**
-     * Modified from https://lankydan.dev/running-a-kotlin-class-as-a-subprocess
-     */
-    private fun spawnProcess(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Process? {
-        val javaHome = System.getProperty("java.home")
-        val javaBin = javaHome + File.separator + "bin" + File.separator + "java"
-        val classpath = System.getProperty("java.class.path")
-        val className = clazz.name
-
-        val command = ArrayList<String>()
-        command.add(javaBin)
-        command.addAll(jvmArgs)
-        command.add("-cp")
-        command.add(classpath)
-        command.add(className)
-        command.addAll(args)
-
-        val builder = ProcessBuilder(command)
-        return builder.inheritIO().start()
-    }
-
 }

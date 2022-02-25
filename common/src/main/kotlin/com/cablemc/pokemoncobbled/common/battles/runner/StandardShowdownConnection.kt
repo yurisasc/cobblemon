@@ -29,7 +29,7 @@ class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnecti
     }
 
     override fun write(input: String) {
-        writer.write(input + ShowdownConnection.lineEnder)
+        writer.write(input + ShowdownConnection.LINE_END)
         writer.flush()
     }
 
@@ -39,8 +39,8 @@ class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnecti
                 val char = reader.read()
                 if (char > -1) {
                     data += char.toChar()
-                    if (data.endsWith(ShowdownConnection.lineEnder)) {
-                        messageHandler(data.replace(ShowdownConnection.lineEnder, ""))
+                    if (data.endsWith(ShowdownConnection.LINE_END)) {
+                        messageHandler(data.replace(ShowdownConnection.LINE_END, ""))
                         data = ""
                     }
                 }

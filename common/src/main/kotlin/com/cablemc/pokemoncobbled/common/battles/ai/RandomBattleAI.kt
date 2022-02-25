@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.battles.ai
 
-import com.cablemc.pokemoncobbled.common.api.battles.model.Battle
+import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.ai.BattleAI
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.AIBattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
@@ -14,7 +14,7 @@ import com.cablemc.pokemoncobbled.common.api.moves.Move
  */
 class RandomBattleAI : BattleAI {
 
-    override fun chooseMove(battle: Battle, actor: AIBattleActor, opponents: List<BattleActor>): Move {
+    override fun chooseMove(battle: PokemonBattle, actor: AIBattleActor, opponents: List<BattleActor>): Move {
         TODO("Not yet implemented")
     }
 

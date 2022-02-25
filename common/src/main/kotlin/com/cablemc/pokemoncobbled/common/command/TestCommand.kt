@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.command
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.storage
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
@@ -33,21 +34,7 @@ object TestCommand {
         }
         // Player variables
         val player = context.source.entity as ServerPlayer
-        val playerSubject = PlayerBattleActor("p1", player.uuid, PokemonCobbled.storage.getParty(player))
-
-        val level = player.level
-        try {
-            val biome = level.getBiome(player.blockPosition())
-            val registry = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY)
-            registry.keySet().forEach {
-                val subbiome = registry.get(it)
-                if (subbiome == biome) {
-                    println("Found it!")
-                }
-            }
-        } catch (exception: Exception) {
-            exception.printStackTrace()
-        }
+        val playerSubject = PlayerBattleActor("p1", player.uuid, storage.getParty(player))
 
         // Enemy variables
         val enemyId = UUID.randomUUID()

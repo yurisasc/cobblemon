@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model.ai
 
-import com.cablemc.pokemoncobbled.common.api.battles.model.Battle
+import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.AIBattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.moves.Move
@@ -16,5 +16,5 @@ interface BattleAI {
      * Requests that the AI choose a move
      * @return the move choice
      */
-    fun chooseMove(battle: Battle, actor: AIBattleActor, opponents: List<BattleActor>) : Move
+    fun chooseMove(battle: PokemonBattle, actor: AIBattleActor, opponents: List<BattleActor>) : Move
 }

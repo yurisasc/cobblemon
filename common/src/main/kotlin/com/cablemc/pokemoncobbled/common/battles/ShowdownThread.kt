@@ -2,6 +2,8 @@ package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.battles.runner.JavetShowdownConnection
 import com.cablemc.pokemoncobbled.common.util.FileUtils
 import com.cablemc.pokemoncobbled.common.util.extractTo
@@ -26,8 +28,7 @@ class ShowdownThread : Thread() {
         val showdownMetadata = loadShowdownMetadata()
 
         // Check if showdown needs to be installed
-        // TODO CONFIG
-        if (!showdownDir.exists() || /*CobbledConfig.autoUpdateShowdown!!.get()*/ true) {
+        if (!showdownDir.exists() || config.autoUpdateShowdown) {
             val showdownZip = File(showdownDir, "showdown.zip")
             val showdownMetadataFile = File(showdownDir, "showdown.json")
 
@@ -52,8 +53,8 @@ class ShowdownThread : Thread() {
         }
 
         // Initialize showdown connection
-        PokemonCobbled.showdown = JavetShowdownConnection()
-        (PokemonCobbled.showdown as JavetShowdownConnection).initializeServer()
+        showdown = JavetShowdownConnection()
+        (showdown as JavetShowdownConnection).initializeServer()
 
         // Sleep for two seconds before attempting connection
         sleep(2000)
@@ -78,8 +79,7 @@ class ShowdownThread : Thread() {
         tries = 0
 
         // While showdown is not closed, continue to check connection and read messages
-        while (!PokemonCobbled.showdown.isClosed()) {
-            val showdown = PokemonCobbled.showdown
+        while (!showdown.isClosed()) {
 
             // Attempt reconnection if not connected
             if (!showdown.isConnected()) {
@@ -99,7 +99,7 @@ class ShowdownThread : Thread() {
             }
 
             // Reads messages
-            PokemonCobbled.showdown.read(ShowdownInterpreter::interpretMessage)
+            showdown.read(ShowdownInterpreter::interpretMessage)
 
             // Read messages every half a second
             sleep(500)
@@ -108,7 +108,7 @@ class ShowdownThread : Thread() {
 
     private fun attemptConnection() : Boolean {
         try {
-            PokemonCobbled.showdown.open()
+            showdown.open()
             return true
         } catch (exception: IOException) {
             return false

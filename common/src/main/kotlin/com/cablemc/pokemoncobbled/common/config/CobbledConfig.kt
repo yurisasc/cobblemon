@@ -33,4 +33,7 @@ class CobbledConfig {
 
     @NodeCategory(Category.Spawning)
     var exportSpawnsToConfig = false
+
+    @NodeCategory(Category.Battles)
+    var autoUpdateShowdown = true
 }

@@ -9,7 +9,7 @@ interface ShowdownConnection {
     fun isConnected(): Boolean
 
     companion object {
-        val lineEnder: String = "{EOT}"
-        val lineStarter: String = "{SOT}"
+        const val LINE_END = "{EOT}"
+        const val LINE_START = "{SOT}"
     }
 }
