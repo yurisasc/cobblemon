@@ -8,4 +8,29 @@ class CobbledConfig {
     @IntConstraint(min = 1, max = 1000)
     var maxPokemonLevel = 100
 
+    // TODO new types of constraint
+
+    @NodeCategory(Category.Spawning)
+    var minimumDistanceBetweenEntities = 6.0
+
+    @NodeCategory(Category.Spawning)
+    var maxNearbyBlocksRange = 8
+
+    @NodeCategory(Category.Spawning)
+    var maxHorizontalSpace = 6
+
+    @NodeCategory(Category.Spawning)
+    var maxVerticalSpace = 8
+
+    @NodeCategory(Category.Spawning)
+    var worldSliceDiameter = 8
+
+    @NodeCategory(Category.Spawning)
+    var worldSliceHeight = 8
+
+    @NodeCategory(Category.Spawning)
+    var playerMotionFactor = 8.0
+
+    @NodeCategory(Category.Spawning)
+    var exportSpawnsToConfig = false
 }

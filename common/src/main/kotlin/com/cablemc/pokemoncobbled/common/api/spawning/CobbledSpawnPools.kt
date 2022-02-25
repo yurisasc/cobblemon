@@ -1,6 +1,5 @@
-package com.cablemc.pokemoncobbled.common.spawning
+package com.cablemc.pokemoncobbled.common.api.spawning
 
-import com.cablemc.pokemoncobbled.common.api.spawning.SpawnLoader
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.ContextPrecalculation
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 

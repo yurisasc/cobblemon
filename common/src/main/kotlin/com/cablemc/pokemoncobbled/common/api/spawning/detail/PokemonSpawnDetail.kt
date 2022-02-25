@@ -1,13 +1,11 @@
-package com.cablemc.pokemoncobbled.common.spawning.detail
+package com.cablemc.pokemoncobbled.common.api.spawning.detail
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
-import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 
 /**
  * A [SpawnDetail] for spawning a [PokemonEntity].
@@ -40,7 +38,7 @@ class PokemonSpawnDetail : SpawnDetail() {
 
     fun getDerivedLevelRange() = levelRange.let { levelRange ->
         if (levelRange == null && pokemon.level == null) {
-            IntRange(1, Pokemon.MAXIMUM_LEVEL)
+            IntRange(1, config.maxPokemonLevel)
         } else if (levelRange == null) {
             IntRange(pokemon.level!!, pokemon.level!!)
         } else {

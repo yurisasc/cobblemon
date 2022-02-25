@@ -1,11 +1,11 @@
-package com.cablemc.pokemoncobbled.common.spawning
+package com.cablemc.pokemoncobbled.common.api.spawning
 
-import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.PlayerSpawner
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.PlayerSpawnerFactory
+import dev.architectury.event.events.common.PlayerEvent
+import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
+import dev.architectury.event.events.common.PlayerEvent.PLAYER_QUIT
 import net.minecraft.server.level.ServerPlayer
-import net.minecraftforge.event.entity.player.PlayerEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
 import java.util.UUID
 
 /**
@@ -19,24 +19,29 @@ import java.util.UUID
 object CobbledWorldSpawnerManager : SpawnerManager() {
     var spawnersForPlayers = mutableMapOf<UUID, PlayerSpawner>()
 
-    @SubscribeEvent
-    fun on(event: PlayerEvent.PlayerLoggedInEvent) {
-        if (event.player !is ServerPlayer) {
-            return
+    val playerJoinListener = PlayerEvent.PlayerJoin(this::onPlayerLogin)
+    val playerLeaveListener = PlayerEvent.PlayerQuit(this::onPlayerLogout)
+
+    override fun onServerStarted() {
+        super.onServerStarted()
+        if (!PLAYER_JOIN.isRegistered(playerJoinListener)) {
+            PLAYER_JOIN.register(playerJoinListener)
         }
-        val spawner = PlayerSpawnerFactory.create(this, event.player as ServerPlayer)
-        spawnersForPlayers[event.player.uuid] = spawner
+        if (!PLAYER_QUIT.isRegistered(playerLeaveListener)) {
+            PLAYER_QUIT.register(playerLeaveListener)
+        }
+    }
+
+    fun onPlayerLogin(player: ServerPlayer) {
+        val spawner = PlayerSpawnerFactory.create(this, player)
+        spawnersForPlayers[player.uuid] = spawner
         registerSpawner(spawner)
     }
 
-    @SubscribeEvent
-    fun on(event: PlayerEvent.PlayerLoggedOutEvent) {
-        if (event.player !is ServerPlayer) {
-            return
-        }
-        val spawner = spawnersForPlayers[event.entity.uuid]
+    fun onPlayerLogout(player: ServerPlayer) {
+        val spawner = spawnersForPlayers[player.uuid]
         if (spawner != null) {
-            spawnersForPlayers.remove(event.entity.uuid)
+            spawnersForPlayers.remove(player.uuid)
             unregisterSpawner(spawner)
         }
     }

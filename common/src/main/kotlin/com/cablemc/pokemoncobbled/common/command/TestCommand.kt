@@ -14,6 +14,7 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
+import net.minecraft.core.Registry
 import net.minecraft.server.level.ServerPlayer
 import java.util.UUID
 
@@ -31,8 +32,22 @@ object TestCommand {
             return Command.SINGLE_SUCCESS
         }
         // Player variables
-        val player: ServerPlayer = context.source.entity as ServerPlayer
+        val player = context.source.entity as ServerPlayer
         val playerSubject = PlayerBattleActor("p1", player.uuid, PokemonCobbled.storage.getParty(player))
+
+        val level = player.level
+        try {
+            val biome = level.getBiome(player.blockPosition())
+            val registry = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY)
+            registry.keySet().forEach {
+                val subbiome = registry.get(it)
+                if (subbiome == biome) {
+                    println("Found it!")
+                }
+            }
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+        }
 
         // Enemy variables
         val enemyId = UUID.randomUUID()

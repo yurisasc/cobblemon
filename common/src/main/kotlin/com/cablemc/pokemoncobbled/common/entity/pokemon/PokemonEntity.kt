@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
 import com.cablemc.pokemoncobbled.common.CobbledEntities
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
-import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
@@ -205,16 +204,16 @@ class PokemonEntity(
     }
 
     override fun loadAdditionalSpawnData(buffer: FriendlyByteBuf) {
-        if (this.level.isClientSide) {
-            pokemon.scaleModifier = buffer.readFloat()
-            // TODO exception handling
-            pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!!
-            // TODO exception handling
-            pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readUtf() }!!
-            phasingTargetId.set(buffer.readInt())
-            beamModeEmitter.set(buffer.readByte())
-            shiny.set(buffer.readBoolean())
-        }
+//        if (this.level.isClientSide) {
+//            pokemon.scaleModifier = buffer.readFloat()
+//            // TODO exception handling
+//            pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!!
+//            // TODO exception handling
+//            pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readUtf() }!!
+//            phasingTargetId.set(buffer.readInt())
+//            beamModeEmitter.set(buffer.readByte())
+//            shiny.set(buffer.readBoolean())
+//        }
     }
 
     override fun shouldBeSaved(): Boolean {

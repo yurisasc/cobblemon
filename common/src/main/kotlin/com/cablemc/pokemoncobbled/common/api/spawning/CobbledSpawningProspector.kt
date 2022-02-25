@@ -1,11 +1,10 @@
-package com.cablemc.pokemoncobbled.common.spawning
+package com.cablemc.pokemoncobbled.common.api.spawning
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.SpawningArea
-import com.cablemc.pokemoncobbled.mod.config.CobbledConfig.minimumDistanceBetweenEntities
 import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.block.Blocks
@@ -46,7 +45,7 @@ object CobbledSpawningProspector : SpawningProspector {
             }
         }
 
-        val minimumDistanceBetweenEntities = minimumDistanceBetweenEntities.get()
+        val minimumDistanceBetweenEntities = config.minimumDistanceBetweenEntities
         val nearbyEntityPositions = area.level.getEntities(
             if (area.cause is Entity) area.cause else null,
             AABB.ofSize(

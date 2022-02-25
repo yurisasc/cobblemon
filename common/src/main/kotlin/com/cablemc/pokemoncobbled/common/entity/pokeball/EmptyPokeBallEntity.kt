@@ -5,12 +5,9 @@ import com.cablemc.pokemoncobbled.common.CobbledItems
 import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
-import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
-import com.cablemc.pokemoncobbled.common.client.entity.EmptyPokeBallClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
@@ -65,7 +62,7 @@ class EmptyPokeBallEntity(
     val shakeEmitter = addEntityProperty(SHAKE, false)
 
     val delegate = if (level.isClientSide) {
-        com.cablemc.pokemoncobbled.client.entity.EmptyPokeBallClientDelegate()
+        com.cablemc.pokemoncobbled.common.client.entity.EmptyPokeBallClientDelegate()
     } else {
         EmptyPokeBallServerDelegate()
     }

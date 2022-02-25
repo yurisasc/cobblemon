@@ -1,8 +1,7 @@
-package com.cablemc.pokemoncobbled.common.spawning.detail
+package com.cablemc.pokemoncobbled.common.api.spawning.detail
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 

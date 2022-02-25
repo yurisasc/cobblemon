@@ -14,17 +14,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.net.PokemonCobbledNetwork.sendToPlayers
-import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
-import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
-import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
-import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
-import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
-import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
-import com.cablemc.pokemoncobbled.common.util.readMapK
-import com.cablemc.pokemoncobbled.common.util.writeMapK
+import com.cablemc.pokemoncobbled.common.net.messages.FriendshipUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
@@ -32,7 +22,15 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.Natu
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
-import com.cablemc.pokemoncobbled.common.util.*
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
+import com.cablemc.pokemoncobbled.common.util.readMapK
+import com.cablemc.pokemoncobbled.common.util.writeMapK
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
@@ -43,10 +41,6 @@ import net.minecraft.world.phys.Vec3
 import java.util.UUID
 
 class Pokemon {
-    companion object {
-        const val MAXIMUM_LEVEL = 100
-    }
-
     var uuid: UUID = UUID.randomUUID()
     var species = PokemonSpecies.EEVEE
         set(value) { field = value ; _species.emit(value) }
@@ -240,14 +234,16 @@ class Pokemon {
 
     fun getOwnerPlayer() : ServerPlayer? {
         storeCoordinates.get().let {
-            if(isPlayerOwned()) return getServer().playerList.getPlayer(it!!.store.uuid);
+            if (isPlayerOwned()) {
+                return getServer()?.playerList?.getPlayer(it!!.store.uuid)
+            }
         }
         return null
     }
 
     fun getOwnerUUID() : UUID? {
         storeCoordinates.get().let {
-            if(isPlayerOwned()) return it!!.store.uuid;
+            if (isPlayerOwned()) return it!!.store.uuid;
         }
         return null
     }
@@ -299,19 +295,19 @@ class Pokemon {
     }
 
     fun setFriendship (amount : Int) : Boolean {
-        if(validFriendship(amount)) friendship = amount
+        if (validFriendship(amount)) friendship = amount
         return friendship == amount
     }
 
     fun incrementFriendship (amount : Int) : Boolean {
         val value = friendship + amount
-        if(validFriendship(value)) friendship = value
+        if (validFriendship(value)) friendship = value
         return friendship == value
     }
 
     fun decrementFriendship (amount : Int) : Boolean {
         val value = friendship - amount
-        if(validFriendship(value)) friendship = value
+        if (validFriendship(value)) friendship = value
         return friendship == value
     }
 }

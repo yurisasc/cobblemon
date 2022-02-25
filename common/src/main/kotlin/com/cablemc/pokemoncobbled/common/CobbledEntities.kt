@@ -32,7 +32,7 @@ object CobbledEntities {
                     .add(Attributes.MOVEMENT_SPEED)
                     .add(Attributes.JUMP_STRENGTH)
                     .add(Attributes.KNOCKBACK_RESISTANCE)
-                    .also { CobbledEvents.ENTITY_ATTRIBUTE_EVENT.post(EntityAttributeEvent(POKEMON_TYPE, it)) }
+                    .also { CobbledEvents.ENTITY_ATTRIBUTE.post(EntityAttributeEvent(POKEMON_TYPE, it)) }
             }
         )
     }

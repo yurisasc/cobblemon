@@ -3,9 +3,11 @@ package com.cablemc.pokemoncobbled.common.api.reactive
 import com.cablemc.pokemoncobbled.common.api.events.Cancelable
 
 open class EventObservable<T> : SimpleObservable<T>() {
-    fun post(event: T, then: (T) -> Unit = {}) {
-        emit(event)
-        then(event)
+    fun post(vararg events: T, then: (T) -> Unit = {}) {
+        // Issuing generic-typed  pass-throughs to varargs doesn't work
+        // properly unless the source is a vararg as well, complicated story.
+        emit(*events)
+        events.forEach(then)
     }
 }
 

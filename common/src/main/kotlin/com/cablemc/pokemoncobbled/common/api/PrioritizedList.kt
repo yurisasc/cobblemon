@@ -9,8 +9,7 @@ package com.cablemc.pokemoncobbled.common.api
  * @since February 18th, 2022
  */
 class PrioritizedList<T> : Iterable<T> {
-    val priorityMap = mutableMapOf<Priority, MutableList<T>>()
-
+    private val priorityMap = mutableMapOf<Priority, MutableList<T>>()
     private val ordered = mutableListOf<T>()
     private fun reorder() {
         ordered.clear()

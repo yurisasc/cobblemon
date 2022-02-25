@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.client
 
 import com.cablemc.pokemoncobbled.common.CobbledEntities.EMPTY_POKEBALL_TYPE
 import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.client.gui.PartyOverlay
 import com.cablemc.pokemoncobbled.common.client.net.ClientPacketRegistrar
@@ -13,7 +14,6 @@ import com.cablemc.pokemoncobbled.common.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.common.client.storage.ClientStorageManager
 import com.mojang.blaze3d.vertex.PoseStack
-import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
 import net.minecraft.client.model.PlayerModel
@@ -36,7 +36,6 @@ object PokemonCobbledClient {
 
         PokemonModelRepository.init()
         PokeBallModelRepository.init()
-
         registerRenderers()
     }
 
@@ -53,10 +52,12 @@ object PokemonCobbledClient {
 
     fun registerRenderers() {
         EntityRenderers.register(POKEMON_TYPE) {
+            LOGGER.info("Registering Pokémon renderer")
             PokemonModelRepository.initializeModels(it)
             PokemonRenderer(it)
         }
         EntityRenderers.register(EMPTY_POKEBALL_TYPE) {
+            LOGGER.info("Registering PokéBall renderer")
             PokeBallModelRepository.initializeModels(it)
             PokeBallRenderer(it)
         }

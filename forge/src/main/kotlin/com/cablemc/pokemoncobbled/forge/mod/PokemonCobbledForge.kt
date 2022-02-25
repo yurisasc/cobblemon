@@ -9,12 +9,10 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
-import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
 import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.common.ForgeMod
-import net.minecraftforge.fml.ModLoadingContext
-import net.minecraftforge.fml.config.ModConfig
+import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
@@ -24,7 +22,7 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(PokemonCobbled.MODID, this)
 
-            CobbledEvents.ENTITY_ATTRIBUTE_EVENT.pipe(filter { it.entityType == POKEMON_TYPE }, takeFirst())
+            CobbledEvents.ENTITY_ATTRIBUTE.pipe(filter { it.entityType == POKEMON_TYPE }, takeFirst())
                 .subscribe {
                     it.attributeSupplier
                         .add(ForgeMod.ENTITY_GRAVITY.get())
@@ -42,7 +40,6 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
     }
 
     fun serverInit(event: FMLDedicatedServerSetupEvent) {
-        println("Dedi init")
         event.enqueueWork {
             ServerPacketRegistrar.registerHandlers()
             CobbledNetwork.register()
@@ -53,6 +50,7 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
         LOGGER.info("Initializing...")
 
         PokemonCobbled.initialize()
-
     }
+
+    override fun isModInstalled(id: String) = ModList.get().isLoaded(id)
 }
