@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
+import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
@@ -14,6 +15,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.FriendshipUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
@@ -84,6 +86,9 @@ class Pokemon {
     var moveSet: MoveSet = MoveSet()
         set(value) { field = value ; _moveSet.emit(value) }
 
+    /** All the moves that the Pokémon has learned over its lifetime. */
+    val learnedMoves = mutableListOf<MoveTemplate>()
+
     var ability: Ability = form.standardAbilities.random().create()
 
     val stats = pokemonStatsOf(
@@ -127,7 +132,8 @@ class Pokemon {
         nbt.put(DataKeys.POKEMON_MOVESET, moveSet.getNBT())
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
         nbt.putBoolean(DataKeys.POKEMON_SHINY, shiny)
-        ability.saveToNBT(nbt)
+        val abilityNBT = ability.saveToNBT(CompoundTag())
+        nbt.put(DataKeys.POKEMON_ABILITY, abilityNBT)
         state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
             return nbt
     }
@@ -143,17 +149,18 @@ class Pokemon {
         stats.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_STATS))
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
         evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
-        scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         moveSet = MoveSet.loadFromNBT(nbt)
-        nbt.putString(DataKeys.POKEMON_ABILITY_NAME, "drought")
-
-        ability = Abilities.getOrException(nbt.getString(DataKeys.POKEMON_ABILITY_NAME)).create(nbt)
+        scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
+        learnedMoves.clear()
+        val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: CompoundTag()
+        val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "drought"
+        ability = Abilities.getOrException(abilityName).create(abilityNBT)
         shiny = nbt.getBoolean(DataKeys.POKEMON_SHINY)
         if (nbt.contains(DataKeys.POKEMON_STATE)) {
             val stateNBT = nbt.getCompound(DataKeys.POKEMON_STATE)
             val type = stateNBT.getString(DataKeys.POKEMON_STATE_TYPE)
             val clazz = PokemonState.states[type]
-            state = clazz?.newInstance()?.readFromNBT(stateNBT) ?: InactivePokemonState()
+            state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromNBT(stateNBT) ?: InactivePokemonState()
         }
         return this
     }
@@ -169,12 +176,14 @@ class Pokemon {
         json.add(DataKeys.POKEMON_STATS, stats.saveToJSON(JsonObject()))
         json.add(DataKeys.POKEMON_IVS, ivs.saveToJSON(JsonObject()))
         json.add(DataKeys.POKEMON_EVS, evs.saveToJSON(JsonObject()))
+        json.add(DataKeys.POKEMON_MOVESET, moveSet.saveToJSON(JsonObject()))
+        json.addProperty(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
+        json.add(DataKeys.POKEMON_ABILITY, ability.saveToJSON(JsonObject()))
         json.addProperty(DataKeys.POKEMON_SHINY, shiny)
         state.writeToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATE, it) }
         return json
     }
 
-    // TODO Ability, MoveSet
     fun loadFromJSON(json: JsonObject): Pokemon {
         uuid = UUID.fromString(json.get(DataKeys.POKEMON_UUID).asString)
         species = PokemonSpecies.getByPokedexNumber(json.get(DataKeys.POKEMON_SPECIES_DEX).asInt)
@@ -186,17 +195,20 @@ class Pokemon {
         stats.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_STATS))
         ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
         evs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_EVS))
+        moveSet = MoveSet.loadFromJSON(json.get(DataKeys.POKEMON_MOVESET).asJsonObject)
+        scaleModifier = json.get(DataKeys.POKEMON_SCALE_MODIFIER).asFloat
+        val abilityJSON = json.get(DataKeys.POKEMON_ABILITY)?.asJsonObject ?: JsonObject()
+        ability = Abilities.getOrException(abilityJSON.get(DataKeys.POKEMON_ABILITY_NAME)?.asString ?: "drought").create(abilityJSON)
         shiny = json.get(DataKeys.POKEMON_SHINY).asBoolean
         if (json.has(DataKeys.POKEMON_STATE)) {
             val stateJson = json.get(DataKeys.POKEMON_STATE).asJsonObject
             val type = stateJson.get(DataKeys.POKEMON_STATE_TYPE).asString
             val clazz = PokemonState.states[type]
-            state = clazz?.newInstance()?.readFromJSON(stateJson) ?: InactivePokemonState()
+            state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromJSON(stateJson) ?: InactivePokemonState()
         }
         return this
     }
 
-    // TODO Ability
     fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
         buffer.writeUUID(uuid)
         buffer.writeShort(species.nationalPokedexNumber)
@@ -204,29 +216,32 @@ class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(friendship)
         buffer.writeShort(health)
-        buffer.writeMapK(map = stats) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        buffer.writeMapK(map = stats, size = IntSize.INT) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        buffer.writeMapK(map = ivs, size = IntSize.U_BYTE) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeByte(value) }
+        buffer.writeMapK(map = evs, size = IntSize.U_SHORT) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
         moveSet.saveToBuffer(buffer)
-        buffer.writeMapK(map = evs) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        buffer.writeFloat(scaleModifier)
+        buffer.writeUtf(ability.name)
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
         return buffer
     }
 
-    // TODO Ability
     fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
         uuid = buffer.readUUID()
         species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())
-            ?: throw IllegalStateException("Pokemon#loadFromBuffer cannot find the species! Species reference data has not been synchronized correct!")
+            ?: throw IllegalStateException("Pokemon#loadFromBuffer cannot find the species! Species reference data has not been synchronized correctly!")
         val formId = buffer.readUtf()
         form = species.forms.find { it.name == formId } ?: species.forms.first()
         level = buffer.readUnsignedByte().toInt()
         friendship = buffer.readUnsignedShort()
         health = buffer.readUnsignedShort()
-        // TODO throw exception or dummy stat?
-        buffer.readMapK(map = stats) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
+        buffer.readMapK(map = stats, size = IntSize.INT) { Stats.getStat(buffer.readUtf()) to buffer.readUnsignedShort() }
+        buffer.readMapK(map = ivs, size = IntSize.U_BYTE) { Stats.getStat(buffer.readUtf()) to buffer.readUnsignedByte().toInt() }
+        buffer.readMapK(map = evs, size = IntSize.U_SHORT) { Stats.getStat(buffer.readUtf()) to buffer.readUnsignedShort() }
         moveSet = MoveSet.loadFromBuffer(buffer)
-        // TODO throw exception or dummy stat?
-        buffer.readMapK(map = evs) { Stats.getStat(buffer.readUtf())!! to buffer.readUnsignedShort() }
+        scaleModifier = buffer.readFloat()
+        ability = Abilities.getOrException(buffer.readUtf()).create()
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
         return this

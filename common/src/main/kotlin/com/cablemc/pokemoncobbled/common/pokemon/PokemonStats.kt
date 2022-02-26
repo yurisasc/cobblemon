@@ -37,7 +37,7 @@ open class PokemonStats : HashMap<Stat, Int>() {
 
     fun loadFromNBT(nbt: CompoundTag): PokemonStats {
         nbt.allKeys.forEach { statId ->
-            val stat = Stats.getStat(statId) ?: return@forEach // TODO error probably? Or anonymous stat class to hold it and persist
+            val stat = Stats.getStat(statId)
             this[stat] = nbt.getShort(statId).toInt()
         }
         return this
