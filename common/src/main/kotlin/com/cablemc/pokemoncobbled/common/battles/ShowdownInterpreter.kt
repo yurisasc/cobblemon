@@ -1,16 +1,16 @@
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
-import com.cablemc.pokemoncobbled.common.api.battles.model.Battle
+import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import java.util.UUID
 
 object ShowdownInterpreter {
 
-    private val updateInstructions = mutableMapOf<String, (Battle, String) -> Unit>()
-    private val sideUpdateInstructions = mutableMapOf<String, (Battle, BattleActor, String) -> Unit>()
-    private val splitUpdateInstructions = mutableMapOf<String, (Battle, BattleActor, String, String) -> Unit>()
+    private val updateInstructions = mutableMapOf<String, (PokemonBattle, String) -> Unit>()
+    private val sideUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, String) -> Unit>()
+    private val splitUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, String, String) -> Unit>()
 
     init {
         updateInstructions["|player|"] = this::handlePlayerInstruction
@@ -37,8 +37,8 @@ object ShowdownInterpreter {
 
     fun interpretMessage(message: String) {
         // Check key map and use function if matching
-        val battleId = message.split(ShowdownConnection.lineStarter)[0]
-        val rawMessage = message.replace(battleId + ShowdownConnection.lineStarter, "")
+        val battleId = message.split(ShowdownConnection.LINE_START)[0]
+        val rawMessage = message.replace(battleId + ShowdownConnection.LINE_START, "")
         val lines = rawMessage.split("\n")
 
         val battle = BattleRegistry.getBattle(UUID.fromString(battleId))
@@ -111,7 +111,7 @@ object ShowdownInterpreter {
      * AVATAR is unused currently
      * RATING is unused currently
      */
-    private fun handlePlayerInstruction(battle: Battle, message: String) {
+    private fun handlePlayerInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -123,7 +123,7 @@ object ShowdownInterpreter {
      * PLAYER is p1 or p2 unless 4 player battle which adds p3 and p4
      * NUMBER is number of Pokemon your opponent starts with for team preview.
      */
-    private fun handleTeamSizeInstruction(battle: Battle, message: String) {
+    private fun handleTeamSizeInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -134,7 +134,7 @@ object ShowdownInterpreter {
      * Definitions:
      * GAMETYPE is singles, doubles, triples, multi, and or freeforall
      */
-    private fun handleGameTypeInstruction(battle: Battle, message: String) {
+    private fun handleGameTypeInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -146,7 +146,7 @@ object ShowdownInterpreter {
      * GENNUM is Generation number, from 1 to 7. Stadium counts as its respective gens;
      * Let's Go counts as 7, and modded formats count as whatever gen they were based on.
      */
-    private fun handleGenInstruction(battle: Battle, message: String) {
+    private fun handleGenInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -157,7 +157,7 @@ object ShowdownInterpreter {
      * Definitions:
      * FORMATNAME is the name of the format being played.
      */
-    private fun handleTierInstruction(battle: Battle, message: String) {
+    private fun handleTierInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -170,7 +170,7 @@ object ShowdownInterpreter {
      * Message: Will be sent if the game is official in some other way, such as being a tournament game.
      * Does not actually mean the game is rated.
      */
-    private fun handleRatedInstruction(battle: Battle, message: String) {
+    private fun handleRatedInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -181,7 +181,7 @@ object ShowdownInterpreter {
      * Definitions:
      * RULE is a rule and its description
      */
-    private fun handleRuleInstruction(battle: Battle, message: String) {
+    private fun handleRuleInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -191,7 +191,7 @@ object ShowdownInterpreter {
      *
      * Marks the start of Team Preview
      */
-    private fun handleClearPokeInstruction(battle: Battle, message: String) {
+    private fun handleClearPokeInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -205,7 +205,7 @@ object ShowdownInterpreter {
      * DETAILS describes the pokemon
      * ITEM will be a item if the pokemon is holding an item or blank if it isn't
      */
-    private fun handlePokeInstruction(battle: Battle, message: String) {
+    private fun handlePokeInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -213,7 +213,7 @@ object ShowdownInterpreter {
      * Format:
      * |teampreview indicates team preview is over
      */
-    private fun handleTeamPreviewInstruction(battle: Battle, message: String) {
+    private fun handleTeamPreviewInstruction(battle: PokemonBattle, message: String) {
         LOGGER.info("Start Team Preview Instruction")
     }
 
@@ -223,7 +223,7 @@ object ShowdownInterpreter {
      *
      * Indicates that the game has started.
      */
-    private fun handleStartInstruction(battle: Battle, message: String) {
+    private fun handleStartInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -233,7 +233,7 @@ object ShowdownInterpreter {
      *
      * It is now turn NUMBER.
      */
-    private fun handleTurnInstruction(battle: Battle, message: String) {
+    private fun handleTurnInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -243,7 +243,7 @@ object ShowdownInterpreter {
      *
      * The Pokémon POKEMON has fainted.
      */
-    private fun handleFaintInstruction(battle: Battle, message: String) {
+    private fun handleFaintInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -251,16 +251,16 @@ object ShowdownInterpreter {
      * Format:
      * |win|GAMEUUID
      */
-    private fun handleWinInstruction(battle: Battle, message: String) {
+    private fun handleWinInstruction(battle: PokemonBattle, message: String) {
 
     }
 
     // |move|p1a: Charizard|Tackle|p2a: Magikarp
-    private fun handleMoveInstruction(battle: Battle, message: String) {
+    private fun handleMoveInstruction(battle: PokemonBattle, message: String) {
 
     }
 
-    private fun handleCantInstruction(battle: Battle, message: String) {
+    private fun handleCantInstruction(battle: PokemonBattle, message: String) {
 
     }
 
@@ -270,11 +270,11 @@ object ShowdownInterpreter {
      *
      * The protocol message to tell you that it's time for you to make a decision is:
      */
-    private fun handleRequestInstruction(battle: Battle, battleActor: BattleActor, message: String) {
+    private fun handleRequestInstruction(battle: PokemonBattle, battleActor: BattleActor, message: String) {
 
     }
 
-    private fun handleSwitchInstruction(battle: Battle, battleActor: BattleActor, publicMessage: String, privateMessage: String) {
+    private fun handleSwitchInstruction(battle: PokemonBattle, battleActor: BattleActor, publicMessage: String, privateMessage: String) {
 
     }
 
