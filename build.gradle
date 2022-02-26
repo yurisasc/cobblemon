@@ -4,7 +4,7 @@ plugins {
     // This kotlin one probably isn't what we want
     id 'org.jetbrains.kotlin.jvm' version '1.6.10'
 }
-`
+
 sourceCompatibility = 17
 targetCompatibility = 17
 

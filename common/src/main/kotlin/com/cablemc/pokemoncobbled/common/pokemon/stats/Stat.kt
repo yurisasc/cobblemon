@@ -5,7 +5,8 @@ interface Stat {
     val name: String
         get() = "stat.$id.name"
 
-    class Dummy(override val id: String) : Stat {
-        override val name = id
-    }
+    class Dummy(
+        override val id: String,
+        override val name: String = id
+    ) : Stat
 }
