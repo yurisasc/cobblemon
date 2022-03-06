@@ -6,14 +6,15 @@ import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitW
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getServer
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerPlayer
@@ -168,52 +169,14 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return this
     }
 
-    /**
-     * Packs a team into the showdown format
-     * @return a string of the packed team
-     */
-    fun packTeam() : String {
-        val team = mutableListOf<String>()
-        for (pokemon in this) {
-            val packedTeamBuilder = StringBuilder()
-            // If no nickname, write species first and leave next blank
-            packedTeamBuilder.append("${pokemon.species.name}|")
-            // Species, left empty if no nickname
-            packedTeamBuilder.append("|")
-            // Held item, empty if non TODO: Replace with actual held item
-            packedTeamBuilder.append("|")
-            // Ability
-            packedTeamBuilder.append("${pokemon.ability.name.replace("_", "")}|")
-            // Moves
-            packedTeamBuilder.append(
-                "${
-                    pokemon.moveSet.getMoves().map { move -> move.name.replace("_", "") }.joinToString(",")
-                }|"
-            )
-            // Nature
-            packedTeamBuilder.append("${pokemon.nature.name.path}|")
-            // EVs
-            packedTeamBuilder.append("${pokemon.evs.map { ev -> ev.value }.joinToString(",")}|")
-            // Gender TODO: Replace with actual gender variable
-            packedTeamBuilder.append("M|")
-            // IVs
-            packedTeamBuilder.append("${pokemon.ivs.map { iv -> iv.value }.joinToString(",")}|")
-            // Shiny
-            packedTeamBuilder.append("${if (pokemon.shiny) "S" else ""}|")
-            // Level
-            packedTeamBuilder.append("${pokemon.level}|")
-            // Happiness TODO: Replace with actual happiness variable
-            packedTeamBuilder.append("255|")
-            // Caught Ball TODO: Replace with actual pokeball variable
-            packedTeamBuilder.append("|")
-            // Hidden Power Type
-            packedTeamBuilder.append("|")
-
-            team.add(packedTeamBuilder.toString())
-        }
-        return team.joinToString("]")
-    }
-
     override fun getAnyChangeObservable(): Observable<Unit> = anyChangeObservable
+
+    fun toBattleTeam(clone: Boolean = false) = map {
+        return@map if (clone) {
+            BattlePokemon.safeCopyOf(it)
+        } else {
+            BattlePokemon(it)
+        }
+    }
 }
 

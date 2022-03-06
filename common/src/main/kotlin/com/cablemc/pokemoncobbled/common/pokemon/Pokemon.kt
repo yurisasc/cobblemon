@@ -202,8 +202,8 @@ class Pokemon {
         shiny = json.get(DataKeys.POKEMON_SHINY).asBoolean
         if (json.has(DataKeys.POKEMON_STATE)) {
             val stateJson = json.get(DataKeys.POKEMON_STATE).asJsonObject
-            val type = stateJson.get(DataKeys.POKEMON_STATE_TYPE).asString
-            val clazz = PokemonState.states[type]
+            val type = stateJson.get(DataKeys.POKEMON_STATE_TYPE)?.asString
+            val clazz = type?.let { PokemonState.states[it] }
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromJSON(stateJson) ?: InactivePokemonState()
         }
         return this
@@ -225,6 +225,18 @@ class Pokemon {
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
         return buffer
+    }
+
+    fun clone(useJSON: Boolean = true, newUUID: Boolean = true): Pokemon {
+        val pokemon = if (useJSON) {
+            Pokemon().loadFromJSON(saveToJSON(JsonObject()))
+        } else {
+            Pokemon().loadFromNBT(saveToNBT(CompoundTag()))
+        }
+        if (newUUID) {
+            pokemon.uuid = UUID.randomUUID()
+        }
+        return pokemon
     }
 
     fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {

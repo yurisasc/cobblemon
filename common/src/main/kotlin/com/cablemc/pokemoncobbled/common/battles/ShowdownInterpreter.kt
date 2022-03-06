@@ -9,8 +9,13 @@ import com.cablemc.pokemoncobbled.common.api.text.aqua
 import com.cablemc.pokemoncobbled.common.api.text.bold
 import com.cablemc.pokemoncobbled.common.api.text.gold
 import com.cablemc.pokemoncobbled.common.api.text.onClick
+import com.cablemc.pokemoncobbled.common.api.text.plus
+import com.cablemc.pokemoncobbled.common.api.text.red
+import com.cablemc.pokemoncobbled.common.api.text.text
+import com.cablemc.pokemoncobbled.common.api.text.yellow
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
+import com.cablemc.pokemoncobbled.common.util.battleLang
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.TextComponent
 import java.util.UUID
@@ -57,8 +62,6 @@ object ShowdownInterpreter {
         }
 
         if (lines[0] == "update") {
-            println("WE HAVE UPDATE FOR $battleId")
-
             var i = 1;
             while (i < lines.size) {
                 val line = lines[i]
@@ -150,7 +153,7 @@ object ShowdownInterpreter {
         val tierName = message.split("|gametype|")[1]
         val textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
         battle.broadcastChatMessage(textComponent)
-        battle.broadcastChatMessage(TextComponent(""))
+        battle.broadcastChatMessage("".text())
     }
 
     /**
@@ -180,7 +183,7 @@ object ShowdownInterpreter {
         val tierName = message.split("|tier|")[1]
         val textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
         battle.broadcastChatMessage(textComponent)
-        battle.broadcastChatMessage(TextComponent(""))
+        battle.broadcastChatMessage("".text())
     }
 
     /**
@@ -205,15 +208,14 @@ object ShowdownInterpreter {
      */
     private fun handleRuleInstruction(battle: PokemonBattle, message: String) {
         LOGGER.info("Rule Instruction")
-
-        if (battle.announcingRules == false) {
+        if (!battle.announcingRules) {
             battle.announcingRules = true
-            var textComponent = TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Rules:")
+            val textComponent = TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Rules:")
             battle.broadcastChatMessage(textComponent)
         }
 
-        val rule = message.split("|rule|")[1]
-        var textComponent = TextComponent("${ChatFormatting.GRAY} - ${rule}")
+        val rule = message.substringAfter("|rule|")
+        val textComponent = TextComponent("${ChatFormatting.GRAY} - $rule")
         battle.broadcastChatMessage(textComponent)
     }
 
@@ -253,7 +255,7 @@ object ShowdownInterpreter {
 
         if (targetActor is PlayerBattleActor) {
             if (!targetActor.announcingPokemon) {
-                battle.broadcastChatMessage(TextComponent(""))
+                battle.broadcastChatMessage("".text())
                 targetActor.announcingPokemon = true
                 val textComponent = TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Your Team:")
                 targetActor.sendMessage(textComponent)
@@ -280,6 +282,7 @@ object ShowdownInterpreter {
      */
     private fun handleStartInstruction(battle: PokemonBattle, message: String) {
         LOGGER.info("Start Instruction")
+        battle.started = true
     }
 
     /**
@@ -289,9 +292,9 @@ object ShowdownInterpreter {
      * It is now turn NUMBER.
      */
     private fun handleTurnInstruction(battle: PokemonBattle, message: String) {
-        battle.broadcastChatMessage(TextComponent(""))
+        battle.broadcastChatMessage("".text())
         battle.broadcastChatMessage(TextComponent("${ChatFormatting.AQUA}" + ">>> ${ChatFormatting.BOLD}It is now turn " + message.split("|turn|")[1]))
-        battle.broadcastChatMessage(TextComponent(""))
+        battle.broadcastChatMessage("".text())
     }
 
     /**
@@ -304,19 +307,20 @@ object ShowdownInterpreter {
         val player = message.split("|faint|")[1].substring(0, 2)
         val pokemon = message.split("|faint|")[1].split(" ")[1]
         val actor = battle.getActor(player)
-
-        battle.broadcastChatMessage(TextComponent(""))
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.RED}" + ">>> ${ChatFormatting.BOLD}${actor!!.getName()}'s $pokemon has fainted!"))
-        battle.broadcastChatMessage(TextComponent(""))
+        println("$pokemon was the faint target")
+        // TODO this SHOULD use [BattlePokemon].getName() instead of pokemon in the battleLang call
+        battle.broadcastChatMessage("".text())
+        battle.broadcastChatMessage(">>> ".red() + battleLang("fainted", pokemon).gold())
+        battle.broadcastChatMessage("".text())
     }
 
     private fun handleWinInstruction(battle: PokemonBattle, message: String) {
         val id = message.split("|win|")[1]
         val actor = battle.getActor(UUID.fromString(id))
 
-        battle.broadcastChatMessage(TextComponent(""))
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}" + ">>> ${ChatFormatting.BOLD}${actor!!.getName()} has won the battle!!"))
-        battle.broadcastChatMessage(TextComponent(""))
+        battle.broadcastChatMessage("".text())
+        battle.broadcastChatMessage(">>> ".gold() + actor!!.getName().bold().gold() + " has won the battle!".gold())
+        battle.broadcastChatMessage("".text())
 
         BattleRegistry.closeBattle(battle)
     }
@@ -325,17 +329,27 @@ object ShowdownInterpreter {
     private fun handleMoveInstruction(battle: PokemonBattle, message: String) {
         val editMessaged = message.replace("|move|", "")
 
+        val userKey = editMessaged.split("|")[0].split(":")[0]
+
+
         val playerA = editMessaged.split("|")[0].substring(0, 2)
         val pokemonA = editMessaged.split("|")[0].split(" ")[1]
         val actorA = battle.getActor(playerA)
+
+        val targetKey = editMessaged.split("|")[2].split(":")[0]
+
 
         val playerB = editMessaged.split("|")[2].substring(0, 2)
         val pokemonB = editMessaged.split("|")[2].split(" ")[1]
         val actorB = battle.getActor(playerB)
 
         val move = editMessaged.split("|")[1].split("|")[0]
-        battle.broadcastChatMessage(TextComponent(""))
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.YELLOW}" + ">>> ${ChatFormatting.BOLD}${actorA!!.getName()}'s $pokemonA has used $move on ${actorB!!.getName()}'s $pokemonB!!"))
+        battle.broadcastChatMessage("".text())
+        battle.broadcastChatMessage(">>> ".yellow() + battleLang(
+            key = "used_move",
+            actorA!!.getName().gold().bold() + "'s $pokemonA",
+            move,
+            actorB!!.getName().gold().bold() + "'s $pokemonB"))
     }
 
     private fun handleCantInstruction(battle: PokemonBattle, message: String) {
@@ -348,7 +362,7 @@ object ShowdownInterpreter {
         val action = editMessaged.split("|")[1]
         val actionText = if (action == "flinch") "flinched" else action
 
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.RED}" + ">>> ${ChatFormatting.BOLD}${actorA!!.getName()}'s $pokemonA has $actionText"))
+        battle.broadcastChatMessage(">>> ".red() + actorA!!.getName().red().bold() + "'s $pokemonA has $actionText".red())
     }
 
 
@@ -376,7 +390,7 @@ object ShowdownInterpreter {
 
             // Force switch to toggle
             if (message.contains("forceSwitch")) {
-                battleActor.sendMessage(TextComponent(""))
+                battleActor.sendMessage("".text())
                 battleActor.sendMessage("Switch your Pokemon!".gold().bold())
                 // ">${actor.showdownId} switch ${context.getArgument("pokemon", Integer::class.java)}"
                 // TODO list party pokemon
@@ -384,10 +398,14 @@ object ShowdownInterpreter {
                 after(ticks = 1) {
                     battleActor.sendMessage("Pick a move".gold().bold())
                     val canSelectMove = AtomicBoolean(false)
-                    request.active[0].moves.forEachIndexed { index, move ->
-                        battleActor.sendMessage("- ${move.move}".aqua().onClick(canSelectMove) {
-                            battle.writeShowdownAction(">${battleActor.showdownId} move ${index + 1}")
-                        })
+                    if (request.active != null && request.active.isNotEmpty()) {
+                        request.active[0].moves.forEachIndexed { index, move ->
+                            battleActor.sendMessage("- ${move.move}".aqua().onClick(canSelectMove) {
+                                battle.writeShowdownAction(">${battleActor.showdownId} move ${index + 1}")
+                            })
+                        }
+                    } else {
+                        battle.end()
                     }
                 }
             }

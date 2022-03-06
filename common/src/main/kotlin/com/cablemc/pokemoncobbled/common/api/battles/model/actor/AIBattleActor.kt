@@ -2,13 +2,14 @@ package com.cablemc.pokemoncobbled.common.api.battles.model.actor
 
 import com.cablemc.pokemoncobbled.common.api.battles.model.ai.BattleAI
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
+import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import java.util.*
 
-open class AIBattleActor(
+abstract class AIBattleActor(
     showdownId: String,
     gameId: UUID,
-    party: PartyStore,
+    pokemonList: List<BattlePokemon>,
     val battleAI: BattleAI
-) : BattleActor(showdownId, gameId, party) {
+) : BattleActor(showdownId, gameId, pokemonList) {
 
 }

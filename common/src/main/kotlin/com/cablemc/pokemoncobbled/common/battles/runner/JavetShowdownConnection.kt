@@ -15,7 +15,7 @@ class JavetShowdownConnection : ShowdownConnection {
     private var closed = false
 
     fun initializeServer() {
-        process = exec(ShowdownServer.javaClass, listOf(File("showdown/scripts/index.js").canonicalPath))
+        process = exec(ShowdownServer::class.java, listOf(File("showdown/scripts/index.js").canonicalPath))
         Runtime.getRuntime().addShutdownHook(object : Thread() {
             override fun run() {
                 close()

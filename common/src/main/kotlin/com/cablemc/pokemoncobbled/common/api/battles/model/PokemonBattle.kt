@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
+import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.google.gson.JsonArray
@@ -24,8 +25,9 @@ class PokemonBattle(
 ) {
 
     val battleId = UUID.randomUUID()
-    val format = "gen7ou"
+    val format = "gen7doubles"
 
+    var started = false
     // TEMP battle showcase stuff
     var announcingRules = false
 
@@ -44,6 +46,13 @@ class PokemonBattle(
     fun getActor(actorId: UUID) : BattleActor? {
         return actors.find { actor -> actor.gameId == actorId }
     }
+//
+//    fun getActorAndPokemon(key: String): Pair<BattleActor, BattlePokemon>? {
+//        val actor = actors.find { it.showdownId == key.substring(0, 2) }
+//
+//    }
+
+//    fun getPokemon(showdownLabel: String): Pokemo
 
     fun broadcastChatMessage(component: Component) {
         return actors.forEach { it.sendMessage(component) }
@@ -59,5 +68,9 @@ class PokemonBattle(
         request.addProperty(DataKeys.REQUEST_BATTLE_ID, battleId.toString())
         request.add(DataKeys.REQUEST_MESSAGES, jsonArray)
         showdown.write(BattleRegistry.gson.toJson(request))
+    }
+
+    fun end() {
+//        showdown.write()
     }
 }
