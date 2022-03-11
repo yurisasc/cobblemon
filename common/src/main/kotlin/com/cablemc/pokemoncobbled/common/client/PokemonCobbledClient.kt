@@ -1,7 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client
 
+import com.cablemc.pokemoncobbled.common.CobbledBlocks
 import com.cablemc.pokemoncobbled.common.CobbledEntities.EMPTY_POKEBALL_TYPE
 import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
+import com.cablemc.pokemoncobbled.common.CobbledItems
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.client.gui.PartyOverlay
@@ -16,6 +18,9 @@ import com.cablemc.pokemoncobbled.common.client.storage.ClientStorageManager
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
+import net.minecraft.client.Minecraft
+import net.minecraft.client.color.block.BlockColor
+import net.minecraft.client.color.item.ItemColor
 import net.minecraft.client.model.PlayerModel
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRenderers
@@ -26,6 +31,9 @@ object PokemonCobbledClient {
     val storage = ClientStorageManager()
 
     lateinit var overlay: PartyOverlay
+
+    // Remove once we have a late init of some sort
+    private var registeredColors = false
 
     fun initialize() {
         CLIENT_PLAYER_JOIN.register { storage.onLogin() }
@@ -64,6 +72,17 @@ object PokemonCobbledClient {
     }
 
     fun reloadCodedAssets() {
+        if(!registeredColors) {
+            Minecraft.getInstance().blockColors.register(BlockColor { blockState, blockAndTintGetter, blockPos, i ->
+                return@BlockColor 0x71c219;
+            }, CobbledBlocks.APRICORN_LEAVES.get())
+
+            Minecraft.getInstance().itemColors.register(ItemColor { itemStack, i ->
+                return@ItemColor 0x71c219;
+            }, CobbledItems.APRICORN_LEAVES.get())
+
+            registeredColors = true
+        }
         BedrockAnimationRepository.clear()
         PokemonModelRepository.reload()
         PokeBallModelRepository.reload()

@@ -1,5 +1,18 @@
 {
   "item.pokemoncobbled.poke_ball": "Pokeball",
+  "item.pokemoncobbled.black_apricorn": "Black Apricorn",
+  "item.pokemoncobbled.blue_apricorn": "Blue Apricorn",
+  "item.pokemoncobbled.green_apricorn": "Green Apricorn",
+  "item.pokemoncobbled.pink_apricorn": "Pink Apricorn",
+  "item.pokemoncobbled.red_apricorn": "Red Apricorn",
+  "item.pokemoncobbled.white_apricorn": "White Apricorn",
+  "item.pokemoncobbled.yellow_apricorn": "Yellow Apricorn",
+  "block.pokemoncobbled.apricorn_log": "Apricorn Log",
+  "block.pokemoncobbled.stripped_apricorn_log": "Stripped Apricorn Log",
+  "block.pokemoncobbled.apricorn_planks": "Apricorn Planks",
+  "block.pokemoncobbled.apricorn_leaves": "Apricorn Leaves",
+  "itemGroup.minecraft.pokemoncobbled.pokeballtab": "Pokeballs",
+
   "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
   "itemGroup.pokemoncobbled.pokeballtab": "Poké Balls",

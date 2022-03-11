@@ -6,3 +6,5 @@ accessible method net/minecraft/world/entity/player/Player respawnEntityOnShould
 accessible method net/minecraft/world/entity/player/Player getShoulderEntityLeft ()Lnet/minecraft/nbt/CompoundTag;
 accessible method net/minecraft/world/entity/player/Player getShoulderEntityRight ()Lnet/minecraft/nbt/CompoundTag;
 accessible method net/minecraft/client/renderer/entity/EntityRenderers register (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/client/renderer/entity/EntityRendererProvider;)V
+accessible    field    net/minecraft/client/Minecraft    itemColors    Lnet/minecraft/client/color/item/ItemColors;
+accessible method net/minecraft/data/worldgen/features/TreeFeatures createStraightBlobTree (Lnet/minecraft/world/level/block/Block;Lnet/minecraft/world/level/block/Block;IIII)Lnet/minecraft/world/level/levelgen/feature/configurations/TreeConfiguration$TreeConfigurationBuilder;

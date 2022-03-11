@@ -11,6 +11,9 @@ class CobbledConfig {
     // TODO new types of constraint
 
     @NodeCategory(Category.Spawning)
+    var enableSpawning = true
+
+    @NodeCategory(Category.Spawning)
     var minimumDistanceBetweenEntities = 6.0
 
     @NodeCategory(Category.Spawning)
