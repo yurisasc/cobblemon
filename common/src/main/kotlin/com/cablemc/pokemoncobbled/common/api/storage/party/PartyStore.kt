@@ -171,6 +171,10 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
 
     override fun getAnyChangeObservable(): Observable<Unit> = anyChangeObservable
 
+    fun heal() {
+        forEach { it.heal() }
+    }
+
     fun toBattleTeam(clone: Boolean = false) = map {
         return@map if (clone) {
             BattlePokemon.safeCopyOf(it)

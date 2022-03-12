@@ -41,9 +41,10 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
+import java.lang.Integer.min
 import java.util.UUID
 
-class Pokemon {
+open class Pokemon {
     var uuid: UUID = UUID.randomUUID()
     var species = PokemonSpecies.EEVEE
         set(value) {
@@ -56,11 +57,7 @@ class Pokemon {
         set(value) { field = value ; _form.emit(value) }
     var currentHealth = 1
         set(value) {
-            field = if (value > hp) {
-                hp
-            } else {
-                value
-            }
+            field = min(hp, field + value)
             _currentHealth.emit(field)
         }
     var level = 5

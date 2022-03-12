@@ -59,18 +59,19 @@ class ShowdownThread : Thread() {
         // Sleep for two seconds before attempting connection
         sleep(2000)
 
+        val maxTries = 15
         var tries = 0
 
         // If connection fails, wait another two seconds
-        while (!attemptConnection() && tries < 5) {
+        while (!attemptConnection() && tries < maxTries) {
             tries++
             sleep(2000)
         }
 
         // Max attempts
-        if (tries == 15) {
+        if (tries == maxTries) {
             LOGGER.error("Failed to connect to showdown after 5 tries.")
-                Minecraft.getInstance().close()
+            Minecraft.getInstance().close()
         }
 
         LOGGER.info("Showdown has been connected!")

@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.battles.BattleSide
+import com.cablemc.pokemoncobbled.common.battles.actor.MultiPokemonBattleActor
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
 import com.cablemc.pokemoncobbled.common.battles.ai.RandomBattleAI
@@ -36,11 +37,12 @@ object TestCommand {
         try {
             // Player variables
             val player = context.source.entity as ServerPlayer
-            val firstPokemon = player.party().get(0)!!
-            firstPokemon.heal()
+            val party = player.party()
+            party.heal()
+
             val playerActor = PlayerBattleActor(
                 player.uuid,
-                listOf(BattlePokemon(firstPokemon))
+                party.toBattleTeam()
             )
 
             // Enemy variables
@@ -50,13 +52,17 @@ object TestCommand {
             pokemon.moveSet.setMove(1, Moves.AERIAL_ACE.create())
             pokemon.moveSet.setMove(2, Moves.AIR_SLASH.create())
             pokemon.moveSet.setMove(3, Moves.SPLASH.create())
-            val enemyPokemon = PokemonBattleActor(enemyId, BattlePokemon(pokemon))
+            val enemyPokemon = BattlePokemon(pokemon)
+
+            val enemyPokemon2 = BattlePokemon(PokemonSpecies.BLASTOISE.create())
+            val enemyPokemon3 = BattlePokemon(PokemonSpecies.BUTTERFREE.create())
+            val enemyPokemon4 = BattlePokemon(PokemonSpecies.DIGLETT.create())
 
             // Start the battle
             BattleRegistry.startBattle(
-                battleFormat = BattleFormat.GEN_8_MULTI,
-                side1 = BattleSide(playerActor, PokemonBattleActor(UUID.randomUUID(), BattlePokemon(PokemonSpecies.BULBASAUR.create()))),
-                side2 = BattleSide(enemyPokemon, PokemonBattleActor(UUID.randomUUID(), BattlePokemon(PokemonSpecies.CHARIZARD.create())))
+                battleFormat = BattleFormat.GEN_8_DOUBLES,
+                side1 = BattleSide(playerActor),
+                side2 = BattleSide(MultiPokemonBattleActor(listOf(enemyPokemon, enemyPokemon2, enemyPokemon3, enemyPokemon4)))
             )
         } catch (e: Exception) {
             e.printStackTrace()

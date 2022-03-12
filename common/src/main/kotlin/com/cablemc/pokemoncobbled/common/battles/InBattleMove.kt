@@ -9,4 +9,5 @@ class InBattleMove(
     val disabled: Boolean
 ) {
     fun getTargets(user: ActiveBattlePokemon) = target.targetList(user)
+    fun canBeUsed() = pp > 0 && !disabled
 }

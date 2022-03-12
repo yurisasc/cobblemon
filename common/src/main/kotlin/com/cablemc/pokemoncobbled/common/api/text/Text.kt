@@ -169,3 +169,5 @@ fun MutableComponent.add(string: String): MutableComponent {
 
 operator fun MutableComponent.plus(component: Component) = this.add(component)
 operator fun MutableComponent.plus(string: String) = this.add(string)
+
+fun Iterable<MutableComponent>.sum(separator: MutableComponent = ", ".text()) = if (any()) reduce { acc, next -> acc + separator + next } else "".text()

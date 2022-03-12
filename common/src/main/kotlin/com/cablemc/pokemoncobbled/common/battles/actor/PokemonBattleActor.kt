@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.battles.actor
 
-import com.cablemc.pokemoncobbled.common.api.battles.model.ai.BattleAI
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.AIBattleActor
+import com.cablemc.pokemoncobbled.common.api.battles.model.ai.BattleAI
 import com.cablemc.pokemoncobbled.common.battles.ai.RandomBattleAI
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated

@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.battles.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
+import com.cablemc.pokemoncobbled.common.battles.actor.MultiPokemonBattleActor
 import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.IVs
@@ -10,6 +11,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import net.minecraft.network.chat.MutableComponent
+import java.util.UUID
 
 open class BattlePokemon(
     val originalPokemon: Pokemon,
@@ -23,7 +25,12 @@ open class BattlePokemon(
         )
     }
 
-    var positionId: Char? = null
+    val uuid: UUID
+        get() = effectedPokemon.uuid
+    val health: Int
+        get() = effectedPokemon.currentHealth
+    val maxHealth: Int
+        get() = effectedPokemon.hp
     val ivs: IVs
         get() = effectedPokemon.ivs
     val nature: Nature
@@ -33,13 +40,17 @@ open class BattlePokemon(
     // etc
 
     val entity: PokemonEntity?
-        get() = effectedPokemon.entity ?: originalPokemon.entity
+        get() = effectedPokemon.entity
+    var willBeSwitchedIn = false
 
     open fun getName(): MutableComponent {
-        return if (actor is PokemonBattleActor) {
+        return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
             effectedPokemon.species.translatedName.asTranslated()
         } else {
             battleLang("owned_pokemon", actor.getName(), effectedPokemon.species.translatedName.asTranslated())
         }
     }
+
+    fun isSentOut() = actor.battle.activePokemon.any { it.battlePokemon == this }
+    fun canBeSentOut() = !isSentOut() && !willBeSwitchedIn && health > 0
 }

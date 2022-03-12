@@ -6,7 +6,7 @@ import kotlin.math.abs
 
 class ActiveBattlePokemon(val actor: BattleActor, var battlePokemon: BattlePokemon? = null) {
     val battle = actor.battle
-    var usableMoves: List<InBattleMove> = emptyList()
+    var selectableMoves: List<InBattleMove> = emptyList()
 
 
     fun getOppositeSide() = actor.getSide().getOppositeSide()
