@@ -1,7 +1,6 @@
 {
-	"parent": "pokemoncobbled:item/apricorn",
+	"parent": "minecraft:item/generated",
 	"textures": {
-		"0": "pokemoncobbled:items/pink_apricorn",
-		"particle": "pokemoncobbled:items/pink_apricorn"
+		"layer0": "pokemoncobbled:items/pink_apricorn"
 	}
 }
