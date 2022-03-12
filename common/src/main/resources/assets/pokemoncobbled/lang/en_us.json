@@ -21,6 +21,7 @@
   "key.pokemoncobbled.summary": "Open Summary",
   "key.pokemoncobbled.categories.pokemoncobbled": "Pokémon Cobbled",
   "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!",
+
   "pokemoncobbled.type.fire": "Fire",
   "pokemoncobbled.type.water": "Water",
   "pokemoncobbled.type.grass": "Grass",
@@ -39,9 +40,12 @@
   "pokemoncobbled.type.rock": "Rock",
   "pokemoncobbled.type.poison": "Poison",
   "pokemoncobbled.type.dragon": "Dragon",
+
+
   "pokemoncobbled.move.category.physical": "Physical",
   "pokemoncobbled.move.category.special": "Special",
   "pokemoncobbled.move.category.status": "Status",
+
   "pokemoncobbled.move.tackle": "Tackle",
   "pokemoncobbled.move.tackle.desc": "A physical attack in which the user charges and slams into the target with its whole body.",
   "pokemoncobbled.move.aerial_ace":  "Aerial Ace",
@@ -74,6 +78,9 @@
   "pokemoncobbled.species.squirtle.name": "Squirtle",
   "pokemoncobbled.species.wartortle.name": "Wartortle",
   "pokemoncobbled.species.blastoise.name": "Blastoise",
+  "pokemoncobbled.species.caterpie.name": "Caterpie",
+  "pokemoncobbled.species.metapod.name": "Metapod",
+  "pokemoncobbled.species.butterfree.name": "Butterfree",
   "pokemoncobbled.species.ekans.name": "Ekans",
   "pokemoncobbled.species.zubat.name": "Zubat",
   "pokemoncobbled.species.diglett.name": "Diglett",
