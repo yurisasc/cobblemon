@@ -80,6 +80,8 @@ object PokemonCobbled {
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
     val spawnerManagers = mutableListOf<SpawnerManager>(CobbledWorldSpawnerManager)
     var storage = PokemonStoreManager()
+    lateinit var cobbledFeatures : CobbledFeatures;
+    lateinit var cobbledConfiguredFeatures: CobbledConfiguredFeatures;
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         this.loadConfig()
@@ -90,6 +92,8 @@ object PokemonCobbled {
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledKeybinds.register()
+        cobbledFeatures.register()
+        cobbledConfiguredFeatures.register()
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
@@ -99,6 +103,10 @@ object PokemonCobbled {
     }
 
     fun initialize() {
+        //CobbledFeatures.register()
+        //CobbledConfiguredFeatures.register()
+
+
         showdownThread.start()
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats

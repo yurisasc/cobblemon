@@ -11,6 +11,13 @@
   "block.pokemoncobbled.stripped_apricorn_log": "Stripped Apricorn Log",
   "block.pokemoncobbled.apricorn_planks": "Apricorn Planks",
   "block.pokemoncobbled.apricorn_leaves": "Apricorn Leaves",
+  "block.pokemoncobbled.black_apricorn_sapling": "Black Apricorn Sapling",
+  "block.pokemoncobbled.blue_apricorn_sapling": "Blue Apricorn Sapling",
+  "block.pokemoncobbled.green_apricorn_sapling": "Green Apricorn Sapling",
+  "block.pokemoncobbled.pink_apricorn_sapling": "Pink Apricorn Sapling",
+  "block.pokemoncobbled.red_apricorn_sapling": "Red Apricorn Sapling",
+  "block.pokemoncobbled.white_apricorn_sapling": "White Apricorn Sapling",
+  "block.pokemoncobbled.yellow_apricorn_sapling": "Yellow Apricorn Sapling",
   "itemGroup.minecraft.pokemoncobbled.pokeballtab": "Pokeballs",
 
   "pokemoncobbled.storage.party.party-full": "Your party is currently full!",

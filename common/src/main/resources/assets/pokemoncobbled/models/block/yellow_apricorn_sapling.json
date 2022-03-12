@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cross",
+    "textures": {
+      "cross": "pokemoncobbled:blocks/yellow_apricorn_sapling"
+    }
+}

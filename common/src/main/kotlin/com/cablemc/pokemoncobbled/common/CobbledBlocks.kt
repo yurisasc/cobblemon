@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common
 
+import com.cablemc.pokemoncobbled.common.world.level.block.ApricornSaplingBlock
 import dev.architectury.registry.registries.DeferredRegister
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
@@ -25,6 +26,14 @@ object CobbledBlocks {
         .strength(2.0f, 3.0f)
         .sound(SoundType.WOOD)))
     val APRICORN_LEAVES = queue("apricorn_leaves", leaves(SoundType.GRASS))
+
+    val BLACK_APRICORN_SAPLING = queue("black_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
+    val BLUE_APRICORN_SAPLING = queue("blue_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
+    val GREEN_APRICORN_SAPLING = queue("green_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
+    val PINK_APRICORN_SAPLING = queue("pink_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
+    val RED_APRICORN_SAPLING = queue("red_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
+    val WHITE_APRICORN_SAPLING = queue("white_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
+    val YELLOW_APRICORN_SAPLING = queue("yellow_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
 
     fun register() {
         blockRegister.register()

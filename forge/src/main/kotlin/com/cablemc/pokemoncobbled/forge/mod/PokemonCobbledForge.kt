@@ -36,6 +36,8 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
             CobbledNetwork.networkDelegate = CobbledForgeNetworkDelegate
 
             PokemonCobbled.preinitialize(this@PokemonCobbledForge)
+
+            // TODO: Make listener for BiomeLoadingEvent to register feature to biomes
         }
     }
 
