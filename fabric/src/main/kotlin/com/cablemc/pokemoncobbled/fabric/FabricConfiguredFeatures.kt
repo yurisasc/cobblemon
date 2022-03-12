@@ -25,7 +25,5 @@ object FabricConfiguredFeatures : CobbledConfiguredFeatures {
         APRICORN_TREE = register("", PokemonCobbled.cobbledFeatures.apricornTreeFeature())
     }
 
-    override fun apricornTree(): ConfiguredFeature<NoneFeatureConfiguration, ApricornTreeFeature> {
-        return APRICORN_TREE
-    }
+    override fun apricornTree() = APRICORN_TREE
 }
