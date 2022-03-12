@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.gui
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaled
@@ -124,7 +123,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
             }
 
             if (pokemon != null) {
-                val hpRatio = pokemon.health / (pokemon.stats[Stats.HP] ?: pokemon.health).toFloat()
+                val hpRatio = pokemon.currentHealth / pokemon.hp.toFloat()
                 val barHeightMax = 25.25F
                 val hpBarHeight = hpRatio * barHeightMax
                 val expRatio = 1.0

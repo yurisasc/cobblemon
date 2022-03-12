@@ -68,9 +68,9 @@ class ShowdownThread : Thread() {
         }
 
         // Max attempts
-        if (tries == 5) {
+        if (tries == 15) {
             LOGGER.error("Failed to connect to showdown after 5 tries.")
-            Minecraft.getInstance().close()
+                Minecraft.getInstance().close()
         }
 
         LOGGER.info("Showdown has been connected!")

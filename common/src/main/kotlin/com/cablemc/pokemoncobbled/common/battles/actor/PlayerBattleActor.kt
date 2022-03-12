@@ -10,16 +10,15 @@ import net.minecraft.server.level.ServerPlayer
 import java.util.UUID
 
 class PlayerBattleActor(
-    showdownId: String,
-    gameId: UUID,
+    uuid: UUID,
     pokemonList: List<BattlePokemon>
-) : BattleActor(showdownId, gameId, pokemonList) {
+) : BattleActor(uuid, pokemonList) {
 
     // TEMP battle showcase stuff
     var announcingPokemon = false
 
     fun getPlayerEntity() : ServerPlayer? {
-        return getServer()!!.playerList.getPlayer(gameId)
+        return getServer()!!.playerList.getPlayer(uuid)
     }
 
     override fun sendMessage(component: Component) {

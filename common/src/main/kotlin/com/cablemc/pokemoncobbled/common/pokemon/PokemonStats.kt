@@ -50,11 +50,12 @@ open class PokemonStats : HashMap<Stat, Int>() {
 
     fun loadFromJSON(json: JsonObject): PokemonStats {
         json.entrySet().forEach { (key, element) ->
-            val stat = Stats.getStat(key) ?: return@forEach // TODO error or something as above
+            val stat = Stats.getStat(key)
             this[stat] = element.asInt
         }
         return this
     }
 
     fun getObservable(stat: Stat) = statObservables.getOrPut(stat) { SimpleObservable() }
+    fun getOrOne(stat: Stat) = this[stat] ?: 1
 }

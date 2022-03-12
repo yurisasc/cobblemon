@@ -1,9 +1,10 @@
 package com.cablemc.pokemoncobbled.common.command
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled.storage
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
+import com.cablemc.pokemoncobbled.common.battles.BattleSide
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
 import com.cablemc.pokemoncobbled.common.battles.ai.RandomBattleAI
@@ -36,10 +37,10 @@ object TestCommand {
             // Player variables
             val player = context.source.entity as ServerPlayer
             val firstPokemon = player.party().get(0)!!
-            val playerSubject = PlayerBattleActor(
-                "p1",
+            firstPokemon.heal()
+            val playerActor = PlayerBattleActor(
                 player.uuid,
-                listOf(BattlePokemon(firstPokemon), BattlePokemon(firstPokemon.clone()))
+                listOf(BattlePokemon(firstPokemon))
             )
 
             // Enemy variables
@@ -49,10 +50,14 @@ object TestCommand {
             pokemon.moveSet.setMove(1, Moves.AERIAL_ACE.create())
             pokemon.moveSet.setMove(2, Moves.AIR_SLASH.create())
             pokemon.moveSet.setMove(3, Moves.SPLASH.create())
-            val enemySubject = PokemonBattleActor("p2", enemyId, BattlePokemon(pokemon), RandomBattleAI())
+            val enemyPokemon = PokemonBattleActor(enemyId, BattlePokemon(pokemon))
 
             // Start the battle
-            BattleRegistry.startBattle(playerSubject, enemySubject)
+            BattleRegistry.startBattle(
+                battleFormat = BattleFormat.GEN_8_MULTI,
+                side1 = BattleSide(playerActor, PokemonBattleActor(UUID.randomUUID(), BattlePokemon(PokemonSpecies.BULBASAUR.create()))),
+                side2 = BattleSide(enemyPokemon, PokemonBattleActor(UUID.randomUUID(), BattlePokemon(PokemonSpecies.CHARIZARD.create())))
+            )
         } catch (e: Exception) {
             e.printStackTrace()
         }

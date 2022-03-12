@@ -57,6 +57,7 @@
   "pokemoncobbled.battle.pick_move": "Pick a move",
   "pokemoncobbled.battle.owned_pokemon": "%1$s's %2$s",
   "pokemoncobbled.battle.fainted": "%1$s fainted!",
+  "pokemoncobbled.battle.win": "%1$s won!",
 
 
   "pokemoncobbled.ui.pokemonteam": "Pokémon Team",
@@ -77,5 +78,8 @@
   "pokemoncobbled.species.dugtrio.name": "Dugtrio",
   "pokemoncobbled.species.magikarp.name": "Magikarp",
   "pokemoncobbled.species.gyarados.name": "Gyarados",
-  "pokemoncobbled.species.eevee.name": "Eevee"
+  "pokemoncobbled.species.eevee.name": "Eevee",
+  "pokemoncobbled.species.pidgey.name": "Pidgey",
+  "pokemoncobbled.species.pidgeotto.name": "Pidgeotto",
+  "pokemoncobbled.species.pidgeot.name": "Pidgeot"
 }

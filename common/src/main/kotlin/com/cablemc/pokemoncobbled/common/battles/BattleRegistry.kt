@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
-import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.GsonBuilder
@@ -72,21 +71,59 @@ object BattleRegistry {
      * Temporary starting method for a battle.
      * TODO: Replace with a builder for battle definition and then a starting method that takes the built result?
      */
-    fun startBattle(vararg battleActors: BattleActor) {
-        val battle = PokemonBattle(battleActors.asList())
+    fun startBattle(
+        battleFormat: BattleFormat,
+        side1: BattleSide,
+        side2: BattleSide
+    ) {
+        val battle = PokemonBattle(battleFormat, side1, side2)
         battleMap[battle.battleId] = battle
 
         // Build request message
         val jsonArray = JsonArray()
-        jsonArray.add(""">start { "gameType": "doubles", "formatid":"${battle.format}"}""")
+        jsonArray.add(">start { \"format\": ${battleFormat.toFormatJSON()} }")
+
+        /*
+         * Showdown IDs are like p1, p2, p3, etc. Showdown uses these keys to identify who is doing what to whom.
+         *
+         * "But why are these showdown IDs so weird"
+         *
+         * I'll tell you, Jimmy.
+         * https://gitlab.com/cable-mc/pokemon-cobbled-showdown/-/blob/master/sim/SIM-PROTOCOL.md#user-content-identifying-pok%C3%A9mon
+         *
+         * See the lines about multi battles and free for alls. The same side of the battle will share 'parity' (even or odd) across
+         * all participants. So side 1 will be 1, 3, 5, ... while side 2 will be 2, 4, 6, ...
+         *
+         * That isn't how our code works, as we have the BattleSide thing, but it's how Showdown works so we need to play along a bit.
+         */
+
+        var actorIndex = 1
+        for (actor in battle.side1.actors) {
+            actor.showdownId = "p$actorIndex"
+            actor.battle = battle
+            actorIndex += 2
+        }
+
+        actorIndex = 2
+        for (actor in battle.side2.actors) {
+            actor.showdownId = "p$actorIndex"
+            actor.battle = battle
+            actorIndex += 2
+        }
+
+        for (actor in battle.actors) {
+            repeat(battleFormat.battleType.slotsPerActor) {
+                actor.activePokemon.add(ActiveBattlePokemon(actor))
+            }
+        }
 
         // -> Add the players and team
-        for (actor in battle.actors) {
-            jsonArray.add(""">player ${actor.showdownId} {"name":"${actor.gameId}","team":"${actor.pokemonList.packTeam()}"}""")
+        for (actor in battle.actors.sortedBy { it.showdownId }) {
+            jsonArray.add(""">player ${actor.showdownId} {"name":"${actor.uuid}","team":"${actor.pokemonList.packTeam()}"}""")
         }
 
         // -> Set team size
-        for (actor in battle.actors) {
+        for (actor in battle.actors.sortedBy { it.showdownId }) {
             jsonArray.add(""">${actor.showdownId} team ${actor.pokemonList.count()}""")
         }
 
@@ -107,15 +144,6 @@ object BattleRegistry {
     }
 
     fun getBattleByParticipatingPlayer(serverPlayer: ServerPlayer) : PokemonBattle? {
-        for (entry in battleMap.entries) {
-            val found = entry.value.actors.find {
-                it.gameId.equals(serverPlayer.uuid)
-            }
-            if (found != null) {
-                return entry.value
-            }
-        }
-        return null
+        return battleMap.values.find { it.actors.any { it.uuid == serverPlayer.uuid } }
     }
-
 }

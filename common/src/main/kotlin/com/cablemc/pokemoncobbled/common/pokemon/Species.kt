@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
 import net.minecraft.world.entity.EntityDimensions
 
 class Species {
@@ -13,7 +14,7 @@ class Species {
         get() = "pokemoncobbled.species.$name.name"
     var nationalPokedexNumber = 1
 
-    val baseStats: MutableMap<Stat, Int> = mutableMapOf()
+    val baseStats = pokemonStatsOf()
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
     val maleRatio = 0.5F
     val catchRate = 45
@@ -31,4 +32,6 @@ class Species {
     var forms = mutableListOf(FormData())
 
     fun types(form: Int): Iterable<ElementalType> = forms[form].types
+
+    fun create() = Pokemon().apply { species = this@Species }
 }
