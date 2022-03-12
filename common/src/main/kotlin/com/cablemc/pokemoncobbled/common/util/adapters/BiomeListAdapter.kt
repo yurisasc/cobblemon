@@ -35,7 +35,7 @@ object BiomeListAdapter : JsonSerializer<BiomeList>, JsonDeserializer<BiomeList>
             // TODO also try retrieving with the element as a biome category
             // Maybe rework the biome list object to preserve what were categories
 
-            val biomeRegistry = RegistryAccess.builtin().registryOrThrow(BIOME_REGISTRY)
+            val biomeRegistry = RegistryAccess.BUILTIN.get().registryOrThrow(BIOME_REGISTRY)
             val biome = biomeRegistry.entrySet().find { it.key.location() == biomeName }?.key
             if (biome == null) {
                 LOGGER.warn("Unrecognized biome: $biomeName")
