@@ -18,10 +18,13 @@ import com.cablemc.pokemoncobbled.common.client.storage.ClientStorageManager
 import com.mojang.blaze3d.vertex.PoseStack
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
+import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import net.minecraft.client.Minecraft
 import net.minecraft.client.color.block.BlockColor
 import net.minecraft.client.color.item.ItemColor
 import net.minecraft.client.model.PlayerModel
+import net.minecraft.client.renderer.ItemBlockRenderTypes
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRenderers
 import net.minecraft.client.renderer.entity.LivingEntityRenderer
@@ -45,6 +48,17 @@ object PokemonCobbledClient {
         PokemonModelRepository.init()
         PokeBallModelRepository.init()
         registerRenderers()
+        registerBlockRenderTypes()
+    }
+
+    private fun registerBlockRenderTypes() {
+        RenderTypeRegistry.register(RenderType.cutout(), CobbledBlocks.BLACK_APRICORN_SAPLING.get(),
+            CobbledBlocks.BLUE_APRICORN_SAPLING.get(),
+            CobbledBlocks.GREEN_APRICORN_SAPLING.get(),
+            CobbledBlocks.PINK_APRICORN_SAPLING.get(),
+            CobbledBlocks.RED_APRICORN_SAPLING.get(),
+            CobbledBlocks.WHITE_APRICORN_SAPLING.get(),
+            CobbledBlocks.YELLOW_APRICORN_SAPLING.get())
     }
 
     fun beforeChatRender(poseStack: PoseStack, partialDeltaTicks: Float) {
