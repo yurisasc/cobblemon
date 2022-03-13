@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.moves
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.network.chat.Component
@@ -46,6 +47,13 @@ open class Move(
         return nbt
     }
 
+    fun saveToJSON(json: JsonObject): JsonObject {
+        json.addProperty(DataKeys.POKEMON_MOVESET_MOVENAME, name)
+        json.addProperty(DataKeys.POKEMON_MOVESET_MOVEPP, currentPp)
+        json.addProperty(DataKeys.POKEMON_MOVESET_MAXPP, maxPp)
+        return json
+    }
+
     fun saveToBuffer(buffer: FriendlyByteBuf) {
         buffer.writeUtf(name)
         buffer.writeInt(currentPp)
@@ -57,6 +65,15 @@ open class Move(
             val template = Moves.getByName(nbt.getString(DataKeys.POKEMON_MOVESET_MOVENAME))
                 ?: throw IllegalStateException("Tried to get non-existent MoveTemplate ${nbt.getString(DataKeys.POKEMON_MOVESET_MOVENAME)}")
             return template.create(nbt.getInt(DataKeys.POKEMON_MOVESET_MOVEPP), nbt.getInt(DataKeys.POKEMON_MOVESET_MAXPP))
+        }
+
+        fun loadFromJSON(json: JsonObject): Move {
+            val moveName = json.get(DataKeys.POKEMON_MOVESET_MOVENAME).asString
+            val template = Moves.getByName(moveName)
+                ?: throw IllegalStateException("Tried to get non-existent MoveTemplate $moveName")
+            val currentPp = json.get(DataKeys.POKEMON_MOVESET_MOVEPP).asInt
+            val maxPp = json.get(DataKeys.POKEMON_MOVESET_MAXPP).asInt
+            return Move(currentPp, maxPp, template)
         }
 
         fun loadFromBuffer(buffer: FriendlyByteBuf): Move {

@@ -38,8 +38,8 @@ class Gen7CaptureCalculator : CaptureCalculator {
     fun getCatchRate(player: ServerPlayer, pokemon: Pokemon, pokeBall: PokeBall): Float {
         var catchRate = pokemon.species.catchRate.toFloat()
         pokeBall.catchRateModifiers.forEach { catchRate = it.modifyCatchRate(catchRate, player, pokemon) }
-        val maxHealth = pokemon.getMaxHealth()
-        val currentHealth = pokemon.health
+        val maxHealth = pokemon.hp
+        val currentHealth = pokemon.currentHealth
         val statusBonus = getStatusBonus(pokemon)
         return ((3 * maxHealth - 2 * currentHealth) * catchRate) * statusBonus / (3 * maxHealth)
     }

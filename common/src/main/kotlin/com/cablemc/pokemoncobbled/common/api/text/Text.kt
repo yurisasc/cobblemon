@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.ItemStack
 import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Text utility shamelessly stolen from Cable Libs
@@ -70,9 +71,21 @@ class Text internal constructor() {
 
 fun text(vararg components: Any) = Text().parse(*components)
 
-val textClickHandlers = hashMapOf<UUID, (p: ServerPlayer) -> Any>()
+val textClickHandlers = hashMapOf<UUID, (p: ServerPlayer) -> Unit>()
 
-fun click(onlyOnce: Boolean = false, action: (p: ServerPlayer) -> Any): ClickEvent {
+fun click(consumed: AtomicBoolean, action: (p: ServerPlayer) -> Unit): ClickEvent {
+    val uuid = UUID.randomUUID()
+    textClickHandlers[uuid] = {
+        if (!consumed.get()) {
+            action.invoke(it)
+            consumed.set(true)
+        }
+        textClickHandlers.remove(uuid)
+    }
+    return ClickEvent(ClickEvent.Action.RUN_COMMAND, "/cobbledclicktext $uuid")
+}
+
+fun click(onlyOnce: Boolean = false, action: (p: ServerPlayer) -> Unit): ClickEvent {
     val uuid = UUID.randomUUID()
     textClickHandlers[uuid] = if (onlyOnce) {
         {
@@ -133,7 +146,8 @@ fun MutableComponent.white() = also { it.style = it.style.withColor(ChatFormatti
 fun String.text() = text(this)
 fun String.stripCodes(): String = this.replace("[&§][A-Ea-e0-9K-Ok-oRr]".toRegex(), "")
 
-fun MutableComponent.onClick(onlyOnce: Boolean = false, action: (p: ServerPlayer) -> Unit) = also { it.style = it.style.withClickEvent(click(onlyOnce, action)).applyTo(it.style) }
+fun MutableComponent.onClick(consumed: AtomicBoolean, action: (p: ServerPlayer) -> Unit) = also { it.style = it.style.withClickEvent(click(consumed, action)) }
+fun MutableComponent.onClick(onlyOnce: Boolean = false, action: (p: ServerPlayer) -> Unit) = also { it.style = it.style.withClickEvent(click(onlyOnce, action)) }
 fun MutableComponent.onHover(string: String) = also { it.style = it.style.withHoverEvent(hover(string)) }
 fun MutableComponent.onHover(text: MutableComponent) = also { it.style = it.style.withHoverEvent(hover(text)) }
 fun MutableComponent.underline() = also { it.style = it.style.withUnderlined(true) }
@@ -144,7 +158,7 @@ fun MutableComponent.obfuscate() = also { it.style = it.style.withObfuscated(tru
 fun MutableComponent.suggest(command: String) = also { it.style = it.style.withClickEvent(ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)) }
 
 fun MutableComponent.add(other: Component): MutableComponent {
-    this.siblings.add(other)
+    this.append(other)
     return this;
 }
 
@@ -155,3 +169,5 @@ fun MutableComponent.add(string: String): MutableComponent {
 
 operator fun MutableComponent.plus(component: Component) = this.add(component)
 operator fun MutableComponent.plus(string: String) = this.add(string)
+
+fun Iterable<MutableComponent>.sum(separator: MutableComponent = ", ".text()) = if (any()) reduce { acc, next -> acc + separator + next } else "".text()

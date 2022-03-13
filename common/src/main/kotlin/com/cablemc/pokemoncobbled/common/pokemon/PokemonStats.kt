@@ -37,7 +37,7 @@ open class PokemonStats : HashMap<Stat, Int>() {
 
     fun loadFromNBT(nbt: CompoundTag): PokemonStats {
         nbt.allKeys.forEach { statId ->
-            val stat = Stats.getStat(statId) ?: return@forEach // TODO error probably? Or anonymous stat class to hold it and persist
+            val stat = Stats.getStat(statId)
             this[stat] = nbt.getShort(statId).toInt()
         }
         return this
@@ -50,11 +50,12 @@ open class PokemonStats : HashMap<Stat, Int>() {
 
     fun loadFromJSON(json: JsonObject): PokemonStats {
         json.entrySet().forEach { (key, element) ->
-            val stat = Stats.getStat(key) ?: return@forEach // TODO error or something as above
+            val stat = Stats.getStat(key)
             this[stat] = element.asInt
         }
         return this
     }
 
     fun getObservable(stat: Stat) = statObservables.getOrPut(stat) { SimpleObservable() }
+    fun getOrOne(stat: Stat) = this[stat] ?: 1
 }
