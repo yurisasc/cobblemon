@@ -65,7 +65,7 @@ class ShowdownThread : Thread() {
         // If connection fails, wait another two seconds
         while (!attemptConnection() && tries < maxTries) {
             tries++
-            sleep(2000)
+            sleep(3000)
         }
 
         // Max attempts
@@ -84,13 +84,13 @@ class ShowdownThread : Thread() {
 
             // Attempt reconnection if not connected
             if (!showdown.isConnected()) {
-                while (!attemptConnection() && tries < 5) {
+                while (!attemptConnection() && tries < maxTries) {
                     tries++
-                    sleep(2000)
+                    sleep(3000)
                 }
 
                 // Max attempts
-                if (tries == 5) {
+                if (tries == maxTries) {
                     LOGGER.error("Failed to connect to showdown after 5 tries.")
                     Minecraft.getInstance().close()
                 }

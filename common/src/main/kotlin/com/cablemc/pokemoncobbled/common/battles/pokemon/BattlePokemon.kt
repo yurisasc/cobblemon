@@ -45,9 +45,9 @@ open class BattlePokemon(
 
     open fun getName(): MutableComponent {
         return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
-            effectedPokemon.species.translatedName.asTranslated()
+            effectedPokemon.species.translatedName
         } else {
-            battleLang("owned_pokemon", actor.getName(), effectedPokemon.species.translatedName.asTranslated())
+            battleLang("owned_pokemon", actor.getName(), effectedPokemon.species.translatedName)
         }
     }
 

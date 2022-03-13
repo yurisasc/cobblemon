@@ -158,7 +158,7 @@ fun MutableComponent.obfuscate() = also { it.style = it.style.withObfuscated(tru
 fun MutableComponent.suggest(command: String) = also { it.style = it.style.withClickEvent(ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)) }
 
 fun MutableComponent.add(other: Component): MutableComponent {
-    this.siblings.add(other)
+    this.append(other)
     return this;
 }
 

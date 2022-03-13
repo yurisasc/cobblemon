@@ -5,4 +5,5 @@ fun lang(
     vararg objects: Any
 ) = "pokemoncobbled.$subKey".asTranslated(*objects)
 
-fun battleLang(key: String, vararg objects: Any) = lang(subKey = "battle.$key", objects = objects)
+fun commandLang(subKey: String, vararg objects: Any ) = lang("command.$subKey", *objects)
+fun battleLang(key: String, vararg objects: Any) = lang("battle.$key", *objects)

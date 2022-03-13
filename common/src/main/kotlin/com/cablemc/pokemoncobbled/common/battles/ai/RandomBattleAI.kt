@@ -29,7 +29,10 @@ class RandomBattleAI : BattleAI {
                 decisions.add("pass")
                 PokemonCobbled.LOGGER.error("Unable to find targets for ${move.move}. Weird.")
             } else {
-                decisions.add("move $moveIndex ${target.random().getSignedDigitRelativeTo(pokemon)}")
+                // prioritize opponents
+                val chosenTarget = target.filter { !it.isAllied(pokemon) }.randomOrNull() ?: target.random()
+
+                decisions.add("move $moveIndex ${chosenTarget.getSignedDigitRelativeTo(pokemon)}")
             }
         }
         return decisions

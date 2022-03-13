@@ -55,9 +55,9 @@ open class Pokemon {
         }
     var form = species.forms.first()
         set(value) { field = value ; _form.emit(value) }
-    var currentHealth = 1
+    var currentHealth = Int.MAX_VALUE
         set(value) {
-            field = min(hp, field + value)
+            field = min(hp, value)
             _currentHealth.emit(field)
         }
     var level = 5

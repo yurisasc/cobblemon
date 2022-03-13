@@ -22,6 +22,8 @@
   "key.pokemoncobbled.categories.pokemoncobbled": "Pokémon Cobbled",
   "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!",
 
+  "pokemoncobbled.command.givepokemon.give": "Gave %1$s to %2$s.",
+
   "pokemoncobbled.type.fire": "Fire",
   "pokemoncobbled.type.water": "Water",
   "pokemoncobbled.type.grass": "Grass",
@@ -65,6 +67,8 @@
   "pokemoncobbled.battle.win": "%1$s won!",
   "pokemoncobbled.battle.switch_option": "Switch Pokémon: ",
   "pokemoncobbled.battle.your_team": "Your Team:",
+  "pokemoncobbled.battle.must_switch": "Choose a Pokémon to switch in",
+
 
   "pokemoncobbled.ui.pokemonteam": "Pokémon Team",
   "pokemoncobbled.ui.lv": "Lv.",

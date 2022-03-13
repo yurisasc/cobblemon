@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.api.battles.model.actor.AIBattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.ai.BattleAI
 import com.cablemc.pokemoncobbled.common.battles.ai.RandomBattleAI
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
-import com.cablemc.pokemoncobbled.common.util.asTranslated
 import java.util.UUID
 
 class PokemonBattleActor(
@@ -12,5 +11,5 @@ class PokemonBattleActor(
     val pokemon: BattlePokemon,
     artificialDecider: BattleAI = RandomBattleAI()
 ) : AIBattleActor(uuid, listOf(pokemon), artificialDecider) {
-    override fun getName() = pokemon.effectedPokemon.species.translatedName.asTranslated() // TODO translate
+    override fun getName() = pokemon.effectedPokemon.species.translatedName
 }

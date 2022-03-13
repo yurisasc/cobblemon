@@ -108,14 +108,14 @@ class PlayerBattleActor(
                 switchLabels.add(
                     "$pokemonIndex"
                         .gold()
-                        .onHover(battlePokemon.effectedPokemon.species.translatedName + " " + battlePokemon.health + "/" + battlePokemon.maxHealth)
+                        .onHover(battlePokemon.effectedPokemon.species.translatedName + " ${battlePokemon.health}/${battlePokemon.maxHealth}")
                         .onClick(canChoose) {
                         battlePokemon.willBeSwitchedIn = true
                         future.complete("switch ${battlePokemon.uuid}")
                     }
                 )
             } else {
-                switchLabels.add("$pokemonIndex".gray().onHover(battlePokemon.effectedPokemon.species.translatedName + " " + battlePokemon.health + "/" + battlePokemon.maxHealth))
+                switchLabels.add("$pokemonIndex".gray().onHover(battlePokemon.effectedPokemon.species.translatedName + " ${battlePokemon.health}/${battlePokemon.maxHealth}"))
             }
         }
 
@@ -148,8 +148,7 @@ class PlayerBattleActor(
         val canChoose = AtomicBoolean(false)
         val future = CompletableFuture<UUID>()
         val actor = activeBattlePokemon.actor
-        actor.sendMessage(activeBattlePokemon.battlePokemon!!.getName().gold() + ":")
-
+        actor.sendMessage(battleLang("must_switch"))
         val switchLabels = mutableListOf<MutableComponent>()
         for ((index, battlePokemon) in actor.pokemonList.withIndex()) {
             val pokemonIndex = index + 1
@@ -158,14 +157,14 @@ class PlayerBattleActor(
                 switchLabels.add(
                     "$pokemonIndex"
                         .gold()
-                        .onHover(battlePokemon.effectedPokemon.species.translatedName + " " + battlePokemon.health + "/" + battlePokemon.maxHealth)
+                        .onHover(battlePokemon.effectedPokemon.species.translatedName + " ${battlePokemon.health}/${battlePokemon.maxHealth}")
                         .onClick(canChoose) {
                         battlePokemon.willBeSwitchedIn = true
                         future.complete(battlePokemon.uuid)
                     }
                 )
             } else {
-                switchLabels.add("$pokemonIndex".gray().onHover(battlePokemon.effectedPokemon.species.translatedName + " " + battlePokemon.health + "/" + battlePokemon.maxHealth))
+                switchLabels.add("$pokemonIndex".gray().onHover(battlePokemon.effectedPokemon.species.translatedName + " ${battlePokemon.health}/${battlePokemon.maxHealth}"))
             }
         }
 

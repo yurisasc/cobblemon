@@ -5,13 +5,15 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.entity.EntityDimensions
 
 class Species {
     var name: String = "bulbasaur"
-    val translatedName: String
-        get() = "pokemoncobbled.species.$name.name"
+    val translatedName: MutableComponent
+        get() = "pokemoncobbled.species.$name.name".asTranslated()
     var nationalPokedexNumber = 1
 
     val baseStats = pokemonStatsOf()

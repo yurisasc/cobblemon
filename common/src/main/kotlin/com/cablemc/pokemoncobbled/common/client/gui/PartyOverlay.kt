@@ -167,7 +167,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
 
                 minecraft.font.drawScaled(
                     poseStack = poseStack,
-                    text = pokemon.species.translatedName.asTranslated(),
+                    text = pokemon.species.translatedName,
                     x = panelX + 15F,
                     y = startY + slotHeight * index + slotHeight * 0.84F + baseExtra - 0.5F,
                     scaleX = fontScale,

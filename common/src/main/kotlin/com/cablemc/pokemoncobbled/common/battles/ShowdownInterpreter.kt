@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.common.battles
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
-import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.text.aqua
 import com.cablemc.pokemoncobbled.common.api.text.bold
 import com.cablemc.pokemoncobbled.common.api.text.gold
@@ -36,6 +35,7 @@ object ShowdownInterpreter {
         updateInstructions["|teampreview"] = this::handleTeamPreviewInstruction
         updateInstructions["|start"] = this::handleStartInstruction
         updateInstructions["|turn|"] = this::handleTurnInstruction
+        updateInstructions["|upkeep"] = this::handleUpkeepInstruction
         updateInstructions["|faint|"] = this::handleFaintInstruction
         updateInstructions["|win|"] = this::handleWinInstruction
         updateInstructions["|move|"] = this::handleMoveInstruction
@@ -292,22 +292,11 @@ object ShowdownInterpreter {
         battle.broadcastChatMessage("".text())
         battle.broadcastChatMessage(">>".aqua() + " It is now turn ${message.split("|turn|")[1]}".aqua())
         battle.broadcastChatMessage("".text())
-        after(seconds = 0.5F) {
-            for (actor in battle.actors) {
-                if (actor.toChoose.isNotEmpty()) {
-                    actor.getChoices(actor.toChoose).thenAccept {
-                        val switches = it.filter { it.startsWith("switch ") }
-                        switches.forEach {
-                            val uuid = UUID.fromString(it.substring(7))
-                            actor.pokemonList.find { it.uuid == uuid }?.willBeSwitchedIn = false
-                        }
-                        
-                        val joinedChoices = it.joinToString()
-                        battle.writeShowdownAction(">${actor.showdownId} $joinedChoices")
-                    }
-                }
-            }
-        }
+        battle.actors.forEach { it.turn() }
+    }
+
+    private fun handleUpkeepInstruction(battle: PokemonBattle, message: String) {
+        battle.actors.forEach { it.upkeep() }
     }
 
     /**
@@ -365,14 +354,12 @@ object ShowdownInterpreter {
     private fun handleCantInstruction(battle: PokemonBattle, message: String) {
         val editMessaged = message.replace("|cant|", "")
 
-        val playerA = editMessaged.split("|")[0].substring(0, 2)
-        val pokemonA = editMessaged.split("|")[0].split(" ")[1]
-        val actorA = battle.getActor(playerA)
-
+        val pnx = editMessaged.split("|")[0].split(":")[0]
+        val (actor, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val action = editMessaged.split("|")[1]
         val actionText = if (action == "flinch") "flinched" else action
 
-        battle.broadcastChatMessage(">> ".red() + actorA!!.getName().red() + "'s $pokemonA has $actionText".red())
+        battle.broadcastChatMessage(">> ".red() + (pokemon.battlePokemon?.getName() ?: "DEAD".text()) + " has $actionText".red())
     }
 
 
@@ -390,25 +377,7 @@ object ShowdownInterpreter {
 
         // Parse Json message and update state info for actor
         val request = BattleRegistry.gson.fromJson(message.split("|request|")[1], ShowdownActionRequest::class.java)
-        if (request.wait) {
-            return
-        }
-
-        if (request.forceSwitch.any { it }) {
-            val forceSwitchPokemon = request.forceSwitch.mapIndexedNotNull { index, b -> if (b) battleActor.activePokemon[index] else null }
-            battleActor.getSwitch(forceSwitchPokemon).thenApply { uuids ->
-                val switchRequests = uuids.joinToString { "switch $it" }
-                battleActor.pokemonList.filter { it.uuid in uuids }.forEach { it.willBeSwitchedIn = false }
-                battle.writeShowdownAction(switchRequests)
-            }
-        } else if (request.active != null) {
-            battleActor.toChoose.clear()
-            for ((activeIndex, active) in request.active.withIndex()) {
-                val pokemon = battleActor.activePokemon[activeIndex]
-                pokemon.selectableMoves = active.moves
-                battleActor.toChoose.add(pokemon)
-            }
-        }
+        battleActor.request = request
     }
 
     private fun handleSwitchInstruction(battle: PokemonBattle, battleActor: BattleActor, publicMessage: String, privateMessage: String) {
