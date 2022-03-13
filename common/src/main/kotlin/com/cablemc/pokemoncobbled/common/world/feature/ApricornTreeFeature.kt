@@ -24,7 +24,7 @@ class ApricornTreeFeature(
         val random: Random = context.random()
         val origin: BlockPos = context.origin()
 
-        // Create chunk
+        // Create trunk
         val logState = CobbledBlocks.APRICORN_LOG.get().defaultBlockState();
         for(y in 0..4) {
             val logPos = origin.relative(Direction.UP, y)
@@ -43,6 +43,10 @@ class ApricornTreeFeature(
                 setBlockIfClear(worldGenLevel, leafPos, LeavesBlock.updateDistance(leafBlock, worldGenLevel, leafPos))
             }
         }
+
+        val layerOneExtenders = getLayerOneVariation(layerOnePos, random)
+        setBlockIfClear(worldGenLevel, layerOneExtenders.first, LeavesBlock.updateDistance(leafBlock, worldGenLevel, layerOneExtenders.first))
+        setBlockIfClear(worldGenLevel, layerOneExtenders.second, LeavesBlock.updateDistance(leafBlock, worldGenLevel, layerOneExtenders.second))
 
         for(coords in Lists.newArrayList(Pair(1, 1), Pair(-1, -1), Pair(1, -1), Pair(-1, 1))) {
             var leafPos = layerOnePos.offset(coords.first, 0, coords.second)
@@ -77,6 +81,12 @@ class ApricornTreeFeature(
             setBlockIfClear(worldGenLevel, leafPos, LeavesBlock.updateDistance(leafBlock, worldGenLevel, leafPos))
         }
 
+        for(blocks in getLayerFourVariation(origin.relative(Direction.UP, 4), random)) {
+            for(block in blocks) {
+                setBlockIfClear(worldGenLevel, block, LeavesBlock.updateDistance(leafBlock, worldGenLevel, block))
+            }
+        }
+
         return true;
     }
 
@@ -85,6 +95,47 @@ class ApricornTreeFeature(
             return
         }
         worldGenLevel.level.setBlock(blockPos, blockState, 19)
+    }
+
+    private fun getLayerOneVariation(origin: BlockPos, random: Random): Pair<BlockPos, BlockPos> {
+        var direction = Direction.NORTH
+        when(random.nextInt(4)) {
+            1 -> direction = Direction.EAST
+            2 -> direction = Direction.SOUTH
+            3 -> direction = Direction.WEST
+        }
+        val posOne = origin.offset(direction.stepX * 2, direction.stepY * 2, direction.stepZ * 2)
+        val offset = if(random.nextBoolean()) -1 else 1
+        val posTwo = if(direction.stepX == 0) posOne.offset(offset, 0, 0) else posOne.offset(0, 0, offset)
+        return Pair(posOne, posTwo)
+    }
+
+    private fun getLayerFourVariation(origin: BlockPos, random: Random): List<List<BlockPos>> {
+        val variationList = mutableListOf<List<BlockPos>>()
+        val usedDirections = mutableListOf<Direction>()
+
+        for(i in 1..random.nextInt(2,4)) {
+            var direction: Direction? = null
+
+            while(direction == null || usedDirections.contains(direction)) {
+                when(random.nextInt(4)) {
+                    0 -> direction = Direction.NORTH
+                    1 -> direction = Direction.EAST
+                    2 -> direction = Direction.SOUTH
+                    3 -> direction = Direction.WEST
+                }
+            }
+
+            val posOne = origin.offset(direction.stepX * 2, direction.stepY * 2, direction.stepZ * 2)
+            val offset = if(random.nextBoolean()) -1 else 1
+            val posTwo = if(direction.stepX == 0) posOne.offset(offset, 0, 0) else posOne.offset(0, 0, offset)
+            if(random.nextInt(3) == 0) {
+                variationList.add(listOf(posOne, posTwo))
+            } else {
+                variationList.add(listOf(if(random.nextBoolean()) posOne else posTwo))
+            }
+        }
+        return variationList
     }
 
 }
