@@ -65,6 +65,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
     }
 
     override fun getObservingPlayers() = getServer()!!.playerList.players.filter { it.uuid in observerUUIDs }
+    fun size() = slots.size
 
     override fun sendTo(player: ServerPlayer) {
         player.sendPacket(InitializePartyPacket(false, uuid, slots.size))

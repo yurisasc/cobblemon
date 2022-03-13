@@ -9,6 +9,7 @@ import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -24,6 +25,7 @@ import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.network.chat.TranslatableComponent
 import kotlin.math.roundToInt
+
 
 class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecraft) {
     val partyBase = cobbledResource("ui/party/party_base.png")
@@ -213,31 +215,46 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
 
         val renderType = model.renderType(texture)
 
+        val entity = PokemonEntity(Minecraft.getInstance().level ?: return)
+        entity.pokemon = pokemon
+
         val scale = 13F
         RenderSystem.applyModelViewMatrix()
         poseStack.scale(scale, scale, -scale)
         val quaternion1 = Vector3f.YP.rotationDegrees(-32F)
+        val quaternion2 = Vector3f.XP.rotationDegrees(5F)
+
 
         if (model is PokemonPoseableModel) {
             model.setupAnimStateless(PoseType.NONE)
-            poseStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z)
+            poseStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z - 10)
             poseStack.scale(model.portraitScale, model.portraitScale, model.portraitScale)
         }
 
         poseStack.mulPose(quaternion1)
-        Lighting.setupForEntityInInventory()
+        poseStack.mulPose(quaternion2)
+
+        val light1 = Vector3f(0.2F, 1.0F, -1.0F)
+        val light2 = Vector3f(0.1F, -1.0F, 2.0F)
+        RenderSystem.setShaderLights(light1, light2)
         val entityRenderDispatcher = Minecraft.getInstance().entityRenderDispatcher
         quaternion1.conj()
-        entityRenderDispatcher.overrideCameraOrientation(quaternion1)
-        entityRenderDispatcher.setRenderShadow(false)
+//        entityRenderDispatcher.overrideCameraOrientation(quaternion1)
+//        entityRenderDispatcher.setRenderShadow(false)
 
-        val bufferSource = Minecraft.getInstance().renderBuffers().bufferSource()
-        val buffer = bufferSource.getBuffer(renderType)
-
-        val packedLight = LightTexture.pack(15, 15)
+//
+        val immediate = Minecraft.getInstance().renderBuffers().bufferSource()
+//
+        val buffer = immediate.getBuffer(renderType)
+//
+        val packedLight = LightTexture.pack(8, 4)
         model.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F)
-        bufferSource.endBatch()
-        entityRenderDispatcher.setRenderShadow(true)
+//        val pokemonRenderer = entityRenderDispatcher.getRenderer(entity) as PokemonRenderer
+//        pokemonRenderer.render(entity, 0F, 0F, poseStack, immediate, packedLight)
+////            entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0f, 1.0f, poseStack, immediate, packedLight)
+
+        immediate.endBatch()
+
         Lighting.setupFor3DItems()
     }
 }
