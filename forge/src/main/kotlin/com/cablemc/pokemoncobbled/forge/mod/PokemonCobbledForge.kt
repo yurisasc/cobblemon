@@ -18,6 +18,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 
 object PokemonCobbledForge : PokemonCobbledModImplementation {
+    override fun isModInstalled(id: String) = ModList.get().isLoaded(id)
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(PokemonCobbled.MODID, this)
@@ -48,9 +49,6 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
 
     fun initialize(event: FMLCommonSetupEvent) {
         LOGGER.info("Initializing...")
-
         PokemonCobbled.initialize()
     }
-
-    override fun isModInstalled(id: String) = ModList.get().isLoaded(id)
 }

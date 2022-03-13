@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.abilities
 
 import com.cablemc.pokemoncobbled.common.api.abilities.extensions.AbilityExtensions
+import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.TranslatableComponent
 
@@ -32,20 +33,23 @@ class AbilityTemplate(
         return Ability(this)
     }
 
+
     /**
      * Returns the Ability and loads the given NBT Tag into it.
      *
      * Ability extensions need to write and read their needed data from here.
      */
     fun create(nbt: CompoundTag): Ability {
-        if (AbilityExtensions.contains(name)) {
-            return AbilityExtensions.get(name)!!.getConstructor().newInstance().also {
-                it.loadFromNBT(nbt)
-            }
-        }
-        return Ability(this).also {
-            it.loadFromNBT(nbt)
-        }
+        return (AbilityExtensions.get(name)?.getDeclaredConstructor()?.newInstance() ?: Ability(this)).loadFromNBT(nbt)
+    }
+
+    /**
+     * Returns the Ability and loads the given JSON object into it.
+     *
+     * Ability extensions need to write and read their needed data from here.
+     */
+    fun create(json: JsonObject): Ability {
+        return (AbilityExtensions.get(name)?.getDeclaredConstructor()?.newInstance() ?: Ability(this)).loadFromJSON(json)
     }
 
     /**

@@ -4,7 +4,8 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
-import com.cablemc.pokemoncobbled.common.net.messages.FriendshipUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.HealthUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
@@ -64,6 +65,7 @@ object CobbledNetwork {
         buildClientMessage<NatureUpdatePacket>()
         buildClientMessage<ShinyUpdatePacket>()
         buildClientMessage<SpeciesUpdatePacket>()
+        buildClientMessage<HealthUpdatePacket>()
 
         // Storage Packets
         buildClientMessage<InitializePartyPacket>()
