@@ -58,7 +58,6 @@ subprojects {
     dependencies {
         // meant to be "net.minecraft:minecraft:${rootProject.property("mc_version")}" supposedly, doubtful
         "minecraft"("net.minecraft:minecraft:${rootProject.property("mc_version")}")
-        val loom = project.extensions.getByName<net.fabricmc.loom.api.LoomGradleExtensionAPI>("loom")
         "mappings"(loom.officialMojangMappings())
 
 //        testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.2")
@@ -111,33 +110,3 @@ subprojects {
         }
     }
 }
-
-//allprojects {
-//    apply plugin: "java"
-//    apply plugin: "architectury-plugin"
-//    apply plugin: "kotlin"
-//
-//    archivesBaseName = rootProject.mod_id
-//    version = rootProject.mc_version+ "-" + rootProject.mod_version
-//    group = rootProject.maven_group
-//    tasks.withType(JavaCompile) {
-//        options.encoding = "UTF-8"
-//        options.release = 17
-//    }
-//
-//    kotlin {
-//        jvmToolchain {
-//            languageVersion.set(JavaLanguageVersion.of(17))
-//        }
-//    }
-//
-//    dependencies {
-//        implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
-//        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10"
-//        implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.6.10'
-//    }
-//
-//    java {
-//        withSourcesJar()
-//    }
-//}

@@ -11,5 +11,8 @@
   ],
   "mixins": [
     "PlayerMixin"
-  ]
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

@@ -1,11 +1,14 @@
-plugins {
-    base
-    id("com.github.johnrengelman.shadow")
-}
-
 architectury {
     platformSetupLoomIde()
     forge()
+}
+
+loom {
+    accessWidenerPath.set(project(":common").file("src/main/resources/pokemoncobbled-common.accesswidener"))
+    forge {
+        convertAccessWideners.set(true)
+        mixinConfig("mixins.pokemoncobbled-common.json")
+    }
 }
 
 repositories {
@@ -19,16 +22,12 @@ dependencies {
     forge("net.minecraftforge:forge:${rootProject.property("mc_version")}-${rootProject.property("forge_version")}")
     // Add Kotlin (see https://github.com/thedarkcolour/KotlinForForge/blob/70385f5/thedarkcolour/kotlinforforge/gradle/kff-3.0.0.gradle)
     implementation("thedarkcolour:kotlinforforge:${rootProject.property("kotlin-for-forge")}")
-    modApi("dev.architectury:architectury-forge:${rootProject.property("architectury_version")}")
+//    modApi("dev.architectury:architectury-forge:${rootProject.property("architectury_version")}")
 
     // Kotlin
-//    forgeRuntimeLibrary('org.jetbrains.kotlin:kotlin-stdlib:1.6.10')
-    forgeRuntimeLibrary("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.6.10")
-    forgeRuntimeLibrary("org.jetbrains.kotlin:kotlin-reflect:1.6.10")
+    forgeRuntimeLibrary(kotlin("stdlib-jdk8", version = "1.6.10"))
+    forgeRuntimeLibrary(kotlin("reflect", version = "1.6.10"))
 
-    // For Showdown
-    bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
-    bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
     implementation(project(":common", configuration = "namedElements")) {
@@ -41,8 +40,11 @@ dependencies {
         isTransitive = false
     }
 
+    // For Showdown
+    bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
+    bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
     // Testing - It needs this!
-    forgeRuntimeLibrary("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
+//    forgeRuntimeLibrary("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
 
     // For Tests
 //    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.2")
@@ -52,14 +54,6 @@ dependencies {
 //    testImplementation("io.mockk:mockk:1.12.1")
     //    testImplementation(project(":common", configuration = "namedElements"))
 }
-
-loom {
-    forge {
-        mixinConfig("mixins.pokemoncobbled-common.json")
-        convertAccessWideners.set(true)
-    }
-}
-
 
 tasks {
     shadowJar {
