@@ -22,7 +22,7 @@ dependencies {
     forge("net.minecraftforge:forge:${rootProject.property("mc_version")}-${rootProject.property("forge_version")}")
     // Add Kotlin (see https://github.com/thedarkcolour/KotlinForForge/blob/70385f5/thedarkcolour/kotlinforforge/gradle/kff-3.0.0.gradle)
     implementation("thedarkcolour:kotlinforforge:${rootProject.property("kotlin-for-forge")}")
-//    modApi("dev.architectury:architectury-forge:${rootProject.property("architectury_version")}")
+    modApi("dev.architectury:architectury-forge:${rootProject.property("architectury_version")}")
 
     // Kotlin
     forgeRuntimeLibrary(kotlin("stdlib-jdk8", version = "1.6.10"))
