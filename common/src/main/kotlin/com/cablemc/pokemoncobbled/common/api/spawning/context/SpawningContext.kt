@@ -48,7 +48,7 @@ abstract class SpawningContext {
     /** The current phase of the moon at this location. */
     val moonPhase: Int by lazy { level.moonPhase }
     /** The biome of this location. */
-    val biome: Biome by lazy { level.getBiome(position) }
+    val biome: Biome by lazy { level.getBiome(position).value() }
 
     val biomeName: ResourceLocation
         get() = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getKey(biome)!!
