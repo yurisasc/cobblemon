@@ -35,7 +35,7 @@ deploy-job:
     - mkdir artifacts
     - mv forge/build/libs/*-forge.jar artifacts
     - mv fabric/build/libs/*-remap.jar artifacts
-    - mv for f in artifacts/*-remap.jar; do mv "$f" "$(echo "$f" | sed s/remap/fabric/)"; done
+    - for f in artifacts/*-remap.jar; do mv "$f" "$(echo "$f" | sed s/remap/fabric/)"; done
   #    - mv forge/build/libs/*.jar ./
   artifacts:
     expire_in: 10 days  
