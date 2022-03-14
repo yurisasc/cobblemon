@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.common.api.moves;
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownServer
 import com.cablemc.pokemoncobbled.common.battles.runner.exec
-import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import java.io.File
@@ -69,7 +68,7 @@ class MoveLoaderThread : Thread() {
             val integerChars = '0'..'9'
             var receivingCharSize = true
             var buffer = ""
-            var bufferVa = 0
+            var bufferVal = 0
             var c: Int
 
             while (socket.getInputStream().read().also { c = it } >= 0) {
@@ -79,16 +78,16 @@ class MoveLoaderThread : Thread() {
                     }
                     else {
                         sb.append(c.toChar())
-                        bufferVa = buffer.toInt()
+                        bufferVal = buffer.toInt()
                         receivingCharSize = false
-                        PokemonCobbled.LOGGER.info("Reading moves buffer of size $bufferVa...")
+                        PokemonCobbled.LOGGER.info("Reading moves buffer of size $bufferVal...")
                     }
                 }
                 else {
                     sb.append(c.toChar())
 
                     // Ensures the socket input stream won't hang.
-                    if (sb.toString().length >= (bufferVa)) break
+                    if (sb.toString().length >= (bufferVal)) break
                 }
             }
             socket.close()
