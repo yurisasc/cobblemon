@@ -17,7 +17,8 @@ build-job:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
     paths:
-      - build/libs
+      - forge/build/libs
+      - fabric/build/libs
 
 # Separate step to deploy the artifacts, save Norry the headache of keeping even more shit around
 deploy-job:
@@ -27,11 +28,18 @@ deploy-job:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
-      - build/libs/*
+      - forge/build/libs/*.jar
+      - fabric/build/libs/*.jar
   script: 
     - echo "Collecting artifacts..."
-    - mv build/libs/*.jar ./
+    - mkdir artifacts
+    - mv forge/build/libs/*-forge.jar artifacts
+    - mv fabric/build/libs/*-remap.jar artifacts
+    - mv for f in artifacts/*-remap.jar; do mv "$f" "$(echo "$f" | sed s/remap/fabric/)"; done
+  #    - mv forge/build/libs/*.jar ./
   artifacts:
     expire_in: 10 days  
     paths:
-      - ./*.jar
+      - artifacts/*.jar
+#      - forge/build/libs/*-forge.jar
+#      - fabric/build/libs/*-remap.jar
