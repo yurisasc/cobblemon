@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
+import com.cablemc.pokemoncobbled.common.api.moves.MoveLoaderThread
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
@@ -75,6 +76,7 @@ object PokemonCobbled {
     var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
     var isDedicatedServer = false
     var showdownThread = ShowdownThread()
+    var moveLoaderThread = MoveLoaderThread()
     var config = CobbledConfig()
     var prospector: SpawningProspector = CobbledSpawningProspector
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
@@ -99,6 +101,7 @@ object PokemonCobbled {
 
     fun initialize() {
         showdownThread.start()
+        moveLoaderThread.start()
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
