@@ -103,11 +103,12 @@ object PokemonCobbled {
         showdownThread.start()
         moveLoaderThread.start()
 
+        // Same as PokemonSpecies
+        LOGGER.info("Loaded ${Moves.count()} Moves.")
+
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
 
-        // Same as PokemonSpecies
-        LOGGER.info("Loaded ${Moves.count()} Moves.")
 
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 

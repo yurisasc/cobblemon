@@ -9,7 +9,7 @@ import net.minecraft.network.chat.TranslatableComponent
  * This class represents the base of a Move.
  * To build a Move you need to use its template
  *
- * @param name: The English name used to load / find it (spaces -> _)
+ * @param name: The English name used to load / find it (spaces -> not-spaces)
  * @param elementalType: The Type of the Move (e.g. ElementalTypes.FIRE)
  * @param damageCategory: The Damage Category of the move (e.g. DamageCategories.SPECIAL)
  * @param power: The power of the Move (loaded from its JSON)
