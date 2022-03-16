@@ -40,7 +40,7 @@ dependencies {
     bundle(project(path = ":common", configuration = "transformProductionForge")) {
         isTransitive = false
     }
-
+    testImplementation(project(":common", configuration = "namedElements"))
     // For Showdown
     bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
     bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
@@ -49,13 +49,7 @@ dependencies {
     // Testing - It needs this!
 //    forgeRuntimeLibrary("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
 
-    // For Tests
-//    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.2")
-//    testImplementation("org.junit.jupiter:junit-jupiter-params:5.5.2")
-//    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.2")
-//    testImplementation("org.mockito:mockito-core:3.3.3")
-//    testImplementation("io.mockk:mockk:1.12.1")
-    //    testImplementation(project(":common", configuration = "namedElements"))
+    //
 }
 
 tasks {
