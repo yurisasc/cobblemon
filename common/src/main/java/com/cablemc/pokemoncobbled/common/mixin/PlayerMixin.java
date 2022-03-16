@@ -11,60 +11,44 @@ import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin extends LivingEntity implements IShoulderable
-{
-    @Shadow
-    private long timeEntitySatOnShoulder;
+public abstract class PlayerMixin extends LivingEntity implements IShoulderable {
 
     protected PlayerMixin(EntityType<? extends LivingEntity> p_20966_, Level p_20967_) {
         super(p_20966_, p_20967_);
     }
 
-    /**
-     * @author Cobbled Mod Team
-     * mixin requires this
-     * @reason Enabling the removal of entities on the shoulder
-     */
-    @Overwrite
-    protected void removeEntitiesOnShoulder() {
-        if (this.timeEntitySatOnShoulder + 20L < this.level.getGameTime()) {
-            if (!CompoundTagExtensionsKt.isPokemonEntity(this.getShoulderEntityLeft())) {
-                this.respawnEntityOnShoulder(this.getShoulderEntityLeft());
-                this.setShoulderEntityLeft(new CompoundTag());
-            }
-            if (!CompoundTagExtensionsKt.isPokemonEntity(this.getShoulderEntityRight())) {
-                this.respawnEntityOnShoulder(this.getShoulderEntityRight());
-                this.setShoulderEntityRight(new CompoundTag());
-            }
+    @Shadow public void respawnEntityOnShoulder(CompoundTag p_36371_) {}
+    @Shadow public abstract CompoundTag getShoulderEntityLeft();
+    @Shadow public abstract void setShoulderEntityLeft(CompoundTag pTag);
+    @Shadow public abstract CompoundTag getShoulderEntityRight();
+    @Shadow public abstract void setShoulderEntityRight(CompoundTag pTag);
+
+    @Inject(method = "removeEntitiesOnShoulder", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;respawnEntityOnShoulder(Lnet/minecraft/nbt/CompoundTag;)V", ordinal = 0), cancellable = true)
+    private void removeEntitiesOnShoulder$sanitizeCobbledEntity(CallbackInfo ci) {
+        if (!CompoundTagExtensionsKt.isPokemonEntity(this.getShoulderEntityLeft())) {
+            this.respawnEntityOnShoulder(this.getShoulderEntityLeft());
+            this.setShoulderEntityLeft(new CompoundTag());
         }
+        if (!CompoundTagExtensionsKt.isPokemonEntity(this.getShoulderEntityRight())) {
+            this.respawnEntityOnShoulder(this.getShoulderEntityRight());
+            this.setShoulderEntityRight(new CompoundTag());
+        }
+        ci.cancel();
     }
 
-    @Shadow
-    private void respawnEntityOnShoulder(CompoundTag p_36371_) {}
-
-    @Shadow
-    public abstract CompoundTag getShoulderEntityLeft();
-
-    @Shadow
-    protected abstract void setShoulderEntityLeft(CompoundTag pTag);
-
-    @Shadow
-    public abstract CompoundTag getShoulderEntityRight();
-
-    @Shadow
-    protected abstract void setShoulderEntityRight(CompoundTag pTag);
-
     @Override
-    public void changeShoulderEntityLeft(@NotNull CompoundTag compoundTag)
-    {
+    public void changeShoulderEntityLeft(@NotNull CompoundTag compoundTag) {
         this.setShoulderEntityLeft(compoundTag);
     }
 
     @Override
-    public void changeShoulderEntityRight(@NotNull CompoundTag compoundTag)
-    {
+    public void changeShoulderEntityRight(@NotNull CompoundTag compoundTag) {
         this.setShoulderEntityRight(compoundTag);
     }
+
 }
