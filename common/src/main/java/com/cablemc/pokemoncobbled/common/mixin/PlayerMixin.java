@@ -27,7 +27,7 @@ public abstract class PlayerMixin extends LivingEntity implements IShoulderable
      * mixin requires this
      * @reason Enabling the removal of entities on the shoulder
      */
-    @Overwrite(remap = false)
+    @Overwrite
     protected void removeEntitiesOnShoulder() {
         if (this.timeEntitySatOnShoulder + 20L < this.level.getGameTime()) {
             if (!CompoundTagExtensionsKt.isPokemonEntity(this.getShoulderEntityLeft())) {
