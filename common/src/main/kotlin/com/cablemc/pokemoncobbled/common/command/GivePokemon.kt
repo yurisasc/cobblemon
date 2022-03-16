@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.asTranslated
+import com.cablemc.pokemoncobbled.common.util.commandLang
 import com.cablemc.pokemoncobbled.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -12,7 +12,6 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.arguments.EntityArgument
-import net.minecraft.network.chat.TextComponent
 import net.minecraft.server.level.ServerPlayer
 
 object GivePokemon {
@@ -45,16 +44,7 @@ object GivePokemon {
             pokemon.moveSet.setMove(2, Moves.AIR_SLASH.create())
             pokemon.moveSet.setMove(3, Moves.AURA_SPHERE.create())
             party.add(pokemon)
-            // TODO make the whole thing translatable
-            context.source.sendSuccess(
-                TextComponent("Gave ")
-                    .append(player.name)
-                    .append(" a ")
-                    .append(pkm.translatedName.asTranslated()
-                    .append(".")
-                    ),
-                true
-            )
+            context.source.sendSuccess(commandLang("givepokemon.give", pkm.translatedName, player.name), true)
         } catch (e: Exception) {
             e.printStackTrace()
         }

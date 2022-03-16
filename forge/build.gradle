@@ -45,12 +45,10 @@ dependencies {
     // For Showdown
     shadowCommon 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
     shadowCommon 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
-    //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
     // For Showdown
-    //common 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
-    //common 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
-    //common group: 'commons-io', name: 'commons-io', version: '2.6'
+    common 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
+    common 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
 
     // Testing - It needs this!
     forgeRuntimeLibrary 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'

@@ -1,14 +1,14 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.FriendlyByteBuf
 
 class MoveSet {
-
-    val moves = arrayOfNulls<Move>(4)
+    val moves = arrayOfNulls<Move>(MOVE_COUNT)
 
     /**
      * So no Pokémon can end up with no Moves assigned...
@@ -30,7 +30,7 @@ class MoveSet {
      * Sets the given Move to given position
      */
     fun setMove(pos: Int, move: Move) {
-        if (pos < 0 || pos > 3)
+        if (pos < 0 || pos > MOVE_COUNT - 1)
             return
         moves[pos] = move
     }
@@ -39,6 +39,7 @@ class MoveSet {
      * Swaps the position of the two given Moves indices
      */
     fun swapMove(pos1: Int, pos2: Int) {
+        // The fact that this works should be a fuckin crime wth
         moves[pos1] = moves[pos2].also {
             moves[pos2] = moves[pos1]
         }
@@ -63,7 +64,26 @@ class MoveSet {
         }
     }
 
+    fun saveToJSON(json: JsonObject): JsonObject {
+        for ((i, move) in moves.filterNotNull().withIndex()) {
+            val moveJSON = move.saveToJSON(JsonObject())
+            json.add(DataKeys.POKEMON_MOVESET + i, moveJSON)
+        }
+        return json
+    }
+
+    fun add(move: Move) {
+        for (i in 0 until MOVE_COUNT) {
+            if (moves[i] == null) {
+                moves[i] = move
+                return
+            }
+        }
+    }
+
     companion object {
+        const val MOVE_COUNT = 4
+
         /**
          * Returns a MoveSet built from given NBT
          */
@@ -83,6 +103,16 @@ class MoveSet {
             val moveSet = MoveSet()
             for (i in 0 until amountMoves) {
                 moveSet.setMove(i, Move.loadFromBuffer(buffer))
+            }
+            return moveSet
+        }
+
+        fun loadFromJSON(json: JsonObject): MoveSet {
+            val moveSet = MoveSet()
+            for (i in 0 until 4) {
+                val moveJSON = json.get(DataKeys.POKEMON_MOVESET + i) ?: continue
+                val move = Move.loadFromJSON(moveJSON.asJsonObject)
+                moveSet.add(move)
             }
             return moveSet
         }
