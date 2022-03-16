@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.gui
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.api.gui.drawRectangle
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaled
@@ -12,7 +11,6 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.reposit
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
@@ -21,9 +19,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.gui.screens.ChatScreen
 import net.minecraft.client.gui.screens.Screen
-import net.minecraft.client.renderer.GameRenderer
 import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.network.chat.TranslatableComponent
 import kotlin.math.roundToInt
@@ -34,8 +30,6 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
     val underlaySelected = cobbledResource("ui/party/party_slot_underlay_selected.png")
     val expBar = cobbledResource("ui/party/party_overlay_exp.png")
     val hpBar = cobbledResource("ui/party/party_overlay_hp.png")
-    val ring = cobbledResource("ui/party/ring.png")
-    val ring2 = cobbledResource("ui/party/ring2.png")
     val screenExemptions: List<Class<out Screen>> = listOf(
         ChatScreen::class.java
     )
@@ -181,10 +175,10 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                     scaleY = 0.4F
                 )
 
-                val width = minecraft.font.width(100.toString())
+                val width = minecraft.font.width(pokemon.level.toString())
                 minecraft.font.drawScaled(
                     poseStack = poseStack,
-                    text = TranslatableComponent(100.toString()),
+                    text = TranslatableComponent(pokemon.level.toString()),
                     x = panelX + 6.5F - width / 4F,
                     y = startY + slotHeight * index + slotHeight * 0.84F - 7F,
                     scaleX = 0.45F,
@@ -208,7 +202,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         if (model is PokemonPoseableModel) {
             model.setupAnimStateless(PoseType.NONE)
             poseStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z)
-            poseStack.scale(model.portraitScale, model.portraitScale, 0.001F)
+            poseStack.scale(model.portraitScale, model.portraitScale, 0.01F)
         }
 
         poseStack.mulPose(quaternion1)
