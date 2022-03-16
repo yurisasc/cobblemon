@@ -5,28 +5,29 @@ architectury {
 
 loom {
     accessWidenerPath.set(project(":common").file("src/main/resources/pokemoncobbled-common.accesswidener"))
+
     forge {
         convertAccessWideners.set(true)
         mixinConfig("mixins.pokemoncobbled-common.json")
     }
 }
 
-repositories {
-    maven {
-        name = "kotlinforforge"
-        url = uri("https://thedarkcolour.github.io/KotlinForForge/")
-    }
-}
+val kotlin_version: String by project
+val annotations_version: String by project
+val coroutines_version: String by project
+val serialization_version: String by project
 
 dependencies {
     forge("net.minecraftforge:forge:${rootProject.property("mc_version")}-${rootProject.property("forge_version")}")
-    // Add Kotlin (see https://github.com/thedarkcolour/KotlinForForge/blob/70385f5/thedarkcolour/kotlinforforge/gradle/kff-3.0.0.gradle)
-    implementation("thedarkcolour:kotlinforforge:${rootProject.property("kotlin-for-forge")}")
     modApi("dev.architectury:architectury-forge:${rootProject.property("architectury_version")}")
 
     // Kotlin
     forgeRuntimeLibrary(kotlin("stdlib-jdk8", version = "1.6.10"))
     forgeRuntimeLibrary(kotlin("reflect", version = "1.6.10"))
+    forgeRuntimeLibrary(kotlin("stdlib", version = kotlin_version))
+    forgeRuntimeLibrary("org.jetbrains:annotations:${annotations_version}")
+    forgeRuntimeLibrary("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:${serialization_version}")
+    forgeRuntimeLibrary("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:${serialization_version}")
 
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
@@ -43,6 +44,8 @@ dependencies {
     // For Showdown
     bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
     bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+
+
     // Testing - It needs this!
 //    forgeRuntimeLibrary("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
 

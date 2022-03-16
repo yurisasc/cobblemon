@@ -1,17 +1,20 @@
 package com.cablemc.pokemoncobbled.common.mixin;
 
+import com.cablemc.pokemoncobbled.common.entity.player.IShoulderable;
 import com.cablemc.pokemoncobbled.common.util.CompoundTagExtensionsKt;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Player.class)
-public abstract class PlayerMixin extends LivingEntity {
+public abstract class PlayerMixin extends LivingEntity implements IShoulderable
+{
     @Shadow
     private long timeEntitySatOnShoulder;
 
@@ -24,8 +27,8 @@ public abstract class PlayerMixin extends LivingEntity {
      * mixin requires this
      * @reason Enabling the removal of entities on the shoulder
      */
-    @Overwrite
-    public void removeEntitiesOnShoulder() {
+    @Overwrite(remap = false)
+    protected void removeEntitiesOnShoulder() {
         if (this.timeEntitySatOnShoulder + 20L < this.level.getGameTime()) {
             if (!CompoundTagExtensionsKt.isPokemonEntity(this.getShoulderEntityLeft())) {
                 this.respawnEntityOnShoulder(this.getShoulderEntityLeft());
@@ -52,4 +55,16 @@ public abstract class PlayerMixin extends LivingEntity {
 
     @Shadow
     protected abstract void setShoulderEntityRight(CompoundTag pTag);
+
+    @Override
+    public void changeShoulderEntityLeft(@NotNull CompoundTag compoundTag)
+    {
+        this.setShoulderEntityLeft(compoundTag);
+    }
+
+    @Override
+    public void changeShoulderEntityRight(@NotNull CompoundTag compoundTag)
+    {
+        this.setShoulderEntityRight(compoundTag);
+    }
 }

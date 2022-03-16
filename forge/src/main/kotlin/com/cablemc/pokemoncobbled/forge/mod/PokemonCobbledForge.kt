@@ -14,11 +14,12 @@ import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
-import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 
 @Mod(PokemonCobbled.MODID)
-object PokemonCobbledForge : PokemonCobbledModImplementation {
+class PokemonCobbledForge : PokemonCobbledModImplementation {
     init {
+        val MOD_BUS = FMLJavaModLoadingContext.get().modEventBus
         MOD_BUS.addListener(this::initialize)
         MOD_BUS.addListener(this::serverInit)
         EventBuses.registerModEventBus(PokemonCobbled.MODID, MOD_BUS)
@@ -49,7 +50,6 @@ object PokemonCobbledForge : PokemonCobbledModImplementation {
 
     fun initialize(event: FMLCommonSetupEvent) {
         PokemonCobbled.LOGGER.info("Initializing...")
-
         PokemonCobbled.initialize()
     }
 
