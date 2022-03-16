@@ -58,7 +58,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         }
 
         val slotHeight = 32
-        val portraitRadius = 24
+        val portraitRadius = 23
         val totalHeight = party.slots.size * slotHeight
         val ratio = 324 / 252F
         val midY = minecraft.window.guiScaledHeight / 2
@@ -70,17 +70,14 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         val downscaleIt: (Number) -> Int = { (it.toFloat() / 4F * minecraft.window.guiScale).roundToInt() }
 
         party.forEachIndexed { index, pokemon ->
-            if (index != 0) {
-                return@forEachIndexed
-            }
-//            blitk(
-//                poseStack = poseStack,
-//                texture = if (PokemonCobbledClient.storage.selectedSlot == index) underlaySelected else underlay,
-//                x = panelX + frameOffsetX,
-//                y = startY + slotHeight * index + frameOffsetY,
-//                height = portraitRadius,
-//                width = portraitRadius
-//            )
+            blitk(
+                poseStack = poseStack,
+                texture = if (PokemonCobbledClient.storage.selectedSlot == index) underlaySelected else underlay,
+                x = panelX + frameOffsetX - 1,
+                y = startY + slotHeight * index + frameOffsetY - 1,
+                height = portraitRadius + 2,
+                width = portraitRadius + 2
+            )
 
             if (pokemon != null) {
                 val y = startY + slotHeight * index + frameOffsetY
@@ -88,13 +85,12 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                 val height = minecraft.window.height
                 val scaledTotalHeight = downscaleIt(totalHeight)
 
-
-//                RenderSystem.enableScissor(
-//                    ((panelX + frameOffsetX) * minecraft.window.guiScale).roundToInt(),
-//                    height / 2 + scaledTotalHeight * 2 - scaleIt(slotHeight * (index + 1)),// - scaleIt(slotHeight) * index,
-//                    (portraitRadius * minecraft.window.guiScale).roundToInt(),
-//                    (portraitRadius * minecraft.window.guiScale).roundToInt()
-//                )
+                RenderSystem.enableScissor(
+                    ((panelX + frameOffsetX) * minecraft.window.guiScale).roundToInt(),
+                    height / 2 + scaledTotalHeight * 2 + scaleIt(8) - scaleIt(slotHeight * (index + 1)),
+                    (portraitRadius * minecraft.window.guiScale).roundToInt(),
+                    (portraitRadius * minecraft.window.guiScale).roundToInt()
+                )
 
 
                 val poseStack = PoseStack()
@@ -105,68 +101,24 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                 )
                 poseStack.scale(1F, 1F, 1F)
 
-                RenderSystem.disableBlend()
-                RenderSystem.enableBlend()
-                RenderSystem.blendFunc(GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE)
-//                drawPokemon(pokemon, poseStack)
+                drawPokemon(pokemon, poseStack)
 
-                blitk(
-                    poseStack = PoseStack(),
-                    texture = partySlot,
-                    x = 0,
-                    y = 0,
-                    width = 1000,
-                    height = 1000,
-                    blend = false
-                )
-
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.ZERO,
-                    GlStateManager.DestFactor.DST_COLOR,
-                    GlStateManager.SourceFactor.SRC_ALPHA,
-                    GlStateManager.DestFactor.ZERO
-                )
-                blitk(
-                    poseStack = PoseStack(),
-                    texture = ring2,
-                    x = panelX + frameOffsetX,
-                    y = y,
-                    width = portraitRadius,
-                    height = portraitRadius,
-                    blend = false
-                )
-
-//                val x = panelX + frameOffsetX
-//                val width = portraitRadius
-//                val height2 = portraitRadius
-//                val textureWidth = width
-//                val textureHeight = height
-//                RenderSystem.setShader { GameRenderer.getPositionTexShader() }
-//                ring2.run { RenderSystem.setShaderTexture(0, this) }
-//                RenderSystem.setShaderColor(1F, 1F, 1F, 1F)
-//                drawRectangle(
-//                    poseStack.last().pose(),
-//                    x.toFloat(), y.toFloat(), x.toFloat() + width.toFloat(), y.toFloat() + height2.toFloat(),
-//                    blitOffset.toFloat(),
-//                    0.toFloat() / textureWidth.toFloat(), (0.toFloat() + width.toFloat()) / textureWidth.toFloat(),
-//                    0.toFloat() / textureHeight.toFloat(), (0.toFloat() + height.toFloat()) / textureHeight.toFloat()
-//                )
-
-
-                RenderSystem.disableBlend()
-//                RenderSystem.disableScissor()
+                RenderSystem.disableScissor()
             }
         }
 
+        // Some long models end up translated such that the text ends up behind the invisible viewport rendered bits.
+        // Kinda messed up but pushing these next elements forward seems a cheap enough fix.
+        poseStack.translate(0.0, 0.0, 10.0)
         party.slots.forEachIndexed { index, pokemon ->
-//            blitk(
-//                poseStack = poseStack,
-//                texture = partySlot,
-//                x = panelX,
-//                y = startY + slotHeight * index,
-//                height = slotHeight,
-//                width = ratio * slotHeight
-//            )
+            blitk(
+                poseStack = poseStack,
+                texture = partySlot,
+                x = panelX,
+                y = startY + slotHeight * index,
+                height = slotHeight,
+                width = ratio * slotHeight
+            )
 
             if (pokemon != null) {
                 val hpRatio = pokemon.currentHealth / pokemon.hp.toFloat()
@@ -256,7 +208,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         if (model is PokemonPoseableModel) {
             model.setupAnimStateless(PoseType.NONE)
             poseStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z)
-            poseStack.scale(model.portraitScale, model.portraitScale, 0.01F)
+            poseStack.scale(model.portraitScale, model.portraitScale, 0.001F)
         }
 
         poseStack.mulPose(quaternion1)
