@@ -20,6 +20,9 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     private val body2: ModelPart = registerRelevantPart("body2", rootPart.getChildOf("body2"))
     private val body3: ModelPart = registerRelevantPart("body3", rootPart.getChildOf("body3"))
 
+    override val portraitScale = 1.7F
+    override val portraitTranslation = Vec3(-0.2, -0.7, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.NONE,
@@ -57,9 +60,6 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
             transformedParts = emptyArray()
         )
     }
-
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3(-0.30, -0.15, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("dugtrio"), "main")

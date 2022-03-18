@@ -65,7 +65,7 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     }
 
     override val portraitScale = 1.35F
-    override val portraitTranslation = Vec3(0.09, 1.25, 0.0)
+    override val portraitTranslation = Vec3(-0.2, 1.25, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("blastoise"), "main")

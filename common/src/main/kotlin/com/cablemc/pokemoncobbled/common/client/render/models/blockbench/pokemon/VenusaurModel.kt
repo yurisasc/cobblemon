@@ -42,7 +42,7 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     }
 
     override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3(-0.75, -0.2, 0.0)
+    override val portraitTranslation = Vec3(-0.7, -0.9, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("venusaur"), "main")

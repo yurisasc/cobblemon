@@ -8,7 +8,6 @@ import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -47,7 +46,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         if (HidePartyBinding.shouldHide)
             return
 
-        val panelX = 2
+        val panelX = 0
         val party = PokemonCobbledClient.storage.myParty
         if (party.slots.none { it != null }) {
             return
@@ -204,8 +203,8 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
 
 
         if (model is PokemonPoseableModel) {
-            model.setupAnimStateless(PoseType.NONE)
-            poseStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z)
+            model.setupAnimStateless(PoseType.PROFILE)
+            poseStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z - 4)
             poseStack.scale(model.portraitScale, model.portraitScale, 0.01F)
         }
 
@@ -215,21 +214,12 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         val light1 = Vector3f(0.2F, 1.0F, -1.0F)
         val light2 = Vector3f(0.1F, -1.0F, 2.0F)
         RenderSystem.setShaderLights(light1, light2)
-        val entityRenderDispatcher = Minecraft.getInstance().entityRenderDispatcher
         quaternion1.conj()
-//        entityRenderDispatcher.overrideCameraOrientation(quaternion1)
-//        entityRenderDispatcher.setRenderShadow(false)
 
-//
         val immediate = Minecraft.getInstance().renderBuffers().bufferSource()
-//
         val buffer = immediate.getBuffer(renderType)
-//
         val packedLight = LightTexture.pack(8, 4)
         model.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F)
-//        val pokemonRenderer = entityRenderDispatcher.getRenderer(entity) as PokemonRenderer
-//        pokemonRenderer.render(entity, 0F, 0F, poseStack, immediate, packedLight)
-////            entityRenderDispatcher.render(entity, 0.0, 0.0, 0.0, 0.0f, 1.0f, poseStack, immediate, packedLight)
 
         immediate.endBatch()
 

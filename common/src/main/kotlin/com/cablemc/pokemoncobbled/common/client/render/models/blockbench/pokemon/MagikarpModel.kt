@@ -1,10 +1,16 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.withRotation
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -26,6 +32,9 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     val rightFlipper: ModelPart = registerRelevantPart("rightlfipper", rootPart.getChildOf("body", "rightlfipper"))
     val tail: ModelPart = registerRelevantPart("tail", rootPart.getChildOf("body", "tail"))
 
+    override val portraitScale = 1.65F
+    override val portraitTranslation = Vec3(0.12, -0.45, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
@@ -40,11 +49,17 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(BedrockStatelessAnimation(this, BedrockAnimationRepository.getAnimation("magikarp.animation.json","animation.magikarp.fly"))),
             transformedParts = emptyArray()
         )
+
+        registerPose(
+            poseType = PoseType.PROFILE,
+            { false },
+            idleAnimations = emptyArray<StatelessAnimation<PokemonEntity, out ModelFrame>>(),
+            transformedParts = arrayOf(
+                leftMustache.withRotation(Y_AXIS, (-75F).toRadians()),
+                rightMustache.withRotation(Y_AXIS, 75F.toRadians())
+            )
+        )
     }
-
-
-    override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3(-0.05, -0.1, 0.0)
 
     companion object {
         // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor

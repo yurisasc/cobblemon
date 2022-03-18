@@ -55,7 +55,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     }
 
     override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3(-0.05, 0.10, 0.0)
+    override val portraitTranslation = Vec3(0.0, 0.10, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("squirtle"), "main")

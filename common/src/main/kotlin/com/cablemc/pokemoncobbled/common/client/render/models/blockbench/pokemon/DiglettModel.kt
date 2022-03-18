@@ -19,6 +19,9 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart: ModelPart = registerRelevantPart("diglett", root.getChild("diglett"))
     private val body: ModelPart = registerRelevantPart("body", rootPart.getChildOf("body"))
 
+    override val portraitScale = 1.65F
+    override val portraitTranslation = Vec3(0.15, -0.7, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.NONE,
@@ -56,9 +59,6 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
             transformedParts = emptyArray()
         )
     }
-
-    override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3(0.0, -0.4, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("diglett"), "main")

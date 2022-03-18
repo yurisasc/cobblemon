@@ -71,7 +71,12 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     }
 
     override val portraitScale = 1.55F
-    override val portraitTranslation = Vec3(-0.15, 0.2, 0.0)
+    override val portraitTranslation = Vec3(-0.15, 0.1, 0.0)
+
+    override val profileScale: Float
+        get() = 1.0F
+    override val profileTranslation: Vec3
+        get() = Vec3(0.0, 0.00, 0.0)
 
     companion object {
         private const val TAIL_ANIMATION_TOTAL = 60F
@@ -166,9 +171,4 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
             return LayerDefinition.create(meshDefinition, 64, 64)
         }
     }
-
-    override val profileScale: Float
-        get() = 1.0F
-    override val profileTranslation: Vec3
-        get() = Vec3(0.0, 0.00, 0.0)
 }

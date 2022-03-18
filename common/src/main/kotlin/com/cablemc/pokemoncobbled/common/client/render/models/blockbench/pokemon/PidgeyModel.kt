@@ -30,6 +30,8 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val head = registerRelevantPart("head", rootPart.getChildOf("body","head"))
     private val tail = registerRelevantPart("tail", rootPart.getChildOf("body","tail"))
 
+    override val portraitScale = 1.95F
+    override val portraitTranslation = Vec3(-0.05, -0.7, 0.0)
 
     override fun registerPoses() {
         registerPose(
@@ -122,9 +124,6 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             transformedParts = arrayOf(),
         )
     }
-
-    override val portraitScale = 1.95F
-    override val portraitTranslation = Vec3(-0.05, -0.5, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("pidgey"), "main")

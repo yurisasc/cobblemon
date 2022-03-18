@@ -42,7 +42,7 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     }
 
     override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3(0.03, -0.1, 0.0)
+    override val portraitTranslation = Vec3(0.0, -0.6, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("bulbasaur"), "main")

@@ -74,7 +74,7 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     }
 
     override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3(0.0, 0.5, 0.0)
+    override val portraitTranslation = Vec3(0.0, 0.7, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("charmeleon"), "main")

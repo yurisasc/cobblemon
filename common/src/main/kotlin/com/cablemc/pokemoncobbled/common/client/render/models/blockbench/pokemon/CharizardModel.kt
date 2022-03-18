@@ -100,7 +100,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     }
 
     override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3(0.09, 1.8, 0.0)
+    override val portraitTranslation = Vec3(-0.1, 1.6, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("charizard"), "main")

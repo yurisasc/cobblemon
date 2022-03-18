@@ -31,6 +31,9 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     val leftWingBack = registerRelevantPart("leftwingback", rootPart.getChildOf("body", "leftwingback"))
     val rightWingBack = registerRelevantPart("rightwingback", rootPart.getChildOf("body", "rightwingback"))
 
+    override val portraitScale = 1.5F
+    override val portraitTranslation = Vec3(0.1, 0.2, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.NONE,
@@ -102,9 +105,6 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             transformedParts = arrayOf(rootPart.withRotation(X_AXIS, 20F.toRadians()))
         )
     }
-
-    override val portraitScale = 1.25F
-    override val portraitTranslation = Vec3(0.29, 0.65, 0.0)
 
     companion object {
         val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(cobbledResource("butterfree"), "main")
