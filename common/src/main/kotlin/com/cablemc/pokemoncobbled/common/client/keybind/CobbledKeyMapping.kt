@@ -20,7 +20,8 @@ abstract class CobbledKeyMapping(
     abstract fun onPress()
 
     open fun onKeyInput() {
-        if (this.consumeClick())
+        if (this.consumeClick()) {
             onPress()
+        }
     }
 }

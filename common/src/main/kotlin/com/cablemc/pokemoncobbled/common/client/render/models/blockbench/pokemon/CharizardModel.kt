@@ -46,6 +46,12 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     private val tail3 = registerRelevantPart("tail3", tail2.getChild("tail3"))
     private val fire = registerRelevantPart("fire", tail3.getChild("fire"))
 
+    override val portraitScale = 1.75F
+    override val portraitTranslation = Vec3(-0.1, 1.6, 0.0)
+
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
@@ -98,9 +104,6 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             )
         )
     }
-
-    override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3(-0.1, 1.6, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("charizard"), "main")

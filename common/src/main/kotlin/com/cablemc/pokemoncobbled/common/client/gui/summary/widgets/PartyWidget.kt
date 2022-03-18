@@ -81,8 +81,8 @@ class PartyWidget(
 //                    alpha = 0.5
 //                )
 
-                poseStack.translate((x + width / 21.0), y - 26.0 + index * 30, -100.0)
-                poseStack.scale(2.5F, 2.5F, 2.5F)
+                poseStack.translate((x + width / 21.0), y - 26.0 + index * 30, 0.0)
+                poseStack.scale(2.5F, 2.5F, 1F)
 
                 drawProfilePokemon(
                     pokemon = this,

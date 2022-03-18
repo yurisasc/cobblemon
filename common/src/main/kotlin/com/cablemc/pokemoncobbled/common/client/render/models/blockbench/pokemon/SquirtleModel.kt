@@ -30,6 +30,12 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val leftArm = registerRelevantPart("leftarm", body.getChild("leftarm"))
     private val tail = registerRelevantPart("tail", body.getChild("tail"))
 
+    override val portraitScale = 1.6F
+    override val portraitTranslation = Vec3(0.0, 0.10, 0.0)
+
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     override fun registerPoses() {
         registerPose(
                 poseType = PoseType.WALK,
@@ -53,9 +59,6 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
                 )
         )
     }
-
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3(0.0, 0.10, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("squirtle"), "main")

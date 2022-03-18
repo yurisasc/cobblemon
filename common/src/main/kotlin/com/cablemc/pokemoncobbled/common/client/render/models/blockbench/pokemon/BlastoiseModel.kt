@@ -40,6 +40,12 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rightEarJoint = EarJoint(rightEar, TransformedModelPart.Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
     private val tail = registerRelevantPart("tail", body.getChild("tail"))
 
+    override val portraitScale = 1.35F
+    override val portraitTranslation = Vec3(-0.2, 1.25, 0.0)
+
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
@@ -63,9 +69,6 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             )
         )
     }
-
-    override val portraitScale = 1.35F
-    override val portraitTranslation = Vec3(-0.2, 1.25, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("blastoise"), "main")
@@ -203,9 +206,4 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             return LayerDefinition.create(meshdefinition, 128, 128)
         }
     }
-
-    override val profileScale: Float
-        get() = 1.0F
-    override val profileTranslation: Vec3
-        get() = Vec3(0.0, 0.00, 0.0)
 }

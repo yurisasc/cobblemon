@@ -36,6 +36,8 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
 
     override val portraitScale = 2.05F
     override val portraitTranslation = Vec3(-0.22, -0.75, 0.0)
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(

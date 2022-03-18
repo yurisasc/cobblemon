@@ -25,6 +25,11 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val foreRightLeg = registerRelevantPart("rightleg", rootPart.getChild("body").getChild("rightleg"))
     override val foreLeftLeg = registerRelevantPart("leftleg", rootPart.getChild("body").getChild("leftleg"))
 
+    override val portraitScale = 1.65F
+    override val portraitTranslation = Vec3(0.0, -0.6, 0.0)
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     init {
         registerPoses()
     }
@@ -40,9 +45,6 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             transformedParts = arrayOf()
         )
     }
-
-    override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3(0.0, -0.6, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("bulbasaur"), "main")

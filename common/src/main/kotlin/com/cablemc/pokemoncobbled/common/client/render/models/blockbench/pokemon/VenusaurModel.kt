@@ -25,6 +25,12 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val foreRightLeg = registerRelevantPart("rightleg", rootPart.getChild("body").getChild("rightleg"))
     override val foreLeftLeg = registerRelevantPart("leftleg", rootPart.getChild("body").getChild("leftleg"))
 
+    override val portraitScale = 1.75F
+    override val portraitTranslation = Vec3(-0.7, -0.9, 0.0)
+
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     init {
         registerPoses()
     }
@@ -40,9 +46,6 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             transformedParts = arrayOf()
         )
     }
-
-    override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3(-0.7, -0.9, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("venusaur"), "main")

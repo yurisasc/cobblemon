@@ -22,6 +22,9 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     override val portraitScale = 1.65F
     override val portraitTranslation = Vec3(0.15, -0.7, 0.0)
 
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.NONE,

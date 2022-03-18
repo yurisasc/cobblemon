@@ -25,6 +25,11 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val foreRightLeg = registerRelevantPart("rightleg", rootPart.getChild("body").getChild("rightleg"))
     override val foreLeftLeg = registerRelevantPart("leftleg", rootPart.getChild("body").getChild("leftleg"))
 
+    override val portraitScale = 1.65F
+    override val portraitTranslation = Vec3(-0.1, -0.5, 0.0)
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     init {
         registerPoses()
     }
@@ -40,9 +45,6 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             transformedParts = arrayOf()
         )
     }
-
-    override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3(-0.1, -0.5, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("ivysaur"), "main")

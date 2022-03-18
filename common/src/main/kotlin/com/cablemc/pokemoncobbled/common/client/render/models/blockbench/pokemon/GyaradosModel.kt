@@ -51,6 +51,11 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
     val tail6WaveSegment = WaveSegment(modelPart = tail6, length = 4F)
     val tail7WaveSegment = WaveSegment(modelPart = tail7, length = 15F)
 
+    override val portraitScale = 1.9F
+    override val portraitTranslation = Vec3(-1.8, 1.4, 0.0)
+    override val profileScale = 0.4F
+    override val profileTranslation = Vec3(0.0, 0.5, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
@@ -125,11 +130,6 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
             transformedParts = arrayOf()
         )
     }
-
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3(-1.8, 1.4, 0.0)
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3(0.0, 0.5, 0.0)
 
     companion object {
         val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(cobbledResource("gyarados"), "main")

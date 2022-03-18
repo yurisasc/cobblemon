@@ -33,6 +33,9 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val portraitScale = 1.95F
     override val portraitTranslation = Vec3(-0.05, -0.7, 0.0)
 
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.NONE,

@@ -32,6 +32,8 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
     override val portraitScale = 1.75F
     override val portraitTranslation = Vec3(-0.05, -0.3, 0.0)
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(

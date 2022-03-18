@@ -37,6 +37,11 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail5Segment = WaveSegment(modelPart = tail5, length = 10F)
     val tail6Segment = WaveSegment(modelPart = tail6, length = 10F)
 
+    override val portraitScale = 1.85F
+    override val portraitTranslation = Vec3(-1.3, -0.75, 0.0)
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
@@ -71,9 +76,6 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
-
-    override val portraitScale = 1.85F
-    override val portraitTranslation = Vec3(-1.3, -0.75, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("ekans"), "main")

@@ -37,6 +37,11 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val rightEarJoint = EarJoint(rightEar, TransformedModelPart.Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
     private val tail = registerRelevantPart("tail", body.getChild("tail"))
 
+    override val portraitScale = 1.6F
+    override val portraitTranslation = Vec3(-0.05, 0.40, 0.0)
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     override fun registerPoses() {
         registerPose(
                 poseType = PoseType.WALK,
@@ -60,9 +65,6 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 )
         )
     }
-
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3(-0.05, 0.40, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("wartortle"), "main")

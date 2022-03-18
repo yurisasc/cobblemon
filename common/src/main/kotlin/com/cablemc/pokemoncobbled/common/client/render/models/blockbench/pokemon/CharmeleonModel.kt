@@ -39,6 +39,12 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     private val leftHand = registerRelevantPart("lefthand", leftArm.getChild("lefthand"))
     private val rightHand = registerRelevantPart("righthand", rightArm.getChild("righthand"))
 
+    override val portraitScale = 1.65F
+    override val portraitTranslation = Vec3(0.0, 0.7, 0.0)
+
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
@@ -72,9 +78,6 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             )
         )
     }
-
-    override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3(0.0, 0.7, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("charmeleon"), "main")
