@@ -1,6 +1,7 @@
 {
   "name": "ekans",
   "nationalPokedexNumber": 23,
+  "primaryType": "poison",
   "maleRatio": 0.5,
   "baseStats": {
     "hp": 35,

@@ -1,6 +1,7 @@
 {
   "name": "charmeleon",
   "nationalPokedexNumber": 5,
+  "primaryType": "fire",
   "maleRatio": 0.875,
   "baseStats": {
     "hp": 58,

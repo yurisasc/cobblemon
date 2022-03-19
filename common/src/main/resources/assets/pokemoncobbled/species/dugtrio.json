@@ -1,6 +1,7 @@
 {
   "name": "dugtrio",
   "nationalPokedexNumber": 51,
+  "primaryType": "ground",
   "maleRatio": 0.5,
   "baseStats": {
     "hp": 35,

@@ -1,6 +1,7 @@
 {
   "name": "charmander",
   "nationalPokedexNumber": 4,
+  "primaryType": "fire",
   "maleRatio": 0.875,
   "baseStats": {
     "hp": 39,
