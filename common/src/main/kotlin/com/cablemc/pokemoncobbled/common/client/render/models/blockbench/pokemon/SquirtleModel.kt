@@ -17,6 +17,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 
 class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
@@ -28,6 +29,12 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rightArm = registerRelevantPart("rightarm", body.getChild("rightarm"))
     override val leftArm = registerRelevantPart("leftarm", body.getChild("leftarm"))
     private val tail = registerRelevantPart("tail", body.getChild("tail"))
+
+    override val portraitScale = 1.6F
+    override val portraitTranslation = Vec3(0.0, 0.10, 0.0)
+
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(

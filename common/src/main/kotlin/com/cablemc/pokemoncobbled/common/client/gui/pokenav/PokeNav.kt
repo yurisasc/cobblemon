@@ -1,7 +1,8 @@
 package com.cablemc.pokemoncobbled.common.client.gui.pokenav
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
+import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -164,7 +165,7 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
      */
 
     private fun onPressPokemon(button: Button) {
-        println("Pressed Pokemon")
+        Minecraft.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
     }
 
     private fun onPressExit(button: Button) {
