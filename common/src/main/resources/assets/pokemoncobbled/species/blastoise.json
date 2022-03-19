@@ -1,9 +1,8 @@
 {
   "name": "blastoise",
   "nationalPokedexNumber": 9,
-  "primaryType": "water",
-  "secondaryType": null,
   "maleRatio": 0.875,
+  "primaryType": "water",
   "baseStats": {
     "hp": 79,
     "attack": 83,

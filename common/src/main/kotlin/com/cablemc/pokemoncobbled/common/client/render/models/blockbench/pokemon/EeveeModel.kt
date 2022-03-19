@@ -38,6 +38,12 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     override val leftEarJoint = EarJoint(leftEar, Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
     override val rightEarJoint = EarJoint(rightEar, Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
+    override val portraitScale = 1.55F
+    override val portraitTranslation = Vec3(-0.15, 0.1, 0.0)
+
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
@@ -69,9 +75,6 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
         }
         tail.yRot = Mth.sin(clientDelegate.animTick * 6 * Math.PI.toFloat() / 180) * Math.PI.toFloat() / 7
     }
-
-    override val portraitScale = 1.55F
-    override val portraitTranslation = Vec3(-0.15, 0.2, 0.0)
 
     companion object {
         private const val TAIL_ANIMATION_TOTAL = 60F
@@ -166,9 +169,4 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
             return LayerDefinition.create(meshDefinition, 64, 64)
         }
     }
-
-    override val profileScale: Float
-        get() = 1.0F
-    override val profileTranslation: Vec3
-        get() = Vec3(0.0, 0.00, 0.0)
 }

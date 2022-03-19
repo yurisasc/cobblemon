@@ -2,7 +2,6 @@
   "name": "wartortle",
   "nationalPokedexNumber": 8,
   "primaryType": "water",
-  "secondaryType": null,
   "maleRatio": 0.875,
   "baseStats": {
     "hp": 59,

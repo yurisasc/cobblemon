@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.network.chat.TranslatableComponent
 import kotlin.math.roundToInt
 
+
 class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecraft) {
     val partySlot = cobbledResource("ui/party/party_slot.png")
     val underlay = cobbledResource("ui/party/party_slot_underlay.png")
@@ -45,7 +46,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         if (HidePartyBinding.shouldHide)
             return
 
-        val panelX = 2
+        val panelX = 0
         val party = PokemonCobbledClient.storage.myParty
         if (party.slots.none { it != null }) {
             return
@@ -198,29 +199,30 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         RenderSystem.applyModelViewMatrix()
         poseStack.scale(scale, scale, -scale)
         val quaternion1 = Vector3f.YP.rotationDegrees(-32F)
+        val quaternion2 = Vector3f.XP.rotationDegrees(5F)
+
 
         if (model is PokemonPoseableModel) {
-            model.setupAnimStateless(PoseType.NONE)
-            poseStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z)
+            model.setupAnimStateless(PoseType.PROFILE)
+            poseStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z - 4)
             poseStack.scale(model.portraitScale, model.portraitScale, 0.01F)
         }
 
         poseStack.mulPose(quaternion1)
-        Lighting.setupForEntityInInventory()
-        val entityRenderDispatcher = Minecraft.getInstance().entityRenderDispatcher
+        poseStack.mulPose(quaternion2)
+
+        val light1 = Vector3f(0.2F, 1.0F, -1.0F)
+        val light2 = Vector3f(0.1F, -1.0F, 2.0F)
+        RenderSystem.setShaderLights(light1, light2)
         quaternion1.conj()
-        entityRenderDispatcher.overrideCameraOrientation(quaternion1)
-        entityRenderDispatcher.setRenderShadow(false)
 
-        val packedLight = LightTexture.pack(15, 15)
-
-        val bufferSource = Minecraft.getInstance().renderBuffers().bufferSource()
-
-        val buffer = bufferSource.getBuffer(renderType)
+        val immediate = Minecraft.getInstance().renderBuffers().bufferSource()
+        val buffer = immediate.getBuffer(renderType)
+        val packedLight = LightTexture.pack(8, 4)
         model.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F)
-        bufferSource.endBatch()
 
-        entityRenderDispatcher.setRenderShadow(true)
+        immediate.endBatch()
+
         Lighting.setupFor3DItems()
     }
 }

@@ -24,8 +24,8 @@ class PartyWidget(
         private const val PARTY_BOX_WIDTH = 32.0F
         private const val PARTY_BOX_HEIGHT = 32.5F
         private const val PARTY_BOX_HEIGHT_DIFF = 30.2F
-        private const val PARTY_PORTRAIT_WIDTH = 27.5
-        private const val PARTY_PORTRAIT_HEIGHT = 27.5
+        private const val PARTY_PORTRAIT_WIDTH = 27
+        private const val PARTY_PORTRAIT_HEIGHT = 27
     }
 
     private val partySize = pokemonList.size
@@ -65,10 +65,10 @@ class PartyWidget(
             pokemon?.run {
                 poseStack.pushPose()
                 RenderSystem.enableScissor(
-                    ((x + 2) * minecraft.window.guiScale).toInt(),
-                    (minecraft.window.height - (y * minecraft.window.guiScale) - index * (PARTY_PORTRAIT_HEIGHT + 2.2) * minecraft.window.guiScale).toInt(),
-                    (PARTY_PORTRAIT_WIDTH * minecraft.window.guiScale).toInt(),
-                    (PARTY_PORTRAIT_HEIGHT * minecraft.window.guiScale).toInt()
+                    ((x + 2.5) * minecraft.window.guiScale).toInt(),
+                    (minecraft.window.height - (y * minecraft.window.guiScale) - index * (PARTY_PORTRAIT_HEIGHT + 2.4) * minecraft.window.guiScale).toInt(),
+                    ((PARTY_PORTRAIT_WIDTH) * minecraft.window.guiScale).toInt(),
+                    ((PARTY_PORTRAIT_HEIGHT - 1) * minecraft.window.guiScale).toInt()
                 )
 
 //                blitk(
@@ -81,8 +81,8 @@ class PartyWidget(
 //                    alpha = 0.5
 //                )
 
-                poseStack.translate((x + width / 21.0), y - 26.0 + index * 30, -100.0)
-                poseStack.scale(2.5F, 2.5F, 2.5F)
+                poseStack.translate((x + width / 21.0), y - 26.0 + index * 30, 0.0)
+                poseStack.scale(2.5F, 2.5F, 1F)
 
                 drawProfilePokemon(
                     pokemon = this,

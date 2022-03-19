@@ -2,7 +2,6 @@
   "name": "magikarp",
   "nationalPokedexNumber": 129,
   "primaryType": "water",
-  "secondaryType": null,
   "maleRatio": 0.5,
   "baseStats": {
     "hp": 20,

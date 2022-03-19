@@ -2,7 +2,6 @@
   "name": "eevee",
   "nationalPokedexNumber": 133,
   "primaryType": "normal",
-  "secondaryType": null,
   "maleRatio": 0.85,
   "baseStats": {
     "hp": 55,

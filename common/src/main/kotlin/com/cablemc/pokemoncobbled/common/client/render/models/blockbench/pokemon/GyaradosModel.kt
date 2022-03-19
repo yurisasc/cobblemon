@@ -38,58 +38,23 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
     val tail7 = registerRelevantPart("tail7", tail6.getChild("tail7"))
     val head = registerRelevantPart("head", rootPart.getChildOf("head"))
 
-    val spineFinalWaveSegment = WaveSegment(
-        modelPart = spineFinal,
-        length = 6F
-    )
+    val spineFinalWaveSegment = WaveSegment(modelPart = spineFinal, length = 6F)
+    val spine3WaveSegment = WaveSegment(modelPart = spine3, length = 6F)
+    val spineWaveSegment = WaveSegment(modelPart = spine1, length = 8F)
+    val spine2WaveSegment = WaveSegment(modelPart = spine2, length = 7F)
+    val bodyWaveSegment = WaveSegment(modelPart = body, length = 9F)
+    val tailWaveSegment = WaveSegment(modelPart = tail, length = 7F)
+    val tail2WaveSegment = WaveSegment(modelPart = tail2, length = 7F)
+    val tail3WaveSegment = WaveSegment(modelPart = tail3, length = 6F)
+    val tail4WaveSegment = WaveSegment(modelPart = tail4, length = 4F)
+    val tail5WaveSegment = WaveSegment(modelPart = tail5, length = 4F)
+    val tail6WaveSegment = WaveSegment(modelPart = tail6, length = 4F)
+    val tail7WaveSegment = WaveSegment(modelPart = tail7, length = 15F)
 
-    val spine3WaveSegment = WaveSegment(
-        modelPart = spine3,
-        length = 6F
-    )
-
-    val spineWaveSegment = WaveSegment(
-        modelPart = spine1,
-        length = 8F
-    )
-
-    val spine2WaveSegment = WaveSegment(
-        modelPart = spine2,
-        length = 7F
-    )
-
-    val bodyWaveSegment = WaveSegment(
-        modelPart = body,
-        length = 9F
-    )
-    val tailWaveSegment = WaveSegment(
-        modelPart = tail,
-        length = 7F
-    )
-    val tail2WaveSegment = WaveSegment(
-        modelPart = tail2,
-        length = 7F
-    )
-    val tail3WaveSegment = WaveSegment(
-        modelPart = tail3,
-        length = 6F
-    )
-    val tail4WaveSegment = WaveSegment(
-        modelPart = tail4,
-        length = 4F
-    )
-    val tail5WaveSegment = WaveSegment(
-        modelPart = tail5,
-        length = 4F
-    )
-    val tail6WaveSegment = WaveSegment(
-        modelPart = tail6,
-        length = 4F
-    )
-    val tail7WaveSegment = WaveSegment(
-        modelPart = tail7,
-        length = 15F
-    )
+    override val portraitScale = 1.9F
+    override val portraitTranslation = Vec3(-1.8, 1.4, 0.0)
+    override val profileScale = 0.4F
+    override val profileTranslation = Vec3(0.0, 0.5, 0.0)
 
     override fun registerPoses() {
         registerPose(
@@ -165,9 +130,6 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
             transformedParts = arrayOf()
         )
     }
-
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3(-1.8, 1.9, 0.0)
 
     companion object {
         val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(cobbledResource("gyarados"), "main")
@@ -461,10 +423,4 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
             return LayerDefinition.create(meshdefinition, 128, 128)
         }
     }
-
-    override val profileScale: Float
-        get() = 0.4F
-
-    override val profileTranslation: Vec3
-        get() = Vec3(0.0, 0.5, 0.0)
 }
