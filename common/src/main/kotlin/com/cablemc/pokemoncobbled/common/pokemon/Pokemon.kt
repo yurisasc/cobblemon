@@ -191,7 +191,6 @@ open class Pokemon {
         return this
     }
 
-    // TODO Ability, MoveSet
     fun saveToJSON(json: JsonObject): JsonObject {
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber)

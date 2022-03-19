@@ -28,8 +28,8 @@ fun drawProfilePokemon(
 
     if (model is PokemonPoseableModel) {
         model.setupAnimStateless(PoseType.PROFILE)
-        poseStack.translate(model.profileTranslation.x, model.profileTranslation.y, model.profileTranslation.z)
-        poseStack.scale(model.profileScale, model.profileScale, model.profileScale)
+        poseStack.translate(model.profileTranslation.x, model.profileTranslation.y, -10.0)
+        poseStack.scale(model.profileScale, model.profileScale, 0.01F)
     }
 
     poseStack.mulPose(rotation)

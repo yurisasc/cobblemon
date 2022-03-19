@@ -18,6 +18,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 
 class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame{
@@ -29,6 +30,11 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val head = registerRelevantPart("head", rootPart.getChildOf("body","head"))
     private val tail = registerRelevantPart("tail", rootPart.getChildOf("body","tail"))
 
+    override val portraitScale = 1.95F
+    override val portraitTranslation = Vec3(-0.05, -0.7, 0.0)
+
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(

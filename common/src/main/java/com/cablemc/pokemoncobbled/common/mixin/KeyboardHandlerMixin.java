@@ -31,8 +31,9 @@ public class KeyboardHandlerMixin {
     )
     public void keyPress(long l, int i, int j, int k, int m, CallbackInfo ci) {
         if (l == this.minecraft.getWindow().getWindow()) {
-            if (this.minecraft.screen == null)
+            if (this.minecraft.screen == null) {
                 CobbledKeybinds.INSTANCE.onAnyKey(i, j, k, m);
+            }
         }
     }
 }
