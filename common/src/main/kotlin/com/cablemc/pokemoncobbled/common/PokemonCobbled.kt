@@ -45,6 +45,7 @@ import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.cablemc.pokemoncobbled.common.util.ifServer
+import com.cablemc.pokemoncobbled.common.worldgen.CobbledWorldgen
 import com.google.gson.GsonBuilder
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.CommandRegistrationEvent
@@ -90,6 +91,7 @@ object PokemonCobbled {
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledKeybinds.register()
+        CobbledWorldgen.register()
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
