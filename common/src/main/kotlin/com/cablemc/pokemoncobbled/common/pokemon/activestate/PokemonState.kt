@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon.activestate
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.entity.player.IShoulderable
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
@@ -165,10 +166,13 @@ class ShoulderedState() : ActivePokemonState() {
                 pkm.form.shoulderEffects.forEach { it.removeEffect(pkm, player, isLeftShoulder) }
             }
             // Requires mixin to bypass access transformer not existing here
-            if (isLeftShoulder) {
-                player.shoulderEntityLeft = CompoundTag()
-            } else {
-                player.shoulderEntityRight = CompoundTag()
+
+            if(player is IShoulderable) {
+                if (isLeftShoulder) {
+                    player.changeShoulderEntityLeft(CompoundTag())
+                } else {
+                    player.changeShoulderEntityRight(CompoundTag())
+                }
             }
         }
     }
