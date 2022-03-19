@@ -235,7 +235,6 @@ class PokemonEntity(
 
     override fun checkDespawn() {
         if (pokemon.getOwnerUUID() == null && despawner.shouldDespawn(this)) {
-            println("Despawning!")
             discard()
         }
     }
