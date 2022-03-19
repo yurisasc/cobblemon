@@ -38,7 +38,7 @@ abstract class TickingSpawner(
 
     var active = true
     val spawnedEntities = mutableListOf<UUID>()
-    var maximumSpawned = 15
+    var maximumSpawned = 10
 
     var lastSpawnTime = 0L
     var ticksUntilNextSpawn = 100F

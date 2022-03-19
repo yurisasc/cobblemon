@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledEntities
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
@@ -30,6 +32,7 @@ import net.minecraft.world.entity.AgeableMob
 import net.minecraft.world.entity.EntityDimensions
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.Pose
+import net.minecraft.world.entity.ai.goal.FollowOwnerGoal
 import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
@@ -45,6 +48,8 @@ class PokemonEntity(
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
 ) : ShoulderRidingEntity(type, level), EntitySpawnExtension {
     var pokemon: Pokemon
+    var despawner: Despawner<PokemonEntity> = PokemonCobbled.defaultPokemonDespawner
+
     val delegate = if (level.isClientSide) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
         PokemonClientDelegate()
@@ -63,9 +68,13 @@ class PokemonEntity(
     val isMoving = addEntityProperty(MOVING, false)
     val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
-    /** 0 is do nothing, 1 is appearing from a pokeball so needs to be downscaled at first, 2 is being captured*/
+    /**
+     * 0 is do nothing,
+     * 1 is appearing from a pokeball so needs to be small then grows,
+     * 2 is being captured/recalling so starts large and shrinks.
+     */
     val beamModeEmitter = addEntityProperty(BEAM_MODE, 0.toByte())
-    // properties like the above are synced and can be subscribed to changes for on either side
+    // properties like the above are synced and can be subscribed to for changes on either side
 
     init {
         this.pokemon = pokemon
@@ -136,12 +145,14 @@ class PokemonEntity(
     }
 
     public override fun registerGoals() {
+        goalSelector.removeAllGoals()
         goalSelector.addGoal(0, object : Goal() {
             override fun canUse() = this@PokemonEntity.phasingTargetId.get() != -1
             override fun getFlags() = EnumSet.allOf(Flag::class.java)
         })
-        goalSelector.addGoal(1, WaterAvoidingRandomStrollGoal(this, speed.toDouble()))
-        goalSelector.addGoal(2, LookAtPlayerGoal(this, Player::class.java, 5F))
+        goalSelector.addGoal(3, FollowOwnerGoal(this, 1.0, 8F, 2F, false))
+        goalSelector.addGoal(4, WaterAvoidingRandomStrollGoal(this, speed.toDouble()))
+        goalSelector.addGoal(5, LookAtPlayerGoal(this, Player::class.java, 5F))
     }
 
     fun <T> addEntityProperty(accessor: EntityDataAccessor<T>, initialValue: T): EntityProperty<T> {
@@ -218,6 +229,12 @@ class PokemonEntity(
 
     override fun shouldBeSaved(): Boolean {
         return false
+    }
+
+    override fun checkDespawn() {
+        if (despawner.shouldDespawn(this)) {
+            discard()
+        }
     }
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
