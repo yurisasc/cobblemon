@@ -83,8 +83,7 @@ object PokemonCobbled {
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
     val spawnerManagers = mutableListOf<SpawnerManager>(CobbledWorldSpawnerManager)
     var storage = PokemonStoreManager()
-
-    var defaultPokemonDespawner: Despawner<PokemonEntity> = CobbledAgingDespawner()
+    var defaultPokemonDespawner: Despawner<PokemonEntity> = CobbledAgingDespawner(getAgeTicks = { it.ticksLived })
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         this.loadConfig()

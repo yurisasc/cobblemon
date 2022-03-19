@@ -57,6 +57,7 @@ class PokemonEntity(
         PokemonServerDelegate()
     }
 
+    var ticksLived = 0
     val busyLocks = mutableListOf<Any>()
     val isBusy: Boolean
         get() = busyLocks.isNotEmpty()
@@ -94,6 +95,7 @@ class PokemonEntity(
         super.tick()
         entityProperties.forEach { it.checkForUpdate() }
         delegate.tick(this)
+        ticksLived++
     }
 
     /**
@@ -232,7 +234,8 @@ class PokemonEntity(
     }
 
     override fun checkDespawn() {
-        if (despawner.shouldDespawn(this)) {
+        if (pokemon.getOwnerUUID() == null && despawner.shouldDespawn(this)) {
+            println("Despawning!")
             discard()
         }
     }

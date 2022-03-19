@@ -27,7 +27,6 @@ object PokemonCobbledForgeClient {
             ServerPacketRegistrar.registerHandlers()
             CobbledNetwork.register()
         }
-        println("Init Client...")
     }
 
     @SubscribeEvent

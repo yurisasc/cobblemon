@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import net.minecraft.world.entity.AgeableMob
+import net.minecraft.world.entity.Entity
 
 /**
  * The aging despawner applies strictly to mobs that can age. Its logic is relatively simple: the closer to
@@ -20,11 +21,12 @@ import net.minecraft.world.entity.AgeableMob
  * @author Hiroku
  * @since March 19th, 2022
  */
-class CobbledAgingDespawner<T : AgeableMob>(
+class CobbledAgingDespawner<T : Entity>(
     val nearDistance: Float = 12F,
-    val farDistance: Float = 48F,
+    val farDistance: Float = 42F,
     val minAgeTicks: Int = 20 * 3,
-    val maxAgeTicks: Int = 20 * 120
+    val maxAgeTicks: Int = 20 * 120,
+    val getAgeTicks: (T) -> Int
 ) : Despawner<T> {
 
     val nearToFar = farDistance - nearDistance
@@ -32,19 +34,20 @@ class CobbledAgingDespawner<T : AgeableMob>(
 
     override fun beginTracking(entity: T) {}
     override fun shouldDespawn(entity: T): Boolean {
-        if (entity.age < minAgeTicks) {
-            return true
+        val age = getAgeTicks(entity)
+        if (age < minAgeTicks) {
+            return false
         }
 
         // TODO an AFK check at some point, don't count the AFK ones.
         val closestDistance = entity.level.players().minOfOrNull { it.distanceTo(entity) } ?: Float.MAX_VALUE
         return when {
             closestDistance < nearDistance -> false
-            entity.age > maxAgeTicks || closestDistance > farDistance -> true
+            age > maxAgeTicks || closestDistance > farDistance -> true
             else -> {
                 val distanceRatio = (closestDistance - nearDistance) / nearToFar
-                val maximumAge = distanceRatio * youngToOld
-                entity.age > maximumAge
+                val maximumAge = (1 - distanceRatio) * youngToOld
+                age > maximumAge
             }
         }
     }
