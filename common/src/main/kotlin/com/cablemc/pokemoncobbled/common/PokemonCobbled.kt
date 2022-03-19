@@ -98,7 +98,7 @@ object PokemonCobbled {
     }
 
     fun initialize() {
-        showdownThread.start()
+        //showdownThread.start()
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
