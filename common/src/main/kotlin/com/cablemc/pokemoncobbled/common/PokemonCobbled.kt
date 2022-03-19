@@ -175,6 +175,7 @@ object PokemonCobbled {
 
     fun loadConfig() {
         val configFile = File("config/$MODID.json")
+        configFile.mkdirs()
         val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
 
         LOGGER.info(configFile.absolutePath)

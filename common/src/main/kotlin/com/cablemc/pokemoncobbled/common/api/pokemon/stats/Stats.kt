@@ -22,5 +22,5 @@ object Stats {
         return stat
     }
 
-    fun getStat(id: String, ignoreCase: Boolean = false): Stat? = allStats.find { it.id.equals(id, ignoreCase) }
+    fun getStat(id: String, ignoreCase: Boolean = false) = allStats.find { it.id.equals(id, ignoreCase) } ?: Stat.Dummy(id)
 }

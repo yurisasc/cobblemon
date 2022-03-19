@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.net.messages
+package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update
 
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.FRIENDSHIP_UPDATED
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.FriendshipUpdateEvent

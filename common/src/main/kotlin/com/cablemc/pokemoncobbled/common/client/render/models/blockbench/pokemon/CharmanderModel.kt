@@ -35,6 +35,12 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     private val tailTip = registerRelevantPart("tail2", tail.getChild("tail2"))
     private val tailFlame = registerRelevantPart("fire", tailTip.getChild("fire"))
 
+    override val portraitScale = 1.5F
+    override val portraitTranslation = Vec3(0.05, 0.3, 0.0)
+
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
@@ -66,9 +72,6 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             )
         )
     }
-
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3(0.0, 0.3, 0.0)
 
     companion object {
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("charmander"), "main")

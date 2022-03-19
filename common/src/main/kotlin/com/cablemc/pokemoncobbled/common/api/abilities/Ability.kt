@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.abilities
 
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 
@@ -35,7 +36,16 @@ open class Ability internal constructor(
         return nbt
     }
 
+    open fun saveToJSON(json: JsonObject): JsonObject {
+        json.addProperty(DataKeys.POKEMON_ABILITY_NAME, name)
+        return json
+    }
+
     open fun loadFromNBT(nbt: CompoundTag): Ability {
+        return this
+    }
+
+    open fun loadFromJSON(json: JsonObject): Ability {
         return this
     }
 }

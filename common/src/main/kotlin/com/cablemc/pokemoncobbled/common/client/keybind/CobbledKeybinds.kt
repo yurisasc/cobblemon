@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.DownShiftPartyB
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PokeNavigatorBinding
-import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.SummaryBinding
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.UpShiftPartyBinding
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 
@@ -21,7 +20,6 @@ object CobbledKeybinds {
         registerKeybind(PokeNavigatorBinding)
         registerKeybind(DownShiftPartyBinding)
         registerKeybind(PartySendBinding)
-        registerKeybind(SummaryBinding)
         registerKeybind(UpShiftPartyBinding)
 
         keybinds.forEach { KeyMappingRegistry.register(it) }

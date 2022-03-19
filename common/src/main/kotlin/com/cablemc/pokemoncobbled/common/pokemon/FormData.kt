@@ -11,7 +11,7 @@ data class FormData(
     @SerializedName("name")
     val name: String = "normal",
     @SerializedName("baseStats")
-    private val _baseStats: MutableMap<Stat, Int>? = null,
+    private val _baseStats: PokemonStats? = null,
     @SerializedName("maleRatio")
     private val _maleRatio: Float? = null,
     @SerializedName("baseScale")
@@ -33,7 +33,7 @@ data class FormData(
     @SerializedName("shoulderEffects")
     private val _shoulderEffects: MutableList<ShoulderEffect>? = null
 ) {
-    val baseStats: MutableMap<Stat, Int>
+    val baseStats: PokemonStats
         get() = _baseStats ?: species.baseStats
 
     val maleRatio: Float

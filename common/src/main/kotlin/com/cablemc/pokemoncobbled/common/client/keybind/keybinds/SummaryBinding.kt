@@ -10,10 +10,10 @@ import net.minecraft.client.Minecraft
 object SummaryBinding : CobbledKeyMapping(
     "key.pokemoncobbled.summary",
     InputConstants.Type.KEYSYM,
-    InputConstants.KEY_X,
+    InputConstants.KEY_M,
     KeybindCategories.COBBLED_CATEGORY
 ) {
     override fun onPress() {
-        Minecraft.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
+
     }
 }

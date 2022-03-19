@@ -1,6 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.api.moves.MoveLoader.loadFromAssets
+import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategories
+import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
+import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 
 /**
  * Registry for all known Moves
@@ -20,6 +23,7 @@ object Moves {
     // START - Fighting Moves
     val AURA_SPHERE = register(loadFromAssets("aura_sphere"))
     // END - Fighting Moves
+    val SPLASH = register(MoveTemplate("splash", ElementalTypes.NORMAL, DamageCategories.SPECIAL, 0.0, 0.0, 0.0, 10))
 
     fun register(moveTemplate: MoveTemplate): MoveTemplate {
         allMoves.add(moveTemplate)
