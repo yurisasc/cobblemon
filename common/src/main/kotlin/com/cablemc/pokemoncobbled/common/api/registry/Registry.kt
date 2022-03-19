@@ -34,11 +34,4 @@ interface Registry<T : Keyed> {
      */
     fun random(): T?
 
-    /**
-     * Empties the registry.
-     * This should only be used during data reloads by Minecraft or if you intend to repopulate the registry.
-     *
-     */
-    fun clear()
-
 }

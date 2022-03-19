@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
@@ -33,7 +34,17 @@ class Species {
 
     var forms = mutableListOf(FormData())
 
+    val evolutions = listOf<Evolution>()
+
     fun types(form: Int): Iterable<ElementalType> = forms[form].types
+
+    /**
+     * Queries for [Evolution]s of a specific type
+     *
+     * @param T The type of [Evolution].
+     * @return The [Evolution]s of type [T] if any.
+     */
+    inline fun <reified T : Evolution> evolutionsOf() = this.evolutions.filterIsInstance<T>()
 
     fun create() = Pokemon().apply { species = this@Species }
 }

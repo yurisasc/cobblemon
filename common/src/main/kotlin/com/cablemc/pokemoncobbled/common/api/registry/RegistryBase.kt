@@ -21,8 +21,4 @@ abstract class RegistryBase<T : Keyed> : Registry<T> {
 
     override fun random(): T? = this.registered.values.randomOrNull()
 
-    override fun clear() {
-        this.registered.clear()
-    }
-
 }

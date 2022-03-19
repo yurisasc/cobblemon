@@ -20,6 +20,7 @@ object DataKeys {
     const val POKEMON_ABILITY = "Ability"
     const val POKEMON_ABILITY_NAME = "AbilityName"
     const val POKEMON_SHINY = "Shiny"
+    const val POKEMON_PENDING_EVOLUTIONS = "PendingEvolutions"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"

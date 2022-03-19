@@ -7,6 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
@@ -29,17 +30,23 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.TradeEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.holder.PendingEvolutions
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
-import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.common.util.getServer
-import com.cablemc.pokemoncobbled.common.util.readMapK
-import com.cablemc.pokemoncobbled.common.util.writeMapK
+import com.cablemc.pokemoncobbled.common.util.*
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.StringTag
+import net.minecraft.nbt.Tag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.phys.Vec3
 import java.lang.Integer.min
 import java.util.UUID
@@ -120,6 +127,9 @@ open class Pokemon {
 
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
+    var pendingEvolutions = PendingEvolutions()
+        private set
+
     open fun getStat(stat: Stat): Int {
         return if (stat == Stats.HP) {
             // TODO shedinja should just return 1
@@ -146,6 +156,28 @@ open class Pokemon {
         this.currentHealth = hp
     }
 
+    // Dummy function for the time being
+    fun levelUp() {
+        this.level++
+        this.species.evolutionsOf<LevelEvolution>().forEach { evolution ->
+            evolution.attemptEvolution(this)
+        }
+    }
+
+    // Dummy function for the time being
+    fun onTrade(tradedWith: Pokemon) {
+        this.species.evolutionsOf<TradeEvolution>().forEach { evolution ->
+            evolution.attemptEvolution(this, TradeEvolution.Context(tradedWith.species))
+        }
+    }
+
+    // Dummy function for the time being
+    fun onInteract(stack: ItemStack) {
+        this.species.evolutionsOf<ItemInteractionEvolution>().forEach { evolution ->
+            evolution.attemptEvolution(this, ItemInteractionEvolution.Context(stack))
+        }
+    }
+
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
@@ -162,7 +194,8 @@ open class Pokemon {
         val abilityNBT = ability.saveToNBT(CompoundTag())
         nbt.put(DataKeys.POKEMON_ABILITY, abilityNBT)
         state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
-            return nbt
+        nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, pendingEvolutions.saveToNBT())
+        return nbt
     }
 
     fun loadFromNBT(nbt: CompoundTag): Pokemon {
@@ -188,6 +221,7 @@ open class Pokemon {
             val clazz = PokemonState.states[type]
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromNBT(stateNBT) ?: InactivePokemonState()
         }
+        pendingEvolutions = PendingEvolutions.loadFromNBT(this, nbt.getList(DataKeys.POKEMON_PENDING_EVOLUTIONS, Tag.TAG_STRING.toInt()))
         return this
     }
 
@@ -206,6 +240,7 @@ open class Pokemon {
         json.add(DataKeys.POKEMON_ABILITY, ability.saveToJSON(JsonObject()))
         json.addProperty(DataKeys.POKEMON_SHINY, shiny)
         state.writeToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATE, it) }
+        json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, pendingEvolutions.saveToJSON())
         return json
     }
 
@@ -230,6 +265,7 @@ open class Pokemon {
             val clazz = type?.let { PokemonState.states[it] }
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromJSON(stateJson) ?: InactivePokemonState()
         }
+        pendingEvolutions = PendingEvolutions.loadFromJSON(this, json.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.asJsonArray ?: JsonArray())
         return this
     }
 
@@ -247,6 +283,7 @@ open class Pokemon {
         buffer.writeUtf(ability.name)
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
+        pendingEvolutions.saveToBuffer(buffer)
         return buffer
     }
 
@@ -278,6 +315,7 @@ open class Pokemon {
         ability = Abilities.getOrException(buffer.readUtf()).create()
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
+        pendingEvolutions = PendingEvolutions.loadFromBuffer(this, buffer)
         return this
     }
 
