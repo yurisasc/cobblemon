@@ -8,7 +8,6 @@ plugins {
     id("architectury-plugin") version "3.4.130"
     id("dev.architectury.loom") version "0.11.0-SNAPSHOT" apply false
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
-    id("org.spongepowered.mixin") version "0.6-SNAPSHOT" apply false
 }
 
 architectury {
