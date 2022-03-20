@@ -5,9 +5,11 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.util.asTranslated
+import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
+import com.google.gson.JsonObject
+import com.google.gson.annotations.SerializedName
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.entity.EntityDimensions
 
@@ -34,7 +36,12 @@ class Species {
 
     var forms = mutableListOf(FormData())
 
-    val evolutions = listOf<Evolution>()
+    val evolutions by lazy {
+        this.evolutionContainers.map { container -> SpeciesLoader.GSON.fromJson<Evolution>(container) }
+    }
+
+    @SerializedName("evolutions")
+    private val evolutionContainers = mutableListOf<JsonObject>()
 
     fun types(form: Int): Iterable<ElementalType> = forms[form].types
 
@@ -47,4 +54,5 @@ class Species {
     inline fun <reified T : Evolution> evolutionsOf() = this.evolutions.filterIsInstance<T>()
 
     fun create() = Pokemon().apply { species = this@Species }
+
 }

@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
@@ -18,14 +17,7 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
@@ -38,9 +30,9 @@ import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.util.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import net.fabricmc.api.EnvType
+import net.fabricmc.api.Environment
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.StringTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.server.level.ServerLevel
@@ -49,7 +41,8 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.phys.Vec3
 import java.lang.Integer.min
-import java.util.UUID
+import java.util.*
+import kotlin.properties.Delegates.observable
 
 open class Pokemon {
     var uuid: UUID = UUID.randomUUID()
@@ -127,7 +120,9 @@ open class Pokemon {
 
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
-    var pendingEvolutions = PendingEvolutions()
+    var pendingEvolutions by observable(PendingEvolutions()) { _, _, newValue ->
+        // ToDo Notify client on change
+    }
         private set
 
     open fun getStat(stat: Stat): Int {
@@ -166,15 +161,18 @@ open class Pokemon {
 
     // Dummy function for the time being
     fun onTrade(tradedWith: Pokemon) {
-        this.species.evolutionsOf<TradeEvolution>().forEach { evolution ->
-            evolution.attemptEvolution(this, TradeEvolution.Context(tradedWith.species))
+        val tradeEvos = this.species.evolutionsOf<TradeEvolution>()
+        val partner = TradeEvolution.TradePartner(tradedWith)
+        tradeEvos.forEach { evolution ->
+            if (evolution.attemptEvolution(this, partner) && !evolution.optional)
+                return
         }
     }
 
     // Dummy function for the time being
     fun onInteract(stack: ItemStack) {
         this.species.evolutionsOf<ItemInteractionEvolution>().forEach { evolution ->
-            evolution.attemptEvolution(this, ItemInteractionEvolution.Context(stack))
+            evolution.attemptEvolution(this, stack)
         }
     }
 

@@ -15,7 +15,7 @@ interface Evolution {
     /**
      * The result of this evolution.
      */
-    val to: PokemonProperties
+    val result: PokemonProperties
 
     /**
      * If this evolution will allow the user to choose when to start it or not.
@@ -26,7 +26,7 @@ interface Evolution {
     /**
      * If this [Evolution] will consume the [Pokemon.heldItem]
      */
-    //val consumesHeldItem: Boolean
+    val consumeHeldItem: Boolean
 
     /**
      * The [EvolutionRequirement]s behind this evolution.
@@ -39,10 +39,10 @@ interface Evolution {
      * @param pokemon The [Pokemon] being queried.
      * @return If the [Evolution] can start.
      */
-    fun check(pokemon: Pokemon) = this.requirements.all { requirement -> requirement.check(pokemon) }
+    fun test(pokemon: Pokemon) = this.requirements.all { requirement -> requirement.check(pokemon) }
 
     fun evolve(pokemon: Pokemon) {
-        this.to.apply(pokemon)
+        this.result.apply(pokemon)
         // ToDo actually queue the client if needed or start the proper animation
     }
 

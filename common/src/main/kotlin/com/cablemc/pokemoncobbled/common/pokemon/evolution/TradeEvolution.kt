@@ -1,24 +1,32 @@
 package com.cablemc.pokemoncobbled.common.pokemon.evolution
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.ContextEvolution
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.ContextEvolutionRequirement
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionContext
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 
 open class TradeEvolution(
     override val id: String,
-    override val to: PokemonProperties,
-    val species: Species?,
-    override val requirements: List<EvolutionRequirement>,
-) : ContextEvolution<TradeEvolution.Context> {
+    override val result: PokemonProperties,
+    override val requiredContext: TradePartner,
+    override val optional: Boolean,
+    override val consumeHeldItem: Boolean,
+    override val requirements: List<EvolutionRequirement>
+) : ContextEvolution<TradeEvolution.TradePartner> {
 
-    override val optional = !PokemonCobbled.config.forceTradeEvolution
+    override fun testContext(pokemon: Pokemon, context: TradePartner) = context.species == this.requiredContext.species
 
-    override val contextRequirements: List<ContextEvolutionRequirement<Context>> = listOf(ContextEvolutionRequirement { _, context -> this.species?.nationalPokedexNumber == context.species?.nationalPokedexNumber })
+    data class TradePartner(val species: Species) {
 
-    open class Context(val species: Species?) : EvolutionContext
+        constructor(pokemon: Pokemon) : this(pokemon.species)
+
+    }
+
+    companion object {
+
+        internal const val ADAPTER_VARIANT = "trade"
+
+    }
 
 }

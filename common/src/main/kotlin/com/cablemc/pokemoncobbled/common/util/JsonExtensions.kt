@@ -3,6 +3,9 @@ package com.cablemc.pokemoncobbled.common.util
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.mojang.serialization.JsonOps
+import net.minecraft.nbt.NbtOps
+import net.minecraft.nbt.Tag
 
 @JvmName("toJsonArrayString")
 fun Collection<String>.toJsonArray(): JsonArray {
@@ -43,3 +46,5 @@ fun Collection<JsonElement>.toJsonArray(): JsonArray {
 fun JsonObject.isEmpty() = size() <= 0
 
 fun JsonObject.isNotEmpty() = size() > 0
+
+fun JsonElement.asTag(): Tag = JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, this)

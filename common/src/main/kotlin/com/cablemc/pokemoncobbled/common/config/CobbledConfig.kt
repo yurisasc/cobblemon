@@ -37,13 +37,4 @@ class CobbledConfig {
     @NodeCategory(Category.Battles)
     var autoUpdateShowdown = true
 
-    @NodeCategory(Category.Evolution)
-    var forceLevelEvolution = false
-
-    @NodeCategory(Category.Evolution)
-    var forceItemInteractionEvolution = true
-
-    @NodeCategory(Category.Evolution)
-    var forceTradeEvolution = true
-
 }

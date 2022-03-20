@@ -45,4 +45,5 @@ object PokemonSpecies {
     fun getByPokedexNumber(ndex: Int): Species? = allSpecies.find { it.nationalPokedexNumber == ndex }
 
     fun count() = allSpecies.size
+
 }

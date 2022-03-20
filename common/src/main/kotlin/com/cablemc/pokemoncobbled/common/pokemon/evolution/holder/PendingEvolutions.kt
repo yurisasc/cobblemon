@@ -57,7 +57,6 @@ class PendingEvolutions(
             buffer.writeUtf(id)
         }
     }
-
     companion object {
 
         fun loadFromNBT(pokemon: Pokemon, nbt: ListTag) = this.load(pokemon, nbt.filterIsInstance<StringTag>().map { tag -> tag.asString })
