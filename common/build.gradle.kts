@@ -8,7 +8,7 @@ loom {
 
 sourceSets {
     main {
-        ext.set("refmap", "mixins.pokemoncobbled.refmap.json")
+        ext.set("refmap", "PokemonCobbled-common-refmap.json")
     }
 }
 

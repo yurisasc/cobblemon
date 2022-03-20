@@ -30,7 +30,6 @@ tasks {
     assemble {
         dependsOn(collectJars)
     }
-
 }
 
 tasks.withType<Test> {

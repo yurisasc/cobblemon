@@ -12,11 +12,6 @@ loom {
     }
 }
 
-val kotlin_version: String by project
-val annotations_version: String by project
-val coroutines_version: String by project
-val serialization_version: String by project
-
 dependencies {
     forge("net.minecraftforge:forge:${rootProject.property("mc_version")}-${rootProject.property("forge_version")}")
     modApi("dev.architectury:architectury-forge:${rootProject.property("architectury_version")}")
@@ -24,10 +19,10 @@ dependencies {
     // Kotlin
     forgeRuntimeLibrary(kotlin("stdlib-jdk8", version = "1.6.10"))
     forgeRuntimeLibrary(kotlin("reflect", version = "1.6.10"))
-    forgeRuntimeLibrary(kotlin("stdlib", version = kotlin_version))
-    forgeRuntimeLibrary("org.jetbrains:annotations:${annotations_version}")
-    forgeRuntimeLibrary("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:${serialization_version}")
-    forgeRuntimeLibrary("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:${serialization_version}")
+    forgeRuntimeLibrary(kotlin("stdlib", version = rootProject.property("kotlin_version").toString()))
+    forgeRuntimeLibrary("org.jetbrains:annotations:${rootProject.property("annotations_version")}")
+    forgeRuntimeLibrary("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:${rootProject.property("serialization_version")}")
+    forgeRuntimeLibrary("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:${rootProject.property("serialization_version")}")
 
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
@@ -42,6 +37,15 @@ dependencies {
     }
     testImplementation(project(":common", configuration = "namedElements"))
     // For Showdown
+    forgeRuntimeLibrary("com.caoccao.javet:javet:1.0.6") // Linux or Windows
+    forgeRuntimeLibrary("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+
+    bundle(kotlin("stdlib-jdk8", version = "1.6.10"))
+    bundle(kotlin("reflect", version = "1.6.10"))
+    bundle(kotlin("stdlib", version = rootProject.property("kotlin_version").toString()))
+    bundle("org.jetbrains:annotations:${rootProject.property("annotations_version")}")
+    bundle("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:${rootProject.property("serialization_version")}")
+    bundle("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:${rootProject.property("serialization_version")}")
     bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
     bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
 

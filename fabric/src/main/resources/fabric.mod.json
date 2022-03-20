@@ -3,7 +3,7 @@
   "id": "pokemoncobbled",
   "version": "${version}",
 
-  "name": "Pokemon Cobbled",
+  "name": "Pokémon Cobbled",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Me!"
@@ -29,11 +29,11 @@
     "mixins.pokemoncobbled-common.json",
     "mixins.pokemoncobbled-fabric.json"
   ],
-  "accessWidener": "pokemoncobbled-fabric.accesswidener",
+  "accessWidener": "pokemoncobbled-common.accesswidener",
   "depends": {
-    "fabricloader": ">=0.12.12",
+    "fabricloader": ">=0.13.3",
     "fabric": "*",
-    "minecraft": "1.18.x",
+    "minecraft": ">=1.18.2",
     "java": ">=17"
   }
 }
