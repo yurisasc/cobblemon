@@ -3,7 +3,19 @@ package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.TradeEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolution
 
+/**
+ * Represents an evolution of a [Pokemon].
+ * Following Pokemon these can be triggered by 3 possible events, level ups, trades or using an item.
+ * For the default implementations see [LevelEvolution], [TradeEvolution] & [ItemInteractionEvolution].
+ * Also see [PassiveEvolution] & [ContextEvolution].
+ *
+ * @author Licious
+ * @since March 19th, 2022
+ */
 interface Evolution {
 
     /**
@@ -41,6 +53,12 @@ interface Evolution {
      */
     fun test(pokemon: Pokemon) = this.requirements.all { requirement -> requirement.check(pokemon) }
 
+    /**
+     * Starts this evolution or queues it if [optional] is true.
+     * Side effects may occur based on [consumeHeldItem].
+     *
+     * @param pokemon The [Pokemon] being evolved.
+     */
     fun evolve(pokemon: Pokemon) {
         this.result.apply(pokemon)
         // ToDo actually queue the client if needed or start the proper animation
