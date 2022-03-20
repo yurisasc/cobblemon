@@ -4,12 +4,12 @@ import com.cablemc.pokemoncobbled.common.CobbledEntities
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
-import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolution
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
@@ -35,9 +35,10 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
 import net.minecraft.world.entity.animal.ShoulderRidingEntity
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
-import java.util.EnumSet
+import java.util.*
 
 class PokemonEntity(
     level: Level,
@@ -161,25 +162,22 @@ class PokemonEntity(
     }
 
     override fun mobInteract(player: Player, hand: InteractionHand) : InteractionResult {
-        // TODO: Move to proper pokemon interaction menu
+        this.attemptItemInteraction(player, player.getItemInHand(hand))
         if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
-            if (canSitOnShoulder() && player is ServerPlayer && !isBusy) {
-                val store = pokemon.storeCoordinates.get()?.store
-                if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
-                    CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
-                        val dirToPlayer = player.eyePosition.subtract(position()).multiply(1.0, 0.0, 1.0).normalize()
-                        deltaMovement = dirToPlayer.scale(0.8).add(0.0, 0.5, 0.0)
-                        val lock = Any()
-                        busyLocks.add(lock)
-                        after(seconds = 0.5F) {
-                            busyLocks.remove(lock)
-                            if (!isBusy && isAlive) {
-                                val isLeft = player.shoulderEntityLeft.isEmpty
-                                if (!isLeft || player.shoulderEntityRight.isEmpty) {
-                                    pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
-                                    this.setEntityOnShoulder(player)
-                                    this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
-                                }
+            if (canSitOnShoulder() && player is ServerPlayer && !isBusy && pokemon.belongsTo(player)) {
+                CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
+                    val dirToPlayer = player.eyePosition.subtract(position()).multiply(1.0, 0.0, 1.0).normalize()
+                    deltaMovement = dirToPlayer.scale(0.8).add(0.0, 0.5, 0.0)
+                    val lock = Any()
+                    busyLocks.add(lock)
+                    after(seconds = 0.5F) {
+                        busyLocks.remove(lock)
+                        if (!isBusy && isAlive) {
+                            val isLeft = player.shoulderEntityLeft.isEmpty
+                            if (!isLeft || player.shoulderEntityRight.isEmpty) {
+                                pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
+                                this.setEntityOnShoulder(player)
+                                this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
                             }
                         }
                     }
@@ -225,4 +223,17 @@ class PokemonEntity(
     }
 
     fun getBehaviourFlag(flag: PokemonBehaviourFlag): Boolean = getBitForByte(behaviourFlags.get(), flag.bit)
+
+    private fun attemptItemInteraction(playerIn: Player, stack: ItemStack) {
+        if (playerIn !is ServerPlayer || !this.pokemon.belongsTo(playerIn) || stack.isEmpty) return
+        val interactionEvolutions = this.pokemon.species.evolutionsOf<ItemInteractionEvolution>()
+        interactionEvolutions.forEach { evolution ->
+            if (evolution.attemptEvolution(this.pokemon, stack)) {
+                stack.shrink(1)
+                if (!evolution.optional)
+                    return
+            }
+        }
+    }
+
 }

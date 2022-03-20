@@ -169,13 +169,6 @@ open class Pokemon {
         }
     }
 
-    // Dummy function for the time being
-    fun onInteract(stack: ItemStack) {
-        this.species.evolutionsOf<ItemInteractionEvolution>().forEach { evolution ->
-            evolution.attemptEvolution(this, stack)
-        }
-    }
-
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
