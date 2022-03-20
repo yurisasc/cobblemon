@@ -1,0 +1,6 @@
+{
+	"parent": "pokemoncobbled:blocks/apricorn",
+	"textures": {
+		"0": "pokemoncobbled:blocks/blue_apricorn"
+	}
+}

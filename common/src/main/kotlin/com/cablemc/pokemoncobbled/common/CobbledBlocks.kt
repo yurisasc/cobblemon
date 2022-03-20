@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common
 
+import com.cablemc.pokemoncobbled.common.world.level.block.ApricornBlock
 import com.cablemc.pokemoncobbled.common.world.level.block.ApricornSaplingBlock
 import dev.architectury.registry.registries.DeferredRegister
 import net.minecraft.core.BlockPos
@@ -15,6 +16,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.level.material.MaterialColor
+import java.util.function.Supplier
 
 object CobbledBlocks {
     private val blockRegister = DeferredRegister.create(PokemonCobbled.MODID, Registry.BLOCK_REGISTRY)
@@ -27,13 +29,16 @@ object CobbledBlocks {
         .sound(SoundType.WOOD)))
     val APRICORN_LEAVES = queue("apricorn_leaves", leaves(SoundType.GRASS))
 
-    val BLACK_APRICORN_SAPLING = queue("black_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
-    val BLUE_APRICORN_SAPLING = queue("blue_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
-    val GREEN_APRICORN_SAPLING = queue("green_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
-    val PINK_APRICORN_SAPLING = queue("pink_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
-    val RED_APRICORN_SAPLING = queue("red_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
-    val WHITE_APRICORN_SAPLING = queue("white_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
-    val YELLOW_APRICORN_SAPLING = queue("yellow_apricorn_sapling", ApricornSaplingBlock(BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)))
+    private val PLANT_PROPERTIES = BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)
+    val BLACK_APRICORN_SAPLING = queue("black_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES))
+    val BLUE_APRICORN_SAPLING = queue("blue_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES))
+    val GREEN_APRICORN_SAPLING = queue("green_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES))
+    val PINK_APRICORN_SAPLING = queue("pink_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES))
+    val RED_APRICORN_SAPLING = queue("red_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES))
+    val WHITE_APRICORN_SAPLING = queue("white_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES))
+    val YELLOW_APRICORN_SAPLING = queue("yellow_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES))
+
+    val BLACK_APRICORN = queue("black_apricorn", ApricornBlock(BlockBehaviour.Properties.of(Material.PLANT).randomTicks().strength(0.2f, 3.0f).sound(SoundType.WOOD).noOcclusion()) { CobbledItems.BLACK_APRICORN.get() })
 
     fun register() {
         blockRegister.register()

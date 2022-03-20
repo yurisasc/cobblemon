@@ -1,11 +1,14 @@
 package com.cablemc.pokemoncobbled.common.world.feature
 
 import com.cablemc.pokemoncobbled.common.CobbledBlocks
+import com.cablemc.pokemoncobbled.common.util.randomNoCopy
 import com.google.common.collect.Lists
 import com.mojang.serialization.Codec
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.world.level.WorldGenLevel
+import net.minecraft.world.level.block.HorizontalDirectionalBlock
+import net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING
 import net.minecraft.world.level.block.LeavesBlock
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.levelgen.feature.Feature
@@ -32,6 +35,7 @@ class ApricornTreeFeature(
         }
 
         // Decorate with leaves
+        val allApricornSpots: MutableList<List<Pair<Direction, BlockPos>>> = mutableListOf()
         val leafBlock = CobbledBlocks.APRICORN_LEAVES.get().defaultBlockState()
 
         val layerOnePos = origin.relative(Direction.UP)
@@ -59,17 +63,42 @@ class ApricornTreeFeature(
 
         val layerTwoPos = origin.offset(0, 2, 0)
         for(direction in Lists.newArrayList(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)) {
+            val apricornSpots = mutableListOf<Pair<Direction, BlockPos>>()
             var leafPos = layerTwoPos.offset(direction.stepX * 2, direction.stepY * 2, direction.stepZ * 2)
+
             setBlockIfClear(worldGenLevel, leafPos, LeavesBlock.updateDistance(leafBlock, worldGenLevel, leafPos))
+            apricornSpots.add(Pair(direction.opposite, leafPos.relative(direction)))
+
             leafPos = leafPos.above()
             setBlockIfClear(worldGenLevel, leafPos, LeavesBlock.updateDistance(leafBlock, worldGenLevel, leafPos))
+            apricornSpots.add(Pair(direction.opposite, leafPos.relative(direction)))
+
+            allApricornSpots.add(apricornSpots)
         }
 
         for(coords in Lists.newArrayList(Pair(1, 2), Pair(-1, 2), Pair(1, -2), Pair(-2, 1), Pair(2, 1), Pair(-2, -1), Pair(-1, -2), Pair(2, -1))) {
+            val apricornSpots = mutableListOf<Pair<Direction, BlockPos>>()
             var leafPos = layerTwoPos.offset(coords.first, 0, coords.second)
             setBlockIfClear(worldGenLevel, leafPos, LeavesBlock.updateDistance(leafBlock, worldGenLevel, leafPos))
+
+            for(direction in listOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)) {
+                val apricornPos = leafPos.relative(direction)
+                if(TreeFeature.isAir(worldGenLevel, apricornPos)) {
+                    apricornSpots.add(Pair(direction.opposite, apricornPos))
+                }
+            }
+
             leafPos = leafPos.above()
             setBlockIfClear(worldGenLevel, leafPos, LeavesBlock.updateDistance(leafBlock, worldGenLevel, leafPos))
+
+            for(direction in listOf(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)) {
+                val apricornPos = leafPos.relative(direction)
+                if(TreeFeature.isAir(worldGenLevel, apricornPos)) {
+                    apricornSpots.add(Pair(direction.opposite, apricornPos))
+                }
+            }
+
+            allApricornSpots.add(apricornSpots)
         }
 
         // Topper
@@ -77,7 +106,7 @@ class ApricornTreeFeature(
         setBlockIfClear(worldGenLevel, topperPos, LeavesBlock.updateDistance(leafBlock, worldGenLevel, topperPos))
 
         for(direction in Lists.newArrayList(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST)) {
-            var leafPos = topperPos.relative(direction)
+            val leafPos = topperPos.relative(direction)
             setBlockIfClear(worldGenLevel, leafPos, LeavesBlock.updateDistance(leafBlock, worldGenLevel, leafPos))
         }
 
@@ -87,6 +116,9 @@ class ApricornTreeFeature(
             }
         }
 
+        allApricornSpots.randomNoCopy(5).map { it.random() }.forEach {
+            setBlockIfClear(worldGenLevel, it.second, CobbledBlocks.BLACK_APRICORN.get().defaultBlockState().setValue(FACING, it.first))
+        }
         return true;
     }
 
