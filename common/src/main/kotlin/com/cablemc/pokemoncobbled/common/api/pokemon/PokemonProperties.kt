@@ -121,7 +121,6 @@ open class PokemonProperties {
             val matched = getMatchedKeyPair(keyPairs, listOf("species"))
             if (matched != null) {
                 val value = matched.second?.lowercase() ?: return null
-                println("Species value: $value")
                 return if (value.lowercase() == "random") {
                     "random"
                 } else {
