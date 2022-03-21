@@ -30,6 +30,7 @@ object CobbledRequirementAdapter : RequirementAdapter {
         this.registerType(HeldItemRequirement.ADAPTER_VARIANT, HeldItemRequirement::class)
         this.registerType(BiomeRequirement.ADAPTER_VARIANT, BiomeRequirement::class)
         this.registerType(MoveSetRequirement.ADAPTER_VARIANT, MoveSetRequirement::class)
+        this.registerType(PartyMemberRequirement.ADAPTER_VARIANT, PartyMemberRequirement::class)
     }
 
     override fun <T : EvolutionRequirement> registerType(id: String, type: KClass<T>) {

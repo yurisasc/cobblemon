@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.api.pokemon
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.pokemon.SpeciesLoader
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.TradeEvolution
 import org.junit.jupiter.api.Assertions.assertEquals
