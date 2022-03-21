@@ -1,16 +1,17 @@
 {
   "required": true,
   "package": "com.cablemc.pokemoncobbled.common.mixin",
-  "compatibilityLevel": "JAVA_8",
-  "refmap": "pokemoncobbled-common-refmap.json",
+  "compatibilityLevel": "JAVA_16",
   "minVersion": "0.8",
   "client": [
-    "LayerDefinitionsMixin",
+    "EntityRenderDispatcherMixin",
     "KeyboardHandlerMixin",
-    "KeyMappingMixin",
-    "EntityRenderDispatcherMixin"
+    "KeyMappingMixin"
   ],
   "mixins": [
     "PlayerMixin"
-  ]
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

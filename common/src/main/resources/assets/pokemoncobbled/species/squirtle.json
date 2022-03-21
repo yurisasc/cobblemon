@@ -2,7 +2,6 @@
   "name": "squirtle",
   "nationalPokedexNumber": 7,
   "primaryType": "water",
-  "secondaryType": null,
   "maleRatio": 0.875,
   "baseStats": {
     "hp": 44,

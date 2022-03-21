@@ -30,14 +30,17 @@ fun blitk(
     red: Number = 1,
     green: Number = 1,
     blue: Number = 1,
-    alpha: Number = 1F
+    alpha: Number = 1F,
+    blend: Boolean = true
 ) {
     RenderSystem.setShader { GameRenderer.getPositionTexShader() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
     RenderSystem.setShaderColor(red.toFloat(), green.toFloat(), blue.toFloat(), alpha.toFloat())
-    RenderSystem.enableBlend()
-    RenderSystem.defaultBlendFunc()
-    RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
+    if (blend) {
+        RenderSystem.enableBlend()
+        RenderSystem.defaultBlendFunc()
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
+    }
 
     drawRectangle(
         poseStack.last().pose(),

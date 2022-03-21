@@ -8,6 +8,7 @@ class PokemonServerDelegate : EntitySideDelegate<PokemonEntity> {
         with(entity) {
             speed = 0.35F
             registerGoals()
+            entity.despawner.beginTracking(this)
         }
     }
 

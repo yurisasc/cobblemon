@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
+import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
@@ -40,6 +41,8 @@ import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
+import com.cablemc.pokemoncobbled.common.entity.pokemon.CobbledAgingDespawner
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
@@ -79,6 +82,7 @@ object PokemonCobbled {
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
     val spawnerManagers = mutableListOf<SpawnerManager>(CobbledWorldSpawnerManager)
     var storage = PokemonStoreManager()
+    var defaultPokemonDespawner: Despawner<PokemonEntity> = CobbledAgingDespawner(getAgeTicks = { it.ticksLived })
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         this.loadConfig()
@@ -164,6 +168,7 @@ object PokemonCobbled {
 
     fun loadConfig() {
         val configFile = File("config/$MODID.json")
+        configFile.mkdirs()
         val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
 
         LOGGER.info(configFile.absolutePath)

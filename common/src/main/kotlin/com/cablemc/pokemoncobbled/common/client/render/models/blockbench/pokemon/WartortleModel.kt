@@ -20,6 +20,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 
 class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, EaredFrame {
@@ -35,6 +36,11 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val leftEarJoint = EarJoint(leftEar, TransformedModelPart.Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
     override val rightEarJoint = EarJoint(rightEar, TransformedModelPart.Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
     private val tail = registerRelevantPart("tail", body.getChild("tail"))
+
+    override val portraitScale = 1.6F
+    override val portraitTranslation = Vec3(-0.05, 0.40, 0.0)
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(

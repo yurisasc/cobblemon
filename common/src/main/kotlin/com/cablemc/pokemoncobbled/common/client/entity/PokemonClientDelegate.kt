@@ -37,6 +37,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), EntitySideDe
         entity.dexNumber.subscribeIncludingCurrent {
             currentPose = null
             entity.pokemon.species = PokemonSpecies.getByPokedexNumber(it)!! // TODO exception handling
+            entity.pokemon.scaleModifier = entity.pokemon.species.baseScale // TODO remove me
         }
 
         entity.shiny.subscribeIncludingCurrent {

@@ -29,7 +29,10 @@ class CobbledConfig {
     var worldSliceHeight = 8
 
     @NodeCategory(Category.Spawning)
-    var playerMotionFactor = 8.0
+    var minimumSliceDistanceFromPlayer = 16F
+
+    @NodeCategory(Category.Spawning)
+    var maximumSliceDistanceFromPlayer = 28F
 
     @NodeCategory(Category.Spawning)
     var exportSpawnsToConfig = false
