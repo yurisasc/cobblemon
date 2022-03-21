@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
 
+import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -44,6 +45,11 @@ interface Evolution {
      * The [EvolutionRequirement]s behind this evolution.
      */
     val requirements: List<EvolutionRequirement>
+
+    /**
+     * The [MoveTemplate]s that will be offered to be learnt upon evolving.
+     */
+    val learnableMoves: List<MoveTemplate>
 
     /**
      * Checks if the given [Pokemon] passes all the conditions and is ready to evolve.

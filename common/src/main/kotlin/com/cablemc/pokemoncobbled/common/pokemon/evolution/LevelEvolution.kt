@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.pokemon.evolution
 
+import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.ContextEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
@@ -25,7 +26,8 @@ open class LevelEvolution(
     val levels: IntRange,
     override val optional: Boolean,
     override val consumeHeldItem: Boolean,
-    override val requirements: List<EvolutionRequirement>
+    override val requirements: List<EvolutionRequirement>,
+    override val learnableMoves: List<MoveTemplate>
 ) : PassiveEvolution {
 
     constructor(
@@ -34,8 +36,9 @@ open class LevelEvolution(
         level: Int,
         optional: Boolean,
         consumeHeldItem: Boolean,
-        requirements: List<EvolutionRequirement>
-    ) : this(id, result, level..level, optional, consumeHeldItem, requirements)
+        requirements: List<EvolutionRequirement>,
+        learnableMoves: List<MoveTemplate>
+    ) : this(id, result, level..level, optional, consumeHeldItem, requirements, learnableMoves)
 
     override fun attemptEvolution(pokemon: Pokemon) = this.isValid(pokemon) && super.attemptEvolution(pokemon)
 

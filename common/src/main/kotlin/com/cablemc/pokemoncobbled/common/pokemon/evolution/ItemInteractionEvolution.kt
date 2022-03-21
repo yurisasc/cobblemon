@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.pokemon.evolution
 
+import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.ContextEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
@@ -20,7 +21,8 @@ open class ItemInteractionEvolution(
     override val requiredContext: ItemStack,
     override val optional: Boolean,
     override val consumeHeldItem: Boolean,
-    override val requirements: List<EvolutionRequirement>
+    override val requirements: List<EvolutionRequirement>,
+    override val learnableMoves: List<MoveTemplate>
 ) : ContextEvolution<ItemStack, ItemStack> {
 
     override fun testContext(pokemon: Pokemon, context: ItemStack): Boolean {
