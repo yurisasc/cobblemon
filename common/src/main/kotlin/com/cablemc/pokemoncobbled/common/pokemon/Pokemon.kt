@@ -22,23 +22,22 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.TradeEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.holder.PendingEvolutions
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
-import com.cablemc.pokemoncobbled.common.util.*
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.readMapK
+import com.cablemc.pokemoncobbled.common.util.writeMapK
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import net.fabricmc.api.EnvType
-import net.fabricmc.api.Environment
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ItemStack
 import net.minecraft.world.phys.Vec3
 import java.lang.Integer.min
 import java.util.*
@@ -160,11 +159,10 @@ open class Pokemon {
     }
 
     // Dummy function for the time being
-    fun onTrade(tradedWith: Pokemon) {
+    fun onTrade(with: Pokemon) {
         val tradeEvos = this.species.evolutionsOf<TradeEvolution>()
-        val partner = TradeEvolution.TradePartner(tradedWith)
         tradeEvos.forEach { evolution ->
-            if (evolution.attemptEvolution(this, partner) && !evolution.optional)
+            if (evolution.attemptEvolution(this, with) && !evolution.optional)
                 return
         }
     }

@@ -6,6 +6,14 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.Evolu
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.world.item.ItemStack
 
+/**
+ * Represents a [ContextEvolution] with [ItemStack] context.
+ * These are triggered upon interaction with the target [ItemStack].
+ *
+ * @property requiredContext The [ItemStack] expected to be used.
+ * @author Licious
+ * @since March 20th, 2022
+ */
 open class ItemInteractionEvolution(
     override val id: String,
     override val result: PokemonProperties,
@@ -13,7 +21,7 @@ open class ItemInteractionEvolution(
     override val optional: Boolean,
     override val consumeHeldItem: Boolean,
     override val requirements: List<EvolutionRequirement>
-) : ContextEvolution<ItemStack> {
+) : ContextEvolution<ItemStack, ItemStack> {
 
     override fun testContext(pokemon: Pokemon, context: ItemStack): Boolean {
         return if (this.requiredContext.tag == null)

@@ -114,7 +114,7 @@
                         "variant": {
                             "description": "The ID of the requirement",
                             "type": "string",
-                            "enum": ["friendship", "held_item", "area", "biome", "time_of_day", "stat_balance", "has_move"]
+                            "enum": ["friendship", "held_item", "world", "area", "biome", "time", "stat_balance", "has_move"]
                         },
                         "data": {
                             "description": "The data that backs this requirement"
