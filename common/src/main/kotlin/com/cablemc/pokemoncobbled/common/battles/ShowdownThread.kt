@@ -4,17 +4,19 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
+import com.cablemc.pokemoncobbled.common.api.moves.MoveLoader
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.battles.runner.JavetShowdownConnection
+import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.FileUtils
 import com.cablemc.pokemoncobbled.common.util.extractTo
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceLocation
-import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.InputStreamReader
+import java.io.*
+import java.nio.file.Files
 
 class ShowdownThread : Thread() {
 
@@ -75,6 +77,21 @@ class ShowdownThread : Thread() {
         }
 
         LOGGER.info("Showdown has been connected!")
+
+        // Request and register showdown move data.
+        LOGGER.info("Receiving move data.")
+        if (!Files.exists(MoveLoader.dirPath)) {
+            val request = JsonObject()
+            request.addProperty(DataKeys.REQUEST_TYPE, DataKeys.REQUEST_RECEIVE_MOVE_DATA)
+            println(gson.toJson(request))
+            showdown.write(gson.toJson(request))
+            sleep(2000) // Wait for the socket to send a response.
+            showdown.read(MoveLoader::createFiles)
+        }
+
+        // Should this be moved outside the thread?
+        Moves.load()
+        LOGGER.info("Loaded " + Moves.count() + " moves.")
 
         // Reset tries as this will be used by reconnection attempts
         tries = 0

@@ -39,10 +39,10 @@ object GivePokemon {
             val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
             val pokemon = Pokemon().apply { species = pkm }
             val party = PokemonCobbled.storage.getParty(player)
-            pokemon.moveSet.setMove(0, Moves.TACKLE.create())
-            pokemon.moveSet.setMove(1, Moves.AERIAL_ACE.create())
-            pokemon.moveSet.setMove(2, Moves.AIR_SLASH.create())
-            pokemon.moveSet.setMove(3, Moves.AURA_SPHERE.create())
+            pokemon.moveSet.setMove(0, Moves.getByName("tackle")!!.create())
+            pokemon.moveSet.setMove(1, Moves.getByName("aerialace")!!.create())
+            pokemon.moveSet.setMove(2, Moves.getByName("airslash")!!.create())
+            pokemon.moveSet.setMove(3, Moves.getByName("aurasphere")!!.create())
             party.add(pokemon)
             context.source.sendSuccess(commandLang("givepokemon.give", pkm.translatedName, player.name), true)
         } catch (e: Exception) {

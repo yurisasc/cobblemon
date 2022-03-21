@@ -15,7 +15,7 @@ class MoveSet {
      */
     init {
         if (moves.filterNotNull().isEmpty()) {
-            moves[0] = Moves.TACKLE.create()
+            moves[0] = Moves.getByName("tackle")!!.create()
         }
     }
 
