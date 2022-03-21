@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.api.pokemon
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.SpeciesLoader
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.TradeEvolution
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -50,18 +51,18 @@ internal class EvolutionTest {
     fun `test trade`() {
         val evolution = TradeEvolution(
             id = "test",
-            result = PokemonProperties.parse("ivysaur"),
-            requiredContext = TradeEvolution.TradePartner(PokemonSpecies.CHARMANDER),
+            result = PokemonProperties.parse(PokemonSpecies.IVYSAUR.name),
+            requiredContext = PokemonProperties.parse(PokemonSpecies.CHARMANDER.name),
             optional = false,
             consumeHeldItem = false,
             requirements = emptyList()
         )
         val pokemon = Pokemon().apply { species = PokemonSpecies.BULBASAUR }
-        val tradedWith = Pokemon().apply { species = PokemonSpecies.CHARMELEON }
-        evolution.attemptEvolution(pokemon, TradeEvolution.TradePartner(tradedWith))
+        val with = Pokemon().apply { species = PokemonSpecies.CHARMELEON }
+        evolution.attemptEvolution(pokemon, with)
         assertEquals(PokemonSpecies.BULBASAUR.name, pokemon.species.name)
-        tradedWith.species = PokemonSpecies.CHARMANDER
-        evolution.attemptEvolution(pokemon, TradeEvolution.TradePartner(tradedWith))
+        with.species = PokemonSpecies.CHARMANDER
+        evolution.attemptEvolution(pokemon, with)
         assertEquals(PokemonSpecies.IVYSAUR.name, pokemon.species.name)
     }
 

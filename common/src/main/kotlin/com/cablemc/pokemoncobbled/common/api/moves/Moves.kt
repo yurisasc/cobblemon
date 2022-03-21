@@ -9,7 +9,8 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
  * Registry for all known Moves
  */
 object Moves {
-    private val allMoves = mutableListOf<MoveTemplate>()
+
+    private val allMoves = hashMapOf<String, MoveTemplate>()
 
     // START - Normal Moves
     val TACKLE = register(loadFromAssets("tackle"))
@@ -26,13 +27,11 @@ object Moves {
     val SPLASH = register(MoveTemplate("splash", ElementalTypes.NORMAL, DamageCategories.SPECIAL, 0.0, 0.0, 0.0, 10))
 
     fun register(moveTemplate: MoveTemplate): MoveTemplate {
-        allMoves.add(moveTemplate)
+        this.allMoves[moveTemplate.name.lowercase()] = moveTemplate
         return moveTemplate
     }
 
-    fun getByName(name: String): MoveTemplate? {
-        return allMoves.firstOrNull { moveTemplate -> moveTemplate.name.equals(name, ignoreCase = true) }
-    }
+    fun getByName(name: String) = this.allMoves[name.lowercase()]
 
-    fun count() = allMoves.size
+    fun count() = this.allMoves.size
 }
