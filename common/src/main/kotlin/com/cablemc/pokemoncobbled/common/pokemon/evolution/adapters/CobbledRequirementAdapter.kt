@@ -4,10 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.adapters.EvolutionAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.adapters.RequirementAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.AreaRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.BiomeRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.FriendshipRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.HeldItemRequirement
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.*
 import com.google.common.collect.HashBiMap
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
@@ -32,6 +29,7 @@ object CobbledRequirementAdapter : RequirementAdapter {
         this.registerType(FriendshipRequirement.ADAPTER_VARIANT, FriendshipRequirement::class)
         this.registerType(HeldItemRequirement.ADAPTER_VARIANT, HeldItemRequirement::class)
         this.registerType(BiomeRequirement.ADAPTER_VARIANT, BiomeRequirement::class)
+        this.registerType(MoveSetRequirement.ADAPTER_VARIANT, MoveSetRequirement::class)
     }
 
     override fun <T : EvolutionRequirement> registerType(id: String, type: KClass<T>) {
