@@ -16,6 +16,7 @@ object PokeBalls {
     val POKE_BALL = registerPokeBall(PokeBall(cobbledResource("poke_ball")))
     val GREAT_BALL = registerPokeBall(PokeBall(cobbledResource("great_ball"), listOf(MultiplierModifier(1.5f))))
     val ULTRA_BALL = registerPokeBall(PokeBall(cobbledResource("ultra_ball"), listOf(MultiplierModifier(2f))))
+    val MASTER_BALL = registerPokeBall(PokeBall(cobbledResource("master_ball"), listOf(MultiplierModifier(255f))))
 
     /**
      * Registers a new pokeball type.

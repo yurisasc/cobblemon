@@ -25,6 +25,8 @@ import net.minecraft.world.entity.EntityDimensions
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.Pose
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile
+import net.minecraft.world.item.Item
+import net.minecraft.world.level.ItemLike
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
@@ -194,7 +196,7 @@ class EmptyPokeBallEntity(
         }
     }
 
-    override fun getDefaultItem() = CobbledItems.POKE_BALL_TYPE
+    override fun getDefaultItem(): Item = CobbledItems.ballMap[pokeBall]?.get() as Item
 
     override fun getDimensions(pPose: Pose) = DIMENSIONS
     fun <T> addEntityProperty(accessor: EntityDataAccessor<T>, initialValue: T): EntityProperty<T> {

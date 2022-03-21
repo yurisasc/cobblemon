@@ -52,14 +52,21 @@ object PokemonCobbledClient {
     }
 
     private fun registerBlockRenderTypes() {
-        RenderTypeRegistry.register(RenderType.cutout(), CobbledBlocks.BLACK_APRICORN_SAPLING.get(),
+        RenderTypeRegistry.register(RenderType.cutout(),
+            CobbledBlocks.BLACK_APRICORN_SAPLING.get(),
             CobbledBlocks.BLUE_APRICORN_SAPLING.get(),
             CobbledBlocks.GREEN_APRICORN_SAPLING.get(),
             CobbledBlocks.PINK_APRICORN_SAPLING.get(),
             CobbledBlocks.RED_APRICORN_SAPLING.get(),
             CobbledBlocks.WHITE_APRICORN_SAPLING.get(),
             CobbledBlocks.YELLOW_APRICORN_SAPLING.get(),
-            CobbledBlocks.BLACK_APRICORN.get())
+            CobbledBlocks.BLACK_APRICORN.get(),
+            CobbledBlocks.BLUE_APRICORN.get(),
+            CobbledBlocks.GREEN_APRICORN.get(),
+            CobbledBlocks.PINK_APRICORN.get(),
+            CobbledBlocks.RED_APRICORN.get(),
+            CobbledBlocks.WHITE_APRICORN.get(),
+            CobbledBlocks.YELLOW_APRICORN.get())
     }
 
     fun beforeChatRender(poseStack: PoseStack, partialDeltaTicks: Float) {

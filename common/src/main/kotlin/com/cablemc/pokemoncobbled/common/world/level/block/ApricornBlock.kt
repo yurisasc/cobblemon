@@ -30,10 +30,10 @@ class ApricornBlock(properties: Properties, val itemSupplier: Supplier<Item>) : 
 
     companion object {
         val AGE = BlockStateProperties.AGE_2
-        val EAST_AABB = arrayOf(Block.box(11.0, 7.0, 6.0, 15.0, 11.0, 10.0), Block.box(11.0, 6.0, 5.5, 16.0, 11.0, 10.5), Block.box(10.0, 3.0, 5.0, 16.0, 9.0, 11.0))
-        val WEST_AABB = arrayOf(Block.box(1.0, 7.0, 6.0, 5.0, 11.0, 10.0), Block.box(0.0, 6.0, 5.5, 5.0, 11.0, 10.5), Block.box(0.0, 3.0, 5.0, 6.0, 9.0, 11.0))
-        val NORTH_AABB = arrayOf(Block.box(6.0, 7.0, 1.0, 10.0, 11.0, 5.0), Block.box(5.5, 6.0, 0.0, 10.5, 11.0, 5.0), Block.box(5.0, 3.0, 0.0, 11.0, 9.0, 6.0))
-        val SOUTH_AABB = arrayOf(Block.box(6.0, 7.0, 11.0, 10.0, 11.0, 15.0), Block.box(5.5, 6.0, 11.0, 10.5, 11.0, 16.0), Block.box(5.0, 3.0, 10.0, 11.0, 9.0, 16.0))
+        val EAST_AABB = arrayOf(Block.box(12.0, 7.0, 6.0, 16.0, 11.0, 10.0), Block.box(11.0, 6.0, 5.5, 16.0, 11.0, 10.5), Block.box(10.0, 3.0, 5.0, 16.0, 9.0, 11.0))
+        val WEST_AABB = arrayOf(Block.box(0.0, 7.0, 6.0, 4.0, 11.0, 10.0), Block.box(0.0, 6.0, 5.5, 5.0, 11.0, 10.5), Block.box(0.0, 3.0, 5.0, 6.0, 9.0, 11.0))
+        val NORTH_AABB = arrayOf(Block.box(6.0, 7.0, 0.0, 10.0, 11.0, 4.0), Block.box(5.5, 6.0, 0.0, 10.5, 11.0, 5.0), Block.box(5.0, 3.0, 0.0, 11.0, 9.0, 6.0))
+        val SOUTH_AABB = arrayOf(Block.box(6.0, 7.0, 12.0, 10.0, 11.0, 16.0), Block.box(5.5, 6.0, 11.0, 10.5, 11.0, 16.0), Block.box(5.0, 3.0, 10.0, 11.0, 9.0, 16.0))
     }
 
     init {

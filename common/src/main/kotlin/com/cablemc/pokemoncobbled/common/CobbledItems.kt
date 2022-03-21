@@ -3,9 +3,11 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.item.ApricornItem
 import com.cablemc.pokemoncobbled.common.item.PokeBallItem
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.core.Registry
+import net.minecraft.world.entity.projectile.ItemSupplier
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
@@ -17,8 +19,11 @@ object CobbledItems {
     private fun <T : Item> queue(name: String, item: T) = itemRegister.register(name) { item }
 
     val POKE_BALL = queue("poke_ball", PokeBallItem(PokeBalls.POKE_BALL))
-    val POKE_BALL_TYPE: PokeBallItem
-        get() = POKE_BALL.get()
+    val GREAT_BALL = queue("great_ball", PokeBallItem(PokeBalls.GREAT_BALL))
+    val ULTRA_BALL = queue("ultra_ball", PokeBallItem(PokeBalls.ULTRA_BALL))
+    val MASTER_BALL = queue("master_ball", PokeBallItem(PokeBalls.MASTER_BALL))
+
+    val ballMap = mutableMapOf<PokeBall, RegistrySupplier<PokeBallItem>>()
 
     val BLACK_APRICORN = queue("black_apricorn", ApricornItem())
     val BLUE_APRICORN = queue("blue_apricorn", ApricornItem())
@@ -51,5 +56,9 @@ object CobbledItems {
 
     fun register() {
         itemRegister.register()
+        ballMap[PokeBalls.POKE_BALL] = POKE_BALL
+        ballMap[PokeBalls.GREAT_BALL] = GREAT_BALL
+        ballMap[PokeBalls.ULTRA_BALL] = ULTRA_BALL
+        ballMap[PokeBalls.MASTER_BALL] = MASTER_BALL
     }
 }

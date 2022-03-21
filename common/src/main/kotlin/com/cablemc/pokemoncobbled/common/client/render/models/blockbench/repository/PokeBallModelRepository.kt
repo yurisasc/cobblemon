@@ -14,7 +14,10 @@ object PokeBallModelRepository : ModelRepository<EmptyPokeBallEntity>() {
 
     override fun registerAll() {
         registerModel(PokeBalls.POKE_BALL, BlockBenchModelWrapper(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) })
-        registerModelTexture(PokeBalls.POKE_BALL, cobbledResource("textures/pokemon/pokeball-base.png"))
+        registerModelTexture(PokeBalls.POKE_BALL, cobbledResource("textures/items/poke_ball.png"))
+        registerModelTexture(PokeBalls.GREAT_BALL, cobbledResource("textures/items/great_ball.png"))
+        registerModelTexture(PokeBalls.ULTRA_BALL, cobbledResource("textures/items/ultra_ball.png"))
+        registerModelTexture(PokeBalls.MASTER_BALL, cobbledResource("textures/items/master_ball.png"))
     }
 
     private fun registerModel(pokeBall: PokeBall, model: BlockBenchModelWrapper<EmptyPokeBallEntity>) {
