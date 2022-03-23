@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemoncobbled.common.api.pokemon.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
 import net.minecraft.network.chat.MutableComponent
@@ -22,6 +22,7 @@ class Species {
     val catchRate = 45
     // Only modifiable for debugging sizes
     var baseScale = 1F
+    var experienceGroup = ExperienceGroups.first()
     var hitbox = EntityDimensions(1F, 1F, false)
     val primaryType = ElementalTypes.GRASS
     // Technically incorrect for bulbasaur but Mr. Bossman said so

@@ -1,16 +1,34 @@
 package com.cablemc.pokemoncobbled.common.api
 
+/**
+ * A curve of experience that maps to levels. This is generally a discretized polynomial equation
+ * that takes a level as x and returns the amount of experience required to reach it as y.
+ *
+ * Some curves are too complicated to invert. Implementations can use [CachedLevelThresholds] to
+ * workaround this issue.
+ *
+ * @author Hiroku
+ * @since March 21st, 2022
+ */
 interface LevelCurve {
-    fun getExperienceForLevel(level: Int): Int
-    fun getLevelForExperience(experience: Int): Int
+    fun getExperience(level: Int): Int
+    fun getLevel(experience: Int): Int
 }
 
+/**
+ * A collection of thresholds for what levels require in terms of
+ * experience. This is a caching mechanism so that a complicated
+ * experience-to-level polynomial can be inverted.
+ *
+ * @author Hiroku
+ * @since March 21st, 2022
+ */
 class CachedLevelThresholds(
     val levelLimit: Int = 1000,
     val experienceToLevel: (Int) -> Int
 ) {
     val savedThresholds = mutableListOf<Int>()
-    fun getLevelForExperience(experience: Int): Int {
+    fun getLevel(experience: Int): Int {
         var level = 1
         while (level <= savedThresholds.size) {
             val threshold = savedThresholds[level - 1]

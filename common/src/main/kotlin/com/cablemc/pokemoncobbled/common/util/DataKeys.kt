@@ -6,6 +6,7 @@ object DataKeys {
     const val POKEMON_SPECIES_DEX = "SpeciesDex"
     const val POKEMON_FORM_ID = "FormId"
     const val POKEMON_LEVEL = "Level"
+    const val POKEMON_EXPERIENCE = "Experience"
     const val POKEMON_FRIENDSHIP = "Friendship"
 
     const val POKEMON_STATS = "Stats"

@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemoncobbled.common.api.pokemon.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
@@ -20,6 +21,8 @@ data class FormData(
     private var _hitbox: EntityDimensions? = null,
     @SerializedName("catchRate")
     private var _catchRate: Int? = null,
+    @SerializedName("experienceGroup")
+    private var _experienceGroup: ExperienceGroup? = null,
     @SerializedName("primaryType")
     private val _primaryType: ElementalType? = null,
     @SerializedName("secondaryType")
@@ -44,6 +47,8 @@ data class FormData(
         get() = _hitbox ?: species.hitbox
     val catchRate: Int
         get() = _catchRate ?: species.catchRate
+    val experienceGroup: ExperienceGroup
+        get() = _experienceGroup ?: species.experienceGroup
 
     val primaryType: ElementalType
         get() = _primaryType ?: species.primaryType
