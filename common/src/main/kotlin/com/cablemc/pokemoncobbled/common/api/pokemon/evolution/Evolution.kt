@@ -20,7 +20,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolut
 interface Evolution {
 
     /**
-     * The unique id of this [Evolution].
+     * The unique id of the evolution.
      * It should be human readable, I.E pikachu_level
      */
     val id: String

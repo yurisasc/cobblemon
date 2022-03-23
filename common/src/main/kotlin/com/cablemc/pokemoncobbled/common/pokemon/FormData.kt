@@ -2,8 +2,9 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.google.gson.annotations.SerializedName
 import net.minecraft.world.entity.EntityDimensions
 
@@ -31,8 +32,12 @@ data class FormData(
     @SerializedName("shoulderMountable")
     private val _shoulderMountable: Boolean? = null,
     @SerializedName("shoulderEffects")
-    private val _shoulderEffects: MutableList<ShoulderEffect>? = null
+    private val _shoulderEffects: MutableList<ShoulderEffect>? = null,
+    @SerializedName("evolutions")
+    private val _evolutions: MutableSet<Evolution>? = null,
+    val preEvolution: PreEvolution? = null
 ) {
+
     val baseStats: PokemonStats
         get() = _baseStats ?: species.baseStats
 
@@ -65,6 +70,9 @@ data class FormData(
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
+
+    val evolutions: MutableSet<Evolution>
+        get() = _evolutions ?: species.evolutions
 
     @Transient
     lateinit var species: Species

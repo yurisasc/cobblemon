@@ -26,10 +26,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.TradeEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.holder.PendingEvolutions
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
-import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.common.util.getServer
-import com.cablemc.pokemoncobbled.common.util.readMapK
-import com.cablemc.pokemoncobbled.common.util.writeMapK
+import com.cablemc.pokemoncobbled.common.util.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
@@ -119,11 +116,6 @@ open class Pokemon {
 
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
-    var pendingEvolutions by observable(PendingEvolutions()) { _, _, newValue ->
-        // ToDo Notify client on change
-    }
-        private set
-
     open fun getStat(stat: Stat): Int {
         return if (stat == Stats.HP) {
             // TODO shedinja should just return 1
@@ -153,15 +145,14 @@ open class Pokemon {
     // Dummy function for the time being
     fun levelUp() {
         this.level++
-        this.species.evolutionsOf<LevelEvolution>().forEach { evolution ->
+        this.species.evolutions.filterIsInstance<LevelEvolution>().forEach { evolution ->
             evolution.attemptEvolution(this)
         }
     }
 
     // Dummy function for the time being
     fun onTrade(with: Pokemon) {
-        val tradeEvos = this.species.evolutionsOf<TradeEvolution>()
-        tradeEvos.forEach { evolution ->
+        this.species.evolutions.filterIsInstance<TradeEvolution>().forEach { evolution ->
             if (evolution.attemptEvolution(this, with) && !evolution.optional)
                 return
         }
@@ -183,7 +174,6 @@ open class Pokemon {
         val abilityNBT = ability.saveToNBT(CompoundTag())
         nbt.put(DataKeys.POKEMON_ABILITY, abilityNBT)
         state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
-        nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, pendingEvolutions.saveToNBT())
         return nbt
     }
 
@@ -210,7 +200,6 @@ open class Pokemon {
             val clazz = PokemonState.states[type]
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromNBT(stateNBT) ?: InactivePokemonState()
         }
-        pendingEvolutions = PendingEvolutions.loadFromNBT(this, nbt.getList(DataKeys.POKEMON_PENDING_EVOLUTIONS, Tag.TAG_STRING.toInt()))
         return this
     }
 
@@ -229,7 +218,6 @@ open class Pokemon {
         json.add(DataKeys.POKEMON_ABILITY, ability.saveToJSON(JsonObject()))
         json.addProperty(DataKeys.POKEMON_SHINY, shiny)
         state.writeToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATE, it) }
-        json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, pendingEvolutions.saveToJSON())
         return json
     }
 
@@ -254,7 +242,6 @@ open class Pokemon {
             val clazz = type?.let { PokemonState.states[it] }
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromJSON(stateJson) ?: InactivePokemonState()
         }
-        pendingEvolutions = PendingEvolutions.loadFromJSON(this, json.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.asJsonArray ?: JsonArray())
         return this
     }
 
@@ -272,7 +259,6 @@ open class Pokemon {
         buffer.writeUtf(ability.name)
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
-        pendingEvolutions.saveToBuffer(buffer)
         return buffer
     }
 
@@ -304,7 +290,6 @@ open class Pokemon {
         ability = Abilities.getOrException(buffer.readUtf()).create()
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
-        pendingEvolutions = PendingEvolutions.loadFromBuffer(this, buffer)
         return this
     }
 

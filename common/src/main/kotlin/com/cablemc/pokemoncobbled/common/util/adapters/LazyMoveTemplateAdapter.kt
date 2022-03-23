@@ -12,7 +12,7 @@ import java.lang.reflect.Type
  * @author Licious
  * @since March 21st, 2022
  */
-object CobbledLazyMoveTemplateAdapter : JsonDeserializer<MoveTemplate>, JsonSerializer<MoveTemplate> {
+object LazyMoveTemplateAdapter : JsonDeserializer<MoveTemplate>, JsonSerializer<MoveTemplate> {
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): MoveTemplate? = Moves.getByName(json.asString)
 

@@ -226,8 +226,7 @@ class PokemonEntity(
 
     private fun attemptItemInteraction(playerIn: Player, stack: ItemStack) {
         if (playerIn !is ServerPlayer || !this.pokemon.belongsTo(playerIn) || stack.isEmpty) return
-        val interactionEvolutions = this.pokemon.species.evolutionsOf<ItemInteractionEvolution>()
-        interactionEvolutions.forEach { evolution ->
+        this.pokemon.species.evolutions.filterIsInstance<ItemInteractionEvolution>().forEach { evolution ->
             if (evolution.attemptEvolution(this.pokemon, stack)) {
                 stack.shrink(1)
                 if (!evolution.optional)

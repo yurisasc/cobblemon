@@ -3,13 +3,11 @@ package com.cablemc.pokemoncobbled.common.pokemon
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.util.asTranslated
-import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
-import com.google.gson.JsonObject
-import com.google.gson.annotations.SerializedName
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.entity.EntityDimensions
 
@@ -36,22 +34,11 @@ class Species {
 
     var forms = mutableListOf(FormData())
 
-    val evolutions by lazy {
-        this.evolutionContainers.map { container -> SpeciesLoader.GSON.fromJson<Evolution>(container) }
-    }
+    val evolutions: MutableSet<Evolution> = hashSetOf()
 
-    @SerializedName("evolutions")
-    private val evolutionContainers = mutableListOf<JsonObject>()
+    val preEvolution: PreEvolution? = null
 
     fun types(form: Int): Iterable<ElementalType> = forms[form].types
-
-    /**
-     * Queries for [Evolution]s of a specific type
-     *
-     * @param T The type of [Evolution].
-     * @return The [Evolution]s of type [T] if any.
-     */
-    inline fun <reified T : Evolution> evolutionsOf() = this.evolutions.filterIsInstance<T>()
 
     fun create() = Pokemon().apply { species = this@Species }
 
