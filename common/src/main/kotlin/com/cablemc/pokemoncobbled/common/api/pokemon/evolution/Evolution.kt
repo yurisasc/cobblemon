@@ -44,12 +44,12 @@ interface Evolution {
     /**
      * The [EvolutionRequirement]s behind this evolution.
      */
-    val requirements: List<EvolutionRequirement>
+    val requirements: MutableSet<EvolutionRequirement>
 
     /**
      * The [MoveTemplate]s that will be offered to be learnt upon evolving.
      */
-    val learnableMoves: List<MoveTemplate>
+    val learnableMoves: MutableSet<MoveTemplate>
 
     /**
      * Checks if the given [Pokemon] passes all the conditions and is ready to evolve.

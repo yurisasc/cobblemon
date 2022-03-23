@@ -26,8 +26,8 @@ open class LevelEvolution(
     val levels: IntRange,
     override val optional: Boolean,
     override val consumeHeldItem: Boolean,
-    override val requirements: List<EvolutionRequirement>,
-    override val learnableMoves: List<MoveTemplate>
+    override val requirements: MutableSet<EvolutionRequirement>,
+    override val learnableMoves: MutableSet<MoveTemplate>
 ) : PassiveEvolution {
 
     constructor(
@@ -36,8 +36,8 @@ open class LevelEvolution(
         level: Int,
         optional: Boolean,
         consumeHeldItem: Boolean,
-        requirements: List<EvolutionRequirement>,
-        learnableMoves: List<MoveTemplate>
+        requirements: MutableSet<EvolutionRequirement>,
+        learnableMoves: MutableSet<MoveTemplate>
     ) : this(id, result, level..level, optional, consumeHeldItem, requirements, learnableMoves)
 
     override fun attemptEvolution(pokemon: Pokemon) = this.isValid(pokemon) && super.attemptEvolution(pokemon)

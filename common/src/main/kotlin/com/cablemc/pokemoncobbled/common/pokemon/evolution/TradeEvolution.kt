@@ -23,8 +23,8 @@ open class TradeEvolution(
     override val requiredContext: PokemonProperties,
     override val optional: Boolean,
     override val consumeHeldItem: Boolean,
-    override val requirements: List<EvolutionRequirement>,
-    override val learnableMoves: List<MoveTemplate>
+    override val requirements: MutableSet<EvolutionRequirement>,
+    override val learnableMoves: MutableSet<MoveTemplate>
 ) : ContextEvolution<Pokemon, PokemonProperties> {
 
     override fun testContext(pokemon: Pokemon, context: Pokemon) = this.requiredContext.matches(context)

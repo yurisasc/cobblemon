@@ -33,8 +33,8 @@ internal class EvolutionTest {
             levels = 16..16,
             optional = false,
             consumeHeldItem = false,
-            requirements = emptyList(),
-            learnableMoves = emptyList()
+            requirements = mutableSetOf(),
+            learnableMoves = mutableSetOf()
         )
         val pokemon = Pokemon().apply {
             species = PokemonSpecies.BULBASAUR
@@ -55,8 +55,8 @@ internal class EvolutionTest {
             requiredContext = PokemonProperties.parse(PokemonSpecies.CHARMANDER.name),
             optional = false,
             consumeHeldItem = false,
-            requirements = emptyList(),
-            learnableMoves = emptyList()
+            requirements = mutableSetOf(),
+            learnableMoves = mutableSetOf()
         )
         val pokemon = Pokemon().apply { species = PokemonSpecies.BULBASAUR }
         val with = Pokemon().apply { species = PokemonSpecies.CHARMELEON }

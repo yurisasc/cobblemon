@@ -21,8 +21,8 @@ open class ItemInteractionEvolution(
     override val requiredContext: ItemStack,
     override val optional: Boolean,
     override val consumeHeldItem: Boolean,
-    override val requirements: List<EvolutionRequirement>,
-    override val learnableMoves: List<MoveTemplate>
+    override val requirements: MutableSet<EvolutionRequirement>,
+    override val learnableMoves: MutableSet<MoveTemplate>
 ) : ContextEvolution<ItemStack, ItemStack> {
 
     override fun testContext(pokemon: Pokemon, context: ItemStack): Boolean {
