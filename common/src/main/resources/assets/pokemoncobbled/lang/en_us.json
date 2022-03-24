@@ -2,7 +2,7 @@
   "item.pokemoncobbled.poke_ball": "Pokeball",
   "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
-  "itemGroup.pokemoncobbled.pokeballtab": "Poké Balls",
+  "itemGroup.pokemoncobbled.pokeball": "Poké Balls",
   "pokemoncobbled.ui.pokenav.title": "PokeNav",
   "pokemoncobbled.ui.summary.title": "Summary",
   "pokemoncobbled.ui.moves": "Moves",
@@ -21,6 +21,19 @@
   "key.pokemoncobbled.summary": "Open Summary",
   "key.pokemoncobbled.categories.pokemoncobbled": "Pokémon Cobbled",
   "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!",
+
+  "itemGroup.pokemoncobbled.evolution_item": "Evolution Items",
+  "item.pokemoncobbled.black_augurite": "Black Augurite",
+  "item.pokemoncobbled.dragon_scale": "Dragon Scale",
+  "item.pokemoncobbled.dubious_disc": "Dubious Disc",
+  "item.pokemoncobbled.electirizer": "Electirizer",
+  "item.pokemoncobbled.kings_rock": "Kings Rock",
+  "item.pokemoncobbled.link_cable": "Link Cable",
+  "item.pokemoncobbled.magmarizer": "Magmarizer",
+  "item.pokemoncobbled.metal_coat": "Metal Coat",
+  "item.pokemoncobbled.oval_stone": "Oval Stone",
+  "item.pokemoncobbled.protector": "Protector",
+  "item.pokemoncobbled.upgrade": "Upgrade",
 
   "pokemoncobbled.command.givepokemon.give": "Gave %1$s to %2$s.",
 
