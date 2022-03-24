@@ -22,7 +22,6 @@ import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.item.ItemStack
 import java.io.InputStreamReader
 
 object SpeciesLoader {
@@ -37,7 +36,6 @@ object SpeciesLoader {
         .registerTypeAdapter(PreEvolution::class.java, CobbledPreEvolutionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(Set::class.java, Evolution::class.java).type, LazySetAdapter(Evolution::class))
         .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
-        .registerTypeAdapter(ItemStack::class.java, ItemStackAdapter)
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
         .registerTypeAdapter(ResourceLocation::class.java, ResourceLocationAdapter)
         .registerTypeAdapter(MoveTemplate::class.java, LazyMoveTemplateAdapter)

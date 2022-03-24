@@ -24,8 +24,8 @@ open class LevelEvolution(
     @IntConstraint(1, 100)
     @SerializedName("levels", alternate = ["level"])
     val levels: IntRange,
-    override val optional: Boolean,
-    override val consumeHeldItem: Boolean,
+    override var optional: Boolean,
+    override var consumeHeldItem: Boolean,
     override val requirements: MutableSet<EvolutionRequirement>,
     override val learnableMoves: MutableSet<MoveTemplate>
 ) : PassiveEvolution {

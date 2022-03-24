@@ -21,7 +21,7 @@
   },
   "evolutions": [
     {
-      "variant": "level_up",
+      "variant": "item_interact",
       "levels": 16,
       "id": "bulbasaur_level",
       "result": "ivysaur",

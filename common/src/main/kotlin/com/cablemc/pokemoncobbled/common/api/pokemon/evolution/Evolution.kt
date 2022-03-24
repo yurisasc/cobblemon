@@ -33,13 +33,13 @@ interface Evolution {
     /**
      * If this evolution will allow the user to choose when to start it or not.
      */
-    val optional: Boolean
+    var optional: Boolean
 
     // ToDo pending held items.
     /**
      * If this [Evolution] will consume the [Pokemon.heldItem]
      */
-    val consumeHeldItem: Boolean
+    var consumeHeldItem: Boolean
 
     /**
      * The [EvolutionRequirement]s behind this evolution.

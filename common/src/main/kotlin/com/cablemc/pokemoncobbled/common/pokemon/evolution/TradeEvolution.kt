@@ -21,8 +21,8 @@ open class TradeEvolution(
     override val id: String,
     override val result: PokemonProperties,
     override val requiredContext: PokemonProperties,
-    override val optional: Boolean,
-    override val consumeHeldItem: Boolean,
+    override var optional: Boolean,
+    override var consumeHeldItem: Boolean,
     override val requirements: MutableSet<EvolutionRequirement>,
     override val learnableMoves: MutableSet<MoveTemplate>
 ) : ContextEvolution<Pokemon, PokemonProperties> {

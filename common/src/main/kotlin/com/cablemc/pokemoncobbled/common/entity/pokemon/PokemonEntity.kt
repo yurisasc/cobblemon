@@ -7,9 +7,9 @@ import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.item.interactive.PokemonInteractiveItem
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolution
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
@@ -225,14 +225,8 @@ class PokemonEntity(
     fun getBehaviourFlag(flag: PokemonBehaviourFlag): Boolean = getBitForByte(behaviourFlags.get(), flag.bit)
 
     private fun attemptItemInteraction(playerIn: Player, stack: ItemStack) {
-        if (playerIn !is ServerPlayer || !this.pokemon.belongsTo(playerIn) || stack.isEmpty) return
-        this.pokemon.species.evolutions.filterIsInstance<ItemInteractionEvolution>().forEach { evolution ->
-            if (evolution.attemptEvolution(this.pokemon, stack)) {
-                stack.shrink(1)
-                if (!evolution.optional)
-                    return
-            }
-        }
+        if (playerIn !is ServerPlayer || stack.isEmpty) return
+        (stack.item as? PokemonInteractiveItem)?.onInteraction(playerIn, this, stack)
     }
 
 }
