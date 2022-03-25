@@ -13,7 +13,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 
 object FabricConfiguredFeatures : CobbledConfiguredFeatures {
 
-    private fun <C, F, T : ConfiguredFeature<C, F>> register(name: String, feature: T) : T {
+    private fun <C, F, T : ConfiguredFeature<C, F>> register(name: String, feature: T): T {
         return Registry.register(CONFIGURED_FEATURE, "${PokemonCobbled.MODID}:$name", feature)
     }
 

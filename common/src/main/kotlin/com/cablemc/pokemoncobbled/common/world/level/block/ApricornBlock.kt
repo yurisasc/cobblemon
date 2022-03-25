@@ -67,7 +67,6 @@ class ApricornBlock(properties: Properties, val itemSupplier: Supplier<Item>) : 
 
     override fun canSurvive(blockState: BlockState, levelReader: LevelReader, blockPos: BlockPos): Boolean {
         val relativeState = levelReader.getBlockState(blockPos.relative(blockState.getValue(FACING)))
-        // TODO: Switch to a tag for datapack support
         return relativeState.block == CobbledBlocks.APRICORN_LEAVES.get()
     }
 

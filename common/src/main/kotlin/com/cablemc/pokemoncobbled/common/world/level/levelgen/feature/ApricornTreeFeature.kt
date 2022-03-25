@@ -2,11 +2,13 @@ package com.cablemc.pokemoncobbled.common.world.level.levelgen.feature
 
 import com.cablemc.pokemoncobbled.common.CobbledBlocks
 import com.cablemc.pokemoncobbled.common.util.randomNoCopy
+import com.cablemc.pokemoncobbled.common.world.level.block.ApricornBlock
 import com.google.common.collect.Lists
 import com.mojang.serialization.Codec
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.core.Direction.*
+import net.minecraft.tags.BlockTags
 import net.minecraft.world.level.WorldGenLevel
 import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING
@@ -29,11 +31,19 @@ class ApricornTreeFeature(
         val random: Random = context.random()
         val origin: BlockPos = context.origin()
 
+        if(!worldGenLevel.getBlockState(origin.below()).`is`(BlockTags.DIRT)) {
+            return false
+        }
+
         // Create trunk
         val logState = CobbledBlocks.APRICORN_LOG.get().defaultBlockState();
         for(y in 0..4) {
-            val logPos = origin.relative(UP, y)
-            worldGenLevel.level.setBlock(logPos, logState, 19)
+            try {
+                val logPos = origin.relative(UP, y)
+                worldGenLevel.setBlock(logPos, logState, 2)
+            } catch (exception: Exception) {
+                exception.printStackTrace()
+            }
         }
 
         // Decorate with leaves
@@ -118,8 +128,13 @@ class ApricornTreeFeature(
             }
         }
 
-        allApricornSpots.randomNoCopy(5).map { it.random() }.forEach {
-            setBlockIfClear(worldGenLevel, it.second, context.config().state.setValue(FACING, it.first))
+        if(allApricornSpots.isNotEmpty()) {
+            allApricornSpots.filter { it.isNotEmpty() }
+                .randomNoCopy(allApricornSpots.size.coerceAtMost(5))
+                .map { it.random() }
+                .forEach {
+                    setBlockIfClear(worldGenLevel, it.second, context.config().state.setValue(FACING, it.first))
+                }
         }
         return true;
     }
@@ -128,7 +143,7 @@ class ApricornTreeFeature(
         if(!TreeFeature.isAirOrLeaves(worldGenLevel, blockPos)) {
             return
         }
-        worldGenLevel.level.setBlock(blockPos, blockState, 19)
+        worldGenLevel.setBlock(blockPos, blockState, 3)
     }
 
     private fun getLayerOneVariation(origin: BlockPos, random: Random): Pair<BlockPos, BlockPos> {

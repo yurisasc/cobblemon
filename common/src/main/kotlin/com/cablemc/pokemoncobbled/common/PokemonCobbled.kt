@@ -94,6 +94,7 @@ object PokemonCobbled {
         CobbledKeybinds.register()
         cobbledFeatures.register()
         cobbledConfiguredFeatures.register()
+        CobbledPlacements.register()
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
