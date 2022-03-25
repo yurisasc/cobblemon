@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.command
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.storage
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
@@ -15,7 +14,6 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
-import net.minecraft.core.Registry
 import net.minecraft.server.level.ServerPlayer
 import java.util.UUID
 

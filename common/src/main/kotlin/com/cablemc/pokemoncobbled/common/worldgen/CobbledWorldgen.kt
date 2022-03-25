@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.worldgen
 
+import com.cablemc.pokemoncobbled.common.worldgen.placement.CobbledPlacementTypes
 import dev.architectury.registry.level.biome.BiomeModifications
-import net.minecraft.world.level.biome.Biome
 import net.minecraft.world.level.levelgen.GenerationStep.Decoration.UNDERGROUND_ORES
 import net.minecraft.world.level.levelgen.placement.BiomeFilter
 import net.minecraft.world.level.levelgen.placement.CountPlacement
@@ -16,12 +16,10 @@ object CobbledWorldgen {
     }
 
     fun register() {
-        BiomeModifications.addProperties { _, properties ->
+        CobbledPlacementTypes.register()
+        BiomeModifications.addProperties { ctx, properties ->
             properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.PLACED_FEATURE)
         }
-//        BiomeModifications.addProperties( { true } ) { _, properties ->
-//            properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.PLACED_FEATURE)
-//        }
     }
 
     fun orePlacement(placementModifier: PlacementModifier, placementModifier2: PlacementModifier): List<PlacementModifier> {
@@ -34,9 +32,5 @@ object CobbledWorldgen {
 
     fun rareOrePlacement(i: Int, placementModifier: PlacementModifier): List<PlacementModifier> {
         return orePlacement(RarityFilter.onAverageOnceEvery(i), placementModifier)
-    }
-
-    fun test(biome: Biome) {
-
     }
 }
