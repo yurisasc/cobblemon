@@ -12,5 +12,6 @@ object CobbledCommands {
         ChangeScaleAndSize.register(dispatcher)
         TestCommand.register(dispatcher)
         ClickTextCommand.register(dispatcher)
+        PokemonEditCommand.register(dispatcher)
     }
 }

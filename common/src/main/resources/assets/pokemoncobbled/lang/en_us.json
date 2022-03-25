@@ -2,6 +2,7 @@
   "item.pokemoncobbled.poke_ball": "Pokeball",
   "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
+  "pokemoncobbled.command.general.invalid-party-slot": "You have no Pokémon in slot %1$s",
   "itemGroup.pokemoncobbled.pokeball": "Poké Balls",
   "pokemoncobbled.ui.pokenav.title": "PokeNav",
   "pokemoncobbled.ui.summary.title": "Summary",
@@ -36,6 +37,7 @@
   "item.pokemoncobbled.upgrade": "Upgrade",
 
   "pokemoncobbled.command.givepokemon.give": "Gave %1$s to %2$s.",
+  "pokemoncobbled.command.pokemonedit": "Edited %2$s' %1$s.",
 
   "pokemoncobbled.type.fire": "Fire",
   "pokemoncobbled.type.water": "Water",

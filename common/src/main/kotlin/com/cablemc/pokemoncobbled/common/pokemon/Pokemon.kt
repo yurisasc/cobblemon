@@ -274,6 +274,13 @@ open class Pokemon {
         return pokemon
     }
 
+    fun from(other: Pokemon): Pokemon {
+        val tag = other.saveToNBT(CompoundTag())
+        tag.putUUID(DataKeys.POKEMON_UUID, this.uuid)
+        this.loadFromNBT(tag)
+        return this
+    }
+
     fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
         uuid = buffer.readUUID()
         species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())

@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
 import com.cablemc.pokemoncobbled.common.CobbledEntities
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
@@ -42,10 +43,10 @@ import java.util.*
 
 class PokemonEntity(
     level: Level,
-    pokemon: Pokemon = Pokemon(),
+    var pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
 ) : ShoulderRidingEntity(type, level), EntitySpawnExtension {
-    var pokemon: Pokemon
+
     val delegate = if (level.isClientSide) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
         PokemonClientDelegate()
@@ -59,8 +60,8 @@ class PokemonEntity(
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
-    val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
-    val shiny = addEntityProperty(SHINY, pokemon.shiny)
+    val dexNumber = addEntityProperty(SPECIES_DEX, this.pokemon.species.nationalPokedexNumber)
+    val shiny = addEntityProperty(SHINY, this.pokemon.shiny)
     val isMoving = addEntityProperty(MOVING, false)
     val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
@@ -69,7 +70,6 @@ class PokemonEntity(
     // properties like the above are synced and can be subscribed to changes for on either side
 
     init {
-        this.pokemon = pokemon
         delegate.initialize(this)
     }
 
@@ -202,16 +202,16 @@ class PokemonEntity(
     }
 
     override fun loadAdditionalSpawnData(buffer: FriendlyByteBuf) {
-//        if (this.level.isClientSide) {
-//            pokemon.scaleModifier = buffer.readFloat()
-//            // TODO exception handling
-//            pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!!
-//            // TODO exception handling
-//            pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readUtf() }!!
-//            phasingTargetId.set(buffer.readInt())
-//            beamModeEmitter.set(buffer.readByte())
-//            shiny.set(buffer.readBoolean())
-//        }
+        if (this.level.isClientSide) {
+            this.pokemon.scaleModifier = buffer.readFloat()
+            // TODO exception handling
+            this.pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!!
+            // TODO exception handling
+            this.pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readUtf() }!!
+            this.phasingTargetId.set(buffer.readInt())
+            this.beamModeEmitter.set(buffer.readByte())
+            this.shiny.set(buffer.readBoolean())
+        }
     }
 
     override fun shouldBeSaved(): Boolean {
