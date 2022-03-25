@@ -43,6 +43,8 @@ object CobbledItems {
 
     val APRICORN_LOG = queue("apricorn_log", blockItem(CobbledBlocks.APRICORN_LOG, CreativeModeTab.TAB_BUILDING_BLOCKS))
     val STRIPPED_APRICORN_LOG = queue("stripped_apricorn_log", blockItem(CobbledBlocks.STRIPPED_APRICORN_LOG, CreativeModeTab.TAB_BUILDING_BLOCKS))
+    val APRICORN_WOOD = queue("apricorn_wood", blockItem(CobbledBlocks.APRICORN_WOOD, CreativeModeTab.TAB_BUILDING_BLOCKS))
+    val STRIPPED_APRICORN_WOOD = queue("stripped_apricorn_wood", blockItem(CobbledBlocks.STRIPPED_APRICORN_WOOD, CreativeModeTab.TAB_BUILDING_BLOCKS))
     val APRICORN_PLANKS = queue("apricorn_planks", blockItem(CobbledBlocks.APRICORN_PLANKS, CreativeModeTab.TAB_BUILDING_BLOCKS))
     val APRICORN_LEAVES = queue("apricorn_leaves", blockItem(CobbledBlocks.APRICORN_LEAVES, CreativeModeTab.TAB_BUILDING_BLOCKS))
 

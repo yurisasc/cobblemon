@@ -12,8 +12,10 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.LevelReader
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.BonemealableBlock
 import net.minecraft.world.level.block.HorizontalDirectionalBlock
 import net.minecraft.world.level.block.state.BlockState
@@ -68,6 +70,14 @@ class ApricornBlock(properties: Properties, val itemSupplier: Supplier<Item>) : 
     override fun canSurvive(blockState: BlockState, levelReader: LevelReader, blockPos: BlockPos): Boolean {
         val relativeState = levelReader.getBlockState(blockPos.relative(blockState.getValue(FACING)))
         return relativeState.block == CobbledBlocks.APRICORN_LEAVES.get()
+    }
+
+    override fun updateShape(blockState: BlockState, direction: Direction, arg3: BlockState, level: LevelAccessor, neighborBlockPos: BlockPos, arg6: BlockPos): BlockState? {
+        return if (direction == blockState.getValue(FACING) && !blockState.canSurvive(level, neighborBlockPos)) {
+            Blocks.AIR.defaultBlockState()
+        } else {
+            super.updateShape(blockState, direction, arg3, level, neighborBlockPos, arg6)
+        }
     }
 
     override fun getShape(blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos, collisionContext: CollisionContext): VoxelShape {

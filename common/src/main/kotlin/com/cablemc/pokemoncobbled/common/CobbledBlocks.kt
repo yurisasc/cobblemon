@@ -24,6 +24,8 @@ object CobbledBlocks {
 
     val APRICORN_LOG = queue("apricorn_log", log(MaterialColor.PODZOL, MaterialColor.COLOR_BROWN))
     val STRIPPED_APRICORN_LOG = queue("stripped_apricorn_log", log(MaterialColor.PODZOL, MaterialColor.PODZOL))
+    val APRICORN_WOOD = queue("apricorn_wood", log(MaterialColor.PODZOL, MaterialColor.PODZOL))
+    val STRIPPED_APRICORN_WOOD = queue("stripped_apricorn_wood", log(MaterialColor.PODZOL, MaterialColor.PODZOL))
     val APRICORN_PLANKS = queue("apricorn_planks", Block(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.PODZOL)
         .strength(2.0f, 3.0f)
         .sound(SoundType.WOOD)))
