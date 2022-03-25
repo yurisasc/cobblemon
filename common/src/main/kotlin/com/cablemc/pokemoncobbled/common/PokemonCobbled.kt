@@ -80,8 +80,6 @@ object PokemonCobbled {
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
     val spawnerManagers = mutableListOf<SpawnerManager>(CobbledWorldSpawnerManager)
     var storage = PokemonStoreManager()
-    lateinit var cobbledFeatures : CobbledFeatures;
-    lateinit var cobbledConfiguredFeatures: CobbledConfiguredFeatures;
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         this.loadConfig()
@@ -92,8 +90,8 @@ object PokemonCobbled {
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledKeybinds.register()
-        cobbledFeatures.register()
-        cobbledConfiguredFeatures.register()
+        CobbledFeatures.register()
+        CobbledConfiguredFeatures.register()
         CobbledPlacements.register()
 
         ShoulderEffectRegistry.register()

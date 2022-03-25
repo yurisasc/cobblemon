@@ -11,10 +11,7 @@ object PokemonCobbledFabric : PokemonCobbledModImplementation {
     override fun isModInstalled(id: String) = FabricLoader.getInstance().isModLoaded(id)
     fun initialize() {
         CobbledNetwork.networkDelegate = CobbledFabricNetworkDelegate
-        PokemonCobbled.cobbledFeatures = FabricFeatures
-        PokemonCobbled.cobbledConfiguredFeatures = FabricConfiguredFeatures
         PokemonCobbled.preinitialize(this)
-        FabricFeatures.register()
         PokemonCobbled.initialize()
         ServerPacketRegistrar.registerHandlers()
         CobbledNetwork.register()
