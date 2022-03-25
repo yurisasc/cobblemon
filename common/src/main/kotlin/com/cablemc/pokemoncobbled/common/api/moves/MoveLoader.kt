@@ -5,19 +5,17 @@ import com.cablemc.pokemoncobbled.common.api.moves.adapters.DamageCategoryAdapte
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
+import com.cablemc.pokemoncobbled.common.util.AssetLoading
+import com.cablemc.pokemoncobbled.common.util.AssetLoading.toPath
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import com.google.gson.stream.JsonReader
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import kotlin.io.path.Path
-import kotlin.io.path.createDirectories
-
+import java.io.InputStreamReader
+import kotlin.io.path.inputStream
 
 object MoveLoader {
-    val dirPath = Path("data/moves/")
+//    val dirPath = Path("data/moves/")
     val GSON = GsonBuilder()
         .registerTypeAdapter(DamageCategory::class.java, DamageCategoryAdapter)
         .registerTypeAdapter(ElementalType::class.java, ElementalTypeAdapter)
@@ -30,11 +28,16 @@ object MoveLoader {
      */
     fun loadFromFiles() : HashMap<String, MoveTemplate> {
         val map = HashMap<String, MoveTemplate>()
+
+        val moveFolder = cobbledResource("moves")
+        val path = moveFolder.toPath() ?: throw IllegalArgumentException("There is no valid, internal path for $moveFolder")
+        val internalPaths = AssetLoading.fileSearch(path, { it.toString().endsWith(".json") }, recursive = true)
+
         try {
-            for (file in File(dirPath.toString()).listFiles()) {
-                val reader = JsonReader(FileReader(file))
+            for (file in internalPaths) {
+                val reader = JsonReader(InputStreamReader(file.inputStream()))
                 val template = GSON.fromJson<MoveTemplate>(reader, MoveTemplate::class.java)
-                map[file.nameWithoutExtension] = template
+                map[template.name] = template
             }
             return map
         } catch (e: Exception) {
@@ -42,40 +45,6 @@ object MoveLoader {
             e.printStackTrace()
         }
         return HashMap()
-    }
-
-    /**
-     * Creates the move JSON files given the move data from the showdown socket.
-     */
-    fun createFiles(moveData: String) {
-        val jsonObj = JsonParser.parseString(moveData).asJsonObject
-        if (jsonObj == null) {
-            PokemonCobbled.LOGGER.warn("There was a problem loading move data: socket response was empty.")
-            return
-        }
-        dirPath.createDirectories()
-
-        val moveGson = GsonBuilder()
-            .disableHtmlEscaping()
-            .setPrettyPrinting()
-            .create()
-
-        var fileWriter: FileWriter
-        for (key in jsonObj.keySet()) {
-            val newObj = remap(key, jsonObj.get(key).asJsonObject)
-            if (newObj == null) {
-                PokemonCobbled.LOGGER.error("Error saving move with key '$key' to file.")
-                continue
-            }
-            try {
-                fileWriter = FileWriter("$dirPath/$key.json")
-                fileWriter.write(moveGson.toJson(newObj))
-                fileWriter.flush()
-                fileWriter.close()
-            } catch (e: Exception) {
-                PokemonCobbled.LOGGER.error("Error saving move '" + newObj.get("name") + "' to file.")
-            }
-        }
     }
 
     /**

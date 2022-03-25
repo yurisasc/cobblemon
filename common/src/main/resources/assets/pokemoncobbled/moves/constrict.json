@@ -1,0 +1,16 @@
+{
+  "name": "constrict",
+  "type": "Normal",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 10,
+  "accuracy": 100,
+  "pp": 35,
+  "priority": 0,
+  "effectChance": 10,
+  "flags": {
+    "contact": 1,
+    "protect": 1,
+    "mirror": 1
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "acidspray",
+  "type": "Poison",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "effectChance": 100,
+  "flags": {
+    "bullet": 1,
+    "protect": 1,
+    "mirror": 1
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "paraboliccharge",
+  "type": "Electric",
+  "damageCategory": "Special",
+  "target": "allAdjacent",
+  "power": 65,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": 0,
+  "flags": {
+    "protect": 1,
+    "mirror": 1,
+    "heal": 1
+  }
+}

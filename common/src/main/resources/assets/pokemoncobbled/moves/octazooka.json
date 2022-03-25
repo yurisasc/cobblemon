@@ -1,0 +1,16 @@
+{
+  "name": "octazooka",
+  "type": "Water",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 65,
+  "accuracy": 85,
+  "pp": 10,
+  "priority": 0,
+  "effectChance": 50,
+  "flags": {
+    "bullet": 1,
+    "protect": 1,
+    "mirror": 1
+  }
+}
