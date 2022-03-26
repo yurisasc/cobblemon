@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.world.level.block
 
 import com.cablemc.pokemoncobbled.common.CobbledBlocks
+import com.cablemc.pokemoncobbled.common.item.ApricornItem
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.server.level.ServerLevel
@@ -28,7 +29,7 @@ import net.minecraft.world.phys.shapes.VoxelShape
 import java.util.*
 import java.util.function.Supplier
 
-class ApricornBlock(properties: Properties, val itemSupplier: Supplier<Item>) : HorizontalDirectionalBlock(properties), BonemealableBlock {
+class ApricornBlock(properties: Properties, val itemSupplier: Supplier<ApricornItem>) : HorizontalDirectionalBlock(properties), BonemealableBlock {
 
     companion object {
         val AGE = BlockStateProperties.AGE_2
@@ -69,7 +70,7 @@ class ApricornBlock(properties: Properties, val itemSupplier: Supplier<Item>) : 
 
     override fun canSurvive(blockState: BlockState, levelReader: LevelReader, blockPos: BlockPos): Boolean {
         val relativeState = levelReader.getBlockState(blockPos.relative(blockState.getValue(FACING)))
-        return relativeState.block == CobbledBlocks.APRICORN_LEAVES.get()
+        return relativeState.block == CobbledBlocks.APRICORN_LEAVES
     }
 
     override fun updateShape(blockState: BlockState, direction: Direction, arg3: BlockState, level: LevelAccessor, neighborBlockPos: BlockPos, arg6: BlockPos): BlockState? {

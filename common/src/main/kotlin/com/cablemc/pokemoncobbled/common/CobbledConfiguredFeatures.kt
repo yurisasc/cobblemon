@@ -15,12 +15,12 @@ object CobbledConfiguredFeatures {
     lateinit var YELLOW_APRICORN_TREE: Holder<ConfiguredFeature<BlockStateConfiguration, *>>
 
     fun register() {
-        BLACK_APRICORN_TREE = FeatureUtils.register("black_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.BLACK_APRICORN.get().defaultBlockState()))
-        BLUE_APRICORN_TREE = FeatureUtils.register("blue_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.BLUE_APRICORN.get().defaultBlockState()))
-        GREEN_APRICORN_TREE = FeatureUtils.register("green_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.GREEN_APRICORN.get().defaultBlockState()))
-        PINK_APRICORN_TREE = FeatureUtils.register("pink_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.PINK_APRICORN.get().defaultBlockState()))
-        RED_APRICORN_TREE = FeatureUtils.register("red_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.RED_APRICORN.get().defaultBlockState()))
-        WHITE_APRICORN_TREE = FeatureUtils.register("white_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.WHITE_APRICORN.get().defaultBlockState()))
-        YELLOW_APRICORN_TREE = FeatureUtils.register("yellow_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.YELLOW_APRICORN.get().defaultBlockState()))
+        BLACK_APRICORN_TREE = FeatureUtils.register("black_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.BLACK_APRICORN.defaultBlockState()))
+        BLUE_APRICORN_TREE = FeatureUtils.register("blue_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.BLUE_APRICORN.defaultBlockState()))
+        GREEN_APRICORN_TREE = FeatureUtils.register("green_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.GREEN_APRICORN.defaultBlockState()))
+        PINK_APRICORN_TREE = FeatureUtils.register("pink_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.PINK_APRICORN.defaultBlockState()))
+        RED_APRICORN_TREE = FeatureUtils.register("red_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.RED_APRICORN.defaultBlockState()))
+        WHITE_APRICORN_TREE = FeatureUtils.register("white_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.WHITE_APRICORN.defaultBlockState()))
+        YELLOW_APRICORN_TREE = FeatureUtils.register("yellow_apricorn_tree", CobbledFeatures.APRICORN_TREE_FEATURE, BlockStateConfiguration(CobbledBlocks.YELLOW_APRICORN.defaultBlockState()))
     }
 }

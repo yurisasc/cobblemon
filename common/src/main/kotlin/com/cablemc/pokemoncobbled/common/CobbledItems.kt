@@ -4,14 +4,12 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.item.ApricornItem
 import com.cablemc.pokemoncobbled.common.item.PokeBallItem
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
+import dev.architectury.hooks.item.tool.AxeItemHooks
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.core.Registry
 import net.minecraft.world.entity.projectile.ItemSupplier
-import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.CreativeModeTab
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemNameBlockItem
+import net.minecraft.world.item.*
 import net.minecraft.world.level.block.Block
 
 object CobbledItems {
@@ -48,12 +46,20 @@ object CobbledItems {
     val APRICORN_PLANKS = queue("apricorn_planks", blockItem(CobbledBlocks.APRICORN_PLANKS, CreativeModeTab.TAB_BUILDING_BLOCKS))
     val APRICORN_LEAVES = queue("apricorn_leaves", blockItem(CobbledBlocks.APRICORN_LEAVES, CreativeModeTab.TAB_BUILDING_BLOCKS))
 
-    private fun <T : Block> blockItem(supplier: RegistrySupplier<T>, tab: CreativeModeTab) : BlockItem {
-        return BlockItem(supplier.get(), Item.Properties().tab(tab))
+    val APRICORN_FENCE = queue("apricorn_fence", blockItem(CobbledBlocks.APRICORN_FENCE, CreativeModeTab.TAB_DECORATIONS))
+    val APRICORN_FENCE_GATE = queue("apricorn_fence_gate", blockItem(CobbledBlocks.APRICORN_FENCE_GATE, CreativeModeTab.TAB_REDSTONE))
+    val APRICORN_BUTTON = queue("apricorn_button", blockItem(CobbledBlocks.APRICORN_BUTTON, CreativeModeTab.TAB_REDSTONE))
+    val APRICORN_PRESSURE_PLATE = queue("apricorn_pressure_plate", blockItem(CobbledBlocks.APRICORN_PRESSURE_PLATE, CreativeModeTab.TAB_REDSTONE))
+    val APRICORN_SIGN = queue("apricorn_sign", SignItem(Item.Properties().stacksTo(16).tab(CreativeModeTab.TAB_DECORATIONS), CobbledBlocks.APRICORN_SIGN, CobbledBlocks.APRICORN_WALL_SIGN))
+    val APRICORN_SLAB = queue("apricorn_slab", blockItem(CobbledBlocks.APRICORN_SLAB, CreativeModeTab.TAB_BUILDING_BLOCKS))
+    val APRICORN_STAIRS = queue("apricorn_stairs", blockItem(CobbledBlocks.APRICORN_STAIRS, CreativeModeTab.TAB_BUILDING_BLOCKS))
+
+    private fun blockItem(block: Block, tab: CreativeModeTab) : BlockItem {
+        return BlockItem(block, Item.Properties().tab(tab))
     }
 
-    private fun <T : Block> itemNameBlockItem(supplier: RegistrySupplier<T>, tab: CreativeModeTab) : BlockItem {
-        return ItemNameBlockItem(supplier.get(), Item.Properties().tab(tab))
+    private fun itemNameBlockItem(block: Block, tab: CreativeModeTab) : BlockItem {
+        return ItemNameBlockItem(block, Item.Properties().tab(tab))
     }
 
     fun register() {
