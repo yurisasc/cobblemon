@@ -36,6 +36,7 @@
   "item.pokemoncobbled.upgrade": "Melhoria",
 
   "pokemoncobbled.command.givepokemon.give": "Foi dado %1$s a %2$s.",
+  "pokemoncobbled.command.pokemonedit": "%1$s de %2$s foi editado.",
 
   "pokemoncobbled.type.fire": "Fogo",
   "pokemoncobbled.type.water": "Água",

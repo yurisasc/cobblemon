@@ -21,7 +21,7 @@ object PokemonEditCommand {
     private const val SLOT = "slot"
     private const val PROPERTIES = "properties"
 
-    fun regiImster(dispatcher : CommandDispatcher<CommandSourceStack>) {
+    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
         val command = Commands.literal(NAME)
             .requires { it.hasPermission(4)  }
             .then(Commands.argument(PLAYER, EntityArgument.player())
@@ -43,7 +43,6 @@ object PokemonEditCommand {
         // They may change the species, think it makes sense to say the existing thing was edited, or maybe it doesn't & I'm a derp
         val oldName = pokemon.species.translatedName
         val properties = PokemonProperties.parse(StringArgumentType.getString(context, PROPERTIES))
-
         properties.apply(pokemon)
         context.source.sendSuccess(commandLang(NAME, oldName, player.name), true)
         return Command.SINGLE_SUCCESS

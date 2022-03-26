@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolut
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.ItemStack
 
-class EvolutionItem : PokemonInteractiveItem(Properties().tab(CobbledCreativeTabs.EVOLUTION_ITEM_TAB), Ownership.OWNER) {
+class EvolutionItem(properties: Properties = Properties().tab(CobbledCreativeTabs.EVOLUTION_ITEM_TAB)) : PokemonInteractiveItem(properties, Ownership.OWNER) {
 
     override fun processInteraction(player: ServerPlayer, entity: PokemonEntity, stack: ItemStack) {
         val pokemon = entity.pokemon
