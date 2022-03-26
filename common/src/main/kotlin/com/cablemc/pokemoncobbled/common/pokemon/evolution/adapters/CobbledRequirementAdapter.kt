@@ -26,11 +26,15 @@ object CobbledRequirementAdapter : RequirementAdapter {
 
     init {
         this.registerType(AreaRequirement.ADAPTER_VARIANT, AreaRequirement::class)
-        this.registerType(FriendshipRequirement.ADAPTER_VARIANT, FriendshipRequirement::class)
-        this.registerType(HeldItemRequirement.ADAPTER_VARIANT, HeldItemRequirement::class)
         this.registerType(BiomeRequirement.ADAPTER_VARIANT, BiomeRequirement::class)
+        this.registerType(FriendshipRequirement.ADAPTER_VARIANT, FriendshipRequirement::class)
+        // Pending impl of held items
+        //this.registerType(HeldItemRequirement.ADAPTER_VARIANT, HeldItemRequirement::class)
+        this.registerType(LevelRequirement.ADAPTER_VARIANT, LevelRequirement::class)
         this.registerType(MoveSetRequirement.ADAPTER_VARIANT, MoveSetRequirement::class)
         this.registerType(PartyMemberRequirement.ADAPTER_VARIANT, PartyMemberRequirement::class)
+        this.registerType(PokemonPropertiesRequirement.ADAPTER_VARIANT, PokemonPropertiesRequirement::class)
+        this.registerType(TimeRangeRequirement.ADAPTER_VARIANT, TimeRangeRequirement::class)
     }
 
     override fun <T : EvolutionRequirement> registerType(id: String, type: KClass<T>) {

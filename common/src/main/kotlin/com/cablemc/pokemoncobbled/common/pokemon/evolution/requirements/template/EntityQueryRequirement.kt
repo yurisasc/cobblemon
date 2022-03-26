@@ -14,9 +14,9 @@ import net.minecraft.world.entity.LivingEntity
  * @author Licious
  * @since March 21st, 2022
  */
-abstract class PositionQueryRequirement : EvolutionRequirement {
+abstract class EntityQueryRequirement : EvolutionRequirement {
 
-    override fun check(pokemon: Pokemon): Boolean {
+    final override fun check(pokemon: Pokemon): Boolean {
         val queriedEntity = pokemon.entity ?: pokemon.getOwnerPlayer() ?: return false
         return this.check(pokemon, queriedEntity)
     }

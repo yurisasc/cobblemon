@@ -10,6 +10,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.adapter.ShoulderEffe
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
@@ -39,6 +40,7 @@ object SpeciesLoader {
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
         .registerTypeAdapter(ResourceLocation::class.java, ResourceLocationAdapter)
         .registerTypeAdapter(MoveTemplate::class.java, LazyMoveTemplateAdapter)
+        .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()
         .create()
