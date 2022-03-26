@@ -78,16 +78,16 @@ class ShowdownThread : Thread() {
 
         LOGGER.info("Showdown has been connected!")
 
-        // Request and register showdown move data.
-        LOGGER.info("Receiving move data.")
-        if (!Files.exists(MoveLoader.dirPath)) {
-            val request = JsonObject()
-            request.addProperty(DataKeys.REQUEST_TYPE, DataKeys.REQUEST_RECEIVE_MOVE_DATA)
-            println(gson.toJson(request))
-            showdown.write(gson.toJson(request))
-            sleep(2000) // Wait for the socket to send a response.
-            showdown.read(MoveLoader::createFiles)
-        }
+//        // Request and register showdown move data.
+//        LOGGER.info("Receiving move data.")
+//        if (!Files.exists(MoveLoader.dirPath)) {
+//            val request = JsonObject()
+//            request.addProperty(DataKeys.REQUEST_TYPE, DataKeys.REQUEST_RECEIVE_MOVE_DATA)
+//            println(gson.toJson(request))
+//            showdown.write(gson.toJson(request))
+//            sleep(2000) // Wait for the socket to send a response.
+//            showdown.read(MoveLoader::createFiles)
+//        }
 
         // Should this be moved outside the thread?
         Moves.load()

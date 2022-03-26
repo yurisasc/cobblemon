@@ -49,11 +49,11 @@ dependencies {
     bundle("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:${rootProject.property("serialization_version")}")
 
     // For Showdown
-    bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
-    bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+    bundle("org.graalvm.js:js:22.0.0")
+    bundle("org.graalvm.js:js-scriptengine:22.0.0")
 
-    runtimeOnly("com.caoccao.javet:javet:1.0.6") // Linux or Windows
-    runtimeOnly("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+    runtimeOnly("org.graalvm.js:js:22.0.0")
+    runtimeOnly("org.graalvm.js:js-scriptengine:22.0.0")
 //    common group: 'commons-io', name: 'commons-io', version: '2.6'
 }
 

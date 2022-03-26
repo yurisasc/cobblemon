@@ -19,10 +19,11 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 @Mod(PokemonCobbled.MODID)
 class PokemonCobbledForge : PokemonCobbledModImplementation {
     init {
-        val MOD_BUS = FMLJavaModLoadingContext.get().modEventBus
-        MOD_BUS.addListener(this::initialize)
-        MOD_BUS.addListener(this::serverInit)
-        EventBuses.registerModEventBus(PokemonCobbled.MODID, MOD_BUS)
+        with (FMLJavaModLoadingContext.get().modEventBus) {
+            addListener(this@PokemonCobbledForge::initialize)
+            addListener(this@PokemonCobbledForge::serverInit)
+            EventBuses.registerModEventBus(PokemonCobbled.MODID, this)
+        }
 
         CobbledEvents.ENTITY_ATTRIBUTE.pipe(
             Observable.filter { it.entityType == CobbledEntities.POKEMON_TYPE },

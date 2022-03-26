@@ -15,12 +15,13 @@ class JavetShowdownConnection : ShowdownConnection {
     private var closed = false
 
     fun initializeServer() {
-        process = exec(ShowdownServer::class.java, listOf(File("showdown/scripts/index.js").canonicalPath))
-        Runtime.getRuntime().addShutdownHook(object : Thread() {
-            override fun run() {
-                close()
-            }
-        })
+        ShowdownServer.main(emptyArray())
+//        process = exec(ShowdownServer::class.java, listOf(File("showdown/scripts/index.js").canonicalPath))
+//        Runtime.getRuntime().addShutdownHook(object : Thread() {
+//            override fun run() {
+//                close()
+//            }
+//        })
     }
 
     override fun open() {
