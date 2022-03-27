@@ -48,8 +48,8 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
 
     val tail = registerRelevantPart("tail", rootPart.getChildOf("body", "tail"))
     val tail2 = registerRelevantPart("tail2", rootPart.getChildOf("body", "tail", "tail2"))
-    override val portraitScale = 1.95F
-    override val portraitTranslation = Vec3(-0.05, -0.7, 0.0)
+    override val portraitScale = 2.5F
+    override val portraitTranslation = Vec3(-0.25, -2.03, 0.0)
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3(0.0, 0.0, 0.0)
