@@ -36,9 +36,9 @@ import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
+import com.cablemc.pokemoncobbled.common.battles.runner.JavetShowdownConnection
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownServer
-import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
@@ -52,6 +52,7 @@ import com.google.gson.GsonBuilder
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
+import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTING
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.TickEvent.SERVER_POST
 import net.minecraft.client.Minecraft
@@ -65,6 +66,7 @@ import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
+import java.util.concurrent.CompletableFuture
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.memberProperties
 
@@ -88,11 +90,16 @@ object PokemonCobbled {
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         this.loadConfig()
         this.implementation = implementation
+        ShowdownThread.contextFuture
+            .completeAsync { ShowdownServer.start() }
+            .thenApply {
+                showdown = JavetShowdownConnection()
+                showdownThread.start()
+            }
         CobbledEntities.register()
         CobbledItems.register()
         CobbledSounds.register()
         CobbledNetwork.register()
-        CobbledKeybinds.register()
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
@@ -104,10 +111,8 @@ object PokemonCobbled {
     fun initialize() {
         // Moves are loaded inside this thread for now.
 //        showdownThread.start()
-        ShowdownServer.main(emptyArray())
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
-
 
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 
@@ -115,8 +120,15 @@ object PokemonCobbled {
         ifServer { SERVER_POST.register { ScheduledTaskTracker.update() } }
         ifClient { ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() }) }
 
+        SERVER_STARTING.register {
+            if (!ShowdownThread.contextFuture.isDone) {
+                LOGGER.info("Waiting for Showdown to finish starting...")
+                ShowdownThread.contextFuture.get()
+                LOGGER.info("Showdown is started.")
+            }
+        }
+
         SERVER_STARTED.register {
-            // TODO config options for default storage
             val pokemonStoreRoot = it.getWorldPath(LevelResource.PLAYER_DATA_DIR).parent.resolve("pokemon").toFile()
             storage.registerFactory(
                 priority = Priority.LOWEST,
@@ -148,8 +160,6 @@ object PokemonCobbled {
 
         SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
         SERVER_POST.register { spawnerManagers.forEach { it.onServerTick() } }
-
-
     }
 
     fun getLevel(dimension: ResourceKey<Level>): Level? {
