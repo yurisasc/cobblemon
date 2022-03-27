@@ -48,10 +48,10 @@ object TestCommand {
             // Enemy variables
             val enemyId = UUID.randomUUID()
             val pokemon = Pokemon().apply { species = PokemonSpecies.MAGIKARP }
-            pokemon.moveSet.setMove(0, Moves.TACKLE.create())
-            pokemon.moveSet.setMove(1, Moves.AERIAL_ACE.create())
-            pokemon.moveSet.setMove(2, Moves.AIR_SLASH.create())
-            pokemon.moveSet.setMove(3, Moves.SPLASH.create())
+            pokemon.moveSet.setMove(0, Moves.getByName("tackle")!!.create())
+            pokemon.moveSet.setMove(1, Moves.getByName("aerialace")!!.create())
+            pokemon.moveSet.setMove(2, Moves.getByName("airslash")!!.create())
+            pokemon.moveSet.setMove(3, Moves.getByName("aurasphere")!!.create())
             val enemyPokemon = BattlePokemon(pokemon)
 
             val enemyPokemon2 = BattlePokemon(PokemonSpecies.BLASTOISE.create())

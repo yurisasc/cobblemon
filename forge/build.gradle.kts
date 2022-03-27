@@ -37,8 +37,8 @@ dependencies {
     }
     testImplementation(project(":common", configuration = "namedElements"))
     // For Showdown
-    forgeRuntimeLibrary("com.caoccao.javet:javet:1.0.6") // Linux or Windows
-    forgeRuntimeLibrary("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+    forgeRuntimeLibrary("org.graalvm.js:js:22.0.0")
+    forgeRuntimeLibrary("org.graalvm.js:js-scriptengine:22.0.0")
 
     bundle(kotlin("stdlib-jdk8", version = "1.6.10"))
     bundle(kotlin("reflect", version = "1.6.10"))
@@ -46,14 +46,11 @@ dependencies {
     bundle("org.jetbrains:annotations:${rootProject.property("annotations_version")}")
     bundle("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:${rootProject.property("serialization_version")}")
     bundle("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:${rootProject.property("serialization_version")}")
-    bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
-    bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
 
 
-    // Testing - It needs this!
-//    forgeRuntimeLibrary("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
 
-    //
+    bundle("org.graalvm.js:js:22.0.0")
+    bundle("org.graalvm.js:js-scriptengine:22.0.0")
 }
 
 tasks {
@@ -68,29 +65,3 @@ tasks {
         }
     }
 }
-
-//jar {
-//    classifier("dev")
-//    manifest {
-//        attributes(
-//                "Specification-Title" to rootProject.mod_id,
-//                "Specification-Vendor" to "Cable MC",
-//                "Specification-Version" to "1",
-//                "Implementation-Title" to rootProject.mod_id,
-//                "Implementation-Version" to project.version,
-//                "Implementation-Vendor" to "Cable MC",
-//        )
-//    }
-//}
-//
-//sourcesJar {
-//    def commonSources = project(":common").sourcesJar
-//    dependsOn commonSources
-//    from commonSources.archiveFile.map { zipTree(it) }
-//}
-//
-//components.java {
-//    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-//        skip()
-//    }
-//}

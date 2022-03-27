@@ -1,0 +1,11 @@
+{
+  "name": "iondeluge",
+  "type": "Electric",
+  "damageCategory": "Status",
+  "target": "all",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 25,
+  "priority": 1,
+  "flags": {}
+}

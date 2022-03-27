@@ -33,12 +33,13 @@ object DataKeys {
     const val STORE_BOX = "Box"
     const val STORE_BOX_COUNT = "BoxCount"
 
-    /* Battle keys */
+    /* Showdown Request Keys */
     const val REQUEST_TYPE = "RequestType"
     const val REQUEST_BATTLE_ID = "RequestBattleId"
     const val REQUEST_BATTLE_START = "StartBattle"
     const val REQUEST_BATTLE_SEND_MESSAGE = "SendMessage"
     const val REQUEST_MESSAGES = "RequestMessages"
+    const val REQUEST_RECEIVE_MOVE_DATA = "ReceiveMoveData"
     /* ----------- */
 
     const val POKEMON_PROPERTIES = "Properties"

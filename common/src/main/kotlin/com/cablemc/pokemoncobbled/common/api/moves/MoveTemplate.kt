@@ -2,19 +2,25 @@ package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.google.gson.annotations.SerializedName
 import net.minecraft.network.chat.TranslatableComponent
+import kotlin.math.ceil
 
 /**
  * This class represents the base of a Move.
  * To build a Move you need to use its template
  *
- * @param name: The English name used to load / find it (spaces -> _)
+ * @param name: The English name used to load / find it (spaces -> not-spaces)
  * @param elementalType: The Type of the Move (e.g. ElementalTypes.FIRE)
  * @param damageCategory: The Damage Category of the move (e.g. DamageCategories.SPECIAL)
  * @param power: The power of the Move (loaded from its JSON)
  * @param accuracy: The accuracy of the Move (loaded from its JSON)
- * @param effectChance: The effect chance of the Move (loaded from its JSON) (-1 if not applicable)
+ * @param pp: The base pp that the Move can have (loaded from its JSON)
+ * @param priority: The priority of the Move (loaded from its JSON)
+ * @param critRatio: The critical strike ratio of the Move (loaded from its JSON)
+ * @param effectChance: The effect chance of the Move (loaded from its JSON)
+ * @param effectStatus: The effect status of the Move (loaded from its JSON)
  * @param maxPp: The maximum PP the Move can have (loaded from its JSON)
  */
 class MoveTemplate(
@@ -22,19 +28,20 @@ class MoveTemplate(
     @SerializedName("type")
     val elementalType: ElementalType,
     val damageCategory: DamageCategory,
+    val target: String,
     val power: Double,
     val accuracy: Double,
+    val pp: Int,
+    val priority: Int,
+    val critRatio: Double,
     val effectChance: Double,
-    val maxPp: Int
+    val effectStatus: String,
+    val maxPp: Int = ceil((8 / 5) * pp.toDouble()).toInt()
 ) {
-    @Transient
-    lateinit var displayName: TranslatableComponent
-    @Transient
-    lateinit var description: TranslatableComponent
-
-    companion object {
-        const val PREFIX = "pokemoncobbled.move."
-    }
+    val displayName: TranslatableComponent
+        get() = lang("move.$name.")
+    val description: TranslatableComponent
+        get() = lang("move.$name.desc")
 
     /**
      * Creates the Move with full PP
@@ -55,13 +62,5 @@ class MoveTemplate(
             maxPp = pMaxPp,
             template = this
         )
-    }
-
-    /**
-     * Creates the Components needed to display the Move and its Description
-     */
-    fun createTextComponents() {
-        displayName = TranslatableComponent(PREFIX + name.lowercase())
-        description = TranslatableComponent(PREFIX + name.lowercase() + ".desc")
     }
 }

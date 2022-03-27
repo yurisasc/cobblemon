@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.client.gui.PartyOverlay
+import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.client.net.ClientPacketRegistrar
 import com.cablemc.pokemoncobbled.common.client.render.layer.PokemonOnShoulderLayer
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
@@ -35,6 +36,7 @@ object PokemonCobbledClient {
 
         overlay = PartyOverlay()
         ClientPacketRegistrar.registerHandlers()
+        CobbledKeybinds.register()
 
         LOGGER.info("Initializing Pokémon models")
         PokemonModelRepository.init()

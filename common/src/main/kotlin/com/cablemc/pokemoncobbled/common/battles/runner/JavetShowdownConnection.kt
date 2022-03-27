@@ -14,15 +14,6 @@ class JavetShowdownConnection : ShowdownConnection {
     private var data = ""
     private var closed = false
 
-    fun initializeServer() {
-        process = exec(ShowdownServer::class.java, listOf(File("showdown/scripts/index.js").canonicalPath))
-        Runtime.getRuntime().addShutdownHook(object : Thread() {
-            override fun run() {
-                close()
-            }
-        })
-    }
-
     override fun open() {
         socket = Socket(InetAddress.getLocalHost(), 25567, InetAddress.getLocalHost(), 25566)
         socket.keepAlive = true

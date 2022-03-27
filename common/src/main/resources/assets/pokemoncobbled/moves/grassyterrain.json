@@ -1,0 +1,13 @@
+{
+  "name": "grassyterrain",
+  "type": "Grass",
+  "damageCategory": "Status",
+  "target": "all",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0,
+  "flags": {
+    "nonsky": 1
+  }
+}

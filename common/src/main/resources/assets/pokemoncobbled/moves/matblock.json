@@ -1,0 +1,14 @@
+{
+  "name": "matblock",
+  "type": "Fighting",
+  "damageCategory": "Status",
+  "target": "allySide",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0,
+  "flags": {
+    "snatch": 1,
+    "nonsky": 1
+  }
+}

@@ -11,15 +11,6 @@ class MoveSet {
     val moves = arrayOfNulls<Move>(MOVE_COUNT)
 
     /**
-     * So no Pokémon can end up with no Moves assigned...
-     */
-    init {
-        if (moves.filterNotNull().isEmpty()) {
-            moves[0] = Moves.TACKLE.create()
-        }
-    }
-
-    /**
      * Gets all Moves from the Pokémon but skips null Moves
      */
     fun getMoves(): List<Move> {
