@@ -194,7 +194,7 @@ class EmptyPokeBallEntity(
         }
     }
 
-    override fun getDefaultItem() = CobbledItems.POKE_BALL_TYPE
+    override fun getDefaultItem() = CobbledItems.POKE_BALL
 
     override fun getDimensions(pPose: Pose) = DIMENSIONS
     fun <T> addEntityProperty(accessor: EntityDataAccessor<T>, initialValue: T): EntityProperty<T> {
