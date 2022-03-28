@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
@@ -91,7 +92,27 @@ class PokemonBattle(
         showdown.write(BattleRegistry.gson.toJson(request))
     }
 
+    fun turn() {
+        actors.forEach { it.turn() }
+        for (side in sides) {
+            val opposite = side.getOppositeSide()
+            side.activePokemon.forEach {
+                val battlePokemon = it.battlePokemon ?: return@forEach
+                battlePokemon.facedOpponents.addAll(opposite.activePokemon.mapNotNull { it.battlePokemon })
+            }
+        }
+    }
+
     fun end() {
-//        showdown.write()
+        for (actor in actors) {
+            for (pokemon in actor.pokemonList) {
+                if (pokemon.facedOpponents.isNotEmpty() /* exp share held item check */) {
+                    val experience = PokemonCobbled.experienceCalculator.calculate(pokemon)
+                    if (experience > 0) {
+                        actor.awardExperience(pokemon, experience)
+                    }
+                }
+            }
+        }
     }
 }

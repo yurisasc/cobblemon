@@ -17,6 +17,7 @@ import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.battleLang
+import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import net.minecraft.network.chat.Component
@@ -36,6 +37,14 @@ class PlayerBattleActor(
     fun getPlayerEntity() = getServer()!!.playerList.getPlayer(uuid)
     override fun sendMessage(component: Component) = getPlayerEntity()?.sendServerMessage(component) ?: Unit
     override fun getName(): MutableComponent = getPlayerEntity()!!.name.copy()
+
+    override fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {
+        if (battlePokemon.effectedPokemon == battlePokemon.originalPokemon && experience > 0) {
+            uuid.getPlayer()
+                ?.let { battlePokemon.effectedPokemon.addExperienceWithPlayer(it, experience) }
+                ?: run { battlePokemon.effectedPokemon.addExperience(experience) }
+        }
+    }
 
     override fun getChoices(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<String>> {
         sendMessage(">> ".gold() + battleLang("choose_actions").gold().bold())

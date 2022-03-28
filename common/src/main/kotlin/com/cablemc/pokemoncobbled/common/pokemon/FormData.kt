@@ -23,6 +23,8 @@ data class FormData(
     private var _catchRate: Int? = null,
     @SerializedName("experienceGroup")
     private var _experienceGroup: ExperienceGroup? = null,
+    @SerializedName("baseExperienceYield")
+    private var _baseExperienceYield: Int? = null,
     @SerializedName("primaryType")
     private val _primaryType: ElementalType? = null,
     @SerializedName("secondaryType")
@@ -49,7 +51,8 @@ data class FormData(
         get() = _catchRate ?: species.catchRate
     val experienceGroup: ExperienceGroup
         get() = _experienceGroup ?: species.experienceGroup
-
+    val baseExperienceYield: Int
+        get() = _baseExperienceYield ?: species.baseExperienceYield
     val primaryType: ElementalType
         get() = _primaryType ?: species.primaryType
 

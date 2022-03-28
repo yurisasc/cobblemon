@@ -22,6 +22,7 @@ class Species {
     val catchRate = 45
     // Only modifiable for debugging sizes
     var baseScale = 1F
+    var baseExperienceYield = 10
     var experienceGroup = ExperienceGroups.first()
     var hitbox = EntityDimensions(1F, 1F, false)
     val primaryType = ElementalTypes.GRASS

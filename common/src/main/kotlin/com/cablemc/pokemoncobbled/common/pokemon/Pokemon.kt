@@ -34,7 +34,9 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.readMapK
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.util.writeMapK
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
@@ -401,6 +403,16 @@ open class Pokemon {
         val newLevel = experienceGroup.getLevel(xp)
         if (newLevel != level) {
             level = newLevel
+        }
+    }
+
+    fun addExperienceWithPlayer(player: ServerPlayer, xp: Int) {
+        val previousLevel = level
+        player.sendServerMessage(lang("experience.gained", species.translatedName, experience))
+        addExperience(xp)
+        if (previousLevel != level) {
+            player.sendServerMessage(lang("experience.level_up", species.translatedName, level))
+            // TODO level up moves, compare learn list from previousLevel to the new level
         }
     }
 

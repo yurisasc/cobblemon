@@ -72,4 +72,5 @@ abstract class BattleActor(
     abstract fun getChoices(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<String>>
     abstract fun getSwitch(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<UUID>>
     open fun sendMessage(component: Component) {}
+    open fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {}
 }
