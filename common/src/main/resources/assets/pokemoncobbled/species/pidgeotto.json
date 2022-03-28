@@ -13,6 +13,7 @@
     "speed": 71
   },
   "catchRate": 120,
+  "baseExperienceYield": 122,
   "baseScale": 1.4,
   "hitbox": {
     "width": 0.6,

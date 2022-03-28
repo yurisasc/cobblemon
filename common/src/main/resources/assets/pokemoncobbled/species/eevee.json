@@ -12,6 +12,7 @@
     "speed": 55
   },
   "catchRate": 45,
+  "baseExperienceYield": 65,
   "baseScale": 0.6,
   "shoulderMountable": true,
   "hitbox": {
