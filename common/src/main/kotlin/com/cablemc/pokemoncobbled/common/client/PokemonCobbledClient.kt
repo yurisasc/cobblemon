@@ -55,7 +55,6 @@ object PokemonCobbledClient {
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()
 
-        registerRenderers()
         registerBlockRenderTypes()
     }
 

@@ -89,8 +89,8 @@ object PokemonCobbled {
         this.loadConfig()
         this.implementation = implementation
         CobbledEntities.register()
-        CobbledBlocks.register()
         CobbledItems.register()
+        CobbledBlocks.register()
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledKeybinds.register()
