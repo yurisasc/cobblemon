@@ -46,6 +46,8 @@ object CobbledItems {
     val APRICORN_PLANKS = queue("apricorn_planks", blockItem(CobbledBlocks.APRICORN_PLANKS, CreativeModeTab.TAB_BUILDING_BLOCKS))
     val APRICORN_LEAVES = queue("apricorn_leaves", blockItem(CobbledBlocks.APRICORN_LEAVES, CreativeModeTab.TAB_BUILDING_BLOCKS))
 
+    val APRICORN_DOOR = queue("apricorn_door", blockItem(CobbledBlocks.APRICORN_DOOR, CreativeModeTab.TAB_REDSTONE))
+    val APRICORN_TRAPDOOR = queue("apricorn_trapdoor", blockItem(CobbledBlocks.APRICORN_TRAPDOOR, CreativeModeTab.TAB_REDSTONE))
     val APRICORN_FENCE = queue("apricorn_fence", blockItem(CobbledBlocks.APRICORN_FENCE, CreativeModeTab.TAB_DECORATIONS))
     val APRICORN_FENCE_GATE = queue("apricorn_fence_gate", blockItem(CobbledBlocks.APRICORN_FENCE_GATE, CreativeModeTab.TAB_REDSTONE))
     val APRICORN_BUTTON = queue("apricorn_button", blockItem(CobbledBlocks.APRICORN_BUTTON, CreativeModeTab.TAB_REDSTONE))

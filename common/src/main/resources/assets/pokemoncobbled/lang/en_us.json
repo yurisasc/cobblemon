@@ -36,8 +36,9 @@
   "block.pokemoncobbled.red_apricorn_sapling": "Red Apricorn Sapling",
   "block.pokemoncobbled.white_apricorn_sapling": "White Apricorn Sapling",
   "block.pokemoncobbled.yellow_apricorn_sapling": "Yellow Apricorn Sapling",
+  "block.pokemoncobbled.apricorn_door": "Apricorn Door",
+  "block.pokemoncobbled.apricorn_trapdoor": "Apricorn Trapdoor",
   "itemGroup.minecraft.pokemoncobbled.pokeballtab": "Pokeballs",
-
   "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
   "itemGroup.pokemoncobbled.pokeballtab": "Poké Balls",

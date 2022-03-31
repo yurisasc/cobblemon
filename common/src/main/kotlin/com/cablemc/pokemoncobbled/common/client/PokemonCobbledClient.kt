@@ -53,6 +53,8 @@ object PokemonCobbledClient {
 
     private fun registerBlockRenderTypes() {
         RenderTypeRegistry.register(RenderType.cutout(),
+            CobbledBlocks.APRICORN_DOOR,
+            CobbledBlocks.APRICORN_TRAPDOOR,
             CobbledBlocks.BLACK_APRICORN_SAPLING,
             CobbledBlocks.BLUE_APRICORN_SAPLING,
             CobbledBlocks.GREEN_APRICORN_SAPLING,

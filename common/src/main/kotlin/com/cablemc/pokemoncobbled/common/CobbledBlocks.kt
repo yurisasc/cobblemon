@@ -40,6 +40,8 @@ object CobbledBlocks {
     val APRICORN_WALL_SIGN = registerBlock("apricorn_wall_sign", WallSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0f).sound(SoundType.WOOD).dropsLike(APRICORN_SIGN), APRICORN_WOOD_TYPE))
     val APRICORN_SLAB = registerBlock("apricorn_slab", SlabBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0f, 3.0f).sound(SoundType.WOOD)))
     val APRICORN_STAIRS = registerBlock("apricorn_stairs", StairBlock(APRICORN_PLANKS.defaultBlockState(), BlockBehaviour.Properties.copy(APRICORN_PLANKS)))
+    val APRICORN_DOOR = registerBlock("apricorn_door", DoorBlock(BlockBehaviour.Properties.of(Material.WOOD, APRICORN_PLANKS.defaultMaterialColor()).strength(3.0F).sound(SoundType.WOOD).noOcclusion()))
+    val APRICORN_TRAPDOOR = registerBlock("apricorn_trapdoor", TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion().isValidSpawn(CobbledBlocks::never)))
 
     private val PLANT_PROPERTIES = BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)
     val BLACK_APRICORN_SAPLING = registerBlock("black_apricorn_sapling", ApricornSaplingBlock(PLANT_PROPERTIES, "black"))
@@ -91,15 +93,16 @@ object CobbledBlocks {
     private fun leaves(arg: SoundType): LeavesBlock {
         return LeavesBlock(
             BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2f).randomTicks().sound(arg).noOcclusion()
-                .isValidSpawn { arg: BlockState, arg2: BlockGetter, arg3: BlockPos, arg4: EntityType<*> ->
-                    ocelotOrParrot(arg, arg2, arg3, arg4)
-                }.isSuffocating { arg: BlockState, arg2: BlockGetter, arg3: BlockPos ->
-                    never(arg, arg2, arg3)
-                }.isViewBlocking { arg: BlockState, arg2: BlockGetter, arg3: BlockPos ->
-                    never(arg, arg2, arg3)
-                })
+                .isValidSpawn { arg: BlockState, arg2: BlockGetter, arg3: BlockPos, arg4: EntityType<*> -> ocelotOrParrot(arg, arg2, arg3, arg4) }
+                .isSuffocating { arg: BlockState, arg2: BlockGetter, arg3: BlockPos -> false }
+                .isViewBlocking { arg: BlockState, arg2: BlockGetter, arg3: BlockPos -> false })
     }
 
+    private fun ocelotOrParrot(arg: BlockState, arg2: BlockGetter, arg3: BlockPos, arg4: EntityType<*>): Boolean {
+        return arg4 === EntityType.OCELOT || arg4 === EntityType.PARROT
+    }
+
+    // Short hands for predicate arguments
     private fun always(arg: BlockState, arg2: BlockGetter, arg3: BlockPos): Boolean {
         return true
     }
@@ -108,7 +111,11 @@ object CobbledBlocks {
         return false
     }
 
-    private fun ocelotOrParrot(arg: BlockState, arg2: BlockGetter, arg3: BlockPos, arg4: EntityType<*>): Boolean {
-        return arg4 === EntityType.OCELOT || arg4 === EntityType.PARROT
+    private fun never(arg: BlockState, arg2: BlockGetter, arg3: BlockPos, arg4: EntityType<*>): Boolean {
+        return false;
+    }
+
+    private fun always(arg: BlockState, arg2: BlockGetter, arg3: BlockPos, arg4: EntityType<*>): Boolean {
+        return true;
     }
 }
