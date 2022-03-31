@@ -1,10 +1,9 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
-import com.cablemc.pokemoncobbled.common.api.pokemon.ExperienceGroup
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.google.gson.annotations.SerializedName
 import net.minecraft.world.entity.EntityDimensions
 

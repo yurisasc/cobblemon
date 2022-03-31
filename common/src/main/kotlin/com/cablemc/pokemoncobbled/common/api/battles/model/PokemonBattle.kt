@@ -105,7 +105,7 @@ class PokemonBattle(
 
     fun end() {
         for (actor in actors) {
-            for (pokemon in actor.pokemonList) {
+            for (pokemon in actor.pokemonList.filter { it.health > 0 }) {
                 if (pokemon.facedOpponents.isNotEmpty() /* exp share held item check */) {
                     val experience = PokemonCobbled.experienceCalculator.calculate(pokemon)
                     if (experience > 0) {

@@ -6,10 +6,10 @@ import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
-import com.cablemc.pokemoncobbled.common.api.pokemon.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalculator
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.StandardExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
@@ -108,6 +108,8 @@ object PokemonCobbled {
     fun initialize() {
         showdownThread.start()
 
+        ExperienceGroups.registerDefaults()
+
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
 
@@ -151,12 +153,8 @@ object PokemonCobbled {
 
         SpawnDetail.registerSpawnType(name = PokemonSpawnDetail.TYPE, PokemonSpawnDetail::class.java)
 
-        ExperienceGroups.registerDefaults()
-
         SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
         SERVER_POST.register { spawnerManagers.forEach { it.onServerTick() } }
-
-
     }
 
     fun getLevel(dimension: ResourceKey<Level>): Level? {

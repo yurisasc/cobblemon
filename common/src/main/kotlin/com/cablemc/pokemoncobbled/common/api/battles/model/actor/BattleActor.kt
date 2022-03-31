@@ -62,7 +62,10 @@ abstract class BattleActor(
             return
         }
         getSwitch(forceSwitchPokemon).thenApply { uuids ->
-            val switchRequests = uuids.joinToString { "switch $it" }
+            var switchRequests = uuids.joinToString { "switch $it" }
+            repeat(times = forceSwitchPokemon.size - uuids.count()) {
+                switchRequests += ",pass"
+            }
             pokemonList.filter { it.uuid in uuids }.forEach { it.willBeSwitchedIn = false }
             battle.writeShowdownAction(">$showdownId $switchRequests")
         }

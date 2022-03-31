@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.api.pokemon
+package com.cablemc.pokemoncobbled.common.api.pokemon.experience
 
 import com.cablemc.pokemoncobbled.common.api.CachedLevelThresholds
 import com.cablemc.pokemoncobbled.common.api.LevelCurve
@@ -11,7 +11,6 @@ import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import net.minecraft.network.chat.TranslatableComponent
-import java.lang.Math.cbrt
 import java.lang.reflect.Type
 import kotlin.math.max
 
@@ -25,6 +24,7 @@ import kotlin.math.max
  */
 object ExperienceGroups : Iterable<ExperienceGroup> {
     private val groups = mutableListOf<ExperienceGroup>()
+    override fun iterator() = groups.iterator()
 
     fun findByName(name: String) = find { it.name.equals(name, ignoreCase = true) }
     fun register(experienceGroup: ExperienceGroup): ExperienceGroup = experienceGroup.also { groups.add(it) }
@@ -38,8 +38,6 @@ object ExperienceGroups : Iterable<ExperienceGroup> {
         register(Slow)
         register(Fluctuating)
     }
-
-    override fun iterator() = groups.iterator()
 }
 
 object ExperienceGroupAdapter : JsonSerializer<ExperienceGroup>, JsonDeserializer<ExperienceGroup> {
@@ -65,7 +63,7 @@ interface ExperienceGroup : LevelCurve {
     companion object {
         fun dummy(name: String) = object : ExperienceGroup {
             override val name = name
-            override fun getExperience(level: Int) = 1
+            override fun getExperience(level: Int) = 0
             override fun getLevel(experience: Int) = 1
         }
     }
@@ -74,6 +72,9 @@ interface ExperienceGroup : LevelCurve {
 /**
  * An experience group which uses [CachedLevelThresholds] to answer how
  * to get a level from an experience value, given only the opposite equation.
+ *
+ * Mainly because my maths skills have deteriorated over the years and I don't
+ * trust myself to invert these equations manually.
  *
  * @author Hiroku
  * @since March 21st, 2022
@@ -87,6 +88,7 @@ object Erratic : CachedExperienceGroup() {
     override val name = "erratic"
     override fun getExperience(level: Int): Int {
         return when {
+            level == 1 -> 0
             level < 50 -> level.pow(3) * (100 - level) / 50
             level < 68 -> level.pow(3) * (150 - level) / 100
             level < 98 -> level.pow(3) * (1911 - 10 * level) / 3 / 500
@@ -95,36 +97,34 @@ object Erratic : CachedExperienceGroup() {
     }
 }
 
-object Fast : ExperienceGroup {
+object Fast : CachedExperienceGroup() {
     override val name = "fast"
-    override fun getExperience(level: Int) = 4 * level.pow(3) / 5
-    override fun getLevel(experience: Int) = cbrt(experience * 5.0 / 4).toInt()
+    override fun getExperience(level: Int) = if (level == 1) 0 else 4 * level.pow(3) / 5
 }
 
-object MediumFast : ExperienceGroup {
+object MediumFast : CachedExperienceGroup() {
     override val name = "mediumfast"
-    override fun getExperience(level: Int) = level.pow(3)
-    override fun getLevel(experience: Int) = cbrt(experience.toDouble()).toInt()
+    override fun getExperience(level: Int) = if (level == 1) 0 else level.pow(3)
 }
 
 object MediumSlow : CachedExperienceGroup() {
     override val name = "mediumslow"
-    override fun getExperience(level: Int) = max(0, 6 / 5 * level.pow(3) - 15 * level.pow(2) + 100 * level - 140)
+    override fun getExperience(level: Int) = max(0.0, 6.0 / 5 * level.pow(3) - 15 * level.pow(2) + 100 * level - 140).toInt()
 }
 
-object Slow : ExperienceGroup {
+object Slow : CachedExperienceGroup() {
     override val name = "slow"
-    override fun getExperience(level: Int) = 5 * level.pow(3) / 4
-    override fun getLevel(experience: Int) = cbrt(experience * 4.0 / 3).toInt()
+    override fun getExperience(level: Int) = if (level == 1) 0 else 5 * level.pow(3) / 4
 }
 
 object Fluctuating : CachedExperienceGroup() {
     override val name = "fluctuating"
     override fun getExperience(level: Int): Int {
-        return (when {
-            level < 15 -> level.pow(3) * ((level + 1.0) / 3 + 24) / 50
-            level < 36 -> level.pow(3) * (level + 14) / 50.0
-            else -> level.pow(3) * (level / 2.0 + 32) / 50
-        }).toInt()
+        return when {
+            level == 1 -> 0
+            level < 15 -> level.pow(3) * ((level + 1) / 3 + 24) / 50
+            level < 36 -> level.pow(3) * (level + 14) / 50
+            else -> level.pow(3) * (level / 2 + 32) / 50
+        }
     }
 }

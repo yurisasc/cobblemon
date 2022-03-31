@@ -13,6 +13,7 @@
     "speed": 60
   },
   "catchRate": 45,
+  "experienceGroup": "mediumslow",
   "baseExperienceYield": 142,
   "baseScale": 1,
   "hitbox": {

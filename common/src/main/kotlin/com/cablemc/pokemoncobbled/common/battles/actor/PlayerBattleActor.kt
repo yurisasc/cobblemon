@@ -143,13 +143,15 @@ class PlayerBattleActor(
         val first = list.first()
         list.removeAt(0)
         val future = getSwitchChoice(first)
-        future.thenAccept {
+        future.thenApply {
             madeSwitches.add(it)
             if (list.isEmpty()) {
                 allFuture.complete(madeSwitches)
             } else {
                 getSwitchChoices(allFuture, list, madeSwitches)
             }
+        }.exceptionally {
+            allFuture.complete(madeSwitches)
         }
     }
 
@@ -175,6 +177,10 @@ class PlayerBattleActor(
             } else {
                 switchLabels.add("$pokemonIndex".gray().onHover(battlePokemon.effectedPokemon.species.translatedName + " ${battlePokemon.health}/${battlePokemon.maxHealth}"))
             }
+        }
+
+        if (switchLabels.isEmpty()) {
+            return CompletableFuture.failedFuture(Exception())
         }
 
         actor.sendMessage(battleLang("switch_option").gold() + ": ".gold() + "[".gray() + switchLabels.sum(", ".gray()) + "]".gray())

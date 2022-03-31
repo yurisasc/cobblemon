@@ -322,6 +322,7 @@ object ShowdownInterpreter {
 
         battle.broadcastChatMessage(">> ".gold() + battleLang("win", winners).gold())
 
+        battle.end()
         BattleRegistry.closeBattle(battle)
     }
 
