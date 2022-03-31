@@ -36,7 +36,7 @@ class ApricornTreeFeature(
         }
 
         // Create trunk
-        val logState = CobbledBlocks.APRICORN_LOG.defaultBlockState();
+        val logState = CobbledBlocks.APRICORN_LOG.get().defaultBlockState();
         for(y in 0..4) {
             try {
                 val logPos = origin.relative(UP, y)
@@ -48,7 +48,7 @@ class ApricornTreeFeature(
 
         // Decorate with leaves
         val allApricornSpots: MutableList<List<Pair<Direction, BlockPos>>> = mutableListOf()
-        val leafBlock = CobbledBlocks.APRICORN_LEAVES.defaultBlockState()
+        val leafBlock = CobbledBlocks.APRICORN_LEAVES.get().defaultBlockState()
 
         val layerOnePos = origin.relative(UP)
         for(direction in listOf(NORTH, EAST, SOUTH, WEST)) {

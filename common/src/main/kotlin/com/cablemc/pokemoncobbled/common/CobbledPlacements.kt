@@ -25,13 +25,13 @@ object CobbledPlacements {
     lateinit var APRICORN_TREES: Holder<PlacedFeature>
 
     fun register() {
-        BLACK_APRICORN_TREE = PlacementUtils.register("black_apricorn_tree", CobbledConfiguredFeatures.BLACK_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.BLACK_APRICORN_SAPLING))
-        BLUE_APRICORN_TREE = PlacementUtils.register("blue_apricorn_tree", CobbledConfiguredFeatures.BLUE_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.BLUE_APRICORN_SAPLING))
-        GREEN_APRICORN_TREE = PlacementUtils.register("green_apricorn_tree", CobbledConfiguredFeatures.GREEN_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.GREEN_APRICORN_SAPLING))
-        PINK_APRICORN_TREE = PlacementUtils.register("pink_apricorn_tree", CobbledConfiguredFeatures.PINK_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.PINK_APRICORN_SAPLING))
-        RED_APRICORN_TREE = PlacementUtils.register("red_apricorn_tree", CobbledConfiguredFeatures.RED_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.RED_APRICORN_SAPLING))
-        WHITE_APRICORN_TREE = PlacementUtils.register("white_apricorn_tree", CobbledConfiguredFeatures.WHITE_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.WHITE_APRICORN_SAPLING))
-        YELLOW_APRICORN_TREE = PlacementUtils.register("yellow_apricorn_tree", CobbledConfiguredFeatures.YELLOW_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.YELLOW_APRICORN_SAPLING))
+        BLACK_APRICORN_TREE = PlacementUtils.register("black_apricorn_tree", CobbledConfiguredFeatures.BLACK_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.BLACK_APRICORN_SAPLING.get()))
+        BLUE_APRICORN_TREE = PlacementUtils.register("blue_apricorn_tree", CobbledConfiguredFeatures.BLUE_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.BLUE_APRICORN_SAPLING.get()))
+        GREEN_APRICORN_TREE = PlacementUtils.register("green_apricorn_tree", CobbledConfiguredFeatures.GREEN_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.GREEN_APRICORN_SAPLING.get()))
+        PINK_APRICORN_TREE = PlacementUtils.register("pink_apricorn_tree", CobbledConfiguredFeatures.PINK_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.PINK_APRICORN_SAPLING.get()))
+        RED_APRICORN_TREE = PlacementUtils.register("red_apricorn_tree", CobbledConfiguredFeatures.RED_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.RED_APRICORN_SAPLING.get()))
+        WHITE_APRICORN_TREE = PlacementUtils.register("white_apricorn_tree", CobbledConfiguredFeatures.WHITE_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.WHITE_APRICORN_SAPLING.get()))
+        YELLOW_APRICORN_TREE = PlacementUtils.register("yellow_apricorn_tree", CobbledConfiguredFeatures.YELLOW_APRICORN_TREE, PlacementUtils.filteredByBlockSurvival(CobbledBlocks.YELLOW_APRICORN_SAPLING.get()))
 
         val apricornTreeVariety = FeatureUtils.register(
             "apricorn_trees", Feature.RANDOM_SELECTOR, RandomFeatureConfiguration(

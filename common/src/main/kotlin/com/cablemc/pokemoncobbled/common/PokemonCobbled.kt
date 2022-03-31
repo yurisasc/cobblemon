@@ -52,8 +52,10 @@ import com.google.gson.GsonBuilder
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
+import dev.architectury.event.events.common.LifecycleEvent.SETUP
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.TickEvent.SERVER_POST
+import dev.architectury.hooks.item.tool.AxeItemHooks
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -89,14 +91,16 @@ object PokemonCobbled {
         this.loadConfig()
         this.implementation = implementation
         CobbledEntities.register()
-        CobbledItems.register()
         CobbledBlocks.register()
+        CobbledItems.register()
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledKeybinds.register()
         CobbledFeatures.register()
-        CobbledConfiguredFeatures.register()
-        CobbledPlacements.register()
+        SETUP.register {
+            CobbledConfiguredFeatures.register()
+            CobbledPlacements.register()
+        }
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
@@ -125,6 +129,9 @@ object PokemonCobbled {
         ifClient { ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() }) }
 
         SERVER_STARTED.register {
+            AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_LOG.get(), CobbledBlocks.STRIPPED_APRICORN_LOG.get())
+            AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_WOOD.get(), CobbledBlocks.STRIPPED_APRICORN_WOOD.get())
+
             // TODO config options for default storage
             val pokemonStoreRoot = it.getWorldPath(LevelResource.PLAYER_DATA_DIR).parent.resolve("pokemon").toFile()
             storage.registerFactory(

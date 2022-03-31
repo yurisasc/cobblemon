@@ -1,18 +1,23 @@
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.world.level.levelgen.feature.ApricornTreeFeature
+import dev.architectury.registry.registries.DeferredRegister
+import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.core.Registry
 import net.minecraft.world.level.levelgen.feature.Feature
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration
+import java.util.function.Supplier
 
 object CobbledFeatures {
-    private fun <T : Feature<*>> register(name: String, feature: T) : T {
-        return Registry.register(Registry.FEATURE, "${PokemonCobbled.MODID}:$name", feature)
+    private val featureRegistry = DeferredRegister.create(PokemonCobbled.MODID, Registry.FEATURE_REGISTRY)
+
+    private fun <T : Feature<*>> register(name: String, feature: Supplier<T>) : RegistrySupplier<T> {
+        return featureRegistry.register(name, feature)
     }
 
-    val APRICORN_TREE_FEATURE = register("apricorn_tree_feature", ApricornTreeFeature(BlockStateConfiguration.CODEC))
+    val APRICORN_TREE_FEATURE = register("apricorn_tree_feature") { ApricornTreeFeature(BlockStateConfiguration.CODEC) }
 
     fun register() {
-        // empty method to load class, maybe there's a better way? can't remember
+        featureRegistry.register()
     }
 }

@@ -60,22 +60,22 @@ object PokemonCobbledClient {
 
     private fun registerBlockRenderTypes() {
         RenderTypeRegistry.register(RenderType.cutout(),
-            CobbledBlocks.APRICORN_DOOR,
-            CobbledBlocks.APRICORN_TRAPDOOR,
-            CobbledBlocks.BLACK_APRICORN_SAPLING,
-            CobbledBlocks.BLUE_APRICORN_SAPLING,
-            CobbledBlocks.GREEN_APRICORN_SAPLING,
-            CobbledBlocks.PINK_APRICORN_SAPLING,
-            CobbledBlocks.RED_APRICORN_SAPLING,
-            CobbledBlocks.WHITE_APRICORN_SAPLING,
-            CobbledBlocks.YELLOW_APRICORN_SAPLING,
-            CobbledBlocks.BLACK_APRICORN,
-            CobbledBlocks.BLUE_APRICORN,
-            CobbledBlocks.GREEN_APRICORN,
-            CobbledBlocks.PINK_APRICORN,
-            CobbledBlocks.RED_APRICORN,
-            CobbledBlocks.WHITE_APRICORN,
-            CobbledBlocks.YELLOW_APRICORN)
+            CobbledBlocks.APRICORN_DOOR.get(),
+            CobbledBlocks.APRICORN_TRAPDOOR.get(),
+            CobbledBlocks.BLACK_APRICORN_SAPLING.get(),
+            CobbledBlocks.BLUE_APRICORN_SAPLING.get(),
+            CobbledBlocks.GREEN_APRICORN_SAPLING.get(),
+            CobbledBlocks.PINK_APRICORN_SAPLING.get(),
+            CobbledBlocks.RED_APRICORN_SAPLING.get(),
+            CobbledBlocks.WHITE_APRICORN_SAPLING.get(),
+            CobbledBlocks.YELLOW_APRICORN_SAPLING.get(),
+            CobbledBlocks.BLACK_APRICORN.get(),
+            CobbledBlocks.BLUE_APRICORN.get(),
+            CobbledBlocks.GREEN_APRICORN.get(),
+            CobbledBlocks.PINK_APRICORN.get(),
+            CobbledBlocks.RED_APRICORN.get(),
+            CobbledBlocks.WHITE_APRICORN.get(),
+            CobbledBlocks.YELLOW_APRICORN.get())
     }
 
     fun beforeChatRender(poseStack: PoseStack, partialDeltaTicks: Float) {
@@ -105,7 +105,7 @@ object PokemonCobbledClient {
         if(!registeredColors) {
             Minecraft.getInstance().blockColors.register(BlockColor { blockState, blockAndTintGetter, blockPos, i ->
                 return@BlockColor 0x71c219;
-            }, CobbledBlocks.APRICORN_LEAVES)
+            }, CobbledBlocks.APRICORN_LEAVES.get())
 
             Minecraft.getInstance().itemColors.register(ItemColor { itemStack, i ->
                 return@ItemColor 0x71c219;
