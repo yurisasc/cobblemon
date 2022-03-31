@@ -2,7 +2,6 @@
   "required": true,
   "package": "com.cablemc.pokemoncobbled.fabric.mixin",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "pokemoncobbled-fabric-refmap.json",
   "minVersion": "0.8",
   "client": [
     "GuiMixin"

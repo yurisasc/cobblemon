@@ -5,8 +5,15 @@ import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.util.Mth.PI
 import net.minecraft.util.Mth.ceil
+import net.minecraft.util.Mth.randomBetween
+import net.minecraft.world.phys.Vec3
+import java.util.Random
 import java.util.UUID
+import kotlin.math.atan
+import kotlin.math.cos
+import kotlin.math.sin
 
 /**
  * A spawner that works around a single player. It will do basic tracking of a player's speed
@@ -23,15 +30,26 @@ class PlayerSpawner(player: ServerPlayer, spawns: SpawnPool, manager: SpawnerMan
         val sliceDiameter = config.worldSliceDiameter
         val sliceHeight = config.worldSliceHeight
 
-        // Probably means we need a large player motion factor
-        val center = player.position().add(player.deltaMovement.scale(config.playerMotionFactor))
+        val rand = Random()
+
+        val center = player.position()
+        val movementUnit = if (player.deltaMovement.length() < 0.1) {
+            Vec3(1.0, 0.0, 0.0).yRot(rand.nextFloat() * 2 * PI)
+        } else {
+            player.deltaMovement.normalize()
+        }
+
+        val r = randomBetween(rand, config.minimumSliceDistanceFromPlayer, config.maximumSliceDistanceFromPlayer)
+        val theta = atan(movementUnit.y / movementUnit.x) + randomBetween(rand, -PI/2, PI/2 )
+        val x = center.x + r * cos(theta)
+        val z = center.z + r * sin(theta)
 
         return SpawningArea(
             cause = player,
             level = player.level,
-            baseX = ceil(center.x - sliceDiameter / 2F),
+            baseX = ceil(x - sliceDiameter / 2F),
             baseY = ceil(center.y - sliceHeight / 2F),
-            baseZ = ceil(center.z - sliceDiameter / 2F),
+            baseZ = ceil(z - sliceDiameter / 2F),
             length = sliceDiameter,
             height = sliceHeight,
             width = sliceDiameter

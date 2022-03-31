@@ -47,7 +47,7 @@ object CobbledSpawningProspector : SpawningProspector {
 
         val minimumDistanceBetweenEntities = config.minimumDistanceBetweenEntities
         val nearbyEntityPositions = area.level.getEntities(
-            if (area.cause is Entity) area.cause else null,
+            null,
             AABB.ofSize(
                 Vec3(area.baseX + area.length / 2.0, baseY + height / 2.0, area.baseZ + area.width / 2.0),
                 area.length / 2.0 + minimumDistanceBetweenEntities,
