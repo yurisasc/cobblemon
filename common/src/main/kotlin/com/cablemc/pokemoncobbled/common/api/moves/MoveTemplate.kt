@@ -35,7 +35,7 @@ class MoveTemplate(
     val maxPp: Int = 8 * pp / 5
 ) {
     val displayName: TranslatableComponent
-        get() = lang("move.$name.")
+        get() = lang("move.$name")
     val description: TranslatableComponent
         get() = lang("move.$name.desc")
 

@@ -3,6 +3,8 @@ package com.cablemc.pokemoncobbled.common.pokemon
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.abilities.adapters.AbilityTemplateAdapter
+import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
+import com.cablemc.pokemoncobbled.common.api.moves.adapters.MoveTemplateAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.adapter.ShoulderEffectAdapter
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
@@ -19,6 +21,7 @@ object SpeciesLoader {
         .registerTypeAdapter(ElementalType::class.java, ElementalTypeAdapter)
         .registerTypeAdapter(AbilityTemplate::class.java, AbilityTemplateAdapter)
         .registerTypeAdapter(ShoulderEffect::class.java, ShoulderEffectAdapter)
+        .registerTypeAdapter(MoveTemplate::class.java, MoveTemplateAdapter)
         .disableHtmlEscaping()
         .create()
 

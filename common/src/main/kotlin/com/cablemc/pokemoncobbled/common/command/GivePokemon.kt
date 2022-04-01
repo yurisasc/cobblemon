@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.command
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
+import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.commandLang
 import com.cablemc.pokemoncobbled.common.util.player
@@ -20,13 +21,13 @@ object GivePokemon {
         val command = Commands.literal("givepokemon")
             .requires { it.hasPermission(4) }
             .then(
-                Commands.argument("pokemon", PokemonArgumentType.pokemon())
+                Commands.argument("pokemon", PokemonPropertiesArgumentType.properties())
                     .requires { it != it.server}
                     .executes { execute(it, it.source.playerOrException) }
             )
             .then(
                 Commands.argument("player", EntityArgument.player())
-                    .then(Commands.argument("pokemon", PokemonArgumentType.pokemon())
+                    .then(Commands.argument("pokemon", PokemonPropertiesArgumentType.properties())
                         .executes { execute(it, it.player()) }
                     )
             )
@@ -36,12 +37,12 @@ object GivePokemon {
 
     private fun execute(context: CommandContext<CommandSourceStack>, player: ServerPlayer) : Int {
         try {
-            val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
-            val pokemon = Pokemon().apply { species = pkm }
+            val pokemonProperties = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
+            val pokemon = pokemonProperties.create()
             val party = PokemonCobbled.storage.getParty(player)
             pokemon.moveSet.add(Moves.getByName("tackle")!!.create()) // TODO remove when pokemon generate movesets
             party.add(pokemon)
-            context.source.sendSuccess(commandLang("givepokemon.give", pkm.translatedName, player.name), true)
+            context.source.sendSuccess(commandLang("givepokemon.give", pokemon.species.translatedName, player.name), true)
         } catch (e: Exception) {
             e.printStackTrace()
         }

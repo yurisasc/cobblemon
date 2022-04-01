@@ -39,6 +39,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonSt
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
+import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.entity.pokemon.CobbledAgingDespawner
@@ -94,16 +95,17 @@ object PokemonCobbled {
         EntityDataSerializers.registerSerializer(Vec3DataSerializer)
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
+        ArgumentTypes.register("pokemoncobbled:pokemonproperties", PokemonPropertiesArgumentType::class.java, EmptyArgumentSerializer(PokemonPropertiesArgumentType::properties))
     }
 
     fun initialize() {
-        showdownThread.start()
-
-        // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
-        LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
+//        showdownThread.start()
 
         Moves.load()
         LOGGER.info("Loaded ${Moves.count()} Moves.")
+
+        // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
+        LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
 
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 

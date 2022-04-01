@@ -253,7 +253,7 @@ open class PokemonProperties {
     }
 
     fun create(): Pokemon {
-        return Pokemon().also { apply(it) }
+        return Pokemon().also { apply(it) }.also { it.initialize() }
     }
 
     fun createEntity(level: Level): PokemonEntity {
