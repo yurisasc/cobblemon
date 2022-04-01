@@ -1,16 +1,12 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.asset.JsonManifestWalker
 import com.cablemc.pokemoncobbled.common.api.moves.adapters.DamageCategoryAdapter
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
-import com.cablemc.pokemoncobbled.common.util.AssetLoading
 import com.google.gson.GsonBuilder
-import com.google.gson.stream.JsonReader
-import java.io.InputStreamReader
-import kotlin.io.path.inputStream
-import kotlin.io.path.toPath
 
 /**
  * Registry for all known Moves
@@ -37,15 +33,13 @@ object Moves {
      */
     fun loadFromFiles() : MutableMap<String, MoveTemplate> {
         val map = mutableMapOf<String, MoveTemplate>()
-
-        val path = PokemonCobbled::class.java.getResource("/assets/${PokemonCobbled.MODID}/moves")?.toURI()?.toPath()
-            ?: throw IllegalArgumentException("There is no valid, internal path for /moves/")
-        val internalPaths = AssetLoading.fileSearch(path, { it.toString().endsWith(".json") }, recursive = true)
-
         try {
-            for (file in internalPaths) {
-                val reader = JsonReader(InputStreamReader(file.inputStream()))
-                val template = GSON.fromJson<MoveTemplate>(reader, MoveTemplate::class.java)
+            val moveTemplates = JsonManifestWalker.load(
+                MoveTemplate::class.java,
+                "moves",
+                GSON
+            )
+            for (template in moveTemplates) {
                 map[template.name] = template
             }
             return map
@@ -53,6 +47,6 @@ object Moves {
             PokemonCobbled.LOGGER.error("Error loading moves from files.")
             e.printStackTrace()
         }
-        return HashMap()
+        return mutableMapOf()
     }
 }
