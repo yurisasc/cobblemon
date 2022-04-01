@@ -2,6 +2,8 @@ package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.battles.MoveTarget
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.google.gson.annotations.SerializedName
 import net.minecraft.network.chat.TranslatableComponent
 
@@ -23,18 +25,19 @@ class MoveTemplate(
     val elementalType: ElementalType,
     val damageCategory: DamageCategory,
     val power: Double,
+    val target: MoveTarget,
     val accuracy: Double,
+    val pp: Int,
+    val priority: Int,
+    val critRatio: Double,
     val effectChance: Double,
-    val maxPp: Int
+    val effectStatus: String,
+    val maxPp: Int = 8 * pp / 5
 ) {
-    @Transient
-    lateinit var displayName: TranslatableComponent
-    @Transient
-    lateinit var description: TranslatableComponent
-
-    companion object {
-        const val PREFIX = "pokemoncobbled.move."
-    }
+    val displayName: TranslatableComponent
+        get() = lang("move.$name.")
+    val description: TranslatableComponent
+        get() = lang("move.$name.desc")
 
     /**
      * Creates the Move with full PP
@@ -55,13 +58,5 @@ class MoveTemplate(
             maxPp = pMaxPp,
             template = this
         )
-    }
-
-    /**
-     * Creates the Components needed to display the Move and its Description
-     */
-    fun createTextComponents() {
-        displayName = TranslatableComponent(PREFIX + name.lowercase())
-        description = TranslatableComponent(PREFIX + name.lowercase() + ".desc")
     }
 }

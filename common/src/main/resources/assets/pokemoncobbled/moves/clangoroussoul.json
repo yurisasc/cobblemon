@@ -1,0 +1,15 @@
+{
+  "name": "clangoroussoul",
+  "type": "Dragon",
+  "damageCategory": "Status",
+  "target": "self",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 5,
+  "priority": 0,
+  "flags": {
+    "snatch": 1,
+    "sound": 1,
+    "dance": 1
+  }
+}

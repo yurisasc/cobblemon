@@ -1,0 +1,16 @@
+{
+  "name": "dragonrush",
+  "type": "Dragon",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 100,
+  "accuracy": 75,
+  "pp": 10,
+  "priority": 0,
+  "effectChance": 20,
+  "flags": {
+    "contact": 1,
+    "protect": 1,
+    "mirror": 1
+  }
+}

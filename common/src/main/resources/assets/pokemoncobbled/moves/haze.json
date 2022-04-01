@@ -1,0 +1,13 @@
+{
+  "name": "haze",
+  "type": "Ice",
+  "damageCategory": "Status",
+  "target": "all",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 30,
+  "priority": 0,
+  "flags": {
+    "bypasssub": 1
+  }
+}

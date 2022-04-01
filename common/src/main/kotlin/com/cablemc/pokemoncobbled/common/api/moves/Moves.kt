@@ -1,38 +1,58 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
-import com.cablemc.pokemoncobbled.common.api.moves.MoveLoader.loadFromAssets
-import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategories
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.moves.adapters.DamageCategoryAdapter
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
-import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
+import com.cablemc.pokemoncobbled.common.util.AssetLoading
+import com.google.gson.GsonBuilder
+import com.google.gson.stream.JsonReader
+import java.io.InputStreamReader
+import kotlin.io.path.inputStream
+import kotlin.io.path.toPath
 
 /**
  * Registry for all known Moves
  */
 object Moves {
-    private val allMoves = mutableListOf<MoveTemplate>()
+    val GSON = GsonBuilder()
+        .registerTypeAdapter(DamageCategory::class.java, DamageCategoryAdapter)
+        .registerTypeAdapter(ElementalType::class.java, ElementalTypeAdapter)
+        .setLenient()
+        .disableHtmlEscaping()
+        .create()
 
-    // START - Normal Moves
-    val TACKLE = register(loadFromAssets("tackle"))
-    // END - Normal Moves
+    private val allMoves = mutableMapOf<String, MoveTemplate>()
 
-    // START - Flying Moves
-    val AERIAL_ACE = register(loadFromAssets("aerial_ace"))
-    val AIR_SLASH = register(loadFromAssets("air_slash"))
-    // END - Flying Moves
-
-    // START - Fighting Moves
-    val AURA_SPHERE = register(loadFromAssets("aura_sphere"))
-    // END - Fighting Moves
-    val SPLASH = register(MoveTemplate("splash", ElementalTypes.NORMAL, DamageCategories.SPECIAL, 0.0, 0.0, 0.0, 10))
-
-    fun register(moveTemplate: MoveTemplate): MoveTemplate {
-        allMoves.add(moveTemplate)
-        return moveTemplate
+    fun load() {
+        allMoves.putAll(loadFromFiles())
     }
 
-    fun getByName(name: String): MoveTemplate? {
-        return allMoves.firstOrNull { moveTemplate -> moveTemplate.name.equals(name, ignoreCase = true) }
-    }
-
+    fun getByName(name: String) = allMoves[name.lowercase()]
     fun count() = allMoves.size
+
+    /**
+     * Loads the move JSON files into a HashMap.
+     */
+    fun loadFromFiles() : MutableMap<String, MoveTemplate> {
+        val map = mutableMapOf<String, MoveTemplate>()
+
+        val path = PokemonCobbled::class.java.getResource("/assets/${PokemonCobbled.MODID}/moves")?.toURI()?.toPath()
+            ?: throw IllegalArgumentException("There is no valid, internal path for /moves/")
+        val internalPaths = AssetLoading.fileSearch(path, { it.toString().endsWith(".json") }, recursive = true)
+
+        try {
+            for (file in internalPaths) {
+                val reader = JsonReader(InputStreamReader(file.inputStream()))
+                val template = GSON.fromJson<MoveTemplate>(reader, MoveTemplate::class.java)
+                map[template.name] = template
+            }
+            return map
+        } catch (e: Exception) {
+            PokemonCobbled.LOGGER.error("Error loading moves from files.")
+            e.printStackTrace()
+        }
+        return HashMap()
+    }
 }

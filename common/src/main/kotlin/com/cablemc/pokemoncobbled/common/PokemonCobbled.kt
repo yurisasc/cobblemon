@@ -38,7 +38,6 @@ import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
@@ -92,7 +91,6 @@ object PokemonCobbled {
         CobbledItems.register()
         CobbledSounds.register()
         CobbledNetwork.register()
-        CobbledKeybinds.register()
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
@@ -107,14 +105,15 @@ object PokemonCobbled {
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
 
-        // Same as PokemonSpecies
+        Moves.load()
         LOGGER.info("Loaded ${Moves.count()} Moves.")
 
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 
-        ifDedicatedServer { isDedicatedServer = true }
-        ifServer { SERVER_POST.register { ScheduledTaskTracker.update() } }
-        ifClient { ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() }) }
+        ifDedicatedServer {
+            isDedicatedServer = true
+            SERVER_POST.register { ScheduledTaskTracker.update() }
+        }
 
         SERVER_STARTED.register {
             // TODO config options for default storage
@@ -149,8 +148,6 @@ object PokemonCobbled {
 
         SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
         SERVER_POST.register { spawnerManagers.forEach { it.onServerTick() } }
-
-
     }
 
     fun getLevel(dimension: ResourceKey<Level>): Level? {

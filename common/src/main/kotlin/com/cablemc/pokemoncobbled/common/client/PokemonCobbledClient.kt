@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.client.gui.PartyOverlay
+import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.client.net.ClientPacketRegistrar
 import com.cablemc.pokemoncobbled.common.client.render.layer.PokemonOnShoulderLayer
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
@@ -13,6 +14,7 @@ import com.cablemc.pokemoncobbled.common.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.common.client.storage.ClientStorageManager
 import com.mojang.blaze3d.vertex.PoseStack
+import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
 import net.minecraft.client.model.PlayerModel
@@ -35,6 +37,9 @@ object PokemonCobbledClient {
 
         overlay = PartyOverlay()
         ClientPacketRegistrar.registerHandlers()
+        CobbledKeybinds.register()
+
+        ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() })
 
         LOGGER.info("Initializing Pokémon models")
         PokemonModelRepository.init()

@@ -21,7 +21,7 @@ import kotlin.io.path.toPath
  */
 object AssetLoading {
     fun ResourceLocation.toPath() = toURL()?.toPath()
-    fun ResourceLocation.toURL() = PokemonCobbled::class.java.getResource(String.format("/assets/%s/%s", namespace, path))?.toURI()
+    fun ResourceLocation.toURL() = PokemonCobbled.javaClass.getResource(String.format("/assets/%s/%s", namespace, path))?.toURI()
     fun fileSearch(dir: Path, filter: (Path) -> Boolean, recursive: Boolean): List<Path> {
         val files = mutableListOf<Path>()
         Files.walkFileTree(dir, object : SimpleFileVisitor<Path>() {
