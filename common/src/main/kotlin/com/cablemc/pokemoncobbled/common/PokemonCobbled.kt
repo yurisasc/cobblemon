@@ -98,10 +98,6 @@ object PokemonCobbled {
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledFeatures.register()
-        SETUP.register {
-            CobbledConfiguredFeatures.register()
-            CobbledPlacements.register()
-        }
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }

@@ -21,6 +21,7 @@ import com.mojang.blaze3d.vertex.PoseStack
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
+import dev.architectury.registry.client.rendering.ColorHandlerRegistry
 import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import net.minecraft.client.Minecraft
 import net.minecraft.client.color.block.BlockColor
@@ -58,12 +59,15 @@ object PokemonCobbledClient {
         PokeBallModelRepository.init()
 
         registerBlockRenderTypes()
+        registerColors()
+    }
 
-        Minecraft.getInstance().blockColors.register(BlockColor { blockState, blockAndTintGetter, blockPos, i ->
+    fun registerColors() {
+        ColorHandlerRegistry.registerBlockColors(BlockColor { blockState, blockAndTintGetter, blockPos, i ->
             return@BlockColor 0x71c219;
         }, CobbledBlocks.APRICORN_LEAVES.get())
 
-        Minecraft.getInstance().itemColors.register(ItemColor { itemStack, i ->
+        ColorHandlerRegistry.registerItemColors(ItemColor { itemStack, i ->
             return@ItemColor 0x71c219;
         }, CobbledItems.APRICORN_LEAVES.get())
     }
