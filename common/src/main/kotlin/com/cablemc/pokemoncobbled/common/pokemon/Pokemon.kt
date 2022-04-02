@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
@@ -18,6 +19,7 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.HealthUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
@@ -33,7 +35,9 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.readMapK
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.util.writeMapK
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
@@ -61,8 +65,26 @@ open class Pokemon {
             field = min(hp, value)
             _currentHealth.emit(field)
         }
-    var level = 5
-        set(value) { field = value ; _level.emit(value) }
+    var level = 1
+        set(value) {
+            if (value < 1) {
+                throw IllegalArgumentException("Level cannot be negative")
+            }
+            /*
+             * When people set the level programmatically the experience value will become incorrect.
+             * Specifically check for when there's a mismatch and update the experience.
+             */
+            field = value
+            if (experienceGroup.getLevel(experience) != value) {
+                experience = experienceGroup.getExperience(value)
+            }
+            _level.emit(value)
+        }
+    var experience = 0
+        protected set(value) {
+            field = value
+            _experience.emit(value)
+        }
     var friendship = 0
         set(value) { field = value ; _friendship.emit(value) }
     var state: PokemonState = InactivePokemonState()
@@ -96,6 +118,9 @@ open class Pokemon {
 
     var moveSet: MoveSet = MoveSet()
         set(value) { field = value ; _moveSet.emit(value) }
+
+    val experienceGroup: ExperienceGroup
+        get() = form.experienceGroup
 
     /** All the not-level-up moves that the Pokémon has learned over its lifetime. */
     val learnedMoves = mutableListOf<MoveTemplate>()
@@ -151,6 +176,7 @@ open class Pokemon {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
         nbt.putString(DataKeys.POKEMON_FORM_ID, form.name)
+        nbt.putInt(DataKeys.POKEMON_EXPERIENCE, experience)
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_FRIENDSHIP, friendship.toShort())
 
@@ -171,6 +197,7 @@ open class Pokemon {
         species = PokemonSpecies.getByPokedexNumber(nbt.getInt(DataKeys.POKEMON_SPECIES_DEX))
             ?: throw IllegalStateException("Tried to read a species with national PokéDex number ${nbt.getInt(DataKeys.POKEMON_SPECIES_DEX)}")
         form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.forms.first()
+        experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE)
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt()
         currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
@@ -196,6 +223,7 @@ open class Pokemon {
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber)
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.name)
+        json.addProperty(DataKeys.POKEMON_EXPERIENCE, experience)
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
         json.addProperty(DataKeys.POKEMON_FRIENDSHIP, friendship)
         json.addProperty(DataKeys.POKEMON_HEALTH, currentHealth)
@@ -214,6 +242,7 @@ open class Pokemon {
         species = PokemonSpecies.getByPokedexNumber(json.get(DataKeys.POKEMON_SPECIES_DEX).asInt)
             ?: throw IllegalStateException("Tried to read a species with national pokedex number ${json.get(DataKeys.POKEMON_SPECIES_DEX).asInt}")
         form = species.forms.find { it.name == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.forms.first()
+        experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt
         currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
@@ -237,6 +266,7 @@ open class Pokemon {
         buffer.writeUUID(uuid)
         buffer.writeShort(species.nationalPokedexNumber)
         buffer.writeUtf(form.name)
+        buffer.writeInt(experience)
         buffer.writeByte(level)
         buffer.writeShort(friendship)
         buffer.writeShort(currentHealth)
@@ -250,24 +280,13 @@ open class Pokemon {
         return buffer
     }
 
-    fun clone(useJSON: Boolean = true, newUUID: Boolean = true): Pokemon {
-        val pokemon = if (useJSON) {
-            Pokemon().loadFromJSON(saveToJSON(JsonObject()))
-        } else {
-            Pokemon().loadFromNBT(saveToNBT(CompoundTag()))
-        }
-        if (newUUID) {
-            pokemon.uuid = UUID.randomUUID()
-        }
-        return pokemon
-    }
-
     fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
         uuid = buffer.readUUID()
         species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())
             ?: throw IllegalStateException("Pokemon#loadFromBuffer cannot find the species! Species reference data has not been synchronized correctly!")
         val formId = buffer.readUtf()
         form = species.forms.find { it.name == formId } ?: species.forms.first()
+        experience = buffer.readInt()
         level = buffer.readUnsignedByte().toInt()
         friendship = buffer.readUnsignedShort()
         currentHealth = buffer.readUnsignedShort()
@@ -279,6 +298,18 @@ open class Pokemon {
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
         return this
+    }
+
+    fun clone(useJSON: Boolean = true, newUUID: Boolean = true): Pokemon {
+        val pokemon = if (useJSON) {
+            Pokemon().loadFromJSON(saveToJSON(JsonObject()))
+        } else {
+            Pokemon().loadFromNBT(saveToNBT(CompoundTag()))
+        }
+        if (newUUID) {
+            pokemon.uuid = UUID.randomUUID()
+        }
+        return pokemon
     }
 
     fun getOwnerPlayer() : ServerPlayer? {
@@ -356,6 +387,49 @@ open class Pokemon {
 
     }
 
+    fun getExperienceToNextLevel() = getExperienceToLevel(level + 1)
+    fun getExperienceToLevel(level: Int): Int {
+        return if (level <= this.level) {
+            0
+        } else {
+            experienceGroup.getExperience(level) - experience
+        }
+    }
+
+    fun setExperienceAndUpdateLevel(xp: Int) {
+        experience = xp
+        val newLevel = experienceGroup.getLevel(xp)
+        if (newLevel != level) {
+            level = newLevel
+        }
+    }
+
+    fun addExperienceWithPlayer(player: ServerPlayer, xp: Int) {
+        val previousLevel = level
+        player.sendServerMessage(lang("experience.gained", species.translatedName, experience))
+        addExperience(xp)
+        if (previousLevel != level) {
+            player.sendServerMessage(lang("experience.level_up", species.translatedName, level))
+            // TODO level up moves, compare learn list from previousLevel to the new level
+        }
+    }
+
+    fun addExperience(xp: Int) {
+        if (xp < 0) {
+            return // no negatives!
+        }
+
+        // TODO xp gain event
+        experience += xp
+        val newLevel = experienceGroup.getLevel(experience)
+        if (newLevel != level) {
+            // TODO level up event?
+            level = newLevel
+        }
+    }
+
+    fun levelUp() = addExperience(getExperienceToNextLevel())
+
     fun notify(packet: PokemonUpdatePacket) {
         storeCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }
     }
@@ -381,6 +455,7 @@ open class Pokemon {
 
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
+    private val _experience = registerObservable(SimpleObservable<Int>()) { ExperienceUpdatePacket(this, it) }
     private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
     private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket(this, it) }
     private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket(this, it) }

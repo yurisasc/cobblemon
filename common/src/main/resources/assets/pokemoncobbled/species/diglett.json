@@ -12,6 +12,8 @@
     "speed": 95
   },
   "catchRate": 255,
+  "experienceGroup": "mediumfast",
+  "baseExperienceYield": 53,
   "baseScale": 0.95,
   "hitbox": {
     "width": 0.5,

@@ -8,6 +8,9 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Captu
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegistry
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalculator
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.StandardExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledWorldSpawnerManager
@@ -75,7 +78,8 @@ object PokemonCobbled {
 
     lateinit var implementation: PokemonCobbledModImplementation
     lateinit var showdown: ShowdownConnection
-    var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
+    var captureCalculator: CaptureCalculator = Gen7CaptureCalculator
+    var experienceCalculator: ExperienceCalculator = StandardExperienceCalculator
     var isDedicatedServer = false
     var showdownThread = ShowdownThread()
     var config = CobbledConfig()
@@ -109,6 +113,8 @@ object PokemonCobbled {
 
     fun initialize() {
         showdownThread.start()
+
+        ExperienceGroups.registerDefaults()
 
         Moves.load()
         LOGGER.info("Loaded ${Moves.count()} Moves.")
