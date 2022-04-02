@@ -1,10 +1,9 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
-import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.google.gson.annotations.SerializedName
 import net.minecraft.world.entity.EntityDimensions
 
@@ -21,6 +20,10 @@ data class FormData(
     private var _hitbox: EntityDimensions? = null,
     @SerializedName("catchRate")
     private var _catchRate: Int? = null,
+    @SerializedName("experienceGroup")
+    private var _experienceGroup: ExperienceGroup? = null,
+    @SerializedName("baseExperienceYield")
+    private var _baseExperienceYield: Int? = null,
     @SerializedName("primaryType")
     private val _primaryType: ElementalType? = null,
     @SerializedName("secondaryType")
@@ -47,7 +50,10 @@ data class FormData(
         get() = _hitbox ?: species.hitbox
     val catchRate: Int
         get() = _catchRate ?: species.catchRate
-
+    val experienceGroup: ExperienceGroup
+        get() = _experienceGroup ?: species.experienceGroup
+    val baseExperienceYield: Int
+        get() = _baseExperienceYield ?: species.baseExperienceYield
     val primaryType: ElementalType
         get() = _primaryType ?: species.primaryType
 

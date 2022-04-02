@@ -119,7 +119,10 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                 val hpRatio = pokemon.currentHealth / pokemon.hp.toFloat()
                 val barHeightMax = 22F
                 val hpBarHeight = hpRatio * barHeightMax
-                val expRatio = 1.0
+                val expForThisLevel = pokemon.experience - if (pokemon.level == 1) 0 else pokemon.experienceGroup.getExperience(pokemon.level)
+                val expToNextLevel = pokemon.experienceGroup.getExperience(pokemon.level + 1) - pokemon.experienceGroup.getExperience(pokemon.level)
+                val expRatio = expForThisLevel / expToNextLevel.toFloat()
+
                 val expBarHeight = expRatio * barHeightMax
                 val hpWidthToHeight = 72 / 174F
                 val expWidthToHeight = 45 / 174F
