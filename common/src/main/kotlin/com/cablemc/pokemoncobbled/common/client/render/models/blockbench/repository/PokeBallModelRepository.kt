@@ -13,10 +13,11 @@ object PokeBallModelRepository : ModelRepository<EmptyPokeBallEntity>() {
     private val modelTexturesByPokeBall: MutableMap<PokeBall, ResourceLocation> = mutableMapOf()
 
     override fun registerAll() {
-        registerModel(PokeBalls.POKE_BALL, BlockBenchModelWrapper(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) })
-        registerModel(PokeBalls.GREAT_BALL, BlockBenchModelWrapper(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) })
-        registerModel(PokeBalls.ULTRA_BALL, BlockBenchModelWrapper(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) })
-        registerModel(PokeBalls.MASTER_BALL, BlockBenchModelWrapper(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) })
+        val baseModel = BlockBenchModelWrapper(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) }
+        registerModel(PokeBalls.POKE_BALL, baseModel)
+        registerModel(PokeBalls.GREAT_BALL, baseModel)
+        registerModel(PokeBalls.ULTRA_BALL, baseModel)
+        registerModel(PokeBalls.MASTER_BALL, baseModel)
         registerModelTexture(PokeBalls.POKE_BALL, cobbledResource("textures/items/poke_ball.png"))
         registerModelTexture(PokeBalls.GREAT_BALL, cobbledResource("textures/items/great_ball.png"))
         registerModelTexture(PokeBalls.ULTRA_BALL, cobbledResource("textures/items/ultra_ball.png"))
