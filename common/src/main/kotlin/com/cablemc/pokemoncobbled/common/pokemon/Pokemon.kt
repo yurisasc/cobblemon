@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
@@ -96,7 +97,7 @@ open class Pokemon {
     var moveSet: MoveSet = MoveSet()
         set(value) { field = value ; _moveSet.emit(value) }
 
-    /** All the moves that the Pokémon has learned over its lifetime. */
+    /** All the not-level-up moves that the Pokémon has learned over its lifetime. */
     val learnedMoves = mutableListOf<MoveTemplate>()
 
     var ability: Ability = form.standardAbilities.random().create()
@@ -300,6 +301,61 @@ open class Pokemon {
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
     fun isWild() = storeCoordinates.get() == null
 
+    private fun validFriendship (value : Int) : Boolean {
+        return value in 0..255
+    }
+
+    fun setFriendship (amount : Int) : Boolean {
+        if (validFriendship(amount)) friendship = amount
+        return friendship == amount
+    }
+
+    fun incrementFriendship (amount : Int) : Boolean {
+        val value = friendship + amount
+        if (validFriendship(value)) friendship = value
+        return friendship == value
+    }
+
+    fun decrementFriendship (amount : Int) : Boolean {
+        val value = friendship - amount
+        if (validFriendship(value)) friendship = value
+        return friendship == value
+    }
+
+    fun initialize() {
+
+        // TODO some other initializations to do with form and gender n shit
+        initializeMoveset()
+    }
+
+    fun initializeMoveset(preferLatest: Boolean = true) {
+        val possibleMoves = form.levelUpMoves.getMovesUpTo(level).toMutableList()
+
+        moveSet.clear()
+        if (possibleMoves.isEmpty()) {
+            moveSet.add(Moves.getExceptional().create())
+            return
+        }
+
+        val selector: () -> MoveTemplate? = {
+            if (preferLatest) {
+                possibleMoves.removeLastOrNull()
+            } else {
+                val random = possibleMoves.randomOrNull()
+                if (random != null) {
+                    possibleMoves.remove(random)
+                }
+                random
+            }
+        }
+
+        for (i in 0 until 4) {
+            val move = selector() ?: break
+            moveSet.setMove(i, move.create())
+        }
+
+    }
+
     fun notify(packet: PokemonUpdatePacket) {
         storeCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }
     }
@@ -335,25 +391,4 @@ open class Pokemon {
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
 
     fun getMoveSetObservable() = _moveSet
-
-    private fun validFriendship (value : Int) : Boolean {
-        return value in 0..255
-    }
-
-    fun setFriendship (amount : Int) : Boolean {
-        if (validFriendship(amount)) friendship = amount
-        return friendship == amount
-    }
-
-    fun incrementFriendship (amount : Int) : Boolean {
-        val value = friendship + amount
-        if (validFriendship(value)) friendship = value
-        return friendship == value
-    }
-
-    fun decrementFriendship (amount : Int) : Boolean {
-        val value = friendship - amount
-        if (validFriendship(value)) friendship = value
-        return friendship == value
-    }
 }

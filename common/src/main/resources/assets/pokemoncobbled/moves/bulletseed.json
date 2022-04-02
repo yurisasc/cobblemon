@@ -1,0 +1,15 @@
+{
+  "name": "bulletseed",
+  "type": "Grass",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 25,
+  "accuracy": 100,
+  "pp": 30,
+  "priority": 0,
+  "flags": {
+    "bullet": 1,
+    "protect": 1,
+    "mirror": 1
+  }
+}

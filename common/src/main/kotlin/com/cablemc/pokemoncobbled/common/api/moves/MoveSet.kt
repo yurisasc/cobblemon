@@ -10,14 +10,6 @@ import net.minecraft.network.FriendlyByteBuf
 class MoveSet {
     val moves = arrayOfNulls<Move>(MOVE_COUNT)
 
-    /**
-     * So no Pokémon can end up with no Moves assigned...
-     */
-    init {
-        if (moves.filterNotNull().isEmpty()) {
-            moves[0] = Moves.TACKLE.create()
-        }
-    }
 
     /**
      * Gets all Moves from the Pokémon but skips null Moves
@@ -29,10 +21,16 @@ class MoveSet {
     /**
      * Sets the given Move to given position
      */
-    fun setMove(pos: Int, move: Move) {
+    fun setMove(pos: Int, move: Move?) {
         if (pos < 0 || pos > MOVE_COUNT - 1)
             return
         moves[pos] = move
+    }
+
+    fun clear() {
+        for (i in 0 until MOVE_COUNT){
+            setMove(i, null)
+        }
     }
 
     /**

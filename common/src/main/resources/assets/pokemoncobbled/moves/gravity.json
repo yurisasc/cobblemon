@@ -1,0 +1,13 @@
+{
+  "name": "gravity",
+  "type": "Psychic",
+  "damageCategory": "Status",
+  "target": "all",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 5,
+  "priority": 0,
+  "flags": {
+    "nonsky": 1
+  }
+}

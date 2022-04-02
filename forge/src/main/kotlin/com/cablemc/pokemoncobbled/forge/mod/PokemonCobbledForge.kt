@@ -45,15 +45,14 @@ class PokemonCobbledForge : PokemonCobbledModImplementation {
     }
 
     fun serverInit(event: FMLDedicatedServerSetupEvent) {
-        event.enqueueWork {
-            ServerPacketRegistrar.registerHandlers()
-            CobbledNetwork.register()
-        }
     }
 
     fun initialize(event: FMLCommonSetupEvent) {
         PokemonCobbled.LOGGER.info("Initializing...")
         PokemonCobbled.initialize()
+
+        ServerPacketRegistrar.registerHandlers()
+        CobbledNetwork.register()
     }
 
     override fun isModInstalled(id: String) = ModList.get().isLoaded(id)

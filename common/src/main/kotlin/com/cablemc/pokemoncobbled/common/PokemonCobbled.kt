@@ -38,18 +38,15 @@ import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
+import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.entity.pokemon.CobbledAgingDespawner
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.getServer
-import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
-import com.cablemc.pokemoncobbled.common.util.ifServer
 import com.google.gson.GsonBuilder
-import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
 import dev.architectury.event.events.common.LifecycleEvent.SETUP
@@ -107,26 +104,24 @@ object PokemonCobbled {
         EntityDataSerializers.registerSerializer(Vec3DataSerializer)
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
+        ArgumentTypes.register("pokemoncobbled:pokemonproperties", PokemonPropertiesArgumentType::class.java, EmptyArgumentSerializer(PokemonPropertiesArgumentType::properties))
     }
 
     fun initialize() {
-        //CobbledFeatures.register()
-        //CobbledConfiguredFeatures.register()
-
-
         showdownThread.start()
+
+        Moves.load()
+        LOGGER.info("Loaded ${Moves.count()} Moves.")
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
 
-        // Same as PokemonSpecies
-        LOGGER.info("Loaded ${Moves.count()} Moves.")
-
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 
-        ifDedicatedServer { isDedicatedServer = true }
-        ifServer { SERVER_POST.register { ScheduledTaskTracker.update() } }
-        ifClient { ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() }) }
+        ifDedicatedServer {
+            isDedicatedServer = true
+            SERVER_POST.register { ScheduledTaskTracker.update() }
+        }
 
         SERVER_STARTED.register {
             AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_LOG.get(), CobbledBlocks.STRIPPED_APRICORN_LOG.get())
@@ -164,8 +159,6 @@ object PokemonCobbled {
 
         SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
         SERVER_POST.register { spawnerManagers.forEach { it.onServerTick() } }
-
-
     }
 
     fun getLevel(dimension: ResourceKey<Level>): Level? {
@@ -185,7 +178,7 @@ object PokemonCobbled {
 
     fun loadConfig() {
         val configFile = File("config/$MODID.json")
-        configFile.mkdirs()
+        configFile.parentFile.mkdirs()
         val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
 
         LOGGER.info(configFile.absolutePath)
