@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
@@ -121,7 +122,7 @@ open class Pokemon {
     val experienceGroup: ExperienceGroup
         get() = form.experienceGroup
 
-    /** All the moves that the Pokémon has learned over its lifetime. */
+    /** All the not-level-up moves that the Pokémon has learned over its lifetime. */
     val learnedMoves = mutableListOf<MoveTemplate>()
 
     var ability: Ability = form.standardAbilities.random().create()
@@ -331,43 +332,6 @@ open class Pokemon {
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
     fun isWild() = storeCoordinates.get() == null
 
-    fun notify(packet: PokemonUpdatePacket) {
-        storeCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }
-    }
-
-    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket)? = null): SimpleObservable<T> {
-        observables.add(observable)
-        if (notifyPacket != null) {
-            observable.subscribe {
-                storeCoordinates.get() ?: return@subscribe
-                notify(notifyPacket(it))
-            }
-        }
-        observable.subscribe { anyChangeObservable.emit(Unit) }
-        return observable
-    }
-
-    private val observables = mutableListOf<Observable<*>>()
-    private val anyChangeObservable = SimpleObservable<Unit>()
-
-    fun getAllObservables() = observables.asIterable()
-    /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
-    fun getChangeObservable(): Observable<Unit> = anyChangeObservable
-
-    private val _form = SimpleObservable<FormData>()
-    private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
-    private val _experience = registerObservable(SimpleObservable<Int>()) { ExperienceUpdatePacket(this, it) }
-    private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
-    private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket(this, it) }
-    private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket(this, it) }
-    private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
-    private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
-    private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
-    private val _moveSet = registerObservable(SimpleObservable<MoveSet>()) { MoveSetUpdatePacket(this, moveSet) }
-    private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
-
-    fun getMoveSetObservable() = _moveSet
-
     private fun validFriendship (value : Int) : Boolean {
         return value in 0..255
     }
@@ -387,6 +351,40 @@ open class Pokemon {
         val value = friendship - amount
         if (validFriendship(value)) friendship = value
         return friendship == value
+    }
+
+    fun initialize() {
+
+        // TODO some other initializations to do with form and gender n shit
+        initializeMoveset()
+    }
+
+    fun initializeMoveset(preferLatest: Boolean = true) {
+        val possibleMoves = form.levelUpMoves.getMovesUpTo(level).toMutableList()
+
+        moveSet.clear()
+        if (possibleMoves.isEmpty()) {
+            moveSet.add(Moves.getExceptional().create())
+            return
+        }
+
+        val selector: () -> MoveTemplate? = {
+            if (preferLatest) {
+                possibleMoves.removeLastOrNull()
+            } else {
+                val random = possibleMoves.randomOrNull()
+                if (random != null) {
+                    possibleMoves.remove(random)
+                }
+                random
+            }
+        }
+
+        for (i in 0 until 4) {
+            val move = selector() ?: break
+            moveSet.setMove(i, move.create())
+        }
+
     }
 
     fun getExperienceToNextLevel() = getExperienceToLevel(level + 1)
@@ -431,4 +429,41 @@ open class Pokemon {
     }
 
     fun levelUp() = addExperience(getExperienceToNextLevel())
+
+    fun notify(packet: PokemonUpdatePacket) {
+        storeCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }
+    }
+
+    fun <T> registerObservable(observable: SimpleObservable<T>, notifyPacket: ((T) -> PokemonUpdatePacket)? = null): SimpleObservable<T> {
+        observables.add(observable)
+        if (notifyPacket != null) {
+            observable.subscribe {
+                storeCoordinates.get() ?: return@subscribe
+                notify(notifyPacket(it))
+            }
+        }
+        observable.subscribe { anyChangeObservable.emit(Unit) }
+        return observable
+    }
+
+    private val observables = mutableListOf<Observable<*>>()
+    private val anyChangeObservable = SimpleObservable<Unit>()
+
+    fun getAllObservables() = observables.asIterable()
+    /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
+    fun getChangeObservable(): Observable<Unit> = anyChangeObservable
+
+    private val _form = SimpleObservable<FormData>()
+    private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
+    private val _experience = registerObservable(SimpleObservable<Int>()) { ExperienceUpdatePacket(this, it) }
+    private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
+    private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket(this, it) }
+    private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket(this, it) }
+    private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
+    private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
+    private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
+    private val _moveSet = registerObservable(SimpleObservable<MoveSet>()) { MoveSetUpdatePacket(this, moveSet) }
+    private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
+
+    fun getMoveSetObservable() = _moveSet
 }

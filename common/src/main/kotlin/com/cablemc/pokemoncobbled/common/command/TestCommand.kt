@@ -46,12 +46,8 @@ object TestCommand {
             )
 
             // Enemy variables
-            val enemyId = UUID.randomUUID()
             val pokemon = Pokemon().apply { species = PokemonSpecies.MAGIKARP }
-            pokemon.moveSet.setMove(0, Moves.TACKLE.create())
-            pokemon.moveSet.setMove(1, Moves.AERIAL_ACE.create())
-            pokemon.moveSet.setMove(2, Moves.AIR_SLASH.create())
-            pokemon.moveSet.setMove(3, Moves.SPLASH.create())
+            pokemon.moveSet.add(Moves.getByName("splash")!!.create()) // TODO remove when move loading works properly
             val enemyPokemon = BattlePokemon(pokemon)
 
             val enemyPokemon2 = BattlePokemon(PokemonSpecies.BLASTOISE.create())

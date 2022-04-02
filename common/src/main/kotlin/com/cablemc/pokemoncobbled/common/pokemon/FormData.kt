@@ -35,7 +35,9 @@ data class FormData(
     @SerializedName("shoulderMountable")
     private val _shoulderMountable: Boolean? = null,
     @SerializedName("shoulderEffects")
-    private val _shoulderEffects: MutableList<ShoulderEffect>? = null
+    private val _shoulderEffects: MutableList<ShoulderEffect>? = null,
+    @SerializedName("levelUpMoves")
+    private val _levelUpMoves: LevelUpMoves? = null
 ) {
     val baseStats: PokemonStats
         get() = _baseStats ?: species.baseStats
@@ -69,6 +71,9 @@ data class FormData(
 
     val shoulderEffects: MutableList<ShoulderEffect>
         get() = _shoulderEffects ?: species.shoulderEffects
+
+    val levelUpMoves: LevelUpMoves
+        get() = _levelUpMoves ?: species.levelUpMoves
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)

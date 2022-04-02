@@ -11,10 +11,15 @@ import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.util.asResource
 import com.cablemc.pokemoncobbled.common.util.isServerSide
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.sendParticlesServer
+import dev.architectury.extensions.network.EntitySpawnExtension
+import dev.architectury.networking.NetworkManager
 import net.minecraft.core.particles.ParticleTypes
+import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.protocol.Packet
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
@@ -25,16 +30,17 @@ import net.minecraft.world.entity.EntityDimensions
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.Pose
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile
+import net.minecraft.world.item.Item
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.EntityHitResult
 import net.minecraft.world.phys.Vec3
 
 class EmptyPokeBallEntity(
-    val pokeBall: PokeBall,
+    var pokeBall: PokeBall,
     level: Level,
     entityType: EntityType<out EmptyPokeBallEntity> = CobbledEntities.EMPTY_POKEBALL_TYPE
-) : ThrowableItemProjectile(entityType, level) {
+) : ThrowableItemProjectile(entityType, level), EntitySpawnExtension {
     enum class CaptureState {
         NOT,
         HIT,
@@ -194,7 +200,11 @@ class EmptyPokeBallEntity(
         }
     }
 
-    override fun getDefaultItem() = CobbledItems.POKE_BALL_TYPE
+    override fun getDefaultItem(): Item = CobbledItems.ballMap[pokeBall]?.get() as Item
+
+    override fun getAddEntityPacket(): Packet<*> {
+        return NetworkManager.createAddEntityPacket(this)
+    }
 
     override fun getDimensions(pPose: Pose) = DIMENSIONS
     fun <T> addEntityProperty(accessor: EntityDataAccessor<T>, initialValue: T): EntityProperty<T> {
@@ -228,5 +238,13 @@ class EmptyPokeBallEntity(
             pokemonEntity.isInvisible = true
             captureState.set(CaptureState.FALL.ordinal.toByte())
         }
+    }
+
+    override fun saveAdditionalSpawnData(buf: FriendlyByteBuf) {
+        buf.writeUtf(pokeBall.name.toString())
+    }
+
+    override fun loadAdditionalSpawnData(buf: FriendlyByteBuf) {
+        pokeBall = PokeBalls.getPokeBall(buf.readUtf().asResource()) ?: PokeBalls.POKE_BALL
     }
 }

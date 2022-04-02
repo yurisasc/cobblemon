@@ -1,0 +1,15 @@
+{
+  "name": "magnetbomb",
+  "type": "Steel",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 60,
+  "accuracy": 100.0,
+  "pp": 20,
+  "priority": 0,
+  "flags": {
+    "bullet": 1,
+    "protect": 1,
+    "mirror": 1
+  }
+}

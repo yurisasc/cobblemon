@@ -1,0 +1,13 @@
+{
+  "name": "curse",
+  "type": "Ghost",
+  "damageCategory": "Status",
+  "target": "randomNormal",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0,
+  "flags": {
+    "bypasssub": 1
+  }
+}

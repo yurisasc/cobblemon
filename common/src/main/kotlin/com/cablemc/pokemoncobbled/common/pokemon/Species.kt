@@ -32,10 +32,15 @@ class Species {
     val hiddenAbility: AbilityTemplate? = null
     val shoulderMountable: Boolean = false
     val shoulderEffects = mutableListOf<ShoulderEffect>()
+    val levelUpMoves = LevelUpMoves()
 
     var forms = mutableListOf(FormData())
 
     fun types(form: Int): Iterable<ElementalType> = forms[form].types
 
-    fun create() = Pokemon().apply { species = this@Species }
+    fun create(level: Int = 5) = Pokemon().apply {
+        species = this@Species
+        this.level = level
+        initialize()
+    }
 }
