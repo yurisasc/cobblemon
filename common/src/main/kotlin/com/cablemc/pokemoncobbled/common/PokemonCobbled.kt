@@ -92,7 +92,6 @@ object PokemonCobbled {
         CobbledItems.register()
         CobbledSounds.register()
         CobbledNetwork.register()
-        CobbledKeybinds.register()
         CobbledFeatures.register()
         SETUP.register {
             CobbledConfiguredFeatures.register()
