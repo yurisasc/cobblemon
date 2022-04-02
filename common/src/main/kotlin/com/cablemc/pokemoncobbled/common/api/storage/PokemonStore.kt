@@ -125,6 +125,7 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
         if (get(currentPosition.position) != pokemon) {
             return false
         }
+        pokemon.recall()
         setAtPosition(currentPosition.position, null)
         return true
     }

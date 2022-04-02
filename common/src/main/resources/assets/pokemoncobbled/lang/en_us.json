@@ -77,6 +77,9 @@
   "pokemoncobbled.battle.your_team": "Your Team:",
   "pokemoncobbled.battle.must_switch": "Choose a Pokémon to switch in",
 
+  "pokemoncobbled.experience.gained": "%1$s received %2$s experience.",
+  "pokemoncobbled.experience.level_up": "%1$s has reached level %2$s!",
+
   "pokemoncobbled.type.fire": "Fire",
   "pokemoncobbled.type.water": "Water",
   "pokemoncobbled.type.grass": "Grass",

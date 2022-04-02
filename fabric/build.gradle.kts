@@ -51,6 +51,8 @@ dependencies {
     // For Showdown
     bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
     bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+    runtimeOnly("com.caoccao.javet:javet:1.0.6") // Linux or Windows
+    runtimeOnly("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
 //    common group: 'commons-io', name: 'commons-io', version: '2.6'
 }
 
