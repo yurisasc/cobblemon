@@ -70,7 +70,7 @@ class ApricornBlock(properties: Properties, val itemSupplier: Supplier<ApricornI
 
     override fun canSurvive(blockState: BlockState, levelReader: LevelReader, blockPos: BlockPos): Boolean {
         val relativeState = levelReader.getBlockState(blockPos.relative(blockState.getValue(FACING)))
-        return relativeState.block == CobbledBlocks.APRICORN_LEAVES
+        return relativeState.block == CobbledBlocks.APRICORN_LEAVES.get()
     }
 
     override fun updateShape(blockState: BlockState, direction: Direction, arg3: BlockState, level: LevelAccessor, neighborBlockPos: BlockPos, arg6: BlockPos): BlockState? {
