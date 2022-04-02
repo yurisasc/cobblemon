@@ -37,9 +37,6 @@ object PokemonCobbledClient {
 
     lateinit var overlay: PartyOverlay
 
-    // Remove once we have a late init of some sort
-    private var registeredColors = false
-
     fun initialize(implementation: PokemonCobbledClientImplementation) {
         LOGGER.info("Initializing Pokémon Cobbled client")
         this.implementation = implementation
@@ -56,6 +53,14 @@ object PokemonCobbledClient {
         PokeBallModelRepository.init()
 
         registerBlockRenderTypes()
+
+        Minecraft.getInstance().blockColors.register(BlockColor { blockState, blockAndTintGetter, blockPos, i ->
+            return@BlockColor 0x71c219;
+        }, CobbledBlocks.APRICORN_LEAVES.get())
+
+        Minecraft.getInstance().itemColors.register(ItemColor { itemStack, i ->
+            return@ItemColor 0x71c219;
+        }, CobbledItems.APRICORN_LEAVES.get())
     }
 
     private fun registerBlockRenderTypes() {
@@ -102,17 +107,6 @@ object PokemonCobbledClient {
     }
 
     fun reloadCodedAssets() {
-        if(!registeredColors) {
-            Minecraft.getInstance().blockColors.register(BlockColor { blockState, blockAndTintGetter, blockPos, i ->
-                return@BlockColor 0x71c219;
-            }, CobbledBlocks.APRICORN_LEAVES.get())
-
-            Minecraft.getInstance().itemColors.register(ItemColor { itemStack, i ->
-                return@ItemColor 0x71c219;
-            }, CobbledItems.APRICORN_LEAVES.get())
-
-            registeredColors = true
-        }
         BedrockAnimationRepository.clear()
         PokemonModelRepository.reload()
         PokeBallModelRepository.reload()
