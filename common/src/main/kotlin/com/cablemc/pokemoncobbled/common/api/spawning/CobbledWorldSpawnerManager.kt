@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.PlayerSpawner
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.PlayerSpawnerFactory
 import dev.architectury.event.events.common.PlayerEvent
@@ -33,6 +34,11 @@ object CobbledWorldSpawnerManager : SpawnerManager() {
     }
 
     fun onPlayerLogin(player: ServerPlayer) {
+        // Disables spawning
+        if(!PokemonCobbled.config.enableSpawning) {
+            return;
+        }
+
         val spawner = PlayerSpawnerFactory.create(this, player)
         spawnersForPlayers[player.uuid] = spawner
         registerSpawner(spawner)
