@@ -38,6 +38,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
+import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
@@ -49,8 +50,10 @@ import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.google.gson.GsonBuilder
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
+import dev.architectury.event.events.common.LifecycleEvent.SETUP
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.TickEvent.SERVER_POST
+import dev.architectury.hooks.item.tool.AxeItemHooks
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -86,9 +89,15 @@ object PokemonCobbled {
         this.loadConfig()
         this.implementation = implementation
         CobbledEntities.register()
+        CobbledBlocks.register()
         CobbledItems.register()
         CobbledSounds.register()
         CobbledNetwork.register()
+        CobbledFeatures.register()
+        SETUP.register {
+            CobbledConfiguredFeatures.register()
+            CobbledPlacements.register()
+        }
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
@@ -99,7 +108,7 @@ object PokemonCobbled {
     }
 
     fun initialize() {
-//        showdownThread.start()
+        showdownThread.start()
 
         Moves.load()
         LOGGER.info("Loaded ${Moves.count()} Moves.")
@@ -115,6 +124,9 @@ object PokemonCobbled {
         }
 
         SERVER_STARTED.register {
+            AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_LOG.get(), CobbledBlocks.STRIPPED_APRICORN_LOG.get())
+            AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_WOOD.get(), CobbledBlocks.STRIPPED_APRICORN_WOOD.get())
+
             // TODO config options for default storage
             val pokemonStoreRoot = it.getWorldPath(LevelResource.PLAYER_DATA_DIR).parent.resolve("pokemon").toFile()
             storage.registerFactory(

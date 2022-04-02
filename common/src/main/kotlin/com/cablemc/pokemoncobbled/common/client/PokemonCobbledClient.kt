@@ -1,5 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client
 
+import com.cablemc.pokemoncobbled.common.CobbledBlocks
+import com.cablemc.pokemoncobbled.common.CobbledEntities.EMPTY_POKEBALL_TYPE
+import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
+import com.cablemc.pokemoncobbled.common.CobbledItems
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
@@ -17,7 +21,13 @@ import com.mojang.blaze3d.vertex.PoseStack
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
+import dev.architectury.registry.client.rendering.RenderTypeRegistry
+import net.minecraft.client.Minecraft
+import net.minecraft.client.color.block.BlockColor
+import net.minecraft.client.color.item.ItemColor
 import net.minecraft.client.model.PlayerModel
+import net.minecraft.client.renderer.ItemBlockRenderTypes
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.LivingEntityRenderer
@@ -32,6 +42,7 @@ object PokemonCobbledClient {
     fun initialize(implementation: PokemonCobbledClientImplementation) {
         LOGGER.info("Initializing Pokémon Cobbled client")
         this.implementation = implementation
+
         CLIENT_PLAYER_JOIN.register { storage.onLogin() }
         CLIENT_PLAYER_QUIT.register { ScheduledTaskTracker.clear() }
 
@@ -45,6 +56,36 @@ object PokemonCobbledClient {
         PokemonModelRepository.init()
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()
+
+        registerBlockRenderTypes()
+
+        Minecraft.getInstance().blockColors.register(BlockColor { blockState, blockAndTintGetter, blockPos, i ->
+            return@BlockColor 0x71c219;
+        }, CobbledBlocks.APRICORN_LEAVES.get())
+
+        Minecraft.getInstance().itemColors.register(ItemColor { itemStack, i ->
+            return@ItemColor 0x71c219;
+        }, CobbledItems.APRICORN_LEAVES.get())
+    }
+
+    private fun registerBlockRenderTypes() {
+        RenderTypeRegistry.register(RenderType.cutout(),
+            CobbledBlocks.APRICORN_DOOR.get(),
+            CobbledBlocks.APRICORN_TRAPDOOR.get(),
+            CobbledBlocks.BLACK_APRICORN_SAPLING.get(),
+            CobbledBlocks.BLUE_APRICORN_SAPLING.get(),
+            CobbledBlocks.GREEN_APRICORN_SAPLING.get(),
+            CobbledBlocks.PINK_APRICORN_SAPLING.get(),
+            CobbledBlocks.RED_APRICORN_SAPLING.get(),
+            CobbledBlocks.WHITE_APRICORN_SAPLING.get(),
+            CobbledBlocks.YELLOW_APRICORN_SAPLING.get(),
+            CobbledBlocks.BLACK_APRICORN.get(),
+            CobbledBlocks.BLUE_APRICORN.get(),
+            CobbledBlocks.GREEN_APRICORN.get(),
+            CobbledBlocks.PINK_APRICORN.get(),
+            CobbledBlocks.RED_APRICORN.get(),
+            CobbledBlocks.WHITE_APRICORN.get(),
+            CobbledBlocks.YELLOW_APRICORN.get())
     }
 
     fun beforeChatRender(poseStack: PoseStack, partialDeltaTicks: Float) {
