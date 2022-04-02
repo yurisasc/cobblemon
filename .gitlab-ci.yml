@@ -38,6 +38,6 @@ deploy-job:
   artifacts:
     expire_in: 10 days  
     paths:
-      - artifacts/*.jar
+      - ./*.jar
 #      - forge/build/libs/*-forge.jar
 #      - fabric/build/libs/*-remap.jar
