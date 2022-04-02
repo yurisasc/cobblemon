@@ -12,6 +12,8 @@
     "speed": 55
   },
   "catchRate": 45,
+  "experienceGroup": "mediumfast",
+  "baseExperienceYield": 65,
   "baseScale": 0.6,
   "shoulderMountable": true,
   "hitbox": {

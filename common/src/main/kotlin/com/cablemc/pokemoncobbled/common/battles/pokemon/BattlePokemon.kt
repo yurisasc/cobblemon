@@ -43,6 +43,8 @@ open class BattlePokemon(
         get() = effectedPokemon.entity
     var willBeSwitchedIn = false
 
+    val facedOpponents = mutableSetOf<BattlePokemon>()
+
     open fun getName(): MutableComponent {
         return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
             effectedPokemon.species.translatedName

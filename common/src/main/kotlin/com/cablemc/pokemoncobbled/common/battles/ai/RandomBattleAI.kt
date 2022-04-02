@@ -42,7 +42,7 @@ class RandomBattleAI : BattleAI {
         val switches = mutableListOf<UUID>()
         for (pokemon in activePokemon) {
             val switchTo = pokemon.actor.pokemonList.filter { it.canBeSentOut() }.randomOrNull()
-                ?: throw IllegalStateException("Need to switch but no Pokémon to switch to")
+                ?: break //throw IllegalStateException("Need to switch but no Pokémon to switch to")
             switchTo.willBeSwitchedIn = true
             switches.add(switchTo.uuid)
         }

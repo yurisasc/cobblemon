@@ -292,7 +292,7 @@ object ShowdownInterpreter {
         battle.broadcastChatMessage("".text())
         battle.broadcastChatMessage(">>".aqua() + " It is now turn ${message.split("|turn|")[1]}".aqua())
         battle.broadcastChatMessage("".text())
-        battle.actors.forEach { it.turn() }
+        battle.turn()
     }
 
     private fun handleUpkeepInstruction(battle: PokemonBattle, message: String) {
@@ -322,6 +322,7 @@ object ShowdownInterpreter {
 
         battle.broadcastChatMessage(">> ".gold() + battleLang("win", winners).gold())
 
+        battle.end()
         BattleRegistry.closeBattle(battle)
     }
 
