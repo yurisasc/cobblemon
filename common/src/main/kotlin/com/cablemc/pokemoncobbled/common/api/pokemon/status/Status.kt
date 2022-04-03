@@ -12,7 +12,7 @@ import net.minecraft.resources.ResourceLocation
 class Status(
     val name: ResourceLocation,
     val nonVolatile: Boolean,
-    private val duration: RandomPeriod
+    private val duration: RandomPeriod = RandomPeriod(0, 0)
 ) {
     /**
      * The random period that this status could last.
