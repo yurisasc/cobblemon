@@ -1,8 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client
 
+import com.cablemc.pokemoncobbled.common.CobbledBlockEntities
 import com.cablemc.pokemoncobbled.common.CobbledBlocks
-import com.cablemc.pokemoncobbled.common.CobbledEntities.EMPTY_POKEBALL_TYPE
-import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
 import com.cablemc.pokemoncobbled.common.CobbledItems
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
@@ -10,6 +9,7 @@ import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.client.gui.PartyOverlay
 import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.client.net.ClientPacketRegistrar
+import com.cablemc.pokemoncobbled.common.client.render.block.HealingMachineRenderer
 import com.cablemc.pokemoncobbled.common.client.render.layer.PokemonOnShoulderLayer
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokeBallModelRepository
@@ -21,13 +21,12 @@ import com.mojang.blaze3d.vertex.PoseStack
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
+import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry
 import dev.architectury.registry.client.rendering.RenderTypeRegistry
-import net.minecraft.client.Minecraft
 import net.minecraft.client.color.block.BlockColor
 import net.minecraft.client.color.item.ItemColor
 import net.minecraft.client.model.PlayerModel
-import net.minecraft.client.renderer.ItemBlockRenderTypes
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
@@ -57,6 +56,8 @@ object PokemonCobbledClient {
         PokemonModelRepository.init()
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()
+
+        BlockEntityRendererRegistry.register(CobbledBlockEntities.HEALING_MACHINE.get(), ::HealingMachineRenderer)
 
         registerBlockRenderTypes()
         registerColors()

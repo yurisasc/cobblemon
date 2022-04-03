@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.item.ApricornItem
 import com.cablemc.pokemoncobbled.common.util.ExtendedWoodType
 import com.cablemc.pokemoncobbled.common.world.level.block.ApricornBlock
 import com.cablemc.pokemoncobbled.common.world.level.block.ApricornSaplingBlock
-import dev.architectury.hooks.item.tool.AxeItemHooks
+import com.cablemc.pokemoncobbled.common.world.level.block.HealingMachineBlock
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.core.BlockPos
@@ -60,6 +60,8 @@ object CobbledBlocks {
     val RED_APRICORN = registerApricornBlock("red_apricorn") { CobbledItems.RED_APRICORN.get() }
     val WHITE_APRICORN = registerApricornBlock("white_apricorn") { CobbledItems.WHITE_APRICORN.get() }
     val YELLOW_APRICORN = registerApricornBlock("yellow_apricorn") { CobbledItems.YELLOW_APRICORN.get() }
+
+    val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).sound(SoundType.METAL).strength(2f).noOcclusion()) }
 
     fun register() {
         blockRegister.register()

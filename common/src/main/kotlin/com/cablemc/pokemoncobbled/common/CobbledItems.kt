@@ -58,6 +58,8 @@ object CobbledItems {
     val APRICORN_SLAB = queue("apricorn_slab") { blockItem(CobbledBlocks.APRICORN_SLAB.get(), CreativeModeTab.TAB_BUILDING_BLOCKS) }
     val APRICORN_STAIRS = queue("apricorn_stairs") { blockItem(CobbledBlocks.APRICORN_STAIRS.get(), CreativeModeTab.TAB_BUILDING_BLOCKS) }
 
+    val HEALING_MACHINE = queue("healing_machine") { blockItem(CobbledBlocks.HEALING_MACHINE.get(), CreativeModeTab.TAB_REDSTONE) }
+
     private fun blockItem(block: Block, tab: CreativeModeTab) : BlockItem {
         return BlockItem(block, Item.Properties().tab(tab))
     }
