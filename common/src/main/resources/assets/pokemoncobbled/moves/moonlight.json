@@ -1,0 +1,14 @@
+{
+  "name": "moonlight",
+  "type": "Fairy",
+  "damageCategory": "Status",
+  "target": "self",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 5,
+  "priority": 0,
+  "flags": {
+    "snatch": 1,
+    "heal": 1
+  }
+}

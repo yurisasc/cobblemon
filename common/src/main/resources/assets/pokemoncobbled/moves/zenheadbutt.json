@@ -1,0 +1,16 @@
+{
+  "name": "zenheadbutt",
+  "type": "Psychic",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 80,
+  "accuracy": 90,
+  "pp": 15,
+  "priority": 0,
+  "effectChance": 20,
+  "flags": {
+    "contact": 1,
+    "protect": 1,
+    "mirror": 1
+  }
+}

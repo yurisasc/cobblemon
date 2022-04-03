@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "pokemoncobbled",
+  "version": "${version}",
+
+  "name": "Pokémon Cobbled",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Me!"
+  ],
+  "contact": {
+    "homepage": "https://pokemoncobbled.com",
+    "sources": "https://gitlab.com/cable-mc/pokemon-cobbled"
+  },
+
+  "license": "MPL-2.0",
+  "icon": "assets/pokemoncobbled/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.cablemc.pokemoncobbled.fabric.FabricBootstrap"
+    ],
+    "client": [
+      "com.cablemc.pokemoncobbled.fabric.client.FabricClientBootstrap"
+    ]
+  },
+  "mixins": [
+    "mixins.pokemoncobbled-common.json",
+    "mixins.pokemoncobbled-fabric.json"
+  ],
+  "accessWidener": "pokemoncobbled-common.accesswidener",
+  "depends": {
+    "fabricloader": ">=0.13.3",
+    "fabric": "*",
+    "minecraft": ">=1.18.2",
+    "java": ">=17"
+  }
+}

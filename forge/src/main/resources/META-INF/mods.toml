@@ -1,0 +1,31 @@
+modLoader="javafml" #mandatory
+loaderVersion="[40,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+license="MPL2.0"
+issueTrackerURL="https://gitlab.com/cable-mc/pokemon-cobbled/-/issues"
+
+[[mods]] #mandatory
+modId="pokemoncobbled" #mandatory
+version="${version}" #mandatory
+displayName="PokemonCobbled" #mandatory
+#logoFile="examplemod.png" #optional
+credits="Thanks me"
+authors="The Cobbled Team"
+description='''
+ This is a Pokémon mod
+'''
+
+# A URL for the "homepage" for this mod, displayed in the mod UI
+#displayURL="https://change.me.to.your.mods.homepage.example.invalid/" #optional
+# A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
+#updateJSONURL="https://change.me.example.invalid/updates.json" #optional
+
+
+[[dependencies.pokemoncobbled]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.18.2,1.19)"
+
+[[dependencies.pokemoncobbled]]
+modId="forge" #mandatory
+mandatory=true #mandatory
+versionRange="[40,)" #mandatory

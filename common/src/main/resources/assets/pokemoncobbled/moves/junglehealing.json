@@ -1,0 +1,15 @@
+{
+  "name": "junglehealing",
+  "type": "Grass",
+  "damageCategory": "Status",
+  "target": "allies",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0,
+  "flags": {
+    "heal": 1,
+    "bypasssub": 1,
+    "allyanim": 1
+  }
+}

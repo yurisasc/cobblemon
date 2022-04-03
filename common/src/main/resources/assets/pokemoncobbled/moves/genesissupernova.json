@@ -1,0 +1,12 @@
+{
+  "name": "genesissupernova",
+  "type": "Psychic",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 185,
+  "accuracy": 100.0,
+  "pp": 1,
+  "priority": 0,
+  "effectChance": 100,
+  "flags": {}
+}
