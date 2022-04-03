@@ -1,9 +1,11 @@
 package com.cablemc.pokemoncobbled.common.config
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
+import com.cablemc.pokemoncobbled.common.util.RandomPeriod
 
 class CobbledConfig {
-
     @NodeCategory(Category.Pokemon)
     @IntConstraint(min = 1, max = 1000)
     var maxPokemonLevel = 100
@@ -42,4 +44,9 @@ class CobbledConfig {
 
     @NodeCategory(Category.Battles)
     var autoUpdateShowdown = true
+
+    @NodeCategory(Category.PassiveStatus)
+    var passiveStatuses = mutableMapOf(
+        Statuses.BURN.configEntry()
+    )
 }
