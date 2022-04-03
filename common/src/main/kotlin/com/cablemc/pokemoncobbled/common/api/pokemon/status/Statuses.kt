@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.status
 
-import com.cablemc.pokemoncobbled.common.util.RandomPeriod
+import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.resources.ResourceLocation
 
@@ -13,9 +13,9 @@ import net.minecraft.resources.ResourceLocation
 object Statuses {
     private val allStatuses = mutableListOf<Status>()
 
-    val BURN = registerStatus(Status(name = cobbledResource("burn"), nonVolatile = true, duration = RandomPeriod(180, 300)))
+    val BURN = registerStatus(PersistentStatus(name = cobbledResource("burn"), duration = IntRange(180, 300)))
 
-    fun registerStatus(status: Status) : Status {
+    fun <T: Status> registerStatus(status: T) : T {
         allStatuses.add(status)
         return status
     }

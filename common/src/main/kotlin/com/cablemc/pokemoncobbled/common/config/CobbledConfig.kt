@@ -1,9 +1,7 @@
 package com.cablemc.pokemoncobbled.common.config
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
-import com.cablemc.pokemoncobbled.common.util.RandomPeriod
 
 class CobbledConfig {
     @NodeCategory(Category.Pokemon)

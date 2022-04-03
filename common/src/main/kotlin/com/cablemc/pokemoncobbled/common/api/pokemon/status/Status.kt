@@ -1,7 +1,5 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.status
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.util.RandomPeriod
 import net.minecraft.resources.ResourceLocation
 
 /**
@@ -9,24 +7,8 @@ import net.minecraft.resources.ResourceLocation
  *
  * @author Deltric
  */
-class Status(
+open class Status(
     val name: ResourceLocation,
-    val nonVolatile: Boolean,
-    private val duration: RandomPeriod = RandomPeriod(0, 0)
 ) {
-    /**
-     * The random period that this status could last.
-     * @return the random period of the status.
-     */
-    fun statusPeriod(): RandomPeriod {
-        return PokemonCobbled.config.passiveStatuses[name.toString()] ?: duration
-    }
 
-    /**
-     * The status's period as a config entry.
-     * @return Status id with random period as a pair.
-     */
-    fun configEntry(): Pair<String, RandomPeriod> {
-        return name.toString() to duration
-    }
 }

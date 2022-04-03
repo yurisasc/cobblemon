@@ -48,6 +48,7 @@ import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.entity.pokemon.CobbledAgingDespawner
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.google.gson.GsonBuilder
@@ -181,7 +182,11 @@ object PokemonCobbled {
     fun loadConfig() {
         val configFile = File("config/$MODID.json")
         configFile.parentFile.mkdirs()
-        val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
+        val gson = GsonBuilder()
+            .disableHtmlEscaping()
+            .setPrettyPrinting()
+            .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
+            .create()
 
         LOGGER.info(configFile.absolutePath)
 

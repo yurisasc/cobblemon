@@ -10,8 +10,7 @@ import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
-import com.cablemc.pokemoncobbled.common.api.pokemon.status.Status
-import com.cablemc.pokemoncobbled.common.api.pokemon.status.StatusContainer
+import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
@@ -28,6 +27,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonStat
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.lang
@@ -61,7 +61,7 @@ open class Pokemon {
             field = min(hp, value)
             _currentHealth.emit(field)
         }
-    var status: StatusContainer? = null
+    var status: PersistentStatusContainer? = null
         private set
     var level = 1
         set(value) {
@@ -170,12 +170,8 @@ open class Pokemon {
         this.currentHealth = hp
     }
 
-    fun canApplyStatus(status: Status): Boolean {
-        return this.status == null || !status.nonVolatile
-    }
-
-    fun applyStatus(status: Status) {
-        this.status = StatusContainer(status)
+    fun applyStatus(status: PersistentStatus) {
+        this.status = PersistentStatusContainer(status)
         if(this.status != null) {
             this._status.emit(this.status!!.status.name.toString())
         }
@@ -228,7 +224,7 @@ open class Pokemon {
         }
         if(nbt.contains(DataKeys.POKEMON_STATUS)) {
             val statusNBT = nbt.getCompound(DataKeys.POKEMON_STATUS)
-            status = StatusContainer.loadFromNBT(statusNBT)
+            status = PersistentStatusContainer.loadFromNBT(statusNBT)
         }
         return this
     }
@@ -276,7 +272,7 @@ open class Pokemon {
         }
         if(json.has(DataKeys.POKEMON_STATUS)) {
             val statusJson = json.get(DataKeys.POKEMON_STATUS).asJsonObject
-            status = StatusContainer.loadFromJSON(statusJson)
+            status = PersistentStatusContainer.loadFromJSON(statusJson)
         }
         return this
     }
@@ -318,8 +314,8 @@ open class Pokemon {
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
         val status = Statuses.getStatus(ResourceLocation(buffer.readUtf()))
-        if(status != null) {
-            this.status = StatusContainer(status, 0)
+        if(status != null && status is PersistentStatus) {
+            this.status = PersistentStatusContainer(status, 0)
         }
         return this
     }
