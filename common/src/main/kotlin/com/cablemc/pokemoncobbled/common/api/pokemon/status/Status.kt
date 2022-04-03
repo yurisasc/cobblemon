@@ -27,6 +27,6 @@ class Status(
      * @return Status id with random period as a pair.
      */
     fun configEntry(): Pair<String, RandomPeriod> {
-        return Pair(name.toString(), duration)
+        return name.toString() to duration
     }
 }
