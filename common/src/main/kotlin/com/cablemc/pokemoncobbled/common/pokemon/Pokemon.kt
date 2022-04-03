@@ -10,6 +10,8 @@ import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
+import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
+import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
@@ -19,20 +21,13 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.lang
@@ -42,6 +37,7 @@ import com.cablemc.pokemoncobbled.common.util.writeMapK
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
@@ -65,6 +61,8 @@ open class Pokemon {
             field = min(hp, value)
             _currentHealth.emit(field)
         }
+    var status: PersistentStatusContainer? = null
+        private set
     var level = 1
         set(value) {
             if (value < 1) {
@@ -172,6 +170,13 @@ open class Pokemon {
         this.currentHealth = hp
     }
 
+    fun applyStatus(status: PersistentStatus) {
+        this.status = PersistentStatusContainer(status)
+        if(this.status != null) {
+            this._status.emit(this.status!!.status.name.toString())
+        }
+    }
+
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
@@ -189,7 +194,8 @@ open class Pokemon {
         val abilityNBT = ability.saveToNBT(CompoundTag())
         nbt.put(DataKeys.POKEMON_ABILITY, abilityNBT)
         state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
-            return nbt
+        status?.saveToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
+        return nbt
     }
 
     fun loadFromNBT(nbt: CompoundTag): Pokemon {
@@ -216,6 +222,10 @@ open class Pokemon {
             val clazz = PokemonState.states[type]
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromNBT(stateNBT) ?: InactivePokemonState()
         }
+        if(nbt.contains(DataKeys.POKEMON_STATUS)) {
+            val statusNBT = nbt.getCompound(DataKeys.POKEMON_STATUS)
+            status = PersistentStatusContainer.loadFromNBT(statusNBT)
+        }
         return this
     }
 
@@ -234,6 +244,7 @@ open class Pokemon {
         json.add(DataKeys.POKEMON_ABILITY, ability.saveToJSON(JsonObject()))
         json.addProperty(DataKeys.POKEMON_SHINY, shiny)
         state.writeToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATE, it) }
+        status?.saveToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATUS, it) }
         return json
     }
 
@@ -259,6 +270,10 @@ open class Pokemon {
             val clazz = type?.let { PokemonState.states[it] }
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromJSON(stateJson) ?: InactivePokemonState()
         }
+        if(json.has(DataKeys.POKEMON_STATUS)) {
+            val statusJson = json.get(DataKeys.POKEMON_STATUS).asJsonObject
+            status = PersistentStatusContainer.loadFromJSON(statusJson)
+        }
         return this
     }
 
@@ -277,6 +292,7 @@ open class Pokemon {
         buffer.writeUtf(ability.name)
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
+        buffer.writeUtf(status?.status?.name?.toString() ?: "")
         return buffer
     }
 
@@ -297,6 +313,10 @@ open class Pokemon {
         ability = Abilities.getOrException(buffer.readUtf()).create()
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
+        val status = Statuses.getStatus(ResourceLocation(buffer.readUtf()))
+        if(status != null && status is PersistentStatus) {
+            this.status = PersistentStatusContainer(status, 0)
+        }
         return this
     }
 
@@ -464,6 +484,7 @@ open class Pokemon {
     private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
     private val _moveSet = registerObservable(SimpleObservable<MoveSet>()) { MoveSetUpdatePacket(this, moveSet) }
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
+    private val _status = registerObservable(SimpleObservable<String>()) { StatusUpdatePacket(this, it) }
 
     fun getMoveSetObservable() = _moveSet
 }
