@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation
 object Statuses {
     private val allStatuses = mutableListOf<Status>()
 
-    val BURN = registerStatus(PersistentStatus(name = cobbledResource("burn"), duration = IntRange(180, 300)))
+    val BURN = registerStatus(PersistentStatus(name = cobbledResource("burn"), defaultDuration = IntRange(180, 300)))
 
     fun <T: Status> registerStatus(status: T) : T {
         allStatuses.add(status)

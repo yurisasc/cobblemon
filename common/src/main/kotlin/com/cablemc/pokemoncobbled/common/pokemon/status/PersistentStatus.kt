@@ -11,14 +11,14 @@ import net.minecraft.resources.ResourceLocation
  */
 class PersistentStatus(
     name: ResourceLocation,
-    private val duration: IntRange = IntRange(0, 0)
+    private val defaultDuration: IntRange = 0..0
 ) : Status(name) {
     /**
      * The random period that this status could last.
      * @return the random period of the status.
      */
     fun statusPeriod(): IntRange {
-        return PokemonCobbled.config.passiveStatuses[name.toString()] ?: duration
+        return PokemonCobbled.config.passiveStatuses[name.toString()] ?: defaultDuration
     }
 
     /**
@@ -26,6 +26,6 @@ class PersistentStatus(
      * @return Status id with random period as a pair.
      */
     fun configEntry(): Pair<String, IntRange> {
-        return name.toString() to duration
+        return name.toString() to defaultDuration
     }
 }
