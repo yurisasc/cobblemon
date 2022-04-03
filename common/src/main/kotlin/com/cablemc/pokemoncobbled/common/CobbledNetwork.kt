@@ -4,15 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
@@ -68,6 +60,7 @@ object CobbledNetwork {
         buildClientMessage<SpeciesUpdatePacket>()
         buildClientMessage<HealthUpdatePacket>()
         buildClientMessage<ExperienceUpdatePacket>()
+        buildClientMessage<StatusUpdatePacket>()
 
         // Storage Packets
         buildClientMessage<InitializePartyPacket>()
