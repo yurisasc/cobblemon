@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.world.level.block
 
+import com.cablemc.pokemoncobbled.common.CobbledBlockEntities
 import com.cablemc.pokemoncobbled.common.world.level.block.entity.HealingMachineBlockEntity
+import com.cablemc.pokemoncobbled.common.world.level.block.entity.HealingMachineBlockEntity.Companion
 import net.minecraft.ChatFormatting
 import net.minecraft.Util
 import net.minecraft.core.BlockPos
@@ -14,6 +16,8 @@ import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.*
 import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityTicker
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.StateDefinition
 import net.minecraft.world.level.pathfinder.PathComputationType
@@ -76,4 +80,10 @@ class HealingMachineBlock(properties: Properties) : BaseEntityBlock(properties) 
         return InteractionResult.CONSUME
     }
 
+    override fun <T : BlockEntity> getTicker(level: Level, blockState: BlockState, blockEntityType: BlockEntityType<T>): BlockEntityTicker<T>? {
+        if(blockEntityType != CobbledBlockEntities.HEALING_MACHINE.get()) {
+            return null
+        }
+        return HealingMachineBlockEntity.Companion as BlockEntityTicker<T>
+    }
 }
