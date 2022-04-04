@@ -7,6 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
@@ -22,6 +23,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
@@ -142,6 +144,9 @@ open class Pokemon {
     var evs = EVs.createEmpty()
     var scaleModifier = 1F
 
+    var caughtBall: PokeBall = PokeBalls.POKE_BALL
+        set(value) { field = value ; _caughtBall.emit(caughtBall.name.toString()) }
+
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
     open fun getStat(stat: Stat): Int {
@@ -195,6 +200,7 @@ open class Pokemon {
         nbt.put(DataKeys.POKEMON_ABILITY, abilityNBT)
         state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
         status?.saveToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
+        nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         return nbt
     }
 
@@ -226,6 +232,8 @@ open class Pokemon {
             val statusNBT = nbt.getCompound(DataKeys.POKEMON_STATUS)
             status = PersistentStatusContainer.loadFromNBT(statusNBT)
         }
+        val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
         return this
     }
 
@@ -245,6 +253,7 @@ open class Pokemon {
         json.addProperty(DataKeys.POKEMON_SHINY, shiny)
         state.writeToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATE, it) }
         status?.saveToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATUS, it) }
+        json.addProperty(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         return json
     }
 
@@ -274,6 +283,8 @@ open class Pokemon {
             val statusJson = json.get(DataKeys.POKEMON_STATUS).asJsonObject
             status = PersistentStatusContainer.loadFromJSON(statusJson)
         }
+        val ballName = json.get(DataKeys.POKEMON_CAUGHT_BALL).asString
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
         return this
     }
 
@@ -293,6 +304,7 @@ open class Pokemon {
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
         buffer.writeUtf(status?.status?.name?.toString() ?: "")
+        buffer.writeUtf(caughtBall.name.toString())
         return buffer
     }
 
@@ -317,6 +329,8 @@ open class Pokemon {
         if(status != null && status is PersistentStatus) {
             this.status = PersistentStatusContainer(status, 0)
         }
+        val ballName = buffer.readUtf()
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
         return this
     }
 
@@ -485,6 +499,7 @@ open class Pokemon {
     private val _moveSet = registerObservable(SimpleObservable<MoveSet>()) { MoveSetUpdatePacket(this, moveSet) }
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
     private val _status = registerObservable(SimpleObservable<String>()) { StatusUpdatePacket(this, it) }
+    private val _caughtBall = registerObservable(SimpleObservable<String>()) { CaughtBallUpdatePacket(this, it) }
 
     fun getMoveSetObservable() = _moveSet
 }

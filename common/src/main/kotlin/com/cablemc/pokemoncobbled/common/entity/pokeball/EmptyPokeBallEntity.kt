@@ -167,6 +167,7 @@ class EmptyPokeBallEntity(
                                     pokemon.discard()
                                     discard()
                                     val party = PokemonCobbled.storage.getParty(player.uuid)
+                                    pokemon.pokemon.caughtBall = pokeBall
                                     party.add(pokemon.pokemon)
                                 }
 
