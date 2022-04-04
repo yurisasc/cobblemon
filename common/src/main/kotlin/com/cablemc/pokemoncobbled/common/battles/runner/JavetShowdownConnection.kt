@@ -13,14 +13,10 @@ class JavetShowdownConnection : ShowdownConnection {
     private lateinit var reader: BufferedReader
     private var data = ""
     private var closed = false
+    val serverThread = Thread { ShowdownServer.main(arrayOf(File("showdown/scripts/index.js").canonicalPath)) }
 
     fun initializeServer() {
-        process = exec(ShowdownServer::class.java, listOf(File("showdown/scripts/index.js").canonicalPath))
-        Runtime.getRuntime().addShutdownHook(object : Thread() {
-            override fun run() {
-                close()
-            }
-        })
+        serverThread.start()
     }
 
     override fun open() {
