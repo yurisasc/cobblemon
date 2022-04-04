@@ -81,6 +81,7 @@ class PokemonEntity(
     init {
         this.pokemon = pokemon
         delegate.initialize(this)
+        refreshDimensions()
     }
 
     companion object {
