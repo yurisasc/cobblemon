@@ -1,8 +1,9 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
-import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.google.gson.annotations.SerializedName
 import net.minecraft.world.entity.EntityDimensions
@@ -11,7 +12,7 @@ data class FormData(
     @SerializedName("name")
     val name: String = "normal",
     @SerializedName("baseStats")
-    private val _baseStats: PokemonStats? = null,
+    private val _baseStats: Map<Stat, Int>? = null,
     @SerializedName("maleRatio")
     private val _maleRatio: Float? = null,
     @SerializedName("baseScale")
@@ -39,7 +40,7 @@ data class FormData(
     @SerializedName("levelUpMoves")
     private val _levelUpMoves: LevelUpMoves? = null
 ) {
-    val baseStats: PokemonStats
+    val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
 
     val maleRatio: Float

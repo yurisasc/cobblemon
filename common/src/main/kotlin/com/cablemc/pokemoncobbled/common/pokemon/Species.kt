@@ -1,12 +1,12 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
-import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.util.asTranslated
-import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.entity.EntityDimensions
 
@@ -16,7 +16,7 @@ class Species {
         get() = "pokemoncobbled.species.$name.name".asTranslated()
     var nationalPokedexNumber = 1
 
-    val baseStats = pokemonStatsOf()
+    val baseStats = mapOf<Stat, Int>()
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
     val maleRatio = 0.5F
     val catchRate = 45

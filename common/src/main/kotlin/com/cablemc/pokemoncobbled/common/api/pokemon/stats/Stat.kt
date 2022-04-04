@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.pokemon.stats
+package com.cablemc.pokemoncobbled.common.api.pokemon.stats
 
 interface Stat {
     val id: String
