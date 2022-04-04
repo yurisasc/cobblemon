@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.world.level.block
 
 import com.cablemc.pokemoncobbled.common.CobbledBlockEntities
+import com.cablemc.pokemoncobbled.common.util.party
 import com.cablemc.pokemoncobbled.common.world.level.block.entity.HealingMachineBlockEntity
 import com.cablemc.pokemoncobbled.common.world.level.block.entity.HealingMachineBlockEntity.Companion
 import net.minecraft.ChatFormatting
@@ -8,6 +9,7 @@ import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.TextComponent
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.player.Player
@@ -75,8 +77,27 @@ class HealingMachineBlock(properties: Properties) : BaseEntityBlock(properties) 
         if (level.isClientSide) {
             return InteractionResult.SUCCESS
         }
+
+        val blockEntity = level.getBlockEntity(blockPos)
+        if(blockEntity !is HealingMachineBlockEntity) {
+            return InteractionResult.SUCCESS
+        }
+
+        if(blockEntity.isInUse()) {
+            // TODO: Already in use message
+            player.sendMessage(TextComponent("${ChatFormatting.RED}Already in use"), Util.NIL_UUID)
+            return InteractionResult.SUCCESS
+        }
+
+        val serverPlayer = player as ServerPlayer
+        if(serverPlayer.party().getAll().isEmpty()) {
+            player.sendMessage(TextComponent("${ChatFormatting.RED}You don't have any Pokemon!"), Util.NIL_UUID)
+            return InteractionResult.SUCCESS
+        }
+
+        blockEntity.setUser(player.uuid)
         // TODO: Try heal
-        player.sendMessage(TextComponent("${ChatFormatting.GREEN}Clicky clicky"), Util.NIL_UUID)
+        player.sendMessage(TextComponent("${ChatFormatting.GREEN}You're now being healed!"), Util.NIL_UUID)
         return InteractionResult.CONSUME
     }
 
