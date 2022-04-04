@@ -30,8 +30,9 @@ class MoveSet : Iterable<Move> {
      * Sets the given Move to given position
      */
     fun setMove(pos: Int, move: Move?) {
-        if (pos < 0 || pos > MOVE_COUNT - 1)
+        if (pos !in 0 until MOVE_COUNT) {
             return
+        }
         moves[pos] = move
         update()
     }
@@ -92,6 +93,9 @@ class MoveSet : Iterable<Move> {
     }
 
     fun add(move: Move) {
+        if (any { it.template == move.template }) {
+            return
+        }
         for (i in 0 until MOVE_COUNT) {
             if (moves[i] == null) {
                 moves[i] = move

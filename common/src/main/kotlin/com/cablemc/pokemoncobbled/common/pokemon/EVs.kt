@@ -3,8 +3,8 @@ package com.cablemc.pokemoncobbled.common.pokemon
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 
 class EVs : PokemonStats() {
-
-    // TODO: Force caps on values
+    override val acceptableRange = 0..MAX_STAT_VALUE
+    // TODO: Force caps on total value
 
     companion object {
         const val MAX_STAT_VALUE = 252

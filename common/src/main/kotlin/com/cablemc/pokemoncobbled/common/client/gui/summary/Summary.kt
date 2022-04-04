@@ -49,9 +49,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     }
 
     constructor(party: ClientParty) : this() {
-        party.forEach {
-            pokemonList.add(it)
-        }
+        party.forEach { pokemonList.add(it) }
         currentPokemon = pokemonList[PokemonCobbledClient.storage.selectedSlot]
             ?: pokemonList.filterNotNull().first()
         commonInit()

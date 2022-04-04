@@ -2,11 +2,19 @@ package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.pokemon.PokemonStats
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.pokemon.EVs
+import com.cablemc.pokemoncobbled.common.pokemon.IVs
 import kotlin.math.max
 import kotlin.random.Random
 
-fun pokemonStatsOf(vararg entries: Pair<Stat, Int>): PokemonStats {
-    val stats = PokemonStats()
+fun ivsOf(vararg entries: Pair<Stat, Int>): PokemonStats {
+    val stats = IVs()
+    entries.forEach { (stat, amount) -> stats[stat] = amount }
+    return stats
+}
+
+fun evsOf(vararg entries: Pair<Stat, Int>): PokemonStats {
+    val stats = EVs()
     entries.forEach { (stat, amount) -> stats[stat] = amount }
     return stats
 }
