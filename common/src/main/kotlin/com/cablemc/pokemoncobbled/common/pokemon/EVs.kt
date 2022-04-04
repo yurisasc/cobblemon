@@ -1,15 +1,14 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
-import kotlin.random.Random
 
 class EVs : PokemonStats() {
 
     // TODO: Force caps on values
 
     companion object {
-        val maxStatValue = 252
-        val maxTotalValue = 510
+        const val MAX_STAT_VALUE = 252
+        const val MAX_TOTAL_VALUE = 510
 
         fun createEmpty() : EVs {
             val evs = EVs()

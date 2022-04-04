@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.pokemon.PokemonStats
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import kotlin.math.max
 import kotlin.random.Random
 

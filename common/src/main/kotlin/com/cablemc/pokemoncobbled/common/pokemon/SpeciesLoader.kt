@@ -12,7 +12,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.adapter.ShoulderEffe
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
 import java.io.InputStreamReader

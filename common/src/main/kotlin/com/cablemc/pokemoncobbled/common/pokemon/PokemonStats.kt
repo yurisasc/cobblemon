@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
 
