@@ -37,6 +37,8 @@ import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.Tag.TAG_COMPOUND
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
