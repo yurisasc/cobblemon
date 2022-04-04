@@ -92,7 +92,8 @@ class EmptyPokeBallEntity(
             if (level.isServerSide()) {
                 super.onHitBlock(hitResult)
                 discard()
-                spawnAtLocation(defaultItem)
+                val player = this.owner as ServerPlayer
+                if (!player.isCreative) spawnAtLocation(defaultItem)
             }
         } else {
             isNoGravity = false
@@ -107,6 +108,8 @@ class EmptyPokeBallEntity(
                 val pokemon = hitResult.entity as PokemonEntity
                 if (pokemon.isBusy || !pokemon.pokemon.isWild()) {
                     discard()
+                    val player = this.owner as ServerPlayer
+                    if (!player.isCreative) spawnAtLocation(defaultItem)
                     return
                 }
                 capturingPokemon = pokemon
