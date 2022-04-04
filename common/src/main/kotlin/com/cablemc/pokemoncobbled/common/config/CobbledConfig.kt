@@ -2,8 +2,18 @@ package com.cablemc.pokemoncobbled.common.config
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
+import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
+import com.google.gson.GsonBuilder
 
 class CobbledConfig {
+    companion object {
+        val GSON = GsonBuilder()
+            .disableHtmlEscaping()
+            .setPrettyPrinting()
+            .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
+            .create()
+    }
+    
     @NodeCategory(Category.Pokemon)
     @IntConstraint(min = 1, max = 1000)
     var maxPokemonLevel = 100
