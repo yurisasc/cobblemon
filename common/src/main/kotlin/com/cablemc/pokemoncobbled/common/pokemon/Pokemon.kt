@@ -3,14 +3,16 @@ package com.cablemc.pokemoncobbled.common.pokemon
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
+import com.cablemc.pokemoncobbled.common.api.moves.BenchedMoves
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
-import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
-import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
@@ -19,23 +21,24 @@ import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
+import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.readMapK
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
-import com.cablemc.pokemoncobbled.common.util.writeMapK
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.Tag.TAG_COMPOUND
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -53,6 +56,7 @@ open class Pokemon {
             field = value
             currentHealth = quotient * hp
             _species.emit(value)
+            form = species.forms.first() // Use proper form selection
         }
     var form = species.forms.first()
         set(value) { field = value ; _form.emit(value) }
@@ -114,14 +118,17 @@ open class Pokemon {
     var mintedNature: Nature? = null
         set(value) { field = value ; _mintedNature.emit(value?.name?.toString() ?: "") }
 
-    var moveSet: MoveSet = MoveSet()
-        set(value) { field = value ; _moveSet.emit(value) }
+    val moveSet = MoveSet()
 
     val experienceGroup: ExperienceGroup
         get() = form.experienceGroup
 
-    /** All the not-level-up moves that the Pokémon has learned over its lifetime. */
-    val learnedMoves = mutableListOf<MoveTemplate>()
+    /**
+     * All moves that the Pokémon has, at some point, known. This is to allow players to
+     * swap in moves they've used before at any time, while holding onto the remaining PP
+     * that they had last.
+     */
+    val benchedMoves = BenchedMoves()
 
     var ability: Ability = form.standardAbilities.random().create()
 
@@ -142,14 +149,20 @@ open class Pokemon {
     var evs = EVs.createEmpty()
     var scaleModifier = 1F
 
+    var caughtBall: PokeBall = PokeBalls.POKE_BALL
+        set(value) { field = value ; _caughtBall.emit(caughtBall.name.toString()) }
+
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
     open fun getStat(stat: Stat): Int {
         return if (stat == Stats.HP) {
-            // TODO shedinja should just return 1
-            (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4) * level) / 100 + level + 10
+            if (species.name == "shedinja") {
+                1
+            } else {
+                (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4) * level) / 100 + level + 10
+            }
         } else {
-            nature.modifyStat(stat, (2 * form.baseStats.getOrOne(stat) * ivs.getOrOne(stat) + evs.getOrOne(stat) / 4) / 100 * level + 5)
+            nature.modifyStat(stat, (2 * (form.baseStats[stat] ?: 1) * ivs.getOrOne(stat) + evs.getOrOne(stat) / 4) / 100 * level + 5)
         }
     }
 
@@ -195,6 +208,8 @@ open class Pokemon {
         nbt.put(DataKeys.POKEMON_ABILITY, abilityNBT)
         state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
         status?.saveToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
+        nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
+        nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(ListTag()))
         return nbt
     }
 
@@ -209,9 +224,8 @@ open class Pokemon {
         currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
         evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
-        moveSet = MoveSet.loadFromNBT(nbt)
+        moveSet.loadFromNBT(nbt)
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
-        learnedMoves.clear()
         val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: CompoundTag()
         val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "drought"
         ability = Abilities.getOrException(abilityName).create(abilityNBT)
@@ -226,6 +240,9 @@ open class Pokemon {
             val statusNBT = nbt.getCompound(DataKeys.POKEMON_STATUS)
             status = PersistentStatusContainer.loadFromNBT(statusNBT)
         }
+        val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
+        benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, TAG_COMPOUND.toInt()))
         return this
     }
 
@@ -245,6 +262,8 @@ open class Pokemon {
         json.addProperty(DataKeys.POKEMON_SHINY, shiny)
         state.writeToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATE, it) }
         status?.saveToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATUS, it) }
+        json.addProperty(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
+        json.add(DataKeys.BENCHED_MOVES, benchedMoves.saveToJSON(JsonArray()))
         return json
     }
 
@@ -259,7 +278,7 @@ open class Pokemon {
         currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
         ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
         evs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_EVS))
-        moveSet = MoveSet.loadFromJSON(json.get(DataKeys.POKEMON_MOVESET).asJsonObject)
+        moveSet.loadFromJSON(json.get(DataKeys.POKEMON_MOVESET).asJsonObject)
         scaleModifier = json.get(DataKeys.POKEMON_SCALE_MODIFIER).asFloat
         val abilityJSON = json.get(DataKeys.POKEMON_ABILITY)?.asJsonObject ?: JsonObject()
         ability = Abilities.getOrException(abilityJSON.get(DataKeys.POKEMON_ABILITY_NAME)?.asString ?: "drought").create(abilityJSON)
@@ -274,6 +293,9 @@ open class Pokemon {
             val statusJson = json.get(DataKeys.POKEMON_STATUS).asJsonObject
             status = PersistentStatusContainer.loadFromJSON(statusJson)
         }
+        val ballName = json.get(DataKeys.POKEMON_CAUGHT_BALL).asString
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
+        benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         return this
     }
 
@@ -285,14 +307,16 @@ open class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(friendship)
         buffer.writeShort(currentHealth)
-        buffer.writeMapK(map = ivs, size = IntSize.U_BYTE) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeByte(value) }
-        buffer.writeMapK(map = evs, size = IntSize.U_SHORT) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        ivs.saveToBuffer(buffer)
+        evs.saveToBuffer(buffer)
         moveSet.saveToBuffer(buffer)
         buffer.writeFloat(scaleModifier)
         buffer.writeUtf(ability.name)
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
         buffer.writeUtf(status?.status?.name?.toString() ?: "")
+        buffer.writeUtf(caughtBall.name.toString())
+        benchedMoves.saveToBuffer(buffer)
         return buffer
     }
 
@@ -306,9 +330,9 @@ open class Pokemon {
         level = buffer.readUnsignedByte().toInt()
         friendship = buffer.readUnsignedShort()
         currentHealth = buffer.readUnsignedShort()
-        buffer.readMapK(map = ivs, size = IntSize.U_BYTE) { Stats.getStat(buffer.readUtf()) to buffer.readUnsignedByte().toInt() }
-        buffer.readMapK(map = evs, size = IntSize.U_SHORT) { Stats.getStat(buffer.readUtf()) to buffer.readUnsignedShort() }
-        moveSet = MoveSet.loadFromBuffer(buffer)
+        ivs.loadFromBuffer(buffer)
+        evs.loadFromBuffer(buffer)
+        moveSet.loadFromBuffer(buffer)
         scaleModifier = buffer.readFloat()
         ability = Abilities.getOrException(buffer.readUtf()).create()
         shiny = buffer.readBoolean()
@@ -317,6 +341,9 @@ open class Pokemon {
         if(status != null && status is PersistentStatus) {
             this.status = PersistentStatusContainer(status, 0)
         }
+        val ballName = buffer.readUtf()
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
+        benchedMoves.loadFromBuffer(buffer)
         return this
     }
 
@@ -374,7 +401,6 @@ open class Pokemon {
     }
 
     fun initialize() {
-
         // TODO some other initializations to do with form and gender n shit
         initializeMoveset()
     }
@@ -382,29 +408,31 @@ open class Pokemon {
     fun initializeMoveset(preferLatest: Boolean = true) {
         val possibleMoves = form.levelUpMoves.getMovesUpTo(level).toMutableList()
 
-        moveSet.clear()
-        if (possibleMoves.isEmpty()) {
-            moveSet.add(Moves.getExceptional().create())
-            return
-        }
+        moveSet.doWithoutEmitting {
+            moveSet.clear()
+            if (possibleMoves.isEmpty()) {
+                moveSet.add(Moves.getExceptional().create())
+                return@doWithoutEmitting
+            }
 
-        val selector: () -> MoveTemplate? = {
-            if (preferLatest) {
-                possibleMoves.removeLastOrNull()
-            } else {
-                val random = possibleMoves.randomOrNull()
-                if (random != null) {
-                    possibleMoves.remove(random)
+            val selector: () -> MoveTemplate? = {
+                if (preferLatest) {
+                    possibleMoves.removeLastOrNull()
+                } else {
+                    val random = possibleMoves.randomOrNull()
+                    if (random != null) {
+                        possibleMoves.remove(random)
+                    }
+                    random
                 }
-                random
+            }
+
+            for (i in 0 until 4) {
+                val move = selector() ?: break
+                moveSet.setMove(i, move.create())
             }
         }
-
-        for (i in 0 until 4) {
-            val move = selector() ?: break
-            moveSet.setMove(i, move.create())
-        }
-
+        moveSet.update()
     }
 
     fun getExperienceToNextLevel() = getExperienceToLevel(level + 1)
@@ -482,9 +510,11 @@ open class Pokemon {
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
     private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
     private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
-    private val _moveSet = registerObservable(SimpleObservable<MoveSet>()) { MoveSetUpdatePacket(this, moveSet) }
+    private val _moveSet = registerObservable(moveSet.observable) { MoveSetUpdatePacket(this, moveSet) }
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
     private val _status = registerObservable(SimpleObservable<String>()) { StatusUpdatePacket(this, it) }
-
-    fun getMoveSetObservable() = _moveSet
+    private val _caughtBall = registerObservable(SimpleObservable<String>()) { CaughtBallUpdatePacket(this, it) }
+    private val _benchedMoves = registerObservable(benchedMoves.observable)
+    private val _ivs = registerObservable(ivs.observable) // TODO consider a packet for it for changed ivs
+    private val _evs = registerObservable(evs.observable) // TODO needs a packet
 }

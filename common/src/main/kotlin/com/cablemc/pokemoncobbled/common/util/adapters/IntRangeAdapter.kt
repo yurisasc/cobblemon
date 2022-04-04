@@ -10,10 +10,10 @@ import java.lang.reflect.Type
 
 /**
  * Adapts an IntRange into a simple hyphenated integer pair string. IntRange(2, 4) is serialized as
- * "2-4", and one-element ranges are serialized as single integers such that IntRange(10, 10) which
+ * "2-4", and one-element ranges are serialized as single integers such that IntRange(10, 10)
  * serializes as "10".
  *
- * @author Hiroku
+ * @author Hiroku, Qu
  * @since February 14th, 2022
  */
 object IntRangeAdapter : JsonSerializer<IntRange>, JsonDeserializer<IntRange> {

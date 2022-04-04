@@ -26,7 +26,8 @@ object Moves {
     }
 
     fun getByName(name: String) = allMoves[name.lowercase()]
-    fun getExceptional() = getByName("struggle") ?: allMoves.values.random()
+    fun getByNameOrDummy(name: String) = allMoves[name.lowercase()] ?: MoveTemplate.dummy(name.lowercase())
+    fun getExceptional() = getByName("tackle") ?: allMoves.values.random()
     fun count() = allMoves.size
 
     /**

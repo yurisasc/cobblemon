@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.item.Flavor
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.Mth.floor
 

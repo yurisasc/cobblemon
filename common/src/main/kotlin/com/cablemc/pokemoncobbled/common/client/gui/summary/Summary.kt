@@ -49,9 +49,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     }
 
     constructor(party: ClientParty) : this() {
-        party.forEach {
-            pokemonList.add(it)
-        }
+        party.forEach { pokemonList.add(it) }
         currentPokemon = pokemonList[PokemonCobbledClient.storage.selectedSlot]
             ?: pokemonList.filterNotNull().first()
         commonInit()
@@ -189,7 +187,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
      * Start observing the MoveSet of the current PKM for changes
      */
     private fun listenToMoveSet() {
-        moveSetSubscription = currentPokemon.getMoveSetObservable()
+        moveSetSubscription = currentPokemon.moveSet.observable
             .pipe(emitWhile { isOpen() })
             .subscribe {
                 if (currentPage is MovesWidget)
