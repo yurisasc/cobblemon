@@ -183,19 +183,13 @@ object PokemonCobbled {
     fun loadConfig() {
         val configFile = File("config/$MODID.json")
         configFile.parentFile.mkdirs()
-        val gson = GsonBuilder()
-            .disableHtmlEscaping()
-            .setPrettyPrinting()
-            .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
-            .create()
-
         LOGGER.info(configFile.absolutePath)
 
         // Check config existence and load if it exists, otherwise create default.
         if (configFile.exists()) {
             try {
                 val fileReader = FileReader(configFile)
-                this.config = gson.fromJson(fileReader, CobbledConfig::class.java)
+                this.config = CobbledConfig.GSON.fromJson(fileReader, CobbledConfig::class.java)
                 fileReader.close()
             } catch (exception: Exception) {
                 LOGGER.error("Failed to load the config! Using default config until the following has been addressed:")
@@ -227,11 +221,10 @@ object PokemonCobbled {
     fun saveConfig() {
         try {
             val configFile = File("config/$MODID.json")
-            val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
             val fileWriter = FileWriter(configFile)
 
             // Put the config to json then flush the writer to commence writing.
-            gson.toJson(this.config, fileWriter)
+            CobbledConfig.GSON.toJson(this.config, fileWriter)
             fileWriter.flush()
             fileWriter.close()
         } catch (exception: Exception) {
