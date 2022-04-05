@@ -44,6 +44,7 @@ class HealingMachineBlockEntity(
         val player = user.getPlayer() ?: return
         val party = player.party()
 
+        pokeBalls.clear()
         pokeBalls.addAll(party.getAll().map { pokemon -> pokemon.caughtBall })
         this.currentUser = user
         this.healTimeLeft = 60
@@ -72,6 +73,8 @@ class HealingMachineBlockEntity(
     override fun load(compoundTag: CompoundTag) {
         super.load(compoundTag)
 
+        pokeBalls.clear()
+
         if(compoundTag.hasUUID("MachineUser")) {
             this.currentUser = compoundTag.getUUID("MachineUser")
         }
@@ -97,16 +100,24 @@ class HealingMachineBlockEntity(
     override fun saveAdditional(compoundTag: CompoundTag) {
         super.saveAdditional(compoundTag)
 
-        compoundTag.putUUID("MachineUser", this.currentUser!!)
-
-        val pokeBallsTag = CompoundTag()
-        var ballIndex = 1
-
-        for(pokeBall in this.pokeBalls) {
-            pokeBallsTag.putString("Pokeball$ballIndex", pokeBall.name.toString())
-            ballIndex++
+        if(this.currentUser != null) {
+            compoundTag.putUUID("MachineUser", this.currentUser!!)
+        } else {
+            compoundTag.remove("MachineUser")
         }
-        compoundTag.put("MachinePokeBalls", pokeBallsTag)
+
+        if(pokeBalls.isNotEmpty()) {
+            val pokeBallsTag = CompoundTag()
+            var ballIndex = 1
+
+            for(pokeBall in this.pokeBalls) {
+                pokeBallsTag.putString("Pokeball$ballIndex", pokeBall.name.toString())
+                ballIndex++
+            }
+            compoundTag.put("MachinePokeBalls", pokeBallsTag)
+        } else {
+            compoundTag.remove("MachinePokeBalls")
+        }
         compoundTag.putInt("MachineTimeLeft", healTimeLeft)
     }
 
