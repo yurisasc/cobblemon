@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.world.level.block.entity
 
 import com.cablemc.pokemoncobbled.common.CobbledBlockEntities
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.util.getPlayer
@@ -10,8 +11,10 @@ import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.TextComponent
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityTicker
@@ -25,6 +28,7 @@ class HealingMachineBlockEntity(
     private var currentUser: UUID? = null
     private var pokeBalls: MutableList<PokeBall> = mutableListOf()
     private var healTimeLeft: Int = 0
+    var healingCharge: Float = 0.0f
 
     fun currentUser(): UUID? {
         return this.currentUser
@@ -52,14 +56,28 @@ class HealingMachineBlockEntity(
         markUpdated()
     }
 
+    fun canHeal(player: ServerPlayer): Boolean {
+        if(PokemonCobbled.config.infiniteHealerCharge) {
+            return true
+        }
+        val neededHealthPercent = player.party().teamHealingPercent()
+        return this.healingCharge >= neededHealthPercent
+    }
+
+    fun activate(player: ServerPlayer) {
+        if(!PokemonCobbled.config.infiniteHealerCharge) {
+            val neededHealthPercent = player.party().teamHealingPercent()
+            this.healingCharge -= neededHealthPercent
+        }
+        this.setUser(player.uuid)
+    }
+
     fun completeHealing() {
         val player = this.currentUser?.getPlayer() ?: return clearData()
         val party = player.party()
 
-        // TODO: Trigger event
-
         party.heal()
-        player.sendMessage(TextComponent("${ChatFormatting.GREEN}Your Pokemon have been healed!"), Util.NIL_UUID)
+        player.sendMessage(TranslatableComponent("healingmachine.healed").withStyle(ChatFormatting.GREEN), Util.NIL_UUID)
         this.clearData()
     }
 
@@ -73,7 +91,7 @@ class HealingMachineBlockEntity(
     override fun load(compoundTag: CompoundTag) {
         super.load(compoundTag)
 
-        pokeBalls.clear()
+        this.pokeBalls.clear()
 
         if(compoundTag.hasUUID("MachineUser")) {
             this.currentUser = compoundTag.getUUID("MachineUser")
@@ -94,6 +112,9 @@ class HealingMachineBlockEntity(
         }
         if(compoundTag.contains("MachineTimeLeft")) {
             this.healTimeLeft = compoundTag.getInt("MachineTimeLeft")
+        }
+        if(compoundTag.contains("MachineCharge")) {
+            this.healingCharge = compoundTag.getFloat("MachineCharge")
         }
     }
 
@@ -118,7 +139,9 @@ class HealingMachineBlockEntity(
         } else {
             compoundTag.remove("MachinePokeBalls")
         }
-        compoundTag.putInt("MachineTimeLeft", healTimeLeft)
+
+        compoundTag.putInt("MachineTimeLeft", this.healTimeLeft)
+        compoundTag.putFloat("MachineCharge", this.healingCharge)
     }
 
     override fun getUpdatePacket(): ClientboundBlockEntityDataPacket {
@@ -140,11 +163,18 @@ class HealingMachineBlockEntity(
                 return
             }
 
+            // Healing progression
             if(tileEntity.healTimeLeft > 0) {
                 tileEntity.healTimeLeft--
-                return
+            } else {
+                tileEntity.completeHealing()
             }
-            tileEntity.completeHealing()
+
+            // Recharging
+            val maxCharge = PokemonCobbled.config.maxHealerCharge
+            if(tileEntity.healingCharge < maxCharge) {
+                tileEntity.healingCharge = (tileEntity.healingCharge + PokemonCobbled.config.chargeGainedPerTick).coerceAtMost(maxCharge)
+            }
         }
     }
 }

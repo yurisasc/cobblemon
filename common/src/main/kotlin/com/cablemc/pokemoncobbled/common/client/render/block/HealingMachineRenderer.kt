@@ -44,15 +44,11 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererProvider.Co
             ) as BlockState)
         val yRot = blockState.getValue(HorizontalDirectionalBlock.FACING).toYRot()
 
-        // Position healer
+        // Position balls
         poseStack.translate(0.5, 0.5, 0.5)
         poseStack.mulPose(Vector3f.YP.rotationDegrees(-yRot))
-        Minecraft.getInstance().itemRenderer.renderStatic(healerStack, ItemTransforms.TransformType.GROUND, light, overlay, poseStack, multiBufferSource, 0)
-
-        // Position initial ball
         poseStack.scale(0.5f, 0.5f, 0.5f)
         poseStack.translate(0.3, 0.4, 0.23)
-
 
         for((index, pokeBall) in blockEntity.pokeBalls().withIndex()) {
             val offset = offsets[index]

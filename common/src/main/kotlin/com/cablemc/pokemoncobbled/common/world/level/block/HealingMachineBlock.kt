@@ -9,6 +9,7 @@ import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.TextComponent
+import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
@@ -84,20 +85,29 @@ class HealingMachineBlock(properties: Properties) : BaseEntityBlock(properties) 
         }
 
         if(blockEntity.isInUse()) {
-            // TODO: Already in use message
-            player.sendMessage(TextComponent("${ChatFormatting.RED}Already in use"), Util.NIL_UUID)
+            player.sendMessage(TranslatableComponent("healingmachine.alreadyinuse").withStyle(ChatFormatting.RED), Util.NIL_UUID)
             return InteractionResult.SUCCESS
         }
 
         val serverPlayer = player as ServerPlayer
-        if(serverPlayer.party().getAll().isEmpty()) {
-            player.sendMessage(TextComponent("${ChatFormatting.RED}You don't have any Pokemon!"), Util.NIL_UUID)
+        val party = serverPlayer.party()
+        if(party.getAll().isEmpty()) {
+            player.sendMessage(TranslatableComponent("healingmachine.nopokemon").withStyle(ChatFormatting.RED), Util.NIL_UUID)
             return InteractionResult.SUCCESS
         }
 
-        blockEntity.setUser(player.uuid)
-        // TODO: Try heal
-        player.sendMessage(TextComponent("${ChatFormatting.GREEN}You're now being healed!"), Util.NIL_UUID)
+        if(party.teamHealingPercent() == 0.0f) {
+            player.sendMessage(TranslatableComponent("healingmachine.alreadyhealed").withStyle(ChatFormatting.RED), Util.NIL_UUID)
+            return InteractionResult.SUCCESS
+        }
+
+        if(blockEntity.canHeal(player)) {
+            blockEntity.activate(player)
+            player.sendMessage(TranslatableComponent("healingmachine.healing").withStyle(ChatFormatting.GREEN), Util.NIL_UUID)
+        } else {
+            val neededCharge = player.party().teamHealingPercent() - blockEntity.healingCharge
+            player.sendMessage(TranslatableComponent("healingmachine.notenoughcharge", "${((neededCharge/party.getAll().size)*100f).toInt()}%").withStyle(ChatFormatting.RED), Util.NIL_UUID)
+        }
         return InteractionResult.CONSUME
     }
 
@@ -106,5 +116,9 @@ class HealingMachineBlock(properties: Properties) : BaseEntityBlock(properties) 
             return null
         }
         return HealingMachineBlockEntity.Companion as BlockEntityTicker<T>
+    }
+
+    override fun getRenderShape(blockState: BlockState): RenderShape {
+        return RenderShape.MODEL
     }
 }

@@ -90,7 +90,8 @@ object PokemonCobbledClient {
             CobbledBlocks.PINK_APRICORN.get(),
             CobbledBlocks.RED_APRICORN.get(),
             CobbledBlocks.WHITE_APRICORN.get(),
-            CobbledBlocks.YELLOW_APRICORN.get())
+            CobbledBlocks.YELLOW_APRICORN.get(),
+            CobbledBlocks.HEALING_MACHINE.get())
     }
 
     fun beforeChatRender(poseStack: PoseStack, partialDeltaTicks: Float) {

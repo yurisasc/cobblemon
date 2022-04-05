@@ -176,6 +176,14 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         forEach { it.heal() }
     }
 
+    fun teamHealingPercent(): Float {
+        var totalPercent = 0.0f
+        for(pokemon in getAll()) {
+            totalPercent += 1.0f - (pokemon.currentHealth / pokemon.hp)
+        }
+        return totalPercent
+    }
+
     fun toBattleTeam(clone: Boolean = false) = map {
         return@map if (clone) {
             BattlePokemon.safeCopyOf(it)

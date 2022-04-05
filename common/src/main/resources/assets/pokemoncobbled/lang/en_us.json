@@ -62,6 +62,13 @@
   "key.pokemoncobbled.categories.pokemoncobbled": "Pokémon Cobbled",
   "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!",
 
+  "healingmachine.alreadyinuse": "This healing machine is already in use!",
+  "healingmachine.nopokemon": "You don't have any Pokemon in your party to heal!",
+  "healingmachine.alreadyhealed": "Your Pokemon party is already fully healed!",
+  "healingmachine.healing": "Your Pokemon party is being healed!",
+  "healingmachine.healed": "Your Pokemon party has been healed!",
+  "healingmachine.notenoughcharge": "This machine needs %s more charge to heal your party!",
+  
   "pokemoncobbled.ui.pokemonteam": "Pokémon Team",
   "pokemoncobbled.ui.lv": "Lv.",
 
