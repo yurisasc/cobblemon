@@ -12,9 +12,13 @@ class StatusUpdatePacket() : StringUpdatePacket() {
     }
 
     override fun set(pokemon: Pokemon, value: String) {
-        val status = Statuses.getStatus(ResourceLocation(value))
-        if(status != null && status is PersistentStatus) {
-            pokemon.applyStatus(status)
+        if(value.isEmpty()) {
+            pokemon.status = null
+        } else {
+            val status = Statuses.getStatus(ResourceLocation(value))
+            if(status != null && status is PersistentStatus) {
+                pokemon.applyStatus(status)
+            }
         }
     }
 }
