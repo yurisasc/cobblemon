@@ -9,8 +9,11 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
+import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.isPokemonEntity
 import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
@@ -31,12 +34,16 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
     val underlaySelected = cobbledResource("ui/party/party_slot_underlay_selected.png")
     val expBar = cobbledResource("ui/party/party_overlay_exp.png")
     val hpBar = cobbledResource("ui/party/party_overlay_hp.png")
+    val shoulderLeft = cobbledResource("ui/party/party_icon_shoulder_left.png")
+    val shoulderRight = cobbledResource("ui/party/party_icon_shoulder_right.png")
     val screenExemptions: List<Class<out Screen>> = listOf(
         ChatScreen::class.java
     )
 
     fun onRenderGameOverlay(poseStack: PoseStack, partialDeltaTicks: Float) {
         val minecraft = Minecraft.getInstance()
+        val player = minecraft.player
+
         // Hiding if a Screen is open and not exempt
         if (minecraft.screen != null) {
             if (!screenExemptions.contains(minecraft.screen?.javaClass as Class<out Screen>))
@@ -188,6 +195,29 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                     scaleX = 0.45F,
                     scaleY = 0.45F
                 )
+                
+                var isLeft = false
+                var isRight = false
+
+                if (player != null) {
+                    if(player.shoulderEntityLeft.isPokemonEntity() && player.shoulderEntityLeft.getCompound(DataKeys.POKEMON).getUUID(DataKeys.POKEMON_UUID) == pokemon.uuid) {
+                        isLeft = true
+                    }
+                    if(player.shoulderEntityRight.isPokemonEntity() && player.shoulderEntityRight.getCompound(DataKeys.POKEMON).getUUID(DataKeys.POKEMON_UUID) == pokemon.uuid) {
+                        isRight = true
+                    }
+                }
+
+                if(isLeft || isRight) {
+                    blitk(
+                        poseStack = poseStack,
+                        texture = if(isLeft) shoulderLeft else shoulderRight,
+                        x = panelX + 1.2F,
+                        y = startY + slotHeight * index + frameOffsetY + 8,
+                        height = 34 * 0.15,
+                        width = 30 * 0.24
+                    )
+                }
             }
         }
     }
