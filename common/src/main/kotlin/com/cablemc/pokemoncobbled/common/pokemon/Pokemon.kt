@@ -66,6 +66,10 @@ open class Pokemon {
             _currentHealth.emit(field)
         }
     var status: PersistentStatusContainer? = null
+        set(value) {
+            field = value
+            this._status.emit(value?.status?.name?.toString() ?: "")
+        }
     var level = 1
         set(value) {
             if (value < 1) {
@@ -181,7 +185,6 @@ open class Pokemon {
     fun heal() {
         this.currentHealth = hp
         this.status = null
-        this._status.emit("")
     }
 
     fun applyStatus(status: PersistentStatus) {

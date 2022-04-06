@@ -3,8 +3,6 @@ package com.cablemc.pokemoncobbled.common.client.render.block
 import com.cablemc.pokemoncobbled.common.CobbledBlocks
 import com.cablemc.pokemoncobbled.common.CobbledItems
 import com.cablemc.pokemoncobbled.common.world.level.block.entity.HealingMachineBlockEntity
-import com.mojang.blaze3d.platform.GlStateManager
-import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Vector3f
 import net.minecraft.client.Minecraft
@@ -20,8 +18,6 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 
 class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererProvider.Context): BlockEntityRenderer<T> {
-    private val healerStack = ItemStack(CobbledItems.HEALING_MACHINE.get())
-
     companion object {
         private val offsets = listOf(
             0.0 to 0.0,
@@ -39,7 +35,7 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererProvider.Co
         poseStack.pushPose()
 
         val blockState =
-            if (blockEntity.level != null) (blockEntity as BlockEntity).blockState else (CobbledBlocks.HEALING_MACHINE.get().defaultBlockState().setValue(
+            if (blockEntity.level != null) blockEntity.blockState else (CobbledBlocks.HEALING_MACHINE.get().defaultBlockState().setValue(
                 HorizontalDirectionalBlock.FACING, Direction.SOUTH
             ) as BlockState)
         val yRot = blockState.getValue(HorizontalDirectionalBlock.FACING).toYRot()
