@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.api.text.yellow
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.party
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.world.level.block.entity.HealingMachineBlockEntity
 import net.minecraft.ChatFormatting
 import net.minecraft.Util
@@ -87,28 +88,28 @@ class HealingMachineBlock(properties: Properties) : BaseEntityBlock(properties) 
         }
 
         if(blockEntity.isInUse) {
-            player.sendMessage(lang("healingmachine.alreadyinuse").red(), Util.NIL_UUID)
+            player.sendServerMessage(lang("healingmachine.alreadyinuse").red())
             return InteractionResult.SUCCESS
         }
 
         val serverPlayer = player as ServerPlayer
         val party = serverPlayer.party()
         if(party.getAll().isEmpty()) {
-            player.sendMessage(lang("healingmachine.nopokemon").red(), Util.NIL_UUID)
+            player.sendServerMessage(lang("healingmachine.nopokemon").red())
             return InteractionResult.SUCCESS
         }
 
         if(party.getHealingRemainderPercent() == 0.0f) {
-            player.sendMessage(lang("healingmachine.alreadyhealed").red(), Util.NIL_UUID)
+            player.sendServerMessage(lang("healingmachine.alreadyhealed").red())
             return InteractionResult.SUCCESS
         }
 
         if(blockEntity.canHeal(player)) {
             blockEntity.activate(player)
-            player.sendMessage(lang("healingmachine.healing").green(), Util.NIL_UUID)
+            player.sendServerMessage(lang("healingmachine.healing").green())
         } else {
             val neededCharge = player.party().getHealingRemainderPercent() - blockEntity.healingCharge
-            player.sendMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.getAll().size)*100f).toInt()}%").red(), Util.NIL_UUID)
+            player.sendServerMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.getAll().size)*100f).toInt()}%").red())
         }
         return InteractionResult.CONSUME
     }

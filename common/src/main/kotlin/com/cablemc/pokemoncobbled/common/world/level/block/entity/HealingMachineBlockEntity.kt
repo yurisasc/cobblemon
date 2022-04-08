@@ -6,10 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.text.green
 import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
-import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.common.util.getPlayer
-import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.party
+import com.cablemc.pokemoncobbled.common.util.*
 import net.minecraft.ChatFormatting
 import net.minecraft.Util
 import net.minecraft.core.BlockPos
@@ -35,7 +32,7 @@ class HealingMachineBlockEntity(
     private var healTimeLeft: Int = 0
     var healingCharge: Float = 0.0f
     val isInUse: Boolean
-        get() { return currentUser != null }
+        get() = currentUser != null
 
     fun setUser(user: UUID) {
         this.clearData()
@@ -44,7 +41,7 @@ class HealingMachineBlockEntity(
         val party = player.party()
 
         pokeBalls.clear()
-        pokeBalls.addAll(party.map { pokemon -> pokemon.caughtBall })
+        pokeBalls.addAll(party.map { it.caughtBall })
         this.currentUser = user
         this.healTimeLeft = 60
 
@@ -72,7 +69,7 @@ class HealingMachineBlockEntity(
         val party = player.party()
 
         party.heal()
-        player.sendMessage(lang("healingmachine.healed").green(), Util.NIL_UUID)
+        player.sendServerMessage(lang("healingmachine.healed").green())
         this.clearData()
     }
 
