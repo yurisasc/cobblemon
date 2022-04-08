@@ -1,14 +1,16 @@
 package com.cablemc.pokemoncobbled.common.world.level.block
 
 import com.cablemc.pokemoncobbled.common.CobbledBlockEntities
+import com.cablemc.pokemoncobbled.common.api.text.green
+import com.cablemc.pokemoncobbled.common.api.text.red
+import com.cablemc.pokemoncobbled.common.api.text.yellow
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.party
 import com.cablemc.pokemoncobbled.common.world.level.block.entity.HealingMachineBlockEntity
-import com.cablemc.pokemoncobbled.common.world.level.block.entity.HealingMachineBlockEntity.Companion
 import net.minecraft.ChatFormatting
 import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
-import net.minecraft.network.chat.TextComponent
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
@@ -84,29 +86,29 @@ class HealingMachineBlock(properties: Properties) : BaseEntityBlock(properties) 
             return InteractionResult.SUCCESS
         }
 
-        if(blockEntity.isInUse()) {
-            player.sendMessage(TranslatableComponent("healingmachine.alreadyinuse").withStyle(ChatFormatting.RED), Util.NIL_UUID)
+        if(blockEntity.isInUse) {
+            player.sendMessage(lang("healingmachine.alreadyinuse").red(), Util.NIL_UUID)
             return InteractionResult.SUCCESS
         }
 
         val serverPlayer = player as ServerPlayer
         val party = serverPlayer.party()
         if(party.getAll().isEmpty()) {
-            player.sendMessage(TranslatableComponent("healingmachine.nopokemon").withStyle(ChatFormatting.RED), Util.NIL_UUID)
+            player.sendMessage(lang("healingmachine.nopokemon").red(), Util.NIL_UUID)
             return InteractionResult.SUCCESS
         }
 
-        if(party.teamHealingPercent() == 0.0f) {
-            player.sendMessage(TranslatableComponent("healingmachine.alreadyhealed").withStyle(ChatFormatting.RED), Util.NIL_UUID)
+        if(party.getHealingRemainderPercent() == 0.0f) {
+            player.sendMessage(lang("healingmachine.alreadyhealed").red(), Util.NIL_UUID)
             return InteractionResult.SUCCESS
         }
 
         if(blockEntity.canHeal(player)) {
             blockEntity.activate(player)
-            player.sendMessage(TranslatableComponent("healingmachine.healing").withStyle(ChatFormatting.GREEN), Util.NIL_UUID)
+            player.sendMessage(lang("healingmachine.healing").green(), Util.NIL_UUID)
         } else {
-            val neededCharge = player.party().teamHealingPercent() - blockEntity.healingCharge
-            player.sendMessage(TranslatableComponent("healingmachine.notenoughcharge", "${((neededCharge/party.getAll().size)*100f).toInt()}%").withStyle(ChatFormatting.RED), Util.NIL_UUID)
+            val neededCharge = player.party().getHealingRemainderPercent() - blockEntity.healingCharge
+            player.sendMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.getAll().size)*100f).toInt()}%").red(), Util.NIL_UUID)
         }
         return InteractionResult.CONSUME
     }

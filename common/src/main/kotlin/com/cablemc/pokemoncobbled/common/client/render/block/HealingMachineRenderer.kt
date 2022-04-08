@@ -46,7 +46,7 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererProvider.Co
         poseStack.scale(0.5f, 0.5f, 0.5f)
         poseStack.translate(0.3, 0.4, 0.23)
 
-        for((index, pokeBall) in blockEntity.pokeBalls().withIndex()) {
+        for((index, pokeBall) in blockEntity.pokeBalls.withIndex()) {
             val offset = offsets[index]
             poseStack.translate(offset.first, 0.0, offset.second)
             Minecraft.getInstance().itemRenderer.renderStatic(ItemStack(CobbledItems.ballMap[pokeBall]?.get() ?: Items.AIR), ItemTransforms.TransformType.GROUND, light, overlay, poseStack, multiBufferSource, 0)

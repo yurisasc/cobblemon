@@ -3,14 +3,17 @@ package com.cablemc.pokemoncobbled.common.world.level.block.entity
 import com.cablemc.pokemoncobbled.common.CobbledBlockEntities
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
+import com.cablemc.pokemoncobbled.common.api.text.green
+import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getPlayer
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.party
 import net.minecraft.ChatFormatting
 import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.chat.TextComponent
 import net.minecraft.network.chat.TranslatableComponent
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket
 import net.minecraft.resources.ResourceLocation
@@ -25,22 +28,14 @@ class HealingMachineBlockEntity(
     blockPos: BlockPos,
     blockState: BlockState) : BlockEntity(CobbledBlockEntities.HEALING_MACHINE.get(), blockPos, blockState
 ) {
-    private var currentUser: UUID? = null
-    private var pokeBalls: MutableList<PokeBall> = mutableListOf()
+    var currentUser: UUID? = null
+        private set
+    var pokeBalls: MutableList<PokeBall> = mutableListOf()
+        private set
     private var healTimeLeft: Int = 0
     var healingCharge: Float = 0.0f
-
-    fun currentUser(): UUID? {
-        return this.currentUser
-    }
-
-    fun pokeBalls(): List<PokeBall> {
-        return this.pokeBalls
-    }
-
-    fun isInUse(): Boolean {
-        return this.currentUser != null
-    }
+    val isInUse: Boolean
+        get() { return currentUser != null }
 
     fun setUser(user: UUID) {
         this.clearData()
@@ -49,7 +44,7 @@ class HealingMachineBlockEntity(
         val party = player.party()
 
         pokeBalls.clear()
-        pokeBalls.addAll(party.getAll().map { pokemon -> pokemon.caughtBall })
+        pokeBalls.addAll(party.map { pokemon -> pokemon.caughtBall })
         this.currentUser = user
         this.healTimeLeft = 60
 
@@ -60,13 +55,13 @@ class HealingMachineBlockEntity(
         if(PokemonCobbled.config.infiniteHealerCharge) {
             return true
         }
-        val neededHealthPercent = player.party().teamHealingPercent()
+        val neededHealthPercent = player.party().getHealingRemainderPercent()
         return this.healingCharge >= neededHealthPercent
     }
 
     fun activate(player: ServerPlayer) {
         if(!PokemonCobbled.config.infiniteHealerCharge) {
-            val neededHealthPercent = player.party().teamHealingPercent()
+            val neededHealthPercent = player.party().getHealingRemainderPercent()
             this.healingCharge -= neededHealthPercent
         }
         this.setUser(player.uuid)
@@ -77,7 +72,7 @@ class HealingMachineBlockEntity(
         val party = player.party()
 
         party.heal()
-        player.sendMessage(TranslatableComponent("healingmachine.healed").withStyle(ChatFormatting.GREEN), Util.NIL_UUID)
+        player.sendMessage(lang("healingmachine.healed").green(), Util.NIL_UUID)
         this.clearData()
     }
 
@@ -93,11 +88,11 @@ class HealingMachineBlockEntity(
 
         this.pokeBalls.clear()
 
-        if(compoundTag.hasUUID("MachineUser")) {
-            this.currentUser = compoundTag.getUUID("MachineUser")
+        if(compoundTag.hasUUID(DataKeys.HEALER_MACHINE_USER)) {
+            this.currentUser = compoundTag.getUUID(DataKeys.HEALER_MACHINE_USER)
         }
-        if(compoundTag.contains("MachinePokeBalls")) {
-            val pokeBallsTag = compoundTag.getCompound("MachinePokeBalls")
+        if(compoundTag.contains(DataKeys.HEALER_MACHINE_POKEBALLS)) {
+            val pokeBallsTag = compoundTag.getCompound(DataKeys.HEALER_MACHINE_POKEBALLS)
             for(key in pokeBallsTag.allKeys) {
                 val pokeBallId = pokeBallsTag.getString(key)
                 if(pokeBallId.isEmpty()) {
@@ -110,11 +105,11 @@ class HealingMachineBlockEntity(
                 }
             }
         }
-        if(compoundTag.contains("MachineTimeLeft")) {
-            this.healTimeLeft = compoundTag.getInt("MachineTimeLeft")
+        if(compoundTag.contains(DataKeys.HEALER_MACHINE_TIME_LEFT)) {
+            this.healTimeLeft = compoundTag.getInt(DataKeys.HEALER_MACHINE_TIME_LEFT)
         }
-        if(compoundTag.contains("MachineCharge")) {
-            this.healingCharge = compoundTag.getFloat("MachineCharge")
+        if(compoundTag.contains(DataKeys.HEALER_MACHINE_CHARGE)) {
+            this.healingCharge = compoundTag.getFloat(DataKeys.HEALER_MACHINE_CHARGE)
         }
     }
 
@@ -122,9 +117,9 @@ class HealingMachineBlockEntity(
         super.saveAdditional(compoundTag)
 
         if(this.currentUser != null) {
-            compoundTag.putUUID("MachineUser", this.currentUser!!)
+            compoundTag.putUUID(DataKeys.HEALER_MACHINE_USER, this.currentUser!!)
         } else {
-            compoundTag.remove("MachineUser")
+            compoundTag.remove(DataKeys.HEALER_MACHINE_USER)
         }
 
         if(pokeBalls.isNotEmpty()) {
@@ -135,13 +130,13 @@ class HealingMachineBlockEntity(
                 pokeBallsTag.putString("Pokeball$ballIndex", pokeBall.name.toString())
                 ballIndex++
             }
-            compoundTag.put("MachinePokeBalls", pokeBallsTag)
+            compoundTag.put(DataKeys.HEALER_MACHINE_POKEBALLS, pokeBallsTag)
         } else {
-            compoundTag.remove("MachinePokeBalls")
+            compoundTag.remove(DataKeys.HEALER_MACHINE_POKEBALLS)
         }
 
-        compoundTag.putInt("MachineTimeLeft", this.healTimeLeft)
-        compoundTag.putFloat("MachineCharge", this.healingCharge)
+        compoundTag.putInt(DataKeys.HEALER_MACHINE_TIME_LEFT, this.healTimeLeft)
+        compoundTag.putFloat(DataKeys.HEALER_MACHINE_CHARGE, this.healingCharge)
     }
 
     override fun getUpdatePacket(): ClientboundBlockEntityDataPacket {
@@ -164,16 +159,18 @@ class HealingMachineBlockEntity(
             }
 
             // Healing progression
-            if(tileEntity.healTimeLeft > 0) {
-                tileEntity.healTimeLeft--
+            if(tileEntity.isInUse) {
+                if(tileEntity.healTimeLeft > 0) {
+                    tileEntity.healTimeLeft--
+                } else {
+                    tileEntity.completeHealing()
+                }
             } else {
-                tileEntity.completeHealing()
-            }
-
-            // Recharging
-            val maxCharge = PokemonCobbled.config.maxHealerCharge
-            if(tileEntity.healingCharge < maxCharge) {
-                tileEntity.healingCharge = (tileEntity.healingCharge + PokemonCobbled.config.chargeGainedPerTick).coerceAtMost(maxCharge)
+                // Recharging
+                val maxCharge = PokemonCobbled.config.maxHealerCharge
+                if(tileEntity.healingCharge < maxCharge) {
+                    tileEntity.healingCharge = (tileEntity.healingCharge + PokemonCobbled.config.chargeGainedPerTick).coerceAtMost(maxCharge)
+                }
             }
         }
     }
