@@ -95,6 +95,7 @@ object PokemonCobbled {
         this.implementation = implementation
         CobbledEntities.register()
         CobbledBlocks.register()
+        CobbledBlockEntities.register()
         CobbledItems.register()
         CobbledSounds.register()
         CobbledNetwork.register()

@@ -57,4 +57,13 @@ class CobbledConfig {
     var passiveStatuses = mutableMapOf(
         Statuses.BURN.configEntry()
     )
+
+    @NodeCategory(Category.Healing)
+    var infiniteHealerCharge = false
+
+    @NodeCategory(Category.Healing)
+    var maxHealerCharge = 6.0f
+
+    @NodeCategory(Category.Healing)
+    var chargeGainedPerTick = 0.00008333333f
 }

@@ -38,6 +38,7 @@
   "block.pokemoncobbled.yellow_apricorn_sapling": "Yellow Apricorn Sapling",
   "block.pokemoncobbled.apricorn_door": "Apricorn Door",
   "block.pokemoncobbled.apricorn_trapdoor": "Apricorn Trapdoor",
+  "block.pokemoncobbled.healing_machine": "Healing Machine",
   "itemGroup.minecraft.pokemoncobbled.pokeballtab": "Pokeballs",
   "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
@@ -61,6 +62,13 @@
   "key.pokemoncobbled.categories.pokemoncobbled": "Pokémon Cobbled",
   "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!",
 
+  "pokemoncobbled.healingmachine.alreadyinuse": "This healing machine is already in use!",
+  "pokemoncobbled.healingmachine.nopokemon": "You don't have any Pokemon in your party to heal!",
+  "pokemoncobbled.healingmachine.alreadyhealed": "Your Pokemon party is already fully healed!",
+  "pokemoncobbled.healingmachine.healing": "Your Pokemon party is being healed!",
+  "pokemoncobbled.healingmachine.healed": "Your Pokemon party has been healed!",
+  "pokemoncobbled.healingmachine.notenoughcharge": "This machine needs %s more charge to heal your party!",
+  
   "pokemoncobbled.ui.pokemonteam": "Pokémon Team",
   "pokemoncobbled.ui.lv": "Lv.",
 

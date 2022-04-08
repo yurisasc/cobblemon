@@ -53,4 +53,11 @@ object DataKeys {
     const val POKEMON_PROPERTIES_CUSTOM = "CustomProperties"
     const val POKEMON_PROPERTIES_ORIGINAL_TEXT = "OriginalText"
     const val POKEMON_SPECIES_TEXT = "SpeciesText"
+
+    /* Healer  Block */
+    const val HEALER_MACHINE_USER = "MachineUser"
+    const val HEALER_MACHINE_POKEBALLS = "MachinePokeBalls"
+    const val HEALER_MACHINE_TIME_LEFT = "MachineTimeLeft"
+    const val HEALER_MACHINE_CHARGE = "MachineCharge"
+    /* ----------- */
 }
