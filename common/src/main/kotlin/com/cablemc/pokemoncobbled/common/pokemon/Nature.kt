@@ -13,7 +13,7 @@ class Nature(
     val dislikedFlavor: Flavor?
 ) {
     fun modifyStat(stat: Stat, value: Int): Int {
-        return when(stat) {
+        return when (stat) {
             increasedStat -> floor(value * 1.1)
             decreasedStat -> floor(value * 0.9)
             else -> value

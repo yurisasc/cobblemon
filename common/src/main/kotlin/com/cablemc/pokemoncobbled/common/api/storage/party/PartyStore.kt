@@ -178,7 +178,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
 
     fun getHealingRemainderPercent(): Float {
         var totalPercent = 0.0f
-        for(pokemon in this) {
+        for (pokemon in this) {
             totalPercent += 1.0f - (pokemon.currentHealth / pokemon.hp)
         }
         return totalPercent

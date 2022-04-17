@@ -61,7 +61,7 @@ class ActiveBattlePokemon(val actor: BattleActor, var battlePokemon: BattlePokem
             }
         }
 
-        return when(index) {
+        return when (index) {
             0 -> 'a'
             1 -> 'b'
             2 -> 'c'

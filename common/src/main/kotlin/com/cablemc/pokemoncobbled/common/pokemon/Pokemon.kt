@@ -189,7 +189,7 @@ open class Pokemon {
 
     fun applyStatus(status: PersistentStatus) {
         this.status = PersistentStatusContainer(status)
-        if(this.status != null) {
+        if (this.status != null) {
             this._status.emit(this.status!!.status.name.toString())
         }
     }
@@ -240,7 +240,7 @@ open class Pokemon {
             val clazz = PokemonState.states[type]
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromNBT(stateNBT) ?: InactivePokemonState()
         }
-        if(nbt.contains(DataKeys.POKEMON_STATUS)) {
+        if (nbt.contains(DataKeys.POKEMON_STATUS)) {
             val statusNBT = nbt.getCompound(DataKeys.POKEMON_STATUS)
             status = PersistentStatusContainer.loadFromNBT(statusNBT)
         }
@@ -293,7 +293,7 @@ open class Pokemon {
             val clazz = type?.let { PokemonState.states[it] }
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromJSON(stateJson) ?: InactivePokemonState()
         }
-        if(json.has(DataKeys.POKEMON_STATUS)) {
+        if (json.has(DataKeys.POKEMON_STATUS)) {
             val statusJson = json.get(DataKeys.POKEMON_STATUS).asJsonObject
             status = PersistentStatusContainer.loadFromJSON(statusJson)
         }
@@ -342,7 +342,7 @@ open class Pokemon {
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
         val status = Statuses.getStatus(ResourceLocation(buffer.readUtf()))
-        if(status != null && status is PersistentStatus) {
+        if (status != null && status is PersistentStatus) {
             this.status = PersistentStatusContainer(status, 0)
         }
         val ballName = buffer.readUtf()
@@ -404,6 +404,9 @@ open class Pokemon {
         return friendship == value
     }
 
+    val allAccessibleMoves: Set<MoveTemplate>
+        get() = (form.levelUpMoves.getMovesUpTo(level) + benchedMoves.map { it.moveTemplate }).toSet()
+
     fun initialize() {
         // TODO some other initializations to do with form and gender n shit
         initializeMoveset()
@@ -458,10 +461,20 @@ open class Pokemon {
 
     fun addExperienceWithPlayer(player: ServerPlayer, xp: Int) {
         val previousLevel = level
-        player.sendServerMessage(lang("experience.gained", species.translatedName, experience))
+        player.sendServerMessage(lang("experience.gained", species.translatedName, xp))
         addExperience(xp)
         if (previousLevel != level) {
             player.sendServerMessage(lang("experience.level_up", species.translatedName, level))
+            val previousLevelUpMoves = form.levelUpMoves.getMovesUpTo(previousLevel)
+            val newLevelUpMoves = form.levelUpMoves.getMovesUpTo(level)
+            val differences = newLevelUpMoves - previousLevelUpMoves
+            differences.forEach {
+                if (moveSet.hasSpace()) {
+                    moveSet.add(it.create())
+                }
+                player.sendServerMessage(lang("experience.learned_move", species.translatedName, it.displayName))
+
+            }
             // TODO level up moves, compare learn list from previousLevel to the new level
         }
     }

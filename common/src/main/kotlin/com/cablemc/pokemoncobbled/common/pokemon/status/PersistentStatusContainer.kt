@@ -33,14 +33,14 @@ class PersistentStatusContainer(
             val activeSeconds = nbt.getInt(DataKeys.POKEMON_STATUS_TIMER)
 
             // Missing status id
-            if(statusId.isEmpty()) {
+            if (statusId.isEmpty()) {
                 return null
             }
 
             // Return null if status doesn't exist
             val status = Statuses.getStatus(ResourceLocation(statusId)) ?: return null
             // Return null if not a persistent status
-            if(status !is PersistentStatus) return null
+            if (status !is PersistentStatus) return null
             return PersistentStatusContainer(status, activeSeconds)
         }
 
@@ -49,14 +49,14 @@ class PersistentStatusContainer(
             val activeSeconds = json.get(DataKeys.POKEMON_STATUS_TIMER).asInt
 
             // Missing status id
-            if(statusId.isEmpty()) {
+            if (statusId.isEmpty()) {
                 return null
             }
 
             // Return null if status doesn't exist
             val status = Statuses.getStatus(ResourceLocation(statusId)) ?: return null
             // Return null if not a persistent status
-            if(status !is PersistentStatus) return null
+            if (status !is PersistentStatus) return null
             return PersistentStatusContainer(status, activeSeconds)
         }
     }

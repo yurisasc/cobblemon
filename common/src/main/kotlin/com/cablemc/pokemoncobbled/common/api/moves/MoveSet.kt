@@ -26,6 +26,8 @@ class MoveSet : Iterable<Move> {
         return moves.filterNotNull()
     }
 
+    fun hasSpace() = moves.any { it == null }
+
     /**
      * Sets the given Move to given position
      */

@@ -71,6 +71,7 @@
   
   "pokemoncobbled.ui.pokemonteam": "Pokémon Team",
   "pokemoncobbled.ui.lv": "Lv.",
+  "pokemoncobbled.ui.changemove": "Change",
 
   "pokemoncobbled.command.givepokemon.give": "Gave %1$s to %2$s.",
 
@@ -86,7 +87,8 @@
   "pokemoncobbled.battle.must_switch": "Choose a Pokémon to switch in",
 
   "pokemoncobbled.experience.gained": "%1$s received %2$s experience.",
-  "pokemoncobbled.experience.level_up": "%1$s has reached level %2$s!",
+  "pokemoncobbled.experience.level_up": "%1$s is now level %2$s!",
+  "pokemoncobbled.experience.learned_move": "%1$s has learned %2$s.",
 
   "pokemoncobbled.type.fire": "Fire",
   "pokemoncobbled.type.water": "Water",
