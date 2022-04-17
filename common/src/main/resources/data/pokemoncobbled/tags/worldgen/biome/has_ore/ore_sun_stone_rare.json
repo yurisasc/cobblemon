@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#is_beach"
+    "plains",
+    "sunflower_plains"
   ]
 }
