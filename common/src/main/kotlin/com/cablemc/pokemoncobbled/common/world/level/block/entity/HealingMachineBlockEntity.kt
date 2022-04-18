@@ -49,7 +49,7 @@ class HealingMachineBlockEntity(
     }
 
     fun canHeal(player: ServerPlayer): Boolean {
-        if(PokemonCobbled.config.infiniteHealerCharge) {
+        if (PokemonCobbled.config.infiniteHealerCharge) {
             return true
         }
         val neededHealthPercent = player.party().getHealingRemainderPercent()
@@ -57,7 +57,7 @@ class HealingMachineBlockEntity(
     }
 
     fun activate(player: ServerPlayer) {
-        if(!PokemonCobbled.config.infiniteHealerCharge) {
+        if (!PokemonCobbled.config.infiniteHealerCharge) {
             val neededHealthPercent = player.party().getHealingRemainderPercent()
             this.healingCharge -= neededHealthPercent
         }
@@ -85,27 +85,27 @@ class HealingMachineBlockEntity(
 
         this.pokeBalls.clear()
 
-        if(compoundTag.hasUUID(DataKeys.HEALER_MACHINE_USER)) {
+        if (compoundTag.hasUUID(DataKeys.HEALER_MACHINE_USER)) {
             this.currentUser = compoundTag.getUUID(DataKeys.HEALER_MACHINE_USER)
         }
-        if(compoundTag.contains(DataKeys.HEALER_MACHINE_POKEBALLS)) {
+        if (compoundTag.contains(DataKeys.HEALER_MACHINE_POKEBALLS)) {
             val pokeBallsTag = compoundTag.getCompound(DataKeys.HEALER_MACHINE_POKEBALLS)
-            for(key in pokeBallsTag.allKeys) {
+            for (key in pokeBallsTag.allKeys) {
                 val pokeBallId = pokeBallsTag.getString(key)
-                if(pokeBallId.isEmpty()) {
+                if (pokeBallId.isEmpty()) {
                     continue
                 }
 
                 val pokeBall = PokeBalls.getPokeBall(ResourceLocation(pokeBallId))
-                if(pokeBall != null) {
+                if (pokeBall != null) {
                     this.pokeBalls.add(pokeBall)
                 }
             }
         }
-        if(compoundTag.contains(DataKeys.HEALER_MACHINE_TIME_LEFT)) {
+        if (compoundTag.contains(DataKeys.HEALER_MACHINE_TIME_LEFT)) {
             this.healTimeLeft = compoundTag.getInt(DataKeys.HEALER_MACHINE_TIME_LEFT)
         }
-        if(compoundTag.contains(DataKeys.HEALER_MACHINE_CHARGE)) {
+        if (compoundTag.contains(DataKeys.HEALER_MACHINE_CHARGE)) {
             this.healingCharge = compoundTag.getFloat(DataKeys.HEALER_MACHINE_CHARGE)
         }
     }
@@ -113,17 +113,17 @@ class HealingMachineBlockEntity(
     override fun saveAdditional(compoundTag: CompoundTag) {
         super.saveAdditional(compoundTag)
 
-        if(this.currentUser != null) {
+        if (this.currentUser != null) {
             compoundTag.putUUID(DataKeys.HEALER_MACHINE_USER, this.currentUser!!)
         } else {
             compoundTag.remove(DataKeys.HEALER_MACHINE_USER)
         }
 
-        if(pokeBalls.isNotEmpty()) {
+        if (pokeBalls.isNotEmpty()) {
             val pokeBallsTag = CompoundTag()
             var ballIndex = 1
 
-            for(pokeBall in this.pokeBalls) {
+            for (pokeBall in this.pokeBalls) {
                 pokeBallsTag.putString("Pokeball$ballIndex", pokeBall.name.toString())
                 ballIndex++
             }
@@ -151,13 +151,13 @@ class HealingMachineBlockEntity(
 
     companion object : BlockEntityTicker<HealingMachineBlockEntity> {
         override fun tick(level: Level, blockPos: BlockPos, blockState: BlockState, tileEntity: HealingMachineBlockEntity) {
-            if(level.isClientSide) {
+            if (level.isClientSide) {
                 return
             }
 
             // Healing progression
-            if(tileEntity.isInUse) {
-                if(tileEntity.healTimeLeft > 0) {
+            if (tileEntity.isInUse) {
+                if (tileEntity.healTimeLeft > 0) {
                     tileEntity.healTimeLeft--
                 } else {
                     tileEntity.completeHealing()
@@ -165,7 +165,7 @@ class HealingMachineBlockEntity(
             } else {
                 // Recharging
                 val maxCharge = PokemonCobbled.config.maxHealerCharge
-                if(tileEntity.healingCharge < maxCharge) {
+                if (tileEntity.healingCharge < maxCharge) {
                     tileEntity.healingCharge = (tileEntity.healingCharge + PokemonCobbled.config.chargeGainedPerTick).coerceAtMost(maxCharge)
                 }
             }

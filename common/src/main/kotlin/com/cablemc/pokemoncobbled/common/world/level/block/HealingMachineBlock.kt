@@ -83,28 +83,28 @@ class HealingMachineBlock(properties: Properties) : BaseEntityBlock(properties) 
         }
 
         val blockEntity = level.getBlockEntity(blockPos)
-        if(blockEntity !is HealingMachineBlockEntity) {
+        if (blockEntity !is HealingMachineBlockEntity) {
             return InteractionResult.SUCCESS
         }
 
-        if(blockEntity.isInUse) {
+        if (blockEntity.isInUse) {
             player.sendServerMessage(lang("healingmachine.alreadyinuse").red())
             return InteractionResult.SUCCESS
         }
 
         val serverPlayer = player as ServerPlayer
         val party = serverPlayer.party()
-        if(party.getAll().isEmpty()) {
+        if (party.getAll().isEmpty()) {
             player.sendServerMessage(lang("healingmachine.nopokemon").red())
             return InteractionResult.SUCCESS
         }
 
-        if(party.getHealingRemainderPercent() == 0.0f) {
+        if (party.getHealingRemainderPercent() == 0.0f) {
             player.sendServerMessage(lang("healingmachine.alreadyhealed").red())
             return InteractionResult.SUCCESS
         }
 
-        if(blockEntity.canHeal(player)) {
+        if (blockEntity.canHeal(player)) {
             blockEntity.activate(player)
             player.sendServerMessage(lang("healingmachine.healing").green())
         } else {
@@ -115,7 +115,7 @@ class HealingMachineBlock(properties: Properties) : BaseEntityBlock(properties) 
     }
 
     override fun <T : BlockEntity> getTicker(level: Level, blockState: BlockState, blockEntityType: BlockEntityType<T>): BlockEntityTicker<T>? {
-        if(blockEntityType != CobbledBlockEntities.HEALING_MACHINE.get()) {
+        if (blockEntityType != CobbledBlockEntities.HEALING_MACHINE.get()) {
             return null
         }
         return HealingMachineBlockEntity.Companion as BlockEntityTicker<T>
