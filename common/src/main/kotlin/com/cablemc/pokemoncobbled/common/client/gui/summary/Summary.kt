@@ -59,7 +59,6 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
      * The Pokémon that shall be displayed
      */
     private val pokemonList = mutableListOf<Pokemon?>()
-    var initialized = false
 
     /**
      * Make sure that we have at least one Pokemon and not more than 6
@@ -94,6 +93,8 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
      */
     private lateinit var modelWidget: ModelWidget
 
+    var currentPageIndex = MOVES
+
     /**
      * Initializes the Summary Screen
      */
@@ -103,15 +104,13 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
 
-        // Currently always starting with the MovesWidget
-        if (initialized) {
-            removeWidget(currentPage)
-        }
+
         currentPage = MovesWidget(
             pX = x, pY = y,
             pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
             summary = this
         )
+        currentPageIndex = MOVES
 
         // Add Buttons to change Pages - START
         addRenderableWidget(
@@ -155,6 +154,8 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
             PartyWidget(
                 pX = x + BASE_WIDTH - 2, pY = y + 18,
                 pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
+                isParty = currentPokemon in PokemonCobbledClient.storage.myParty,
+                summary = this,
                 pokemonList = pokemonList
             )
         )
@@ -171,20 +172,20 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
 
         // Add CurrentPage
         addRenderableWidget(currentPage)
-
-        initialized = true
     }
 
     /**
      * Switches the selected PKM
      */
-    private fun switchSelection(newSelection: Int) {
+    fun switchSelection(newSelection: Int) {
         pokemonList[newSelection]?.run {
             currentPokemon = this
         }
         moveSetSubscription?.unsubscribe()
         listenToMoveSet()
+        switchTo(currentPageIndex)
         modelWidget.pokemon = currentPokemon
+
     }
 
     private var moveSetSubscription: ObservableSubscription<MoveSet>? = null
@@ -210,6 +211,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
      * Switches to the given Page
      */
     private fun switchTo(page: Int) {
+        currentPageIndex = page
         removeWidget(currentPage)
         when (page) {
             INFO -> {

@@ -35,6 +35,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<HealthUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<StatusUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<CaughtBallUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<BenchedMovesUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler(InitializePartyHandler)
         registerHandler(SetPartyPokemonHandler)
         registerHandler(MovePartyPokemonHandler)

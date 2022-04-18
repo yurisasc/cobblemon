@@ -509,9 +509,19 @@ open class Pokemon {
      * a move set move.
      */
     fun exchangeMove(oldMove: MoveTemplate, newMove: MoveTemplate): Boolean {
+        val benchedNewMove = benchedMoves.find { it.moveTemplate == newMove } ?: BenchedMove(newMove, 0)
+
+        if (moveSet.hasSpace()) {
+            benchedMoves.remove(newMove)
+            val move = newMove.create()
+            move.raisedPpStages = benchedNewMove.ppRaisedStages
+            move.currentPp = move.maxPp
+            moveSet.add(move)
+            return true
+        }
+
         val currentMove = moveSet.find { it.template == oldMove } ?: return false
         val currentPPRatio = currentMove.let { it.currentPp / it.maxPp.toFloat() }
-        val benchedNewMove = benchedMoves.find { it.moveTemplate == newMove } ?: BenchedMove(newMove, 0)
         benchedMoves.doThenEmit {
             benchedMoves.remove(newMove)
             benchedMoves.add(BenchedMove(currentMove.template, currentMove.raisedPpStages))
@@ -561,7 +571,7 @@ open class Pokemon {
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
     private val _status = registerObservable(SimpleObservable<String>()) { StatusUpdatePacket(this, it) }
     private val _caughtBall = registerObservable(SimpleObservable<String>()) { CaughtBallUpdatePacket(this, it) }
-    private val _benchedMoves = registerObservable(benchedMoves.observable)
+    private val _benchedMoves = registerObservable(benchedMoves.observable) { BenchedMovesUpdatePacket(this, it) }
     private val _ivs = registerObservable(ivs.observable) // TODO consider a packet for it for changed ivs
     private val _evs = registerObservable(evs.observable) // TODO needs a packet
 }

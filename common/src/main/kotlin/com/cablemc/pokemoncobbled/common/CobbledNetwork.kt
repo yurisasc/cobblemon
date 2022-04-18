@@ -65,6 +65,7 @@ object CobbledNetwork {
         buildClientMessage<ExperienceUpdatePacket>()
         buildClientMessage<StatusUpdatePacket>()
         buildClientMessage<CaughtBallUpdatePacket>()
+        buildClientMessage<BenchedMovesUpdatePacket>()
 
         // Storage Packets
         buildClientMessage<InitializePartyPacket>()

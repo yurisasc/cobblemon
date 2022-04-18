@@ -66,7 +66,6 @@ class MoveWidget(
                 movesWidget = movesWidget,
                 replacedMove = move
             ).also { switchPane ->
-                println("Started the also")
                 val pokemon = movesWidget.summary.currentPokemon
                 pokemon.allAccessibleMoves
                     .filter { template -> pokemon.moveSet.none { it.template == template } }
@@ -75,7 +74,6 @@ class MoveWidget(
                         MoveSwitchPane.MoveObject(switchPane, template, benched?.ppRaisedStages ?: 0)
                     }
                     .forEach { switchPane.addEntry(it) }
-                println("Reached the end of it")
             }
         } else {
             movesWidget.closeSwitchMoveMenu()
