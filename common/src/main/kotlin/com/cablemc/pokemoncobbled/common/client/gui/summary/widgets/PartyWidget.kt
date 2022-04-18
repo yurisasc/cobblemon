@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -16,46 +17,53 @@ class PartyWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     private val pokemonList: List<Pokemon?>
-) : SoundlessWidget(pX - PARTY_BOX_WIDTH.toInt(), pY + 50, pWidth, pHeight, TextComponent("PartyOverlay")) {
+) : SoundlessWidget(pX - PARTY_BOX_WIDTH.toInt(), pY + 8, pWidth, pHeight, TextComponent("PartyOverlay")) {
 
     companion object {
-        private val partyResourceMiddle = cobbledResource("ui/summary/summary_party_1.png")
+        private val partyResourceStart = cobbledResource("ui/summary/summary_party_1.png")
         private val partyResourceEnd = cobbledResource("ui/summary/summary_party_2.png")
+        private val partyResourceSurrounded = cobbledResource("ui/summary/summary_party_2-5.png")
+        private val partyResourceSix = cobbledResource("ui/summary/summary_party_6.png")
+
         private const val PARTY_BOX_WIDTH = 32.0F
-        private const val PARTY_BOX_HEIGHT = 32.5F
-        private const val PARTY_BOX_HEIGHT_DIFF = 30.2F
+        private const val PARTY_BOX_HEIGHT = 32F
+        private const val PARTY_BOX_HEIGHT_DIFF = 29F
         private const val PARTY_PORTRAIT_WIDTH = 27
         private const val PARTY_PORTRAIT_HEIGHT = 27
     }
 
     private val partySize = pokemonList.size
-    private var iMax = partySize - 2
+    private var iMax = partySize - 1
     private val minecraft = Minecraft.getInstance()
 
     init {
         if (partySize > 6 || partySize < 1)
             throw InvalidParameterException("Invalid party size")
-        if (partySize == 6)
-            iMax--
     }
 
     override fun render(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if (partySize > 1) {
-            for (i in 0 .. iMax) {
+            blitk(
+                poseStack = pPoseStack,
+                texture = partyResourceStart,
+                x = x, y = y,
+                width = PARTY_BOX_WIDTH, height = PARTY_BOX_HEIGHT
+            )
+            for (i in 1 until iMax) {
                 blitk(
                     poseStack = pPoseStack,
-                    texture = partyResourceMiddle,
+                    texture = partyResourceSurrounded,
                     x = x, y = y + i * PARTY_BOX_HEIGHT_DIFF + i * -0.5,
                     width = PARTY_BOX_WIDTH, height = PARTY_BOX_HEIGHT
                 )
             }
-            if (partySize == 6)
-                blitk(
-                    poseStack = pPoseStack,
-                    texture = partyResourceEnd,
-                    x = x, y = y + 4 * PARTY_BOX_HEIGHT_DIFF - 2.75F,
-                    width = PARTY_BOX_WIDTH, height = 32
-                )
+            blitk(
+                poseStack = pPoseStack,
+                texture = if (iMax == 5) partyResourceSix else partyResourceEnd,
+                x = x, y = y + iMax * PARTY_BOX_HEIGHT_DIFF - 3F,
+                width = PARTY_BOX_WIDTH, height = PARTY_BOX_HEIGHT
+            )
+
             renderPKM(pPoseStack)
         }
     }
@@ -66,7 +74,7 @@ class PartyWidget(
                 poseStack.pushPose()
                 RenderSystem.enableScissor(
                     ((x + 2.5) * minecraft.window.guiScale).toInt(),
-                    (minecraft.window.height - (y * minecraft.window.guiScale) - index * (PARTY_PORTRAIT_HEIGHT + 2.4) * minecraft.window.guiScale).toInt(),
+                    (minecraft.window.height - (y * minecraft.window.guiScale) - (index + 1) * (PARTY_PORTRAIT_HEIGHT + 1.4) * minecraft.window.guiScale).toInt(),
                     ((PARTY_PORTRAIT_WIDTH) * minecraft.window.guiScale).toInt(),
                     ((PARTY_PORTRAIT_HEIGHT - 1) * minecraft.window.guiScale).toInt()
                 )
@@ -81,7 +89,7 @@ class PartyWidget(
 //                    alpha = 0.5
 //                )
 
-                poseStack.translate((x + width / 21.0), y - 26.0 + index * 30, 0.0)
+                poseStack.translate((x + width / 21.0), y + index * PARTY_BOX_HEIGHT_DIFF.toDouble(), 0.0)
                 poseStack.scale(2.5F, 2.5F, 1F)
 
                 drawProfilePokemon(

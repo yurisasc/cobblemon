@@ -70,12 +70,12 @@ open class MoveTemplate(
     fun create(currentPp: Int) = create(currentPp, maxPp)
 
     /**
-     * Creates the Move with given PP out of the given maximum
+     * Creates the Move with given current PP and the given raised PP stages.
      */
-    fun create(currentPp: Int, pMaxPp: Int): Move {
+    fun create(currentPp: Int, raisedPpStages: Int): Move {
         return Move(
             currentPp = currentPp,
-            maxPp = pMaxPp,
+            raisedPpStages = raisedPpStages,
             template = this
         )
     }

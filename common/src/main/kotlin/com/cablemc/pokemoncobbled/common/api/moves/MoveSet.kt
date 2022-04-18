@@ -47,6 +47,11 @@ class MoveSet : Iterable<Move> {
         update()
     }
 
+    fun heal() {
+        getMoves().forEach { it.currentPp = it.maxPp }
+        update()
+    }
+
     fun clear() {
         doWithoutEmitting {
             for (i in 0 until MOVE_COUNT){
@@ -113,9 +118,10 @@ class MoveSet : Iterable<Move> {
         }
     }
     fun doWithoutEmitting(action: () -> Unit) {
+        val previousEmit = emit
         emit = false
         action()
-        emit = true
+        emit = previousEmit
     }
 
 

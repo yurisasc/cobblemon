@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.pokemon
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
+import com.cablemc.pokemoncobbled.common.api.moves.BenchedMove
 import com.cablemc.pokemoncobbled.common.api.moves.BenchedMoves
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
@@ -184,6 +185,7 @@ open class Pokemon {
 
     fun heal() {
         this.currentHealth = hp
+        this.moveSet.heal()
         this.status = null
     }
 
@@ -405,7 +407,7 @@ open class Pokemon {
     }
 
     val allAccessibleMoves: Set<MoveTemplate>
-        get() = (form.levelUpMoves.getMovesUpTo(level) + benchedMoves.map { it.moveTemplate }).toSet()
+        get() = form.levelUpMoves.getMovesUpTo(level) + benchedMoves.map { it.moveTemplate }
 
     fun initialize() {
         // TODO some other initializations to do with form and gender n shit
@@ -460,40 +462,68 @@ open class Pokemon {
     }
 
     fun addExperienceWithPlayer(player: ServerPlayer, xp: Int) {
-        val previousLevel = level
         player.sendServerMessage(lang("experience.gained", species.translatedName, xp))
-        addExperience(xp)
-        if (previousLevel != level) {
-            player.sendServerMessage(lang("experience.level_up", species.translatedName, level))
-            val previousLevelUpMoves = form.levelUpMoves.getMovesUpTo(previousLevel)
-            val newLevelUpMoves = form.levelUpMoves.getMovesUpTo(level)
-            val differences = newLevelUpMoves - previousLevelUpMoves
-            differences.forEach {
-                if (moveSet.hasSpace()) {
-                    moveSet.add(it.create())
-                }
+        val result = addExperience(xp)
+        if (result.oldLevel != result.newLevel) {
+            player.sendServerMessage(lang("experience.level_up", species.translatedName, result.newLevel))
+            result.newMoves.forEach {
                 player.sendServerMessage(lang("experience.learned_move", species.translatedName, it.displayName))
-
             }
-            // TODO level up moves, compare learn list from previousLevel to the new level
         }
     }
 
-    fun addExperience(xp: Int) {
+    fun addExperience(xp: Int): AddExperienceResult {
         if (xp < 0) {
-            return // no negatives!
+            return AddExperienceResult(level, level, emptySet()) // no negatives!
         }
 
+        val oldLevel = level
+        val previousLevelUpMoves = form.levelUpMoves.getMovesUpTo(oldLevel)
         // TODO xp gain event
         experience += xp
         val newLevel = experienceGroup.getLevel(experience)
-        if (newLevel != level) {
+        if (newLevel != oldLevel) {
             // TODO level up event?
             level = newLevel
         }
+
+        val newLevelUpMoves = form.levelUpMoves.getMovesUpTo(newLevel)
+        val differences = newLevelUpMoves - previousLevelUpMoves
+        differences.forEach {
+            if (moveSet.hasSpace()) {
+                moveSet.add(it.create())
+            }
+        }
+
+        return AddExperienceResult(oldLevel, newLevel, differences)
     }
 
     fun levelUp() = addExperience(getExperienceToNextLevel())
+
+    /**
+     * Exchanges an existing move set move with a benched or otherwise accessible move that is not in the move set.
+     *
+     * PP is transferred onto the new move using the % of PP that the original move had and applying it to the new one.
+     *
+     * @return true if it succeeded, false if it failed to exchange the moves. Failure can occur if the oldMove is not
+     * a move set move.
+     */
+    fun exchangeMove(oldMove: MoveTemplate, newMove: MoveTemplate): Boolean {
+        val currentMove = moveSet.find { it.template == oldMove } ?: return false
+        val currentPPRatio = currentMove.let { it.currentPp / it.maxPp.toFloat() }
+        val benchedNewMove = benchedMoves.find { it.moveTemplate == newMove } ?: BenchedMove(newMove, 0)
+        benchedMoves.doThenEmit {
+            benchedMoves.remove(newMove)
+            benchedMoves.add(BenchedMove(currentMove.template, currentMove.raisedPpStages))
+        }
+
+        val move = newMove.create()
+        move.raisedPpStages = benchedNewMove.ppRaisedStages
+        move.currentPp = (currentPPRatio * move.maxPp).toInt()
+        moveSet.setMove(moveSet.indexOf(currentMove), move)
+
+        return true
+    }
 
     fun notify(packet: PokemonUpdatePacket) {
         storeCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }
