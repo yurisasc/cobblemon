@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.pokemon
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
+import com.cablemc.pokemoncobbled.common.api.moves.BenchedMove
 import com.cablemc.pokemoncobbled.common.api.moves.BenchedMoves
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
@@ -43,6 +44,7 @@ import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.util.Mth.ceil
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 import java.lang.Integer.min
@@ -75,6 +77,8 @@ open class Pokemon {
             if (value < 1) {
                 throw IllegalArgumentException("Level cannot be negative")
             }
+
+            val hpRatio = currentHealth / hp.toFloat()
             /*
              * When people set the level programmatically the experience value will become incorrect.
              * Specifically check for when there's a mismatch and update the experience.
@@ -84,6 +88,8 @@ open class Pokemon {
                 experience = experienceGroup.getExperience(value)
             }
             _level.emit(value)
+
+            currentHealth = ceil(hpRatio * hp).coerceIn(0..hp)
         }
     var experience = 0
         protected set(value) {
@@ -184,12 +190,13 @@ open class Pokemon {
 
     fun heal() {
         this.currentHealth = hp
+        this.moveSet.heal()
         this.status = null
     }
 
     fun applyStatus(status: PersistentStatus) {
         this.status = PersistentStatusContainer(status)
-        if(this.status != null) {
+        if (this.status != null) {
             this._status.emit(this.status!!.status.name.toString())
         }
     }
@@ -240,7 +247,7 @@ open class Pokemon {
             val clazz = PokemonState.states[type]
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromNBT(stateNBT) ?: InactivePokemonState()
         }
-        if(nbt.contains(DataKeys.POKEMON_STATUS)) {
+        if (nbt.contains(DataKeys.POKEMON_STATUS)) {
             val statusNBT = nbt.getCompound(DataKeys.POKEMON_STATUS)
             status = PersistentStatusContainer.loadFromNBT(statusNBT)
         }
@@ -293,7 +300,7 @@ open class Pokemon {
             val clazz = type?.let { PokemonState.states[it] }
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromJSON(stateJson) ?: InactivePokemonState()
         }
-        if(json.has(DataKeys.POKEMON_STATUS)) {
+        if (json.has(DataKeys.POKEMON_STATUS)) {
             val statusJson = json.get(DataKeys.POKEMON_STATUS).asJsonObject
             status = PersistentStatusContainer.loadFromJSON(statusJson)
         }
@@ -342,7 +349,7 @@ open class Pokemon {
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
         val status = Statuses.getStatus(ResourceLocation(buffer.readUtf()))
-        if(status != null && status is PersistentStatus) {
+        if (status != null && status is PersistentStatus) {
             this.status = PersistentStatusContainer(status, 0)
         }
         val ballName = buffer.readUtf()
@@ -404,6 +411,9 @@ open class Pokemon {
         return friendship == value
     }
 
+    val allAccessibleMoves: Set<MoveTemplate>
+        get() = form.levelUpMoves.getMovesUpTo(level) + benchedMoves.map { it.moveTemplate }
+
     fun initialize() {
         // TODO some other initializations to do with form and gender n shit
         initializeMoveset()
@@ -457,30 +467,78 @@ open class Pokemon {
     }
 
     fun addExperienceWithPlayer(player: ServerPlayer, xp: Int) {
-        val previousLevel = level
-        player.sendServerMessage(lang("experience.gained", species.translatedName, experience))
-        addExperience(xp)
-        if (previousLevel != level) {
-            player.sendServerMessage(lang("experience.level_up", species.translatedName, level))
-            // TODO level up moves, compare learn list from previousLevel to the new level
+        player.sendServerMessage(lang("experience.gained", species.translatedName, xp))
+        val result = addExperience(xp)
+        if (result.oldLevel != result.newLevel) {
+            player.sendServerMessage(lang("experience.level_up", species.translatedName, result.newLevel))
+            result.newMoves.forEach {
+                player.sendServerMessage(lang("experience.learned_move", species.translatedName, it.displayName))
+            }
         }
     }
 
-    fun addExperience(xp: Int) {
+    fun addExperience(xp: Int): AddExperienceResult {
         if (xp < 0) {
-            return // no negatives!
+            return AddExperienceResult(level, level, emptySet()) // no negatives!
         }
 
+        val oldLevel = level
+        val previousLevelUpMoves = form.levelUpMoves.getMovesUpTo(oldLevel)
         // TODO xp gain event
         experience += xp
         val newLevel = experienceGroup.getLevel(experience)
-        if (newLevel != level) {
+        if (newLevel != oldLevel) {
             // TODO level up event?
             level = newLevel
         }
+
+        val newLevelUpMoves = form.levelUpMoves.getMovesUpTo(newLevel)
+        val differences = newLevelUpMoves - previousLevelUpMoves
+        differences.forEach {
+            if (moveSet.hasSpace()) {
+                moveSet.add(it.create())
+            }
+        }
+
+        return AddExperienceResult(oldLevel, newLevel, differences)
     }
 
     fun levelUp() = addExperience(getExperienceToNextLevel())
+
+    /**
+     * Exchanges an existing move set move with a benched or otherwise accessible move that is not in the move set.
+     *
+     * PP is transferred onto the new move using the % of PP that the original move had and applying it to the new one.
+     *
+     * @return true if it succeeded, false if it failed to exchange the moves. Failure can occur if the oldMove is not
+     * a move set move.
+     */
+    fun exchangeMove(oldMove: MoveTemplate, newMove: MoveTemplate): Boolean {
+        val benchedNewMove = benchedMoves.find { it.moveTemplate == newMove } ?: BenchedMove(newMove, 0)
+
+        if (moveSet.hasSpace()) {
+            benchedMoves.remove(newMove)
+            val move = newMove.create()
+            move.raisedPpStages = benchedNewMove.ppRaisedStages
+            move.currentPp = move.maxPp
+            moveSet.add(move)
+            return true
+        }
+
+        val currentMove = moveSet.find { it.template == oldMove } ?: return false
+        val currentPPRatio = currentMove.let { it.currentPp / it.maxPp.toFloat() }
+        benchedMoves.doThenEmit {
+            benchedMoves.remove(newMove)
+            benchedMoves.add(BenchedMove(currentMove.template, currentMove.raisedPpStages))
+        }
+
+        val move = newMove.create()
+        move.raisedPpStages = benchedNewMove.ppRaisedStages
+        move.currentPp = (currentPPRatio * move.maxPp).toInt()
+        moveSet.setMove(moveSet.indexOf(currentMove), move)
+
+        return true
+    }
 
     fun notify(packet: PokemonUpdatePacket) {
         storeCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }
@@ -518,7 +576,7 @@ open class Pokemon {
     private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
     private val _status = registerObservable(SimpleObservable<String>()) { StatusUpdatePacket(this, it) }
     private val _caughtBall = registerObservable(SimpleObservable<String>()) { CaughtBallUpdatePacket(this, it) }
-    private val _benchedMoves = registerObservable(benchedMoves.observable)
+    private val _benchedMoves = registerObservable(benchedMoves.observable) { BenchedMovesUpdatePacket(this, it) }
     private val _ivs = registerObservable(ivs.observable) // TODO consider a packet for it for changed ivs
     private val _evs = registerObservable(evs.observable) // TODO needs a packet
 }

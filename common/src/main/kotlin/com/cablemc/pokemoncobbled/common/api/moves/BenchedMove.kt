@@ -17,9 +17,10 @@ class BenchedMoves : Iterable<BenchedMove> {
     private val benchedMoves = mutableListOf<BenchedMove>()
 
     fun doWithoutEmitting(action: () -> Unit) {
+        val previousEmit = emit
         emit = false
         action()
-        emit = true
+        emit = previousEmit
     }
 
     fun doThenEmit(action: () -> Unit) {
@@ -37,6 +38,7 @@ class BenchedMoves : Iterable<BenchedMove> {
     fun addAll(benchedMoves: Iterable<BenchedMove>) = doThenEmit { this.benchedMoves.addAll(benchedMoves) }
     fun clear() = doThenEmit { benchedMoves.clear() }
     fun remove(benchedMove: BenchedMove) = doThenEmit { benchedMoves.remove(benchedMove) }
+    fun remove(moveTemplate: MoveTemplate) = doThenEmit { benchedMoves.removeIf { it.moveTemplate == moveTemplate } }
     override fun iterator() = benchedMoves.iterator()
 
     fun saveToNBT(nbt: ListTag): ListTag {

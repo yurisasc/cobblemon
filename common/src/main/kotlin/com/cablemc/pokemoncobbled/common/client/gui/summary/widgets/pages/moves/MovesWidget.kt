@@ -3,7 +3,9 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
+import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
+import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.switch.MoveSwitchPane
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
@@ -15,17 +17,31 @@ class MovesWidget(
     pWidth: Int, pHeight: Int,
     val summary: Summary
 ): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent("MovesWidget")) {
-
     companion object {
         private const val MOVE_WIDTH = 120
         private const val MOVE_HEIGHT = 30
         private val movesBaseResource = cobbledResource("ui/summary/summary_moves.png")
     }
 
+    var moveSwitchPane: MoveSwitchPane? = null
+        set(value) {
+            if (field != null) {
+                this.removeWidget(field!!)
+            }
+            field = value
+            if (value != null) {
+                this.addWidget(value)
+            }
+        }
+
+    init {
+        ModelWidget.render = true
+    }
+
     private var index = -1
     private val moves = summary.currentPokemon.moveSet.getMoves().map { move ->
         index++
-        MoveWidget(x + 19, y + 27 + (MOVE_HEIGHT + 3) * index, MOVE_WIDTH, MOVE_HEIGHT, move, x + 5, y + 165, this, index)
+        MoveWidget(x + 20, y + 26 + (MOVE_HEIGHT + 3) * index, MOVE_WIDTH, MOVE_HEIGHT, move, x + 6, y + 164, this, index)
     }.toMutableList().onEach {
         addWidget(it)
     }
@@ -38,6 +54,7 @@ class MovesWidget(
         moves.forEach {
             it.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
         }
+        moveSwitchPane?.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
     }
 
     private fun updateMoves() {
@@ -45,6 +62,11 @@ class MovesWidget(
             it.y = y + 27 + (MOVE_HEIGHT + 3) * moves.indexOf(it)
             it.update()
         }
+    }
+
+    fun closeSwitchMoveMenu() {
+        moveSwitchPane = null
+        ModelWidget.render = true
     }
 
     fun moveMove(move: MoveWidget, up: Boolean) {

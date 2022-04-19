@@ -26,6 +26,8 @@ class MoveSet : Iterable<Move> {
         return moves.filterNotNull()
     }
 
+    fun hasSpace() = moves.any { it == null }
+
     /**
      * Sets the given Move to given position
      */
@@ -42,6 +44,11 @@ class MoveSet : Iterable<Move> {
             clear()
             other.getMoves().forEach { add(it) }
         }
+        update()
+    }
+
+    fun heal() {
+        getMoves().forEach { it.currentPp = it.maxPp }
         update()
     }
 
@@ -111,9 +118,10 @@ class MoveSet : Iterable<Move> {
         }
     }
     fun doWithoutEmitting(action: () -> Unit) {
+        val previousEmit = emit
         emit = false
         action()
-        emit = true
+        emit = previousEmit
     }
 
 

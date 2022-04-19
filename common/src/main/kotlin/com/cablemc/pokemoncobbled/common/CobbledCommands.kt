@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.command.ChangeScaleAndSize
 import com.cablemc.pokemoncobbled.common.command.ClickTextCommand
 import com.cablemc.pokemoncobbled.common.command.GivePokemon
+import com.cablemc.pokemoncobbled.common.command.LevelUp
 import com.cablemc.pokemoncobbled.common.command.SpawnPokemon
 import com.cablemc.pokemoncobbled.common.command.TakePokemon
 import com.cablemc.pokemoncobbled.common.command.TestCommand
@@ -18,5 +19,6 @@ object CobbledCommands {
         ChangeScaleAndSize.register(dispatcher)
         TestCommand.register(dispatcher)
         ClickTextCommand.register(dispatcher)
+        LevelUp.register(dispatcher)
     }
 }

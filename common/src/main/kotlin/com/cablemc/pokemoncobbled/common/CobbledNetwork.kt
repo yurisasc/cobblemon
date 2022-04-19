@@ -12,6 +12,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPa
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemoncobbled.common.util.getServer
@@ -47,6 +48,8 @@ object CobbledNetwork {
 
 
     fun register() {
+        // Don't forget to register handlers in either ClientPacketRegistrar or ServerPacketRegistrar!
+
         /**
          * Client Packets
          */
@@ -62,6 +65,7 @@ object CobbledNetwork {
         buildClientMessage<ExperienceUpdatePacket>()
         buildClientMessage<StatusUpdatePacket>()
         buildClientMessage<CaughtBallUpdatePacket>()
+        buildClientMessage<BenchedMovesUpdatePacket>()
 
         // Storage Packets
         buildClientMessage<InitializePartyPacket>()
@@ -82,6 +86,7 @@ object CobbledNetwork {
         // Storage Packets
         buildServerMessage<SendOutPokemonPacket>()
         buildServerMessage<RequestMoveSwapPacket>()
+        buildServerMessage<BenchMovePacket>()
     }
 
     private inline fun <reified P : NetworkPacket> buildClientMessage() =

@@ -93,21 +93,24 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
      */
     private lateinit var modelWidget: ModelWidget
 
+    var currentPageIndex = MOVES
+
     /**
      * Initializes the Summary Screen
      */
-    override fun init() {
+    public override fun init() {
         super.init()
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
 
-        // Currently always starting with the MovesWidget
+
         currentPage = MovesWidget(
             pX = x, pY = y,
             pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
             summary = this
         )
+        currentPageIndex = MOVES
 
         // Add Buttons to change Pages - START
         addRenderableWidget(
@@ -139,7 +142,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         // Add Exit Button
         addRenderableWidget(
             ExitButton(
-                pX = x + 296, pY = y + 4,
+                pX = x + 265, pY = y + 6,
                 pWidth = 28, pHeight = 16,
                 pXTexStart = 0, pYTexStart = 0, pYDiffText = 0
             ) {
@@ -149,8 +152,10 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         // Add Party
         addRenderableWidget(
             PartyWidget(
-                pX = x + BASE_WIDTH, pY = y,
+                pX = x + BASE_WIDTH - 2, pY = y + 18,
                 pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
+                isParty = currentPokemon in PokemonCobbledClient.storage.myParty,
+                summary = this,
                 pokemonList = pokemonList
             )
         )
@@ -172,13 +177,15 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     /**
      * Switches the selected PKM
      */
-    private fun switchSelection(newSelection: Int) {
+    fun switchSelection(newSelection: Int) {
         pokemonList[newSelection]?.run {
             currentPokemon = this
         }
         moveSetSubscription?.unsubscribe()
         listenToMoveSet()
+        switchTo(currentPageIndex)
         modelWidget.pokemon = currentPokemon
+
     }
 
     private var moveSetSubscription: ObservableSubscription<MoveSet>? = null
@@ -204,6 +211,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
      * Switches to the given Page
      */
     private fun switchTo(page: Int) {
+        currentPageIndex = page
         removeWidget(currentPage)
         when (page) {
             INFO -> {
@@ -227,6 +235,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
             }
         }
         addRenderableWidget(currentPage)
+        ModelWidget.render = true
     }
 
     override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
@@ -257,5 +266,13 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
      */
     override fun isPauseScreen(): Boolean {
         return false
+    }
+
+    override fun mouseScrolled(d: Double, e: Double, f: Double): Boolean {
+        return children().any { it.mouseScrolled(d, e, f) }
+    }
+
+    override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
+        return children().any { it.mouseClicked(d, e, i) }
     }
 }

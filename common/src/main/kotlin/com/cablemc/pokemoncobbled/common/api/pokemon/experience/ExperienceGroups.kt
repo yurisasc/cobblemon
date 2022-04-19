@@ -109,7 +109,7 @@ object MediumFast : CachedExperienceGroup() {
 
 object MediumSlow : CachedExperienceGroup() {
     override val name = "mediumslow"
-    override fun getExperience(level: Int) = max(0.0, 6.0 / 5 * level.pow(3) - 15 * level.pow(2) + 100 * level - 140).toInt()
+    override fun getExperience(level: Int) = max(0, level.pow(3) * 6 / 5 - 15 * level.pow(2) + 100 * level - 140)
 }
 
 object Slow : CachedExperienceGroup() {

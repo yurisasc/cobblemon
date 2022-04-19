@@ -13,8 +13,8 @@ class ExitButton(
 ): ImageButton(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, exitButtonResource, onPress) {
 
     companion object {
-        private const val EXIT_BUTTON_WIDTH = 25
-        private const val EXIT_BUTTON_HEIGHT = 14.2F
+        private const val EXIT_BUTTON_WIDTH = 21.25F
+        private const val EXIT_BUTTON_HEIGHT = 15F
         private val exitButtonResource = cobbledResource("ui/summary/summary_overlay_exit.png")
     }
 
@@ -23,7 +23,7 @@ class ExitButton(
         if (isHovered) {
             blitk(
                 poseStack = pMatrixStack,
-                x = x + 0.7F, y = y + 1.25F,
+                x = x + 1.75F, y = y - 0.5F,
                 texture = exitButtonResource,
                 width = EXIT_BUTTON_WIDTH, height = EXIT_BUTTON_HEIGHT
             )

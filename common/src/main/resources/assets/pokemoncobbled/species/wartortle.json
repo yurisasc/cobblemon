@@ -11,6 +11,19 @@
     "special_defence": 80,
     "speed": 58
   },
+  "levelUpMoves": {
+    "1": [ "tackle", "tailwhip", "watergun", "withdrawal"],
+    "9": [ "rapidspin" ],
+    "12": [ "bite" ],
+    "15": [ "waterpulse" ],
+    "20": [ "protect" ],
+    "25": [ "raindance" ],
+    "30": [ "aquatail" ],
+    "35": [ "shellsmash" ],
+    "40": [ "irondefense" ],
+    "45": [ "hydropump" ],
+    "50": [ "skullbash" ]
+  },
   "catchRate": 45,
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 142,

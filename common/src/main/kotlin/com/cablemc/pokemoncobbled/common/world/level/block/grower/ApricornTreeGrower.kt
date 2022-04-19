@@ -9,7 +9,7 @@ import java.util.*
 
 class ApricornTreeGrower(private val color: String) : AbstractTreeGrower() {
     override fun getConfiguredFeature(random: Random, bl: Boolean): Holder<out ConfiguredFeature<*, *>> {
-        return when(color) {
+        return when (color) {
             "black" -> CobbledConfiguredFeatures.BLACK_APRICORN_TREE
             "blue" -> CobbledConfiguredFeatures.BLUE_APRICORN_TREE
             "green" -> CobbledConfiguredFeatures.GREEN_APRICORN_TREE
