@@ -44,6 +44,7 @@ import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.util.Mth.ceil
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 import java.lang.Integer.min
@@ -76,6 +77,8 @@ open class Pokemon {
             if (value < 1) {
                 throw IllegalArgumentException("Level cannot be negative")
             }
+
+            val hpRatio = currentHealth / hp.toFloat()
             /*
              * When people set the level programmatically the experience value will become incorrect.
              * Specifically check for when there's a mismatch and update the experience.
@@ -85,6 +88,8 @@ open class Pokemon {
                 experience = experienceGroup.getExperience(value)
             }
             _level.emit(value)
+
+            currentHealth = ceil(hpRatio * hp).coerceIn(0..hp)
         }
     var experience = 0
         protected set(value) {
