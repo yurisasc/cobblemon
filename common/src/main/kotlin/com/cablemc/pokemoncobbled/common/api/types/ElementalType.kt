@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation
 class ElementalType(
     val name: String,
     val displayName: Component,
+    val hue: Int,
     val textureXMultiplier: Int,
     val resourceLocation: ResourceLocation = ResourceLocation(PokemonCobbled.MODID, "ui/types.png")
 ) {

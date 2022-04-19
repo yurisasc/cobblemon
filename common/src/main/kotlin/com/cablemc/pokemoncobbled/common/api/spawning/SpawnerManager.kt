@@ -37,7 +37,7 @@ open class SpawnerManager {
 
     open fun onServerTick() {
         // Disables spawning
-        if(!PokemonCobbled.config.enableSpawning) {
+        if (!PokemonCobbled.config.enableSpawning) {
             return;
         }
         getSpawnersOfType<TickingSpawner>().forEach { it.tick() }

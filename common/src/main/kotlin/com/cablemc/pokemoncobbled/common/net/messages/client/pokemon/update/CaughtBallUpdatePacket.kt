@@ -12,7 +12,7 @@ class CaughtBallUpdatePacket() : StringUpdatePacket() {
 
     override fun set(pokemon: Pokemon, value: String) {
         val pokeBall = PokeBalls.getPokeBall(ResourceLocation(value))
-        if(pokeBall != null) {
+        if (pokeBall != null) {
             pokemon.caughtBall = pokeBall
         }
     }

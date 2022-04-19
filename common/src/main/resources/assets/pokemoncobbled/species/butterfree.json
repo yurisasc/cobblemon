@@ -12,6 +12,20 @@
     "special_defence": 80,
     "speed": 70
   },
+  "levelUpMoves": {
+    "1": [ "gust", "harden", "tackle", "stringshot", "bugbite" ],
+    "4": [ "supersonic" ],
+    "8": [ "confusion" ],
+    "12": [ "poisonpowder", "stunspore", "sleeppowder" ],
+    "16": [ "psybeam" ],
+    "20": [ "whirlwind" ],
+    "24": [ "airslash" ],
+    "28": [ "safeguard" ],
+    "32": [ "bugbuzz" ],
+    "36": [ "tailwind" ],
+    "40": [ "ragepowder" ],
+    "44": [ "quiverdance" ]
+  },
   "catchRate": 45,
   "experienceGroup": "mediumfast",
   "baseExperienceYield": 178,

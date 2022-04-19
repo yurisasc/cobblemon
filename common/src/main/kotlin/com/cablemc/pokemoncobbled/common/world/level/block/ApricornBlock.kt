@@ -46,9 +46,9 @@ class ApricornBlock(properties: Properties, val itemSupplier: Supplier<ApricornI
     override fun use(blockState: BlockState, level: Level, blockPos: BlockPos, player: Player, interactionHand: InteractionHand, blockHitResult: BlockHitResult): InteractionResult {
         val age = blockState.getValue(AGE)
         val fullyGrown = age == 2
-        return if(!fullyGrown && player.getItemInHand(interactionHand).`is`(Items.BONE_MEAL)) {
+        return if (!fullyGrown && player.getItemInHand(interactionHand).`is`(Items.BONE_MEAL)) {
             InteractionResult.PASS
-        } else if(fullyGrown) {
+        } else if (fullyGrown) {
             Block.popResource(level, blockPos, ItemStack(itemSupplier.get()))
             level.setBlock(blockPos, blockState.setValue(AGE, 0), 2)
             InteractionResult.sidedSuccess(level.isClientSide)
@@ -83,7 +83,7 @@ class ApricornBlock(properties: Properties, val itemSupplier: Supplier<ApricornI
 
     override fun getShape(blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos, collisionContext: CollisionContext): VoxelShape {
         val age = blockState.getValue(AGE)
-        return when(blockState.getValue(FACING)) {
+        return when (blockState.getValue(FACING)) {
             Direction.NORTH -> NORTH_AABB[age]
             Direction.EAST -> EAST_AABB[age]
             Direction.SOUTH -> SOUTH_AABB[age]

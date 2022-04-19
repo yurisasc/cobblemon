@@ -22,6 +22,8 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
  */
 object ClientPacketRegistrar : SidedPacketRegistrar() {
     override fun registerHandlers() {
+        // Don't forget to register packets in CobbledNetwork!
+
         registerHandler<ExperienceUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<LevelUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<SpeciesUpdatePacket>(SingleUpdatePacketHandler())
@@ -33,6 +35,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<HealthUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<StatusUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<CaughtBallUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<BenchedMovesUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler(InitializePartyHandler)
         registerHandler(SetPartyPokemonHandler)
         registerHandler(MovePartyPokemonHandler)

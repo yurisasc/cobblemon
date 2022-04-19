@@ -35,7 +35,7 @@ object CobbledWorldSpawnerManager : SpawnerManager() {
 
     fun onPlayerLogin(player: ServerPlayer) {
         // Disables spawning
-        if(!PokemonCobbled.config.enableSpawning) {
+        if (!PokemonCobbled.config.enableSpawning) {
             return;
         }
 
