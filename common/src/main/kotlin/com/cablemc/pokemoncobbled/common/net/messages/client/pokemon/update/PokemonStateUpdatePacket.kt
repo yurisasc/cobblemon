@@ -6,7 +6,10 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import net.minecraft.network.FriendlyByteBuf
 
 class PokemonStateUpdatePacket(): SingleUpdatePacket<PokemonState>(InactivePokemonState()) {
-    constructor(state: PokemonState): this() { value = state }
+    constructor(pokemon: Pokemon, state: PokemonState): this() {
+        setTarget(pokemon)
+        value = state
+    }
     override fun encodeValue(buffer: FriendlyByteBuf, value: PokemonState) { value.writeToBuffer(buffer) }
     override fun decodeValue(buffer: FriendlyByteBuf) = PokemonState.fromBuffer(buffer)
     override fun set(pokemon: Pokemon, value: PokemonState) { pokemon.state = value }
