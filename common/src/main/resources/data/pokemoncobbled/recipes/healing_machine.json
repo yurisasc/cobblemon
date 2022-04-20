@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "I  ",
+        "ICC",
+        "BBB"
+    ],
+    "key": {
+        "C": {
+            "item": "minecraft:copper_ingot"
+        },
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "B": {
+            "item": "minecraft:iron_block"
+        }
+    },
+    "result": {
+        "item": "pokemoncobbled:healing_machine"
+    }
+}

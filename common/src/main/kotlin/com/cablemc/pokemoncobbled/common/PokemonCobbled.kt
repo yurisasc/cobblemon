@@ -95,6 +95,7 @@ object PokemonCobbled {
         this.implementation = implementation
         CobbledEntities.register()
         CobbledBlocks.register()
+        CobbledBlockEntities.register()
         CobbledItems.register()
         CobbledSounds.register()
         CobbledNetwork.register()
@@ -182,7 +183,6 @@ object PokemonCobbled {
     fun loadConfig() {
         val configFile = File("config/$MODID.json")
         configFile.parentFile.mkdirs()
-        LOGGER.info(configFile.absolutePath)
 
         // Check config existence and load if it exists, otherwise create default.
         if (configFile.exists()) {

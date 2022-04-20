@@ -5,5 +5,6 @@ enum class Category {
     Pokemon,
     Spawning,
     Battles,
-    PassiveStatus
+    PassiveStatus,
+    Healing
 }

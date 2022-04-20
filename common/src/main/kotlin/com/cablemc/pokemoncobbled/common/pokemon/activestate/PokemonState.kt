@@ -167,7 +167,7 @@ class ShoulderedState() : ActivePokemonState() {
             }
             // Requires mixin to bypass access transformer not existing here
 
-            if(player is IShoulderable) {
+            if (player is IShoulderable) {
                 if (isLeftShoulder) {
                     player.changeShoulderEntityLeft(CompoundTag())
                 } else {

@@ -26,6 +26,10 @@ class MovesMoveButton(
         private var blocked = false
     }
 
+    override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean {
+        return false
+    }
+
     override fun renderButton(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if (isHovered) {
             if (isUp) {

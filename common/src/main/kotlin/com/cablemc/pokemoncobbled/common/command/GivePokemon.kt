@@ -40,7 +40,6 @@ object GivePokemon {
             val pokemonProperties = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
             val pokemon = pokemonProperties.create()
             val party = PokemonCobbled.storage.getParty(player)
-            pokemon.moveSet.add(Moves.getByName("tackle")!!.create()) // TODO remove when pokemon generate movesets
             party.add(pokemon)
             context.source.sendSuccess(commandLang("givepokemon.give", pokemon.species.translatedName, player.name), true)
         } catch (e: Exception) {

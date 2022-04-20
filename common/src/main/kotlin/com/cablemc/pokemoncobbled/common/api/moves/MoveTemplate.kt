@@ -33,14 +33,14 @@ open class MoveTemplate(
     val priority: Int,
     val critRatio: Double,
     val effectChance: Double,
-    val effectStatus: String,
-    val maxPp: Int = 8 * pp / 5
+    val effectStatus: String
 ) {
     val displayName: TranslatableComponent
         get() = lang("move.$name")
     val description: TranslatableComponent
         get() = lang("move.$name.desc")
-
+    val maxPp: Int
+        get() = 8 * pp / 5
     class Dummy(name: String) : MoveTemplate(
         name = name,
         elementalType = ElementalTypes.NORMAL,
@@ -62,20 +62,20 @@ open class MoveTemplate(
     /**
      * Creates the Move with full PP
      */
-    fun create() = create(maxPp)
+    fun create() = create(pp)
 
     /**
      * Creates the Move with given PP out of the normal maximum
      */
-    fun create(currentPp: Int) = create(currentPp, maxPp)
+    fun create(currentPp: Int) = create(currentPp, 0)
 
     /**
-     * Creates the Move with given PP out of the given maximum
+     * Creates the Move with given current PP and the given raised PP stages.
      */
-    fun create(currentPp: Int, pMaxPp: Int): Move {
+    fun create(currentPp: Int, raisedPpStages: Int): Move {
         return Move(
             currentPp = currentPp,
-            maxPp = pMaxPp,
+            raisedPpStages = raisedPpStages,
             template = this
         )
     }

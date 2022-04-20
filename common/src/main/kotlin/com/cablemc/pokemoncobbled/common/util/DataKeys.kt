@@ -17,7 +17,6 @@ object DataKeys {
     const val POKEMON_MOVESET = "MoveSet"
     const val POKEMON_MOVESET_MOVENAME = "MoveName"
     const val POKEMON_MOVESET_MOVEPP = "MovePP"
-    const val POKEMON_MOVESET_MAXPP = "MaxPP"
     const val POKEMON_MOVESET_RAISED_PP_STAGES = "RaisedPPStages"
     const val POKEMON_ABILITY = "Ability"
     const val POKEMON_ABILITY_NAME = "AbilityName"
@@ -53,4 +52,11 @@ object DataKeys {
     const val POKEMON_PROPERTIES_CUSTOM = "CustomProperties"
     const val POKEMON_PROPERTIES_ORIGINAL_TEXT = "OriginalText"
     const val POKEMON_SPECIES_TEXT = "SpeciesText"
+
+    /* Healer  Block */
+    const val HEALER_MACHINE_USER = "MachineUser"
+    const val HEALER_MACHINE_POKEBALLS = "MachinePokeBalls"
+    const val HEALER_MACHINE_TIME_LEFT = "MachineTimeLeft"
+    const val HEALER_MACHINE_CHARGE = "MachineCharge"
+    /* ----------- */
 }
