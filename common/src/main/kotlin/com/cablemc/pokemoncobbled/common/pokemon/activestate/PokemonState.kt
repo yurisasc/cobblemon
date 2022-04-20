@@ -3,7 +3,9 @@ package com.cablemc.pokemoncobbled.common.pokemon.activestate
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.entity.player.IShoulderable
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.isPokemonEntity
 import com.cablemc.pokemoncobbled.common.util.party
@@ -34,6 +36,8 @@ sealed class PokemonState {
     val name: String
         get() = states.entries.find { it.value == this::class.java }!!.key
 
+    open fun getIcon(pokemon: Pokemon): ResourceLocation? = null
+
     open fun writeToNBT(nbt: CompoundTag): CompoundTag? {
         nbt.putString(DataKeys.POKEMON_STATE_TYPE, name)
         return nbt
@@ -50,6 +54,12 @@ sealed class PokemonState {
 
 class InactivePokemonState : PokemonState() {
     override fun writeToNBT(nbt: CompoundTag) = null
+    override fun getIcon(pokemon: Pokemon): ResourceLocation {
+//        if (pokemon.caughtBall == PokeBalls.POKE_BALL) {
+//
+//        }
+        return cobbledResource("ui/party/party_icon_poke_ball.png")
+    }
 }
 
 sealed class ActivePokemonState : PokemonState() {
@@ -69,6 +79,7 @@ class SentOutState() : ActivePokemonState() {
         this.dimension = entity.level.dimension()
     }
 
+    override fun getIcon(pokemon: Pokemon) = cobbledResource("ui/party/party_icon_released.png")
     override fun writeToNBT(nbt: CompoundTag) = null
     override fun writeToJSON(json: JsonObject) = null
 
@@ -103,6 +114,11 @@ class ShoulderedState() : ActivePokemonState() {
     }
 
     override val entity: PokemonEntity? = null
+
+    override fun getIcon(pokemon: Pokemon): ResourceLocation {
+        val suffix = if (isLeftShoulder) "left" else "right"
+        return cobbledResource("ui/party/party_icon_shoulder_$suffix.png")
+    }
     override fun writeToNBT(nbt: CompoundTag): CompoundTag {
         super.writeToNBT(nbt)
         nbt.putBoolean(DataKeys.POKEMON_STATE_SHOULDER, isLeftShoulder)
