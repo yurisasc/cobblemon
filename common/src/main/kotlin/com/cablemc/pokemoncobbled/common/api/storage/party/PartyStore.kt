@@ -184,8 +184,12 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return totalPercent
     }
 
-    fun toBattleTeam(clone: Boolean = false) = map {
-        return@map if (clone) {
+    fun toBattleTeam(clone: Boolean = false, checkHealth: Boolean = true) = mapNotNull {
+        // TODO Other 'able to battle' checks
+        if (checkHealth && it.currentHealth <= 0) {
+            return@mapNotNull null
+        }
+        return@mapNotNull if (clone) {
             BattlePokemon.safeCopyOf(it)
         } else {
             BattlePokemon(it)
