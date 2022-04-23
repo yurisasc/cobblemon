@@ -1,8 +1,11 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToPlayers
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.PokemonFaintedEvent
 import com.cablemc.pokemoncobbled.common.api.moves.BenchedMove
 import com.cablemc.pokemoncobbled.common.api.moves.BenchedMoves
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
@@ -66,6 +69,14 @@ open class Pokemon {
         set(value) {
             field = min(hp, value)
             _currentHealth.emit(field)
+
+            // If the Pokémon is fainted, give it a timer for it to wake back up
+            if(this.isFainted() && faintedTimer == -1) {
+                val faintTime = PokemonCobbled.config.defaultFaintTimer
+                CobbledEvents.POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
+                    this.faintedTimer = it.faintedTimer
+                }
+            }
         }
     var status: PersistentStatusContainer? = null
         set(value) {
@@ -132,6 +143,11 @@ open class Pokemon {
     val experienceGroup: ExperienceGroup
         get() = form.experienceGroup
 
+    var faintedTimer: Int = -1
+        set(value) {
+            field = min(-1, value)
+        }
+
     /**
      * All moves that the Pokémon has, at some point, known. This is to allow players to
      * swap in moves they've used before at any time, while holding onto the remaining PP
@@ -192,6 +208,11 @@ open class Pokemon {
         this.currentHealth = hp
         this.moveSet.heal()
         this.status = null
+        this.faintedTimer = -1
+    }
+
+    fun isFainted(): Boolean {
+        return currentHealth <= 0
     }
 
     fun applyStatus(status: PersistentStatus) {
@@ -221,6 +242,7 @@ open class Pokemon {
         status?.saveToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
         nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(ListTag()))
+        nbt.putInt(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         return nbt
     }
 
@@ -254,6 +276,7 @@ open class Pokemon {
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, TAG_COMPOUND.toInt()))
+        faintedTimer = nbt.getInt(DataKeys.POKEMON_FAINTED_TIMER)
         return this
     }
 
@@ -275,6 +298,7 @@ open class Pokemon {
         status?.saveToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATUS, it) }
         json.addProperty(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         json.add(DataKeys.BENCHED_MOVES, benchedMoves.saveToJSON(JsonArray()))
+        json.addProperty(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         return json
     }
 
@@ -307,6 +331,7 @@ open class Pokemon {
         val ballName = json.get(DataKeys.POKEMON_CAUGHT_BALL).asString
         caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
+        faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         return this
     }
 
@@ -328,6 +353,7 @@ open class Pokemon {
         buffer.writeUtf(status?.status?.name?.toString() ?: "")
         buffer.writeUtf(caughtBall.name.toString())
         benchedMoves.saveToBuffer(buffer)
+        buffer.writeInt(faintedTimer)
         return buffer
     }
 
@@ -355,6 +381,7 @@ open class Pokemon {
         val ballName = buffer.readUtf()
         caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromBuffer(buffer)
+        faintedTimer = buffer.readInt()
         return this
     }
 

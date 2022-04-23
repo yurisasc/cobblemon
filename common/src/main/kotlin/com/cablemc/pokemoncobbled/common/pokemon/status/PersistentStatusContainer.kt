@@ -13,17 +13,25 @@ import net.minecraft.resources.ResourceLocation
  */
 class PersistentStatusContainer(
     val status: PersistentStatus,
-    var activeSeconds: Int = 0
+    var secondsLeft: Int = 0
 ) {
+    fun isExpired(): Boolean {
+        return this.secondsLeft <= 0;
+    }
+
+    fun tickTimer() {
+        this.secondsLeft--
+    }
+
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putString(DataKeys.POKEMON_STATUS_NAME, status.name.toString())
-        nbt.putInt(DataKeys.POKEMON_STATUS_TIMER, activeSeconds)
+        nbt.putInt(DataKeys.POKEMON_STATUS_TIMER, secondsLeft)
         return nbt
     }
 
     fun saveToJSON(json: JsonObject): JsonObject {
         json.addProperty(DataKeys.POKEMON_STATUS_NAME, status.name.toString())
-        json.addProperty(DataKeys.POKEMON_STATUS_TIMER, activeSeconds)
+        json.addProperty(DataKeys.POKEMON_STATUS_TIMER, secondsLeft)
         return json
     }
 

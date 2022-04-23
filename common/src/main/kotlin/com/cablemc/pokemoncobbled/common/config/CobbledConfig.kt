@@ -66,4 +66,16 @@ class CobbledConfig {
 
     @NodeCategory(Category.Healing)
     var chargeGainedPerTick = 0.00008333333f
+
+    @NodeCategory(Category.Healing)
+    var defaultFaintTimer = 300
+
+    @NodeCategory(Category.Healing)
+    var faintAwakenHealthPercent = 0.2f
+
+    @NodeCategory(Category.Healing)
+    var randomHealAmount = 1..3
+
+    @NodeCategory(Category.Healing)
+    var healChance = 5
 }
