@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.pokemon
 
+import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
@@ -187,16 +188,24 @@ class PokemonRenderer(
         poseStack.mulPose(entityRenderDispatcher.cameraOrientation())
         poseStack.scale(-0.025f * stepMultiplier, -0.025f * stepMultiplier, 1f)
         val matrix4f = poseStack.last().pose()
-        val g = Minecraft.getInstance().options.getBackgroundOpacity(0.25f)
+        val g = mc.options.getBackgroundOpacity(0.25f)
         val k = (g * 255.0f).toInt() shl 24
         val label = entity.pokemon.species.translatedName
-        val h = (-font.width(label) / 2).toFloat()
+        var h = (-font.width(label) / 2).toFloat()
         val y = 0F
         val seeThrough = true
         val packedLight = LightTexture.pack(15, 15)
         font.drawInBatch(label, h, y, 0x20FFFFFF, false, matrix4f, multiBufferSource, seeThrough, k, packedLight)
         font.drawInBatch(label, h, y, -1, false, matrix4f, multiBufferSource, false, 0, packedLight)
+
+        if (entity.canBattle(player)) {
+            val battlePrompt = "Press R to battle".text()
+            h = (-font.width(battlePrompt) / 2).toFloat()
+            font.drawInBatch(battlePrompt, h, y + 10, 0x20FFFFFF, false, matrix4f, multiBufferSource, seeThrough, k, packedLight)
+            font.drawInBatch(battlePrompt, h, y + 10, -1, false, matrix4f, multiBufferSource, false, 0, packedLight)
+        }
         poseStack.popPose()
+
     }
 
     fun renderGlow(

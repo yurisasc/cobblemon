@@ -11,9 +11,12 @@ import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.party
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.Entity
+import java.util.UUID
 
 class BattleBuilder {
     companion object {
@@ -63,12 +66,13 @@ class BattleBuilder {
         fun pve(
             player: ServerPlayer,
             pokemonEntity: PokemonEntity,
-            battleFormat: BattleFormat,
+            leadingPokemon: UUID? = null,
+            battleFormat: BattleFormat = BattleFormat.GEN_8_SINGLES,
             cloneParties: Boolean = false,
             healFirst: Boolean = false,
             partyAccessor: (ServerPlayer) -> PartyStore = { it.party() }
         ): BattleStartResult {
-            val playerTeam = partyAccessor(player).toBattleTeam(clone = cloneParties, checkHealth = !healFirst)
+            val playerTeam = partyAccessor(player).toBattleTeam(clone = cloneParties, checkHealth = !healFirst, leadingPokemon = leadingPokemon)
             val playerActor = PlayerBattleActor(player.uuid, playerTeam)
             val wildActor = PokemonBattleActor(pokemonEntity.pokemon.uuid, BattlePokemon(pokemonEntity.pokemon))
             val errors = ErroredBattleStart()
@@ -179,6 +183,10 @@ open class ErroredBattleStart(
     inline fun <reified T : BattleStartError> forError(action: (T) -> Unit): ErroredBattleStart {
         errors.filterIsInstance<T>().forEach { action(it) }
         return this
+    }
+
+    fun sendTo(entity: Entity, transformer: (MutableComponent) -> (MutableComponent) = { it }) {
+        errors.forEach { entity.sendServerMessage(transformer(it.message)) }
     }
 
     inline fun <reified T : BattleStartError> ifHasError(action: () -> Unit): ErroredBattleStart {

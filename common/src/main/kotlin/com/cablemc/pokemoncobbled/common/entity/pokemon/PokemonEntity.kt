@@ -42,13 +42,19 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import java.util.EnumSet
+import java.util.Optional
+import java.util.UUID
 
 class PokemonEntity(
     level: Level,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
 ) : ShoulderRidingEntity(type, level), EntitySpawnExtension {
-    var pokemon: Pokemon
+    var pokemon: Pokemon = pokemon
+        set(value) {
+            field = value
+            delegate.changePokemon(value)
+        }
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.defaultPokemonDespawner
 
     val delegate = if (level.isClientSide) {
@@ -70,6 +76,8 @@ class PokemonEntity(
     val isMoving = addEntityProperty(MOVING, false)
     val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
+    val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
+
     /**
      * 0 is do nothing,
      * 1 is appearing from a pokeball so needs to be small then grows,
@@ -79,9 +87,19 @@ class PokemonEntity(
     // properties like the above are synced and can be subscribed to for changes on either side
 
     init {
-        this.pokemon = pokemon
         delegate.initialize(this)
+        delegate.changePokemon(pokemon)
         refreshDimensions()
+
+        battleId
+            .subscribeIncludingCurrent {
+                if (it.isPresent) {
+                    busyLocks.add(BATTLE_LOCK)
+                } else {
+                    busyLocks.remove(BATTLE_LOCK)
+                }
+            }
+            .unsubscribeWhen { isRemoved }
     }
 
     companion object {
@@ -91,6 +109,10 @@ class PokemonEntity(
         private val BEHAVIOUR_FLAGS = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
         private val PHASING_TARGET_ID = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
         private val BEAM_MODE = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
+        private val BATTLE_ID = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.OPTIONAL_UUID)
+
+
+        const val BATTLE_LOCK = "battle"
     }
 
     override fun tick() {
@@ -120,8 +142,7 @@ class PokemonEntity(
     override fun checkFallDamage(pY: Double, pOnGround: Boolean, pState: BlockState, pPos: BlockPos) {
         if (ElementalTypes.FLYING in pokemon.types) {
             super.resetFallDistance()
-        }
-        else {
+        } else {
             super.checkFallDamage(pY, pOnGround, pState, pPos)
         }
     }
@@ -246,4 +267,16 @@ class PokemonEntity(
     }
 
     fun getBehaviourFlag(flag: PokemonBehaviourFlag): Boolean = getBitForByte(behaviourFlags.get(), flag.bit)
+
+    fun canBattle(player: Player): Boolean {
+        if (isBusy) {
+            return false
+        }
+
+        if (ownerUUID == player.uuid) {
+            return false
+        }
+
+        return true
+    }
 }

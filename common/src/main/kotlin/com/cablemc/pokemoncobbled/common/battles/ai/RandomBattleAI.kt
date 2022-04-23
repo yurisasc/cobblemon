@@ -17,7 +17,7 @@ class RandomBattleAI : BattleAI {
         for (pokemon in activePokemon) {
             val move = pokemon.selectableMoves.filter { it.canBeUsed() }.randomOrNull()
             if (move == null) {
-                decisions.add("pass")
+                decisions.add("move struggle")
                 continue
             }
 
