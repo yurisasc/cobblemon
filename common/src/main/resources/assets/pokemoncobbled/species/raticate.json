@@ -1,0 +1,22 @@
+{
+  "name": "raticate",
+  "nationalPokedexNumber": 20,
+  "primaryType": "normal",
+  "secondaryType": null,
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 55,
+    "attack": 81,
+    "defence": 60,
+    "specialAttack": 50,
+    "specialDefence": 70,
+    "speed": 97
+  },
+  "catchRate": 127,
+  "baseScale": null,
+  "hitbox": {
+    "width": null,
+    "height": null,
+    "fixed": false
+  }
+}

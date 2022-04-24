@@ -39,6 +39,8 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerBaseSpeciesModel(PokemonSpecies.GYARADOS, BlockBenchModelWrapper(GyaradosModel.LAYER_LOCATION, GyaradosModel::createBodyLayer) { GyaradosModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.EEVEE, BlockBenchModelWrapper(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.RATTATA, BlockBenchModelWrapper(RattataModel.LAYER_LOCATION, RattataModel::createBodyLayer) { RattataModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.RATICATE, BlockBenchModelWrapper(RaticateModel.LAYER_LOCATION, RaticateModel::createBodyLayer) { RaticateModel(it) })
+
     }
 
     private fun registerBaseSpeciesModel(species: Species, model: BlockBenchModelWrapper<PokemonEntity>) {
