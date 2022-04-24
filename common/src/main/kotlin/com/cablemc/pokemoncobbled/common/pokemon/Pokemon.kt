@@ -425,9 +425,10 @@ open class Pokemon {
     val allAccessibleMoves: Set<MoveTemplate>
         get() = form.levelUpMoves.getMovesUpTo(level) + benchedMoves.map { it.moveTemplate }
 
-    fun initialize() {
+    fun initialize(): Pokemon {
         // TODO some other initializations to do with form and gender n shit
         initializeMoveset()
+        return this
     }
 
     fun initializeMoveset(preferLatest: Boolean = true) {

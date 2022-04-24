@@ -20,7 +20,7 @@ object ChallengeHandler : PacketHandler<ChallengePacket> {
             val leadingPokemon = player.party()[packet.selectedPokemonId]?.uuid ?: return@runOnServer
 
             if (targetedEntity is PokemonEntity) {
-                BattleBuilder.pve(player, targetedEntity, leadingPokemon).ifErrored { it.sendTo(player) }
+                BattleBuilder.pve(player, targetedEntity, leadingPokemon).ifErrored { it.sendTo(player) { it.red() } }
             } else if (targetedEntity is ServerPlayer) {
 
             } else {
