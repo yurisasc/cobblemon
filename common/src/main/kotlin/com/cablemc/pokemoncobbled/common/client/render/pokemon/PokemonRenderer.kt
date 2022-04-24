@@ -1,9 +1,10 @@
 package com.cablemc.pokemoncobbled.common.client.render.pokemon
 
-import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
+import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
 import com.cablemc.pokemoncobbled.common.client.render.addVertex
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
@@ -12,6 +13,7 @@ import com.cablemc.pokemoncobbled.common.client.render.renderBeaconBeam
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.isLookingAt
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Quaternion
@@ -199,7 +201,8 @@ class PokemonRenderer(
         font.drawInBatch(label, h, y, -1, false, matrix4f, multiBufferSource, false, 0, packedLight)
 
         if (entity.canBattle(player)) {
-            val battlePrompt = "Press R to battle".text()
+            val sendOutBinding = PartySendBinding.currentKey().displayName
+            val battlePrompt = lang("challenge_label", sendOutBinding)
             h = (-font.width(battlePrompt) / 2).toFloat()
             font.drawInBatch(battlePrompt, h, y + 10, 0x20FFFFFF, false, matrix4f, multiBufferSource, seeThrough, k, packedLight)
             font.drawInBatch(battlePrompt, h, y + 10, -1, false, matrix4f, multiBufferSource, false, 0, packedLight)
