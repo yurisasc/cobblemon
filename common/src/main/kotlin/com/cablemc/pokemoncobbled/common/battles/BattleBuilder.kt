@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.party
@@ -86,10 +85,12 @@ class BattleBuilder {
                 )
             }
 
-            for (actor in arrayOf(playerActor, wildActor)) {
-                if (BattleRegistry.getBattleByParticipatingPlayer(player) != null) {
-                    errors.participantErrors[actor] += BattleStartError.alreadyInBattle(actor)
-                }
+            if (BattleRegistry.getBattleByParticipatingPlayer(player) != null) {
+                errors.participantErrors[playerActor] += BattleStartError.alreadyInBattle(playerActor)
+            }
+
+            if (pokemonEntity.battleId.get().isPresent) {
+                errors.participantErrors[wildActor] += BattleStartError.alreadyInBattle(wildActor)
             }
 
             return if (errors.isEmpty) {
@@ -129,12 +130,13 @@ class SuccessfulBattleStart(
 }
 
 interface BattleStartError {
-    val message: MutableComponent
+
+    fun getMessageFor(entity: Entity): MutableComponent
 
     companion object {
-        fun alreadyInBattle(player: ServerPlayer) = AlreadyInBattleError(player.displayName)
-        fun alreadyInBattle(pokemonEntity: PokemonEntity) = AlreadyInBattleError(pokemonEntity.displayName)
-        fun alreadyInBattle(actor: BattleActor) = AlreadyInBattleError(actor.getName())
+        fun alreadyInBattle(player: ServerPlayer) = AlreadyInBattleError(player.uuid, player.displayName)
+        fun alreadyInBattle(pokemonEntity: PokemonEntity) = AlreadyInBattleError(pokemonEntity.uuid, pokemonEntity.displayName)
+        fun alreadyInBattle(actor: BattleActor) = AlreadyInBattleError(actor.uuid, actor.getName())
         fun insufficientPokemon(
             player: ServerPlayer,
             requiredCount: Int,
@@ -147,30 +149,45 @@ enum class CommonBattleStartError : BattleStartError {
 
 }
 
-
-open class SimpleBattleStartError(override val message: MutableComponent) : BattleStartError {
-    constructor(message: String) : this(message.asTranslated())
-}
-
 class InsufficientPokemonError(
     val player: ServerPlayer,
     val requiredCount: Int,
     val hadCount: Int
-) : SimpleBattleStartError(
-    battleLang(
-        "error.insufficient-pokemon",
-        player.displayName,
-        requiredCount,
-        hadCount
-    )
-)
-class AlreadyInBattleError(name: Component): SimpleBattleStartError(battleLang("error.in-battle", name))
+) : BattleStartError {
+    override fun getMessageFor(entity: Entity): MutableComponent {
+        return if (player == entity) {
+            val key = if (hadCount == 0) "no_pokemon" else "insufficient_pokemon.personal"
+            battleLang(
+                "error.$key",
+                requiredCount,
+                hadCount
+            )
+        } else {
+            battleLang(
+                "error.insufficient_pokemon",
+                player.displayName,
+                requiredCount,
+                hadCount
+            )
+        }
+    }
+}
+class AlreadyInBattleError(
+    val actorUUID: UUID,
+    val name: Component
+): BattleStartError {
+    override fun getMessageFor(entity: Entity): MutableComponent {
+        return if (actorUUID == entity.uuid) {
+            battleLang("error.in_battle.personal")
+        } else {
+            battleLang("error.in_battle", name)
+        }
+    }
+}
 
-open class BattleActorErrors : HashMap<BattleActor, Set<BattleStartError>>() {
-    protected val map = mutableMapOf<BattleActor, MutableSet<BattleStartError>>()
-
+open class BattleActorErrors : HashMap<BattleActor, MutableSet<BattleStartError>>() {
     override operator fun get(key: BattleActor): MutableSet<BattleStartError> {
-        return map[key] ?: mutableSetOf<BattleStartError>().also { map[key] = it }
+        return super.get(key) ?: mutableSetOf<BattleStartError>().also { this[key] = it }
     }
 }
 
@@ -189,7 +206,7 @@ open class ErroredBattleStart(
     }
 
     fun sendTo(entity: Entity, transformer: (MutableComponent) -> (MutableComponent) = { it }) {
-        errors.forEach { entity.sendServerMessage(transformer(it.message)) }
+        errors.forEach { entity.sendServerMessage(transformer(it.getMessageFor(entity))) }
     }
 
     inline fun <reified T : BattleStartError> ifHasError(action: () -> Unit): ErroredBattleStart {

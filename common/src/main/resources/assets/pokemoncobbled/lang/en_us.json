@@ -86,6 +86,12 @@
   "pokemoncobbled.battle.your_team": "Your Team:",
   "pokemoncobbled.battle.must_switch": "Choose a Pokémon to switch in",
 
+  "pokemoncobbled.battle.error.in_battle": "%1$s is already in a battle.",
+  "pokemoncobbled.battle.error.in_battle.personal": "You are already in a battle!",
+  "pokemoncobbled.battle.error.no_pokemon": "You don't have any usable Pokémon!",
+  "pokemoncobbled.battle.error.insufficient_pokemon": "%1$s has %2 Pokémon when %3 are required.",
+  "pokemoncobbled.battle.error.insufficient_pokemon.personal": "You have %1 usable Pokémon but you need %2.",
+
   "pokemoncobbled.experience.gained": "%1$s received %2$s experience.",
   "pokemoncobbled.experience.level_up": "%1$s is now level %2$s!",
   "pokemoncobbled.experience.learned_move": "%1$s has learned %2$s.",
