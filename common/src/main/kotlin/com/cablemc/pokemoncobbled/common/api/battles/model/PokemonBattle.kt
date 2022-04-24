@@ -90,10 +90,9 @@ class PokemonBattle(
         request.addProperty(DataKeys.REQUEST_TYPE, DataKeys.REQUEST_BATTLE_SEND_MESSAGE)
         request.addProperty(DataKeys.REQUEST_BATTLE_ID, battleId.toString())
         request.add(DataKeys.REQUEST_MESSAGES, jsonArray)
-        if (!mute) {
-            log(BattleRegistry.gson.toJson(request))
-        }
-        showdown.write(BattleRegistry.gson.toJson(request))
+        val json = BattleRegistry.gson.toJson(request)
+        log(json)
+        showdown.write(json)
     }
 
     fun turn() {
