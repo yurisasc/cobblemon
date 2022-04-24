@@ -172,7 +172,7 @@ object PokemonCobbled {
             BattleFormat.GEN_8_SINGLES,
             BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()))),
             BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize())))
-        )
+        ).apply { mute = true }
     }
 
     fun getLevel(dimension: ResourceKey<Level>): Level? {

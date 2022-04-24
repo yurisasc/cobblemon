@@ -85,6 +85,7 @@
   "pokemoncobbled.battle.switch_option": "Switch Pokémon: ",
   "pokemoncobbled.battle.your_team": "Your Team:",
   "pokemoncobbled.battle.must_switch": "Choose a Pokémon to switch in",
+  "pokemoncobbled.battle.dragged_out": "%1$s was dragged out!",
 
   "pokemoncobbled.battle.error.in_battle": "%1$s is already in a battle.",
   "pokemoncobbled.battle.error.in_battle.personal": "You are already in a battle!",
