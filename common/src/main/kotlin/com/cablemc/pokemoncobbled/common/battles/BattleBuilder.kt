@@ -16,6 +16,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
+import java.util.Optional
 import java.util.UUID
 
 class BattleBuilder {
@@ -45,7 +46,7 @@ class BattleBuilder {
                     )
                 }
 
-                if (BattleRegistry.getBattle(actor.uuid) != null) {
+                if (BattleRegistry.getBattleByParticipatingPlayer(player) != null) {
                     errors.participantErrors[actor] += BattleStartError.alreadyInBattle(player)
                 }
             }
@@ -86,19 +87,21 @@ class BattleBuilder {
             }
 
             for (actor in arrayOf(playerActor, wildActor)) {
-                if (BattleRegistry.getBattle(actor.uuid) != null) {
+                if (BattleRegistry.getBattleByParticipatingPlayer(player) != null) {
                     errors.participantErrors[actor] += BattleStartError.alreadyInBattle(actor)
                 }
             }
 
             return if (errors.isEmpty) {
-                SuccessfulBattleStart(
-                    BattleRegistry.startBattle(
-                        battleFormat = battleFormat,
-                        side1 = BattleSide(playerActor),
-                        side2 = BattleSide(wildActor)
-                    )
+                val battle = BattleRegistry.startBattle(
+                    battleFormat = battleFormat,
+                    side1 = BattleSide(playerActor),
+                    side2 = BattleSide(wildActor)
                 )
+                if (!cloneParties) {
+                    pokemonEntity.battleId.set(Optional.of(battle.battleId))
+                }
+                SuccessfulBattleStart(battle)
             } else {
                 errors
             }
