@@ -30,7 +30,9 @@ object SpawnPokemon {
             pokemonEntity.let {
                 it.pokemon = Pokemon().apply {
                     species = pkm
+                    level = 10
                     form = species.forms.first()
+                    initialize()
                 }
                 it.dexNumber.set(it.pokemon.species.nationalPokedexNumber)
             }

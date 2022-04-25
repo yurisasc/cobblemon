@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.CobbledItems
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
+import com.cablemc.pokemoncobbled.common.client.battle.ClientBattle
 import com.cablemc.pokemoncobbled.common.client.gui.PartyOverlay
 import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.client.net.ClientPacketRegistrar
@@ -36,6 +37,7 @@ import net.minecraft.world.entity.player.Player
 object PokemonCobbledClient {
     lateinit var implementation: PokemonCobbledClientImplementation
     val storage = ClientStorageManager()
+    var battle: ClientBattle? = null
 
     lateinit var overlay: PartyOverlay
 

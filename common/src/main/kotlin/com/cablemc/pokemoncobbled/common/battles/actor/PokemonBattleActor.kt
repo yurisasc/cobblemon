@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.battles.ai.RandomBattleAI
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import java.util.UUID
 
-class PokemonBattleActor(
+open class PokemonBattleActor(
     uuid: UUID,
     val pokemon: BattlePokemon,
     artificialDecider: BattleAI = RandomBattleAI()

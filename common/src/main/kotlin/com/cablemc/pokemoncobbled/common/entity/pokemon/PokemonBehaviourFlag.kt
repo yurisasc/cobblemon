@@ -8,7 +8,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
  * stored in from Byte to something larger.
  *
  * @author Hiroku
- * @sicne December 16th, 2021
+ * @since December 16th, 2021
  */
 enum class PokemonBehaviourFlag {
     RESTING,
