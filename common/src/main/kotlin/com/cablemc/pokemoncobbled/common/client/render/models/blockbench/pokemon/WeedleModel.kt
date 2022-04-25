@@ -21,7 +21,6 @@ import net.minecraft.world.phys.Vec3
 class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = registerRelevantPart("weedle", root.getChild("weedle"))
     override val head = registerRelevantPart("head", rootPart.getChildOf("body", "neck", "head"))
-    val neck = registerRelevantPart("neck", rootPart.getChildOf("body", "neck"))
     override val portraitScale = 1.95F
     override val portraitTranslation = Vec3(-0.05, -0.7, 0.0)
 
