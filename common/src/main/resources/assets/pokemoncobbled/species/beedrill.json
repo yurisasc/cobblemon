@@ -15,8 +15,8 @@
   "catchRate": 45,
   "baseScale": null,
   "hitbox": {
-    "width": null,
-    "height": null,
+    "width": 1,
+    "height": 1,
     "fixed": false
   }
 }
