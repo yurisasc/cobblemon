@@ -37,6 +37,8 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
 
     fun onRenderGameOverlay(poseStack: PoseStack, partialDeltaTicks: Float) {
         val minecraft = Minecraft.getInstance()
+        val player = minecraft.player
+
         // Hiding if a Screen is open and not exempt
         if (minecraft.screen != null) {
             if (!screenExemptions.contains(minecraft.screen?.javaClass as Class<out Screen>))
@@ -119,7 +121,10 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                 val hpRatio = pokemon.currentHealth / pokemon.hp.toFloat()
                 val barHeightMax = 22F
                 val hpBarHeight = hpRatio * barHeightMax
-                val expRatio = 1.0
+                val expForThisLevel = pokemon.experience - if (pokemon.level == 1) 0 else pokemon.experienceGroup.getExperience(pokemon.level)
+                val expToNextLevel = pokemon.experienceGroup.getExperience(pokemon.level + 1) - pokemon.experienceGroup.getExperience(pokemon.level)
+                val expRatio = expForThisLevel / expToNextLevel.toFloat()
+
                 val expBarHeight = expRatio * barHeightMax
                 val hpWidthToHeight = 72 / 174F
                 val expWidthToHeight = 45 / 174F
@@ -185,6 +190,18 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                     scaleX = 0.45F,
                     scaleY = 0.45F
                 )
+
+                val stateIcon = pokemon.state.getIcon(pokemon)
+                if (stateIcon != null) {
+                    blitk(
+                        poseStack = poseStack,
+                        texture = stateIcon,
+                        x = panelX + 1.2F,
+                        y = startY + slotHeight * index + frameOffsetY + 8,
+                        height = 30 * 0.2,
+                        width = 34 * 0.2
+                    )
+                }
             }
         }
     }

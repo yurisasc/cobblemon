@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
-import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import dev.architectury.networking.forge.NetworkManagerImpl
 import net.minecraft.client.model.geom.ModelLayerLocation
@@ -15,7 +14,6 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.renderer.entity.EntityRenderers
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
-import net.minecraftforge.client.event.EntityRenderersEvent
 import net.minecraftforge.client.event.ModelBakeEvent
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.common.MinecraftForge
@@ -39,7 +37,6 @@ object PokemonCobbledForgeClient : PokemonCobbledClientImplementation {
             PokemonCobbledClient.initialize(this)
             EntityRenderers.register(POKEMON_TYPE) { PokemonCobbledClient.registerPokemonRenderer(it) }
             EntityRenderers.register(EMPTY_POKEBALL_TYPE) { PokemonCobbledClient.registerPokeBallRenderer(it) }
-            ServerPacketRegistrar.registerHandlers()
             CobbledNetwork.register()
         }
     }

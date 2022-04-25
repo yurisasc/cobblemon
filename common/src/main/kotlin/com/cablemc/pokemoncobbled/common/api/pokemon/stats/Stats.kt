@@ -1,7 +1,5 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.stats
 
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
-
 object Stats {
     private val allStats = mutableListOf<Stat>()
 

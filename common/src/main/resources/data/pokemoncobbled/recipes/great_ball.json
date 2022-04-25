@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "brb",
+        "iii",
+        "www"
+    ],
+    "key": {
+        "b": {
+            "item": "pokemoncobbled:blue_apricorn"
+        },
+        "r": {
+            "item": "pokemoncobbled:red_apricorn"
+        },
+        "i": {
+            "item": "minecraft:iron_ingot"
+        },
+        "w": {
+            "item": "pokemoncobbled:white_apricorn"
+        }
+    },
+    "result":
+    {
+        "item": "pokemoncobbled:great_ball",
+        "count": 6
+    }
+}

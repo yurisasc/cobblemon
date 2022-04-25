@@ -1,0 +1,16 @@
+{
+  "name": "rockwrecker",
+  "type": "Rock",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 150,
+  "accuracy": 90,
+  "pp": 5,
+  "priority": 0,
+  "flags": {
+    "bullet": 1,
+    "recharge": 1,
+    "protect": 1,
+    "mirror": 1
+  }
+}

@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.TickingSpawner
@@ -35,6 +36,10 @@ open class SpawnerManager {
     }
 
     open fun onServerTick() {
+        // Disables spawning
+        if (!PokemonCobbled.config.enableSpawning) {
+            return;
+        }
         getSpawnersOfType<TickingSpawner>().forEach { it.tick() }
     }
 }

@@ -11,7 +11,21 @@
     "special_defence": 70,
     "speed": 110
   },
+  "levelUpMoves": {
+    "1": [ "sandattack", "scratch", "growl", "astonish", "sandtomb", "nightslash", "triattack" ],
+    "12": [ "mudslap" ],
+    "16": [ "bulldoze" ],
+    "20": [ "suckerpunch" ],
+    "24": [ "slash" ],
+    "30": [ "sandstorm" ],
+    "36": [ "dig" ],
+    "42": [ "earthpower" ],
+    "48": [ "earthquake" ],
+    "54": [ "fissure" ]
+  },
   "catchRate": 50,
+  "experienceGroup": "mediumfast",
+  "baseExperienceYield": 149,
   "baseScale": 0.9,
   "hitbox": {
     "width": 0.8,

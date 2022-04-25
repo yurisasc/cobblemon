@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_pressed",
+  "textures": {
+    "texture": "pokemoncobbled:blocks/apricorn_planks"
+  }
+}

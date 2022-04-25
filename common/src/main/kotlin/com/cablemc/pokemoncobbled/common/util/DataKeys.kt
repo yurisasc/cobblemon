@@ -6,6 +6,7 @@ object DataKeys {
     const val POKEMON_SPECIES_DEX = "SpeciesDex"
     const val POKEMON_FORM_ID = "FormId"
     const val POKEMON_LEVEL = "Level"
+    const val POKEMON_EXPERIENCE = "Experience"
     const val POKEMON_FRIENDSHIP = "Friendship"
 
     const val POKEMON_STATS = "Stats"
@@ -16,10 +17,14 @@ object DataKeys {
     const val POKEMON_MOVESET = "MoveSet"
     const val POKEMON_MOVESET_MOVENAME = "MoveName"
     const val POKEMON_MOVESET_MOVEPP = "MovePP"
-    const val POKEMON_MOVESET_MAXPP = "MaxPP"
+    const val POKEMON_MOVESET_RAISED_PP_STAGES = "RaisedPPStages"
     const val POKEMON_ABILITY = "Ability"
     const val POKEMON_ABILITY_NAME = "AbilityName"
     const val POKEMON_SHINY = "Shiny"
+    const val POKEMON_STATUS = "Status"
+    const val POKEMON_STATUS_NAME = "StatusName"
+    const val POKEMON_STATUS_TIMER = "StatusTimer"
+    const val POKEMON_CAUGHT_BALL = "CaughtBall"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
@@ -27,6 +32,8 @@ object DataKeys {
     const val POKEMON_STATE_ID = "StateId"
     const val POKEMON_STATE_PLAYER_UUID = "PlayerUUID"
     const val POKEMON_STATE_POKEMON_UUID = "PokemonUUID"
+
+    const val BENCHED_MOVES = "BenchedMoves"
 
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
@@ -45,4 +52,11 @@ object DataKeys {
     const val POKEMON_PROPERTIES_CUSTOM = "CustomProperties"
     const val POKEMON_PROPERTIES_ORIGINAL_TEXT = "OriginalText"
     const val POKEMON_SPECIES_TEXT = "SpeciesText"
+
+    /* Healer  Block */
+    const val HEALER_MACHINE_USER = "MachineUser"
+    const val HEALER_MACHINE_POKEBALLS = "MachinePokeBalls"
+    const val HEALER_MACHINE_TIME_LEFT = "MachineTimeLeft"
+    const val HEALER_MACHINE_CHARGE = "MachineCharge"
+    /* ----------- */
 }

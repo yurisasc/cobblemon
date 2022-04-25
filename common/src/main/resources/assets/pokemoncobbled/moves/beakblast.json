@@ -1,0 +1,14 @@
+{
+  "name": "beakblast",
+  "type": "Flying",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 100,
+  "accuracy": 100,
+  "pp": 15,
+  "priority": -3,
+  "flags": {
+    "bullet": 1,
+    "protect": 1
+  }
+}

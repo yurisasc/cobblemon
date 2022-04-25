@@ -12,7 +12,22 @@
     "special_defence": 80,
     "speed": 60
   },
+  "levelUpMoves": {
+    "1": ["tackle", "growl", "vinewhip", "growth"],
+    "9": [ "leechseed" ],
+    "12": [ "razorleaf" ],
+    "15": [ "poisonpowder", "sleeppowder" ],
+    "20": [ "seedbomb" ],
+    "25": [ "takedown" ],
+    "30": [ "sweetscent" ],
+    "35": [ "synthesis" ],
+    "40": [ "worryseed" ],
+    "45": [ "doubleedge" ],
+    "50": [ "solarbeam" ]
+  },
   "catchRate": 45,
+  "experienceGroup": "mediumslow",
+  "baseExperienceYield": 142,
   "baseScale": 1,
   "hitbox": {
     "width": 0.7,

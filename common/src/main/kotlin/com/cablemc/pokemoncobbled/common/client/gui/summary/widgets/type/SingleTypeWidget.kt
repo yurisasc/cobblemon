@@ -14,7 +14,10 @@ class SingleTypeWidget(
 ) : TypeWidget(pX, pY, pWidth, pHeight, TextComponent("SingleTypeWidget - ${type.name}")) {
 
     override fun render(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        pPoseStack.pushPose()
+        pPoseStack.translate(0.35, 0.0, 0.0)
         renderType(type, pPoseStack)
+        pPoseStack.popPose()
         // Render Type Name
         pPoseStack.pushPose()
         pPoseStack.scale(0.35F, 0.35F, 0.35F)

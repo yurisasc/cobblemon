@@ -8,8 +8,8 @@ internal class IVsKtTest {
     fun `should create a randomized set of IVs with 3 perfect values`() {
         val ivs = IVs.createRandomIVs(3)
         var foundPerfects = 0
-        for (value in ivs.values) {
-            if (value == IVs.maxStatValue) {
+        for ((_, value) in ivs) {
+            if (value == IVs.MAX_VALUE) {
                 foundPerfects++
             }
         }

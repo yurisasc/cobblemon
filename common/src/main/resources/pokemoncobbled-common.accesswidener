@@ -1,3 +1,13 @@
 accessWidener	v1	named
 accessible method net/minecraft/client/renderer/entity/LivingEntityRenderer addLayer (Lnet/minecraft/client/renderer/entity/layers/RenderLayer;)Z
+accessible method net/minecraft/world/entity/player/Player setShoulderEntityLeft (Lnet/minecraft/nbt/CompoundTag;)V
+accessible method net/minecraft/world/entity/player/Player setShoulderEntityRight (Lnet/minecraft/nbt/CompoundTag;)V
+accessible method net/minecraft/world/entity/player/Player respawnEntityOnShoulder (Lnet/minecraft/nbt/CompoundTag;)V
+accessible method net/minecraft/world/entity/player/Player getShoulderEntityLeft ()Lnet/minecraft/nbt/CompoundTag;
+accessible method net/minecraft/world/entity/player/Player getShoulderEntityRight ()Lnet/minecraft/nbt/CompoundTag;
+accessible method net/minecraft/client/renderer/entity/EntityRenderers register (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/client/renderer/entity/EntityRendererProvider;)V
+accessible    field    net/minecraft/client/Minecraft    itemColors    Lnet/minecraft/client/color/item/ItemColors;
+accessible method net/minecraft/data/worldgen/features/TreeFeatures createStraightBlobTree (Lnet/minecraft/world/level/block/Block;Lnet/minecraft/world/level/block/Block;IIII)Lnet/minecraft/world/level/levelgen/feature/configurations/TreeConfiguration$TreeConfigurationBuilder;
+accessible method net/minecraft/world/level/block/LeavesBlock updateDistance (Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;
+accessible method net/minecraft/world/level/block/state/properties/WoodType register (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;
 accessible method net/minecraft/client/renderer/entity/EntityRenderers register (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/client/renderer/entity/EntityRendererProvider;)V

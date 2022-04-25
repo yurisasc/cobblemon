@@ -12,6 +12,25 @@
     "special_defence": 100,
     "speed": 81
   },
+  "levelUpMoves": {
+    "1": [ "bite", "flail", "splash", "tackle", "leer", "twister" ],
+    "4": [ "whirlpool" ],
+    "8": [ "icefang" ],
+    "12": [ "brine" ],
+    "16": [ "scaryface" ],
+    "21": [ "waterfall" ],
+    "24": [ "crunch" ],
+    "28": [ "raindance" ],
+    "32": [ "aquatail" ],
+    "36": [ "dragondance" ],
+    "40": [ "hydropump" ],
+    "44": [ "hurricane" ],
+    "48": [ "thrash" ],
+    "52": [ "hyperbeam" ]
+  },
+  "catchRate": 45,
+  "experienceGroup": "slow",
+  "baseExperienceYield": 189,
   "baseScale": 1,
   "hitbox": {
     "width": 1.6,

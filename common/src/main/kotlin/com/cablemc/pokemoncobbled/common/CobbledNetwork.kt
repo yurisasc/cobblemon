@@ -4,14 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
@@ -19,6 +12,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPa
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemoncobbled.common.util.getServer
@@ -54,6 +48,8 @@ object CobbledNetwork {
 
 
     fun register() {
+        // Don't forget to register handlers in either ClientPacketRegistrar or ServerPacketRegistrar!
+
         /**
          * Client Packets
          */
@@ -66,6 +62,10 @@ object CobbledNetwork {
         buildClientMessage<ShinyUpdatePacket>()
         buildClientMessage<SpeciesUpdatePacket>()
         buildClientMessage<HealthUpdatePacket>()
+        buildClientMessage<ExperienceUpdatePacket>()
+        buildClientMessage<StatusUpdatePacket>()
+        buildClientMessage<CaughtBallUpdatePacket>()
+        buildClientMessage<BenchedMovesUpdatePacket>()
 
         // Storage Packets
         buildClientMessage<InitializePartyPacket>()
@@ -86,6 +86,7 @@ object CobbledNetwork {
         // Storage Packets
         buildServerMessage<SendOutPokemonPacket>()
         buildServerMessage<RequestMoveSwapPacket>()
+        buildServerMessage<BenchMovePacket>()
     }
 
     private inline fun <reified P : NetworkPacket> buildClientMessage() =

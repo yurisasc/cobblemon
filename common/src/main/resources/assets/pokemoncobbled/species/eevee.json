@@ -11,7 +11,23 @@
     "special_defence": 65,
     "speed": 55
   },
+  "levelUpMoves": {
+    "1": [ "covet", "helpinghand", "tackle", "growl", "tailwhip" ],
+    "5": [ "sandattack" ],
+    "10": [ "quickattack" ],
+    "15": [ "babydolleyes" ],
+    "20": [ "swift" ],
+    "25": [ "bite" ],
+    "30": [ "copycat" ],
+    "35": [ "batonpass" ],
+    "40": [ "takedown" ],
+    "45": [ "charm" ],
+    "50": [ "doubleedge" ],
+    "55": [ "lastresort" ]
+  },
   "catchRate": 45,
+  "experienceGroup": "mediumfast",
+  "baseExperienceYield": 65,
   "baseScale": 0.6,
   "shoulderMountable": true,
   "hitbox": {
