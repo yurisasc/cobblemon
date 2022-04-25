@@ -3,10 +3,12 @@ package com.cablemc.pokemoncobbled.common.client.entity
 import com.cablemc.pokemoncobbled.common.api.entity.PokemonSideDelegate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
+import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.scheduling.lerp
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives.EarBounceAdditive
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.util.Mth.abs
 import net.minecraft.world.entity.Entity
 import java.lang.Float.min
