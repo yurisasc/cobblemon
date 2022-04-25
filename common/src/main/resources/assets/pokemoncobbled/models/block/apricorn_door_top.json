@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top",
+  "textures": {
+    "top": "pokemoncobbled:blocks/apricorn_door_top",
+    "bottom": "pokemoncobbled:blocks/apricorn_door_bottom"
+  }
+}

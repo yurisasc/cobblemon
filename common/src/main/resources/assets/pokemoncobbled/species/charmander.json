@@ -11,7 +11,22 @@
     "special_defence": 50,
     "speed": 65
   },
+  "levelUpMoves": {
+    "1": [ "scratch", "growl" ],
+    "4": [ "ember" ],
+    "8": [ "smokescreen" ],
+    "12": [ "dragonbreath" ],
+    "17": [ "firefang" ],
+    "20": [ "slash" ],
+    "24": [ "flamethrower" ],
+    "28": [ "scaryface" ],
+    "32": [ "firespin" ],
+    "36": [ "inferno" ],
+    "40": [ "flareblitz" ]
+  },
   "catchRate": 45,
+  "experienceGroup": "mediumslow",
+  "baseExperienceYield": 62,
   "baseScale": "0.7",
   "hitbox": {
     "width": 0.7,

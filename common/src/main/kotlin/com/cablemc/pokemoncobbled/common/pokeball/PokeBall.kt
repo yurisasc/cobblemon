@@ -11,6 +11,6 @@ import net.minecraft.resources.ResourceLocation
  * @property catchRateModifiers list of all [CatchRateModifier] that is applicable to the poke ball
  */
 open class PokeBall(
-    val name : ResourceLocation,
+    val name: ResourceLocation,
     val catchRateModifiers: List<CatchRateModifier> = listOf()
 )

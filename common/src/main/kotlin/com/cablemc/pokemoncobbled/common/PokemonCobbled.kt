@@ -8,6 +8,9 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Captu
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegistry
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalculator
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.StandardExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledWorldSpawnerManager
@@ -40,20 +43,21 @@ import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
+import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.entity.pokemon.CobbledAgingDespawner
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
 import com.cablemc.pokemoncobbled.common.util.getServer
-import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
-import com.cablemc.pokemoncobbled.common.util.ifServer
 import com.google.gson.GsonBuilder
-import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
+import dev.architectury.event.events.common.LifecycleEvent.SETUP
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.TickEvent.SERVER_POST
+import dev.architectury.hooks.item.tool.AxeItemHooks
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
@@ -75,7 +79,8 @@ object PokemonCobbled {
 
     lateinit var implementation: PokemonCobbledModImplementation
     lateinit var showdown: ShowdownConnection
-    var captureCalculator: CaptureCalculator = Gen7CaptureCalculator()
+    var captureCalculator: CaptureCalculator = Gen7CaptureCalculator
+    var experienceCalculator: ExperienceCalculator = StandardExperienceCalculator
     var isDedicatedServer = false
     var showdownThread = ShowdownThread()
     var config = CobbledConfig()
@@ -89,34 +94,43 @@ object PokemonCobbled {
         this.loadConfig()
         this.implementation = implementation
         CobbledEntities.register()
+        CobbledBlocks.register()
+        CobbledBlockEntities.register()
         CobbledItems.register()
         CobbledSounds.register()
         CobbledNetwork.register()
-        CobbledKeybinds.register()
+        CobbledFeatures.register()
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
         EntityDataSerializers.registerSerializer(Vec3DataSerializer)
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
+        ArgumentTypes.register("pokemoncobbled:pokemonproperties", PokemonPropertiesArgumentType::class.java, EmptyArgumentSerializer(PokemonPropertiesArgumentType::properties))
     }
 
     fun initialize() {
         showdownThread.start()
 
+        ExperienceGroups.registerDefaults()
+
+        Moves.load()
+        LOGGER.info("Loaded ${Moves.count()} Moves.")
+
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
 
-        // Same as PokemonSpecies
-        LOGGER.info("Loaded ${Moves.count()} Moves.")
-
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 
-        ifDedicatedServer { isDedicatedServer = true }
-        ifServer { SERVER_POST.register { ScheduledTaskTracker.update() } }
-        ifClient { ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() }) }
+        ifDedicatedServer {
+            isDedicatedServer = true
+            SERVER_POST.register { ScheduledTaskTracker.update() }
+        }
 
         SERVER_STARTED.register {
+            AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_LOG.get(), CobbledBlocks.STRIPPED_APRICORN_LOG.get())
+            AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_WOOD.get(), CobbledBlocks.STRIPPED_APRICORN_WOOD.get())
+
             // TODO config options for default storage
             val pokemonStoreRoot = it.getWorldPath(LevelResource.PLAYER_DATA_DIR).parent.resolve("pokemon").toFile()
             storage.registerFactory(
@@ -149,8 +163,6 @@ object PokemonCobbled {
 
         SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
         SERVER_POST.register { spawnerManagers.forEach { it.onServerTick() } }
-
-
     }
 
     fun getLevel(dimension: ResourceKey<Level>): Level? {
@@ -170,16 +182,13 @@ object PokemonCobbled {
 
     fun loadConfig() {
         val configFile = File("config/$MODID.json")
-        configFile.mkdirs()
-        val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
-
-        LOGGER.info(configFile.absolutePath)
+        configFile.parentFile.mkdirs()
 
         // Check config existence and load if it exists, otherwise create default.
         if (configFile.exists()) {
             try {
                 val fileReader = FileReader(configFile)
-                this.config = gson.fromJson(fileReader, CobbledConfig::class.java)
+                this.config = CobbledConfig.GSON.fromJson(fileReader, CobbledConfig::class.java)
                 fileReader.close()
             } catch (exception: Exception) {
                 LOGGER.error("Failed to load the config! Using default config until the following has been addressed:")
@@ -211,11 +220,10 @@ object PokemonCobbled {
     fun saveConfig() {
         try {
             val configFile = File("config/$MODID.json")
-            val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
             val fileWriter = FileWriter(configFile)
 
             // Put the config to json then flush the writer to commence writing.
-            gson.toJson(this.config, fileWriter)
+            CobbledConfig.GSON.toJson(this.config, fileWriter)
             fileWriter.flush()
             fileWriter.close()
         } catch (exception: Exception) {

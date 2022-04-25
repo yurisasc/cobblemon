@@ -63,6 +63,7 @@ open class FileBackedPokemonStoreFactory<S>(
     private val dirtyStores = mutableSetOf<PokemonStore<*>>()
 
     override fun getPlayerParty(uuid: UUID) = getStore(PlayerPartyStore::class.java, uuid)
+    // TODO PC storage #19
     // override fun getPC(uuid: UUID) = getStore(uuid, dirtyPCs, cachedPCs)
     override fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID) = getStore(storeClass, uuid)
 

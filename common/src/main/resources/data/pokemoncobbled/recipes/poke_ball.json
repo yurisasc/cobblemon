@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "rrr",
+        "ccc",
+        "www"
+    ],
+    "key": {
+        "r": {
+            "item": "pokemoncobbled:red_apricorn"
+        },
+        "c": {
+            "item": "minecraft:copper_ingot"
+        },
+        "w": {
+            "item": "pokemoncobbled:white_apricorn"
+        }
+    },
+    "result":
+    {
+        "item": "pokemoncobbled:poke_ball",
+        "count": 6
+    }
+}

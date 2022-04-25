@@ -19,10 +19,10 @@ class MoveSetUpdatePacket internal constructor(): SingleUpdatePacket<MoveSet>(Mo
     }
 
     override fun decodeValue(buffer: FriendlyByteBuf): MoveSet {
-        return MoveSet.loadFromBuffer(buffer)
+        return MoveSet().loadFromBuffer(buffer)
     }
 
     override fun set(pokemon: Pokemon, value: MoveSet) {
-        pokemon.moveSet = value
+        pokemon.moveSet.copyFrom(value)
     }
 }

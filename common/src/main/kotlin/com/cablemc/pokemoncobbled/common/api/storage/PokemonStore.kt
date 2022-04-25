@@ -30,7 +30,7 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
     /** Returns an iterable of all the [Pokemon] in this store, with nulls removed. */
     abstract fun getAll(): Iterable<Pokemon>
     /** Gets the [Pokemon] at the given position. */
-    abstract fun get(position: T): Pokemon?
+    abstract operator fun get(position: T): Pokemon?
     /** Gets the first empty position that a [Pokemon] might be put. */
     abstract fun getFirstAvailablePosition(): T?
     /** Gets an iterable of all [ServerPlayer]s that should be notified of any changes to the Pokémon in this store. */
@@ -125,9 +125,12 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
         if (get(currentPosition.position) != pokemon) {
             return false
         }
+        pokemon.recall()
         setAtPosition(currentPosition.position, null)
         return true
     }
+
+    operator fun get(uuid: UUID) = find { it.uuid == uuid }
 
     abstract fun saveToNBT(nbt: CompoundTag): CompoundTag
     abstract fun loadFromNBT(nbt: CompoundTag): PokemonStore<T>

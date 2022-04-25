@@ -12,7 +12,25 @@
     "special_defence": 35,
     "speed": 56
   },
+  "levelUpMoves": {
+    "1": [ "tackle" ],
+    "5": [ "sandattack" ],
+    "9": [ "gust" ],
+    "13": [ "quickattack" ],
+    "17": [ "whirlwind" ],
+    "21": [ "twister" ],
+    "25": [ "featherdance" ],
+    "29": [ "agility" ],
+    "33": [ "wingattack" ],
+    "37": [ "roost" ],
+    "41": [ "tailwind" ],
+    "45": [ "aerialace" ],
+    "49": [ "airslash" ],
+    "53": [ "hurricane" ]
+  },
   "catchRate": 255,
+  "experienceGroup": "mediumslow",
+  "baseExperienceYield": 50,
   "baseScale": 1,
   "hitbox": {
     "width": 0.5,

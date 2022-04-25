@@ -1,0 +1,11 @@
+{
+  "name": "gmaxvoltcrash",
+  "type": "Electric",
+  "damageCategory": "Physical",
+  "target": "adjacentFoe",
+  "power": 10,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0,
+  "flags": {}
+}

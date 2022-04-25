@@ -1,0 +1,11 @@
+{
+  "name": "craftyshield",
+  "type": "Fairy",
+  "damageCategory": "Status",
+  "target": "allySide",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 3,
+  "flags": {}
+}

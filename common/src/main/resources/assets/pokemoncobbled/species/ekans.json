@@ -11,7 +11,25 @@
     "special_defence": 54,
     "speed": 55
   },
+  "levelUpMoves": {
+    "1": [ "wrap", "leer" ],
+    "4": [ "poisonsting" ],
+    "9": [ "bite" ],
+    "12": [ "glare" ],
+    "17": [ "screech" ],
+    "20": [ "acid" ],
+    "25": [ "stockpile", "swallow", "spitup" ],
+    "28": [ "acidspray" ],
+    "33": [ "sludgebomb" ],
+    "36": [ "gastroacid" ],
+    "38": [ "belch" ],
+    "41": [ "haze" ],
+    "44": [ "coil" ],
+    "49": [ "gunkshot" ]
+  },
   "catchRate": 255,
+  "experienceGroup": "mediumfast",
+  "baseExperienceYield": 58,
   "baseScale": 0.6,
   "hitbox": {
     "width": 1.7,

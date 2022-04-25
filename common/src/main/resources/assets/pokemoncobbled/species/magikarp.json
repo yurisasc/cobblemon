@@ -11,7 +11,14 @@
     "special_defence": 20,
     "speed": 80
   },
+  "levelUpMoves": {
+    "1": [ "splash" ],
+    "15": [ "tackle" ],
+    "25": [ "flail" ]
+  },
   "catchRate": 255,
+  "experienceGroup": "slow",
+  "baseExperienceYield": 40,
   "baseScale": 0.8,
   "hitbox": {
     "width": 0.6,

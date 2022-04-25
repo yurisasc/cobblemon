@@ -62,7 +62,10 @@ abstract class BattleActor(
             return
         }
         getSwitch(forceSwitchPokemon).thenApply { uuids ->
-            val switchRequests = uuids.joinToString { "switch $it" }
+            var switchRequests = uuids.joinToString { "switch $it" }
+            repeat(times = forceSwitchPokemon.size - uuids.count()) {
+                switchRequests += ",pass"
+            }
             pokemonList.filter { it.uuid in uuids }.forEach { it.willBeSwitchedIn = false }
             battle.writeShowdownAction(">$showdownId $switchRequests")
         }
@@ -72,4 +75,5 @@ abstract class BattleActor(
     abstract fun getChoices(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<String>>
     abstract fun getSwitch(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<UUID>>
     open fun sendMessage(component: Component) {}
+    open fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {}
 }

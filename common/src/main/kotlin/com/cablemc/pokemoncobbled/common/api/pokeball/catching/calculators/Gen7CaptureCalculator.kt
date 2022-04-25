@@ -14,15 +14,14 @@ import kotlin.random.Random.Default.nextInt
  * @author landonjw
  * @since  December 10, 2021
  */
-class Gen7CaptureCalculator : CaptureCalculator {
+object Gen7CaptureCalculator : CaptureCalculator {
 
     override fun processCapture(player: ServerPlayer, pokemon: Pokemon, pokeBall: PokeBall): CaptureContext {
         val catchRate = getCatchRate(player, pokemon, pokeBall)
-        if (tryCriticalCapture(catchRate, player)) {
-            return CaptureContext(isSuccessfulCapture = true, isCriticalCapture = true, numberOfShakes = 1)
-        }
-        else {
-            val shakeProbability = (25536 / (255 / catchRate.toDouble()).pow(3.0 / 16))
+        return if (tryCriticalCapture(catchRate, player)) {
+            CaptureContext(isSuccessfulCapture = true, isCriticalCapture = true, numberOfShakes = 1)
+        } else {
+            val shakeProbability = (65536 / (255 / catchRate.toDouble()).pow(3.0 / 16))
 
             var numShakes = 0
             for (i in 0..3) {
@@ -31,7 +30,8 @@ class Gen7CaptureCalculator : CaptureCalculator {
                 }
                 numShakes++
             }
-            return CaptureContext(isSuccessfulCapture = numShakes == 4, isCriticalCapture = false, numberOfShakes = numShakes)
+
+            CaptureContext(isSuccessfulCapture = numShakes == 4, isCriticalCapture = false, numberOfShakes = numShakes)
         }
     }
 
@@ -58,5 +58,4 @@ class Gen7CaptureCalculator : CaptureCalculator {
         // TODO: Get status from pokemon and get bonus (2 for sleep and freeze, 1.5 for paralyze, poison, or burn, and 1 otherwise).
         return 1f
     }
-
 }
