@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
-import com.cablemc.pokemoncobbled.common.api.scheduling.after
+import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -166,7 +166,7 @@ class EmptyPokeBallEntity(
                                 val pokemon = capturingPokemon ?: return@execute
                                 val player = this.owner as? ServerPlayer ?: return@execute
 
-                                after(seconds = 1F) {
+                                afterOnMain(seconds = 1F) {
                                     pokemon.discard()
                                     discard()
                                     val party = PokemonCobbled.storage.getParty(player.uuid)
@@ -196,7 +196,7 @@ class EmptyPokeBallEntity(
         pokemon.beamModeEmitter.set(1)
         pokemon.isInvisible = false
 
-        after(seconds = 0.25F) {
+        afterOnMain(seconds = 0.25F) {
             pokemon.busyLocks.remove(this)
             level.sendParticlesServer(ParticleTypes.CLOUD, position(), 20, Vec3(0.0, 0.2, 0.0), 0.05)
             level.playSoundServer(position(), SoundEvents.GLASS_BREAK)
@@ -229,14 +229,14 @@ class EmptyPokeBallEntity(
         level.playSoundServer(position(), CobbledSounds.POKEBALL_HIT.get())
         deltaMovement = displace.multiply(-1.0, 0.0, -1.0).normalize().yRot(mul * PI/3).multiply(0.1, 0.0, 0.1).add(0.0, 1.0 / 3, 0.0)
         pokemonEntity.phasingTargetId.set(this.id)
-        after(seconds = 0.7F) {
+        afterOnMain(seconds = 0.7F) {
             deltaMovement = Vec3.ZERO
             isNoGravity = true
             level.playSoundServer(position(), CobbledSounds.CAPTURE_STARTED.get(), volume = 0.2F)
             pokemonEntity.beamModeEmitter.set(2.toByte())
         }
 
-        after(seconds = 2.2F) {
+        afterOnMain(seconds = 2.2F) {
             pokemonEntity.phasingTargetId.set(-1)
             pokemonEntity.beamModeEmitter.set(0.toByte())
             pokemonEntity.isInvisible = true

@@ -224,7 +224,7 @@ class PokemonRenderer(
     ) {
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val totalWorldTicks = entity.level.gameTime
-        val vectorBuffer =  buffer.getBuffer(RenderType.lightning()) //buffer.getBuffer(RenderType.glint())
+        val vectorBuffer = buffer.getBuffer(RenderType.lightning()) //buffer.getBuffer(RenderType.glint())
 
         val ray1YRot = (totalWorldTicks + DELTA_TICKS) / 16F
 

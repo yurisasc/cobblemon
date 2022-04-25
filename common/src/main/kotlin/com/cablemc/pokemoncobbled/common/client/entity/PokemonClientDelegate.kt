@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.api.scheduling.lerp
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives.EarBounceAdditive
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.util.Mth.abs
 import net.minecraft.world.entity.Entity
 import java.lang.Float.min
@@ -55,7 +54,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                 entityScaleModifier = 0F
                 beamStartTime = System.currentTimeMillis()
                 entity.isInvisible = true
-                after(seconds = BEAM_EXTEND_TIME) {
+                afterOnMain(seconds = BEAM_EXTEND_TIME) {
                     lerp(BEAM_SHRINK_TIME) { entityScaleModifier = it }
                     entity.isInvisible = false
                 }
