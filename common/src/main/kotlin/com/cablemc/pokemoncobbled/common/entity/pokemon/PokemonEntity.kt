@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.api.scheduling.after
+import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
@@ -95,6 +95,8 @@ class PokemonEntity(
 
     override fun tick() {
         super.tick()
+        // We will be handling idle logic ourselves thank you
+        this.noActionTime = 0
         entityProperties.forEach { it.checkForUpdate() }
         delegate.tick(this)
         ticksLived++
@@ -154,9 +156,9 @@ class PokemonEntity(
             override fun canUse() = this@PokemonEntity.phasingTargetId.get() != -1
             override fun getFlags() = EnumSet.allOf(Flag::class.java)
         })
-        goalSelector.addGoal(3, FollowOwnerGoal(this, 1.0, 8F, 2F, false))
-        goalSelector.addGoal(4, WaterAvoidingRandomStrollGoal(this, speed.toDouble()))
-        goalSelector.addGoal(5, LookAtPlayerGoal(this, Player::class.java, 5F))
+        goalSelector.addGoal(3, FollowOwnerGoal(this, 0.6, 8F, 2F, false))
+        goalSelector.addGoal(4, WaterAvoidingRandomStrollGoal(this, 0.33))
+        goalSelector.addGoal(5, LookAtPlayerGoal(this, ServerPlayer::class.java, 5F))
     }
 
     fun <T> addEntityProperty(accessor: EntityDataAccessor<T>, initialValue: T): EntityProperty<T> {
@@ -186,7 +188,7 @@ class PokemonEntity(
                         deltaMovement = dirToPlayer.scale(0.8).add(0.0, 0.5, 0.0)
                         val lock = Any()
                         busyLocks.add(lock)
-                        after(seconds = 0.5F) {
+                        afterOnMain(seconds = 0.5F) {
                             busyLocks.remove(lock)
                             if (!isBusy && isAlive) {
                                 val isLeft = player.shoulderEntityLeft.isEmpty
