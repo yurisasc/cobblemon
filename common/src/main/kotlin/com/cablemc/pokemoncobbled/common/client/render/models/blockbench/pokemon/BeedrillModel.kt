@@ -44,7 +44,7 @@ class BeedrillModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     }
 
     companion object {
-        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("weedle"), "main")
+        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("beedrill"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition: PartDefinition = meshdefinition.root
