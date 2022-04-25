@@ -44,6 +44,9 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
             if (!screenExemptions.contains(minecraft.screen?.javaClass as Class<out Screen>))
                 return
         }
+        if (minecraft.options.renderDebug) {
+            return
+        }
         // Hiding if toggled via Keybind
         if (HidePartyBinding.shouldHide)
             return
