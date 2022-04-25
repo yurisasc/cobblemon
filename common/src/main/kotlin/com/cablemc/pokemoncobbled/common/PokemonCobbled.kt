@@ -110,7 +110,7 @@ object PokemonCobbled {
     }
 
     fun initialize() {
-        showdownThread.start()
+        //showdownThread.start()
 
         ExperienceGroups.registerDefaults()
 

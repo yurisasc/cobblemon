@@ -1,0 +1,37 @@
+{
+  "name": "rattata",
+  "nationalPokedexNumber": 19,
+  "primaryType": "normal",
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 30,
+    "attack": 56,
+    "defence": 35,
+    "specialAttack": 25,
+    "specialDefence": 35,
+    "speed": 72
+  },
+  "levelUpMoves": {
+    "1": [ "tackle", "tailwhip" ],
+    "4": [ "quickattack" ],
+    "7": [ "focusenergy" ],
+    "10": [ "bite" ],
+    "13": [ "laserfocus" ],
+    "16": [ "takedown" ],
+    "19": [ "assurance" ],
+    "22": [ "crunch" ],
+    "25": [ "suckerpunch" ],
+    "28": [ "superfang" ],
+    "31": [ "doubleedge" ],
+    "34": [ "endeavor" ]
+  },
+  "catchRate": 255,
+  "experienceGroup": "mediumfast",
+  "baseExperienceYield": 51,
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  }
+}

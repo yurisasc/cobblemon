@@ -1,0 +1,36 @@
+{
+  "name": "raticate",
+  "nationalPokedexNumber": 20,
+  "primaryType": "normal",
+  "secondaryType": null,
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 55,
+    "attack": 81,
+    "defence": 60,
+    "specialAttack": 50,
+    "specialDefence": 70,
+    "speed": 97
+  },
+  "levelUpMoves": {
+    "1": [ "tackle", "tailwhip", "quickattack", "focusenergy", "scaryface", "swordsdance" ],
+    "10": [ "bite" ],
+    "13": [ "laserfocus" ],
+    "16": [ "takedown" ],
+    "19": [ "assurance" ],
+    "24": [ "crunch" ],
+    "29": [ "suckerpunch" ],
+    "34": [ "superfang" ],
+    "39": [ "doubleedge" ],
+    "44": [ "endeavor" ]
+  },
+  "catchRate": 127,
+  "experienceGroup": "mediumfast",
+  "baseExperienceYield": 145,
+  "baseScale": null,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  }
+}
