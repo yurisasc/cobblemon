@@ -1,0 +1,21 @@
+{
+  "name": "rattata",
+  "nationalPokedexNumber": 19,
+  "primaryType": "normal",
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 30,
+    "attack": 56,
+    "defence": 35,
+    "specialAttack": 25,
+    "specialDefence": 35,
+    "speed": 72
+  },
+  "catchRate": 255,
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  }
+}

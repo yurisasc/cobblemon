@@ -1,0 +1,22 @@
+{
+  "name": "beedrill",
+  "nationalPokedexNumber": 15,
+  "primaryType": "bug",
+  "secondaryType": "poison",
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 65,
+    "attack": 80,
+    "defence": 40,
+    "specialAttack": 45,
+    "specialDefence": 80,
+    "speed": 75
+  },
+  "catchRate": 45,
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  }
+}

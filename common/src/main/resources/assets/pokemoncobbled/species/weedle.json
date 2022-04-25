@@ -1,0 +1,22 @@
+{
+  "name": "weedle",
+  "nationalPokedexNumber": 13,
+  "primaryType": "bug",
+  "secondaryType": "poison",
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 40,
+    "attack": 35,
+    "defence": 30,
+    "specialAttack": 20,
+    "specialDefence": 20,
+    "speed": 50
+  },
+  "catchRate": 255,
+  "baseScale": 1,
+  "hitbox": {
+    "width": 1,
+    "height": 1,
+    "fixed": false
+  }
+}
