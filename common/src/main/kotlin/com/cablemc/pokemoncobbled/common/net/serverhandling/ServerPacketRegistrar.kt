@@ -20,5 +20,6 @@ object ServerPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(SendOutPokemonHandler)
         registerHandler(RequestMoveSwapHandler)
         registerHandler(BenchMoveHandler)
+        registerHandler(ChallengeHandler)
     }
 }

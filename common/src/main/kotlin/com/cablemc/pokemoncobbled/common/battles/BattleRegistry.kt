@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap
 object BattleRegistry {
 
     val gson = GsonBuilder().disableHtmlEscaping().create()
-    private val battleMap: ConcurrentHashMap<UUID, PokemonBattle> = ConcurrentHashMap()
+    private val battleMap = ConcurrentHashMap<UUID, PokemonBattle>()
 
     /**
      * Packs a team into the showdown format
@@ -75,7 +75,7 @@ object BattleRegistry {
         battleFormat: BattleFormat,
         side1: BattleSide,
         side2: BattleSide
-    ) {
+    ): PokemonBattle {
         val battle = PokemonBattle(battleFormat, side1, side2)
         battleMap[battle.battleId] = battle
 
@@ -133,6 +133,8 @@ object BattleRegistry {
         request.addProperty(DataKeys.REQUEST_BATTLE_ID, battle.battleId.toString())
         request.add(DataKeys.REQUEST_MESSAGES, jsonArray)
         showdown.write(gson.toJson(request))
+
+        return battle
     }
 
     fun closeBattle(battle: PokemonBattle) {

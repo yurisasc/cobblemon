@@ -43,6 +43,7 @@ open class BattlePokemon(
         get() = effectedPokemon.entity
     var willBeSwitchedIn = false
 
+    /** A set of all the BattlePokemon that they faced during the battle (for exp purposes) */
     val facedOpponents = mutableSetOf<BattlePokemon>()
 
     open fun getName(): MutableComponent {

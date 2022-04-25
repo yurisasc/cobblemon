@@ -39,22 +39,24 @@ import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspe
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
+import com.cablemc.pokemoncobbled.common.battles.BattleFormat
+import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
+import com.cablemc.pokemoncobbled.common.battles.BattleSide
 import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
+import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
+import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.entity.pokemon.CobbledAgingDespawner
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
-import com.google.gson.GsonBuilder
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
-import dev.architectury.event.events.common.LifecycleEvent.SETUP
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.TickEvent.SERVER_POST
 import dev.architectury.hooks.item.tool.AxeItemHooks
@@ -69,6 +71,7 @@ import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
+import java.util.UUID
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.memberProperties
 
@@ -163,6 +166,13 @@ object PokemonCobbled {
 
         SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
         SERVER_POST.register { spawnerManagers.forEach { it.onServerTick() } }
+
+        LOGGER.info("Starting dummy battle to pre-load data.")
+        BattleRegistry.startBattle(
+            BattleFormat.GEN_8_SINGLES,
+            BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()))),
+            BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize())))
+        ).apply { mute = true }
     }
 
     fun getLevel(dimension: ResourceKey<Level>): Level? {
