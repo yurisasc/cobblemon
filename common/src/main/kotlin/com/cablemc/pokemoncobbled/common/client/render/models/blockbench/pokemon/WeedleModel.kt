@@ -9,7 +9,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.H
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.geom.ModelLayerLocation
@@ -18,12 +20,10 @@ import net.minecraft.client.model.geom.PartPose
 import net.minecraft.client.model.geom.builders.*
 import net.minecraft.world.phys.Vec3
 
-class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class WeedleModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = registerRelevantPart("weedle", root.getChild("weedle"))
-    override val head = registerRelevantPart("head", rootPart.getChildOf("body", "neck", "head"))
     override val portraitScale = 1.95F
     override val portraitTranslation = Vec3(-0.05, -0.7, 0.0)
-
     override val profileScale = 1.0F
     override val profileTranslation = Vec3(0.0, 0.0, 0.0)
 
@@ -34,11 +34,19 @@ class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
-            condition = { true },
+            condition = { it.isMoving.get() },
+            transformTicks = 5,
             idleAnimations = arrayOf(
-                SingleBoneLookAnimation(this)
+                rootPart.translation(
+                    function = parabolaFunction(
+                        peak = -4F,
+                        period = 0.4F
+                    ),
+                    timeVariable = { state, _, _ -> state?.animationSeconds },
+                    axis = TransformedModelPart.Y_AXIS
+                ),
             ),
-            transformedParts = arrayOf()
+            transformedParts = arrayOf(),
         )
     }
 
