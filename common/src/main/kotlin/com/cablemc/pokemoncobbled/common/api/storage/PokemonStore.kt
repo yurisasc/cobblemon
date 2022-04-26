@@ -27,8 +27,6 @@ import java.util.UUID
 abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
     /** The UUID of the store. The exact uniqueness requirements depend on the method used for saving. */
     abstract val uuid: UUID
-    /** Returns an iterable of all the [Pokemon] in this store, with nulls removed. */
-    abstract fun getAll(): Iterable<Pokemon>
     /** Gets the [Pokemon] at the given position. */
     abstract operator fun get(position: T): Pokemon?
     /** Gets the first empty position that a [Pokemon] might be put. */
