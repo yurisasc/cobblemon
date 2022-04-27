@@ -167,12 +167,14 @@ object PokemonCobbled {
         SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
         SERVER_POST.register { spawnerManagers.forEach { it.onServerTick() } }
 
-        LOGGER.info("Starting dummy battle to pre-load data.")
-        BattleRegistry.startBattle(
-            BattleFormat.GEN_8_SINGLES,
-            BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()))),
-            BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize())))
-        ).apply { mute = true }
+        showdownThread.showdownStarted.thenAccept {
+            LOGGER.info("Starting dummy battle to pre-load data.")
+            BattleRegistry.startBattle(
+                BattleFormat.GEN_8_SINGLES,
+                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()))),
+                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize())))
+            ).apply { mute = true }
+        }
     }
 
     fun getLevel(dimension: ResourceKey<Level>): Level? {

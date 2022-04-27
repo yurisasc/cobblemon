@@ -15,9 +15,11 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
+import java.util.concurrent.CompletableFuture
 
 class ShowdownThread : Thread() {
 
+    var showdownStarted = CompletableFuture<Unit>()
     val gson = GsonBuilder()
         .disableHtmlEscaping()
         .create()
@@ -75,6 +77,7 @@ class ShowdownThread : Thread() {
         }
 
         LOGGER.info("Showdown has been connected!")
+        showdownStarted.complete(Unit)
 
         // Reset tries as this will be used by reconnection attempts
         tries = 0
