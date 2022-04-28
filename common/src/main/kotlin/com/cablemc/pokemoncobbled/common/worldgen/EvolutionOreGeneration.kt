@@ -24,7 +24,8 @@ open class EvolutionOreGenerationBase(
     discardChanceOnAirExposure: Float = 0.0F,
     amountPerChunk: Int,
     ruleTest: RuleTest = STONE_ORE_REPLACEABLES,
-    vararg additionalModifiers: PlacementModifier
+    vararg additionalModifiers: PlacementModifier,
+    useBiomeTagFilter: Boolean = true
 ) {
 
     val configuredFeature = FeatureUtils.register(
@@ -38,13 +39,22 @@ open class EvolutionOreGenerationBase(
         )
     )
 
-    val placedFeature = PlacementUtils.register(
-        name,
-        configuredFeature,
-        CountPlacement.of(amountPerChunk),
-        IsBiomeTagFilter(tagKey),
-        *additionalModifiers
-    )
+    val placedFeature = if (useBiomeTagFilter)
+        PlacementUtils.register(
+            name,
+            configuredFeature,
+            CountPlacement.of(amountPerChunk),
+            IsBiomeTagFilter(tagKey),
+            *additionalModifiers
+        )
+    else
+        PlacementUtils.register(
+            name,
+            configuredFeature,
+            CountPlacement.of(amountPerChunk),
+            *additionalModifiers
+        )
+
 }
 
 class DeepslateOreGeneration(
