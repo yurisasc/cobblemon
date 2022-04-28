@@ -21,6 +21,7 @@ object CobbledBlocks {
     val ICE_STONE_ORE = queue("ice_stone_ore", EvolutionStoneOre(NORMAL_PROPERTIES))
     val LEAF_STONE_ORE = queue("leaf_stone_ore", EvolutionStoneOre(NORMAL_PROPERTIES))
     val MOON_STONE_ORE = queue("moon_stone_ore", EvolutionStoneOre(NORMAL_PROPERTIES))
+    val DRIPSTONE_MOON_STONE_ORE = queue("dripstone_moon_stone_ore", EvolutionStoneOre(NORMAL_PROPERTIES))
     val SHINY_STONE_ORE = queue("shiny_stone_ore", EvolutionStoneOre(NORMAL_PROPERTIES))
     val SUN_STONE_ORE = queue("sun_stone_ore", EvolutionStoneOre(NORMAL_PROPERTIES))
     val THUNDER_STONE_ORE = queue("thunder_stone_ore", EvolutionStoneOre(NORMAL_PROPERTIES))

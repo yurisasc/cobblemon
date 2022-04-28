@@ -59,6 +59,7 @@ object CobbledItems {
     val SUN_STONE = queue("sun_stone", SunStone())
     val THUNDER_STONE = queue("thunder_stone", ThunderStone())
     val WATER_STONE = queue("water_stone", WaterStone())
+    val DRIPSTONE_MOON_STONE_ORE = queue("dripstone_moon_stone_ore", BlockItem(CobbledBlocks.DRIPSTONE_MOON_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
 
 
     fun register() {
