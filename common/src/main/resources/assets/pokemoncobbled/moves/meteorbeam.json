@@ -1,0 +1,15 @@
+{
+  "name": "meteorbeam",
+  "type": "Rock",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 120,
+  "accuracy": 90,
+  "pp": 10,
+  "priority": 0,
+  "flags": {
+    "charge": 1,
+    "protect": 1,
+    "mirror": 1
+  }
+}

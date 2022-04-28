@@ -1,0 +1,13 @@
+{
+  "name": "mirrorcoat",
+  "type": "Psychic",
+  "damageCategory": "Special",
+  "target": "scripted",
+  "power": 0,
+  "accuracy": 100,
+  "pp": 20,
+  "priority": -5,
+  "flags": {
+    "protect": 1
+  }
+}

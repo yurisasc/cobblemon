@@ -41,7 +41,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
 
     /** Gets the Pokémon at the specified slot. It will return null if the slot is empty or the given slot is out of bounds. */
     fun get(slot: Int) = slot.takeIf { it < slots.size }?.let { slots[it] }
-    override fun get(position: PartyPosition) = get(position.slot)
+    override operator fun get(position: PartyPosition) = get(position.slot)
 
     /** Sets the Pokémon at the specified slot. */
     fun set(slot: Int, pokemon: Pokemon) = set(PartyPosition(slot), pokemon)
@@ -65,7 +65,8 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return null
     }
 
-    override fun getObservingPlayers() = getServer()!!.playerList.players.filter { it.uuid in observerUUIDs }
+    override fun getObservingPlayers() = getServer()?.playerList?.players?.filter { it.uuid in observerUUIDs } ?: emptyList()
+    fun size() = slots.size
 
     override fun sendTo(player: ServerPlayer) {
         player.sendPacket(InitializePartyPacket(false, uuid, slots.size))
@@ -76,7 +77,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         }
     }
 
-    override fun set(position: PartyPosition, pokemon: Pokemon) {
+    override operator fun set(position: PartyPosition, pokemon: Pokemon) {
         super.set(position, pokemon)
         sendPacketToObservers(SetPartyPokemonPacket(uuid, position, pokemon))
     }
@@ -175,12 +176,24 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         forEach { it.heal() }
     }
 
-    fun toBattleTeam(clone: Boolean = false) = map {
-        return@map if (clone) {
+    fun getHealingRemainderPercent(): Float {
+        var totalPercent = 0.0f
+        for (pokemon in this) {
+            totalPercent += 1.0f - (pokemon.currentHealth / pokemon.hp)
+        }
+        return totalPercent
+    }
+
+    fun toBattleTeam(clone: Boolean = false, checkHealth: Boolean = true, leadingPokemon: UUID? = null) = mapNotNull {
+        // TODO Other 'able to battle' checks
+        if (checkHealth && it.currentHealth <= 0) {
+            return@mapNotNull null
+        }
+        return@mapNotNull if (clone) {
             BattlePokemon.safeCopyOf(it)
         } else {
             BattlePokemon(it)
         }
-    }
+    }.sortedBy { if (it.uuid == leadingPokemon) 0 else (indexOf(it.originalPokemon) + 1) }
 }
 

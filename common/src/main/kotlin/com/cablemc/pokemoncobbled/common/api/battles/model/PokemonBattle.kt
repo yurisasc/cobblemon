@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
@@ -23,7 +25,8 @@ class PokemonBattle(
     val side1: BattleSide,
     val side2: BattleSide
 ) {
-
+    /** Whether or not logging will be silenced for this battle. */
+    var mute = false
     init {
         side1.battle = this
         side2.battle = this
@@ -87,11 +90,38 @@ class PokemonBattle(
         request.addProperty(DataKeys.REQUEST_TYPE, DataKeys.REQUEST_BATTLE_SEND_MESSAGE)
         request.addProperty(DataKeys.REQUEST_BATTLE_ID, battleId.toString())
         request.add(DataKeys.REQUEST_MESSAGES, jsonArray)
-        println(BattleRegistry.gson.toJson(request))
-        showdown.write(BattleRegistry.gson.toJson(request))
+        val json = BattleRegistry.gson.toJson(request)
+        log(json)
+        showdown.write(json)
+    }
+
+    fun turn() {
+        actors.forEach { it.turn() }
+        for (side in sides) {
+            val opposite = side.getOppositeSide()
+            side.activePokemon.forEach {
+                val battlePokemon = it.battlePokemon ?: return@forEach
+                battlePokemon.facedOpponents.addAll(opposite.activePokemon.mapNotNull { it.battlePokemon })
+            }
+        }
     }
 
     fun end() {
-//        showdown.write()
+        for (actor in actors) {
+            for (pokemon in actor.pokemonList.filter { it.health > 0 }) {
+                if (pokemon.facedOpponents.isNotEmpty() /* exp share held item check */) {
+                    val experience = PokemonCobbled.experienceCalculator.calculate(pokemon)
+                    if (experience > 0) {
+                        actor.awardExperience(pokemon, experience)
+                    }
+                }
+            }
+        }
+    }
+
+    fun log(message: String = "") {
+        if (!mute) {
+            LOGGER.info(message)
+        }
     }
 }

@@ -1,0 +1,14 @@
+{
+  "name": "hyperspacehole",
+  "type": "Psychic",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 80,
+  "accuracy": 100.0,
+  "pp": 5,
+  "priority": 0,
+  "flags": {
+    "mirror": 1,
+    "bypasssub": 1
+  }
+}

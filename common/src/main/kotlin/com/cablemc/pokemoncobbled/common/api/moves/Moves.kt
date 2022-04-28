@@ -9,29 +9,43 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
  * Registry for all known Moves
  */
 object Moves {
+    val GSON = GsonBuilder()
+        .registerTypeAdapter(DamageCategory::class.java, DamageCategoryAdapter)
+        .registerTypeAdapter(ElementalType::class.java, ElementalTypeAdapter)
+        .setLenient()
+        .disableHtmlEscaping()
+        .create()
 
-    private val allMoves = hashMapOf<String, MoveTemplate>()
+    private val allMoves = mutableMapOf<String, MoveTemplate>()
 
-    // START - Normal Moves
-    val TACKLE = register(loadFromAssets("tackle"))
-    // END - Normal Moves
-
-    // START - Flying Moves
-    val AERIAL_ACE = register(loadFromAssets("aerial_ace"))
-    val AIR_SLASH = register(loadFromAssets("air_slash"))
-    // END - Flying Moves
-
-    // START - Fighting Moves
-    val AURA_SPHERE = register(loadFromAssets("aura_sphere"))
-    // END - Fighting Moves
-    val SPLASH = register(MoveTemplate("splash", ElementalTypes.NORMAL, DamageCategories.SPECIAL, 0.0, 0.0, 0.0, 10))
-
-    fun register(moveTemplate: MoveTemplate): MoveTemplate {
-        this.allMoves[moveTemplate.name.lowercase()] = moveTemplate
-        return moveTemplate
+    fun load() {
+        allMoves.putAll(loadFromFiles())
     }
 
-    fun getByName(name: String) = this.allMoves[name.lowercase()]
+    fun getByName(name: String) = allMoves[name.lowercase()]
+    fun getByNameOrDummy(name: String) = allMoves[name.lowercase()] ?: MoveTemplate.dummy(name.lowercase())
+    fun getExceptional() = getByName("tackle") ?: allMoves.values.random()
+    fun count() = allMoves.size
 
-    fun count() = this.allMoves.size
+    /**
+     * Loads the move JSON files into a HashMap.
+     */
+    fun loadFromFiles() : MutableMap<String, MoveTemplate> {
+        val map = mutableMapOf<String, MoveTemplate>()
+        try {
+            val moveTemplates = JsonManifestWalker.load(
+                MoveTemplate::class.java,
+                "moves",
+                GSON
+            )
+            for (template in moveTemplates) {
+                map[template.name] = template
+            }
+            return map
+        } catch (e: Exception) {
+            PokemonCobbled.LOGGER.error("Error loading moves from files.")
+            e.printStackTrace()
+        }
+        return mutableMapOf()
+    }
 }

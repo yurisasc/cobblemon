@@ -1,0 +1,13 @@
+{
+  "name": "soulstealing7starstrike",
+  "type": "Ghost",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 195,
+  "accuracy": 100.0,
+  "pp": 1,
+  "priority": 0,
+  "flags": {
+    "contact": 1
+  }
+}

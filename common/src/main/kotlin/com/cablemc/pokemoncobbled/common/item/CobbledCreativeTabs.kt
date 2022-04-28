@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.item
 
 import com.cablemc.pokemoncobbled.common.CobbledItems
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.asResource
 import dev.architectury.registry.CreativeTabRegistry.create
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.ItemStack

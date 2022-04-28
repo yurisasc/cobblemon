@@ -15,9 +15,13 @@ class RandomBattleAI : BattleAI {
     override fun chooseMoves(activePokemon: Iterable<ActiveBattlePokemon>): Iterable<String> {
         val decisions = mutableListOf<String>()
         for (pokemon in activePokemon) {
-            val move = pokemon.selectableMoves.filter { it.canBeUsed() }.randomOrNull()
+            val move = pokemon.selectableMoves
+                .filter { it.canBeUsed() }
+                .filter { it.target.targetList(pokemon)?.isEmpty() != true }
+                .randomOrNull()
+
             if (move == null) {
-                decisions.add("pass")
+                decisions.add("move struggle")
                 continue
             }
 
@@ -25,9 +29,6 @@ class RandomBattleAI : BattleAI {
             val target = move.target.targetList(pokemon)
             if (target == null) {
                 decisions.add("move $moveIndex")
-            } else if (target.isEmpty()) {
-                decisions.add("pass")
-                PokemonCobbled.LOGGER.error("Unable to find targets for ${move.move}. Weird.")
             } else {
                 // prioritize opponents
                 val chosenTarget = target.filter { !it.isAllied(pokemon) }.randomOrNull() ?: target.random()
@@ -42,7 +43,7 @@ class RandomBattleAI : BattleAI {
         val switches = mutableListOf<UUID>()
         for (pokemon in activePokemon) {
             val switchTo = pokemon.actor.pokemonList.filter { it.canBeSentOut() }.randomOrNull()
-                ?: throw IllegalStateException("Need to switch but no Pokémon to switch to")
+                ?: break //throw IllegalStateException("Need to switch but no Pokémon to switch to")
             switchTo.willBeSwitchedIn = true
             switches.add(switchTo.uuid)
         }

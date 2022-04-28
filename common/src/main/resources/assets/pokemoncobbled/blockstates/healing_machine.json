@@ -1,0 +1,19 @@
+{
+    "variants": {
+      "facing=east": {
+        "model": "pokemoncobbled:block/healing_machine",
+        "y": 270
+      },
+      "facing=north": {
+        "model": "pokemoncobbled:block/healing_machine",
+        "y": 180
+      },
+      "facing=south": {
+        "model": "pokemoncobbled:block/healing_machine"
+      },
+      "facing=west": {
+        "model": "pokemoncobbled:block/healing_machine",
+        "y": 90
+      }
+    }
+}

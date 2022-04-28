@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench
 
-import com.cablemc.pokemoncobbled.common.client.render.CobbledLayerDefinitions
+import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
@@ -24,19 +24,17 @@ class BlockBenchModelWrapper<T : Entity>(
         private set
 
     fun initializeModel(context: EntityRendererProvider.Context) {
-        if (!isModelInitialized) {
-            entityModel = modelFactory(context.bakeLayer(layerLocation)).also {
-                if (it is PoseableEntityModel<T>) {
-                    it.registerPoses()
-                }
+        entityModel = modelFactory(context.bakeLayer(layerLocation)).also {
+            if (it is PoseableEntityModel<T>) {
+                it.registerPoses()
             }
-            isModelInitialized = true
         }
+        isModelInitialized = true
     }
 
     fun initializeModelLayers() {
         if (!isLayerInitialized) {
-            CobbledLayerDefinitions.registerLayerDefinition(layerLocation, layerDefinitionSupplier)
+            PokemonCobbledClient.implementation.registerLayer(layerLocation, layerDefinitionSupplier)
             isLayerInitialized = true
         }
     }

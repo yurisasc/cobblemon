@@ -3,6 +3,8 @@ package com.cablemc.pokemoncobbled.common.client.render.pokemon
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
+import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
 import com.cablemc.pokemoncobbled.common.client.render.addVertex
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
@@ -10,6 +12,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefun
 import com.cablemc.pokemoncobbled.common.client.render.renderBeaconBeam
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.isLookingAt
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Quaternion
@@ -17,6 +21,7 @@ import com.mojang.math.Vector3f
 import com.mojang.math.Vector4f
 import net.minecraft.client.Minecraft
 import net.minecraft.client.model.EntityModel
+import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRendererProvider
@@ -95,6 +100,12 @@ class PokemonRenderer(
                 )
             }
         }
+
+        Minecraft.getInstance().player?.let { player ->
+            if (player.isLookingAt(entity) && phaseTarget == null) {
+                renderLabel(poseMatrix, partialTicks, entity, player, buffer)
+            }
+        }
     }
 
     override fun scale(pEntity: PokemonEntity, pMatrixStack: PoseStack, pPartialTickTime: Float) {
@@ -103,7 +114,8 @@ class PokemonRenderer(
     }
 
     fun renderBeam(matrixStack: PoseStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, buffer: MultiBufferSource) {
-        val pokemonPosition = entity.position().add(0.0, entity.bbHeight / 2.0, 0.0)
+        val clientDelegate = entity.delegate as PokemonClientDelegate
+        val pokemonPosition = entity.position().add(0.0, entity.bbHeight / 2.0 * clientDelegate.entityScaleModifier.toDouble(), 0.0)
         val beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
             beamTarget.position().let { it.add(pokemonPosition.subtract(it).normalize().multiply(0.4, 0.0, 0.4)) }
         } else {
@@ -121,8 +133,6 @@ class PokemonRenderer(
         if (beamSourcePosition.distanceTo(pokemonPosition) > 20) {
             return
         }
-
-        val clientDelegate = entity.delegate as PokemonClientDelegate
 
         val direction = Vector3f(pokemonPosition.subtract(beamSourcePosition))
 
@@ -166,6 +176,41 @@ class PokemonRenderer(
         matrixStack.popPose()
     }
 
+    fun renderLabel(poseStack: PoseStack, partialTicks: Float, entity: PokemonEntity, player: Player, multiBufferSource: MultiBufferSource) {
+        val mc = Minecraft.getInstance()
+
+        val stepMultiplier = 0.5F
+        val toPlayer = player.getEyePosition(partialTicks)
+            .subtract(entity.position().add(0.0, entity.boundingBox.ysize + 0.5, 0.0))
+            .scale(stepMultiplier.toDouble())
+
+        poseStack.pushPose()
+        poseStack.translate(0.0, entity.boundingBox.ysize + 0.5, 0.0)
+        poseStack.translate(toPlayer.x, toPlayer.y, toPlayer.z)
+        poseStack.mulPose(entityRenderDispatcher.cameraOrientation())
+        poseStack.scale(-0.025f * stepMultiplier, -0.025f * stepMultiplier, 1f)
+        val matrix4f = poseStack.last().pose()
+        val g = mc.options.getBackgroundOpacity(0.25f)
+        val k = (g * 255.0f).toInt() shl 24
+        val label = entity.pokemon.species.translatedName
+        var h = (-font.width(label) / 2).toFloat()
+        val y = 0F
+        val seeThrough = true
+        val packedLight = LightTexture.pack(15, 15)
+        font.drawInBatch(label, h, y, 0x20FFFFFF, false, matrix4f, multiBufferSource, seeThrough, k, packedLight)
+        font.drawInBatch(label, h, y, -1, false, matrix4f, multiBufferSource, false, 0, packedLight)
+
+        if (entity.canBattle(player)) {
+            val sendOutBinding = PartySendBinding.currentKey().displayName
+            val battlePrompt = lang("challenge_label", sendOutBinding)
+            h = (-font.width(battlePrompt) / 2).toFloat()
+            font.drawInBatch(battlePrompt, h, y + 10, 0x20FFFFFF, false, matrix4f, multiBufferSource, seeThrough, k, packedLight)
+            font.drawInBatch(battlePrompt, h, y + 10, -1, false, matrix4f, multiBufferSource, false, 0, packedLight)
+        }
+        poseStack.popPose()
+
+    }
+
     fun renderGlow(
         matrixStack: PoseStack,
         entity: PokemonEntity,
@@ -177,13 +222,14 @@ class PokemonRenderer(
         glowLength: Float,
         glowRangeAngle: Float
     ) {
+        val clientDelegate = entity.delegate as PokemonClientDelegate
         val totalWorldTicks = entity.level.gameTime
-        val vectorBuffer =  buffer.getBuffer(RenderType.lightning()) //buffer.getBuffer(RenderType.glint())
+        val vectorBuffer = buffer.getBuffer(RenderType.lightning()) //buffer.getBuffer(RenderType.glint())
 
         val ray1YRot = (totalWorldTicks + DELTA_TICKS) / 16F
 
-        val startY1 = entity.boundingBox.ysize.toFloat() * 0.5F
-        val startY2 = startY1 + entity.boundingBox.ysize.toFloat() * 0.05F
+        val startY1 = entity.boundingBox.ysize.toFloat() * 0.5F * clientDelegate.entityScaleModifier
+        val startY2 = startY1 + entity.boundingBox.ysize.toFloat() * 0.05F * clientDelegate.entityScaleModifier
 
         val endY1 = startY1 - tan(glowRangeAngle) * glowLength
         val endY2 = startY2 + tan(glowRangeAngle) * glowLength

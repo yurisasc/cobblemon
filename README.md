@@ -1,6 +1,6 @@
 # Pokémon Cobbled
 
-An open-source Pokémon mod written in Kotlin for Fabric and Forge.
+An open-source Pokémon mod for Minecraft Java Edition, written in Kotlin for Fabric and Forge.
 
 ## Getting started
 
@@ -19,4 +19,4 @@ If you're interested in contributing to the project, you can simply fork the rep
 [here](https://gitlab.com/cable-mc/pokemon-cobbled/-/issues?scope=all&state=opened&label_name[]=accepted&assignee_id=None).
 
 If you want a more involved role in the project, involving branches on the main repository instead of forking and involvement
-in design discussions, add and message Hiroku#4373 on Discord.
+in design discussions, add and message Hiroku#4373 on our Discord here: https://discord.gg/AsNpJSST7G.

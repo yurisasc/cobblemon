@@ -20,6 +20,10 @@ object DataKeys {
     const val POKEMON_ABILITY = "Ability"
     const val POKEMON_ABILITY_NAME = "AbilityName"
     const val POKEMON_SHINY = "Shiny"
+    const val POKEMON_STATUS = "Status"
+    const val POKEMON_STATUS_NAME = "StatusName"
+    const val POKEMON_STATUS_TIMER = "StatusTimer"
+    const val POKEMON_CAUGHT_BALL = "CaughtBall"
     const val POKEMON_PENDING_EVOLUTIONS = "PendingEvolutions"
 
     const val POKEMON_STATE = "State"
@@ -28,6 +32,8 @@ object DataKeys {
     const val POKEMON_STATE_ID = "StateId"
     const val POKEMON_STATE_PLAYER_UUID = "PlayerUUID"
     const val POKEMON_STATE_POKEMON_UUID = "PokemonUUID"
+
+    const val BENCHED_MOVES = "BenchedMoves"
 
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
@@ -46,4 +52,11 @@ object DataKeys {
     const val POKEMON_PROPERTIES_CUSTOM = "CustomProperties"
     const val POKEMON_PROPERTIES_ORIGINAL_TEXT = "OriginalText"
     const val POKEMON_SPECIES_TEXT = "SpeciesText"
+
+    /* Healer  Block */
+    const val HEALER_MACHINE_USER = "MachineUser"
+    const val HEALER_MACHINE_POKEBALLS = "MachinePokeBalls"
+    const val HEALER_MACHINE_TIME_LEFT = "MachineTimeLeft"
+    const val HEALER_MACHINE_CHARGE = "MachineCharge"
+    /* ----------- */
 }

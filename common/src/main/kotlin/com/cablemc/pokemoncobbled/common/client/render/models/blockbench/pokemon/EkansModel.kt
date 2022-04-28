@@ -16,6 +16,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.world.phys.Vec3
 
 class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
@@ -35,6 +36,11 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail4Segment = WaveSegment(modelPart = tail4, length = 9F)
     val tail5Segment = WaveSegment(modelPart = tail5, length = 10F)
     val tail6Segment = WaveSegment(modelPart = tail6, length = 10F)
+
+    override val portraitScale = 1.85F
+    override val portraitTranslation = Vec3(-1.3, -0.75, 0.0)
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(

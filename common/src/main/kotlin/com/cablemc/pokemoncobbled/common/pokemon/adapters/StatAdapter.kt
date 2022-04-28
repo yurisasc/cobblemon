@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon.adapters
 
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -17,6 +17,6 @@ object StatAdapter : JsonSerializer<Stat>, JsonDeserializer<Stat> {
     }
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Stat {
-        return Stats.getStat(json.asString)!! // TODO some form of sleek error handling if the stat has been removed. A dummy stat, potentially. Hiro: Remember UQ tasks
+        return Stats.getStat(json.asString)
     }
 }

@@ -2,9 +2,10 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.google.gson.annotations.SerializedName
 import net.minecraft.world.entity.EntityDimensions
 
@@ -12,7 +13,7 @@ data class FormData(
     @SerializedName("name")
     val name: String = "normal",
     @SerializedName("baseStats")
-    private val _baseStats: PokemonStats? = null,
+    private val _baseStats: Map<Stat, Int>? = null,
     @SerializedName("maleRatio")
     private val _maleRatio: Float? = null,
     @SerializedName("baseScale")
@@ -21,6 +22,10 @@ data class FormData(
     private var _hitbox: EntityDimensions? = null,
     @SerializedName("catchRate")
     private var _catchRate: Int? = null,
+    @SerializedName("experienceGroup")
+    private var _experienceGroup: ExperienceGroup? = null,
+    @SerializedName("baseExperienceYield")
+    private var _baseExperienceYield: Int? = null,
     @SerializedName("primaryType")
     private val _primaryType: ElementalType? = null,
     @SerializedName("secondaryType")
@@ -33,12 +38,14 @@ data class FormData(
     private val _shoulderMountable: Boolean? = null,
     @SerializedName("shoulderEffects")
     private val _shoulderEffects: MutableList<ShoulderEffect>? = null,
+    @SerializedName("levelUpMoves")
+    private val _levelUpMoves: LevelUpMoves? = null
+    private val _shoulderEffects: MutableList<ShoulderEffect>? = null,
     @SerializedName("evolutions")
     private val _evolutions: MutableSet<Evolution>? = null,
     val preEvolution: PreEvolution? = null
 ) {
-
-    val baseStats: PokemonStats
+    val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
 
     val maleRatio: Float
@@ -49,7 +56,10 @@ data class FormData(
         get() = _hitbox ?: species.hitbox
     val catchRate: Int
         get() = _catchRate ?: species.catchRate
-
+    val experienceGroup: ExperienceGroup
+        get() = _experienceGroup ?: species.experienceGroup
+    val baseExperienceYield: Int
+        get() = _baseExperienceYield ?: species.baseExperienceYield
     val primaryType: ElementalType
         get() = _primaryType ?: species.primaryType
 
@@ -67,6 +77,9 @@ data class FormData(
 
     val shoulderEffects: MutableList<ShoulderEffect>
         get() = _shoulderEffects ?: species.shoulderEffects
+
+    val levelUpMoves: LevelUpMoves
+        get() = _levelUpMoves ?: species.levelUpMoves
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)

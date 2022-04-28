@@ -15,11 +15,18 @@ class ModelWidget(
     pokemon: Pokemon
 ): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent("Summary - ModelWidget")) {
 
+    companion object {
+        var render = true
+    }
+
     var pokemon = pokemon
     private val minecraft = Minecraft.getInstance()
     private var rotVec = Vector3f(13F, 35F, 0F)
 
     override fun render(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        if (!render) {
+            return
+        }
         isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
         renderPKM(pPoseStack)
     }

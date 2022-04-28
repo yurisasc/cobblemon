@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
+import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
@@ -7,17 +8,16 @@ import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.FriendlyByteBuf
 
-class MoveSet {
-    val moves = arrayOfNulls<Move>(MOVE_COUNT)
+class MoveSet : Iterable<Move> {
+    val observable = SimpleObservable<MoveSet>()
+    private var emit = true
 
-    /**
-     * So no Pokémon can end up with no Moves assigned...
-     */
-    init {
-        if (moves.filterNotNull().isEmpty()) {
-            moves[0] = Moves.TACKLE.create()
-        }
-    }
+    private val moves = arrayOfNulls<Move>(MOVE_COUNT)
+
+
+    override fun iterator() = moves.filterNotNull().iterator()
+
+    operator fun get(index: Int) = index.takeIf { it in 0 until MOVE_COUNT }?.let { moves[it] }
 
     /**
      * Gets all Moves from the Pokémon but skips null Moves
@@ -26,13 +26,39 @@ class MoveSet {
         return moves.filterNotNull()
     }
 
+    fun hasSpace() = moves.any { it == null }
+
     /**
      * Sets the given Move to given position
      */
-    fun setMove(pos: Int, move: Move) {
-        if (pos < 0 || pos > MOVE_COUNT - 1)
+    fun setMove(pos: Int, move: Move?) {
+        if (pos !in 0 until MOVE_COUNT) {
             return
+        }
         moves[pos] = move
+        update()
+    }
+
+    fun copyFrom(other: MoveSet) {
+        doWithoutEmitting {
+            clear()
+            other.getMoves().forEach { add(it) }
+        }
+        update()
+    }
+
+    fun heal() {
+        getMoves().forEach { it.currentPp = it.maxPp }
+        update()
+    }
+
+    fun clear() {
+        doWithoutEmitting {
+            for (i in 0 until MOVE_COUNT){
+                setMove(i, null)
+            }
+        }
+        update()
     }
 
     /**
@@ -43,6 +69,7 @@ class MoveSet {
         moves[pos1] = moves[pos2].also {
             moves[pos2] = moves[pos1]
         }
+        update()
     }
 
     /**
@@ -73,48 +100,74 @@ class MoveSet {
     }
 
     fun add(move: Move) {
+        if (any { it.template == move.template }) {
+            return
+        }
         for (i in 0 until MOVE_COUNT) {
             if (moves[i] == null) {
                 moves[i] = move
+                update()
                 return
             }
         }
     }
 
-    companion object {
-        const val MOVE_COUNT = 4
+    fun update() {
+        if (emit) {
+            observable.emit(this)
+        }
+    }
+    fun doWithoutEmitting(action: () -> Unit) {
+        val previousEmit = emit
+        emit = false
+        action()
+        emit = previousEmit
+    }
 
-        /**
-         * Returns a MoveSet built from given NBT
-         */
-        fun loadFromNBT(nbt: CompoundTag): MoveSet {
-            val moveSet = MoveSet()
+
+    /**
+     * Returns a MoveSet built from given NBT
+     */
+    fun loadFromNBT(nbt: CompoundTag): MoveSet {
+        doWithoutEmitting {
+            clear()
             nbt.getList(DataKeys.POKEMON_MOVESET, Tag.TAG_COMPOUND.toInt()).forEachIndexed { index, tag ->
-                moveSet.setMove(index, Move.loadFromNBT(tag as CompoundTag))
+                setMove(index, Move.loadFromNBT(tag as CompoundTag))
             }
-            return moveSet
         }
+        update()
+        return this
+    }
 
-        /**
-         * Returns a MoveSet build from given Buffer
-         */
-        fun loadFromBuffer(buffer: FriendlyByteBuf): MoveSet {
+    /**
+     * Returns a MoveSet build from given Buffer
+     */
+    fun loadFromBuffer(buffer: FriendlyByteBuf): MoveSet {
+        doWithoutEmitting {
+            clear()
             val amountMoves = buffer.readInt()
-            val moveSet = MoveSet()
             for (i in 0 until amountMoves) {
-                moveSet.setMove(i, Move.loadFromBuffer(buffer))
+                setMove(i, Move.loadFromBuffer(buffer))
             }
-            return moveSet
         }
+        update()
+        return this
+    }
 
-        fun loadFromJSON(json: JsonObject): MoveSet {
-            val moveSet = MoveSet()
-            for (i in 0 until 4) {
+    fun loadFromJSON(json: JsonObject): MoveSet {
+        doWithoutEmitting {
+            clear()
+            for (i in 0 until MOVE_COUNT) {
                 val moveJSON = json.get(DataKeys.POKEMON_MOVESET + i) ?: continue
                 val move = Move.loadFromJSON(moveJSON.asJsonObject)
-                moveSet.add(move)
+                add(move)
             }
-            return moveSet
         }
+        update()
+        return this
+    }
+
+    companion object {
+        const val MOVE_COUNT = 4
     }
 }

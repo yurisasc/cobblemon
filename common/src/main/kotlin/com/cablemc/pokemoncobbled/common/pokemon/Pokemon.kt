@@ -17,28 +17,43 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.HealthUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.StatusUpdatePacket
+import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.TradeEvolution
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.holder.PendingEvolutions
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
-import com.cablemc.pokemoncobbled.common.util.*
+import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
+import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.lang
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.Tag
+import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.Tag.TAG_COMPOUND
 import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.util.Mth.ceil
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 import java.lang.Integer.min
-import java.util.*
-import kotlin.properties.Delegates.observable
+import java.util.UUID
 
 open class Pokemon {
     var uuid: UUID = UUID.randomUUID()
@@ -48,6 +63,7 @@ open class Pokemon {
             field = value
             currentHealth = quotient * hp
             _species.emit(value)
+            form = species.forms.first() // Use proper form selection
         }
     var form = species.forms.first()
         set(value) { field = value ; _form.emit(value) }
@@ -56,8 +72,35 @@ open class Pokemon {
             field = min(hp, value)
             _currentHealth.emit(field)
         }
-    var level = 5
-        set(value) { field = value ; _level.emit(value) }
+    var status: PersistentStatusContainer? = null
+        set(value) {
+            field = value
+            this._status.emit(value?.status?.name?.toString() ?: "")
+        }
+    var level = 1
+        set(value) {
+            if (value < 1) {
+                throw IllegalArgumentException("Level cannot be negative")
+            }
+
+            val hpRatio = (currentHealth / hp.toFloat()).coerceIn(0F, 1F)
+            /*
+             * When people set the level programmatically the experience value will become incorrect.
+             * Specifically check for when there's a mismatch and update the experience.
+             */
+            field = value
+            if (experienceGroup.getLevel(experience) != value) {
+                experience = experienceGroup.getExperience(value)
+            }
+            _level.emit(value)
+
+            currentHealth = ceil(hpRatio * hp).coerceIn(0..hp)
+        }
+    var experience = 0
+        protected set(value) {
+            field = value
+            _experience.emit(value)
+        }
     var friendship = 0
         set(value) { field = value ; _friendship.emit(value) }
     var state: PokemonState = InactivePokemonState()
@@ -89,11 +132,17 @@ open class Pokemon {
     var mintedNature: Nature? = null
         set(value) { field = value ; _mintedNature.emit(value?.name?.toString() ?: "") }
 
-    var moveSet: MoveSet = MoveSet()
-        set(value) { field = value ; _moveSet.emit(value) }
+    val moveSet = MoveSet()
 
-    /** All the moves that the Pokémon has learned over its lifetime. */
-    val learnedMoves = mutableListOf<MoveTemplate>()
+    val experienceGroup: ExperienceGroup
+        get() = form.experienceGroup
+
+    /**
+     * All moves that the Pokémon has, at some point, known. This is to allow players to
+     * swap in moves they've used before at any time, while holding onto the remaining PP
+     * that they had last.
+     */
+    val benchedMoves = BenchedMoves()
 
     var ability: Ability = form.standardAbilities.random().create()
 
@@ -114,14 +163,20 @@ open class Pokemon {
     var evs = EVs.createEmpty()
     var scaleModifier = 1F
 
+    var caughtBall: PokeBall = PokeBalls.POKE_BALL
+        set(value) { field = value ; _caughtBall.emit(caughtBall.name.toString()) }
+
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
     open fun getStat(stat: Stat): Int {
         return if (stat == Stats.HP) {
-            // TODO shedinja should just return 1
-            (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4) * level) / 100 + level + 10
+            if (species.name == "shedinja") {
+                1
+            } else {
+                (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4)) * level / 100 + level + 10
+            }
         } else {
-            nature.modifyStat(stat, (2 * form.baseStats.getOrOne(stat) * ivs.getOrOne(stat) + evs.getOrOne(stat) / 4) / 100 * level + 5)
+            nature.modifyStat(stat, (2 * (form.baseStats[stat] ?: 1) * ivs.getOrOne(stat) + evs.getOrOne(stat) / 4) / 100 * level + 5)
         }
     }
 
@@ -140,6 +195,15 @@ open class Pokemon {
 
     fun heal() {
         this.currentHealth = hp
+        this.moveSet.heal()
+        this.status = null
+    }
+
+    fun applyStatus(status: PersistentStatus) {
+        this.status = PersistentStatusContainer(status)
+        if (this.status != null) {
+            this._status.emit(this.status!!.status.name.toString())
+        }
     }
 
     // Dummy function for the time being
@@ -162,6 +226,7 @@ open class Pokemon {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
         nbt.putString(DataKeys.POKEMON_FORM_ID, form.name)
+        nbt.putInt(DataKeys.POKEMON_EXPERIENCE, experience)
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_FRIENDSHIP, friendship.toShort())
 
@@ -174,6 +239,9 @@ open class Pokemon {
         val abilityNBT = ability.saveToNBT(CompoundTag())
         nbt.put(DataKeys.POKEMON_ABILITY, abilityNBT)
         state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
+        status?.saveToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
+        nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
+        nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(ListTag()))
         return nbt
     }
 
@@ -182,14 +250,14 @@ open class Pokemon {
         species = PokemonSpecies.getByPokedexNumber(nbt.getInt(DataKeys.POKEMON_SPECIES_DEX))
             ?: throw IllegalStateException("Tried to read a species with national PokéDex number ${nbt.getInt(DataKeys.POKEMON_SPECIES_DEX)}")
         form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.forms.first()
+        experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE)
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt()
         currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
         evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
-        moveSet = MoveSet.loadFromNBT(nbt)
+        moveSet.loadFromNBT(nbt)
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
-        learnedMoves.clear()
         val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: CompoundTag()
         val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "drought"
         ability = Abilities.getOrException(abilityName).create(abilityNBT)
@@ -200,6 +268,13 @@ open class Pokemon {
             val clazz = PokemonState.states[type]
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromNBT(stateNBT) ?: InactivePokemonState()
         }
+        if (nbt.contains(DataKeys.POKEMON_STATUS)) {
+            val statusNBT = nbt.getCompound(DataKeys.POKEMON_STATUS)
+            status = PersistentStatusContainer.loadFromNBT(statusNBT)
+        }
+        val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
+        benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, TAG_COMPOUND.toInt()))
         return this
     }
 
@@ -208,6 +283,7 @@ open class Pokemon {
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber)
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.name)
+        json.addProperty(DataKeys.POKEMON_EXPERIENCE, experience)
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
         json.addProperty(DataKeys.POKEMON_FRIENDSHIP, friendship)
         json.addProperty(DataKeys.POKEMON_HEALTH, currentHealth)
@@ -218,6 +294,9 @@ open class Pokemon {
         json.add(DataKeys.POKEMON_ABILITY, ability.saveToJSON(JsonObject()))
         json.addProperty(DataKeys.POKEMON_SHINY, shiny)
         state.writeToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATE, it) }
+        status?.saveToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATUS, it) }
+        json.addProperty(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
+        json.add(DataKeys.BENCHED_MOVES, benchedMoves.saveToJSON(JsonArray()))
         return json
     }
 
@@ -226,12 +305,13 @@ open class Pokemon {
         species = PokemonSpecies.getByPokedexNumber(json.get(DataKeys.POKEMON_SPECIES_DEX).asInt)
             ?: throw IllegalStateException("Tried to read a species with national pokedex number ${json.get(DataKeys.POKEMON_SPECIES_DEX).asInt}")
         form = species.forms.find { it.name == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.forms.first()
+        experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt
         currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
         ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
         evs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_EVS))
-        moveSet = MoveSet.loadFromJSON(json.get(DataKeys.POKEMON_MOVESET).asJsonObject)
+        moveSet.loadFromJSON(json.get(DataKeys.POKEMON_MOVESET).asJsonObject)
         scaleModifier = json.get(DataKeys.POKEMON_SCALE_MODIFIER).asFloat
         val abilityJSON = json.get(DataKeys.POKEMON_ABILITY)?.asJsonObject ?: JsonObject()
         ability = Abilities.getOrException(abilityJSON.get(DataKeys.POKEMON_ABILITY_NAME)?.asString ?: "drought").create(abilityJSON)
@@ -242,6 +322,13 @@ open class Pokemon {
             val clazz = type?.let { PokemonState.states[it] }
             state = clazz?.getDeclaredConstructor()?.newInstance()?.readFromJSON(stateJson) ?: InactivePokemonState()
         }
+        if (json.has(DataKeys.POKEMON_STATUS)) {
+            val statusJson = json.get(DataKeys.POKEMON_STATUS).asJsonObject
+            status = PersistentStatusContainer.loadFromJSON(statusJson)
+        }
+        val ballName = json.get(DataKeys.POKEMON_CAUGHT_BALL).asString
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
+        benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         return this
     }
 
@@ -249,17 +336,48 @@ open class Pokemon {
         buffer.writeUUID(uuid)
         buffer.writeShort(species.nationalPokedexNumber)
         buffer.writeUtf(form.name)
+        buffer.writeInt(experience)
         buffer.writeByte(level)
         buffer.writeShort(friendship)
         buffer.writeShort(currentHealth)
-        buffer.writeMapK(map = ivs, size = IntSize.U_BYTE) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeByte(value) }
-        buffer.writeMapK(map = evs, size = IntSize.U_SHORT) { (key, value) -> buffer.writeUtf(key.id) ; buffer.writeShort(value) }
+        ivs.saveToBuffer(buffer)
+        evs.saveToBuffer(buffer)
         moveSet.saveToBuffer(buffer)
         buffer.writeFloat(scaleModifier)
         buffer.writeUtf(ability.name)
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
+        buffer.writeUtf(status?.status?.name?.toString() ?: "")
+        buffer.writeUtf(caughtBall.name.toString())
+        benchedMoves.saveToBuffer(buffer)
         return buffer
+    }
+
+    fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
+        uuid = buffer.readUUID()
+        species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())
+            ?: throw IllegalStateException("Pokemon#loadFromBuffer cannot find the species! Species reference data has not been synchronized correctly!")
+        val formId = buffer.readUtf()
+        form = species.forms.find { it.name == formId } ?: species.forms.first()
+        experience = buffer.readInt()
+        level = buffer.readUnsignedByte().toInt()
+        friendship = buffer.readUnsignedShort()
+        currentHealth = buffer.readUnsignedShort()
+        ivs.loadFromBuffer(buffer)
+        evs.loadFromBuffer(buffer)
+        moveSet.loadFromBuffer(buffer)
+        scaleModifier = buffer.readFloat()
+        ability = Abilities.getOrException(buffer.readUtf()).create()
+        shiny = buffer.readBoolean()
+        state = PokemonState.fromBuffer(buffer)
+        val status = Statuses.getStatus(ResourceLocation(buffer.readUtf()))
+        if (status != null && status is PersistentStatus) {
+            this.status = PersistentStatusContainer(status, 0)
+        }
+        val ballName = buffer.readUtf()
+        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
+        benchedMoves.loadFromBuffer(buffer)
+        return this
     }
 
     fun clone(useJSON: Boolean = true, newUUID: Boolean = true): Pokemon {
@@ -272,32 +390,6 @@ open class Pokemon {
             pokemon.uuid = UUID.randomUUID()
         }
         return pokemon
-    }
-
-    fun from(other: Pokemon): Pokemon {
-        val tag = other.saveToNBT(CompoundTag())
-        tag.putUUID(DataKeys.POKEMON_UUID, this.uuid)
-        this.loadFromNBT(tag)
-        return this
-    }
-
-    fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
-        uuid = buffer.readUUID()
-        species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())
-            ?: throw IllegalStateException("Pokemon#loadFromBuffer cannot find the species! Species reference data has not been synchronized correctly!")
-        val formId = buffer.readUtf()
-        form = species.forms.find { it.name == formId } ?: species.forms.first()
-        level = buffer.readUnsignedByte().toInt()
-        friendship = buffer.readUnsignedShort()
-        currentHealth = buffer.readUnsignedShort()
-        buffer.readMapK(map = ivs, size = IntSize.U_BYTE) { Stats.getStat(buffer.readUtf()) to buffer.readUnsignedByte().toInt() }
-        buffer.readMapK(map = evs, size = IntSize.U_SHORT) { Stats.getStat(buffer.readUtf()) to buffer.readUnsignedShort() }
-        moveSet = MoveSet.loadFromBuffer(buffer)
-        scaleModifier = buffer.readFloat()
-        ability = Abilities.getOrException(buffer.readUtf()).create()
-        shiny = buffer.readBoolean()
-        state = PokemonState.fromBuffer(buffer)
-        return this
     }
 
     fun getOwnerPlayer() : ServerPlayer? {
@@ -319,6 +411,157 @@ open class Pokemon {
     fun belongsTo(player: Player) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
     fun isWild() = storeCoordinates.get() == null
+
+    private fun validFriendship (value : Int) : Boolean {
+        return value in 0..255
+    }
+
+    fun setFriendship (amount : Int) : Boolean {
+        if (validFriendship(amount)) friendship = amount
+        return friendship == amount
+    }
+
+    fun incrementFriendship (amount : Int) : Boolean {
+        val value = friendship + amount
+        if (validFriendship(value)) friendship = value
+        return friendship == value
+    }
+
+    fun decrementFriendship (amount : Int) : Boolean {
+        val value = friendship - amount
+        if (validFriendship(value)) friendship = value
+        return friendship == value
+    }
+
+    val allAccessibleMoves: Set<MoveTemplate>
+        get() = form.levelUpMoves.getMovesUpTo(level) + benchedMoves.map { it.moveTemplate }
+
+    fun initialize(): Pokemon {
+        // TODO some other initializations to do with form and gender n shit
+        initializeMoveset()
+        return this
+    }
+
+    fun initializeMoveset(preferLatest: Boolean = true) {
+        val possibleMoves = form.levelUpMoves.getMovesUpTo(level).toMutableList()
+
+        moveSet.doWithoutEmitting {
+            moveSet.clear()
+            if (possibleMoves.isEmpty()) {
+                moveSet.add(Moves.getExceptional().create())
+                return@doWithoutEmitting
+            }
+
+            val selector: () -> MoveTemplate? = {
+                if (preferLatest) {
+                    possibleMoves.removeLastOrNull()
+                } else {
+                    val random = possibleMoves.randomOrNull()
+                    if (random != null) {
+                        possibleMoves.remove(random)
+                    }
+                    random
+                }
+            }
+
+            for (i in 0 until 4) {
+                val move = selector() ?: break
+                moveSet.setMove(i, move.create())
+            }
+        }
+        moveSet.update()
+    }
+
+    fun getExperienceToNextLevel() = getExperienceToLevel(level + 1)
+    fun getExperienceToLevel(level: Int): Int {
+        return if (level <= this.level) {
+            0
+        } else {
+            experienceGroup.getExperience(level) - experience
+        }
+    }
+
+    fun setExperienceAndUpdateLevel(xp: Int) {
+        experience = xp
+        val newLevel = experienceGroup.getLevel(xp)
+        if (newLevel != level) {
+            level = newLevel
+        }
+    }
+
+    fun addExperienceWithPlayer(player: ServerPlayer, xp: Int) {
+        player.sendServerMessage(lang("experience.gained", species.translatedName, xp))
+        val result = addExperience(xp)
+        if (result.oldLevel != result.newLevel) {
+            player.sendServerMessage(lang("experience.level_up", species.translatedName, result.newLevel))
+            result.newMoves.forEach {
+                player.sendServerMessage(lang("experience.learned_move", species.translatedName, it.displayName))
+            }
+        }
+    }
+
+    fun addExperience(xp: Int): AddExperienceResult {
+        if (xp < 0) {
+            return AddExperienceResult(level, level, emptySet()) // no negatives!
+        }
+
+        val oldLevel = level
+        val previousLevelUpMoves = form.levelUpMoves.getMovesUpTo(oldLevel)
+        // TODO xp gain event
+        experience += xp
+        val newLevel = experienceGroup.getLevel(experience)
+        if (newLevel != oldLevel) {
+            // TODO level up event?
+            level = newLevel
+        }
+
+        val newLevelUpMoves = form.levelUpMoves.getMovesUpTo(newLevel)
+        val differences = newLevelUpMoves - previousLevelUpMoves
+        differences.forEach {
+            if (moveSet.hasSpace()) {
+                moveSet.add(it.create())
+            }
+        }
+
+        return AddExperienceResult(oldLevel, newLevel, differences)
+    }
+
+    fun levelUp() = addExperience(getExperienceToNextLevel())
+
+    /**
+     * Exchanges an existing move set move with a benched or otherwise accessible move that is not in the move set.
+     *
+     * PP is transferred onto the new move using the % of PP that the original move had and applying it to the new one.
+     *
+     * @return true if it succeeded, false if it failed to exchange the moves. Failure can occur if the oldMove is not
+     * a move set move.
+     */
+    fun exchangeMove(oldMove: MoveTemplate, newMove: MoveTemplate): Boolean {
+        val benchedNewMove = benchedMoves.find { it.moveTemplate == newMove } ?: BenchedMove(newMove, 0)
+
+        if (moveSet.hasSpace()) {
+            benchedMoves.remove(newMove)
+            val move = newMove.create()
+            move.raisedPpStages = benchedNewMove.ppRaisedStages
+            move.currentPp = move.maxPp
+            moveSet.add(move)
+            return true
+        }
+
+        val currentMove = moveSet.find { it.template == oldMove } ?: return false
+        val currentPPRatio = currentMove.let { it.currentPp / it.maxPp.toFloat() }
+        benchedMoves.doThenEmit {
+            benchedMoves.remove(newMove)
+            benchedMoves.add(BenchedMove(currentMove.template, currentMove.raisedPpStages))
+        }
+
+        val move = newMove.create()
+        move.raisedPpStages = benchedNewMove.ppRaisedStages
+        move.currentPp = (currentPPRatio * move.maxPp).toInt()
+        moveSet.setMove(moveSet.indexOf(currentMove), move)
+
+        return true
+    }
 
     fun notify(packet: PokemonUpdatePacket) {
         storeCoordinates.get()?.run { sendToPlayers(store.getObservingPlayers(), packet) }

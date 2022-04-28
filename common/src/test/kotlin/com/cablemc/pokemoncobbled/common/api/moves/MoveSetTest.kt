@@ -13,7 +13,7 @@ internal class MoveSetTest {
         moveset.setMove(0, move1)
         moveset.setMove(1, move2)
         moveset.swapMove(0, 1)
-        assertEquals(move1, moveset.moves[1])
-        assertEquals(move2, moveset.moves[0])
+        assertEquals(move1, moveset[1])
+        assertEquals(move2, moveset[0])
     }
 }

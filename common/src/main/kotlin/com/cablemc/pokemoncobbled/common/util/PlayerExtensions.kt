@@ -1,14 +1,15 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 import java.util.UUID
 
@@ -17,11 +18,11 @@ fun ServerPlayer.party() = PokemonCobbled.storage.getParty(this)
 
 fun UUID.getPlayer() = getServer()?.playerList?.getPlayer(this)
 
-fun Player.sendServerMessage(component: Component) {
+fun Entity.sendServerMessage(component: Component) {
     sendMessage(component, Util.NIL_UUID)
 }
 
-fun Player.sendServerMessage(text: String) {
+fun Entity.sendServerMessage(text: String) {
     sendServerMessage(text.asTranslated())
 }
 
@@ -30,6 +31,69 @@ class TraceResult(
     val blockPos: BlockPos,
     val direction: Direction
 )
+
+fun Entity.isLookingAt(other: Entity, maxDistance: Float = 10F, stepDistance: Float = 0.01F): Boolean {
+    var step = stepDistance
+    val startPos = eyePosition
+    val direction = lookAngle
+
+    while (step <= maxDistance) {
+        val location = startPos.add(direction.scale(step.toDouble()))
+        step += stepDistance
+
+        if (location in other.boundingBox) {
+            return true
+        }
+    }
+    return false
+}
+
+class EntityTraceResult<T : Entity>(
+    val location: Vec3,
+    val entities: Iterable<T>
+)
+
+fun <T : Entity> Player.traceFirstEntityCollision(
+    maxDistance: Float = 10F,
+    stepDistance: Float = 0.05F,
+    entityClass: Class<T>
+): T? {
+    return traceEntityCollision(
+        maxDistance,
+        stepDistance,
+        entityClass
+    )?.let { it.entities.minByOrNull { it.distanceTo(this) } }
+}
+
+fun <T : Entity> Player.traceEntityCollision(
+    maxDistance: Float = 10F,
+    stepDistance: Float = 0.05F,
+    entityClass: Class<T>
+): EntityTraceResult<T>? {
+    var step = stepDistance
+    val startPos = eyePosition
+    val direction = lookAngle
+    val maxDistanceVector = Vec3(1.0, 1.0, 1.0).scale(maxDistance.toDouble())
+
+    val entities = level.getEntities(
+        null,
+        AABB(startPos.subtract(maxDistanceVector), startPos.add(maxDistanceVector)),
+        { entityClass.isInstance(it) }
+    )
+
+    while (step <= maxDistance) {
+        val location = startPos.add(direction.scale(step.toDouble()))
+        step += stepDistance
+
+        val collided = entities.filter { location in it.boundingBox }.filterIsInstance(entityClass)
+
+        if (collided.isNotEmpty()) {
+            return EntityTraceResult(location, collided)
+        }
+    }
+
+    return null
+}
 
 fun Player.traceBlockCollision(
     maxDistance: Float = 10F,

@@ -1,9 +1,8 @@
 {
   "name": "blastoise",
   "nationalPokedexNumber": 9,
-  "primaryType": "water",
-  "secondaryType": null,
   "maleRatio": 0.875,
+  "primaryType": "water",
   "baseStats": {
     "hp": 79,
     "attack": 83,
@@ -12,8 +11,23 @@
     "special_defence": 105,
     "speed": 78
   },
+  "levelUpMoves": {
+    "1": ["flashcannon", "tackle", "tailwhip", "watergun", "withdrawal"],
+    "9": [ "rapidspin" ],
+    "12": [ "bite" ],
+    "15": [ "waterpulse" ],
+    "20": [ "protect" ],
+    "25": [ "raindance" ],
+    "30": [ "aquatail" ],
+    "35": [ "shellsmash" ],
+    "42": [ "irondefense" ],
+    "49": [ "hydropump" ],
+    "56": [ "skullbash" ]
+  },
   "catchRate": 45,
   "baseScale": 0.8,
+  "experienceGroup": "mediumslow",
+  "baseExperienceYield": 239,
   "hitbox": {
     "width": 1,
     "height": 1.8,
