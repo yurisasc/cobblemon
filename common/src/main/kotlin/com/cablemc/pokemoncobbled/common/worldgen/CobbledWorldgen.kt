@@ -43,13 +43,13 @@ object CobbledWorldgen {
             properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.DEEPSLATE_LEAF_STONE_ORE_NORMAL.placedFeature)
             properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.LEAF_STONE_ORE_RARE.placedFeature)
             properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.DEEPSLATE_LEAF_STONE_ORE_RARE.placedFeature)
-            properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.LEAF_STONE_ORE_LUSH.placedFeature)
 
             // Moon Stone
             properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.MOON_STONE_ORE_NORMAL.placedFeature)
             properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.DEEPSLATE_MOON_STONE_ORE_NORMAL.placedFeature)
             properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.MOON_STONE_ORE_RARE.placedFeature)
             properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.DEEPSLATE_MOON_STONE_ORE_RARE.placedFeature)
+            properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.MOON_STONE_ORE_DRIPSTONE.placedFeature)
 
             // Shiny Stone
             properties.generationProperties.addFeature(UNDERGROUND_ORES, EvolutionOres.SHINY_STONE_ORE_NORMAL.placedFeature)

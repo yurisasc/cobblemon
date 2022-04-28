@@ -1,9 +1,13 @@
 package com.cablemc.pokemoncobbled.common.worldgen
 
 import com.cablemc.pokemoncobbled.common.CobbledBlocks
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import net.minecraft.core.Registry
+import net.minecraft.tags.TagKey
 import net.minecraft.world.level.levelgen.VerticalAnchor
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest
 
 object EvolutionOres {
 
@@ -184,18 +188,6 @@ object EvolutionOres {
         amountPerChunk = 5,
         additionalModifiers = arrayOf(
             HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(0)),
-            InSquarePlacement.spread()
-        )
-    )
-
-    val LEAF_STONE_ORE_LUSH = EvolutionOreGenerationBase(
-        blockState = CobbledBlocks.LEAF_STONE_ORE.get().defaultBlockState(),
-        name = "ore_leaf_stone_lush",
-        veinSize = 3,
-        amountPerChunk = 20,
-        additionalModifiers = arrayOf(
-            HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(320)),
-            InSquarePlacement.spread()
         )
     )
 
@@ -235,6 +227,19 @@ object EvolutionOres {
             HeightRangePlacement.uniform(VerticalAnchor.absolute(0), VerticalAnchor.absolute(320)),
             InSquarePlacement.spread()
         )
+    )
+
+    val MOON_STONE_ORE_DRIPSTONE = EvolutionOreGenerationBase(
+        blockState = CobbledBlocks.DRIPSTONE_MOON_STONE_ORE.get().defaultBlockState(),
+        name = "ore_moon_stone_dripstone",
+        ruleTest = TagMatchTest(TagKey.create(Registry.BLOCK_REGISTRY, cobbledResource("drip_stone_replaceables"))),
+        veinSize = 3,
+        amountPerChunk = 150,
+        additionalModifiers = arrayOf(
+            HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.top()),
+            InSquarePlacement.spread()
+        ),
+        useBiomeTagFilter = false
     )
 
     val DEEPSLATE_MOON_STONE_ORE_NORMAL = DeepslateOreGeneration(
