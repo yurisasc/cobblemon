@@ -41,3 +41,7 @@ fun ModelPart.getChildOf(vararg path: String): ModelPart {
     }
     return part
 }
+fun ModelPart.childNamed(vararg path: String): Pair<String, ModelPart> {
+    var final = path.last()
+    return final to getChildOf(*path)
+}

@@ -70,6 +70,8 @@ abstract class PoseableEntityModel<T : Entity>(
         return part
     }
 
+    fun registerRelevantPart(pairing: Pair<String, ModelPart>) = registerRelevantPart(pairing.first, pairing.second)
+
     override fun renderToBuffer(stack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
         rootPart.render(stack, buffer, packedLight, packedOverlay, r, g, b, a)
     }
