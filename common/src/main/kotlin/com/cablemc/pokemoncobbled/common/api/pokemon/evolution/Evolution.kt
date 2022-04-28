@@ -4,12 +4,12 @@ import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.TradeEvolution
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolution
 
 /**
- * Represents an evolution of a [Pokemon].
+ * Represents an evolution of a [Pokemon], this is the server side counterpart of [EvolutionDisplay].
  * Following Pokemon these can be triggered by 3 possible events, level ups, trades or using an item.
  * For the default implementations see [LevelEvolution], [TradeEvolution] & [ItemInteractionEvolution].
  * Also see [PassiveEvolution] & [ContextEvolution].
@@ -17,13 +17,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolut
  * @author Licious
  * @since March 19th, 2022
  */
-interface Evolution {
-
-    /**
-     * The unique id of the evolution.
-     * It should be human readable, I.E pikachu_level
-     */
-    val id: String
+interface Evolution : EvolutionLike {
 
     /**
      * The result of this evolution.
@@ -66,8 +60,23 @@ interface Evolution {
      * @param pokemon The [Pokemon] being evolved.
      */
     fun evolve(pokemon: Pokemon) {
+        if (!this.optional) {
+            // All the networking is handled under the hood, see EvolutionController.
+            pokemon.pendingEvolutions.add(this)
+            return
+        }
+        this.forceEvolve(pokemon)
+    }
+
+    /**
+     * Starts this evolution as soon as possible.
+     * This will not present a choice to the client regardless of [optional].
+     *
+     * @param pokemon The [Pokemon] being evolved.
+     */
+    fun forceEvolve(pokemon: Pokemon) {
         this.result.apply(pokemon)
-        // ToDo actually queue the client if needed or start the proper animation
+        // ToDo Once implemented queue evolution for a pokemon state that is not in battle, start animation instead of
     }
 
 }

@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
-import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
+import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -203,7 +203,7 @@ class EmptyPokeBallEntity(
         }
     }
 
-    override fun getDefaultItem(): Item = CobbledItems.ballMap[pokeBall]?.get() as Item
+    override fun getDefaultItem(): Item = CobbledItems.ballMap[pokeBall] as Item
 
     override fun getAddEntityPacket(): Packet<*> {
         return NetworkManager.createAddEntityPacket(this)

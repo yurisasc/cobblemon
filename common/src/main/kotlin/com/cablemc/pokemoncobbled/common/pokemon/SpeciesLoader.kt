@@ -3,14 +3,31 @@ package com.cablemc.pokemoncobbled.common.pokemon
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.abilities.adapters.AbilityTemplateAdapter
+import com.cablemc.pokemoncobbled.common.api.entity.EntityDimensionsAdapter
+import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
+import com.cablemc.pokemoncobbled.common.api.moves.adapters.MoveTemplateAdapter
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.adapter.ShoulderEffectAdapter
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroupAdapter
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledEvolutionAdapter
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledPreEvolutionAdapter
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledRequirementAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.*
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.EntityDimensions
 import java.io.InputStreamReader
 
 object SpeciesLoader {
@@ -29,7 +46,6 @@ object SpeciesLoader {
         .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
         .registerTypeAdapter(ResourceLocation::class.java, ResourceLocationAdapter)
-        .registerTypeAdapter(MoveTemplate::class.java, LazyMoveTemplateAdapter)
         .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()

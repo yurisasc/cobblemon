@@ -1,9 +1,8 @@
 package com.cablemc.pokemoncobbled.common.item.interactive
 
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.item.interactive.PokemonInteractiveItem.Ownership
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.entity.Entity
-import net.minecraft.world.item.Item.Properties
 import net.minecraft.world.item.ItemStack
 
 /**
@@ -35,6 +34,11 @@ abstract class PokemonInteractiveItem(properties: Properties, vararg accepted: O
      * @param stack The [ItemStack] used in this interaction. [ItemStack.getItem] will always be of the same type as this [InteractiveItem].
      */
     abstract fun processInteraction(player: ServerPlayer, entity: PokemonEntity, stack: ItemStack)
+
+    protected fun consumeItem(player: ServerPlayer, stack: ItemStack) {
+        if (!player.isCreative)
+            stack.shrink(1)
+    }
 
     /**
      * Represents the ownership status of a Pokemon relative to a Player.

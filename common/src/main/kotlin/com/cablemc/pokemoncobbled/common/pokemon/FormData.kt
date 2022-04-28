@@ -2,10 +2,11 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.google.gson.annotations.SerializedName
 import net.minecraft.world.entity.EntityDimensions
 
@@ -39,8 +40,7 @@ data class FormData(
     @SerializedName("shoulderEffects")
     private val _shoulderEffects: MutableList<ShoulderEffect>? = null,
     @SerializedName("levelUpMoves")
-    private val _levelUpMoves: LevelUpMoves? = null
-    private val _shoulderEffects: MutableList<ShoulderEffect>? = null,
+    private val _levelUpMoves: LevelUpMoves? = null,
     @SerializedName("evolutions")
     private val _evolutions: MutableSet<Evolution>? = null,
     val preEvolution: PreEvolution? = null

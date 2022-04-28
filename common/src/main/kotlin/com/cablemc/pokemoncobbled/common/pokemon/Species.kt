@@ -8,9 +8,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.util.asTranslated
-import com.cablemc.pokemoncobbled.common.util.pokemonStatsOf
 import net.minecraft.network.chat.MutableComponent
 import net.minecraft.world.entity.EntityDimensions
 

@@ -14,10 +14,7 @@ class EvolutionItem(properties: Properties = Properties().tab(CobbledCreativeTab
             .sortedBy { evolution -> evolution.optional }
             .forEach { evolution ->
                 if (evolution.attemptEvolution(pokemon, this)) {
-                    if (!player.isCreative)
-                        stack.shrink(1)
-                    if (evolution.optional)
-                        return
+                    this.consumeItem(player, stack)
                 }
             }
     }

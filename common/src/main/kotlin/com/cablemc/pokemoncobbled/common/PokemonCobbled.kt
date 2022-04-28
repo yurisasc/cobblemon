@@ -15,24 +15,9 @@ import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledWorldSpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.AreaSpawningCondition
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.BasicSpawningCondition
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.GroundedSpawningCondition
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.SubmergedSpawningCondition
-import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolver
-import com.cablemc.pokemoncobbled.common.api.spawning.context.GroundedSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.LavafloorSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.SeafloorSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderlavaSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderwaterSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.GroundedSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.LavafloorSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SeafloorSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderlavaSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderwaterSpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.*
+import com.cablemc.pokemoncobbled.common.api.spawning.context.*
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.*
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.PokemonSpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
@@ -71,7 +56,7 @@ import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-import java.util.UUID
+import java.util.*
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.memberProperties
 

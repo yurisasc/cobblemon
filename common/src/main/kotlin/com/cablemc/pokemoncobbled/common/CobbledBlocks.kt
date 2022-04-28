@@ -53,13 +53,13 @@ object CobbledBlocks {
     val WHITE_APRICORN_SAPLING = queue("white_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, "white") }
     val YELLOW_APRICORN_SAPLING = queue("yellow_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, "yellow") }
 
-    val BLACK_APRICORN = registerApricornBlock("black_apricorn") { CobbledItems.BLACK_APRICORN.get() }
-    val BLUE_APRICORN = registerApricornBlock("blue_apricorn") { CobbledItems.BLUE_APRICORN.get() }
-    val GREEN_APRICORN = registerApricornBlock("green_apricorn") { CobbledItems.GREEN_APRICORN.get() }
-    val PINK_APRICORN = registerApricornBlock("pink_apricorn") { CobbledItems.PINK_APRICORN.get() }
-    val RED_APRICORN = registerApricornBlock("red_apricorn") { CobbledItems.RED_APRICORN.get() }
-    val WHITE_APRICORN = registerApricornBlock("white_apricorn") { CobbledItems.WHITE_APRICORN.get() }
-    val YELLOW_APRICORN = registerApricornBlock("yellow_apricorn") { CobbledItems.YELLOW_APRICORN.get() }
+    val BLACK_APRICORN = registerApricornBlock("black_apricorn") { CobbledItems.BLACK_APRICORN }
+    val BLUE_APRICORN = registerApricornBlock("blue_apricorn") { CobbledItems.BLUE_APRICORN }
+    val GREEN_APRICORN = registerApricornBlock("green_apricorn") { CobbledItems.GREEN_APRICORN }
+    val PINK_APRICORN = registerApricornBlock("pink_apricorn") { CobbledItems.PINK_APRICORN }
+    val RED_APRICORN = registerApricornBlock("red_apricorn") { CobbledItems.RED_APRICORN }
+    val WHITE_APRICORN = registerApricornBlock("white_apricorn") { CobbledItems.WHITE_APRICORN }
+    val YELLOW_APRICORN = registerApricornBlock("yellow_apricorn") { CobbledItems.YELLOW_APRICORN }
 
     val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.METAL).sound(SoundType.METAL).strength(2f).noOcclusion()) }
 

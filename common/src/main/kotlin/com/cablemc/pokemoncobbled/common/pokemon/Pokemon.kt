@@ -3,11 +3,17 @@ package com.cablemc.pokemoncobbled.common.pokemon
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
-import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
-import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
+import com.cablemc.pokemoncobbled.common.api.moves.*
+import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
+import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
@@ -15,25 +21,16 @@ import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.StatusUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledClientEvolutionController
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledServerEvolutionController
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
 import com.cablemc.pokemoncobbled.common.util.DataKeys
@@ -53,7 +50,7 @@ import net.minecraft.util.Mth.ceil
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.phys.Vec3
 import java.lang.Integer.min
-import java.util.UUID
+import java.util.*
 
 open class Pokemon {
     var uuid: UUID = UUID.randomUUID()
@@ -93,7 +90,11 @@ open class Pokemon {
                 experience = experienceGroup.getExperience(value)
             }
             _level.emit(value)
-
+            this.species.evolutions.filterIsInstance<LevelEvolution>()
+                .sortedBy { evolution -> evolution.optional }
+                .forEach { evolution ->
+                evolution.attemptEvolution(this)
+            }
             currentHealth = ceil(hpRatio * hp).coerceIn(0..hp)
         }
     var experience = 0
@@ -168,6 +169,24 @@ open class Pokemon {
 
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
+    // Lazy due to leaking this
+    /**
+     * The server side [EvolutionController] responsible for holding [Evolution]s.
+     * Any client side modification will have no effect.
+     */
+    val pendingEvolutions: EvolutionController<Evolution> by lazy {
+        CobbledServerEvolutionController(this)
+    }
+
+    // Lazy due to leaking this
+    /**
+     * The client side [EvolutionController] responsible for holding [EvolutionDisplay]s.
+     * Any server side modification will have no effect.
+     */
+    val clientPendingEvolutions: EvolutionController<EvolutionDisplay> by lazy {
+        CobbledClientEvolutionController(this)
+    }
+
     open fun getStat(stat: Stat): Int {
         return if (stat == Stats.HP) {
             if (species.name == "shedinja") {
@@ -206,22 +225,6 @@ open class Pokemon {
         }
     }
 
-    // Dummy function for the time being
-    fun levelUp() {
-        this.level++
-        this.species.evolutions.filterIsInstance<LevelEvolution>().forEach { evolution ->
-            evolution.attemptEvolution(this)
-        }
-    }
-
-    // Dummy function for the time being
-    fun onTrade(with: Pokemon) {
-        this.species.evolutions.filterIsInstance<TradeEvolution>().forEach { evolution ->
-            if (evolution.attemptEvolution(this, with) && !evolution.optional)
-                return
-        }
-    }
-
     fun saveToNBT(nbt: CompoundTag): CompoundTag {
         nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
@@ -242,6 +245,7 @@ open class Pokemon {
         status?.saveToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
         nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(ListTag()))
+        nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToNBT())
         return nbt
     }
 
@@ -275,10 +279,10 @@ open class Pokemon {
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, TAG_COMPOUND.toInt()))
+        nbt.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.let { tag -> this.pendingEvolutions.loadFromNBT(tag) }
         return this
     }
 
-    // TODO Ability, MoveSet
     fun saveToJSON(json: JsonObject): JsonObject {
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber)
@@ -588,35 +592,18 @@ open class Pokemon {
 
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
+    private val _experience = registerObservable(SimpleObservable<Int>()) { ExperienceUpdatePacket(this, it) }
     private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
     private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket(this, it) }
     private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket(this, it) }
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }
     private val _nature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, false) }
     private val _mintedNature = registerObservable(SimpleObservable<String>()) { NatureUpdatePacket(this, it, true) }
-    private val _moveSet = registerObservable(SimpleObservable<MoveSet>()) { MoveSetUpdatePacket(this, moveSet) }
-    private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(it) }
-
-    fun getMoveSetObservable() = _moveSet
-
-    private fun validFriendship (value : Int) : Boolean {
-        return value in 0..255
-    }
-
-    fun setFriendship (amount : Int) : Boolean {
-        if (validFriendship(amount)) friendship = amount
-        return friendship == amount
-    }
-
-    fun incrementFriendship (amount : Int) : Boolean {
-        val value = friendship + amount
-        if (validFriendship(value)) friendship = value
-        return friendship == value
-    }
-
-    fun decrementFriendship (amount : Int) : Boolean {
-        val value = friendship - amount
-        if (validFriendship(value)) friendship = value
-        return friendship == value
-    }
+    private val _moveSet = registerObservable(moveSet.observable) { MoveSetUpdatePacket(this, moveSet) }
+    private val _state = registerObservable(SimpleObservable<PokemonState>()) { PokemonStateUpdatePacket(this, it) }
+    private val _status = registerObservable(SimpleObservable<String>()) { StatusUpdatePacket(this, it) }
+    private val _caughtBall = registerObservable(SimpleObservable<String>()) { CaughtBallUpdatePacket(this, it) }
+    private val _benchedMoves = registerObservable(benchedMoves.observable) { BenchedMovesUpdatePacket(this, it) }
+    private val _ivs = registerObservable(ivs.observable) // TODO consider a packet for it for changed ivs
+    private val _evs = registerObservable(evs.observable) // TODO needs a packet
 }

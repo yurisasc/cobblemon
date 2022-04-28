@@ -72,7 +72,7 @@ object PokemonCobbledClient {
 
         ColorHandlerRegistry.registerItemColors(ItemColor { itemStack, i ->
             return@ItemColor 0x71c219;
-        }, CobbledItems.APRICORN_LEAVES.get())
+        }, CobbledItems.APRICORN_LEAVES)
     }
 
     private fun registerBlockRenderTypes() {

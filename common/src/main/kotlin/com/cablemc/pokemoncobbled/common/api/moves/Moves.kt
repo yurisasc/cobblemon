@@ -1,9 +1,12 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
-import com.cablemc.pokemoncobbled.common.api.moves.MoveLoader.loadFromAssets
-import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategories
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.asset.JsonManifestWalker
+import com.cablemc.pokemoncobbled.common.api.moves.adapters.DamageCategoryAdapter
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
-import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
+import com.google.gson.GsonBuilder
 
 /**
  * Registry for all known Moves
