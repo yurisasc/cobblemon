@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.Block
 
 object CobbledItems {
     private val itemRegister = DeferredRegister.create(PokemonCobbled.MODID, Registry.ITEM_REGISTRY)
+
     private fun <T : Item> queue(name: String, item: T): T {
         itemRegister.register(name) { item }
         return item

@@ -62,6 +62,17 @@
   "key.pokemoncobbled.categories.pokemoncobbled": "Pokémon Cobbled",
   "pokemoncobbled.subtitle.capture_succeeded": "Capture Succeeded!",
 
+  "pokemoncobbled.healingmachine.alreadyinuse": "This healing machine is already in use!",
+  "pokemoncobbled.healingmachine.nopokemon": "You don't have any Pokemon in your party to heal!",
+  "pokemoncobbled.healingmachine.alreadyhealed": "Your Pokemon party is already fully healed!",
+  "pokemoncobbled.healingmachine.healing": "Your Pokemon party is being healed!",
+  "pokemoncobbled.healingmachine.healed": "Your Pokemon party has been healed!",
+  "pokemoncobbled.healingmachine.notenoughcharge": "This machine needs %s more charge to heal your party!",
+
+  "pokemoncobbled.ui.changemove": "Change",
+
+  "pokemoncobbled.challenge_label": "Press %1$s to battle.",
+
   "itemGroup.pokemoncobbled.evolution_item": "Evolution Items",
   "item.pokemoncobbled.black_augurite": "Black Augurite",
   "item.pokemoncobbled.dragon_scale": "Dragon Scale",
