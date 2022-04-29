@@ -5,8 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.AreaSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.AreaSpawningInput
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
-import com.cablemc.pokemoncobbled.common.util.toVec3
-import net.minecraft.core.BlockPos
+import com.cablemc.pokemoncobbled.common.util.toVec3dimport net.minecraft.util.math.BlockPos
 
 /**
  * Interface responsible for drawing a list of spawn contexts from a slice of the world,
@@ -39,7 +38,7 @@ interface AreaContextResolver {
             while (y < slice.baseY + slice.height) {
                 while (z < slice.baseZ + slice.width) {
                     pos.set(x, y, z)
-                    val vec = pos.toVec3()
+                    val vec = pos.toVec3d)
                     if (slice.nearbyEntityPositions.none { it.closerThan(vec, config.minimumDistanceBetweenEntities) }) {
                         val fittedContextCalculator = contextCalculators.firstOrNull { it.fits(input) }
                         if (fittedContextCalculator != null) {

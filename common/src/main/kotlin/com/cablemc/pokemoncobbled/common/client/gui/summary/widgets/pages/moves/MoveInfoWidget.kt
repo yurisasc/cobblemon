@@ -7,9 +7,9 @@ import com.cablemc.pokemoncobbled.common.api.moves.Move
 import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.network.chat.TextComponent
-import net.minecraft.network.chat.TranslatableComponent
+import com.mojang.blaze3d.vertex.MatrixStack
+import net.minecraft.network.chat.LiteralText
+import net.minecraft.network.chat.TranslatableText
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -18,12 +18,12 @@ class MoveInfoWidget(
     pWidth: Int, pHeight: Int,
     val move: Move,
     private val infoX: Int, private val infoY: Int
-): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent(move.name)) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText(move.name)) {
 
     companion object {
-        private val powerText = TranslatableComponent("pokemoncobbled.ui.power")
-        private val accuracyText = TranslatableComponent("pokemoncobbled.ui.accuracy")
-        private val effectText = TranslatableComponent("pokemoncobbled.ui.effect")
+        private val powerText = TranslatableText("pokemoncobbled.ui.power")
+        private val accuracyText = TranslatableText("pokemoncobbled.ui.accuracy")
+        private val effectText = TranslatableText("pokemoncobbled.ui.effect")
 
         private const val MOVE_INFO_SPACING = 20.25F
         private const val SCALE = 0.60F
@@ -33,8 +33,8 @@ class MoveInfoWidget(
         }
     }
 
-    override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        pMatrixStack.pushPose()
+    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        pMatrixStack.push()
         pMatrixStack.scale(SCALE, SCALE, 1F)
 
         val moveInfoValueOffset = 84
@@ -92,7 +92,7 @@ class MoveInfoWidget(
             ySpacing = 8.0 / SCALE,
             colour = ColourLibrary.WHITE, shadow = false
         )
-        pMatrixStack.popPose()
+        pMatrixStack.pop()
     }
 
     private fun format(input: Double): String {

@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.M
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.withPosition
 import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 import java.lang.Float.min
 
 /**

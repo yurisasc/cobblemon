@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.MatrixStack
 import net.minecraft.client.gui.components.ImageButton
 
 class ExitButton(
@@ -18,7 +18,7 @@ class ExitButton(
         private val exitButtonResource = cobbledResource("ui/summary/summary_overlay_exit.png")
     }
 
-    override fun renderButton(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
         if (isHovered) {
             blitk(

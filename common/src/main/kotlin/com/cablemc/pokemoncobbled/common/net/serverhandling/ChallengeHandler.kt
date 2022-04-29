@@ -10,7 +10,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
 import com.cablemc.pokemoncobbled.common.util.party
 import com.cablemc.pokemoncobbled.common.util.runOnServer
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerPlayerEntity
 
 object ChallengeHandler : PacketHandler<ChallengePacket> {
     override fun invoke(packet: ChallengePacket, ctx: CobbledNetwork.NetworkContext) {
@@ -21,7 +21,7 @@ object ChallengeHandler : PacketHandler<ChallengePacket> {
 
             if (targetedEntity is PokemonEntity) {
                 BattleBuilder.pve(player, targetedEntity, leadingPokemon).ifErrored { it.sendTo(player) { it.red() } }
-            } else if (targetedEntity is ServerPlayer) {
+            } else if (targetedEntity is ServerPlayerEntity) {
 
             } else {
                 // Unrecognized challenge target. NPCs will probably go here.

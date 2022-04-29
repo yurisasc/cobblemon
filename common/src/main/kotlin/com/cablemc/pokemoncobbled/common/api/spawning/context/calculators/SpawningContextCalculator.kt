@@ -55,5 +55,5 @@ open class SpawningContextInput(
     /** What caused the spawn context. Almost always will be a player entity. */
     val cause: Any,
     /** The [Level] the spawning context exists in. */
-    val level: Level
+    val world: World
 )

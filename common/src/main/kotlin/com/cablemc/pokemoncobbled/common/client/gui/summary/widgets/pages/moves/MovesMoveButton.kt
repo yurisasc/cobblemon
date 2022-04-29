@@ -2,10 +2,10 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.math.Vector3f
+import com.mojang.blaze3d.vertex.MatrixStack
+import com.mojang.math.Vec3f
 import net.minecraft.client.gui.components.Button
-import net.minecraft.network.chat.TextComponent
+import net.minecraft.network.chat.LiteralText
 
 /**
  * This Button is specifically made for the Summary to change the order of the Moves
@@ -17,7 +17,7 @@ class MovesMoveButton(
     pWidth: Int, pHeight: Int,
     private val isUp: Boolean,
     onPress: OnPress
-): Button(pX, pY, pWidth, pHeight, TextComponent("MoveButton"), onPress) {
+): Button(pX, pY, pWidth, pHeight, LiteralText("MoveButton"), onPress) {
 
     companion object {
         private const val MOVE_BUTTON_WIDTH = 11
@@ -30,7 +30,7 @@ class MovesMoveButton(
         return false
     }
 
-    override fun renderButton(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if (isHovered) {
             if (isUp) {
                 blitk(
@@ -40,15 +40,15 @@ class MovesMoveButton(
                     width = MOVE_BUTTON_WIDTH, height = MOVE_BUTTON_HEIGHT
                 )
             } else {
-                pMatrixStack.pushPose()
-                pMatrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0f))
+                pMatrixStack.push()
+                pMatrixStack.mulPose(Vec3f.ZP.rotationDegrees(180.0f))
                 blitk(
                     poseStack = pMatrixStack,
                     x = (x + 12.5F) * -1, y = (y + 0.9F + MOVE_BUTTON_HEIGHT) * -1,
                     texture = buttonResource,
                     width = MOVE_BUTTON_WIDTH, height = MOVE_BUTTON_HEIGHT
                 )
-                pMatrixStack.popPose()
+                pMatrixStack.pop()
             }
         }
     }

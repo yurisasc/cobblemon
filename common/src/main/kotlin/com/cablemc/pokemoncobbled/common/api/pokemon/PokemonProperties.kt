@@ -7,8 +7,8 @@ import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.isInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.StringTag
 import net.minecraft.nbt.StringTag.TAG_STRING
 import net.minecraft.world.level.Level
@@ -256,23 +256,23 @@ open class PokemonProperties {
         return Pokemon().also { apply(it) }.also { it.initialize() }
     }
 
-    fun createEntity(level: Level): PokemonEntity {
+    fun createEntity(world: World): PokemonEntity {
         return PokemonEntity(level, create())
     }
 
-    fun writeToNBT(): CompoundTag {
-        val nbt = CompoundTag()
+    fun writeToNBT(): NbtCompound {
+        val nbt = NbtCompound()
         originalString?.let { nbt.putString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT, it) }
         level?.let { nbt.putInt(DataKeys.POKEMON_LEVEL, it) }
 //        gender?.let { nbt.putString(DataKeys.POKEMON_GENDER) }
         species?.let { nbt.putString(DataKeys.POKEMON_SPECIES_TEXT, it) }
-        val custom = ListTag()
+        val custom = NbtList()
         customProperties.map { StringTag.valueOf(it.asString()) }.forEach { custom.add(it) }
         nbt.put(DataKeys.POKEMON_PROPERTIES_CUSTOM, custom)
         return nbt
     }
 
-    fun readFromNBT(tag: CompoundTag): PokemonProperties {
+    fun readFromNBT(tag: NbtCompound): PokemonProperties {
         originalString = tag.getString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT)
         level = tag.getInt(DataKeys.POKEMON_LEVEL)
         species = tag.getString(DataKeys.POKEMON_SPECIES_TEXT)

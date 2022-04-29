@@ -21,9 +21,8 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.util.Mth
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.util.Util.Mth
+import net.minecraft.world.phys.Vec3d
 class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFrame, QuadrupedFrame {
     override val rootPart = registerRelevantPart("eevee", root.getChild("eevee"))
     val body = registerRelevantPart("body", rootPart.getChild("body"))
@@ -39,10 +38,10 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     override val rightEarJoint = EarJoint(rightEar, Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
 
     override val portraitScale = 1.55F
-    override val portraitTranslation = Vec3(-0.15, 0.1, 0.0)
+    override val portraitTranslation = Vec3d-0.15, 0.1, 0.0)
 
     override val profileScale = 1.0F
-    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+    override val profileTranslation = Vec3d0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(

@@ -2,8 +2,8 @@ package com.cablemc.pokemoncobbled.common.api.abilities
 
 import com.cablemc.pokemoncobbled.common.api.abilities.extensions.AbilityExtensions
 import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.chat.TranslatableText
 
 /**
  * This represents the base of an Ability.
@@ -15,9 +15,9 @@ class AbilityTemplate(
     val name: String
 ) {
     @Transient
-    lateinit var displayName: TranslatableComponent
+    lateinit var displayName: TranslatableText
     @Transient
-    lateinit var description: TranslatableComponent
+    lateinit var description: TranslatableText
 
     companion object {
         const val PREFIX = "pokemoncobbled.ability."
@@ -39,7 +39,7 @@ class AbilityTemplate(
      *
      * Ability extensions need to write and read their needed data from here.
      */
-    fun create(nbt: CompoundTag): Ability {
+    fun create(nbt: NbtCompound): Ability {
         return (AbilityExtensions.get(name)?.getDeclaredConstructor()?.newInstance() ?: Ability(this)).loadFromNBT(nbt)
     }
 
@@ -55,8 +55,8 @@ class AbilityTemplate(
     /**
      * Creates the Components needed to display the Move and its Description
      */
-    fun createTextComponents() {
-        displayName = TranslatableComponent(PREFIX + name.lowercase())
-        description = TranslatableComponent(PREFIX + name.lowercase() + ".desc")
+    fun createLiteralTexts() {
+        displayName = TranslatableText(PREFIX + name.lowercase())
+        description = TranslatableText(PREFIX + name.lowercase() + ".desc")
     }
 }

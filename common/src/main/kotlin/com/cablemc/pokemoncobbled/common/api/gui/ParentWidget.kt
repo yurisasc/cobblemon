@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.gui
 
-import net.minecraft.client.gui.components.AbstractWidget
-import net.minecraft.client.gui.components.Widget
-import net.minecraft.client.gui.components.events.GuiEventListener
-import net.minecraft.client.gui.narration.NarrationElementOutput
-import net.minecraft.network.chat.Component
+import jdk.internal.org.jline.reader.Widget
+import net.minecraft.client.gui.Element
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.text.Text
 
 /**
  * This class adds children-awareness to a Widget similar like a Screen
@@ -13,22 +13,22 @@ import net.minecraft.network.chat.Component
 abstract class ParentWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    component: Component
-): Widget, AbstractWidget(pX, pY, pWidth, pHeight, component) {
+    component: Text
+): Widget, ClickableWidget(pX, pY, pWidth, pHeight, component) {
 
-    private val children: MutableList<GuiEventListener> = mutableListOf()
+    private val children: MutableList<Element> = mutableListOf()
 
     /**
      * Adds Widget to the children list
      */
-    protected fun addWidget(widget: GuiEventListener) {
+    protected fun addWidget(widget: Element) {
         children.add(widget)
     }
 
     /**
      * Removes Widget from the children list
      */
-    protected fun removeWidget(widget: GuiEventListener) {
+    protected fun removeWidget(widget: Element) {
         children.remove(widget)
     }
 
@@ -83,6 +83,6 @@ abstract class ParentWidget(
         return super.charTyped(pCodePoint, pModifiers)
     }
 
-    override fun updateNarration(pNarrationElementOutput: NarrationElementOutput) {
+    override fun appendNarrations(pNarrationElementOutput: NarrationMessageBuilder) {
     }
 }

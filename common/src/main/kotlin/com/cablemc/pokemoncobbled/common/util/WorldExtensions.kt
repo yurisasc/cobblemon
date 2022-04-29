@@ -1,28 +1,27 @@
 package com.cablemc.pokemoncobbled.common.util
 
-import net.minecraft.core.BlockPos
+import net.minecraft.util.math.BlockPos
 import net.minecraft.core.particles.ParticleOptions
-import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerWorld
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.level.Level
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.world.phys.Vec3d
 fun Level.playSoundServer(
-    position: Vec3,
+    position: Vec3d
     sound: SoundEvent,
     category: SoundSource = SoundSource.NEUTRAL,
     volume: Float = 1F,
     pitch: Float = 1F
-) = (this as ServerLevel).playSound(null, position.x, position.y, position.z, sound, category, volume, pitch)
+) = (this as ServerWorld).playSound(null, position.x, position.y, position.z, sound, category, volume, pitch)
 
 fun <T : ParticleOptions> Level.sendParticlesServer(
     particleType: T,
-    position: Vec3,
+    position: Vec3d
     particles: Int,
-    offset: Vec3,
+    offset: Vec3d
     speed: Double
-) = (this as ServerLevel).sendParticles(particleType, position.x, position.y, position.z, particles, offset.x, offset.y, offset.z, speed)
+) = (this as ServerWorld).sendParticles(particleType, position.x, position.y, position.z, particles, offset.x, offset.y, offset.z, speed)
 
 fun Level.squeezeWithinBounds(pos: BlockPos): BlockPos {
     return if (pos.y < minBuildHeight) {

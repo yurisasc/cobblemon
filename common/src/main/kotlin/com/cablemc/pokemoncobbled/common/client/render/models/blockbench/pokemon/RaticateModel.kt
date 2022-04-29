@@ -14,8 +14,7 @@ import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
 import net.minecraft.client.model.geom.builders.*
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.world.phys.Vec3d
 class RaticateModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, EaredFrame {
     override val rootPart = registerRelevantPart("raticate", root.getChild("raticate"))
     override val head = registerRelevantPart("head", rootPart.getChildOf("body", "head"))
@@ -36,10 +35,10 @@ class RaticateModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Eare
         )
     )
     override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3(0.0, -0.33, 0.0)
+    override val portraitTranslation = Vec3d0.0, -0.33, 0.0)
 
     override val profileScale = 1.0F
-    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+    override val profileTranslation = Vec3d0.0, 0.0, 0.0)
 
     init {
         registerPoses()

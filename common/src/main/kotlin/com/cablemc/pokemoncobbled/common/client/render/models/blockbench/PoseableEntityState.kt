@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * Represents the entity-specific state for a poseable model. The implementation is responsible for

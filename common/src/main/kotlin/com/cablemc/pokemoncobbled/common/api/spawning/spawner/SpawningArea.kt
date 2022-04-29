@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level
  */
 data class SpawningArea(
     val cause: Any,
-    val level: Level,
+    val world: World,
     val baseX: Int,
     val baseY: Int,
     val baseZ: Int,

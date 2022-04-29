@@ -6,8 +6,8 @@ import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer.C
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addRotation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.getRotation
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import net.minecraft.util.Mth.PI
-import net.minecraft.util.Mth.sin
+import net.minecraft.util.Util.Mth.PI
+import net.minecraft.util.Util.Mth.sin
 import java.lang.Float.min
 
 /** Intensity is between 0 and 1, 1 being that it pushes the ear through to its low range of motion. */

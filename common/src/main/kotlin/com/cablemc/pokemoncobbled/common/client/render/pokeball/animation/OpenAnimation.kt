@@ -5,8 +5,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.PokeBallFrame
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import net.minecraft.util.Mth
-import net.minecraft.util.Mth.PI
+import net.minecraft.util.Util.Mth
+import net.minecraft.util.Util.Mth.PI
 import kotlin.math.min
 import kotlin.math.sqrt
 

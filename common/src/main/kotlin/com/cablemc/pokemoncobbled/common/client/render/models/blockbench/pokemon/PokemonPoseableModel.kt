@@ -7,10 +7,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.M
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.MatrixStack
 import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.world.phys.Vec3d
 /**
  * A poseable model for a Pokémon. Just handles the state accessor to the [PokemonClientDelegate].
  *
@@ -49,14 +48,14 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
         )
     }
 
-    override fun renderToBuffer(stack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
+    override fun renderToBuffer(stack: MatrixStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
         super.renderToBuffer(stack, buffer, packedLight, packedOverlay, red * r, green * g, blue * b, alpha * a)
     }
 
     open val portraitScale: Float = 1F
-    open val portraitTranslation: Vec3 = Vec3(0.0, 0.0, 0.0)
+    open val portraitTranslation: Vec3d= Vec3d0.0, 0.0, 0.0)
 
     open val profileScale: Float = 1F
-    open val profileTranslation: Vec3 = Vec3(0.0, 0.0, 0.0)
+    open val profileTranslation: Vec3d= Vec3d0.0, 0.0, 0.0)
 
 }

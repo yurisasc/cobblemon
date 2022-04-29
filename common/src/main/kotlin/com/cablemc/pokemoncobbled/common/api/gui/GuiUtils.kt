@@ -4,20 +4,20 @@ import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.BufferUploader
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
-import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.MatrixStack
 import com.mojang.blaze3d.vertex.Tesselator
 import com.mojang.blaze3d.vertex.VertexFormat
 import com.mojang.math.Matrix4f
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.GameRenderer
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.MutableComponent
-import net.minecraft.network.chat.TextComponent
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.client.render.GameRenderer
+import net.minecraft.text.Text
+import net.minecraft.network.chat.MutableText
+import net.minecraft.network.chat.LiteralText
+import net.minecraft.util.Identifier
 
 fun blitk(
-    poseStack: PoseStack,
-    texture: ResourceLocation? = null,
+    poseStack: MatrixStack,
+    texture: Identifier? = null,
     x: Number,
     y: Number,
     height: Number = 0,
@@ -65,25 +65,25 @@ fun drawRectangle(
 ) {
     val bufferbuilder = Tesselator.getInstance().builder
     bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX)
-    bufferbuilder.vertex(matrix, x, endY, blitOffset).uv(minU, maxV).endVertex()
-    bufferbuilder.vertex(matrix, endX, endY, blitOffset).uv(maxU, maxV).endVertex()
-    bufferbuilder.vertex(matrix, endX, y, blitOffset).uv(maxU, minV).endVertex()
-    bufferbuilder.vertex(matrix, x, y, blitOffset).uv(minU, minV).endVertex()
+    bufferbuilder.vertex(matrix, x, endY, blitOffset).uv(minU, maxV).next()
+    bufferbuilder.vertex(matrix, endX, endY, blitOffset).uv(maxU, maxV).next()
+    bufferbuilder.vertex(matrix, endX, y, blitOffset).uv(maxU, minV).next()
+    bufferbuilder.vertex(matrix, x, y, blitOffset).uv(minU, minV).next()
     bufferbuilder.end()
     BufferUploader.end(bufferbuilder)
 }
 
 fun drawCenteredText(
-    poseStack: PoseStack,
-    font: ResourceLocation,
-    text: Component,
+    poseStack: MatrixStack,
+    font: Identifier,
+    text: Text,
     x: Number,
     y: Number,
     colour: Int,
     shadow: Boolean = true
 ) {
-    val comp = (text as MutableComponent).withStyle(text.style.withFont(font))
-    val mcFont = Minecraft.getInstance().font
+    val comp = (text as MutableText).withStyle(text.style.withFont(font))
+    val mcFont = MinecraftClient.getInstance().font
     if (shadow)
         mcFont.drawShadow(poseStack, comp, x.toFloat() - mcFont.width(comp) / 2, y.toFloat(), colour)
     else
@@ -91,9 +91,9 @@ fun drawCenteredText(
 }
 
 fun drawText(
-    poseStack: PoseStack,
-    font: ResourceLocation? = null,
-    text: MutableComponent,
+    poseStack: MatrixStack,
+    font: Identifier? = null,
+    text: MutableText,
     x: Number,
     y: Number,
     centered: Boolean = false,
@@ -101,7 +101,7 @@ fun drawText(
     shadow: Boolean = true
 ) {
     val comp = if (font == null) text else text.withStyle(text.style.withFont(font))
-    val mcFont = Minecraft.getInstance().font
+    val mcFont = MinecraftClient.getInstance().font
     var x = x
     if (centered) {
         val width = mcFont.width(comp)
@@ -115,20 +115,20 @@ fun drawText(
 }
 
 fun drawString(
-    poseStack: PoseStack,
+    poseStack: MatrixStack,
     text: String,
     x: Number,
     y: Number,
     colour: Int,
     shadow: Boolean = true,
-    font: ResourceLocation? = null
+    font: Identifier? = null
 ) {
-    val comp = TextComponent(text).also {
+    val comp = LiteralText(text).also {
         font?.run {
             it.withStyle(it.style.withFont(this))
         }
     }
-    val mcFont = Minecraft.getInstance().font
+    val mcFont = MinecraftClient.getInstance().font
     if (shadow)
         mcFont.drawShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
     else

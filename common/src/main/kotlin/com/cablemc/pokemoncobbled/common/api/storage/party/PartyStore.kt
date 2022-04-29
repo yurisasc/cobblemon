@@ -16,8 +16,8 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.level.ServerPlayerEntity
 import java.util.UUID
 
 /**
@@ -65,10 +65,10 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return null
     }
 
-    override fun getObservingPlayers() = getServer()?.playerList?.players?.filter { it.uuid in observerUUIDs } ?: emptyList()
+    override fun getObservingPlayers() = getServer()?.playerManager?.players?.filter { it.uuid in observerUUIDs } ?: emptyList()
     fun size() = slots.size
 
-    override fun sendTo(player: ServerPlayer) {
+    override fun sendTo(player: ServerPlayerEntity) {
         player.sendPacket(InitializePartyPacket(false, uuid, slots.size))
         slots.forEachIndexed { index, pokemon ->
             if (pokemon != null) {
@@ -122,18 +122,18 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         }
     }
 
-    override fun saveToNBT(nbt: CompoundTag): CompoundTag {
+    override fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putInt(DataKeys.STORE_SLOT_COUNT, slots.size)
         for (slot in slots.indices) {
             val pokemon = get(slot)
             if (pokemon != null) {
-                nbt.put(DataKeys.STORE_SLOT + slot, pokemon.saveToNBT(CompoundTag()))
+                nbt.put(DataKeys.STORE_SLOT + slot, pokemon.saveToNBT(NbtCompound()))
             }
         }
         return nbt
     }
 
-    override fun loadFromNBT(nbt: CompoundTag): PartyStore {
+    override fun loadFromNBT(nbt: NbtCompound): PartyStore {
         val slotCount = nbt.getInt(DataKeys.STORE_SLOT_COUNT)
         while (slotCount > slots.size) { slots.removeLast() }
         while (slotCount < slots.size) { slots.add(null) }

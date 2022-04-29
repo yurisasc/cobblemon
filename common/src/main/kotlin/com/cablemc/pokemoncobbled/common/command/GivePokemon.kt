@@ -13,7 +13,7 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.commands.arguments.EntityArgument
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerPlayerEntity
 
 object GivePokemon {
 
@@ -35,7 +35,7 @@ object GivePokemon {
         dispatcher.register(command)
     }
 
-    private fun execute(context: CommandContext<CommandSourceStack>, player: ServerPlayer) : Int {
+    private fun execute(context: CommandContext<CommandSourceStack>, player: ServerPlayerEntity) : Int {
         try {
             val pokemonProperties = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
             val pokemon = pokemonProperties.create()

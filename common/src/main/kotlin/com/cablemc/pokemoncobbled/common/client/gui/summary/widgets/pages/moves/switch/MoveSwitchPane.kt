@@ -14,7 +14,7 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.
 import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.MatrixStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.ObjectSelectionList
 import java.math.RoundingMode
@@ -24,7 +24,7 @@ class MoveSwitchPane(
     val movesWidget: MovesWidget,
     var replacedMove: Move
 ): ObjectSelectionList<MoveSwitchPane.MoveObject>(
-    Minecraft.getInstance(),
+    MinecraftClient.getInstance(),
     PANE_WIDTH,
     PANE_HEIGHT,
     1,
@@ -78,7 +78,7 @@ class MoveSwitchPane(
         return (minecraft.window.guiScale * i).toInt()
     }
 
-    override fun render(poseStack: PoseStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
         ModelWidget.render = false
         blitk(
@@ -97,7 +97,7 @@ class MoveSwitchPane(
     class MoveObject(val pane: MoveSwitchPane, val move: MoveTemplate, val ppRaisedStages: Int) : Entry<MoveObject>() {
         override fun getNarration() = move.displayName
         override fun render(
-            poseStack: PoseStack,
+            poseStack: MatrixStack,
             index: Int,
             rowTop: Int,
             rowLeft: Int,
@@ -158,7 +158,7 @@ class MoveSwitchPane(
                 textureHeight = categoryHeight * 3
             )
 
-            poseStack.pushPose()
+            poseStack.push()
             val textScale = 0.6F
             poseStack.scale(textScale, textScale, 1F)
             drawText(
@@ -170,9 +170,9 @@ class MoveSwitchPane(
                 colour = 0,
                 shadow = false
             )
-            poseStack.popPose()
+            poseStack.pop()
 
-            poseStack.pushPose()
+            poseStack.push()
             val labelTextScale = 0.5F
             val labelY = rowTop + 13
             poseStack.scale(labelTextScale, labelTextScale, 1F)
@@ -214,7 +214,7 @@ class MoveSwitchPane(
                 y = labelY / labelTextScale,
                 colour = 0xFFFFFF
             )
-            poseStack.popPose()
+            poseStack.pop()
         }
 
         override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {

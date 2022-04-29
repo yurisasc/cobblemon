@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
 import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 interface BiWingedFrame : ModelFrame {
     val leftWing: ModelPart

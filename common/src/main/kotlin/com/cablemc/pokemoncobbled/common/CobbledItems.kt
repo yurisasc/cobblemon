@@ -8,7 +8,7 @@ import dev.architectury.hooks.item.tool.AxeItemHooks
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.core.Registry
-import net.minecraft.world.entity.projectile.ItemSupplier
+import net.minecraft.entity.projectile.ItemSupplier
 import net.minecraft.world.item.*
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.item.Item

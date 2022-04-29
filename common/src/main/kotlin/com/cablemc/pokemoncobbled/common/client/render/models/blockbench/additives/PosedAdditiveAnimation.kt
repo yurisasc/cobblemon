@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additi
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * A freeform, stateful animation that can be applied to any model that

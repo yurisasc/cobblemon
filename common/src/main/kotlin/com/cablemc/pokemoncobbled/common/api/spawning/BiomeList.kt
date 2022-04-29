@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * A dummy type so that it can be detected as its own type during JSON deserialization and be given a unique adapter.
@@ -8,4 +8,4 @@ import net.minecraft.resources.ResourceLocation
  * @author Hiroku
  * @since January 24th, 2022
  */
-class BiomeList : ArrayList<ResourceLocation>()
+class BiomeList : ArrayList<Identifier>()

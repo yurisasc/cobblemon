@@ -19,8 +19,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.world.phys.Vec3d
 class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame, EaredFrame {
     override val rootPart = registerRelevantPart("rattata", root.getChild("rattata"))
     override val foreLeftLeg = registerRelevantPart("leftfrontleg", rootPart.getChildOf("body", "leftfrontleg"))
@@ -49,10 +48,10 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     val tail = registerRelevantPart("tail", rootPart.getChildOf("body", "tail"))
     val tail2 = registerRelevantPart("tail2", rootPart.getChildOf("body", "tail", "tail2"))
     override val portraitScale = 2.5F
-    override val portraitTranslation = Vec3(-0.25, -2.03, 0.0)
+    override val portraitTranslation = Vec3d-0.25, -2.03, 0.0)
 
     override val profileScale = 1.0F
-    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+    override val profileTranslation = Vec3d0.0, 0.0, 0.0)
 
     init {
         registerPoses()

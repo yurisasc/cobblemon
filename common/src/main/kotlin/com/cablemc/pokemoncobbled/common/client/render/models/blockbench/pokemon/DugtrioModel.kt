@@ -12,8 +12,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.world.phys.Vec3d
 class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart: ModelPart = registerRelevantPart("dugtrio", root.getChild("dugtrio"))
     private val body1: ModelPart = registerRelevantPart("body1", rootPart.getChildOf("body"))
@@ -21,10 +20,10 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     private val body3: ModelPart = registerRelevantPart("body3", rootPart.getChildOf("body3"))
 
     override val portraitScale = 1.7F
-    override val portraitTranslation = Vec3(-0.2, -0.7, 0.0)
+    override val portraitTranslation = Vec3d-0.2, -0.7, 0.0)
 
     override val profileScale = 1.0F
-    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+    override val profileTranslation = Vec3d0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(

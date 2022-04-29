@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.pokeball
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.modifiers.MultiplierModifier
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * Main API point for Pokeballs
@@ -31,7 +31,7 @@ object PokeBalls {
      * Gets a Pokeball from registry name.
      * @return the pokeball object if found otherwise null.
      */
-    fun getPokeBall(name : ResourceLocation) : PokeBall? {
+    fun getPokeBall(name : Identifier) : PokeBall? {
         return allPokeBalls.find { pokeball -> pokeball.name == name }
     }
 }

@@ -9,11 +9,9 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacke
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.runOnServer
-import com.cablemc.pokemoncobbled.common.util.toVec3
-import com.cablemc.pokemoncobbled.common.util.traceBlockCollision
-import net.minecraft.core.Direction
-import net.minecraft.world.phys.Vec3
-
+import com.cablemc.pokemoncobbled.common.util.toVec3dimport com.cablemc.pokemoncobbled.common.util.traceBlockCollision
+import net.minecraft.util.math.Direction
+import net.minecraft.world.phys.Vec3d
 object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
     override fun invoke(packet: SendOutPokemonPacket, ctx: CobbledNetwork.NetworkContext) {
         val player = ctx.player ?: return
@@ -26,7 +24,7 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
             if (state !is ActivePokemonState) {
                 val trace = player.traceBlockCollision(maxDistance = 15F)
                 if (trace != null && trace.direction == Direction.UP && !player.level.getBlockState(trace.blockPos.above()).material.isSolid) {
-                    val position = Vec3(trace.location.x, trace.blockPos.above().toVec3().y, trace.location.z)
+                    val position = Vec3dtrace.location.x, trace.blockPos.above().toVec3d).y, trace.location.z)
                     pokemon.sendOut(player.getLevel(), position) {
                         player.getLevel().playSoundServer(position, CobbledSounds.SEND_OUT.get(), volume = 0.2F)
                         it.phasingTargetId.set(player.id)

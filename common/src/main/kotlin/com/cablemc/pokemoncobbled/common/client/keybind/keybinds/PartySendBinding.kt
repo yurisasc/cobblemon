@@ -18,8 +18,8 @@ object PartySendBinding : CobbledBlockingKeyMapping(
     KeybindCategories.COBBLED_CATEGORY
 ) {
     override fun onPress() {
-        val player = Minecraft.getInstance().player
-        if (PokemonCobbledClient.storage.selectedSlot != -1 && Minecraft.getInstance().screen == null && player != null) {
+        val player = MinecraftClient.getInstance().player
+        if (PokemonCobbledClient.storage.selectedSlot != -1 && MinecraftClient.getInstance().screen == null && player != null) {
             val pokemon = PokemonCobbledClient.storage.myParty.get(PokemonCobbledClient.storage.selectedSlot)
             if (pokemon != null) {
                 val targetedPokemon = player.traceFirstEntityCollision(entityClass = PokemonEntity::class.java)

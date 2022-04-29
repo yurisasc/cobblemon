@@ -5,13 +5,12 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.SpawningArea
-import net.minecraft.core.BlockPos
-import net.minecraft.world.entity.Entity
+import net.minecraft.util.math.BlockPos
+import net.minecraft.entity.Entity
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.material.Material
 import net.minecraft.world.phys.AABB
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.world.phys.Vec3d
 /**
  * A spawning prospector that takes a straightforward approach
  * in slicing out a [WorldSlice]. If you want to replace this,
@@ -49,7 +48,7 @@ object CobbledSpawningProspector : SpawningProspector {
         val nearbyEntityPositions = area.level.getEntities(
             null,
             AABB.ofSize(
-                Vec3(area.baseX + area.length / 2.0, baseY + height / 2.0, area.baseZ + area.width / 2.0),
+                Vec3darea.baseX + area.length / 2.0, baseY + height / 2.0, area.baseZ + area.width / 2.0),
                 area.length / 2.0 + minimumDistanceBetweenEntities,
                 height / 2.0 + minimumDistanceBetweenEntities,
                 area.width / 2.0 + minimumDistanceBetweenEntities

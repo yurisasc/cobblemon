@@ -4,8 +4,8 @@ import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.ShowdownActionRequest
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.MutableComponent
+import net.minecraft.text.Text
+import net.minecraft.network.chat.MutableText
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
@@ -71,9 +71,9 @@ abstract class BattleActor(
         }
     }
 
-    abstract fun getName(): MutableComponent
+    abstract fun getName(): MutableText
     abstract fun getChoices(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<String>>
     abstract fun getSwitch(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<UUID>>
-    open fun sendMessage(component: Component) {}
+    open fun sendMessage(component: Text) {}
     open fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {}
 }

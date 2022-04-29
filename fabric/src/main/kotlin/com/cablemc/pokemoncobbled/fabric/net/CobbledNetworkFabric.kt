@@ -8,8 +8,8 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
-import net.minecraft.network.FriendlyByteBuf
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.server.level.ServerPlayerEntity
 
 abstract class PreparedFabricMessage<T : NetworkPacket>(protected val registeredMessage: RegisteredMessage<T>) : CobbledNetwork.PreparedMessage<T> {
     override fun registerMessage() {}
@@ -39,16 +39,16 @@ class PreparedServerBoundFabricMessage<T : NetworkPacket>(registeredMessage: Reg
     }
 }
 
-class FabricServerNetworkContext(override val player: ServerPlayer) : CobbledNetwork.NetworkContext
-class FabricClientNetworkContext(override val player: ServerPlayer? = null) : CobbledNetwork.NetworkContext
+class FabricServerNetworkContext(override val player: ServerPlayerEntity) : CobbledNetwork.NetworkContext
+class FabricClientNetworkContext(override val player: ServerPlayerEntity? = null) : CobbledNetwork.NetworkContext
 
 class RegisteredMessage<T : NetworkPacket>(
     val packetClass: Class<T>
 ) {
     val identifier = cobbledResource(packetClass.simpleName.lowercase())
-    fun encode(packet: NetworkPacket): FriendlyByteBuf? {
+    fun encode(packet: NetworkPacket): PacketByteBuf? {
         if (packetClass.isInstance(packet)) {
-            return FriendlyByteBuf(Unpooled.buffer()).also { packet.encode(it) }
+            return PacketByteBuf(Unpooled.buffer()).also { packet.encode(it) }
         }
         return null
     }
@@ -57,7 +57,7 @@ class RegisteredMessage<T : NetworkPacket>(
 object CobbledFabricNetworkDelegate : NetworkDelegate {
     val registeredMessages = mutableListOf<RegisteredMessage<*>>()
 
-    override fun sendPacketToPlayer(player: ServerPlayer, packet: NetworkPacket) {
+    override fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket) {
         val registeredMessage = registeredMessages.find { it.packetClass.isInstance(packet) }
             ?: throw IllegalStateException("There was no registered message for packet of type ${packet::class.simpleName}!")
         ServerPlayNetworking.send(player, registeredMessage.identifier, registeredMessage.encode(packet))

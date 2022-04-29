@@ -3,8 +3,8 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animat
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.PokeBallFrame
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import net.minecraft.util.Mth
-import net.minecraft.util.Mth.PI
+import net.minecraft.util.Util.Mth
+import net.minecraft.util.Util.Mth.PI
 
 /**
  * A simple idle animation that will point the PokéBall in the direction of the target it hit. Does nothing

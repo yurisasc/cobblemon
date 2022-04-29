@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderlavaSpawningC
 import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderwaterSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator.Companion.isLavaCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator.Companion.isWaterCondition
-import net.minecraft.util.Mth.ceil
+import net.minecraft.util.Util.Mth.ceil
 import net.minecraft.world.level.block.state.BlockState
 
 /**

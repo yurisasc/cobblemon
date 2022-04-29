@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.condition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SubmergedSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.util.asResource
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * Base type for a spawning condition that applies to some kind of [SubmergedSpawningContext]. This
@@ -15,7 +15,7 @@ import net.minecraft.resources.ResourceLocation
 abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : AreaTypeSpawningCondition<T>() {
     var depth: Int? = null
     var fluidIsSource: Boolean? = null
-    var fluidBlock: ResourceLocation? = null
+    var fluidBlock: Identifier? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
         if (!super.fits(ctx, detail)) {

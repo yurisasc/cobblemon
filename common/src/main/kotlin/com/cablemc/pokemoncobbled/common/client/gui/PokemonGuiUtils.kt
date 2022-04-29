@@ -6,15 +6,15 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.reposit
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.MatrixStack
 import com.mojang.math.Quaternion
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.client.render.LightTexture
+import net.minecraft.client.render.texture.OverlayTexture
 
 fun drawProfilePokemon(
     pokemon: Pokemon,
-    poseStack: PoseStack,
+    poseStack: MatrixStack,
     rotation: Quaternion,
     scale: Float = 20F
 ) {
@@ -34,12 +34,12 @@ fun drawProfilePokemon(
 
     poseStack.mulPose(rotation)
     Lighting.setupForEntityInInventory()
-    val entityRenderDispatcher = Minecraft.getInstance().entityRenderDispatcher
+    val entityRenderDispatcher = MinecraftClient.getInstance().entityRenderDispatcher
     rotation.conj()
     entityRenderDispatcher.overrideCameraOrientation(rotation)
     entityRenderDispatcher.setRenderShadow(false)
 
-    val bufferSource = Minecraft.getInstance().renderBuffers().bufferSource()
+    val bufferSource = MinecraftClient.getInstance().renderBuffers().bufferSource()
     val buffer = bufferSource.getBuffer(renderType)
 
     val packedLight = LightTexture.pack(15, 15)

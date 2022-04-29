@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.effects.SlowFallEffect
 import com.cablemc.pokemoncobbled.common.util.party
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_QUIT
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.level.ServerPlayerEntity
 
 /**
  * Registry object for ShoulderEffects
@@ -35,7 +35,7 @@ object ShoulderEffectRegistry {
 
     fun get(name: String): Class<out ShoulderEffect>? = effects[name]
 
-    fun onPlayerJoin(player: ServerPlayer) {
+    fun onPlayerJoin(player: ServerPlayerEntity) {
         player.party().filter { it.state is ShoulderedState }.forEach { pkm ->
             pkm.form.shoulderEffects.forEach {
                 it.applyEffect(
@@ -47,7 +47,7 @@ object ShoulderEffectRegistry {
         }
     }
 
-    fun onPlayerLeave(player: ServerPlayer) {
+    fun onPlayerLeave(player: ServerPlayerEntity) {
         player.party().filter { it.state is ShoulderedState }.forEach { pkm ->
             pkm.form.shoulderEffects.forEach {
                 it.removeEffect(

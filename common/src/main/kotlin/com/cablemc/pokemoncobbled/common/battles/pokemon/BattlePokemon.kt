@@ -10,7 +10,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Nature
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.battleLang
-import net.minecraft.network.chat.MutableComponent
+import net.minecraft.network.chat.MutableText
 import java.util.UUID
 
 open class BattlePokemon(
@@ -46,7 +46,7 @@ open class BattlePokemon(
     /** A set of all the BattlePokemon that they faced during the battle (for exp purposes) */
     val facedOpponents = mutableSetOf<BattlePokemon>()
 
-    open fun getName(): MutableComponent {
+    open fun getName(): MutableText {
         return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
             effectedPokemon.species.translatedName
         } else {

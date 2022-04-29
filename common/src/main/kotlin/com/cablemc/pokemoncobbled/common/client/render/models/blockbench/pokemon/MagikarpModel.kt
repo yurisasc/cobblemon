@@ -18,8 +18,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.world.phys.Vec3d
 
 class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart: ModelPart = registerRelevantPart("magikarp", root.getChild("magikarp"))
@@ -33,9 +32,9 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     val tail: ModelPart = registerRelevantPart("tail", rootPart.getChildOf("body", "tail"))
 
     override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3(0.12, -0.45, 0.0)
+    override val portraitTranslation = Vec3d0.12, -0.45, 0.0)
     override val profileScale = 1F
-    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+    override val profileTranslation = Vec3d0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(
@@ -64,7 +63,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     }
 
     companion object {
-        // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+        // This layer location should be baked with EntityRendererFactory.Context in the entity renderer and passed into this model's constructor
         val LAYER_LOCATION = ModelLayerLocation(cobbledResource("magikarp"), "main")
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()

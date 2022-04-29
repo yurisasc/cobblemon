@@ -14,14 +14,14 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.stats.
 import com.cablemc.pokemoncobbled.common.client.storage.ClientParty
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.components.AbstractWidget
-import net.minecraft.client.gui.screens.Screen
-import net.minecraft.network.chat.TranslatableComponent
+import com.mojang.blaze3d.vertex.MatrixStack
+import net.minecraft.client.gui.components.ClickableWidget
+import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.text.TranslatableText
 import java.security.InvalidParameterException
 
-class Summary private constructor(): Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) {
+class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.summary.title")) {
 
     companion object {
         // Size of UI at Scale 1
@@ -86,7 +86,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     /**
      * The current page being displayed
      */
-    private lateinit var currentPage: AbstractWidget
+    private lateinit var currentPage: ClickableWidget
 
     /**
      * The Model display Widget
@@ -113,11 +113,11 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         currentPageIndex = MOVES
 
         // Add Buttons to change Pages - START
-        addRenderableWidget(
+        addDrawableChild(
             SummarySwitchButton(
                 pX = x + 3, pY = y + 6,
                 pWidth = 55, pHeight =  17,
-                component = TranslatableComponent("pokemoncobbled.ui.info")
+                component = TranslatableText("pokemoncobbled.ui.info")
             ) {
             switchTo(INFO)
         })
@@ -125,7 +125,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
             SummarySwitchButton(
                 pX = x + 62, pY = y + 6,
                 pWidth = 55, pHeight = 17,
-                component = TranslatableComponent("pokemoncobbled.ui.moves")
+                component = TranslatableText("pokemoncobbled.ui.moves")
             ) {
             switchTo(MOVES)
         })
@@ -133,7 +133,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
             SummarySwitchButton(
                 pX = x + 121, pY = y + 6,
                 pWidth = 55, pHeight = 17,
-                component = TranslatableComponent("pokemoncobbled.ui.stats")
+                component = TranslatableText("pokemoncobbled.ui.stats")
             ) {
             switchTo(STATS)
         })
@@ -146,7 +146,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
                 pWidth = 28, pHeight = 16,
                 pXTexStart = 0, pYTexStart = 0, pYDiffText = 0
             ) {
-            Minecraft.getInstance().setScreen(null)
+            MinecraftClient.getInstance().setScreen(null)
         })
 
         // Add Party
@@ -205,7 +205,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     /**
      * Returns if this Screen is open or not
      */
-    private fun isOpen() = Minecraft.getInstance().screen == this
+    private fun isOpen() = MinecraftClient.getInstance().screen == this
 
     /**
      * Switches to the given Page
@@ -238,7 +238,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         ModelWidget.render = true
     }
 
-    override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         renderBackground(pMatrixStack)
 
         // Render Display Background

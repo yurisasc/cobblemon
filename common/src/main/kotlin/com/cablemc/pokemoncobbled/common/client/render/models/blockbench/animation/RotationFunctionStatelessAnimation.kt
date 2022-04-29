@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.M
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addRotation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
 import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * Animation simply works by moving a part's rotation along a particular function

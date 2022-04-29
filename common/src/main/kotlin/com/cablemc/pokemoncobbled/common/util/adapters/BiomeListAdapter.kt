@@ -10,7 +10,7 @@ import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import net.minecraft.core.Registry.BIOME_REGISTRY
 import net.minecraft.core.RegistryAccess
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 import java.lang.reflect.Type
 
 /**
@@ -30,7 +30,7 @@ object BiomeListAdapter : JsonSerializer<BiomeList>, JsonDeserializer<BiomeList>
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): BiomeList {
         val list = BiomeList()
         json.asJsonArray.forEach { element ->
-            val biomeName = ResourceLocation(element.asString)
+            val biomeName = Identifier(element.asString)
 
             // TODO also try retrieving with the element as a biome category
             // Maybe rework the biome list object to preserve what were categories

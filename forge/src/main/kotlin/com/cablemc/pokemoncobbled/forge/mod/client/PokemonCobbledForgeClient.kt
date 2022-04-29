@@ -11,7 +11,7 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import dev.architectury.networking.forge.NetworkManagerImpl
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.builders.LayerDefinition
-import net.minecraft.client.renderer.entity.EntityRenderers
+import net.minecraft.client.render.entity.EntityRenderers
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.ModelBakeEvent

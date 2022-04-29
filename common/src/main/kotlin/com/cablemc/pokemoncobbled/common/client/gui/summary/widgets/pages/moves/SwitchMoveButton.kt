@@ -7,7 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.MatrixStack
 import net.minecraft.client.gui.components.ImageButton
 
 class SwitchMoveButton(
@@ -29,7 +29,7 @@ class SwitchMoveButton(
         private val switchMoveButtonResource = cobbledResource("ui/summary/summary_moves_change_button.png")
     }
 
-    override fun renderButton(poseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(poseStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         // Render Button Image
         blitk(
             poseStack = poseStack,
@@ -38,7 +38,7 @@ class SwitchMoveButton(
             width = width, height = height
         )
 
-        poseStack.pushPose()
+        poseStack.push()
         val scale = 0.4F
         poseStack.scale(scale, scale, 1F)
         // Draw Text
@@ -51,6 +51,6 @@ class SwitchMoveButton(
             shadow = false
         )
 
-        poseStack.popPose()
+        poseStack.pop()
     }
 }

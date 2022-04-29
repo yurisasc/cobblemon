@@ -13,8 +13,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.world.phys.Vec3d
 
 class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
 
@@ -26,9 +25,9 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override val foreLeftLeg = registerRelevantPart("leftleg", rootPart.getChild("body").getChild("leftleg"))
 
     override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3(0.0, -0.6, 0.0)
+    override val portraitTranslation = Vec3d0.0, -0.6, 0.0)
     override val profileScale = 1.0F
-    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+    override val profileTranslation = Vec3d0.0, 0.0, 0.0)
 
     init {
         registerPoses()

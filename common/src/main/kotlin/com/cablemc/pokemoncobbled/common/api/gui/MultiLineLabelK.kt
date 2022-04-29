@@ -1,24 +1,24 @@
 package com.cablemc.pokemoncobbled.common.api.gui
 
-import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.MatrixStack
 import net.minecraft.client.Minecraft
-import net.minecraft.network.chat.Component
+import net.minecraft.text.Text
 import net.minecraft.network.chat.FormattedText
 import net.minecraft.network.chat.Style
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 import java.util.stream.Collectors
 
 class MultiLineLabelK(
     private val comps: List<TextWithWidth>,
-    private val font: ResourceLocation? = null
+    private val font: Identifier? = null
 ) {
 
     companion object {
-        private val mcFont = Minecraft.getInstance().font
+        private val mcFont = MinecraftClient.getInstance().font
 
-        fun create(component: Component, width: Number, maxLines: Number) = create(component, width, maxLines, null)
+        fun create(component: Text, width: Number, maxLines: Number) = create(component, width, maxLines, null)
 
-        fun create(component: Component, width: Number, maxLines: Number, font: ResourceLocation?): MultiLineLabelK {
+        fun create(component: Text, width: Number, maxLines: Number, font: Identifier?): MultiLineLabelK {
             return MultiLineLabelK(
                 mcFont.splitter.splitLines(component, width.toInt(), Style.EMPTY).stream()
                     .limit(maxLines.toLong())
@@ -31,7 +31,7 @@ class MultiLineLabelK(
     }
 
     fun renderLeftAligned(
-        poseStack: PoseStack,
+        poseStack: MatrixStack,
         x: Number, y: Number,
         ySpacing: Number,
         colour: Int,

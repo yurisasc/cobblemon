@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.net
 
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 
 /*
  * Simple packet interface to make a more traditional layout for netcode
@@ -9,6 +9,6 @@ import net.minecraft.network.FriendlyByteBuf
  * @since November 27th, 2021
  */
 interface NetworkPacket {
-    fun encode(buffer: FriendlyByteBuf)
-    fun decode(buffer: FriendlyByteBuf)
+    fun encode(buffer: PacketByteBuf)
+    fun decode(buffer: PacketByteBuf)
 }

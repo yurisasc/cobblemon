@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import com.cablemc.pokemoncobbled.common.api.spawning.selection.SpawningSelector
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 import java.util.concurrent.Executors
 
 /**

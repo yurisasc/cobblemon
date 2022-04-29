@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
-import net.minecraft.world.entity.AgeableMob
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.AgeableMob
+import net.minecraft.entity.Entity
 
 /**
  * The aging despawner applies strictly to mobs that can age. Its logic is relatively simple: the closer to

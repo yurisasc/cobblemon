@@ -14,7 +14,7 @@ import net.minecraft.client.Minecraft
  */
 interface ClientPacketHandler<T : NetworkPacket> : PacketHandler<T> {
     override fun invoke(packet: T, ctx: CobbledNetwork.NetworkContext) {
-        Minecraft.getInstance().submit { ifClient { invokeOnClient(packet, ctx) } }
+        MinecraftClient.getInstance().submit { ifClient { invokeOnClient(packet, ctx) } }
     }
 
     fun invokeOnClient(packet: T, ctx: CobbledNetwork.NetworkContext)

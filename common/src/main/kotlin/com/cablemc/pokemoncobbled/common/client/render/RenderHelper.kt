@@ -1,35 +1,27 @@
 package com.cablemc.pokemoncobbled.common.client.render
 
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.mojang.blaze3d.vertex.DefaultVertexFormat
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.Tesselator
-import com.mojang.blaze3d.vertex.VertexConsumer
-import com.mojang.blaze3d.vertex.VertexFormat
-import com.mojang.math.Matrix3f
-import com.mojang.math.Matrix4f
-import com.mojang.math.Vector3f
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.Font
-import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.*
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.Identifier
+import net.minecraft.util.math.Matrix3f
+import net.minecraft.util.math.Matrix4f
+import net.minecraft.util.math.Vec3f
 
-fun renderImage(texture: ResourceLocation, x: Double, y: Double, height: Double, width: Double) {
-    val textureManager = Minecraft.getInstance().textureManager
+fun renderImage(texture: Identifier, x: Double, y: Double, height: Double, width: Double) {
+    val textureManager = MinecraftClient.getInstance().textureManager
 
-    val buffer = Tesselator.getInstance().builder
-    buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX)
-    textureManager.bindForSetup(texture)
+    val buffer = Tessellator.getInstance().buffer
+    buffer.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE)
+    textureManager.bindTexture(texture)
 
-    buffer.vertex(x, y + height, 0.0).uv(0f, 1f).endVertex()
-    buffer.vertex(x + width, y + height, 0.0).uv(1f, 1f).endVertex()
-    buffer.vertex(x + width, y, 0.0).uv(1f, 0f).endVertex()
-    buffer.vertex(x, y, 0.0).uv(0f, 0f).endVertex()
+    buffer.vertex(x, y + height, 0.0).texture(0f, 1f).next()
+    buffer.vertex(x + width, y + height, 0.0).texture(1f, 1f).next()
+    buffer.vertex(x + width, y, 0.0).texture(1f, 0f).next()
+    buffer.vertex(x, y, 0.0).texture(0f, 0f).next()
 
-    Tesselator.getInstance().end()
+    Tessellator.getInstance().draw()
 }
 
 fun getDepletableRedGreen(
@@ -56,25 +48,25 @@ fun getDepletableRedGreen(
     return r.toFloat() to g.toFloat()
 }
 
-fun Font.drawScaled(
-    poseStack: PoseStack,
-    text: Component,
-    x: Float,
-    y: Float,
-    scaleX: Float = 1F,
-    scaleY: Float = 1F,
-    colour: Int = 0xFFFFFF
-) {
-    poseStack.pushPose()
-    poseStack.scale(scaleX, scaleY, 1F)
-    draw(poseStack, text, x / scaleX, y / scaleY, colour)
-    poseStack.popPose()
-}
+//fun Font.drawScaled(
+//    poseStack: MatrixStack,
+//    text: Text,
+//    x: Float,
+//    y: Float,
+//    scaleX: Float = 1F,
+//    scaleY: Float = 1F,
+//    colour: Int = 0xFFFFFF
+//) {
+//    poseStack.push()
+//    poseStack.scale(scaleX, scaleY, 1F)
+//    draw(poseStack, text, x / scaleX, y / scaleY, colour)
+//    poseStack.pop()
+//}
 
 fun renderBeaconBeam(
-    matrixStack: PoseStack,
-    buffer: MultiBufferSource,
-    textureLocation: ResourceLocation = CobbledResources.PHASE_BEAM,
+    matrixStack: MatrixStack,
+    buffer: VertexConsumerProvider,
+    textureLocation: Identifier = CobbledResources.PHASE_BEAM,
     partialTicks: Float,
     totalLevelTime: Long,
     yOffset: Float = 0F,
@@ -89,13 +81,13 @@ fun renderBeaconBeam(
 ) {
     val i = yOffset + height
     val beamRotation = Math.floorMod(totalLevelTime, 40).toFloat() + partialTicks
-    matrixStack.pushPose()
-    matrixStack.mulPose(Vector3f.YP.rotationDegrees(beamRotation * 2.25f - 45.0f))
+    matrixStack.push()
+    matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(beamRotation * 2.25f - 45.0f))
     var f9 = -beamRadius
     val f12 = -beamRadius
     renderPart(
         matrixStack,
-        buffer.getBuffer(RenderType.beaconBeam(textureLocation, false)),
+        buffer.getBuffer(RenderLayer.getBeaconBeam(textureLocation, false)),
         red,
         green,
         blue,
@@ -112,14 +104,14 @@ fun renderBeaconBeam(
         f12
     )
     // Undo the rotation so that the glow is at a rotated offset
-    matrixStack.popPose()
+    matrixStack.pop()
     val f6 = -glowRadius
     val f7 = -glowRadius
     val f8 = -glowRadius
     f9 = -glowRadius
     renderPart(
         matrixStack,
-        buffer.getBuffer(RenderType.beaconBeam(textureLocation, true)),
+        buffer.getBuffer(RenderLayer.getBeaconBeam(textureLocation, true)),
         red,
         green,
         blue,
@@ -138,7 +130,7 @@ fun renderBeaconBeam(
 }
 
 fun renderPart(
-    matrixStack: PoseStack,
+    matrixStack: MatrixStack,
     vertexBuffer: VertexConsumer,
     red: Float,
     green: Float,
@@ -155,9 +147,9 @@ fun renderPart(
     p_112170_: Float,
     p_112171_: Float
 ) {
-    val pose = matrixStack.last()
-    val matrix4f = pose.pose()
-    val matrix3f = pose.normal()
+    val pose = matrixStack.peek()
+    val matrix4f = pose.positionMatrix
+    val matrix3f = pose.normalMatrix
     renderQuad(
         matrix4f,
         matrix3f,
@@ -258,9 +250,9 @@ fun addVertex(
     buffer
         .vertex(matrixPos, x, y, z)
         .color(red, green, blue, alpha)
-        .uv(texU, texV)
-        .overlayCoords(OverlayTexture.NO_OVERLAY)
-        .uv2(15728880)
+        .texture(texU, texV)
+        .overlay(OverlayTexture.DEFAULT_UV)
+        .light(15728880)
         .normal(matrixNormal, 0.0f, 1.0f, 0.0f)
-        .endVertex()
+        .next()
 }

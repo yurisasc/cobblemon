@@ -13,6 +13,6 @@ object PokeNavigatorBinding : CobbledKeyMapping(
     KeybindCategories.COBBLED_CATEGORY
 ) {
     override fun onPress() {
-        Minecraft.getInstance().setScreen(PokeNav())
+        MinecraftClient.getInstance().setScreen(PokeNav())
     }
 }

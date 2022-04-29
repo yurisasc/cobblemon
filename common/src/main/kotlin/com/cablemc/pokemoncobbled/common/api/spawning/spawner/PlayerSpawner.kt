@@ -4,12 +4,11 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.util.getPlayer
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Mth.PI
-import net.minecraft.util.Mth.ceil
-import net.minecraft.util.Mth.randomBetween
-import net.minecraft.world.phys.Vec3
-import java.util.Random
+import net.minecraft.server.level.ServerPlayerEntity
+import net.minecraft.util.Util.Mth.PI
+import net.minecraft.util.Util.Mth.ceil
+import net.minecraft.util.Util.Mth.randomBetween
+import net.minecraft.world.phys.Vec3dimport java.util.Random
 import java.util.UUID
 import kotlin.math.atan
 import kotlin.math.cos
@@ -22,7 +21,7 @@ import kotlin.math.sin
  * @author Hiroku
  * @since February 14th, 2022
  */
-class PlayerSpawner(player: ServerPlayer, spawns: SpawnPool, manager: SpawnerManager) : AreaSpawner(player.name.string, spawns, manager) {
+class PlayerSpawner(player: ServerPlayerEntity, spawns: SpawnPool, manager: SpawnerManager) : AreaSpawner(player.name.string, spawns, manager) {
     val uuid: UUID = player.uuid
 
     override fun getArea(): SpawningArea? {
@@ -33,10 +32,10 @@ class PlayerSpawner(player: ServerPlayer, spawns: SpawnPool, manager: SpawnerMan
         val rand = Random()
 
         val center = player.position()
-        val movementUnit = if (player.deltaMovement.length() < 0.1) {
-            Vec3(1.0, 0.0, 0.0).yRot(rand.nextFloat() * 2 * PI)
+        val movementUnit = if (player.velocity.length() < 0.1) {
+            Vec3d1.0, 0.0, 0.0).yRot(rand.nextFloat() * 2 * PI)
         } else {
-            player.deltaMovement.normalize()
+            player.velocity.normalize()
         }
 
         val r = randomBetween(rand, config.minimumSliceDistanceFromPlayer, config.maximumSliceDistanceFromPlayer)

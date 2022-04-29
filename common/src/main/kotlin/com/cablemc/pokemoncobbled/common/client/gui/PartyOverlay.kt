@@ -13,19 +13,19 @@ import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.math.Vector3f
+import com.mojang.blaze3d.vertex.MatrixStack
+import com.mojang.math.Vec3f
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.gui.screens.ChatScreen
 import net.minecraft.client.gui.screens.Screen
-import net.minecraft.client.renderer.LightTexture
-import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.client.render.LightTexture
+import net.minecraft.client.render.texture.OverlayTexture
+import net.minecraft.network.chat.TranslatableText
 import kotlin.math.roundToInt
 
 
-class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecraft) {
+class PartyOverlay(minecraft: Minecraft = MinecraftClient.getInstance()) : Gui(minecraft) {
     val partySlot = cobbledResource("ui/party/party_slot.png")
     val underlay = cobbledResource("ui/party/party_slot_underlay.png")
     val underlaySelected = cobbledResource("ui/party/party_slot_underlay_selected.png")
@@ -35,8 +35,8 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         ChatScreen::class.java
     )
 
-    fun onRenderGameOverlay(poseStack: PoseStack, partialDeltaTicks: Float) {
-        val minecraft = Minecraft.getInstance()
+    fun onRenderGameOverlay(poseStack: MatrixStack, partialDeltaTicks: Float) {
+        val minecraft = MinecraftClient.getInstance()
         val player = minecraft.player
 
         // Hiding if a Screen is open and not exempt
@@ -93,7 +93,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                 )
 
 
-                val poseStack = PoseStack()
+                val poseStack = MatrixStack()
                 poseStack.translate(
                     panelX + frameOffsetX + portraitRadius / 2.0,
                     y.toDouble(),
@@ -187,7 +187,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
                 val width = minecraft.font.width(pokemon.level.toString())
                 minecraft.font.drawScaled(
                     poseStack = poseStack,
-                    text = TranslatableComponent(pokemon.level.toString()),
+                    text = TranslatableText(pokemon.level.toString()),
                     x = panelX + 6.5F - width / 4F,
                     y = startY + slotHeight * index + slotHeight * 0.84F - 7F,
                     scaleX = 0.45F,
@@ -209,7 +209,7 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         }
     }
 
-    fun drawPokemon(pokemon: Pokemon, poseStack: PoseStack) {
+    fun drawPokemon(pokemon: Pokemon, poseStack: MatrixStack) {
         val model = PokemonModelRepository.getModel(pokemon).entityModel
         val texture = PokemonModelRepository.getModelTexture(pokemon)
 
@@ -218,8 +218,8 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         val scale = 13F
         RenderSystem.applyModelViewMatrix()
         poseStack.scale(scale, scale, -scale)
-        val quaternion1 = Vector3f.YP.rotationDegrees(-32F)
-        val quaternion2 = Vector3f.XP.rotationDegrees(5F)
+        val quaternion1 = Vec3f.YP.rotationDegrees(-32F)
+        val quaternion2 = Vec3f.XP.rotationDegrees(5F)
 
 
         if (model is PokemonPoseableModel) {
@@ -231,12 +231,12 @@ class PartyOverlay(minecraft: Minecraft = Minecraft.getInstance()) : Gui(minecra
         poseStack.mulPose(quaternion1)
         poseStack.mulPose(quaternion2)
 
-        val light1 = Vector3f(0.2F, 1.0F, -1.0F)
-        val light2 = Vector3f(0.1F, -1.0F, 2.0F)
+        val light1 = Vec3f(0.2F, 1.0F, -1.0F)
+        val light2 = Vec3f(0.1F, -1.0F, 2.0F)
         RenderSystem.setShaderLights(light1, light2)
         quaternion1.conj()
 
-        val immediate = Minecraft.getInstance().renderBuffers().bufferSource()
+        val immediate = MinecraftClient.getInstance().renderBuffers().bufferSource()
         val buffer = immediate.getBuffer(renderType)
         val packedLight = LightTexture.pack(8, 4)
         model.renderToBuffer(poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F)

@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokeball
 
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.CatchRateModifier
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * Base poke ball object
@@ -11,6 +11,6 @@ import net.minecraft.resources.ResourceLocation
  * @property catchRateModifiers list of all [CatchRateModifier] that is applicable to the poke ball
  */
 open class PokeBall(
-    val name: ResourceLocation,
+    val name: Identifier,
     val catchRateModifiers: List<CatchRateModifier> = listOf()
 )

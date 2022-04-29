@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.mojang.math.Vector3d
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 import java.util.*
 
 /**

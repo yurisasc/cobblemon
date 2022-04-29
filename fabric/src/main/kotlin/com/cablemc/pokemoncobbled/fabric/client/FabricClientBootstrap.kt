@@ -19,6 +19,7 @@ import java.util.function.Supplier
 class FabricClientBootstrap: ClientModInitializer, PokemonCobbledClientImplementation {
     override fun onInitializeClient() {
         ArchitecturyClient.init()
+
         PokemonCobbledClient.initialize(this)
         CobbledNetwork.register()
         layerDefinitions.forEach { (location, definition) ->

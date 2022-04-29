@@ -63,7 +63,7 @@ import dev.architectury.hooks.item.tool.AxeItemHooks
 import net.minecraft.client.Minecraft
 import net.minecraft.commands.synchronization.ArgumentTypes
 import net.minecraft.commands.synchronization.EmptyArgumentSerializer
-import net.minecraft.network.syncher.EntityDataSerializers
+import net.minecraft.network.syncher.TrackedDataHandlerRegistry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.storage.LevelResource
@@ -106,7 +106,7 @@ object PokemonCobbled {
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
-        EntityDataSerializers.registerSerializer(Vec3DataSerializer)
+        TrackedDataHandlerRegistry.registerSerializer(Vec3DataSerializer)
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
         ArgumentTypes.register("pokemoncobbled:pokemonproperties", PokemonPropertiesArgumentType::class.java, EmptyArgumentSerializer(PokemonPropertiesArgumentType::properties))
@@ -181,7 +181,7 @@ object PokemonCobbled {
         return if (isDedicatedServer) {
             getServer()?.getLevel(dimension)
         } else {
-            val mc = Minecraft.getInstance()
+            val mc = MinecraftClient.getInstance()
             if (mc.singleplayerServer != null) {
                 mc.singleplayerServer!!.getLevel(dimension)
             } else if (mc.level?.dimension() == dimension) {

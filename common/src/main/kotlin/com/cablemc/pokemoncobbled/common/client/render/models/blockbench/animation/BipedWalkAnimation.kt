@@ -2,8 +2,8 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animat
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BipedFrame
-import net.minecraft.util.Mth
-import net.minecraft.world.entity.Entity
+import net.minecraft.util.Util.Mth
+import net.minecraft.entity.Entity
 
 /**
  * A biped animation that will have zero-rotations on all legs at

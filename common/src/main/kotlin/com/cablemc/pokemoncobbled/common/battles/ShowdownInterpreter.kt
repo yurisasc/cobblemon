@@ -13,8 +13,8 @@ import com.cablemc.pokemoncobbled.common.api.text.yellow
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.util.battleLang
-import net.minecraft.ChatFormatting
-import net.minecraft.network.chat.TextComponent
+import net.minecraft.Formatting
+import net.minecraft.network.chat.LiteralText
 import java.util.UUID
 
 object ShowdownInterpreter {
@@ -149,10 +149,10 @@ object ShowdownInterpreter {
     private fun handleGameTypeInstruction(battle: PokemonBattle, message: String) {
         battle.log("Game Type Instruction")
 
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Type:"))
+        battle.broadcastChatMessage(LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Type:"))
 
         val tierName = message.split("|gametype|")[1]
-        val textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
+        val textComponent = LiteralText(" ${Formatting.GRAY}$tierName")
         battle.broadcastChatMessage(textComponent)
         battle.broadcastChatMessage("".text())
     }
@@ -179,10 +179,10 @@ object ShowdownInterpreter {
     private fun handleTierInstruction(battle: PokemonBattle, message: String) {
         battle.log("Tier Instruction")
 
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Tier:"))
+        battle.broadcastChatMessage(LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Tier:"))
 
         val tierName = message.split("|tier|")[1]
-        val textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
+        val textComponent = LiteralText(" ${Formatting.GRAY}$tierName")
         battle.broadcastChatMessage(textComponent)
         battle.broadcastChatMessage("".text())
     }
@@ -211,12 +211,12 @@ object ShowdownInterpreter {
         battle.log("Rule Instruction")
         if (!battle.announcingRules) {
             battle.announcingRules = true
-            val textComponent = TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Rules:")
+            val textComponent = LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Rules:")
             battle.broadcastChatMessage(textComponent)
         }
 
         val rule = message.substringAfter("|rule|")
-        val textComponent = TextComponent("${ChatFormatting.GRAY} - $rule")
+        val textComponent = LiteralText("${Formatting.GRAY} - $rule")
         battle.broadcastChatMessage(textComponent)
     }
 

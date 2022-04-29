@@ -1,30 +1,30 @@
 package com.cablemc.pokemoncobbled.common.entity
 
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
-import net.minecraft.network.syncher.EntityDataAccessor
-import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
 
 /**
  * Entity properties are a wrapping around entityData that can handle subscriptions on either Side.
  */
 class EntityProperty<T>(
-    private val entityData: SynchedEntityData,
-    private val accessor: EntityDataAccessor<T>,
+    private val dataTracker: DataTracker,
+    private val accessor: TrackedData<T>,
     initialValue: T
 ): SettableObservable<T>(initialValue) {
     init {
-        entityData.define(accessor, initialValue)
+        dataTracker.startTracking(accessor, initialValue)
     }
 
     fun checkForUpdate() {
-        val newValue = entityData.get(accessor)
+        val newValue = dataTracker.get(accessor)
         if (newValue != get()) {
             super.set(newValue)
         }
     }
 
     override fun set(newValue: T) {
-        entityData.set(accessor, newValue)
+        dataTracker.set(accessor, newValue)
         super.set(newValue)
     }
 }

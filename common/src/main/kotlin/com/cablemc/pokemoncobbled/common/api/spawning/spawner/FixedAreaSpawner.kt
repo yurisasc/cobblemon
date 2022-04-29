@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.spawner
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.util.squeezeWithinBounds
-import net.minecraft.core.BlockPos
+import net.minecraft.util.math.BlockPos
 import net.minecraft.world.level.Level
 
 /**
@@ -18,7 +18,7 @@ open class FixedAreaSpawner(
     name: String,
     spawns: SpawnPool,
     manager: SpawnerManager,
-    val level: Level,
+    val world: World,
     val position: BlockPos,
     val horizontalRadius: Int,
     val verticalRadius: Int

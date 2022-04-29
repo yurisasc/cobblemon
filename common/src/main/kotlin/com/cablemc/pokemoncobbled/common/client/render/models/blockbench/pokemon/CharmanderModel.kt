@@ -20,8 +20,7 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.world.phys.Vec3d
 class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = registerRelevantPart("charmander", root.getChild("charmander"))
     val body = registerRelevantPart("body", rootPart.getChild("body"))
@@ -36,10 +35,10 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     private val tailFlame = registerRelevantPart("fire", tailTip.getChild("fire"))
 
     override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3(0.05, 0.3, 0.0)
+    override val portraitTranslation = Vec3d0.05, 0.3, 0.0)
 
     override val profileScale = 1.0F
-    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+    override val profileTranslation = Vec3d0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(

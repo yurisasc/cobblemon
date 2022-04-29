@@ -7,15 +7,15 @@ import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.platform.InputConstants
-import com.mojang.blaze3d.vertex.PoseStack
+import com.mojang.blaze3d.vertex.MatrixStack
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.TranslatableComponent
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.text.Text
+import net.minecraft.network.chat.TranslatableText
+import net.minecraft.util.Identifier
 
-class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) {
+class PokeNav: Screen(TranslatableText("pokemoncobbled.ui.pokenav.title")) {
 
     companion object {
         // Limiting
@@ -46,10 +46,10 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     override fun init() {
         buttons.clear()
         // Pokemon Button
-        buttons.add(pokeNavImageButtonOf(0, 0, pokemon, this::onPressPokemon, TranslatableComponent("pokemoncobbled.ui.pokemon")))
+        buttons.add(pokeNavImageButtonOf(0, 0, pokemon, this::onPressPokemon, TranslatableText("pokemoncobbled.ui.pokemon")))
 
         // EXIT Button
-        buttons.add(pokeNavImageButtonOf(1, 0, exit, this::onPressExit, TranslatableComponent("pokemoncobbled.ui.exit")))
+        buttons.add(pokeNavImageButtonOf(1, 0, exit, this::onPressExit, TranslatableText("pokemoncobbled.ui.exit")))
 
         buttons.forEach { button ->
             rows[button.posY]++ // To know how many buttons are in one row
@@ -114,7 +114,7 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
 
     override fun keyReleased(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
         if ((pKeyCode == PokeNavigatorBinding.currentKey().value || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) && aboutToClose) {
-            Minecraft.getInstance().setScreen(null) // So we only close if the Key was released
+            MinecraftClient.getInstance().setScreen(null) // So we only close if the Key was released
         }
         return super.keyReleased(pKeyCode, pScanCode, pModifiers)
     }
@@ -146,9 +146,9 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     private fun pokeNavImageButtonOf(
         posX: Int,
         posY: Int,
-        resourceLocation: ResourceLocation,
+        resourceLocation: Identifier,
         onPress: Button.OnPress,
-        component: Component
+        component: Text
     ): PokeNavImageButton {
         return PokeNavImageButton(
             posX, posY,
@@ -165,11 +165,11 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
      */
 
     private fun onPressPokemon(button: Button) {
-        Minecraft.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
+        MinecraftClient.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
     }
 
     private fun onPressExit(button: Button) {
-        Minecraft.getInstance().setScreen(null)
+        MinecraftClient.getInstance().setScreen(null)
     }
 
     /**
@@ -179,7 +179,7 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     /**
      * Rendering the background texture
      */
-    override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         renderBackground(pMatrixStack)
 
         // Rendering UI Background
