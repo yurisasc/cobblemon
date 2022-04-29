@@ -66,7 +66,7 @@ fun drawRectangle(
     bufferbuilder.vertex(matrix, endX, y, blitOffset).texture(maxU, minV).next()
     bufferbuilder.vertex(matrix, x, y, blitOffset).texture(minU, minV).next()
     bufferbuilder.end()
-    BufferRenderer.postDraw(bufferbuilder)
+    BufferRenderer.draw(bufferbuilder)
 }
 
 fun drawCenteredText(

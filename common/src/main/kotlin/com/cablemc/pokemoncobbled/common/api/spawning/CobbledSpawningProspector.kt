@@ -27,9 +27,8 @@ object CobbledSpawningProspector : SpawningProspector {
         val world = area.world
         var baseY = area.baseY
         var height = area.height
-        if (baseY < world.height) {
-
-            val difference = world.height - baseY
+        if (baseY < world.bottomY) {
+            val difference = world.bottomY - baseY
             baseY += difference
             height -= difference
             if (height < 1) {
