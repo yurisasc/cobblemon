@@ -4,11 +4,11 @@ import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import java.util.function.Supplier
 
-object CobbledLayerDefinitions {
+object CobbledTexturedModelDatas {
 
     val layerDefinitions = mutableMapOf<EntityModelLayer, Supplier<TexturedModelData>>()
 
-    fun registerLayerDefinition(layerLocation: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
+    fun registerTexturedModelData(layerLocation: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
         layerDefinitions[layerLocation] = supplier
     }
 }

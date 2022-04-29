@@ -9,9 +9,9 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import dev.architectury.networking.forge.NetworkManagerImpl
-import net.minecraft.client.model.geom.ModelLayerLocation
-import net.minecraft.client.model.geom.builders.LayerDefinition
+import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.EntityRenderers
+import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.ModelBakeEvent
@@ -46,7 +46,7 @@ object PokemonCobbledForgeClient : PokemonCobbledClientImplementation {
         PokemonCobbledClient.reloadCodedAssets()
     }
 
-    override fun registerLayer(layerLocation: ModelLayerLocation, supplier: Supplier<LayerDefinition>) {
+    override fun registerLayer(layerLocation: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
         LOGGER.info("Layer registration: $layerLocation")
         ForgeHooksClient.registerLayerDefinition(layerLocation, supplier)
     }
@@ -55,7 +55,7 @@ object PokemonCobbledForgeClient : PokemonCobbledClientImplementation {
     fun onRenderGameOverlay(event: RenderGameOverlayEvent.Pre) {
         if (event.type != RenderGameOverlayEvent.ElementType.ALL) return
         PokemonCobbledClient.overlay.onRenderGameOverlay(
-            poseStack = event.matrixStack,
+            matrixStack = event.matrixStack,
             partialDeltaTicks = event.partialTicks
         )
     }

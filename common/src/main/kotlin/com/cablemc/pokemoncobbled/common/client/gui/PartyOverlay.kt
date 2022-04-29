@@ -40,7 +40,7 @@ class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) :
         val player = minecraft.player
 
         // Hiding if a Screen is open and not exempt
-        if (minecraft.inGameHud != null) {
+        if (minecraft.currentScreen != null) {
             if (!screenExemptions.contains(minecraft.currentScreen?.javaClass as Class<out Screen>))
                 return
         }

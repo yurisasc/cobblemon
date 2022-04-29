@@ -13,7 +13,7 @@ import net.minecraft.entity.Entity
  */
 class BlockBenchModelWrapper<T : Entity>(
     val layerLocation: EntityModelLayer,
-    val TexturedModelDataSupplier: () -> TexturedModelData,
+    val texturedModelDataSupplier: () -> TexturedModelData,
     val modelFactory: (ModelPart) -> EntityModel<T>
 ) {
 
@@ -34,7 +34,7 @@ class BlockBenchModelWrapper<T : Entity>(
 
     fun initializeModelLayers() {
         if (!isLayerInitialized) {
-            PokemonCobbledClient.implementation.registerLayer(layerLocation, TexturedModelDataSupplier)
+            PokemonCobbledClient.implementation.registerLayer(layerLocation, texturedModelDataSupplier)
             isLayerInitialized = true
         }
     }

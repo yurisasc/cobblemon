@@ -9,7 +9,7 @@ import io.netty.buffer.Unpooled
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.server.level.ServerPlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
 
 abstract class PreparedFabricMessage<T : NetworkPacket>(protected val registeredMessage: RegisteredMessage<T>) : CobbledNetwork.PreparedMessage<T> {
     override fun registerMessage() {}
