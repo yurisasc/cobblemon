@@ -3,19 +3,13 @@ package com.cablemc.pokemoncobbled.common.battles
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
-import com.cablemc.pokemoncobbled.common.api.text.aqua
-import com.cablemc.pokemoncobbled.common.api.text.bold
-import com.cablemc.pokemoncobbled.common.api.text.gold
-import com.cablemc.pokemoncobbled.common.api.text.plus
-import com.cablemc.pokemoncobbled.common.api.text.red
-import com.cablemc.pokemoncobbled.common.api.text.text
-import com.cablemc.pokemoncobbled.common.api.text.yellow
+import com.cablemc.pokemoncobbled.common.api.text.*
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.util.battleLang
-import net.minecraft.Formatting
-import net.minecraft.network.chat.LiteralText
-import java.util.UUID
+import net.minecraft.text.LiteralText
+import net.minecraft.util.Formatting
+import java.util.*
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String) -> Unit>()

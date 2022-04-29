@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.gui
 
-import jdk.internal.org.jline.reader.Widget
+import net.minecraft.client.gui.Drawable
 import net.minecraft.client.gui.Element
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.gui.widget.ClickableWidget
@@ -14,7 +14,7 @@ abstract class ParentWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     component: Text
-): Widget, ClickableWidget(pX, pY, pWidth, pHeight, component) {
+): Drawable, ClickableWidget(pX, pY, pWidth, pHeight, component) {
 
     private val children: MutableList<Element> = mutableListOf()
 

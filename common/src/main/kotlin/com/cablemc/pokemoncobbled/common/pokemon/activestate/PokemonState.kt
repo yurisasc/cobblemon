@@ -4,20 +4,15 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.entity.player.IShoulderable
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.cablemc.pokemoncobbled.common.util.getServer
-import com.cablemc.pokemoncobbled.common.util.isPokemonEntity
-import com.cablemc.pokemoncobbled.common.util.party
-import com.cablemc.pokemoncobbled.common.util.playSoundServer
+import com.cablemc.pokemoncobbled.common.util.*
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.resources.ResourceKey
+import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
-import net.minecraft.sounds.SoundEvents
-import net.minecraft.world.level.Level
-import java.util.UUID
+import net.minecraft.util.registry.RegistryKey
+import net.minecraft.world.World
+import java.util.*
 
 sealed class PokemonState {
     companion object {
@@ -69,14 +64,14 @@ sealed class ActivePokemonState : PokemonState() {
 
 class SentOutState() : ActivePokemonState() {
     private var entityId: Int = -1
-    private var dimension = Level.OVERWORLD
+    private var dimension = World.OVERWORLD
 
     override val entity: PokemonEntity?
-        get() = PokemonCobbled.getLevel(dimension)?.getEntity(entityId) as? PokemonEntity
+        get() = PokemonCobbled.getLevel(dimension)?.getEntityById(entityId) as? PokemonEntity
 
     constructor(entity: PokemonEntity): this() {
         this.entityId = entity.id
-        this.dimension = entity.level.dimension()
+        this.dimension = entity.world.registryKey
     }
 
     override fun getIcon(pokemon: Pokemon) = cobbledResource("ui/party/party_icon_released.png")
@@ -86,13 +81,13 @@ class SentOutState() : ActivePokemonState() {
     override fun writeToBuffer(buffer: PacketByteBuf) {
         super.writeToBuffer(buffer)
         buffer.writeInt(entityId)
-        buffer.writeString(dimension.location().toString())
+        buffer.writeString(dimension.value.toString())
     }
 
     override fun readFromBuffer(buffer: PacketByteBuf): SentOutState {
         super.readFromBuffer(buffer)
         entityId = buffer.readInt()
-        dimension = ResourceKey.create(ResourceKey.createRegistryKey(dimension.location()), Identifier(buffer.readString()))
+        dimension = RegistryKey.of(RegistryKey.ofRegistry(dimension.value), Identifier(buffer.readString()))
         return this
     }
 
@@ -177,7 +172,7 @@ class ShoulderedState() : ActivePokemonState() {
         val shoulderNBT = if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight
         if (shoulderNBT.isPokemonEntity() && shoulderNBT.getCompound(DataKeys.POKEMON).getCompound(DataKeys.POKEMON_STATE).getUuid(
                 DataKeys.POKEMON_STATE_ID) == stateId) {
-            player.level.playSoundServer(player.position(), SoundEvents.CANDLE_FALL)
+            player.world.playSoundServer(player.pos, SoundEvents.BLOCK_CANDLE_FALL)
             player.party().find { it.uuid == pokemonUUID }?.let { pkm ->
                 pkm.form.shoulderEffects.forEach { it.removeEffect(pkm, player, isLeftShoulder) }
             }

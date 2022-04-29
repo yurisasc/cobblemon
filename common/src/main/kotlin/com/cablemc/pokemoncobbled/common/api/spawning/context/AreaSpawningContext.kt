@@ -2,9 +2,9 @@ package com.cablemc.pokemoncobbled.common.api.spawning.context
 
 import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
+import net.minecraft.block.BlockState
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.World
 
 /**
  * A [SpawningContext] that is for a particular area, and therefore has spatial properties.
@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState
  */
 open class AreaSpawningContext(
     override val cause: Any,
-    override val world: Level,
+    override val world: World,
     override val position: BlockPos,
     override val light: Int,
     override val skyAbove: Boolean,
@@ -26,5 +26,5 @@ open class AreaSpawningContext(
     val nearbyBlocks: Set<BlockState>,
     val slice: WorldSlice
 ) : SpawningContext() {
-    val nearbyBlockTypes = nearbyBlocks.map { it.block.descriptionId }
+    val nearbyBlockTypes = nearbyBlocks.map { it.block.translationKey }
 }

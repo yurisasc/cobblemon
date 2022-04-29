@@ -3,8 +3,8 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.MatrixStack
-import net.minecraft.network.chat.LiteralText
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
 
 class InfoWidget(
     pX: Int, pY: Int,
@@ -19,7 +19,7 @@ class InfoWidget(
         // Rendering Info Texture
         RenderSystem.setShaderTexture(0, infoBaseResource)
         RenderSystem.enableDepthTest()
-        blit(pMatrixStack, x, y, 0F, 0F, width, height, width, height)
+        drawTexture(pMatrixStack, x, y, 0F, 0F, width, height, width, height)
     }
 
 }

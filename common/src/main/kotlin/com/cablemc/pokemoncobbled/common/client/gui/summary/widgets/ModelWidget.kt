@@ -3,11 +3,11 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets
 import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.MatrixStack
-import com.mojang.math.Quaternion
-import com.mojang.math.Vec3f
-import net.minecraft.client.Minecraft
-import net.minecraft.network.chat.LiteralText
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
+import net.minecraft.util.math.Quaternion
+import net.minecraft.util.math.Vec3f
 
 class ModelWidget(
     pX: Int, pY: Int,
@@ -27,7 +27,7 @@ class ModelWidget(
         if (!render) {
             return
         }
-        isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
+        hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
         renderPKM(pMatrixStack)
     }
 
@@ -35,10 +35,10 @@ class ModelWidget(
         poseStack.push()
 
         RenderSystem.enableScissor(
-            (x * minecraft.window.guiScale).toInt(),
-            (minecraft.window.height - (y * minecraft.window.guiScale) - (height * minecraft.window.guiScale)).toInt(),
-            (width * minecraft.window.guiScale).toInt(),
-            (height * minecraft.window.guiScale).toInt()
+            (x * minecraft.window.scaleFactor).toInt(),
+            (minecraft.window.height - (y * minecraft.window.scaleFactor) - (height * minecraft.window.scaleFactor)).toInt(),
+            (width * minecraft.window.scaleFactor).toInt(),
+            (height * minecraft.window.scaleFactor).toInt()
         )
 
         val baseScale = 1.5F
@@ -48,8 +48,8 @@ class ModelWidget(
 
         drawProfilePokemon(
             pokemon = pokemon,
-            poseStack = poseStack,
-            rotation = Quaternion.fromXYZDegrees(rotVec)
+            matrixStack = poseStack,
+            rotation = Quaternion.fromEulerXyzDegrees(rotVec)
         )
 
         poseStack.pop()

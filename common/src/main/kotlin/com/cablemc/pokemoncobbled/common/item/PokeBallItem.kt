@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.item
 
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import com.cablemc.pokemoncobbled.common.item.CobbledCreativeTabs.POKE_BALL_TAB
+import com.cablemc.pokemoncobbled.common.item.CobbledItemGroups.POKE_BALL_TAB
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.entity.player.PlayerEntity

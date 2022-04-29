@@ -9,9 +9,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives.EarBounceAdditive
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.util.Util.Mth.abs
 import net.minecraft.entity.Entity
 import java.lang.Float.min
+import kotlin.math.abs
 
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
@@ -94,6 +94,6 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     }
 
     fun setPhaseTarget(targetId: Int) {
-        this.phaseTarget = entity.level.getEntity(targetId)
+        this.phaseTarget = entity.world.getEntityById(targetId)
     }
 }

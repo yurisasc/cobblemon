@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import net.minecraft.server.level.ServerPlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
 
 interface PokemonCobbledModImplementation {
     fun isModInstalled(id: String): Boolean

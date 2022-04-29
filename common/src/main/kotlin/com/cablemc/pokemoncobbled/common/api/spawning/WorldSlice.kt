@@ -1,11 +1,12 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
+import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.phys.Vec3dimport kotlin.math.max
+import net.minecraft.util.math.Vec3d
+import net.minecraft.world.World
+import kotlin.math.max
 
 /**
  * A slice of the world that can be accessed safely from an async thread. This includes all of the information
@@ -24,7 +25,7 @@ class WorldSlice(
     val baseZ: Int,
     val blocks: Array<Array<Array<BlockData>>>,
     val skyLevel: Array<Array<Int>>,
-    var nearbyEntityPositions: List<Vec3d
+    var nearbyEntityPositions: List<Vec3d>
 ) {
     class BlockData(
         val state: BlockState,
@@ -36,7 +37,7 @@ class WorldSlice(
     val width = blocks[0][0].size
 
     companion object {
-        val stoneState = Blocks.STONE.defaultBlockState()
+        val stoneState = Blocks.STONE.defaultState
     }
 
     fun isInBounds(x: Int, y: Int, z: Int) = x >= baseX && x < baseX + length && y >= baseY && y < baseY + height && z >= baseZ && z < baseZ + width
@@ -65,7 +66,7 @@ class WorldSlice(
         return if (!isInBounds(x, y, z) || skyLevel[x - baseX][z - baseZ] > y) {
             0
         } else {
-            max(0, level.maxBuildHeight - y)
+            max(0, world.topY - y)
         }
     }
     fun skySpaceAbove(position: BlockPos) = skySpaceAbove(position.x, position.y, position.z)

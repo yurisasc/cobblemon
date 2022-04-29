@@ -1,13 +1,13 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.EaredFrame
-import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addRotation
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.EaredFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.getRotation
+import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import net.minecraft.util.Util.Mth.PI
-import net.minecraft.util.Util.Mth.sin
+import net.minecraft.util.math.MathHelper.PI
+import net.minecraft.util.math.MathHelper.sin
 import java.lang.Float.min
 
 /** Intensity is between 0 and 1, 1 being that it pushes the ear through to its low range of motion. */

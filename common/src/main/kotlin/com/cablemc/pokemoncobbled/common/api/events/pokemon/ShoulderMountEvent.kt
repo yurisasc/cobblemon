@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.events.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.events.Cancelable
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.server.level.ServerPlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Event that is fired when a Player mounts a Pokemon to a shoulder

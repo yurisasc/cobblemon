@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.gui
 
-import com.mojang.blaze3d.vertex.MatrixStack
-import net.minecraft.client.Minecraft
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.StringVisitable
+import net.minecraft.text.Style
 import net.minecraft.text.Text
-import net.minecraft.network.chat.FormattedText
-import net.minecraft.network.chat.Style
 import net.minecraft.util.Identifier
 import java.util.stream.Collectors
 
@@ -14,16 +14,16 @@ class MultiLineLabelK(
 ) {
 
     companion object {
-        private val mcFont = MinecraftClient.getInstance().font
+        private val mcFont = MinecraftClient.getInstance().textRenderer
 
         fun create(component: Text, width: Number, maxLines: Number) = create(component, width, maxLines, null)
 
         fun create(component: Text, width: Number, maxLines: Number, font: Identifier?): MultiLineLabelK {
             return MultiLineLabelK(
-                mcFont.splitter.splitLines(component, width.toInt(), Style.EMPTY).stream()
+                mcFont.textHandler.wrapLines(component, width.toInt(), Style.EMPTY).stream()
                     .limit(maxLines.toLong())
                     .map {
-                    TextWithWidth(it, mcFont.width(it))
+                    TextWithWidth(it, mcFont.getWidth(it))
                 }.collect(Collectors.toList()),
                 font = font
             )
@@ -49,5 +49,5 @@ class MultiLineLabelK(
         }
     }
 
-    class TextWithWidth internal constructor(val text: FormattedText, val width: Int)
+    class TextWithWidth internal constructor(val text: StringVisitable, val width: Int)
 }

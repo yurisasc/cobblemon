@@ -2,9 +2,9 @@ package com.cablemc.pokemoncobbled.common.api.spawning.context
 
 import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
+import net.minecraft.block.BlockState
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.World
 
 /**
  * A type of area based spawning context with a floor.
@@ -23,7 +23,7 @@ abstract class FlooredSpawningContext(
     height: Int,
     nearbyBlocks: Set<BlockState>,
     slice: WorldSlice
-) : AreaSpawningContext(cause, level, position, light, skyAbove, influences, width, height, nearbyBlocks, slice) {
+) : AreaSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice) {
     /** The block that the spawning is occurring on. */
     val baseBlock = slice.getBlockState(position.x, position.y, position.z)
 }
@@ -45,7 +45,7 @@ open class GroundedSpawningContext(
     height: Int,
     nearbyBlocks: Set<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, level, position, light, skyAbove, influences, width, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice)
 
 /**
  * A spawning context that occurs at the bottom of a body of water.
@@ -64,7 +64,7 @@ open class SeafloorSpawningContext(
     height: Int,
     nearbyBlocks: Set<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, level, position, light, skyAbove, influences, width, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice)
 
 /**
  * A spawning context that occurs at the bottom of bodies of lava.
@@ -83,4 +83,4 @@ open class LavafloorSpawningContext(
     height: Int,
     nearbyBlocks: Set<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, level, position, light, skyAbove, influences, width, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice)

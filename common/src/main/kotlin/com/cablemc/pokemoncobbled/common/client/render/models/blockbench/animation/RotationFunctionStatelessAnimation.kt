@@ -2,10 +2,10 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animat
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addRotation
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
-import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
 
 /**

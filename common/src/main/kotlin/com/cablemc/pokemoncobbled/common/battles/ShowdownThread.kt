@@ -9,7 +9,7 @@ import com.cablemc.pokemoncobbled.common.util.FileUtils
 import com.cablemc.pokemoncobbled.common.util.extractTo
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
-import net.minecraft.client.Minecraft
+import net.minecraft.client.MinecraftClient
 import net.minecraft.util.Identifier
 import java.io.File
 import java.io.FileInputStream

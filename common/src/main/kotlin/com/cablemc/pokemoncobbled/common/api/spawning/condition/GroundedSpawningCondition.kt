@@ -16,13 +16,9 @@ abstract class GroundedTypeSpawningCondition<T : GroundedSpawningContext> : Area
     var neededBaseBlocks: List<Identifier>? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
-        if (!super.fits(ctx, detail)) {
-            return false
-        } else if (neededBaseBlocks != null && ctx.baseBlock.block.descriptionId.asResource() !in neededBaseBlocks!!) {
-            return false
-        } else {
-            return true
-        }
+        return if (!super.fits(ctx, detail)) {
+            false
+        } else !(neededBaseBlocks != null && ctx.baseBlock.block.translationKey.asResource() !in neededBaseBlocks!!)
     }
 }
 

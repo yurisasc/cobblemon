@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.spawner
 
 import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
-import net.minecraft.world.level.Level
+import net.minecraft.world.World
 
 /**
  * An area in which to slice out a [WorldSlice].

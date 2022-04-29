@@ -5,7 +5,8 @@ import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.AreaSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.AreaSpawningInput
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
-import com.cablemc.pokemoncobbled.common.util.toVec3dimport net.minecraft.util.math.BlockPos
+import com.cablemc.pokemoncobbled.common.util.toVec3d
+import net.minecraft.util.math.BlockPos
 
 /**
  * Interface responsible for drawing a list of spawn contexts from a slice of the world,
@@ -26,7 +27,7 @@ interface AreaContextResolver {
         contextCalculators: List<AreaSpawningContextCalculator<*>>,
         slice: WorldSlice
     ): List<AreaSpawningContext> {
-        var pos = BlockPos.MutableBlockPos(1, 2, 3)
+        var pos = BlockPos.Mutable(1, 2, 3)
         val input = AreaSpawningInput(spawner, pos, slice)
         val contexts = mutableListOf<AreaSpawningContext>()
 
@@ -38,8 +39,8 @@ interface AreaContextResolver {
             while (y < slice.baseY + slice.height) {
                 while (z < slice.baseZ + slice.width) {
                     pos.set(x, y, z)
-                    val vec = pos.toVec3d)
-                    if (slice.nearbyEntityPositions.none { it.closerThan(vec, config.minimumDistanceBetweenEntities) }) {
+                    val vec = pos.toVec3d()
+                    if (slice.nearbyEntityPositions.none { it.isInRange(vec, config.minimumDistanceBetweenEntities) }) {
                         val fittedContextCalculator = contextCalculators.firstOrNull { it.fits(input) }
                         if (fittedContextCalculator != null) {
                             val context = fittedContextCalculator.calculate(input)
@@ -49,7 +50,7 @@ interface AreaContextResolver {
                                 // will cause entities to spawn at the wrong location (buried in walls, usually)
                                 // I made it so that our context calculators specifically take a copy of the
                                 // BlockPos but it'd still be exposed in custom contexts so fixing it here too.
-                                pos = BlockPos.MutableBlockPos(1, 2, 3)
+                                pos = BlockPos.Mutable(1, 2, 3)
                                 input.position = pos
                             }
                         }

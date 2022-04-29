@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.ShowdownActionRequest
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import net.minecraft.text.Text
-import net.minecraft.network.chat.MutableText
+import net.minecraft.text.MutableText
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 

@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.MatrixStack
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 abstract class TypeWidget(
@@ -20,7 +20,7 @@ abstract class TypeWidget(
 
     fun renderType(type: ElementalType, pMatrixStack: MatrixStack, pX: Int = x, pY: Int = y) {
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = typeResource,
             x = pX + OFFSET, y = pY,
             width = width, height = height,

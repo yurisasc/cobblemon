@@ -8,10 +8,9 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.IVs
 import com.cablemc.pokemoncobbled.common.pokemon.Nature
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.battleLang
-import net.minecraft.network.chat.MutableText
-import java.util.UUID
+import net.minecraft.text.MutableText
+import java.util.*
 
 open class BattlePokemon(
     val originalPokemon: Pokemon,

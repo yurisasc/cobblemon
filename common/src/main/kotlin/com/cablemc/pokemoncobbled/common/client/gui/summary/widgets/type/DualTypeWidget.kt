@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type
 
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
-import com.mojang.blaze3d.vertex.MatrixStack
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 class DualTypeWidget(

@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.moves.categories
 
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.text.Text
-import net.minecraft.network.chat.TranslatableText
+import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 
 object DamageCategories {

@@ -2,10 +2,10 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.MatrixStack
-import com.mojang.math.Vec3f
-import net.minecraft.client.gui.components.Button
-import net.minecraft.network.chat.LiteralText
+import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
+import net.minecraft.util.math.Vec3f
 
 /**
  * This Button is specifically made for the Summary to change the order of the Moves
@@ -16,8 +16,8 @@ class MovesMoveButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     private val isUp: Boolean,
-    onPress: OnPress
-): Button(pX, pY, pWidth, pHeight, LiteralText("MoveButton"), onPress) {
+    onPress: PressAction
+): ButtonWidget(pX, pY, pWidth, pHeight, LiteralText("MoveButton"), onPress) {
 
     companion object {
         private const val MOVE_BUTTON_WIDTH = 11
@@ -34,16 +34,16 @@ class MovesMoveButton(
         if (isHovered) {
             if (isUp) {
                 blitk(
-                    poseStack = pMatrixStack,
+                    matrixStack = pMatrixStack,
                     x = x + 1.5F, y = y + 1.8F,
                     texture = buttonResource,
                     width = MOVE_BUTTON_WIDTH, height = MOVE_BUTTON_HEIGHT
                 )
             } else {
                 pMatrixStack.push()
-                pMatrixStack.mulPose(Vec3f.ZP.rotationDegrees(180.0f))
+                pMatrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0f))
                 blitk(
-                    poseStack = pMatrixStack,
+                    matrixStack = pMatrixStack,
                     x = (x + 12.5F) * -1, y = (y + 0.9F + MOVE_BUTTON_HEIGHT) * -1,
                     texture = buttonResource,
                     width = MOVE_BUTTON_WIDTH, height = MOVE_BUTTON_HEIGHT

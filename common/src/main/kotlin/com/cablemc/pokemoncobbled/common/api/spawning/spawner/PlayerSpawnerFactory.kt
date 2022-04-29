@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.PlayerLevelRangeInfluence
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
-import net.minecraft.server.level.ServerPlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Responsible for creating [PlayerSpawner]s with whatever appropriate settings. You can

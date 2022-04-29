@@ -1,18 +1,18 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages
 
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
-import com.mojang.blaze3d.vertex.MatrixStack
-import net.minecraft.client.gui.components.Button
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
 class SummarySwitchButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     private val component: Text,
-    onPress: OnPress
-): Button(pX, pY, pWidth, pHeight, component, onPress) {
+    onPress: PressAction
+): ButtonWidget(pX, pY, pWidth, pHeight, component, onPress) {
 
     companion object {
         private const val SCALE = 0.75F

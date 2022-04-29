@@ -1,8 +1,6 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.util.AssetLoading.toPath
-import net.minecraft.client.Minecraft
 import net.minecraft.util.Identifier
 import java.io.File
 import java.nio.file.Files

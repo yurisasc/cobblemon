@@ -22,13 +22,9 @@ abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : Ar
             return false
         } else if (depth != null && ctx.depth < depth!!) {
             return false
-        } else if (fluidIsSource != null && ctx.fluidState.isSource != fluidIsSource!!) {
+        } else if (fluidIsSource != null && ctx.fluidState.isStill != fluidIsSource!!) {
             return false
-        } else if (fluidBlock != null && ctx.fluidBlock.descriptionId.asResource() != fluidBlock!!) {
-            return false
-        } else {
-            return true
-        }
+        } else return !(fluidBlock != null && ctx.fluidBlock.translationKey.asResource() != fluidBlock!!)
     }
 }
 

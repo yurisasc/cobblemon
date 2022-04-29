@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation
 
-import com.mojang.math.Vector3d
+import net.minecraft.client.util.math.Vector3d
 
 data class BedrockAnimationGroup(
     val formatVersion: String,

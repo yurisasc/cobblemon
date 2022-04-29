@@ -5,8 +5,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.PokeBallFrame
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import net.minecraft.util.Util.Mth
-import net.minecraft.util.Util.Mth.PI
+import net.minecraft.util.math.MathHelper.PI
+import net.minecraft.util.math.MathHelper.atan2
 import kotlin.math.min
 import kotlin.math.sqrt
 
@@ -45,13 +45,13 @@ class OpenAnimation : StatefulAnimation<EmptyPokeBallEntity, PokeBallFrame> {
         val yDist = entity.hitTargetPosition.get().y - entity.y
         val zDist = entity.hitTargetPosition.get().z - entity.z
         val hypotenuseLength = sqrt(xDist * xDist + zDist * zDist)
-        frame.rootPart.yRot = Mth.atan2(-zDist, xDist).toFloat() + PI / 2
-        frame.rootPart.xRot = Mth.atan2(yDist, hypotenuseLength).toFloat() - PI / 3
+        frame.rootPart.yaw = atan2(-zDist, xDist).toFloat() + PI / 2
+        frame.rootPart.pitch = atan2(yDist, hypotenuseLength).toFloat() - PI / 3
         val minPitch = -PI
 
         if (animationSeconds >= OPEN_START && animationSeconds < CLOSE_START) {
             val portion = min((animationSeconds - OPEN_START)/OPEN_END, 1F)
-            frame.lid.xRot = -portion * OPEN_ANGLE
+            frame.lid.pitch = -portion * OPEN_ANGLE
 
             if (!startedOpening) {
                 startedOpening = true
@@ -60,13 +60,13 @@ class OpenAnimation : StatefulAnimation<EmptyPokeBallEntity, PokeBallFrame> {
         } else if (animationSeconds >= CLOSE_START) {
             if (!startedClosing) {
                 startedClosing = true
-                maxPitch = frame.rootPart.xRot
+                maxPitch = frame.rootPart.pitch
             }
 
             val portion = min((animationSeconds - CLOSE_START) / (CLOSE_END - CLOSE_START), 1F)
-            frame.lid.xRot = (portion - 1) * OPEN_ANGLE
+            frame.lid.pitch = (portion - 1) * OPEN_ANGLE
             val dist = maxPitch - minPitch
-            frame.rootPart.xRot = minPitch + (1 - portion) * dist
+            frame.rootPart.pitch = minPitch + (1 - portion) * dist
         }
 
         return entity.captureState.get() == EmptyPokeBallEntity.CaptureState.HIT.ordinal.toByte()

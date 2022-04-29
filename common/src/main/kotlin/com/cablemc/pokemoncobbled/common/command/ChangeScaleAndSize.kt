@@ -6,20 +6,20 @@ import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.FloatArgumentType
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.Commands
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.server.command.CommandManager
+import net.minecraft.server.command.ServerCommandSource
 
 object ChangeScaleAndSize {
-    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
-        val command = Commands.literal("changescaleandsize")
-            .requires { it.hasPermission(4) }
+    fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
+        val command = CommandManager.literal("changescaleandsize")
+            .requires { it.hasPermissionLevel(4) }
             .then(
-                Commands.argument("pokemon", PokemonArgumentType.pokemon())
+                CommandManager.argument("pokemon", PokemonArgumentType.pokemon())
                     .then(
-                        Commands.argument("scale", FloatArgumentType.floatArg())
-                            .then(Commands.argument("width", FloatArgumentType.floatArg())
-                                .then(Commands.argument("height", FloatArgumentType.floatArg()).executes { execute(it) })
+                        CommandManager.argument("scale", FloatArgumentType.floatArg())
+                            .then(CommandManager.argument("width", FloatArgumentType.floatArg())
+                                .then(CommandManager.argument("height", FloatArgumentType.floatArg()).executes { execute(it) })
                             )
                     )
 
@@ -27,7 +27,7 @@ object ChangeScaleAndSize {
         dispatcher.register(command)
     }
 
-    private fun execute(context: CommandContext<CommandSourceStack>) : Int {
+    private fun execute(context: CommandContext<ServerCommandSource>) : Int {
         val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
         val scale = FloatArgumentType.getFloat(context, "scale")
         val width = FloatArgumentType.getFloat(context, "width")

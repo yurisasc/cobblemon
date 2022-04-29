@@ -201,7 +201,7 @@ class PokemonRenderer(
         textRenderer.draw(label, h, y, -1, false, matrix4f, multiBufferSource, false, 0, packedLight)
 
         if (entity.canBattle(player)) {
-            val sendOutBinding = PartySendBinding.currentKey().displayName
+            val sendOutBinding = PartySendBinding.currentKey().localizedText
             val battlePrompt = lang("challenge_label", sendOutBinding)
             h = (-textRenderer.getWidth(battlePrompt) / 2).toFloat()
             textRenderer.draw(battlePrompt, h, y + 10, 0x20FFFFFF, false, matrix4f, multiBufferSource, seeThrough, k, packedLight)

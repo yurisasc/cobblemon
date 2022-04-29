@@ -8,7 +8,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.factory.PokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.server.level.ServerPlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 
 /**

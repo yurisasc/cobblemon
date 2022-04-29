@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.effects.SlowFallEffect
 import com.cablemc.pokemoncobbled.common.util.party
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_QUIT
-import net.minecraft.server.level.ServerPlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Registry object for ShoulderEffects

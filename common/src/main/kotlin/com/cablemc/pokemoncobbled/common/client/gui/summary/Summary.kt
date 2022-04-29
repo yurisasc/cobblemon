@@ -14,10 +14,10 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.stats.
 import com.cablemc.pokemoncobbled.common.client.storage.ClientParty
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.MatrixStack
-import net.minecraft.client.gui.components.ClickableWidget
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.TranslatableText
 import java.security.InvalidParameterException
 
@@ -121,7 +121,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
             ) {
             switchTo(INFO)
         })
-        addRenderableWidget(
+        addDrawableChild(
             SummarySwitchButton(
                 pX = x + 62, pY = y + 6,
                 pWidth = 55, pHeight = 17,
@@ -129,7 +129,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
             ) {
             switchTo(MOVES)
         })
-        addRenderableWidget(
+        addDrawableChild(
             SummarySwitchButton(
                 pX = x + 121, pY = y + 6,
                 pWidth = 55, pHeight = 17,
@@ -140,7 +140,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
         // Add Buttons to change Pages - END
 
         // Add Exit Button
-        addRenderableWidget(
+        addDrawableChild(
             ExitButton(
                 pX = x + 265, pY = y + 6,
                 pWidth = 28, pHeight = 16,
@@ -150,7 +150,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
         })
 
         // Add Party
-        addRenderableWidget(
+        addDrawableChild(
             PartyWidget(
                 pX = x + BASE_WIDTH - 2, pY = y + 18,
                 pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
@@ -166,12 +166,12 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
             pWidth = 104, pHeight = 97,
             pokemon = currentPokemon
         )
-        addRenderableWidget(
+        addDrawableChild(
             modelWidget
         )
 
         // Add CurrentPage
-        addRenderableWidget(currentPage)
+        addDrawableChild(currentPage)
     }
 
     /**
@@ -205,14 +205,14 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
     /**
      * Returns if this Screen is open or not
      */
-    private fun isOpen() = MinecraftClient.getInstance().screen == this
+    private fun isOpen() = MinecraftClient.getInstance().currentScreen == this
 
     /**
      * Switches to the given Page
      */
     private fun switchTo(page: Int) {
         currentPageIndex = page
-        removeWidget(currentPage)
+        remove(currentPage)
         when (page) {
             INFO -> {
                 currentPage = InfoWidget(
@@ -234,7 +234,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
                 )
             }
         }
-        addRenderableWidget(currentPage)
+        addDrawableChild(currentPage)
         ModelWidget.render = true
     }
 
@@ -243,7 +243,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
 
         // Render Display Background
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = displayBackgroundResource,
             x = (width - BASE_WIDTH) / 2, y = (height - BASE_HEIGHT) / 2,
             width = BASE_WIDTH, height = BASE_HEIGHT
@@ -251,7 +251,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
 
         // Render Base Resource
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = baseResource,
             x = (width - BASE_WIDTH) / 2, y = (height - BASE_HEIGHT) / 2,
             width = BASE_WIDTH, height = BASE_HEIGHT
@@ -264,7 +264,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
     /**
      * Whether this Screen should pause the Game in SinglePlayer
      */
-    override fun isPauseScreen(): Boolean {
+    override fun shouldPause(): Boolean {
         return false
     }
 

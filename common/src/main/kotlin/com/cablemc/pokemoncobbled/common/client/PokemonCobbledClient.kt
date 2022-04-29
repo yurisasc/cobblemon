@@ -96,8 +96,8 @@ object PokemonCobbledClient {
             CobbledBlocks.HEALING_MACHINE.get())
     }
 
-    fun beforeChatRender(poseStack: MatrixStack, partialDeltaTicks: Float) {
-        overlay.onRenderGameOverlay(poseStack = poseStack, partialDeltaTicks = partialDeltaTicks)
+    fun beforeChatRender(matrixStack: MatrixStack, partialDeltaTicks: Float) {
+        overlay.onRenderGameOverlay(matrixStack = matrixStack, partialDeltaTicks = partialDeltaTicks)
     }
 
     fun onAddLayer(skinMap: Map<String, EntityRenderer<out PlayerEntity>>?) {

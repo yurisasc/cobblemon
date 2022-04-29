@@ -1,11 +1,11 @@
 package com.cablemc.pokemoncobbled.common.client.gui.pokenav
 
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
-import com.mojang.blaze3d.vertex.MatrixStack
-import net.minecraft.client.gui.components.ImageButton
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import net.minecraft.client.gui.widget.TexturedButtonWidget
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
@@ -15,13 +15,13 @@ class PokeNavImageButton(
     pWidth: Int, pHeight: Int,
     pXTexStart: Int, pYTexStart: Int, pYDiffText: Int,
     private val resourceLocation: Identifier, pTextureWidth: Int, pTextureHeight: Int,
-    onPress: OnPress,
+    onPress: PressAction,
     private val text: Text
-): ImageButton(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, resourceLocation, pTextureWidth, pTextureHeight, onPress) {
+): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, resourceLocation, pTextureWidth, pTextureHeight, onPress) {
     override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         // Render Button Image
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = resourceLocation,
             x = x, y = y + 0.25,
             width = width, height = height

@@ -7,9 +7,9 @@ import com.cablemc.pokemoncobbled.common.api.moves.Move
 import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
-import com.mojang.blaze3d.vertex.MatrixStack
-import net.minecraft.network.chat.LiteralText
-import net.minecraft.network.chat.TranslatableText
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
+import net.minecraft.text.TranslatableText
 import java.math.RoundingMode
 import java.text.DecimalFormat
 

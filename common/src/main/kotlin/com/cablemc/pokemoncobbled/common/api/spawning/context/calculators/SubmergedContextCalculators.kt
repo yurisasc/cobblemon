@@ -6,8 +6,8 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderlavaSpawningC
 import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderwaterSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator.Companion.isLavaCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator.Companion.isWaterCondition
-import net.minecraft.util.Util.Mth.ceil
-import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.block.BlockState
+import net.minecraft.util.math.MathHelper.ceil
 
 /**
  * A spawning context calculator that creates some kind of [SubmergedSpawningContext]. The shared logic
@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState
 interface SubmergedContextCalculator<T : SubmergedSpawningContext> : AreaSpawningContextCalculator<T> {
     val fluidCondition: (BlockState) -> Boolean
 
-    override fun fits(input: AreaSpawningInput) = fluidCondition(input.slice.getBlockState(input.position)) && fluidCondition(input.slice.getBlockState(input.position.below()))
+    override fun fits(input: AreaSpawningInput) = fluidCondition(input.slice.getBlockState(input.position)) && fluidCondition(input.slice.getBlockState(input.position.down()))
 }
 
 /**
@@ -34,8 +34,8 @@ object UnderwaterSpawningContextCalculator : SubmergedContextCalculator<Underwat
     override fun calculate(input: AreaSpawningInput): UnderwaterSpawningContext {
         return UnderwaterSpawningContext(
             cause = input.cause,
-            level = input.level,
-            position = input.position.immutable(),
+            world = input.world,
+            position = input.position.toImmutable(),
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
@@ -60,8 +60,8 @@ object UnderlavaSpawningContextCalculator : SubmergedContextCalculator<Underlava
     override fun calculate(input: AreaSpawningInput): UnderlavaSpawningContext {
         return UnderlavaSpawningContext(
             cause = input.cause,
-            level = input.level,
-            position = input.position.immutable(),
+            world = input.world,
+            position = input.position.toImmutable(),
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),

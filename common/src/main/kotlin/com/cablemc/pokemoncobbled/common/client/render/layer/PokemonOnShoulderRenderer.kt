@@ -56,7 +56,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             )
             pMatrixStack.scale(scale, scale, scale)
             val model = PokemonModelRepository.getModel(pokemon).entityModel
-            val vertexConsumer = pBuffer.getBuffer(model.renderType(PokemonModelRepository.getModelTexture(pokemon)))
+            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getModelTexture(pokemon)))
             val i = LivingEntityRenderer.getOverlay(pLivingEntity, 0.0f)
             if (model is PoseableEntityModel<*>) {
                 model.setupAnimStateless(
@@ -68,7 +68,7 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
                     ageInTicks = pLivingEntity.age.toFloat()
                 )
             }
-            model.renderToBuffer(pMatrixStack, vertexConsumer, pPackedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)
+            model.render(pMatrixStack, vertexConsumer, pPackedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)
             pMatrixStack.pop();
         }
     }

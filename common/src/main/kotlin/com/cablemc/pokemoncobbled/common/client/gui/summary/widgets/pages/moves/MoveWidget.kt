@@ -4,18 +4,15 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.moves.Move
-import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.SwitchMoveButton.Companion.SWITCH_MOVE_BUTTON_HEIGHT
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.SwitchMoveButton.Companion.SWITCH_MOVE_BUTTON_WIDTH
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.switch.MoveSwitchPane
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.MatrixStack
-import net.minecraft.client.Minecraft
-import net.minecraft.network.chat.LiteralText
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
 
 class MoveWidget(
     pX: Int, pY: Int,
@@ -91,7 +88,7 @@ class MoveWidget(
     }
 
     override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
+        hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
         // Rendering Move Texture
 
         val hex = move.type.hue
@@ -100,7 +97,7 @@ class MoveWidget(
         val b = (hex and 0b11111111) / 255.0
 
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = moveResource,
             x = x + 0.8F, y = y,
             red = r, green = g, blue = b,
@@ -108,7 +105,7 @@ class MoveWidget(
         )
 
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = moveOverlayResource,
             x = x + 0.8F, y = y,
             width = MOVE_WIDTH, height = MOVE_HEIGHT
@@ -116,7 +113,7 @@ class MoveWidget(
 
         // Rendering PP Texture
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = movePpResource,
             x = (x + PP_WIDTH_DIFF),
             y = y + PP_HEIGHT_DIFF,
@@ -147,7 +144,7 @@ class MoveWidget(
         val dmgCatWidth = 28.00
         val dmgCatHeight = 7.5
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = move.damageCategory.resourceLocation,
             x = x + 25, y = y + 13,
             width = dmgCatWidth, height = dmgCatHeight,

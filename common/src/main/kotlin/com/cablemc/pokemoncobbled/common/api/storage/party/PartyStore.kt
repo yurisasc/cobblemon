@@ -17,7 +17,7 @@ import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.server.level.ServerPlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 
 /**
@@ -65,7 +65,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return null
     }
 
-    override fun getObservingPlayers() = getServer()?.playerManager?.players?.filter { it.uuid in observerUUIDs } ?: emptyList()
+    override fun getObservingPlayers() = getServer()?.playerManager?.playerList?.filter { it.uuid in observerUUIDs } ?: emptyList()
     fun size() = slots.size
 
     override fun sendTo(player: ServerPlayerEntity) {

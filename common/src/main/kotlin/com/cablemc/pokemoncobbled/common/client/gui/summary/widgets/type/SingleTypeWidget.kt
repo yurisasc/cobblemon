@@ -4,8 +4,8 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.mojang.blaze3d.vertex.MatrixStack
-import net.minecraft.network.chat.LiteralText
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
 
 class SingleTypeWidget(
     pX: Int, pY: Int,

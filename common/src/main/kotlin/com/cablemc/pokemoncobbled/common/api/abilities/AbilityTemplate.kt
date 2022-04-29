@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.extensions.AbilityExtensions
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.chat.TranslatableText
+import net.minecraft.text.TranslatableText
 
 /**
  * This represents the base of an Ability.

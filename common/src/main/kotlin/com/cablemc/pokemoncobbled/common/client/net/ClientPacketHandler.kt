@@ -4,7 +4,8 @@ import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.util.ifClient
-import net.minecraft.client.Minecraft
+import net.minecraft.client.MinecraftClient
+
 
 /*
  * A packet handler which will queue and safely execute the invocation on the physical client thread.

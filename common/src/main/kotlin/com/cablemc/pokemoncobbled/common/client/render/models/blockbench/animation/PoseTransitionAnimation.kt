@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.withPosition
-import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.Entity
 import java.lang.Float.min
 
@@ -32,12 +32,12 @@ class PoseTransitionAnimation<T : Entity>(
         val destinationRotation: FloatArray
     ) {
         fun apply(ratio: Float) {
-            modelPart.setPos(
+            modelPart.setPivot(
                 ratio * (destinationPosition[0] - initialPosition[0]) + initialPosition[0],
                 ratio * (destinationPosition[1] - initialPosition[1]) + initialPosition[1],
                 ratio * (destinationPosition[2] - initialPosition[2]) + initialPosition[2]
             )
-            modelPart.setRotation(
+            modelPart.setAngles(
                 ratio * (destinationRotation[0] - initialRotation[0]) + initialRotation[0],
                 ratio * (destinationRotation[1] - initialRotation[1]) + initialRotation[1],
                 ratio * (destinationRotation[2] - initialRotation[2]) + initialRotation[2]

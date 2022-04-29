@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
-import net.minecraft.entity.AgeableMob
 import net.minecraft.entity.Entity
 
 /**
@@ -40,7 +39,7 @@ class CobbledAgingDespawner<T : Entity>(
         }
 
         // TODO an AFK check at some point, don't count the AFK ones.
-        val closestDistance = entity.level.players().minOfOrNull { it.distanceTo(entity) } ?: Float.MAX_VALUE
+        val closestDistance = entity.world.players.minOfOrNull { it.distanceTo(entity) } ?: Float.MAX_VALUE
         return when {
             closestDistance < nearDistance -> false
             age > maxAgeTicks || closestDistance > farDistance -> true

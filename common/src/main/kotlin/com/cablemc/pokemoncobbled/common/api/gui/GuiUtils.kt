@@ -2,21 +2,17 @@ package com.cablemc.pokemoncobbled.common.api.gui
 
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.BufferUploader
-import com.mojang.blaze3d.vertex.DefaultVertexFormat
-import com.mojang.blaze3d.vertex.MatrixStack
-import com.mojang.blaze3d.vertex.Tesselator
-import com.mojang.blaze3d.vertex.VertexFormat
-import com.mojang.math.Matrix4f
-import net.minecraft.client.Minecraft
-import net.minecraft.client.render.GameRenderer
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.*
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.network.chat.MutableText
-import net.minecraft.network.chat.LiteralText
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.Matrix4f
 
 fun blitk(
-    poseStack: MatrixStack,
+    matrixStack: MatrixStack,
     texture: Identifier? = null,
     x: Number,
     y: Number,
@@ -39,11 +35,11 @@ fun blitk(
     if (blend) {
         RenderSystem.enableBlend()
         RenderSystem.defaultBlendFunc()
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
+        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
     }
 
     drawRectangle(
-        poseStack.last().pose(),
+        matrixStack.peek().positionMatrix,
         x.toFloat(), y.toFloat(), x.toFloat() + width.toFloat(), y.toFloat() + height.toFloat(),
         blitOffset.toFloat(),
         uOffset.toFloat() / textureWidth.toFloat(), (uOffset.toFloat() + width.toFloat()) / textureWidth.toFloat(),
@@ -63,14 +59,14 @@ fun drawRectangle(
     minV: Float,
     maxV: Float
 ) {
-    val bufferbuilder = Tesselator.getInstance().builder
-    bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX)
-    bufferbuilder.vertex(matrix, x, endY, blitOffset).uv(minU, maxV).next()
-    bufferbuilder.vertex(matrix, endX, endY, blitOffset).uv(maxU, maxV).next()
-    bufferbuilder.vertex(matrix, endX, y, blitOffset).uv(maxU, minV).next()
-    bufferbuilder.vertex(matrix, x, y, blitOffset).uv(minU, minV).next()
+    val bufferbuilder = Tessellator.getInstance().buffer
+    bufferbuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE)
+    bufferbuilder.vertex(matrix, x, endY, blitOffset).texture(minU, maxV).next()
+    bufferbuilder.vertex(matrix, endX, endY, blitOffset).texture(maxU, maxV).next()
+    bufferbuilder.vertex(matrix, endX, y, blitOffset).texture(maxU, minV).next()
+    bufferbuilder.vertex(matrix, x, y, blitOffset).texture(minU, minV).next()
     bufferbuilder.end()
-    BufferUploader.end(bufferbuilder)
+    BufferRenderer.postDraw(bufferbuilder)
 }
 
 fun drawCenteredText(
@@ -82,12 +78,12 @@ fun drawCenteredText(
     colour: Int,
     shadow: Boolean = true
 ) {
-    val comp = (text as MutableText).withStyle(text.style.withFont(font))
-    val mcFont = MinecraftClient.getInstance().font
+    val comp = (text as MutableText).setStyle(text.style.withFont(font))
+    val mcFont = MinecraftClient.getInstance().textRenderer
     if (shadow)
-        mcFont.drawShadow(poseStack, comp, x.toFloat() - mcFont.width(comp) / 2, y.toFloat(), colour)
+        mcFont.drawWithShadow(poseStack, comp, x.toFloat() - mcFont.getWidth(comp) / 2, y.toFloat(), colour)
     else
-        mcFont.draw(poseStack, comp, x.toFloat() - mcFont.width(comp) / 2, y.toFloat(), colour)
+        mcFont.draw(poseStack, comp, x.toFloat() - mcFont.getWidth(comp) / 2, y.toFloat(), colour)
 }
 
 fun drawText(
@@ -100,16 +96,16 @@ fun drawText(
     colour: Int,
     shadow: Boolean = true
 ) {
-    val comp = if (font == null) text else text.withStyle(text.style.withFont(font))
-    val mcFont = MinecraftClient.getInstance().font
+    val comp = if (font == null) text else text.setStyle(text.style.withFont(font))
+    val mcFont = MinecraftClient.getInstance().textRenderer
     var x = x
     if (centered) {
-        val width = mcFont.width(comp)
+        val width = mcFont.getWidth(comp)
         x = x.toDouble() - width / 2
     }
 
     if (shadow)
-        mcFont.drawShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
+        mcFont.drawWithShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
     else
         mcFont.draw(poseStack, comp, x.toFloat(), y.toFloat(), colour)
 }
@@ -125,12 +121,12 @@ fun drawString(
 ) {
     val comp = LiteralText(text).also {
         font?.run {
-            it.withStyle(it.style.withFont(this))
+            it.getWithStyle(it.style.withFont(this))
         }
     }
-    val mcFont = MinecraftClient.getInstance().font
+    val mcFont = MinecraftClient.getInstance().textRenderer
     if (shadow)
-        mcFont.drawShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
+        mcFont.drawWithShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
     else
         mcFont.draw(poseStack, comp, x.toFloat(), y.toFloat(), colour)
 }

@@ -6,8 +6,8 @@ import com.cablemc.pokemoncobbled.common.api.spawning.spawner.PlayerSpawnerFacto
 import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_QUIT
-import net.minecraft.server.level.ServerPlayerEntity
-import java.util.UUID
+import net.minecraft.server.network.ServerPlayerEntity
+import java.util.*
 
 /**
  * The [SpawnerManager] that handles Cobbled's world spawner, which is made up

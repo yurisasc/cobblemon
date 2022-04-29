@@ -2,8 +2,10 @@ package com.cablemc.pokemoncobbled.common.client.render
 
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Matrix3f
 import net.minecraft.util.math.Matrix4f
@@ -48,20 +50,21 @@ fun getDepletableRedGreen(
     return r.toFloat() to g.toFloat()
 }
 
-//fun Font.drawScaled(
-//    poseStack: MatrixStack,
-//    text: Text,
-//    x: Float,
-//    y: Float,
-//    scaleX: Float = 1F,
-//    scaleY: Float = 1F,
-//    colour: Int = 0xFFFFFF
-//) {
-//    poseStack.push()
-//    poseStack.scale(scaleX, scaleY, 1F)
-//    draw(poseStack, text, x / scaleX, y / scaleY, colour)
-//    poseStack.pop()
-//}
+fun TextRenderer.drawScaled(
+    matrixStack: MatrixStack,
+    text: Text,
+    x: Float,
+    y: Float,
+    scaleX: Float = 1F,
+    scaleY: Float = 1F,
+    colour: Int = 0xFFFFFF
+) {
+    matrixStack.push()
+    matrixStack.scale(scaleX, scaleY, 1F)
+    draw(matrixStack, text, x / scaleX, y / scaleY, colour)
+    matrixStack.pop()
+}
+
 
 fun renderBeaconBeam(
     matrixStack: MatrixStack,

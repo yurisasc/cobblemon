@@ -7,11 +7,11 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.MatrixStack
-import com.mojang.math.Quaternion
-import com.mojang.math.Vec3f
-import net.minecraft.client.Minecraft
-import net.minecraft.network.chat.LiteralText
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
+import net.minecraft.util.math.Quaternion
+import net.minecraft.util.math.Vec3f
 import java.security.InvalidParameterException
 
 class PartyWidget(
@@ -50,7 +50,7 @@ class PartyWidget(
 
         fun renderSelected(x: Number, y: Number) {
             blitk(
-                poseStack = pMatrixStack,
+                matrixStack = pMatrixStack,
                 texture = summaryOverlayParty,
                 x = x.toFloat() + 2, y = y.toFloat() + 2,
                 width = PARTY_BOX_WIDTH - 4, height = PARTY_BOX_HEIGHT - 5
@@ -59,7 +59,7 @@ class PartyWidget(
 
         if (partySize > 1) {
             blitk(
-                poseStack = pMatrixStack,
+                matrixStack = pMatrixStack,
                 texture = partyResourceStart,
                 x = x, y = y,
                 width = PARTY_BOX_WIDTH, height = PARTY_BOX_HEIGHT
@@ -70,7 +70,7 @@ class PartyWidget(
             for (i in 1 until iMax) {
                 val y = y + i * PARTY_BOX_HEIGHT_DIFF + i * -0.5
                 blitk(
-                    poseStack = pMatrixStack,
+                    matrixStack = pMatrixStack,
                     texture = partyResourceSurrounded,
                     x = x, y = y,
                     width = PARTY_BOX_WIDTH, height = PARTY_BOX_HEIGHT
@@ -81,7 +81,7 @@ class PartyWidget(
                 }
             }
             blitk(
-                poseStack = pMatrixStack,
+                matrixStack = pMatrixStack,
                 texture = if (iMax == 5) partyResourceSix else partyResourceEnd,
                 x = x, y = y + iMax * PARTY_BOX_HEIGHT_DIFF - 3F,
                 width = PARTY_BOX_WIDTH, height = PARTY_BOX_HEIGHT
@@ -117,10 +117,10 @@ class PartyWidget(
             pokemon?.run {
                 poseStack.push()
                 RenderSystem.enableScissor(
-                    ((x + 2.5) * minecraft.window.guiScale).toInt(),
-                    (minecraft.window.height - (y * minecraft.window.guiScale) - (index + 1) * (PARTY_PORTRAIT_HEIGHT + 1.4) * minecraft.window.guiScale).toInt(),
-                    ((PARTY_PORTRAIT_WIDTH) * minecraft.window.guiScale).toInt(),
-                    ((PARTY_PORTRAIT_HEIGHT - 1) * minecraft.window.guiScale).toInt()
+                    ((x + 2.5) * minecraft.window.scaleFactor).toInt(),
+                    (minecraft.window.height - (y * minecraft.window.scaleFactor) - (index + 1) * (PARTY_PORTRAIT_HEIGHT + 1.4) * minecraft.window.scaleFactor).toInt(),
+                    ((PARTY_PORTRAIT_WIDTH) * minecraft.window.scaleFactor).toInt(),
+                    ((PARTY_PORTRAIT_HEIGHT - 1) * minecraft.window.scaleFactor).toInt()
                 )
 
 //                blitk(
@@ -138,8 +138,8 @@ class PartyWidget(
 
                 drawProfilePokemon(
                     pokemon = this,
-                    poseStack = poseStack,
-                    rotation = Quaternion.fromXYZDegrees(Vec3f(13F, 35F, 0F)),
+                    matrixStack = poseStack,
+                    rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
                     scale = 6F
                 )
 

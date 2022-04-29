@@ -3,9 +3,9 @@ package com.cablemc.pokemoncobbled.common.api.spawning.context.calculators
 import com.cablemc.pokemoncobbled.common.api.PrioritizedList
 import com.cablemc.pokemoncobbled.common.api.Priority
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.material.Material
+import net.minecraft.block.BlockState
+import net.minecraft.block.Material
+import net.minecraft.world.World
 
 /**
  * Calculates some kind of [SpawningContext] from a particular type of input data. This
@@ -25,8 +25,8 @@ interface SpawningContextCalculator<I : SpawningContextInput, O : SpawningContex
         )
         val isAirCondition: (BlockState) -> Boolean = { it.isAir || it.material in foliageMaterials }
         val isSolidCondition: (BlockState) -> Boolean = { it.material.isSolid }
-        val isWaterCondition: (BlockState) -> Boolean = { it.material == Material.WATER && it.fluidState.isSource  }
-        val isLavaCondition: (BlockState) -> Boolean = { it.material == Material.LAVA && it.fluidState.isSource }
+        val isWaterCondition: (BlockState) -> Boolean = { it.material == Material.WATER && it.fluidState.isStill  }
+        val isLavaCondition: (BlockState) -> Boolean = { it.material == Material.LAVA && it.fluidState.isStill }
 
         private val calculators = PrioritizedList<SpawningContextCalculator<*, *>>()
         val prioritizedAreaCalculators: List<AreaSpawningContextCalculator<*>>

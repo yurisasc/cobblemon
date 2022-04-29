@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.pokemon.effect
 
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.google.gson.JsonObject
-import net.minecraft.server.level.ServerPlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Interface for all ShoulderEffects

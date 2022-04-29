@@ -8,10 +8,10 @@ import com.cablemc.pokemoncobbled.common.util.isInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
-import net.minecraft.nbt.StringTag
-import net.minecraft.nbt.StringTag.TAG_STRING
-import net.minecraft.world.level.Level
+import net.minecraft.nbt.NbtString
+import net.minecraft.world.World
 
 /**
  * A grouping of typical, selectable properties for a Pokémon. This is serializable
@@ -257,7 +257,7 @@ open class PokemonProperties {
     }
 
     fun createEntity(world: World): PokemonEntity {
-        return PokemonEntity(level, create())
+        return PokemonEntity(world, create())
     }
 
     fun writeToNBT(): NbtCompound {
@@ -267,7 +267,7 @@ open class PokemonProperties {
 //        gender?.let { nbt.putString(DataKeys.POKEMON_GENDER) }
         species?.let { nbt.putString(DataKeys.POKEMON_SPECIES_TEXT, it) }
         val custom = NbtList()
-        customProperties.map { StringTag.valueOf(it.asString()) }.forEach { custom.add(it) }
+        customProperties.map { NbtString.of(it.asString()) }.forEach { custom.add(it) }
         nbt.put(DataKeys.POKEMON_PROPERTIES_CUSTOM, custom)
         return nbt
     }
@@ -276,9 +276,9 @@ open class PokemonProperties {
         originalString = tag.getString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT)
         level = tag.getInt(DataKeys.POKEMON_LEVEL)
         species = tag.getString(DataKeys.POKEMON_SPECIES_TEXT)
-        val custom = tag.getList(DataKeys.POKEMON_PROPERTIES_CUSTOM, TAG_STRING.toInt())
+        val custom = tag.getList(DataKeys.POKEMON_PROPERTIES_CUSTOM, NbtElement.STRING_TYPE.toInt())
         // This is kinda gross
-        custom.forEach { customProperties.addAll(parse(it.asString).customProperties) }
+        custom.forEach { customProperties.addAll(parse(it.asString()).customProperties) }
         return this
     }
 

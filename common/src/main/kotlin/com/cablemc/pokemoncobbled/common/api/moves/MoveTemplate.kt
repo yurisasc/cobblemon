@@ -7,7 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.battles.MoveTarget
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.google.gson.annotations.SerializedName
-import net.minecraft.network.chat.TranslatableText
+import net.minecraft.text.TranslatableText
 
 /**
  * This class represents the base of a Move.
