@@ -7,6 +7,6 @@ import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.ItemStack
 
 object CobbledCreativeTabs {
-    val POKE_BALL_TAB: CreativeModeTab = create(cobbledResource("pokeball")) { ItemStack(CobbledItems.POKE_BALL) }
-    val EVOLUTION_ITEM_TAB: CreativeModeTab = create(cobbledResource("evolution_item")) { ItemStack(CobbledItems.BLACK_AUGURITE) }
+    val POKE_BALL_TAB: CreativeModeTab = create(cobbledResource("pokeball")) { ItemStack(CobbledItems.POKE_BALL.get()) }
+    val EVOLUTION_ITEM_TAB: CreativeModeTab = create(cobbledResource("evolution_item")) { ItemStack(CobbledItems.BLACK_AUGURITE.get()) }
 }

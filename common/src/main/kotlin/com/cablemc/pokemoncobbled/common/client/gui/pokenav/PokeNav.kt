@@ -165,7 +165,8 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
      */
 
     private fun onPressPokemon(button: Button) {
-        Minecraft.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
+        if (PokemonCobbledClient.storage.myParty.slots.filterNotNull().isNotEmpty())
+            Minecraft.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
     }
 
     private fun onPressExit(button: Button) {
