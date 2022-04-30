@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.pokemon.effect
 
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.google.gson.JsonObject
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Interface for all ShoulderEffects
@@ -11,8 +11,8 @@ import net.minecraft.server.level.ServerPlayer
  * @since 2022-01-26
  */
 interface ShoulderEffect {
-    fun applyEffect(pokemon: Pokemon, player: ServerPlayer, isLeft: Boolean)
-    fun removeEffect(pokemon: Pokemon, player: ServerPlayer, isLeft: Boolean)
+    fun applyEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean)
+    fun removeEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean)
 
     fun serialize(json: JsonObject): JsonObject
     fun deserialize(json: JsonObject): ShoulderEffect

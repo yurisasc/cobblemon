@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 import java.io.File
 import java.nio.file.FileVisitResult
 import java.nio.file.FileVisitResult.CONTINUE
@@ -20,8 +20,8 @@ import kotlin.io.path.toPath
  * @since February 10th, 2022
  */
 object AssetLoading {
-    fun ResourceLocation.toPath() = toURL()?.toPath()
-    fun ResourceLocation.toURL() = PokemonCobbled.javaClass.getResource(String.format("/assets/%s/%s", namespace, path))?.toURI()
+    fun Identifier.toPath() = toURL()?.toPath()
+    fun Identifier.toURL() = PokemonCobbled.javaClass.getResource(String.format("/assets/%s/%s", namespace, path))?.toURI()
     fun fileSearch(dir: Path, filter: (Path) -> Boolean, recursive: Boolean): List<Path> {
         val files = mutableListOf<Path>()
         Files.walkFileTree(dir, object : SimpleFileVisitor<Path>() {

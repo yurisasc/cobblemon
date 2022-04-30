@@ -2,88 +2,103 @@ package com.cablemc.pokemoncobbled.common.world.level.block
 
 import com.cablemc.pokemoncobbled.common.CobbledBlocks
 import com.cablemc.pokemoncobbled.common.item.ApricornItem
-import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
-import net.minecraft.world.level.BlockGetter
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.LevelAccessor
-import net.minecraft.world.level.LevelReader
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.BonemealableBlock
-import net.minecraft.world.level.block.HorizontalDirectionalBlock
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.block.state.StateDefinition
-import net.minecraft.world.level.block.state.properties.BlockStateProperties
-import net.minecraft.world.level.pathfinder.PathComputationType
-import net.minecraft.world.phys.BlockHitResult
-import net.minecraft.world.phys.shapes.CollisionContext
-import net.minecraft.world.phys.shapes.VoxelShape
+import net.minecraft.block.*
+import net.minecraft.entity.ai.pathing.NavigationType
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.state.StateManager
+import net.minecraft.state.property.Properties
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.hit.BlockHitResult
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Direction
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.world.BlockView
+import net.minecraft.world.World
+import net.minecraft.world.WorldAccess
+import net.minecraft.world.WorldView
 import java.util.*
 import java.util.function.Supplier
 
-class ApricornBlock(properties: Properties, val itemSupplier: Supplier<ApricornItem>) : HorizontalDirectionalBlock(properties), BonemealableBlock {
+class ApricornBlock(properties: Settings, val itemSupplier: Supplier<ApricornItem>) : HorizontalFacingBlock(properties), Fertilizable {
 
     companion object {
-        val AGE = BlockStateProperties.AGE_2
-        val EAST_AABB = arrayOf(Block.box(12.0, 7.0, 6.0, 16.0, 11.0, 10.0), Block.box(11.0, 6.0, 5.5, 16.0, 11.0, 10.5), Block.box(10.0, 3.0, 5.0, 16.0, 9.0, 11.0))
-        val WEST_AABB = arrayOf(Block.box(0.0, 7.0, 6.0, 4.0, 11.0, 10.0), Block.box(0.0, 6.0, 5.5, 5.0, 11.0, 10.5), Block.box(0.0, 3.0, 5.0, 6.0, 9.0, 11.0))
-        val NORTH_AABB = arrayOf(Block.box(6.0, 7.0, 0.0, 10.0, 11.0, 4.0), Block.box(5.5, 6.0, 0.0, 10.5, 11.0, 5.0), Block.box(5.0, 3.0, 0.0, 11.0, 9.0, 6.0))
-        val SOUTH_AABB = arrayOf(Block.box(6.0, 7.0, 12.0, 10.0, 11.0, 16.0), Block.box(5.5, 6.0, 11.0, 10.5, 11.0, 16.0), Block.box(5.0, 3.0, 10.0, 11.0, 9.0, 16.0))
+        val AGE = Properties.AGE_2
+        val EAST_AABB = arrayOf(
+            Block.createCuboidShape(12.0, 7.0, 6.0, 16.0, 11.0, 10.0),
+            Block.createCuboidShape(11.0, 6.0, 5.5, 16.0, 11.0, 10.5),
+            Block.createCuboidShape(10.0, 3.0, 5.0, 16.0, 9.0, 11.0)
+        )
+        val WEST_AABB = arrayOf(
+            Block.createCuboidShape(0.0, 7.0, 6.0, 4.0, 11.0, 10.0),
+            Block.createCuboidShape(0.0, 6.0, 5.5, 5.0, 11.0, 10.5),
+            Block.createCuboidShape(0.0, 3.0, 5.0, 6.0, 9.0, 11.0)
+        )
+        val NORTH_AABB = arrayOf(
+            Block.createCuboidShape(6.0, 7.0, 0.0, 10.0, 11.0, 4.0),
+            Block.createCuboidShape(5.5, 6.0, 0.0, 10.5, 11.0, 5.0),
+            Block.createCuboidShape(5.0, 3.0, 0.0, 11.0, 9.0, 6.0)
+        )
+        val SOUTH_AABB = arrayOf(
+            Block.createCuboidShape(6.0, 7.0, 12.0, 10.0, 11.0, 16.0),
+            Block.createCuboidShape(5.5, 6.0, 11.0, 10.5, 11.0, 16.0),
+            Block.createCuboidShape(5.0, 3.0, 10.0, 11.0, 9.0, 16.0)
+        )
     }
 
     init {
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(AGE, 0))
+        this.defaultState = this.stateManager.defaultState.with(FACING, Direction.NORTH).with(AGE, 0)
     }
 
-    override fun use(blockState: BlockState, level: Level, blockPos: BlockPos, player: Player, interactionHand: InteractionHand, blockHitResult: BlockHitResult): InteractionResult {
-        val age = blockState.getValue(AGE)
+    @Deprecated("Deprecated in Java")
+    override fun onUse(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, interactionHand: Hand, blockHitResult: BlockHitResult): ActionResult {
+        val age = blockState.get(AGE)
         val fullyGrown = age == 2
-        return if (!fullyGrown && player.getItemInHand(interactionHand).`is`(Items.BONE_MEAL)) {
-            InteractionResult.PASS
+        return if (!fullyGrown && player.getStackInHand(interactionHand).isOf(Items.BONE_MEAL)) {
+            ActionResult.PASS
         } else if (fullyGrown) {
-            Block.popResource(level, blockPos, ItemStack(itemSupplier.get()))
-            level.setBlock(blockPos, blockState.setValue(AGE, 0), 2)
-            InteractionResult.sidedSuccess(level.isClientSide)
+            Block.dropStack(world, blockPos, ItemStack(itemSupplier.get()))
+            world.setBlockState(blockPos, blockState.with(AGE, 0), 2)
+            ActionResult.success(world.isClient)
         } else {
-            super.use(blockState, level, blockPos, player, interactionHand, blockHitResult)
+            super.onUse(blockState, world, blockPos, player, interactionHand, blockHitResult)
         }
     }
 
-    override fun isRandomlyTicking(blockState: BlockState): Boolean {
-        return blockState.getValue(AGE) < 2
+    override fun hasRandomTicks(blockState: BlockState): Boolean {
+        return blockState.get(AGE) < 2
     }
 
-    override fun randomTick(blockState: BlockState, serverLevel: ServerLevel, blockPos: BlockPos, random: Random) {
-        val age = blockState.getValue(AGE)
+    @Deprecated("Deprecated in Java")
+    override fun randomTick(blockState: BlockState, serverLevel: ServerWorld, blockPos: BlockPos, random: Random) {
+        val age = blockState.get(AGE)
         if (age < 3 && serverLevel.random.nextInt(5) == 0) {
-            serverLevel.setBlock(blockPos, blockState.setValue(AGE, age + 1), 2)
+            serverLevel.setBlockState(blockPos, blockState.with(AGE, age + 1), 2)
         }
     }
 
-    override fun canSurvive(blockState: BlockState, levelReader: LevelReader, blockPos: BlockPos): Boolean {
-        val relativeState = levelReader.getBlockState(blockPos.relative(blockState.getValue(FACING)))
+    @Deprecated("Deprecated in Java")
+    override fun canPlaceAt(blockState: BlockState, levelReader: WorldView, blockPos: BlockPos): Boolean {
+        val relativeState = levelReader.getBlockState(blockPos.offset(blockState.get(FACING)))
         return relativeState.block == CobbledBlocks.APRICORN_LEAVES.get()
     }
 
-    override fun updateShape(blockState: BlockState, direction: Direction, arg3: BlockState, level: LevelAccessor, neighborBlockPos: BlockPos, arg6: BlockPos): BlockState? {
-        return if (direction == blockState.getValue(FACING) && !blockState.canSurvive(level, neighborBlockPos)) {
-            Blocks.AIR.defaultBlockState()
+    @Deprecated("Deprecated in Java")
+    override fun getStateForNeighborUpdate(blockState: BlockState, direction: Direction, arg3: BlockState, world: WorldAccess, neighborBlockPos: BlockPos, arg6: BlockPos): BlockState? {
+        return if (direction == blockState.get(FACING) && !blockState.canPlaceAt(world, neighborBlockPos)) {
+            Blocks.AIR.defaultState
         } else {
-            super.updateShape(blockState, direction, arg3, level, neighborBlockPos, arg6)
+            super.getStateForNeighborUpdate(blockState, direction, arg3, world, neighborBlockPos, arg6)
         }
     }
 
-    override fun getShape(blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos, collisionContext: CollisionContext): VoxelShape {
-        val age = blockState.getValue(AGE)
-        return when (blockState.getValue(FACING)) {
+    @Deprecated("Deprecated in Java")
+    override fun getCollisionShape(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, collisionContext: ShapeContext): VoxelShape {
+        val age = blockState.get(AGE)
+        return when (blockState.get(FACING)) {
             Direction.NORTH -> NORTH_AABB[age]
             Direction.EAST -> EAST_AABB[age]
             Direction.SOUTH -> SOUTH_AABB[age]
@@ -92,24 +107,24 @@ class ApricornBlock(properties: Properties, val itemSupplier: Supplier<ApricornI
         }
     }
 
-    override fun isValidBonemealTarget(blockGetter: BlockGetter, blockPos: BlockPos, blockState: BlockState, bl: Boolean): Boolean {
-        return blockState.getValue(AGE) < 2
+    override fun isFertilizable(blockGetter: BlockView, blockPos: BlockPos, blockState: BlockState, bl: Boolean): Boolean {
+        return blockState.get(AGE) < 2
     }
 
-    override fun isBonemealSuccess(level: Level, random: Random, blockPos: BlockPos, blockState: BlockState): Boolean {
+    override fun canGrow(world: World, random: Random, blockPos: BlockPos, blockState: BlockState): Boolean {
         return true
     }
 
-    override fun performBonemeal(serverLevel: ServerLevel, random: Random, blockPos: BlockPos, blockState: BlockState) {
-        serverLevel.setBlock(blockPos, blockState.setValue(AGE, blockState.getValue(AGE) + 1), 3);
+    override fun grow(serverLevel: ServerWorld, random: Random, blockPos: BlockPos, blockState: BlockState) {
+        serverLevel.setBlockState(blockPos, blockState.with(AGE, blockState.get(AGE) + 1), 3);
     }
 
-    override fun createBlockStateDefinition(builder: StateDefinition.Builder<Block, BlockState>) {
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(FACING, AGE)
     }
 
-    override fun isPathfindable(blockState: BlockState, blockGetter: BlockGetter, blockPos: BlockPos, pathComputingType: PathComputationType): Boolean {
+    @Deprecated("Deprecated in Java", ReplaceWith("false"))
+    override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputingType: NavigationType): Boolean {
         return false
     }
-    
 }

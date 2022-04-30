@@ -14,7 +14,7 @@ import com.cablemc.pokemoncobbled.common.util.AssetLoading
 import com.cablemc.pokemoncobbled.common.util.AssetLoading.toPath
 import com.cablemc.pokemoncobbled.common.util.adapters.BiomeListAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.RegisteredSpawningContextAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.ResourceLocationAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.IdentifierAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.SpawnDetailAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.SpawningConditionAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.TimeRangeAdapter
@@ -24,7 +24,7 @@ import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.cablemc.pokemoncobbled.common.util.isHigherVersion
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -46,7 +46,7 @@ object SpawnLoader {
         .setLenient()
         .registerTypeAdapter(BiomeList::class.java, BiomeListAdapter)
         .registerTypeAdapter(RegisteredSpawningContext::class.java, RegisteredSpawningContextAdapter)
-        .registerTypeAdapter(ResourceLocation::class.java, ResourceLocationAdapter)
+        .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .registerTypeAdapter(SpawnDetail::class.java, SpawnDetailAdapter)
         .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
         .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)

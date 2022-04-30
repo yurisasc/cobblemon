@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.influence
 
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * An influence over spawning that can affect various parts of the spawning process.

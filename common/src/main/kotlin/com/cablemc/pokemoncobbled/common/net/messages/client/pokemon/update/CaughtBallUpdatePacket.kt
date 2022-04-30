@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update
 
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 class CaughtBallUpdatePacket() : StringUpdatePacket() {
     constructor(pokemon: Pokemon, value: String): this() {
@@ -11,7 +11,7 @@ class CaughtBallUpdatePacket() : StringUpdatePacket() {
     }
 
     override fun set(pokemon: Pokemon, value: String) {
-        val pokeBall = PokeBalls.getPokeBall(ResourceLocation(value))
+        val pokeBall = PokeBalls.getPokeBall(Identifier(value))
         if (pokeBall != null) {
             pokemon.caughtBall = pokeBall
         }

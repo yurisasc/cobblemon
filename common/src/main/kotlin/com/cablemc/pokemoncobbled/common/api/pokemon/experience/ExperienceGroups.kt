@@ -4,13 +4,8 @@ import com.cablemc.pokemoncobbled.common.api.CachedLevelThresholds
 import com.cablemc.pokemoncobbled.common.api.LevelCurve
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.math.pow
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonPrimitive
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import net.minecraft.network.chat.TranslatableComponent
+import com.google.gson.*
+import net.minecraft.text.TranslatableText
 import java.lang.reflect.Type
 import kotlin.math.max
 
@@ -57,7 +52,7 @@ object ExperienceGroupAdapter : JsonSerializer<ExperienceGroup>, JsonDeserialize
  */
 interface ExperienceGroup : LevelCurve {
     val name: String
-    val translatedName: TranslatableComponent
+    val translatedName: TranslatableText
         get() = lang("experience_group.${name.lowercase()}")
 
     companion object {

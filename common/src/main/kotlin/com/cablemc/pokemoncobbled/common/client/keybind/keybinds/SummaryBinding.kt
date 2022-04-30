@@ -1,16 +1,13 @@
 package com.cablemc.pokemoncobbled.common.client.keybind.keybinds
 
+import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeyBinding
 import com.cablemc.pokemoncobbled.common.client.keybind.KeybindCategories
-import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
-import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
-import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeyMapping
-import com.mojang.blaze3d.platform.InputConstants
-import net.minecraft.client.Minecraft
+import net.minecraft.client.util.InputUtil
 
-object SummaryBinding : CobbledKeyMapping(
+object SummaryBinding : CobbledKeyBinding(
     "key.pokemoncobbled.summary",
-    InputConstants.Type.KEYSYM,
-    InputConstants.KEY_M,
+    InputUtil.Type.KEYSYM,
+    InputUtil.GLFW_KEY_M,
     KeybindCategories.COBBLED_CATEGORY
 ) {
     override fun onPress() {

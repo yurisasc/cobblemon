@@ -8,7 +8,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.google.gson.annotations.SerializedName
-import net.minecraft.world.entity.EntityDimensions
+import net.minecraft.entity.EntityDimensions
 
 data class FormData(
     @SerializedName("name")

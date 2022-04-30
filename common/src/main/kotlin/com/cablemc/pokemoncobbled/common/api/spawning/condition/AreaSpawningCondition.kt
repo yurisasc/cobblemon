@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.condition
 
 import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * Base type for a spawning condition that applies to some kind of [AreaSpawningContext]. This
@@ -16,7 +16,7 @@ abstract class AreaTypeSpawningCondition<T : AreaSpawningContext> : SpawningCond
     var maximumWidth: Int? = null
     var minimumHeight: Int? = null
     var maximumHeight: Int? = null
-    var neededNearbyBlocks: List<ResourceLocation>? = null
+    var neededNearbyBlocks: List<Identifier>? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
         if (!super.fits(ctx, detail)) {

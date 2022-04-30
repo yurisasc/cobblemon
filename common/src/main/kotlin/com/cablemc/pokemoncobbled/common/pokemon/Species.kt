@@ -9,12 +9,12 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.util.asTranslated
-import net.minecraft.network.chat.MutableComponent
-import net.minecraft.world.entity.EntityDimensions
+import net.minecraft.entity.EntityDimensions
+import net.minecraft.text.MutableText
 
 class Species {
     var name: String = "bulbasaur"
-    val translatedName: MutableComponent
+    val translatedName: MutableText
         get() = "pokemoncobbled.species.$name.name".asTranslated()
     var nationalPokedexNumber = 1
 

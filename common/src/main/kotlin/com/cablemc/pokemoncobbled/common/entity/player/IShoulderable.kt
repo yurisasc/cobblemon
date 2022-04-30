@@ -1,11 +1,11 @@
 package com.cablemc.pokemoncobbled.common.entity.player
 
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
 
 interface IShoulderable {
 
-    fun changeShoulderEntityLeft(compoundTag: CompoundTag)
+    fun changeShoulderEntityLeft(compoundTag: NbtCompound)
 
-    fun changeShoulderEntityRight(compoundTag: CompoundTag)
+    fun changeShoulderEntityRight(compoundTag: NbtCompound)
 
 }

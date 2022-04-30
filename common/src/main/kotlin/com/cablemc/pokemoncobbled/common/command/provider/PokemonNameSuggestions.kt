@@ -5,17 +5,16 @@ import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.suggestion.SuggestionProvider
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.SharedSuggestionProvider
+import net.minecraft.command.CommandSource
+import net.minecraft.server.command.ServerCommandSource
 import java.util.concurrent.CompletableFuture
 
-class PokemonNameSuggestions : SuggestionProvider<CommandSourceStack> {
-
+class PokemonNameSuggestions : SuggestionProvider<ServerCommandSource> {
     override fun getSuggestions(
-        context: CommandContext<CommandSourceStack>?,
+        context: CommandContext<ServerCommandSource>?,
         builder: SuggestionsBuilder?
     ): CompletableFuture<Suggestions> {
-        return SharedSuggestionProvider.suggest(PokemonSpecies.species.map { it.name }.toList(), builder)
+        return CommandSource.suggestMatching(PokemonSpecies.species.map { it.name }.toList(), builder)
     }
 
 }

@@ -45,13 +45,13 @@ import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.TickEvent.SERVER_POST
 import dev.architectury.hooks.item.tool.AxeItemHooks
-import net.minecraft.client.Minecraft
-import net.minecraft.commands.synchronization.ArgumentTypes
-import net.minecraft.commands.synchronization.EmptyArgumentSerializer
-import net.minecraft.network.syncher.EntityDataSerializers
-import net.minecraft.resources.ResourceKey
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.storage.LevelResource
+import net.minecraft.client.MinecraftClient
+import net.minecraft.command.argument.ArgumentTypes
+import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.util.WorldSavePath
+import net.minecraft.util.registry.RegistryKey
+import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileReader
@@ -91,10 +91,10 @@ object PokemonCobbled {
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
-        EntityDataSerializers.registerSerializer(Vec3DataSerializer)
+        TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         //Command Arguments
-        ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, EmptyArgumentSerializer(PokemonArgumentType::pokemon))
-        ArgumentTypes.register("pokemoncobbled:pokemonproperties", PokemonPropertiesArgumentType::class.java, EmptyArgumentSerializer(PokemonPropertiesArgumentType::properties))
+        ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, ConstantArgumentSerializer(PokemonArgumentType::pokemon))
+        ArgumentTypes.register("pokemoncobbled:pokemonproperties", PokemonPropertiesArgumentType::class.java, ConstantArgumentSerializer(PokemonPropertiesArgumentType::properties))
     }
 
     fun initialize() {
@@ -120,7 +120,7 @@ object PokemonCobbled {
             AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_WOOD.get(), CobbledBlocks.STRIPPED_APRICORN_WOOD.get())
 
             // TODO config options for default storage
-            val pokemonStoreRoot = it.getWorldPath(LevelResource.PLAYER_DATA_DIR).parent.resolve("pokemon").toFile()
+            val pokemonStoreRoot = it.getSavePath(WorldSavePath.PLAYERDATA).parent.resolve("pokemon").toFile()
             storage.registerFactory(
                 priority = Priority.LOWEST,
                 factory = FileBackedPokemonStoreFactory(
@@ -162,18 +162,12 @@ object PokemonCobbled {
         }
     }
 
-    fun getLevel(dimension: ResourceKey<Level>): Level? {
+    fun getLevel(dimension: RegistryKey<World>): World? {
         return if (isDedicatedServer) {
-            getServer()?.getLevel(dimension)
+            getServer()?.getWorld(dimension)
         } else {
-            val mc = Minecraft.getInstance()
-            if (mc.singleplayerServer != null) {
-                mc.singleplayerServer!!.getLevel(dimension)
-            } else if (mc.level?.dimension() == dimension) {
-                mc.level
-            } else {
-                null
-            }
+            val mc = MinecraftClient.getInstance()
+            return mc.server?.getWorld(dimension) ?: mc.world
         }
     }
 

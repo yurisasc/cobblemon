@@ -39,18 +39,18 @@ import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.Tag.TAG_COMPOUND
-import net.minecraft.network.FriendlyByteBuf
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Mth.ceil
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.phys.Vec3
-import java.lang.Integer.min
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
+import net.minecraft.nbt.NbtList
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.Identifier
+import net.minecraft.util.math.MathHelper.ceil
+import net.minecraft.util.math.Vec3d
 import java.util.*
+import kotlin.math.min
 
 open class Pokemon {
     var uuid: UUID = UUID.randomUUID()

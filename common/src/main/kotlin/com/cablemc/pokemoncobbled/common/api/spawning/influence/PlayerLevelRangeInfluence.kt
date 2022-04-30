@@ -8,7 +8,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.util.math.intersection
 import com.cablemc.pokemoncobbled.common.util.math.intersects
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.network.ServerPlayerEntity
 import kotlin.math.max
 import kotlin.math.min
 
@@ -22,7 +22,7 @@ import kotlin.math.min
  * @since February 14th, 2022
  */
 open class PlayerLevelRangeInfluence(
-    player: ServerPlayer,
+    player: ServerPlayerEntity,
     val variation: Int,
     val noPokemonRange: IntRange = 1 .. config.maxPokemonLevel,
     val recalculationMillis: Long = 5000L
@@ -32,7 +32,7 @@ open class PlayerLevelRangeInfluence(
     var previousRange: IntRange = noPokemonRange
 
     fun getPlayerLevelRange(): IntRange {
-        if (System.currentTimeMillis() - lastCalculatedTime > recalculationMillis) {
+        return if (System.currentTimeMillis() - lastCalculatedTime > recalculationMillis) {
             lastCalculatedTime = System.currentTimeMillis()
 
             val party = PokemonCobbled.storage.getParty(uuid)
@@ -43,9 +43,9 @@ open class PlayerLevelRangeInfluence(
             } else {
                 noPokemonRange
             }
-            return previousRange
+            previousRange
         } else {
-            return previousRange
+            previousRange
         }
     }
 
