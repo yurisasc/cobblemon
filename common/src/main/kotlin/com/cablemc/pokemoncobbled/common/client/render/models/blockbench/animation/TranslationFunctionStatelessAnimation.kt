@@ -5,8 +5,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addPosition
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
-import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.world.entity.Entity
+import net.minecraft.client.model.ModelPart
+import net.minecraft.entity.Entity
 
 /**
  * Animation simply works by moving a part along a particular function

@@ -11,7 +11,7 @@ import com.cablemc.pokemoncobbled.common.battles.BattleSide
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import net.minecraft.network.chat.Component
+import net.minecraft.text.Text
 import java.util.UUID
 
 /**
@@ -77,7 +77,7 @@ class PokemonBattle(
 
 //    fun getPokemon(showdownLabel: String): Pokemo
 
-    fun broadcastChatMessage(component: Component) {
+    fun broadcastChatMessage(component: Text) {
         return actors.forEach { it.sendMessage(component) }
     }
 

@@ -3,8 +3,9 @@ package com.cablemc.pokemoncobbled.common.api.spawning.detail
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
-import com.cablemc.pokemoncobbled.common.util.toVec3
-import net.minecraft.world.entity.Entity
+import com.cablemc.pokemoncobbled.common.util.toVec3d
+import net.minecraft.entity.Entity
+
 
 /**
  * A scheduled spawning action.
@@ -22,9 +23,9 @@ abstract class SpawnAction<T : Entity>(
     fun run() {
         ctx.influences.forEach { it.affectAction(this) }
         val e = createEntity() ?: return
-        e.setPos(ctx.position.toVec3().add(0.5, 1.0, 0.5))
+        e.setPosition(ctx.position.toVec3d().add(0.5, 1.0, 0.5))
         entity.emit(e)
-        ctx.level.addFreshEntity(e)
+        ctx.world.spawnEntity(e)
     }
 
     /**

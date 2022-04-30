@@ -6,16 +6,16 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.platform.InputConstants
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.components.Button
-import net.minecraft.client.gui.screens.Screen
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.TranslatableComponent
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.util.InputUtil
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
+import net.minecraft.util.Identifier
 
-class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) {
+class PokeNav : Screen(TranslatableText("pokemoncobbled.ui.pokenav.title")) {
 
     companion object {
         // Limiting
@@ -46,35 +46,35 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     override fun init() {
         buttons.clear()
         // Pokemon Button
-        buttons.add(pokeNavImageButtonOf(0, 0, pokemon, this::onPressPokemon, TranslatableComponent("pokemoncobbled.ui.pokemon")))
+        buttons.add(pokeNavImageButtonOf(0, 0, pokemon, this::onPressPokemon, TranslatableText("pokemoncobbled.ui.pokemon")))
 
         // EXIT Button
-        buttons.add(pokeNavImageButtonOf(1, 0, exit, this::onPressExit, TranslatableComponent("pokemoncobbled.ui.exit")))
+        buttons.add(pokeNavImageButtonOf(1, 0, exit, this::onPressExit, TranslatableText("pokemoncobbled.ui.exit")))
 
         buttons.forEach { button ->
             rows[button.posY]++ // To know how many buttons are in one row
-            addRenderableWidget(button)
+            addDrawableChild(button)
         }
 
         super.init()
     }
 
     override fun keyPressed(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
-        if (pKeyCode == InputConstants.KEY_RIGHT || pKeyCode == InputConstants.KEY_D) {
+        if (pKeyCode == InputUtil.GLFW_KEY_RIGHT || pKeyCode == InputUtil.GLFW_KEY_D) {
             if (currentSelectionPos.first == rows[currentSelectionPos.second] - 1) { // If the current position is the last button in the row
                 changeSelectionToPos(0, currentSelectionPos.second) // Reset to first button of row
             } else {
                 changeSelectionToPos(currentSelectionPos.first + 1, currentSelectionPos.second) // Go one Button to the right
             }
         }
-        if (pKeyCode == InputConstants.KEY_LEFT || pKeyCode == InputConstants.KEY_A) {
+        if (pKeyCode == InputUtil.GLFW_KEY_LEFT || pKeyCode == InputUtil.GLFW_KEY_A) {
             if (currentSelectionPos.first == 0) { // If the current button is the first one in the row
                 changeSelectionToPos(rows[currentSelectionPos.second] - 1, currentSelectionPos.second) // Go to the last Button in the row
             } else {
                 changeSelectionToPos(currentSelectionPos.first - 1, currentSelectionPos.second) // Go one Button to the right
             }
         }
-        if (pKeyCode == InputConstants.KEY_UP || pKeyCode == InputConstants.KEY_W) {
+        if (pKeyCode == InputUtil.GLFW_KEY_UP || pKeyCode == InputUtil.GLFW_KEY_W) {
             if (currentSelectionPos.second == 0) { // If the current Button is in the uppermost row
                 val x = currentSelectionPos.first
                 val y = rows.indexOfLast { it != 0 } // Can have entries with 0 (0 representing that there is now button in that column) so the last filled one
@@ -87,7 +87,7 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
                 changeSelectionToPos(currentSelectionPos.first, currentSelectionPos.second - 1)
             }
         }
-        if (pKeyCode == InputConstants.KEY_DOWN || pKeyCode == InputConstants.KEY_S) {
+        if (pKeyCode == InputUtil.GLFW_KEY_DOWN || pKeyCode == InputUtil.GLFW_KEY_S) {
             if (currentSelectionPos.second == rows.indexOfLast { it != 0 }) { // If the current Button is in the last row
                 changeSelectionToPos(currentSelectionPos.first, 0) // Go back to the first row
             } else {
@@ -100,12 +100,12 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
                 }
             }
         }
-        if (pKeyCode == InputConstants.KEY_SPACE) {
+        if (pKeyCode == InputUtil.GLFW_KEY_SPACE) {
             buttons.firstOrNull {
                 it.posX == currentSelectionPos.first && it.posY == currentSelectionPos.second
             }?.onPress() // Executes the onPress action for the currently selected button
         }
-        if (pKeyCode == PokeNavigatorBinding.currentKey().value || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) {
+        if (pKeyCode == PokeNavigatorBinding.currentKey().code || pKeyCode == InputUtil.GLFW_KEY_LEFT_SHIFT || pKeyCode == InputUtil.GLFW_KEY_RIGHT_SHIFT) {
             aboutToClose = true // This is needed so the UI doesn't open itself afterwards again (Closing with same key as opening) -> KeyReleased
         }
 
@@ -113,8 +113,8 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     }
 
     override fun keyReleased(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
-        if ((pKeyCode == PokeNavigatorBinding.currentKey().value || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) && aboutToClose) {
-            Minecraft.getInstance().setScreen(null) // So we only close if the Key was released
+        if ((pKeyCode == PokeNavigatorBinding.currentKey().code || pKeyCode == InputUtil.GLFW_KEY_LEFT_SHIFT || pKeyCode == InputUtil.GLFW_KEY_RIGHT_SHIFT) && aboutToClose) {
+            MinecraftClient.getInstance().setScreen(null) // So we only close if the Key was released
         }
         return super.keyReleased(pKeyCode, pScanCode, pModifiers)
     }
@@ -146,9 +146,9 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     private fun pokeNavImageButtonOf(
         posX: Int,
         posY: Int,
-        resourceLocation: ResourceLocation,
-        onPress: Button.OnPress,
-        component: Component
+        resourceLocation: Identifier,
+        onPress: ButtonWidget.PressAction,
+        component: Text
     ): PokeNavImageButton {
         return PokeNavImageButton(
             posX, posY,
@@ -164,12 +164,12 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
      * What should happen on Button press - START
      */
 
-    private fun onPressPokemon(button: Button) {
-        Minecraft.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
+    private fun onPressPokemon(button: ButtonWidget) {
+        MinecraftClient.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
     }
 
-    private fun onPressExit(button: Button) {
-        Minecraft.getInstance().setScreen(null)
+    private fun onPressExit(button: ButtonWidget) {
+        MinecraftClient.getInstance().setScreen(null)
     }
 
     /**
@@ -179,12 +179,12 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     /**
      * Rendering the background texture
      */
-    override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         renderBackground(pMatrixStack)
 
         // Rendering UI Background
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = background,
             x = (width - backgroundWidth) / 2, y = (height - backgroundHeight) / 2,
             width = backgroundWidth, height = backgroundHeight
@@ -194,7 +194,7 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
 
         // Rendering Selection
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = select,
             x = getWidthForPos(currentSelectionPos.first) + 2.55, y = getHeightFor(currentSelectionPos.second) + 2.45,
             width = 59, height = 34.5
@@ -204,7 +204,7 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     /**
      * Whether the screen should pause the game or not
      */
-    override fun isPauseScreen(): Boolean {
+    override fun shouldPause(): Boolean {
         return true
     }
 }

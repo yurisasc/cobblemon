@@ -1,10 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.keybind
 
-import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.DownShiftPartyBinding
-import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
-import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
-import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PokeNavigatorBinding
-import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.UpShiftPartyBinding
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.*
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 
 /**
@@ -14,7 +10,8 @@ import dev.architectury.registry.client.keymappings.KeyMappingRegistry
  * @since 2022-02-17
  */
 object CobbledKeybinds {
-    private val keybinds = mutableListOf<CobbledKeyMapping>()
+
+    private val keybinds = mutableListOf<CobbledKeyBinding>()
     fun register() {
         registerKeybind(HidePartyBinding)
         registerKeybind(PokeNavigatorBinding)
@@ -33,7 +30,7 @@ object CobbledKeybinds {
 
     fun getAllKeybinds() = keybinds
 
-    private fun registerKeybind(keybind: CobbledKeyMapping): CobbledKeyMapping {
+    private fun registerKeybind(keybind: CobbledKeyBinding): CobbledKeyBinding {
         return keybind.also {
             keybinds.add(it)
         }

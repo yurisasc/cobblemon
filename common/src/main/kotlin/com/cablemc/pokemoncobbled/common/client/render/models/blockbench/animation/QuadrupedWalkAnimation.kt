@@ -2,8 +2,8 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animat
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.QuadrupedFrame
-import net.minecraft.util.Mth
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
+import net.minecraft.util.math.MathHelper
 
 /**
  * A quadruped animation that will have zero-rotations on all legs at
@@ -22,9 +22,9 @@ class QuadrupedWalkAnimation<T : Entity>(
 ) : StatelessAnimation<T, QuadrupedFrame>(frame) {
     override val targetFrame: Class<QuadrupedFrame> = QuadrupedFrame::class.java
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        frame.hindRightLeg.xRot += Mth.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier
-        frame.hindLeftLeg.xRot += Mth.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier
-        frame.foreRightLeg.xRot += Mth.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier
-        frame.foreLeftLeg.xRot += Mth.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier
+        frame.hindRightLeg.pitch += MathHelper.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier
+        frame.hindLeftLeg.pitch += MathHelper.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier
+        frame.foreRightLeg.pitch += MathHelper.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier
+        frame.foreLeftLeg.pitch += MathHelper.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier
     }
 }

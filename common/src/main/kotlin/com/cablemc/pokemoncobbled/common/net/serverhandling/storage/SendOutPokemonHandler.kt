@@ -9,10 +9,10 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacke
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.runOnServer
-import com.cablemc.pokemoncobbled.common.util.toVec3
+import com.cablemc.pokemoncobbled.common.util.toVec3d
 import com.cablemc.pokemoncobbled.common.util.traceBlockCollision
-import net.minecraft.core.Direction
-import net.minecraft.world.phys.Vec3
+import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3d
 
 object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
     override fun invoke(packet: SendOutPokemonPacket, ctx: CobbledNetwork.NetworkContext) {
@@ -25,10 +25,10 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
 
             if (state !is ActivePokemonState) {
                 val trace = player.traceBlockCollision(maxDistance = 15F)
-                if (trace != null && trace.direction == Direction.UP && !player.level.getBlockState(trace.blockPos.above()).material.isSolid) {
-                    val position = Vec3(trace.location.x, trace.blockPos.above().toVec3().y, trace.location.z)
-                    pokemon.sendOut(player.getLevel(), position) {
-                        player.getLevel().playSoundServer(position, CobbledSounds.SEND_OUT.get(), volume = 0.2F)
+                if (trace != null && trace.direction == Direction.UP && !player.world.getBlockState(trace.blockPos.up()).material.isSolid) {
+                    val position = Vec3d(trace.location.x, trace.blockPos.up().toVec3d().y, trace.location.z)
+                    pokemon.sendOut(player.getWorld(), position) {
+                        player.getWorld().playSoundServer(position, CobbledSounds.SEND_OUT.get(), volume = 0.2F)
                         it.phasingTargetId.set(player.id)
                         it.beamModeEmitter.set(1)
 
@@ -41,7 +41,7 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
             } else {
                 val entity = state.entity
                 if (entity != null && entity.phasingTargetId.get() == -1) {
-                    player.getLevel().playSoundServer(entity.position(), CobbledSounds.RECALL.get(), volume = 0.2F)
+                    player.getWorld().playSoundServer(entity.pos, CobbledSounds.RECALL.get(), volume = 0.2F)
                     entity.phasingTargetId.set(player.id)
                     entity.beamModeEmitter.set(2)
                     afterOnMain(seconds = 1.5F) { pokemon.recall() }

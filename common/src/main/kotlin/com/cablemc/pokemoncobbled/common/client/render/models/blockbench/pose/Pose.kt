@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * A pose for a model.

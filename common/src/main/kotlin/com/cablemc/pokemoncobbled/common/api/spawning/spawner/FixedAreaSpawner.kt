@@ -3,8 +3,8 @@ package com.cablemc.pokemoncobbled.common.api.spawning.spawner
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.util.squeezeWithinBounds
-import net.minecraft.core.BlockPos
-import net.minecraft.world.level.Level
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 
 /**
  * A spawner that works within a fixed area, and ticks on its own. The location
@@ -18,19 +18,19 @@ open class FixedAreaSpawner(
     name: String,
     spawns: SpawnPool,
     manager: SpawnerManager,
-    val level: Level,
+    val world: World,
     val position: BlockPos,
     val horizontalRadius: Int,
     val verticalRadius: Int
 ) : AreaSpawner(name, spawns, manager) {
     override fun getArea(): SpawningArea? {
-        val min = level.squeezeWithinBounds(position.offset(-horizontalRadius, -verticalRadius, -horizontalRadius))
-        val max = level.squeezeWithinBounds(position.offset(horizontalRadius, verticalRadius, horizontalRadius))
+        val min = world.squeezeWithinBounds(position.add(-horizontalRadius, -verticalRadius, -horizontalRadius))
+        val max = world.squeezeWithinBounds(position.add(horizontalRadius, verticalRadius, horizontalRadius))
 
-        return if (level.isLoaded(min) && level.isLoaded(max)) {
+        return if (world.canSetBlock(min) && world.canSetBlock(max)) {
             SpawningArea(
                 cause = this,
-                level = level,
+                world = world,
                 baseX = min.x,
                 baseY = min.y,
                 baseZ = min.z,

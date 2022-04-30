@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.net.messages.server
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 
 class RequestMoveSwapPacket(): NetworkPacket {
 
@@ -19,13 +19,13 @@ class RequestMoveSwapPacket(): NetworkPacket {
         this.slot = slot
     }
 
-    override fun encode(buffer: FriendlyByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeInt(move1)
         buffer.writeInt(move2)
         buffer.writeInt(slot)
     }
 
-    override fun decode(buffer: FriendlyByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         move1 = buffer.readInt()
         move2 = buffer.readInt()
         slot = buffer.readInt()

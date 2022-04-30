@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.item
 
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * Registry for all Berry types
@@ -93,7 +93,7 @@ object Berries {
      * Gets a berry by registry name
      * @return a berry type or null
      */
-    fun getBerry(name: ResourceLocation): Berry? {
+    fun getBerry(name: Identifier): Berry? {
         return allBerries.find { berry -> berry.name == name }
     }
 }

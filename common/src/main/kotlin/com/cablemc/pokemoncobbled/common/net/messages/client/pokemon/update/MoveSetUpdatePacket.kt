@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update
 
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 
 class MoveSetUpdatePacket internal constructor(): SingleUpdatePacket<MoveSet>(MoveSet()) {
 
@@ -14,11 +14,11 @@ class MoveSetUpdatePacket internal constructor(): SingleUpdatePacket<MoveSet>(Mo
         value = moveSet
     }
 
-    override fun encodeValue(buffer: FriendlyByteBuf, value: MoveSet) {
+    override fun encodeValue(buffer: PacketByteBuf, value: MoveSet) {
         value.saveToBuffer(buffer)
     }
 
-    override fun decodeValue(buffer: FriendlyByteBuf): MoveSet {
+    override fun decodeValue(buffer: PacketByteBuf): MoveSet {
         return MoveSet().loadFromBuffer(buffer)
     }
 

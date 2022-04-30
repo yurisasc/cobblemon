@@ -9,14 +9,14 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.network.chat.TextComponent
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
 
 class MovesWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     val summary: Summary
-): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent("MovesWidget")) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("MovesWidget")) {
     companion object {
         private const val MOVE_WIDTH = 120
         private const val MOVE_HEIGHT = 30
@@ -46,11 +46,11 @@ class MovesWidget(
         addWidget(it)
     }
 
-    override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         // Rendering Moves Texture
         RenderSystem.setShaderTexture(0, movesBaseResource)
         RenderSystem.enableDepthTest()
-        blit(pMatrixStack, x, y, 0F, 0F, width, height, width, height)
+        drawTexture(pMatrixStack, x, y, 0F, 0F, width, height, width, height)
         moves.forEach {
             it.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
         }

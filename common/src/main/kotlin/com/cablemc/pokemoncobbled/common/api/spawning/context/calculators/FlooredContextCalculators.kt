@@ -9,7 +9,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.Spawni
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator.Companion.isLavaCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator.Companion.isSolidCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator.Companion.isWaterCondition
-import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.block.BlockState
 
 /**
  * A spawning context calculator that creates some kind of [FlooredSpawningContext]. The shared
@@ -27,7 +27,7 @@ interface FlooredSpawningContextCalculator<T : FlooredSpawningContext> : AreaSpa
 
     override fun fits(input: AreaSpawningInput): Boolean {
         val floorState = input.slice.getBlockState(input.position)
-        val aboveState = input.slice.getBlockState(input.position.above())
+        val aboveState = input.slice.getBlockState(input.position.up())
         return baseCondition(floorState) && surroundingCondition(aboveState)
     }
 }
@@ -47,8 +47,8 @@ object GroundedSpawningContextCalculator : FlooredSpawningContextCalculator<Grou
     override fun calculate(input: AreaSpawningInput): GroundedSpawningContext {
         return GroundedSpawningContext(
             cause = input.cause,
-            level = input.level,
-            position = input.position.immutable(),
+            world = input.world,
+            position = input.position.toImmutable(),
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
@@ -74,8 +74,8 @@ object SeafloorSpawningContextCalculator : FlooredSpawningContextCalculator<Seaf
     override fun calculate(input: AreaSpawningInput): SeafloorSpawningContext {
         return SeafloorSpawningContext(
             cause = input.cause,
-            level = input.level,
-            position = input.position.immutable(),
+            world = input.world,
+            position = input.position.toImmutable(),
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),
@@ -101,8 +101,8 @@ object LavafloorSpawningContextCalculator : FlooredSpawningContextCalculator<Lav
     override fun calculate(input: AreaSpawningInput): LavafloorSpawningContext {
         return LavafloorSpawningContext(
             cause = input.cause,
-            level = input.level,
-            position = input.position.immutable(),
+            world = input.world,
+            position = input.position.toImmutable(),
             light = getLight(input),
             skyAbove = getSkyAbove(input),
             influences = input.spawner.copyInfluences(),

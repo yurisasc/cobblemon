@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.item.Flavor
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.pokemon.Nature
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * Registry for all Nature types
@@ -154,7 +154,7 @@ object Natures {
      * Gets a nature by registry name
      * @return a nature type or null
      */
-    fun getNature(name: ResourceLocation): Nature? {
+    fun getNature(name: Identifier): Nature? {
         return allNatures.find { nature -> nature.name == name }
     }
 

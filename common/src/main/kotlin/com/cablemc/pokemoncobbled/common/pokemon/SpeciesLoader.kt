@@ -16,7 +16,7 @@ import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
-import net.minecraft.world.entity.EntityDimensions
+import net.minecraft.entity.EntityDimensions
 import java.io.InputStreamReader
 
 object SpeciesLoader {

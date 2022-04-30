@@ -2,11 +2,11 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.item.Flavor
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.util.Mth.floor
+import net.minecraft.util.Identifier
+import net.minecraft.util.math.MathHelper.floor
 
 class Nature(
-    val name: ResourceLocation,
+    val name: Identifier,
     val increasedStat: Stat?,
     val decreasedStat: Stat?,
     val favoriteFlavor: Flavor?,

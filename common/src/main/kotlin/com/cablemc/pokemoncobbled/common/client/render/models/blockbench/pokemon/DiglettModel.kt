@@ -5,25 +5,24 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Po
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.client.model.geom.ModelLayerLocation
-import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.client.model.geom.PartPose
-import net.minecraft.client.model.geom.builders.CubeDeformation
-import net.minecraft.client.model.geom.builders.CubeListBuilder
-import net.minecraft.client.model.geom.builders.LayerDefinition
-import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.world.phys.Vec3
-
+import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.ModelTransform
+import net.minecraft.client.model.Dilation
+import net.minecraft.client.model.ModelPartBuilder
+import net.minecraft.client.model.TexturedModelData
+import net.minecraft.client.model.ModelData
+import net.minecraft.util.math.Vec3d
 
 class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart: ModelPart = registerRelevantPart("diglett", root.getChild("diglett"))
     private val body: ModelPart = registerRelevantPart("body", rootPart.getChildOf("body"))
 
     override val portraitScale = 1.65F
-    override val portraitTranslation = Vec3(0.15, -0.7, 0.0)
+    override val portraitTranslation = Vec3d(0.15, -0.7, 0.0)
 
     override val profileScale = 1.0F
-    override val profileTranslation = Vec3(0.0, 0.0, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(
@@ -64,36 +63,36 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     }
 
     companion object {
-        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("diglett"), "main")
-        fun createBodyLayer(): LayerDefinition {
-            val meshdefinition = MeshDefinition()
+        val LAYER_LOCATION = EntityModelLayer(cobbledResource("diglett"), "main")
+        fun createBodyLayer(): TexturedModelData {
+            val meshdefinition = ModelData()
             val partdefinition = meshdefinition.root
-            val diglett = partdefinition.addOrReplaceChild(
+            val diglett = partdefinition.addChild(
                 "diglett",
-                CubeListBuilder.create(),
-                PartPose.offset(0.0f, 23.0f, 0.0f)
+                ModelPartBuilder.create(),
+                ModelTransform.pivot(0.0f, 23.0f, 0.0f)
             )
-            val body = diglett.addOrReplaceChild(
+            val body = diglett.addChild(
                 "body",
-                CubeListBuilder.create().texOffs(0, 18)
-                    .addBox(-2.0f, -1.5f, -2.5f, 4.0f, 2.0f, 1.0f, CubeDeformation(0.0f))
-                    .texOffs(0, 0).addBox(-3.5f, -5.0f, -1.5f, 7.0f, 11.0f, 7.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, -5.25f, -2.0f)
+                ModelPartBuilder.create().uv(0, 18)
+                    .cuboid(-2.0f, -1.5f, -2.5f, 4.0f, 2.0f, 1.0f, Dilation(0.0f))
+                    .uv(0, 0).cuboid(-3.5f, -5.0f, -1.5f, 7.0f, 11.0f, 7.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, -5.25f, -2.0f)
             )
-            val eyes = body.addOrReplaceChild(
+            val eyes = body.addChild(
                 "eyes",
-                CubeListBuilder.create().texOffs(0, 0).mirror()
-                    .addBox(1.25f, -1.0f, 0.0f, 1.0f, 2.0f, 0.0f, CubeDeformation(0.0f)).mirror(false)
-                    .texOffs(0, 0).addBox(-2.25f, -1.0f, 0.0f, 1.0f, 2.0f, 0.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, -2.75f, -1.55f)
+                ModelPartBuilder.create().uv(0, 0).mirrored()
+                    .cuboid(1.25f, -1.0f, 0.0f, 1.0f, 2.0f, 0.0f, Dilation(0.0f)).mirrored(false)
+                    .uv(0, 0).cuboid(-2.25f, -1.0f, 0.0f, 1.0f, 2.0f, 0.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, -2.75f, -1.55f)
             )
-            val roc = diglett.addOrReplaceChild(
+            val roc = diglett.addChild(
                 "roc",
-                CubeListBuilder.create().texOffs(0, 21)
-                    .addBox(-5.0f, -1.0f, -4.5f, 10.0f, 6.0f, 9.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, 0.0f, -0.25f)
+                ModelPartBuilder.create().uv(0, 21)
+                    .cuboid(-5.0f, -1.0f, -4.5f, 10.0f, 6.0f, 9.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 0.0f, -0.25f)
             )
-            return LayerDefinition.create(meshdefinition, 48, 48)
+            return TexturedModelData.of(meshdefinition, 48, 48)
         }
     }
 }

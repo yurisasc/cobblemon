@@ -1,15 +1,15 @@
 package com.cablemc.pokemoncobbled.common.util
 
-import com.mojang.math.Vector3f
-import net.minecraft.core.BlockPos
-import net.minecraft.world.phys.Vec3
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
+import net.minecraft.util.math.Vec3f
 
 /**
- * For conversion from Vec3 to BlockPos, loses accuracy
+ * For conversion from Vec3dto BlockPos, loses accuracy
  */
-fun Vec3.toBlockPos(): BlockPos {
+fun Vec3d.toBlockPos(): BlockPos {
     return BlockPos(this)
 }
 
-fun Vec3.toVector3f(): Vector3f = Vector3f(x.toFloat(), y.toFloat(), z.toFloat())
-fun Vector3f.toVec3(): Vec3 = Vec3(x().toDouble(), y().toDouble(), z().toDouble())
+fun Vec3d.toVec3f(): Vec3f = Vec3f(x.toFloat(), y.toFloat(), z.toFloat())
+fun Vec3f.toVec3d(): Vec3d= Vec3d(x.toDouble(), y.toDouble(), z.toDouble())
