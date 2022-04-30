@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionLike
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 
 /**
  * The base of all evolution related updates.
@@ -28,18 +28,18 @@ abstract class EvolutionLikeUpdatePacket<C : EvolutionLike, S : EvolutionLike> :
      */
     protected abstract fun createSending(pokemon: Pokemon): S
 
-    final override fun encode(buffer: FriendlyByteBuf) {
+    final override fun encode(buffer: PacketByteBuf) {
         super.encode(buffer)
         this.encodeSending(buffer)
     }
 
-    final override fun decode(buffer: FriendlyByteBuf) {
+    final override fun decode(buffer: PacketByteBuf) {
         super.decode(buffer)
         this.decodeSending(buffer)
     }
 
-    abstract fun encodeSending(buffer: FriendlyByteBuf)
+    abstract fun encodeSending(buffer: PacketByteBuf)
 
-    abstract fun decodeSending(buffer: FriendlyByteBuf)
+    abstract fun decodeSending(buffer: PacketByteBuf)
 
 }

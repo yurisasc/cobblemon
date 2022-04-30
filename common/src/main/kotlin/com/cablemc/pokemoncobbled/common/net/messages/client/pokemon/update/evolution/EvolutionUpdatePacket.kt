@@ -7,7 +7,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.common.pokemon.update.evol
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionDisplay
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.DummyEvolution
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 
 /**
  * The base for all [Evolution] updates.
@@ -26,16 +26,16 @@ abstract class EvolutionUpdatePacket : EvolutionLikeUpdatePacket<Evolution, Evol
         return CobbledEvolutionDisplay(this.current.id, result.species, result.form)
     }
 
-    final override fun encodeSending(buffer: FriendlyByteBuf) {
-        buffer.writeUtf(this.sending.id)
-        buffer.writeUtf(this.sending.species.name)
-        buffer.writeUtf(this.sending.form.name)
+    final override fun encodeSending(buffer: PacketByteBuf) {
+        buffer.writeString(this.sending.id)
+        buffer.writeString(this.sending.species.name)
+        buffer.writeString(this.sending.form.name)
     }
 
-    final override fun decodeSending(buffer: FriendlyByteBuf) {
-        val id = buffer.readUtf()
-        val speciesName = buffer.readUtf()
-        val formName = buffer.readUtf()
+    final override fun decodeSending(buffer: PacketByteBuf) {
+        val id = buffer.readString()
+        val speciesName = buffer.readString()
+        val formName = buffer.readString()
         val species = PokemonSpecies.getByName(speciesName) ?: throw IllegalArgumentException("Cannot resolve species from name $speciesName")
         val form = species.forms.firstOrNull { form -> form.name.equals(formName, true) } ?: throw IllegalArgumentException("Cannot resolve form for ${species.name} from ID $formName")
         this.sending = CobbledEvolutionDisplay(id, species, form)

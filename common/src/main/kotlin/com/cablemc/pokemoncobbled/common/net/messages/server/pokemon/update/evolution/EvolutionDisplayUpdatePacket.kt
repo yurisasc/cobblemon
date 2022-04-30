@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.common.pokemon.update.evol
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionDisplay
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.DummyEvolution
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 
 /**
  * The base for all [EvolutionDisplay] updates.
@@ -25,12 +25,12 @@ abstract class EvolutionDisplayUpdatePacket : EvolutionLikeUpdatePacket<Evolutio
         throw UnsupportedOperationException("Evolutions are resolved on the server side")
     }
 
-    final override fun encodeSending(buffer: FriendlyByteBuf) {
-        buffer.writeUtf(this.sending.id)
+    final override fun encodeSending(buffer: PacketByteBuf) {
+        buffer.writeString(this.sending.id)
     }
 
-    final override fun decodeSending(buffer: FriendlyByteBuf) {
-        this.evolutionId = buffer.readUtf()
+    final override fun decodeSending(buffer: PacketByteBuf) {
+        this.evolutionId = buffer.readString()
     }
 
 }

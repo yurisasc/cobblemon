@@ -2,7 +2,8 @@ package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
 
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledServerEvolutionController
-import net.minecraft.nbt.Tag
+import com.google.gson.JsonElement
+import net.minecraft.nbt.NbtElement
 
 /**
  * Responsible for holding all available [EvolutionLike]s in the [Pokemon].
@@ -18,8 +19,12 @@ interface EvolutionController<T : EvolutionLike> : MutableSet<T> {
 
     fun start(evolution: T)
 
-    fun saveToNBT(): Tag
+    fun saveToNBT(): NbtElement
 
-    fun loadFromNBT(nbt: Tag)
+    fun loadFromNBT(nbt: NbtElement)
+
+    fun saveToJson(): JsonElement
+
+    fun loadFromJson(json: JsonElement)
 
 }

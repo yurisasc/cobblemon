@@ -2,20 +2,20 @@ package com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements
 
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.template.EntityQueryRequirement
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.phys.AABB
+import net.minecraft.entity.LivingEntity
+import net.minecraft.util.math.Box
 
 /**
  * A [EntityQueryRequirement] for when a [Pokemon] is expected to be in a certain area.
  *
- * @property bounds The [AABB] expected to be in.
+ * @property box The [Box] expected to be in.
  * @author Licious
  * @since March 21st, 2022
  */
-class AreaRequirement(val bounds: AABB) : EntityQueryRequirement() {
+class AreaRequirement(val box: Box) : EntityQueryRequirement() {
 
     override fun check(pokemon: Pokemon, queriedEntity: LivingEntity): Boolean {
-        return this.bounds.contains(queriedEntity.position())
+        return this.box.contains(queriedEntity.pos)
     }
 
     companion object {

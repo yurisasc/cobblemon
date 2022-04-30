@@ -5,8 +5,6 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.ContextEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.pokemon.Species
-import net.minecraft.world.item.ItemStack
 
 /**
  * Represents a [ContextEvolution] with [Pokemon] context.

@@ -6,11 +6,8 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.ContextEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.item.interactive.EvolutionItem
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.core.Registry
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
+import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 
 /**
  * Represents a [ContextEvolution] with [ItemStack] context.
@@ -23,12 +20,12 @@ import net.minecraft.world.item.Items
 open class ItemInteractionEvolution(
     override val id: String,
     override val result: PokemonProperties,
-    override val requiredContext: ResourceLocation,
+    override val requiredContext: Identifier,
     override var optional: Boolean,
     override var consumeHeldItem: Boolean,
     override val requirements: MutableSet<EvolutionRequirement>,
     override val learnableMoves: MutableSet<MoveTemplate>
-) : ContextEvolution<EvolutionItem, ResourceLocation> {
+) : ContextEvolution<EvolutionItem, Identifier> {
 
     override fun testContext(pokemon: Pokemon, context: EvolutionItem): Boolean {
         val contextKey = Registry.ITEM.getKey(context)

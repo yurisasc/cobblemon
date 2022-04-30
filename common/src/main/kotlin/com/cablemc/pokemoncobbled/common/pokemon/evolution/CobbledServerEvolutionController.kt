@@ -8,9 +8,13 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evol
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.StringTag
-import net.minecraft.nbt.Tag
+import com.cablemc.pokemoncobbled.common.util.toJsonArray
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
+import com.google.gson.JsonPrimitive
+import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtString
 
 internal class CobbledServerEvolutionController(override val pokemon: Pokemon) : EvolutionController<Evolution> {
 
@@ -29,21 +33,32 @@ internal class CobbledServerEvolutionController(override val pokemon: Pokemon) :
         )
     }
 
-    override fun saveToNBT(): Tag {
-        val list = ListTag()
+    override fun saveToNBT(): NbtElement {
+        val list = NbtList()
         this.evolutions.forEach { evolution ->
-            list += StringTag.valueOf(evolution.id)
+            list += NbtString.of(evolution.id)
         }
         return list
     }
 
-    override fun loadFromNBT(nbt: Tag) {
-        val list = nbt as? ListTag ?: return
+    override fun loadFromNBT(nbt: NbtElement) {
+        val list = nbt as? NbtList ?: return
         this.clear()
-        for (tag in list.filterIsInstance<StringTag>()) {
-            val id = tag.asString
-            val evolution = this.pokemon.species.evolutions
-                .firstOrNull { evolution -> evolution.id.equals(id, true) } ?: continue
+        for (tag in list.filterIsInstance<NbtString>()) {
+            val id = tag.asString()
+            val evolution = this.findEvolutionFromId(id) ?: continue
+            this.add(evolution)
+        }
+    }
+
+    override fun saveToJson(): JsonElement = this.evolutions
+            .map { evolution -> evolution.id }
+            .toJsonArray()
+
+    override fun loadFromJson(json: JsonElement) {
+        for (element in json as? JsonArray ?: return) {
+            val id = (element as? JsonPrimitive)?.asString ?: continue
+            val evolution = this.findEvolutionFromId(id) ?: continue
             this.add(evolution)
         }
     }
@@ -91,5 +106,8 @@ internal class CobbledServerEvolutionController(override val pokemon: Pokemon) :
         }
         return result
     }
+
+    private fun findEvolutionFromId(id: String) = this.pokemon.species.evolutions
+        .firstOrNull { evolution -> evolution.id.equals(id, true) }
 
 }

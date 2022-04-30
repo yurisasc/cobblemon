@@ -5,7 +5,8 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionControll
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.nbt.Tag
+import com.google.gson.JsonElement
+import net.minecraft.nbt.NbtElement
 
 internal class CobbledClientEvolutionController(override val pokemon: Pokemon) : EvolutionController<EvolutionDisplay> {
 
@@ -18,11 +19,19 @@ internal class CobbledClientEvolutionController(override val pokemon: Pokemon) :
         sendToServer(AcceptEvolutionPacket(this.pokemon, evolution))
     }
 
-    override fun saveToNBT(): Tag {
+    override fun saveToNBT(): NbtElement {
         throw UnsupportedOperationException(UOE_MESSAGE)
     }
 
-    override fun loadFromNBT(nbt: Tag) {
+    override fun loadFromNBT(nbt: NbtElement) {
+        throw UnsupportedOperationException(UOE_MESSAGE)
+    }
+
+    override fun saveToJson(): JsonElement {
+        throw UnsupportedOperationException(UOE_MESSAGE)
+    }
+
+    override fun loadFromJson(json: JsonElement) {
         throw UnsupportedOperationException(UOE_MESSAGE)
     }
 

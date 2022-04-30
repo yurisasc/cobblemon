@@ -11,6 +11,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.item.interactive.PokemonInteractiveItem
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.util.DataKeys
@@ -32,6 +33,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.Packet
 import net.minecraft.network.PacketByteBuf
@@ -198,6 +200,7 @@ class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         // TODO: Move to proper pokemon interaction menu
+        this.attemptItemInteraction(player, player.getStackInHand(hand))
         if (player.isSneaking && hand == Hand.MAIN_HAND) {
             if (isReadyToSitOnPlayer && player is ServerPlayerEntity && !isBusy) {
                 val store = pokemon.storeCoordinates.get()?.store
@@ -279,4 +282,11 @@ class PokemonEntity(
 
         return true
     }
+
+    private fun attemptItemInteraction(playerIn: PlayerEntity, stack: ItemStack) {
+        if (playerIn !is ServerPlayerEntity || stack.isEmpty) return
+        (stack.item as? PokemonInteractiveItem)?.onInteraction(playerIn, this, stack)
+    }
+
+
 }

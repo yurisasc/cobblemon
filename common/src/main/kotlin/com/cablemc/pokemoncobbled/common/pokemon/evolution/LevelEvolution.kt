@@ -2,13 +2,11 @@ package com.cablemc.pokemoncobbled.common.pokemon.evolution
 
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.ContextEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.google.gson.annotations.SerializedName
-import net.minecraft.world.item.ItemStack
 
 /**
  * Represents a [PassiveEvolution].

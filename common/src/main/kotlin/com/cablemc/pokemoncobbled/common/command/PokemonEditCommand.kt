@@ -9,10 +9,10 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.Commands
-import net.minecraft.commands.arguments.EntityArgument
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.command.argument.EntityArgumentType
+import net.minecraft.server.command.CommandManager
+import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.server.network.ServerPlayerEntity
 
 object PokemonEditCommand {
 
@@ -21,30 +21,30 @@ object PokemonEditCommand {
     private const val SLOT = "slot"
     private const val PROPERTIES = "properties"
 
-    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
-        val command = Commands.literal(NAME)
-            .requires { it.hasPermission(4)  }
-            .then(Commands.argument(PLAYER, EntityArgument.player())
+    fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
+        val command = CommandManager.literal(NAME)
+            .requires { it.hasPermissionLevel(4)  }
+            .then(CommandManager.argument(PLAYER, EntityArgumentType.player())
                 .then(createCommonArguments { it.player() })
             )
-            .then(createCommonArguments { it.source.playerOrException })
+            .then(createCommonArguments { it.source.player })
         dispatcher.register(command)
     }
 
-    private fun createCommonArguments(playerResolver: (CommandContext<CommandSourceStack>) -> ServerPlayer): ArgumentBuilder<CommandSourceStack, *> {
-        return Commands.argument(SLOT, PartySlotArgumentType.partySlot())
-            .then(Commands.argument(PROPERTIES, StringArgumentType.greedyString())
+    private fun createCommonArguments(playerResolver: (CommandContext<ServerCommandSource>) -> ServerPlayerEntity): ArgumentBuilder<ServerCommandSource, *> {
+        return CommandManager.argument(SLOT, PartySlotArgumentType.partySlot())
+            .then(CommandManager.argument(PROPERTIES, StringArgumentType.greedyString())
                 .executes { execute(it, playerResolver.invoke(it)) }
             )
     }
 
-    private fun execute(context: CommandContext<CommandSourceStack>, player: ServerPlayer) : Int {
+    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {
         val pokemon = PartySlotArgumentType.getPokemon(context, SLOT)
         // They may change the species, think it makes sense to say the existing thing was edited, or maybe it doesn't & I'm a derp
         val oldName = pokemon.species.translatedName
         val properties = PokemonProperties.parse(StringArgumentType.getString(context, PROPERTIES))
         properties.apply(pokemon)
-        context.source.sendSuccess(commandLang(NAME, oldName, player.name), true)
+        context.source.sendFeedback(commandLang(NAME, oldName, player.name), true)
         return Command.SINGLE_SUCCESS
     }
 

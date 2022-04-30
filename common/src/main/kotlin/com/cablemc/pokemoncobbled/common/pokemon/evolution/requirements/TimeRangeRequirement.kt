@@ -1,11 +1,10 @@
 package com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements
 
-import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.template.EntityQueryRequirement
-import net.minecraft.world.entity.LivingEntity
+import net.minecraft.entity.LivingEntity
 
 /**
  * An [EvolutionRequirement] for when the current time must be in the provided [TimeRange].
@@ -16,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity
  */
 class TimeRangeRequirement(val range: TimeRange) : EntityQueryRequirement() {
 
-    override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = this.range.contains((queriedEntity.level.dayTime() % 24000).toInt())
+    override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = this.range.contains((queriedEntity.world.timeOfDay % DAY_DURATION).toInt())
 
     companion object {
 

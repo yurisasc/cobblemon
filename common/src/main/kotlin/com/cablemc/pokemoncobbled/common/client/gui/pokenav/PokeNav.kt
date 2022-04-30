@@ -8,16 +8,17 @@ import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PokeNavigatorBi
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
-import com.mojang.blaze3d.platform.InputConstants
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.components.Button
-import net.minecraft.client.gui.screens.Screen
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.TranslatableComponent
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.util.InputUtil
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
+import net.minecraft.util.Identifier
 
-class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) {
+class PokeNav : Screen(TranslatableText("pokemoncobbled.ui.pokenav.title")) {
 
     companion object {
         // Limiting
@@ -53,15 +54,19 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     override fun init() {
         this.buttons.clear()
         // Pokemon Button
-        this.insertButton(pokemon, this::onPressPokemon, TranslatableComponent("pokemoncobbled.ui.pokemon")) { PokemonCobbledClient.storage.myParty.slots.filterNotNull().isNotEmpty() }
+        this.insertButton(pokemon, this::onPressPokemon, TranslatableText("pokemoncobbled.ui.pokemon")) { PokemonCobbledClient.storage.myParty.slots.filterNotNull().isNotEmpty() }
 
         // EXIT Button
-        this.insertButton(exit, this::onPressExit, TranslatableComponent("pokemoncobbled.ui.exit"))
+        this.insertButton(exit, this::onPressExit, TranslatableText("pokemoncobbled.ui.exit"))
+
+        repeat(3) {
+            this.insertButton(pokemon, {}, LiteralText("Dummy"))
+        }
 
         this.buttons.values().forEach { button ->
-            addRenderableWidget(button)
+            addDrawableChild(button)
             if (!button.canClick())
-                addRenderableWidget(this.fillerButtonOf(button.posX, button.posY))
+                addDrawableChild(this.fillerButtonOf(button.posX, button.posY))
         }
 
         super.init()
@@ -73,15 +78,17 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
      */
     override fun keyPressed(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
         val movement: Pair<Int, Int> = when (pKeyCode) {
-            InputConstants.KEY_RIGHT, InputConstants.KEY_D -> 1 to 0
-            InputConstants.KEY_LEFT, InputConstants.KEY_A -> -1 to 0
-            InputConstants.KEY_UP, InputConstants.KEY_W -> 0 to -1
-            InputConstants.KEY_DOWN, InputConstants.KEY_S -> 0 to 1
-            InputConstants.KEY_SPACE -> {
-                buttons.get(currentSelectionPos.first, currentSelectionPos.second)?.onPress()
+            InputUtil.GLFW_KEY_RIGHT, InputUtil.GLFW_KEY_D -> 1 to 0
+            InputUtil.GLFW_KEY_LEFT, InputUtil.GLFW_KEY_A -> -1 to 0
+            InputUtil.GLFW_KEY_UP, InputUtil.GLFW_KEY_W -> 0 to -1
+            InputUtil.GLFW_KEY_DOWN, InputUtil.GLFW_KEY_S -> 0 to 1
+            InputUtil.GLFW_KEY_SPACE -> {
+                val button = this.buttons.get(currentSelectionPos.first, currentSelectionPos.second)
+                button?.playDownSound(MinecraftClient.getInstance().soundManager)
+                button?.onPress()
                 0 to 0
             }
-            PokeNavigatorBinding.currentKey().value, InputConstants.KEY_LSHIFT, InputConstants.KEY_RSHIFT -> {
+            PokeNavigatorBinding.currentKey().code, InputUtil.GLFW_KEY_LEFT_SHIFT, InputUtil.GLFW_KEY_RIGHT_SHIFT -> {
                 this.aboutToClose = true
                 0 to 0
             }
@@ -92,8 +99,8 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     }
 
     override fun keyReleased(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
-        if ((pKeyCode == PokeNavigatorBinding.currentKey().value || pKeyCode == InputConstants.KEY_LSHIFT || pKeyCode == InputConstants.KEY_RSHIFT) && aboutToClose) {
-            Minecraft.getInstance().setScreen(null) // So we only close if the Key was released
+        if ((pKeyCode == PokeNavigatorBinding.currentKey().code || pKeyCode == InputUtil.GLFW_KEY_LEFT_SHIFT || pKeyCode == InputUtil.GLFW_KEY_RIGHT_SHIFT) && aboutToClose) {
+            MinecraftClient.getInstance().setScreen(null) // So we only close if the Key was released
         }
         return super.keyReleased(pKeyCode, pScanCode, pModifiers)
     }
@@ -105,12 +112,12 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     /**
      * Rendering the background texture
      */
-    override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         renderBackground(pMatrixStack)
 
         // Rendering UI Background
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = background,
             x = (width - backgroundWidth) / 2, y = (height - backgroundHeight) / 2,
             width = backgroundWidth, height = backgroundHeight
@@ -126,14 +133,15 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
          */
         val selectedButton = this.buttons.get(currentSelectionPos.first, currentSelectionPos.second) ?: return
         if (!this.focusWithKey) {
-            this.buttons.values().forEach { button ->
-                if (pMouseX in button.x..(button.x + button.width) && pMouseY in button.y..(button.y + button.height)) {
+            for (button in this.buttons.values()) {
+                if (button.isHovered) {
                     this.currentSelectionPos = button.posX to button.posY
+                    break
                 }
             }
         }
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = select,
             x = getWidthForPos(currentSelectionPos.first) + 2.55, y = getHeightFor(currentSelectionPos.second) + 2.45,
             width = 59, height = 34.5,
@@ -144,23 +152,18 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
         )
     }
 
-    override fun afterMouseMove() {
+    override fun applyMouseMoveNarratorDelay() {
         this.focusWithKey = false
-        super.afterMouseMove()
+        super.applyMouseMoveNarratorDelay()
     }
 
-    /**
-     * Whether the screen should pause the game or not
-     */
-    override fun isPauseScreen(): Boolean {
-        return true
-    }
+    override fun shouldPause() = true
 
     /**
      * Moves the selection with the given params.
      *
-     * @param x How many slots to move in the X direction.
-     * @param y How many slots to move in the Y direction.
+     * @param x How many slots to move in the X axis.
+     * @param y How many slots to move in the Y axis.
      *
      * @author Licious
      * @since April 29th, 2022
@@ -173,15 +176,28 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
         this.focusWithKey = true
         val currentX = this.currentSelectionPos.first
         val currentY = this.currentSelectionPos.second
-        val newX = when {
-            this.buttonExists(currentX + x, currentY) -> currentX + x
-            currentX + x < 0 -> this.currentMaxRow()
-            else -> 0
-        }
-        val newY = when {
-            this.buttonExists(currentX, currentY + y) -> currentY + y
-            currentY + y < 0 -> this.currentMaxColumn()
-            else -> 0
+        val maxColumn = this.currentMaxColumn()
+        val maxRow = this.currentMaxRow()
+        var newX = currentX + x
+        var newY = currentY + y
+        // Handle special movement between rows and columns. Any movements that could result in being out bounds are ignored so no need to check those.
+        when {
+            // Moving downwards on last row, go to first row.
+            newY > maxRow -> newY = 0
+            // Moving upwards on first row, go to last row
+            newY < 0 -> newY = maxRow
+            // Final column but there's a next row, we move down 1 and start back at 0
+            newX > maxColumn && newY < this.maxRowAt(0) && this.maxColumnAt(newY + 1) >= 0 -> {
+                newX = 0
+                newY++
+            }
+            // Final column but no next row, we move all the way back to the top
+            newX > maxColumn -> {
+                newX = 0
+                newY = 0
+            }
+            // First column but there's a previous row, we move to the max possible column in the previous row.
+            newX < 0 && newY > 0 -> newX = this.maxColumnAt(--newY)
         }
         // If there's no button at the new coordinates we don't move
         if (this.buttonExists(newX, newY)) {
@@ -192,40 +208,59 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     private fun buttonExists(x: Int, y: Int) = this.buttons.get(x, y) != null
 
     /**
-     * Finds the highest row N possible on the current column.
-     *
-     * @return The highest row.
-     */
-    private fun currentMaxRow(): Int {
-        val y = this.currentSelectionPos.second
-        for (x in MAX_BUTTONS_PER_ROW downTo 0) {
-            if (!this.buttonExists(x, y)) {
-                return x - 1
-            }
-        }
-        return MAX_BUTTONS_PER_ROW
-    }
-
-    /**
      * Finds the highest column N possible on the current row.
      *
      * @return The highest column.
      */
     private fun currentMaxColumn(): Int {
-        val x = this.currentSelectionPos.first
-        for (y in MAX_BUTTONS_PER_COLUMN downTo 0) {
-            if (!this.buttonExists(x, y)) {
-                return y - 1
+        val y = this.currentSelectionPos.second
+        return this.maxColumnAt(y)
+    }
+
+    /**
+     * Finds the highest column N possible on the given row.
+     *
+     * @return The highest column.
+     */
+    private fun maxColumnAt(y: Int): Int {
+        for (x in MAX_BUTTONS_PER_ROW downTo 0) {
+            if (this.buttonExists(x, y)) {
+                return x
             }
         }
-        return MAX_BUTTONS_PER_COLUMN
+        throw IllegalStateException("No buttons exist")
+    }
+
+    /**
+     * Finds the highest row N possible on the current column.
+     *
+     * @return The highest row.
+     */
+    private fun currentMaxRow(): Int {
+        val x = this.currentSelectionPos.first
+        return this.maxRowAt(x)
+    }
+
+    /**
+     * Finds the highest row N possible on the given column.
+     *
+     * @return The highest row.
+     */
+    private fun maxRowAt(x: Int): Int {
+        for (y in MAX_BUTTONS_PER_COLUMN downTo 0) {
+            if (this.buttonExists(x, y)) {
+                return y
+            }
+        }
+        throw IllegalStateException("No buttons exist")
     }
 
     /**
      * Method for calculating the width based on the background, spacing and button position
      */
     private fun getWidthForPos(posX: Int): Int {
-        return (width - backgroundWidth) / 2 + (posX + 1) * HORIZONTAL_SPACING + posX * buttonWidth - if (posX != 0) 3 else 0
+        val baseX = (this.width - backgroundWidth) / 2
+        return baseX + posX * buttonWidth + (posX + 1) * HORIZONTAL_SPACING - posX * 3
     }
 
     /**
@@ -236,12 +271,19 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
     }
 
     /**
-     * To simplify creating PositionAwareImageButtons
+     * Creates and adds a [PokeNavFillerButton] at the first possible row and column.
+     *
+     * @throws [IllegalStateException] if the UI cannot fit more buttons.
+     *
+     * @param identifier The [Identifier] of this button.
+     * @param onPress The action ran when the button is clicked, will not execute if [canClick] is false.
+     * @param text The display [Text] of the button.
+     * @param canClick Used to check if the button can be clicked. Will affect asset rendering to visually symbolize if false.
      */
     private fun insertButton(
-        resourceLocation: ResourceLocation,
-        onPress: Button.OnPress,
-        component: Component,
+        identifier: Identifier,
+        onPress: ButtonWidget.PressAction,
+        text: Text,
         canClick: () -> Boolean = { true }
     ) {
         val insertion = this.findNextInsertion()
@@ -252,8 +294,8 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
             getWidthForPos(posX), getHeightFor(posY),
             buttonWidth, buttonHeight,
             0, 0, 0,
-            resourceLocation, buttonWidth, buttonHeight,
-            onPress, component, canClick
+            identifier, buttonWidth, buttonHeight,
+            onPress, text, canClick
         ))
     }
 
@@ -280,12 +322,12 @@ class PokeNav: Screen(TranslatableComponent("pokemoncobbled.ui.pokenav.title")) 
      * What should happen on Button press - START
      */
 
-    private fun onPressPokemon(button: Button) {
-        Minecraft.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
+    private fun onPressPokemon(button: ButtonWidget) {
+        MinecraftClient.getInstance().setScreen(Summary(PokemonCobbledClient.storage.myParty))
     }
 
-    private fun onPressExit(button: Button) {
-        Minecraft.getInstance().setScreen(null)
+    private fun onPressExit(button: ButtonWidget) {
+        MinecraftClient.getInstance().setScreen(null)
     }
 
 }

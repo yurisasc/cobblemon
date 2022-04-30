@@ -2,8 +2,8 @@ package com.cablemc.pokemoncobbled.common.client.gui.pokenav
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.network.chat.TextComponent
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
 
 class PokeNavFillerButton(
     posX: Int, posY: Int,
@@ -11,16 +11,16 @@ class PokeNavFillerButton(
     pWidth: Int, pHeight: Int,
     pXTexStart: Int, pYTexStart: Int, pYDiffText: Int,
     pTextureWidth: Int, pTextureHeight: Int
-): PokeNavImageButton(posX, posY, pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, FILLER, pTextureWidth, pTextureHeight, {}, TextComponent.EMPTY) {
+): PokeNavImageButton(posX, posY, pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, FILLER, pTextureWidth, pTextureHeight, {}, LiteralText.EMPTY) {
 
-    override fun renderButton(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         this.applyBlitk(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
-        pMatrixStack.pushPose()
+        pMatrixStack.push()
     }
 
-    override fun applyBlitk(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun applyBlitk(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = FILLER,
             x = x, y = y + 0.25,
             width = width, height = height,

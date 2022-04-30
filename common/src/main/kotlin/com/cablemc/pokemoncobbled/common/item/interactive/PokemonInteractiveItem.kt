@@ -2,19 +2,19 @@ package com.cablemc.pokemoncobbled.common.item.interactive
 
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.item.interactive.PokemonInteractiveItem.Ownership
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.item.ItemStack
+import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * An [InteractiveItem] targeting [PokemonEntity]s.
  *
  * @param accepted The [Ownership] variants for this interaction to fire [PokemonInteractiveItem.processInteraction].
  */
-abstract class PokemonInteractiveItem(properties: Properties, vararg accepted: Ownership) : InteractiveItem<PokemonEntity>(properties) {
+abstract class PokemonInteractiveItem(properties: Settings, vararg accepted: Ownership) : InteractiveItem<PokemonEntity>(properties) {
 
     private val accepted = accepted.toSet()
 
-    final override fun onInteraction(player: ServerPlayer, entity: PokemonEntity, stack: ItemStack) {
+    final override fun onInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack) {
         val pokemon = entity.pokemon
         val storeCoordinates = pokemon.storeCoordinates.get()
         val ownership = when {
@@ -29,15 +29,24 @@ abstract class PokemonInteractiveItem(properties: Properties, vararg accepted: O
     /**
      * Fired after [InteractiveItem.onInteraction] the [Ownership] is checked if contained in [accepted].
      *
-     * @param player The [ServerPlayer] interacting with the [entity].
+     * @param player The [ServerPlayerEntity] interacting with the [entity].
      * @param entity The [PokemonEntity] being interacted with.
      * @param stack The [ItemStack] used in this interaction. [ItemStack.getItem] will always be of the same type as this [InteractiveItem].
      */
-    abstract fun processInteraction(player: ServerPlayer, entity: PokemonEntity, stack: ItemStack)
+    abstract fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack)
 
-    protected fun consumeItem(player: ServerPlayer, stack: ItemStack) {
+    /**
+     * Decreases the stack size by a given amount.
+     * The stack size should be validated beforehand.
+     * If the [player] is in creative mode the decrement won't be performed.
+     *
+     * @param player The [ServerPlayerEntity] that caused the interaction, this is used to check for creative mode.
+     * @param stack The [ItemStack] being mutated.
+     * @param amount The amount to deduct from the stack, default is 1.
+     */
+    protected fun consumeItem(player: ServerPlayerEntity, stack: ItemStack, amount: Int = 1) {
         if (!player.isCreative)
-            stack.shrink(1)
+            stack.decrement(amount)
     }
 
     /**

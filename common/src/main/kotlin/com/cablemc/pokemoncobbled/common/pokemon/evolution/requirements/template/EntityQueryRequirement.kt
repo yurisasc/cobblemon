@@ -1,9 +1,9 @@
 package com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.template
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import net.minecraft.world.entity.LivingEntity
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import net.minecraft.entity.LivingEntity
 
 /**
  * An [EvolutionRequirement] that expects a [LivingEntity] to be attached to the [Pokemon].

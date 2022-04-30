@@ -8,4 +8,5 @@ import net.minecraft.item.ItemStack
 
 object CobbledItemGroups {
     val POKE_BALL_TAB: ItemGroup = create("pokemoncobbled.pokeballtab".asResource()) { ItemStack(CobbledItems.POKE_BALL.get()) }
+    val EVOLUTION_ITEM_TAB: ItemGroup = create("pokemoncobbled.evolution_item".asResource()) { ItemStack(CobbledItems.BLACK_AUGURITE.get()) }
 }
