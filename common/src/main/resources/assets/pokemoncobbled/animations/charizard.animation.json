@@ -69,7 +69,7 @@
 					"position": [0, "0.15*(math.sin(q.anim_time*90*3-90)*1+1)", 0]
 				},
 				"rightwing": {
-					"rotation": ["-math.clamp(1*(math.sin(q.anim_time*90*3+90)*1-1),-10,0)", "15*2-*(math.sin(q.anim_time*90*3)*1+1)", 0]
+					"rotation": ["-math.clamp(1*(math.sin(q.anim_time*90*3+90)*1-1),-10,0)", "15*2-1*(math.sin(q.anim_time*90*3)*1+1)", 0]
 				},
 				"rightwing2": {
 					"rotation": [0, "-30*2-2*(math.sin(q.anim_time*90*3-90)*1+1)", 0]

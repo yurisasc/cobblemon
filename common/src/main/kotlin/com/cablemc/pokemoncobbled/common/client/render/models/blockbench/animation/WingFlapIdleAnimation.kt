@@ -2,8 +2,8 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animat
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addRotation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BiWingedFrame
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.setRotation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
 import net.minecraft.entity.Entity
 
@@ -17,7 +17,7 @@ class WingFlapIdleAnimation<T : Entity>(
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         val time = timeVariable(entity?.let { model.getState(it) }, limbSwing, ageInTicks) ?: 0F
-        frame.leftWing.setRotation(axis, flapFunction(time))
-        frame.rightWing.setRotation(axis, -flapFunction(time))
+        frame.leftWing.addRotation(axis, model.scaleForPart(frame.leftWing, flapFunction(time)))
+        frame.rightWing.addRotation(axis, model.scaleForPart(frame.rightWing, -flapFunction(time)))
     }
 }

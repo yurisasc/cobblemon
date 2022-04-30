@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addPosition
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.asTransformed
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.childNamed
@@ -10,6 +12,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.B
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.model.*
@@ -55,58 +58,58 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.NONE,
-            condition = { !it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
-            idleAnimations = arrayOf( SingleBoneLookAnimation(this)
-//                BedrockStatelessAnimation(
-//                    this,
-//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_idle")
-//                )
+            transformTicks = 0,
+            condition = { !it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            idleAnimations = arrayOf( SingleBoneLookAnimation(this),
+                BedrockStatelessAnimation(
+                    this,
+                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_idle")
+                )
             ),
             transformedParts = emptyArray()
         )
 
         registerPose(
             poseType = PoseType.WALK,
-            condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
-            idleAnimations = arrayOf(SingleBoneLookAnimation(this)
-//                BedrockStatelessAnimation(
-//                    this,
-//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_idle")
-//                ),
-//                BedrockStatelessAnimation(
-//                    this,
-//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_walk")
-//                )
+            transformTicks = 0,
+            condition = { it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            idleAnimations = arrayOf(SingleBoneLookAnimation(this),
+                BedrockStatelessAnimation(
+                    this,
+                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_idle")
+                ),
+                BedrockStatelessAnimation(
+                    this,
+                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_walk")
+                )
             ),
             transformedParts = emptyArray()
         )
 
         registerPose(
             poseType = PoseType.FLY,
-            condition = { !it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
-            idleAnimations = arrayOf( SingleBoneLookAnimation(this)
-//                BedrockStatelessAnimation(
-//                    this,
-//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_idle")
-//                )
+            transformTicks = 20,
+            condition = { !it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            idleAnimations = arrayOf( SingleBoneLookAnimation(this),
+                BedrockStatelessAnimation(
+                    this,
+                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_idle")
+                )
             ),
-            transformedParts = emptyArray()
+            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -12F))
         )
 
         registerPose(
             poseType = PoseType.SWIM,
-            condition = { it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
-            idleAnimations = arrayOf( SingleBoneLookAnimation(this)
-//                BedrockStatelessAnimation(
-//                    this,
-//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_idle")
-//                ),
-//                BedrockStatelessAnimation(
-//                    this,
-//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_fly")
-//                )
+            transformTicks = 20,
+            condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            idleAnimations = arrayOf( SingleBoneLookAnimation(this),
+                BedrockStatelessAnimation(
+                    this,
+                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_fly")
+                )
             ),
-            transformedParts = emptyArray()
+            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -18F))
         )
 
 

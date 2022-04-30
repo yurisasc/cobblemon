@@ -43,7 +43,8 @@ abstract class PoseableEntityModel<T : Entity>(
     /** Gets the [PoseableEntityState] for an entity. */
     abstract fun getState(entity: T): PoseableEntityState<T>
 
-    fun scaleForPart(part: ModelPart, value: Float) = (relevantParts.find { it.modelPart == part }?.changeFactor ?: 1F) * value
+    fun getChangeFactor(part: ModelPart) = relevantParts.find { it.modelPart == part }?.changeFactor ?: 1F
+    fun scaleForPart(part: ModelPart, value: Float) = getChangeFactor(part) * value
 
     /**
      * Registers a pose for this model.
