@@ -2,22 +2,21 @@ package com.cablemc.pokemoncobbled.common.command.argument
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import net.minecraft.commands.SharedSuggestionProvider
-import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.command.CommandSource
+import net.minecraft.text.TranslatableText
 import java.util.concurrent.CompletableFuture
 
 class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
 
     companion object {
         val EXAMPLES: List<String> = listOf("eevee")
-        val INVALID_POKEMON = TranslatableComponent("pokemoncobbled.command.pokespawn.invalid-pokemon")
+        val INVALID_POKEMON = TranslatableText("pokemoncobbled.command.pokespawn.invalid-pokemon")
 
         fun properties() = PokemonPropertiesArgumentType()
 
@@ -35,7 +34,7 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
         context: CommandContext<S>,
         builder: SuggestionsBuilder
     ): CompletableFuture<Suggestions> {
-        return SharedSuggestionProvider.suggest(PokemonSpecies.species.map { it.name }, builder)
+        return CommandSource.suggestMatching(PokemonSpecies.species.map { it.name }, builder)
     }
 
     override fun getExamples() = EXAMPLES

@@ -2,9 +2,9 @@ package com.cablemc.pokemoncobbled.common.api.spawning.context
 
 import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
-import net.minecraft.core.BlockPos
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.block.BlockState
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 
 /**
  * A type of area based spawning context with a fluid base block.
@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.BlockState
  */
 abstract class SubmergedSpawningContext(
     cause: Any,
-    level: Level,
+    world: World,
     position: BlockPos,
     light: Int,
     skyAbove: Boolean,
@@ -24,7 +24,7 @@ abstract class SubmergedSpawningContext(
     val depth: Int,
     nearbyBlocks: Set<BlockState>,
     slice: WorldSlice
-) : AreaSpawningContext(cause, level, position, light, skyAbove, influences, width, height, nearbyBlocks, slice) {
+) : AreaSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice) {
     val fluidBlock = slice.getBlockState(position.x, position.y, position.z).block
     val fluidState = slice.getBlockState(position.x, position.y, position.z).fluidState
 }
@@ -37,7 +37,7 @@ abstract class SubmergedSpawningContext(
  */
 open class UnderwaterSpawningContext(
     cause: Any,
-    level: Level,
+    world: World,
     position: BlockPos,
     light: Int,
     skyAbove: Boolean,
@@ -47,7 +47,7 @@ open class UnderwaterSpawningContext(
     depth: Int,
     nearbyBlocks: Set<BlockState>,
     slice: WorldSlice
-): SubmergedSpawningContext(cause, level, position, light, skyAbove, influences, width, height, depth, nearbyBlocks, slice)
+): SubmergedSpawningContext(cause, world, position, light, skyAbove, influences, width, height, depth, nearbyBlocks, slice)
 
 /**
  * A spawning context that occurs in pools of lava at least 2 blocks deep.
@@ -57,7 +57,7 @@ open class UnderwaterSpawningContext(
  */
 open class UnderlavaSpawningContext(
     cause: Any,
-    level: Level,
+    world: World,
     position: BlockPos,
     light: Int,
     skyAbove: Boolean,
@@ -67,4 +67,4 @@ open class UnderlavaSpawningContext(
     depth: Int,
     nearbyBlocks: Set<BlockState>,
     slice: WorldSlice
-): SubmergedSpawningContext(cause, level, position, light, skyAbove, influences, width, height, depth, nearbyBlocks, slice)
+): SubmergedSpawningContext(cause, world, position, light, skyAbove, influences, width, height, depth, nearbyBlocks, slice)

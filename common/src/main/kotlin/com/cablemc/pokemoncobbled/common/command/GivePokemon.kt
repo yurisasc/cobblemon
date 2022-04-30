@@ -1,33 +1,30 @@
 package com.cablemc.pokemoncobbled.common.command
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.moves.Moves
-import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.commandLang
 import com.cablemc.pokemoncobbled.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.Commands
-import net.minecraft.commands.arguments.EntityArgument
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.command.argument.EntityArgumentType
+import net.minecraft.server.command.CommandManager
+import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.server.network.ServerPlayerEntity
 
 object GivePokemon {
 
-    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
-        val command = Commands.literal("givepokemon")
-            .requires { it.hasPermission(4) }
+    fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
+        val command = CommandManager.literal("givepokemon")
+            .requires { it.hasPermissionLevel(4) }
             .then(
-                Commands.argument("pokemon", PokemonPropertiesArgumentType.properties())
+                CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
                     .requires { it != it.server}
-                    .executes { execute(it, it.source.playerOrException) }
+                    .executes { execute(it, it.source.player) }
             )
             .then(
-                Commands.argument("player", EntityArgument.player())
-                    .then(Commands.argument("pokemon", PokemonPropertiesArgumentType.properties())
+                CommandManager.argument("player", EntityArgumentType.player())
+                    .then(CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
                         .executes { execute(it, it.player()) }
                     )
             )
@@ -35,13 +32,13 @@ object GivePokemon {
         dispatcher.register(command)
     }
 
-    private fun execute(context: CommandContext<CommandSourceStack>, player: ServerPlayer) : Int {
+    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {
         try {
             val pokemonProperties = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
             val pokemon = pokemonProperties.create()
             val party = PokemonCobbled.storage.getParty(player)
             party.add(pokemon)
-            context.source.sendSuccess(commandLang("givepokemon.give", pokemon.species.translatedName, player.name), true)
+            context.source.sendFeedback(commandLang("givepokemon.give", pokemon.species.translatedName, player.name), true)
         } catch (e: Exception) {
             e.printStackTrace()
         }

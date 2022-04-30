@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.events.entity
 
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.attribute.DefaultAttributeContainer
 
 /**
  * Event fired when we're registering entity attributes. This is really just a hack to get
@@ -11,4 +11,4 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier
  * @author Hiroku
  * @since February 20th, 2022
  */
-class EntityAttributeEvent(val entityType: EntityType<*>, val attributeSupplier: AttributeSupplier.Builder)
+class EntityAttributeEvent(val entityType: EntityType<*>, val attributeSupplier: DefaultAttributeContainer.Builder)

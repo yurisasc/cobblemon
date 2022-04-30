@@ -7,8 +7,8 @@ import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import net.minecraft.server.level.ServerPlayer
-import java.util.UUID
+import net.minecraft.server.network.ServerPlayerEntity
+import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
 object BattleRegistry {
@@ -145,7 +145,7 @@ object BattleRegistry {
         return battleMap[id]
     }
 
-    fun getBattleByParticipatingPlayer(serverPlayer: ServerPlayer) : PokemonBattle? {
-        return battleMap.values.find { it.actors.any { it.uuid == serverPlayer.uuid } }
+    fun getBattleByParticipatingPlayer(ServerPlayerEntity: ServerPlayerEntity) : PokemonBattle? {
+        return battleMap.values.find { it.actors.any { it.uuid == ServerPlayerEntity.uuid } }
     }
 }

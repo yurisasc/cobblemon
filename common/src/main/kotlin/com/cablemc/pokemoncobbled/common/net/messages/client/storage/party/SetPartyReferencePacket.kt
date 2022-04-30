@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.net.messages.client.storage.party
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -23,11 +23,11 @@ class SetPartyReferencePacket() : NetworkPacket {
         this.storeID = storageID
     }
 
-    override fun encode(buffer: FriendlyByteBuf) {
-        buffer.writeUUID(this.storeID)
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeUuid(this.storeID)
     }
 
-    override fun decode(buffer: FriendlyByteBuf) {
-        this.storeID = buffer.readUUID()
+    override fun decode(buffer: PacketByteBuf) {
+        this.storeID = buffer.readUuid()
     }
 }

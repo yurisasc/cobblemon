@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame
 
-import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.client.model.ModelPart
 
 /** Two arms */
 interface BimanualFrame : ModelFrame {

@@ -13,7 +13,7 @@ object AbilitiesLoader {
     fun loadFromAssets(name: String): AbilityTemplate {
         val inputStream = javaClass.getResourceAsStream("/assets/${PokemonCobbled.MODID}/abilities/$name.json")!!
         val abilityTemplate = GSON.fromJson<AbilityTemplate>(InputStreamReader(inputStream))
-        abilityTemplate.createTextComponents()
+        abilityTemplate.createLiteralTexts()
         return abilityTemplate
     }
 }

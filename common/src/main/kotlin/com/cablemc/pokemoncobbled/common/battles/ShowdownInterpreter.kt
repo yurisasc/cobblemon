@@ -3,19 +3,13 @@ package com.cablemc.pokemoncobbled.common.battles
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
-import com.cablemc.pokemoncobbled.common.api.text.aqua
-import com.cablemc.pokemoncobbled.common.api.text.bold
-import com.cablemc.pokemoncobbled.common.api.text.gold
-import com.cablemc.pokemoncobbled.common.api.text.plus
-import com.cablemc.pokemoncobbled.common.api.text.red
-import com.cablemc.pokemoncobbled.common.api.text.text
-import com.cablemc.pokemoncobbled.common.api.text.yellow
+import com.cablemc.pokemoncobbled.common.api.text.*
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.util.battleLang
-import net.minecraft.ChatFormatting
-import net.minecraft.network.chat.TextComponent
-import java.util.UUID
+import net.minecraft.text.LiteralText
+import net.minecraft.util.Formatting
+import java.util.*
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String) -> Unit>()
@@ -149,10 +143,10 @@ object ShowdownInterpreter {
     private fun handleGameTypeInstruction(battle: PokemonBattle, message: String) {
         battle.log("Game Type Instruction")
 
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Type:"))
+        battle.broadcastChatMessage(LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Type:"))
 
         val tierName = message.split("|gametype|")[1]
-        val textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
+        val textComponent = LiteralText(" ${Formatting.GRAY}$tierName")
         battle.broadcastChatMessage(textComponent)
         battle.broadcastChatMessage("".text())
     }
@@ -179,10 +173,10 @@ object ShowdownInterpreter {
     private fun handleTierInstruction(battle: PokemonBattle, message: String) {
         battle.log("Tier Instruction")
 
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Tier:"))
+        battle.broadcastChatMessage(LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Tier:"))
 
         val tierName = message.split("|tier|")[1]
-        val textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
+        val textComponent = LiteralText(" ${Formatting.GRAY}$tierName")
         battle.broadcastChatMessage(textComponent)
         battle.broadcastChatMessage("".text())
     }
@@ -211,12 +205,12 @@ object ShowdownInterpreter {
         battle.log("Rule Instruction")
         if (!battle.announcingRules) {
             battle.announcingRules = true
-            val textComponent = TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Rules:")
+            val textComponent = LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Rules:")
             battle.broadcastChatMessage(textComponent)
         }
 
         val rule = message.substringAfter("|rule|")
-        val textComponent = TextComponent("${ChatFormatting.GRAY} - $rule")
+        val textComponent = LiteralText("${Formatting.GRAY} - $rule")
         battle.broadcastChatMessage(textComponent)
     }
 

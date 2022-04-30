@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.fabric.mixin;
 
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,20 +15,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @author Qu
  * @since 2022-02-22
  */
-@Mixin(Gui.class)
+@Mixin(InGameHud.class)
 public class GuiMixin {
     @Inject(
             method = "render",
             at = @At(
-                    value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/vertex/PoseStack;pushPose()V",
-                    shift = At.Shift.BEFORE
+                value = "INVOKE",
+                target = "Lnet/minecraft/client/util/math/MatrixStack;push()V",
+                shift = At.Shift.BEFORE
             ),
             slice = @Slice(
-                    from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/Gui;displayScoreboardSidebar(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/world/scores/Objective;)V")
+                from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderScoreboardSidebar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/scoreboard/ScoreboardObjective;)V")
             )
     )
-    private void beforeChatHook(PoseStack poseStack, float f, CallbackInfo ci) {
+    private void beforeChatHook(MatrixStack poseStack, float f, CallbackInfo ci) {
         PokemonCobbledClient.INSTANCE.beforeChatRender(poseStack, f);
     }
 }

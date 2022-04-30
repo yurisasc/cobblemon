@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.arguments.EntityArgument
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.command.argument.EntityArgumentType
+import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.server.network.ServerPlayerEntity
 
-fun CommandContext<CommandSourceStack>.player(argumentName: String = "player"): ServerPlayer = EntityArgument.getPlayer(this, argumentName)
+fun CommandContext<ServerCommandSource>.player(argumentName: String = "player"): ServerPlayerEntity = EntityArgumentType.getPlayer(this, argumentName)

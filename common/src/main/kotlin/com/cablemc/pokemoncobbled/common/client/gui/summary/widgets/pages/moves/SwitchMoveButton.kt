@@ -7,8 +7,8 @@ import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.client.gui.components.ImageButton
+import net.minecraft.client.gui.widget.TexturedButtonWidget
+import net.minecraft.client.util.math.MatrixStack
 
 class SwitchMoveButton(
     pX: Int, pY: Int,
@@ -16,8 +16,8 @@ class SwitchMoveButton(
     pXTexStart: Int, pYTexStart: Int, pYDiffText: Int,
     var move: MoveTemplate,
     var movesWidget: MovesWidget,
-    onPress: OnPress
-): ImageButton(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, switchMoveButtonResource, pWidth, pHeight, onPress) {
+    onPress: PressAction
+): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, switchMoveButtonResource, pWidth, pHeight, onPress) {
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double): Boolean {
         return false
@@ -29,16 +29,16 @@ class SwitchMoveButton(
         private val switchMoveButtonResource = cobbledResource("ui/summary/summary_moves_change_button.png")
     }
 
-    override fun renderButton(poseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun renderButton(poseStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         // Render Button Image
         blitk(
-            poseStack = poseStack,
+            matrixStack = poseStack,
             texture = switchMoveButtonResource,
             x = x, y = y,
             width = width, height = height
         )
 
-        poseStack.pushPose()
+        poseStack.push()
         val scale = 0.4F
         poseStack.scale(scale, scale, 1F)
         // Draw Text
@@ -51,6 +51,6 @@ class SwitchMoveButton(
             shadow = false
         )
 
-        poseStack.popPose()
+        poseStack.pop()
     }
 }

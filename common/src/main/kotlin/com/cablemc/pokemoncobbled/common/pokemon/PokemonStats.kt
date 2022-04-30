@@ -4,8 +4,8 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.PacketByteBuf
 
 /**
  * Holds a mapping from a Stat to value that should be reducible to a short for NBT and net.
@@ -46,14 +46,14 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         update()
     }
 
-    fun saveToNBT(nbt: CompoundTag): CompoundTag {
+    fun saveToNBT(nbt: NbtCompound): NbtCompound {
         stats.entries.forEach { (stat, value) -> nbt.putShort(stat.id, value.toShort()) }
         return nbt
     }
 
-    fun loadFromNBT(nbt: CompoundTag): PokemonStats {
+    fun loadFromNBT(nbt: NbtCompound): PokemonStats {
         stats.clear()
-        nbt.allKeys.forEach { statId ->
+        nbt.keys.forEach { statId ->
             val stat = Stats.getStat(statId)
             this[stat] = nbt.getShort(statId).toInt()
         }
@@ -74,18 +74,18 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         return this
     }
 
-    fun saveToBuffer(buffer: FriendlyByteBuf) {
+    fun saveToBuffer(buffer: PacketByteBuf) {
         buffer.writeByte(stats.size)
         for ((stat, value) in stats) {
-            buffer.writeUtf(stat.id)
+            buffer.writeString(stat.id)
             buffer.writeShort(value)
         }
     }
 
-    fun loadFromBuffer(buffer: FriendlyByteBuf) {
+    fun loadFromBuffer(buffer: PacketByteBuf) {
         stats.clear()
         repeat(times = buffer.readUnsignedByte().toInt()) {
-            val stat = Stats.getStat(buffer.readUtf())
+            val stat = Stats.getStat(buffer.readString())
             val value = buffer.readUnsignedShort()
             stats[stat] = value
         }

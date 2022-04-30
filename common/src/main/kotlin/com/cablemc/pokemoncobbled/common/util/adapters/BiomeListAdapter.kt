@@ -2,15 +2,10 @@ package com.cablemc.pokemoncobbled.common.util.adapters
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.spawning.BiomeList
-import com.google.gson.JsonArray
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import net.minecraft.core.Registry.BIOME_REGISTRY
-import net.minecraft.core.RegistryAccess
-import net.minecraft.resources.ResourceLocation
+import com.google.gson.*
+import net.minecraft.util.Identifier
+import net.minecraft.util.registry.DynamicRegistryManager
+import net.minecraft.util.registry.Registry
 import java.lang.reflect.Type
 
 /**
@@ -30,13 +25,12 @@ object BiomeListAdapter : JsonSerializer<BiomeList>, JsonDeserializer<BiomeList>
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): BiomeList {
         val list = BiomeList()
         json.asJsonArray.forEach { element ->
-            val biomeName = ResourceLocation(element.asString)
+            val biomeName = Identifier(element.asString)
 
             // TODO also try retrieving with the element as a biome category
             // Maybe rework the biome list object to preserve what were categories
-
-            val biomeRegistry = RegistryAccess.BUILTIN.get().registryOrThrow(BIOME_REGISTRY)
-            val biome = biomeRegistry.entrySet().find { it.key.location() == biomeName }?.key
+            val biomeRegistry = DynamicRegistryManager.BUILTIN.get().get(Registry.BIOME_KEY)
+            val biome = biomeRegistry.entrySet.find { it.key.value == biomeName }?.key
             if (biome == null) {
                 LOGGER.warn("Unrecognized biome: $biomeName")
             } else {

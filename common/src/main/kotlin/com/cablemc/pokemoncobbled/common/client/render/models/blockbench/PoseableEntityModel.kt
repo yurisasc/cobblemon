@@ -10,13 +10,13 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Po
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.blaze3d.vertex.VertexConsumer
-import net.minecraft.client.model.EntityModel
-import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.client.renderer.RenderType
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.entity.Entity
+import net.minecraft.client.model.ModelPart
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.entity.model.EntityModel
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.entity.Entity
+import net.minecraft.util.Identifier
 
 /**
  * A model that can be posed and animated using [StatelessAnimation]s and [StatefulAnimation]s. This
@@ -27,7 +27,7 @@ import net.minecraft.world.entity.Entity
  * @since December 5th, 2021
  */
 abstract class PoseableEntityModel<T : Entity>(
-    renderTypeFunc: (ResourceLocation) -> RenderType = RenderType::entityCutout
+    renderTypeFunc: (Identifier) -> RenderLayer = RenderLayer::getEntityCutout
 ) : EntityModel<T>(renderTypeFunc), ModelFrame {
     var currentEntity: T? = null
 
@@ -70,7 +70,9 @@ abstract class PoseableEntityModel<T : Entity>(
         return part
     }
 
-    override fun renderToBuffer(stack: PoseStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
+    fun registerRelevantPart(pairing: Pair<String, ModelPart>) = registerRelevantPart(pairing.first, pairing.second)
+
+    override fun render(stack: MatrixStack, buffer: VertexConsumer, packedLight: Int, packedOverlay: Int, r: Float, g: Float, b: Float, a: Float) {
         rootPart.render(stack, buffer, packedLight, packedOverlay, r, g, b, a)
     }
 
@@ -91,7 +93,7 @@ abstract class PoseableEntityModel<T : Entity>(
         pose.idleStateless(this, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
 
-    override fun setupAnim(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
+    override fun setAngles(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
         currentEntity = entity
         setDefault()
         val state = getState(entity)

@@ -1,14 +1,10 @@
 package com.cablemc.pokemoncobbled.common.item
 
-import net.minecraft.world.item.Item
+import net.minecraft.item.Item
 
 /**
  * Base for custom items in Cobbled.
  *
  * Containing common shared code.
  */
-open class CobbledItem(
-    properties : Properties
-) : Item(properties) {
-
-}
+open class CobbledItem(properties : Settings) : Item(properties)
