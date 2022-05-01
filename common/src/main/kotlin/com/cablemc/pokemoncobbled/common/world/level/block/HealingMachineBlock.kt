@@ -94,7 +94,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
 
         val ServerPlayerEntity = player as ServerPlayerEntity
         val party = ServerPlayerEntity.party()
-        if (party.getAll().isEmpty()) {
+        if (party.none()) {
             player.sendServerMessage(lang("healingmachine.nopokemon").red())
             return ActionResult.SUCCESS
         }
@@ -109,7 +109,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
             player.sendServerMessage(lang("healingmachine.healing").green())
         } else {
             val neededCharge = player.party().getHealingRemainderPercent() - BlockWithEntity.healingCharge
-            player.sendServerMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.getAll().size)*100f).toInt()}%").red())
+            player.sendServerMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red())
         }
         return ActionResult.CONSUME
     }

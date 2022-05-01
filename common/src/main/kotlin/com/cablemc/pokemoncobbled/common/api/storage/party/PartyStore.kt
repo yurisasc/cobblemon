@@ -48,7 +48,6 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
             throw IllegalArgumentException("Slot position is out of bounds")
         } else {
             slots[position.slot] = pokemon
-            pokemon?.storeCoordinates?.set(StoreCoordinates(this, position))
             anyChangeObservable.emit(Unit)
         }
     }
@@ -155,7 +154,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return json
     }
 
-    override fun loadFromJSON(json: JsonObject): PokemonStore<PartyPosition> {
+    override fun loadFromJSON(json: JsonObject): PartyStore {
         val slotCount = json.get(DataKeys.STORE_SLOT_COUNT).asInt
         while (slotCount > slots.size) { slots.removeLast() }
         while (slotCount < slots.size) { slots.add(null) }

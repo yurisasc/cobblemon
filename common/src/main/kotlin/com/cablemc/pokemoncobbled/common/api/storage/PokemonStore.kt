@@ -69,7 +69,7 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
      *
      * This method will also notify any observing players about the changes.
      */
-    open fun set(position: T, pokemon: Pokemon) {
+    open operator fun set(position: T, pokemon: Pokemon) {
         val existing = get(position)
         if (existing == pokemon) {
             return
@@ -80,6 +80,7 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
         }
 
         setAtPosition(position, pokemon)
+        pokemon.storeCoordinates.set(StoreCoordinates(this, position))
     }
 
     /** Swaps the Pokémon at the specified positions. If one of the spaces is empty, it will simply move the not-null one to that space. */
@@ -124,6 +125,7 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
             return false
         }
         pokemon.recall()
+        pokemon.storeCoordinates.set(null)
         setAtPosition(currentPosition.position, null)
         return true
     }

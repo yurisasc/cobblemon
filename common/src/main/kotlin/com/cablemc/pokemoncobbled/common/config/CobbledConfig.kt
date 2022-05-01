@@ -18,6 +18,13 @@ class CobbledConfig {
     @IntConstraint(min = 1, max = 1000)
     var maxPokemonLevel = 100
 
+    @NodeCategory(Category.Storage)
+    @IntConstraint(min = 1, max = 1000)
+    var defaultBoxCount = 30
+
+    @NodeCategory(Category.Storage)
+    var storageFormat = "nbt"
+
     // TODO new types of constraint
 
     @NodeCategory(Category.Spawning)
