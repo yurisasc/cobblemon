@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import net.minecraft.entity.Entity
 
@@ -15,5 +16,5 @@ import net.minecraft.entity.Entity
  */
 interface PosedAdditiveAnimation<T : Entity> {
     /** Runs the animation and returns true if the animation should continue. */
-    fun run(entity: T, model: PoseableEntityModel<T>): Boolean
+    fun run(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?): Boolean
 }

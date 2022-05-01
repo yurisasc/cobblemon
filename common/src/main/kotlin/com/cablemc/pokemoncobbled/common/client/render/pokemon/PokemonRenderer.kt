@@ -181,7 +181,7 @@ class PokemonRenderer(
 
         val stepMultiplier = 0.5F
         val toPlayer = player.getCameraPosVec(partialTicks)
-            .subtract(entity.pos.add(0.0, entity.boundingBox.yLength + 0.5, 0.0))
+            .subtract(entity.getLerpedPos(partialTicks).add(0.0, entity.boundingBox.yLength + 0.5, 0.0))
             .multiply(stepMultiplier.toDouble())
 
         poseStack.push()
