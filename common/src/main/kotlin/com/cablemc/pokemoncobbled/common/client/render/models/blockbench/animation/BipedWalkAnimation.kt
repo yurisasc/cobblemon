@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BipedFrame
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.MathHelper
@@ -21,7 +22,7 @@ class BipedWalkAnimation<T : Entity>(
     val amplitudeMultiplier: Float = 1.4F
 ) : StatelessAnimation<T, BipedFrame>(frame) {
     override val targetFrame: Class<BipedFrame> = BipedFrame::class.java
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         frame.rightLeg.pitch += MathHelper.cos(limbSwing * periodMultiplier + Math.PI.toFloat()) * limbSwingAmount * amplitudeMultiplier
         frame.leftLeg.pitch += MathHelper.cos(limbSwing * periodMultiplier) * limbSwingAmount * amplitudeMultiplier
     }

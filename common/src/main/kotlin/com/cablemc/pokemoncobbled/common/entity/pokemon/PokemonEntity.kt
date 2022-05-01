@@ -116,7 +116,7 @@ class PokemonEntity(
     override fun tick() {
         super.tick()
         // We will be handling idle logic ourselves thank you
-//        this.noActionTime = 0 TODO find what it's called in yarn
+        this.setDespawnCounter(0)
         entityProperties.forEach { it.checkForUpdate() }
         delegate.tick(this)
         ticksLived++
