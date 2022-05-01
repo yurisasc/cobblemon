@@ -19,14 +19,6 @@ description='''
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 
-
-[[dependencies.pokemoncobbled]]
-modId="geckolib3"
-mandatory=true
-versionRange="[3.0.0,)"
-ordering="AFTER"
-side="BOTH"
-
 [[dependencies.pokemoncobbled]]
 modId="minecraft"
 mandatory=true
