@@ -1,11 +1,11 @@
 package com.cablemc.pokemoncobbled.common.client.util
 
-import net.minecraft.client.Minecraft
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.client.MinecraftClient
+import net.minecraft.util.Identifier
 
 /**
  * Checks if a resource exists at this location
  */
-fun ResourceLocation.exists(): Boolean {
-    return Minecraft.getInstance().resourceManager.hasResource(this)
+fun Identifier.exists(): Boolean {
+    return MinecraftClient.getInstance().resourceManager.containsResource(this)
 }

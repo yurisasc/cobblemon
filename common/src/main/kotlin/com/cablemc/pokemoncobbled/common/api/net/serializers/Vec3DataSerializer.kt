@@ -1,21 +1,21 @@
 package com.cablemc.pokemoncobbled.common.api.net.serializers
 
-import net.minecraft.network.FriendlyByteBuf
-import net.minecraft.network.syncher.EntityDataSerializer
-import net.minecraft.world.phys.Vec3
+import net.minecraft.entity.data.TrackedDataHandler
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.math.Vec3d
 
-object Vec3DataSerializer : EntityDataSerializer<Vec3> {
-    override fun write(buffer: FriendlyByteBuf, vec: Vec3) {
+object Vec3DataSerializer : TrackedDataHandler<Vec3d> {
+    override fun write(buffer: PacketByteBuf, vec: Vec3d) {
         buffer.writeDouble(vec.x)
         buffer.writeDouble(vec.y)
         buffer.writeDouble(vec.z)
     }
 
-    override fun read(buffer: FriendlyByteBuf) = Vec3(
+    override fun read(buffer: PacketByteBuf) = Vec3d(
         buffer.readDouble(),
         buffer.readDouble(),
         buffer.readDouble()
     )
 
-    override fun copy(vec: Vec3) = Vec3(vec.x, vec.y, vec.z)
+    override fun copy(vec: Vec3d) = Vec3d(vec.x, vec.y, vec.z)
 }

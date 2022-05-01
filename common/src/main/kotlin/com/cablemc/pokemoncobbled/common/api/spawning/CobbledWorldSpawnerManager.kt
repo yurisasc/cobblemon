@@ -6,8 +6,8 @@ import com.cablemc.pokemoncobbled.common.api.spawning.spawner.PlayerSpawnerFacto
 import dev.architectury.event.events.common.PlayerEvent
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_QUIT
-import net.minecraft.server.level.ServerPlayer
-import java.util.UUID
+import net.minecraft.server.network.ServerPlayerEntity
+import java.util.*
 
 /**
  * The [SpawnerManager] that handles Cobbled's world spawner, which is made up
@@ -33,7 +33,7 @@ object CobbledWorldSpawnerManager : SpawnerManager() {
         }
     }
 
-    fun onPlayerLogin(player: ServerPlayer) {
+    fun onPlayerLogin(player: ServerPlayerEntity) {
         // Disables spawning
         if (!PokemonCobbled.config.enableSpawning) {
             return;
@@ -44,7 +44,7 @@ object CobbledWorldSpawnerManager : SpawnerManager() {
         registerSpawner(spawner)
     }
 
-    fun onPlayerLogout(player: ServerPlayer) {
+    fun onPlayerLogout(player: ServerPlayerEntity) {
         val spawner = spawnersForPlayers[player.uuid]
         if (spawner != null) {
             spawnersForPlayers.remove(player.uuid)

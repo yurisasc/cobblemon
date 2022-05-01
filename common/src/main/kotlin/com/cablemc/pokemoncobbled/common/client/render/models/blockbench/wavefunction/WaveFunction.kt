@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction
 
-import net.minecraft.util.Mth.PI
-import net.minecraft.util.Mth.sqrt
+import net.minecraft.util.math.MathHelper.*
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.pow

@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animat
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * An animation that can run without an entity associated. These are

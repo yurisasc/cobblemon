@@ -8,14 +8,14 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     private val modelsBySpecies: MutableMap<Species, BlockBenchModelWrapper<PokemonEntity>> = mutableMapOf()
-    private val modelTexturesBySpecies: MutableMap<Species, ResourceLocation> = mutableMapOf()
+    private val modelTexturesBySpecies: MutableMap<Species, Identifier> = mutableMapOf()
     // TODO: Temporary until we decide the texture system we want to go with and its capabilities
-    private val shinyModelTexturesBySpecies: MutableMap<Species, ResourceLocation> = mutableMapOf()
+    private val shinyModelTexturesBySpecies: MutableMap<Species, Identifier> = mutableMapOf()
 
     override fun registerAll() {
         registerBaseSpeciesModel(PokemonSpecies.BULBASAUR, BlockBenchModelWrapper(BulbasaurModel.LAYER_LOCATION, BulbasaurModel::createBodyLayer) { BulbasaurModel(it) })
@@ -67,7 +67,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         return modelsBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate model")
     }
 
-    fun getModelTexture(pokemon: Pokemon): ResourceLocation {
+    fun getModelTexture(pokemon: Pokemon): Identifier {
         // TODO: This is just fetching by species at the moment. This will be developed further.
         if (pokemon.shiny) {
             return shinyModelTexturesBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate shiny model texture")

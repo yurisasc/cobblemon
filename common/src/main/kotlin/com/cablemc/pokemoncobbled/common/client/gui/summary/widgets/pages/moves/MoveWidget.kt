@@ -4,18 +4,15 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.moves.Move
-import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.SwitchMoveButton.Companion.SWITCH_MOVE_BUTTON_HEIGHT
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.SwitchMoveButton.Companion.SWITCH_MOVE_BUTTON_WIDTH
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.switch.MoveSwitchPane
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.client.Minecraft
-import net.minecraft.network.chat.TextComponent
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
 
 class MoveWidget(
     pX: Int, pY: Int,
@@ -24,7 +21,7 @@ class MoveWidget(
     infoX: Int, infoY: Int,
     private val movesWidget: MovesWidget,
     private val index: Int
-): SoundlessWidget(pX, pY, pWidth, pHeight, TextComponent(move.name)) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText(move.name)) {
 
     companion object {
         private val moveResource = cobbledResource("ui/summary/summary_moves_slot.png")
@@ -90,8 +87,8 @@ class MoveWidget(
         moveDownButton.y = y + MOVE_DOWN_BUTTON_Y_OFFSET
     }
 
-    override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        isHovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
+    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        hovered = pMouseX >= x && pMouseY >= y && pMouseX < x + width && pMouseY < y + height
         // Rendering Move Texture
 
         val hex = move.type.hue
@@ -100,7 +97,7 @@ class MoveWidget(
         val b = (hex and 0b11111111) / 255.0
 
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = moveResource,
             x = x + 0.8F, y = y,
             red = r, green = g, blue = b,
@@ -108,7 +105,7 @@ class MoveWidget(
         )
 
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = moveOverlayResource,
             x = x + 0.8F, y = y,
             width = MOVE_WIDTH, height = MOVE_HEIGHT
@@ -116,7 +113,7 @@ class MoveWidget(
 
         // Rendering PP Texture
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = movePpResource,
             x = (x + PP_WIDTH_DIFF),
             y = y + PP_HEIGHT_DIFF,
@@ -127,16 +124,16 @@ class MoveWidget(
 
 
         // Render remaining PP Text
-        pMatrixStack.pushPose()
+        pMatrixStack.push()
         pMatrixStack.scale(0.6F, 0.6F, 0.6F)
         drawCenteredText(
             poseStack = pMatrixStack,
             font = CobbledResources.NOTO_SANS_BOLD_SMALL,
-            text = TextComponent("${move.currentPp} / ${move.maxPp}"),
+            text = LiteralText("${move.currentPp} / ${move.maxPp}"),
             x = (x + width / 2) / 0.6 + 3, y = (y + 23) / 0.6 + 1,
             colour = ColourLibrary.WHITE, shadow = false
         )
-        pMatrixStack.popPose()
+        pMatrixStack.pop()
 
         // Render Type Icon
         typeWidget.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
@@ -147,7 +144,7 @@ class MoveWidget(
         val dmgCatWidth = 28.00
         val dmgCatHeight = 7.5
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = move.damageCategory.resourceLocation,
             x = x + 25, y = y + 13,
             width = dmgCatWidth, height = dmgCatHeight,
@@ -156,7 +153,7 @@ class MoveWidget(
         )
 
         // Render Move Name
-        pMatrixStack.pushPose()
+        pMatrixStack.push()
         pMatrixStack.scale(0.4F, 0.4F, 0.4F)
         drawCenteredText(
             poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD,
@@ -164,7 +161,7 @@ class MoveWidget(
             x = (x + 88.55) / 0.4F, y = y / 0.4F + 19,
             colour = MOVE_NAME_COLOUR, shadow = false
         )
-        pMatrixStack.popPose()
+        pMatrixStack.pop()
 
         // Render Move Info
         if (isHovered) {

@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.net.messages.client.storage.party
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -30,15 +30,15 @@ class InitializePartyPacket() : NetworkPacket {
         this.slots = slots
     }
 
-    override fun encode(buffer: FriendlyByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(isThisPlayerParty)
-        buffer.writeUUID(uuid)
+        buffer.writeUuid(uuid)
         buffer.writeByte(slots)
     }
 
-    override fun decode(buffer: FriendlyByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         isThisPlayerParty = buffer.readBoolean()
-        uuid = buffer.readUUID()
+        uuid = buffer.readUuid()
         slots = buffer.readUnsignedByte().toInt()
     }
 }

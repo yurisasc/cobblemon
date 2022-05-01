@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.entity
 
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * Represents a logical despawner for some type of entity. It decides whether an entity should be despawned over time.

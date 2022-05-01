@@ -2,8 +2,8 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.reposi
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.BlockBenchModelWrapper
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
-import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.world.entity.Entity
+import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.entity.Entity
 
 abstract class ModelRepository<T : Entity> {
 
@@ -19,7 +19,7 @@ abstract class ModelRepository<T : Entity> {
         _models.forEach { it.initializeModelLayers() }
     }
 
-    fun initializeModels(context: EntityRendererProvider.Context) {
+    fun initializeModels(context: EntityRendererFactory.Context) {
         _models.forEach { it.initializeModel(context) }
     }
 
@@ -33,7 +33,7 @@ abstract class ModelRepository<T : Entity> {
     open fun reload() {
         _models.filter { it.isModelInitialized }.forEach {
             val model = it.entityModel
-            if (model is PoseableEntityModel) {
+            if (model is PoseableEntityModel<*>) {
                 model.poses.clear()
                 model.registerPoses()
             }

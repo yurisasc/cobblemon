@@ -6,27 +6,27 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.Commands
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.command.CommandManager
+import net.minecraft.server.command.ServerCommandSource
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 
 object SpawnPokemon {
 
-    fun register(dispatcher : CommandDispatcher<CommandSourceStack>) {
-        val command = Commands.literal("spawnpokemon")
-            .requires { it.hasPermission(4) }
+    fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
+        val command = CommandManager.literal("spawnpokemon")
+            .requires { it.hasPermissionLevel(4) }
             .then(
-                Commands.argument("pokemon", PokemonArgumentType.pokemon())
+                CommandManager.argument("pokemon", PokemonArgumentType.pokemon())
                     .executes { execute(it) })
         dispatcher.register(command)
     }
 
-    private fun execute(context: CommandContext<CommandSourceStack>) : Int {
+    private fun execute(context: CommandContext<ServerCommandSource>) : Int {
         val entity = context.source.entity
-        if (entity is ServerPlayer && !entity.level.isClientSide) {
+        if (entity is ServerPlayerEntity && !entity.world.isClient) {
             val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
-            val pokemonEntity = PokemonEntity(entity.level as ServerLevel)
+            val pokemonEntity = PokemonEntity(entity.world as ServerWorld)
             pokemonEntity.let {
                 it.pokemon = Pokemon().apply {
                     species = pkm
@@ -36,8 +36,8 @@ object SpawnPokemon {
                 }
                 it.dexNumber.set(it.pokemon.species.nationalPokedexNumber)
             }
-            entity.level.addFreshEntity(pokemonEntity)
-            pokemonEntity.setPos(entity.position())
+            entity.world.spawnEntity(pokemonEntity)
+            pokemonEntity.setPosition(entity.pos)
         }
         return Command.SINGLE_SUCCESS
     }

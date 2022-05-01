@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.net.messages.client.storage.party
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -23,15 +23,15 @@ class SwapPartyPokemonPacket() : NetworkPacket {
         this.pokemonID2 = pokemonID2
     }
 
-    override fun encode(buffer: FriendlyByteBuf) {
-        buffer.writeUUID(storeID)
-        buffer.writeUUID(pokemonID1)
-        buffer.writeUUID(pokemonID2)
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeUuid(storeID)
+        buffer.writeUuid(pokemonID1)
+        buffer.writeUuid(pokemonID2)
     }
 
-    override fun decode(buffer: FriendlyByteBuf) {
-        storeID = buffer.readUUID()
-        pokemonID1 = buffer.readUUID()
-        pokemonID2 = buffer.readUUID()
+    override fun decode(buffer: PacketByteBuf) {
+        storeID = buffer.readUuid()
+        pokemonID1 = buffer.readUuid()
+        pokemonID2 = buffer.readUuid()
     }
 }

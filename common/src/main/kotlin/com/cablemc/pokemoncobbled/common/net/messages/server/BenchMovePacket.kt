@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.net.messages.server
 
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 class BenchMovePacket() : NetworkPacket {
@@ -18,17 +18,17 @@ class BenchMovePacket() : NetworkPacket {
         this.newMove = newMove.name
     }
 
-    override fun encode(buffer: FriendlyByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(isParty)
-        buffer.writeUUID(uuid)
-        buffer.writeUtf(oldMove)
-        buffer.writeUtf(newMove)
+        buffer.writeUuid(uuid)
+        buffer.writeString(oldMove)
+        buffer.writeString(newMove)
     }
 
-    override fun decode(buffer: FriendlyByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         isParty = buffer.readBoolean()
-        uuid = buffer.readUUID()
-        oldMove = buffer.readUtf()
-        newMove = buffer.readUtf()
+        uuid = buffer.readUuid()
+        oldMove = buffer.readString()
+        newMove = buffer.readString()
     }
 }

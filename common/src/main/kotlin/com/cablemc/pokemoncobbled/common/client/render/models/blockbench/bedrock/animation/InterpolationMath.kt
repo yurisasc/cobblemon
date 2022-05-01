@@ -1,7 +1,8 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.mojang.math.Vector3d
+import net.minecraft.client.util.math.Vector3d
+
 import kotlin.math.floor
 
 /**

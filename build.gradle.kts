@@ -55,9 +55,8 @@ subprojects {
     loom.accessWidenerPath.set(project(":common").file("src/main/resources/pokemoncobbled-common.accesswidener"))
 
     dependencies {
-        // meant to be "net.minecraft:minecraft:${rootProject.property("mc_version")}" supposedly, doubtful
         "minecraft"("net.minecraft:minecraft:${rootProject.property("mc_version")}")
-        "mappings"(loom.officialMojangMappings())
+        "mappings"("net.fabricmc:yarn:1.18.2+build.2:v2")//(loom.officialMojangMappings())
     }
 
     tasks {
