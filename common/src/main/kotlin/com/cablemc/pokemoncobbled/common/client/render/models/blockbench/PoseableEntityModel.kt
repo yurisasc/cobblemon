@@ -31,7 +31,7 @@ abstract class PoseableEntityModel<T : Entity>(
 ) : EntityModel<T>(renderTypeFunc), ModelFrame {
     var currentEntity: T? = null
 
-    val poses = mutableMapOf<PoseType, Pose<T, out ModelFrame>>()
+    val poses = mutableMapOf<String, Pose<T, out ModelFrame>>()
     /**
      * A list of [TransformedModelPart] that are relevant to any frame or animation.
      * This allows the original rotations to be reset.
@@ -61,7 +61,18 @@ abstract class PoseableEntityModel<T : Entity>(
         idleAnimations: Array<StatelessAnimation<T, out F>>,
         transformedParts: Array<TransformedModelPart>
     ) {
-        poses[poseType] = Pose(poseType, condition, transformTicks, idleAnimations, transformedParts)
+        poses[poseType.name] = Pose(poseType.name, setOf(poseType), condition, transformTicks, idleAnimations, transformedParts)
+    }
+
+    fun <F : ModelFrame> registerPose(
+        poseName: String,
+        poseTypes: Set<PoseType>,
+        condition: (T) -> Boolean = { true },
+        transformTicks: Int = 20,
+        idleAnimations: Array<StatelessAnimation<T, out F>>,
+        transformedParts: Array<TransformedModelPart>
+    ) {
+        poses[poseName] = Pose(poseName, poseTypes, condition, transformTicks, idleAnimations, transformedParts)
     }
 
     fun registerRelevantPart(name: String, part: ModelPart): ModelPart {
@@ -78,7 +89,9 @@ abstract class PoseableEntityModel<T : Entity>(
     }
 
     /** Applies the given pose type to the model, if there is a matching pose. */
-    fun applyPose(pose: PoseType) = poses[pose]?.transformedParts?.forEach { it.apply() }
+    fun applyPose(pose: String) = getPose(pose)?.transformedParts?.forEach { it.apply() }
+    fun getPose(pose: PoseType) = poses.values.firstOrNull { pose in it.poseTypes }
+    fun getPose(name: String) = poses[name]
     /** Puts the model back to its original location and rotations. */
     fun setDefault() = relevantParts.forEach { it.applyDefaults() }
 
@@ -89,30 +102,29 @@ abstract class PoseableEntityModel<T : Entity>(
     fun setupAnimStateless(poseType: PoseType, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, ageInTicks: Float = 0F) {
         currentEntity = null
         setDefault()
-        val pose = poses[poseType] ?: poses.values.first()
+        val pose = getPose(poseType) ?: poses.values.first()
         pose.transformedParts.forEach { it.apply() }
-        pose.idleStateless(this, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+        pose.idleStateless(this, null, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
 
-    override fun setAngles(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
+    fun setupAnimStateful(entity: T?, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         currentEntity = entity
         setDefault()
-        val state = getState(entity)
         state.preRender()
         state.currentModel = this
-        var poseType = state.getPose()
-        var pose = poses[poseType]
+        var poseName = state.getPose()
+        var pose = poseName?.let { getPose(it) }
 
-        if (poseType == null || pose == null || !pose.condition(entity)) {
+        if (entity != null && (poseName == null || pose == null || !pose.condition(entity))) {
             val previousPose = pose
             val desirablePose = poses.values.firstOrNull { it.condition(entity) } ?: run {
                 LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
-                return@run Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
+                return@run Pose("none", setOf(PoseType.NONE), { true }, 0, emptyArray(), emptyArray())
             }
-            val desirablePoseType = desirablePose.poseType
+            val desirablePoseType = desirablePose.poseTypes.first()
 
             // If this condition matches then it just no longer fits this pose
-            if (pose != null && poseType != null) {
+            if (pose != null && poseName != null) {
                 if (state.statefulAnimations.none { it is PoseTransitionAnimation<*> }) {
                     if (previousPose != null && pose.transformTicks > 0) {
                         state.statefulAnimations.add(
@@ -123,20 +135,27 @@ abstract class PoseableEntityModel<T : Entity>(
                             )
                         )
                     } else {
-                        getState(entity).setPose(desirablePoseType)
+                        getState(entity).setPose(poses.values.first {  desirablePoseType in it.poseTypes }.poseName)
                     }
                 }
             } else {
                 pose = desirablePose
-                poseType = desirablePoseType
-                getState(entity).setPose(desirablePoseType)
+                poseName = desirablePose.poseName
+                getState(entity).setPose(poseName)
             }
+        } else {
+            poseName = poseName ?: poses.values.first().poseName
         }
 
-        applyPose(poseType)
-        state.statefulAnimations.removeIf { !it.run(entity, this) }
-        pose.idleStateful(entity, this, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
-        getState(entity).applyAdditives(entity, this)
+        applyPose(poseName)
+        state.statefulAnimations.removeIf { !it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch) }
+        state.currentPose?.let { getPose(it) }?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+        state.applyAdditives(entity, this, state)
+        relevantParts.forEach { it.changeFactor = 1F }
+    }
+
+    override fun setAngles(entity: T, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+        setupAnimStateful(entity, getState(entity), limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
 
     fun ModelPart.translation(

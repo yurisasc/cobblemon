@@ -34,7 +34,7 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
             if (bone["position"].isJsonObject) {
                 deserializeRotationKeyframes(bone["position"].asJsonObject, Transformation.POSITION)
             } else {
-                deserializeMolangBoneValue(bone["position"].asJsonArray)
+                deserializeMolangBoneValue(bone["position"].asJsonArray, Transformation.POSITION)
             }
         } else {
             EmptyBoneValue
@@ -43,7 +43,7 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
             if (bone["rotation"].isJsonObject) {
                 deserializeRotationKeyframes(bone["rotation"].asJsonObject, Transformation.ROTATION)
             } else {
-                deserializeMolangBoneValue(bone["rotation"].asJsonArray)
+                deserializeMolangBoneValue(bone["rotation"].asJsonArray, Transformation.ROTATION)
             }
         } else {
             EmptyBoneValue
@@ -51,11 +51,12 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
         return BedrockBoneTimeline(positions, rotations)
     }
 
-    fun deserializeMolangBoneValue(array: JsonArray): MolangBoneValue {
+    fun deserializeMolangBoneValue(array: JsonArray, transformation: Transformation): MolangBoneValue {
         return MolangBoneValue(
             x = molangParser.parseExpression(array[0].asString),
             y = molangParser.parseExpression(array[1].asString),
-            z = molangParser.parseExpression(array[2].asString)
+            z = molangParser.parseExpression(array[2].asString),
+            transformation = transformation
         )
     }
 

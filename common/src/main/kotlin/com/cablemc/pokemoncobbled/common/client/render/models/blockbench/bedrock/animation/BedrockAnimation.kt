@@ -33,15 +33,17 @@ data class BedrockBoneTimeline (
 class MolangBoneValue(
     val x: MolangExpression,
     val y: MolangExpression,
-    val z: MolangExpression
+    val z: MolangExpression,
+    transformation: Transformation
 ) : BedrockBoneValue {
+    val yMul = if (transformation == Transformation.POSITION) -1 else 1
     override fun isEmpty() = false
     override fun resolve(time: Double): Vec3d {
         for (n in arrayOf(x, y, z)) {
             n.context.setValue("q.anim_time", time)
             n.context.setValue("query.anim_time", time)
         }
-        return Vec3d(x.get(), y.get(), z.get())
+        return Vec3d(x.get(), y.get() * yMul, z.get())
     }
 
 }

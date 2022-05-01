@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.pokeball.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.PokeBallFrame
@@ -30,16 +31,26 @@ class OpenAnimation : StatefulAnimation<EmptyPokeBallEntity, PokeBallFrame> {
     var startedOpening = false
     var maxPitch = 0F
 
-    override fun preventsIdle(entity: EmptyPokeBallEntity, idleAnimation: StatelessAnimation<EmptyPokeBallEntity, *>) = false
-    override fun run(entity: EmptyPokeBallEntity, model: PoseableEntityModel<EmptyPokeBallEntity>): Boolean {
+    override fun preventsIdle(entity: EmptyPokeBallEntity?, state: PoseableEntityState<EmptyPokeBallEntity>, idleAnimation: StatelessAnimation<EmptyPokeBallEntity, *>) = false
+    override fun run(
+        entity: EmptyPokeBallEntity?,
+        model: PoseableEntityModel<EmptyPokeBallEntity>,
+        state: PoseableEntityState<EmptyPokeBallEntity>,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        ageInTicks: Float,
+        headYaw: Float,
+        headPitch: Float
+    ): Boolean {
         val frame = model as PokeBallFrame
+        entity ?: return false
 
         if (!initialized) {
-            model.getState(entity).animationSeconds = 0F
+            state.animationSeconds = 0F
             initialized = true
         }
 
-        val animationSeconds = model.getState(entity).animationSeconds
+        val animationSeconds = state.animationSeconds
 
         val xDist = entity.hitTargetPosition.get().x - entity.x
         val yDist = entity.hitTargetPosition.get().y - entity.y

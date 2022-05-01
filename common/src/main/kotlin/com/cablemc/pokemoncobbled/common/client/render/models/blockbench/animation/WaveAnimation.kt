@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addPosition
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addRotation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
@@ -45,7 +46,7 @@ class WaveAnimation<T : Entity>(
 ): StatelessAnimation<T, ModelFrame>(frame) {
     override val targetFrame = ModelFrame::class.java
 
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         val t = if (basedOnLimbSwing) {
             limbSwing
         } else {

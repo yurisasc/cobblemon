@@ -50,16 +50,17 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     private val fire = registerRelevantPart(tail3.childNamed("fire"))
 
     override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3d(-0.1, 1.6, 0.0)
+    override val portraitTranslation = Vec3d(-0.4, 1.6, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileScale = 0.7F
+    override val profileTranslation = Vec3d(0.0, 0.73, 0.0)
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.NONE,
-            transformTicks = 0,
-            condition = { !it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            poseName = "standing",
+            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
+            transformTicks = 10,
+            condition = { !it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf( SingleBoneLookAnimation(this),
                 BedrockStatelessAnimation(
                     this,
@@ -71,8 +72,8 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         registerPose(
             poseType = PoseType.WALK,
-            transformTicks = 0,
-            condition = { it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            transformTicks = 10,
+            condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(SingleBoneLookAnimation(this),
                 BedrockStatelessAnimation(
                     this,
@@ -88,81 +89,30 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         registerPose(
             poseType = PoseType.FLY,
-            transformTicks = 20,
-            condition = { !it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            transformTicks = 10,
+            condition = { !it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf( SingleBoneLookAnimation(this),
                 BedrockStatelessAnimation(
                     this,
                     BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_idle")
                 )
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -12F))
+            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -2F))
         )
 
         registerPose(
             poseType = PoseType.SWIM,
-            transformTicks = 20,
-            condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
-            idleAnimations = arrayOf( SingleBoneLookAnimation(this),
+            transformTicks = 10,
+            condition = { it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            idleAnimations = arrayOf(
+                SingleBoneLookAnimation(this),
                 BedrockStatelessAnimation(
                     this,
                     BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_fly")
                 )
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -18F))
+            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, 6F))
         )
-
-
-//        registerPose(
-//            poseType = PoseType.WALK,
-//            condition = { true },
-//            idleAnimations = arrayOf(
-//                BipedWalkAnimation(this),
-//                BimanualSwingAnimation(this),
-//                SingleBoneLookAnimation(this),
-//                CascadeAnimation(
-//                    frame = this,
-//                    rootFunction = cosineFunction(
-//                        period = 0.05f
-//                    ),
-//                    amplitudeFunction = gradualFunction(
-//                        base = 0.1f,
-//                        step = 0.1f
-//                    ),
-//                    segments = arrayOf(
-//                        tail,
-//                        tail2,
-//                        tail3
-//                    )
-//                ),
-//                leftWing.rotation(
-//                    function = sineFunction(
-//                        amplitude = 0.2F,
-//                        period = 5F
-//                    ),
-//                    axis = TransformedModelPart.Y_AXIS,
-//                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-//                ),
-//                rightWing.rotation(
-//                    function = sineFunction(
-//                        amplitude = -0.2F,
-//                        period = 5F
-//                    ),
-//                    axis = TransformedModelPart.Y_AXIS,
-//                    timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
-//                )
-//            ),
-//            transformedParts = arrayOf(
-//                leftArm.withRotation(2, 70f.toRadians()),
-//                rightArm.withRotation(2, (-70f).toRadians()),
-//                leftWing.withRotation(1, (-15F).toRadians()),
-//                rightWing.withRotation(1, (15F).toRadians()),
-//                leftWing2.withRotation(1, 30f.toRadians()),
-//                rightWing2.withRotation(1, (-30f).toRadians()),
-//                tail2.withRotation(0, (35f).toRadians()),
-//                fire.withRotation(0, (-35f).toRadians()),
-//            )
-//        )
     }
 
     companion object {

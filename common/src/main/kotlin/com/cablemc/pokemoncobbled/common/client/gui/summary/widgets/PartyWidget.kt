@@ -140,6 +140,7 @@ class PartyWidget(
                     pokemon = this,
                     matrixStack = poseStack,
                     rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
+                    state = null,
                     scale = 6F
                 )
 
