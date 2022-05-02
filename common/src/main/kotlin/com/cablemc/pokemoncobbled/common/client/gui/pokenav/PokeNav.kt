@@ -13,7 +13,6 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
@@ -58,10 +57,6 @@ class PokeNav : Screen(TranslatableText("pokemoncobbled.ui.pokenav.title")) {
 
         // EXIT Button
         this.insertButton(exit, this::onPressExit, TranslatableText("pokemoncobbled.ui.exit"))
-
-        repeat(3) {
-            this.insertButton(pokemon, {}, LiteralText("Dummy"))
-        }
 
         this.buttons.values().forEach { button ->
             addDrawableChild(button)
