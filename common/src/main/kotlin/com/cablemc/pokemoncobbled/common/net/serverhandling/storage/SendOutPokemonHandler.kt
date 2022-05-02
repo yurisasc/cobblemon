@@ -21,6 +21,9 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
         runOnServer {
             val party = PokemonCobbled.storage.getParty(player)
             val pokemon = party.get(slot) ?: return@runOnServer
+            if (pokemon.currentHealth <= 0) {
+                return@runOnServer
+            }
             val state = pokemon.state
 
             if (state !is ActivePokemonState) {
