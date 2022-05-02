@@ -23,8 +23,8 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     val body = registerRelevantPart(rootPart.childNamed("body"))
     val neck = registerRelevantPart(body.childNamed("neck"))
     val neck2 = registerRelevantPart(neck.childNamed("neck2"))
-    override val head = registerRelevantPart(neck2.childNamed("head_AI"))
-    val deeperHead = registerRelevantPart(head.childNamed("head"))
+    val otherHead = registerRelevantPart(neck2.childNamed("head_AI"))
+    override val head = registerRelevantPart(otherHead.childNamed("head"))
     override val rightArm = registerRelevantPart(body.childNamed("arm_right"))
     val rightForearm = registerRelevantPart(rightArm.childNamed("forearm_right"))
     val rightFinger1 = registerRelevantPart(rightForearm.childNamed("hand_right", "finger_right1"))
@@ -118,8 +118,8 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     companion object {
         val LAYER_LOCATION = EntityModelLayer(cobbledResource("charizard"), "main")
         fun createBodyLayer(): TexturedModelData {
-            val modelData = ModelData()
-            val partdefinition = modelData.root
+            val meshdefinition = ModelData()
+            val partdefinition = meshdefinition.root
 
             val charizard = partdefinition.addChild(
                 "charizard",
@@ -149,15 +149,18 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 ModelTransform.pivot(0.0f, -3.5f, 0.0f)
             )
 
-            val head_AI =
-                neck2.addChild("head_AI", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, -4.5f, 0.0f))
+            val head_AI = neck2.addChild(
+                "head_AI",
+                ModelPartBuilder.create(),
+                ModelTransform.of(0.0f, -4.5f, 0.0f, -0.3927f, 0.0f, 0.0f)
+            )
 
             val head = head_AI.addChild(
                 "head",
                 ModelPartBuilder.create().uv(66, 34)
                     .cuboid(-3.0f, -6.0f, -3.5f, 6.0f, 6.0f, 7.0f, Dilation(0.0f))
                     .uv(18, 77).cuboid(-2.5f, -5.0f, -9.5f, 5.0f, 3.0f, 6.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
+                ModelTransform.of(0.0f, 0.0761f, -0.3827f, 0.3927f, 0.0f, 0.0f)
             )
 
             val horn_left_r1 = head.addChild(
@@ -365,10 +368,22 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 "foot_left",
                 ModelPartBuilder.create().uv(36, 48)
                     .cuboid(-2.0f, 0.0f, -2.5f, 4.0f, 2.0f, 5.0f, Dilation(0.0f))
-                    .uv(0, 49).cuboid(-1.75f, 0.0f, -5.5f, 0.0f, 2.0f, 3.0f, Dilation(0.02f))
-                    .uv(0, 47).cuboid(0.0f, 0.0f, -5.5f, 0.0f, 2.0f, 3.0f, Dilation(0.02f))
-                    .uv(0, 45).cuboid(1.75f, 0.0f, -5.5f, 0.0f, 2.0f, 3.0f, Dilation(0.02f)),
+                    .uv(0, 47).cuboid(0.0f, 0.0f, -5.5f, 0.0f, 2.0f, 3.0f, Dilation(0.02f)),
                 ModelTransform.pivot(0.0f, 7.1f, -0.1f)
+            )
+
+            val toe_left3_r1 = foot_left.addChild(
+                "toe_left3_r1",
+                ModelPartBuilder.create().uv(0, 45)
+                    .cuboid(0.0f, -1.0f, -3.0f, 0.0f, 2.0f, 3.0f, Dilation(0.02f)),
+                ModelTransform.of(1.75f, 1.0f, -2.5f, 0.0f, -0.1745f, 0.0f)
+            )
+
+            val toe_left1_r1 = foot_left.addChild(
+                "toe_left1_r1",
+                ModelPartBuilder.create().uv(0, 49)
+                    .cuboid(0.0f, -1.0f, -3.0f, 0.0f, 2.0f, 3.0f, Dilation(0.02f)),
+                ModelTransform.of(-1.75f, 1.0f, -2.5f, 0.0f, 0.1745f, 0.0f)
             )
 
             val leg_right = body.addChild(
@@ -382,10 +397,22 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 "foot_right",
                 ModelPartBuilder.create().uv(0, 83)
                     .cuboid(-2.0f, 0.0f, -2.5f, 4.0f, 2.0f, 5.0f, Dilation(0.0f))
-                    .uv(0, 51).cuboid(-1.75f, 0.0f, -5.5f, 0.0f, 2.0f, 3.0f, Dilation(0.02f))
-                    .uv(49, 45).cuboid(0.0f, 0.0f, -5.5f, 0.0f, 2.0f, 3.0f, Dilation(0.02f))
-                    .uv(49, 47).cuboid(1.75f, 0.0f, -5.5f, 0.0f, 2.0f, 3.0f, Dilation(0.02f)),
+                    .uv(49, 45).cuboid(0.0f, 0.0f, -5.5f, 0.0f, 2.0f, 3.0f, Dilation(0.02f)),
                 ModelTransform.pivot(0.0f, 7.1f, -0.1f)
+            )
+
+            val toe_right3_r1 = foot_right.addChild(
+                "toe_right3_r1",
+                ModelPartBuilder.create().uv(49, 47)
+                    .cuboid(0.0f, -1.0f, -3.0f, 0.0f, 2.0f, 3.0f, Dilation(0.02f)),
+                ModelTransform.of(1.75f, 1.0f, -2.5f, 0.0f, -0.1745f, 0.0f)
+            )
+
+            val toe_right1_r1 = foot_right.addChild(
+                "toe_right1_r1",
+                ModelPartBuilder.create().uv(0, 51)
+                    .cuboid(0.0f, -1.0f, -3.0f, 0.0f, 2.0f, 3.0f, Dilation(0.02f)),
+                ModelTransform.of(-1.75f, 1.0f, -2.5f, 0.0f, 0.1745f, 0.0f)
             )
 
             val wing_right = body.addChild(
@@ -416,7 +443,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 ModelTransform.pivot(15.0f, -6.0f, 0.0f)
             )
 
-            return TexturedModelData.of(modelData, 128, 128)
+            return TexturedModelData.of(meshdefinition, 128, 128)
         }
     }
 }
