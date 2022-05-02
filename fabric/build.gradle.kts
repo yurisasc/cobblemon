@@ -12,7 +12,6 @@ loom {
 
 sourceSets {
     main {
-        ext.set("refmap", "PokemonCobbled-fabric-refmap.json")
         resources {
             srcDir(generatedResources)
         }

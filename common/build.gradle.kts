@@ -6,12 +6,6 @@ loom {
     accessWidenerPath.set(file("src/main/resources/pokemoncobbled-common.accesswidener"))
 }
 
-sourceSets {
-    main {
-        ext.set("refmap", "PokemonCobbled-common-refmap.json")
-    }
-}
-
 repositories {
     maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
 }
@@ -28,7 +22,6 @@ dependencies {
     modCompileOnly("com.caoccao.javet:javet:1.0.6") // Linux or Windows
     modCompileOnly("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
 
-//    modCompileOnly()
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.2")
