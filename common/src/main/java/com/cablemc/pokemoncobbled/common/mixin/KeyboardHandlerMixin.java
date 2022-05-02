@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.mixin;
 
 import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds;
-import net.minecraft.client.KeyboardHandler;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.Keyboard;
+import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,22 +16,22 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * @author Qu
  * @since 2022-02-17
  */
-@Mixin(KeyboardHandler.class)
+@Mixin(Keyboard.class)
 public class KeyboardHandlerMixin {
     @Final
     @Shadow
-    private Minecraft minecraft;
+    private MinecraftClient client;
 
     @Inject(
-            method = "keyPress",
+            method = "onKey",
             at = @At(
                     value = "TAIL",
-                    target = "Lnet/minecraft/client/KeyboardHandler;keyPress(JIIII)V"
+                    target = "Lnet/minecraft/client/Keyboard;onKey(JIIII)V"
             )
     )
     public void keyPress(long l, int i, int j, int k, int m, CallbackInfo ci) {
-        if (l == this.minecraft.getWindow().getWindow()) {
-            if (this.minecraft.screen == null) {
+        if (l == this.client.getWindow().getHandle()) {
+            if (this.client.currentScreen == null) {
                 CobbledKeybinds.INSTANCE.onAnyKey(i, j, k, m);
             }
         }

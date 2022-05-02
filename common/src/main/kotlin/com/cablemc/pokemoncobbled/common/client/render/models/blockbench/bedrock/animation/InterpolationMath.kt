@@ -1,15 +1,17 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.mojang.math.Vector3d
+import net.minecraft.client.util.math.Vector3d
+import net.minecraft.util.math.Vec3d
+
 import kotlin.math.floor
 
 /**
  * Interpolates a vector based on a Catmull-Rom spline.
  * Frame A to D should be in order based on time. Frame A should be the keyframe before frame B, which should be the keyframe before C, and so on.
  */
-fun catmullromLerp(frameA: BedrockAnimationKeyFrame?, frameB: BedrockAnimationKeyFrame, frameC: BedrockAnimationKeyFrame, frameD: BedrockAnimationKeyFrame?, time: Double): Vector3d {
-    return Vector3d(
+fun catmullromLerp(frameA: BedrockAnimationKeyFrame?, frameB: BedrockAnimationKeyFrame, frameC: BedrockAnimationKeyFrame, frameD: BedrockAnimationKeyFrame?, time: Double): Vec3d {
+    return Vec3d(
             catmullromLerp(frameA, frameB, frameC, frameD, TransformedModelPart.X_AXIS, time),
             catmullromLerp(frameA, frameB, frameC, frameD, TransformedModelPart.Y_AXIS, time),
             catmullromLerp(frameA, frameB, frameC, frameD, TransformedModelPart.Z_AXIS, time)
@@ -37,6 +39,12 @@ fun catmullromLerp(frameA: BedrockAnimationKeyFrame?, frameB: BedrockAnimationKe
     if (frameD != null) vectors.add(Vector2d(frameD.time, frameD.data.get(axis)))
     val alpha = ((linearLerpAlpha(frameB.time, frameC.time, time)) + if (frameA != null) 1 else 0) / (vectors.size - 1)
     return getPointOnSpline(vectors, alpha).b
+}
+
+fun Vec3d.get(axis: Int) = when (axis) {
+    0 -> x
+    1 -> y
+    else -> z
 }
 
 private fun getPointOnSpline(points: List<Vector2d>, time: Double): Vector2d {

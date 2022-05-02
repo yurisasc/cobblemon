@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.net.messages.server
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 class ChallengePacket() : NetworkPacket {
@@ -13,13 +13,13 @@ class ChallengePacket() : NetworkPacket {
         this.selectedPokemonId = selectedPokemonId
     }
 
-    override fun encode(buffer: FriendlyByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeInt(this.targetedEntityId)
-        buffer.writeUUID(this.selectedPokemonId)
+        buffer.writeUuid(this.selectedPokemonId)
     }
 
-    override fun decode(buffer: FriendlyByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         this.targetedEntityId = buffer.readInt()
-        this.selectedPokemonId = buffer.readUUID()
+        this.selectedPokemonId = buffer.readUuid()
     }
 }

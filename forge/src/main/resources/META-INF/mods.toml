@@ -19,7 +19,6 @@ description='''
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 
-
 [[dependencies.pokemoncobbled]]
 modId="minecraft"
 mandatory=true

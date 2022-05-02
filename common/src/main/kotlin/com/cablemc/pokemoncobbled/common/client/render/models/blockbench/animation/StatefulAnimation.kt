@@ -1,8 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * An animation that requires entity state. It is able to prevent some idle
@@ -19,7 +20,16 @@ interface StatefulAnimation<T : Entity, F : ModelFrame> {
      * This is for cases where this animation and the idle animation work on the same parts
      * of the model and would conflict.
      */
-    fun preventsIdle(entity: T, idleAnimation: StatelessAnimation<T, *>): Boolean
+    fun preventsIdle(entity: T?, state: PoseableEntityState<T>, idleAnimation: StatelessAnimation<T, *>): Boolean
     /** Runs the animation. You can check that the model fits a particular frame. Returns true if the animation should continue. */
-    fun run(entity: T, model: PoseableEntityModel<T>): Boolean
+    fun run(
+        entity: T?,
+        model: PoseableEntityModel<T>,
+        state: PoseableEntityState<T>,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        ageInTicks: Float,
+        headYaw: Float,
+        headPitch: Float
+    ): Boolean
 }

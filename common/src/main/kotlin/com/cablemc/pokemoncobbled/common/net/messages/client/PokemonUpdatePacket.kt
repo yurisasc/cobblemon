@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.net.messages.client
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -23,14 +23,14 @@ abstract class PokemonUpdatePacket : NetworkPacket {
         this.pokemonID = pokemon.uuid
     }
 
-    override fun encode(buffer: FriendlyByteBuf) {
-        buffer.writeUUID(storeID)
-        buffer.writeUUID(pokemonID)
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeUuid(storeID)
+        buffer.writeUuid(pokemonID)
     }
 
-    override fun decode(buffer: FriendlyByteBuf) {
-        storeID = buffer.readUUID()
-        pokemonID = buffer.readUUID()
+    override fun decode(buffer: PacketByteBuf) {
+        storeID = buffer.readUuid()
+        pokemonID = buffer.readUuid()
     }
 
     /** Applies the update to the located Pokémon. */

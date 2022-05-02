@@ -1,8 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * An animation that can run without an entity associated. These are
@@ -14,9 +15,9 @@ import net.minecraft.world.entity.Entity
  */
 abstract class StatelessAnimation<T : Entity, F : ModelFrame>(val frame: F) {
     abstract val targetFrame: Class<F>
-    protected abstract fun setAngles(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float)
+    protected abstract fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float)
 
-    fun apply(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        setAngles(entity, model, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
+    fun apply(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+        setAngles(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
 }

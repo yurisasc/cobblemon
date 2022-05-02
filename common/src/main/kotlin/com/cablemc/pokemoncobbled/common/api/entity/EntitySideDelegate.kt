@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.entity
 
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * Represents a delegation of a portion of an entity's logic to a particular side.

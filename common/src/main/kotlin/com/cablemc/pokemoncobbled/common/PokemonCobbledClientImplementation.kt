@@ -1,9 +1,9 @@
 package com.cablemc.pokemoncobbled.common
 
-import net.minecraft.client.model.geom.ModelLayerLocation
-import net.minecraft.client.model.geom.builders.LayerDefinition
+import net.minecraft.client.model.TexturedModelData
+import net.minecraft.client.render.entity.model.EntityModelLayer
 import java.util.function.Supplier
 
 interface PokemonCobbledClientImplementation {
-    fun registerLayer(layerLocation: ModelLayerLocation, supplier: Supplier<LayerDefinition>)
+    fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>)
 }

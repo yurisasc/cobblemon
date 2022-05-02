@@ -4,7 +4,8 @@ import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.util.ifClient
-import net.minecraft.client.Minecraft
+import net.minecraft.client.MinecraftClient
+
 
 /*
  * A packet handler which will queue and safely execute the invocation on the physical client thread.
@@ -14,7 +15,7 @@ import net.minecraft.client.Minecraft
  */
 interface ClientPacketHandler<T : NetworkPacket> : PacketHandler<T> {
     override fun invoke(packet: T, ctx: CobbledNetwork.NetworkContext) {
-        Minecraft.getInstance().submit { ifClient { invokeOnClient(packet, ctx) } }
+        MinecraftClient.getInstance().submit { ifClient { invokeOnClient(packet, ctx) } }
     }
 
     fun invokeOnClient(packet: T, ctx: CobbledNetwork.NetworkContext)

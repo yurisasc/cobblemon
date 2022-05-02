@@ -14,17 +14,17 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.
 import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.components.ObjectSelectionList
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
+import net.minecraft.client.util.math.MatrixStack
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
 class MoveSwitchPane(
     val movesWidget: MovesWidget,
     var replacedMove: Move
-): ObjectSelectionList<MoveSwitchPane.MoveObject>(
-    Minecraft.getInstance(),
+): AlwaysSelectedEntryListWidget<MoveSwitchPane.MoveObject>(
+    MinecraftClient.getInstance(),
     PANE_WIDTH,
     PANE_HEIGHT,
     1,
@@ -33,15 +33,15 @@ class MoveSwitchPane(
 ) {
     init {
         correctSize()
-        setRenderTopAndBottom(false)
+        setRenderHorizontalShadows(false)
         setRenderBackground(false)
         setRenderSelection(false)
     }
 
     val appropriateX: Int
-        get() = minecraft.window.guiScaledWidth / 2 + 13
+        get() = client.window.scaledWidth / 2 + 13
     val appropriateY: Int
-        get() = minecraft.window.guiScaledHeight / 2 - 75
+        get() = client.window.scaledHeight / 2 - 75
 
     fun correctSize() {
         updateSize(PANE_WIDTH, PANE_HEIGHT - 6, appropriateY, appropriateY + PANE_HEIGHT - 4)
@@ -49,7 +49,7 @@ class MoveSwitchPane(
     }
 
     companion object {
-        const val PANE_HEIGHT = 179
+        const val PANE_HEIGHT = 178
         const val MOVE_HEIGHT = 24
         const val MOVE_WIDTH = 112
         const val PANE_WIDTH = MOVE_WIDTH + 5
@@ -70,26 +70,26 @@ class MoveSwitchPane(
         return MOVE_WIDTH
     }
 
-    override fun getScrollbarPosition(): Int {
-        return x0 + width - 12
+    override fun getScrollbarPositionX(): Int {
+        return left + width - 12
     }
 
     private fun scaleIt(i: Int): Int {
-        return (minecraft.window.guiScale * i).toInt()
+        return (client.window.scaleFactor * i).toInt()
     }
 
-    override fun render(poseStack: PoseStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
+    override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
         correctSize()
         ModelWidget.render = false
         blitk(
-            poseStack = poseStack,
+            matrixStack = poseStack,
             texture = switchPaneResource,
-            x = x0,
-            y = y0 - 4,
+            x = left,
+            y = top - 4,
             height = PANE_HEIGHT,
             width = PANE_WIDTH
         )
-        RenderSystem.enableScissor(scaleIt(x0 + 2), minecraft.window.height / 2 - scaleIt(96), scaleIt(width - 4), scaleIt(height))
+        RenderSystem.enableScissor(scaleIt(left + 2), client.window.height / 2 - scaleIt(96), scaleIt(width - 4), scaleIt(height))
         super.render(poseStack, mouseX, mouseY, partialTicks)
         RenderSystem.disableScissor()
     }
@@ -97,7 +97,7 @@ class MoveSwitchPane(
     class MoveObject(val pane: MoveSwitchPane, val move: MoveTemplate, val ppRaisedStages: Int) : Entry<MoveObject>() {
         override fun getNarration() = move.displayName
         override fun render(
-            poseStack: PoseStack,
+            poseStack: MatrixStack,
             index: Int,
             rowTop: Int,
             rowLeft: Int,
@@ -117,7 +117,7 @@ class MoveSwitchPane(
             val pp = move.pp + ppRaisedStages * move.pp / 5
 
             blitk(
-                poseStack = poseStack,
+                matrixStack = poseStack,
                 texture = moveChangeEntryResource,
                 x = rowLeft,
                 y = rowTop,
@@ -129,7 +129,7 @@ class MoveSwitchPane(
             )
 
             blitk(
-                poseStack = poseStack,
+                matrixStack = poseStack,
                 texture = moveChangeEntryOverlayResource,
                 x = rowLeft,
                 y = rowTop,
@@ -139,7 +139,7 @@ class MoveSwitchPane(
 
             val typeIconWidth = MOVE_HEIGHT - 4
             blitk(
-                poseStack = poseStack,
+                matrixStack = poseStack,
                 texture = typeResource,
                 x = rowLeft,
                 y = rowTop,
@@ -150,7 +150,7 @@ class MoveSwitchPane(
 
             val categoryHeight = 7
             blitk(
-                poseStack = poseStack,
+                matrixStack = poseStack,
                 texture = move.damageCategory.resourceLocation,
                 x = rowLeft + 23, y = rowTop + 3,
                 width = 10, height = categoryHeight,
@@ -158,7 +158,7 @@ class MoveSwitchPane(
                 textureHeight = categoryHeight * 3
             )
 
-            poseStack.pushPose()
+            poseStack.push()
             val textScale = 0.6F
             poseStack.scale(textScale, textScale, 1F)
             drawText(
@@ -170,9 +170,9 @@ class MoveSwitchPane(
                 colour = 0,
                 shadow = false
             )
-            poseStack.popPose()
+            poseStack.pop()
 
-            poseStack.pushPose()
+            poseStack.push()
             val labelTextScale = 0.5F
             val labelY = rowTop + 13
             poseStack.scale(labelTextScale, labelTextScale, 1F)
@@ -214,7 +214,7 @@ class MoveSwitchPane(
                 y = labelY / labelTextScale,
                 colour = 0xFFFFFF
             )
-            poseStack.popPose()
+            poseStack.pop()
         }
 
         override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {

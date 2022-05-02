@@ -9,8 +9,8 @@ import com.cablemc.pokemoncobbled.common.util.FileUtils
 import com.cablemc.pokemoncobbled.common.util.extractTo
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
-import net.minecraft.client.Minecraft
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.client.MinecraftClient
+import net.minecraft.util.Identifier
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
@@ -48,8 +48,8 @@ class ShowdownThread : Thread() {
             if (extract) {
                 showdownDir = File("showdown")
                 showdownDir.mkdir()
-                ResourceLocation(PokemonCobbled.MODID, "showdown.zip").extractTo(showdownZip)
-                ResourceLocation(PokemonCobbled.MODID, "showdown.json").extractTo(showdownMetadataFile)
+                Identifier(PokemonCobbled.MODID, "showdown.zip").extractTo(showdownZip)
+                Identifier(PokemonCobbled.MODID, "showdown.json").extractTo(showdownMetadataFile)
                 FileUtils.unzipFile(showdownZip.toPath(), showdownDir.toPath())
             }
         }
@@ -73,7 +73,7 @@ class ShowdownThread : Thread() {
         // Max attempts
         if (tries == maxTries) {
             LOGGER.error("Failed to connect to showdown after 5 tries.")
-            Minecraft.getInstance().close()
+            MinecraftClient.getInstance().close()
         }
 
         LOGGER.info("Showdown has been connected!")
@@ -95,7 +95,7 @@ class ShowdownThread : Thread() {
                 // Max attempts
                 if (tries == maxTries) {
                     LOGGER.error("Failed to connect to showdown after 5 tries.")
-                    Minecraft.getInstance().close()
+                    MinecraftClient.getInstance().close()
                 }
 
                 tries = 0

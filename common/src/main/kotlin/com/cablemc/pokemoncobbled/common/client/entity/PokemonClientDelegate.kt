@@ -9,9 +9,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives.EarBounceAdditive
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.util.Mth.abs
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 import java.lang.Float.min
+import kotlin.math.abs
 
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
@@ -78,7 +78,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     }
 
     override fun tick(entity: PokemonEntity) {
-        val downSpeed = entity.deltaMovement.y
+        val downSpeed = entity.velocity.y
         if (downSpeed > previousVerticalVelocity && downSpeed > minimumFallSpeed) {
             // Stopped falling
             val highestFallVelocity = previousVerticalVelocity
@@ -90,10 +90,10 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             }
         }
 
-        previousVerticalVelocity = entity.deltaMovement.y.toFloat()
+        previousVerticalVelocity = entity.velocity.y.toFloat()
     }
 
     fun setPhaseTarget(targetId: Int) {
-        this.phaseTarget = entity.level.getEntity(targetId)
+        this.phaseTarget = entity.world.getEntityById(targetId)
     }
 }

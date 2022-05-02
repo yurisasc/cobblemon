@@ -23,6 +23,10 @@ val annotations_version: String by project
 val coroutines_version: String by project
 val serialization_version: String by project
 
+repositories {
+    maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+}
+
 dependencies {
     implementation(project(":common", configuration = "namedElements")) {
         isTransitive = false
@@ -49,9 +53,13 @@ dependencies {
 
     // For Showdown
     bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
-    bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+    bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS
+    bundle("com.eliotlash.molang:molang:18")
+    bundle("com.eliotlash.mclib:mclib:18")
     runtimeOnly("com.caoccao.javet:javet:1.0.6") // Linux or Windows
     runtimeOnly("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+    runtimeOnly("com.eliotlash.molang:molang:18")
+    runtimeOnly("com.eliotlash.mclib:mclib:18")
 //    common group: 'commons-io', name: 'commons-io', version: '2.6'
 }
 

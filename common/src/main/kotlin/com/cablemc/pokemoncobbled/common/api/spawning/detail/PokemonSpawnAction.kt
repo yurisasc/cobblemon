@@ -22,6 +22,6 @@ class PokemonSpawnAction(
         if (props.level == null && detail is PokemonSpawnDetail) {
             props.level = detail.getDerivedLevelRange().random()
         }
-        return props.createEntity(ctx.level)
+        return props.createEntity(ctx.world)
     }
 }

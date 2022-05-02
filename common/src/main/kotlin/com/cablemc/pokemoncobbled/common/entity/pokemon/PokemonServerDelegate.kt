@@ -7,7 +7,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 class PokemonServerDelegate : PokemonSideDelegate {
     lateinit var entity: PokemonEntity
     override fun changePokemon(pokemon: Pokemon) {
-        entity.registerGoals()
+        entity.initGoals()
     }
 
     override fun initialize(entity: PokemonEntity) {
@@ -22,11 +22,11 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.health.toInt() != entity.pokemon.currentHealth) {
             entity.health = entity.pokemon.currentHealth.toFloat()
         }
-        if (entity.ownerUUID != entity.pokemon.getOwnerUUID()) {
-            entity.ownerUUID = entity.pokemon.getOwnerUUID()
+        if (entity.ownerUuid != entity.pokemon.getOwnerUUID()) {
+            entity.ownerUuid = entity.pokemon.getOwnerUUID()
         }
 
-        val isMoving = entity.deltaMovement.length() > 0.1
+        val isMoving = entity.velocity.length() > 0.1
         if (isMoving && !entity.isMoving.get()) {
             entity.isMoving.set(true)
         } else if (!isMoving && entity.isMoving.get()) {

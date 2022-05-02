@@ -1,13 +1,13 @@
 package com.cablemc.pokemoncobbled.common.client.keybind.keybinds
 
-import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeyMapping
+import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeyBinding
 import com.cablemc.pokemoncobbled.common.client.keybind.KeybindCategories
-import com.mojang.blaze3d.platform.InputConstants
+import net.minecraft.client.util.InputUtil
 
-object HidePartyBinding : CobbledKeyMapping(
+object HidePartyBinding : CobbledKeyBinding(
     "key.pokemoncobbled.hideparty",
-    InputConstants.Type.KEYSYM,
-    InputConstants.KEY_P,
+    InputUtil.Type.KEYSYM,
+    InputUtil.GLFW_KEY_P,
     KeybindCategories.COBBLED_CATEGORY
 ) {
     var shouldHide = false

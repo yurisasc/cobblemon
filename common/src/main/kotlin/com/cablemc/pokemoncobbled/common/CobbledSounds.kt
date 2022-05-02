@@ -3,11 +3,11 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.MODID
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import dev.architectury.registry.registries.DeferredRegister
-import net.minecraft.core.Registry
-import net.minecraft.sounds.SoundEvent
+import net.minecraft.sound.SoundEvent
+import net.minecraft.util.registry.Registry
 
 object CobbledSounds {
-    private val soundRegister = DeferredRegister.create(MODID, Registry.SOUND_EVENT_REGISTRY)
+    private val soundRegister = DeferredRegister.create(MODID, Registry.SOUND_EVENT_KEY)
     private fun queue(name: String) = soundRegister.register(name) { SoundEvent(cobbledResource(name)) }
 
     val CAPTURE_SUCCEEDED = queue("capture_succeeded")

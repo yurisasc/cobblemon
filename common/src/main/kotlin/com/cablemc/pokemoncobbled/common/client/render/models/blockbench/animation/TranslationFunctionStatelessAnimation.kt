@@ -5,8 +5,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addPosition
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
-import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.world.entity.Entity
+import net.minecraft.client.model.ModelPart
+import net.minecraft.entity.Entity
 
 /**
  * Animation simply works by moving a part along a particular function
@@ -19,7 +19,7 @@ class TranslationFunctionStatelessAnimation<T : Entity>(
     frame: ModelFrame
 ) : StatelessAnimation<T, ModelFrame>(frame) {
     override val targetFrame = ModelFrame::class.java
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        part.addPosition(axis, function(timeVariable(entity?.let { model.getState(it) }, limbSwing, ageInTicks) ?: 0F))
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+        part.addPosition(axis, function(timeVariable(state, limbSwing, ageInTicks) ?: 0F))
     }
 }

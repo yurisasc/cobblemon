@@ -3,10 +3,10 @@ package com.cablemc.pokemoncobbled.common.api.moves
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.Tag
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtElement
+import net.minecraft.nbt.NbtList
+import net.minecraft.network.PacketByteBuf
 
 class MoveSet : Iterable<Move> {
     val observable = SimpleObservable<MoveSet>()
@@ -73,18 +73,18 @@ class MoveSet : Iterable<Move> {
     }
 
     /**
-     * Returns a ListTag containing all the Moves
+     * Returns a NbtList containing all the Moves
      */
-    fun getNBT(): ListTag {
-        val listTag = ListTag()
-        listTag.addAll(getMoves().map { it.saveToNBT(CompoundTag()) })
+    fun getNBT(): NbtList {
+        val listTag = NbtList()
+        listTag.addAll(getMoves().map { it.saveToNBT(NbtCompound()) })
         return listTag
     }
 
     /**
      * Writes the MoveSet to Buffer
      */
-    fun saveToBuffer(buffer: FriendlyByteBuf) {
+    fun saveToBuffer(buffer: PacketByteBuf) {
         buffer.writeInt(getMoves().size)
         getMoves().forEach {
             it.saveToBuffer(buffer)
@@ -128,11 +128,11 @@ class MoveSet : Iterable<Move> {
     /**
      * Returns a MoveSet built from given NBT
      */
-    fun loadFromNBT(nbt: CompoundTag): MoveSet {
+    fun loadFromNBT(nbt: NbtCompound): MoveSet {
         doWithoutEmitting {
             clear()
-            nbt.getList(DataKeys.POKEMON_MOVESET, Tag.TAG_COMPOUND.toInt()).forEachIndexed { index, tag ->
-                setMove(index, Move.loadFromNBT(tag as CompoundTag))
+            nbt.getList(DataKeys.POKEMON_MOVESET, NbtElement.COMPOUND_TYPE.toInt()).forEachIndexed { index, tag ->
+                setMove(index, Move.loadFromNBT(tag as NbtCompound))
             }
         }
         update()
@@ -142,7 +142,7 @@ class MoveSet : Iterable<Move> {
     /**
      * Returns a MoveSet build from given Buffer
      */
-    fun loadFromBuffer(buffer: FriendlyByteBuf): MoveSet {
+    fun loadFromBuffer(buffer: PacketByteBuf): MoveSet {
         doWithoutEmitting {
             clear()
             val amountMoves = buffer.readInt()
