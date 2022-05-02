@@ -41,7 +41,7 @@ class MoveSwitchPane(
     val appropriateX: Int
         get() = client.window.scaledWidth / 2 + 13
     val appropriateY: Int
-        get() = client.window.scaledWidth / 2 - 75
+        get() = client.window.scaledHeight / 2 - 75
 
     fun correctSize() {
         updateSize(PANE_WIDTH, PANE_HEIGHT - 6, appropriateY, appropriateY + PANE_HEIGHT - 4)
@@ -49,7 +49,7 @@ class MoveSwitchPane(
     }
 
     companion object {
-        const val PANE_HEIGHT = 179
+        const val PANE_HEIGHT = 178
         const val MOVE_HEIGHT = 24
         const val MOVE_WIDTH = 112
         const val PANE_WIDTH = MOVE_WIDTH + 5

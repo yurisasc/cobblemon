@@ -83,7 +83,7 @@ class MoveInfoWidget(
 
         MultiLineLabelK.create(
             component = move.description,
-            width = 185,
+            width = 170,
             maxLines = 4,
             font = CobbledResources.NOTO_SANS_REGULAR
         ).renderLeftAligned(

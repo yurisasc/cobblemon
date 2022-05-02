@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.withPosition
@@ -15,7 +16,7 @@ import java.lang.Float.min
  * @since December 5th, 2021
  */
 class PoseTransitionAnimation<T : Entity>(
-    beforePose: Pose<T, *>,
+    val beforePose: Pose<T, *>,
     val afterPose: Pose<T, *>,
     durationTicks: Int = 20
 ) : StatefulAnimation<T, ModelFrame> {
@@ -83,28 +84,50 @@ class PoseTransitionAnimation<T : Entity>(
         }
     }
 
-    override fun preventsIdle(entity: T, idleAnimation: StatelessAnimation<T, *>) = false
-    override fun run(entity: T, model: PoseableEntityModel<T>): Boolean {
+    override fun preventsIdle(entity: T?, state: PoseableEntityState<T>, idleAnimation: StatelessAnimation<T, *>) = false
+    override fun run(
+        entity: T?,
+        model: PoseableEntityModel<T>,
+        state: PoseableEntityState<T>,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        ageInTicks: Float,
+        headYaw: Float,
+        headPitch: Float
+    ): Boolean {
         val now = System.currentTimeMillis()
         val durationMillis = (endTime - startTime).toFloat()
         val passedMillis = (now - startTime).toFloat()
         val ratio = min(passedMillis / durationMillis, 1F)
 
-        if (!changedPose && ratio >= 0.5) {
-            model.getState(entity).setPose(afterPose.poseType)
-            transforms.forEach { it.apply(1F) }
-            changedPose = true
-        } else if (!changedPose) {
-            transforms.forEach { it.apply(min(ratio * 2F, 1F)) }
+        transforms.forEach { it.apply(min(ratio * 2F, 1F)) }
+
+        val amountOfBefore = 1 - ratio
+        val amountOfAfter = ratio
+
+        if (ratio < 1F) {
+            model.relevantParts.forEach { it.changeFactor = amountOfAfter }
+            afterPose.idleAnimations.forEach {
+                it.apply(
+                    entity,
+                    model,
+                    state,
+                    limbSwing,
+                    limbSwingAmount,
+                    ageInTicks,
+                    headYaw,
+                    headPitch
+                )
+            }
         }
 
-        val factor = if (changedPose) {
-            (ratio - 0.5F) * 2F
-        } else {
-            1 - ratio * 2F
-        }
+        // Stateless animations happen next
+        model.relevantParts.forEach { it.changeFactor = if (ratio < 1F) amountOfBefore else 1F }
 
-        model.relevantParts.forEach { it.changeFactor = factor }
+        if (ratio >= 1F) {
+            state.setPose(afterPose.poseName)
+            model.applyPose(afterPose.poseName)
+        }
 
         return ratio < 1F
     }

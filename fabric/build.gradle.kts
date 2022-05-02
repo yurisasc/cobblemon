@@ -12,7 +12,6 @@ loom {
 
 sourceSets {
     main {
-        ext.set("refmap", "PokemonCobbled-fabric-refmap.json")
         resources {
             srcDir(generatedResources)
         }
@@ -43,7 +42,6 @@ dependencies {
     modApi("net.fabricmc.fabric-api:fabric-api:${rootProject.property("fabric_api_version")}")
     modApi("dev.architectury:architectury-fabric:${rootProject.property("architectury_version")}")
     modApi("net.fabricmc:fabric-language-kotlin:${rootProject.property("fabric_kotlin")}")
-//    modApi("software.bernie.geckolib:geckolib-fabric-1.18.2:3.0.35")
 
     // For Kotlin
     bundle(kotlin("stdlib-jdk8", version = "1.6.10"))
@@ -56,9 +54,12 @@ dependencies {
     // For Showdown
     bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
     bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS
-//    bundle("software.bernie.geckolib:geckolib-fabric-1.18.2:3.0.35") // Don't do this for production builds
+    bundle("com.eliotlash.molang:molang:18")
+    bundle("com.eliotlash.mclib:mclib:18")
     runtimeOnly("com.caoccao.javet:javet:1.0.6") // Linux or Windows
     runtimeOnly("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+    runtimeOnly("com.eliotlash.molang:molang:18")
+    runtimeOnly("com.eliotlash.mclib:mclib:18")
 //    common group: 'commons-io', name: 'commons-io', version: '2.6'
 }
 

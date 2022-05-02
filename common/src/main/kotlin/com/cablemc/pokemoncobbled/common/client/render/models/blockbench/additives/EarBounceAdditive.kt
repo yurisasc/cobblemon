@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addRotation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.EaredFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.getRotation
@@ -19,7 +20,7 @@ class EarBounceAdditive(val intensity: Float, val durationTicks: Int = 20) : Pos
     var leftTotalMovement: Float = 0F
     var rightTotalMovement: Float = 0F
 
-    override fun run(entity: PokemonEntity, model: PoseableEntityModel<PokemonEntity>): Boolean {
+    override fun run(entity: PokemonEntity?, model: PoseableEntityModel<PokemonEntity>, state: PoseableEntityState<PokemonEntity>?): Boolean {
         if (model !is EaredFrame) {
             return false
         }

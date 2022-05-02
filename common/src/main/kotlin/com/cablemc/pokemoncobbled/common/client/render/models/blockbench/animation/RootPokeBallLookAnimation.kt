@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.PokeBallFrame
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.util.math.MathHelper.PI
@@ -15,7 +16,7 @@ import net.minecraft.util.math.MathHelper.atan2
  */
 class RootPokeBallLookAnimation(frame: PokeBallFrame) : StatelessAnimation<EmptyPokeBallEntity, PokeBallFrame>(frame) {
     override val targetFrame = PokeBallFrame::class.java
-    override fun setAngles(entity: EmptyPokeBallEntity?, model: PoseableEntityModel<EmptyPokeBallEntity>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override fun setAngles(entity: EmptyPokeBallEntity?, model: PoseableEntityModel<EmptyPokeBallEntity>, state: PoseableEntityState<EmptyPokeBallEntity>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         val yRot = entity?.let {
             val dispX = it.hitTargetPosition.get().x - it.x
             val dispZ = it.hitTargetPosition.get().z - it.z
