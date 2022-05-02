@@ -5,8 +5,8 @@ import com.cablemc.pokemoncobbled.common.util.randomNoCopy
 import com.google.common.collect.Lists
 import com.mojang.serialization.Codec
 import net.minecraft.block.BlockState
+import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.LeavesBlock
-import net.minecraft.state.property.Properties.FACING
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
@@ -129,7 +129,7 @@ class ApricornTreeFeature(
                 .randomNoCopy(allApricornSpots.size.coerceAtMost(5))
                 .map { it.random() }
                 .forEach {
-                    setBlockIfClear(worldGenLevel, it.second, context.config.state.with(FACING, it.first))
+                    setBlockIfClear(worldGenLevel, it.second, context.config.state.with(HorizontalFacingBlock.FACING, it.first))
                 }
         }
         return true;
