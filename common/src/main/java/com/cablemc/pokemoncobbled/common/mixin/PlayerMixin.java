@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.UUID;
@@ -27,13 +26,13 @@ public abstract class PlayerMixin extends LivingEntity {
 
     @Shadow public abstract NbtCompound getShoulderEntityRight();
 
-    @Shadow private long shoulderEntityAddedTime;
-
     @Shadow public abstract void dropShoulderEntity(NbtCompound entityNbt);
 
     @Shadow public abstract void setShoulderEntityRight(NbtCompound entityNbt);
 
     @Shadow public abstract void setShoulderEntityLeft(NbtCompound entityNbt);
+
+    @Shadow public abstract boolean isSpectator();
 
     protected PlayerMixin(EntityType<? extends LivingEntity> p_20966_, World p_20967_) {
         super(p_20966_, p_20967_);
@@ -72,33 +71,28 @@ public abstract class PlayerMixin extends LivingEntity {
         this.cobbled$isLeftShoulderPokemon = CompoundTagExtensionsKt.isPokemonEntity(nbt);
     }
 
-    @Redirect(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;dropShoulderEntities()V"))
-    private void cobbled$preventFallShoulderDrop(PlayerEntity instance) {
-        this.handleNormalShoulderDrop();
-    }
-
-    @Redirect(method = "useRiptide", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;dropShoulderEntities()V"))
-    private void cobbled$preventRiptideShoulderDrop(PlayerEntity instance) {
-        this.handleNormalShoulderDrop();
-    }
-
-    @Redirect(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;dropShoulderEntities()V"))
-    private void cobbled$preventDamagedShoulderDrop(PlayerEntity instance) {
-        this.handleNormalShoulderDrop();
-    }
-
-    // We do this because we want to prevent the gameplay factors that cause the drop for Pokémon, but we don't want to prevent it during death and spectator.
-    private void handleNormalShoulderDrop() {
-        if (this.shoulderEntityAddedTime + 20L < this.world.getTime()) {
-            if (!this.cobbled$isLeftShoulderPokemon) {
-                this.dropShoulderEntity(this.getShoulderEntityLeft());
-                this.setShoulderEntityLeft(new NbtCompound());
-            }
-            if (!this.cobbled$isRightShoulderPokemon) {
-                this.dropShoulderEntity(this.getShoulderEntityRight());
-                this.setShoulderEntityRight(new NbtCompound());
-            }
+    @Inject(
+        method = "dropShoulderEntities",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/player/PlayerEntity;dropShoulderEntity(Lnet/minecraft/nbt/NbtCompound;)V",
+            ordinal = 0
+        ),
+        cancellable = true
+    )
+    private void cobbled$preventPokemonDropping(CallbackInfo ci) {
+        // We want to allow both of these to forcefully remove the entities
+        if (this.isSpectator() || this.isDead())
+            return;
+        if (!this.cobbled$isLeftShoulderPokemon) {
+            this.dropShoulderEntity(this.getShoulderEntityLeft());
+            this.setShoulderEntityLeft(new NbtCompound());
         }
+        if (!this.cobbled$isRightShoulderPokemon) {
+            this.dropShoulderEntity(this.getShoulderEntityRight());
+            this.setShoulderEntityRight(new NbtCompound());
+        }
+        ci.cancel();
     }
 
     private UUID getPokemonID(NbtCompound nbt) {
