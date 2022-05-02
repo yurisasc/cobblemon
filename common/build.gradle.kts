@@ -6,12 +6,6 @@ loom {
     accessWidenerPath.set(file("src/main/resources/pokemoncobbled-common.accesswidener"))
 }
 
-sourceSets {
-    main {
-        ext.set("refmap", "PokemonCobbled-common-refmap.json")
-    }
-}
-
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
