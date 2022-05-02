@@ -14,5 +14,6 @@ object CobbledCommands {
         TestCommand.register(dispatcher)
         ClickTextCommand.register(dispatcher)
         LevelUp.register(dispatcher)
+        KillShoulderCommand.register(dispatcher)
     }
 }
