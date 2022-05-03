@@ -256,11 +256,6 @@ class PokemonEntity(
         return this.pokemon?.form?.eyeHeight(this) ?: super.getActiveEyeHeight(pose, dimensions)
     }
 
-    override fun setSwimming(swimming: Boolean) {
-        super.setSwimming(swimming)
-        this.updateEyeHeight()
-    }
-
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
         behaviourFlags.set(setBitForByte(behaviourFlags.get(), flag.bit, on))
     }
