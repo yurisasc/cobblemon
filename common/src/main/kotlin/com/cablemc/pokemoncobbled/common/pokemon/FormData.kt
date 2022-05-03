@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 
@@ -38,7 +39,11 @@ data class FormData(
     @SerializedName("shoulderEffects")
     private val _shoulderEffects: MutableList<ShoulderEffect>? = null,
     @SerializedName("levelUpMoves")
-    private val _levelUpMoves: LevelUpMoves? = null
+    private val _levelUpMoves: LevelUpMoves? = null,
+    private val eyeHeight: Float? = null,
+    private val standingEyeHeight: Float? = null,
+    private val swimmingEyeHeight: Float? = null,
+    private val flyingEyeHeight: Float? = null
 ) {
     val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
@@ -78,6 +83,17 @@ data class FormData(
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
+
+    fun eyeHeight(entity: PokemonEntity): Float {
+        val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)
+        return entity.height * multiplier
+    }
+
+    private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
+        entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight
+        entity.isFallFlying -> this.flyingEyeHeight
+        else -> this.standingEyeHeight
+    }
 
     @Transient
     lateinit var species: Species
