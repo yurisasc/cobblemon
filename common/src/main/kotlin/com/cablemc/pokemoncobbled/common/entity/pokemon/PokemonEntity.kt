@@ -53,9 +53,8 @@ class PokemonEntity(
         set(value) {
             field = value
             delegate.changePokemon(value)
-            @Suppress("CAST_NEVER_SUCCEEDS")
             // We need to update this value everytime the Pokémon changes, other eye height related things will be dynamic.
-            (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
+            this.updateEyeHeight()
         }
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.defaultPokemonDespawner
 
@@ -123,6 +122,9 @@ class PokemonEntity(
         entityProperties.forEach { it.checkForUpdate() }
         delegate.tick(this)
         ticksLived++
+        if (this.ticksLived % 20 == 0) {
+            this.updateEyeHeight()
+        }
     }
 
     /**
@@ -246,19 +248,18 @@ class PokemonEntity(
         }
     }
 
-    override fun getEyeHeight(pose: EntityPose): Float {
-        println("getEyeHeight")
-        return this.pokemon.form.eyeHeight(this)
-    }
+    override fun getEyeHeight(pose: EntityPose): Float = this.pokemon.form.eyeHeight(this)
 
     @Suppress("SAFE_CALL_WILL_CHANGE_NULLABILITY", "USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
     override fun getActiveEyeHeight(pose: EntityPose?, dimensions: EntityDimensions?): Float {
         // This property will be null during Entity#<init>
-        println("getActiveEyeHeight")
         return this.pokemon?.form?.eyeHeight(this) ?: super.getActiveEyeHeight(pose, dimensions)
     }
 
-
+    override fun setSwimming(swimming: Boolean) {
+        super.setSwimming(swimming)
+        this.updateEyeHeight()
+    }
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
         behaviourFlags.set(setBitForByte(behaviourFlags.get(), flag.bit, on))
@@ -307,6 +308,11 @@ class PokemonEntity(
                 && player.isOnGround
                 && !player.isTouchingWater
                 && !player.inPowderSnow
+    }
+
+    private fun updateEyeHeight() {
+        @Suppress("CAST_NEVER_SUCCEEDS")
+        (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
     }
 
 }
