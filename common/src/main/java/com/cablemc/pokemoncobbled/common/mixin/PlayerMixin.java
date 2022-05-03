@@ -38,37 +38,26 @@ public abstract class PlayerMixin extends LivingEntity {
         super(p_20966_, p_20967_);
     }
 
-    private boolean cobbled$isRightShoulderPokemon = false;
-    private boolean cobbled$isLeftShoulderPokemon = false;
-
     @Inject(method = "dropShoulderEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityType;getEntityFromNbt(Lnet/minecraft/nbt/NbtCompound;Lnet/minecraft/world/World;)Ljava/util/Optional;"), cancellable = true)
     private void cobbled$removePokemon(NbtCompound nbt, CallbackInfo ci) {
         if (CompoundTagExtensionsKt.isPokemonEntity(nbt)) {
             final UUID uuid = this.getPokemonID(nbt);
-            if (this.cobbled$isRightShoulderPokemon) {
+            if (this.isShoulderPokemon(this.getShoulderEntityRight())) {
                 final UUID uuidRight = this.getPokemonID(this.getShoulderEntityRight());
                 if (uuid.equals(uuidRight)) {
                     this.recallPokemon(uuidRight);
+                    this.setShoulderEntityRight(new NbtCompound());
                 }
             }
-            if (this.cobbled$isLeftShoulderPokemon) {
+            if (this.isShoulderPokemon(this.getShoulderEntityLeft())) {
                 final UUID uuidLeft = this.getPokemonID(this.getShoulderEntityLeft());
                 if (uuid.equals(uuidLeft)) {
                     this.recallPokemon(uuidLeft);
+                    this.setShoulderEntityLeft(new NbtCompound());
                 }
             }
             ci.cancel();
         }
-    }
-
-    @Inject(method = "setShoulderEntityRight", at = @At("TAIL"))
-    private void cobbled$queryRightShoulderPokemon(NbtCompound nbt, CallbackInfo ci) {
-        this.cobbled$isRightShoulderPokemon = CompoundTagExtensionsKt.isPokemonEntity(nbt);
-    }
-
-    @Inject(method = "setShoulderEntityLeft", at = @At("TAIL"))
-    private void cobbled$queryLeftShoulderPokemon(NbtCompound nbt, CallbackInfo ci) {
-        this.cobbled$isLeftShoulderPokemon = CompoundTagExtensionsKt.isPokemonEntity(nbt);
     }
 
     @Inject(
@@ -84,11 +73,11 @@ public abstract class PlayerMixin extends LivingEntity {
         // We want to allow both of these to forcefully remove the entities
         if (this.isSpectator() || this.isDead())
             return;
-        if (!this.cobbled$isLeftShoulderPokemon) {
+        if (!this.isShoulderPokemon(this.getShoulderEntityLeft())) {
             this.dropShoulderEntity(this.getShoulderEntityLeft());
             this.setShoulderEntityLeft(new NbtCompound());
         }
-        if (!this.cobbled$isRightShoulderPokemon) {
+        if (!this.isShoulderPokemon(this.getShoulderEntityRight())) {
             this.dropShoulderEntity(this.getShoulderEntityRight());
             this.setShoulderEntityRight(new NbtCompound());
         }
@@ -110,6 +99,10 @@ public abstract class PlayerMixin extends LivingEntity {
                 }
             }
         } catch (NoPokemonStoreException ignored) {}
+    }
+
+    private boolean isShoulderPokemon(NbtCompound nbt) {
+        return CompoundTagExtensionsKt.isPokemonEntity(nbt);
     }
 
 }
