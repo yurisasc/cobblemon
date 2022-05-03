@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
-import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
@@ -200,26 +199,7 @@ class PokemonEntity(
         // TODO: Move to proper pokemon interaction menu
         if (player.isSneaking && hand == Hand.MAIN_HAND) {
             if (isReadyToSitOnPlayer && player is ServerPlayerEntity && !isBusy) {
-                val store = pokemon.storeCoordinates.get()?.store
-                if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
-                    CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
-                        val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
-                        velocity = dirToPlayer.multiply(0.8).add(0.0, 0.5, 0.0)
-                        val lock = Any()
-                        busyLocks.add(lock)
-                        afterOnMain(seconds = 0.5F) {
-                            busyLocks.remove(lock)
-                            if (!isBusy && isAlive) {
-                                val isLeft = player.shoulderEntityLeft.isEmpty
-                                if (!isLeft || player.shoulderEntityRight.isEmpty) {
-                                    pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
-                                    this.mountOnto(player)
-                                    this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
-                                }
-                            }
-                        }
-                    }
-                }
+                this.tryMountingShoulder(player)
             }
         }
         return super.interactMob(player, hand)
@@ -279,4 +259,36 @@ class PokemonEntity(
 
         return true
     }
+
+    private fun tryMountingShoulder(player: ServerPlayerEntity) {
+        if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
+            CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
+                val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
+                velocity = dirToPlayer.multiply(0.8).add(0.0, 0.5, 0.0)
+                val lock = Any()
+                busyLocks.add(lock)
+                afterOnMain(seconds = 0.5F) {
+                    busyLocks.remove(lock)
+                    if (!isBusy && isAlive) {
+                        val isLeft = player.shoulderEntityLeft.isEmpty
+                        if (!isLeft || player.shoulderEntityRight.isEmpty) {
+                            pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
+                            this.mountOnto(player)
+                            this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
+    private fun hasRoomToMount(player: PlayerEntity): Boolean {
+        return (player.shoulderEntityLeft.isEmpty || player.shoulderEntityRight.isEmpty)
+                && !player.hasVehicle()
+                && player.isOnGround
+                && !player.isTouchingWater
+                && !player.inPowderSnow
+    }
+
 }
