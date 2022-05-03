@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText
@@ -33,6 +34,9 @@ class Species {
     val shoulderMountable: Boolean = false
     val shoulderEffects = mutableListOf<ShoulderEffect>()
     val levelUpMoves = LevelUpMoves()
+    private val standingEyeHeight: Float? = null
+    private val swimmingEyeHeight: Float? = null
+    private val flyingEyeHeight: Float? = null
 
     var forms = mutableListOf(FormData())
 
@@ -43,4 +47,22 @@ class Species {
         this.level = level
         initialize()
     }
+
+    fun eyeHeight(entity: PokemonEntity): Float {
+        val multiplier = this.resolveEyeHeight(entity) ?: VANILLA_DEFAULT_EYE_HEIGHT
+        return entity.height * multiplier
+    }
+
+    private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
+        entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight
+        entity.isFallFlying -> this.flyingEyeHeight
+        else -> this.standingEyeHeight
+    }
+
+    companion object {
+
+        private const val VANILLA_DEFAULT_EYE_HEIGHT = .85F
+
+    }
+
 }

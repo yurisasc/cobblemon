@@ -10,6 +10,7 @@ import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.mixin.accessor.AccessorEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.util.DataKeys
@@ -47,10 +48,13 @@ class PokemonEntity(
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
 ) : TameableShoulderEntity(type, level), EntitySpawnExtension {
+
     var pokemon: Pokemon = pokemon
         set(value) {
             field = value
             delegate.changePokemon(value)
+            // We need to update this value everytime the Pokémon changes, other eye height related things will be dynamic.
+            this.updateEyeHeight()
         }
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.defaultPokemonDespawner
 
@@ -87,7 +91,6 @@ class PokemonEntity(
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
-
         battleId
             .subscribeIncludingCurrent {
                 if (it.isPresent) {
@@ -119,6 +122,9 @@ class PokemonEntity(
         entityProperties.forEach { it.checkForUpdate() }
         delegate.tick(this)
         ticksLived++
+        if (this.ticksLived % 20 == 0) {
+            this.updateEyeHeight()
+        }
     }
 
     /**
@@ -242,6 +248,14 @@ class PokemonEntity(
         }
     }
 
+    override fun getEyeHeight(pose: EntityPose): Float = this.pokemon.form.eyeHeight(this)
+
+    @Suppress("SAFE_CALL_WILL_CHANGE_NULLABILITY", "USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
+    override fun getActiveEyeHeight(pose: EntityPose?, dimensions: EntityDimensions?): Float {
+        // This property will be null during Entity#<init>
+        return this.pokemon?.form?.eyeHeight(this) ?: super.getActiveEyeHeight(pose, dimensions)
+    }
+
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
         behaviourFlags.set(setBitForByte(behaviourFlags.get(), flag.bit, on))
     }
@@ -289,6 +303,11 @@ class PokemonEntity(
                 && player.isOnGround
                 && !player.isTouchingWater
                 && !player.inPowderSnow
+    }
+
+    private fun updateEyeHeight() {
+        @Suppress("CAST_NEVER_SUCCEEDS")
+        (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
     }
 
 }
