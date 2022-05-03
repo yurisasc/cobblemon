@@ -261,7 +261,7 @@ class PokemonEntity(
     }
 
     private fun tryMountingShoulder(player: ServerPlayerEntity) {
-        if (this.pokemon.isPlayerOwned() && this.hasRoomToMount(player)) {
+        if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
             CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
                 val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
                 velocity = dirToPlayer.multiply(0.8).add(0.0, 0.5, 0.0)
