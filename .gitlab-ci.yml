@@ -33,9 +33,9 @@ deploy-job:
   script: 
     - echo "Collecting artifacts..."
     - mv forge/build/libs/*-forge.jar ./
-    - for f in ./; do mv "$f" "$(echo "$f" | sed s/-forge/-build$CI_PIPELINE_IID-forge)"; done
+    - for f in ./; do mv "$f" "$(echo "$f" | sed s/-forge/-build$CI_PIPELINE_IID-forge/)"; done
     - mv fabric/build/libs/*-fabric.jar ./
-    - for f in ./; do mv "$f" "$(echo "$f" | sed s/-fabric/-build$CI_PIPELINE_IID-fabric)"; done
+    - for f in ./; do mv "$f" "$(echo "$f" | sed s/-fabric/-build$CI_PIPELINE_IID-fabric/)"; done
 #    - for f in *-remap.jar; do mv "$f" "$(echo "$f" | sed s/remap/fabric/)"; done
   artifacts:
     expire_in: 10 days  
