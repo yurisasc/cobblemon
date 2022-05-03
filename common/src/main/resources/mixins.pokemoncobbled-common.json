@@ -5,11 +5,12 @@
   "minVersion": "0.8",
   "client": [
     "EntityRenderDispatcherMixin",
-    "KeyboardHandlerMixin",
-    "KeyBindingMixin"
+    "KeyBindingMixin",
+    "KeyboardHandlerMixin"
   ],
   "mixins": [
-    "PlayerMixin"
+    "PlayerMixin",
+    "accessor.AccessorEntity"
   ],
   "injectors": {
     "defaultRequire": 1
