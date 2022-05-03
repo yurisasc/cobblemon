@@ -31,6 +31,7 @@ open class PokemonStoreManager {
 
     open fun getParty(player: ServerPlayerEntity) = getParty(player.uuid)
 
+    @Throws(NoPokemonStoreException::class)
     open fun getParty(uuid: UUID): PartyStore {
         for (factory in factories) {
             factory.getPlayerParty(uuid)?.run { return this }
