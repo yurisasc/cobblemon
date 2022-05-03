@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.switch
+package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.change
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
