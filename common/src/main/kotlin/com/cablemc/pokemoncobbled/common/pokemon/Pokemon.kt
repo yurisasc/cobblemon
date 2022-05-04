@@ -33,7 +33,10 @@ import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledServerEvolutio
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
-import com.cablemc.pokemoncobbled.common.util.*
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.lang
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.entity.player.PlayerEntity
@@ -243,7 +246,7 @@ open class Pokemon {
         status?.saveToNBT(NbtCompound())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
         nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(NbtList()))
-        ifServer { nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToNBT()) }
+        nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToNBT())
         return nbt
     }
 
@@ -277,7 +280,7 @@ open class Pokemon {
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
-        ifServer { nbt.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.let { tag -> this.pendingEvolutions.loadFromNBT(tag) } }
+        nbt.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.let { tag -> this.pendingEvolutions.loadFromNBT(tag) }
         return this
     }
 
@@ -299,7 +302,7 @@ open class Pokemon {
         status?.saveToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATUS, it) }
         json.addProperty(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         json.add(DataKeys.BENCHED_MOVES, benchedMoves.saveToJSON(JsonArray()))
-        ifServer { json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToJson()) }
+        json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToJson())
         return json
     }
 
@@ -332,7 +335,7 @@ open class Pokemon {
         val ballName = json.get(DataKeys.POKEMON_CAUGHT_BALL).asString
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
-        ifServer { this.pendingEvolutions.loadFromJson(json.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)) }
+        this.pendingEvolutions.loadFromJson(json.get(DataKeys.POKEMON_PENDING_EVOLUTIONS))
         return this
     }
 

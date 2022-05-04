@@ -9,7 +9,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
  * Canceling will not notify users nor remove the evolution from the pending list.
  *
  * @param pokemon The [Pokemon] about to evolve.
- * @param evolution The [Evolution] being used, if
+ * @param evolution The [Evolution] being used.
  *
  * @author Licious
  * @since April 28th, 2022

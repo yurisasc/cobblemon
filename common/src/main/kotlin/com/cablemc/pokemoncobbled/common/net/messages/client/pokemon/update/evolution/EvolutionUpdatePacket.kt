@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution
 
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionDisplayEvent
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
@@ -23,7 +25,9 @@ abstract class EvolutionUpdatePacket : EvolutionLikeUpdatePacket<Evolution, Evol
     override fun createSending(pokemon: Pokemon): EvolutionDisplay {
         val result = pokemon.clone(useJSON = false)
         this.current.result.apply(result)
-        return CobbledEvolutionDisplay(this.current.id, result.species, result.form)
+        val event = EvolutionDisplayEvent(result, this.current)
+        CobbledEvents.EVOLUTION_DISPLAY.post(event)
+        return CobbledEvolutionDisplay(this.current.id, event.pokemon.species, event.pokemon.form)
     }
 
     final override fun encodeSending(buffer: PacketByteBuf) {
