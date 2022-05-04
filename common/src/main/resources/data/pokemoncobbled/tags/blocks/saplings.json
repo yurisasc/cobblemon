@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "pokemoncobbled:black_apricorn_sapling",
+    "pokemoncobbled:blue_apricorn_sapling",
+    "pokemoncobbled:green_apricorn_sapling",
+    "pokemoncobbled:pink_apricorn_sapling",
+    "pokemoncobbled:red_apricorn_sapling",
+    "pokemoncobbled:white_apricorn_sapling",
+    "pokemoncobbled:yellow_apricorn_sapling"
+  ]
+}
