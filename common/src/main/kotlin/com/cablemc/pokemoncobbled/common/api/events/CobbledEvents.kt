@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.events.pokemon.FriendshipUpdateEven
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionDisplayEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
 import com.cablemc.pokemoncobbled.common.api.reactive.CancelableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.EventObservable
 
@@ -16,4 +17,6 @@ object CobbledEvents {
     val FRIENDSHIP_UPDATED = EventObservable<FriendshipUpdateEvent>()
     val EVOLUTION_ACCEPTED = CancelableObservable<EvolutionAcceptedEvent>()
     val EVOLUTION_DISPLAY = EventObservable<EvolutionDisplayEvent>()
+    val EXPERIENCE_CANDY_USE_PRE = CancelableObservable<ExperienceCandyUseEvent.Pre>()
+    val EXPERIENCE_CANDY_USE_POST = EventObservable<ExperienceCandyUseEvent.Post>()
 }

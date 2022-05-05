@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.item.ApricornItem
 import com.cablemc.pokemoncobbled.common.item.PokeBallItem
+import com.cablemc.pokemoncobbled.common.item.interactive.CandyItem
 import com.cablemc.pokemoncobbled.common.item.interactive.EvolutionItem
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import dev.architectury.registry.registries.DeferredRegister
@@ -74,6 +75,14 @@ object CobbledItems {
     val MAGMARIZER = queue("magmarizer") { EvolutionItem() }
     val UPGRADE = queue("upgrade") { EvolutionItem() }
     val DUBIOUS_DISC = queue("dubious_disc") { EvolutionItem() }
+
+    // Medicine
+    val RARE_CANDY = queue("rare_candy") { CandyItem { _, pokemon -> pokemon.getExperienceToNextLevel() } }
+    val EXPERIENCE_CANDY_XS = queue("exp_candy_xs") { CandyItem { _, _ -> CandyItem.DEFAULT_XS_CANDY_YIELD } }
+    val EXPERIENCE_CANDY_S = queue("exp_candy_s") { CandyItem { _, _ -> CandyItem.DEFAULT_S_CANDY_YIELD } }
+    val EXPERIENCE_CANDY_M = queue("exp_candy_m") { CandyItem { _, _ -> CandyItem.DEFAULT_M_CANDY_YIELD } }
+    val EXPERIENCE_CANDY_L = queue("exp_candy_l") { CandyItem { _, _ -> CandyItem.DEFAULT_L_CANDY_YIELD } }
+    val EXPERIENCE_CANDY_XL = queue("exp_candy_xl") { CandyItem { _, _ -> CandyItem.DEFAULT_XL_CANDY_YIELD } }
 
     private fun blockItem(block: Block, tab: ItemGroup) : BlockItem {
         return BlockItem(block, Item.Settings().group(tab))
