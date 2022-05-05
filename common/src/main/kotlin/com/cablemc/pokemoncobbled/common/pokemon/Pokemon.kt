@@ -168,7 +168,6 @@ open class Pokemon {
 
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
-
     // We want non-optional evolutions to trigger first to avoid unnecessary packets and any cost associate with an optional one that would just be lost
     val evolutions: Iterable<Evolution> = this.form.evolutions.sortedBy { evolution -> evolution.optional }
 

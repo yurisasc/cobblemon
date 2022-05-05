@@ -128,7 +128,9 @@ class PokemonEntity(
         ticksLived++
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
-            this.attemptPassiveEvolution()
+            if (this.pokemon.isPlayerOwned()) {
+                this.attemptPassiveEvolution()
+            }
         }
     }
 
