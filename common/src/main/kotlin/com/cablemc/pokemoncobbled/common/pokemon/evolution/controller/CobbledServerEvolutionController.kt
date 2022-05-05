@@ -94,7 +94,15 @@ internal class CobbledServerEvolutionController(override val pokemon: Pokemon) :
         )
     }
 
-    override fun addAll(elements: Collection<Evolution>) = getOnSide(client = { false }, server = { elements.any { element -> this.add(element) } })
+    override fun addAll(elements: Collection<Evolution>) = getOnSide(client = { false }, server = {
+        var result = false
+        elements.forEach { element ->
+            if (this.add(element)) {
+                result = true
+            }
+        }
+        result
+    })
 
     override fun clear() {
         ifServer {
@@ -120,7 +128,15 @@ internal class CobbledServerEvolutionController(override val pokemon: Pokemon) :
         false
     })
 
-    override fun removeAll(elements: Collection<Evolution>) = getOnSide(client = { false }, server = { elements.any { element -> this.remove(element) } })
+    override fun removeAll(elements: Collection<Evolution>) = getOnSide(client = { false }, server = {
+        var result = false
+        elements.forEach { element ->
+            if (this.remove(element)) {
+                result = true
+            }
+        }
+        result
+    })
 
     override fun retainAll(elements: Collection<Evolution>): Boolean = getOnSide(client = { false }, server = {
         var result = false

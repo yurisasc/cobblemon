@@ -192,7 +192,6 @@ open class Pokemon {
         CobbledClientEvolutionController(this)
     }
 
-
     open fun getStat(stat: Stat): Int {
         return if (stat == Stats.HP) {
             if (species.name == "shedinja") {
