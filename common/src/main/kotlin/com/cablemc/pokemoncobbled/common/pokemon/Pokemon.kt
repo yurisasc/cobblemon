@@ -10,6 +10,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
@@ -170,6 +171,8 @@ open class Pokemon {
 
     // We want non-optional evolutions to trigger first to avoid unnecessary packets and any cost associate with an optional one that would just be lost
     val evolutions: Iterable<Evolution> = this.form.evolutions.sortedBy { evolution -> evolution.optional }
+
+    val preEvolution: PreEvolution? = this.form.preEvolution
 
     // Lazy due to leaking this
     /**

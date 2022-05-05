@@ -44,7 +44,7 @@ data class FormData(
     private val _levelUpMoves: LevelUpMoves? = null,
     @SerializedName("evolutions")
     private val _evolutions: MutableSet<Evolution>? = null,
-    val preEvolution: PreEvolution? = null,
+    private val _preEvolution: PreEvolution? = null,
     private val eyeHeight: Float? = null,
     private val standingEyeHeight: Float? = null,
     private val swimmingEyeHeight: Float? = null,
@@ -88,6 +88,9 @@ data class FormData(
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
+
+    internal val preEvolution: PreEvolution?
+        get() = _preEvolution ?: species.preEvolution
 
     // Only exists for use of Pokemon.evolutions do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution>

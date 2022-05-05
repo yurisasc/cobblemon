@@ -45,7 +45,7 @@ class Species {
     // Only exists for use of Pokemon.evolutions do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution> = hashSetOf()
 
-    val preEvolution: PreEvolution? = null
+    internal val preEvolution: PreEvolution? = null
 
     fun types(form: Int): Iterable<ElementalType> = forms[form].types
 
