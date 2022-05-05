@@ -27,6 +27,14 @@ open class TradeEvolution(
 
     override fun testContext(pokemon: Pokemon, context: Pokemon) = this.requiredContext.matches(context)
 
+    override fun equals(other: Any?) = other is TradeEvolution && other.id.equals(this.id, true)
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + ADAPTER_VARIANT.hashCode()
+        return result
+    }
+
     companion object {
 
         internal const val ADAPTER_VARIANT = "trade"

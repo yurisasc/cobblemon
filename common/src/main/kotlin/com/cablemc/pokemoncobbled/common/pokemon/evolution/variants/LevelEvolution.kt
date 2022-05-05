@@ -46,6 +46,14 @@ open class LevelEvolution(
         return pokemon.level >= this.levels.first
     }
 
+    override fun equals(other: Any?) = other is LevelEvolution && other.id.equals(this.id, true)
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + ADAPTER_VARIANT.hashCode()
+        return result
+    }
+
     companion object {
 
         internal const val ADAPTER_VARIANT = "level_up"

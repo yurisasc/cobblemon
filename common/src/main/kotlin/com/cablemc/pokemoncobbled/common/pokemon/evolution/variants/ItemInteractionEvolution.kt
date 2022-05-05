@@ -33,6 +33,14 @@ open class ItemInteractionEvolution(
         return contextKey == this.requiredContext
     }
 
+    override fun equals(other: Any?) = other is ItemInteractionEvolution && other.id.equals(this.id, true)
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + ADAPTER_VARIANT.hashCode()
+        return result
+    }
+
     companion object {
 
         internal const val ADAPTER_VARIANT = "item_interact"
