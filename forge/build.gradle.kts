@@ -41,8 +41,8 @@ dependencies {
     }
     testImplementation(project(":common", configuration = "namedElements"))
     // For Showdown
-    forgeRuntimeLibrary("com.caoccao.javet:javet:1.0.6") // Linux or Windows
-    forgeRuntimeLibrary("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+    forgeRuntimeLibrary("com.caoccao.javet:javet:1.1.3") // Linux or Windows
+    forgeRuntimeLibrary("com.caoccao.javet:javet-macos:1.1.0") // Mac OS (x86_64 Only)
     forgeRuntimeLibrary("com.eliotlash.molang:molang:18")
     forgeRuntimeLibrary("com.eliotlash.mclib:mclib:18")
 
@@ -52,8 +52,8 @@ dependencies {
     bundle("org.jetbrains:annotations:${rootProject.property("annotations_version")}")
     bundle("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:${rootProject.property("serialization_version")}")
     bundle("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:${rootProject.property("serialization_version")}")
-    bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
-    bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+    bundle("com.caoccao.javet:javet:1.1.3") // Linux or Windows
+    bundle("com.caoccao.javet:javet-macos:1.1.0") // Mac OS (x86_64 Only)
     bundle("com.eliotlash.molang:molang:18")
     bundle("com.eliotlash.mclib:mclib:18")
 
