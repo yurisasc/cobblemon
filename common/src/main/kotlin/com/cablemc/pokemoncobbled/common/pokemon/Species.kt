@@ -2,10 +2,10 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
-import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
-import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -42,7 +42,8 @@ class Species {
 
     var forms = mutableListOf(FormData())
 
-    val evolutions: MutableSet<Evolution> = hashSetOf()
+    // Only exists for use of Pokemon.evolutions do not expose to end user due to how the species/form data is structured
+    internal val evolutions: MutableSet<Evolution> = hashSetOf()
 
     val preEvolution: PreEvolution? = null
 

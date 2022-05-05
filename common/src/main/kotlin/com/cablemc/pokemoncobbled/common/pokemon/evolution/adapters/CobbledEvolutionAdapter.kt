@@ -2,9 +2,9 @@ package com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.adapters.EvolutionAdapter
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolution
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.TradeEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.ItemInteractionEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.LevelEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.TradeEvolution
 import com.google.common.collect.HashBiMap
 import com.google.gson.*
 import java.lang.reflect.Type

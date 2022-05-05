@@ -4,9 +4,9 @@ import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolution
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.TradeEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.ItemInteractionEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.LevelEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.TradeEvolution
 
 /**
  * Represents an evolution of a [Pokemon], this is the server side counterpart of [EvolutionDisplay].

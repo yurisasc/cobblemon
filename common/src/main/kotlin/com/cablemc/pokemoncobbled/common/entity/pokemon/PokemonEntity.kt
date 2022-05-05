@@ -6,8 +6,8 @@ import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
-import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
@@ -128,6 +128,7 @@ class PokemonEntity(
         ticksLived++
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
+            this.attemptPassiveEvolution()
         }
     }
 
@@ -284,8 +285,6 @@ class PokemonEntity(
         (stack.item as? PokemonInteractiveItem)?.onInteraction(playerIn, this, stack)
     }
 
-
-
     private fun tryMountingShoulder(player: ServerPlayerEntity) {
         if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
             CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
@@ -320,6 +319,13 @@ class PokemonEntity(
     private fun updateEyeHeight() {
         @Suppress("CAST_NEVER_SUCCEEDS")
         (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
+    }
+
+    private fun attemptPassiveEvolution() {
+        this.pokemon.evolutions.filterIsInstance<PassiveEvolution>()
+            .forEach { evolution ->
+                evolution.attemptEvolution(this.pokemon)
+            }
     }
 
 }

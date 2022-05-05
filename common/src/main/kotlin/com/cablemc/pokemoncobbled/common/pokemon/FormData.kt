@@ -89,7 +89,8 @@ data class FormData(
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
 
-    val evolutions: MutableSet<Evolution>
+    // Only exists for use of Pokemon.evolutions do not expose to end user due to how the species/form data is structured
+    internal val evolutions: MutableSet<Evolution>
         get() = _evolutions ?: species.evolutions
 
     fun eyeHeight(entity: PokemonEntity): Float {

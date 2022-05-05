@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.pokemon.evolution
+package com.cablemc.pokemoncobbled.common.pokemon.evolution.controller
 
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
@@ -136,7 +136,7 @@ internal class CobbledServerEvolutionController(override val pokemon: Pokemon) :
         result
     })
 
-    private fun findEvolutionFromId(id: String) = this.pokemon.species.evolutions
+    private fun findEvolutionFromId(id: String) = this.pokemon.evolutions
         .firstOrNull { evolution -> evolution.id.equals(id, true) }
 
 }

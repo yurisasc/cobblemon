@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.pokemon.evolution
+package com.cablemc.pokemoncobbled.common.pokemon.evolution.controller
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToServer
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController

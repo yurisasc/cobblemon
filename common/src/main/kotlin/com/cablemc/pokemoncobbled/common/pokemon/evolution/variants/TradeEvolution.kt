@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.pokemon.evolution
+package com.cablemc.pokemoncobbled.common.pokemon.evolution.variants
 
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties

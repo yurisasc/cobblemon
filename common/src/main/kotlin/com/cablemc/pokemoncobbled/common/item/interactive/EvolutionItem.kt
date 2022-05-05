@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.item.interactive
 
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.item.CobbledItemGroups
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.ItemInteractionEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.ItemInteractionEvolution
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -10,8 +10,7 @@ class EvolutionItem(properties: Settings = Settings().group(CobbledItemGroups.EV
 
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack) {
         val pokemon = entity.pokemon
-        pokemon.species.evolutions.filterIsInstance<ItemInteractionEvolution>()
-            .sortedBy { evolution -> evolution.optional }
+        pokemon.evolutions.filterIsInstance<ItemInteractionEvolution>()
             .forEach { evolution ->
                 if (evolution.attemptEvolution(pokemon, this)) {
                     this.consumeItem(player, stack)

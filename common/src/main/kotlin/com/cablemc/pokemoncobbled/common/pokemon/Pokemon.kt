@@ -28,9 +28,9 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledClientEvolutionController
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledServerEvolutionController
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.LevelEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledClientEvolutionController
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledServerEvolutionController
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.LevelEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
 import com.cablemc.pokemoncobbled.common.util.DataKeys
@@ -90,8 +90,7 @@ open class Pokemon {
                 experience = experienceGroup.getExperience(value)
             }
             _level.emit(value)
-            this.species.evolutions.filterIsInstance<LevelEvolution>()
-                .sortedBy { evolution -> evolution.optional }
+            this.evolutions.filterIsInstance<LevelEvolution>()
                 .forEach { evolution ->
                     evolution.attemptEvolution(this)
                 }
@@ -168,6 +167,10 @@ open class Pokemon {
         set(value) { field = value ; _caughtBall.emit(caughtBall.name.toString()) }
 
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
+
+
+    // We want non-optional evolutions to trigger first to avoid unnecessary packets and any cost associate with an optional one that would just be lost
+    val evolutions: Iterable<Evolution> = this.form.evolutions.sortedBy { evolution -> evolution.optional }
 
     // Lazy due to leaking this
     /**

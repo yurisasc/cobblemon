@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
 
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledClientEvolutionController
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledServerEvolutionController
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledClientEvolutionController
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledServerEvolutionController
 import com.google.gson.JsonElement
 import net.minecraft.nbt.NbtElement
 
