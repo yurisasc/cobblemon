@@ -1,5 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.battle
 
-class ClientBattle {
+import java.util.UUID
 
+class ClientBattle(
+    val battleId: UUID
+
+) {
 }

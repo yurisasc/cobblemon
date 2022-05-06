@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.net
 
+import com.cablemc.pokemoncobbled.common.client.net.battle.BattleEndPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.gui.SummaryUIPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.SingleUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.InitializePartyHandler
@@ -43,6 +44,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(SwapPartyPokemonHandler)
         registerHandler(SetPartyReferenceHandler)
         registerHandler(SummaryUIPacketHandler)
+        registerHandler(BattleEndPacketHandler)
     }
 }
 

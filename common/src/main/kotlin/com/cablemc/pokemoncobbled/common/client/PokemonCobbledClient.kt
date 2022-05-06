@@ -124,4 +124,8 @@ object PokemonCobbledClient {
         PokemonModelRepository.reload()
         PokeBallModelRepository.reload()
     }
+
+    fun endBattle() {
+        battle = null
+    }
 }
