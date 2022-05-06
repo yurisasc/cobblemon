@@ -25,7 +25,7 @@ class ShowdownThread : Thread() {
         .create()
 
     override fun run() {
-        var showdownDir = File("showdown/")
+        var showdownDir = File(".")
 
         val showdownMetadata = loadShowdownMetadata()
 
@@ -46,11 +46,11 @@ class ShowdownThread : Thread() {
             }
 
             if (extract) {
-                showdownDir = File("showdown")
-                showdownDir.mkdir()
+                showdownDir = showdownZip.parentFile
                 Identifier(PokemonCobbled.MODID, "showdown.zip").extractTo(showdownZip)
                 Identifier(PokemonCobbled.MODID, "showdown.json").extractTo(showdownMetadataFile)
                 FileUtils.unzipFile(showdownZip.toPath(), showdownDir.toPath())
+                showdownZip.delete()
             }
         }
 
