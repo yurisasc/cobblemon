@@ -19,8 +19,6 @@ import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
 import net.minecraft.item.AliasedBlockItem
 import net.minecraft.item.BlockItem
-import net.minecraft.world.item.BlockItem
-import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.util.registry.Registry
@@ -84,37 +82,37 @@ object CobbledItems {
     /**
      * Evolution Ores and Stones
      */
-    val DAWN_STONE_ORE = queue("dawn_stone_ore", BlockItem(CobbledBlocks.DAWN_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DUSK_STONE_ORE = queue("dusk_stone_ore", BlockItem(CobbledBlocks.DUSK_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val FIRE_STONE_ORE = queue("fire_stone_ore", BlockItem(CobbledBlocks.FIRE_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val ICE_STONE_ORE = queue("ice_stone_ore", BlockItem(CobbledBlocks.ICE_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val LEAF_STONE_ORE = queue("leaf_stone_ore", BlockItem(CobbledBlocks.LEAF_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val MOON_STONE_ORE = queue("moon_stone_ore", BlockItem(CobbledBlocks.MOON_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val SHINY_STONE_ORE = queue("shiny_stone_ore", BlockItem(CobbledBlocks.SHINY_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val SUN_STONE_ORE = queue("sun_stone_ore", BlockItem(CobbledBlocks.SUN_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val THUNDER_STONE_ORE = queue("thunder_stone_ore", BlockItem(CobbledBlocks.THUNDER_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val WATER_STONE_ORE = queue("water_stone_ore", BlockItem(CobbledBlocks.WATER_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DEEPSLATE_DAWN_STONE_ORE = queue("deepslate_dawn_stone_ore", BlockItem(CobbledBlocks.DEEPSLATE_DAWN_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DEEPSLATE_DUSK_STONE_ORE = queue("deepslate_dusk_stone_ore", BlockItem(CobbledBlocks.DEEPSLATE_DUSK_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DEEPSLATE_FIRE_STONE_ORE = queue("deepslate_fire_stone_ore", BlockItem(CobbledBlocks.DEEPSLATE_FIRE_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DEEPSLATE_ICE_STONE_ORE = queue("deepslate_ice_stone_ore", BlockItem(CobbledBlocks.DEEPSLATE_ICE_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DEEPSLATE_LEAF_STONE_ORE = queue("deepslate_leaf_stone_ore", BlockItem(CobbledBlocks.DEEPSLATE_LEAF_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DEEPSLATE_MOON_STONE_ORE = queue("deepslate_moon_stone_ore", BlockItem(CobbledBlocks.DEEPSLATE_MOON_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DEEPSLATE_SHINY_STONE_ORE = queue("deepslate_shiny_stone_ore", BlockItem(CobbledBlocks.DEEPSLATE_SHINY_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DEEPSLATE_SUN_STONE_ORE = queue("deepslate_sun_stone_ore", BlockItem(CobbledBlocks.DEEPSLATE_SUN_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DEEPSLATE_THUNDER_STONE_ORE = queue("deepslate_thunder_stone_ore", BlockItem(CobbledBlocks.DEEPSLATE_THUNDER_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DEEPSLATE_WATER_STONE_ORE = queue("deepslate_water_stone_ore", BlockItem(CobbledBlocks.DEEPSLATE_WATER_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
-    val DAWN_STONE = queue("dawn_stone", DawnStone())
-    val DUSK_STONE = queue("dusk_stone", DuskStone())
-    val FIRE_STONE = queue("fire_stone", FireStone())
-    val ICE_STONE = queue("ice_stone", IceStone())
-    val LEAF_STONE = queue("leaf_stone", LeafStone())
-    val MOON_STONE = queue("moon_stone", MoonStone())
-    val SHINY_STONE = queue("shiny_stone", ShinyStone())
-    val SUN_STONE = queue("sun_stone", SunStone())
-    val THUNDER_STONE = queue("thunder_stone", ThunderStone())
-    val WATER_STONE = queue("water_stone", WaterStone())
-    val DRIPSTONE_MOON_STONE_ORE = queue("dripstone_moon_stone_ore", BlockItem(CobbledBlocks.DRIPSTONE_MOON_STONE_ORE.get(), Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS)))
+    val DAWN_STONE_ORE = queue("dawn_stone_ore") { blockItem(CobbledBlocks.DAWN_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DUSK_STONE_ORE = queue("dusk_stone_ore") { blockItem(CobbledBlocks.DUSK_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val FIRE_STONE_ORE = queue("fire_stone_ore") { blockItem(CobbledBlocks.FIRE_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val ICE_STONE_ORE = queue("ice_stone_ore") { blockItem(CobbledBlocks.ICE_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val LEAF_STONE_ORE = queue("leaf_stone_ore") { blockItem(CobbledBlocks.LEAF_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val MOON_STONE_ORE = queue("moon_stone_ore") { blockItem(CobbledBlocks.MOON_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val SHINY_STONE_ORE = queue("shiny_stone_ore") { blockItem(CobbledBlocks.SHINY_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val SUN_STONE_ORE = queue("sun_stone_ore") { blockItem(CobbledBlocks.SUN_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val THUNDER_STONE_ORE = queue("thunder_stone_ore") { blockItem(CobbledBlocks.THUNDER_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val WATER_STONE_ORE = queue("water_stone_ore") { blockItem(CobbledBlocks.WATER_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DEEPSLATE_DAWN_STONE_ORE = queue("deepslate_dawn_stone_ore") { blockItem(CobbledBlocks.DEEPSLATE_DAWN_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DEEPSLATE_DUSK_STONE_ORE = queue("deepslate_dusk_stone_ore") { blockItem(CobbledBlocks.DEEPSLATE_DUSK_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DEEPSLATE_FIRE_STONE_ORE = queue("deepslate_fire_stone_ore") { blockItem(CobbledBlocks.DEEPSLATE_FIRE_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DEEPSLATE_ICE_STONE_ORE = queue("deepslate_ice_stone_ore") { blockItem(CobbledBlocks.DEEPSLATE_ICE_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DEEPSLATE_LEAF_STONE_ORE = queue("deepslate_leaf_stone_ore") { blockItem(CobbledBlocks.DEEPSLATE_LEAF_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DEEPSLATE_MOON_STONE_ORE = queue("deepslate_moon_stone_ore") { blockItem(CobbledBlocks.DEEPSLATE_MOON_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DEEPSLATE_SHINY_STONE_ORE = queue("deepslate_shiny_stone_ore") { blockItem(CobbledBlocks.DEEPSLATE_SHINY_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DEEPSLATE_SUN_STONE_ORE = queue("deepslate_sun_stone_ore") { blockItem(CobbledBlocks.DEEPSLATE_SUN_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DEEPSLATE_THUNDER_STONE_ORE = queue("deepslate_thunder_stone_ore") { blockItem(CobbledBlocks.DEEPSLATE_THUNDER_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DEEPSLATE_WATER_STONE_ORE = queue("deepslate_water_stone_ore") { blockItem(CobbledBlocks.DEEPSLATE_WATER_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DRIPSTONE_MOON_STONE_ORE = queue("dripstone_moon_stone_ore") { blockItem(CobbledBlocks.DRIPSTONE_MOON_STONE_ORE.get(), ItemGroup.BUILDING_BLOCKS) }
+    val DAWN_STONE = queue("dawn_stone") { DawnStone() }
+    val DUSK_STONE = queue("dusk_stone") { DuskStone() }
+    val FIRE_STONE = queue("fire_stone") { FireStone() }
+    val ICE_STONE = queue("ice_stone") { IceStone() }
+    val LEAF_STONE = queue("leaf_stone") { LeafStone() }
+    val MOON_STONE = queue("moon_stone") { MoonStone() }
+    val SHINY_STONE = queue("shiny_stone") { ShinyStone() }
+    val SUN_STONE = queue("sun_stone") { SunStone() }
+    val THUNDER_STONE = queue("thunder_stone") { ThunderStone() }
+    val WATER_STONE = queue("water_stone") { WaterStone() }
 
 
     fun register() {

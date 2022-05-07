@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.item
 
 import com.cablemc.pokemoncobbled.common.item.CobbledItem
-import net.minecraft.world.item.CreativeModeTab
+import net.minecraft.item.ItemGroup
 
-open class EvolutionStoneItem : CobbledItem(Properties().tab(CreativeModeTab.TAB_MISC)) {
+open class EvolutionStoneItem : CobbledItem(Settings().group(ItemGroup.MISC)) {
 }

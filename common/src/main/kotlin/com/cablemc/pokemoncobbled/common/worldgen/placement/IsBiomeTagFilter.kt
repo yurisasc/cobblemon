@@ -2,13 +2,13 @@ package com.cablemc.pokemoncobbled.common.worldgen.placement
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.core.BlockPos
-import net.minecraft.core.Registry
-import net.minecraft.tags.TagKey
-import net.minecraft.world.level.biome.Biome
-import net.minecraft.world.level.levelgen.placement.PlacementContext
-import net.minecraft.world.level.levelgen.placement.PlacementFilter
-import net.minecraft.world.level.levelgen.placement.PlacementModifierType
+import net.minecraft.tag.TagKey
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.registry.Registry
+import net.minecraft.world.biome.Biome
+import net.minecraft.world.gen.feature.FeaturePlacementContext
+import net.minecraft.world.gen.placementmodifier.AbstractConditionalPlacementModifier
+import net.minecraft.world.gen.placementmodifier.PlacementModifierType
 import java.util.Random
 
 /**
@@ -21,15 +21,15 @@ import java.util.Random
  * @author Hiroku
  * @since March 25th, 2022
  */
-class IsBiomeTagFilter(private val tag: TagKey<Biome>) : PlacementFilter() {
-    override fun type(): PlacementModifierType<*> = CobbledPlacementTypes.IS_BIOME_TAG_FILTER
-    override fun shouldPlace(ctx: PlacementContext, r: Random, pos: BlockPos) = ctx.level.getBiome(pos).`is`(tag)
+class IsBiomeTagFilter(private val tag: TagKey<Biome>) : AbstractConditionalPlacementModifier() {
+    override fun getType(): PlacementModifierType<*> = CobbledPlacementTypes.IS_BIOME_TAG_FILTER
+    override fun shouldPlace(ctx: FeaturePlacementContext, r: Random, pos: BlockPos) = ctx.world.getBiome(pos).isIn(tag)
 
     companion object {
         val CODEC: Codec<IsBiomeTagFilter> = RecordCodecBuilder.create { builder ->
             builder
                 .group(
-                    TagKey.codec(Registry.BIOME_REGISTRY)
+                    TagKey.stringCodec(Registry.BIOME_KEY)
                         .fieldOf("valid_biome")
                         .forGetter { it.tag }
                 )

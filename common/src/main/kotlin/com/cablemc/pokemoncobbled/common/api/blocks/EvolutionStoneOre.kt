@@ -1,40 +1,40 @@
 package com.cablemc.pokemoncobbled.common.api.blocks
 
-import net.minecraft.core.BlockPos
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.util.valueproviders.UniformInt
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.enchantment.EnchantmentHelper
-import net.minecraft.world.item.enchantment.Enchantments
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.SoundType
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.level.material.Material
+import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.Material
+import net.minecraft.enchantment.EnchantmentHelper
+import net.minecraft.enchantment.Enchantments
+import net.minecraft.item.ItemStack
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.BlockSoundGroup
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.intprovider.UniformIntProvider
 
-open class EvolutionStoneOre(properties: Properties, var xpRange: UniformInt = UniformInt.of(1, 2)) : Block(properties) {
+open class EvolutionStoneOre(properties: Settings, var xpRange: UniformIntProvider = UniformIntProvider.create(1, 2)) : Block(properties) {
     companion object {
         const val NORMAL_DESTROY_TIME = 3.0F
         const val DEEPSLATE_DESTROY_TIME = 4.5F
         const val EXPLOSION_RESISTANCE = 3.0F
-        val NORMAL_PROPERTIES: Properties = Properties.of(Material.STONE)
-            .requiresCorrectToolForDrops()
+        val NORMAL_PROPERTIES: Settings = Settings.of(Material.STONE)
+            .requiresTool()
             .strength(NORMAL_DESTROY_TIME, EXPLOSION_RESISTANCE)
-        val DEEPSLATE_PROPERTIES: Properties = Properties.of(Material.STONE)
-            .requiresCorrectToolForDrops()
+        val DEEPSLATE_PROPERTIES: Settings = Settings.of(Material.STONE)
+            .requiresTool()
             .strength(DEEPSLATE_DESTROY_TIME, EXPLOSION_RESISTANCE)
-            .sound(SoundType.DEEPSLATE)
+            .sounds(BlockSoundGroup.DEEPSLATE)
     }
 
-    override fun spawnAfterBreak(
+    override fun onStacksDropped(
         blockState: BlockState,
-        serverLevel: ServerLevel,
+        serverWorld: ServerWorld,
         blockPos: BlockPos,
         itemStack: ItemStack
     ) {
-        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.SILK_TOUCH, itemStack) == 0) {
-            val xp = xpRange.sample(serverLevel.random)
+        if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, itemStack) == 0) {
+            val xp = xpRange.get(serverWorld.random)
             if (xp > 0)
-                popExperience(serverLevel, blockPos, xp)
+                dropExperience(serverWorld, blockPos, xp)
         }
     }
 }

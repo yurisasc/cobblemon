@@ -2,12 +2,12 @@ package com.cablemc.pokemoncobbled.common.worldgen
 
 import com.cablemc.pokemoncobbled.common.worldgen.placement.CobbledPlacementTypes
 import dev.architectury.registry.level.biome.BiomeModifications
-import net.minecraft.world.level.levelgen.GenerationStep.Decoration.UNDERGROUND_ORES
-import net.minecraft.world.level.levelgen.placement.BiomeFilter
-import net.minecraft.world.level.levelgen.placement.CountPlacement
-import net.minecraft.world.level.levelgen.placement.InSquarePlacement
-import net.minecraft.world.level.levelgen.placement.PlacementModifier
-import net.minecraft.world.level.levelgen.placement.RarityFilter
+import net.minecraft.world.gen.GenerationStep.Feature.UNDERGROUND_ORES
+import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier
+import net.minecraft.world.gen.placementmodifier.CountPlacementModifier
+import net.minecraft.world.gen.placementmodifier.PlacementModifier
+import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier
+import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier
 
 object CobbledWorldgen {
 
@@ -75,14 +75,14 @@ object CobbledWorldgen {
     }
 
     fun orePlacement(placementModifier: PlacementModifier, placementModifier2: PlacementModifier): List<PlacementModifier> {
-        return listOf(placementModifier, InSquarePlacement.spread(), placementModifier2, BiomeFilter.biome())
+        return listOf(placementModifier, SquarePlacementModifier.of(), placementModifier2, BiomePlacementModifier.of())
     }
 
     fun commonOrePlacement(i: Int, placementModifier: PlacementModifier): List<PlacementModifier> {
-        return orePlacement(CountPlacement.of(i), placementModifier)
+        return orePlacement(CountPlacementModifier.of(i), placementModifier)
     }
 
     fun rareOrePlacement(i: Int, placementModifier: PlacementModifier): List<PlacementModifier> {
-        return orePlacement(RarityFilter.onAverageOnceEvery(i), placementModifier)
+        return orePlacement(RarityFilterPlacementModifier.of(i), placementModifier)
     }
 }
