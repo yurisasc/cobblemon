@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.NetworkDelegate
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraftforge.network.NetworkDirection
 import net.minecraftforge.network.NetworkEvent
 import net.minecraftforge.network.NetworkRegistry
@@ -40,7 +40,7 @@ object CobbledForgeNetworkDelegate : NetworkDelegate {
         CobbledNetwork.PROTOCOL_VERSION::equals
     )
 
-    override fun sendPacketToPlayer(player: ServerPlayer, packet: NetworkPacket) {
+    override fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket) {
         channel.send(PacketDistributor.PLAYER.with { player }, packet)
     }
 

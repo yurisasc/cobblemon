@@ -1,74 +1,126 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
+import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.math.Quaternion
-import com.mojang.math.Vector3f
-import net.minecraft.client.Minecraft
-import net.minecraft.network.chat.TextComponent
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
+import net.minecraft.util.math.Quaternion
+import net.minecraft.util.math.Vec3f
 import java.security.InvalidParameterException
 
 class PartyWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
+    val isParty: Boolean,
+    val summary: Summary,
     private val pokemonList: List<Pokemon?>
-) : SoundlessWidget(pX - PARTY_BOX_WIDTH.toInt(), pY + 50, pWidth, pHeight, TextComponent("PartyOverlay")) {
+) : SoundlessWidget(pX - PARTY_BOX_WIDTH.toInt(), pY + 8, pWidth, pHeight, LiteralText("PartyOverlay")) {
 
     companion object {
-        private val partyResourceMiddle = cobbledResource("ui/summary/summary_party_1.png")
+        private val partyResourceStart = cobbledResource("ui/summary/summary_party_1.png")
         private val partyResourceEnd = cobbledResource("ui/summary/summary_party_2.png")
+        private val partyResourceSurrounded = cobbledResource("ui/summary/summary_party_2-5.png")
+        private val partyResourceSix = cobbledResource("ui/summary/summary_party_6.png")
+        private val summaryOverlayParty = cobbledResource("ui/summary/summary_overlay_party.png")
+
         private const val PARTY_BOX_WIDTH = 32.0F
-        private const val PARTY_BOX_HEIGHT = 32.5F
-        private const val PARTY_BOX_HEIGHT_DIFF = 30.2F
-        private const val PARTY_PORTRAIT_WIDTH = 27.5
-        private const val PARTY_PORTRAIT_HEIGHT = 27.5
+        private const val PARTY_BOX_HEIGHT = 32F
+        private const val PARTY_BOX_HEIGHT_DIFF = 29F
+        private const val PARTY_PORTRAIT_WIDTH = 27
+        private const val PARTY_PORTRAIT_HEIGHT = 27
     }
 
     private val partySize = pokemonList.size
-    private var iMax = partySize - 2
-    private val minecraft = Minecraft.getInstance()
+    private var iMax = partySize - 1
+    private val minecraft = MinecraftClient.getInstance()
 
     init {
         if (partySize > 6 || partySize < 1)
             throw InvalidParameterException("Invalid party size")
-        if (partySize == 6)
-            iMax--
     }
 
-    override fun render(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        val highlightSlot = if (isParty) PokemonCobbledClient.storage.myParty.indexOf(summary.currentPokemon) else -1
+
+        fun renderSelected(x: Number, y: Number) {
+            blitk(
+                matrixStack = pMatrixStack,
+                texture = summaryOverlayParty,
+                x = x.toFloat() + 2, y = y.toFloat() + 2,
+                width = PARTY_BOX_WIDTH - 4, height = PARTY_BOX_HEIGHT - 5
+            )
+        }
+
         if (partySize > 1) {
-            for (i in 0 .. iMax) {
+            blitk(
+                matrixStack = pMatrixStack,
+                texture = partyResourceStart,
+                x = x, y = y,
+                width = PARTY_BOX_WIDTH, height = PARTY_BOX_HEIGHT
+            )
+            if (highlightSlot == 0) {
+                renderSelected(x, y)
+            }
+            for (i in 1 until iMax) {
+                val y = y + i * PARTY_BOX_HEIGHT_DIFF + i * -0.5
                 blitk(
-                    poseStack = pPoseStack,
-                    texture = partyResourceMiddle,
-                    x = x, y = y + i * PARTY_BOX_HEIGHT_DIFF + i * -0.5,
+                    matrixStack = pMatrixStack,
+                    texture = partyResourceSurrounded,
+                    x = x, y = y,
                     width = PARTY_BOX_WIDTH, height = PARTY_BOX_HEIGHT
                 )
+
+                if (highlightSlot == i) {
+                    renderSelected(x, y)
+                }
             }
-            if (partySize == 6)
-                blitk(
-                    poseStack = pPoseStack,
-                    texture = partyResourceEnd,
-                    x = x, y = y + 4 * PARTY_BOX_HEIGHT_DIFF - 2.75F,
-                    width = PARTY_BOX_WIDTH, height = 32
-                )
-            renderPKM(pPoseStack)
+            blitk(
+                matrixStack = pMatrixStack,
+                texture = if (iMax == 5) partyResourceSix else partyResourceEnd,
+                x = x, y = y + iMax * PARTY_BOX_HEIGHT_DIFF - 3F,
+                width = PARTY_BOX_WIDTH, height = PARTY_BOX_HEIGHT
+            )
+            if (highlightSlot == iMax) {
+                renderSelected(x, y + iMax * PARTY_BOX_HEIGHT_DIFF - 3F)
+            }
+
+            renderPKM(pMatrixStack)
         }
     }
 
-    private fun renderPKM(poseStack: PoseStack) {
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        if (button != 0) {
+            return false
+        }
+
+        if (mouseX > x && mouseX < x + PARTY_BOX_WIDTH && mouseY > y && mouseY < y + (partySize - 1) * PARTY_BOX_HEIGHT_DIFF - 3F) {
+            val diff = mouseY - y
+            val clickedIndex = (diff / PARTY_BOX_HEIGHT_DIFF).toInt()
+            val newPokemon = pokemonList[clickedIndex]
+            if (newPokemon != null) {
+                summary.switchSelection(clickedIndex)
+            }
+            return true
+        }
+
+        return false
+    }
+
+    private fun renderPKM(poseStack: MatrixStack) {
         pokemonList.forEachIndexed { index, pokemon ->
             pokemon?.run {
-                poseStack.pushPose()
+                poseStack.push()
                 RenderSystem.enableScissor(
-                    ((x + 2) * minecraft.window.guiScale).toInt(),
-                    (minecraft.window.height - (y * minecraft.window.guiScale) - index * (PARTY_PORTRAIT_HEIGHT + 2.2) * minecraft.window.guiScale).toInt(),
-                    (PARTY_PORTRAIT_WIDTH * minecraft.window.guiScale).toInt(),
-                    (PARTY_PORTRAIT_HEIGHT * minecraft.window.guiScale).toInt()
+                    ((x + 2.5) * minecraft.window.scaleFactor).toInt(),
+                    (minecraft.window.height - (y * minecraft.window.scaleFactor) - (index + 1) * (PARTY_PORTRAIT_HEIGHT + 1.4) * minecraft.window.scaleFactor).toInt(),
+                    ((PARTY_PORTRAIT_WIDTH) * minecraft.window.scaleFactor).toInt(),
+                    ((PARTY_PORTRAIT_HEIGHT - 1) * minecraft.window.scaleFactor).toInt()
                 )
 
 //                blitk(
@@ -81,60 +133,21 @@ class PartyWidget(
 //                    alpha = 0.5
 //                )
 
-                poseStack.translate((x + width / 21.0), y - 26.0 + index * 30, -100.0)
-                poseStack.scale(2.5F, 2.5F, 2.5F)
+                poseStack.translate((x + width / 21.0), y + index * PARTY_BOX_HEIGHT_DIFF.toDouble(), 0.0)
+                poseStack.scale(2.5F, 2.5F, 1F)
 
                 drawProfilePokemon(
                     pokemon = this,
-                    poseStack = poseStack,
-                    rotation = Quaternion.fromXYZDegrees(Vector3f(13F, 35F, 0F)),
+                    matrixStack = poseStack,
+                    rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
+                    state = null,
                     scale = 6F
                 )
 
                 RenderSystem.disableScissor()
 
-                poseStack.popPose()
+                poseStack.pop()
             }
         }
     }
-
-    private fun renderPokemonPortraits(poseStack: PoseStack) {
-        val scaleIt: (Int) -> Int = { (it * minecraft.window.guiScale).toInt() }
-        poseStack.pushPose()
-
-        RenderSystem.viewport(0, 0, minecraft.window.width, minecraft.window.height) // <-- Reset
-
-        pokemonList.forEachIndexed { i, pokemon ->
-            pokemon?.run {
-//                RenderSystem.viewport(
-//                    scaleIt(x + 1), scaleIt(y + 133 - ((i + 1) * 25).toInt()),
-//                    scaleIt(PARTY_PORTRAIT_WIDTH), scaleIt(PARTY_PORTRAIT_WIDTH)
-//                )
-//                blitk(
-//                    poseStack = poseStack, texture = cobbledResource("ui/pokenav/test.png"),
-//                    x = x + 2, y = y - 26 + (i * 29) + specificOffset(i), width = PARTY_PORTRAIT_WIDTH, height = PARTY_PORTRAIT_HEIGHT
-//                )
-
-//                drawPortraitPokemon(
-//                    pokemon = this,
-//                    poseStack = PoseStack()
-//                )
-            }
-        }
-
-        RenderSystem.viewport(0, 0, minecraft.window.width, minecraft.window.height) // <-- Reset
-
-        poseStack.popPose()
-    }
-
-    private fun specificOffset(partyPos: Int): Int {
-        when (partyPos) {
-            0 -> return 0
-            1 -> return 1
-            2 -> return 1
-            3 -> return 1
-        }
-        return 0
-    }
-
 }

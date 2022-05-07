@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.PlayerLevelRangeInfluence
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Responsible for creating [PlayerSpawner]s with whatever appropriate settings. You can
@@ -17,9 +17,9 @@ import net.minecraft.server.level.ServerPlayer
  */
 object PlayerSpawnerFactory {
     var spawns: SpawnPool = CobbledSpawnPools.WORLD_SPAWN_POOL
-    var influenceBuilders = mutableListOf<(player: ServerPlayer) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5) })
+    var influenceBuilders = mutableListOf<(player: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5) })
 
-    fun create(spawnerManager: SpawnerManager, player: ServerPlayer): PlayerSpawner {
+    fun create(spawnerManager: SpawnerManager, player: ServerPlayerEntity): PlayerSpawner {
         val influences = influenceBuilders.mapNotNull { it(player) }
         return PlayerSpawner(player, spawns, spawnerManager).also {
             it.influences.addAll(influences)

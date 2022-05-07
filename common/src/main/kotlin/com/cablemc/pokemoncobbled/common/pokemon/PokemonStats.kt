@@ -1,60 +1,95 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
-import com.cablemc.pokemoncobbled.common.pokemon.stats.Stat
 import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.PacketByteBuf
 
 /**
  * Holds a mapping from a Stat to value that should be reducible to a short for NBT and net.
  */
-open class PokemonStats : HashMap<Stat, Int>() {
-    @Transient
-    private val statObservables = mutableMapOf<Stat, SimpleObservable<Int>>()
+abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
+    abstract val acceptableRange: IntRange
+    override fun iterator() = stats.entries.iterator()
+
     /** Emits any stat change. */
-    @Transient
-    val collectiveObservable = SimpleObservable<Pair<Stat, Int>>()
+    val observable = SimpleObservable<PokemonStats>()
 
-    override fun put(key: Stat, value: Int): Int? {
-        val ret = super.put(key, value)
-        statObservables.putIfAbsent(key, SimpleObservable())
-        statObservables[key]?.emit(value)
-        collectiveObservable.emit(key to value)
-        return ret
+    private val stats = mutableMapOf<Stat, Int>()
+    private var emit = true
+
+    fun doWithoutEmitting(action: () -> Unit) {
+        emit = false
+        action()
+        emit = true
     }
 
-    override fun remove(key: Stat): Int? {
-        val ret = super.remove(key)
-        statObservables.remove(key)
-        return ret
+    fun doThenEmit(action: () -> Unit) {
+        doWithoutEmitting(action)
+        update()
     }
 
-    fun saveToNBT(nbt: CompoundTag): CompoundTag {
-        entries.forEach { (stat, value) -> nbt.putShort(stat.id, value.toShort()) }
+    fun update() {
+        if (emit) {
+            observable.emit(this)
+        }
+    }
+
+    operator fun get(key: Stat) = stats[key]
+    open operator fun set(key: Stat, value: Int) {
+        if (value !in acceptableRange) {
+            return
+        }
+        stats[key] = value
+        update()
+    }
+
+    fun saveToNBT(nbt: NbtCompound): NbtCompound {
+        stats.entries.forEach { (stat, value) -> nbt.putShort(stat.id, value.toShort()) }
         return nbt
     }
 
-    fun loadFromNBT(nbt: CompoundTag): PokemonStats {
-        nbt.allKeys.forEach { statId ->
-            val stat = Stats.getStat(statId) ?: return@forEach // TODO error probably? Or anonymous stat class to hold it and persist
+    fun loadFromNBT(nbt: NbtCompound): PokemonStats {
+        stats.clear()
+        nbt.keys.forEach { statId ->
+            val stat = Stats.getStat(statId)
             this[stat] = nbt.getShort(statId).toInt()
         }
         return this
     }
 
     fun saveToJSON(json: JsonObject): JsonObject {
-        entries.forEach { (stat, value) -> json.addProperty(stat.id, value) }
+        stats.entries.forEach { (stat, value) -> json.addProperty(stat.id, value) }
         return json
     }
 
     fun loadFromJSON(json: JsonObject): PokemonStats {
+        stats.clear()
         json.entrySet().forEach { (key, element) ->
-            val stat = Stats.getStat(key) ?: return@forEach // TODO error or something as above
+            val stat = Stats.getStat(key)
             this[stat] = element.asInt
         }
         return this
     }
 
-    fun getObservable(stat: Stat) = statObservables.getOrPut(stat) { SimpleObservable() }
+    fun saveToBuffer(buffer: PacketByteBuf) {
+        buffer.writeByte(stats.size)
+        for ((stat, value) in stats) {
+            buffer.writeString(stat.id)
+            buffer.writeShort(value)
+        }
+    }
+
+    fun loadFromBuffer(buffer: PacketByteBuf) {
+        stats.clear()
+        repeat(times = buffer.readUnsignedByte().toInt()) {
+            val stat = Stats.getStat(buffer.readString())
+            val value = buffer.readUnsignedShort()
+            stats[stat] = value
+        }
+    }
+
+    fun getOrOne(stat: Stat) = this[stat] ?: 1
 }

@@ -1,9 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.gui
 
-import net.minecraft.client.gui.components.AbstractWidget
-import net.minecraft.client.gui.components.Widget
-import net.minecraft.client.gui.narration.NarrationElementOutput
-import net.minecraft.network.chat.Component
+import net.minecraft.client.gui.Drawable
+import net.minecraft.client.gui.Element
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.text.Text
 
 /**
  * This class adds children-awareness to a Widget similar like a Screen
@@ -12,22 +13,22 @@ import net.minecraft.network.chat.Component
 abstract class ParentWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    component: Component
-): Widget, AbstractWidget(pX, pY, pWidth, pHeight, component) {
+    component: Text
+): Drawable, ClickableWidget(pX, pY, pWidth, pHeight, component) {
 
-    private val children: MutableList<AbstractWidget> = mutableListOf()
+    private val children: MutableList<Element> = mutableListOf()
 
     /**
      * Adds Widget to the children list
      */
-    protected fun addWidget(widget: AbstractWidget) {
+    protected fun addWidget(widget: Element) {
         children.add(widget)
     }
 
     /**
      * Removes Widget from the children list
      */
-    protected fun removeWidget(widget: AbstractWidget) {
+    protected fun removeWidget(widget: Element) {
         children.remove(widget)
     }
 
@@ -39,31 +40,33 @@ abstract class ParentWidget(
     }
 
     override fun mouseScrolled(pMouseX: Double, pMouseY: Double, pDelta: Double): Boolean {
-        children.forEach {
+        return children.any {
             it.mouseScrolled(pMouseX, pMouseY, pDelta)
-        }
-        return super.mouseScrolled(pMouseX, pMouseY, pDelta)
+        } || super.mouseScrolled(pMouseX, pMouseY, pDelta)
     }
 
     override fun mouseClicked(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
-        children.forEach {
+        return children.any {
             it.mouseClicked(pMouseX, pMouseY, pButton)
         }
-        return super.mouseClicked(pMouseX, pMouseY, pButton)
     }
 
     override fun mouseReleased(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
-        children.forEach {
+        return children.any {
             it.mouseReleased(pMouseX, pMouseY, pButton)
+        } || super.mouseReleased(pMouseX, pMouseY, pButton)
+    }
+
+    override fun mouseDragged(mouseX: Double, mouseY: Double, button: Int, f: Double, g: Double): Boolean {
+        return children.any {
+            it.mouseDragged(mouseX, mouseY, button, f, g)
         }
-        return super.mouseReleased(pMouseX, pMouseY, pButton)
     }
 
     override fun keyPressed(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
-        children.forEach {
+        return children.any {
             it.keyPressed(pKeyCode, pScanCode, pModifiers)
-        }
-        return super.keyPressed(pKeyCode, pScanCode, pModifiers)
+        } || super.keyPressed(pKeyCode, pScanCode, pModifiers)
     }
 
     override fun keyReleased(pKeyCode: Int, pScanCode: Int, pModifiers: Int): Boolean {
@@ -80,6 +83,6 @@ abstract class ParentWidget(
         return super.charTyped(pCodePoint, pModifiers)
     }
 
-    override fun updateNarration(pNarrationElementOutput: NarrationElementOutput) {
+    override fun appendNarrations(pNarrationElementOutput: NarrationMessageBuilder) {
     }
 }

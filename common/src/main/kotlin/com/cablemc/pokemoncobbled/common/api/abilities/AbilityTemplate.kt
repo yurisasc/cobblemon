@@ -1,8 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.abilities
 
 import com.cablemc.pokemoncobbled.common.api.abilities.extensions.AbilityExtensions
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.chat.TranslatableComponent
+import com.google.gson.JsonObject
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.text.TranslatableText
 
 /**
  * This represents the base of an Ability.
@@ -14,9 +15,9 @@ class AbilityTemplate(
     val name: String
 ) {
     @Transient
-    lateinit var displayName: TranslatableComponent
+    lateinit var displayName: TranslatableText
     @Transient
-    lateinit var description: TranslatableComponent
+    lateinit var description: TranslatableText
 
     companion object {
         const val PREFIX = "pokemoncobbled.ability."
@@ -32,27 +33,30 @@ class AbilityTemplate(
         return Ability(this)
     }
 
+
     /**
      * Returns the Ability and loads the given NBT Tag into it.
      *
      * Ability extensions need to write and read their needed data from here.
      */
-    fun create(nbt: CompoundTag): Ability {
-        if (AbilityExtensions.contains(name)) {
-            return AbilityExtensions.get(name)!!.getConstructor().newInstance().also {
-                it.loadFromNBT(nbt)
-            }
-        }
-        return Ability(this).also {
-            it.loadFromNBT(nbt)
-        }
+    fun create(nbt: NbtCompound): Ability {
+        return (AbilityExtensions.get(name)?.getDeclaredConstructor()?.newInstance() ?: Ability(this)).loadFromNBT(nbt)
+    }
+
+    /**
+     * Returns the Ability and loads the given JSON object into it.
+     *
+     * Ability extensions need to write and read their needed data from here.
+     */
+    fun create(json: JsonObject): Ability {
+        return (AbilityExtensions.get(name)?.getDeclaredConstructor()?.newInstance() ?: Ability(this)).loadFromJSON(json)
     }
 
     /**
      * Creates the Components needed to display the Move and its Description
      */
-    fun createTextComponents() {
-        displayName = TranslatableComponent(PREFIX + name.lowercase())
-        description = TranslatableComponent(PREFIX + name.lowercase() + ".desc")
+    fun createLiteralTexts() {
+        displayName = TranslatableText(PREFIX + name.lowercase())
+        description = TranslatableText(PREFIX + name.lowercase() + ".desc")
     }
 }

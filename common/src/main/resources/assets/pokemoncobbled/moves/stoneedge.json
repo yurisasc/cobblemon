@@ -1,0 +1,15 @@
+{
+  "name": "stoneedge",
+  "type": "Rock",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 100,
+  "accuracy": 80,
+  "pp": 5,
+  "priority": 0,
+  "critRatio": 2,
+  "flags": {
+    "protect": 1,
+    "mirror": 1
+  }
+}

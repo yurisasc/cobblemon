@@ -4,26 +4,29 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.network.chat.TextComponent
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.LiteralText
 
 class SingleTypeWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     private val type: ElementalType
-) : TypeWidget(pX, pY, pWidth, pHeight, TextComponent("SingleTypeWidget - ${type.name}")) {
+) : TypeWidget(pX, pY, pWidth, pHeight, LiteralText("SingleTypeWidget - ${type.name}")) {
 
-    override fun render(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        renderType(type, pPoseStack)
+    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        pMatrixStack.push()
+        pMatrixStack.translate(0.35, 0.0, 0.0)
+        renderType(type, pMatrixStack)
+        pMatrixStack.pop()
         // Render Type Name
-        pPoseStack.pushPose()
-        pPoseStack.scale(0.35F, 0.35F, 0.35F)
+        pMatrixStack.push()
+        pMatrixStack.scale(0.35F, 0.35F, 0.35F)
         drawCenteredText(
-            poseStack = pPoseStack, font = CobbledResources.NOTO_SANS_BOLD,
+            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD,
             text = type.displayName,
             x = (x + 34) / 0.35F, y = y / 0.35F + 5.75,
             colour = ColourLibrary.WHITE, shadow = false
         )
-        pPoseStack.popPose()
+        pMatrixStack.pop()
     }
 }

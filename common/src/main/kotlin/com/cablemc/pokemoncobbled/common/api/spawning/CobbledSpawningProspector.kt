@@ -5,12 +5,11 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.SpawningArea
-import net.minecraft.core.BlockPos
-import net.minecraft.world.entity.Entity
-import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.material.Material
-import net.minecraft.world.phys.AABB
-import net.minecraft.world.phys.Vec3
+import net.minecraft.block.Blocks
+import net.minecraft.block.Material
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.Vec3d
 
 /**
  * A spawning prospector that takes a straightforward approach
@@ -25,11 +24,11 @@ object CobbledSpawningProspector : SpawningProspector {
         spawner: Spawner,
         area: SpawningArea
     ): WorldSlice {
-        val level = area.level
+        val world = area.world
         var baseY = area.baseY
         var height = area.height
-        if (baseY < level.minBuildHeight) {
-            val difference = level.minBuildHeight - baseY
+        if (baseY < world.bottomY) {
+            val difference = world.bottomY - baseY
             baseY += difference
             height -= difference
             if (height < 1) {
@@ -37,8 +36,8 @@ object CobbledSpawningProspector : SpawningProspector {
             }
         }
 
-        if (baseY + height >= level.maxBuildHeight) {
-            val difference = baseY + height - 1 - level.maxBuildHeight
+        if (baseY + height >= world.topY) {
+            val difference = baseY + height - 1 - world.topY
             height -= difference
             if (height < 1) {
                 throw IllegalStateException("World slice was attempted with totally awful base and dimensions")
@@ -46,32 +45,32 @@ object CobbledSpawningProspector : SpawningProspector {
         }
 
         val minimumDistanceBetweenEntities = config.minimumDistanceBetweenEntities
-        val nearbyEntityPositions = area.level.getEntities(
-            if (area.cause is Entity) area.cause else null,
-            AABB.ofSize(
-                Vec3(area.baseX + area.length / 2.0, baseY + height / 2.0, area.baseZ + area.width / 2.0),
+        val nearbyEntityPositions = area.world.getOtherEntities(
+            null,
+            Box.of(
+                Vec3d(area.baseX + area.length / 2.0, baseY + height / 2.0, area.baseZ + area.width / 2.0),
                 area.length / 2.0 + minimumDistanceBetweenEntities,
                 height / 2.0 + minimumDistanceBetweenEntities,
                 area.width / 2.0 + minimumDistanceBetweenEntities
             )
-        ).map { it.position() }
+        ).map { it.pos }
 
-        val defaultState = Blocks.STONE.defaultBlockState()
+        val defaultState = Blocks.STONE.defaultState
         val defaultBlockData = WorldSlice.BlockData(defaultState, 0)
 
         val blocks = Array(area.length) { Array(height) { Array(area.width) { defaultBlockData } } }
-        val skyLevel = Array(area.length) { Array(area.width) { level.maxBuildHeight } }
-        val pos = BlockPos.MutableBlockPos()
+        val skyLevel = Array(area.length) { Array(area.width) { world.topY } }
+        val pos = BlockPos.Mutable()
 
         val yRange = (baseY until baseY + height).reversed()
         for (x in area.baseX until area.baseX + area.length) {
             for (z in area.baseZ until area.baseZ + area.width) {
                 var skyAbove = true
                 for (y in yRange) {
-                    val state = level.getBlockState(pos.set(x, y, z))
+                    val state = world.getBlockState(pos.set(x, y, z))
                     blocks[x - area.baseX][y - baseY][z - area.baseZ] = WorldSlice.BlockData(
                         state = state,
-                        light = state.getLightBlock(level, pos)
+                        light = state.getOpacity(world, pos)
                     )
 
                     // TODO don't just check solid, have some property somewhere modifiable that excludes some blocks from occluding
@@ -85,7 +84,7 @@ object CobbledSpawningProspector : SpawningProspector {
 
         return WorldSlice(
             cause = area.cause,
-            level = level,
+            world = world,
             baseX = area.baseX,
             baseY = baseY,
             baseZ = area.baseZ,

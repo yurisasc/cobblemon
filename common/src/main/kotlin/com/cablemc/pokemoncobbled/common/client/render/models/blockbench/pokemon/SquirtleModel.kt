@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.*
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
@@ -10,14 +12,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefun
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.withRotation
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
-import net.minecraft.client.model.geom.ModelLayerLocation
-import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.client.model.geom.PartPose
-import net.minecraft.client.model.geom.builders.CubeDeformation
-import net.minecraft.client.model.geom.builders.CubeListBuilder
-import net.minecraft.client.model.geom.builders.LayerDefinition
-import net.minecraft.client.model.geom.builders.MeshDefinition
-
+import net.minecraft.client.model.*
+import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.util.math.Vec3d
 
 class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = registerRelevantPart("squirtle", root.getChild("squirtle"))
@@ -28,6 +25,12 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rightArm = registerRelevantPart("rightarm", body.getChild("rightarm"))
     override val leftArm = registerRelevantPart("leftarm", body.getChild("leftarm"))
     private val tail = registerRelevantPart("tail", body.getChild("tail"))
+
+    override val portraitScale = 1.6F
+    override val portraitTranslation = Vec3d(0.0, 0.10, 0.0)
+
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(
@@ -54,66 +57,66 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     }
 
     companion object {
-        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("squirtle"), "main")
-        fun createBodyLayer(): LayerDefinition {
-            val meshdefinition = MeshDefinition()
+        val LAYER_LOCATION = EntityModelLayer(cobbledResource("squirtle"), "main")
+        fun createBodyLayer(): TexturedModelData {
+            val meshdefinition = ModelData()
             val partdefinition = meshdefinition.root
-            val squirtle = partdefinition.addOrReplaceChild(
+            val squirtle = partdefinition.addChild(
                 "squirtle",
-                CubeListBuilder.create(),
-                PartPose.offset(0.0f, 24.0f, 0.0f)
+                ModelPartBuilder.create(),
+                ModelTransform.pivot(0.0f, 24.0f, 0.0f)
             )
-            val body = squirtle.addOrReplaceChild(
+            val body = squirtle.addChild(
                 "body",
-                CubeListBuilder.create().texOffs(0, 0)
-                    .addBox(-4.0f, -5.0f, -3.5f, 8.0f, 10.0f, 7.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, -8.0f, 0.0f)
+                ModelPartBuilder.create().uv(0, 0)
+                    .cuboid(-4.0f, -5.0f, -3.5f, 8.0f, 10.0f, 7.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, -8.0f, 0.0f)
             )
-            val tail = body.addOrReplaceChild(
+            val tail = body.addChild(
                 "tail",
-                CubeListBuilder.create().texOffs(0, 19)
-                    .addBox(0.0f, -5.5f, 0.0f, 0.0f, 8.0f, 11.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, 3.0f, 3.5f)
+                ModelPartBuilder.create().uv(0, 19)
+                    .cuboid(0.0f, -5.5f, 0.0f, 0.0f, 8.0f, 11.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 3.0f, 3.5f)
             )
-            val head = body.addOrReplaceChild(
+            val head = body.addChild(
                 "head",
-                CubeListBuilder.create().texOffs(0, 17)
-                    .addBox(-3.5f, -6.5f, -4.0f, 7.0f, 6.0f, 7.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, -4.5f, -0.5f)
+                ModelPartBuilder.create().uv(0, 17)
+                    .cuboid(-3.5f, -6.5f, -4.0f, 7.0f, 6.0f, 7.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, -4.5f, -0.5f)
             )
-            val eyes = head.addOrReplaceChild(
+            val eyes = head.addChild(
                 "eyes",
-                CubeListBuilder.create().texOffs(0, 17)
-                    .addBox(1.5f, -1.5f, -1.0f, 2.0f, 3.0f, 2.0f, CubeDeformation(0.02f))
-                    .texOffs(0, 17).mirror().addBox(-3.5f, -1.5f, -1.0f, 2.0f, 3.0f, 2.0f, CubeDeformation(0.02f))
-                    .mirror(false),
-                PartPose.offset(0.0f, -3.75f, -3.0f)
+                ModelPartBuilder.create().uv(0, 17)
+                    .cuboid(1.5f, -1.5f, -1.0f, 2.0f, 3.0f, 2.0f, Dilation(0.02f))
+                    .uv(0, 17).mirrored().cuboid(-3.5f, -1.5f, -1.0f, 2.0f, 3.0f, 2.0f, Dilation(0.02f))
+                    .mirrored(false),
+                ModelTransform.pivot(0.0f, -3.75f, -3.0f)
             )
-            val leftarm = body.addOrReplaceChild(
+            val leftarm = body.addChild(
                 "leftarm",
-                CubeListBuilder.create().texOffs(21, 17)
-                    .addBox(-1.0f, -1.5f, -1.5f, 7.0f, 3.0f, 3.0f, CubeDeformation(0.0f)),
-                PartPose.offset(4.0f, -3.25f, -1.25f)
+                ModelPartBuilder.create().uv(21, 17)
+                    .cuboid(-1.0f, -1.5f, -1.5f, 7.0f, 3.0f, 3.0f, Dilation(0.0f)),
+                ModelTransform.pivot(4.0f, -3.25f, -1.25f)
             )
-            val rightarm = body.addOrReplaceChild(
+            val rightarm = body.addChild(
                 "rightarm",
-                CubeListBuilder.create().texOffs(23, 0)
-                    .addBox(-6.0f, -1.5f, -1.5f, 7.0f, 3.0f, 3.0f, CubeDeformation(0.0f)),
-                PartPose.offset(-4.0f, -3.25f, -1.25f)
+                ModelPartBuilder.create().uv(23, 0)
+                    .cuboid(-6.0f, -1.5f, -1.5f, 7.0f, 3.0f, 3.0f, Dilation(0.0f)),
+                ModelTransform.pivot(-4.0f, -3.25f, -1.25f)
             )
-            val leftleg = body.addOrReplaceChild(
+            val leftleg = body.addChild(
                 "leftleg",
-                CubeListBuilder.create().texOffs(25, 27)
-                    .addBox(-1.5f, -1.0f, -1.5f, 3.0f, 6.0f, 3.0f, CubeDeformation(0.0f)),
-                PartPose.offset(3.0f, 3.0f, -0.5f)
+                ModelPartBuilder.create().uv(25, 27)
+                    .cuboid(-1.5f, -1.0f, -1.5f, 3.0f, 6.0f, 3.0f, Dilation(0.0f)),
+                ModelTransform.pivot(3.0f, 3.0f, -0.5f)
             )
-            val rightleg = body.addOrReplaceChild(
+            val rightleg = body.addChild(
                 "rightleg",
-                CubeListBuilder.create().texOffs(30, 6)
-                    .addBox(-1.5f, -1.0f, -1.5f, 3.0f, 6.0f, 3.0f, CubeDeformation(0.0f)),
-                PartPose.offset(-3.0f, 3.0f, -0.5f)
+                ModelPartBuilder.create().uv(30, 6)
+                    .cuboid(-1.5f, -1.0f, -1.5f, 3.0f, 6.0f, 3.0f, Dilation(0.0f)),
+                ModelTransform.pivot(-3.0f, 3.0f, -0.5f)
             )
-            return LayerDefinition.create(meshdefinition, 64, 64)
+            return TexturedModelData.of(meshdefinition, 64, 64)
         }
     }
 }

@@ -9,13 +9,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Tr
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.client.model.geom.ModelLayerLocation
-import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.client.model.geom.PartPose
-import net.minecraft.client.model.geom.builders.CubeDeformation
-import net.minecraft.client.model.geom.builders.CubeListBuilder
-import net.minecraft.client.model.geom.builders.LayerDefinition
-import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.client.model.*
+import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.util.math.Vec3d
 
 class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
@@ -35,6 +31,11 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val tail4Segment = WaveSegment(modelPart = tail4, length = 9F)
     val tail5Segment = WaveSegment(modelPart = tail5, length = 10F)
     val tail6Segment = WaveSegment(modelPart = tail6, length = 10F)
+
+    override val portraitScale = 1.85F
+    override val portraitTranslation = Vec3d(-1.3, -0.75, 0.0)
+    override val profileScale = 1.0F
+    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     override fun registerPoses() {
         registerPose(
@@ -72,74 +73,74 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     }
 
     companion object {
-        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("ekans"), "main")
-        fun createBodyLayer(): LayerDefinition {
-            val meshdefinition = MeshDefinition()
+        val LAYER_LOCATION = EntityModelLayer(cobbledResource("ekans"), "main")
+        fun createBodyLayer(): TexturedModelData {
+            val meshdefinition = ModelData()
             val partdefinition = meshdefinition.root
             val ekans =
-                partdefinition.addOrReplaceChild("ekans", CubeListBuilder.create(), PartPose.offset(0.5f, 24.0f, 0.0f))
-            val body = ekans.addOrReplaceChild(
+                partdefinition.addChild("ekans", ModelPartBuilder.create(), ModelTransform.pivot(0.5f, 24.0f, 0.0f))
+            val body = ekans.addChild(
                 "body",
-                CubeListBuilder.create().texOffs(0, 0)
-                    .addBox(-2.5f, -2.5f, -4.5f, 5.0f, 5.0f, 9.0f, CubeDeformation(0.0f)),
-                PartPose.offset(-0.5f, -2.5f, -13.5f)
+                ModelPartBuilder.create().uv(0, 0)
+                    .cuboid(-2.5f, -2.5f, -4.5f, 5.0f, 5.0f, 9.0f, Dilation(0.0f)),
+                ModelTransform.pivot(-0.5f, -2.5f, -13.5f)
             )
-            val head = body.addOrReplaceChild(
+            val head = body.addChild(
                 "head",
-                CubeListBuilder.create().texOffs(36, 22)
-                    .addBox(-3.0f, 1.9f, -7.0f, 6.0f, 1.0f, 4.0f, CubeDeformation(0.0f))
-                    .texOffs(0, 3).addBox(-3.0f, -1.1f, -6.0f, 0.0f, 3.0f, 3.0f, CubeDeformation(0.02f))
-                    .texOffs(36, 14).addBox(-3.0f, -4.1f, -8.0f, 6.0f, 3.0f, 5.0f, CubeDeformation(0.0f))
-                    .texOffs(0, 46).addBox(-3.0f, -4.1f, -3.0f, 6.0f, 7.0f, 3.0f, CubeDeformation(0.0f))
-                    .texOffs(0, 0).addBox(3.0f, -1.1f, -6.0f, 0.0f, 3.0f, 3.0f, CubeDeformation(0.02f)),
-                PartPose.offset(0.0f, -0.4f, -4.5f)
+                ModelPartBuilder.create().uv(36, 22)
+                    .cuboid(-3.0f, 1.9f, -7.0f, 6.0f, 1.0f, 4.0f, Dilation(0.0f))
+                    .uv(0, 3).cuboid(-3.0f, -1.1f, -6.0f, 0.0f, 3.0f, 3.0f, Dilation(0.02f))
+                    .uv(36, 14).cuboid(-3.0f, -4.1f, -8.0f, 6.0f, 3.0f, 5.0f, Dilation(0.0f))
+                    .uv(0, 46).cuboid(-3.0f, -4.1f, -3.0f, 6.0f, 7.0f, 3.0f, Dilation(0.0f))
+                    .uv(0, 0).cuboid(3.0f, -1.1f, -6.0f, 0.0f, 3.0f, 3.0f, Dilation(0.02f)),
+                ModelTransform.pivot(0.0f, -0.4f, -4.5f)
             )
-            val eyes = head.addOrReplaceChild("eyes", CubeListBuilder.create(), PartPose.offset(0.0f, -2.6f, -3.5f))
-            val cube_r1 = eyes.addOrReplaceChild(
+            val eyes = head.addChild("eyes", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, -2.6f, -3.5f))
+            val cube_r1 = eyes.addChild(
                 "cube_r1",
-                CubeListBuilder.create().texOffs(58, 32)
-                    .addBox(0.0f, -1.0f, -1.5f, 0.0f, 2.0f, 3.0f, CubeDeformation(0.0f))
-                    .texOffs(58, 32).mirror().addBox(6.1f, -1.0f, -1.5f, 0.0f, 2.0f, 3.0f, CubeDeformation(0.0f))
-                    .mirror(false),
-                PartPose.offsetAndRotation(-3.05f, 0.0f, 0.0f, 0.0873f, 0.0f, 0.0f)
+                ModelPartBuilder.create().uv(58, 32)
+                    .cuboid(0.0f, -1.0f, -1.5f, 0.0f, 2.0f, 3.0f, Dilation(0.0f))
+                    .uv(58, 32).mirrored().cuboid(6.1f, -1.0f, -1.5f, 0.0f, 2.0f, 3.0f, Dilation(0.0f))
+                    .mirrored(false),
+                ModelTransform.of(-3.05f, 0.0f, 0.0f, 0.0873f, 0.0f, 0.0f)
             )
-            val tail = body.addOrReplaceChild(
+            val tail = body.addChild(
                 "tail",
-                CubeListBuilder.create().texOffs(28, 32)
-                    .addBox(-2.5f, -2.5f, 0.0f, 5.0f, 5.0f, 9.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, 0.0f, 4.5f)
+                ModelPartBuilder.create().uv(28, 32)
+                    .cuboid(-2.5f, -2.5f, 0.0f, 5.0f, 5.0f, 9.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 0.0f, 4.5f)
             )
-            val tail2 = tail.addOrReplaceChild(
+            val tail2 = tail.addChild(
                 "tail2",
-                CubeListBuilder.create().texOffs(0, 32)
-                    .addBox(-2.5f, -2.5f, 0.0f, 5.0f, 5.0f, 9.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, 0.0f, 9.0f)
+                ModelPartBuilder.create().uv(0, 32)
+                    .cuboid(-2.5f, -2.5f, 0.0f, 5.0f, 5.0f, 9.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 0.0f, 9.0f)
             )
-            val tail3 = tail2.addOrReplaceChild(
+            val tail3 = tail2.addChild(
                 "tail3",
-                CubeListBuilder.create().texOffs(28, 0)
-                    .addBox(-2.5f, -2.5f, 0.0f, 5.0f, 5.0f, 9.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, 0.0f, 9.0f)
+                ModelPartBuilder.create().uv(28, 0)
+                    .cuboid(-2.5f, -2.5f, 0.0f, 5.0f, 5.0f, 9.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 0.0f, 9.0f)
             )
-            val tail4 = tail3.addOrReplaceChild(
+            val tail4 = tail3.addChild(
                 "tail4",
-                CubeListBuilder.create().texOffs(0, 14)
-                    .addBox(-2.5f, -2.5f, 0.0f, 5.0f, 5.0f, 9.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, 0.0f, 9.0f)
+                ModelPartBuilder.create().uv(0, 14)
+                    .cuboid(-2.5f, -2.5f, 0.0f, 5.0f, 5.0f, 9.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 0.0f, 9.0f)
             )
-            val tail5 = tail4.addOrReplaceChild(
+            val tail5 = tail4.addChild(
                 "tail5",
-                CubeListBuilder.create().texOffs(18, 18)
-                    .addBox(-2.0f, -2.0f, 0.0f, 4.0f, 4.0f, 10.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, 0.5f, 9.0f)
+                ModelPartBuilder.create().uv(18, 18)
+                    .cuboid(-2.0f, -2.0f, 0.0f, 4.0f, 4.0f, 10.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 0.5f, 9.0f)
             )
-            val tail6 = tail5.addOrReplaceChild(
+            val tail6 = tail5.addChild(
                 "tail6",
-                CubeListBuilder.create().texOffs(19, 4)
-                    .addBox(0.0f, -1.5f, 0.0f, 0.0f, 3.0f, 10.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, 0.0f, 10.0f)
+                ModelPartBuilder.create().uv(19, 4)
+                    .cuboid(0.0f, -1.5f, 0.0f, 0.0f, 3.0f, 10.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 0.0f, 10.0f)
             )
-            return LayerDefinition.create(meshdefinition, 64, 64)
+            return TexturedModelData.of(meshdefinition, 64, 64)
         }
     }
 }

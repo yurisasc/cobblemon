@@ -9,29 +9,30 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
-import net.minecraft.core.Registry
-import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.MobCategory
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier
-import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.entity.Entity
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.SpawnGroup
+import net.minecraft.entity.attribute.DefaultAttributeContainer
+import net.minecraft.entity.attribute.EntityAttributes
+import net.minecraft.util.registry.Registry
 
 object CobbledEntities {
-    private val registry = DeferredRegister.create(PokemonCobbled.MODID, Registry.ENTITY_TYPE_REGISTRY)
+    private val registry = DeferredRegister.create(PokemonCobbled.MODID, Registry.ENTITY_TYPE_KEY)
     fun register() {
         registry.register()
 
         EntityAttributeRegistry.register(
             { POKEMON_TYPE },
             {
-                AttributeSupplier
+                DefaultAttributeContainer
                     .builder()
-                    .add(Attributes.FOLLOW_RANGE)
-                    .add(Attributes.MAX_HEALTH)
-                    .add(Attributes.MOVEMENT_SPEED)
-                    .add(Attributes.JUMP_STRENGTH)
-                    .add(Attributes.KNOCKBACK_RESISTANCE)
+                    .add(EntityAttributes.GENERIC_FOLLOW_RANGE)
+                    .add(EntityAttributes.GENERIC_MAX_HEALTH)
+                    .add(EntityAttributes.GENERIC_MOVEMENT_SPEED)
+                    .add(EntityAttributes.HORSE_JUMP_STRENGTH)
+                    .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE)
+                    .add(EntityAttributes.GENERIC_ARMOR)
                     .also { CobbledEvents.ENTITY_ATTRIBUTE.post(EntityAttributeEvent(POKEMON_TYPE, it)) }
             }
         )
@@ -52,17 +53,17 @@ object CobbledEntities {
 
     val POKEMON = livingEntity(
         name = "pokemon",
-        entityTypeBuilder = EntityType.Builder.of<PokemonEntity>(
-            { _, level -> PokemonEntity(level) },
-            MobCategory.CREATURE
+        entityTypeBuilder = EntityType.Builder.create<PokemonEntity>(
+            { _, world -> PokemonEntity(world) },
+            SpawnGroup.CREATURE
         )
     )
 
     val EMPTY_POKEBALL = entity(
         name = "empty_pokeball",
-        entityTypeBuilder = EntityType.Builder.of<EmptyPokeBallEntity>(
-            { _, level -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, level) },
-            MobCategory.MISC
+        entityTypeBuilder = EntityType.Builder.create<EmptyPokeBallEntity>(
+            { _, world -> EmptyPokeBallEntity(PokeBalls.POKE_BALL, world) },
+            SpawnGroup.MISC
         )
     )
 

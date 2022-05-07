@@ -1,13 +1,16 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledEntities
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
-import com.cablemc.pokemoncobbled.common.api.scheduling.after
-import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.mixin.accessor.AccessorEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.util.DataKeys
@@ -15,43 +18,54 @@ import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
-import net.minecraft.core.BlockPos
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.FriendlyByteBuf
-import net.minecraft.network.protocol.Packet
-import net.minecraft.network.syncher.EntityDataAccessor
-import net.minecraft.network.syncher.EntityDataSerializers
-import net.minecraft.network.syncher.SynchedEntityData
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.entity.AgeableMob
-import net.minecraft.world.entity.EntityDimensions
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.Pose
-import net.minecraft.world.entity.ai.goal.Goal
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal
-import net.minecraft.world.entity.animal.ShoulderRidingEntity
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.state.BlockState
-import java.util.EnumSet
+import net.minecraft.block.BlockState
+import net.minecraft.entity.EntityDimensions
+import net.minecraft.entity.EntityPose
+import net.minecraft.entity.EntityType
+import net.minecraft.entity.ai.goal.FollowOwnerGoal
+import net.minecraft.entity.ai.goal.Goal
+import net.minecraft.entity.ai.goal.LookAtEntityGoal
+import net.minecraft.entity.ai.goal.WanderAroundGoal
+import net.minecraft.entity.data.DataTracker
+import net.minecraft.entity.data.TrackedData
+import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.entity.passive.PassiveEntity
+import net.minecraft.entity.passive.TameableShoulderEntity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.Packet
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
+import java.util.*
 
 class PokemonEntity(
-    level: Level,
+    level: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
-) : ShoulderRidingEntity(type, level), EntitySpawnExtension {
-    var pokemon: Pokemon
-    val delegate = if (level.isClientSide) {
+) : TameableShoulderEntity(type, level), EntitySpawnExtension {
+
+    var pokemon: Pokemon = pokemon
+        set(value) {
+            field = value
+            delegate.changePokemon(value)
+            // We need to update this value everytime the Pokémon changes, other eye height related things will be dynamic.
+            this.updateEyeHeight()
+        }
+    var despawner: Despawner<PokemonEntity> = PokemonCobbled.defaultPokemonDespawner
+
+    val delegate = if (level.isClient) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
         PokemonClientDelegate()
     } else {
         PokemonServerDelegate()
     }
 
+    var ticksLived = 0
     val busyLocks = mutableListOf<Any>()
     val isBusy: Boolean
         get() = busyLocks.isNotEmpty()
@@ -63,90 +77,117 @@ class PokemonEntity(
     val isMoving = addEntityProperty(MOVING, false)
     val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
-    /** 0 is do nothing, 1 is appearing from a pokeball so needs to be downscaled at first, 2 is being captured*/
+    val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
+
+    /**
+     * 0 is do nothing,
+     * 1 is appearing from a pokeball so needs to be small then grows,
+     * 2 is being captured/recalling so starts large and shrinks.
+     */
     val beamModeEmitter = addEntityProperty(BEAM_MODE, 0.toByte())
-    // properties like the above are synced and can be subscribed to changes for on either side
+    // properties like the above are synced and can be subscribed to for changes on either side
 
     init {
-        this.pokemon = pokemon
         delegate.initialize(this)
+        delegate.changePokemon(pokemon)
+        calculateDimensions()
+        battleId
+            .subscribeIncludingCurrent {
+                if (it.isPresent) {
+                    busyLocks.add(BATTLE_LOCK)
+                } else {
+                    busyLocks.remove(BATTLE_LOCK)
+                }
+            }
+            .unsubscribeWhen { isRemoved }
     }
 
     companion object {
-        private val SPECIES_DEX = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
-        private val SHINY = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
-        private val MOVING = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BOOLEAN)
-        private val BEHAVIOUR_FLAGS = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
-        private val PHASING_TARGET_ID = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.INT)
-        private val BEAM_MODE = SynchedEntityData.defineId(PokemonEntity::class.java, EntityDataSerializers.BYTE)
+        private val SPECIES_DEX = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        private val SHINY = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        private val MOVING = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        private val BEHAVIOUR_FLAGS = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
+        private val PHASING_TARGET_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        private val BEAM_MODE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
+        private val BATTLE_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
+
+
+        const val BATTLE_LOCK = "battle"
     }
 
     override fun tick() {
         super.tick()
+        // We will be handling idle logic ourselves thank you
+        this.setDespawnCounter(0)
         entityProperties.forEach { it.checkForUpdate() }
         delegate.tick(this)
+        ticksLived++
+        if (this.ticksLived % 20 == 0) {
+            this.updateEyeHeight()
+        }
     }
 
     /**
      * Prevents water type Pokémon from taking drowning damage.
      */
-    override fun canBreatheUnderwater(): Boolean {
+    override fun canBreatheInWater(): Boolean {
         return ElementalTypes.WATER in pokemon.types
     }
 
     /**
      * Prevents fire type Pokémon from taking fire damage.
      */
-    override fun fireImmune(): Boolean {
+    override fun isFireImmune(): Boolean {
         return ElementalTypes.FIRE in pokemon.types
     }
 
     /**
      * Prevents flying type Pokémon from taking fall damage.
      */
-    override fun checkFallDamage(pY: Double, pOnGround: Boolean, pState: BlockState, pPos: BlockPos) {
+    override fun fall(pY: Double, pOnGround: Boolean, pState: BlockState, pPos: BlockPos) {
         if (ElementalTypes.FLYING in pokemon.types) {
-            super.resetFallDistance()
+            fallDistance = 0F
+        } else {
+            super.fall(pY, pOnGround, pState, pPos)
         }
-        else {
-            super.checkFallDamage(pY, pOnGround, pState, pPos)
-        }
     }
 
-    override fun save(nbt: CompoundTag): Boolean {
-        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(CompoundTag()))
-        return super.save(nbt)
+    override fun saveNbt(nbt: NbtCompound): Boolean {
+        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
+        return super.saveNbt(nbt)
     }
 
-    override fun saveWithoutId(nbt: CompoundTag): CompoundTag {
-        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(CompoundTag()))
-        return super.saveWithoutId(nbt)
+    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
+        return super.writeNbt(nbt)
     }
 
-    override fun load(nbt: CompoundTag) {
-        super.load(nbt)
+    override fun readNbt(nbt: NbtCompound) {
+        super.readNbt(nbt)
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         dexNumber.set(pokemon.species.nationalPokedexNumber)
         shiny.set(pokemon.shiny)
         speed = 0.35F
     }
 
-    override fun getAddEntityPacket(): Packet<*> {
+    override fun createSpawnPacket(): Packet<*> {
         return NetworkManager.createAddEntityPacket(this)
     }
 
-    public override fun registerGoals() {
-        goalSelector.addGoal(0, object : Goal() {
-            override fun canUse() = this@PokemonEntity.phasingTargetId.get() != -1
-            override fun getFlags() = EnumSet.allOf(Flag::class.java)
+    public override fun initGoals() {
+        goalSelector.clear()
+        goalSelector.add(0, object : Goal() {
+            override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1
+            override fun getControls() = EnumSet.allOf(Control::class.java)
         })
-        goalSelector.addGoal(1, WaterAvoidingRandomStrollGoal(this, speed.toDouble()))
-        goalSelector.addGoal(2, LookAtPlayerGoal(this, Player::class.java, 5F))
+        goalSelector.add(3, FollowOwnerGoal(this, 0.6, 8F, 2F, false))
+        goalSelector.add(4, WanderAroundGoal(this, 0.33))
+        goalSelector.add(5, LookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
     }
 
-    fun <T> addEntityProperty(accessor: EntityDataAccessor<T>, initialValue: T): EntityProperty<T> {
+    fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
         val property = EntityProperty(
-            entityData = entityData,
+            dataTracker = dataTracker,
             accessor = accessor,
             initialValue = initialValue
         )
@@ -154,70 +195,65 @@ class PokemonEntity(
         return property
     }
 
-    override fun getBreedOffspring(level: ServerLevel, partner: AgeableMob) = null
+    override fun createChild(level: ServerWorld, partner: PassiveEntity) = null
 
-    override fun canSitOnShoulder(): Boolean {
+    override fun isReadyToSitOnPlayer(): Boolean {
         return pokemon.form.shoulderMountable
     }
 
-    override fun mobInteract(player: Player, hand: InteractionHand) : InteractionResult {
+    override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         // TODO: Move to proper pokemon interaction menu
-        if (player.isCrouching && hand == InteractionHand.MAIN_HAND) {
-            if (canSitOnShoulder() && player is ServerPlayer && !isBusy) {
-                val store = pokemon.storeCoordinates.get()?.store
-                if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
-                    CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
-                        val dirToPlayer = player.eyePosition.subtract(position()).multiply(1.0, 0.0, 1.0).normalize()
-                        deltaMovement = dirToPlayer.scale(0.8).add(0.0, 0.5, 0.0)
-                        val lock = Any()
-                        busyLocks.add(lock)
-                        after(seconds = 0.5F) {
-                            busyLocks.remove(lock)
-                            if (!isBusy && isAlive) {
-                                val isLeft = player.shoulderEntityLeft.isEmpty
-                                if (!isLeft || player.shoulderEntityRight.isEmpty) {
-                                    pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
-                                    this.setEntityOnShoulder(player)
-                                    this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
-                                }
-                            }
-                        }
-                    }
-                }
+        if (player.isSneaking && hand == Hand.MAIN_HAND) {
+            if (isReadyToSitOnPlayer && player is ServerPlayerEntity && !isBusy) {
+                this.tryMountingShoulder(player)
             }
         }
-        return super.mobInteract(player, hand)
+        return super.interactMob(player, hand)
     }
 
-    override fun getDimensions(pose: Pose): EntityDimensions {
+    override fun getDimensions(pose: EntityPose): EntityDimensions {
         val scale = pokemon.form.baseScale * pokemon.scaleModifier
-        return pokemon.form.hitbox.scale(scale)
+        return pokemon.form.hitbox.scaled(scale)
     }
 
-    override fun saveAdditionalSpawnData(buffer: FriendlyByteBuf) {
+    override fun saveAdditionalSpawnData(buffer: PacketByteBuf) {
         buffer.writeFloat(pokemon.scaleModifier)
         buffer.writeShort(pokemon.species.nationalPokedexNumber)
-        buffer.writeUtf(pokemon.form.name)
+        buffer.writeString(pokemon.form.name)
         buffer.writeInt(phasingTargetId.get())
         buffer.writeByte(beamModeEmitter.get().toInt())
         buffer.writeBoolean(pokemon.shiny)
     }
 
-    override fun loadAdditionalSpawnData(buffer: FriendlyByteBuf) {
-//        if (this.level.isClientSide) {
-//            pokemon.scaleModifier = buffer.readFloat()
-//            // TODO exception handling
-//            pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!!
-//            // TODO exception handling
-//            pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readUtf() }!!
-//            phasingTargetId.set(buffer.readInt())
-//            beamModeEmitter.set(buffer.readByte())
-//            shiny.set(buffer.readBoolean())
-//        }
+    override fun loadAdditionalSpawnData(buffer: PacketByteBuf) {
+        if (this.world.isClient) {
+            pokemon.scaleModifier = buffer.readFloat()
+            // TODO exception handling
+            pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!!
+            // TODO exception handling
+            pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readString() }!!
+            phasingTargetId.set(buffer.readInt())
+            beamModeEmitter.set(buffer.readByte())
+            shiny.set(buffer.readBoolean())
+        }
     }
 
-    override fun shouldBeSaved(): Boolean {
+    override fun shouldSave(): Boolean {
         return false
+    }
+
+    override fun checkDespawn() {
+        if (pokemon.getOwnerUUID() == null && despawner.shouldDespawn(this)) {
+            discard()
+        }
+    }
+
+    override fun getEyeHeight(pose: EntityPose): Float = this.pokemon.form.eyeHeight(this)
+
+    @Suppress("SAFE_CALL_WILL_CHANGE_NULLABILITY", "USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
+    override fun getActiveEyeHeight(pose: EntityPose?, dimensions: EntityDimensions?): Float {
+        // This property will be null during Entity#<init>
+        return this.pokemon?.form?.eyeHeight(this) ?: super.getActiveEyeHeight(pose, dimensions)
     }
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
@@ -225,4 +261,53 @@ class PokemonEntity(
     }
 
     fun getBehaviourFlag(flag: PokemonBehaviourFlag): Boolean = getBitForByte(behaviourFlags.get(), flag.bit)
+
+    fun canBattle(player: PlayerEntity): Boolean {
+        if (isBusy) {
+            return false
+        }
+
+        if (ownerUuid == player.uuid) {
+            return false
+        }
+
+        return true
+    }
+
+    private fun tryMountingShoulder(player: ServerPlayerEntity) {
+        if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
+            CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
+                val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
+                velocity = dirToPlayer.multiply(0.8).add(0.0, 0.5, 0.0)
+                val lock = Any()
+                busyLocks.add(lock)
+                afterOnMain(seconds = 0.5F) {
+                    busyLocks.remove(lock)
+                    if (!isBusy && isAlive) {
+                        val isLeft = player.shoulderEntityLeft.isEmpty
+                        if (!isLeft || player.shoulderEntityRight.isEmpty) {
+                            pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
+                            this.mountOnto(player)
+                            this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
+    private fun hasRoomToMount(player: PlayerEntity): Boolean {
+        return (player.shoulderEntityLeft.isEmpty || player.shoulderEntityRight.isEmpty)
+                && !player.hasVehicle()
+                && player.isOnGround
+                && !player.isTouchingWater
+                && !player.inPowderSnow
+    }
+
+    private fun updateEyeHeight() {
+        @Suppress("CAST_NEVER_SUCCEEDS")
+        (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
+    }
+
 }

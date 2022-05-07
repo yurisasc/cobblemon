@@ -5,7 +5,7 @@ stages:
   - build
   - deploy
 
-#TODO add client reference test process, delete client from sources and see if compilation is successful
+#TODO add client reference test process, search for import com.cablemc.pokemoncobbled.common.client
 
 build-job:
   stage: build
@@ -17,21 +17,27 @@ build-job:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
     paths:
-      - build/libs
+      - forge/build/libs
+      - fabric/build/libs
 
 # Separate step to deploy the artifacts, save Norry the headache of keeping even more shit around
 deploy-job:
   stage: deploy
-  when: manual
+#  when: manual
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: pull
     paths:
-      - build/libs/*
+      - forge/build/libs/*.jar
+      - fabric/build/libs/*.jar
   script: 
     - echo "Collecting artifacts..."
-    - mv build/libs/*.jar ./
+    - mv forge/build/libs/*-forge.jar ./
+    - mv fabric/build/libs/*-fabric.jar ./
+    - for f in *.jar; do mv "$f" "$(echo "$f" | sed s/+/b$CI_PIPELINE_IID+/)"; done
   artifacts:
-    expire_in: 10 days  
+    expire_in: 28 days
     paths:
       - ./*.jar
+#      - forge/build/libs/*-forge.jar
+#      - fabric/build/libs/*-remap.jar

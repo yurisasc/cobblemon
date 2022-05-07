@@ -6,8 +6,8 @@ import com.cablemc.pokemoncobbled.common.api.Priority
 import com.cablemc.pokemoncobbled.common.api.storage.factory.PokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
-import net.minecraft.server.level.ServerPlayer
-import java.util.UUID
+import net.minecraft.server.network.ServerPlayerEntity
+import java.util.*
 
 /**
  * Manages the providing of [PokemonStore]s for party, PC, and custom use. The main utilities of this class
@@ -29,8 +29,9 @@ open class PokemonStoreManager {
         factories.remove(factory)
     }
 
-    open fun getParty(player: ServerPlayer) = getParty(player.uuid)
+    open fun getParty(player: ServerPlayerEntity) = getParty(player.uuid)
 
+    @Throws(NoPokemonStoreException::class)
     open fun getParty(uuid: UUID): PartyStore {
         for (factory in factories) {
             factory.getPlayerParty(uuid)?.run { return this }
@@ -56,7 +57,7 @@ open class PokemonStoreManager {
         return null
     }
 
-    open fun onPlayerLogin(player: ServerPlayer) {
+    open fun onPlayerLogin(player: ServerPlayerEntity) {
         val parties = getParties(player.uuid)
         parties.forEach { party -> party.sendTo(player) }
         player.sendPacket(SetPartyReferencePacket(parties.first().uuid))

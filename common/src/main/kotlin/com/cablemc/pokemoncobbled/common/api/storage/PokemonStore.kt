@@ -7,8 +7,8 @@ import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonSt
 import com.cablemc.pokemoncobbled.common.api.storage.factory.PokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 
 /**
@@ -30,13 +30,13 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
     /** Returns an iterable of all the [Pokemon] in this store, with nulls removed. */
     abstract fun getAll(): Iterable<Pokemon>
     /** Gets the [Pokemon] at the given position. */
-    abstract fun get(position: T): Pokemon?
+    abstract operator fun get(position: T): Pokemon?
     /** Gets the first empty position that a [Pokemon] might be put. */
     abstract fun getFirstAvailablePosition(): T?
-    /** Gets an iterable of all [ServerPlayer]s that should be notified of any changes to the Pokémon in this store. */
-    abstract fun getObservingPlayers(): Iterable<ServerPlayer>
+    /** Gets an iterable of all [ServerPlayerEntity]s that should be notified of any changes to the Pokémon in this store. */
+    abstract fun getObservingPlayers(): Iterable<ServerPlayerEntity>
     /** Sends the contents of this store to a player as if they've never seen it before. This initializes the store then sends each contained Pokémon. */
-    abstract fun sendTo(player: ServerPlayer)
+    abstract fun sendTo(player: ServerPlayerEntity)
 
     /**
      * Runs initialization logic for this store, knowing that it has just been constructed in a [PokemonStoreFactory].
@@ -125,12 +125,15 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
         if (get(currentPosition.position) != pokemon) {
             return false
         }
+        pokemon.recall()
         setAtPosition(currentPosition.position, null)
         return true
     }
 
-    abstract fun saveToNBT(nbt: CompoundTag): CompoundTag
-    abstract fun loadFromNBT(nbt: CompoundTag): PokemonStore<T>
+    operator fun get(uuid: UUID) = find { it.uuid == uuid }
+
+    abstract fun saveToNBT(nbt: NbtCompound): NbtCompound
+    abstract fun loadFromNBT(nbt: NbtCompound): PokemonStore<T>
     abstract fun saveToJSON(json: JsonObject): JsonObject
     abstract fun loadFromJSON(json: JsonObject): PokemonStore<T>
 

@@ -1,8 +1,6 @@
 package com.cablemc.pokemoncobbled.fabric
 
-import com.cablemc.pokemoncobbled.common.CobbledNetwork
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.PokemonCobbledModImplementation
+import com.cablemc.pokemoncobbled.common.*
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.fabric.net.CobbledFabricNetworkDelegate
 import net.fabricmc.loader.api.FabricLoader
@@ -12,6 +10,10 @@ object PokemonCobbledFabric : PokemonCobbledModImplementation {
     fun initialize() {
         CobbledNetwork.networkDelegate = CobbledFabricNetworkDelegate
         PokemonCobbled.preinitialize(this)
+
+        CobbledConfiguredFeatures.register()
+        CobbledPlacements.register()
+
         PokemonCobbled.initialize()
         ServerPacketRegistrar.registerHandlers()
         CobbledNetwork.register()

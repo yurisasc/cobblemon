@@ -1,8 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.abilities
 
 import com.cablemc.pokemoncobbled.common.util.DataKeys
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.chat.Component
+import com.google.gson.JsonObject
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.text.Text
 
 /**
  * Representing an Ability with all its attributes
@@ -24,18 +25,27 @@ open class Ability internal constructor(
     val name: String
         get() = template.name
 
-    val displayName: Component
+    val displayName: Text
         get() = template.displayName
 
-    val description: Component
+    val description: Text
         get() = template.description
 
-    open fun saveToNBT(nbt: CompoundTag): CompoundTag {
+    open fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putString(DataKeys.POKEMON_ABILITY_NAME, name)
         return nbt
     }
 
-    open fun loadFromNBT(nbt: CompoundTag): Ability {
+    open fun saveToJSON(json: JsonObject): JsonObject {
+        json.addProperty(DataKeys.POKEMON_ABILITY_NAME, name)
+        return json
+    }
+
+    open fun loadFromNBT(nbt: NbtCompound): Ability {
+        return this
+    }
+
+    open fun loadFromJSON(json: JsonObject): Ability {
         return this
     }
 }

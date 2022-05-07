@@ -1,36 +1,38 @@
 package com.cablemc.pokemoncobbled.common.item
 
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import com.cablemc.pokemoncobbled.common.item.CobbledCreativeTabs.POKE_BALL_TAB
+import com.cablemc.pokemoncobbled.common.item.CobbledItemGroups.POKE_BALL_TAB
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.InteractionResultHolder
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.level.Level
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.Hand
+import net.minecraft.util.TypedActionResult
+import net.minecraft.world.World
+import kotlin.math.cos
 
 class PokeBallItem(
     val pokeBall : PokeBall
-) : CobbledItem(Properties().tab(POKE_BALL_TAB)) {
+) : CobbledItem(Settings().group(POKE_BALL_TAB)) {
 
-    override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
-        val itemStack = player.getItemInHand(usedHand)
-        if (!level.isClientSide) {
-            throwPokeBall(level, player as ServerPlayer)
+    override fun use(world: World, player: PlayerEntity, usedHand: Hand): TypedActionResult<ItemStack> {
+        val itemStack = player.getStackInHand(usedHand)
+        if (!world.isClient) {
+            throwPokeBall(world, player as ServerPlayerEntity)
         }
-        if (!player.abilities.instabuild) {
-            itemStack.shrink(1)
+        if (!player.abilities.creativeMode) {
+            itemStack.decrement(1)
         }
-        return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide)
+        return TypedActionResult.success(itemStack, world.isClient)
     }
 
-    private fun throwPokeBall(level: Level, player: ServerPlayer) {
-        val pokeBallEntity = EmptyPokeBallEntity(pokeBall, player.level).apply {
-            setPos(player.x, player.y + 1.5, player.z)
-            shootFromRotation(player, player.xRot - 7, player.yRot, 0.0f, 1.5f, 1.0f)
+    private fun throwPokeBall(world: World, player: ServerPlayerEntity) {
+        val pokeBallEntity = EmptyPokeBallEntity(pokeBall, player.world).apply {
+            setPos(player.x, player.y + player.standingEyeHeight - 0.2, player.z)
+            setVelocity(player, player.pitch - 10 * cos(player.pitch.toRadians()), player.yaw, 0.0f, 1.25f, 1.0f)
             owner = player
         }
-        level.addFreshEntity(pokeBallEntity)
+        world.spawnEntity(pokeBallEntity)
     }
 }

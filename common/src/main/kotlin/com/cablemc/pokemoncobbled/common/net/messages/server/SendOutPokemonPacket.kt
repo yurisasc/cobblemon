@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.net.messages.server
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SendOutPokemonHandler
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 
 /**
  * Packet sent from the client to the server to send out the Pokémon in the specified
@@ -20,11 +20,11 @@ class SendOutPokemonPacket() : NetworkPacket {
         this.slot = slot
     }
 
-    override fun encode(buffer: FriendlyByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeByte(slot)
     }
 
-    override fun decode(buffer: FriendlyByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         slot = buffer.readUnsignedByte().toInt()
     }
 }

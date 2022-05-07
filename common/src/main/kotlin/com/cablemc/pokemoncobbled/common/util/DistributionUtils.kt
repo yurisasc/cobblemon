@@ -6,7 +6,8 @@ import dev.architectury.utils.Env
 import dev.architectury.utils.EnvExecutor
 import dev.architectury.utils.GameInstance
 import net.fabricmc.api.EnvType
-import net.minecraft.world.level.Level
+import net.minecraft.world.World
+import java.util.concurrent.CompletableFuture
 
 /** Runs the given [Runnable] if the caller is on the CLIENT side. */
 fun ifClient(runnable: Runnable) {
@@ -26,7 +27,16 @@ fun ifDedicatedServer(action: Runnable) {
 /*
  * Schedules the given block of code to run on the main thread and returns a [CompletableFuture] that completes with the result of the block when the code has executed.
  */
-fun <T> runOnServer(block: () -> T) = getServer()?.addTickable { block() }
+fun <T> runOnServer(block: () -> T): CompletableFuture<T> {
+    val future = CompletableFuture<T>()
+    val server = getServer()
+    if (server == null) {
+        future.completeExceptionally(IllegalStateException("There is no server to schedule it on."))
+    } else {
+        server.execute { future.complete(block()) }
+    }
+    return future
+}
 fun <T> Observable<T>.subscribeOnServer(priority: Priority = Priority.NORMAL, block: () -> Unit) = subscribe(priority) { runOnServer(block) }
 
 fun getServer() = GameInstance.getServer()
@@ -38,4 +48,4 @@ fun getServer() = GameInstance.getServer()
 //    return future
 //}
 
-fun Level.isServerSide() = !isClientSide
+fun World.isServerSide() = !isClient

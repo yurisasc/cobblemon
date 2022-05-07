@@ -9,21 +9,23 @@ import com.cablemc.pokemoncobbled.common.util.FileUtils
 import com.cablemc.pokemoncobbled.common.util.extractTo
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
-import net.minecraft.client.Minecraft
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.client.MinecraftClient
+import net.minecraft.util.Identifier
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
+import java.util.concurrent.CompletableFuture
 
 class ShowdownThread : Thread() {
 
+    var showdownStarted = CompletableFuture<Unit>()
     val gson = GsonBuilder()
         .disableHtmlEscaping()
         .create()
 
     override fun run() {
-        var showdownDir = File("showdown/")
+        var showdownDir = File(".")
 
         val showdownMetadata = loadShowdownMetadata()
 
@@ -44,11 +46,11 @@ class ShowdownThread : Thread() {
             }
 
             if (extract) {
-                showdownDir = File("showdown")
-                showdownDir.mkdir()
-                ResourceLocation(PokemonCobbled.MODID, "showdown.zip").extractTo(showdownZip)
-                ResourceLocation(PokemonCobbled.MODID, "showdown.json").extractTo(showdownMetadataFile)
+                showdownDir = showdownZip.parentFile
+                Identifier(PokemonCobbled.MODID, "showdown.zip").extractTo(showdownZip)
+                Identifier(PokemonCobbled.MODID, "showdown.json").extractTo(showdownMetadataFile)
                 FileUtils.unzipFile(showdownZip.toPath(), showdownDir.toPath())
+                showdownZip.delete()
             }
         }
 
@@ -59,21 +61,23 @@ class ShowdownThread : Thread() {
         // Sleep for two seconds before attempting connection
         sleep(2000)
 
+        val maxTries = 15
         var tries = 0
 
         // If connection fails, wait another two seconds
-        while (!attemptConnection() && tries < 5) {
+        while (!attemptConnection() && tries < maxTries) {
             tries++
-            sleep(2000)
+            sleep(3000)
         }
 
         // Max attempts
-        if (tries == 5) {
+        if (tries == maxTries) {
             LOGGER.error("Failed to connect to showdown after 5 tries.")
-            Minecraft.getInstance().close()
+            MinecraftClient.getInstance().close()
         }
 
         LOGGER.info("Showdown has been connected!")
+        showdownStarted.complete(Unit)
 
         // Reset tries as this will be used by reconnection attempts
         tries = 0
@@ -83,15 +87,15 @@ class ShowdownThread : Thread() {
 
             // Attempt reconnection if not connected
             if (!showdown.isConnected()) {
-                while (!attemptConnection() && tries < 5) {
+                while (!attemptConnection() && tries < maxTries) {
                     tries++
-                    sleep(2000)
+                    sleep(3000)
                 }
 
                 // Max attempts
-                if (tries == 5) {
+                if (tries == maxTries) {
                     LOGGER.error("Failed to connect to showdown after 5 tries.")
-                    Minecraft.getInstance().close()
+                    MinecraftClient.getInstance().close()
                 }
 
                 tries = 0

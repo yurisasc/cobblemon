@@ -9,13 +9,8 @@ import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyPokemo
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyReferenceHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.SwapPartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
-import com.cablemc.pokemoncobbled.common.net.messages.FriendshipUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 
 /**
  * Registers packet handlers that the client will need. This is separated from the server ones
@@ -27,6 +22,9 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.Spec
  */
 object ClientPacketRegistrar : SidedPacketRegistrar() {
     override fun registerHandlers() {
+        // Don't forget to register packets in CobbledNetwork!
+
+        registerHandler<ExperienceUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<LevelUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<SpeciesUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<FriendshipUpdatePacket>(SingleUpdatePacketHandler())
@@ -34,6 +32,10 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<ShinyUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<NatureUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<MoveSetUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<HealthUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<StatusUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<CaughtBallUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<BenchedMovesUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler(InitializePartyHandler)
         registerHandler(SetPartyPokemonHandler)
         registerHandler(MovePartyPokemonHandler)

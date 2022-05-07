@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * Represents the entity-specific state for a poseable model. The implementation is responsible for
@@ -18,7 +18,7 @@ import net.minecraft.world.entity.Entity
  */
 abstract class PoseableEntityState<T : Entity> {
     var currentModel: PoseableEntityModel<T>? = null
-    var currentPose: PoseType? = null
+    var currentPose: String? = null
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     var animationSeconds = 0F
@@ -30,33 +30,33 @@ abstract class PoseableEntityState<T : Entity> {
         timeLastRendered = now
     }
 
-    fun getPose(): PoseType? {
+    fun getPose(): String? {
         return currentPose
     }
 
-    fun transitionPose(toPoseType: PoseType, durationTicks: Int = 20) {
-        val model = currentModel ?: run {
-            currentPose = PoseType.NONE // Bad
-            return
-        }
+//    fun transitionPose(toPoseType: PoseType, durationTicks: Int = 20) {
+//        val model = currentModel ?: run {
+//            currentPose = PoseType.NONE // Bad
+//            return
+//        }
+//
+//        val beforePose = model.poses[currentPose ?: PoseType.NONE]
+//            ?: Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
+//        val afterPose = model.poses[toPoseType]
+//            ?: run {
+//                LOGGER.error("Tried transitioning ${model::class.java} to pose type $toPoseType but there is no registered pose of that type.")
+//                return
+//            }
+//
+//        val animation = PoseTransitionAnimation(beforePose, afterPose, durationTicks)
+//        statefulAnimations.add(animation)
+//    }
 
-        val beforePose = model.poses[currentPose ?: PoseType.NONE]
-            ?: Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
-        val afterPose = model.poses[toPoseType]
-            ?: run {
-                LOGGER.error("Tried transitioning ${model::class.java} to pose type $toPoseType but there is no registered pose of that type.")
-                return
-            }
-
-        val animation = PoseTransitionAnimation(beforePose, afterPose, durationTicks)
-        statefulAnimations.add(animation)
-    }
-
-    fun setPose(pose: PoseType) {
+    fun setPose(pose: String) {
         currentPose = pose
     }
 
-    fun applyAdditives(entity: T, model: PoseableEntityModel<T>) {
-        additives.removeIf { !it.run(entity, model) }
+    fun applyAdditives(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?) {
+        additives.removeIf { !it.run(entity, model, state) }
     }
 }

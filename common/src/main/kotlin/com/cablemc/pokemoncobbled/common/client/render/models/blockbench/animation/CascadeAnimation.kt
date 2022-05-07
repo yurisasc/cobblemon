@@ -1,9 +1,10 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
-import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.world.entity.Entity
+import net.minecraft.client.model.ModelPart
+import net.minecraft.entity.Entity
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -22,9 +23,9 @@ class CascadeAnimation<T : Entity>(
 
     override val targetFrame = ModelFrame::class.java
 
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         segments.forEachIndexed { index, modelPart ->
-            modelPart.yRot = rootFunction(ageInTicks) * amplitudeFunction(index+1)
+            modelPart.yaw = rootFunction(ageInTicks) * amplitudeFunction(index+1)
         }
     }
 

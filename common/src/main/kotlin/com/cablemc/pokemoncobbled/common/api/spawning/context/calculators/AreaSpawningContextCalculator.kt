@@ -6,8 +6,8 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolve
 import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
-import net.minecraft.core.BlockPos
-import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.block.BlockState
+import net.minecraft.util.math.BlockPos
 
 /**
  * A spawning context calculator that deals with [AreaSpawningContext]s. These work off
@@ -42,4 +42,4 @@ interface AreaSpawningContextCalculator<O : AreaSpawningContext> : SpawningConte
     fun getNearbyBlocks(input: AreaSpawningInput, radius: Int = config.maxNearbyBlocksRange) = input.slice.nearbyBlocks(input.position, radius)
 }
 
-open class AreaSpawningInput(val spawner: Spawner, var position: BlockPos, val slice: WorldSlice) : SpawningContextInput(slice.cause, slice.level)
+open class AreaSpawningInput(val spawner: Spawner, var position: BlockPos, val slice: WorldSlice) : SpawningContextInput(slice.cause, slice.world)

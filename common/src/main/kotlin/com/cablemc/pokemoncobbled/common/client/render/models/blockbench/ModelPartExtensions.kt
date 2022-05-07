@@ -3,27 +3,36 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
-import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.client.model.ModelPart
 
-fun ModelPart.getPosition(axis: Int) = if (axis == X_AXIS) this.x else if (axis == Y_AXIS) this.y else this.z
-fun ModelPart.getRotation(axis: Int) = if (axis == X_AXIS) this.xRot else if (axis == Y_AXIS) this.yRot else this.zRot
+
+fun ModelPart.getPosition(axis: Int) = if (axis == X_AXIS) this.pivotX else if (axis == Y_AXIS) this.pivotY else this.pivotZ
+fun ModelPart.getRotation(axis: Int) = if (axis == X_AXIS) this.pitch else if (axis == Y_AXIS) this.yaw else this.roll
 fun ModelPart.setRotation(axis: Int, angleInRadians: Float): ModelPart {
-    if (axis == X_AXIS) {
-        xRot = angleInRadians
-    } else if (axis == Y_AXIS) {
-        yRot = angleInRadians
-    } else {
-        zRot = angleInRadians
+    when (axis) {
+        X_AXIS -> {
+            pitch = angleInRadians
+        }
+        Y_AXIS -> {
+            yaw = angleInRadians
+        }
+        else -> {
+            roll = angleInRadians
+        }
     }
     return this
 }
 fun ModelPart.setPosition(axis: Int, position: Float): ModelPart {
-    if (axis == X_AXIS) {
-        x = position
-    } else if (axis == Y_AXIS) {
-        y = position
-    } else {
-        z = position
+    when (axis) {
+        X_AXIS -> {
+            pivotX = position
+        }
+        Y_AXIS -> {
+            pivotY = position
+        }
+        else -> {
+            pivotZ = position
+        }
     }
     return this
 }
@@ -40,4 +49,8 @@ fun ModelPart.getChildOf(vararg path: String): ModelPart {
         part = part.getChild(piece)
     }
     return part
+}
+fun ModelPart.childNamed(vararg path: String): Pair<String, ModelPart> {
+    var final = path.last()
+    return final to getChildOf(*path)
 }

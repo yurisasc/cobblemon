@@ -8,9 +8,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import com.cablemc.pokemoncobbled.common.api.spawning.selection.ContextWeightedSelector
 import com.cablemc.pokemoncobbled.common.api.spawning.selection.SpawningSelector
-import net.minecraft.world.entity.Entity
-import net.minecraft.world.level.entity.EntityInLevelCallback
-import java.util.UUID
+import net.minecraft.entity.Entity
 
 /**
  * A spawner that regularly attempts spawning entities. It has timing utilities,
@@ -37,7 +35,7 @@ abstract class TickingSpawner(
     abstract fun run(): Pair<SpawningContext, SpawnDetail>?
 
     var active = true
-    val spawnedEntities = mutableListOf<UUID>()
+    val spawnedEntities = mutableListOf<Entity>()
     var maximumSpawned = 15
 
     var lastSpawnTime = 0L
@@ -48,7 +46,15 @@ abstract class TickingSpawner(
     @Volatile
     var scheduledSpawn: SpawnAction<*>? = null
 
+    var removalCheckTicks = 0
+
     open fun tick() {
+        removalCheckTicks++
+        if (removalCheckTicks == 60) {
+            spawnedEntities.removeIf { it.isRemoved }
+            removalCheckTicks = 0
+        }
+
         if (!active || spawnedEntities.size >= maximumSpawned) {
             return
         }
@@ -74,19 +80,13 @@ abstract class TickingSpawner(
 
     override fun afterSpawn(entity: Entity) {
         super.afterSpawn(entity)
-        spawnedEntities.add(entity.uuid)
-        entity.setLevelCallback(object : EntityInLevelCallback {
-            override fun onMove() {}
-            override fun onRemove(pReason: Entity.RemovalReason) {
-                spawnedEntities.remove(entity.uuid)
-            }
-        })
+        spawnedEntities.add(entity)
         lastSpawnTime = System.currentTimeMillis()
     }
 
     fun performSpawn(spawnAction: SpawnAction<*>) {
+        spawnAction.entity.subscribe { afterSpawn(it) }
         spawnAction.run()
         this.scheduledSpawn = null
-        spawnAction.entity.subscribe { afterSpawn(it) }
     }
 }

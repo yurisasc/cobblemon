@@ -1,17 +1,19 @@
 package com.cablemc.pokemoncobbled.common.client.entity
 
-import com.cablemc.pokemoncobbled.common.api.entity.EntitySideDelegate
+import com.cablemc.pokemoncobbled.common.api.entity.PokemonSideDelegate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
+import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.scheduling.lerp
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives.EarBounceAdditive
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import net.minecraft.util.Mth.abs
-import net.minecraft.world.entity.Entity
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import net.minecraft.entity.Entity
 import java.lang.Float.min
+import kotlin.math.abs
 
-class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), EntitySideDelegate<PokemonEntity> {
+class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
         const val BEAM_SHRINK_TIME = 0.7F
         const val BEAM_EXTEND_TIME = 0.3F
@@ -31,18 +33,13 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), EntitySideDe
 
     private val minimumFallSpeed = -0.1F
     private val intensityVelocityCap = -0.5F
-
-    override fun initialize(entity: PokemonEntity) {
-        this.entity = entity
+    override fun changePokemon(pokemon: Pokemon) {
         entity.dexNumber.subscribeIncludingCurrent {
             currentPose = null
             entity.pokemon.species = PokemonSpecies.getByPokedexNumber(it)!! // TODO exception handling
         }
 
-        entity.shiny.subscribeIncludingCurrent {
-            entity.pokemon.shiny = it
-        }
-
+        entity.shiny.subscribeIncludingCurrent { entity.pokemon.shiny = it }
         entity.phasingTargetId.subscribe {
             if (it != -1) {
                 setPhaseTarget(it)
@@ -59,7 +56,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), EntitySideDe
                 entityScaleModifier = 0F
                 beamStartTime = System.currentTimeMillis()
                 entity.isInvisible = true
-                after(seconds = BEAM_EXTEND_TIME) {
+                afterOnMain(seconds = BEAM_EXTEND_TIME) {
                     lerp(BEAM_SHRINK_TIME) { entityScaleModifier = it }
                     entity.isInvisible = false
                 }
@@ -76,8 +73,12 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), EntitySideDe
         }
     }
 
+    override fun initialize(entity: PokemonEntity) {
+        this.entity = entity
+    }
+
     override fun tick(entity: PokemonEntity) {
-        val downSpeed = entity.deltaMovement.y
+        val downSpeed = entity.velocity.y
         if (downSpeed > previousVerticalVelocity && downSpeed > minimumFallSpeed) {
             // Stopped falling
             val highestFallVelocity = previousVerticalVelocity
@@ -89,10 +90,10 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), EntitySideDe
             }
         }
 
-        previousVerticalVelocity = entity.deltaMovement.y.toFloat()
+        previousVerticalVelocity = entity.velocity.y.toFloat()
     }
 
     fun setPhaseTarget(targetId: Int) {
-        this.phaseTarget = entity.level.getEntity(targetId)
+        this.phaseTarget = entity.world.getEntityById(targetId)
     }
 }

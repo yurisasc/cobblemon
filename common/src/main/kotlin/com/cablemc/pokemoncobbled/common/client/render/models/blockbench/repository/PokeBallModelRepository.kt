@@ -6,15 +6,22 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 object PokeBallModelRepository : ModelRepository<EmptyPokeBallEntity>() {
     private val modelsByPokeBall: MutableMap<PokeBall, BlockBenchModelWrapper<EmptyPokeBallEntity>> = mutableMapOf()
-    private val modelTexturesByPokeBall: MutableMap<PokeBall, ResourceLocation> = mutableMapOf()
+    private val modelTexturesByPokeBall: MutableMap<PokeBall, Identifier> = mutableMapOf()
 
     override fun registerAll() {
-        registerModel(PokeBalls.POKE_BALL, BlockBenchModelWrapper(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) })
-        registerModelTexture(PokeBalls.POKE_BALL, cobbledResource("textures/pokemon/pokeball-base.png"))
+        val baseModel = BlockBenchModelWrapper(PokeBallModel.LAYER_LOCATION, PokeBallModel::createBodyLayer) { PokeBallModel(it) }
+        registerModel(PokeBalls.POKE_BALL, baseModel)
+        registerModel(PokeBalls.GREAT_BALL, baseModel)
+        registerModel(PokeBalls.ULTRA_BALL, baseModel)
+        registerModel(PokeBalls.MASTER_BALL, baseModel)
+        registerModelTexture(PokeBalls.POKE_BALL, cobbledResource("textures/items/poke_ball.png"))
+        registerModelTexture(PokeBalls.GREAT_BALL, cobbledResource("textures/items/great_ball.png"))
+        registerModelTexture(PokeBalls.ULTRA_BALL, cobbledResource("textures/items/ultra_ball.png"))
+        registerModelTexture(PokeBalls.MASTER_BALL, cobbledResource("textures/items/master_ball.png"))
     }
 
     private fun registerModel(pokeBall: PokeBall, model: BlockBenchModelWrapper<EmptyPokeBallEntity>) {
@@ -22,7 +29,7 @@ object PokeBallModelRepository : ModelRepository<EmptyPokeBallEntity>() {
         addModel(model)
     }
 
-    private fun registerModelTexture(pokeBall: PokeBall, texture: ResourceLocation) {
+    private fun registerModelTexture(pokeBall: PokeBall, texture: Identifier) {
         modelTexturesByPokeBall[pokeBall] = texture
     }
 
@@ -30,7 +37,7 @@ object PokeBallModelRepository : ModelRepository<EmptyPokeBallEntity>() {
         return modelsByPokeBall[pokeBall] ?: throw IllegalStateException("pokeball has no appropriate model")
     }
 
-    fun getModelTexture(pokeBall: PokeBall): ResourceLocation {
+    fun getModelTexture(pokeBall: PokeBall): Identifier {
         return modelTexturesByPokeBall[pokeBall] ?: throw IllegalStateException("pokeball has no appropriate model texture")
     }
 }

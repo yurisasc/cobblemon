@@ -1,6 +1,10 @@
 package com.cablemc.pokemoncobbled.common.battles.runner
 
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.IOException
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 import java.net.InetAddress
 import java.net.Socket
 import java.nio.charset.Charset
@@ -13,18 +17,14 @@ class JavetShowdownConnection : ShowdownConnection {
     private lateinit var reader: BufferedReader
     private var data = ""
     private var closed = false
+    val serverThread = Thread { ShowdownServer.start() }
 
     fun initializeServer() {
-        process = exec(ShowdownServer.javaClass, listOf(File("showdown/scripts/index.js").canonicalPath))
-        Runtime.getRuntime().addShutdownHook(object : Thread() {
-            override fun run() {
-                close()
-            }
-        })
+        serverThread.start()
     }
 
     override fun open() {
-        socket = Socket(InetAddress.getLocalHost(), 25567, InetAddress.getLocalHost(), 25566)
+        socket = Socket(InetAddress.getLocalHost(), ShowdownServer.port, InetAddress.getLocalHost(), 0)
         socket.keepAlive = true
         writer = socket.getOutputStream().writer(charset = Charset.forName("ascii"))
         reader = BufferedReader(InputStreamReader(socket.getInputStream()))

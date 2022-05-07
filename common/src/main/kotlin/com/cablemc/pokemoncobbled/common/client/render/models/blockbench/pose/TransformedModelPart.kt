@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose
 
-import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.client.model.ModelPart
 
 /**
  * Represents a [ModelPart] with some changes to position and rotation. This is to take a snapshot
@@ -21,22 +21,22 @@ class TransformedModelPart(
 
     var changeFactor = 1F
 
-    val initialPosition = floatArrayOf(modelPart.x, modelPart.y, modelPart.z)
-    val initialRotation = floatArrayOf(modelPart.xRot, modelPart.yRot, modelPart.zRot)
+    val initialPosition = floatArrayOf(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ)
+    val initialRotation = floatArrayOf(modelPart.pitch, modelPart.yaw, modelPart.roll)
 
-    var position = floatArrayOf(modelPart.x, modelPart.y, modelPart.z)
-    var rotation = floatArrayOf(modelPart.xRot, modelPart.yRot, modelPart.zRot)
+    var position = floatArrayOf(modelPart.pivotX, modelPart.pivotY, modelPart.pivotZ)
+    var rotation = floatArrayOf(modelPart.pitch, modelPart.yaw, modelPart.roll)
 
     /** Applies the transformation to the model part. */
     fun apply() {
-        modelPart.setPos(position[0], position[1], position[2])
-        modelPart.setRotation(rotation[0], rotation[1], rotation[2])
+        modelPart.setPivot(position[0], position[1], position[2])
+        modelPart.setAngles(rotation[0], rotation[1], rotation[2])
     }
 
     /** Sets the part back to its original location, prior to this transformation. */
     fun applyDefaults() {
-        modelPart.setPos(initialPosition[0], initialPosition[1], initialPosition[2])
-        modelPart.setRotation(initialRotation[0], initialRotation[1], initialRotation[2])
+        modelPart.setPivot(initialPosition[0], initialPosition[1], initialPosition[2])
+        modelPart.setAngles(initialRotation[0], initialRotation[1], initialRotation[2])
     }
 
     var xPos: Float
@@ -54,17 +54,17 @@ class TransformedModelPart(
         set(value) {
             position[2] = value
         }
-    var xRot: Float
+    var pitch: Float
         get() = rotation[0]
         set(value) {
             rotation[0] = value
         }
-    var yRot: Float
+    var yaw: Float
         get() = rotation[1]
         set(value) {
             rotation[1] = value
         }
-    var zRot: Float
+    var roll: Float
         get() = rotation[2]
         set(value) {
             rotation[2] = value
@@ -84,8 +84,8 @@ class TransformedModelPart(
         return this
     }
 
-    fun withRotation(xRot: Float, yRot: Float, zRot: Float): TransformedModelPart {
-        return withRotation(X_AXIS, xRot).withRotation(Y_AXIS, yRot).withRotation(Z_AXIS, zRot)
+    fun withRotation(pitch: Float, yaw: Float, roll: Float): TransformedModelPart {
+        return withRotation(X_AXIS, pitch).withRotation(Y_AXIS, yaw).withRotation(Z_AXIS, roll)
     }
 
     fun addPosition(axis: Int, distance: Float): TransformedModelPart {

@@ -8,14 +8,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Po
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.client.model.geom.ModelLayerLocation
-import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.client.model.geom.PartPose
-import net.minecraft.client.model.geom.builders.CubeDeformation
-import net.minecraft.client.model.geom.builders.CubeListBuilder
-import net.minecraft.client.model.geom.builders.LayerDefinition
-import net.minecraft.client.model.geom.builders.MeshDefinition
-import net.minecraft.util.Mth.PI
+import net.minecraft.client.model.*
+import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.util.math.MathHelper.PI
 
 class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(), PokeBallFrame {
     override val rootPart = registerRelevantPart("root", root.getChild("root"))
@@ -42,10 +37,10 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
                 ),
                 rootPart.translation(
                     function = { t ->
-                        if (t > 8) {
+                        if (t > 4) {
                             0F
                         } else {
-                            -(8F - t) * 3F
+                            -(4F - t) * 2F
                         }
                     },
                     axis = Y_AXIS,
@@ -58,28 +53,28 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
 
     companion object {
         
-        val LAYER_LOCATION = ModelLayerLocation(cobbledResource("pokeball"), "main")
-        fun createBodyLayer(): LayerDefinition {
-            val meshdefinition = MeshDefinition()
+        val LAYER_LOCATION = EntityModelLayer(cobbledResource("pokeball"), "main")
+        fun createBodyLayer(): TexturedModelData {
+            val meshdefinition = ModelData()
             val partdefinition = meshdefinition.root
-            val root = partdefinition.addOrReplaceChild(
+            val root = partdefinition.addChild(
                 "root",
-                CubeListBuilder.create(),
-                PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, PI, 0F, 0F)
+                ModelPartBuilder.create(),
+                ModelTransform.of(0.0f, 0.0f, 0.0f, PI, 0F, 0F)
             )
-            val pokeball = root.addOrReplaceChild(
+            val pokeball = root.addChild(
                 "pokeball",
-                CubeListBuilder.create().texOffs(0, 0)
-                    .addBox(-4.0f, -4.0f, -4.0f, 8.0f, 4.0f, 8.0f, CubeDeformation(0.0f)),
-                PartPose.offsetAndRotation(0.0f, 0.0f, 0.0f, 0F, 0F, 0F)
+                ModelPartBuilder.create().uv(0, 0)
+                    .cuboid(-4.0f, -4.0f, -4.0f, 8.0f, 4.0f, 8.0f, Dilation.NONE),
+                ModelTransform.of(0.0f, 0.0f, 0.0f, 0F, 0F, 0F)
             )
-            val pokeball_lid = pokeball.addOrReplaceChild(
+            val pokeball_lid = pokeball.addChild(
                 "pokeball_lid",
-                CubeListBuilder.create().texOffs(0, 12)
-                    .addBox(-4.0f, -4.0f, -8.0f, 8.0f, 4.0f, 8.0f, CubeDeformation(0.0f)),
-                PartPose.offset(0.0f, -4.0f, 4.0f)
+                ModelPartBuilder.create().uv(0, 12)
+                    .cuboid(-4.0f, -4.0f, -8.0f, 8.0f, 4.0f, 8.0f, Dilation.NONE),
+                ModelTransform.pivot(0.0f, -4.0f, 4.0f)
             )
-            return LayerDefinition.create(meshdefinition, 32, 32)
+            return TexturedModelData.of(meshdefinition, 32, 32)
         }
     }
 

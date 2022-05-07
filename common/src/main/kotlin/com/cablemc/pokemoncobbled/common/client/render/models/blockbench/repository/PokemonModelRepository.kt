@@ -2,39 +2,20 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.reposi
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.BlockBenchModelWrapper
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BlastoiseModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BulbasaurModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ButterfreeModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharizardModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmanderModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmeleonModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DiglettModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EkansModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GyaradosModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.IvysaurModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeotModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeottoModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeyModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.SquirtleModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VenusaurModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.*
 import com.cablemc.pokemoncobbled.common.client.util.exists
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     private val modelsBySpecies: MutableMap<Species, BlockBenchModelWrapper<PokemonEntity>> = mutableMapOf()
-    private val modelTexturesBySpecies: MutableMap<Species, ResourceLocation> = mutableMapOf()
+    private val modelTexturesBySpecies: MutableMap<Species, Identifier> = mutableMapOf()
     // TODO: Temporary until we decide the texture system we want to go with and its capabilities
-    private val shinyModelTexturesBySpecies: MutableMap<Species, ResourceLocation> = mutableMapOf()
+    private val shinyModelTexturesBySpecies: MutableMap<Species, Identifier> = mutableMapOf()
 
     override fun registerAll() {
         registerBaseSpeciesModel(PokemonSpecies.BULBASAUR, BlockBenchModelWrapper(BulbasaurModel.LAYER_LOCATION, BulbasaurModel::createBodyLayer) { BulbasaurModel(it) })
@@ -57,6 +38,9 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerBaseSpeciesModel(PokemonSpecies.MAGIKARP, BlockBenchModelWrapper(MagikarpModel.LAYER_LOCATION, MagikarpModel::createBodyLayer) { MagikarpModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.GYARADOS, BlockBenchModelWrapper(GyaradosModel.LAYER_LOCATION, GyaradosModel::createBodyLayer) { GyaradosModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.EEVEE, BlockBenchModelWrapper(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.RATTATA, BlockBenchModelWrapper(RattataModel.LAYER_LOCATION, RattataModel::createBodyLayer) { RattataModel(it) })
+        registerBaseSpeciesModel(PokemonSpecies.RATICATE, BlockBenchModelWrapper(RaticateModel.LAYER_LOCATION, RaticateModel::createBodyLayer) { RaticateModel(it) })
+
     }
 
     private fun registerBaseSpeciesModel(species: Species, model: BlockBenchModelWrapper<PokemonEntity>) {
@@ -83,7 +67,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         return modelsBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate model")
     }
 
-    fun getModelTexture(pokemon: Pokemon): ResourceLocation {
+    fun getModelTexture(pokemon: Pokemon): Identifier {
         // TODO: This is just fetching by species at the moment. This will be developed further.
         if (pokemon.shiny) {
             return shinyModelTexturesBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate shiny model texture")

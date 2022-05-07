@@ -14,14 +14,14 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.stats.
 import com.cablemc.pokemoncobbled.common.client.storage.ClientParty
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.components.AbstractWidget
-import net.minecraft.client.gui.screens.Screen
-import net.minecraft.network.chat.TranslatableComponent
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.screen.Screen
+import net.minecraft.client.gui.widget.ClickableWidget
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.TranslatableText
 import java.security.InvalidParameterException
 
-class Summary private constructor(): Screen(TranslatableComponent("pokemoncobbled.ui.summary.title")) {
+class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.summary.title")) {
 
     companion object {
         // Size of UI at Scale 1
@@ -49,9 +49,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     }
 
     constructor(party: ClientParty) : this() {
-        party.forEach {
-            pokemonList.add(it)
-        }
+        party.forEach { pokemonList.add(it) }
         currentPokemon = pokemonList[PokemonCobbledClient.storage.selectedSlot]
             ?: pokemonList.filterNotNull().first()
         commonInit()
@@ -88,71 +86,76 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     /**
      * The current page being displayed
      */
-    private lateinit var currentPage: AbstractWidget
+    private lateinit var currentPage: ClickableWidget
 
     /**
      * The Model display Widget
      */
     private lateinit var modelWidget: ModelWidget
 
+    var currentPageIndex = MOVES
+
     /**
      * Initializes the Summary Screen
      */
-    override fun init() {
+    public override fun init() {
         super.init()
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
 
-        // Currently always starting with the MovesWidget
+
         currentPage = MovesWidget(
             pX = x, pY = y,
             pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
             summary = this
         )
+        currentPageIndex = MOVES
 
         // Add Buttons to change Pages - START
-        addRenderableWidget(
+        addDrawableChild(
             SummarySwitchButton(
                 pX = x + 3, pY = y + 6,
                 pWidth = 55, pHeight =  17,
-                component = TranslatableComponent("pokemoncobbled.ui.info")
+                component = TranslatableText("pokemoncobbled.ui.info")
             ) {
             switchTo(INFO)
         })
-        addRenderableWidget(
+        addDrawableChild(
             SummarySwitchButton(
                 pX = x + 62, pY = y + 6,
                 pWidth = 55, pHeight = 17,
-                component = TranslatableComponent("pokemoncobbled.ui.moves")
+                component = TranslatableText("pokemoncobbled.ui.moves")
             ) {
             switchTo(MOVES)
         })
-        addRenderableWidget(
+        addDrawableChild(
             SummarySwitchButton(
                 pX = x + 121, pY = y + 6,
                 pWidth = 55, pHeight = 17,
-                component = TranslatableComponent("pokemoncobbled.ui.stats")
+                component = TranslatableText("pokemoncobbled.ui.stats")
             ) {
             switchTo(STATS)
         })
         // Add Buttons to change Pages - END
 
         // Add Exit Button
-        addRenderableWidget(
+        addDrawableChild(
             ExitButton(
-                pX = x + 296, pY = y + 4,
+                pX = x + 265, pY = y + 6,
                 pWidth = 28, pHeight = 16,
                 pXTexStart = 0, pYTexStart = 0, pYDiffText = 0
             ) {
-            Minecraft.getInstance().setScreen(null)
+            MinecraftClient.getInstance().setScreen(null)
         })
 
         // Add Party
-        addRenderableWidget(
+        addDrawableChild(
             PartyWidget(
-                pX = x + BASE_WIDTH, pY = y,
+                pX = x + BASE_WIDTH - 2, pY = y + 18,
                 pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
+                isParty = currentPokemon in PokemonCobbledClient.storage.myParty,
+                summary = this,
                 pokemonList = pokemonList
             )
         )
@@ -160,27 +163,29 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
         // Add Model Preview
         modelWidget = ModelWidget(
             pX = x + 183, pY = y + 24,
-            pWidth = 104, pHeight = 97,
+            pWidth = 102, pHeight = 100,
             pokemon = currentPokemon
         )
-        addRenderableWidget(
+        addDrawableChild(
             modelWidget
         )
 
         // Add CurrentPage
-        addRenderableWidget(currentPage)
+        addDrawableChild(currentPage)
     }
 
     /**
      * Switches the selected PKM
      */
-    private fun switchSelection(newSelection: Int) {
+    fun switchSelection(newSelection: Int) {
         pokemonList[newSelection]?.run {
             currentPokemon = this
         }
         moveSetSubscription?.unsubscribe()
         listenToMoveSet()
+        switchTo(currentPageIndex)
         modelWidget.pokemon = currentPokemon
+
     }
 
     private var moveSetSubscription: ObservableSubscription<MoveSet>? = null
@@ -189,7 +194,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
      * Start observing the MoveSet of the current PKM for changes
      */
     private fun listenToMoveSet() {
-        moveSetSubscription = currentPokemon.getMoveSetObservable()
+        moveSetSubscription = currentPokemon.moveSet.observable
             .pipe(emitWhile { isOpen() })
             .subscribe {
                 if (currentPage is MovesWidget)
@@ -200,13 +205,14 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     /**
      * Returns if this Screen is open or not
      */
-    private fun isOpen() = Minecraft.getInstance().screen == this
+    private fun isOpen() = MinecraftClient.getInstance().currentScreen == this
 
     /**
      * Switches to the given Page
      */
     private fun switchTo(page: Int) {
-        removeWidget(currentPage)
+        currentPageIndex = page
+        remove(currentPage)
         when (page) {
             INFO -> {
                 currentPage = InfoWidget(
@@ -228,15 +234,16 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
                 )
             }
         }
-        addRenderableWidget(currentPage)
+        addDrawableChild(currentPage)
+        ModelWidget.render = true
     }
 
-    override fun render(pMatrixStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+    override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         renderBackground(pMatrixStack)
 
         // Render Display Background
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = displayBackgroundResource,
             x = (width - BASE_WIDTH) / 2, y = (height - BASE_HEIGHT) / 2,
             width = BASE_WIDTH, height = BASE_HEIGHT
@@ -244,7 +251,7 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
 
         // Render Base Resource
         blitk(
-            poseStack = pMatrixStack,
+            matrixStack = pMatrixStack,
             texture = baseResource,
             x = (width - BASE_WIDTH) / 2, y = (height - BASE_HEIGHT) / 2,
             width = BASE_WIDTH, height = BASE_HEIGHT
@@ -257,7 +264,15 @@ class Summary private constructor(): Screen(TranslatableComponent("pokemoncobble
     /**
      * Whether this Screen should pause the Game in SinglePlayer
      */
-    override fun isPauseScreen(): Boolean {
+    override fun shouldPause(): Boolean {
         return false
+    }
+
+    override fun mouseScrolled(d: Double, e: Double, f: Double): Boolean {
+        return children().any { it.mouseScrolled(d, e, f) }
+    }
+
+    override fun mouseClicked(d: Double, e: Double, i: Int): Boolean {
+        return children().any { it.mouseClicked(d, e, i) }
     }
 }

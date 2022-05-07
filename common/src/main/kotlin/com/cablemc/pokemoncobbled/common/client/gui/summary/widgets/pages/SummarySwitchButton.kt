@@ -1,29 +1,29 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages
 
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
-import com.mojang.blaze3d.vertex.PoseStack
-import net.minecraft.client.gui.components.Button
-import net.minecraft.network.chat.Component
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.Text
 
 class SummarySwitchButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    private val component: Component,
-    onPress: OnPress
-): Button(pX, pY, pWidth, pHeight, component, onPress) {
+    private val component: Text,
+    onPress: PressAction
+): ButtonWidget(pX, pY, pWidth, pHeight, component, onPress) {
 
     companion object {
         private const val SCALE = 0.75F
     }
 
-    override fun renderButton(pPoseStack: PoseStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
-        pPoseStack.pushPose()
-        pPoseStack.scale(SCALE, SCALE, SCALE)
+    override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        pMatrixStack.push()
+        pMatrixStack.scale(SCALE, SCALE, SCALE)
         if (isHovered)
             drawCenteredText(
-                poseStack = pPoseStack,
+                poseStack = pMatrixStack,
                 font = CobbledResources.NOTO_SANS_BOLD,
                 text = component,
                 x = (x + width / 2) / SCALE - 0.1, y = y / SCALE,
@@ -31,12 +31,12 @@ class SummarySwitchButton(
             )
         else
             drawCenteredText(
-                poseStack = pPoseStack,
+                poseStack = pMatrixStack,
                 font = CobbledResources.NOTO_SANS_BOLD,
                 text = component,
                 x = (x + width / 2) / SCALE - 0.1, y = y / SCALE,
                 colour = ColourLibrary.BUTTON_NORMAL_COLOUR
             )
-        pPoseStack.popPose()
+        pMatrixStack.pop()
     }
 }

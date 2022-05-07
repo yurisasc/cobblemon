@@ -1,0 +1,14 @@
+{
+  "name": "bide",
+  "type": "Normal",
+  "damageCategory": "Physical",
+  "target": "self",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 1,
+  "flags": {
+    "contact": 1,
+    "protect": 1
+  }
+}

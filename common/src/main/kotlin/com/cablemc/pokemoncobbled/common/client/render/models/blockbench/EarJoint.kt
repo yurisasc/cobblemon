@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench
 
-import net.minecraft.client.model.geom.ModelPart
+import net.minecraft.client.model.ModelPart
 
 /**
  * An ear joint which focuses on a specific part and can only be rotated along a specific axis and range of motion.

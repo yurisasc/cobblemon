@@ -2,26 +2,30 @@ package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.util.DataKeys
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.FriendlyByteBuf
-import net.minecraft.network.chat.Component
+import com.cablemc.pokemoncobbled.common.util.readSizedInt
+import com.cablemc.pokemoncobbled.common.util.writeSizedInt
+import com.google.gson.JsonObject
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.text.Text
 
 /**
- * Representing a Move with all its attributes
+ * Representing a Move based on some template and with current PP and the number of raised PP stages.
  */
 open class Move(
     var currentPp: Int,
-    val maxPp: Int,
+    var raisedPpStages: Int = 0,
     val template: MoveTemplate
 ) {
     val name: String
         get() = template.name
 
-    val displayName: Component
+    val displayName: Text
         get() = template.displayName
 
-    val description: Component
+    val description: Text
         get() = template.description
 
     val type: ElementalType
@@ -39,33 +43,50 @@ open class Move(
     val effectChance: Double
         get() = template.effectChance
 
-    fun saveToNBT(nbt: CompoundTag): CompoundTag {
+    val maxPp: Int
+        get() = template.pp + raisedPpStages * template.pp / 5
+
+    fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putString(DataKeys.POKEMON_MOVESET_MOVENAME, name)
         nbt.putInt(DataKeys.POKEMON_MOVESET_MOVEPP, currentPp)
-        nbt.putInt(DataKeys.POKEMON_MOVESET_MAXPP, maxPp)
+        nbt.putInt(DataKeys.POKEMON_MOVESET_RAISED_PP_STAGES, raisedPpStages)
         return nbt
     }
 
-    fun saveToBuffer(buffer: FriendlyByteBuf) {
-        buffer.writeUtf(name)
-        buffer.writeInt(currentPp)
-        buffer.writeInt(maxPp)
+    fun saveToJSON(json: JsonObject): JsonObject {
+        json.addProperty(DataKeys.POKEMON_MOVESET_MOVENAME, name)
+        json.addProperty(DataKeys.POKEMON_MOVESET_MOVEPP, currentPp)
+        json.addProperty(DataKeys.POKEMON_MOVESET_RAISED_PP_STAGES, raisedPpStages)
+        return json
+    }
+
+    fun saveToBuffer(buffer: PacketByteBuf) {
+        buffer.writeString(name)
+        buffer.writeSizedInt(IntSize.U_BYTE, currentPp)
+        buffer.writeSizedInt(IntSize.U_BYTE, raisedPpStages)
     }
 
     companion object {
-        fun loadFromNBT(nbt: CompoundTag): Move {
-            val template = Moves.getByName(nbt.getString(DataKeys.POKEMON_MOVESET_MOVENAME))
-                ?: throw IllegalStateException("Tried to get non-existent MoveTemplate ${nbt.getString(DataKeys.POKEMON_MOVESET_MOVENAME)}")
-            return template.create(nbt.getInt(DataKeys.POKEMON_MOVESET_MOVEPP), nbt.getInt(DataKeys.POKEMON_MOVESET_MAXPP))
+        fun loadFromNBT(nbt: NbtCompound): Move {
+            val moveName = nbt.getString(DataKeys.POKEMON_MOVESET_MOVENAME)
+            val template = Moves.getByNameOrDummy(moveName)
+            return template.create(nbt.getInt(DataKeys.POKEMON_MOVESET_MOVEPP), nbt.getInt(DataKeys.POKEMON_MOVESET_RAISED_PP_STAGES))
         }
 
-        fun loadFromBuffer(buffer: FriendlyByteBuf): Move {
-            val moveName = buffer.readUtf()
-            val currentPp = buffer.readInt()
-            val maxPp = buffer.readInt()
-            val template = Moves.getByName(moveName)
-                ?: throw IllegalStateException("Tried to get non-existent MoveTemplate $moveName")
-            return template.create(currentPp, maxPp)
+        fun loadFromJSON(json: JsonObject): Move {
+            val moveName = json.get(DataKeys.POKEMON_MOVESET_MOVENAME).asString
+            val template = Moves.getByNameOrDummy(moveName)
+            val currentPp = json.get(DataKeys.POKEMON_MOVESET_MOVEPP).asInt
+            val raisedPpStages = json.get(DataKeys.POKEMON_MOVESET_RAISED_PP_STAGES)?.asInt ?: 0
+            return Move(currentPp, raisedPpStages, template)
+        }
+
+        fun loadFromBuffer(buffer: PacketByteBuf): Move {
+            val moveName = buffer.readString()
+            val currentPp = buffer.readSizedInt(IntSize.U_BYTE)
+            val raisedPpStages = buffer.readSizedInt(IntSize.U_BYTE)
+            val template = Moves.getByNameOrDummy(moveName)
+            return template.create(currentPp, raisedPpStages)
         }
     }
 }

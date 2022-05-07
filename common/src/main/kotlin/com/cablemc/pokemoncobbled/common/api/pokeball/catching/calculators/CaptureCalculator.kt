@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.CaptureContext
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Used to process pokemon captures.
@@ -14,5 +14,5 @@ import net.minecraft.server.level.ServerPlayer
  * @since  November 30, 2021
  */
 interface CaptureCalculator {
-    fun processCapture(player: ServerPlayer, pokemon: Pokemon, pokeBall: PokeBall) : CaptureContext
+    fun processCapture(player: ServerPlayerEntity, pokemon: Pokemon, pokeBall: PokeBall) : CaptureContext
 }
