@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
-import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 
 /**
  * Registers packet handlers for a particular side. It's a bit hellish because of a desire for generic type conformity
@@ -22,7 +21,7 @@ abstract class SidedPacketRegistrar {
 
     protected inline fun <reified T : NetworkPacket> registerHandler(handler: PacketHandler<T>) {
         CobbledEvents.MESSAGE_BUILT
-            .pipe(filter { it.clazz == T::class.java }, takeFirst())
+            .pipe(filter { it.clazz == T::class.java })
             .subscribe { register(it as MessageBuiltEvent<T>, handler) }
     }
 }
