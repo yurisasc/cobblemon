@@ -21,7 +21,7 @@ object FileUtils {
             while (zipEntry != null) {
 
                 // Verify the path to protect from "zip slip" exploit
-                val newPath: Path = checkPath(zipEntry, target)
+                val newPath = checkPath(zipEntry, target)
 
                 if (!zipEntry.isDirectory) {
                     // Check if a parent directory needs to be created
@@ -42,9 +42,10 @@ object FileUtils {
     }
 
     private fun checkPath(zipEntry: ZipEntry, targetDir: Path): Path {
-        val targetDirResolved: Path = targetDir.resolve(zipEntry.name)
-        val normalizePath: Path = targetDirResolved.normalize()
-        if (!normalizePath.startsWith(targetDir)) {
+        val targetDirResolved = targetDir.resolve(zipEntry.name)
+        val normalizePath = targetDirResolved.normalize().toAbsolutePath()
+        val targetDirPath = targetDir.normalize().toAbsolutePath()
+        if (!normalizePath.startsWith(targetDirPath)) {
             throw IOException("Bad zip entry: " + zipEntry.name)
         }
         return normalizePath

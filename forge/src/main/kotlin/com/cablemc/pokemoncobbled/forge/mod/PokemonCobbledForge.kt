@@ -34,6 +34,7 @@ class PokemonCobbledForge : PokemonCobbledModImplementation {
             addListener(this@PokemonCobbledForge::initialize)
             addListener(this@PokemonCobbledForge::serverInit)
             CobbledNetwork.networkDelegate = CobbledForgeNetworkDelegate
+            ServerPacketRegistrar.registerHandlers()
 
             PokemonCobbled.preinitialize(this@PokemonCobbledForge)
 
@@ -52,8 +53,6 @@ class PokemonCobbledForge : PokemonCobbledModImplementation {
     fun initialize(event: FMLCommonSetupEvent) {
         PokemonCobbled.LOGGER.info("Initializing...")
         PokemonCobbled.initialize()
-
-        ServerPacketRegistrar.registerHandlers()
         CobbledNetwork.register()
     }
 

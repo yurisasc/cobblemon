@@ -47,7 +47,6 @@ object PokemonCobbledForgeClient : PokemonCobbledClientImplementation {
     }
 
     override fun registerLayer(layerLocation: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
-        LOGGER.info("Layer registration: $layerLocation")
         ForgeHooksClient.registerLayerDefinition(layerLocation, supplier)
     }
 
