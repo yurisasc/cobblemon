@@ -60,7 +60,7 @@ interface Evolution : EvolutionLike {
      * @param pokemon The [Pokemon] being evolved.
      */
     fun evolve(pokemon: Pokemon) {
-        if (!this.optional) {
+        if (this.optional) {
             // All the networking is handled under the hood, see EvolutionController.
             pokemon.pendingEvolutions.add(this)
             return
@@ -76,7 +76,7 @@ interface Evolution : EvolutionLike {
      */
     fun forceEvolve(pokemon: Pokemon) {
         this.result.apply(pokemon)
-        // ToDo Once implemented queue evolution for a pokemon state that is not in battle, start animation instead of
+        // ToDo Once implemented queue evolution for a pokemon state that is not in battle, start animation instead of applying the property
     }
 
 }

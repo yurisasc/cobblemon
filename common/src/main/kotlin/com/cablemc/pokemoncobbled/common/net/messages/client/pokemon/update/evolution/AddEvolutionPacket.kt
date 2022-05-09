@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 
 class AddEvolutionPacket() : EvolutionUpdatePacket() {
@@ -12,7 +13,7 @@ class AddEvolutionPacket() : EvolutionUpdatePacket() {
     }
 
     override fun applyToPokemon(pokemon: Pokemon) {
-        pokemon.clientPendingEvolutions.add(this.sending)
+        PokemonCobbledClient.storage.addPendingEvolution(pokemon, this.sending)
     }
 
 }

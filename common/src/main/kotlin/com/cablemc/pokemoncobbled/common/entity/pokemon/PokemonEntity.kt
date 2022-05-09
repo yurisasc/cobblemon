@@ -17,6 +17,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
+import com.cablemc.pokemoncobbled.common.util.isServerSide
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
@@ -128,7 +129,7 @@ class PokemonEntity(
         ticksLived++
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
-            if (this.pokemon.isPlayerOwned()) {
+            if (this.pokemon.isPlayerOwned() && this.world.isServerSide()) {
                 this.attemptPassiveEvolution()
             }
         }

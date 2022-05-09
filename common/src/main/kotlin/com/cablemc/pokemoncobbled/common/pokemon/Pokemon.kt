@@ -9,7 +9,6 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
@@ -29,9 +28,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledClientEvolutionController
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledServerEvolutionController
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.LevelEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
 import com.cablemc.pokemoncobbled.common.util.DataKeys
@@ -91,10 +88,6 @@ open class Pokemon {
                 experience = experienceGroup.getExperience(value)
             }
             _level.emit(value)
-            this.evolutions.filterIsInstance<LevelEvolution>()
-                .forEach { evolution ->
-                    evolution.attemptEvolution(this)
-                }
             currentHealth = ceil(hpRatio * hp).coerceIn(0..hp)
         }
     var experience = 0
@@ -170,7 +163,7 @@ open class Pokemon {
     val storeCoordinates = SettableObservable<StoreCoordinates<*>?>(null)
 
     // We want non-optional evolutions to trigger first to avoid unnecessary packets and any cost associate with an optional one that would just be lost
-    val evolutions: Iterable<Evolution> = this.form.evolutions.sortedBy { evolution -> evolution.optional }
+    val evolutions: Iterable<Evolution> get() = this.form.evolutions.sortedBy { evolution -> evolution.optional }
 
     val preEvolution: PreEvolution? = this.form.preEvolution
 
@@ -181,15 +174,6 @@ open class Pokemon {
      */
     val pendingEvolutions: EvolutionController<Evolution> by lazy {
         CobbledServerEvolutionController(this)
-    }
-
-    // Lazy due to leaking this
-    /**
-     * The client side [EvolutionController] responsible for holding [EvolutionDisplay]s.
-     * Any server side modification will have no effect.
-     */
-    val clientPendingEvolutions: EvolutionController<EvolutionDisplay> by lazy {
-        CobbledClientEvolutionController(this)
     }
 
     open fun getStat(stat: Stat): Int {
@@ -284,7 +268,9 @@ open class Pokemon {
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
-        nbt.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.let { tag -> this.pendingEvolutions.loadFromNBT(tag) }
+        if (this.isPlayerOwned()) {
+            nbt.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.let { tag -> this.pendingEvolutions.loadFromNBT(tag) }
+        }
         return this
     }
 
@@ -306,7 +292,9 @@ open class Pokemon {
         status?.saveToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATUS, it) }
         json.addProperty(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         json.add(DataKeys.BENCHED_MOVES, benchedMoves.saveToJSON(JsonArray()))
-        json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToJson())
+        if (this.isPlayerOwned()) {
+            json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToJson())
+        }
         return json
     }
 

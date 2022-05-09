@@ -8,7 +8,6 @@ import dev.architectury.utils.GameInstance
 import net.fabricmc.api.EnvType
 import net.minecraft.world.World
 import java.util.concurrent.CompletableFuture
-import java.util.function.Supplier
 
 /** Runs the given [Runnable] if the caller is on the CLIENT side. */
 fun ifClient(runnable: Runnable) {
@@ -24,11 +23,6 @@ fun ifServer(runnable: Runnable) {
 fun ifDedicatedServer(action: Runnable) {
     EnvExecutor.runInEnv(EnvType.SERVER) { action }
 }
-
-fun <T> getOnSide(client: () -> T, server: () -> T): T = EnvExecutor.getEnvSpecific(
-    { Supplier { client.invoke() } },
-    { Supplier { server.invoke() } }
-)
 
 /*
  * Schedules the given block of code to run on the main thread and returns a [CompletableFuture] that completes with the result of the block when the code has executed.

@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.network.PacketByteBuf
-import java.util.UUID
+import java.util.*
 
 /**
  * Base packet for all the single-field Pokémon update packets.
@@ -19,7 +19,8 @@ abstract class PokemonUpdatePacket : NetworkPacket {
     var pokemonID = UUID.randomUUID()
 
     fun setTarget(pokemon: Pokemon) {
-        this.storeID = pokemon.storeCoordinates.get()!!.store.uuid
+        // This won't ever happen in instances where packets get sent out, but they protect us from NPEs on fields that require synchronization on load/save
+        this.storeID = pokemon.storeCoordinates.get()?.store?.uuid ?: UUID.randomUUID()
         this.pokemonID = pokemon.uuid
     }
 

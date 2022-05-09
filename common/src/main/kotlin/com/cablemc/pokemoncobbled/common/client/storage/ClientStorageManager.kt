@@ -1,9 +1,12 @@
 package com.cablemc.pokemoncobbled.common.client.storage
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyPosition
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import java.util.UUID
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledClientEvolutionController
+import java.util.*
 
 /**
  * Manages all known Pokémon stores on the client. This holds onto the player's party and PC permanently, but can also
@@ -21,6 +24,7 @@ class ClientStorageManager {
 
     var selectedSlot = -1
     private var selectedPokemon: UUID? = null
+    private val pendingEvolutions = hashMapOf<UUID, EvolutionController<EvolutionDisplay>>()
 
     fun shiftSelected(forward: Boolean) {
         val partyHasSome = myParty.slots.any { it != null }
@@ -109,11 +113,58 @@ class ClientStorageManager {
         checkSelectedPokemon()
     }
 
+    /**
+     * TODO
+     *
+     * @param pokemon
+     * @param evolution
+     */
+    fun addPendingEvolution(pokemon: Pokemon, evolution: EvolutionDisplay) {
+        this.pendingEvolutions.getOrPut(pokemon.uuid) { CobbledClientEvolutionController(pokemon) }.add(evolution)
+    }
+
+    /**
+     * TODO
+     *
+     * @param pokemon
+     */
+    fun clearPendingEvolutions(pokemon: Pokemon) {
+        this.pendingEvolutions.remove(pokemon.uuid)
+    }
+
+    /**
+     * TODO
+     *
+     * @param pokemon
+     * @param evolution
+     */
+    fun removePendingEvolution(pokemon: Pokemon, evolution: EvolutionDisplay) {
+        this.pendingEvolutions[pokemon.uuid]?.remove(evolution)
+    }
+
+    /**
+     * TODO
+     *
+     * @param pokemon
+     * @return
+     */
+    fun hasPendingEvolutions(pokemon: Pokemon): Boolean = this.pendingEvolutionsOf(pokemon)?.isNotEmpty() ?: false
+
+    /**
+     * TODO
+     *
+     * @param pokemon
+     * @return
+     */
+    fun pendingEvolutionsOf(pokemon: Pokemon): EvolutionController<EvolutionDisplay>? = this.pendingEvolutions[pokemon.uuid]
+
     fun onLogin() {
         partyStores.clear()
         pcStores.clear()
+        this.pendingEvolutions.clear()
         myPC = ClientPC(UUID.randomUUID(), 1)
         myParty = ClientParty(UUID.randomUUID(), 1)
         checkSelectedPokemon()
     }
+
 }

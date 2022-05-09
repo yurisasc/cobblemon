@@ -105,6 +105,8 @@
   "pokemoncobbled.ui.lv": "Lv.",
   "pokemoncobbled.ui.changemove": "Change",
 
+  "pokemoncobbled.ui.evolve": "Evolve",
+
   "pokemoncobbled.challenge_label": "Press %1$s to battle.",
 
   "itemGroup.pokemoncobbled.evolution_item": "Evolution Items",
