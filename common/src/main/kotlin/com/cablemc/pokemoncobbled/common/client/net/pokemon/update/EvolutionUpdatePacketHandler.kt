@@ -5,9 +5,9 @@ import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.net.ClientPacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.EvolutionUpdatePacket
 
-object EvolutionUpdatePacketHandler : ClientPacketHandler<EvolutionUpdatePacket> {
+class EvolutionUpdatePacketHandler<T : EvolutionUpdatePacket> : ClientPacketHandler<T> {
 
-    override fun invokeOnClient(packet: EvolutionUpdatePacket, ctx: CobbledNetwork.NetworkContext) {
+    override fun invokeOnClient(packet: T, ctx: CobbledNetwork.NetworkContext) {
         PokemonCobbledClient.storage.locatePokemon(packet.storeID, packet.pokemonID)?.let { pokemon -> packet.applyToPokemon(pokemon) }
     }
 

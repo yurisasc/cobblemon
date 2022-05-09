@@ -185,7 +185,6 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
         listenToMoveSet()
         switchTo(currentPageIndex)
         modelWidget.pokemon = currentPokemon
-
     }
 
     private var moveSetSubscription: ObservableSubscription<MoveSet>? = null
@@ -217,7 +216,8 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
             INFO -> {
                 currentPage = InfoWidget(
                     pX = (width - BASE_WIDTH) / 2, pY = (height - BASE_HEIGHT) / 2,
-                    pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT
+                    pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
+                    pokemon = this.currentPokemon
                 )
             }
             MOVES -> {
