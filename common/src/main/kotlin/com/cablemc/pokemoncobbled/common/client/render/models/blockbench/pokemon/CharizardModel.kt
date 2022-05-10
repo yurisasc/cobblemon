@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.TexturedModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.asTransformed
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
@@ -62,10 +63,10 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformTicks = 10,
             condition = { !it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf( SingleBoneLookAnimation(this),
-                BedrockStatelessAnimation(
-                    this,
-                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_idle")
-                )
+//                BedrockStatelessAnimation(
+//                    this,
+//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_idle")
+//                )
             ),
             transformedParts = emptyArray()
         )
@@ -75,14 +76,14 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformTicks = 10,
             condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(SingleBoneLookAnimation(this),
-                BedrockStatelessAnimation(
-                    this,
-                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_idle")
-                ),
-                BedrockStatelessAnimation(
-                    this,
-                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_walk")
-                )
+//                BedrockStatelessAnimation(
+//                    this,
+//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_idle")
+//                ),
+//                BedrockStatelessAnimation(
+//                    this,
+//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.ground_walk")
+//                )
             ),
             transformedParts = emptyArray()
         )
@@ -92,10 +93,10 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformTicks = 10,
             condition = { !it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf( SingleBoneLookAnimation(this),
-                BedrockStatelessAnimation(
-                    this,
-                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_idle")
-                )
+//                BedrockStatelessAnimation(
+//                    this,
+//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_idle")
+//                )
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -2F))
         )
@@ -106,10 +107,10 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             condition = { it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(
                 SingleBoneLookAnimation(this),
-                BedrockStatelessAnimation(
-                    this,
-                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_fly")
-                )
+//                BedrockStatelessAnimation(
+//                    this,
+//                    BedrockAnimationRepository.getAnimation("charizard.animation.json","animation.charizard.air_fly")
+//                )
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, 6F))
         )
@@ -416,7 +417,8 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 ModelTransform.pivot(15.0f, -6.0f, 0.0f)
             )
 
-            return TexturedModelData.of(modelData, 128, 128)
+            return TexturedModel.from("charizard")!!.create()!!
+//            return TexturedModelData.of(modelData, 128, 128)
         }
     }
 }
