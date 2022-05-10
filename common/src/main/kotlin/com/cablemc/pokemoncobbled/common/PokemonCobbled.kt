@@ -91,7 +91,7 @@ object PokemonCobbled {
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledFeatures.register()
-//        CobbledWorldgen.register() // Produces error for me -- missing item
+        CobbledWorldgen.register()
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
