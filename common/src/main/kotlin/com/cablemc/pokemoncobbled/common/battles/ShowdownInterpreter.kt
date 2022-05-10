@@ -1,12 +1,15 @@
 package com.cablemc.pokemoncobbled.common.battles
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.text.*
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleInitializePacket
 import com.cablemc.pokemoncobbled.common.util.battleLang
+import com.cablemc.pokemoncobbled.common.util.getPlayer
 import net.minecraft.text.LiteralText
 import net.minecraft.util.Formatting
 import java.util.*
@@ -276,6 +279,8 @@ object ShowdownInterpreter {
     private fun handleStartInstruction(battle: PokemonBattle, message: String) {
         battle.log("Start Instruction")
         battle.started = true
+        val initializePacket = BattleInitializePacket(battle)
+        battle.actors.mapNotNull { it.uuid.getPlayer() }.forEach { CobbledNetwork.sendToPlayer(it, initializePacket) }
     }
 
     /**

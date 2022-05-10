@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 
 
@@ -42,6 +43,7 @@ fun ModelPart.withPosition(axis: Int, position: Float) = TransformedModelPart(th
 fun ModelPart.withPosition(xPos: Float, yPos: Float, zPos: Float) = TransformedModelPart(this).withPosition(xPos, yPos, zPos)
 fun ModelPart.withRotation(axis: Int, angleRadians: Float) = TransformedModelPart(this).withRotation(axis, angleRadians)
 fun ModelPart.withRotation(xRot: Float, yRot: Float, zRot: Float) = TransformedModelPart(this).withRotation(xRot, yRot, zRot)
+fun ModelPart.withRotationDegrees(xRot: Float, yRot: Float, zRot: Float) = TransformedModelPart(this).withRotation(xRot.toRadians(), yRot.toRadians(), zRot.toRadians())
 fun ModelPart.asTransformed() = TransformedModelPart(this)
 fun ModelPart.getChildOf(vararg path: String): ModelPart {
     var part = this

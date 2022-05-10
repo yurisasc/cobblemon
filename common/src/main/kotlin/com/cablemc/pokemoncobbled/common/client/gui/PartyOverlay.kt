@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.gui
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaled
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
@@ -24,7 +25,7 @@ import net.minecraft.text.TranslatableText
 import net.minecraft.util.math.Vec3f
 import kotlin.math.roundToInt
 
-class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) : InGameHud(minecraft) {
+class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
     val partySlot = cobbledResource("ui/party/party_slot.png")
     val underlay = cobbledResource("ui/party/party_slot_underlay.png")
@@ -32,10 +33,11 @@ class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) :
     val expBar = cobbledResource("ui/party/party_overlay_exp.png")
     val hpBar = cobbledResource("ui/party/party_overlay_hp.png")
     val screenExemptions: List<Class<out Screen>> = listOf(
-        ChatScreen::class.java
+        ChatScreen::class.java,
+        BattleGUI::class.java
     )
 
-    fun onRenderGameOverlay(matrixStack: MatrixStack, partialDeltaTicks: Float) {
+    override fun render(matrixStack: MatrixStack, partialDeltaTicks: Float) {
         val minecraft = MinecraftClient.getInstance()
         val player = minecraft.player
 
@@ -223,7 +225,7 @@ class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) :
 
 
         if (model is PokemonPoseableModel) {
-            model.setupAnimStateless(PoseType.PROFILE)
+            model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
             matrixStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z - 4)
             matrixStack.scale(model.portraitScale, model.portraitScale, 0.01F)
         }
