@@ -5,6 +5,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
@@ -73,6 +75,42 @@ abstract class PoseableEntityModel<T : Entity>(
         transformedParts: Array<TransformedModelPart>
     ) {
         poses[poseName] = Pose(poseName, poseTypes, condition, transformTicks, idleAnimations, transformedParts)
+    }
+
+    fun ModelPart.registerChildWithAllChildren(name: String): ModelPart {
+        val child = getChild(name)!!
+        registerRelevantPart(name to child)
+        loadAllNamedChildren(child)
+        return child
+    }
+
+    fun ModelPart.registerChildWithSpecificChildren(name: String, nameList: Iterable<String>): ModelPart {
+        val child = getChild(name)!!
+        registerRelevantPart(name to child)
+        loadSpecificNamedChildren(child, nameList)
+        return child
+    }
+
+    fun getPart(name: String) = relevantPartsByName[name]!!.modelPart
+
+    private fun loadSpecificNamedChildren(modelPart: ModelPart, nameList: Iterable<String>) {
+        for ((name, child) in modelPart.children.entries) {
+            if (name in nameList) {
+                val transformed = child.asTransformed()
+                relevantParts.add(transformed)
+                relevantPartsByName[name] = transformed
+                loadAllNamedChildren(child)
+            }
+        }
+    }
+
+    private fun loadAllNamedChildren(modelPart: ModelPart) {
+        for ((name, child) in modelPart.children.entries) {
+            val transformed = child.asTransformed()
+            relevantParts.add(transformed)
+            relevantPartsByName[name] = transformed
+            loadAllNamedChildren(child)
+        }
     }
 
     fun registerRelevantPart(name: String, part: ModelPart): ModelPart {
@@ -180,5 +218,15 @@ abstract class PoseableEntityModel<T : Entity>(
         axis = axis,
         timeVariable = timeVariable,
         frame = this@PoseableEntityModel
+    )
+
+    fun bedrock(
+        file: String,
+        animation: String,
+        fileSuffix: String = ".animation.json",
+        animationPrefix: String = "$file.animation"
+    ) = BedrockStatelessAnimation<T>(
+        this,
+        BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation")
     )
 }

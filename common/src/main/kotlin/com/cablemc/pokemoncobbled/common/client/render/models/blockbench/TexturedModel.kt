@@ -6,137 +6,129 @@ import com.google.gson.annotations.SerializedName
 import net.minecraft.client.model.*
 import java.io.InputStreamReader
 
-class TexturedModel(
+class TexturedModel {
     @SerializedName("format_version")
-    val formatVersion: String,
+    val formatVersion: String = "0"
     @SerializedName("minecraft:geometry")
-    private val geometry: List<ModelGeometry>?
-) {
+    val geometry: List<ModelGeometry>? = null
 
-    fun getGeometry() : ModelGeometry? {
-        return if (geometry != null && geometry.isNotEmpty()) geometry[0] else null
-    }
-
-    fun create() : TexturedModelData? {
+    fun create() : TexturedModelData {
         val modelData = ModelData()
         val parts = HashMap<String, ModelPartData>()
         val bones = HashMap<String, ModelBone>()
 
         try {
-            if (getGeometry() != null && getGeometry()!!.bones != null) {
-                var parentPart: ModelPartData
+            val geometry = this.geometry!![0]
+            val geometryBones = geometry.bones!! 
+            var parentPart: ModelPartData
 
-                for (bone in getGeometry()!!.bones!!) {
-                    bones[bone.name] = bone
-                    parentPart = if (bone.parent != null) parts[bone.parent]!! else modelData.root
+            for (bone in geometryBones) {
+                bones[bone.name] = bone
+                parentPart = if (bone.parent != null) parts[bone.parent]!! else modelData.root
 
-                    val modelTransform : ModelTransform
-                    when {
-                        bone.parent == null -> {
-                            // The root part always has a 24 Y offset. One of life's great mysteries.
-                            modelTransform = ModelTransform.pivot(0F, 24F, 0F)
-                        }
-                        bone.rotation != null -> {
-                            modelTransform = ModelTransform.of(
-                                -(bones[bone.parent]!!.pivot[0] - bone.pivot[0]),
-                                bones[bone.parent]!!.pivot[1] - bone.pivot[1],
-                                -(bones[bone.parent]!!.pivot[2] - bone.pivot[2]),
-                                Math.toRadians(bone.rotation[0].toDouble()).toFloat(),
-                                Math.toRadians(bone.rotation[1].toDouble()).toFloat(),
-                                Math.toRadians(bone.rotation[2].toDouble()).toFloat()
-                            )
-                        }
-                        else -> {
-                            modelTransform = ModelTransform.pivot(
-                                -(bones[bone.parent]!!.pivot[0] - bone.pivot[0]),
-                                bones[bone.parent]!!.pivot[1] - bone.pivot[1],
-                                -(bones[bone.parent]!!.pivot[2] - bone.pivot[2])
-                            )
-                        }
+                val modelTransform : ModelTransform
+                when {
+                    bone.parent == null -> {
+                        // The root part always has a 24 Y offset. One of life's great mysteries.
+                        modelTransform = ModelTransform.pivot(0F, 24F, 0F)
                     }
-
-                    val modelPart = ModelPartBuilder.create()
-                    val subParts = mutableListOf<ModelPartBuilder>()
-                    val modelTransforms = mutableListOf<ModelTransform>()
-
-                    if (bone.cubes != null) {
-                        var pivot: List<Float>
-                        var subPart: ModelPartBuilder
-
-                        for (cube in bone.cubes) {
-                            subPart = if (cube.rotation != null) ModelPartBuilder.create() else modelPart
-                            pivot = cube.pivot ?: bone.pivot
-
-                            if (cube.uv != null) {
-                                subPart.uv(
-                                    cube.uv[0],
-                                    cube.uv[1]
-                                )
-                            }
-                            if (cube.mirror != null && cube.mirror == true) {
-                                subPart.mirrored()
-                            }
-                            if (cube.size != null && cube.origin != null) {
-                                subPart.cuboid(
-                                    cube.origin[0] - pivot[0],
-                                    // Y is inverted in Java Edition, but that also means counting from the other side of the cube.
-                                    -(cube.origin[1] - pivot[1] + cube.size[1]),
-                                    cube.origin[2] - pivot[2],
-                                    cube.size[0],
-                                    cube.size[1],
-                                    cube.size[2],
-                                    Dilation(cube.inflate ?: 0f)
-                                )
-                            }
-                            if (cube.mirror != null && cube.mirror == true) {
-                                subPart.mirrored(false)
-                            }
-
-                            if (subPart != modelPart) {
-                                modelTransforms.add(ModelTransform.of(
-                                    -(bone.pivot[0] - cube.pivot!![0]),
-                                    bone.pivot[1] - cube.pivot[1],
-                                    -(bone.pivot[2] - cube.pivot[2]),
-                                    Math.toRadians(cube.rotation!![0].toDouble()).toFloat(),
-                                    Math.toRadians(cube.rotation[1].toDouble()).toFloat(),
-                                    Math.toRadians(cube.rotation[2].toDouble()).toFloat()
-                                ))
-                                subParts.add(subPart)
-                            }
-                        }
-                    }
-
-                    parts.put(
-                        bone.name,
-                        parentPart.addChild(
-                            bone.name,
-                            modelPart,
-                            modelTransform
+                    bone.rotation != null -> {
+                        modelTransform = ModelTransform.of(
+                            -(bones[bone.parent]!!.pivot[0] - bone.pivot[0]),
+                            bones[bone.parent]!!.pivot[1] - bone.pivot[1],
+                            -(bones[bone.parent]!!.pivot[2] - bone.pivot[2]),
+                            Math.toRadians(bone.rotation[0].toDouble()).toFloat(),
+                            Math.toRadians(bone.rotation[1].toDouble()).toFloat(),
+                            Math.toRadians(bone.rotation[2].toDouble()).toFloat()
                         )
-                    )
-
-                    var counter = 0
-                    subParts.forEachIndexed { index, part ->
-                        parts[bone.name]!!.addChild(
-                            bone.name + counter++.toString(),
-                            part,
-                            modelTransforms[index]
+                    }
+                    else -> {
+                        modelTransform = ModelTransform.pivot(
+                            -(bones[bone.parent]!!.pivot[0] - bone.pivot[0]),
+                            bones[bone.parent]!!.pivot[1] - bone.pivot[1],
+                            -(bones[bone.parent]!!.pivot[2] - bone.pivot[2])
                         )
                     }
                 }
 
-                return TexturedModelData.of(modelData, getGeometry()!!.description.textureWidth, getGeometry()!!.description.textureHeight)
+                val modelPart = ModelPartBuilder.create()
+                val subParts = mutableListOf<ModelPartBuilder>()
+                val modelTransforms = mutableListOf<ModelTransform>()
+
+                if (bone.cubes != null) {
+                    var pivot: List<Float>
+                    var subPart: ModelPartBuilder
+
+                    for (cube in bone.cubes) {
+                        subPart = if (cube.rotation != null) ModelPartBuilder.create() else modelPart
+                        pivot = cube.pivot ?: bone.pivot
+
+                        if (cube.uv != null) {
+                            subPart.uv(
+                                cube.uv[0],
+                                cube.uv[1]
+                            )
+                        }
+                        if (cube.mirror != null && cube.mirror == true) {
+                            subPart.mirrored()
+                        }
+                        if (cube.size != null && cube.origin != null) {
+                            subPart.cuboid(
+                                cube.origin[0] - pivot[0],
+                                // Y is inverted in Java Edition, but that also means counting from the other side of the cube.
+                                -(cube.origin[1] - pivot[1] + cube.size[1]),
+                                cube.origin[2] - pivot[2],
+                                cube.size[0],
+                                cube.size[1],
+                                cube.size[2],
+                                Dilation(cube.inflate ?: 0f)
+                            )
+                        }
+                        if (cube.mirror != null && cube.mirror == true) {
+                            subPart.mirrored(false)
+                        }
+
+                        if (subPart != modelPart) {
+                            modelTransforms.add(ModelTransform.of(
+                                -(bone.pivot[0] - cube.pivot!![0]),
+                                bone.pivot[1] - cube.pivot[1],
+                                -(bone.pivot[2] - cube.pivot[2]),
+                                Math.toRadians(cube.rotation!![0].toDouble()).toFloat(),
+                                Math.toRadians(cube.rotation[1].toDouble()).toFloat(),
+                                Math.toRadians(cube.rotation[2].toDouble()).toFloat()
+                            ))
+                            subParts.add(subPart)
+                        }
+                    }
+                }
+
+                parts.put(
+                    bone.name,
+                    parentPart.addChild(
+                        bone.name,
+                        modelPart,
+                        modelTransform
+                    )
+                )
+
+                var counter = 0
+                subParts.forEachIndexed { index, part ->
+                    parts[bone.name]!!.addChild(
+                        bone.name + counter++.toString(),
+                        part,
+                        modelTransforms[index]
+                    )
+                }
             }
+
+            return TexturedModelData.of(modelData, geometry.description.textureWidth, geometry.description.textureHeight)
         } catch (e: Exception) {
-            if (getGeometry() != null) {
-                PokemonCobbled.LOGGER.warn("Error creating TexturedModelData with identifier ${getGeometry()!!.description.identifier}.")
+            if (geometry != null) {
+                throw IllegalArgumentException("Error creating TexturedModelData with identifier ${geometry[0].description.identifier}.", e)
+            } else {
+                throw IllegalArgumentException("Error creating TexturedModelData.", e)
             }
-            else {
-                PokemonCobbled.LOGGER.warn("Error creating TexturedModelData.")
-            }
-            e.printStackTrace()
         }
-        return null
     }
 
     companion object {
@@ -144,27 +136,23 @@ class TexturedModel(
             .setLenient()
             .create()
 
-        fun from(pokemon: String) : TexturedModel? {
+        fun from(pokemon: String) : TexturedModel {
             val stream = PokemonCobbled.javaClass.getResourceAsStream("/assets/pokemoncobbled/geo/models/$pokemon.geo.json") ?: run {
-                PokemonCobbled.LOGGER.error("There was no geo model found for $pokemon.")
-                return null
+                throw IllegalArgumentException("There was no geo model found for $pokemon.")
             }
-            var model: TexturedModel? = null
             try {
-                model = GSON.fromJson(InputStreamReader(stream), TexturedModel::class.java)
+                return GSON.fromJson(InputStreamReader(stream), TexturedModel::class.java)
             } catch (exception: Exception) {
-                PokemonCobbled.LOGGER.error("Issue loading pokemon geo: $pokemon")
-                exception.printStackTrace()
+                throw IllegalStateException("Issue loading pokemon geo: $pokemon", exception)
             }
-            return model
         }
     }
 }
 
-class ModelGeometry(
-    val description: ModelDataDescription,
-    val bones: List<ModelBone>?
-) { }
+class ModelGeometry {
+    lateinit var description: ModelDataDescription
+    val bones: List<ModelBone>? = null
+}
 
 class ModelDataDescription(
     val identifier: String,
@@ -180,20 +168,20 @@ class ModelDataDescription(
     val visibleBoundsOffset: List<Float>
 ) { }
 
-class ModelBone(
-    val name: String,
-    val parent: String?,
-    val pivot: List<Float>,
-    val rotation: List<Float>?,
-    val cubes: List<Cube>?
-)
+class ModelBone {
+    val name: String = ""
+    val parent: String? = null
+    val pivot: List<Float> = emptyList()
+    val rotation: List<Float>? = null
+    val cubes: List<Cube>? = null
+}
 
-class Cube(
-    val origin: List<Float>?,
-    val size: List<Float>?,
-    val pivot: List<Float>?,
-    val rotation: List<Float>?,
-    val uv: List<Int>?,
-    val inflate: Float?,
-    val mirror: Boolean?
-)
+class Cube {
+    val origin: List<Float>? = null
+    val size: List<Float>? = null
+    val pivot: List<Float>? = null
+    val rotation: List<Float>? = null
+    val uv: List<Int>? = null
+    val inflate: Float? = null
+    val mirror: Boolean = false
+}
