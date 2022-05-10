@@ -29,6 +29,8 @@ class BattleInitializePacket() : NetworkPacket {
     lateinit var side2: BattleSideDTO
 
     constructor(battle: PokemonBattle): this() {
+        battleId = battle.battleId
+        battleFormat = battle.format
         val sides = arrayOf(battle.side1, battle.side2).map { side ->
             BattleSideDTO(
                 actors = side.actors.map { actor ->
