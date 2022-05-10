@@ -40,6 +40,8 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
+import com.cablemc.pokemoncobbled.common.worldgen.CobbledWorldgen
+import com.google.gson.GsonBuilder
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
@@ -88,6 +90,7 @@ object PokemonCobbled {
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledFeatures.register()
+        CobbledWorldgen.register()
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
@@ -211,6 +214,7 @@ object PokemonCobbled {
     fun saveConfig() {
         try {
             val configFile = File("config/$MODID.json")
+            val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
             val fileWriter = FileWriter(configFile)
 
             // Put the config to json then flush the writer to commence writing.

@@ -68,7 +68,7 @@
   "pokemoncobbled.healingmachine.healing": "Your Pokemon party is being healed!",
   "pokemoncobbled.healingmachine.healed": "Your Pokemon party has been healed!",
   "pokemoncobbled.healingmachine.notenoughcharge": "This machine needs %s more charge to heal your party!",
-  
+
   "pokemoncobbled.ui.pokemonteam": "Pokémon Team",
   "pokemoncobbled.ui.lv": "Lv.",
   "pokemoncobbled.ui.changemove": "Change",
@@ -2690,5 +2690,38 @@
   "pokemoncobbled.species.basculegion.name": "REPLACE",
   "pokemoncobbled.species.sneasler.name": "REPLACE",
   "pokemoncobbled.species.overqwil.name": "REPLACE",
-  "pokemoncobbled.species.enamorus.name": "REPLACE"
+  "pokemoncobbled.species.enamorus.name": "REPLACE",
+
+  "block.pokemoncobbled.dawn_stone_ore": "Dawn Stone Ore",
+  "block.pokemoncobbled.dusk_stone_ore": "Dusk Stone Ore",
+  "block.pokemoncobbled.fire_stone_ore": "Fire Stone Ore",
+  "block.pokemoncobbled.ice_stone_ore": "Ice Stone Ore",
+  "block.pokemoncobbled.leaf_stone_ore": "Leaf Stone Ore",
+  "block.pokemoncobbled.moon_stone_ore": "Moon Stone Ore",
+  "block.pokemoncobbled.shiny_stone_ore": "Shiny Stone Ore",
+  "block.pokemoncobbled.sun_stone_ore": "Sun Stone Ore",
+  "block.pokemoncobbled.thunder_stone_ore": "Thunder Stone Ore",
+  "block.pokemoncobbled.water_stone_ore": "Water Stone Ore",
+  "block.pokemoncobbled.deepslate_dawn_stone_ore": "Deepslate Dawn Stone Ore",
+  "block.pokemoncobbled.deepslate_dusk_stone_ore": "Deepslate Dusk Stone Ore",
+  "block.pokemoncobbled.deepslate_fire_stone_ore": "Deepslate Fire Stone Ore",
+  "block.pokemoncobbled.deepslate_ice_stone_ore": "Deepslate Ice Stone Ore",
+  "block.pokemoncobbled.deepslate_leaf_stone_ore": "Deepslate Leaf Stone Ore",
+  "block.pokemoncobbled.deepslate_moon_stone_ore": "Deepslate Moon Stone Ore",
+  "block.pokemoncobbled.deepslate_shiny_stone_ore": "Deepslate Shiny Stone Ore",
+  "block.pokemoncobbled.deepslate_sun_stone_ore": "Deepslate Sun Stone Ore",
+  "block.pokemoncobbled.deepslate_thunder_stone_ore": "Deepslate Thunder Stone Ore",
+  "block.pokemoncobbled.deepslate_water_stone_ore": "Deepslate Water Stone Ore",
+
+  "item.pokemoncobbled.dawn_stone": "Dawn Stone",
+  "item.pokemoncobbled.dusk_stone": "Dusk Stone",
+  "item.pokemoncobbled.fire_stone": "Fire Stone",
+  "item.pokemoncobbled.ice_stone": "Ice Stone",
+  "item.pokemoncobbled.leaf_stone": "Leaf Stone",
+  "item.pokemoncobbled.moon_stone": "Moon Stone",
+  "item.pokemoncobbled.shiny_stone": "Shiny Stone",
+  "item.pokemoncobbled.sun_stone": "Sun Stone",
+  "item.pokemoncobbled.thunder_stone": "Thunder Stone",
+  "item.pokemoncobbled.water_stone": "Water Stone"
+
 }

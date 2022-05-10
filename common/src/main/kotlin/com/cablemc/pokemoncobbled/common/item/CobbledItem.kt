@@ -7,4 +7,4 @@ import net.minecraft.item.Item
  *
  * Containing common shared code.
  */
-open class CobbledItem(properties : Settings) : Item(properties)
+open class CobbledItem(settings : Settings) : Item(settings)
