@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import net.minecraft.client.model.*
@@ -11,7 +10,7 @@ class TexturedModel(
     @SerializedName("format_version")
     val formatVersion: String,
     @SerializedName("minecraft:geometry")
-    private val geometry: List<ModelGeometry>
+    private val geometry: List<ModelGeometry>?
 ) {
 
     fun getGeometry() : ModelGeometry? {
@@ -34,7 +33,8 @@ class TexturedModel(
                     val modelTransform : ModelTransform
                     when {
                         bone.parent == null -> {
-                            modelTransform = ModelTransform.NONE
+                            // The root part always has a 24 Y offset. One of life's great mysteries.
+                            modelTransform = ModelTransform.pivot(0F, 24F, 0F)
                         }
                         bone.rotation != null -> {
                             modelTransform = ModelTransform.of(
@@ -79,7 +79,8 @@ class TexturedModel(
                             if (cube.size != null && cube.origin != null) {
                                 subPart.cuboid(
                                     cube.origin[0] - pivot[0],
-                                    pivot[1] - cube.origin[1], // This is the problem
+                                    // Y is inverted in Java Edition, but that also means counting from the other side of the cube.
+                                    -(cube.origin[1] - pivot[1] + cube.size[1]),
                                     cube.origin[2] - pivot[2],
                                     cube.size[0],
                                     cube.size[1],
@@ -185,7 +186,7 @@ class ModelBone(
     val pivot: List<Float>,
     val rotation: List<Float>?,
     val cubes: List<Cube>?
-) { }
+)
 
 class Cube(
     val origin: List<Float>?,
@@ -195,4 +196,4 @@ class Cube(
     val uv: List<Int>?,
     val inflate: Float?,
     val mirror: Boolean?
-) { }
+)
