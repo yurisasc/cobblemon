@@ -34,6 +34,7 @@ class PlayerBattleActor(
     override fun sendMessage(component: Text) = getPlayerEntity()?.sendServerMessage(component) ?: Unit
     override fun getName(): MutableText = getPlayerEntity()!!.name.copy()
 
+    override fun getPlayerUUIDs() = setOf(uuid)
     override fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {
         if (battlePokemon.effectedPokemon == battlePokemon.originalPokemon && experience > 0) {
             uuid.getPlayer()

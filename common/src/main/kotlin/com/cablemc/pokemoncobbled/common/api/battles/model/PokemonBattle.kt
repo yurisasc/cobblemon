@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
@@ -8,7 +9,9 @@ import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.battles.BattleSide
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleEndPacket
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.text.Text
@@ -38,6 +41,9 @@ class PokemonBattle(
         get() = sides.flatMap { it.actors.toList() }
     val activePokemon: Iterable<ActiveBattlePokemon>
         get() = actors.flatMap { it.activePokemon }
+    val playerUUIDs: Iterable<UUID>
+        get() = actors.flatMap { it.getPlayerUUIDs() }
+    val players = playerUUIDs.mapNotNull { it.getPlayer() }
 
     val battleId = UUID.randomUUID()
 
@@ -107,9 +113,10 @@ class PokemonBattle(
     }
 
     fun end() {
+        val endBattlePacket = BattleEndPacket()
         for (actor in actors) {
             for (pokemon in actor.pokemonList.filter { it.health > 0 }) {
-                if (pokemon.facedOpponents.isNotEmpty() /* exp share held item check */) {
+                if (pokemon.facedOpponents.isNotEmpty() /* TODO exp share held item check */) {
                     val experience = PokemonCobbled.experienceCalculator.calculate(pokemon)
                     if (experience > 0) {
                         actor.awardExperience(pokemon, experience)
@@ -117,6 +124,7 @@ class PokemonBattle(
                 }
             }
         }
+        endBattlePacket.sendToPlayers(players)
     }
 
     fun log(message: String = "") {

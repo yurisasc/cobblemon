@@ -4,8 +4,8 @@ import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.ShowdownActionRequest
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
-import net.minecraft.text.Text
 import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 
@@ -26,6 +26,7 @@ abstract class BattleActor(
     var request: ShowdownActionRequest? = null
 
     fun getSide() = if (this in battle.side1.actors) battle.side1 else battle.side2
+    open fun getPlayerUUIDs(): Iterable<UUID> = emptyList()
 
     fun turn() {
         val request = request ?: return
