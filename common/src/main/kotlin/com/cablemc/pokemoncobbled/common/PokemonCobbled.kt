@@ -90,7 +90,6 @@ object PokemonCobbled {
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledFeatures.register()
-        CobbledWorldgen.register()
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
@@ -104,6 +103,8 @@ object PokemonCobbled {
         showdownThread.start()
 
         ExperienceGroups.registerDefaults()
+
+        CobbledWorldgen.register()
 
         Moves.load()
         LOGGER.info("Loaded ${Moves.count()} Moves.")
