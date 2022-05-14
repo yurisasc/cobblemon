@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import net.minecraft.client.model.*
-import java.io.InputStreamReader
 
 class TexturedModel {
     @SerializedName("format_version")
@@ -136,14 +135,11 @@ class TexturedModel {
             .setLenient()
             .create()
 
-        fun from(pokemon: String) : TexturedModel {
-            val stream = PokemonCobbled.javaClass.getResourceAsStream("/assets/pokemoncobbled/geo/models/$pokemon.geo.json") ?: run {
-                throw IllegalArgumentException("There was no geo model found for $pokemon.")
-            }
+        fun from(path: String) : TexturedModel {
             try {
-                return GSON.fromJson(InputStreamReader(stream), TexturedModel::class.java)
+                return GSON.fromJson(PokemonCobbled::class.java.getResourceAsStream("/assets/pokemoncobbled/$path")!!.reader(), TexturedModel::class.java)
             } catch (exception: Exception) {
-                throw IllegalStateException("Issue loading pokemon geo: $pokemon", exception)
+                throw IllegalStateException("Issue loading pokemon geo: $path", exception)
             }
         }
     }

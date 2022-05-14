@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.gui
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -22,25 +21,22 @@ fun drawProfilePokemon(
     state: PoseableEntityState<PokemonEntity>?,
     scale: Float = 20F
 ) {
-    val model = PokemonModelRepository.getModel(pokemon).entityModel
-    val texture = PokemonModelRepository.getModelTexture(pokemon)
+    val model = PokemonModelRepository.getEntityModel(pokemon.species, pokemon.aspects)
+    val texture = PokemonModelRepository.getModelTexture(pokemon.species, pokemon.aspects)
 
     val renderType = model.getLayer(texture)
 
     RenderSystem.applyModelViewMatrix()
     matrixStack.scale(scale, scale, -scale)
 
-    if (model is PokemonPoseableModel) {
-        if (state != null) {
-            model.getPose(PoseType.PROFILE)?.let { state.setPose(it.poseName) }
-            model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
-        } else {
-            model.setupAnimStateless(PoseType.PROFILE)
-        }
-//        model.setupAnimStateless(PoseType.PROFILE)
-        matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y, -10.0)
-        matrixStack.scale(model.profileScale, model.profileScale, 0.01F)
+    if (state != null) {
+        model.getPose(PoseType.PROFILE)?.let { state.setPose(it.poseName) }
+        model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+    } else {
+        model.setupAnimStateless(PoseType.PROFILE)
     }
+    matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y, -10.0)
+    matrixStack.scale(model.profileScale, model.profileScale, 0.01F)
 
     matrixStack.multiply(rotation)
     DiffuseLighting.method_34742()
