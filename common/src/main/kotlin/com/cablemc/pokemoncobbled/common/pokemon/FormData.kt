@@ -48,7 +48,7 @@ data class FormData(
     val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
 
-    val maleRatio: Float
+    val maleRatio: Float?
         get() = _maleRatio ?: species.maleRatio
     val baseScale: Float
         get() = _baseScale ?: species.baseScale
@@ -83,6 +83,8 @@ data class FormData(
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
+
+    var aspects = mutableListOf<String>()
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)
