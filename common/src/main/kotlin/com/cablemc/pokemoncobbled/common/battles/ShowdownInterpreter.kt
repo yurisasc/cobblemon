@@ -289,8 +289,11 @@ object ShowdownInterpreter {
     private fun handleTurnInstruction(battle: PokemonBattle, message: String) {
         if (!battle.started) {
             battle.started = true
-            val initializePacket = BattleInitializePacket(battle)
-            battle.actors.mapNotNull { it.uuid.getPlayer() }.forEach { CobbledNetwork.sendToPlayer(it, initializePacket) }
+            val players = battle.actors.mapNotNull { it.uuid.getPlayer() }
+            if (players.isNotEmpty()) {
+                val initializePacket = BattleInitializePacket(battle)
+                players.forEach { CobbledNetwork.sendToPlayer(it, initializePacket) }
+            }
         }
 
         battle.broadcastChatMessage("".text())

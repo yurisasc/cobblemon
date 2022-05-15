@@ -1,7 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.gui
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
@@ -140,7 +142,8 @@ fun drawPortraitPokemon(
     aspects: Set<String>,
     matrixStack: MatrixStack,
     scale: Float = 13F,
-    reversed: Boolean = false
+    reversed: Boolean = false,
+    state: PoseableEntityState<PokemonEntity>? = null
 ) {
     val model = PokemonModelRepository.getEntityModel(species, aspects)
     val texture = PokemonModelRepository.getModelTexture(species, aspects)
@@ -152,7 +155,13 @@ fun drawPortraitPokemon(
     val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F * if (reversed) -1F else 1F)
     val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
 
-    model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
+    if (state == null) {
+        model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
+    } else {
+        model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
+        model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+    }
+
     matrixStack.translate(model.portraitTranslation.x * if (reversed) -1F else 1F, model.portraitTranslation.y, model.portraitTranslation.z - 4)
     matrixStack.scale(model.portraitScale, model.portraitScale, 0.01F)
 

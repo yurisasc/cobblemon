@@ -45,6 +45,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper.ceil
+import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
 import java.util.UUID
 import kotlin.math.min
@@ -58,7 +59,7 @@ open class Pokemon {
                 return
             }
 
-            val quotient = currentHealth / hp
+            val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             val previousFeatureKeys = species.features
             field = value
             val newFeatureKeys = species.features
@@ -66,8 +67,8 @@ open class Pokemon {
             val removedFeatures = previousFeatureKeys - newFeatureKeys
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.getDeclaredConstructor()?.newInstance() })
             features.removeAll { SpeciesFeature.getName(it) in removedFeatures }
-            currentHealth = quotient * hp
             updateAspects()
+            currentHealth = ceil(quotient * hp)
             _species.emit(value)
         }
     var form = species.forms.first()

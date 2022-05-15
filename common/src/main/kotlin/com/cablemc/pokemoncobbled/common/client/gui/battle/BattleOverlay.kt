@@ -2,11 +2,11 @@ package com.cablemc.pokemoncobbled.common.client.gui.battle
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
-import com.cablemc.pokemoncobbled.common.api.gui.drawText
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.battle.ActiveClientBattlePokemon
 import com.cablemc.pokemoncobbled.common.client.render.drawScaled
+import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
@@ -102,7 +102,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             battlePokemon.properties.aspects,
             matrixStack,
             scale = 18F,
-            reversed = !left
+            reversed = !left,
+            state = battlePokemon.state
         )
         RenderSystem.disableScissor()
 
@@ -125,7 +126,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         )
 
         // Draw labels
-        val infoBoxX = x + if (left) { PORTRAIT_DIAMETER + 2 * PORTRAIT_OFFSET } else { INFO_OFFSET_X.toFloat() }
+        val infoBoxX = x + if (left) { PORTRAIT_DIAMETER + 2 * PORTRAIT_OFFSET + 2 } else { INFO_OFFSET_X.toFloat() }
         RenderSystem.setShaderColor(1F, 1F, 1F, opacity.toFloat())
         mc.textRenderer.drawScaled(
             scaleX = 0.7F,
@@ -135,9 +136,23 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             text = battlePokemon.displayName,
             x = infoBoxX,
             y = y + 5,
-            colour = 0x20FFFFFF,
+            colour = 0xFFFFFF,
             shadow = false
         )
+
+        val (healthRed, healthGreen) = getDepletableRedGreen(battlePokemon.hpRatio)
+        blitk(
+            matrixStack = matrices,
+            texture = CobbledResources.WHITE,
+            x = infoBoxX - 0.5,
+            y = y + 13,
+            height = 8.5,
+            width = battlePokemon.hpRatio * 76.5,
+            red = healthRed,
+            green = healthGreen,
+            blue = 0
+        )
+
         matrices.pop()
     }
 
