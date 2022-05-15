@@ -15,11 +15,11 @@ abstract class ModelRepository<T : Entity> {
         _models.add(model)
     }
 
-    fun initializeModelLayers() {
+    open fun initializeModelLayers() {
         _models.forEach { it.initializeModelLayers() }
     }
 
-    fun initializeModels(context: EntityRendererFactory.Context) {
+    open fun initializeModels(context: EntityRendererFactory.Context) {
         _models.forEach { it.initializeModel(context) }
     }
 

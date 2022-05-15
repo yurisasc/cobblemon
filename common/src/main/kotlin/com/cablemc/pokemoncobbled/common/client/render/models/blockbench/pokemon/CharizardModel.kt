@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.TexturedModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.asTransformed
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BimanualFrame
@@ -9,9 +8,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.H
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.util.math.Vec3d
 
 class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, BiWingedFrame {
@@ -76,10 +73,5 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, 6F))
         )
-    }
-
-    companion object {
-        val LAYER_LOCATION = EntityModelLayer(cobbledResource("charizard"), "main")
-        fun createBodyLayer() = TexturedModel.from("charizard").create()
     }
 }

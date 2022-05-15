@@ -55,19 +55,17 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
                 0.0
             )
             pMatrixStack.scale(scale, scale, scale)
-            val model = PokemonModelRepository.getModel(pokemon).entityModel
-            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getModelTexture(pokemon)))
+            val model = PokemonModelRepository.getEntityModel(pokemon.species, pokemon.aspects)
+            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getModelTexture(pokemon.species, pokemon.aspects)))
             val i = LivingEntityRenderer.getOverlay(pLivingEntity, 0.0f)
-            if (model is PoseableEntityModel<*>) {
-                model.setupAnimStateless(
-                    poseType = if (pLeftShoulder) PoseType.SHOULDER_LEFT else PoseType.SHOULDER_RIGHT,
-                    headYaw = pNetHeadYaw,
-                    headPitch = pHeadPitch,
-                    limbSwing = pLimbSwing,
-                    limbSwingAmount = pLimbSwingAmount,
-                    ageInTicks = pLivingEntity.age.toFloat()
-                )
-            }
+            model.setupAnimStateless(
+                poseType = if (pLeftShoulder) PoseType.SHOULDER_LEFT else PoseType.SHOULDER_RIGHT,
+                headYaw = pNetHeadYaw,
+                headPitch = pHeadPitch,
+                limbSwing = pLimbSwing,
+                limbSwingAmount = pLimbSwingAmount,
+                ageInTicks = pLivingEntity.age.toFloat()
+            )
             model.render(pMatrixStack, vertexConsumer, pPackedLight, i, 1.0f, 1.0f, 1.0f, 1.0f)
             pMatrixStack.pop();
         }

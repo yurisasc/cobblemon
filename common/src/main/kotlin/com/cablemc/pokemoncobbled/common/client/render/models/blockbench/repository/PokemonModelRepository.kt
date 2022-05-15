@@ -3,11 +3,14 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.reposi
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.BlockBenchModelWrapper
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.*
-import com.cablemc.pokemoncobbled.common.client.util.exists
+import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
+import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import net.minecraft.client.model.ModelPart
+import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.util.Identifier
 
 object PokemonModelRepository : ModelRepository<PokemonEntity>() {
@@ -17,13 +20,17 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     // TODO: Temporary until we decide the texture system we want to go with and its capabilities
     private val shinyModelTexturesBySpecies: MutableMap<Species, Identifier> = mutableMapOf()
 
+    val animators = mutableMapOf<String, (ModelPart) -> PokemonPoseableModel>()
+    val species = mutableMapOf<Species, RegisteredSpeciesRendering>()
+
     override fun registerAll() {
+        registerSpeciesWithAnimator(PokemonSpecies.CHARIZARD) { CharizardModel(it) }
+
         registerBaseSpeciesModel(PokemonSpecies.BULBASAUR, BlockBenchModelWrapper(BulbasaurModel.LAYER_LOCATION, BulbasaurModel::createBodyLayer) { BulbasaurModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.IVYSAUR, BlockBenchModelWrapper(IvysaurModel.LAYER_LOCATION, IvysaurModel::createBodyLayer) { IvysaurModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.VENUSAUR, BlockBenchModelWrapper(VenusaurModel.LAYER_LOCATION, VenusaurModel::createBodyLayer) { VenusaurModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.CHARMANDER, BlockBenchModelWrapper(CharmanderModel.LAYER_LOCATION, CharmanderModel::createBodyLayer) { CharmanderModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.CHARMELEON, BlockBenchModelWrapper(CharmeleonModel.LAYER_LOCATION, CharmeleonModel::createBodyLayer) { CharmeleonModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.CHARIZARD, BlockBenchModelWrapper(CharizardModel.LAYER_LOCATION, CharizardModel::createBodyLayer) { CharizardModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.SQUIRTLE, BlockBenchModelWrapper(SquirtleModel.LAYER_LOCATION, SquirtleModel::createBodyLayer) { SquirtleModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.WARTORTLE, BlockBenchModelWrapper(WartortleModel.LAYER_LOCATION, WartortleModel::createBodyLayer) { WartortleModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.BLASTOISE, BlockBenchModelWrapper(BlastoiseModel.LAYER_LOCATION, BlastoiseModel::createBodyLayer) { BlastoiseModel(it) })
@@ -43,12 +50,28 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     }
 
+    override fun initializeModelLayers() {
+        super.initializeModelLayers()
+        species.values.forEach(RegisteredSpeciesRendering::initializeLayers)
+    }
+
+    override fun initializeModels(context: EntityRendererFactory.Context) {
+        super.initializeModels(context)
+        species.values.forEach { it.parseModels(context) }
+    }
+
+    override fun reload() {
+        super.reload()
+        species.values.forEach { it.reload() }
+    }
+
     private fun registerBaseSpeciesModel(species: Species, model: BlockBenchModelWrapper<PokemonEntity>) {
         modelsBySpecies[species] = model
         addModel(model)
         registerBaseSpeciesModelTexture(species)
         registerShinySpeciesModelTexture(species)
     }
+
 
     private fun registerBaseSpeciesModelTexture(species: Species) {
         modelTexturesBySpecies[species] = baseTextureFor(species)
@@ -59,20 +82,39 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         shinyModelTexturesBySpecies[species] = /* TODO do this later or just wait until resolved texture searchin if (shinyTexture.exists()) shinyTexture else */ baseTextureFor(species)
     }
 
+    fun registerAnimator(name: String, animatorSupplier: (ModelPart) -> PokemonPoseableModel) {
+        animators[name] = animatorSupplier
+    }
+
+    fun registerSpeciesWithAnimator(species: Species, animatorSupplier: (ModelPart) -> PokemonPoseableModel) {
+        registerAnimator(species.name, animatorSupplier)
+        registerSpecies(species)
+    }
+
+    fun registerSpecies(species: Species) {
+        this.species[species] = RegisteredSpeciesRendering(
+            species,
+            SpeciesAssetResolver.load("geo/species/${species.name}.json")
+        )
+    }
+
     private fun baseTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-base.png")
     private fun shinyTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-shiny.png")
 
-    fun getModel(pokemon: Pokemon): BlockBenchModelWrapper<PokemonEntity> {
+    fun getEntityModel(species: Species, aspects: Set<String>): PokemonPoseableModel {
+        this.species[species]?.let {
+            return it.getEntityModel(aspects)
+        }
         // TODO: This is just fetching by species at the moment. This will be developed further.
-        return modelsBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate model")
+        return modelsBySpecies[species]?.entityModel as? PokemonPoseableModel ?: throw IllegalStateException("${species.name} has no appropriate model")
     }
 
-    fun getModelTexture(pokemon: Pokemon): Identifier {
-        // TODO: This is just fetching by species at the moment. This will be developed further.
-        if (pokemon.shiny) {
-            return shinyModelTexturesBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate shiny model texture")
+    fun getModelTexture(species: Species, aspects: Set<String>): Identifier {
+        this.species[species]?.let {
+            return it.getTexture(aspects)
         }
-        return modelTexturesBySpecies[pokemon.species] ?: throw IllegalStateException("pokemon has no appropriate model texture")
+
+        return modelTexturesBySpecies[species] ?: throw IllegalStateException("pokemon has no appropriate model texture")
     }
 
 }

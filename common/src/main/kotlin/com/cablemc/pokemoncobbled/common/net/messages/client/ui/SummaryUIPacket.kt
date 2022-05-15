@@ -17,7 +17,7 @@ class SummaryUIPacket internal constructor(): NetworkPacket {
         buffer.writeBoolean(editable)
         buffer.writeInt(pokemonArray.size)
         pokemonArray.forEach {
-            it.saveToBuffer(buffer)
+            it.saveToBuffer(buffer, toClient = true)
         }
     }
 

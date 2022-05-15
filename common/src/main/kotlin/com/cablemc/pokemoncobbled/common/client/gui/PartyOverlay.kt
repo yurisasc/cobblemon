@@ -6,7 +6,6 @@ import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaled
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -212,8 +211,8 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
     }
 
     fun drawPokemon(pokemon: Pokemon, matrixStack: MatrixStack) {
-        val model = PokemonModelRepository.getModel(pokemon).entityModel
-        val texture = PokemonModelRepository.getModelTexture(pokemon)
+        val model = PokemonModelRepository.getEntityModel(pokemon.species, pokemon.aspects)
+        val texture = PokemonModelRepository.getModelTexture(pokemon.species, pokemon.aspects)
 
         val renderType = model.getLayer(texture)
 
@@ -223,12 +222,9 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
         val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F)
         val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
 
-
-        if (model is PokemonPoseableModel) {
-            model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
-            matrixStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z - 4)
-            matrixStack.scale(model.portraitScale, model.portraitScale, 0.01F)
-        }
+        model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
+        matrixStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z - 4)
+        matrixStack.scale(model.portraitScale, model.portraitScale, 0.01F)
 
         matrixStack.multiply(quaternion1)
         matrixStack.multiply(quaternion2)
