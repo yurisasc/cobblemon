@@ -232,7 +232,7 @@ abstract class PoseableEntityModel<T : Entity>(
         file: String,
         animation: String,
         fileSuffix: String = ".animation.json",
-        animationPrefix: String = "$file.animation"
+        animationPrefix: String = "animation.$file"
     ) = BedrockStatelessAnimation<T>(
         this,
         BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation")
