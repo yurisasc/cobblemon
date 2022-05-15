@@ -43,10 +43,10 @@ class PokemonRenderer(
         )
     }
 
-    override fun getTexture(pEntity: PokemonEntity) = PokemonModelRepository.getModelTexture(pEntity.pokemon)
+    override fun getTexture(pEntity: PokemonEntity) = PokemonModelRepository.getModelTexture(pEntity.pokemon.species, pEntity.aspects.get())
     override fun render(entity: PokemonEntity, pEntityYaw: Float, partialTicks: Float, poseMatrix: MatrixStack, buffer: VertexConsumerProvider, pPackedLight: Int) {
-        DELTA_TICKS = partialTicks // TODO move this somewhere universal
-        model = PokemonModelRepository.getModel(entity.pokemon).entityModel
+        DELTA_TICKS = partialTicks // TODO move this somewhere universal // or just fecking remove it
+        model = PokemonModelRepository.getEntityModel(entity.pokemon.species, entity.aspects.get())
 
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val beamMode = entity.beamModeEmitter.get().toInt()

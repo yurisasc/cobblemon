@@ -24,7 +24,7 @@ val pokemonPropertiesShortAdapter = PokemonPropertiesAdapter(false)
 open class PokemonPropertiesAdapter(val saveLong: Boolean) : JsonSerializer<PokemonProperties>, JsonDeserializer<PokemonProperties> {
     override fun serialize(props: PokemonProperties, type: Type, ctx: JsonSerializationContext): JsonElement {
         return if (saveLong) {
-            props.writeToJSON()
+            props.saveToJSON()
         } else {
             JsonPrimitive(props.originalString)
         }
@@ -34,7 +34,7 @@ open class PokemonPropertiesAdapter(val saveLong: Boolean) : JsonSerializer<Poke
         return if (json.isJsonPrimitive) {
             PokemonProperties.parse(json.asString)
         } else {
-            PokemonProperties().readFromJSON(json.asJsonObject)
+            PokemonProperties().loadFromJSON(json.asJsonObject)
         }
     }
 }

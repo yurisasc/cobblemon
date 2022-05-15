@@ -16,7 +16,6 @@ class BlockBenchModelWrapper<T : Entity>(
     val texturedModelDataSupplier: () -> TexturedModelData,
     val modelFactory: (ModelPart) -> EntityModel<T>
 ) {
-
     lateinit var entityModel: EntityModel<T>
     var isModelInitialized = false
         private set
