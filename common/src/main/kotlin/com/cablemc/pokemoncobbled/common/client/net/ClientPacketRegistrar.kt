@@ -9,7 +9,6 @@ import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyPokemo
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyReferenceHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.SwapPartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
-import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 
 /**
@@ -36,6 +35,8 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<StatusUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<CaughtBallUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<BenchedMovesUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<GenderUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<AspectsUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler(InitializePartyHandler)
         registerHandler(SetPartyPokemonHandler)
         registerHandler(MovePartyPokemonHandler)

@@ -22,7 +22,7 @@ abstract class SetPokemonPacket<T : StorePosition> : NetworkPacket {
 
     abstract fun encodePosition(buffer: PacketByteBuf): ByteBuf
     override fun encode(buffer: PacketByteBuf) {
-        pokemon.saveToBuffer(buffer)
+        pokemon.saveToBuffer(buffer, toClient = true)
         buffer.writeUuid(storeID)
         encodePosition(buffer)
     }
