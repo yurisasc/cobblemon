@@ -9,7 +9,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 
-data class FormData(
+class FormData(
     @SerializedName("name")
     val name: String = "normal",
     @SerializedName("baseStats")
