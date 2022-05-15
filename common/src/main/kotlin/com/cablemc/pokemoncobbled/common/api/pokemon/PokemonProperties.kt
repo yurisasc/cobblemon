@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon
 
+import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
 import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Gender
@@ -58,6 +59,7 @@ open class PokemonProperties {
             props.level = parseIntProperty(keyPairs, listOf("level", "lvl", "l"))
             props.shiny = parseBooleanProperty(keyPairs, listOf("shiny", "s"))
             props.species = parseSpeciesString(keyPairs)
+            props.updateAspects()
             return props
         }
 
@@ -195,6 +197,7 @@ open class PokemonProperties {
     var shiny: Boolean? = null
     var gender: Gender? = null
     var level: Int? = null
+    var aspects: Set<String> = emptySet()
 
     var customProperties = mutableListOf<CustomPokemonProperty>()
 
@@ -292,6 +295,7 @@ open class PokemonProperties {
         val custom = tag.getList(DataKeys.POKEMON_PROPERTIES_CUSTOM, NbtElement.STRING_TYPE.toInt())
         // This is kinda gross
         custom.forEach { customProperties.addAll(parse(it.asString()).customProperties) }
+        updateAspects()
         return this
     }
 
@@ -317,7 +321,24 @@ open class PokemonProperties {
         val custom = json.get(DataKeys.POKEMON_PROPERTIES_CUSTOM)?.asJsonArray
         // This is still kinda gross
         custom?.forEach { customProperties.addAll(parse(it.asString).customProperties) }
+        updateAspects()
         return this
+    }
+
+    fun asString(separator: String = " "): String {
+        val pieces = mutableListOf<String>()
+        species?.let { pieces.add(it) }
+        level?.let { pieces.add("level=$it") }
+        shiny?.let { pieces.add("shiny=$it") }
+        gender?.let { pieces.add("gender=$it")}
+        customProperties.forEach { pieces.add(it.asString()) }
+        return pieces.joinToString(separator)
+    }
+
+    fun updateAspects() {
+        val aspects = mutableSetOf<String>()
+        AspectProvider.providers.forEach { aspects.addAll(it.provide(this)) }
+        this.aspects = aspects.toSet()
     }
 
     fun copy(): PokemonProperties {
