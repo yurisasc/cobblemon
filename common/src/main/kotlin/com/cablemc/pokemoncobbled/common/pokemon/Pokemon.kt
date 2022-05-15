@@ -570,7 +570,7 @@ open class Pokemon {
     /**
      * Copies the specified properties from this Pokémon into a new [PokemonProperties] instance.
      *
-     * You can find a bunch of in-build extractors inside [PokemonPropertyExtractor] statically.
+     * You can find a bunch of built-in extractors inside [PokemonPropertyExtractor] statically.
      */
     fun createPokemonProperties(vararg extractors: PokemonPropertyExtractor): PokemonProperties {
         val properties = PokemonProperties()
