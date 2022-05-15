@@ -218,7 +218,7 @@ open class PokemonProperties {
     fun apply(pokemonEntity: PokemonEntity) {
         level?.let { pokemonEntity.pokemon.level = it }
         shiny?.let { pokemonEntity.pokemon.shiny = it }
-        gender?.let { pokemonEntity.pokemon.gender }
+        gender?.let { pokemonEntity.pokemon.gender = it }
         species?.let {
             if (it == "random") {
                 PokemonSpecies.species.random()
