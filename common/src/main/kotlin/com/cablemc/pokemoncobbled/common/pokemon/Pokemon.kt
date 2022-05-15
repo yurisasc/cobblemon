@@ -71,7 +71,10 @@ open class Pokemon {
             _species.emit(value)
         }
     var form = species.forms.first()
-        set(value) { field = value ; _form.emit(value) }
+        set(value) {
+            field = value
+            _form.emit(value)
+        }
     var currentHealth = Int.MAX_VALUE
         set(value) {
             field = min(hp, value)
@@ -196,7 +199,9 @@ open class Pokemon {
         set(value) {
             if (field != value) {
                 field = value
-                updateForm()
+                if (!isClient) {
+                    updateForm()
+                }
                 _aspects.emit(value)
             }
         }

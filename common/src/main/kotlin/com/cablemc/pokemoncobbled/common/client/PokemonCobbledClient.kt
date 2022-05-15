@@ -51,6 +51,8 @@ object PokemonCobbledClient {
         CLIENT_PLAYER_QUIT.register { ScheduledTaskTracker.clear() }
 
         overlay = PartyOverlay()
+        battleOverlay = BattleOverlay()
+
         ClientPacketRegistrar.registerHandlers()
         CobbledKeybinds.register()
 
@@ -102,7 +104,7 @@ object PokemonCobbledClient {
         if (battle == null) {
             overlay.render(matrixStack, partialDeltaTicks)
         } else {
-
+            battleOverlay.render(matrixStack, partialDeltaTicks)
         }
     }
 

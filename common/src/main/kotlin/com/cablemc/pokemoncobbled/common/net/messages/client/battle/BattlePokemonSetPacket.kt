@@ -12,7 +12,7 @@ class BattlePokemonSetPacket() : NetworkPacket {
     }
 
     override fun encode(buffer: PacketByteBuf) {
-        pokemon.saveToBuffer(buffer)
+        pokemon.saveToBuffer(buffer, toClient = true)
     }
 
     override fun decode(buffer: PacketByteBuf) {

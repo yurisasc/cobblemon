@@ -2,6 +2,8 @@ package com.cablemc.pokemoncobbled.common.net.messages.client.battle
 
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonPropertyExtractor
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
@@ -44,10 +46,11 @@ class BattleInitializePacket() : NetworkPacket {
                                     ActiveBattlePokemonDTO(
                                         uuid = uuid,
                                         displayName = species.translatedName,
-                                        species = species,
-                                        level = level,
-                                        gender = Gender.MALE, // TODO link to pokemon field
-                                        form = form,
+                                        properties = createPokemonProperties(
+                                            PokemonPropertyExtractor.SPECIES,
+                                            PokemonPropertyExtractor.LEVEL,
+                                            PokemonPropertyExtractor.ASPECTS
+                                        ),
                                         status = status?.status,
                                         hpRatio = battlePokemon.health / battlePokemon.maxHealth.toFloat(),
                                         statChanges = battlePokemon.statChanges
@@ -77,10 +80,8 @@ class BattleInitializePacket() : NetworkPacket {
                     buffer.writeBoolean(activePokemon != null)
                     if (activePokemon != null) {
                         buffer.writeUuid(activePokemon.uuid)
-                        buffer.writeString(activePokemon.species.name)
-                        buffer.writeString(activePokemon.form.name)
-                        buffer.writeSizedInt(IntSize.U_SHORT, activePokemon.level)
-                        buffer.writeByte(activePokemon.gender.ordinal)
+                        buffer.writeText(activePokemon.displayName)
+                        buffer.writeString(activePokemon.properties.asString())
                         buffer.writeBoolean(activePokemon.status != null)
                         activePokemon.status?.let { buffer.writeString(it.name.toString()) }
                         buffer.writeFloat(activePokemon.hpRatio)
@@ -108,12 +109,8 @@ class BattleInitializePacket() : NetworkPacket {
                 repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
                     if (buffer.readBoolean()) {
                         val uuid = buffer.readUuid()
-                        val speciesName = buffer.readString()
-                        val species = PokemonSpecies.getByName(speciesName) ?: throw IllegalArgumentException("Bad species name: $speciesName")
-                        val formName = buffer.readString()
-                        val form = species.forms.find { it.name == formName } ?: throw IllegalArgumentException("Bad form name for $speciesName: $formName")
-                        val level = buffer.readSizedInt(IntSize.U_SHORT)
-                        val gender = Gender.values()[buffer.readSizedInt(IntSize.U_BYTE)]
+                        val pokemonDisplayName = buffer.readText().copy()
+                        val properties = PokemonProperties.parse(buffer.readString(), delimiter = " ")
                         val status = if (buffer.readBoolean()) PersistentStatus(Identifier(buffer.readString())) else null
                         val hpRatio = buffer.readFloat()
                         val statChanges = mutableMapOf<Stat, Int>()
@@ -125,11 +122,8 @@ class BattleInitializePacket() : NetworkPacket {
                         activePokemon.add(
                             ActiveBattlePokemonDTO(
                                 uuid = uuid,
-                                displayName = displayName,
-                                species = species,
-                                form = form,
-                                level = level,
-                                gender = gender,
+                                displayName = pokemonDisplayName,
+                                properties = properties,
                                 status = status,
                                 hpRatio = hpRatio,
                                 statChanges = statChanges
@@ -167,10 +161,7 @@ class BattleInitializePacket() : NetworkPacket {
     data class ActiveBattlePokemonDTO(
         val uuid: UUID,
         val displayName: MutableText,
-        val species: Species,
-        val form: FormData,
-        val level: Int,
-        val gender: Gender,
+        val properties: PokemonProperties,
         val status: PersistentStatus?,
         val hpRatio: Float,
         val statChanges: MutableMap<Stat, Int>

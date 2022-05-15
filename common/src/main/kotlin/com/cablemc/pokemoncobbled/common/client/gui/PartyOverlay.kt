@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.gui
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
@@ -8,7 +9,7 @@ import com.cablemc.pokemoncobbled.common.client.render.drawScaled
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
@@ -102,7 +103,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 )
                 matrixStack.scale(1F, 1F, 1F)
 
-                drawPokemon(pokemon, matrixStack)
+                drawPortraitPokemon(pokemon.species, pokemon.aspects, matrixStack)
 
                 RenderSystem.disableScissor()
             }
@@ -208,39 +209,5 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 }
             }
         }
-    }
-
-    fun drawPokemon(pokemon: Pokemon, matrixStack: MatrixStack) {
-        val model = PokemonModelRepository.getEntityModel(pokemon.species, pokemon.aspects)
-        val texture = PokemonModelRepository.getModelTexture(pokemon.species, pokemon.aspects)
-
-        val renderType = model.getLayer(texture)
-
-        val scale = 13F
-        RenderSystem.applyModelViewMatrix()
-        matrixStack.scale(scale, scale, -scale)
-        val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F)
-        val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
-
-        model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
-        matrixStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z - 4)
-        matrixStack.scale(model.portraitScale, model.portraitScale, 0.01F)
-
-        matrixStack.multiply(quaternion1)
-        matrixStack.multiply(quaternion2)
-
-        val light1 = Vec3f(0.2F, 1.0F, -1.0F)
-        val light2 = Vec3f(0.1F, -1.0F, 2.0F)
-        RenderSystem.setShaderLights(light1, light2)
-        quaternion1.conjugate()
-
-        val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
-        val buffer = immediate.getBuffer(renderType)
-        val packedLight = LightmapTextureManager.pack(8, 4)
-        model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
-
-        immediate.draw()
-
-        DiffuseLighting.enableGuiDepthLighting()
     }
 }

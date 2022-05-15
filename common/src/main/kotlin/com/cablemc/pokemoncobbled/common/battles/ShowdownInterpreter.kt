@@ -278,9 +278,6 @@ object ShowdownInterpreter {
      */
     private fun handleStartInstruction(battle: PokemonBattle, message: String) {
         battle.log("Start Instruction")
-        battle.started = true
-        val initializePacket = BattleInitializePacket(battle)
-        battle.actors.mapNotNull { it.uuid.getPlayer() }.forEach { CobbledNetwork.sendToPlayer(it, initializePacket) }
     }
 
     /**
@@ -290,6 +287,12 @@ object ShowdownInterpreter {
      * It is now turn NUMBER.
      */
     private fun handleTurnInstruction(battle: PokemonBattle, message: String) {
+        if (!battle.started) {
+            battle.started = true
+            val initializePacket = BattleInitializePacket(battle)
+            battle.actors.mapNotNull { it.uuid.getPlayer() }.forEach { CobbledNetwork.sendToPlayer(it, initializePacket) }
+        }
+
         battle.broadcastChatMessage("".text())
         battle.broadcastChatMessage(">>".aqua() + " It is now turn ${message.split("|turn|")[1]}".aqua())
         battle.broadcastChatMessage("".text())

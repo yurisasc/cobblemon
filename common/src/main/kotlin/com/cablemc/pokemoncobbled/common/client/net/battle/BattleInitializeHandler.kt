@@ -19,6 +19,15 @@ object BattleInitializeHandler : PacketHandler<BattleInitializePacket> {
             side1.actors.addAll(packet.side1.actors.map(this@BattleInitializeHandler::actorFromDTO))
             side2.actors.addAll(packet.side2.actors.map(this@BattleInitializeHandler::actorFromDTO))
             spectating = sides.any { it.actors.any { it.uuid == MinecraftClient.getInstance().player?.uuid } }
+            for (side in listOf(side1, side2)) {
+                side.battle = this
+                for (actor in side.actors) {
+                    actor.side = side
+                    for (pokemon in actor.activePokemon) {
+                        pokemon.battlePokemon?.actor = actor
+                    }
+                }
+            }
         }
     }
 
@@ -32,11 +41,8 @@ object BattleInitializeHandler : PacketHandler<BattleInitializePacket> {
                 ActiveClientBattlePokemon(it?.let {
                     ClientBattlePokemon(
                         uuid = it.uuid,
-                        species = it.species,
-                        form = it.form,
-                        level = it.level,
+                        properties = it.properties,
                         displayName = it.displayName,
-                        gender = it.gender,
                         hpRatio = it.hpRatio,
                         status = it.status,
                         statChanges = it.statChanges

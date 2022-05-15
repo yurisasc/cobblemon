@@ -1,11 +1,12 @@
 package com.cablemc.pokemoncobbled.common.client.render
 
+import com.cablemc.pokemoncobbled.common.api.gui.drawText
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.Text
+import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Matrix3f
 import net.minecraft.util.math.Matrix4f
@@ -52,16 +53,28 @@ fun getDepletableRedGreen(
 
 fun TextRenderer.drawScaled(
     matrixStack: MatrixStack,
-    text: Text,
-    x: Float,
-    y: Float,
+    font: Identifier? = null,
+    text: MutableText,
+    x: Number,
+    y: Number,
     scaleX: Float = 1F,
     scaleY: Float = 1F,
-    colour: Int = 0xFFFFFF
+    colour: Int = 0xFFFFFF,
+    centered: Boolean = false,
+    shadow: Boolean = false
 ) {
     matrixStack.push()
     matrixStack.scale(scaleX, scaleY, 1F)
-    draw(matrixStack, text, x / scaleX, y / scaleY, colour)
+    drawText(
+        poseStack = matrixStack,
+        font = font,
+        text = text,
+        x = x.toFloat() / scaleX,
+        y = y.toFloat() / scaleY,
+        centered = centered,
+        colour = colour,
+        shadow = shadow
+    )
     matrixStack.pop()
 }
 
