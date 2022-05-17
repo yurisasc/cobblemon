@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
+import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
@@ -13,12 +14,10 @@ import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.item.interactive.PokemonInteractiveItem
 import com.cablemc.pokemoncobbled.common.mixin.accessor.AccessorEntity
+import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
-import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.common.util.getBitForByte
-import com.cablemc.pokemoncobbled.common.util.isServerSide
-import com.cablemc.pokemoncobbled.common.util.setBitForByte
+import com.cablemc.pokemoncobbled.common.util.*
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import net.minecraft.block.BlockState
@@ -57,7 +56,7 @@ class PokemonEntity(
         set(value) {
             field = value
             delegate.changePokemon(value)
-            // We need to update this value everytime the Pokémon changes, other eye height related things will be dynamic.
+            // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
             this.updateEyeHeight()
         }
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.defaultPokemonDespawner
@@ -82,6 +81,7 @@ class PokemonEntity(
     val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
     val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
+    val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
 
     /**
      * 0 is do nothing,
@@ -115,7 +115,7 @@ class PokemonEntity(
         private val PHASING_TARGET_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         private val BEAM_MODE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
         private val BATTLE_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
-
+        private val ASPECTS = DataTracker.registerData(PokemonEntity::class.java, StringSetDataSerializer)
 
         const val BATTLE_LOCK = "battle"
     }
@@ -232,6 +232,8 @@ class PokemonEntity(
         buffer.writeInt(phasingTargetId.get())
         buffer.writeByte(beamModeEmitter.get().toInt())
         buffer.writeBoolean(pokemon.shiny)
+        buffer.writeSizedInt(IntSize.U_BYTE, pokemon.aspects.size)
+        pokemon.aspects.forEach(buffer::writeString)
     }
 
     override fun loadAdditionalSpawnData(buffer: PacketByteBuf) {
@@ -244,6 +246,11 @@ class PokemonEntity(
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
             shiny.set(buffer.readBoolean())
+            val aspects = mutableSetOf<String>()
+            repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
+                aspects.add(buffer.readString())
+            }
+            this.aspects.set(aspects)
         }
     }
 

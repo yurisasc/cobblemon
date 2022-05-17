@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
+import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
@@ -21,7 +22,7 @@ class Species {
 
     val baseStats = mapOf<Stat, Int>()
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
-    val maleRatio = 0.5F
+    val maleRatio: Float? = 0.5F
     val catchRate = 45
     // Only modifiable for debugging sizes
     var baseScale = 1F
@@ -36,6 +37,7 @@ class Species {
     val shoulderMountable: Boolean = false
     val shoulderEffects = mutableListOf<ShoulderEffect>()
     val levelUpMoves = LevelUpMoves()
+    val features = mutableSetOf<String>()
     private val standingEyeHeight: Float? = null
     private val swimmingEyeHeight: Float? = null
     private val flyingEyeHeight: Float? = null

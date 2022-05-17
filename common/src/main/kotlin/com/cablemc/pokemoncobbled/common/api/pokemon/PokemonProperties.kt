@@ -1,7 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon
 
-import com.cablemc.pokemoncobbled.common.api.pokemon.properties.CustomPokemonProperty
+import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
+import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.Gender
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.isInt
@@ -53,9 +55,11 @@ open class PokemonProperties {
                     return@mapNotNull property.fromString(matchedKeyPair.second)
                 }
             }.toMutableList()
-//            props.gender = Gender.values().toList().parsePropertyOfCollection(keyPairs, listOf("gender"), labelsOptional = true) { it.name.lowercase() }
+            props.gender = Gender.values().toList().parsePropertyOfCollection(keyPairs, listOf("gender"), labelsOptional = true) { it.name.lowercase() }
             props.level = parseIntProperty(keyPairs, listOf("level", "lvl", "l"))
+            props.shiny = parseBooleanProperty(keyPairs, listOf("shiny", "s"))
             props.species = parseSpeciesString(keyPairs)
+            props.updateAspects()
             return props
         }
 
@@ -190,13 +194,17 @@ open class PokemonProperties {
     var originalString: String? = null
 
     var species: String? = null
-//    var gender: Gender? = null
+    var shiny: Boolean? = null
+    var gender: Gender? = null
     var level: Int? = null
+    var aspects: Set<String> = emptySet()
 
     var customProperties = mutableListOf<CustomPokemonProperty>()
 
     fun apply(pokemon: Pokemon) {
         level?.let { pokemon.level = it }
+        shiny?.let { pokemon.shiny = it }
+        gender?.let { pokemon.gender = it }
         species?.let {
             if (it == "random") {
                 PokemonSpecies.species.random()
@@ -209,7 +217,8 @@ open class PokemonProperties {
 
     fun apply(pokemonEntity: PokemonEntity) {
         level?.let { pokemonEntity.pokemon.level = it }
-//        gender?.let { pokemonEntity.pokemon. }
+        shiny?.let { pokemonEntity.pokemon.shiny = it }
+        gender?.let { pokemonEntity.pokemon.gender = it }
         species?.let {
             if (it == "random") {
                 PokemonSpecies.species.random()
@@ -222,6 +231,8 @@ open class PokemonProperties {
 
     fun matches(pokemon: Pokemon): Boolean {
         level?.takeIf { it != pokemon.level }?.let { return false }
+        shiny?.takeIf { it != pokemon.shiny }?.let { return false }
+        gender?.takeIf { it != pokemon.gender }?.let { return false }
         species?.run {
             val species = if (this == "random") {
                 PokemonSpecies.species.random()
@@ -238,6 +249,8 @@ open class PokemonProperties {
 
     fun matches(pokemonEntity: PokemonEntity): Boolean {
         level?.takeIf { it != pokemonEntity.pokemon.level }?.let { return false }
+        shiny?.takeIf { it != pokemonEntity.shiny.get() }?.let { return false }
+        gender?.takeIf { it != pokemonEntity.pokemon.gender }?.let { return false }
         species?.run {
             val species = if (this == "random") {
                 PokemonSpecies.species.random()
@@ -260,11 +273,12 @@ open class PokemonProperties {
         return PokemonEntity(world, create())
     }
 
-    fun writeToNBT(): NbtCompound {
+    fun saveToNBT(): NbtCompound {
         val nbt = NbtCompound()
         originalString?.let { nbt.putString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT, it) }
         level?.let { nbt.putInt(DataKeys.POKEMON_LEVEL, it) }
-//        gender?.let { nbt.putString(DataKeys.POKEMON_GENDER) }
+        shiny?.let { nbt.putBoolean(DataKeys.POKEMON_SHINY, it) }
+        gender?.let { nbt.putString(DataKeys.POKEMON_GENDER, it.name) }
         species?.let { nbt.putString(DataKeys.POKEMON_SPECIES_TEXT, it) }
         val custom = NbtList()
         customProperties.map { NbtString.of(it.asString()) }.forEach { custom.add(it) }
@@ -272,21 +286,25 @@ open class PokemonProperties {
         return nbt
     }
 
-    fun readFromNBT(tag: NbtCompound): PokemonProperties {
+    fun loadFromNBT(tag: NbtCompound): PokemonProperties {
         originalString = tag.getString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT)
-        level = tag.getInt(DataKeys.POKEMON_LEVEL)
-        species = tag.getString(DataKeys.POKEMON_SPECIES_TEXT)
+        level = if (tag.contains(DataKeys.POKEMON_LEVEL)) tag.getInt(DataKeys.POKEMON_LEVEL) else null
+        shiny = if (tag.contains(DataKeys.POKEMON_SHINY)) tag.getBoolean(DataKeys.POKEMON_SHINY) else null
+        gender = if (tag.contains(DataKeys.POKEMON_GENDER)) Gender.valueOf(tag.getString(DataKeys.POKEMON_GENDER)) else null
+        species = if (tag.contains(DataKeys.POKEMON_SPECIES_TEXT)) tag.getString(DataKeys.POKEMON_SPECIES_TEXT) else null
         val custom = tag.getList(DataKeys.POKEMON_PROPERTIES_CUSTOM, NbtElement.STRING_TYPE.toInt())
         // This is kinda gross
         custom.forEach { customProperties.addAll(parse(it.asString()).customProperties) }
+        updateAspects()
         return this
     }
 
-    fun writeToJSON(): JsonObject {
+    fun saveToJSON(): JsonObject {
         val json = JsonObject()
         originalString?.let { json.addProperty(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT, it) }
         level?.let { json.addProperty(DataKeys.POKEMON_LEVEL, it) }
-//        gender?.let { nbt.putString(DataKeys.POKEMON_GENDER) }
+        shiny?.let { json.addProperty(DataKeys.POKEMON_SHINY, it) }
+        gender?.let { json.addProperty(DataKeys.POKEMON_GENDER, it.name) }
         species?.let { json.addProperty(DataKeys.POKEMON_SPECIES_TEXT, it) }
         val custom = JsonArray()
         customProperties.map { it.asString() }.forEach { custom.add(it) }
@@ -294,17 +312,36 @@ open class PokemonProperties {
         return json
     }
 
-    fun readFromJSON(json: JsonObject): PokemonProperties {
+    fun loadFromJSON(json: JsonObject): PokemonProperties {
         originalString = json.get(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT)?.asString
         level = json.get(DataKeys.POKEMON_LEVEL)?.asInt
+        shiny = json.get(DataKeys.POKEMON_SHINY)?.asBoolean
+        gender = json.get(DataKeys.POKEMON_GENDER)?.asString?.let { Gender.valueOf(it) }
         species = json.get(DataKeys.POKEMON_SPECIES_TEXT)?.asString
         val custom = json.get(DataKeys.POKEMON_PROPERTIES_CUSTOM)?.asJsonArray
         // This is still kinda gross
         custom?.forEach { customProperties.addAll(parse(it.asString).customProperties) }
+        updateAspects()
         return this
     }
 
+    fun asString(separator: String = " "): String {
+        val pieces = mutableListOf<String>()
+        species?.let { pieces.add(it) }
+        level?.let { pieces.add("level=$it") }
+        shiny?.let { pieces.add("shiny=$it") }
+        gender?.let { pieces.add("gender=$it")}
+        customProperties.forEach { pieces.add(it.asString()) }
+        return pieces.joinToString(separator)
+    }
+
+    fun updateAspects() {
+        val aspects = mutableSetOf<String>()
+        AspectProvider.providers.forEach { aspects.addAll(it.provide(this)) }
+        this.aspects = aspects.toSet()
+    }
+
     fun copy(): PokemonProperties {
-        return readFromJSON(writeToJSON())
+        return loadFromJSON(saveToJSON())
     }
 }
