@@ -1,0 +1,11 @@
+{
+  "animator": "ivysaur",
+  "model": "pokemoncobbled:geo/models/ivysaur.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/ivysaur.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/ivysaur-shiny.png"
+    }
+  ]
+}

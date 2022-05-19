@@ -1,0 +1,11 @@
+{
+  "animator": "wartortle",
+  "model": "pokemoncobbled:geo/models/wartortle.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/wartortle.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/wartortle-shiny.png"
+    }
+  ]
+}
