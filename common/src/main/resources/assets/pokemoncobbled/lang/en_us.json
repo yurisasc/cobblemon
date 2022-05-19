@@ -2723,6 +2723,7 @@
   "item.pokemoncobbled.shiny_stone": "Shiny Stone",
   "item.pokemoncobbled.sun_stone": "Sun Stone",
   "item.pokemoncobbled.thunder_stone": "Thunder Stone",
-  "item.pokemoncobbled.water_stone": "Water Stone"
+  "item.pokemoncobbled.water_stone": "Water Stone",
 
+  "gamerule.doPokemonSpawning": "Spawn pokémon"
 }
