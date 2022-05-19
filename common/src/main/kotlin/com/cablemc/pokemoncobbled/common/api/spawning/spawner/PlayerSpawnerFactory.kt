@@ -18,7 +18,7 @@ import net.minecraft.server.network.ServerPlayerEntity
  */
 object PlayerSpawnerFactory {
     var spawns: SpawnPool = CobbledSpawnPools.WORLD_SPAWN_POOL
-    var influenceBuilders = mutableListOf<(player: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5) }, { GameRuleInfluence(it) })
+    var influenceBuilders = mutableListOf<(player: ServerPlayerEntity) -> SpawningInfluence?>({ PlayerLevelRangeInfluence(it, variation = 5) }, { GameRuleInfluence() })
 
     fun create(spawnerManager: SpawnerManager, player: ServerPlayerEntity): PlayerSpawner {
         val influences = influenceBuilders.mapNotNull { it(player) }

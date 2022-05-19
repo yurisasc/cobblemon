@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.influence
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
+import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.PokemonSpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.PokemonSpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
@@ -49,7 +50,7 @@ open class PlayerLevelRangeInfluence(
         }
     }
 
-    override fun affectSpawnable(detail: SpawnDetail): Boolean {
+    override fun affectSpawnable(detail: SpawnDetail, ctx: SpawningContext): Boolean {
         return if (detail !is PokemonSpawnDetail) {
             true
         } else {
