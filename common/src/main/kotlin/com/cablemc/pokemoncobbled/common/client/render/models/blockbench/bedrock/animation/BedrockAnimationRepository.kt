@@ -10,7 +10,7 @@ import com.google.gson.GsonBuilder
  * Handles the loading and retrieval of bedrock animations.
  *
  * @author landonjw
- * @since  January 5, 2022
+ * @since January 5, 2022
  */
 object BedrockAnimationRepository {
 
@@ -30,7 +30,7 @@ object BedrockAnimationRepository {
     }
 
     fun loadAnimationsFromFile(fileName: String) {
-        val stream = PokemonCobbled::class.java.getResourceAsStream("/assets/${PokemonCobbled.MODID}/animations/$fileName") ?: throw IllegalStateException("animation file $fileName could not be found")
+        val stream = PokemonCobbled::class.java.getResourceAsStream("/assets/${PokemonCobbled.MODID}/geo/animations/$fileName") ?: throw IllegalStateException("animation file $fileName could not be found")
         val animationGroup = gson.fromJson<BedrockAnimationGroup>(stream.reader())
         animationGroup.animations.forEach { (name, animation) -> animations[name] = animation }
     }

@@ -1,6 +1,6 @@
-package com.cablemc.pokemoncobbled.common.api.pokemon.properties
+package com.cablemc.pokemoncobbled.common.api.properties
 
-import com.cablemc.pokemoncobbled.common.api.pokemon.properties.CustomPokemonProperty.Companion.register
+import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty.Companion.register
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 
@@ -16,6 +16,10 @@ interface CustomPokemonProperty {
     companion object {
         /** A list of all the registered [CustomPokemonPropertyType]s. */
         val properties = mutableListOf<CustomPokemonPropertyType<*>>()
+
+        fun <T: CustomPokemonProperty> register(propertyType: CustomPokemonPropertyType<T>) {
+            properties.add(propertyType)
+        }
 
         fun <T : CustomPokemonProperty> register(name: String, needsLabel: Boolean = true, fromString: (String?) -> T?) {
             register(listOf(name), needsLabel, fromString)

@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.api.pokemon.properties
+package com.cablemc.pokemoncobbled.common.api.properties
 
 /**
  * A provider of a particular sort of [CustomPokemonProperty]. This interface
