@@ -22,6 +22,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
     override val portraitScale = 1.6F
     override val portraitTranslation = Vec3d(0.0, 0.10, 0.0)
+//test
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
