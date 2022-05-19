@@ -20,6 +20,8 @@ class ClientBattlePokemon(
     lateinit var actor: ClientBattleActor
     val species: Species
         get() = PokemonSpecies.getByName(properties.species!!)!!
+    val level: Int
+        get() = properties.level ?: 0
 
     val state = PokemonFloatingState()
 }

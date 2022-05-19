@@ -2,12 +2,14 @@ package com.cablemc.pokemoncobbled.common.client.gui.battle
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
+import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.battle.ActiveClientBattlePokemon
 import com.cablemc.pokemoncobbled.common.client.render.drawScaled
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.hud.InGameHud
@@ -127,7 +129,6 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
 
         // Draw labels
         val infoBoxX = x + if (left) { PORTRAIT_DIAMETER + 2 * PORTRAIT_OFFSET + 2 } else { INFO_OFFSET_X.toFloat() }
-        RenderSystem.setShaderColor(1F, 1F, 1F, opacity.toFloat())
         mc.textRenderer.drawScaled(
             scaleX = 0.7F,
             scaleY = 0.7F,
@@ -138,6 +139,30 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             y = y + 5,
             colour = 0xFFFFFF,
             shadow = false
+        )
+        mc.textRenderer.drawScaled(
+            scaleX = 0.65F,
+            scaleY = 0.65F,
+            matrixStack = matrices,
+            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+            text = lang("ui.lv"),
+            x = infoBoxX + 55,
+            y = y + 5,
+            colour = 0xFFFFFF,
+            shadow = false
+        )
+
+        mc.textRenderer.drawScaled(
+            scaleX = 0.75F,
+            scaleY = 0.75F,
+            matrixStack = matrices,
+            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+            text = battlePokemon.level.toString().text(),
+            x = infoBoxX + 70,
+            y = y + 4.3,
+            colour = 0xFFFFFF,
+            shadow = false,
+            centered = true
         )
 
         val (healthRed, healthGreen) = getDepletableRedGreen(battlePokemon.hpRatio)
@@ -152,6 +177,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             green = healthGreen,
             blue = 0
         )
+
+
 
         matrices.pop()
     }
