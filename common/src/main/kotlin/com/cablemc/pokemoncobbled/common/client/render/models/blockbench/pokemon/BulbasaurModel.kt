@@ -29,7 +29,6 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("bulbasaur", "ground_idle1"),
                 bedrock("bulbasaur", "ground_idle2")
             ),
             transformedParts = arrayOf()
@@ -41,7 +40,6 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("bulbasaur", "ground_idle1"),
                 bedrock("bulbasaur", "ground_idle2"),
                 bedrock("bulbasaur", "ground_walk")
             ),
