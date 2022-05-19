@@ -1,0 +1,11 @@
+{
+  "animator": "squirtle",
+  "model": "pokemoncobbled:geo/models/squirtle.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/squirtle.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/squirtle-shiny.png"
+    }
+  ]
+}
