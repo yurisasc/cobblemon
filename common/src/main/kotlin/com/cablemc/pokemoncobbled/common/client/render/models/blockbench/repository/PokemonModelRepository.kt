@@ -26,10 +26,12 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerSpeciesWithAnimator(PokemonSpecies.BULBASAUR) { BulbasaurModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.IVYSAUR) { IvysaurModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.VENUSAUR) { VenusaurModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.CHARIZARD) { CharizardModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.SQUIRTLE) { SquirtleModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.WARTORTLE) { WartortleModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.BLASTOISE) { BlastoiseModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.CHARMELEON) { CharmeleonModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.CHARMANDER) { CharmanderModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.CHARIZARD) { CharizardModel(it) }
 
         registerBaseSpeciesModel(PokemonSpecies.BUTTERFREE, BlockBenchModelWrapper(ButterfreeModel.LAYER_LOCATION, ButterfreeModel::createBodyLayer) { ButterfreeModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.PIDGEY, BlockBenchModelWrapper(PidgeyModel.LAYER_LOCATION, PidgeyModel::createBodyLayer) { PidgeyModel(it) })
