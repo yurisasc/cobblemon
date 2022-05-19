@@ -1,0 +1,19 @@
+{
+  "animator": "venusaur",
+  "model": "pokemoncobbled:geo/models/venusaur.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/venusaur.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/venusaur-shiny.png"
+    },
+    {
+      "aspects": ["male"],
+      "model": "pokemoncobbled:geo/models/venusaur_male.geo.json"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:geo/models/venusaur_female.geo.json"
+    }
+  ]
+}

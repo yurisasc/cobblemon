@@ -23,18 +23,16 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     val species = mutableMapOf<Species, RegisteredSpeciesRendering>()
 
     override fun registerAll() {
-        registerSpeciesWithAnimator(PokemonSpecies.CHARIZARD) { CharizardModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.BULBASAUR) { BulbasaurModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.IVYSAUR) { IvysaurModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.VENUSAUR) { VenusaurModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.SQUIRTLE) { SquirtleModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.WARTORTLE) { WartortleModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.BLASTOISE) { BlastoiseModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.CHARMELEON) { CharmeleonModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.CHARMANDER) { CharmanderModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.CHARIZARD) { CharizardModel(it) }
 
-
-
-        registerBaseSpeciesModel(PokemonSpecies.BULBASAUR, BlockBenchModelWrapper(BulbasaurModel.LAYER_LOCATION, BulbasaurModel::createBodyLayer) { BulbasaurModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.IVYSAUR, BlockBenchModelWrapper(IvysaurModel.LAYER_LOCATION, IvysaurModel::createBodyLayer) { IvysaurModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.VENUSAUR, BlockBenchModelWrapper(VenusaurModel.LAYER_LOCATION, VenusaurModel::createBodyLayer) { VenusaurModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.SQUIRTLE, BlockBenchModelWrapper(SquirtleModel.LAYER_LOCATION, SquirtleModel::createBodyLayer) { SquirtleModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.WARTORTLE, BlockBenchModelWrapper(WartortleModel.LAYER_LOCATION, WartortleModel::createBodyLayer) { WartortleModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.BLASTOISE, BlockBenchModelWrapper(BlastoiseModel.LAYER_LOCATION, BlastoiseModel::createBodyLayer) { BlastoiseModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.BUTTERFREE, BlockBenchModelWrapper(ButterfreeModel.LAYER_LOCATION, ButterfreeModel::createBodyLayer) { ButterfreeModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.PIDGEY, BlockBenchModelWrapper(PidgeyModel.LAYER_LOCATION, PidgeyModel::createBodyLayer) { PidgeyModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.PIDGEOTTO, BlockBenchModelWrapper(PidgeottoModel.LAYER_LOCATION, PidgeottoModel::createBodyLayer) { PidgeottoModel(it) })
