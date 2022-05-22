@@ -8,8 +8,8 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame {
-    override val rootPart = root.registerChildWithSpecificChildren("butterfree", listOf("leftwing","rightwing","leftwingback","rightwingback","body","antenna_right","antenna_right2","antenna_left","antenna_left2","leg_right","leg_left","wing_right","wing_right2","wing_left","wing_left2"))
+class BeedrillModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWingedFrame {
+    override val rootPart = root.registerChildWithSpecificChildren("beedrill", listOf("body","antenna_right","antenna_right2","antenna_left","antenna_left2","wing_right","wing_right2","wing_left","wing_left2","abdomen","arm_right","arm_left","leg_right","leg_left","leg_left2","leg_right2","head_AI","head","arm_right2","arm_left2"))
     override val head = getPart("head")
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
@@ -30,7 +30,7 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("butterfree", "air_idle")
+                bedrock("beedrill", "air_idle")
             ),
             transformedParts = arrayOf()
         )
@@ -41,7 +41,7 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             condition = { !it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("butterfree", "air_idle")
+                bedrock("beedrill", "air_idle")
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -2F))
         )
@@ -52,7 +52,7 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             condition = { it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("butterfree", "air_fly")
+                bedrock("beedrill", "air_fly")
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, 6F))
         )

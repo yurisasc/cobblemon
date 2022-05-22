@@ -1,0 +1,11 @@
+{
+  "animator": "metapod",
+  "model": "pokemoncobbled:geo/models/metapod.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/metapod.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/metapod-shiny.png"
+    }
+  ]
+}

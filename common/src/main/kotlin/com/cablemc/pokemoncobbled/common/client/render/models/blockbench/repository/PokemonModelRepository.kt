@@ -32,8 +32,15 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerSpeciesWithAnimator(PokemonSpecies.CHARMELEON) { CharmeleonModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.CHARMANDER) { CharmanderModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.CHARIZARD) { CharizardModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.CATERPIE) { CaterpieModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.METAPOD) { MetapodModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.BUTTERFREE) { ButterfreeModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.WEEDLE) { WeedleModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.KAKUNA) { KakunaModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.BEEDRILL) { BeedrillModel(it) }
 
-        registerBaseSpeciesModel(PokemonSpecies.BUTTERFREE, BlockBenchModelWrapper(ButterfreeModel.LAYER_LOCATION, ButterfreeModel::createBodyLayer) { ButterfreeModel(it) })
+
+
         registerBaseSpeciesModel(PokemonSpecies.PIDGEY, BlockBenchModelWrapper(PidgeyModel.LAYER_LOCATION, PidgeyModel::createBodyLayer) { PidgeyModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.PIDGEOTTO, BlockBenchModelWrapper(PidgeottoModel.LAYER_LOCATION, PidgeottoModel::createBodyLayer) { PidgeottoModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.PIDGEOT, BlockBenchModelWrapper(PidgeotModel.LAYER_LOCATION, PidgeotModel::createBodyLayer) { PidgeotModel(it) })
