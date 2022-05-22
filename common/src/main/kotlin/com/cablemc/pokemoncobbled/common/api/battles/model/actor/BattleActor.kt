@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model.actor
 
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
+import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.ShowdownActionRequest
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
@@ -77,4 +78,5 @@ abstract class BattleActor(
     abstract fun getSwitch(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<UUID>>
     open fun sendMessage(component: Text) {}
     open fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {}
+    open fun sendUpdate(packet: NetworkPacket) {}
 }

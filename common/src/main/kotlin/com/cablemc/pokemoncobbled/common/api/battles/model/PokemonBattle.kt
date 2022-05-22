@@ -5,10 +5,14 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
+import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.battles.BattleSide
+import com.cablemc.pokemoncobbled.common.battles.dispatch.BattleDispatch
+import com.cablemc.pokemoncobbled.common.battles.dispatch.DispatchResult
+import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleEndPacket
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getPlayer
@@ -16,6 +20,7 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.text.Text
 import java.util.UUID
+import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
  * Individual battle instance
@@ -44,12 +49,18 @@ class PokemonBattle(
     val playerUUIDs: Iterable<UUID>
         get() = actors.flatMap { it.getPlayerUUIDs() }
     val players = playerUUIDs.mapNotNull { it.getPlayer() }
+    val spectators = mutableListOf<UUID>()
 
     val battleId = UUID.randomUUID()
 
+    val showdownMessages = mutableListOf<String>()
     var started = false
     // TEMP battle showcase stuff
     var announcingRules = false
+
+    var dispatchResult = GO
+    val dispatches = ConcurrentLinkedQueue<BattleDispatch>()
+
 
     /**
      * Gets an actor by their showdown id
@@ -80,8 +91,6 @@ class PokemonBattle(
             ?: throw IllegalStateException("Invalid pnx: $pnx - unknown pokemon")
         return actor to pokemon
     }
-
-//    fun getPokemon(showdownLabel: String): Pokemo
 
     fun broadcastChatMessage(component: Text) {
         return actors.forEach { it.sendMessage(component) }
@@ -124,12 +133,45 @@ class PokemonBattle(
                 }
             }
         }
-        endBattlePacket.sendToPlayers(players)
+        sendUpdate(endBattlePacket)
     }
 
     fun log(message: String = "") {
         if (!mute) {
             LOGGER.info(message)
+        }
+    }
+
+    fun sendUpdate(packet: NetworkPacket) {
+        actors.forEach { it.sendUpdate(packet) }
+        sendSpectatorUpdate(packet)
+    }
+
+    fun sendToActors(packet: NetworkPacket) {
+        CobbledNetwork.sendToPlayers(actors.flatMap { it.getPlayerUUIDs().mapNotNull { it.getPlayer() } }, packet)
+    }
+
+    fun sendSplitUpdate(privateActor: BattleActor, publicPacket: NetworkPacket, privatePacket: NetworkPacket) {
+        actors.forEach {  it.sendUpdate(if (it == privateActor) privatePacket else publicPacket) }
+        sendSpectatorUpdate(publicPacket)
+    }
+
+    fun sendSpectatorUpdate(packet: NetworkPacket) {
+        CobbledNetwork.sendToPlayers(spectators.mapNotNull { it.getPlayer() }, packet)
+    }
+
+    fun dispatch(dispatcher: () -> DispatchResult) {
+        dispatches.add(BattleDispatch { dispatcher() })
+    }
+
+    fun dispatch(dispatcher: BattleDispatch) {
+        dispatches.add(dispatcher)
+    }
+
+    fun tick() {
+        while (dispatchResult.canProceed()) {
+            val dispatch = dispatches.poll() ?: break
+            dispatchResult = dispatch(this)
         }
     }
 }

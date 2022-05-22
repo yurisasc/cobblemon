@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.battles.actor
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
+import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.text.aqua
 import com.cablemc.pokemoncobbled.common.api.text.bold
 import com.cablemc.pokemoncobbled.common.api.text.gold
@@ -182,5 +184,9 @@ class PlayerBattleActor(
 
         actor.sendMessage(battleLang("switch_option").gold() + ": ".gold() + "[".gray() + switchLabels.sum(", ".gray()) + "]".gray())
         return future
+    }
+
+    override fun sendUpdate(packet: NetworkPacket) {
+        CobbledNetwork.sendToPlayers(getPlayerUUIDs().mapNotNull { it.getPlayer() }, packet)
     }
 }
