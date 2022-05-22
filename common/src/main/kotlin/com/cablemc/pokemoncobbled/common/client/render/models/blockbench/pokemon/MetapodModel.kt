@@ -22,7 +22,7 @@ class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
             transformTicks = 10,
-            condition = { !it.isMoving.get() },
+            condition = { true },
             idleAnimations = arrayOf(
                 bedrock("metapod", "ground_idle")
             ),

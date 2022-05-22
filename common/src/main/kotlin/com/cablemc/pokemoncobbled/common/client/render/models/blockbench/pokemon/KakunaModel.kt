@@ -23,7 +23,7 @@ class KakunaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
             transformTicks = 10,
-            condition = { !it.isMoving.get() },
+            condition = { true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("kakuna", "ground_idle")
