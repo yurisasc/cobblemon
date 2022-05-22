@@ -38,7 +38,7 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         registerPose(
             poseType = PoseType.FLY,
             transformTicks = 10,
-            condition = { !it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("butterfree", "air_idle")
@@ -49,12 +49,23 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         registerPose(
             poseType = PoseType.SWIM,
             transformTicks = 10,
-            condition = { it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("butterfree", "air_fly")
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, 6F))
+        )
+        registerPose(
+            poseType = PoseType.WALK,
+            transformTicks = 10,
+            condition = { it.isMoving.get() },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("butterfree", "air_idle"),
+                bedrock("butterfree", "air_fly")
+            ),
+            transformedParts = emptyArray()
         )
     }
 }

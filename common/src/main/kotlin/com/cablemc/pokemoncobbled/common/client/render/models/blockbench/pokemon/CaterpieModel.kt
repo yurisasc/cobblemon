@@ -33,7 +33,7 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         registerPose(
             poseType = PoseType.WALK,
             transformTicks = 10,
-            condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("caterpie", "ground_idle"),
