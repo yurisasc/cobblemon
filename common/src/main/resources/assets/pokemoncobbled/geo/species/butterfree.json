@@ -1,0 +1,15 @@
+{
+  "animator": "butterfree",
+  "model": "pokemoncobbled:geo/models/butterfree_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/butterfree.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/butterfree-shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:geo/models/butterfree_female.geo.json"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "kakuna",
+  "nationalPokedexNumber": 14,
+  "primaryType": "bug",
+  "secondaryType": "poison",
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 45,
+    "attack": 25,
+    "defence": 50,
+    "specialAttack": 25,
+    "specialDefence": 25,
+    "speed": 35
+  },
+  "levelUpMoves": {
+    "1": ["harden"]
+  },
+  "catchRate": 120,
+  "experienceGroup": "mediumslow",
+  "baseExperienceYield": 64,
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.8,
+    "fixed": false
+  }
+}
