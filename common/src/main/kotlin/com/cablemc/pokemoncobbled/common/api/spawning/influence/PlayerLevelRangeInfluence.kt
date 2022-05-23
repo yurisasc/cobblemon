@@ -9,10 +9,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.util.math.intersection
 import com.cablemc.pokemoncobbled.common.util.math.intersects
-import net.minecraft.client.MinecraftClient
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.LiteralText
-import net.minecraft.util.Util
 import kotlin.math.max
 import kotlin.math.min
 
@@ -59,14 +56,8 @@ open class PlayerLevelRangeInfluence(
         } else {
             val playerRange = getPlayerLevelRange()
             val spawnRange = detail.getDerivedLevelRange()
-            val intersection = playerRange.intersects(spawnRange)
 
-            // Fabric Debug
-            // TODO: Remove when finished
-            val message = "[${playerRange.first}, ${playerRange.last}], [${spawnRange.first}, ${spawnRange.last}], $intersection"
-            MinecraftClient.getInstance().player!!.sendSystemMessage(LiteralText(message), Util.NIL_UUID)
-
-            intersection
+            playerRange.intersects(spawnRange)
         }
     }
 
