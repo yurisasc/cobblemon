@@ -5,10 +5,10 @@ import net.minecraft.network.PacketByteBuf
 
 class BattleMakeChoicePacket : NetworkPacket {
     override fun encode(buffer: PacketByteBuf) {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 }

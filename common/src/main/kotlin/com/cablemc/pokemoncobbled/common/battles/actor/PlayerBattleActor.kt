@@ -83,7 +83,7 @@ class PlayerBattleActor(
                 actor.sendMessage("- ".red() + move.move.asTranslated().red().onHover("No PP"))
             } else {
                 actor.sendMessage("- ${move.move}".aqua().onClick(canChoose) {
-                    val possibleTargets = move.getTargets(activeBattlePokemon)?.filter { it.battlePokemon != null }
+                    val possibleTargets = move.getTargets(activeBattlePokemon)?.filter { it.hasPokemon() }
                     if (possibleTargets == null || possibleTargets.isEmpty()) {
                         future.complete("move $moveIndex")
                     } else if (possibleTargets.size == 1) {
@@ -99,7 +99,7 @@ class PlayerBattleActor(
                                     it.aqua()
                                 }
                             }
-                            actor.sendMessage("- ".gold() + coloured(target.battlePokemon!!.getName()).onClick(canChooseTarget) {
+                            actor.sendMessage("- ".gold() + coloured((target as ActiveBattlePokemon).battlePokemon!!.getName()).onClick(canChooseTarget) {
                                 future.complete("move $moveIndex ${target.getSignedDigitRelativeTo(activeBattlePokemon)}")
                             })
                         }

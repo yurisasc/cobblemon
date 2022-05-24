@@ -122,7 +122,6 @@ class PokemonBattle(
     }
 
     fun end() {
-        val endBattlePacket = BattleEndPacket()
         for (actor in actors) {
             for (pokemon in actor.pokemonList.filter { it.health > 0 }) {
                 if (pokemon.facedOpponents.isNotEmpty() /* TODO exp share held item check */) {
@@ -133,7 +132,7 @@ class PokemonBattle(
                 }
             }
         }
-        sendUpdate(endBattlePacket)
+        sendUpdate(BattleEndPacket())
     }
 
     fun log(message: String = "") {

@@ -1,7 +1,77 @@
 package com.cablemc.pokemoncobbled.common.battles
 
-enum class MoveTarget(val targetList: (ActiveBattlePokemon) -> List<ActiveBattlePokemon>? = { null }) {
-    any({ pokemon -> pokemon.battle.activePokemon.filter { it != pokemon } }),
+import kotlin.math.abs
+
+
+interface Targetable {
+    fun getAllActivePokemon(): List<Targetable>
+
+    fun getFormat(): BattleFormat
+    fun isAllied(other: Targetable): Boolean
+    fun hasPokemon(): Boolean
+
+    fun getAdjacent(): List<Targetable> {
+        val digit = getDigit()
+        val sideSize = getFormat().battleType.slotsPerActor *  getFormat().battleType.actorsPerSide
+        return getAllActivePokemon().filter {
+            val sameSideDigit = if (it.isAllied(this)) {
+                it.getDigit()
+            } else {
+                sideSize - it.getDigit() + 1
+            }
+            val digitDistance = abs(sameSideDigit - digit)
+            return@filter digitDistance <= 1 && it != this
+        }
+    }
+
+    fun getAdjacentAllies() = getAdjacent().filter { it.isAllied(this) }
+    fun getAdjacentOpponents() = getAdjacent().filterNot { it.isAllied(this) }
+
+    fun getSignedDigitRelativeTo(other: Targetable): String {
+        val digit = getDigitRelativeTo(other)
+        return if (isAllied(other)) {
+            "-$digit"
+        } else {
+            "+$digit"
+        }
+    }
+    fun getDigitRelativeTo(other: Targetable) = getDigit(asAlly = isAllied(other))
+    fun getDigit(asAlly: Boolean = true): Int {
+        var digit = 1
+        for (activePokemon in getAllActivePokemon()) {
+            if (activePokemon == this) {
+                return digit
+            } else {
+                digit++
+            }
+        }
+        return digit * if (asAlly) 1 else -1
+    }
+
+    fun getLetter(): Char {
+        var index = 0
+        for (activePokemon in getAllActivePokemon()) {
+            if (activePokemon == this) {
+                break
+            } else {
+                index++
+            }
+        }
+
+        return when (index) {
+            0 -> 'a'
+            1 -> 'b'
+            2 -> 'c'
+            3 -> 'd'
+            4 -> 'e'
+            5 -> 'f'
+            else -> throw IllegalStateException("Battle has more than 6 in the active slot, makes no sense.")
+        }
+    }
+}
+
+enum class MoveTarget(val targetList: (Targetable) -> List<Targetable>? = { null }) {
+    any({ pokemon -> pokemon.getAllActivePokemon().filter { it != pokemon } }),
     all,
     allAdjacent,
     allAdjacentFoes,

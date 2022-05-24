@@ -4,8 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleEndPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleInitializePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
@@ -82,6 +81,9 @@ object CobbledNetwork {
         // Battle packets
         buildClientMessage<BattleEndPacket>()
         buildClientMessage<BattleInitializePacket>()
+        buildClientMessage<BattleQueueRequestPacket>()
+        buildClientMessage<BattleFaintPacket>()
+        buildClientMessage<BattleMakeChoicePacket>()
 
         /**
          * Server Packets

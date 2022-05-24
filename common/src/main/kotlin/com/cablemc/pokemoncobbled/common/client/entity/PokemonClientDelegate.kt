@@ -2,8 +2,6 @@ package com.cablemc.pokemoncobbled.common.client.entity
 
 import com.cablemc.pokemoncobbled.common.api.entity.PokemonSideDelegate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.api.reactive.Observable
-import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.scheduling.lerp

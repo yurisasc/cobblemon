@@ -10,10 +10,8 @@ class BattleQueueRequestPacket(): NetworkPacket {
         this.request = request
     }
     override fun encode(buffer: PacketByteBuf) {
-        TODO("Not yet implemented")
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        TODO("Not yet implemented")
     }
 }

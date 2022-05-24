@@ -4,9 +4,21 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary.SIDE_1_ALLY_BATTL
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary.SIDE_1_BATTLE_COLOUR
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary.SIDE_2_ALLY_BATTLE_COLOUR
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary.SIDE_2_BATTLE_COLOUR
+import com.cablemc.pokemoncobbled.common.battles.BattleFormat
+import com.cablemc.pokemoncobbled.common.battles.Targetable
+import com.cablemc.pokemoncobbled.common.client.battle.animations.TileAnimation
 import net.minecraft.client.MinecraftClient
+import java.util.concurrent.ConcurrentLinkedQueue
 
-class ActiveClientBattlePokemon(var battlePokemon: ClientBattlePokemon?) {
+class ActiveClientBattlePokemon(val actor: ClientBattleActor, var battlePokemon: ClientBattlePokemon?) : Targetable {
+    var animations = ConcurrentLinkedQueue<TileAnimation>()
+    var xDisplacement = 0F
+    var invisibleX = -1F
+
+    override fun getAllActivePokemon() =  actor.side.battle.sides.flatMap { it.activeClientBattlePokemon }
+    override fun getFormat() = actor.side.battle.battleFormat
+    override fun isAllied(other: Targetable) = actor.side == (other as ActiveClientBattlePokemon).actor.side
+    override fun hasPokemon() = battlePokemon != null
     fun getHue(): Int {
         val playerUUID = MinecraftClient.getInstance().player?.uuid ?: return 0xFAFAFA
         val actor = battlePokemon?.actor ?: return 0xFAFAFA
@@ -38,4 +50,10 @@ class ActiveClientBattlePokemon(var battlePokemon: ClientBattlePokemon?) {
         }
     }
 
+    fun animate(deltaTicks: Float) {
+        val animation = animations.peek() ?: return
+        if (animation.invoke(this, deltaTicks)) {
+            animations.remove()
+        }
+    }
 }

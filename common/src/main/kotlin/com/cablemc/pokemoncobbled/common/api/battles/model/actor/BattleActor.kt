@@ -31,12 +31,13 @@ abstract class BattleActor(
 
     fun turn() {
         val request = request ?: return
-        if (request.active == null || request.active.isEmpty() || request.wait) {
+        val requestActive = request.active
+        if (requestActive == null || requestActive.isEmpty() || request.wait) {
             this.request = null
             return
         }
         val toChoose = mutableListOf<ActiveBattlePokemon>()
-        for ((activeIndex, active) in request.active.withIndex()) {
+        for ((activeIndex, active) in requestActive.withIndex()) {
             val pokemon = activePokemon[activeIndex]
             pokemon.selectableMoves = active.moves
             toChoose.add(pokemon)

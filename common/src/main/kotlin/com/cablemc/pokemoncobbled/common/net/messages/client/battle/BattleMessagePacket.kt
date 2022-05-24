@@ -11,11 +11,11 @@ class BattleMessagePacket() : NetworkPacket {
     }
 
     override fun encode(buffer: PacketByteBuf) {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        TODO("Not yet implemented")
+        // TODO("Not yet implemented")
     }
 
 

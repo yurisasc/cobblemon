@@ -38,14 +38,14 @@ object BattleInitializeHandler : PacketHandler<BattleInitializePacket> {
             uuid = actorDTO.uuid
         ).apply {
             activePokemon.addAll(actorDTO.activePokemon.map {
-                ActiveClientBattlePokemon(it?.let {
+                ActiveClientBattlePokemon(this, it?.let {
                     ClientBattlePokemon(
                         uuid = it.uuid,
                         properties = it.properties,
                         displayName = it.displayName,
                         hpRatio = it.hpRatio,
                         status = it.status,
-                        statChanges = it.statChanges
+                        statChanges = it.statChanges,
                     )
                 })
             })

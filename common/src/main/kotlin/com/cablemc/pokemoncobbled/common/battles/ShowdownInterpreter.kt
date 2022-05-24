@@ -336,9 +336,9 @@ object ShowdownInterpreter {
             pokemon.battlePokemon = null
             GO
         }
-//        battle.broadcastChatMessage("".text())
-//        battle.broadcastChatMessage(">> ".red() + battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).gold())
-//        battle.broadcastChatMessage("".text())
+        battle.broadcastChatMessage("".text())
+        battle.broadcastChatMessage(">> ".red() + battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).gold())
+        battle.broadcastChatMessage("".text())
     }
 
     private fun handleWinInstruction(battle: PokemonBattle, message: String) {

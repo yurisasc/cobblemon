@@ -69,11 +69,21 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         matrices.push()
         val battlePokemon = activeBattlePokemon.battlePokemon ?: return
         // First render the underlay
-        var x = HORIZONTAL_INSET + rank * HORIZONTAL_SPACING
+        var x = HORIZONTAL_INSET + rank * HORIZONTAL_SPACING.toFloat()
         val y = VERTICAL_INSET + rank * VERTICAL_SPACING
         if (!left) {
             x = mc.window.scaledWidth - x - TILE_WIDTH
         }
+        val invisibleX = if (left) {
+            -TILE_WIDTH - 1F
+        } else {
+            mc.window.scaledWidth.toFloat()
+        }
+
+        activeBattlePokemon.invisibleX = invisibleX
+        activeBattlePokemon.xDisplacement = x
+        activeBattlePokemon.animate(tickDelta)
+        x = activeBattlePokemon.xDisplacement
 
         val portraitStartX = x + if (left) PORTRAIT_OFFSET else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET }
         blitk(
