@@ -43,6 +43,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
+import com.cablemc.pokemoncobbled.common.world.CobbledGameRules
 import com.cablemc.pokemoncobbled.common.worldgen.CobbledWorldgen
 import com.google.gson.GsonBuilder
 import dev.architectury.event.events.common.CommandRegistrationEvent
@@ -93,6 +94,7 @@ object PokemonCobbled {
         CobbledSounds.register()
         CobbledNetwork.register()
         CobbledFeatures.register()
+        CobbledGameRules.register()
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
