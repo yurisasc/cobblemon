@@ -58,9 +58,8 @@ abstract class SpawningContext {
      * @return true if the [SpawnDetail] is acceptable by the context's own logic.
      */
     open fun preFilter(detail: SpawnDetail): Boolean {
-        var pfbl = true
-        influences.forEach { if (!it.affectSpawnable(detail, this)) pfbl = false}
-        return pfbl
+        /** Returns true if none of the influences.affectSpawnable return false */
+        return influences.none { !it.affectSpawnable(detail, this) }
     }
     open fun afterSpawn(entity: Entity) {
         influences.forEach { it.affectSpawn(entity) }

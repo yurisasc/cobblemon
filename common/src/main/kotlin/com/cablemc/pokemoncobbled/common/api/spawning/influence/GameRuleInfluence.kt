@@ -7,10 +7,6 @@ import com.cablemc.pokemoncobbled.common.world.CobbledGameRules.DO_POKEMON_SPAWN
 
 open class GameRuleInfluence : SpawningInfluence {
     override fun affectSpawnable(detail: SpawnDetail, ctx: SpawningContext): Boolean {
-        return if (detail !is PokemonSpawnDetail) {
-            true
-        } else {
-            ctx.world.gameRules.getBoolean(DO_POKEMON_SPAWNING)
-        }
+        return detail !is PokemonSpawnDetail || ctx.world.gameRules.getBoolean(DO_POKEMON_SPAWNING)
     }
 }
