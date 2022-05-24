@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.influence
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
+import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.PokemonSpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.PokemonSpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
@@ -24,7 +25,7 @@ import kotlin.math.min
 open class PlayerLevelRangeInfluence(
     player: ServerPlayerEntity,
     val variation: Int,
-    val noPokemonRange: IntRange = 1 .. config.maxPokemonLevel,
+    val noPokemonRange: IntRange = 1 .. config.minimumLevelRangeMax,
     val recalculationMillis: Long = 5000L
 ) : SpawningInfluence {
     val uuid = player.uuid
@@ -39,7 +40,7 @@ open class PlayerLevelRangeInfluence(
             previousRange = if (party.any()) {
                 val minimumLevel = party.minOf { it.level }
                 val maximumLevel = party.maxOf { it.level }
-                IntRange(max(minimumLevel - variation, 1), min(maximumLevel + variation, config.maxPokemonLevel))
+                IntRange(max(minimumLevel - variation, 1), min(config.maxPokemonLevel, max(maximumLevel + variation, config.minimumLevelRangeMax)))
             } else {
                 noPokemonRange
             }
@@ -49,12 +50,13 @@ open class PlayerLevelRangeInfluence(
         }
     }
 
-    override fun affectSpawnable(detail: SpawnDetail): Boolean {
+    override fun affectSpawnable(detail: SpawnDetail, ctx: SpawningContext): Boolean {
         return if (detail !is PokemonSpawnDetail) {
             true
         } else {
             val playerRange = getPlayerLevelRange()
             val spawnRange = detail.getDerivedLevelRange()
+
             playerRange.intersects(spawnRange)
         }
     }
