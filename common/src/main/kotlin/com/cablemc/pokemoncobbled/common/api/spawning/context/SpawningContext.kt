@@ -57,7 +57,10 @@ abstract class SpawningContext {
      * Filters a spawning detail by some extra condition defined by the context itself. This is for API purposes.
      * @return true if the [SpawnDetail] is acceptable by the context's own logic.
      */
-    open fun preFilter(detail: SpawnDetail): Boolean = true
+    open fun preFilter(detail: SpawnDetail): Boolean {
+        /** Returns true if none of the influences.affectSpawnable return false */
+        return influences.none { !it.affectSpawnable(detail, this) }
+    }
     open fun afterSpawn(entity: Entity) {
         influences.forEach { it.affectSpawn(entity) }
     }

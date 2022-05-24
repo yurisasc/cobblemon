@@ -342,6 +342,6 @@ open class PokemonProperties {
     }
 
     fun copy(): PokemonProperties {
-        return loadFromJSON(saveToJSON())
+        return PokemonProperties().loadFromJSON(saveToJSON())
     }
 }
