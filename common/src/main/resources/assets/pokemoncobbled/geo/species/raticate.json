@@ -8,11 +8,6 @@
       "texture": "pokemoncobbled:textures/pokemon/raticate-shiny.png"
     },
     {
-      "aspects": ["female","shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/raticate-shiny.png",
-      "model": "pokemoncobbled:geo/models/raticate_female.geo.json"
-    },
-    {
       "aspects": ["female"],
       "model": "pokemoncobbled:geo/models/raticate_female.geo.json"
     }

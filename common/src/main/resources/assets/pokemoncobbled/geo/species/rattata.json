@@ -8,11 +8,6 @@
       "texture": "pokemoncobbled:textures/pokemon/rattata-shiny.png"
     },
     {
-      "aspects": ["female","shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/rattata-shiny.png",
-      "model": "pokemoncobbled:geo/models/rattata_female.geo.json"
-    },
-    {
       "aspects": ["female"],
       "model": "pokemoncobbled:geo/models/rattata_female.geo.json"
     }
