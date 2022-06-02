@@ -14,7 +14,7 @@ abstract class TypeWidget(
 ): SoundlessWidget(pX, pY, pWidth, pHeight, pMessage) {
 
     companion object {
-        private val typeResource = cobbledResource("ui/types.png")
+        val typeResource = cobbledResource("ui/types.png")
         private const val OFFSET = 0.5
     }
 

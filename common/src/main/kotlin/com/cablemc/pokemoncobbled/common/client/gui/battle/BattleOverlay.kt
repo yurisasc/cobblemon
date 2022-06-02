@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.battle.ActiveClientBattlePokemon
-import com.cablemc.pokemoncobbled.common.client.render.drawScaled
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.lang
@@ -42,6 +42,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
     }
 
     var opacity = MIN_OPACITY
+    val opacityRatio: Double
+        get() = (opacity - MIN_OPACITY) / (MAX_OPACITY - MIN_OPACITY)
 
     override fun render(matrices: MatrixStack, tickDelta: Float) {
         val battle = PokemonCobbledClient.battle ?: return
@@ -139,7 +141,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
 
         // Draw labels
         val infoBoxX = x + if (left) { PORTRAIT_DIAMETER + 2 * PORTRAIT_OFFSET + 2 } else { INFO_OFFSET_X.toFloat() }
-        mc.textRenderer.drawScaled(
+        drawScaledText(
             scaleX = 0.7F,
             scaleY = 0.7F,
             matrixStack = matrices,
@@ -147,10 +149,10 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             text = battlePokemon.displayName,
             x = infoBoxX,
             y = y + 5,
-            colour = 0xFFFFFF,
+            opacity = opacity,
             shadow = false
         )
-        mc.textRenderer.drawScaled(
+        drawScaledText(
             scaleX = 0.65F,
             scaleY = 0.65F,
             matrixStack = matrices,
@@ -158,11 +160,11 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             text = lang("ui.lv"),
             x = infoBoxX + 55,
             y = y + 5,
-            colour = 0xFFFFFF,
+            opacity = opacity,
             shadow = false
         )
 
-        mc.textRenderer.drawScaled(
+        drawScaledText(
             scaleX = 0.75F,
             scaleY = 0.75F,
             matrixStack = matrices,
@@ -170,7 +172,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             text = battlePokemon.level.toString().text(),
             x = infoBoxX + 70,
             y = y + 4.3,
-            colour = 0xFFFFFF,
+            opacity = opacity,
             shadow = false,
             centered = true
         )

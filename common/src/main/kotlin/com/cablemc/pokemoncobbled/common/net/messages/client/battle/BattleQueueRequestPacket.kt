@@ -10,8 +10,10 @@ class BattleQueueRequestPacket(): NetworkPacket {
         this.request = request
     }
     override fun encode(buffer: PacketByteBuf) {
+        request.saveToBuffer(buffer)
     }
 
     override fun decode(buffer: PacketByteBuf) {
+        request = ShowdownActionRequest().loadFromBuffer(buffer)
     }
 }

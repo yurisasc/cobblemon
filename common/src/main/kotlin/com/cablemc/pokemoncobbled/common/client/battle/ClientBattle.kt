@@ -11,7 +11,6 @@ class ClientBattle(
     var minimised = true
     var spectating = false
 
-
     val side1 = ClientBattleSide()
     val side2 = ClientBattleSide()
 
@@ -19,6 +18,7 @@ class ClientBattle(
         get() = arrayOf(side1, side2)
 
     var actionRequest: ShowdownActionRequest? = null
+    var mustChoose = false
     fun getPokemonFromPNX(pnx: String): Pair<ClientBattleActor, ActiveClientBattlePokemon> {
         val actor = sides.flatMap { it.actors }.find { it.showdownId == pnx.substring(0, 2) }
             ?: throw IllegalStateException("Invalid pnx: $pnx - unknown actor")

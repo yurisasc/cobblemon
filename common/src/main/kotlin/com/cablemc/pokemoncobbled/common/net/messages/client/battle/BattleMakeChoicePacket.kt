@@ -4,11 +4,6 @@ import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import net.minecraft.network.PacketByteBuf
 
 class BattleMakeChoicePacket : NetworkPacket {
-    override fun encode(buffer: PacketByteBuf) {
-        // TODO("Not yet implemented")
-    }
-
-    override fun decode(buffer: PacketByteBuf) {
-        // TODO("Not yet implemented")
-    }
+    override fun encode(buffer: PacketByteBuf) {}
+    override fun decode(buffer: PacketByteBuf) {}
 }

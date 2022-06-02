@@ -5,7 +5,7 @@ import kotlin.math.abs
 
 interface Targetable {
     fun getAllActivePokemon(): List<Targetable>
-
+    fun getActorPokemon(): List<Targetable>
     fun getFormat(): BattleFormat
     fun isAllied(other: Targetable): Boolean
     fun hasPokemon(): Boolean
@@ -50,7 +50,7 @@ interface Targetable {
 
     fun getLetter(): Char {
         var index = 0
-        for (activePokemon in getAllActivePokemon()) {
+        for (activePokemon in getActorPokemon()) {
             if (activePokemon == this) {
                 break
             } else {

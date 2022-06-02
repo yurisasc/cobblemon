@@ -1,12 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model.ai
 
-import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
-import com.cablemc.pokemoncobbled.common.api.battles.model.actor.AIBattleActor
-import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
-import com.cablemc.pokemoncobbled.common.api.moves.Move
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
+import com.cablemc.pokemoncobbled.common.battles.ShowdownActionResponse
+import com.cablemc.pokemoncobbled.common.battles.ShowdownMoveset
 import java.util.UUID
-import java.util.concurrent.CompletableFuture
 
 /**
  * Interface for an actors battle AI
@@ -16,9 +13,11 @@ import java.util.concurrent.CompletableFuture
  */
 interface BattleAI {
     /**
-     * Requests that the AI choose moves for the given Pokémon
-     * @return the move choice
+     * Requests that the AI choose an action for the given Pokémon
+     * @param activeBattlePokemon The Pokémon slot that is choosing an action
+     * @param moveset The [ShowdownMoveset] for this slot. This can be null if [forceSwitch] is true. Otherwise it is the available move information from Showdown.
+     * @param forceSwitch Whether or not this is a force switch situation.
+     * @return the action response
      */
-    fun chooseMoves(activePokemon: Iterable<ActiveBattlePokemon>) : Iterable<String>
-    fun chooseSwitches(activePokemon: Iterable<ActiveBattlePokemon>): Iterable<UUID>
+    fun choose(activeBattlePokemon: ActiveBattlePokemon, moveset: ShowdownMoveset?, forceSwitch: Boolean): ShowdownActionResponse
 }

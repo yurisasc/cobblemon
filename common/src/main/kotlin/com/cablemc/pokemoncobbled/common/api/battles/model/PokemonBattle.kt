@@ -172,5 +172,14 @@ class PokemonBattle(
             val dispatch = dispatches.poll() ?: break
             dispatchResult = dispatch(this)
         }
+
+//        checkForInputDispatch() Probably don't need it here if we're running it each time someone chooses actions
+    }
+
+    fun checkForInputDispatch() {
+        val readyToInput = actors.any { !it.mustChoose && it.responses.isNotEmpty() } && actors.none { it.mustChoose }
+        if (readyToInput) {
+            actors.filter { it.responses.isNotEmpty() }.forEach { it.writeShowdownResponse() }
+        }
     }
 }

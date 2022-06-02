@@ -72,6 +72,10 @@
   "pokemoncobbled.ui.pokemonteam": "Pokémon Team",
   "pokemoncobbled.ui.lv": "Lv.",
   "pokemoncobbled.ui.changemove": "Change",
+  "pokemoncobbled.battle.ui.fight": "Fight",
+  "pokemoncobbled.battle.ui.switch": "Switch",
+  "pokemoncobbled.battle.ui.hide_label": "Press %1$s to move.",
+  "pokemoncobbled.battle.ui.actions_label": "You need to choose an action. Press %1$s.",
 
   "pokemoncobbled.challenge_label": "Press %1$s to battle.",
 

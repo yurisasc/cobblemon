@@ -15,6 +15,13 @@ fun Float?.orMin() = this ?: Int.MIN_VALUE.toFloat()
 fun Int?.orMax() = this ?: Int.MAX_VALUE
 fun Int?.orMin() = this ?: Int.MIN_VALUE
 
+fun Int.toRGB(): Triple<Double, Double, Double> {
+    val r = ((this shr 16) and 0b11111111) / 255.0
+    val g = ((this shr 8) and 0b11111111) / 255.0
+    val b = (this and 0b11111111) / 255.0
+    return Triple(r, g, b)
+}
+
 fun IntRange.intersects(other: IntRange) = start in other || endInclusive in other || other.start in this
 fun IntRange.intersection(other: IntRange): IntRange {
     val intersectionStart = max(other.start, start)

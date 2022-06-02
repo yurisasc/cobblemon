@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
-import com.cablemc.pokemoncobbled.common.client.render.drawScaled
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -161,7 +161,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 val fontScale = 0.5F
                 val horizontalScale = fontScale * 1F
 
-                minecraft.textRenderer.drawScaled(
+                drawScaledText(
                     matrixStack = matrixStack,
                     text = pokemon.species.translatedName,
                     x = panelX + 2.5F,
@@ -170,7 +170,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                     scaleY = horizontalScale
                 )
 
-                minecraft.textRenderer.drawScaled(
+                drawScaledText(
                     matrixStack = matrixStack,
                     text = "pokemoncobbled.ui.lv".asTranslated(),
                     x = panelX + 2.5F,
@@ -180,7 +180,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 )
 
                 val width = minecraft.textRenderer.getWidth(pokemon.level.toString())
-                minecraft.textRenderer.drawScaled(
+                drawScaledText(
                     matrixStack = matrixStack,
                     text = TranslatableText(pokemon.level.toString()),
                     x = panelX + 6.5F - width / 4F,

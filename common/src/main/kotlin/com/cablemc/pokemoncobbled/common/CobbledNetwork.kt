@@ -12,6 +12,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.util.getServer
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -94,6 +95,9 @@ object CobbledNetwork {
         buildServerMessage<RequestMoveSwapPacket>()
         buildServerMessage<BenchMovePacket>()
         buildServerMessage<ChallengePacket>()
+
+        // Battle packets
+        buildServerMessage<BattleSelectActionsPacket>()
     }
 
     private inline fun <reified P : NetworkPacket> buildClientMessage() =

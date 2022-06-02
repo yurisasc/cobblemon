@@ -32,7 +32,7 @@ class PlayerBattleActor(
     // TEMP battle showcase stuff
     var announcedPokemon = false
 
-    fun getPlayerEntity() = getServer()!!.playerManager.getPlayer(uuid)
+    fun getPlayerEntity() = uuid.getPlayer()
     override fun sendMessage(component: Text) = getPlayerEntity()?.sendServerMessage(component) ?: Unit
     override fun getName(): MutableText = getPlayerEntity()!!.name.copy()
 
@@ -45,14 +45,14 @@ class PlayerBattleActor(
         }
     }
 
-    override fun getChoices(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<String>> {
-        sendMessage(">> ".gold() + battleLang("choose_actions").gold().bold())
-        val choices = mutableListOf<String>()
-        val future = CompletableFuture<Iterable<String>>()
-        getMoveChoices(future, activePokemon.toMutableList(), choices)
-        return future
-    }
-
+//    override fun getChoices(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<String>> {
+//        sendMessage(">> ".gold() + battleLang("choose_actions").gold().bold())
+//        val choices = mutableListOf<String>()
+//        val future = CompletableFuture<Iterable<String>>()
+//        getMoveChoices(future, activePokemon.toMutableList(), choices)
+//        return future
+//    }
+//
     fun getMoveChoices(allFuture: CompletableFuture<Iterable<String>>, list: MutableList<ActiveBattlePokemon>, madeChoices: MutableList<String>) {
         val first = list.first()
         list.removeAt(0)
@@ -131,12 +131,12 @@ class PlayerBattleActor(
         return future
     }
 
-    override fun getSwitch(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<UUID>> {
-        val switches = mutableListOf<UUID>()
-        val future = CompletableFuture<Iterable<UUID>>()
-        getSwitchChoices(future, activePokemon.toMutableList(), switches)
-        return future
-    }
+//    override fun getSwitch(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<UUID>> {
+//        val switches = mutableListOf<UUID>()
+//        val future = CompletableFuture<Iterable<UUID>>()
+//        getSwitchChoices(future, activePokemon.toMutableList(), switches)
+//        return future
+//    }
 
     fun getSwitchChoices(allFuture: CompletableFuture<Iterable<UUID>>, list: MutableList<ActiveBattlePokemon>, madeSwitches: MutableList<UUID>) {
         val first = list.first()

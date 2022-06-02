@@ -13,6 +13,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalcul
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.StandardExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
+import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledWorldSpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
@@ -163,7 +164,10 @@ object PokemonCobbled {
         SpawnDetail.registerSpawnType(name = PokemonSpawnDetail.TYPE, PokemonSpawnDetail::class.java)
 
         SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
-        SERVER_POST.register { spawnerManagers.forEach { it.onServerTick() } }
+        SERVER_POST.register {
+            spawnerManagers.forEach { it.onServerTick() }
+            BattleRegistry.tick()
+        }
 
         showdownThread.showdownStarted.thenAccept {
             LOGGER.info("Starting dummy battle to pre-load data.")
@@ -173,6 +177,8 @@ object PokemonCobbled {
                 BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize())))
             ).apply { mute = true }
         }
+
+
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {

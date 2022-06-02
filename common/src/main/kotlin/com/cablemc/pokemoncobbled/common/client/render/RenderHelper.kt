@@ -51,7 +51,7 @@ fun getDepletableRedGreen(
     return r.toFloat() to g.toFloat()
 }
 
-fun TextRenderer.drawScaled(
+fun drawScaledText(
     matrixStack: MatrixStack,
     font: Identifier? = null,
     text: MutableText,
@@ -59,7 +59,8 @@ fun TextRenderer.drawScaled(
     y: Number,
     scaleX: Float = 1F,
     scaleY: Float = 1F,
-    colour: Int = 0xFFFFFF,
+    opacity: Number = 1F,
+    colour: Int = 0x00FFFFFF + ((opacity.toFloat() * 255).toInt() shl 24),
     centered: Boolean = false,
     shadow: Boolean = false
 ) {

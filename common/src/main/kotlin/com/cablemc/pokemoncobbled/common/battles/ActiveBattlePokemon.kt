@@ -8,7 +8,12 @@ class ActiveBattlePokemon(val actor: BattleActor, var battlePokemon: BattlePokem
     var selectableMoves: List<InBattleMove> = emptyList()
     fun getSide() = actor.getSide()
     override fun getAllActivePokemon() = battle.activePokemon.toList()
+    override fun getActorPokemon() = actor.activePokemon.toList()
     override fun getFormat() = battle.format
     override fun isAllied(other: Targetable) = getSide() == (other as ActiveBattlePokemon).getSide()
     override fun hasPokemon() = battlePokemon != null
+
+    fun getPNX(): String {
+        return actor.showdownId + getLetter()
+    }
 }
