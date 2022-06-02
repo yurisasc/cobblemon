@@ -8,10 +8,9 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.IVs
 import com.cablemc.pokemoncobbled.common.pokemon.Nature
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.battleLang
-import net.minecraft.network.chat.MutableComponent
-import java.util.UUID
+import net.minecraft.text.MutableText
+import java.util.*
 
 open class BattlePokemon(
     val originalPokemon: Pokemon,
@@ -43,9 +42,10 @@ open class BattlePokemon(
         get() = effectedPokemon.entity
     var willBeSwitchedIn = false
 
+    /** A set of all the BattlePokemon that they faced during the battle (for exp purposes) */
     val facedOpponents = mutableSetOf<BattlePokemon>()
 
-    open fun getName(): MutableComponent {
+    open fun getName(): MutableText {
         return if (actor is PokemonBattleActor || actor is MultiPokemonBattleActor) {
             effectedPokemon.species.translatedName
         } else {

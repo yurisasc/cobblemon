@@ -1,15 +1,15 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import net.minecraft.network.chat.TranslatableComponent
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.text.TranslatableText
+import net.minecraft.util.Identifier
 import kotlin.math.min
 
-fun cobbledResource(path: String) = ResourceLocation(PokemonCobbled.MODID, path)
+fun cobbledResource(path: String) = Identifier(PokemonCobbled.MODID, path)
 
-fun String.asTranslated() = TranslatableComponent(this)
-fun String.asResource() = ResourceLocation(this)
-fun String.asTranslated(vararg data: Any) = TranslatableComponent(this, *data)
+fun String.asTranslated() = TranslatableText(this)
+fun String.asResource() = Identifier(this)
+fun String.asTranslated(vararg data: Any) = TranslatableText(this, *data)
 fun String.isInt() = this.toIntOrNull() != null
 fun String.isHigherVersion(other: String): Boolean {
     val thisSplits = split(".")

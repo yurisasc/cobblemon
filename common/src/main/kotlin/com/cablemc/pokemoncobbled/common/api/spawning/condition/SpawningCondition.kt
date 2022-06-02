@@ -7,7 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.util.math.orMax
 import com.cablemc.pokemoncobbled.common.util.math.orMin
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * The root of spawning conditions that can be applied to a spawning context. What type
@@ -25,7 +25,7 @@ abstract class SpawningCondition<T : SpawningContext> {
         }
     }
 
-    val dimensions: MutableList<ResourceLocation> = mutableListOf()
+    val dimensions: MutableList<Identifier> = mutableListOf()
     val biomes = BiomeList()
     val moonPhase: Int? = null
     var skyAbove: Boolean? = null
@@ -59,7 +59,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (ctx.position.z < minZ.orMin() || ctx.position.z > maxZ.orMax()) {
             return false
-        } else if (dimensions.isNotEmpty() && ctx.level.dimension().location() !in dimensions) {
+        } else if (dimensions.isNotEmpty() && ctx.world.dimension.effects !in dimensions) {
             return false
         } else if (moonPhase != null && moonPhase != ctx.moonPhase) {
             return false
@@ -67,7 +67,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
             return false
-        } else if (timeRange != null && !timeRange!!.contains((ctx.level.dayTime() % 24000).toInt())) {
+        } else if (timeRange != null && !timeRange!!.contains((ctx.world.timeOfDay % 24000).toInt())) {
             return false
         } else if (skyAbove != null && skyAbove != ctx.skyAbove) {
             return false

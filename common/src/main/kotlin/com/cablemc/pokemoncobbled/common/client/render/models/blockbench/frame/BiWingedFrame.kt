@@ -3,8 +3,8 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.WingFlapIdleAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
-import net.minecraft.client.model.geom.ModelPart
-import net.minecraft.world.entity.Entity
+import net.minecraft.client.model.ModelPart
+import net.minecraft.entity.Entity
 
 interface BiWingedFrame : ModelFrame {
     val leftWing: ModelPart

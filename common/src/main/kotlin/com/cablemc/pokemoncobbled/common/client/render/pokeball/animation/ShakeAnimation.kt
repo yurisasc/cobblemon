@@ -10,7 +10,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefun
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.times
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import net.minecraft.util.Mth.PI
+import net.minecraft.util.math.MathHelper.PI
 
 /**
  * Animation that shakes a PokéBall on the specified axis, with the specified force.

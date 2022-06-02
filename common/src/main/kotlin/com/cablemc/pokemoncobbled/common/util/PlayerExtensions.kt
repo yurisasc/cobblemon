@@ -1,49 +1,112 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
-import net.minecraft.Util
-import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
-import net.minecraft.network.chat.Component
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.block.state.BlockState
-import net.minecraft.world.phys.Vec3
-import java.util.UUID
+import net.minecraft.block.BlockState
+import net.minecraft.entity.Entity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
+import net.minecraft.util.Util
+import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Vec3d
+import java.util.*
 
 // Stuff like getting their party
-fun ServerPlayer.party() = PokemonCobbled.storage.getParty(this)
+fun ServerPlayerEntity.party() = PokemonCobbled.storage.getParty(this)
+fun UUID.getPlayer() = getServer()?.playerManager?.getPlayer(this)
 
-fun UUID.getPlayer() = getServer()?.playerList?.getPlayer(this)
-
-fun Player.sendServerMessage(component: Component) {
-    sendMessage(component, Util.NIL_UUID)
+fun Entity.sendServerMessage(component: Text) {
+    sendSystemMessage(component, Util.NIL_UUID)
 }
 
-fun Player.sendServerMessage(text: String) {
-    sendServerMessage(text.asTranslated())
+fun Entity.sendTranslatedServerMessage(str: String) {
+    sendServerMessage(str.asTranslated())
 }
 
 class TraceResult(
-    val location: Vec3,
+    val location: Vec3d,
     val blockPos: BlockPos,
     val direction: Direction
 )
 
-fun Player.traceBlockCollision(
+fun Entity.isLookingAt(other: Entity, maxDistance: Float = 10F, stepDistance: Float = 0.01F): Boolean {
+    var step = stepDistance
+    val startPos = eyePos
+    val direction = rotationVector
+
+    while (step <= maxDistance) {
+        val location = startPos.add(direction.multiply(step.toDouble()))
+        step += stepDistance
+
+        if (location in other.boundingBox) {
+            return true
+        }
+    }
+    return false
+}
+
+class EntityTraceResult<T : Entity>(
+    val location: Vec3d,
+    val entities: Iterable<T>
+)
+
+fun <T : Entity> PlayerEntity.traceFirstEntityCollision(
+    maxDistance: Float = 10F,
+    stepDistance: Float = 0.05F,
+    entityClass: Class<T>
+): T? {
+    return traceEntityCollision(
+        maxDistance,
+        stepDistance,
+        entityClass
+    )?.let { it.entities.minByOrNull { it.distanceTo(this) } }
+}
+
+fun <T : Entity> PlayerEntity.traceEntityCollision(
+    maxDistance: Float = 10F,
+    stepDistance: Float = 0.05F,
+    entityClass: Class<T>
+): EntityTraceResult<T>? {
+    var step = stepDistance
+    val startPos = eyePos
+    val direction = rotationVector
+    val maxDistanceVector = Vec3d(1.0, 1.0, 1.0).multiply(maxDistance.toDouble())
+
+    val entities = world.getOtherEntities(
+        null,
+        Box(startPos.subtract(maxDistanceVector), startPos.add(maxDistanceVector)),
+        { entityClass.isInstance(it) }
+    )
+
+    while (step <= maxDistance) {
+        val location = startPos.add(direction.multiply(step.toDouble()))
+        step += stepDistance
+
+        val collided = entities.filter { location in it.boundingBox }.filterIsInstance(entityClass)
+
+        if (collided.isNotEmpty()) {
+            return EntityTraceResult(location, collided)
+        }
+    }
+
+    return null
+}
+
+fun PlayerEntity.traceBlockCollision(
     maxDistance: Float = 10F,
     stepDistance: Float = 0.05F,
     blockFilter: (BlockState) -> Boolean = { it.material.isSolid }
 ): TraceResult? {
     var step = stepDistance
-    val startPos = eyePosition
-    val direction = lookAngle
+    val startPos = eyePos
+    val direction = rotationVector
 
     var lastBlockPos = startPos.toBlockPos()
 
     while (step <= maxDistance) {
-        val location = startPos.add(direction.scale(step.toDouble()))
+        val location = startPos.add(direction.multiply(step.toDouble()))
         step += stepDistance
 
         val blockPos = location.toBlockPos()
@@ -54,7 +117,7 @@ fun Player.traceBlockCollision(
             lastBlockPos = blockPos
         }
 
-        val block = level.getBlockState(blockPos)
+        val block = world.getBlockState(blockPos)
         if (blockFilter(block)) {
             val dir = findDirectionForIntercept(startPos, location, blockPos)
             return TraceResult(
@@ -69,7 +132,7 @@ fun Player.traceBlockCollision(
     return null
 }
 
-fun findDirectionForIntercept(p0: Vec3, p1: Vec3, blockPos: BlockPos): Direction {
+fun findDirectionForIntercept(p0: Vec3d, p1: Vec3d, blockPos: BlockPos): Direction {
     val xFunc: (Double) -> Double = { p0.x + (p1.x - p0.x) * it }
     val yFunc: (Double) -> Double = { p0.y + (p1.y - p0.y) * it }
     val zFunc: (Double) -> Double = { p0.z + (p1.z - p0.z) * it }

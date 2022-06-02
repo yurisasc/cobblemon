@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.H
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
-import net.minecraft.world.entity.Entity
+import net.minecraft.entity.Entity
 
 /**
  * A very simple animation for [HeadedFrame]s which has the entity look along the head yaw and pitch.

@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.pokemon.status
 
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * Main API point for Statuses
@@ -20,7 +20,7 @@ object Statuses {
         return status
     }
 
-    fun getStatus(name: ResourceLocation): Status? {
+    fun getStatus(name: Identifier): Status? {
         return allStatuses.find { status -> status.name == name }
     }
 }

@@ -4,8 +4,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
-import com.mojang.math.Vector3d
-import net.minecraft.world.entity.Entity
+import net.minecraft.client.util.math.Vector3d
+import net.minecraft.entity.Entity
 import java.util.*
 
 /**
@@ -32,18 +32,18 @@ class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: Bed
                 if (timeline.position.isNotEmpty()) {
                     val position = interpolate(timeline.position, animationSeconds)
                     part.modelPart.apply {
-                        x += position.x.toFloat()
-                        y += position.y.toFloat()
-                        z += position.z.toFloat()
+                        pivotX += position.x.toFloat()
+                        pivotY += position.y.toFloat()
+                        pivotZ += position.z.toFloat()
                     }
                 }
 
                 if (timeline.rotation.isNotEmpty()) {
                     val rotation = interpolate(timeline.rotation, animationSeconds)
                     part.modelPart.apply {
-                        xRot += rotation.x.toFloat().toRadians()
-                        yRot += rotation.y.toFloat().toRadians()
-                        zRot += rotation.z.toFloat().toRadians()
+                        pitch += rotation.x.toFloat().toRadians()
+                        yaw += rotation.y.toFloat().toRadians()
+                        roll += rotation.z.toFloat().toRadians()
                     }
                 }
             }

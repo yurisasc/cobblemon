@@ -5,18 +5,14 @@ import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemoncobbled.common.util.getServer
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Registers Pokémon Cobbled packets. Packet handlers are set up on handling the [MessageBuiltEvent] dispatched from here.
@@ -31,11 +27,11 @@ object CobbledNetwork {
 
     lateinit var networkDelegate: NetworkDelegate
 
-    fun ServerPlayer.sendPacket(packet: NetworkPacket) = sendToPlayer(this, packet)
-    fun sendToPlayer(player: ServerPlayer, packet: NetworkPacket) = networkDelegate.sendPacketToPlayer(player, packet)
+    fun ServerPlayerEntity.sendPacket(packet: NetworkPacket) = sendToPlayer(this, packet)
+    fun sendToPlayer(player: ServerPlayerEntity, packet: NetworkPacket) = networkDelegate.sendPacketToPlayer(player, packet)
     fun sendToServer(packet: NetworkPacket) = networkDelegate.sendPacketToServer(packet)
-    fun sendToAllPlayers(packet: NetworkPacket) = sendToPlayers(getServer()!!.playerList.players, packet)
-    fun sendToPlayers(players: Iterable<ServerPlayer>, packet: NetworkPacket) = players.forEach { sendToPlayer(it, packet) }
+    fun sendToAllPlayers(packet: NetworkPacket) = sendToPlayers(getServer()!!.playerManager.playerList, packet)
+    fun sendToPlayers(players: Iterable<ServerPlayerEntity>, packet: NetworkPacket) = players.forEach { sendToPlayer(it, packet) }
 
     interface PreparedMessage<T : NetworkPacket> {
         fun registerMessage()
@@ -43,7 +39,7 @@ object CobbledNetwork {
     }
 
     interface NetworkContext {
-        val player: ServerPlayer?
+        val player: ServerPlayerEntity?
     }
 
 
@@ -87,6 +83,7 @@ object CobbledNetwork {
         buildServerMessage<SendOutPokemonPacket>()
         buildServerMessage<RequestMoveSwapPacket>()
         buildServerMessage<BenchMovePacket>()
+        buildServerMessage<ChallengePacket>()
     }
 
     private inline fun <reified P : NetworkPacket> buildClientMessage() =

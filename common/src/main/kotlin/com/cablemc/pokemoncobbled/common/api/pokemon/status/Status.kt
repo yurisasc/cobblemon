@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.status
 
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * Represents the base of a status
@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation
  * @author Deltric
  */
 open class Status(
-    val name: ResourceLocation,
+    val name: Identifier,
 ) {
 
 }

@@ -12,6 +12,10 @@ sourceSets {
     }
 }
 
+repositories {
+    maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+}
+
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
@@ -21,6 +25,8 @@ dependencies {
     // For Showdown
     modCompileOnly("com.caoccao.javet:javet:1.0.6") // Linux or Windows
     modCompileOnly("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+//    modCompileOnly("software.bernie.geckolib:geckolib-core:1.0.11")
+//    modCompileOnly()
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.2")

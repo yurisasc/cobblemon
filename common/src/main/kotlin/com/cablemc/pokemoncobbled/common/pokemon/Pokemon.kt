@@ -6,11 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.PokemonFaintedEvent
-import com.cablemc.pokemoncobbled.common.api.moves.BenchedMove
-import com.cablemc.pokemoncobbled.common.api.moves.BenchedMoves
-import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
-import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
-import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.api.moves.*
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
@@ -40,18 +36,18 @@ import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.Tag.TAG_COMPOUND
-import net.minecraft.network.FriendlyByteBuf
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
-import net.minecraft.util.Mth.ceil
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.phys.Vec3
-import java.lang.Integer.min
-import java.util.UUID
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
+import net.minecraft.nbt.NbtList
+import net.minecraft.network.PacketByteBuf
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
+import net.minecraft.util.Identifier
+import net.minecraft.util.math.MathHelper.ceil
+import net.minecraft.util.math.Vec3d
+import java.util.*
+import kotlin.math.min
 
 open class Pokemon {
     var uuid: UUID = UUID.randomUUID()
@@ -89,7 +85,7 @@ open class Pokemon {
                 throw IllegalArgumentException("Level cannot be negative")
             }
 
-            val hpRatio = currentHealth / hp.toFloat()
+            val hpRatio = (currentHealth / hp.toFloat()).coerceIn(0F, 1F)
             /*
              * When people set the level programmatically the experience value will become incorrect.
              * Specifically check for when there's a mismatch and update the experience.
@@ -184,18 +180,18 @@ open class Pokemon {
             if (species.name == "shedinja") {
                 1
             } else {
-                (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4) * level) / 100 + level + 10
+                (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4)) * level / 100 + level + 10
             }
         } else {
             nature.modifyStat(stat, (2 * (form.baseStats[stat] ?: 1) * ivs.getOrOne(stat) + evs.getOrOne(stat) / 4) / 100 * level + 5)
         }
     }
 
-    fun sendOut(level: ServerLevel, position: Vec3, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
+    fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
         val entity = PokemonEntity(level, this)
-        entity.setPos(position)
+        entity.setPosition(position)
         mutation(entity)
-        level.addFreshEntity(entity)
+        level.spawnEntity(entity)
         state = SentOutState(entity)
         return entity
     }
@@ -222,8 +218,8 @@ open class Pokemon {
         }
     }
 
-    fun saveToNBT(nbt: CompoundTag): CompoundTag {
-        nbt.putUUID(DataKeys.POKEMON_UUID, uuid)
+    fun saveToNBT(nbt: NbtCompound): NbtCompound {
+        nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
         nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
         nbt.putString(DataKeys.POKEMON_FORM_ID, form.name)
         nbt.putInt(DataKeys.POKEMON_EXPERIENCE, experience)
@@ -231,23 +227,23 @@ open class Pokemon {
         nbt.putShort(DataKeys.POKEMON_FRIENDSHIP, friendship.toShort())
 
         nbt.putShort(DataKeys.POKEMON_HEALTH, currentHealth.toShort())
-        nbt.put(DataKeys.POKEMON_IVS, ivs.saveToNBT(CompoundTag()))
-        nbt.put(DataKeys.POKEMON_EVS, evs.saveToNBT(CompoundTag()))
+        nbt.put(DataKeys.POKEMON_IVS, ivs.saveToNBT(NbtCompound()))
+        nbt.put(DataKeys.POKEMON_EVS, evs.saveToNBT(NbtCompound()))
         nbt.put(DataKeys.POKEMON_MOVESET, moveSet.getNBT())
         nbt.putFloat(DataKeys.POKEMON_SCALE_MODIFIER, scaleModifier)
         nbt.putBoolean(DataKeys.POKEMON_SHINY, shiny)
-        val abilityNBT = ability.saveToNBT(CompoundTag())
+        val abilityNBT = ability.saveToNBT(NbtCompound())
         nbt.put(DataKeys.POKEMON_ABILITY, abilityNBT)
-        state.writeToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
-        status?.saveToNBT(CompoundTag())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
+        state.writeToNBT(NbtCompound())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
+        status?.saveToNBT(NbtCompound())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
         nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
-        nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(ListTag()))
         nbt.putInt(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
+        nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(NbtList()))
         return nbt
     }
 
-    fun loadFromNBT(nbt: CompoundTag): Pokemon {
-        uuid = nbt.getUUID(DataKeys.POKEMON_UUID)
+    fun loadFromNBT(nbt: NbtCompound): Pokemon {
+        uuid = nbt.getUuid(DataKeys.POKEMON_UUID)
         species = PokemonSpecies.getByPokedexNumber(nbt.getInt(DataKeys.POKEMON_SPECIES_DEX))
             ?: throw IllegalStateException("Tried to read a species with national PokéDex number ${nbt.getInt(DataKeys.POKEMON_SPECIES_DEX)}")
         form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.forms.first()
@@ -259,7 +255,7 @@ open class Pokemon {
         evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
         moveSet.loadFromNBT(nbt)
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
-        val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: CompoundTag()
+        val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: NbtCompound()
         val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "drought"
         ability = Abilities.getOrException(abilityName).create(abilityNBT)
         shiny = nbt.getBoolean(DataKeys.POKEMON_SHINY)
@@ -273,10 +269,10 @@ open class Pokemon {
             val statusNBT = nbt.getCompound(DataKeys.POKEMON_STATUS)
             status = PersistentStatusContainer.loadFromNBT(statusNBT)
         }
-        val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
-        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
-        benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, TAG_COMPOUND.toInt()))
         faintedTimer = nbt.getInt(DataKeys.POKEMON_FAINTED_TIMER)
+        val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
+        caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
+        benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
         return this
     }
 
@@ -329,16 +325,16 @@ open class Pokemon {
             status = PersistentStatusContainer.loadFromJSON(statusJson)
         }
         val ballName = json.get(DataKeys.POKEMON_CAUGHT_BALL).asString
-        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
+        caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         return this
     }
 
-    fun saveToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
-        buffer.writeUUID(uuid)
+    fun saveToBuffer(buffer: PacketByteBuf): PacketByteBuf {
+        buffer.writeUuid(uuid)
         buffer.writeShort(species.nationalPokedexNumber)
-        buffer.writeUtf(form.name)
+        buffer.writeString(form.name)
         buffer.writeInt(experience)
         buffer.writeByte(level)
         buffer.writeShort(friendship)
@@ -347,21 +343,21 @@ open class Pokemon {
         evs.saveToBuffer(buffer)
         moveSet.saveToBuffer(buffer)
         buffer.writeFloat(scaleModifier)
-        buffer.writeUtf(ability.name)
+        buffer.writeString(ability.name)
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
-        buffer.writeUtf(status?.status?.name?.toString() ?: "")
-        buffer.writeUtf(caughtBall.name.toString())
+        buffer.writeString(status?.status?.name?.toString() ?: "")
+        buffer.writeString(caughtBall.name.toString())
         benchedMoves.saveToBuffer(buffer)
         buffer.writeInt(faintedTimer)
         return buffer
     }
 
-    fun loadFromBuffer(buffer: FriendlyByteBuf): Pokemon {
-        uuid = buffer.readUUID()
+    fun loadFromBuffer(buffer: PacketByteBuf): Pokemon {
+        uuid = buffer.readUuid()
         species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())
             ?: throw IllegalStateException("Pokemon#loadFromBuffer cannot find the species! Species reference data has not been synchronized correctly!")
-        val formId = buffer.readUtf()
+        val formId = buffer.readString()
         form = species.forms.find { it.name == formId } ?: species.forms.first()
         experience = buffer.readInt()
         level = buffer.readUnsignedByte().toInt()
@@ -371,15 +367,15 @@ open class Pokemon {
         evs.loadFromBuffer(buffer)
         moveSet.loadFromBuffer(buffer)
         scaleModifier = buffer.readFloat()
-        ability = Abilities.getOrException(buffer.readUtf()).create()
+        ability = Abilities.getOrException(buffer.readString()).create()
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
-        val status = Statuses.getStatus(ResourceLocation(buffer.readUtf()))
+        val status = Statuses.getStatus(Identifier(buffer.readString()))
         if (status != null && status is PersistentStatus) {
             this.status = PersistentStatusContainer(status, 0)
         }
-        val ballName = buffer.readUtf()
-        caughtBall = PokeBalls.getPokeBall(ResourceLocation(ballName)) ?: PokeBalls.POKE_BALL
+        val ballName = buffer.readString()
+        caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromBuffer(buffer)
         faintedTimer = buffer.readInt()
         return this
@@ -389,7 +385,7 @@ open class Pokemon {
         val pokemon = if (useJSON) {
             Pokemon().loadFromJSON(saveToJSON(JsonObject()))
         } else {
-            Pokemon().loadFromNBT(saveToNBT(CompoundTag()))
+            Pokemon().loadFromNBT(saveToNBT(NbtCompound()))
         }
         if (newUUID) {
             pokemon.uuid = UUID.randomUUID()
@@ -397,10 +393,10 @@ open class Pokemon {
         return pokemon
     }
 
-    fun getOwnerPlayer() : ServerPlayer? {
+    fun getOwnerPlayer() : ServerPlayerEntity? {
         storeCoordinates.get().let {
             if (isPlayerOwned()) {
-                return getServer()?.playerList?.getPlayer(it!!.store.uuid)
+                return getServer()?.playerManager?.getPlayer(it!!.store.uuid)
             }
         }
         return null
@@ -413,7 +409,7 @@ open class Pokemon {
         return null
     }
 
-    fun belongsTo(player: Player) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
+    fun belongsTo(player: PlayerEntity) = storeCoordinates.get()?.let { it.store.uuid == player.uuid } == true
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
     fun isWild() = storeCoordinates.get() == null
 
@@ -441,9 +437,10 @@ open class Pokemon {
     val allAccessibleMoves: Set<MoveTemplate>
         get() = form.levelUpMoves.getMovesUpTo(level) + benchedMoves.map { it.moveTemplate }
 
-    fun initialize() {
+    fun initialize(): Pokemon {
         // TODO some other initializations to do with form and gender n shit
         initializeMoveset()
+        return this
     }
 
     fun initializeMoveset(preferLatest: Boolean = true) {
@@ -493,7 +490,7 @@ open class Pokemon {
         }
     }
 
-    fun addExperienceWithPlayer(player: ServerPlayer, xp: Int) {
+    fun addExperienceWithPlayer(player: ServerPlayerEntity, xp: Int) {
         player.sendServerMessage(lang("experience.gained", species.translatedName, xp))
         val result = addExperience(xp)
         if (result.oldLevel != result.newLevel) {

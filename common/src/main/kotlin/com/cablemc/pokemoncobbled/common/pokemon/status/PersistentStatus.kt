@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import kotlin.random.Random
+import net.minecraft.util.Identifier
 
 /**
  * Represents a status that persists outside of battle.
@@ -13,7 +14,7 @@ import kotlin.random.Random
  * @author Deltric
  */
 class PersistentStatus(
-    name: ResourceLocation,
+    name: Identifier,
     private val defaultDuration: IntRange = 0..0
 ) : Status(name) {
     /**

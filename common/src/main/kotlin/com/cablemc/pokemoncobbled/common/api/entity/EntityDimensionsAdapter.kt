@@ -6,7 +6,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
-import net.minecraft.world.entity.EntityDimensions
+import net.minecraft.entity.EntityDimensions
 import java.lang.reflect.Type
 
 /**

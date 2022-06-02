@@ -1,11 +1,5 @@
 package com.cablemc.pokemoncobbled.common.item
 
-import net.minecraft.world.item.CreativeModeTab
-
-class ApricornItem : CobbledItem(
-    Properties().tab(CreativeModeTab.TAB_MISC)
-) {
-
-
-
-}
+import net.minecraft.item.Item.Settings
+import net.minecraft.item.ItemGroup
+class ApricornItem : CobbledItem(Settings().group(ItemGroup.MISC))

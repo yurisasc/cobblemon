@@ -3,19 +3,13 @@ package com.cablemc.pokemoncobbled.common.battles
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
-import com.cablemc.pokemoncobbled.common.api.text.aqua
-import com.cablemc.pokemoncobbled.common.api.text.bold
-import com.cablemc.pokemoncobbled.common.api.text.gold
-import com.cablemc.pokemoncobbled.common.api.text.plus
-import com.cablemc.pokemoncobbled.common.api.text.red
-import com.cablemc.pokemoncobbled.common.api.text.text
-import com.cablemc.pokemoncobbled.common.api.text.yellow
+import com.cablemc.pokemoncobbled.common.api.text.*
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.util.battleLang
-import net.minecraft.ChatFormatting
-import net.minecraft.network.chat.TextComponent
-import java.util.UUID
+import net.minecraft.text.LiteralText
+import net.minecraft.util.Formatting
+import java.util.*
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String) -> Unit>()
@@ -43,15 +37,13 @@ object ShowdownInterpreter {
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
         splitUpdateInstructions["|-damage|"] = this::handleDamageInstruction
+        splitUpdateInstructions["|drag|"] = this::handleDragInstruction
     }
 
     fun interpretMessage(message: String) {
         // Check key map and use function if matching
         val battleId = message.split(ShowdownConnection.LINE_START)[0]
         val rawMessage = message.replace(battleId + ShowdownConnection.LINE_START, "")
-        println()
-        println(rawMessage)
-        println()
         val lines = rawMessage.split("\n")
 
         val battle = BattleRegistry.getBattle(UUID.fromString(battleId))
@@ -60,6 +52,10 @@ object ShowdownInterpreter {
             LOGGER.info("No battle could be found with the id: $battleId")
             return
         }
+
+        battle.log()
+        battle.log(rawMessage)
+        battle.log()
 
         if (lines[0] == "update") {
             var i = 1;
@@ -72,7 +68,7 @@ object ShowdownInterpreter {
                     val targetActor = battle.getActor(showdownId)
 
                     if (targetActor == null) {
-                        LOGGER.info("No actor could be found with the showdown id: $showdownId")
+                        battle.log("No actor could be found with the showdown id: $showdownId")
                         return
                     }
 
@@ -99,7 +95,7 @@ object ShowdownInterpreter {
             val line = lines[2]
 
             if (targetActor == null) {
-                LOGGER.info("No actor could be found with the showdown id: $showdownId")
+                battle.log("No actor could be found with the showdown id: $showdownId")
                 return
             }
 
@@ -122,7 +118,7 @@ object ShowdownInterpreter {
      * RATING is unused currently
      */
     private fun handlePlayerInstruction(battle: PokemonBattle, message: String) {
-//        LOGGER.info("Player Instruction")
+//        battle.log("Player Instruction")
     }
 
     /**
@@ -134,7 +130,7 @@ object ShowdownInterpreter {
      * NUMBER is number of Pokemon your opponent starts with for team preview.
      */
     private fun handleTeamSizeInstruction(battle: PokemonBattle, message: String) {
-//        LOGGER.info("Team Size Instruction")
+//        battle.log("Team Size Instruction")
     }
 
     /**
@@ -145,12 +141,12 @@ object ShowdownInterpreter {
      * GAMETYPE is singles, doubles, triples, multi, and or freeforall
      */
     private fun handleGameTypeInstruction(battle: PokemonBattle, message: String) {
-        LOGGER.info("Game Type Instruction")
+        battle.log("Game Type Instruction")
 
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Type:"))
+        battle.broadcastChatMessage(LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Type:"))
 
         val tierName = message.split("|gametype|")[1]
-        val textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
+        val textComponent = LiteralText(" ${Formatting.GRAY}$tierName")
         battle.broadcastChatMessage(textComponent)
         battle.broadcastChatMessage("".text())
     }
@@ -164,7 +160,7 @@ object ShowdownInterpreter {
      * Let's Go counts as 7, and modded formats count as whatever gen they were based on.
      */
     private fun handleGenInstruction(battle: PokemonBattle, message: String) {
-        LOGGER.info("Gen Instruction")
+        battle.log("Gen Instruction")
     }
 
     /**
@@ -175,12 +171,12 @@ object ShowdownInterpreter {
      * FORMATNAME is the name of the format being played.
      */
     private fun handleTierInstruction(battle: PokemonBattle, message: String) {
-        LOGGER.info("Tier Instruction")
+        battle.log("Tier Instruction")
 
-        battle.broadcastChatMessage(TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Tier:"))
+        battle.broadcastChatMessage(LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Tier:"))
 
         val tierName = message.split("|tier|")[1]
-        val textComponent = TextComponent(" ${ChatFormatting.GRAY}$tierName")
+        val textComponent = LiteralText(" ${Formatting.GRAY}$tierName")
         battle.broadcastChatMessage(textComponent)
         battle.broadcastChatMessage("".text())
     }
@@ -195,7 +191,7 @@ object ShowdownInterpreter {
      * Does not actually mean the game is rated.
      */
     private fun handleRatedInstruction(battle: PokemonBattle, message: String) {
-        LOGGER.info("Rated Instruction")
+        battle.log("Rated Instruction")
     }
 
     /**
@@ -206,15 +202,15 @@ object ShowdownInterpreter {
      * RULE is a rule and its description
      */
     private fun handleRuleInstruction(battle: PokemonBattle, message: String) {
-        LOGGER.info("Rule Instruction")
+        battle.log("Rule Instruction")
         if (!battle.announcingRules) {
             battle.announcingRules = true
-            val textComponent = TextComponent("${ChatFormatting.GOLD}${ChatFormatting.BOLD}Battle Rules:")
+            val textComponent = LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Rules:")
             battle.broadcastChatMessage(textComponent)
         }
 
         val rule = message.substringAfter("|rule|")
-        val textComponent = TextComponent("${ChatFormatting.GRAY} - $rule")
+        val textComponent = LiteralText("${Formatting.GRAY} - $rule")
         battle.broadcastChatMessage(textComponent)
     }
 
@@ -225,7 +221,7 @@ object ShowdownInterpreter {
      * Marks the start of Team Preview
      */
     private fun handleClearPokeInstruction(battle: PokemonBattle, message: String) {
-        LOGGER.info("Clear Poke Instruction")
+        battle.log("Clear Poke Instruction")
     }
 
     /**
@@ -239,7 +235,7 @@ object ShowdownInterpreter {
      * ITEM will be an item if the pokemon is holding an item or blank if it isn't
      */
     private fun handlePokeInstruction(battle: PokemonBattle, message: String) {
-        LOGGER.info("Poke Instruction")
+        battle.log("Poke Instruction")
 
         val args = message.split("|")
         val showdownId = args[2]
@@ -248,7 +244,7 @@ object ShowdownInterpreter {
         val targetActor = battle.getActor(showdownId)
 
         if (targetActor == null) {
-            LOGGER.info("No actor could be found with the showdown id: $showdownId")
+            battle.log("No actor could be found with the showdown id: $showdownId")
             return
         }
 
@@ -268,7 +264,7 @@ object ShowdownInterpreter {
      * |teampreview indicates team preview is over
      */
     private fun handleTeamPreviewInstruction(battle: PokemonBattle, message: String) {
-        LOGGER.info("Start Team Preview Instruction")
+        battle.log("Start Team Preview Instruction")
     }
 
     /**
@@ -278,7 +274,7 @@ object ShowdownInterpreter {
      * Indicates that the game has started.
      */
     private fun handleStartInstruction(battle: PokemonBattle, message: String) {
-        LOGGER.info("Start Instruction")
+        battle.log("Start Instruction")
         battle.started = true
     }
 
@@ -371,7 +367,7 @@ object ShowdownInterpreter {
      * The protocol message to tell you that it's time for you to make a decision is:
      */
     private fun handleRequestInstruction(battle: PokemonBattle, battleActor: BattleActor, message: String) {
-        LOGGER.info("Request Instruction")
+        battle.log("Request Instruction")
 
         if (message.contains("teamPreview")) // TODO probably change when we're allowing team preview
             return
@@ -398,5 +394,13 @@ object ShowdownInterpreter {
             val remainingHealth = newHealth.split("/")[0].toInt()
             activePokemon.battlePokemon?.effectedPokemon?.currentHealth = remainingHealth
         }
+    }
+
+    fun handleDragInstruction(battle: PokemonBattle, actor: BattleActor, publicMessage: String, privateMessage: String) {
+        val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(publicMessage.split("|")[2].split(":")[0])
+        val uuid = UUID.fromString(publicMessage.split("|")[3].split(",")[1].trim())
+        val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
+        battle.broadcastChatMessage(">> ".yellow() + battleLang("dragged_out", pokemon.getName()).yellow())
+        activePokemon.battlePokemon = pokemon
     }
 }

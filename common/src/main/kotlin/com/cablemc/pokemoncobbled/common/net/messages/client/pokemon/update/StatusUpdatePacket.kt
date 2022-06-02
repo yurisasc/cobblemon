@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 class StatusUpdatePacket() : StringUpdatePacket() {
     constructor(pokemon: Pokemon, value: String): this() {
@@ -15,7 +15,7 @@ class StatusUpdatePacket() : StringUpdatePacket() {
         if (value.isEmpty()) {
             pokemon.status = null
         } else {
-            val status = Statuses.getStatus(ResourceLocation(value))
+            val status = Statuses.getStatus(Identifier(value))
             if (status != null && status is PersistentStatus) {
                 pokemon.applyStatus(status)
             }

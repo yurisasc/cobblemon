@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.net.messages.client.storage.party
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyPosition
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.SetPokemonPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.network.FriendlyByteBuf
+import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
 /**
@@ -22,6 +22,6 @@ class SetPartyPokemonPacket() : SetPokemonPacket<PartyPosition>() {
         this.pokemon = pokemon
     }
 
-    override fun encodePosition(buffer: FriendlyByteBuf) = buffer.writeByte(storePosition.slot)
-    override fun decodePosition(buffer: FriendlyByteBuf) = PartyPosition(buffer.readUnsignedByte().toInt())
+    override fun encodePosition(buffer: PacketByteBuf) = buffer.writeByte(storePosition.slot)
+    override fun decodePosition(buffer: PacketByteBuf) = PartyPosition(buffer.readUnsignedByte().toInt())
 }

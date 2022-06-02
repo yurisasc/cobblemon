@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.condition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.GroundedSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.util.asResource
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.util.Identifier
 
 /**
  * Base type for a spawning condition that applies to some kind of [GroundedSpawningContext]. This
@@ -13,16 +13,12 @@ import net.minecraft.resources.ResourceLocation
  * @since February 7th, 2022
  */
 abstract class GroundedTypeSpawningCondition<T : GroundedSpawningContext> : AreaTypeSpawningCondition<T>() {
-    var neededBaseBlocks: List<ResourceLocation>? = null
+    var neededBaseBlocks: List<Identifier>? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
-        if (!super.fits(ctx, detail)) {
-            return false
-        } else if (neededBaseBlocks != null && ctx.baseBlock.block.descriptionId.asResource() !in neededBaseBlocks!!) {
-            return false
-        } else {
-            return true
-        }
+        return if (!super.fits(ctx, detail)) {
+            false
+        } else !(neededBaseBlocks != null && ctx.baseBlock.block.translationKey.asResource() !in neededBaseBlocks!!)
     }
 }
 

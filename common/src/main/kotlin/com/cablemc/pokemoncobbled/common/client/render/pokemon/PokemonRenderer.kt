@@ -3,6 +3,8 @@ package com.cablemc.pokemoncobbled.common.client.render.pokemon
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
+import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
 import com.cablemc.pokemoncobbled.common.client.render.addVertex
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
@@ -10,26 +12,29 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefun
 import com.cablemc.pokemoncobbled.common.client.render.renderBeaconBeam
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.isLookingAt
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
-import com.mojang.blaze3d.vertex.PoseStack
-import com.mojang.math.Quaternion
-import com.mojang.math.Vector3f
-import com.mojang.math.Vector4f
-import net.minecraft.client.Minecraft
-import net.minecraft.client.model.EntityModel
-import net.minecraft.client.renderer.MultiBufferSource
-import net.minecraft.client.renderer.RenderType
-import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.client.renderer.entity.MobRenderer
-import net.minecraft.util.Mth.PI
-import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.player.Player
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.client.render.entity.MobEntityRenderer
+import net.minecraft.client.render.entity.model.EntityModel
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.entity.Entity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.math.MathConstants.PI
+import net.minecraft.util.math.Quaternion
+import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.Vector4f
 import kotlin.math.min
 import kotlin.math.tan
 
 class PokemonRenderer(
-    context: EntityRendererProvider.Context
-) : MobRenderer<PokemonEntity, EntityModel<PokemonEntity>>(context, null, 0.5f) {
+    context: EntityRendererFactory.Context
+) : MobEntityRenderer<PokemonEntity, EntityModel<PokemonEntity>>(context, null, 0.5f) {
     companion object {
         var DELTA_TICKS = 0F
         val glowLengthFunction = parabolaFunction(
@@ -38,8 +43,8 @@ class PokemonRenderer(
         )
     }
 
-    override fun getTextureLocation(pEntity: PokemonEntity) = PokemonModelRepository.getModelTexture(pEntity.pokemon)
-    override fun render(entity: PokemonEntity, pEntityYaw: Float, partialTicks: Float, poseMatrix: PoseStack, buffer: MultiBufferSource, pPackedLight: Int) {
+    override fun getTexture(pEntity: PokemonEntity) = PokemonModelRepository.getModelTexture(pEntity.pokemon)
+    override fun render(entity: PokemonEntity, pEntityYaw: Float, partialTicks: Float, poseMatrix: MatrixStack, buffer: VertexConsumerProvider, pPackedLight: Int) {
         DELTA_TICKS = partialTicks // TODO move this somewhere universal
         model = PokemonModelRepository.getModel(entity.pokemon).entityModel
 
@@ -90,30 +95,37 @@ class PokemonRenderer(
                     green = 0F,
                     blue = 0F,
                     alpha = 1F,
-                    glowLength = glowMultiplier * entity.bbWidth * 1.5F,
+                    glowLength = glowMultiplier * entity.width * 1.5F,
                     glowRangeAngle = PI / 7
                 )
             }
         }
+
+        MinecraftClient.getInstance().player?.let { player ->
+            if (player.isLookingAt(entity) && phaseTarget == null) {
+                renderLabel(poseMatrix, partialTicks, entity, player, buffer)
+            }
+        }
     }
 
-    override fun scale(pEntity: PokemonEntity, pMatrixStack: PoseStack, pPartialTickTime: Float) {
+    override fun scale(pEntity: PokemonEntity, pMatrixStack: MatrixStack, pPartialTickTime: Float) {
         val scale = pEntity.pokemon.form.baseScale * pEntity.pokemon.scaleModifier * (pEntity.delegate as PokemonClientDelegate).entityScaleModifier
         pMatrixStack.scale(scale, scale, scale)
     }
 
-    fun renderBeam(matrixStack: PoseStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, buffer: MultiBufferSource) {
-        val pokemonPosition = entity.position().add(0.0, entity.bbHeight / 2.0, 0.0)
+    fun renderBeam(matrixStack: MatrixStack, partialTicks: Float, entity: PokemonEntity, beamTarget: Entity, buffer: VertexConsumerProvider) {
+        val clientDelegate = entity.delegate as PokemonClientDelegate
+        val pokemonPosition = entity.pos.add(0.0, entity.height / 2.0 * clientDelegate.entityScaleModifier.toDouble(), 0.0)
         val beamSourcePosition = if (beamTarget is EmptyPokeBallEntity) {
-            beamTarget.position().let { it.add(pokemonPosition.subtract(it).normalize().multiply(0.4, 0.0, 0.4)) }
+            beamTarget.pos.let { it.add(pokemonPosition.subtract(it).normalize().multiply(0.4, 0.0, 0.4)) }
         } else {
-            beamTarget as Player
-            if (beamTarget.uuid == Minecraft.getInstance().player?.uuid) {
-                val lookVec = beamTarget.lookAngle.yRot(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
-                beamTarget.getEyePosition(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.scale(0.3))
+            beamTarget as PlayerEntity
+            if (beamTarget.uuid == MinecraftClient.getInstance().player?.uuid) {
+                val lookVec = beamTarget.rotationVector.rotateY(PI / 2).multiply(1.0, 0.0, 1.0).normalize()
+                beamTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.4, 0.0).subtract(lookVec.multiply(0.3))
             } else {
-                val lookVec = beamTarget.lookAngle.yRot(PI / 2 - (beamTarget.yBodyRot - beamTarget.yHeadRot).toRadians()).multiply(1.0, 0.0, 1.0).normalize()
-                beamTarget.getEyePosition(partialTicks).subtract(0.0, 0.7, 0.0).subtract(lookVec.scale(0.4))
+                val lookVec = beamTarget.rotationVector.rotateY(PI / 2 - (beamTarget.bodyYaw - beamTarget.pitch).toRadians()).multiply(1.0, 0.0, 1.0).normalize()
+                beamTarget.getCameraPosVec(partialTicks).subtract(0.0, 0.7, 0.0).subtract(lookVec.multiply(0.4))
             }
         }
 
@@ -122,12 +134,10 @@ class PokemonRenderer(
             return
         }
 
-        val clientDelegate = entity.delegate as PokemonClientDelegate
+        val direction = Vec3f(pokemonPosition.subtract(beamSourcePosition))
 
-        val direction = Vector3f(pokemonPosition.subtract(beamSourcePosition))
-
-        matrixStack.pushPose()
-        with(beamSourcePosition.subtract(entity.position())) { matrixStack.translate(x, y, z) }
+        matrixStack.push()
+        with(beamSourcePosition.subtract(entity.pos)) { matrixStack.translate(x, y, z) }
 
         val s = clientDelegate.secondsSinceBeamEffectStarted
         val ratio = if (s < BEAM_EXTEND_TIME) {
@@ -140,19 +150,19 @@ class PokemonRenderer(
 
         direction.normalize()
 
-        val yAxis = Vector3f.YP.copy()
+        val yAxis = Vec3f.POSITIVE_Y.copy()
         val dot = direction.dot(yAxis)
         val cross = yAxis.copy()
         cross.cross(direction)
-        val q = Quaternion(cross.x(), cross.y(), cross.z(), 1 + dot)
+        val q = Quaternion(cross.x, cross.y, cross.z, 1 + dot)
         q.normalize()
-        matrixStack.mulPose(q)
+        matrixStack.multiply(q)
 
         renderBeaconBeam(
             matrixStack = matrixStack,
             buffer = buffer,
             partialTicks = partialTicks,
-            totalLevelTime = entity.level.gameTime,
+            totalLevelTime = entity.world.time,
             height = pokemonPosition.distanceTo(beamSourcePosition).toFloat() * ratio,
             red = 1F,
             green = 0.1F,
@@ -163,13 +173,48 @@ class PokemonRenderer(
             glowAlpha = 0.4F
         )
 
-        matrixStack.popPose()
+        matrixStack.pop()
+    }
+
+    fun renderLabel(poseStack: MatrixStack, partialTicks: Float, entity: PokemonEntity, player: PlayerEntity, multiBufferSource: VertexConsumerProvider) {
+        val mc = MinecraftClient.getInstance()
+
+        val stepMultiplier = 0.5F
+        val toPlayer = player.getCameraPosVec(partialTicks)
+            .subtract(entity.pos.add(0.0, entity.boundingBox.yLength + 0.5, 0.0))
+            .multiply(stepMultiplier.toDouble())
+
+        poseStack.push()
+        poseStack.translate(0.0, entity.boundingBox.yLength + 0.5, 0.0)
+        poseStack.translate(toPlayer.x, toPlayer.y, toPlayer.z)
+        poseStack.multiply(dispatcher.rotation)
+        poseStack.scale(-0.025f * stepMultiplier, -0.025f * stepMultiplier, 1f)
+        val matrix4f = poseStack.peek().positionMatrix
+        val g = mc.options.getTextBackgroundOpacity(0.25f)
+        val k = (g * 255.0f).toInt() shl 24
+        val label = entity.pokemon.species.translatedName
+        var h = (-textRenderer.getWidth(label) / 2).toFloat()
+        val y = 0F
+        val seeThrough = true
+        val packedLight = LightmapTextureManager.pack(15, 15)
+        textRenderer.draw(label, h, y, 0x20FFFFFF, false, matrix4f, multiBufferSource, seeThrough, k, packedLight)
+        textRenderer.draw(label, h, y, -1, false, matrix4f, multiBufferSource, false, 0, packedLight)
+
+        if (entity.canBattle(player)) {
+            val sendOutBinding = PartySendBinding.currentKey().localizedText
+            val battlePrompt = lang("challenge_label", sendOutBinding)
+            h = (-textRenderer.getWidth(battlePrompt) / 2).toFloat()
+            textRenderer.draw(battlePrompt, h, y + 10, 0x20FFFFFF, false, matrix4f, multiBufferSource, seeThrough, k, packedLight)
+            textRenderer.draw(battlePrompt, h, y + 10, -1, false, matrix4f, multiBufferSource, false, 0, packedLight)
+        }
+        poseStack.pop()
+
     }
 
     fun renderGlow(
-        matrixStack: PoseStack,
+        matrixStack: MatrixStack,
         entity: PokemonEntity,
-        buffer: MultiBufferSource,
+        buffer: VertexConsumerProvider,
         red: Float,
         green: Float,
         blue: Float,
@@ -177,13 +222,14 @@ class PokemonRenderer(
         glowLength: Float,
         glowRangeAngle: Float
     ) {
-        val totalWorldTicks = entity.level.gameTime
-        val vectorBuffer =  buffer.getBuffer(RenderType.lightning()) //buffer.getBuffer(RenderType.glint())
+        val clientDelegate = entity.delegate as PokemonClientDelegate
+        val totalWorldTicks = entity.world.time
+        val vectorBuffer = buffer.getBuffer(RenderLayer.getLightning()) //buffer.getBuffer(RenderType.glint())
 
         val ray1YRot = (totalWorldTicks + DELTA_TICKS) / 16F
 
-        val startY1 = entity.boundingBox.ysize.toFloat() * 0.5F
-        val startY2 = startY1 + entity.boundingBox.ysize.toFloat() * 0.05F
+        val startY1 = entity.boundingBox.yLength.toFloat() * 0.5F * clientDelegate.entityScaleModifier
+        val startY2 = startY1 + entity.boundingBox.yLength.toFloat() * 0.05F * clientDelegate.entityScaleModifier
 
         val endY1 = startY1 - tan(glowRangeAngle) * glowLength
         val endY2 = startY2 + tan(glowRangeAngle) * glowLength
@@ -193,20 +239,20 @@ class PokemonRenderer(
 
         // Draw 4 rays of red.
         repeat(times = 4) {
-            matrixStack.pushPose()
+            matrixStack.push()
 
-            val last = matrixStack.last()
-            val normal = last.normal()
-            val pose = matrixStack.last().pose()
+            val last = matrixStack.peek()
+            val normal = last.normalMatrix
+            val pose = matrixStack.peek().positionMatrix
 
-            val newStack = PoseStack()
-            newStack.mulPose(Vector3f.YP.rotation(ray1YRot + (it + 1) * PI / 2))
+            val newStack = MatrixStack()
+            newStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(ray1YRot + (it + 1) * PI / 2))
             val nearTop = Vector4f(startX, startY2, 0F, 1F)
             val nearBottom = Vector4f(startX, startY1, 0F, 1F)
             val farTop = Vector4f(endX, endY2, 0F, 1F)
             val farBottom = Vector4f(endX, endY1, 0F, 1F)
 
-            val poseM = newStack.last().pose()
+            val poseM = newStack.peek().positionMatrix
             nearTop.transform(poseM)
             nearBottom.transform(poseM)
             farTop.transform(poseM)
@@ -216,17 +262,17 @@ class PokemonRenderer(
             // only shows a visible quad for 180 degrees, and which 180 degrees changes with the order.
             // No idea why, it's like the vertices rotate wrong or something, idk.
 
-            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearTop.y(), nearTop.x(), nearTop.z(), 0F, 1F) // A
-            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearBottom.y(), nearBottom.x(), nearBottom.z(), 0F, 1F) // B
-            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farBottom.y(), farBottom.x(), farBottom.z(), 0F, 1F) // C
-            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farTop.y(), farTop.x(), farTop.z(), 0F, 1F) // D
+            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearTop.y, nearTop.x, nearTop.z, 0F, 1F) // A
+            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearBottom.y, nearBottom.x, nearBottom.z, 0F, 1F) // B
+            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farBottom.y, farBottom.x, farBottom.z, 0F, 1F) // C
+            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farTop.y, farTop.x, farTop.z, 0F, 1F) // D
 
-            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearBottom.y(), nearBottom.x(), nearBottom.z(), 0F, 1F) // B
-            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearTop.y(), nearTop.x(), nearTop.z(), 0F, 1F) // A
-            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farTop.y(), farTop.x(), farTop.z(), 0F, 1F) // D
-            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farBottom.y(), farBottom.x(), farBottom.z(), 0F, 1F) // C
+            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearBottom.y, nearBottom.x, nearBottom.z, 0F, 1F) // B
+            addVertex(pose, normal, vectorBuffer, red, green, blue, alpha, nearTop.y, nearTop.x, nearTop.z, 0F, 1F) // A
+            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farTop.y, farTop.x, farTop.z, 0F, 1F) // D
+            addVertex(pose, normal, vectorBuffer, red, green, blue, 0F, farBottom.y, farBottom.x, farBottom.z, 0F, 1F) // C
 
-            matrixStack.popPose()
+            matrixStack.pop()
         }
     }
 }

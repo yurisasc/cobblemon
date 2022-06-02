@@ -3,8 +3,8 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animat
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.PokeBallFrame
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import net.minecraft.util.Mth
-import net.minecraft.util.Mth.PI
+import net.minecraft.util.math.MathHelper.PI
+import net.minecraft.util.math.MathHelper.atan2
 
 /**
  * A simple idle animation that will point the PokéBall in the direction of the target it hit. Does nothing
@@ -19,9 +19,9 @@ class RootPokeBallLookAnimation(frame: PokeBallFrame) : StatelessAnimation<Empty
         val yRot = entity?.let {
             val dispX = it.hitTargetPosition.get().x - it.x
             val dispZ = it.hitTargetPosition.get().z - it.z
-            Mth.atan2(-dispZ, dispX) + PI / 2
+            atan2(-dispZ, dispX) + PI / 2
         }?.toFloat() ?: 0F
 
-        model.rootPart.yRot = yRot
+        model.rootPart.yaw = yRot
     }
 }

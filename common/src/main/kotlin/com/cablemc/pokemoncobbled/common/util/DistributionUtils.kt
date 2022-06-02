@@ -6,7 +6,7 @@ import dev.architectury.utils.Env
 import dev.architectury.utils.EnvExecutor
 import dev.architectury.utils.GameInstance
 import net.fabricmc.api.EnvType
-import net.minecraft.world.level.Level
+import net.minecraft.world.World
 import java.util.concurrent.CompletableFuture
 
 /** Runs the given [Runnable] if the caller is on the CLIENT side. */
@@ -48,4 +48,4 @@ fun getServer() = GameInstance.getServer()
 //    return future
 //}
 
-fun Level.isServerSide() = !isClientSide
+fun World.isServerSide() = !isClient

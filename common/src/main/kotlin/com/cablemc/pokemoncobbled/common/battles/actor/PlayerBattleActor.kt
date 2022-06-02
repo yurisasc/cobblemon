@@ -15,14 +15,10 @@ import com.cablemc.pokemoncobbled.common.api.text.sum
 import com.cablemc.pokemoncobbled.common.api.text.yellow
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
-import com.cablemc.pokemoncobbled.common.util.asTranslated
-import com.cablemc.pokemoncobbled.common.util.battleLang
-import com.cablemc.pokemoncobbled.common.util.getPlayer
-import com.cablemc.pokemoncobbled.common.util.getServer
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
-import net.minecraft.network.chat.Component
-import net.minecraft.network.chat.MutableComponent
-import java.util.UUID
+import com.cablemc.pokemoncobbled.common.util.*
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
+import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -34,9 +30,9 @@ class PlayerBattleActor(
     // TEMP battle showcase stuff
     var announcedPokemon = false
 
-    fun getPlayerEntity() = getServer()!!.playerList.getPlayer(uuid)
-    override fun sendMessage(component: Component) = getPlayerEntity()?.sendServerMessage(component) ?: Unit
-    override fun getName(): MutableComponent = getPlayerEntity()!!.name.copy()
+    fun getPlayerEntity() = getServer()!!.playerManager.getPlayer(uuid)
+    override fun sendMessage(component: Text) = getPlayerEntity()?.sendServerMessage(component) ?: Unit
+    override fun getName(): MutableText = getPlayerEntity()!!.name.copy()
 
     override fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {
         if (battlePokemon.effectedPokemon == battlePokemon.originalPokemon && experience > 0) {
@@ -93,7 +89,7 @@ class PlayerBattleActor(
                         actor.sendMessage("Choose a target: ".gold())
                         val canChooseTarget = AtomicBoolean()
                         for (target in possibleTargets) {
-                            val coloured: (MutableComponent) -> MutableComponent = {
+                            val coloured: (MutableText) -> MutableText = {
                                 if (target.isAllied(activeBattlePokemon)) {
                                     it.green()
                                 } else {
@@ -109,7 +105,7 @@ class PlayerBattleActor(
             }
         }
 
-        val switchLabels = mutableListOf<MutableComponent>()
+        val switchLabels = mutableListOf<MutableText>()
         for ((index, battlePokemon) in actor.pokemonList.withIndex()) {
             val pokemonIndex = index + 1
             val canSwitchToIt = battlePokemon.canBeSentOut()
@@ -160,7 +156,7 @@ class PlayerBattleActor(
         val future = CompletableFuture<UUID>()
         val actor = activeBattlePokemon.actor
         actor.sendMessage(battleLang("must_switch"))
-        val switchLabels = mutableListOf<MutableComponent>()
+        val switchLabels = mutableListOf<MutableText>()
         for ((index, battlePokemon) in actor.pokemonList.withIndex()) {
             val pokemonIndex = index + 1
             val canSwitchToIt = battlePokemon.canBeSentOut()
