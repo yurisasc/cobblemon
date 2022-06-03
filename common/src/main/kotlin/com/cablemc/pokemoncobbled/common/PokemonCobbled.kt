@@ -12,6 +12,8 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegist
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.StandardExperienceCalculator
+import com.cablemc.pokemoncobbled.common.api.pokemon.feature.FlagSpeciesFeature
+import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledWorldSpawnerManager
@@ -41,6 +43,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
+import com.cablemc.pokemoncobbled.common.pokemon.features.SunglassesFeature
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.cablemc.pokemoncobbled.common.world.CobbledGameRules
@@ -120,6 +123,7 @@ object PokemonCobbled {
 
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()
+        FlagSpeciesFeature.registerWithPropertyAndAspect("sunglasses", SunglassesFeature::class.java)
 
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 

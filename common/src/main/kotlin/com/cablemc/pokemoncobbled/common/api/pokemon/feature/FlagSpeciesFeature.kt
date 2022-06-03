@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.feature
 
+import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
+import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.SingleConditionalAspectProvider
 import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonPropertyType
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -20,9 +22,15 @@ import net.minecraft.nbt.NbtCompound
  */
 abstract class FlagSpeciesFeature : SpeciesFeature, CustomPokemonProperty {
     companion object {
-        fun registerWithProperty(name: String, clazz: Class<FlagSpeciesFeature>) {
+        fun <T : FlagSpeciesFeature> registerWithProperty(name: String, clazz: Class<T>) {
             SpeciesFeature.register(name, clazz)
             CustomPokemonProperty.properties.add(FlagSpeciesFeatureCustomPropertyType(name))
+        }
+
+        fun <T : FlagSpeciesFeature> registerWithPropertyAndAspect(name: String, clazz: Class<T>) {
+            SpeciesFeature.register(name, clazz)
+            CustomPokemonProperty.properties.add(FlagSpeciesFeatureCustomPropertyType(name))
+            AspectProvider.register(SingleConditionalAspectProvider.getForFeature(name))
         }
     }
 

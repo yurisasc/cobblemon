@@ -11,6 +11,9 @@
     "special_defence": 64,
     "speed": 43
   },
+  "features": [
+    "sunglasses"
+  ],
   "levelUpMoves": {
     "1": [ "tackle", "tailwhip"],
     "3": [ "watergun" ],
