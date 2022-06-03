@@ -5,7 +5,7 @@
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/wartortle-shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/wartortle_shiny.png"
     }
   ]
 }

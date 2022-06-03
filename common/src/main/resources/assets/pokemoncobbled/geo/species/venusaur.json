@@ -5,7 +5,7 @@
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/venusaur-shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/venusaur_shiny.png"
     },
     {
       "aspects": ["male"],

@@ -5,7 +5,7 @@
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/butterfree-shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/butterfree_shiny.png"
     },
     {
       "aspects": ["female"],

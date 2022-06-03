@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.asTransformed
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.*
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BiWingedFrame
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -13,8 +13,6 @@ class BeedrillModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
     override val head = getPart("head")
     override val leftWing = getPart("wing_left")
     override val rightWing = getPart("wing_right")
-    val leftWingBack = getPart("wing_left2")
-    val rightWingBack = getPart("wing_right2")
 
     override val portraitScale = 1.5F
     override val portraitTranslation = Vec3d(0.1, 0.2, 0.0)
@@ -32,7 +30,7 @@ class BeedrillModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
                 singleBoneLook(),
                 bedrock("beedrill", "air_idle")
             ),
-            transformedParts = arrayOf()
+            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -10F))
         )
 
         registerPose(
@@ -41,10 +39,9 @@ class BeedrillModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
             condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("beedrill", "air_idle"),
                 bedrock("beedrill", "air_fly")
             ),
-            transformedParts = emptyArray()
+            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -5F))
         )
     }
 }
