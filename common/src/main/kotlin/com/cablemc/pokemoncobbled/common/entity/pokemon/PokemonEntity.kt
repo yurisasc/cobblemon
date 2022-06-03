@@ -177,13 +177,13 @@ class PokemonEntity(
 
     public override fun initGoals() {
         goalSelector.clear()
-        goalSelector.add(0, object : Goal() {
-            override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1
-            override fun getControls() = EnumSet.allOf(Control::class.java)
-        })
-        goalSelector.add(3, FollowOwnerGoal(this, 0.6, 8F, 2F, false))
-        goalSelector.add(4, WanderAroundGoal(this, 0.33))
-        goalSelector.add(5, LookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
+//        goalSelector.add(0, object : Goal() {
+//            override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1
+//            override fun getControls() = EnumSet.allOf(Control::class.java)
+//        })
+//        goalSelector.add(3, FollowOwnerGoal(this, 0.6, 8F, 2F, false))
+//        goalSelector.add(4, WanderAroundGoal(this, 0.33))
+//        goalSelector.add(5, LookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
     }
 
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {

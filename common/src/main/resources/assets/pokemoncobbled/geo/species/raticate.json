@@ -5,7 +5,7 @@
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/raticate-shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/raticate_shiny.png"
     },
     {
       "aspects": ["female"],
