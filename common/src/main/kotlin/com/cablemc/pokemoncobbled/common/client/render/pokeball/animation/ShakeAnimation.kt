@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.pokeball.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.addRotation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
@@ -35,10 +36,18 @@ class ShakeAnimation(
 
     var initialized = false
 
-    override fun preventsIdle(entity: EmptyPokeBallEntity, idleAnimation: StatelessAnimation<EmptyPokeBallEntity, *>) = false
-    override fun run(entity: EmptyPokeBallEntity, model: PoseableEntityModel<EmptyPokeBallEntity>): Boolean {
+    override fun preventsIdle(entity: EmptyPokeBallEntity?, state: PoseableEntityState<EmptyPokeBallEntity>, idleAnimation: StatelessAnimation<EmptyPokeBallEntity, *>) = false
+    override fun run(
+        entity: EmptyPokeBallEntity?,
+        model: PoseableEntityModel<EmptyPokeBallEntity>,
+        state: PoseableEntityState<EmptyPokeBallEntity>,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        ageInTicks: Float,
+        headYaw: Float,
+        headPitch: Float
+    ): Boolean {
         val frame = model as PokeBallFrame
-        val state = model.getState(entity)
         if (!initialized) {
             state.animationSeconds = 0F
             initialized = true

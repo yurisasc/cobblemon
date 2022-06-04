@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.forge.mod
 import com.cablemc.pokemoncobbled.common.*
 import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
-import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
@@ -35,6 +34,7 @@ class PokemonCobbledForge : PokemonCobbledModImplementation {
             addListener(this@PokemonCobbledForge::initialize)
             addListener(this@PokemonCobbledForge::serverInit)
             CobbledNetwork.networkDelegate = CobbledForgeNetworkDelegate
+            ServerPacketRegistrar.registerHandlers()
 
             PokemonCobbled.preinitialize(this@PokemonCobbledForge)
 
@@ -53,8 +53,6 @@ class PokemonCobbledForge : PokemonCobbledModImplementation {
     fun initialize(event: FMLCommonSetupEvent) {
         PokemonCobbled.LOGGER.info("Initializing...")
         PokemonCobbled.initialize()
-
-        ServerPacketRegistrar.registerHandlers()
         CobbledNetwork.register()
     }
 

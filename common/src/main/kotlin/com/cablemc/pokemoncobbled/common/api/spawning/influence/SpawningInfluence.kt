@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.influence
 
+import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import net.minecraft.entity.Entity
@@ -14,7 +15,7 @@ interface SpawningInfluence {
     /** Whether this influence has passed and should be removed. */
     fun isExpired(): Boolean = false
     /** Returns true if the given spawn detail is able to spawn under this influence. */
-    fun affectSpawnable(detail: SpawnDetail): Boolean = true
+    fun affectSpawnable(detail: SpawnDetail, ctx: SpawningContext): Boolean = true
     /** Returns the effective rarity of spawn under this influence. This is after typical rarity multipliers. */
     fun affectRarity(detail: SpawnDetail, rarity: Float): Float = rarity
     /** Affects the spawn action prior to it generating the entity. */

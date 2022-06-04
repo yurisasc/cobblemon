@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "pokemoncobbled:blocks/sun_stone_ore"
+  }
+}

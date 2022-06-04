@@ -57,8 +57,8 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
         )
     }
 
-    override fun setAngles(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, pNetHeadYaw: Float, pHeadPitch: Float) {
-        super.setAngles(entity, limbSwing, limbSwingAmount, ageInTicks, pNetHeadYaw, pHeadPitch)
+    override fun setAngles(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+        super.setAngles(entity, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         val clientDelegate = entity.delegate as PokemonClientDelegate
         if (entity.isMoving.get()) {
             clientDelegate.animTick += DELTA_TICKS * 4

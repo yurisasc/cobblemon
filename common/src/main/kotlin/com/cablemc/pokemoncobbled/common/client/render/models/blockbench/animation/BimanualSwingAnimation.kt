@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BimanualFrame
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.MathHelper
@@ -20,7 +21,7 @@ class BimanualSwingAnimation<T : Entity>(
     val amplitudeMultiplier: Float = 1F
 ) : StatelessAnimation<T, BimanualFrame>(frame) {
     override val targetFrame: Class<BimanualFrame> = BimanualFrame::class.java
-    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
+    override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         // Movement swing
         frame.rightArm.yaw += MathHelper.cos(limbSwing * swingPeriodMultiplier) * limbSwingAmount * amplitudeMultiplier
         frame.leftArm.yaw += MathHelper.cos(limbSwing * swingPeriodMultiplier) * limbSwingAmount * amplitudeMultiplier

@@ -163,7 +163,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
         // Add Model Preview
         modelWidget = ModelWidget(
             pX = x + 183, pY = y + 24,
-            pWidth = 104, pHeight = 97,
+            pWidth = 102, pHeight = 100,
             pokemon = currentPokemon
         )
         addDrawableChild(

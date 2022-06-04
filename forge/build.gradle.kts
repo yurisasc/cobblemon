@@ -12,6 +12,10 @@ loom {
     }
 }
 
+repositories {
+    maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+}
+
 dependencies {
     forge("net.minecraftforge:forge:${rootProject.property("mc_version")}-${rootProject.property("forge_version")}")
     modApi("dev.architectury:architectury-forge:${rootProject.property("architectury_version")}")
@@ -37,8 +41,10 @@ dependencies {
     }
     testImplementation(project(":common", configuration = "namedElements"))
     // For Showdown
-    forgeRuntimeLibrary("com.caoccao.javet:javet:1.0.6") // Linux or Windows
-    forgeRuntimeLibrary("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
+    forgeRuntimeLibrary("com.caoccao.javet:javet:1.1.0") // Linux or Windows
+    forgeRuntimeLibrary("com.caoccao.javet:javet-macos:1.1.0") // Mac OS (x86_64 Only)
+    forgeRuntimeLibrary("com.eliotlash.molang:molang:18")
+    forgeRuntimeLibrary("com.eliotlash.mclib:mclib:18")
 
     bundle(kotlin("stdlib-jdk8", version = "1.6.10"))
     bundle(kotlin("reflect", version = "1.6.10"))
@@ -46,9 +52,10 @@ dependencies {
     bundle("org.jetbrains:annotations:${rootProject.property("annotations_version")}")
     bundle("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:${rootProject.property("serialization_version")}")
     bundle("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:${rootProject.property("serialization_version")}")
-    bundle("com.caoccao.javet:javet:1.0.6") // Linux or Windows
-    bundle("com.caoccao.javet:javet-macos:1.0.6") // Mac OS (x86_64 Only)
-
+    bundle("com.caoccao.javet:javet:1.1.0") // Linux or Windows
+    bundle("com.caoccao.javet:javet-macos:1.1.0") // Mac OS (x86_64 Only)
+    bundle("com.eliotlash.molang:molang:18")
+    bundle("com.eliotlash.mclib:mclib:18")
 
     // Testing - It needs this!
 //    forgeRuntimeLibrary("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")

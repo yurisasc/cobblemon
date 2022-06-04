@@ -1,10 +1,13 @@
 package com.cablemc.pokemoncobbled.common
 
+import com.cablemc.pokemoncobbled.common.api.blocks.EvolutionStoneOre
+import com.cablemc.pokemoncobbled.common.api.blocks.EvolutionStoneOre.Companion.DEEPSLATE_PROPERTIES
+import com.cablemc.pokemoncobbled.common.api.blocks.EvolutionStoneOre.Companion.NORMAL_PROPERTIES
+import dev.architectury.registry.registries.DeferredRegister
 import com.cablemc.pokemoncobbled.common.item.ApricornItem
 import com.cablemc.pokemoncobbled.common.world.level.block.ApricornBlock
 import com.cablemc.pokemoncobbled.common.world.level.block.ApricornSaplingBlock
 import com.cablemc.pokemoncobbled.common.world.level.block.HealingMachineBlock
-import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.*
 import net.minecraft.entity.EntityType
@@ -17,10 +20,42 @@ import java.util.function.Supplier
 
 object CobbledBlocks {
     private val blockRegister = DeferredRegister.create(PokemonCobbled.MODID, Registry.BLOCK_KEY)
-
     private fun <T : Block> queue(name: String, block: Supplier<T>) = blockRegister.register(name, block)
 
-//    val APRICORN_WOOD_TYPE = WoodType.register(ExtendedWoodType("apricorn"))
+    /**
+     * Evolution Ores
+     */
+
+    val DAWN_STONE_ORE = queue("dawn_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val DUSK_STONE_ORE = queue("dusk_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val FIRE_STONE_ORE = queue("fire_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val ICE_STONE_ORE = queue("ice_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val LEAF_STONE_ORE = queue("leaf_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val MOON_STONE_ORE = queue("moon_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val DRIPSTONE_MOON_STONE_ORE = queue("dripstone_moon_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val SHINY_STONE_ORE = queue("shiny_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val SUN_STONE_ORE = queue("sun_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val THUNDER_STONE_ORE = queue("thunder_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val WATER_STONE_ORE = queue("water_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+
+    /**
+     * Deepslate separator
+     */
+
+    val DEEPSLATE_DAWN_STONE_ORE = queue("deepslate_dawn_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+    val DEEPSLATE_DUSK_STONE_ORE = queue("deepslate_dusk_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+    val DEEPSLATE_FIRE_STONE_ORE = queue("deepslate_fire_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+    val DEEPSLATE_ICE_STONE_ORE = queue("deepslate_ice_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+    val DEEPSLATE_LEAF_STONE_ORE = queue("deepslate_leaf_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+    val DEEPSLATE_MOON_STONE_ORE = queue("deepslate_moon_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+    val DEEPSLATE_SHINY_STONE_ORE = queue("deepslate_shiny_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+    val DEEPSLATE_SUN_STONE_ORE = queue("deepslate_sun_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+    val DEEPSLATE_THUNDER_STONE_ORE = queue("deepslate_thunder_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+    val DEEPSLATE_WATER_STONE_ORE = queue("deepslate_water_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+
+    /**
+     * Apricorns
+     */
 
     val APRICORN_LOG = queue("apricorn_log") { log(MapColor.DIRT_BROWN, MapColor.BROWN) }
     val STRIPPED_APRICORN_LOG = queue("stripped_apricorn_log") { log(MapColor.DIRT_BROWN, MapColor.DIRT_BROWN) }
@@ -32,6 +67,7 @@ object CobbledBlocks {
     val APRICORN_FENCE_GATE = queue("apricorn_fence_gate") { FenceGateBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.get().defaultMapColor).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)) }
     val APRICORN_BUTTON = queue("apricorn_button") { WoodenButtonBlock(AbstractBlock.Settings.of(Material.DECORATION).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD)) }
     val APRICORN_PRESSURE_PLATE = queue("apricorn_pressure_plate") { PressurePlateBlock(PressurePlateBlock.ActivationRule.EVERYTHING, AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.get().defaultMapColor).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD)) }
+    // Tag was removed be sure to add it back when implemented
     //val APRICORN_SIGN = queue("apricorn_sign") { StandingSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD), APRICORN_WOOD_TYPE) }
     //val APRICORN_WALL_SIGN = queue("apricorn_wall_sign") { WallSignBlock(AbstractBlock.Settings.of(Material.WOOD).noCollission().strength(1.0f).sounds(BlockSoundGroup.WOOD).dropsLike(APRICORN_SIGN), APRICORN_WOOD_TYPE) }
     val APRICORN_SLAB = queue("apricorn_slab") { SlabBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)) }

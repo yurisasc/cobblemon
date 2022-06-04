@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.item.ApricornItem
 import net.minecraft.block.*
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.server.world.ServerWorld
@@ -96,16 +97,10 @@ class ApricornBlock(properties: Settings, val itemSupplier: Supplier<ApricornIte
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getCollisionShape(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, collisionContext: ShapeContext): VoxelShape {
-        val age = blockState.get(AGE)
-        return when (blockState.get(FACING)) {
-            Direction.NORTH -> NORTH_AABB[age]
-            Direction.EAST -> EAST_AABB[age]
-            Direction.SOUTH -> SOUTH_AABB[age]
-            Direction.WEST -> WEST_AABB[age]
-            else -> NORTH_AABB[age]
-        }
-    }
+    override fun getCollisionShape(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, collisionContext: ShapeContext) = this.resolveShape(blockState)
+
+    @Deprecated("Deprecated in Java")
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext) = this.resolveShape(state)
 
     override fun isFertilizable(blockGetter: BlockView, blockPos: BlockPos, blockState: BlockState, bl: Boolean): Boolean {
         return blockState.get(AGE) < 2
@@ -127,4 +122,18 @@ class ApricornBlock(properties: Settings, val itemSupplier: Supplier<ApricornIte
     override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputingType: NavigationType): Boolean {
         return false
     }
+
+    override fun getPlacementState(ctx: ItemPlacementContext): BlockState = this.defaultState.with(FACING, ctx.playerLookDirection.opposite)
+
+    private fun resolveShape(state: BlockState): VoxelShape {
+        val age = state.get(AGE)
+        return when (state.get(FACING)) {
+            Direction.NORTH -> NORTH_AABB[age]
+            Direction.EAST -> EAST_AABB[age]
+            Direction.SOUTH -> SOUTH_AABB[age]
+            Direction.WEST -> WEST_AABB[age]
+            else -> NORTH_AABB[age]
+        }
+    }
+
 }

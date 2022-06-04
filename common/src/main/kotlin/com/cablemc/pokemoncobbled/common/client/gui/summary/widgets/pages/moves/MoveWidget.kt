@@ -8,7 +8,7 @@ import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.SwitchMoveButton.Companion.SWITCH_MOVE_BUTTON_HEIGHT
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.SwitchMoveButton.Companion.SWITCH_MOVE_BUTTON_WIDTH
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.switch.MoveSwitchPane
+import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.change.MoveSwitchPane
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.util.math.MatrixStack

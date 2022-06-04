@@ -21,6 +21,10 @@ class CobbledConfig {
     // TODO new types of constraint
 
     @NodeCategory(Category.Spawning)
+    @IntConstraint(min = 1, max = 1000)
+    var minimumLevelRangeMax = 15
+
+    @NodeCategory(Category.Spawning)
     var enableSpawning = true
 
     @NodeCategory(Category.Spawning)

@@ -15,7 +15,7 @@ fun Float?.orMin() = this ?: Int.MIN_VALUE.toFloat()
 fun Int?.orMax() = this ?: Int.MAX_VALUE
 fun Int?.orMin() = this ?: Int.MIN_VALUE
 
-fun IntRange.intersects(other: IntRange) = start in other || endInclusive in other
+fun IntRange.intersects(other: IntRange) = start in other || endInclusive in other || other.start in this
 fun IntRange.intersection(other: IntRange): IntRange {
     val intersectionStart = max(other.start, start)
     val intersectionEnd = min(other.endInclusive, endInclusive)
