@@ -39,20 +39,33 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
             transformTicks = 10,
-            condition = { !it.isMoving.get() },
+            condition = { !it.isMoving.get() && !it.isSubmergedInWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("blastoise", "ground_idle")
             ),
             transformedParts = arrayOf()
         )
+
         registerPose(
-            poseType = PoseType.SWIM,
+            poseName = "swim_idle",
+            poseTypes = setOf(PoseType.SWIM),
             transformTicks = 10,
-            condition = { it.isSubmergedInWater },
+            condition = { it.isSubmergedInWater && !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("blastoise", "water_idle"),
+                bedrock("blastoise", "water_idle")
+            ),
+            transformedParts = arrayOf()
+        )
+
+        registerPose(
+            poseName = "swim_move",
+            poseTypes = setOf(PoseType.SWIM),
+            transformTicks = 10,
+            condition = { it.isSubmergedInWater && it.isMoving.get() },
+            idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("blastoise", "water_swim")
             ),
             transformedParts = arrayOf()
@@ -61,10 +74,9 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         registerPose(
             poseType = PoseType.WALK,
             transformTicks = 10,
-            condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            condition = { it.isMoving.get() && !it.isSubmergedInWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("blastoise", "ground_idle"),
                 bedrock("blastoise", "ground_walk")
             ),
             transformedParts = emptyArray()

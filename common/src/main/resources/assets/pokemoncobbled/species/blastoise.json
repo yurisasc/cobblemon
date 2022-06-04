@@ -11,6 +11,9 @@
     "special_defence": 105,
     "speed": 78
   },
+  "features": [
+    "sunglasses"
+  ],
   "levelUpMoves": {
     "1": ["flashcannon", "tackle", "tailwhip", "watergun", "withdrawal"],
     "9": [ "rapidspin" ],
