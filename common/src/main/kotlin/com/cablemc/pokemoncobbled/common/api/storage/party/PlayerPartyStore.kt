@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.storage.party
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import net.minecraft.server.level.ServerPlayer
+import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 import kotlin.random.Random
 
@@ -26,7 +26,7 @@ class PlayerPartyStore(
      * Called on the party every second for routine party updates
      * ex: Passive healing, statuses, etc
      */
-    fun onPartyTick(player: ServerPlayer) {
+    fun onPartyTick(player: ServerPlayerEntity) {
         val random = Random.Default
         for(pokemon in this) {
             // Awake from fainted
