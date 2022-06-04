@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.battle
 
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.ShowdownActionRequest
+import com.cablemc.pokemoncobbled.common.battles.ShowdownActionResponse
 import java.util.UUID
 
 class ClientBattle(
@@ -17,8 +18,11 @@ class ClientBattle(
     val sides: Array<ClientBattleSide>
         get() = arrayOf(side1, side2)
 
-    var actionRequest: ShowdownActionRequest? = null
+    var pendingActionRequests = mutableListOf<SingleActionRequest>()
     var mustChoose = false
+
+    fun getFirstUnansweredRequest() = pendingActionRequests.firstOrNull { it.response == null }
+
     fun getPokemonFromPNX(pnx: String): Pair<ClientBattleActor, ActiveClientBattlePokemon> {
         val actor = sides.flatMap { it.actors }.find { it.showdownId == pnx.substring(0, 2) }
             ?: throw IllegalStateException("Invalid pnx: $pnx - unknown actor")

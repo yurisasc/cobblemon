@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.battles
 
-import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
@@ -15,11 +14,11 @@ class ShowdownActionRequest(
     var noCancel: Boolean = false,
     var side: ShowdownSide? = null
 ) {
-    fun <T> iterate(actor: BattleActor, iterator: (ActiveBattlePokemon, ShowdownMoveset?, forceSwitch: Boolean) -> T): List<T> {
+    fun <T, E : Targetable> iterate(activePokemon: List<E>, iterator: (E, ShowdownMoveset?, forceSwitch: Boolean) -> T): List<T> {
         val size = max(active?.size ?: 0, forceSwitch.size)
         val responses = mutableListOf<T>()
         repeat(times = size) { index ->
-            val activeBattlePokemon = actor.activePokemon.let { if (it.size > index) it[index] else throw IllegalStateException("No active Pokémon for slot $index but needed to choose action for it?") }
+            val activeBattlePokemon = activePokemon.let { if (it.size > index) it[index] else throw IllegalStateException("No active Pokémon for slot $index but needed to choose action for it?") }
             val moveset = active?.let { if (it.size > index) it[index] else null }
             val forceSwitch = forceSwitch.let { if (it.size > index) it[index] else false }
             responses.add(iterator(activeBattlePokemon, moveset, forceSwitch))

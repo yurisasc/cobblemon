@@ -12,12 +12,21 @@ import net.minecraft.client.MinecraftClient
 
 object BattleInitializeHandler : PacketHandler<BattleInitializePacket> {
     override fun invoke(packet: BattleInitializePacket, ctx: CobbledNetwork.NetworkContext) {
+        val playerUUID = MinecraftClient.getInstance().player?.uuid
         PokemonCobbledClient.battle = ClientBattle(
             packet.battleId,
             packet.battleFormat
         ).apply {
-            side1.actors.addAll(packet.side1.actors.map(this@BattleInitializeHandler::actorFromDTO))
-            side2.actors.addAll(packet.side2.actors.map(this@BattleInitializeHandler::actorFromDTO))
+            val mySide = if (packet.side2.actors.none { it.uuid == playerUUID }) {
+                packet.side1
+            } else {
+                packet.side2
+            }
+
+            val otherSide = if (mySide == packet.side1) packet.side2 else packet.side1
+
+            side1.actors.addAll(mySide.actors.map(this@BattleInitializeHandler::actorFromDTO))
+            side2.actors.addAll(otherSide.actors.map(this@BattleInitializeHandler::actorFromDTO))
             spectating = sides.any { it.actors.any { it.uuid == MinecraftClient.getInstance().player?.uuid } }
             for (side in listOf(side1, side2)) {
                 side.battle = this

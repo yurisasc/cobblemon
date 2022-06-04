@@ -23,16 +23,15 @@ class BattleOptionTile(
     val text: MutableText,
     val onClick: () -> Unit
 ) : Drawable, Element, Selectable {
-    var visible = false
     companion object {
         const val OPTION_WIDTH_TO_HEIGHT = 352/80F
-        const val OPTION_WIDTH = 100F
+        const val  OPTION_WIDTH = 100F
         const val OPTION_HEIGHT = OPTION_WIDTH / OPTION_WIDTH_TO_HEIGHT
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         val opacity = PokemonCobbledClient.battleOverlay.opacityRatio
-        if (!visible || opacity < 0.1) {
+        if (opacity < 0.1) {
             return
         }
         blitk(
@@ -59,7 +58,7 @@ class BattleOptionTile(
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        if (!visible || mouseX < x || mouseY < y || mouseX > x + OPTION_WIDTH || mouseY > y + OPTION_HEIGHT) {
+        if (mouseX < x || mouseY < y || mouseX > x + OPTION_WIDTH || mouseY > y + OPTION_HEIGHT) {
             return false
         }
         onClick()

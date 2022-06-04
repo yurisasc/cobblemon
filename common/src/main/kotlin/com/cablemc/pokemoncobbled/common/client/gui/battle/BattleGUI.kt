@@ -1,9 +1,11 @@
 package com.cablemc.pokemoncobbled.common.client.gui.battle
 
-import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.api.text.text
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.common.client.battle.ClientBattleActor
+import com.cablemc.pokemoncobbled.common.client.battle.SingleActionRequest
+import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleActionSelection
+import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleGeneralActionSelection
+import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleSwitchPokemonSelection
 import com.cablemc.pokemoncobbled.common.client.gui.battle.widgets.BattleOptionTile
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
@@ -26,21 +28,23 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         val runResource = cobbledResource("ui/battle/battle_menu_run.png")
     }
 
+    var opacity = 0F
     var childrenHidden = true
+    val actor = PokemonCobbledClient.battle?.side1?.actors?.find { it.uuid == MinecraftClient.getInstance().player?.uuid }
 
-    override fun init() {
-        var rank = 0
-        addOption(rank++, battleLang("ui.fight"), fightResource) {
-            clearChildren()
+    var queuedActions = mutableListOf<() -> Unit>()
 
-
-            // Show move selection
-        }
-
-        addOption(rank++, battleLang("ui.switch"), runResource) {
-            // Show a party list
+    fun changeActionSelection(newSelection: BattleActionSelection?) {
+        val current = children().find { it is BattleActionSelection }
+        queuedActions.add {
+            current?.let(this::remove)
+            if (newSelection != null) {
+                addDrawableChild(newSelection)
+            }
         }
     }
+
+    fun getCurrentActionSelection() = children().filterIsInstance<BattleActionSelection>().firstOrNull()
 
     override fun resize(client: MinecraftClient, width: Int, height: Int) {
         super.resize(client, width, height)
@@ -49,24 +53,10 @@ class BattleGUI : Screen(battleLang("gui.title")) {
 //        init()
     }
 
-    private fun addOption(rank: Int, text: MutableText, texture: Identifier, onClick: () -> Unit) {
-        addDrawableChild(BattleOptionTile(
-            battleGUI = this,
-            x = OPTION_ROOT_X + rank * OPTION_HORIZONTAL_SPACING,
-            y = MinecraftClient.getInstance().window.scaledHeight - OPTION_VERTICAL_OFFSET + rank * OPTION_VERTICAL_SPACING,
-            resource = texture,
-            text = text,
-            onClick = onClick
-        ))
-    }
-
-    fun showMoves() {
-        val moveset = PokemonCobbledClient.battle!!.actionRequest!!.active!!.first()
-
-//        addDrawableChild()
-    }
-
     override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+        opacity = PokemonCobbledClient.battleOverlay.opacityRatio.toFloat()
+        queuedActions.forEach { it() }
+        queuedActions.clear()
         super.render(poseStack, mouseX, mouseY, delta)
         val battle = PokemonCobbledClient.battle
         if (battle == null) {
@@ -77,23 +67,30 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             return
         }
 
-        if (battle.mustChoose && childrenHidden) {
-            // Show options
-            children().filterIsInstance<BattleOptionTile>().forEach { it.visible = true }
-            childrenHidden = false
-        } else if (!battle.mustChoose && !childrenHidden) {
-            children().filterIsInstance<BattleOptionTile>().forEach { it.visible = false }
-            childrenHidden = true
+        if (actor != null) {
+            if (battle.mustChoose) {
+                if (getCurrentActionSelection() == null) {
+                    val unanswered = battle.getFirstUnansweredRequest()
+                    if (unanswered != null) {
+                        changeActionSelection(deriveRootActionSelection(actor, unanswered))
+                    }
+                }
+            } else if (getCurrentActionSelection() != null) {
+                changeActionSelection(null)
+            }
         }
 
-//        blitk(
-//            matrixStack = poseStack,
-//            texture = CobbledResources.RED,
-//            x = 100,
-//            y = 100,
-//            height = 100,
-//            width = 100
-//        )
+
+        queuedActions.forEach { it() }
+        queuedActions.clear()
+    }
+
+    fun deriveRootActionSelection(actor: ClientBattleActor, request: SingleActionRequest): BattleActionSelection {
+        return if (request.forceSwitch) {
+            BattleSwitchPokemonSelection(this, request)
+        } else {
+            BattleGeneralActionSelection(this, request)
+        }
     }
 
     override fun shouldPause() = false

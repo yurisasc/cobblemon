@@ -61,7 +61,6 @@ class PokemonBattle(
     var dispatchResult = GO
     val dispatches = ConcurrentLinkedQueue<BattleDispatch>()
 
-
     /**
      * Gets an actor by their showdown id
      * @return the actor if found otherwise null

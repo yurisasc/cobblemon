@@ -15,7 +15,7 @@ abstract class AIBattleActor(
         super.sendUpdate(packet)
 
         if (packet is BattleMakeChoicePacket) {
-            setActionResponses(request!!.iterate(this, battleAI::choose) )
+            setActionResponses(request!!.iterate(this.activePokemon, battleAI::choose) )
         }
     }
 }

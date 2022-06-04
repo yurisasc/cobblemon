@@ -11,7 +11,6 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMakeCh
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import java.util.UUID
-import java.util.concurrent.CompletableFuture
 
 abstract class BattleActor(
     val uuid: UUID,
@@ -106,7 +105,7 @@ abstract class BattleActor(
     fun writeShowdownResponse() {
         val showdownMessages = mutableListOf<String>()
         var index = 0
-        request!!.iterate(this) { activeBattlePokemon, showdownMoveSet, _ ->
+        request!!.iterate(activePokemon) { activeBattlePokemon, showdownMoveSet, _ ->
             showdownMessages.add(responses[index].toShowdownString(activeBattlePokemon, showdownMoveSet))
             index++
         }

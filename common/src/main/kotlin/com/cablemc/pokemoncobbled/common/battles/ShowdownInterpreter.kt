@@ -301,6 +301,10 @@ object ShowdownInterpreter {
                 val initializePacket = BattleInitializePacket(battle)
                 players.forEach { CobbledNetwork.sendToPlayer(it, initializePacket) }
             }
+            battle.actors.forEach {
+                val req = it.request ?: return@forEach
+                it.sendUpdate(BattleQueueRequestPacket(req))
+            }
         }
 
         // TODO maybe tell the client that the turn number has changed
@@ -403,7 +407,9 @@ object ShowdownInterpreter {
 
         // Parse Json message and update state info for actor
         val request = BattleRegistry.gson.fromJson(message.split("|request|")[1], ShowdownActionRequest::class.java)
-        battleActor.sendUpdate(BattleQueueRequestPacket(request))
+        if (battle.started) {
+            battleActor.sendUpdate(BattleQueueRequestPacket(request))
+        }
         battleActor.request = request
     }
 
