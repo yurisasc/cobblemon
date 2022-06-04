@@ -22,11 +22,11 @@ class BattleSwitchPokemonSelection(
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
 
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
 
     override fun appendNarrations(builder: NarrationMessageBuilder) {
-        TODO("Not yet implemented")
+//        TODO("Not yet implemented")
     }
 
     override fun getType() = Selectable.SelectionType.HOVERED

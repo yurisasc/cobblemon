@@ -16,7 +16,9 @@ class ActiveClientBattlePokemon(val actor: ClientBattleActor, var battlePokemon:
     var invisibleX = -1F
 
     override fun getAllActivePokemon() =  actor.side.battle.sides.flatMap { it.activeClientBattlePokemon }
-    override fun getActorPokemon() = actor.activePokemon.toList()
+    override fun getActorPokemon() = actor.activePokemon
+    override fun getSidePokemon() = actor.side.activeClientBattlePokemon
+    override fun getActorShowdownId() = actor.showdownId
     override fun getFormat() = actor.side.battle.battleFormat
     override fun isAllied(other: Targetable) = actor.side == (other as ActiveClientBattlePokemon).actor.side
     override fun hasPokemon() = battlePokemon != null

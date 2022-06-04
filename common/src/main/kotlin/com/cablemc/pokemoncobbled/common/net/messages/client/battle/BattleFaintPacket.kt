@@ -12,10 +12,12 @@ class BattleFaintPacket() : NetworkPacket {
         this.message = message
     }
     override fun encode(buffer: PacketByteBuf) {
-        // TODO("Not yet implemented")
+        buffer.writeString(pnx)
+        buffer.writeText(message)
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        // TODO("Not yet implemented")
+        pnx = buffer.readString()
+        message = buffer.readText().copy()
     }
 }

@@ -81,29 +81,35 @@ abstract class ShowdownActionResponse(val type: ShowdownActionResponseType) {
 data class MoveActionResponse(var moveName: String, var targetPnx: String? = null): ShowdownActionResponse(ShowdownActionResponseType.MOVE) {
     override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean): Boolean {
         if (forceSwitch || showdownMoveSet == null) {
+            println("A")
             return false
         }
 
-        val move = showdownMoveSet.moves.find { it.move == moveName } ?: return false
+        val move = showdownMoveSet.moves.find { it.id == moveName } ?: return false
         if (!move.canBeUsed()) {
+            println("B")
             // No PP or disabled or something
             return false
         }
         val availableTargets = move.target.targetList(activeBattlePokemon) ?: return true
 
+        println("C")
         val pnx = targetPnx ?: return false // If the targets list is non-null then they need to have specified a target
+        println("D")
         val (_, targetPokemon) = activeBattlePokemon.actor.battle.getActorAndActiveSlotFromPNX(pnx)
         if (targetPokemon !in availableTargets || targetPokemon.battlePokemon == null || targetPokemon.battlePokemon!!.health <= 0) {
+            println("E")
             return false // It's not a possible target.
         }
 
+        println("F")
         return true
     }
 
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?): String {
         val pnx = targetPnx
         showdownMoveSet!!
-        val moveIndex = showdownMoveSet.moves.indexOfFirst { it.move == moveName } + 1
+        val moveIndex = showdownMoveSet.moves.indexOfFirst { it.id == moveName } + 1
 
         return if (pnx != null) {
             val (_, targetPokemon) = activeBattlePokemon.actor.battle.getActorAndActiveSlotFromPNX(pnx)
@@ -112,6 +118,22 @@ data class MoveActionResponse(var moveName: String, var targetPnx: String? = nul
         } else {
             "move $moveIndex"
         }
+    }
+
+    override fun saveToBuffer(buffer: PacketByteBuf) {
+        super.saveToBuffer(buffer)
+        buffer.writeString(moveName)
+        buffer.writeBoolean(targetPnx != null)
+        targetPnx?.let(buffer::writeString)
+    }
+
+    override fun loadFromBuffer(buffer: PacketByteBuf): ShowdownActionResponse {
+        super.loadFromBuffer(buffer)
+        moveName = buffer.readString()
+        if (buffer.readBoolean()) {
+            targetPnx = buffer.readString()
+        }
+        return this
     }
 }
 

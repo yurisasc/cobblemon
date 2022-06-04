@@ -93,7 +93,7 @@ abstract class BattleActor(
             val showdownMoveSet = request.active?.let { if (it.size > index) it[index] else null }
             val forceSwitch = request.forceSwitch.let { if (it.size > index) it[index] else false }
             if (!response.isValid(activeBattlePokemon, showdownMoveSet, forceSwitch)) {
-                throw IllegalActionChoiceException(this, "Invalid action choice for ${activeBattlePokemon.battlePokemon!!.getName().asString()}: $response")
+                throw IllegalActionChoiceException(this, "Invalid action choice for ${activeBattlePokemon.battlePokemon!!.getName().string}: $response")
             }
             this.responses.add(response)
         }

@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.gui.battle
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
+import com.cablemc.pokemoncobbled.common.battles.ShowdownActionResponse
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.battle.ClientBattleActor
 import com.cablemc.pokemoncobbled.common.client.battle.SingleActionRequest
@@ -9,6 +11,7 @@ import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleSwitc
 import com.cablemc.pokemoncobbled.common.client.gui.battle.widgets.BattleOptionTile
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
+import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.MinecraftClient
@@ -45,6 +48,24 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     }
 
     fun getCurrentActionSelection() = children().filterIsInstance<BattleActionSelection>().firstOrNull()
+
+    fun selectAction(request: SingleActionRequest, response: ShowdownActionResponse) {
+        val battle = PokemonCobbledClient.battle ?: return
+        if (request.response == null) {
+            request.response = response
+            changeActionSelection(null)
+            if (battle.getFirstUnansweredRequest() == null) {
+                CobbledNetwork.sendToServer(
+                    BattleSelectActionsPacket(
+                        battleId = battle.battleId,
+                        battle.pendingActionRequests.map { it.response!! }
+                    )
+                )
+                battle.mustChoose = false
+            }
+
+        }
+    }
 
     override fun resize(client: MinecraftClient, width: Int, height: Int) {
         super.resize(client, width, height)

@@ -31,11 +31,11 @@ class RandomBattleAI : BattleAI {
 
         val target = move.target.targetList(activeBattlePokemon)
         return if (target == null) {
-            MoveActionResponse(move.move)
+            MoveActionResponse(move.id)
         } else {
             // prioritize opponents rather than allies
             val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
-            MoveActionResponse(move.move, (chosenTarget as ActiveBattlePokemon).getPNX())
+            MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
         }
     }
 }

@@ -3,10 +3,10 @@ package com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.battles.InBattleMove
+import com.cablemc.pokemoncobbled.common.battles.MoveActionResponse
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.battle.SingleActionRequest
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
-import com.cablemc.pokemoncobbled.common.client.gui.battle.widgets.BattleMoveTile
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -31,7 +31,7 @@ class BattleMoveSelection(
         const val MOVE_WIDTH = 100F
         const val MOVE_HEIGHT = MOVE_WIDTH / MOVE_WIDTH_TO_HEIGHT
         const val MOVE_VERTICAL_SPACING = 7F
-        const val MOVE_HORIZONTAL_SPACING = 12F
+        const val MOVE_HORIZONTAL_SPACING = 7F
         val moveTexture = cobbledResource("ui/battle/battle_move.png")
     }
 
@@ -93,6 +93,13 @@ class BattleMoveSelection(
         fun isHovered(mouseX: Double, mouseY: Double) = mouseX >= x && mouseX <= x + MOVE_WIDTH && mouseY >= y && mouseY <= y + MOVE_HEIGHT
 
         fun onClick() {
+            val targets = move.target.targetList(moveSelection.request.activePokemon)
+            if (targets == null) {
+                moveSelection.battleGUI.selectAction(moveSelection.request, MoveActionResponse(move.id, null))
+            } else if (targets.size == 1) {
+                moveSelection.battleGUI.selectAction(moveSelection.request, MoveActionResponse(move.id, targets[0].getPNX()))
+            }
+
             println("Clicked ${moveTemplate.name}")
         }
     }

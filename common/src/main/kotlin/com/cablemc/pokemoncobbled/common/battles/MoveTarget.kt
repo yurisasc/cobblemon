@@ -4,11 +4,14 @@ import kotlin.math.abs
 
 
 interface Targetable {
-    fun getAllActivePokemon(): List<Targetable>
-    fun getActorPokemon(): List<Targetable>
+    fun getAllActivePokemon(): Iterable<Targetable>
+    fun getActorPokemon(): Iterable<Targetable>
+    fun getSidePokemon(): Iterable<Targetable>
     fun getFormat(): BattleFormat
     fun isAllied(other: Targetable): Boolean
     fun hasPokemon(): Boolean
+    fun getActorShowdownId(): String
+    fun getPNX() = "${getActorShowdownId()}${getLetter()}"
 
     fun getAdjacent(): List<Targetable> {
         val digit = getDigit()
@@ -38,7 +41,7 @@ interface Targetable {
     fun getDigitRelativeTo(other: Targetable) = getDigit(asAlly = isAllied(other))
     fun getDigit(asAlly: Boolean = true): Int {
         var digit = 1
-        for (activePokemon in getAllActivePokemon()) {
+        for (activePokemon in getSidePokemon()) {
             if (activePokemon == this) {
                 return digit
             } else {
