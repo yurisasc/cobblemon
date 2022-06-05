@@ -52,6 +52,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(BattleFaintHandler)
         registerHandler(BattleQueueRequestHandler)
         registerHandler(BattleMakeChoiceHandler)
+        registerHandler(BattleHealthChangeHandler)
     }
 }
 

@@ -55,10 +55,6 @@ open class Pokemon {
     var uuid = UUID.randomUUID()
     var species = PokemonSpecies.EEVEE
         set(value) {
-            if (value == field) {
-                return
-            }
-
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             val previousFeatureKeys = species.features
             field = value

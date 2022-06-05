@@ -6,12 +6,11 @@ import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.text.*
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
+import com.cablemc.pokemoncobbled.common.battles.dispatch.DispatchResult
 import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
+import com.cablemc.pokemoncobbled.common.battles.dispatch.WaitDispatch
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleFaintPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleInitializePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMakeChoicePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleQueueRequestPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import net.minecraft.text.LiteralText
@@ -51,6 +50,12 @@ object ShowdownInterpreter {
         // Check key map and use function if matching
         val battleId = message.split(ShowdownConnection.LINE_START)[0]
         val rawMessage = message.replace(battleId + ShowdownConnection.LINE_START, "")
+
+        if (rawMessage.startsWith("{\"winner\":\"")) {
+            // The post-win message is something we don't care about just yet. It's basically a summary of what happened in the battle.
+            // Check /docs/example-post-win-message.json for its format.
+            return
+        }
 
         val battle = BattleRegistry.getBattle(UUID.fromString(battleId))
 
@@ -312,17 +317,20 @@ object ShowdownInterpreter {
 
         battle.dispatch {
             battle.sendToActors(BattleMakeChoicePacket())
+
+            battle.broadcastChatMessage("".text())
+            battle.broadcastChatMessage(">>".aqua() + " It is now turn ${message.split("|turn|")[1]}".aqua())
+            battle.broadcastChatMessage("".text())
+            battle.turn()
             GO
         }
-
-        battle.broadcastChatMessage("".text())
-        battle.broadcastChatMessage(">>".aqua() + " It is now turn ${message.split("|turn|")[1]}".aqua())
-        battle.broadcastChatMessage("".text())
-        battle.turn()
     }
 
     private fun handleUpkeepInstruction(battle: PokemonBattle, message: String) {
-        battle.actors.forEach { it.upkeep() }
+        battle.dispatch {
+            battle.actors.forEach { it.upkeep() }
+            GO
+        }
     }
 
     /**
@@ -338,58 +346,67 @@ object ShowdownInterpreter {
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             pokemon.battlePokemon = null
+            battle.broadcastChatMessage("".text())
+            battle.broadcastChatMessage(">> ".red() + battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).gold())
+            battle.broadcastChatMessage("".text())
             GO
         }
-        battle.broadcastChatMessage("".text())
-        battle.broadcastChatMessage(">> ".red() + battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).gold())
-        battle.broadcastChatMessage("".text())
     }
 
     private fun handleWinInstruction(battle: PokemonBattle, message: String) {
-        val ids = message.split("|win|")[1].split("&").map { it.trim() }
-        val winners = ids.map { battle.getActor(UUID.fromString(it))!!.getName() }.reduce { acc, next -> acc + " & " + next }
+        battle.dispatch {
+            val ids = message.split("|win|")[1].split("&").map { it.trim() }
+            val winners = ids.map { battle.getActor(UUID.fromString(it))!!.getName() }.reduce { acc, next -> acc + " & " + next }
 
-        battle.broadcastChatMessage(">> ".gold() + battleLang("win", winners).gold())
+            battle.broadcastChatMessage(">> ".gold() + battleLang("win", winners).gold())
 
-        battle.end()
-        BattleRegistry.closeBattle(battle)
+            battle.end()
+            BattleRegistry.closeBattle(battle)
+            GO
+        }
     }
 
     // |move|p1a: Charizard|Tackle|p2a: Magikarp
     private fun handleMoveInstruction(battle: PokemonBattle, message: String) {
-        val editMessaged = message.replace("|move|", "")
+        battle.dispatch {
+            val editMessaged = message.replace("|move|", "")
 
-        val userPNX = editMessaged.split("|")[0].split(":")[0].trim()
-        val (_, userPokemon) = battle.getActorAndActiveSlotFromPNX(userPNX)
-        val move = editMessaged.split("|")[1].split("|")[0]
-        val hasTarget = editMessaged.split("|").size == 3 && editMessaged.split("|")[2].isNotEmpty()
-        if (hasTarget) {
-            val targetPNX = editMessaged.split("|")[2].split(":")[0]
-            val (_, targetPokemon) = battle.getActorAndActiveSlotFromPNX(targetPNX)
-            battle.broadcastChatMessage(">> ".yellow() + battleLang(
-                key = "used_move_on",
-                userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
-                move,
-                targetPokemon.battlePokemon?.getName() ?: "ERROR".red()
-            ))
-        } else {
-            battle.broadcastChatMessage(">> ".yellow() + battleLang(
-                key = "used_move_on",
-                userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
-                move
-            ))
+            val userPNX = editMessaged.split("|")[0].split(":")[0].trim()
+            val (_, userPokemon) = battle.getActorAndActiveSlotFromPNX(userPNX)
+            val move = editMessaged.split("|")[1].split("|")[0]
+            val hasTarget = editMessaged.split("|").size == 3 && editMessaged.split("|")[2].isNotEmpty()
+            if (hasTarget) {
+                val targetPNX = editMessaged.split("|")[2].split(":")[0]
+                val (_, targetPokemon) = battle.getActorAndActiveSlotFromPNX(targetPNX)
+                battle.broadcastChatMessage(">> ".yellow() + battleLang(
+                    key = "used_move_on",
+                    userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
+                    move,
+                    targetPokemon.battlePokemon?.getName() ?: "ERROR".red()
+                ))
+            } else {
+                battle.broadcastChatMessage(">> ".yellow() + battleLang(
+                    key = "used_move_on",
+                    userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
+                    move
+                ))
+            }
+            GO
         }
     }
 
     private fun handleCantInstruction(battle: PokemonBattle, message: String) {
-        val editMessaged = message.replace("|cant|", "")
+        battle.dispatch {
+            val editMessaged = message.replace("|cant|", "")
 
-        val pnx = editMessaged.split("|")[0].split(":")[0]
-        val (actor, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-        val action = editMessaged.split("|")[1]
-        val actionText = if (action == "flinch") "flinched" else action
+            val pnx = editMessaged.split("|")[0].split(":")[0]
+            val (actor, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val action = editMessaged.split("|")[1]
+            val actionText = if (action == "flinch") "flinched" else action
 
-        battle.broadcastChatMessage(">> ".red() + (pokemon.battlePokemon?.getName() ?: "DEAD".text()) + " has $actionText".red())
+            battle.broadcastChatMessage(">> ".red() + (pokemon.battlePokemon?.getName() ?: "DEAD".text()) + " has $actionText".red())
+            GO
+        }
     }
 
 
@@ -408,9 +425,13 @@ object ShowdownInterpreter {
         // Parse Json message and update state info for actor
         val request = BattleRegistry.gson.fromJson(message.split("|request|")[1], ShowdownActionRequest::class.java)
         if (battle.started) {
-            battleActor.sendUpdate(BattleQueueRequestPacket(request))
+            battle.dispatch {
+                battleActor.sendUpdate(BattleQueueRequestPacket(request))
+                GO
+            }
         }
         battleActor.request = request
+        battleActor.responses.clear()
     }
 
     private fun handleSwitchInstruction(battle: PokemonBattle, battleActor: BattleActor, publicMessage: String, privateMessage: String) {
@@ -418,17 +439,35 @@ object ShowdownInterpreter {
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val uuid = UUID.fromString(publicMessage.split("|")[2].split(":")[1].trim())
         val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
-        activePokemon.battlePokemon = pokemon
+
+        if (battle.started) {
+            battle.dispatch {
+                activePokemon.battlePokemon = pokemon
+                GO
+                // TODO send packet for switching in
+            }
+        } else {
+            activePokemon.battlePokemon = pokemon
+        }
     }
 
     fun handleDamageInstruction(battle: PokemonBattle, actor: BattleActor, publicMessage: String, privateMessage: String) {
-        val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(publicMessage.split("|")[2].split(":")[0])
+        val pnx = publicMessage.split("|")[2].split(":")[0]
+        val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val newHealth = privateMessage.split("|")[3].split(" ")[0]
-        if (newHealth == "0") {
-            activePokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
-        } else {
-            val remainingHealth = newHealth.split("/")[0].toInt()
-            activePokemon.battlePokemon?.effectedPokemon?.currentHealth = remainingHealth
+
+        battle.dispatch {
+            val newHealthRatio: Float
+            if (newHealth == "0") {
+                activePokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
+                newHealthRatio = 0F
+            } else {
+                val remainingHealth = newHealth.split("/")[0].toInt()
+                activePokemon.battlePokemon?.effectedPokemon?.currentHealth = remainingHealth
+                newHealthRatio = remainingHealth.toFloat() / newHealth.split("/")[1].toInt()
+            }
+            battle.sendUpdate(BattleHealthChangePacket(pnx, newHealthRatio))
+            WaitDispatch(1.5F)
         }
     }
 

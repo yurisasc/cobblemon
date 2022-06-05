@@ -179,6 +179,7 @@ class PokemonBattle(
         val readyToInput = actors.any { !it.mustChoose && it.responses.isNotEmpty() } && actors.none { it.mustChoose }
         if (readyToInput) {
             actors.filter { it.responses.isNotEmpty() }.forEach { it.writeShowdownResponse() }
+            actors.forEach { it.responses.clear() ; it.request = null }
         }
     }
 }

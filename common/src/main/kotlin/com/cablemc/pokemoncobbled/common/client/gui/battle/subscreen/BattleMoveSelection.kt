@@ -99,8 +99,6 @@ class BattleMoveSelection(
             } else if (targets.size == 1) {
                 moveSelection.battleGUI.selectAction(moveSelection.request, MoveActionResponse(move.id, targets[0].getPNX()))
             }
-
-            println("Clicked ${moveTemplate.name}")
         }
     }
 

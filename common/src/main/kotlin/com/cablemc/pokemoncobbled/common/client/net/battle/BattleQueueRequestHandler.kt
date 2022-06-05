@@ -12,7 +12,7 @@ object BattleQueueRequestHandler : PacketHandler<BattleQueueRequestPacket> {
         MinecraftClient.getInstance().execute {
             val battle = PokemonCobbledClient.battle ?: return@execute
             val actor = battle.side1.actors.find { it.uuid == MinecraftClient.getInstance().player?.uuid } ?: return@execute
-            PokemonCobbledClient.battle?.pendingActionRequests?.addAll(SingleActionRequest.composeFrom(actor, packet.request))
+            PokemonCobbledClient.battle?.pendingActionRequests = SingleActionRequest.composeFrom(actor, packet.request)
         }
     }
 }

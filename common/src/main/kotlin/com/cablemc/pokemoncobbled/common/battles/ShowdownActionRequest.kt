@@ -81,28 +81,22 @@ abstract class ShowdownActionResponse(val type: ShowdownActionResponseType) {
 data class MoveActionResponse(var moveName: String, var targetPnx: String? = null): ShowdownActionResponse(ShowdownActionResponseType.MOVE) {
     override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean): Boolean {
         if (forceSwitch || showdownMoveSet == null) {
-            println("A")
             return false
         }
 
         val move = showdownMoveSet.moves.find { it.id == moveName } ?: return false
         if (!move.canBeUsed()) {
-            println("B")
             // No PP or disabled or something
             return false
         }
         val availableTargets = move.target.targetList(activeBattlePokemon) ?: return true
 
-        println("C")
         val pnx = targetPnx ?: return false // If the targets list is non-null then they need to have specified a target
-        println("D")
         val (_, targetPokemon) = activeBattlePokemon.actor.battle.getActorAndActiveSlotFromPNX(pnx)
         if (targetPokemon !in availableTargets || targetPokemon.battlePokemon == null || targetPokemon.battlePokemon!!.health <= 0) {
-            println("E")
             return false // It's not a possible target.
         }
 
-        println("F")
         return true
     }
 
