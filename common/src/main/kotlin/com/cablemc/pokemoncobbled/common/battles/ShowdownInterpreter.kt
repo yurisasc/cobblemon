@@ -345,11 +345,11 @@ object ShowdownInterpreter {
         battle.dispatch {
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
-            pokemon.battlePokemon = null
             battle.broadcastChatMessage("".text())
             battle.broadcastChatMessage(">> ".red() + battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).gold())
             battle.broadcastChatMessage("".text())
-            GO
+            pokemon.battlePokemon = null
+            WaitDispatch(1F)
         }
     }
 
@@ -459,12 +459,18 @@ object ShowdownInterpreter {
         battle.dispatch {
             val newHealthRatio: Float
             if (newHealth == "0") {
-                activePokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
                 newHealthRatio = 0F
+                battle.dispatch {
+                    activePokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
+                    GO
+                }
             } else {
                 val remainingHealth = newHealth.split("/")[0].toInt()
-                activePokemon.battlePokemon?.effectedPokemon?.currentHealth = remainingHealth
                 newHealthRatio = remainingHealth.toFloat() / newHealth.split("/")[1].toInt()
+                battle.dispatch {
+                    activePokemon.battlePokemon?.effectedPokemon?.currentHealth = remainingHealth
+                    GO
+                }
             }
             battle.sendUpdate(BattleHealthChangePacket(pnx, newHealthRatio))
             WaitDispatch(1.5F)
@@ -472,7 +478,8 @@ object ShowdownInterpreter {
     }
 
     fun handleDragInstruction(battle: PokemonBattle, actor: BattleActor, publicMessage: String, privateMessage: String) {
-        val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(publicMessage.split("|")[2].split(":")[0])
+        val pnx = publicMessage.split("|")[2].split(":")[0]
+        val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val uuid = UUID.fromString(publicMessage.split("|")[3].split(",")[1].trim())
         val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
         battle.broadcastChatMessage(">> ".yellow() + battleLang("dragged_out", pokemon.getName()).yellow())

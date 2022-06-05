@@ -56,7 +56,9 @@ class ActiveClientBattlePokemon(val actor: ClientBattleActor, var battlePokemon:
     fun animate(deltaTicks: Float) {
         val animation = animations.peek() ?: return
         if (animation.invoke(this, deltaTicks)) {
-            animations.remove()
+            if (!animation.shouldHoldUntilNextAnimation() || animations.size > 1) {
+                animations.remove()
+            }
         }
     }
 }

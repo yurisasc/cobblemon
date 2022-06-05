@@ -7,6 +7,7 @@ class HealthChangeAnimation(val newHealthRatio: Float, val duration: Float = 1.5
     var initialHealth = -1F
     var difference = 0F
 
+    override fun shouldHoldUntilNextAnimation() = false
     override fun invoke(activeBattlePokemon: ActiveClientBattlePokemon, deltaTicks: Float): Boolean {
         val pokemon = activeBattlePokemon.battlePokemon ?: return true
         if (initialHealth == -1F) {
