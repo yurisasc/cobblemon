@@ -26,7 +26,7 @@ open class PersistentStatus(
     /**
      * Called every second on the Pokémon for the status
      */
-    open fun onStatusTick(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
+    open fun onSecondPassed(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
 
     }
 

@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.storage.party
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.text.Text
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import net.minecraft.network.MessageType
 import net.minecraft.server.network.ServerPlayerEntity
@@ -62,7 +61,7 @@ class PlayerPartyStore(
                         status.status.onStatusExpire(player, pokemon, random)
                         pokemon.status = null
                     } else {
-                        status.status.onStatusTick(player, pokemon, random)
+                        status.status.onSecondPassed(player, pokemon, random)
                         status.tickTimer()
                     }
                 }
