@@ -59,7 +59,7 @@ class CobbledConfig {
 
     @NodeCategory(Category.PassiveStatus)
     var passiveStatuses = mutableMapOf(
-        Statuses.BURN.configEntry()
+        Statuses.POISON.configEntry()
     )
 
     @NodeCategory(Category.Healing)
@@ -78,8 +78,8 @@ class CobbledConfig {
     var faintAwakenHealthPercent = 0.2f
 
     @NodeCategory(Category.Healing)
-    var randomHealAmount = 1..3
+    var healPercent = 0.05
 
     @NodeCategory(Category.Healing)
-    var healChance = 5
+    var healTimer = 60
 }

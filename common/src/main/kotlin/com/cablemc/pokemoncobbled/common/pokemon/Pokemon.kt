@@ -25,6 +25,7 @@ import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
@@ -77,11 +78,15 @@ open class Pokemon {
         set(value) { field = value ; _form.emit(value) }
     var currentHealth = Int.MAX_VALUE
         set(value) {
+            if(currentHealth <= 0 && value > 0) {
+                this.healTimer = PokemonCobbled.config.healTimer
+            }
+
             field = min(hp, value)
             _currentHealth.emit(field)
 
             // If the Pokémon is fainted, give it a timer for it to wake back up
-            if(this.isFainted() && faintedTimer == -1) {
+            if(this.isFainted()) {
                 val faintTime = PokemonCobbled.config.defaultFaintTimer
                 CobbledEvents.POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
                     this.faintedTimer = it.faintedTimer
@@ -176,7 +181,12 @@ open class Pokemon {
 
     var faintedTimer: Int = -1
         set(value) {
-            field = min(-1, value)
+            field = value
+        }
+
+    var healTimer: Int = -1
+        set(value) {
+            field = value
         }
 
     /**
@@ -250,6 +260,7 @@ open class Pokemon {
         this.moveSet.heal()
         this.status = null
         this.faintedTimer = -1
+        this.healTimer = -1
     }
 
     fun isFainted(): Boolean {
@@ -257,7 +268,7 @@ open class Pokemon {
     }
 
     fun applyStatus(status: PersistentStatus) {
-        this.status = PersistentStatusContainer(status)
+        this.status = PersistentStatusContainer(status, status.statusPeriod().random())
         if (this.status != null) {
             this._status.emit(this.status!!.status.name.toString())
         }
@@ -283,6 +294,7 @@ open class Pokemon {
         status?.saveToNBT(NbtCompound())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
         nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         nbt.putInt(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
+        nbt.putInt(DataKeys.POKEMON_HEALING_TIMER, healTimer)
         nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(NbtList()))
         return nbt
     }
@@ -315,6 +327,7 @@ open class Pokemon {
             status = PersistentStatusContainer.loadFromNBT(statusNBT)
         }
         faintedTimer = nbt.getInt(DataKeys.POKEMON_FAINTED_TIMER)
+        healTimer = nbt.getInt(DataKeys.POKEMON_HEALING_TIMER)
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
@@ -340,6 +353,7 @@ open class Pokemon {
         json.addProperty(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         json.add(DataKeys.BENCHED_MOVES, benchedMoves.saveToJSON(JsonArray()))
         json.addProperty(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
+        json.addProperty(DataKeys.POKEMON_HEALING_TIMER, healTimer)
         return json
     }
 
@@ -373,6 +387,7 @@ open class Pokemon {
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
+        healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
         return this
     }
 
@@ -396,6 +411,7 @@ open class Pokemon {
         buffer.writeString(caughtBall.name.toString())
         benchedMoves.saveToBuffer(buffer)
         buffer.writeInt(faintedTimer)
+        buffer.writeInt(healTimer)
         buffer.writeSizedInt(IntSize.U_BYTE, aspects.size)
         aspects.forEach { buffer.writeString(it) }
         return buffer
@@ -427,6 +443,7 @@ open class Pokemon {
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromBuffer(buffer)
         faintedTimer = buffer.readInt()
+        healTimer = buffer.readInt()
         val aspects = mutableSetOf<String>()
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
             aspects.add(buffer.readString())

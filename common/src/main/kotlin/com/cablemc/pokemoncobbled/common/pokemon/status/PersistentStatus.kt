@@ -12,21 +12,21 @@ import net.minecraft.util.Identifier
  *
  * @author Deltric
  */
-class PersistentStatus(
+open class PersistentStatus(
     name: Identifier,
     private val defaultDuration: IntRange = 0..0
 ) : Status(name) {
     /**
      * Called when a status duration is expired.
      */
-    fun onStatusExpire(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
+    open fun onStatusExpire(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
 
     }
 
     /**
      * Called every second on the Pokémon for the status
      */
-    fun onStatusTick(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
+    open fun onStatusTick(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
 
     }
 
