@@ -5,17 +5,14 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.text.*
-import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
-import com.cablemc.pokemoncobbled.common.battles.dispatch.DispatchResult
 import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
 import com.cablemc.pokemoncobbled.common.battles.dispatch.WaitDispatch
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
-import net.minecraft.text.LiteralText
-import net.minecraft.util.Formatting
-import java.util.*
+import com.cablemc.pokemoncobbled.common.util.swap
+import java.util.UUID
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String) -> Unit>()
@@ -307,6 +304,7 @@ object ShowdownInterpreter {
                 players.forEach { CobbledNetwork.sendToPlayer(it, initializePacket) }
             }
             battle.actors.forEach {
+                it.sendUpdate(BattleSetTeamPokemonPacket(it.pokemonList.map { it.effectedPokemon }))
                 val req = it.request ?: return@forEach
                 it.sendUpdate(BattleQueueRequestPacket(req))
             }
@@ -348,8 +346,7 @@ object ShowdownInterpreter {
             battle.broadcastChatMessage("".text())
             battle.broadcastChatMessage(">> ".red() + battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).gold())
             battle.broadcastChatMessage("".text())
-            pokemon.battlePokemon = null
-            WaitDispatch(1F)
+            WaitDispatch(0.75F)
         }
     }
 
@@ -442,9 +439,10 @@ object ShowdownInterpreter {
 
         if (battle.started) {
             battle.dispatch {
+                battleActor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(pokemon))
                 activePokemon.battlePokemon = pokemon
-                GO
-                // TODO send packet for switching in
+                battle.sendUpdate(BattleSwitchPokemonPacket(pnx, pokemon))
+                WaitDispatch(1.5F)
             }
         } else {
             activePokemon.battlePokemon = pokemon
@@ -483,6 +481,8 @@ object ShowdownInterpreter {
         val uuid = UUID.fromString(publicMessage.split("|")[3].split(",")[1].trim())
         val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
         battle.broadcastChatMessage(">> ".yellow() + battleLang("dragged_out", pokemon.getName()).yellow())
+        actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(pokemon))
         activePokemon.battlePokemon = pokemon
+        // TODO switch packet
     }
 }

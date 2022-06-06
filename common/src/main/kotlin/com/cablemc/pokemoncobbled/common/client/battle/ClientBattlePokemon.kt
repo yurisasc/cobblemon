@@ -23,5 +23,5 @@ class ClientBattlePokemon(
     val level: Int
         get() = properties.level ?: 0
 
-    val state = PokemonFloatingState()
+    var state = PokemonFloatingState()
 }

@@ -211,6 +211,8 @@ class ShowdownPokemon {
     lateinit var baseAbility: String
     lateinit var pokeball: String
     lateinit var ability: String
+
+    val uuid: UUID by lazy { UUID.fromString(details.split(",")[1].trim()) }
     fun saveToBuffer(buffer: PacketByteBuf) {
         buffer.writeString(ident)
         buffer.writeString(details)

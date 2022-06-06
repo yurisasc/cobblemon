@@ -36,3 +36,10 @@ fun <T> Iterable<T>.weightedSelection(weightFunction: (T) -> Number): T? {
 
     return null
 }
+
+fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
+    val t1 = this[index1]
+    val t2 = this[index2]
+    this[index1] = t2
+    this[index2] = t1
+}

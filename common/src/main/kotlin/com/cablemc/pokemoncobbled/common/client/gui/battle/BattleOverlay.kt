@@ -8,12 +8,16 @@ import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.battle.ActiveClientBattlePokemon
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.MutableText
 import java.lang.Double.max
 import java.lang.Double.min
 import kotlin.math.roundToInt
@@ -68,7 +72,6 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             return (mc.window.scaleFactor * i.toFloat()).roundToInt()
         }
 
-        matrices.push()
         val battlePokemon = activeBattlePokemon.battlePokemon ?: return
         // First render the underlay
         var x = HORIZONTAL_INSET + rank * HORIZONTAL_SPACING.toFloat()
@@ -87,7 +90,47 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         activeBattlePokemon.animate(tickDelta)
         x = activeBattlePokemon.xDisplacement
 
-        val portraitStartX = x + if (left) PORTRAIT_OFFSET else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET }
+        val hue = activeBattlePokemon.getHue()
+        val r = ((hue shr 16) and 0b11111111) / 255F
+        val g = ((hue shr 8) and 0b11111111) / 255F
+        val b = (hue and 0b11111111) / 255F
+
+        drawBattleTile(
+            matrices = matrices,
+            x = x,
+            y = y.toFloat(),
+            reversed = !left,
+            species = battlePokemon.species,
+            level = battlePokemon.level,
+            aspects = battlePokemon.properties.aspects,
+            displayName = battlePokemon.displayName,
+            hpRatio = battlePokemon.hpRatio,
+            state = battlePokemon.state,
+            colour = Triple(r, g, b),
+            opacity = opacity.toFloat()
+        )
+    }
+
+    fun drawBattleTile(
+        matrices: MatrixStack,
+        x: Float,
+        y: Float,
+        reversed: Boolean,
+        species: Species,
+        level: Int,
+        aspects: Set<String>,
+        displayName: MutableText,
+        hpRatio: Float,
+        state: PoseableEntityState<PokemonEntity>?,
+        colour: Triple<Float, Float, Float>?,
+        opacity: Float
+    ) {
+        val mc = MinecraftClient.getInstance()
+        fun scaleIt(i: Number): Int {
+            return (mc.window.scaleFactor * i.toFloat()).roundToInt()
+        }
+
+        val portraitStartX = x + if (!reversed) PORTRAIT_OFFSET else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET }
         blitk(
             matrixStack = matrices,
             texture = battleInfoUnderlay,
@@ -112,23 +155,22 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             0.0
         )
         drawPortraitPokemon(
-            battlePokemon.species,
-            battlePokemon.properties.aspects,
+            species,
+            aspects,
             matrixStack,
             scale = 18F,
-            reversed = !left,
-            state = battlePokemon.state
+            reversed = reversed,
+            state = state
         )
         RenderSystem.disableScissor()
 
         // Third render the tile
-        val hue = activeBattlePokemon.getHue()
-        val r = ((hue shr 16) and 0b11111111) / 255.0
-        val g = ((hue shr 8) and 0b11111111) / 255.0
-        val b = (hue and 0b11111111) / 255.0
+        val colourNonNull = colour ?: Triple(1, 1, 1)
+        val (r, g, b) = colourNonNull
+
         blitk(
             matrixStack = matrices,
-            texture = if (left) battleInfoBase else battleInfoBaseFlipped,
+            texture = if (reversed) battleInfoBaseFlipped else battleInfoBase,
             x = x,
             y = y,
             height = TILE_HEIGHT,
@@ -140,13 +182,13 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         )
 
         // Draw labels
-        val infoBoxX = x + if (left) { PORTRAIT_DIAMETER + 2 * PORTRAIT_OFFSET + 2 } else { INFO_OFFSET_X.toFloat() }
+        val infoBoxX = x + if (!reversed) { PORTRAIT_DIAMETER + 2 * PORTRAIT_OFFSET + 2 } else { INFO_OFFSET_X.toFloat() }
         drawScaledText(
             scaleX = 0.7F,
             scaleY = 0.7F,
             matrixStack = matrices,
             font = CobbledResources.NOTO_SANS_BOLD_SMALL,
-            text = battlePokemon.displayName,
+            text = displayName,
             x = infoBoxX,
             y = y + 5,
             opacity = opacity,
@@ -169,7 +211,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             scaleY = 0.75F,
             matrixStack = matrices,
             font = CobbledResources.NOTO_SANS_BOLD_SMALL,
-            text = battlePokemon.level.toString().text(),
+            text = level.toString().text(),
             x = infoBoxX + 70,
             y = y + 4.3,
             opacity = opacity,
@@ -177,23 +219,17 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             centered = true
         )
 
-        val (healthRed, healthGreen) = getDepletableRedGreen(battlePokemon.hpRatio)
+        val (healthRed, healthGreen) = getDepletableRedGreen(hpRatio)
         blitk(
             matrixStack = matrices,
             texture = CobbledResources.WHITE,
             x = infoBoxX - 0.5,
             y = y + 13,
             height = 8.5,
-            width = battlePokemon.hpRatio * 76.5,
+            width = hpRatio * 76.5,
             red = healthRed,
             green = healthGreen,
             blue = 0
         )
-
-
-
-        matrices.pop()
     }
-
-
 }

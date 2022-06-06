@@ -86,6 +86,8 @@ object CobbledNetwork {
         buildClientMessage<BattleFaintPacket>()
         buildClientMessage<BattleMakeChoicePacket>()
         buildClientMessage<BattleHealthChangePacket>()
+        buildClientMessage<BattleSetTeamPokemonPacket>()
+        buildClientMessage<BattleSwitchPokemonPacket>()
 
         /**
          * Server Packets

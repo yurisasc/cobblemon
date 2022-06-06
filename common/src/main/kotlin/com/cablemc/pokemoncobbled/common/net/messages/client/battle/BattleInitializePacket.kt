@@ -4,14 +4,11 @@ import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonPropertyExtractor
-import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
+import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.net.IntSize
-import com.cablemc.pokemoncobbled.common.pokemon.FormData
-import com.cablemc.pokemoncobbled.common.pokemon.Gender
-import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.util.readMapK
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
@@ -40,24 +37,7 @@ class BattleInitializePacket() : NetworkPacket {
                         uuid = actor.uuid,
                         showdownId = actor.showdownId,
                         displayName = actor.getName(),
-                        activePokemon = actor.activePokemon.map { activeBattlePokemon ->
-                            activeBattlePokemon.battlePokemon?.let { battlePokemon ->
-                                with(battlePokemon.effectedPokemon) {
-                                    ActiveBattlePokemonDTO(
-                                        uuid = uuid,
-                                        displayName = species.translatedName,
-                                        properties = createPokemonProperties(
-                                            PokemonPropertyExtractor.SPECIES,
-                                            PokemonPropertyExtractor.LEVEL,
-                                            PokemonPropertyExtractor.ASPECTS
-                                        ),
-                                        status = status?.status,
-                                        hpRatio = battlePokemon.health / battlePokemon.maxHealth.toFloat(),
-                                        statChanges = battlePokemon.statChanges
-                                    )
-                                }
-                            }
-                        }
+                        activePokemon = actor.activePokemon.map { it.battlePokemon?.let(ActiveBattlePokemonDTO::fromPokemon) }
                     )
                 }
             )
@@ -78,18 +58,7 @@ class BattleInitializePacket() : NetworkPacket {
                 buffer.writeSizedInt(IntSize.U_BYTE, actor.activePokemon.size)
                 for (activePokemon in actor.activePokemon) {
                     buffer.writeBoolean(activePokemon != null)
-                    if (activePokemon != null) {
-                        buffer.writeUuid(activePokemon.uuid)
-                        buffer.writeText(activePokemon.displayName)
-                        buffer.writeString(activePokemon.properties.asString())
-                        buffer.writeBoolean(activePokemon.status != null)
-                        activePokemon.status?.let { buffer.writeString(it.name.toString()) }
-                        buffer.writeFloat(activePokemon.hpRatio)
-                        buffer.writeMapK(IntSize.U_BYTE, activePokemon.statChanges) { (stat, stages) ->
-                            buffer.writeString(stat.id)
-                            buffer.writeSizedInt(IntSize.BYTE, stages)
-                        }
-                    }
+                    activePokemon?.saveToBuffer(buffer)
                 }
             }
         }
@@ -108,29 +77,8 @@ class BattleInitializePacket() : NetworkPacket {
                 val activePokemon = mutableListOf<ActiveBattlePokemonDTO?>()
                 repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
                     if (buffer.readBoolean()) {
-                        val uuid = buffer.readUuid()
-                        val pokemonDisplayName = buffer.readText().copy()
-                        val properties = PokemonProperties.parse(buffer.readString(), delimiter = " ")
-                        val status = if (buffer.readBoolean()) PersistentStatus(Identifier(buffer.readString())) else null
-                        val hpRatio = buffer.readFloat()
-                        val statChanges = mutableMapOf<Stat, Int>()
-                        buffer.readMapK(size = IntSize.U_BYTE, statChanges) {
-                            val stat = Stats.getStat(buffer.readString())
-                            val stages = buffer.readSizedInt(IntSize.BYTE)
-                            stat to stages
-                        }
-                        activePokemon.add(
-                            ActiveBattlePokemonDTO(
-                                uuid = uuid,
-                                displayName = pokemonDisplayName,
-                                properties = properties,
-                                status = status,
-                                hpRatio = hpRatio,
-                                statChanges = statChanges
-                            )
-                        )
-                    }
-                    else {
+                        activePokemon.add(ActiveBattlePokemonDTO.loadFromBuffer(buffer))
+                    } else {
                         activePokemon.add(null)
                     }
                 }
@@ -165,5 +113,58 @@ class BattleInitializePacket() : NetworkPacket {
         val status: PersistentStatus?,
         val hpRatio: Float,
         val statChanges: MutableMap<Stat, Int>
-    )
+    ) {
+        companion object {
+            fun fromPokemon(battlePokemon: BattlePokemon) = with(battlePokemon.effectedPokemon) {
+                ActiveBattlePokemonDTO(
+                    uuid = uuid,
+                    displayName = species.translatedName,
+                    properties = createPokemonProperties(
+                        PokemonPropertyExtractor.SPECIES,
+                        PokemonPropertyExtractor.LEVEL,
+                        PokemonPropertyExtractor.ASPECTS
+                    ),
+                    status = status?.status,
+                    hpRatio = battlePokemon.health / battlePokemon.maxHealth.toFloat(),
+                    statChanges = battlePokemon.statChanges
+                )
+            }
+
+            fun loadFromBuffer(buffer: PacketByteBuf): ActiveBattlePokemonDTO {
+                val uuid = buffer.readUuid()
+                val pokemonDisplayName = buffer.readText().copy()
+                val properties = PokemonProperties.parse(buffer.readString(), delimiter = " ")
+                val status = if (buffer.readBoolean()) PersistentStatus(Identifier(buffer.readString())) else null
+                val hpRatio = buffer.readFloat()
+                val statChanges = mutableMapOf<Stat, Int>()
+                buffer.readMapK(size = IntSize.U_BYTE, statChanges) {
+                    val stat = Stats.getStat(buffer.readString())
+                    val stages = buffer.readSizedInt(IntSize.BYTE)
+                    stat to stages
+                }
+                return ActiveBattlePokemonDTO(
+                    uuid = uuid,
+                    displayName = pokemonDisplayName,
+                    properties = properties,
+                    status = status,
+                    hpRatio = hpRatio,
+                    statChanges = statChanges
+                )
+            }
+        }
+
+        fun saveToBuffer(buffer: PacketByteBuf): ActiveBattlePokemonDTO {
+            buffer.writeUuid(uuid)
+            buffer.writeText(displayName)
+            buffer.writeString(properties.asString())
+            buffer.writeBoolean(status != null)
+            status?.let { buffer.writeString(it.name.toString()) }
+            buffer.writeFloat(hpRatio)
+            buffer.writeMapK(IntSize.U_BYTE, statChanges) { (stat, stages) ->
+                buffer.writeString(stat.id)
+                buffer.writeSizedInt(IntSize.BYTE, stages)
+            }
+            return this
+        }
+    }
 }

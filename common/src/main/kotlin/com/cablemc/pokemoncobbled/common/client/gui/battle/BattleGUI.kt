@@ -76,6 +76,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
 
     override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         opacity = PokemonCobbledClient.battleOverlay.opacityRatio.toFloat()
+
         queuedActions.forEach { it() }
         queuedActions.clear()
         super.render(poseStack, mouseX, mouseY, delta)

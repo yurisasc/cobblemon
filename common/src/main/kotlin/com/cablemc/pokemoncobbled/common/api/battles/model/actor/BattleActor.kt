@@ -14,7 +14,7 @@ import java.util.UUID
 
 abstract class BattleActor(
     val uuid: UUID,
-    val pokemonList: List<BattlePokemon>
+    val pokemonList: MutableList<BattlePokemon>
 ) {
     init {
         pokemonList.forEach { it.actor = this }

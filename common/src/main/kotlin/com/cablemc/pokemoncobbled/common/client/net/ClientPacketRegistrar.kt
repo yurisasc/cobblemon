@@ -53,6 +53,8 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(BattleQueueRequestHandler)
         registerHandler(BattleMakeChoiceHandler)
         registerHandler(BattleHealthChangeHandler)
+        registerHandler(BattleSetTeamPokemonHandler)
+        registerHandler(BattleSwitchPokemonHandler)
     }
 }
 

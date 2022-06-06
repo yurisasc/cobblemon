@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 class PlayerBattleActor(
     uuid: UUID,
     pokemonList: List<BattlePokemon>
-) : BattleActor(uuid, pokemonList) {
+) : BattleActor(uuid, pokemonList.toMutableList()) {
 
     // TEMP battle showcase stuff
     var announcedPokemon = false

@@ -10,7 +10,7 @@ abstract class AIBattleActor(
     gameId: UUID,
     pokemonList: List<BattlePokemon>,
     val battleAI: BattleAI
-) : BattleActor(gameId, pokemonList) {
+) : BattleActor(gameId, pokemonList.toMutableList()) {
     override fun sendUpdate(packet: NetworkPacket) {
         super.sendUpdate(packet)
 
