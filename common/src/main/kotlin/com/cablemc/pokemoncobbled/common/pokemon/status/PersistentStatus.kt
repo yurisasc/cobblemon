@@ -2,6 +2,9 @@ package com.cablemc.pokemoncobbled.common.pokemon.status
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Status
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import net.minecraft.server.network.ServerPlayerEntity
+import kotlin.random.Random
 import net.minecraft.util.Identifier
 
 /**
@@ -9,10 +12,24 @@ import net.minecraft.util.Identifier
  *
  * @author Deltric
  */
-class PersistentStatus(
+open class PersistentStatus(
     name: Identifier,
     private val defaultDuration: IntRange = 0..0
 ) : Status(name) {
+    /**
+     * Called when a status duration is expired.
+     */
+    open fun onStatusExpire(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
+
+    }
+
+    /**
+     * Called every second on the Pokémon for the status
+     */
+    open fun onSecondPassed(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
+
+    }
+
     /**
      * The random period that this status could last.
      * @return the random period of the status.

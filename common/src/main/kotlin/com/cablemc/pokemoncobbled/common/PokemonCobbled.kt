@@ -40,6 +40,7 @@ import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.entity.pokemon.CobbledAgingDespawner
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
@@ -167,7 +168,7 @@ object PokemonCobbled {
         SpawnDetail.registerSpawnType(name = PokemonSpawnDetail.TYPE, PokemonSpawnDetail::class.java)
 
         SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
-        SERVER_POST.register { spawnerManagers.forEach { it.onServerTick() } }
+        SERVER_POST.register(ServerTickHandler::onTick)
 
         showdownThread.showdownStarted.thenAccept {
             LOGGER.info("Starting dummy battle to pre-load data.")
