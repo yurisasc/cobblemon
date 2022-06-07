@@ -99,6 +99,8 @@
   "pokemoncobbled.experience.level_up": "%1$s is now level %2$s!",
   "pokemoncobbled.experience.learned_move": "%1$s has learned %2$s.",
 
+  "pokemoncobbled.party.faintRecover": "%1$s has recovered from fainting.",
+
   "pokemoncobbled.type.fire": "Fire",
   "pokemoncobbled.type.water": "Water",
   "pokemoncobbled.type.grass": "Grass",
