@@ -96,6 +96,7 @@ class BattleSwitchPokemonSelection(
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         val clicked = tiles.find { it.isHovered(mouseX, mouseY) } ?: return false
         val pokemon = clicked.pokemon
+        playDownSound(MinecraftClient.getInstance().soundManager)
         battleGUI.selectAction(request, SwitchActionResponse(pokemon.uuid))
         return true
     }

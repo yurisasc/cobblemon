@@ -6,11 +6,15 @@ import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.battle.ActiveClientBattlePokemon
+import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Species
+import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
@@ -39,6 +43,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         const val PORTRAIT_DIAMETER = 116 / 432F * TILE_WIDTH
         const val PORTRAIT_OFFSET = 10 / 432F * TILE_WIDTH
 
+        private val PROMPT_TEXT_OPACITY_CURVE = sineFunction(period = 4F, verticalShift = 0.5F, amplitude = 0.5F)
 
         val battleInfoBase = cobbledResource("ui/battle/battle_info_base.png")
         val battleInfoBaseFlipped = cobbledResource("ui/battle/battle_info_base_flipped.png")
@@ -48,8 +53,13 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
     var opacity = MIN_OPACITY
     val opacityRatio: Double
         get() = (opacity - MIN_OPACITY) / (MAX_OPACITY - MIN_OPACITY)
+    var passedSeconds = 0F
 
     override fun render(matrices: MatrixStack, tickDelta: Float) {
+        passedSeconds += tickDelta / 20
+        if (passedSeconds > 100) {
+            passedSeconds -= 100
+        }
         val battle = PokemonCobbledClient.battle ?: return
         opacity = if (battle.minimised) {
             max(opacity - tickDelta * OPACITY_CHANGE_PER_SECOND, MIN_OPACITY)
@@ -63,6 +73,18 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
 
         side1.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(matrices, tickDelta, activeClientBattlePokemon, true, index) }
         side2.activeClientBattlePokemon.forEachIndexed { index, activeClientBattlePokemon -> drawTile(matrices, tickDelta, activeClientBattlePokemon, false, index) }
+
+        if (MinecraftClient.getInstance().currentScreen !is BattleGUI && battle.mustChoose) {
+            val textOpacity = PROMPT_TEXT_OPACITY_CURVE(passedSeconds)
+            drawScaledText(
+                matrixStack = matrices,
+                text = battleLang("ui.actions_label", PartySendBinding.currentKey().localizedText),
+                x = MinecraftClient.getInstance().window.scaledWidth / 2,
+                y = 40,
+                opacity = textOpacity,
+                centered = true
+            )
+        }
     }
 
 

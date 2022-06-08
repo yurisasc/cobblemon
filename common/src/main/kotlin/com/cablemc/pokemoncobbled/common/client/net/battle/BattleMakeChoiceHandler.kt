@@ -8,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMakeCh
 object BattleMakeChoiceHandler : PacketHandler<BattleMakeChoicePacket> {
     override fun invoke(packet: BattleMakeChoicePacket, ctx: CobbledNetwork.NetworkContext) {
         val battle = PokemonCobbledClient.battle ?: return
+        PokemonCobbledClient.battleOverlay.passedSeconds = 0F
         battle.mustChoose = true
     }
 }

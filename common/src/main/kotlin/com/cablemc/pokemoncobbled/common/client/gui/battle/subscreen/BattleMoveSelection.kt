@@ -93,11 +93,14 @@ class BattleMoveSelection(
         fun isHovered(mouseX: Double, mouseY: Double) = mouseX >= x && mouseX <= x + MOVE_WIDTH && mouseY >= y && mouseY <= y + MOVE_HEIGHT
 
         fun onClick() {
+            moveSelection.playDownSound(MinecraftClient.getInstance().soundManager)
             val targets = move.target.targetList(moveSelection.request.activePokemon)
             if (targets == null) {
                 moveSelection.battleGUI.selectAction(moveSelection.request, MoveActionResponse(move.id, null))
             } else if (targets.size == 1) {
                 moveSelection.battleGUI.selectAction(moveSelection.request, MoveActionResponse(move.id, targets[0].getPNX()))
+            } else {
+                // Target selection
             }
         }
     }

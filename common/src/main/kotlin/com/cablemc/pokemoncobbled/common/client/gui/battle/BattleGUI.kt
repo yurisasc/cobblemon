@@ -8,17 +8,16 @@ import com.cablemc.pokemoncobbled.common.client.battle.SingleActionRequest
 import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleActionSelection
 import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleGeneralActionSelection
 import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleSwitchPokemonSelection
-import com.cablemc.pokemoncobbled.common.client.gui.battle.widgets.BattleOptionTile
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.MutableText
-import net.minecraft.util.Identifier
 
 class BattleGUI : Screen(battleLang("gui.title")) {
     companion object {
@@ -102,6 +101,15 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             }
         }
 
+        drawScaledText(
+            matrixStack = poseStack,
+            text = battleLang("ui.hide_label", PartySendBinding.currentKey().localizedText),
+            scaleX = 0.8F,
+            scaleY = 0.8F,
+            x = 40,
+            y = MinecraftClient.getInstance().window.scaledHeight - 40,
+            opacity = 0.75F * opacity
+        )
 
         queuedActions.forEach { it() }
         queuedActions.clear()

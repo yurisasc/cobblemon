@@ -64,6 +64,9 @@ fun drawScaledText(
     centered: Boolean = false,
     shadow: Boolean = false
 ) {
+    if (opacity.toFloat() < 0.05F) {
+        return
+    }
     matrixStack.push()
     matrixStack.scale(scaleX, scaleY, 1F)
     drawText(
