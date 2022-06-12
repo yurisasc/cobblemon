@@ -12,6 +12,8 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegist
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.StandardExperienceCalculator
+import com.cablemc.pokemoncobbled.common.api.pokemon.feature.FlagSpeciesFeature
+import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
@@ -39,9 +41,11 @@ import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.entity.pokemon.CobbledAgingDespawner
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
+import com.cablemc.pokemoncobbled.common.pokemon.features.SunglassesFeature
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.cablemc.pokemoncobbled.common.world.CobbledGameRules
@@ -121,6 +125,7 @@ object PokemonCobbled {
 
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()
+        FlagSpeciesFeature.registerWithPropertyAndAspect("sunglasses", SunglassesFeature::class.java)
 
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 
@@ -164,10 +169,7 @@ object PokemonCobbled {
         SpawnDetail.registerSpawnType(name = PokemonSpawnDetail.TYPE, PokemonSpawnDetail::class.java)
 
         SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
-        SERVER_POST.register {
-            spawnerManagers.forEach { it.onServerTick() }
-            BattleRegistry.tick()
-        }
+        SERVER_POST.register(ServerTickHandler::onTick)
 
         showdownThread.showdownStarted.thenAccept {
             LOGGER.info("Starting dummy battle to pre-load data.")

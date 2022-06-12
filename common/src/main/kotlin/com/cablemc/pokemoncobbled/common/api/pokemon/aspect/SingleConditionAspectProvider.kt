@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.aspect
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
+import com.cablemc.pokemoncobbled.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 
 /**
@@ -11,6 +12,20 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
  * @since May 13th, 2022
  */
 interface SingleConditionalAspectProvider : AspectProvider {
+    companion object {
+        fun getForFeature(name: String): SingleConditionalAspectProvider {
+            return object : SingleConditionalAspectProvider {
+                override val aspect: String = name
+                override fun meetsCondition(pokemon: Pokemon) = pokemon.getFeature<FlagSpeciesFeature>(name)?.enabled == true
+                override fun meetsCondition(pokemonProperties: PokemonProperties) = pokemonProperties
+                    .customProperties
+                    .filterIsInstance<FlagSpeciesFeature>()
+                    .any { it.name == name && it.enabled }
+
+            }
+        }
+    }
+
     /** The aspect to add if the conditions are met. */
     val aspect: String
     fun meetsCondition(pokemon: Pokemon): Boolean

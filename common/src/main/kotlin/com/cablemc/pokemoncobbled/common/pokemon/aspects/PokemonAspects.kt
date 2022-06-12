@@ -24,4 +24,3 @@ val GENDER_ASPECT = object : AspectProvider {
     override fun provide(pokemon: Pokemon) = getFacetsForGender(pokemon.gender)
     override fun provide(properties: PokemonProperties) = properties.gender?.let { getFacetsForGender(it) } ?: emptySet()
 }
-

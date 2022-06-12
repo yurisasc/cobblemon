@@ -26,6 +26,8 @@ object DataKeys {
     const val POKEMON_STATUS_NAME = "StatusName"
     const val POKEMON_STATUS_TIMER = "StatusTimer"
     const val POKEMON_CAUGHT_BALL = "CaughtBall"
+    const val POKEMON_FAINTED_TIMER = "FaintedTimer"
+    const val POKEMON_HEALING_TIMER = "HealingTimer"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"

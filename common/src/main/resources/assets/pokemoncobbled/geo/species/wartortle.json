@@ -6,6 +6,14 @@
     {
       "aspects": ["shiny"],
       "texture": "pokemoncobbled:textures/pokemon/wartortle_shiny.png"
+    },
+    {
+      "aspects": ["sunglasses"],
+      "texture": "pokemoncobbled:textures/pokemon/wartortle_sunglasses.png"
+    },
+    {
+      "aspects": ["shiny", "sunglasses"],
+      "texture": "pokemoncobbled:textures/pokemon/wartortle_shiny_sunglasses.png"
     }
   ]
 }
