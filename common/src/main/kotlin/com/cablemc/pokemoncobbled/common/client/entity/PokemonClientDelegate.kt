@@ -48,6 +48,11 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
             }
         }
 
+//        pokemon.aspects = entity.aspects.get()
+//        entity.aspects.pipe(emitWhile { pokemon == entity.pokemon }).subscribe {
+//            pokemon.aspects = it
+//        }
+
         entity.beamModeEmitter.subscribeIncludingCurrent {
             if (it == 0.toByte()) {
                 // Do nothing

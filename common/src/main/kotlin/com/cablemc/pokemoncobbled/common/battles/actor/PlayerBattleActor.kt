@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.battles.actor
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
+import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.text.aqua
 import com.cablemc.pokemoncobbled.common.api.text.bold
 import com.cablemc.pokemoncobbled.common.api.text.gold
@@ -25,15 +27,16 @@ import java.util.concurrent.atomic.AtomicBoolean
 class PlayerBattleActor(
     uuid: UUID,
     pokemonList: List<BattlePokemon>
-) : BattleActor(uuid, pokemonList) {
+) : BattleActor(uuid, pokemonList.toMutableList()) {
 
     // TEMP battle showcase stuff
     var announcedPokemon = false
 
-    fun getPlayerEntity() = getServer()!!.playerManager.getPlayer(uuid)
+    fun getPlayerEntity() = uuid.getPlayer()
     override fun sendMessage(component: Text) = getPlayerEntity()?.sendServerMessage(component) ?: Unit
     override fun getName(): MutableText = getPlayerEntity()!!.name.copy()
 
+    override fun getPlayerUUIDs() = setOf(uuid)
     override fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {
         if (battlePokemon.effectedPokemon == battlePokemon.originalPokemon && experience > 0) {
             uuid.getPlayer()
@@ -42,14 +45,14 @@ class PlayerBattleActor(
         }
     }
 
-    override fun getChoices(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<String>> {
-        sendMessage(">> ".gold() + battleLang("choose_actions").gold().bold())
-        val choices = mutableListOf<String>()
-        val future = CompletableFuture<Iterable<String>>()
-        getMoveChoices(future, activePokemon.toMutableList(), choices)
-        return future
-    }
-
+//    override fun getChoices(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<String>> {
+//        sendMessage(">> ".gold() + battleLang("choose_actions").gold().bold())
+//        val choices = mutableListOf<String>()
+//        val future = CompletableFuture<Iterable<String>>()
+//        getMoveChoices(future, activePokemon.toMutableList(), choices)
+//        return future
+//    }
+//
     fun getMoveChoices(allFuture: CompletableFuture<Iterable<String>>, list: MutableList<ActiveBattlePokemon>, madeChoices: MutableList<String>) {
         val first = list.first()
         list.removeAt(0)
@@ -80,7 +83,7 @@ class PlayerBattleActor(
                 actor.sendMessage("- ".red() + move.move.asTranslated().red().onHover("No PP"))
             } else {
                 actor.sendMessage("- ${move.move}".aqua().onClick(canChoose) {
-                    val possibleTargets = move.getTargets(activeBattlePokemon)?.filter { it.battlePokemon != null }
+                    val possibleTargets = move.getTargets(activeBattlePokemon)?.filter { it.hasPokemon() }
                     if (possibleTargets == null || possibleTargets.isEmpty()) {
                         future.complete("move $moveIndex")
                     } else if (possibleTargets.size == 1) {
@@ -96,7 +99,7 @@ class PlayerBattleActor(
                                     it.aqua()
                                 }
                             }
-                            actor.sendMessage("- ".gold() + coloured(target.battlePokemon!!.getName()).onClick(canChooseTarget) {
+                            actor.sendMessage("- ".gold() + coloured((target as ActiveBattlePokemon).battlePokemon!!.getName()).onClick(canChooseTarget) {
                                 future.complete("move $moveIndex ${target.getSignedDigitRelativeTo(activeBattlePokemon)}")
                             })
                         }
@@ -128,12 +131,12 @@ class PlayerBattleActor(
         return future
     }
 
-    override fun getSwitch(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<UUID>> {
-        val switches = mutableListOf<UUID>()
-        val future = CompletableFuture<Iterable<UUID>>()
-        getSwitchChoices(future, activePokemon.toMutableList(), switches)
-        return future
-    }
+//    override fun getSwitch(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<UUID>> {
+//        val switches = mutableListOf<UUID>()
+//        val future = CompletableFuture<Iterable<UUID>>()
+//        getSwitchChoices(future, activePokemon.toMutableList(), switches)
+//        return future
+//    }
 
     fun getSwitchChoices(allFuture: CompletableFuture<Iterable<UUID>>, list: MutableList<ActiveBattlePokemon>, madeSwitches: MutableList<UUID>) {
         val first = list.first()
@@ -181,5 +184,9 @@ class PlayerBattleActor(
 
         actor.sendMessage(battleLang("switch_option").gold() + ": ".gold() + "[".gray() + switchLabels.sum(", ".gray()) + "]".gray())
         return future
+    }
+
+    override fun sendUpdate(packet: NetworkPacket) {
+        CobbledNetwork.sendToPlayers(getPlayerUUIDs().mapNotNull { it.getPlayer() }, packet)
     }
 }

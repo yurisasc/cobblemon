@@ -5,17 +5,16 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
+import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
-import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
-import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.mixin.accessor.AccessorEntity
+import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
-import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.common.util.getBitForByte
-import com.cablemc.pokemoncobbled.common.util.setBitForByte
+import com.cablemc.pokemoncobbled.common.util.*
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import net.minecraft.block.BlockState
@@ -41,23 +40,27 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import java.util.*
+import java.util.EnumSet
+import java.util.Optional
 
 class PokemonEntity(
-    level: World,
+    world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
-) : TameableShoulderEntity(type, level), EntitySpawnExtension {
+) : TameableShoulderEntity(type, world), EntitySpawnExtension {
+
     var pokemon: Pokemon = pokemon
         set(value) {
             field = value
             delegate.changePokemon(value)
+            // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
+            this.updateEyeHeight()
         }
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.defaultPokemonDespawner
 
-    val delegate = if (level.isClient) {
+    val delegate = if (world.isClient) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
-        PokemonClientDelegate()
+        com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate()
     } else {
         PokemonServerDelegate()
     }
@@ -75,6 +78,7 @@ class PokemonEntity(
     val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
     val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
+    val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
 
     /**
      * 0 is do nothing,
@@ -88,7 +92,6 @@ class PokemonEntity(
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
-
         battleId
             .subscribeIncludingCurrent {
                 if (it.isPresent) {
@@ -108,7 +111,7 @@ class PokemonEntity(
         private val PHASING_TARGET_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
         private val BEAM_MODE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
         private val BATTLE_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
-
+        private val ASPECTS = DataTracker.registerData(PokemonEntity::class.java, StringSetDataSerializer)
 
         const val BATTLE_LOCK = "battle"
     }
@@ -120,6 +123,9 @@ class PokemonEntity(
         entityProperties.forEach { it.checkForUpdate() }
         delegate.tick(this)
         ticksLived++
+        if (this.ticksLived % 20 == 0) {
+            this.updateEyeHeight()
+        }
     }
 
     /**
@@ -200,26 +206,7 @@ class PokemonEntity(
         // TODO: Move to proper pokemon interaction menu
         if (player.isSneaking && hand == Hand.MAIN_HAND) {
             if (isReadyToSitOnPlayer && player is ServerPlayerEntity && !isBusy) {
-                val store = pokemon.storeCoordinates.get()?.store
-                if (store is PlayerPartyStore && store.playerUUID == player.uuid) {
-                    CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
-                        val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
-                        velocity = dirToPlayer.multiply(0.8).add(0.0, 0.5, 0.0)
-                        val lock = Any()
-                        busyLocks.add(lock)
-                        afterOnMain(seconds = 0.5F) {
-                            busyLocks.remove(lock)
-                            if (!isBusy && isAlive) {
-                                val isLeft = player.shoulderEntityLeft.isEmpty
-                                if (!isLeft || player.shoulderEntityRight.isEmpty) {
-                                    pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
-                                    this.mountOnto(player)
-                                    this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
-                                }
-                            }
-                        }
-                    }
-                }
+                this.tryMountingShoulder(player)
             }
         }
         return super.interactMob(player, hand)
@@ -237,6 +224,8 @@ class PokemonEntity(
         buffer.writeInt(phasingTargetId.get())
         buffer.writeByte(beamModeEmitter.get().toInt())
         buffer.writeBoolean(pokemon.shiny)
+        buffer.writeSizedInt(IntSize.U_BYTE, pokemon.aspects.size)
+        pokemon.aspects.forEach(buffer::writeString)
     }
 
     override fun loadAdditionalSpawnData(buffer: PacketByteBuf) {
@@ -249,6 +238,11 @@ class PokemonEntity(
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
             shiny.set(buffer.readBoolean())
+            val aspects = mutableSetOf<String>()
+            repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
+                aspects.add(buffer.readString())
+            }
+            this.aspects.set(aspects)
         }
     }
 
@@ -260,6 +254,14 @@ class PokemonEntity(
         if (pokemon.getOwnerUUID() == null && despawner.shouldDespawn(this)) {
             discard()
         }
+    }
+
+    override fun getEyeHeight(pose: EntityPose): Float = this.pokemon.form.eyeHeight(this)
+
+    @Suppress("SAFE_CALL_WILL_CHANGE_NULLABILITY", "USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
+    override fun getActiveEyeHeight(pose: EntityPose?, dimensions: EntityDimensions?): Float {
+        // This property will be null during Entity#<init>
+        return this.pokemon?.form?.eyeHeight(this) ?: super.getActiveEyeHeight(pose, dimensions)
     }
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
@@ -279,4 +281,41 @@ class PokemonEntity(
 
         return true
     }
+
+    private fun tryMountingShoulder(player: ServerPlayerEntity) {
+        if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
+            CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
+                val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
+                velocity = dirToPlayer.multiply(0.8).add(0.0, 0.5, 0.0)
+                val lock = Any()
+                busyLocks.add(lock)
+                afterOnMain(seconds = 0.5F) {
+                    busyLocks.remove(lock)
+                    if (!isBusy && isAlive) {
+                        val isLeft = player.shoulderEntityLeft.isEmpty
+                        if (!isLeft || player.shoulderEntityRight.isEmpty) {
+                            pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
+                            this.mountOnto(player)
+                            this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
+    private fun hasRoomToMount(player: PlayerEntity): Boolean {
+        return (player.shoulderEntityLeft.isEmpty || player.shoulderEntityRight.isEmpty)
+                && !player.hasVehicle()
+                && player.isOnGround
+                && !player.isTouchingWater
+                && !player.inPowderSnow
+    }
+
+    private fun updateEyeHeight() {
+        @Suppress("CAST_NEVER_SUCCEEDS")
+        (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
+    }
+
 }

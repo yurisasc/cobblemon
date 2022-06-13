@@ -1,0 +1,11 @@
+{
+  "animator": "bulbasaur",
+  "model": "pokemoncobbled:geo/models/bulbasaur.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/bulbasaur.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/bulbasaur_shiny.png"
+    }
+  ]
+}

@@ -6,6 +6,7 @@ object DataKeys {
     const val POKEMON_SPECIES_DEX = "SpeciesDex"
     const val POKEMON_FORM_ID = "FormId"
     const val POKEMON_LEVEL = "Level"
+    const val POKEMON_GENDER = "Gender"
     const val POKEMON_EXPERIENCE = "Experience"
     const val POKEMON_FRIENDSHIP = "Friendship"
 
@@ -25,6 +26,8 @@ object DataKeys {
     const val POKEMON_STATUS_NAME = "StatusName"
     const val POKEMON_STATUS_TIMER = "StatusTimer"
     const val POKEMON_CAUGHT_BALL = "CaughtBall"
+    const val POKEMON_FAINTED_TIMER = "FaintedTimer"
+    const val POKEMON_HEALING_TIMER = "HealingTimer"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
@@ -41,6 +44,11 @@ object DataKeys {
     const val STORE_BOX_COUNT = "BoxCount"
     const val STORE_BOX_COUNT_LOCKED = "BoxCountLocked"
     const val STORE_BACKUP = "BackupStore"
+
+    /* Form stuff */
+    const val ALOLAN = "Alolan"
+    const val CRYSTAL = "Crystal"
+    /* ---------- */
 
     /* Battle keys */
     const val REQUEST_TYPE = "RequestType"

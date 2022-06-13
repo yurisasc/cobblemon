@@ -17,14 +17,14 @@ class JavetShowdownConnection : ShowdownConnection {
     private lateinit var reader: BufferedReader
     private var data = ""
     private var closed = false
-    val serverThread = Thread { ShowdownServer.main(arrayOf(File("showdown/scripts/index.js").canonicalPath)) }
+    val serverThread = Thread { ShowdownServer.start() }
 
     fun initializeServer() {
         serverThread.start()
     }
 
     override fun open() {
-        socket = Socket(InetAddress.getLocalHost(), 25567, InetAddress.getLocalHost(), 25566)
+        socket = Socket(InetAddress.getLocalHost(), ShowdownServer.port, InetAddress.getLocalHost(), 0)
         socket.keepAlive = true
         writer = socket.getOutputStream().writer(charset = Charset.forName("ascii"))
         reader = BufferedReader(InputStreamReader(socket.getInputStream()))

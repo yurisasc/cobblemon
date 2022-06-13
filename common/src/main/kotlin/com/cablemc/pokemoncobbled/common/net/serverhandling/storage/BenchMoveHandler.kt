@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.net.serverhandling.storage
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
@@ -31,6 +32,7 @@ object BenchMoveHandler : PacketHandler<BenchMovePacket> {
             }
 
             if (newMove !in pokemon.allAccessibleMoves) {
+                LOGGER.warn("${player.name} tried to bench ${oldMove.name} for ${newMove.name} but it doesn't have ${newMove.name} learned. Could be a hacker!")
                 return@runOnServer
             }
 

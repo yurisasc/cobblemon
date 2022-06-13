@@ -1,13 +1,13 @@
 package com.cablemc.pokemoncobbled.common.pokemon.activestate
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.entity.player.IShoulderable
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.*
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.RegistryKey
@@ -168,23 +168,27 @@ class ShoulderedState() : ActivePokemonState() {
     }
 
     override fun recall() {
-        val player = getServer()!!.playerManager.getPlayer(playerUUID) ?: return
-        val shoulderNBT = if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight
-        if (shoulderNBT.isPokemonEntity() && shoulderNBT.getCompound(DataKeys.POKEMON).getCompound(DataKeys.POKEMON_STATE).getUuid(
-                DataKeys.POKEMON_STATE_ID) == stateId) {
+        val player = getServer()?.playerManager?.getPlayer(playerUUID) ?: return
+        val nbt = if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight
+        if (this.isShoulderedPokemon(nbt)) {
             player.world.playSoundServer(player.pos, SoundEvents.BLOCK_CANDLE_FALL)
-            player.party().find { it.uuid == pokemonUUID }?.let { pkm ->
-                pkm.form.shoulderEffects.forEach { it.removeEffect(pkm, player, isLeftShoulder) }
-            }
-            // Requires mixin to bypass access transformer not existing here
-
-            if (player is IShoulderable) {
-                if (isLeftShoulder) {
-                    player.changeShoulderEntityLeft(NbtCompound())
-                } else {
-                    player.changeShoulderEntityRight(NbtCompound())
-                }
+            this.removeShoulderEffects(player)
+            if (isLeftShoulder) {
+                player.shoulderEntityLeft = NbtCompound()
+            } else {
+                player.shoulderEntityRight = NbtCompound()
             }
         }
     }
+
+    private fun removeShoulderEffects(player: ServerPlayerEntity) {
+        val partyPokemon = player.party().find { pokemon -> pokemon.uuid == this.pokemonUUID }
+        partyPokemon?.form?.shoulderEffects?.forEach { effect -> effect.removeEffect(partyPokemon, player, isLeftShoulder) }
+    }
+
+    private fun isShoulderedPokemon(nbt: NbtCompound): Boolean = nbt.isPokemonEntity()
+            && nbt.getCompound(DataKeys.POKEMON)
+            .getCompound(DataKeys.POKEMON_STATE)
+            .getUuid(DataKeys.POKEMON_STATE_ID) == this.stateId
+
 }

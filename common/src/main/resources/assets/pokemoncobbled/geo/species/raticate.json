@@ -1,0 +1,15 @@
+{
+  "animator": "raticate",
+  "model": "pokemoncobbled:geo/models/raticate_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/raticate.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/raticate_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:geo/models/raticate_female.geo.json"
+    }
+  ]
+}
