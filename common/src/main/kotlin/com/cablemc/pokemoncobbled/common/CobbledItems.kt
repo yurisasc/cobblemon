@@ -70,6 +70,7 @@ object CobbledItems {
     val APRICORN_STAIRS = queue("apricorn_stairs") { blockItem(CobbledBlocks.APRICORN_STAIRS.get(), ItemGroup.BUILDING_BLOCKS) }
 
     val HEALING_MACHINE = queue("healing_machine") { blockItem(CobbledBlocks.HEALING_MACHINE.get(), ItemGroup.REDSTONE) }
+    val PC = queue("pc") { blockItem(CobbledBlocks.PC.get(), ItemGroup.REDSTONE) }
 
     private fun blockItem(block: Block, tab: ItemGroup) : BlockItem {
         return BlockItem(block, Item.Settings().group(tab))

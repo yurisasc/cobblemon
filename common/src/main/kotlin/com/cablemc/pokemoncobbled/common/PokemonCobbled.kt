@@ -177,8 +177,6 @@ object PokemonCobbled {
                 BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize())))
             ).apply { mute = true }
         }
-
-
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {

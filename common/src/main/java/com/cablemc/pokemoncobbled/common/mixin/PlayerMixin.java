@@ -90,7 +90,7 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
     private void recallPokemon(UUID uuid) {
-        // We need to do this cause the Entity doesn't store a reference to it's storage
+        // We need to do this cause the Entity doesn't store a reference to its storage
         try {
             final PartyStore party = PokemonCobbled.INSTANCE.getStorage().getParty(this.uuid);
             for (Pokemon pokemon : party) {
