@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info
+package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.evolution
 
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.util.asTranslated

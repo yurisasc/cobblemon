@@ -35,7 +35,6 @@ abstract class EvolutionUpdatePacket : EvolutionLikeUpdatePacket<Evolution, Evol
         buffer.writeString(this.sending.id)
         buffer.writeString(this.sending.species.name)
         buffer.writeString(this.sending.form.name)
-        buffer.writeString(this.sending.gender.name)
         buffer.writeEnumConstant(this.sending.gender)
         buffer.writeBoolean(this.sending.shiny)
     }
