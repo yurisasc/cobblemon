@@ -114,47 +114,50 @@ class ClientStorageManager {
     }
 
     /**
-     * TODO
+     * Adds a pending evolution for the given Pokémon.
+     * This should only be called from S2C packets in order to sync correctly.
      *
-     * @param pokemon
-     * @param evolution
+     * @param pokemon The [Pokemon] getting an evolution proposed.
+     * @param evolution The [EvolutionDisplay] of the proposition.
      */
     fun addPendingEvolution(pokemon: Pokemon, evolution: EvolutionDisplay) {
         this.pendingEvolutions.getOrPut(pokemon.uuid) { CobbledClientEvolutionController(pokemon) }.add(evolution)
     }
 
     /**
-     * TODO
+     * Clears all pending evolutions for the given Pokémon.
+     * This should only be called from S2C packets in order to sync correctly.
      *
-     * @param pokemon
+     * @param pokemon The [Pokemon] getting the proposed evolutions cleared.
      */
     fun clearPendingEvolutions(pokemon: Pokemon) {
         this.pendingEvolutions.remove(pokemon.uuid)
     }
 
     /**
-     * TODO
+     * Removes a specific pending evolution for the given Pokémon.
+     * This should only be called from S2C packets in order to sync correctly.
      *
-     * @param pokemon
-     * @param evolution
+     * @param pokemon The [Pokemon] getting an evolution proposed.
+     * @param evolution The [EvolutionDisplay] of the proposition.
      */
     fun removePendingEvolution(pokemon: Pokemon, evolution: EvolutionDisplay) {
         this.pendingEvolutions[pokemon.uuid]?.remove(evolution)
     }
 
     /**
-     * TODO
+     * Checks if the given Pokémon has pending evolutions.
      *
-     * @param pokemon
-     * @return
+     * @param pokemon The [Pokemon] being checked for proposed evolutions.
+     * @return If there are any pending evolutions.
      */
     fun hasPendingEvolutions(pokemon: Pokemon): Boolean = this.pendingEvolutionsOf(pokemon)?.isNotEmpty() ?: false
 
     /**
-     * TODO
+     * Gets the evolution controller of the given Pokémon if existing.
      *
-     * @param pokemon
-     * @return
+     * @param pokemon The [Pokemon] getting an evolution proposed.
+     * @return The pending evolutions if any exist.
      */
     fun pendingEvolutionsOf(pokemon: Pokemon): EvolutionController<EvolutionDisplay>? = this.pendingEvolutions[pokemon.uuid]
 

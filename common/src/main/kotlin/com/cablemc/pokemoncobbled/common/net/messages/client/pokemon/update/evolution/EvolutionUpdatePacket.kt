@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.net.messages.common.pokemon.update.evolution.EvolutionLikeUpdatePacket
+import com.cablemc.pokemoncobbled.common.pokemon.Gender
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionDisplay
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.DummyEvolution
@@ -27,13 +28,16 @@ abstract class EvolutionUpdatePacket : EvolutionLikeUpdatePacket<Evolution, Evol
         this.current.result.apply(result)
         val event = EvolutionDisplayEvent(result, this.current)
         CobbledEvents.EVOLUTION_DISPLAY.post(event)
-        return CobbledEvolutionDisplay(this.current.id, event.pokemon.species, event.pokemon.form)
+        return CobbledEvolutionDisplay(this.current.id, event.pokemon)
     }
 
     final override fun encodeSending(buffer: PacketByteBuf) {
         buffer.writeString(this.sending.id)
         buffer.writeString(this.sending.species.name)
         buffer.writeString(this.sending.form.name)
+        buffer.writeString(this.sending.gender.name)
+        buffer.writeEnumConstant(this.sending.gender)
+        buffer.writeBoolean(this.sending.shiny)
     }
 
     final override fun decodeSending(buffer: PacketByteBuf) {
@@ -42,7 +46,9 @@ abstract class EvolutionUpdatePacket : EvolutionLikeUpdatePacket<Evolution, Evol
         val formName = buffer.readString()
         val species = PokemonSpecies.getByName(speciesName) ?: throw IllegalArgumentException("Cannot resolve species from name $speciesName")
         val form = species.forms.firstOrNull { form -> form.name.equals(formName, true) } ?: throw IllegalArgumentException("Cannot resolve form for ${species.name} from ID $formName")
-        this.sending = CobbledEvolutionDisplay(id, species, form)
+        val gender = buffer.readEnumConstant(Gender::class.java)
+        val shiny = buffer.readBoolean()
+        this.sending = CobbledEvolutionDisplay(id, species, form, gender, shiny)
     }
 
 }

@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
 
 import com.cablemc.pokemoncobbled.common.pokemon.FormData
+import com.cablemc.pokemoncobbled.common.pokemon.Gender
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 
@@ -22,5 +23,15 @@ interface EvolutionDisplay : EvolutionLike {
      * The [FormData] of the evolution result.
      */
     val form: FormData
+
+    /**
+     * The [Gender] of the evolution result.
+     */
+    val gender: Gender
+
+    /**
+     * If the evolution result is shiny.
+     */
+    val shiny: Boolean
 
 }
