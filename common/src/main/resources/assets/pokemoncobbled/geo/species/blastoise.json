@@ -1,0 +1,19 @@
+{
+  "animator": "blastoise",
+  "model": "pokemoncobbled:geo/models/blastoise.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/blastoise.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/blastoise_shiny.png"
+    },
+    {
+      "aspects": ["sunglasses"],
+      "texture": "pokemoncobbled:textures/pokemon/blastoise_sunglasses.png"
+    },
+    {
+      "aspects": ["shiny", "sunglasses"],
+      "texture": "pokemoncobbled:textures/pokemon/blastoise_shiny_sunglasses.png"
+    }
+  ]
+}

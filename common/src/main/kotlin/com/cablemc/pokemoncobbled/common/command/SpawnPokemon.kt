@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.command
 
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
+import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.brigadier.Command
@@ -17,7 +18,7 @@ object SpawnPokemon {
         val command = CommandManager.literal("spawnpokemon")
             .requires { it.hasPermissionLevel(4) }
             .then(
-                CommandManager.argument("pokemon", PokemonArgumentType.pokemon())
+                CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
                     .executes { execute(it) })
         dispatcher.register(command)
     }
@@ -25,17 +26,8 @@ object SpawnPokemon {
     private fun execute(context: CommandContext<ServerCommandSource>) : Int {
         val entity = context.source.entity
         if (entity is ServerPlayerEntity && !entity.world.isClient) {
-            val pkm = PokemonArgumentType.getPokemon(context, "pokemon")
-            val pokemonEntity = PokemonEntity(entity.world as ServerWorld)
-            pokemonEntity.let {
-                it.pokemon = Pokemon().apply {
-                    species = pkm
-                    level = 10
-                    form = species.forms.first()
-                    initialize()
-                }
-                it.dexNumber.set(it.pokemon.species.nationalPokedexNumber)
-            }
+            val pkm = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
+            val pokemonEntity = pkm.createEntity(entity.world)
             entity.world.spawnEntity(pokemonEntity)
             pokemonEntity.setPosition(entity.pos)
         }

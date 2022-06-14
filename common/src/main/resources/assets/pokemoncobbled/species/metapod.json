@@ -1,0 +1,27 @@
+{
+  "name": "metapod",
+  "nationalPokedexNumber": 11,
+  "primaryType": "bug",
+  "secondaryType": null,
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 50,
+    "attack": 20,
+    "defence": 55,
+    "specialAttack": 25,
+    "specialDefence": 25,
+    "speed": 30
+  },
+  "levelUpMoves": {
+    "1": ["harden"]
+  },
+  "catchRate": 120,
+  "experienceGroup": "mediumslow",
+  "baseExperienceYield": 64,
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.8,
+    "fixed": false
+  }
+}

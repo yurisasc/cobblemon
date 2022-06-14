@@ -1,0 +1,11 @@
+{
+  "animator": "beedrill",
+  "model": "pokemoncobbled:geo/models/beedrill.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/beedrill.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/beedrill_shiny.png"
+    }
+  ]
+}

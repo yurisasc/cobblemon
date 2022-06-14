@@ -42,10 +42,7 @@ class RegisteredSpeciesRendering(
     }
 
     fun reload() {
-        animators.values.forEach {
-            it.poses.clear()
-            it.registerPoses()
-        }
+        animators.clear()
     }
 
     fun initializeLayers() {

@@ -1,0 +1,11 @@
+{
+  "animator": "charmeleon",
+  "model": "pokemoncobbled:geo/models/charmeleon.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/charmeleon.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/charmeleon_shiny.png"
+    }
+  ]
+}

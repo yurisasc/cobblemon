@@ -21,6 +21,10 @@ class CobbledConfig {
     // TODO new types of constraint
 
     @NodeCategory(Category.Spawning)
+    @IntConstraint(min = 1, max = 1000)
+    var minimumLevelRangeMax = 15
+
+    @NodeCategory(Category.Spawning)
     var enableSpawning = true
 
     @NodeCategory(Category.Spawning)
@@ -55,7 +59,7 @@ class CobbledConfig {
 
     @NodeCategory(Category.PassiveStatus)
     var passiveStatuses = mutableMapOf(
-        Statuses.BURN.configEntry()
+        Statuses.POISON.configEntry()
     )
 
     @NodeCategory(Category.Healing)
@@ -66,5 +70,17 @@ class CobbledConfig {
 
     @NodeCategory(Category.Healing)
     var chargeGainedPerTick = 0.00008333333f
+
+    @NodeCategory(Category.Healing)
+    var defaultFaintTimer = 300
+
+    @NodeCategory(Category.Healing)
+    var faintAwakenHealthPercent = 0.2f
+
+    @NodeCategory(Category.Healing)
+    var healPercent = 0.05
+
+    @NodeCategory(Category.Healing)
+    var healTimer = 60
 
 }

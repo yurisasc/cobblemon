@@ -1,9 +1,12 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToPlayers
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.PokemonFaintedEvent
 import com.cablemc.pokemoncobbled.common.api.moves.*
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
@@ -25,6 +28,7 @@ import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
@@ -78,8 +82,20 @@ open class Pokemon {
         set(value) { field = value ; _form.emit(value) }
     var currentHealth = Int.MAX_VALUE
         set(value) {
+            if(currentHealth <= 0 && value > 0) {
+                this.healTimer = PokemonCobbled.config.healTimer
+            }
+
             field = min(hp, value)
             _currentHealth.emit(field)
+
+            // If the Pokémon is fainted, give it a timer for it to wake back up
+            if(this.isFainted()) {
+                val faintTime = PokemonCobbled.config.defaultFaintTimer
+                CobbledEvents.POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
+                    this.faintedTimer = it.faintedTimer
+                }
+            }
         }
     var gender = Gender.GENDERLESS
         set(value) {
@@ -167,6 +183,16 @@ open class Pokemon {
     val experienceGroup: ExperienceGroup
         get() = form.experienceGroup
 
+    var faintedTimer: Int = -1
+        set(value) {
+            field = value
+        }
+
+    var healTimer: Int = -1
+        set(value) {
+            field = value
+        }
+
     /**
      * All moves that the Pokémon has, at some point, known. This is to allow players to
      * swap in moves they've used before at any time, while holding onto the remaining PP
@@ -251,10 +277,16 @@ open class Pokemon {
         this.currentHealth = hp
         this.moveSet.heal()
         this.status = null
+        this.faintedTimer = -1
+        this.healTimer = -1
+    }
+
+    fun isFainted(): Boolean {
+        return currentHealth <= 0
     }
 
     fun applyStatus(status: PersistentStatus) {
-        this.status = PersistentStatusContainer(status)
+        this.status = PersistentStatusContainer(status, status.statusPeriod().random())
         if (this.status != null) {
             this._status.emit(this.status!!.status.name.toString())
         }
@@ -279,6 +311,8 @@ open class Pokemon {
         state.writeToNBT(NbtCompound())?.let { nbt.put(DataKeys.POKEMON_STATE, it) }
         status?.saveToNBT(NbtCompound())?.let { nbt.put(DataKeys.POKEMON_STATUS, it) }
         nbt.putString(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
+        nbt.putInt(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
+        nbt.putInt(DataKeys.POKEMON_HEALING_TIMER, healTimer)
         nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(NbtList()))
         nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToNBT())
         return nbt
@@ -311,6 +345,8 @@ open class Pokemon {
             val statusNBT = nbt.getCompound(DataKeys.POKEMON_STATUS)
             status = PersistentStatusContainer.loadFromNBT(statusNBT)
         }
+        faintedTimer = nbt.getInt(DataKeys.POKEMON_FAINTED_TIMER)
+        healTimer = nbt.getInt(DataKeys.POKEMON_HEALING_TIMER)
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
@@ -338,6 +374,8 @@ open class Pokemon {
         status?.saveToJSON(JsonObject())?.let { json.add(DataKeys.POKEMON_STATUS, it) }
         json.addProperty(DataKeys.POKEMON_CAUGHT_BALL, caughtBall.name.toString())
         json.add(DataKeys.BENCHED_MOVES, benchedMoves.saveToJSON(JsonArray()))
+        json.addProperty(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
+        json.addProperty(DataKeys.POKEMON_HEALING_TIMER, healTimer)
         if (this.isPlayerOwned()) {
             json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToJson())
         }
@@ -373,6 +411,8 @@ open class Pokemon {
         val ballName = json.get(DataKeys.POKEMON_CAUGHT_BALL).asString
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
+        faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
+        healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
         this.pendingEvolutions.loadFromJson(json.get(DataKeys.POKEMON_PENDING_EVOLUTIONS))
         return this
     }
@@ -396,6 +436,8 @@ open class Pokemon {
         buffer.writeString(status?.status?.name?.toString() ?: "")
         buffer.writeString(caughtBall.name.toString())
         benchedMoves.saveToBuffer(buffer)
+        buffer.writeInt(faintedTimer)
+        buffer.writeInt(healTimer)
         buffer.writeSizedInt(IntSize.U_BYTE, aspects.size)
         aspects.forEach { buffer.writeString(it) }
         return buffer
@@ -426,6 +468,8 @@ open class Pokemon {
         val ballName = buffer.readString()
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromBuffer(buffer)
+        faintedTimer = buffer.readInt()
+        healTimer = buffer.readInt()
         val aspects = mutableSetOf<String>()
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
             aspects.add(buffer.readString())

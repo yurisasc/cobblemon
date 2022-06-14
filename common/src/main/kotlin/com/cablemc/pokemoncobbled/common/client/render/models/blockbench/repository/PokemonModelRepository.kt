@@ -6,7 +6,6 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.model.ModelPart
@@ -24,17 +23,27 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     val species = mutableMapOf<Species, RegisteredSpeciesRendering>()
 
     override fun registerAll() {
+        registerSpeciesWithAnimator(PokemonSpecies.BULBASAUR) { BulbasaurModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.IVYSAUR) { IvysaurModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.VENUSAUR) { VenusaurModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.SQUIRTLE) { SquirtleModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.WARTORTLE) { WartortleModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.BLASTOISE) { BlastoiseModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.CHARMELEON) { CharmeleonModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.CHARMANDER) { CharmanderModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.CHARIZARD) { CharizardModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.CATERPIE) { CaterpieModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.METAPOD) { MetapodModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.BUTTERFREE) { ButterfreeModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.WEEDLE) { WeedleModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.KAKUNA) { KakunaModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.BEEDRILL) { BeedrillModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.RATTATA) { RattataModel(it) }
+        registerSpeciesWithAnimator(PokemonSpecies.RATICATE) { RaticateModel(it) }
 
-        registerBaseSpeciesModel(PokemonSpecies.BULBASAUR, BlockBenchModelWrapper(BulbasaurModel.LAYER_LOCATION, BulbasaurModel::createBodyLayer) { BulbasaurModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.IVYSAUR, BlockBenchModelWrapper(IvysaurModel.LAYER_LOCATION, IvysaurModel::createBodyLayer) { IvysaurModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.VENUSAUR, BlockBenchModelWrapper(VenusaurModel.LAYER_LOCATION, VenusaurModel::createBodyLayer) { VenusaurModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.CHARMANDER, BlockBenchModelWrapper(CharmanderModel.LAYER_LOCATION, CharmanderModel::createBodyLayer) { CharmanderModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.CHARMELEON, BlockBenchModelWrapper(CharmeleonModel.LAYER_LOCATION, CharmeleonModel::createBodyLayer) { CharmeleonModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.SQUIRTLE, BlockBenchModelWrapper(SquirtleModel.LAYER_LOCATION, SquirtleModel::createBodyLayer) { SquirtleModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.WARTORTLE, BlockBenchModelWrapper(WartortleModel.LAYER_LOCATION, WartortleModel::createBodyLayer) { WartortleModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.BLASTOISE, BlockBenchModelWrapper(BlastoiseModel.LAYER_LOCATION, BlastoiseModel::createBodyLayer) { BlastoiseModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.BUTTERFREE, BlockBenchModelWrapper(ButterfreeModel.LAYER_LOCATION, ButterfreeModel::createBodyLayer) { ButterfreeModel(it) })
+
+
+
         registerBaseSpeciesModel(PokemonSpecies.PIDGEY, BlockBenchModelWrapper(PidgeyModel.LAYER_LOCATION, PidgeyModel::createBodyLayer) { PidgeyModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.PIDGEOTTO, BlockBenchModelWrapper(PidgeottoModel.LAYER_LOCATION, PidgeottoModel::createBodyLayer) { PidgeottoModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.PIDGEOT, BlockBenchModelWrapper(PidgeotModel.LAYER_LOCATION, PidgeotModel::createBodyLayer) { PidgeotModel(it) })
@@ -45,9 +54,6 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerBaseSpeciesModel(PokemonSpecies.MAGIKARP, BlockBenchModelWrapper(MagikarpModel.LAYER_LOCATION, MagikarpModel::createBodyLayer) { MagikarpModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.GYARADOS, BlockBenchModelWrapper(GyaradosModel.LAYER_LOCATION, GyaradosModel::createBodyLayer) { GyaradosModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.EEVEE, BlockBenchModelWrapper(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.RATTATA, BlockBenchModelWrapper(RattataModel.LAYER_LOCATION, RattataModel::createBodyLayer) { RattataModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.RATICATE, BlockBenchModelWrapper(RaticateModel.LAYER_LOCATION, RaticateModel::createBodyLayer) { RaticateModel(it) })
-
     }
 
     override fun initializeModelLayers() {
