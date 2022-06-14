@@ -2,8 +2,10 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info
 
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.evolution.button.OpenEvolutionListButton
+import com.cablemc.pokemoncobbled.common.client.gui.summary.SummaryButton
+import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.evolution.EvolveListWidget
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.util.math.MatrixStack
@@ -15,7 +17,7 @@ class InfoWidget(
     private val pokemon: Pokemon
 ): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("InfoWidget")) {
 
-    private val evolutionListButton = OpenEvolutionListButton(x + 10, y + 30, OpenEvolutionListButton.BUTTON_WIDTH, OpenEvolutionListButton.BUTTON_HEIGHT, 0, 0, 4, { this.openEvolutionList() }, this.pokemon)
+    private val evolutionListButton = SummaryButton(x + 10, y + 30, SummaryButton.BUTTON_WIDTH, SummaryButton.BUTTON_HEIGHT, 0, 0, 4, { this.openEvolutionList() }, "pokemoncobbled.ui.evolve".asTranslated(), hoverColorRequirement = { btn -> btn.isHovered || this.evolutionListIsOpen })
     private var evolutionListIsOpen = false
 
     override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
@@ -24,10 +26,14 @@ class InfoWidget(
         RenderSystem.enableDepthTest()
         drawTexture(pMatrixStack, x, y, 0F, 0F, width, height, width, height)
         val evolutionController = PokemonCobbledClient.storage.pendingEvolutionsOf(this.pokemon) ?: return
-        this.evolutionListButton.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+        if (evolutionController.isNotEmpty()) {
+            this.evolutionListButton.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
+        }
         if (!this.evolutionListIsOpen) {
             return
         }
+        val widget = EvolveListWidget(this, evolutionController)
+        widget.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
     }
 
     private fun openEvolutionList() {
@@ -37,7 +43,6 @@ class InfoWidget(
     companion object {
 
         private val infoBaseResource = cobbledResource("ui/summary/summary_info.png")
-        private val EVOLUTION_LIST_RESOURCE = cobbledResource("ui/summary/summary_extra_menu.png")
 
     }
 

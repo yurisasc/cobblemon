@@ -1,21 +1,24 @@
-package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.evolution.button
+package com.cablemc.pokemoncobbled.common.client.gui.summary
 
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.Text
+import net.minecraft.util.Identifier
 
-class OpenEvolutionListButton(
+class SummaryButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     pXTexStart: Int, pYTexStart: Int, pYDiffText: Int,
     clickAction: PressAction,
-    private val pokemon: Pokemon
-): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, RESOURCE, pWidth, pHeight, clickAction) {
+    private val text: Text,
+    private val resource: Identifier = cobbledResource("ui/summary/summary_button.png"),
+    private val hoverColorRequirement: ((TexturedButtonWidget) -> Boolean) = { btn -> btn.isHovered }
+): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, resource, pWidth, pHeight, clickAction) {
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double) = false
 
@@ -23,7 +26,7 @@ class OpenEvolutionListButton(
         // Render Button Image
         blitk(
             matrixStack = poseStack,
-            texture = RESOURCE,
+            texture = this.resource,
             x = x, y = y,
             width = width, height = height
         )
@@ -35,9 +38,9 @@ class OpenEvolutionListButton(
         com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText(
             poseStack = poseStack,
             font = CobbledResources.NOTO_SANS_BOLD,
-            text = "pokemoncobbled.ui.evolve".asTranslated(),
+            text = this.text,
             x = (x + BUTTON_WIDTH / 2) / scale, y = (y + 4) / scale,
-            colour = if (isHovered) ColourLibrary.BUTTON_HOVER_COLOUR else ColourLibrary.WHITE,
+            colour = if (this.hoverColorRequirement.invoke(this)) ColourLibrary.BUTTON_HOVER_COLOUR else ColourLibrary.WHITE,
             shadow = false
         )
 
@@ -45,9 +48,10 @@ class OpenEvolutionListButton(
     }
 
     companion object {
+
         const val BUTTON_WIDTH = 28
         const val BUTTON_HEIGHT = 14
-        private val RESOURCE = cobbledResource("ui/summary/summary_button.png")
+
     }
 
 }
