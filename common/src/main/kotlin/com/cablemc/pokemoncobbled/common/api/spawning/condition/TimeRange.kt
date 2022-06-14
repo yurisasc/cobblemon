@@ -23,9 +23,9 @@ class TimeRange() {
             "night" to TimeRange(12542..23459),
             "noon" to TimeRange(5000..6999),
             "midnight" to TimeRange(17000..18999),
-            "dawn" to TimeRange(22300..166),
+            "dawn" to TimeRange(22300..24000, 0..166),
             "dusk" to TimeRange(11834..13701),
-            "twilight" to TimeRange(11834..13701, 22300..166),
+            "twilight" to TimeRange(11834..13701, 22300..24000, 0..166),
             "morning" to TimeRange(0..4999),
             "afternoon" to TimeRange(7000..12039)
         )
