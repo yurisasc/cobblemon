@@ -17,12 +17,17 @@ class SummaryButton(
     clickAction: PressAction,
     private val text: Text,
     private val resource: Identifier = cobbledResource("ui/summary/summary_button.png"),
-    private val hoverColorRequirement: ((TexturedButtonWidget) -> Boolean) = { btn -> btn.isHovered }
+    private val renderRequirement: ((button: TexturedButtonWidget) -> Boolean) = { true },
+    private val clickRequirement: ((button: TexturedButtonWidget) -> Boolean) = { true },
+    private val hoverColorRequirement: ((button: TexturedButtonWidget) -> Boolean) = { button -> button.isHovered }
 ): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, resource, pWidth, pHeight, clickAction) {
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double) = false
 
     override fun renderButton(poseStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        if (!this.renderRequirement.invoke(this)) {
+            return
+        }
         // Render Button Image
         blitk(
             matrixStack = poseStack,
@@ -45,6 +50,12 @@ class SummaryButton(
         )
 
         poseStack.pop()
+    }
+
+    override fun onPress() {
+        if (this.clickRequirement.invoke(this)) {
+            super.onPress()
+        }
     }
 
     companion object {

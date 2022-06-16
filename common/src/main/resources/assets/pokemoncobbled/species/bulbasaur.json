@@ -46,16 +46,6 @@
       "consumeHeldItem": false,
       "requirements": [],
       "learnableMoves": []
-    },
-    {
-      "variant": "level_up",
-      "levels": 16,
-      "id": "bulbasaur_level_2",
-      "result": "venusaur",
-      "optional": true,
-      "consumeHeldItem": false,
-      "requirements": [],
-      "learnableMoves": []
     }
   ]
 }
