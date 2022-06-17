@@ -3,33 +3,39 @@ package com.cablemc.pokemoncobbled.common.world.level.block
 import com.cablemc.pokemoncobbled.common.world.level.block.entity.PCBlockEntity
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
-import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.state.StateManager
-import net.minecraft.util.ActionResult
-import net.minecraft.util.BlockMirror
-import net.minecraft.util.BlockRotation
-import net.minecraft.util.Hand
+import net.minecraft.state.property.EnumProperty
+import net.minecraft.util.*
 import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
-// todo scale down the block a bit, a full 2 blocks is excessive
+
 class PCBlock(properties: Settings): BlockWithEntity(properties) {
     companion object {
-        val NORTH_AABB = Block.createCuboidShape(1.5, 0.0, 0.0, 14.5, 22.0, 16.0)
-        val SOUTH_AABB = Block.createCuboidShape(1.5, 0.0, 0.0, 14.5, 22.0, 16.0)
-        val WEST_AABB = Block.createCuboidShape(0.0, 0.0, 1.5, 16.0, 22.0, 14.5)
-        val EAST_AABB = Block.createCuboidShape(0.0, 0.0, 1.5, 16.0, 22.0, 14.5)
+        val NORTH_AABB = Block.createCuboidShape(1.5, 0.0, 0.0, 14.5, 16.0, 16.0)
+        val SOUTH_AABB = Block.createCuboidShape(1.5, 0.0, 0.0, 14.5, 16.0, 16.0)
+        val WEST_AABB = Block.createCuboidShape(0.0, 0.0, 1.5, 16.0, 16.0, 14.5)
+        val EAST_AABB = Block.createCuboidShape(0.0, 0.0, 1.5, 16.0, 16.0, 14.5)
+        val PART = EnumProperty.of("part", PCPart::class.java)
+    }
+
+    enum class PCPart(private val label: String) : StringIdentifiable {
+        TOP("top"),
+        BOTTOM("bottom");
+        override fun asString() = label
     }
 
     init {
-        defaultState = this.stateManager.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH)
+        defaultState = this.stateManager.defaultState.with(HorizontalFacingBlock.FACING, Direction.NORTH).with(PART, PCPart.BOTTOM)
     }
 
     override fun createBlockEntity(blockPos: BlockPos, blockState: BlockState) = PCBlockEntity(blockPos, blockState)
@@ -44,13 +50,58 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         }
     }
 
-    override fun getPlacementState(blockPlaceContext: ItemPlacementContext) = defaultState.with(HorizontalFacingBlock.FACING, blockPlaceContext.playerFacing)
+    fun getPositionOfOtherPart(state: BlockState, pos: BlockPos): BlockPos {
+        return if (state.get(PART) == PCPart.BOTTOM) {
+            pos.up()
+        } else {
+            pos.down()
+        }
+    }
+
+    override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
+        super.onBreak(world, pos, state, player)
+        val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
+        if (otherPart.block is PCBlock) {
+            world.setBlockState(getPositionOfOtherPart(state, pos), Blocks.AIR.defaultState, 35)
+            world.syncWorldEvent(player, 2001, getPositionOfOtherPart(state, pos), Block.getRawIdFromState(otherPart))
+        }
+    }
+
+    override fun onPlaced(
+        world: World,
+        pos: BlockPos,
+        state: BlockState,
+        placer: LivingEntity?,
+        itemStack: ItemStack?
+    ) {
+        super.onPlaced(world, pos, state, placer, itemStack)
+        if (!world.isClient) {
+            val blockPos = getPositionOfOtherPart(state, pos)
+            world.setBlockState(blockPos, state.with(PART, PCPart.TOP), 3)
+            world.updateNeighbors(pos, Blocks.AIR)
+            state.updateNeighbors(world, pos, 3)
+        }
+    }
+
+    override fun getPlacementState(blockPlaceContext: ItemPlacementContext): BlockState? {
+        val abovePosition = blockPlaceContext.blockPos.up()
+        val world = blockPlaceContext.world
+        if (world.getBlockState(abovePosition).canReplace(blockPlaceContext) && !world.isOutOfHeightLimit(abovePosition)) {
+            return defaultState
+                .with(HorizontalFacingBlock.FACING, blockPlaceContext.playerFacing)
+                .with(PART, PCPart.BOTTOM)
+        }
+
+        return null
+
+    }
 
     @Deprecated("Deprecated in Java")
     override fun canPathfindThrough(blockState: BlockState, blockGetter: BlockView, blockPos: BlockPos, pathComputationType: NavigationType) = false
 
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(HorizontalFacingBlock.FACING)
+        builder.add(PART)
     }
 
     @Deprecated("Deprecated in Java")
@@ -76,16 +127,14 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         return ActionResult.SUCCESS
     }
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? {
-//        if (BlockWithEntityType != CobbledBlockEntities.HEALING_MACHINE.get()) {
-//            return null
-//        }
-//        return HealingMachineBlockEntity.Companion as BlockEntityTicker<T>
-        return null
-    }
+    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>) = null
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(blockState: BlockState): BlockRenderType {
-        return BlockRenderType.MODEL
+        return if (blockState.get(PART) == PCPart.TOP) {
+            BlockRenderType.INVISIBLE
+        } else {
+            BlockRenderType.MODEL
+        }
     }
 }
