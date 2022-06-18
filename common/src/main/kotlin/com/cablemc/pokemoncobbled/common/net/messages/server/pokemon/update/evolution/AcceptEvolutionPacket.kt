@@ -11,7 +11,7 @@ class AcceptEvolutionPacket() : EvolutionDisplayUpdatePacket() {
     }
 
     override fun applyToPokemon(pokemon: Pokemon) {
-        val evolution = pokemon.evolutions.firstOrNull { evolution -> evolution.id.equals(this.evolutionId, true) } ?: return
+        val evolution = pokemon.evolutionProxy.server().firstOrNull { evolution -> evolution.id.equals(this.evolutionId, true) } ?: return
         pokemon.evolutionProxy.server().start(evolution)
     }
 

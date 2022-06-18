@@ -5,11 +5,14 @@ import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawText
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import com.cablemc.pokemoncobbled.common.client.gui.summary.SummaryButton
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.change.MoveSwitchPane
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
+import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
@@ -37,13 +40,7 @@ class EvolutionListWidget(private val pokemon: Pokemon) : AlwaysSelectedEntryLis
         setRenderBackground(false)
         setRenderSelection(false)
         this.pokemon.evolutionProxy.client().forEach { evolutionDisplay ->
-            val result = Pokemon().apply {
-                species = evolutionDisplay.species
-                shiny = evolutionDisplay.shiny
-                form = evolutionDisplay.form
-                gender = evolutionDisplay.gender
-            }
-            this.addEntry(EvolutionOption(result, evolutionDisplay))
+            this.addEntry(EvolutionOption(this.pokemon, evolutionDisplay))
         }
     }
 
@@ -62,6 +59,8 @@ class EvolutionListWidget(private val pokemon: Pokemon) : AlwaysSelectedEntryLis
     }
 
     class EvolutionOption(private val pokemon: Pokemon, private val evolution: EvolutionDisplay) : AlwaysSelectedEntryListWidget.Entry<EvolutionOption>() {
+
+        private var confirmButton: SummaryButton? = null
 
         override fun render(
             matrices: MatrixStack,
@@ -93,24 +92,59 @@ class EvolutionListWidget(private val pokemon: Pokemon) : AlwaysSelectedEntryLis
                 colour = ColourLibrary.WHITE, shadow = false
             )
             matrices.pop()
+            this.createOrGetConfirmationButton(x + BUTTON_X_OFFSET, y + BUTTON_Y_OFFSET).render(matrices, mouseX, mouseY, tickDelta)
         }
 
         // ToDo narration should return Undiscovered or something among those lines if not registered in the Pokédex just so it makes a bit more sense coming from TTS
         override fun getNarration(): Text = this.displayName()
 
+        override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+            if (this.confirmButton?.isHovered == true) {
+                this.confirmButton?.onPress()
+                return true
+            }
+            return false
+        }
+
         private fun displayName(): MutableText {
             // ToDo return ??? if not registered as caught in Pokédex
-            return this.pokemon.species.translatedName
+            return this.evolution.species.translatedName
+        }
+
+        private fun createOrGetConfirmationButton(x: Int, y: Int): ClickableWidget {
+            if (this.confirmButton != null) {
+                return this.confirmButton!!
+            }
+            this.confirmButton = SummaryButton(
+                x, y,
+                BUTTON_WIDTH, BUTTON_HEIGHT,
+                0, 0, 0,
+                clickAction = {
+                    this.pokemon.evolutionProxy.client().start(this.evolution)
+                    println("Clicked the button")
+                },
+                text = "pokemoncobbled.ui.evolve".asTranslated()
+            )
+            return this.confirmButton!!
         }
 
         companion object {
 
+            // Entry
             private val ENTRY_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_slot.png")
             private const val ENTRY_WIDTH = 100
             private const val ENTRY_HEIGHT = 35
             private const val ENTRY_X_OFFSET = 55
+
+            // Text overlay
             private const val POKEMON_NAME_X_OFFSET = ENTRY_X_OFFSET + 55
             private const val POKEMON_NAME_Y_OFFSET = 2
+
+            // Confirmation button
+            private const val BUTTON_WIDTH = 30
+            private const val BUTTON_HEIGHT = 12
+            private const val BUTTON_X_OFFSET = ENTRY_X_OFFSET + 68
+            private const val BUTTON_Y_OFFSET = 18
 
         }
 

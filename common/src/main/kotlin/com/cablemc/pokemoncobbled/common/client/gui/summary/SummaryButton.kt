@@ -61,13 +61,6 @@ class SummaryButton(
         return false
     }
 
-    override fun isValidClickButton(button: Int): Boolean {
-        if (this.clickRequirement.invoke(this)) {
-            return super.isValidClickButton(button)
-        }
-        return false
-    }
-
     override fun playDownSound(soundManager: SoundManager?) {
         if (!this.silent) {
             super.playDownSound(soundManager)
