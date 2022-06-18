@@ -13,7 +13,7 @@ class AddEvolutionPacket() : EvolutionUpdatePacket() {
     }
 
     override fun applyToPokemon(pokemon: Pokemon) {
-        PokemonCobbledClient.storage.addPendingEvolution(pokemon, this.sending)
+        pokemon.evolutionProxy.client().add(this.sending)
     }
 
 }

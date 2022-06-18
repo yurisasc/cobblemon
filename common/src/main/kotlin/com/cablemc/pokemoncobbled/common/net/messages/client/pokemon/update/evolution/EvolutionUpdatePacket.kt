@@ -24,30 +24,54 @@ abstract class EvolutionUpdatePacket : EvolutionLikeUpdatePacket<Evolution, Evol
     override var sending: EvolutionDisplay = CobbledEvolutionDisplay("dummy", Pokemon())
 
     override fun createSending(pokemon: Pokemon): EvolutionDisplay {
-        val result = pokemon.clone(useJSON = false)
-        this.current.result.apply(result)
-        val event = EvolutionDisplayEvent(result, this.current)
-        CobbledEvents.EVOLUTION_DISPLAY.post(event)
-        return CobbledEvolutionDisplay(this.current.id, event.pokemon)
+        return Companion.createSending(pokemon, this.current)
     }
 
     final override fun encodeSending(buffer: PacketByteBuf) {
-        buffer.writeString(this.sending.id)
-        buffer.writeString(this.sending.species.name)
-        buffer.writeString(this.sending.form.name)
-        buffer.writeEnumConstant(this.sending.gender)
-        buffer.writeBoolean(this.sending.shiny)
+        Companion.encodeSending(this.sending, buffer)
     }
 
     final override fun decodeSending(buffer: PacketByteBuf) {
-        val id = buffer.readString()
-        val speciesName = buffer.readString()
-        val formName = buffer.readString()
-        val species = PokemonSpecies.getByName(speciesName) ?: throw IllegalArgumentException("Cannot resolve species from name $speciesName")
-        val form = species.forms.firstOrNull { form -> form.name.equals(formName, true) } ?: throw IllegalArgumentException("Cannot resolve form for ${species.name} from ID $formName")
-        val gender = buffer.readEnumConstant(Gender::class.java)
-        val shiny = buffer.readBoolean()
-        this.sending = CobbledEvolutionDisplay(id, species, form, gender, shiny)
+        this.sending = Companion.decodeSending(buffer)
+    }
+
+    companion object {
+
+        // Hacks for DRY, see CobbledServerEvolutionController for context
+
+        internal fun createSending(pokemon: Pokemon, evolution: Evolution): EvolutionDisplay {
+            val result = Pokemon().apply {
+                species = pokemon.species
+                shiny = pokemon.shiny
+                form = pokemon.form
+                gender = pokemon.gender
+            }
+            evolution.result.apply(result)
+            val expectedDisplay = CobbledEvolutionDisplay(evolution.id, result)
+            val event = EvolutionDisplayEvent(result, expectedDisplay, evolution)
+            CobbledEvents.EVOLUTION_DISPLAY.post(event)
+            return event.display
+        }
+
+        internal fun encodeSending(display: EvolutionDisplay, buffer: PacketByteBuf) {
+            buffer.writeString(display.id)
+            buffer.writeString(display.species.name)
+            buffer.writeString(display.form.name)
+            buffer.writeEnumConstant(display.gender)
+            buffer.writeBoolean(display.shiny)
+        }
+
+        internal fun decodeSending(buffer: PacketByteBuf): EvolutionDisplay {
+            val id = buffer.readString()
+            val speciesName = buffer.readString()
+            val formName = buffer.readString()
+            val species = PokemonSpecies.getByName(speciesName) ?: throw IllegalArgumentException("Cannot resolve species from name $speciesName")
+            val form = species.forms.firstOrNull { form -> form.name.equals(formName, true) } ?: throw IllegalArgumentException("Cannot resolve form for ${species.name} from ID $formName")
+            val gender = buffer.readEnumConstant(Gender::class.java)
+            val shiny = buffer.readBoolean()
+            return CobbledEvolutionDisplay(id, species, form, gender, shiny)
+        }
+
     }
 
 }

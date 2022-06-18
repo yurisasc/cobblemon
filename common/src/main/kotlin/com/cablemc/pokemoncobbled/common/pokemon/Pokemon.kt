@@ -13,10 +13,8 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonPropertyExtractor
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.*
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
@@ -28,7 +26,6 @@ import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
-import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
@@ -38,6 +35,8 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionProxy
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledClientEvolutionController
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledServerEvolutionController
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
@@ -241,12 +240,10 @@ open class Pokemon {
 
     // Lazy due to leaking this
     /**
-     * The server side [EvolutionController] responsible for holding [Evolution]s.
-     * Any client side modification will have no effect.
+     * Provides the sided [EvolutionController]s, these operations can be done safely with a simple side check.
+     * This can be done beforehand or using [EvolutionProxy.isClient].
      */
-    val pendingEvolutions: EvolutionController<Evolution> by lazy {
-        CobbledServerEvolutionController(this)
-    }
+    val evolutionProxy: EvolutionProxy<EvolutionDisplay, Evolution> by lazy { CobbledEvolutionProxy(this, this.isClient) }
 
     open fun getStat(stat: Stat): Int {
         return if (stat == Stats.HP) {
@@ -314,7 +311,7 @@ open class Pokemon {
         nbt.putInt(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         nbt.putInt(DataKeys.POKEMON_HEALING_TIMER, healTimer)
         nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(NbtList()))
-        nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToNBT())
+        nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.evolutionProxy.current().saveToNBT())
         return nbt
     }
 
@@ -350,9 +347,7 @@ open class Pokemon {
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
-        if (this.isPlayerOwned()) {
-            nbt.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.let { tag -> this.pendingEvolutions.loadFromNBT(tag) }
-        }
+        nbt.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.let { tag -> this.evolutionProxy.current().loadFromNBT(tag) }
         return this
     }
 
@@ -376,9 +371,7 @@ open class Pokemon {
         json.add(DataKeys.BENCHED_MOVES, benchedMoves.saveToJSON(JsonArray()))
         json.addProperty(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         json.addProperty(DataKeys.POKEMON_HEALING_TIMER, healTimer)
-        if (this.isPlayerOwned()) {
-            json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.pendingEvolutions.saveToJson())
-        }
+        json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.evolutionProxy.current().saveToJson())
         return json
     }
 
@@ -413,7 +406,7 @@ open class Pokemon {
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
-        this.pendingEvolutions.loadFromJson(json.get(DataKeys.POKEMON_PENDING_EVOLUTIONS))
+        this.evolutionProxy.current().loadFromJson(json.get(DataKeys.POKEMON_PENDING_EVOLUTIONS))
         return this
     }
 
@@ -440,6 +433,7 @@ open class Pokemon {
         buffer.writeInt(healTimer)
         buffer.writeSizedInt(IntSize.U_BYTE, aspects.size)
         aspects.forEach { buffer.writeString(it) }
+        this.evolutionProxy.current().saveToBuffer(buffer, toClient)
         return buffer
     }
 
@@ -475,6 +469,7 @@ open class Pokemon {
             aspects.add(buffer.readString())
         }
         this.aspects = aspects
+        this.evolutionProxy.current().loadFromBuffer(buffer)
         return this
     }
 

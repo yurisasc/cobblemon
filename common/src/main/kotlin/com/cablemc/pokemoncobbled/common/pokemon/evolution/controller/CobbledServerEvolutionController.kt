@@ -4,17 +4,25 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
+import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.EvolutionUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.ifClient
+import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.toJsonArray
+import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.network.PacketByteBuf
+import java.util.*
 
 internal class CobbledServerEvolutionController(override val pokemon: Pokemon) : EvolutionController<Evolution> {
 
@@ -61,6 +69,21 @@ internal class CobbledServerEvolutionController(override val pokemon: Pokemon) :
             val evolution = this.findEvolutionFromId(id) ?: continue
             this.add(evolution)
         }
+    }
+
+    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
+        if (!toClient) {
+            return
+        }
+        buffer.writeInt(this.size)
+        this.evolutions.forEach { evolution ->
+            val display = EvolutionUpdatePacket.createSending(this.pokemon, evolution)
+            EvolutionUpdatePacket.encodeSending(display, buffer)
+        }
+    }
+
+    override fun loadFromBuffer(buffer: PacketByteBuf) {
+        // Nothing is done on the server
     }
 
     override fun add(element: Evolution): Boolean {

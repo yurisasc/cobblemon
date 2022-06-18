@@ -62,7 +62,7 @@ interface Evolution : EvolutionLike {
     fun evolve(pokemon: Pokemon) {
         if (this.optional) {
             // All the networking is handled under the hood, see EvolutionController.
-            pokemon.pendingEvolutions.add(this)
+            pokemon.evolutionProxy.server().add(this)
             return
         }
         this.forceEvolve(pokemon)

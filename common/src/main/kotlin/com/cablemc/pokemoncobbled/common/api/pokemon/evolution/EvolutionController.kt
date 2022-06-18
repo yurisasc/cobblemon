@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledCli
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledServerEvolutionController
 import com.google.gson.JsonElement
 import net.minecraft.nbt.NbtElement
+import net.minecraft.network.PacketByteBuf
 
 /**
  * Responsible for holding all available [EvolutionLike]s in the [Pokemon].
@@ -27,5 +28,9 @@ interface EvolutionController<T : EvolutionLike> : MutableSet<T> {
     fun saveToJson(): JsonElement
 
     fun loadFromJson(json: JsonElement)
+
+    fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean)
+
+    fun loadFromBuffer(buffer: PacketByteBuf)
 
 }

@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution
 
-import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 
 class ClearEvolutionsPacket() : EvolutionUpdatePacket() {
@@ -10,7 +9,7 @@ class ClearEvolutionsPacket() : EvolutionUpdatePacket() {
     }
 
     override fun applyToPokemon(pokemon: Pokemon) {
-        PokemonCobbledClient.storage.clearPendingEvolutions(pokemon)
+        pokemon.evolutionProxy.client().clear()
     }
 
 }

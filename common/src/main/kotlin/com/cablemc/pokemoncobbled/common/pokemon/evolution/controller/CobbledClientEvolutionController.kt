@@ -3,10 +3,14 @@ package com.cablemc.pokemoncobbled.common.pokemon.evolution.controller
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToServer
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.EvolutionUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.google.gson.JsonArray
 import com.google.gson.JsonElement
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
+import net.minecraft.network.PacketByteBuf
 
 internal class CobbledClientEvolutionController(override val pokemon: Pokemon) : EvolutionController<EvolutionDisplay> {
 
@@ -20,19 +24,30 @@ internal class CobbledClientEvolutionController(override val pokemon: Pokemon) :
     }
 
     override fun saveToNBT(): NbtElement {
-        throw UnsupportedOperationException(UOE_MESSAGE)
+        return NbtCompound()
     }
 
     override fun loadFromNBT(nbt: NbtElement) {
-        throw UnsupportedOperationException(UOE_MESSAGE)
+        // Nothing is done on the client
     }
 
     override fun saveToJson(): JsonElement {
-        throw UnsupportedOperationException(UOE_MESSAGE)
+        return JsonArray()
     }
 
     override fun loadFromJson(json: JsonElement) {
-        throw UnsupportedOperationException(UOE_MESSAGE)
+        // Nothing is done on the client
+    }
+
+    override fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean) {
+        // Nothing is done on the client
+    }
+
+    override fun loadFromBuffer(buffer: PacketByteBuf) {
+       repeat(buffer.readInt()) {
+            val display = EvolutionUpdatePacket.decodeSending(buffer)
+            this.add(display)
+       }
     }
 
     override fun add(element: EvolutionDisplay) = this.evolutions.add(element)
@@ -56,11 +71,5 @@ internal class CobbledClientEvolutionController(override val pokemon: Pokemon) :
     override fun containsAll(elements: Collection<EvolutionDisplay>) = this.evolutions.containsAll(elements)
 
     override fun isEmpty() = this.evolutions.isEmpty()
-
-    companion object {
-
-        private const val UOE_MESSAGE = "The client side has no need to save/load their EvolutionController this is purely for networking and display purposes"
-
-    }
 
 }
