@@ -1,14 +1,17 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.evolution
 
+import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.gui.drawText
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
-import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.change.MoveSwitchPane
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
 class EvolutionListWidget(private val pokemon: Pokemon) : AlwaysSelectedEntryListWidget<EvolutionListWidget.EvolutionOption>(
@@ -75,13 +78,28 @@ class EvolutionListWidget(private val pokemon: Pokemon) : AlwaysSelectedEntryLis
             blitk(
                 matrixStack = matrices,
                 texture = ENTRY_RESOURCE,
-                x = x + X_OFFSET, y = y,
+                x = x + ENTRY_X_OFFSET, y = y,
                 width = ENTRY_WIDTH, height = ENTRY_HEIGHT,
             )
+            matrices.push()
+            val textScale = .65F
+            matrices.scale(textScale, textScale, 1F)
+            drawText(
+                poseStack = matrices,
+                font = CobbledResources.NOTO_SANS_BOLD,
+                text = this.displayName(),
+                x = (x + POKEMON_NAME_X_OFFSET) / textScale, y = (y + POKEMON_NAME_Y_OFFSET) / textScale,
+                centered = true,
+                colour = ColourLibrary.WHITE, shadow = false
+            )
+            matrices.pop()
         }
 
-        override fun getNarration(): Text {
-            // ToDo render ??? if not registered as caught in Pokédex
+        // ToDo narration should return Undiscovered or something among those lines if not registered in the Pokédex just so it makes a bit more sense coming from TTS
+        override fun getNarration(): Text = this.displayName()
+
+        private fun displayName(): MutableText {
+            // ToDo return ??? if not registered as caught in Pokédex
             return this.pokemon.species.translatedName
         }
 
@@ -90,7 +108,9 @@ class EvolutionListWidget(private val pokemon: Pokemon) : AlwaysSelectedEntryLis
             private val ENTRY_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_slot.png")
             private const val ENTRY_WIDTH = 100
             private const val ENTRY_HEIGHT = 35
-            private const val X_OFFSET = 55
+            private const val ENTRY_X_OFFSET = 55
+            private const val POKEMON_NAME_X_OFFSET = ENTRY_X_OFFSET + 55
+            private const val POKEMON_NAME_Y_OFFSET = 2
 
         }
 

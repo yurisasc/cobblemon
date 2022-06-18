@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.gui.widget.TexturedButtonWidget
+import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
@@ -19,7 +20,8 @@ class SummaryButton(
     private val resource: Identifier = cobbledResource("ui/summary/summary_button.png"),
     private val renderRequirement: ((button: TexturedButtonWidget) -> Boolean) = { true },
     private val clickRequirement: ((button: TexturedButtonWidget) -> Boolean) = { true },
-    private val hoverColorRequirement: ((button: TexturedButtonWidget) -> Boolean) = { button -> button.isHovered }
+    private val hoverColorRequirement: ((button: TexturedButtonWidget) -> Boolean) = { button -> button.isHovered },
+    private val silent: Boolean = false
 ): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, resource, pWidth, pHeight, clickAction) {
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double) = false
@@ -52,9 +54,23 @@ class SummaryButton(
         poseStack.pop()
     }
 
-    override fun onPress() {
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         if (this.clickRequirement.invoke(this)) {
-            super.onPress()
+            return super.mouseClicked(mouseX, mouseY, button)
+        }
+        return false
+    }
+
+    override fun isValidClickButton(button: Int): Boolean {
+        if (this.clickRequirement.invoke(this)) {
+            return super.isValidClickButton(button)
+        }
+        return false
+    }
+
+    override fun playDownSound(soundManager: SoundManager?) {
+        if (!this.silent) {
+            super.playDownSound(soundManager)
         }
     }
 
