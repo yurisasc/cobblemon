@@ -11,7 +11,7 @@ import java.util.UUID
  * To inform the player about a store before doing this, [PokemonStore.sendTo] will serve this
  * purpose. If you have previously used [InitializePartyPacket] then that won't be necessary.
  *
- * Handled by [com.cablemc.pokemoncobbled.client.net.storage.party.SetPartyReferenceHandler]
+ * Handled by [com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyReferenceHandler]
  *
  * @author Hiroku
  * @since November 29th, 2021

@@ -3,12 +3,16 @@ package com.cablemc.pokemoncobbled.common.client.net
 import com.cablemc.pokemoncobbled.common.client.net.battle.*
 import com.cablemc.pokemoncobbled.common.client.net.gui.SummaryUIPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.SingleUpdatePacketHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.RemoveClientPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.SwapClientPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.InitializePartyHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.MovePartyPokemonHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.party.RemovePartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyReferenceHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.party.SwapPartyPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.pc.InitializePCHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.pc.MoveClientPCPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.pc.SetPCBoxPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.pc.SetPCPokemonHandler
 import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 
@@ -38,12 +42,23 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<BenchedMovesUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<GenderUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<AspectsUpdatePacket>(SingleUpdatePacketHandler())
+
+        // Party storage
         registerHandler(InitializePartyHandler)
         registerHandler(SetPartyPokemonHandler)
         registerHandler(MovePartyPokemonHandler)
-        registerHandler(RemovePartyPokemonHandler)
-        registerHandler(SwapPartyPokemonHandler)
         registerHandler(SetPartyReferenceHandler)
+
+        // PC storage
+        registerHandler(InitializePCHandler)
+        registerHandler(MoveClientPCPokemonHandler)
+        registerHandler(SetPCBoxPokemonHandler)
+        registerHandler(SetPCPokemonHandler)
+
+        // General storage
+        registerHandler(RemoveClientPokemonHandler)
+        registerHandler(SwapClientPokemonHandler)
+
         registerHandler(SummaryUIPacketHandler)
 
         // Battle handlers

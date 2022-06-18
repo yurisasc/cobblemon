@@ -10,7 +10,7 @@ import java.util.UUID
  * Adds the given Pokémon to a specific location in the client storage. This should be a new
  * Pokémon that the client doesn't know about yet.
  *
- * Handled by [com.cablemc.pokemoncobbled.client.net.storage.party.SetPartyPokemonHandler]
+ * Handled by [com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyPokemonHandler]
  *
  * @author Hiroku
  * @since November 29th, 2021

@@ -1,10 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.storage
 
-import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.stopAfter
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
-import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
-import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.JsonObject
@@ -14,6 +11,12 @@ import java.util.UUID
 
 class BottomlessPosition(val currentIndex: Int) : StorePosition
 
+/**
+ * A [PokemonStore] that has no maximum capacity. It's used internally as an overflow store.
+ *
+ * @author Hiroku
+ * @since May 2nd, 2022
+ */
 open class BottomlessStore(override val uuid: UUID) : PokemonStore<BottomlessPosition>() {
     val pokemon = mutableListOf<Pokemon>()
     val storeChangeObservable = SimpleObservable<Unit>()

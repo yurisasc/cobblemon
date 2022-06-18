@@ -3,11 +3,20 @@ package com.cablemc.pokemoncobbled.common.api.storage.pc
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.stopAfter
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCBoxPokemonPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.network.ServerPlayerEntity
 
+/**
+ * A single box of a PC. The list of Pokémon is strictly sized at [POKEMON_PER_BOX] - 30.
+ * Any change to any contained Pokémon is emitted through the [boxChangeEmitter].
+ *
+ * @author Hiroku
+ * @since April 26th, 2022
+ */
 open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
     override fun iterator() = pokemon.filterNotNull().iterator()
 
@@ -60,6 +69,10 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
         }
     }
 
+    fun sendTo(player: ServerPlayerEntity) {
+        SetPCBoxPokemonPacket(this).sendToPlayer(player)
+    }
+
     open fun saveToNBT(nbt: NbtCompound): NbtCompound {
         for (slot in 0 until POKEMON_PER_BOX) {
             val pokemon = pokemon[slot] ?: continue
@@ -93,4 +106,6 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
         }
         return this
     }
+
+    fun getNonEmptySlots() = (0 until POKEMON_PER_BOX).filter { get(it) != null }.associateWith { get(it)!! }
 }

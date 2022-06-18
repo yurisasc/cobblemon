@@ -6,7 +6,12 @@ import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.*
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.RemoveClientPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.SwapClientPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MoveClientPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
@@ -70,10 +75,11 @@ object CobbledNetwork {
         // Storage Packets
         buildClientMessage<InitializePartyPacket>()
         buildClientMessage<SetPartyPokemonPacket>()
-        buildClientMessage<RemovePartyPokemonPacket>()
-        buildClientMessage<MovePartyPokemonPacket>()
-        buildClientMessage<SwapPartyPokemonPacket>()
+        buildClientMessage<MoveClientPartyPokemonPacket>()
         buildClientMessage<SetPartyReferencePacket>()
+
+        buildClientMessage<SwapClientPokemonPacket>()
+        buildClientMessage<RemoveClientPokemonPacket>()
         buildClientMessage<PokemonStateUpdatePacket>()
 
         // UI Packets

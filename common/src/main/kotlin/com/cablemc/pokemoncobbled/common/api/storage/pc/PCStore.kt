@@ -4,7 +4,11 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.BottomlessStore
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
-import com.cablemc.pokemoncobbled.common.config.CobbledConfig
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.RemoveClientPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.SwapClientPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.InitializePCPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.MoveClientPCPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCPokemonPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getPlayer
@@ -13,6 +17,18 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 
+/**
+ * The store used for PCs. It is divided into some number of [PCBox]es, and can
+ * handle overflow into a [BottomlessStore].
+ *
+ * The overflow is reserved only for when the number of PC boxes changes and there
+ * is existing data that no longer fits. Using it for handling [getFirstAvailablePosition]
+ * would be a bad idea because it would make it easy to create an explosively large
+ * store by a bad actor.
+ *
+ * @author Hiroku
+ * @since April 26th, 2022
+ */
 open class PCStore(override val uuid: UUID) : PokemonStore<PCPosition>() {
     val boxes = mutableListOf<PCBox>()
     protected var lockedSize = false
@@ -29,7 +45,8 @@ open class PCStore(override val uuid: UUID) : PokemonStore<PCPosition>() {
     }
 
     override fun sendTo(player: ServerPlayerEntity) {
-        TODO("Not yet implemented")
+        InitializePCPacket(this).sendToPlayer(player)
+        boxes.forEach { it.sendTo(player) }
     }
 
     override fun initialize() {
@@ -109,6 +126,33 @@ open class PCStore(override val uuid: UUID) : PokemonStore<PCPosition>() {
         }
         json.add(DataKeys.STORE_BACKUP, backupStore.saveToJSON(JsonObject()))
         return json
+    }
+
+    override operator fun set(position: PCPosition, pokemon: Pokemon) {
+        super.set(position, pokemon)
+        sendPacketToObservers(SetPCPokemonPacket(uuid, position, pokemon))
+    }
+
+    override fun remove(pokemon: Pokemon): Boolean {
+        return if (super.remove(pokemon)) {
+            sendPacketToObservers(RemoveClientPokemonPacket(this, pokemon.uuid))
+            true
+        } else {
+            false
+        }
+    }
+
+    override fun swap(position1: PCPosition, position2: PCPosition) {
+        val pokemon1 = get(position1)
+        val pokemon2 = get(position2)
+        super.swap(position1, position2)
+        if (pokemon1 != null && pokemon2 != null) {
+            sendPacketToObservers(SwapClientPokemonPacket(this, pokemon1.uuid, pokemon2.uuid))
+        } else if (pokemon1 != null || pokemon2 != null) {
+            val newPosition = if (pokemon1 == null) position1 else position2
+            val pokemon = pokemon1 ?: pokemon2!!
+            sendPacketToObservers(MoveClientPCPokemonPacket(uuid, pokemon.uuid, newPosition))
+        }
     }
 
     override fun loadFromJSON(json: JsonObject): PokemonStore<PCPosition> {

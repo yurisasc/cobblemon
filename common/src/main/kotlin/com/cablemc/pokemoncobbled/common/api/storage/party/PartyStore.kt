@@ -7,11 +7,11 @@ import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.RemoveClientPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.SwapClientPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MoveClientPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
@@ -44,7 +44,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
     /** Sets the Pokémon at the specified slot. */
     fun set(slot: Int, pokemon: Pokemon) = set(PartyPosition(slot), pokemon)
     override fun setAtPosition(position: PartyPosition, pokemon: Pokemon?) {
-            if (position.slot >= slots.size) {
+        if (position.slot >= slots.size) {
             throw IllegalArgumentException("Slot position is out of bounds")
         } else {
             slots[position.slot] = pokemon
@@ -81,7 +81,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
 
     override fun remove(pokemon: Pokemon): Boolean {
         return if (super.remove(pokemon)) {
-            sendPacketToObservers(RemovePartyPokemonPacket(uuid, pokemon.uuid))
+            sendPacketToObservers(RemoveClientPokemonPacket(this, pokemon.uuid))
             true
         } else {
             false
@@ -101,11 +101,11 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         val pokemon2 = get(position2)
         super.swap(position1, position2)
         if (pokemon1 != null && pokemon2 != null) {
-            sendPacketToObservers(SwapPartyPokemonPacket(uuid, pokemon1.uuid, pokemon2.uuid))
+            sendPacketToObservers(SwapClientPokemonPacket(this, pokemon1.uuid, pokemon2.uuid))
         } else if (pokemon1 != null || pokemon2 != null) {
             val newPosition = if (pokemon1 == null) position1 else position2
             val pokemon = pokemon1 ?: pokemon2!!
-            sendPacketToObservers(MovePartyPokemonPacket(uuid, pokemon.uuid, newPosition))
+            sendPacketToObservers(MoveClientPartyPokemonPacket(uuid, pokemon.uuid, newPosition))
         }
     }
 

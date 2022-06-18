@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.storage
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyPosition
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import java.util.UUID
 
@@ -89,6 +90,12 @@ class ClientStorageManager {
         checkSelectedPokemon()
     }
 
+    fun setPCPokemon(storeID: UUID, position: PCPosition, pokemon: Pokemon) {
+        val pc = pcStores[storeID]
+            ?: return LOGGER.error("Tried setting a Pokémon in position $position for PC store $storeID but no such store found.")
+        pc.set(position, pokemon)
+    }
+
     fun setPartyStore(storeID: UUID) {
         myParty = partyStores[storeID] ?: throw IllegalArgumentException("Was told to set party store to $storeID but no such store is known!")
         checkSelectedPokemon()
@@ -107,6 +114,19 @@ class ClientStorageManager {
     fun swapInParty(storeID: UUID, pokemonID1: UUID, pokemonID2: UUID) {
         partyStores[storeID]?.swap(pokemonID1, pokemonID2)
         checkSelectedPokemon()
+    }
+
+    fun swapInPC(storeID: UUID, pokemonID1: UUID, pokemonID2: UUID) {
+        pcStores[storeID]?.swap(pokemonID1, pokemonID2)
+    }
+
+    fun moveInPC(storeID: UUID, pokemonID: UUID, newPosition: PCPosition) {
+        pcStores[storeID]?.move(pokemonID, newPosition)
+        checkSelectedPokemon()
+    }
+
+    fun removeFromPC(storeID: UUID, pokemonID: UUID) {
+        pcStores[storeID]?.remove(pokemonID)
     }
 
     fun onLogin() {
