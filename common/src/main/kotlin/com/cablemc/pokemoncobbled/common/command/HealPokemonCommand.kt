@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.command
 
-import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
+import com.cablemc.pokemoncobbled.common.util.commandLang
 import com.cablemc.pokemoncobbled.common.util.party
 import com.cablemc.pokemoncobbled.common.util.player
 import com.mojang.brigadier.Command
@@ -10,17 +10,18 @@ import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.command.CommandManager.literal
 
 object HealPokemonCommand {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = CommandManager.literal("healpokemon")
+        val command = dispatcher.register(literal("healpokemon")
             .requires { it.hasPermissionLevel(4) }
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
                     .executes { execute(it) }
-            )
-        dispatcher.register(command)
+            ))
+        dispatcher.register(literal("pokeheal").redirect(command))
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>) : Int {
@@ -29,7 +30,7 @@ object HealPokemonCommand {
         if (!player.world.isClient) {
             val party = player.party()
             party.heal()
-            // TODO send message for healing
+            context.source.sendFeedback(commandLang("healpokemon.heal", player.name), true)
         }
         return Command.SINGLE_SUCCESS
     }
