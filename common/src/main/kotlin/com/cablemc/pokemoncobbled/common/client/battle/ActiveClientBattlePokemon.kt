@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary.SIDE_1_ALLY_BATTL
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary.SIDE_1_BATTLE_COLOUR
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary.SIDE_2_ALLY_BATTLE_COLOUR
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary.SIDE_2_BATTLE_COLOUR
-import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.Targetable
 import com.cablemc.pokemoncobbled.common.client.battle.animations.TileAnimation
 import net.minecraft.client.MinecraftClient

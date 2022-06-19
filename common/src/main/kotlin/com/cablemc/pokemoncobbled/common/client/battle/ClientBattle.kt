@@ -1,8 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.battle
 
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
-import com.cablemc.pokemoncobbled.common.battles.ShowdownActionRequest
-import com.cablemc.pokemoncobbled.common.battles.ShowdownActionResponse
 import java.util.UUID
 
 class ClientBattle(

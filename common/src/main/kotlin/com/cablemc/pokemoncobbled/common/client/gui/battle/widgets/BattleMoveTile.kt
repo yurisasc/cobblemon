@@ -35,7 +35,6 @@ class BattleMoveTile(
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-
         val (r, g, b) = moveDef.elementalType.hue.toRGB()
 
         blitk(
