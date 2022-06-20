@@ -96,6 +96,12 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         private const val SINGLE_TYPE_X_OFFSET = DUAL_TYPE_X_OFFSET + 7
         private const val TYPE_Y_OFFSET = 17
 
+        // Model preview
+        private val MODEL_UNDERLAY_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_underlay.png")
+        private const val MODEL_UNDERLAY_WIDTH = 30
+        private const val MODEL_UNDERLAY_HEIGHT = 30
+        private const val MODEL_UNDERLAY_X_OFFSET = -5
+
     }
 
     inner class EvolutionOption(private val pokemon: Pokemon, private val evolution: EvolutionDisplay) : AlwaysSelectedEntryListWidget.Entry<EvolutionOption>() {
@@ -114,6 +120,8 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             hovered: Boolean,
             tickDelta: Float
         ) {
+            // We render this first so it fits nicely behind the entry itself
+            this.renderModelUnderlay(matrices, mouseX, mouseY, tickDelta, x, y)
             // We want to offset the entries a bit for them to not collide with the scroll bar
             blitk(
                 matrixStack = matrices,
@@ -122,8 +130,9 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
                 width = entryWidth, height = entryHeight,
             )
             this.renderPreviewName(matrices, x, y)
-            this.renderButton(matrices, mouseX, mouseY, tickDelta, x + BUTTON_X_OFFSET, y + BUTTON_Y_OFFSET)
+            this.renderButton(matrices, mouseX, mouseY, tickDelta, x, y)
             this.renderPreviewType(matrices, mouseX, mouseY, tickDelta, x, y)
+            this.renderModelPreview(matrices, mouseX, mouseY, tickDelta, x, y)
         }
 
         // ToDo narration should return Undiscovered or something among those lines if not registered in the Pokédex just so it makes a bit more sense coming from TTS
@@ -142,6 +151,15 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             return this.evolution.species.translatedName
         }
 
+        private fun renderModelUnderlay(matrices: MatrixStack, mouseX: Int, mouseY: Int, tickDelta: Float, x: Int, y: Int) {
+            blitk(
+                matrixStack = matrices,
+                texture = MODEL_UNDERLAY_RESOURCE,
+                x = x + MODEL_UNDERLAY_X_OFFSET, y = y,
+                width = MODEL_UNDERLAY_WIDTH, height = MODEL_UNDERLAY_HEIGHT,
+            )
+        }
+
         private fun renderPreviewName(matrices: MatrixStack, x: Int, y: Int) {
             matrices.push()
             matrices.scale(POKEMON_NAME_SCALE, POKEMON_NAME_SCALE, 1F)
@@ -158,7 +176,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
         private fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, tickDelta: Float, x: Int, y: Int) {
             SummaryButton(
-                x, y,
+                x + BUTTON_X_OFFSET, y + BUTTON_Y_OFFSET,
                 BUTTON_WIDTH, BUTTON_HEIGHT,
                 0, 0, 0,
                 resource = BUTTON_RESOURCE,
@@ -189,6 +207,10 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
                 SingleTypeWidget(actualX, actualY, TYPE_WIDTH, TYPE_HEIGHT, this.evolution.form.primaryType, false)
             widget.render(matrices, mouseX, mouseY, tickDelta)
             matrices.pop()
+        }
+
+        private fun renderModelPreview(matrices: MatrixStack, mouseX: Int, mouseY: Int, tickDelta: Float, x: Int, y: Int) {
+
         }
 
     }
