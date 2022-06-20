@@ -35,7 +35,7 @@ internal class CobbledServerEvolutionController(override val pokemon: Pokemon) :
         CobbledEvents.EVOLUTION_ACCEPTED.postThen(
             event = EvolutionAcceptedEvent(this.pokemon, evolution),
             ifSucceeded = {
-                this.clear()
+                // Evolution will clear the pending stuff after if successful
                 evolution.forceEvolve(this.pokemon)
             }
         )

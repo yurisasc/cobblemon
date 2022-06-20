@@ -26,7 +26,7 @@ abstract class EvolutionDisplayUpdatePacket : EvolutionLikeUpdatePacket<Evolutio
     }
 
     final override fun encodeSending(buffer: PacketByteBuf) {
-        buffer.writeString(this.sending.id)
+        buffer.writeString(this.current.id)
     }
 
     final override fun decodeSending(buffer: PacketByteBuf) {

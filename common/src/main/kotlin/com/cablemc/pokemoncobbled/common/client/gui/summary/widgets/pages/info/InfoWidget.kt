@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info
 
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.SummaryButton
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.evolution.EvolutionListWidget
+import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.evolution.EvolutionListScrollPane
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -16,7 +16,7 @@ class InfoWidget(
     private val pokemon: Pokemon
 ): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("InfoWidget")) {
 
-    private val evolutionListWidget = EvolutionListWidget(this.pokemon).also { widget -> this.addWidget(widget) }
+    private val evolutionListWidget = EvolutionListScrollPane(this.pokemon).also { widget -> this.addWidget(widget) }
 
     private val evolutionListButton = SummaryButton(
         x + 10, y + 30,
@@ -25,7 +25,7 @@ class InfoWidget(
         clickAction = { this.evolutionListWidget.render = true },
         text = "pokemoncobbled.ui.evolve".asTranslated(),
         renderRequirement = { this.pokemon.evolutionProxy.client().isNotEmpty() },
-        clickRequirement = { !this.evolutionListWidget.render }
+        clickRequirement = { this.pokemon.evolutionProxy.client().isNotEmpty() && !this.evolutionListWidget.render }
     ).also { button -> this.addWidget(button) }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {

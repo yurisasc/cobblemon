@@ -75,8 +75,14 @@ interface Evolution : EvolutionLike {
      * @param pokemon The [Pokemon] being evolved.
      */
     fun forceEvolve(pokemon: Pokemon) {
+        // ToDo Once implemented queue evolution for a pokemon state that is not in battle, start animation instead of instantly doing all of this
         this.result.apply(pokemon)
-        // ToDo Once implemented queue evolution for a pokemon state that is not in battle, start animation instead of applying the property
+        pokemon.evolutionProxy.server().clear()
+        // we want to instantly tick for example you might only evolve your Bulbasaur at level 34 so Venusaur should be immediately available
+        pokemon.evolutions.filterIsInstance<PassiveEvolution>()
+            .forEach { evolution ->
+                evolution.attemptEvolution(pokemon)
+            }
     }
 
 }
