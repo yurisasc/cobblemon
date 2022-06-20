@@ -26,6 +26,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspe
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
+import com.cablemc.pokemoncobbled.common.api.storage.pc.link.PCLinkManager
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.battles.BattleSide
@@ -52,6 +53,7 @@ import com.google.gson.GsonBuilder
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
 import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
+import dev.architectury.event.events.common.PlayerEvent.PLAYER_QUIT
 import dev.architectury.event.events.common.TickEvent.SERVER_POST
 import dev.architectury.hooks.item.tool.AxeItemHooks
 import net.minecraft.client.MinecraftClient
@@ -101,6 +103,7 @@ object PokemonCobbled {
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.register { storage.onPlayerLogin(it) }
+        PLAYER_QUIT.register { PCLinkManager.removeLink(it.uuid) }
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         //Command Arguments

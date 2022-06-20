@@ -62,6 +62,10 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         return null
     }
 
+    override fun isValidPosition(position: PartyPosition): Boolean {
+        return position.slot in (0 until slots.size)
+    }
+
     override fun getObservingPlayers() = getServer()?.playerManager?.playerList?.filter { it.uuid in observerUUIDs } ?: emptyList()
     fun size() = slots.size
 

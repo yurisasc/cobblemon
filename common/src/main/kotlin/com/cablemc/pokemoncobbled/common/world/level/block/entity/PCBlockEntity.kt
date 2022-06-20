@@ -8,5 +8,4 @@ import net.minecraft.util.math.BlockPos
 class PCBlockEntity(
     blockPos: BlockPos,
     blockState: BlockState
-) : BlockEntity(CobbledBlockEntities.PC.get(), blockPos, blockState) {
-}
+) : BlockEntity(CobbledBlockEntities.PC.get(), blockPos, blockState)

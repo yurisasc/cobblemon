@@ -1,12 +1,10 @@
 package com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc
 
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition
-import com.cablemc.pokemoncobbled.common.net.IntSize
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition.Companion.readPCPosition
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition.Companion.writePCPosition
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.SetPokemonPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.readSizedInt
-import com.cablemc.pokemoncobbled.common.util.writeSizedInt
-import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -25,14 +23,6 @@ class SetPCPokemonPacket() : SetPokemonPacket<PCPosition>() {
         this.pokemon = pokemon
     }
 
-    override fun encodePosition(buffer: PacketByteBuf): ByteBuf {
-        buffer.writeSizedInt(IntSize.U_BYTE, storePosition.box)
-        buffer.writeSizedInt(IntSize.U_BYTE, storePosition.slot)
-        return buffer
-    }
-
-    override fun decodePosition(buffer: PacketByteBuf) = PCPosition(
-        buffer.readSizedInt(IntSize.U_BYTE),
-        buffer.readSizedInt(IntSize.U_BYTE)
-    )
+    override fun encodePosition(buffer: PacketByteBuf) = buffer.writePCPosition(storePosition)
+    override fun decodePosition(buffer: PacketByteBuf) = buffer.readPCPosition()
 }

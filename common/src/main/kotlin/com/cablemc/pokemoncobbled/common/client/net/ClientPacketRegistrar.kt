@@ -6,13 +6,10 @@ import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.SingleUpdateP
 import com.cablemc.pokemoncobbled.common.client.net.storage.RemoveClientPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.SwapClientPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.InitializePartyHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.party.MovePartyPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.party.MoveClientPartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyReferenceHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.pc.InitializePCHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.pc.MoveClientPCPokemonHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.pc.SetPCBoxPokemonHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.pc.SetPCPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.pc.*
 import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 
@@ -46,7 +43,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         // Party storage
         registerHandler(InitializePartyHandler)
         registerHandler(SetPartyPokemonHandler)
-        registerHandler(MovePartyPokemonHandler)
+        registerHandler(MoveClientPartyPokemonHandler)
         registerHandler(SetPartyReferenceHandler)
 
         // PC storage
@@ -54,6 +51,8 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(MoveClientPCPokemonHandler)
         registerHandler(SetPCBoxPokemonHandler)
         registerHandler(SetPCPokemonHandler)
+        registerHandler(OpenPCHandler)
+        registerHandler(ClosePCHandler)
 
         // General storage
         registerHandler(RemoveClientPokemonHandler)

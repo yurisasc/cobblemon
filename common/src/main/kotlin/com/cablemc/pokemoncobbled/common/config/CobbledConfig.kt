@@ -21,6 +21,9 @@ class CobbledConfig {
     @NodeCategory(Category.Storage)
     @IntConstraint(min = 1, max = 1000)
     var defaultBoxCount = 30
+    @NodeCategory(Category.Storage)
+    @IntConstraint(min = 1, max = 120)
+    var pokemonSaveIntervalSeconds = 30
 
     @NodeCategory(Category.Storage)
     var storageFormat = "nbt"

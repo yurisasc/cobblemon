@@ -16,8 +16,6 @@ import java.util.UUID
 class ClientStorageManager {
     var myParty = ClientParty(UUID.randomUUID(), 1)
     val partyStores = mutableMapOf<UUID, ClientParty>()
-
-    var myPC = ClientPC(UUID.randomUUID(), 1)
     val pcStores = mutableMapOf<UUID, ClientPC>()
 
     var selectedSlot = -1
@@ -132,7 +130,6 @@ class ClientStorageManager {
     fun onLogin() {
         partyStores.clear()
         pcStores.clear()
-        myPC = ClientPC(UUID.randomUUID(), 1)
         myParty = ClientParty(UUID.randomUUID(), 1)
         checkSelectedPokemon()
     }

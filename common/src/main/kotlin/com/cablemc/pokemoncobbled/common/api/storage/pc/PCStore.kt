@@ -12,36 +12,53 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCPok
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getPlayer
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.MutableText
 import java.util.UUID
 
 /**
  * The store used for PCs. It is divided into some number of [PCBox]es, and can
- * handle overflow into a [BottomlessStore].
+ * direct resize overflow into a [BottomlessStore].
  *
  * The overflow is reserved only for when the number of PC boxes changes and there
  * is existing data that no longer fits. Using it for handling [getFirstAvailablePosition]
- * would be a bad idea because it would make it easy to create an explosively large
+ * overflow would be a bad idea because it would make it easy to create an explosively large
  * store by a bad actor.
  *
  * @author Hiroku
  * @since April 26th, 2022
  */
-open class PCStore(override val uuid: UUID) : PokemonStore<PCPosition>() {
+open class PCStore(
+    final override val uuid: UUID,
+    val name: MutableText = lang("your_pc")
+) : PokemonStore<PCPosition>() {
     val boxes = mutableListOf<PCBox>()
     protected var lockedSize = false
     val backupStore = BottomlessStore(UUID(0L, 0L))
-    val observingUUIDs = mutableListOf(uuid)
+    val observingUUIDs = mutableSetOf(uuid)
+
     override fun iterator() = boxes.flatMap { it.toList() }.iterator()
     override fun getObservingPlayers() = observingUUIDs.mapNotNull { it.getPlayer() }
+    fun addObserver(player: ServerPlayerEntity) {
+        observingUUIDs.add(player.uuid)
+        sendTo(player)
+    }
+    fun removeObserver(playerID: UUID) {
+        observingUUIDs.remove(playerID)
+    }
 
     val pcChangeObservable = SimpleObservable<Unit>()
 
     override fun getFirstAvailablePosition(): PCPosition? {
         boxes.forEach { it.getFirstAvailablePosition()?.let { return it } }
         return null
+    }
+
+    override fun isValidPosition(position: PCPosition): Boolean {
+        return position.box in (0 until boxes.size) && position.slot in (0 until POKEMON_PER_BOX)
     }
 
     override fun sendTo(player: ServerPlayerEntity) {
@@ -84,6 +101,7 @@ open class PCStore(override val uuid: UUID) : PokemonStore<PCPosition>() {
         }
         pcChangeObservable.emit(Unit)
     }
+
 
     fun tryRestoreBackedUpPokemon() {
         var newPosition = getFirstAvailablePosition()

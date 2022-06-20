@@ -53,6 +53,9 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
      */
     protected abstract fun setAtPosition(position: T, pokemon: Pokemon?)
 
+    /** Returns true if the given position is pointing to a legitimate location in this store. */
+    abstract fun isValidPosition(position: T): Boolean
+
     /** Sends the given packet to all observing players. */
     open fun sendPacketToObservers(packet: NetworkPacket) = getObservingPlayers().forEach { it.sendPacket(packet) }
 

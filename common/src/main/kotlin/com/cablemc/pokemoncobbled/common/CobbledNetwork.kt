@@ -12,12 +12,20 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.Initi
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MoveClientPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.SwapPCPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.MovePartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.SwapPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePCPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePCPokemonToPartyPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.SwapPCPokemonPacket
 import com.cablemc.pokemoncobbled.common.util.getServer
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -33,6 +41,7 @@ object CobbledNetwork {
     const val PROTOCOL_VERSION = "1"
 
     lateinit var networkDelegate: NetworkDelegate
+
 
     fun ServerPlayerEntity.sendPacket(packet: NetworkPacket) = sendToPlayer(this, packet)
     fun sendToPlayer(player: ServerPlayerEntity, packet: NetworkPacket) = networkDelegate.sendPacketToPlayer(player, packet)
@@ -71,6 +80,7 @@ object CobbledNetwork {
         buildClientMessage<BenchedMovesUpdatePacket>()
         buildClientMessage<GenderUpdatePacket>()
         buildClientMessage<AspectsUpdatePacket>()
+        buildClientMessage<PokemonStateUpdatePacket>()
 
         // Storage Packets
         buildClientMessage<InitializePartyPacket>()
@@ -78,9 +88,15 @@ object CobbledNetwork {
         buildClientMessage<MoveClientPartyPokemonPacket>()
         buildClientMessage<SetPartyReferencePacket>()
 
+        buildClientMessage<InitializePCPacket>()
+        buildClientMessage<MoveClientPCPokemonPacket>()
+        buildClientMessage<SetPCBoxPokemonPacket>()
+        buildClientMessage<SetPCPokemonPacket>()
+        buildClientMessage<OpenPCPacket>()
+        buildClientMessage<ClosePCPacket>()
+
         buildClientMessage<SwapClientPokemonPacket>()
         buildClientMessage<RemoveClientPokemonPacket>()
-        buildClientMessage<PokemonStateUpdatePacket>()
 
         // UI Packets
         buildClientMessage<SummaryUIPacket>()
@@ -104,6 +120,17 @@ object CobbledNetwork {
         buildServerMessage<RequestMoveSwapPacket>()
         buildServerMessage<BenchMovePacket>()
         buildServerMessage<ChallengePacket>()
+
+        buildServerMessage<MovePCPokemonToPartyPacket>()
+        buildServerMessage<MovePartyPokemonToPCPacket>()
+
+        buildServerMessage<SwapPCPokemonPacket>()
+        buildServerMessage<SwapPartyPokemonPacket>()
+
+        buildServerMessage<MovePCPokemonPacket>()
+        buildServerMessage<MovePartyPokemonPacket>()
+
+        buildServerMessage<SwapPCPartyPokemonPacket>()
 
         // Battle packets
         buildServerMessage<BattleSelectActionsPacket>()

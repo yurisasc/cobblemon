@@ -1,7 +1,12 @@
 package com.cablemc.pokemoncobbled.common.api.storage.party
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.getPlayer
+import com.cablemc.pokemoncobbled.common.util.lang
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import net.minecraft.network.MessageType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.TranslatableText
@@ -18,7 +23,7 @@ import kotlin.random.Random
  * @author Hiroku
  * @since November 29th, 2021
  */
-class PlayerPartyStore(
+open class PlayerPartyStore(
     /** The UUID of the player this store is for. */
     val playerUUID: UUID
 ) : PartyStore(playerUUID) {
@@ -27,15 +32,40 @@ class PlayerPartyStore(
         observerUUIDs.add(playerUUID)
     }
 
+    open fun getOverflowPC(): PCStore? {
+        return PokemonCobbled.storage.getPC(playerUUID)
+    }
+
+    override fun add(pokemon: Pokemon): Boolean {
+        return if (super.add(pokemon)) {
+            true
+        } else {
+            val player = playerUUID.getPlayer()
+            val pc = getOverflowPC()
+
+            if (pc == null || !pc.add(pokemon)) {
+                if (pc == null) {
+                    player?.sendServerMessage(lang("overflow_no_pc"))
+                } else {
+                    player?.sendServerMessage(lang("overflow_no_space", pc.name))
+                }
+                false
+            } else {
+                player?.sendServerMessage(lang("overflow_to_pc", pc.name))
+                true
+            }
+        }
+    }
+
     /**
      * Called on the party every second for routine party updates
      * ex: Passive healing, statuses, etc
      */
     fun onSecondPassed(player: ServerPlayerEntity) {
         // Passive healing and passive statuses require the player be out of battle
-        if(BattleRegistry.getBattleByParticipatingPlayer(player) == null) {
+        if (BattleRegistry.getBattleByParticipatingPlayer(player) == null) {
             val random = Random.Default
-            for(pokemon in this) {
+            for (pokemon in this) {
                 // Awake from fainted
                 if(pokemon.isFainted()) {
                     pokemon.faintedTimer -= 1
@@ -56,8 +86,8 @@ class PlayerPartyStore(
 
                 // Statuses
                 val status = pokemon.status
-                if(status != null) {
-                    if(status.isExpired()) {
+                if (status != null) {
+                    if (status.isExpired()) {
                         status.status.onStatusExpire(player, pokemon, random)
                         pokemon.status = null
                     } else {

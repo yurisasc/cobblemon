@@ -20,7 +20,6 @@ class RemoveClientPokemonPacket() : NetworkPacket {
     lateinit var pokemonID: UUID
 
     constructor(store: PokemonStore<*>, pokemonID: UUID): this() {
-
         this.storeIsParty = store is PartyStore
         this.storeID = store.uuid
         this.pokemonID = pokemonID

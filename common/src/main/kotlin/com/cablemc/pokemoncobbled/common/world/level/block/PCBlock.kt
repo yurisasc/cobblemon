@@ -1,5 +1,9 @@
 package com.cablemc.pokemoncobbled.common.world.level.block
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.storage.pc.link.PCLinkManager
+import com.cablemc.pokemoncobbled.common.api.storage.pc.link.ProximityPCLink
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.OpenPCPacket
 import com.cablemc.pokemoncobbled.common.world.level.block.entity.PCBlockEntity
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
@@ -9,6 +13,7 @@ import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.EnumProperty
 import net.minecraft.util.*
@@ -58,6 +63,13 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         }
     }
 
+    fun getBase(state: BlockState, pos: BlockPos): BlockPos {
+        return if (state.get(PART) == PCPart.TOP) {
+            pos.down()
+        } else {
+            pos
+        }
+    }
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
         super.onBreak(world, pos, state, player)
         val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
@@ -115,7 +127,7 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
 
     @Deprecated("Deprecated in Java")
     override fun onUse(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, interactionHand: Hand, blockHitResult: BlockHitResult): ActionResult {
-        if (world.isClient) {
+        if (player !is ServerPlayerEntity) {
             return ActionResult.SUCCESS
         }
 
@@ -124,6 +136,11 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
             return ActionResult.SUCCESS
         }
 
+        val pc = PokemonCobbled.storage.getPCForPlayer(player, blockEntity) ?: return ActionResult.SUCCESS
+        // TODO add event to check if they can open this PC?
+        PCLinkManager.addLink(ProximityPCLink(pc, player.uuid, blockEntity))
+        OpenPCPacket(pc.uuid).sendToPlayer(player)
+        // play sound maybe?
         return ActionResult.SUCCESS
     }
 
