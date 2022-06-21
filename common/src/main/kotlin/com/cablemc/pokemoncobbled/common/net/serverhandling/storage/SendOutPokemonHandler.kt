@@ -23,7 +23,6 @@ object SendOutPokemonHandler : PacketHandler<SendOutPokemonPacket> {
             val pokemon = party.get(slot) ?: return@runOnServer
             val state = pokemon.state
 
-            //if (state !is ActivePokemonState) {
             if (state !is ActivePokemonState) {
                 if ( pokemon.currentHealth <= 0) {
                     return@runOnServer
