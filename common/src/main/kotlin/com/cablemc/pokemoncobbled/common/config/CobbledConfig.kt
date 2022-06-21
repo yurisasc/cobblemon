@@ -57,7 +57,7 @@ class CobbledConfig {
 
     @NodeCategory(Category.Spawning)
     var spawnBuckets = mutableListOf(
-        SpawnBucket("common", 93.4F),
+        SpawnBucket("common", 94.4F),
         SpawnBucket("uncommon", 5F),
         SpawnBucket("rare", 0.5F),
         SpawnBucket("ultra-rare", 0.1F)
