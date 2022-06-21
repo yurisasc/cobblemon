@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.context
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.block.BlockState
@@ -13,7 +14,7 @@ import net.minecraft.world.World
  * @since January 31st, 2022
  */
 open class AreaSpawningContext(
-    override val cause: Any,
+    override val cause: SpawnCause,
     override val world: World,
     override val position: BlockPos,
     override val light: Int,

@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 
 /**
@@ -46,8 +45,8 @@ class PokemonSpawnDetail : SpawnDetail() {
         }
     }
 
-    override fun doSpawn(spawner: Spawner, ctx: SpawningContext): SpawnAction<*> {
+    override fun doSpawn(ctx: SpawningContext): SpawnAction<*> {
         // TODO should do more maybe
-        return PokemonSpawnAction(spawner, ctx, this)
+        return PokemonSpawnAction(ctx, this)
     }
 }
