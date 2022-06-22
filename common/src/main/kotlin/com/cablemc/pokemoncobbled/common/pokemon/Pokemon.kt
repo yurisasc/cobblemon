@@ -72,6 +72,7 @@ open class Pokemon {
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.getDeclaredConstructor()?.newInstance() })
             features.removeAll { SpeciesFeature.getName(it) in removedFeatures }
             updateAspects()
+            updateForm()
             currentHealth = (hp * quotient).roundToInt()
             _species.emit(value)
         }
@@ -517,8 +518,6 @@ open class Pokemon {
         if (!isClient) {
             aspects = AspectProvider.providers.flatMap { it.provide(this) }.toSet()
         }
-        // We always want an update attempt after an aspects update regardless of side, this is also triggered by species change
-        this.updateForm()
     }
 
     fun updateForm() {
