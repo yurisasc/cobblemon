@@ -55,6 +55,7 @@ import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.Vec3d
 import java.util.UUID
 import kotlin.math.min
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 open class Pokemon {
@@ -64,8 +65,7 @@ open class Pokemon {
             if (value == field) {
                 return
             }
-
-            val quotient = currentHealth / hp
+            val quotient = currentHealth.toFloat() / hp
             val previousFeatureKeys = species.features
             field = value
             val newFeatureKeys = species.features
@@ -73,12 +73,18 @@ open class Pokemon {
             val removedFeatures = previousFeatureKeys - newFeatureKeys
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.getDeclaredConstructor()?.newInstance() })
             features.removeAll { SpeciesFeature.getName(it) in removedFeatures }
-            currentHealth = quotient * hp
+            this.evolutionProxy.current().clear()
             updateAspects()
+            currentHealth = (hp * quotient).roundToInt()
             _species.emit(value)
         }
     var form = species.forms.first()
-        set(value) { field = value ; _form.emit(value) }
+        set(value) {
+            field = value
+            // Evo proxy is already cleared on species update but the form may be changed by itself, this is fine and no unnecessary packets will be sent out
+            this.evolutionProxy.current().clear()
+            _form.emit(value)
+        }
     var currentHealth = Int.MAX_VALUE
         set(value) {
             if(currentHealth <= 0 && value > 0) {
@@ -225,7 +231,6 @@ open class Pokemon {
         set(value) {
             if (field != value) {
                 field = value
-                updateForm()
                 _aspects.emit(value)
             }
         }
@@ -537,6 +542,8 @@ open class Pokemon {
         if (!isClient) {
             aspects = AspectProvider.providers.flatMap { it.provide(this) }.toSet()
         }
+        // We always want an update attempt after an aspects update regardless of side, this is also triggered by species change
+        this.updateForm()
     }
 
     fun updateForm() {

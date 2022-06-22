@@ -127,14 +127,14 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             val text = this.displayName().apply {
                 style = style.withFont(CobbledResources.NOTO_SANS_BOLD)
             }
-            val maxWidth = (ENTRY_WIDTH * .65).roundToInt()
-            val width = client.textRenderer.getWidth(text)
-
+            val textWidth = client.textRenderer.getWidth(text).toFloat()
+            val scaleMultiplier = if (textWidth >= POKEMON_NAME_MAX_WIDTH) POKEMON_NAME_MAX_WIDTH / textWidth else 1F
+            val textScale = (POKEMON_NAME_SCALE * scaleMultiplier).coerceAtMost(POKEMON_NAME_SCALE)
             client.textRenderer.drawScaled(
                 matrixStack = matrices,
                 text = text,
-                x = x.toFloat() + POKEMON_NAME_X_OFFSET, y = y.toFloat() + POKEMON_NAME_Y_OFFSET,
-                scaleX = POKEMON_NAME_SCALE, scaleY = POKEMON_NAME_SCALE,
+                x = x.toFloat() + POKEMON_NAME_X_OFFSET, y = y.toFloat() + POKEMON_NAME_Y_OFFSET + (1 - textScale),
+                scaleX = textScale, scaleY = textScale,
                 colour = ColourLibrary.WHITE
             )
         }
@@ -196,6 +196,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         private const val PROPOSITION_Y_OFFSET = -15
 
         // Pokémon name text
+        private const val POKEMON_NAME_MAX_WIDTH = ENTRY_WIDTH - 5
         private const val POKEMON_NAME_SCALE = .55F
         private const val POKEMON_NAME_X_OFFSET = 27
         private const val POKEMON_NAME_Y_OFFSET = 3

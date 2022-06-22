@@ -106,8 +106,11 @@ internal class CobbledServerEvolutionController(override val pokemon: Pokemon) :
 
 
     override fun clear() {
-        this.evolutions.clear()
-        this.pokemon.notify(ClearEvolutionsPacket(this.pokemon))
+        // We don't want to send unnecessary packets
+        if (this.evolutions.isNotEmpty()) {
+            this.evolutions.clear()
+            this.pokemon.notify(ClearEvolutionsPacket(this.pokemon))
+        }
     }
 
     override fun contains(element: Evolution) = this.evolutions.contains(element)
