@@ -3,26 +3,18 @@ package com.cablemc.pokemoncobbled.common.battles.actor
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import com.cablemc.pokemoncobbled.common.api.text.aqua
-import com.cablemc.pokemoncobbled.common.api.text.bold
-import com.cablemc.pokemoncobbled.common.api.text.gold
-import com.cablemc.pokemoncobbled.common.api.text.gray
-import com.cablemc.pokemoncobbled.common.api.text.green
-import com.cablemc.pokemoncobbled.common.api.text.onClick
-import com.cablemc.pokemoncobbled.common.api.text.onHover
-import com.cablemc.pokemoncobbled.common.api.text.plus
-import com.cablemc.pokemoncobbled.common.api.text.red
-import com.cablemc.pokemoncobbled.common.api.text.strikethrough
-import com.cablemc.pokemoncobbled.common.api.text.sum
-import com.cablemc.pokemoncobbled.common.api.text.yellow
+import com.cablemc.pokemoncobbled.common.api.text.*
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
-import com.cablemc.pokemoncobbled.common.util.*
-import net.minecraft.text.MutableText
-import net.minecraft.text.Text
-import java.util.*
+import com.cablemc.pokemoncobbled.common.util.asTranslated
+import com.cablemc.pokemoncobbled.common.util.battleLang
+import com.cablemc.pokemoncobbled.common.util.getPlayer
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
+import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.atomic.AtomicBoolean
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 
 class PlayerBattleActor(
     uuid: UUID,
@@ -34,7 +26,7 @@ class PlayerBattleActor(
 
     fun getPlayerEntity() = uuid.getPlayer()
     override fun sendMessage(component: Text) = getPlayerEntity()?.sendServerMessage(component) ?: Unit
-    override fun getName(): MutableText = getPlayerEntity()!!.name.copy()
+    override fun getName(): MutableText = getPlayerEntity()?.name?.copy() ?: "".text()
 
     override fun getPlayerUUIDs() = setOf(uuid)
     override fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {
