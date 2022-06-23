@@ -11,7 +11,7 @@ object BattleHealthChangeHandler : PacketHandler<BattleHealthChangePacket> {
     override fun invoke(packet: BattleHealthChangePacket, ctx: CobbledNetwork.NetworkContext) {
         MinecraftClient.getInstance().execute {
             val battle = PokemonCobbledClient.battle ?: return@execute
-            val (actor, activePokemon) = battle.getPokemonFromPNX(packet.pnx)
+            val (_, activePokemon) = battle.getPokemonFromPNX(packet.pnx)
             activePokemon.animations.add(
                 HealthChangeAnimation(newHealthRatio = packet.newHealthRatio)
             )

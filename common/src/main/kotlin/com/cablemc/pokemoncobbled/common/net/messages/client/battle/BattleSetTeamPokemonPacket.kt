@@ -7,6 +7,16 @@ import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 
+
+/**
+ * Gives the client the true details of their team in the battle. This is so that switch choices can be made with
+ * full details.
+ *
+ * Handled by [com.cablemc.pokemoncobbled.common.client.net.battle.BattleSetTeamPokemonHandler].
+ *
+ * @author Hiroku
+ * @since June 6th, 2022
+ */
 class BattleSetTeamPokemonPacket() : NetworkPacket {
     val team = mutableListOf<Pokemon>()
 
