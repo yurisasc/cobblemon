@@ -3,9 +3,9 @@ package com.cablemc.pokemoncobbled.common.battles
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
-import net.minecraft.network.PacketByteBuf
 import java.lang.Integer.max
 import java.util.UUID
+import net.minecraft.network.PacketByteBuf
 
 class ShowdownActionRequest(
     var wait: Boolean = false,
@@ -47,6 +47,7 @@ class ShowdownActionRequest(
         }
         val forceSwitch = mutableListOf<Boolean>()
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) { forceSwitch.add(buffer.readBoolean()) }
+        this.forceSwitch = forceSwitch
         noCancel = buffer.readBoolean()
         if (buffer.readBoolean()) {
             side = ShowdownSide().loadFromBuffer(buffer)
