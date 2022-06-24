@@ -1,9 +1,13 @@
 package com.cablemc.pokemoncobbled.common.config
 
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
+import com.cablemc.pokemoncobbled.common.config.starter.StarterCategory
+import com.cablemc.pokemoncobbled.common.config.starter.StarterCategoryAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
 import com.google.gson.GsonBuilder
+import net.minecraft.text.Text
 
 class CobbledConfig {
     companion object {
@@ -11,6 +15,7 @@ class CobbledConfig {
             .disableHtmlEscaping()
             .setPrettyPrinting()
             .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
+            .registerTypeAdapter(StarterCategory::class.java, StarterCategoryAdapter)
             .create()
     }
     
@@ -66,4 +71,26 @@ class CobbledConfig {
 
     @NodeCategory(Category.Healing)
     var chargeGainedPerTick = 0.00008333333f
+
+    @NodeCategory(Category.Starter)
+    var starters = mutableListOf(
+            StarterCategory(
+                name = "Kanto",
+                displayName = Text.of("Kanto"),
+                pokemon = mutableListOf(
+                    PokemonProperties().also { it.level = 5 ; it.species = "Bulbasaur" },
+                    PokemonProperties().also { it.level = 5 ; it.species = "Charmander" },
+                    PokemonProperties().also { it.level = 5 ; it.species = "Squirtle" }
+                )
+            ),
+            StarterCategory(
+                name = "Johto",
+                displayName = Text.of("Johto"),
+                pokemon = mutableListOf(
+                    PokemonProperties().also { it.level = 5 ; it.species = "Chikorita" },
+                    PokemonProperties().also { it.level = 5 ; it.species = "Cyndaquil" },
+                    PokemonProperties().also { it.level = 5 ; it.species = "Totodile" }
+                )
+            )
+        )
 }
