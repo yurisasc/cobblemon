@@ -1,5 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.gui
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
@@ -10,6 +15,7 @@ import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Matrix4f
+import net.minecraft.util.math.Vec3f
 
 fun blitk(
     matrixStack: MatrixStack,
@@ -129,4 +135,50 @@ fun drawString(
         mcFont.drawWithShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
     else
         mcFont.draw(poseStack, comp, x.toFloat(), y.toFloat(), colour)
+}
+
+fun drawPortraitPokemon(
+    species: Species,
+    aspects: Set<String>,
+    matrixStack: MatrixStack,
+    scale: Float = 13F,
+    reversed: Boolean = false,
+    state: PoseableEntityState<PokemonEntity>? = null
+) {
+    val model = PokemonModelRepository.getEntityModel(species, aspects)
+    val texture = PokemonModelRepository.getModelTexture(species, aspects)
+
+    val renderType = model.getLayer(texture)
+
+    RenderSystem.applyModelViewMatrix()
+    matrixStack.scale(scale, scale, -scale)
+    val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F * if (reversed) -1F else 1F)
+    val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
+
+    if (state == null) {
+        model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
+    } else {
+        model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
+        model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+    }
+
+    matrixStack.translate(model.portraitTranslation.x * if (reversed) -1F else 1F, model.portraitTranslation.y, model.portraitTranslation.z - 4)
+    matrixStack.scale(model.portraitScale, model.portraitScale, 0.01F)
+
+    matrixStack.multiply(quaternion1)
+    matrixStack.multiply(quaternion2)
+
+    val light1 = Vec3f(0.2F, 1.0F, -1.0F)
+    val light2 = Vec3f(0.1F, -1.0F, 2.0F)
+    RenderSystem.setShaderLights(light1, light2)
+    quaternion1.conjugate()
+
+    val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
+    val buffer = immediate.getBuffer(renderType)
+    val packedLight = LightmapTextureManager.pack(8, 4)
+    model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+
+    immediate.draw()
+
+    DiffuseLighting.enableGuiDepthLighting()
 }

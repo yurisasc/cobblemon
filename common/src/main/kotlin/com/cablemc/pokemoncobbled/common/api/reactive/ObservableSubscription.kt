@@ -28,6 +28,7 @@ class ObservableSubscription<T>(
                     it.expire()
                 }
             }
+            .build()
         return this
     }
 }

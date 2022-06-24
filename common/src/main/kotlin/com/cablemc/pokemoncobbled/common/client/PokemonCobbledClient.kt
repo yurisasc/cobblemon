@@ -8,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.client.battle.ClientBattle
 import com.cablemc.pokemoncobbled.common.client.gui.PartyOverlay
+import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleOverlay
 import com.cablemc.pokemoncobbled.common.client.keybind.CobbledKeybinds
 import com.cablemc.pokemoncobbled.common.client.net.ClientPacketRegistrar
 import com.cablemc.pokemoncobbled.common.client.render.block.HealingMachineRenderer
@@ -40,6 +41,7 @@ object PokemonCobbledClient {
     var battle: ClientBattle? = null
 
     lateinit var overlay: PartyOverlay
+    lateinit var battleOverlay: BattleOverlay
 
     fun initialize(implementation: PokemonCobbledClientImplementation) {
         LOGGER.info("Initializing Pokémon Cobbled client")
@@ -49,6 +51,8 @@ object PokemonCobbledClient {
         CLIENT_PLAYER_QUIT.register { ScheduledTaskTracker.clear() }
 
         overlay = PartyOverlay()
+        battleOverlay = BattleOverlay()
+
         ClientPacketRegistrar.registerHandlers()
         CobbledKeybinds.register()
 
@@ -97,7 +101,11 @@ object PokemonCobbledClient {
     }
 
     fun beforeChatRender(matrixStack: MatrixStack, partialDeltaTicks: Float) {
-        overlay.onRenderGameOverlay(matrixStack = matrixStack, partialDeltaTicks = partialDeltaTicks)
+        if (battle == null) {
+            overlay.render(matrixStack, partialDeltaTicks)
+        } else {
+            battleOverlay.render(matrixStack, partialDeltaTicks)
+        }
     }
 
     fun onAddLayer(skinMap: Map<String, EntityRenderer<out PlayerEntity>>?) {
@@ -123,5 +131,9 @@ object PokemonCobbledClient {
         BedrockAnimationRepository.clear()
         PokemonModelRepository.reload()
         PokeBallModelRepository.reload()
+    }
+
+    fun endBattle() {
+        battle = null
     }
 }

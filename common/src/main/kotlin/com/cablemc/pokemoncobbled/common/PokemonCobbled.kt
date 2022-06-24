@@ -13,7 +13,6 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalcul
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.StandardExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.feature.FlagSpeciesFeature
-import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledWorldSpawnerManager
@@ -178,6 +177,8 @@ object PokemonCobbled {
                 BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize())))
             ).apply { mute = true }
         }
+
+
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {

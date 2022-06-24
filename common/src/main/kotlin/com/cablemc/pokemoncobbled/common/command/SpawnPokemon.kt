@@ -1,26 +1,24 @@
 package com.cablemc.pokemoncobbled.common.command
 
-import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.server.command.CommandManager
+import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.server.world.ServerWorld
 
 object SpawnPokemon {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = CommandManager.literal("spawnpokemon")
+        val command = dispatcher.register(literal("spawnpokemon")
             .requires { it.hasPermissionLevel(4) }
             .then(
                 CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
-                    .executes { execute(it) })
-        dispatcher.register(command)
+                    .executes { execute(it) }
+            ))
+        dispatcher.register(literal("pokespawn").redirect(command))
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>) : Int {

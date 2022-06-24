@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.battles.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.battles.actor.MultiPokemonBattleActor
 import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -36,6 +37,7 @@ open class BattlePokemon(
         get() = effectedPokemon.nature
     val moveSet: MoveSet
         get() = effectedPokemon.moveSet
+    val statChanges = mutableMapOf<Stat, Int>()
     // etc
 
     val entity: PokemonEntity?
