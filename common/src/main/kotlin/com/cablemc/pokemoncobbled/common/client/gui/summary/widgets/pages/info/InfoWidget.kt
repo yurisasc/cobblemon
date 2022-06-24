@@ -21,7 +21,6 @@ class InfoWidget(
     private val evolutionListButton = SummaryButton(
         x + 10, y + 30,
         SummaryButton.BUTTON_WIDTH, SummaryButton.BUTTON_HEIGHT,
-        0, 0, 4,
         clickAction = { this.evolutionListWidget.render = true },
         text = "pokemoncobbled.ui.evolve".asTranslated(),
         renderRequirement = { this.pokemon.evolutionProxy.client().isNotEmpty() },

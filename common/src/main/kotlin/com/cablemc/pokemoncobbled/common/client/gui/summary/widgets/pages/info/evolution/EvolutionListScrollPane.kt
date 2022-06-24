@@ -2,24 +2,30 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.
 
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.api.gui.drawText
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.client.gui.summary.SummaryButton
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.common.ModelSectionScrollPane
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.DualTypeWidget
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cablemc.pokemoncobbled.common.client.render.drawScaled
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
+import net.minecraft.client.render.DiffuseLighting
+import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import net.minecraft.util.math.Quaternion
+import net.minecraft.util.math.Vec3f
 import kotlin.math.roundToInt
 
 /**
@@ -46,7 +52,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
     override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
         if (this.render) {
-            this.renderPropositionText(poseStack, this.left + PROPOSITION_X_OFFSET, this.top + PROPOSITION_Y_OFFSET)
+            this.renderPropositionText(poseStack, this.left, this.top)
             super.render(poseStack, mouseX, mouseY, partialTicks)
         }
     }
@@ -54,14 +60,19 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
     private fun renderPropositionText(matrices: MatrixStack, x: Int, y: Int) {
         matrices.push()
         matrices.scale(PROPOSITION_TEXT_SCALE, PROPOSITION_TEXT_SCALE, 1F)
-        drawText(
-            poseStack = matrices,
-            font = CobbledResources.NOTO_SANS_BOLD,
-            text = "pokemoncobbled.ui.evolve_offer".asTranslated(),
-            x = x / PROPOSITION_TEXT_SCALE, y = y / PROPOSITION_TEXT_SCALE,
-            centered = true,
-            colour = ColourLibrary.WHITE, shadow = false
-        )
+        val text = "pokemoncobbled.ui.evolve_offer".asTranslated().apply { style = style.withFont(CobbledResources.NOTO_SANS_BOLD_SMALL) }
+        val compressedText = this.client.textRenderer.wrapLines(text, PROPOSITION_TEXT_MAX_WIDTH)
+        var current = 0
+        compressedText.forEach { line ->
+            this.client.textRenderer.draw(
+                matrices,
+                line,
+                (x + PROPOSITION_X_OFFSET) / PROPOSITION_TEXT_SCALE,
+                (y + PROPOSITION_Y_OFFSET + current) / PROPOSITION_TEXT_SCALE,
+                ColourLibrary.WHITE
+            )
+            current += PROPOSITION_LINE_SPACE
+        }
         matrices.pop()
     }
 
@@ -83,17 +94,19 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         ) {
             // We render this first so it fits nicely behind the entry itself
             this.renderModelUnderlay(matrices, x, y)
+            val isDualType = this.evolution.form.secondaryType != null
             // We want to offset the entries a bit for them to not collide with the scroll bar
+            val entryTexture = if (isDualType) DUAL_TYPE_ENTRY_RESOURCE else SINGLE_TYPE_ENTRY_RESOURCE
             blitk(
                 matrixStack = matrices,
-                texture = ENTRY_RESOURCE,
-                x = x + ENTRY_X_OFFSET, y = y,
+                texture = entryTexture,
+                x = (x + ENTRY_X_OFFSET), y = y,
                 width = entryWidth, height = entryHeight,
             )
             this.renderPreviewName(matrices, x, y)
             this.renderButton(matrices, mouseX, mouseY, tickDelta, x, y)
-            this.renderPreviewType(matrices, mouseX, mouseY, tickDelta, x, y)
-            this.renderModelPreview(matrices, mouseX, mouseY, tickDelta, x, y)
+            this.renderTyping(matrices, x, y, isDualType)
+            this.renderModelPortrait(matrices, x, y)
         }
 
         // ToDo narration should return Undiscovered or something among those lines if not registered in the Pokédex just so it makes a bit more sense coming from TTS
@@ -122,7 +135,6 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         }
 
         private fun renderPreviewName(matrices: MatrixStack, x: Int, y: Int) {
-            // ToDo figure me out
             val client = MinecraftClient.getInstance()
             val text = this.displayName().apply {
                 style = style.withFont(CobbledResources.NOTO_SANS_BOLD)
@@ -143,10 +155,10 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             SummaryButton(
                 x + BUTTON_X_OFFSET, y + BUTTON_Y_OFFSET,
                 BUTTON_WIDTH, BUTTON_HEIGHT,
-                0, 0, 0,
                 resource = BUTTON_RESOURCE,
                 clickAction = { this.acceptAndClose() },
-                text = "pokemoncobbled.ui.evolve".asTranslated()
+                text = "pokemoncobbled.ui.evolve".asTranslated(),
+                buttonScale = BUTTON_SCALE
             ).also { button ->
                 this.lastKnownButton = button
                 button.render(matrices, mouseX, mouseY, tickDelta)
@@ -159,22 +171,37 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             this.pokemon.evolutionProxy.client().start(this.evolution)
         }
 
-        private fun renderPreviewType(matrices: MatrixStack, mouseX: Int, mouseY: Int, tickDelta: Float, x: Int, y: Int) {
-            val isDualType = this.evolution.form.secondaryType != null
+        private fun renderTyping(matrices: MatrixStack, x: Int, y: Int, isDualType: Boolean) {
             matrices.push()
-            matrices.scale(TYPE_SCALE, TYPE_SCALE, 1F)
-            val xOffset = if (isDualType) DUAL_TYPE_X_OFFSET else SINGLE_TYPE_X_OFFSET
-            val actualX = (x * 1.25).roundToInt() + xOffset
-            val actualY = (y * 1.25).roundToInt() + TYPE_Y_OFFSET
-            val widget = if (isDualType)
-                DualTypeWidget(actualX, actualY, TYPE_WIDTH, TYPE_HEIGHT, Text.of(""), this.evolution.form.primaryType, this.evolution.form.secondaryType!!)
-            else
-                SingleTypeWidget(actualX, actualY, TYPE_WIDTH, TYPE_HEIGHT, this.evolution.form.primaryType, false)
-            widget.render(matrices, mouseX, mouseY, tickDelta)
+            matrices.scale(TYPE_ICON_SCALE, TYPE_ICON_SCALE, 1F)
+            if (isDualType) {
+                this.renderTypeIcon(this.evolution.form.secondaryType!!, matrices, x + DUAL_TYPE_ICON_X_OFFSET_2, y + DUAL_TYPE_ICON_Y_OFFSET_2)
+                this.renderTypeIcon(this.evolution.form.primaryType, matrices, x + DUAL_TYPE_ICON_X_OFFSET_1, y + DUAL_TYPE_ICON_Y_OFFSET_1)
+            }
+            else {
+                this.renderTypeIcon(this.evolution.form.primaryType, matrices, x + SINGLE_TYPE_ICON_X_OFFSET, y + SINGLE_TYPE_ICON_Y_OFFSET)
+            }
             matrices.pop()
         }
 
-        private fun renderModelPreview(matrices: MatrixStack, mouseX: Int, mouseY: Int, tickDelta: Float, x: Int, y: Int) {
+        private fun renderTypeIcon(type: ElementalType, matrices: MatrixStack, x: Int, y: Int) {
+            blitk(
+                matrixStack = matrices,
+                texture = TYPE_CHART_RESOURCE,
+                x = x / TYPE_ICON_SCALE, y = y / TYPE_ICON_SCALE,
+                width = TYPE_ICON_WIDTH, height = TYPE_ICON_HEIGHT,
+                uOffset = TYPE_ICON_WIDTH * type.textureXMultiplier.toFloat(),
+                textureWidth = TYPE_ICON_WIDTH * 18
+            )
+        }
+
+        private fun renderModelPortrait(matrices: MatrixStack, x: Int, y: Int) {
+            val evolutionPokemon = Pokemon().apply {
+                species = evolution.species
+                form = evolution.form
+                shiny = evolution.shiny
+                gender = evolution.gender
+            }
 
         }
 
@@ -185,15 +212,18 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         private val OVERLAY_RESOURCE = cobbledResource("ui/summary/summary_moves_change.png")
 
         // Entry
-        private val ENTRY_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_slot.png")
+        private val SINGLE_TYPE_ENTRY_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_slot1.png")
+        private val DUAL_TYPE_ENTRY_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_slot2.png")
         private const val ENTRY_WIDTH = 99
-        private const val ENTRY_HEIGHT = 38
+        private const val ENTRY_HEIGHT = 39
         private const val ENTRY_X_OFFSET = -7
 
         // Proposition text
-        private const val PROPOSITION_TEXT_SCALE = .50F
-        private const val PROPOSITION_X_OFFSET = 35
-        private const val PROPOSITION_Y_OFFSET = -15
+        private const val PROPOSITION_TEXT_MAX_WIDTH = 90
+        private const val PROPOSITION_TEXT_SCALE = .75F
+        private const val PROPOSITION_X_OFFSET = 5
+        private const val PROPOSITION_Y_OFFSET = -20
+        private const val PROPOSITION_LINE_SPACE = 9
 
         // Pokémon name text
         private const val POKEMON_NAME_MAX_WIDTH = ENTRY_WIDTH - 5
@@ -203,18 +233,23 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
         // Confirmation button
         private val BUTTON_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_slot_button.png")
-        private const val BUTTON_WIDTH = 31
-        private const val BUTTON_HEIGHT = 11
-        private const val BUTTON_X_OFFSET = 57
-        private const val BUTTON_Y_OFFSET = 15
+        private const val BUTTON_SCALE = .25F
+        private const val BUTTON_WIDTH = 108
+        private const val BUTTON_HEIGHT = 40
+        private const val BUTTON_X_OFFSET = 62
+        private const val BUTTON_Y_OFFSET = 19
 
         // Type preview
-        private const val TYPE_WIDTH = 19
-        private const val TYPE_HEIGHT = 19
-        private const val TYPE_SCALE = .80F
-        private const val DUAL_TYPE_X_OFFSET = 35
-        private const val SINGLE_TYPE_X_OFFSET = DUAL_TYPE_X_OFFSET + 7
-        private const val TYPE_Y_OFFSET = 17
+        private val TYPE_CHART_RESOURCE = cobbledResource("ui/types.png")
+        private const val TYPE_ICON_WIDTH = 76
+        private const val TYPE_ICON_HEIGHT = 76
+        private const val TYPE_ICON_SCALE = .23F
+        private const val SINGLE_TYPE_ICON_X_OFFSET = 35
+        private const val SINGLE_TYPE_ICON_Y_OFFSET = 15
+        private const val DUAL_TYPE_ICON_X_OFFSET_1 = 27
+        private const val DUAL_TYPE_ICON_X_OFFSET_2 = 42
+        private const val DUAL_TYPE_ICON_Y_OFFSET_1 = 15
+        private const val DUAL_TYPE_ICON_Y_OFFSET_2 = 15
 
         // Model preview
         private val MODEL_UNDERLAY_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_underlay.png")
