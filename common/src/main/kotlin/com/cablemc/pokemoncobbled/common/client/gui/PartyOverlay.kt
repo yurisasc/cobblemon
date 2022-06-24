@@ -1,13 +1,12 @@
 package com.cablemc.pokemoncobbled.common.client.gui
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
-import com.cablemc.pokemoncobbled.common.client.render.drawScaled
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
@@ -15,15 +14,11 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
-import net.minecraft.client.render.DiffuseLighting
-import net.minecraft.client.render.LightmapTextureManager
-import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.TranslatableText
-import net.minecraft.util.math.Vec3f
 import kotlin.math.roundToInt
 
-class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) : InGameHud(minecraft) {
+class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
     val partySlot = cobbledResource("ui/party/party_slot.png")
     val underlay = cobbledResource("ui/party/party_slot_underlay.png")
@@ -31,10 +26,11 @@ class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) :
     val expBar = cobbledResource("ui/party/party_overlay_exp.png")
     val hpBar = cobbledResource("ui/party/party_overlay_hp.png")
     val screenExemptions: List<Class<out Screen>> = listOf(
-        ChatScreen::class.java
+        ChatScreen::class.java,
+        BattleGUI::class.java
     )
 
-    fun onRenderGameOverlay(matrixStack: MatrixStack, partialDeltaTicks: Float) {
+    override fun render(matrixStack: MatrixStack, partialDeltaTicks: Float) {
         val minecraft = MinecraftClient.getInstance()
         val player = minecraft.player
 
@@ -100,7 +96,7 @@ class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) :
                 )
                 matrixStack.scale(1F, 1F, 1F)
 
-                drawPokemon(pokemon, matrixStack)
+                drawPortraitPokemon(pokemon.species, pokemon.aspects, matrixStack)
 
                 RenderSystem.disableScissor()
             }
@@ -165,7 +161,7 @@ class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) :
                 val fontScale = 0.5F
                 val horizontalScale = fontScale * 1F
 
-                minecraft.textRenderer.drawScaled(
+                drawScaledText(
                     matrixStack = matrixStack,
                     text = pokemon.species.translatedName,
                     x = panelX + 2.5F,
@@ -174,7 +170,7 @@ class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) :
                     scaleY = horizontalScale
                 )
 
-                minecraft.textRenderer.drawScaled(
+                drawScaledText(
                     matrixStack = matrixStack,
                     text = "pokemoncobbled.ui.lv".asTranslated(),
                     x = panelX + 2.5F,
@@ -184,7 +180,7 @@ class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) :
                 )
 
                 val width = minecraft.textRenderer.getWidth(pokemon.level.toString())
-                minecraft.textRenderer.drawScaled(
+                drawScaledText(
                     matrixStack = matrixStack,
                     text = TranslatableText(pokemon.level.toString()),
                     x = panelX + 6.5F - width / 4F,
@@ -206,39 +202,5 @@ class PartyOverlay(minecraft: MinecraftClient = MinecraftClient.getInstance()) :
                 }
             }
         }
-    }
-
-    fun drawPokemon(pokemon: Pokemon, matrixStack: MatrixStack) {
-        val model = PokemonModelRepository.getEntityModel(pokemon.species, pokemon.aspects)
-        val texture = PokemonModelRepository.getModelTexture(pokemon.species, pokemon.aspects)
-
-        val renderType = model.getLayer(texture)
-
-        val scale = 13F
-        RenderSystem.applyModelViewMatrix()
-        matrixStack.scale(scale, scale, -scale)
-        val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F)
-        val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
-
-        model.setupAnimStateless(PoseType.PROFILE)
-        matrixStack.translate(model.portraitTranslation.x, model.portraitTranslation.y, model.portraitTranslation.z - 4)
-        matrixStack.scale(model.portraitScale, model.portraitScale, 0.01F)
-
-        matrixStack.multiply(quaternion1)
-        matrixStack.multiply(quaternion2)
-
-        val light1 = Vec3f(0.2F, 1.0F, -1.0F)
-        val light2 = Vec3f(0.1F, -1.0F, 2.0F)
-        RenderSystem.setShaderLights(light1, light2)
-        quaternion1.conjugate()
-
-        val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
-        val buffer = immediate.getBuffer(renderType)
-        val packedLight = LightmapTextureManager.pack(8, 4)
-        model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
-
-        immediate.draw()
-
-        DiffuseLighting.enableGuiDepthLighting()
     }
 }

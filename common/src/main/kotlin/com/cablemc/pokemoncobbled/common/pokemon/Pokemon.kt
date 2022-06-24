@@ -49,6 +49,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper.ceil
+import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
 import java.util.UUID
 import kotlin.math.min
@@ -59,11 +60,7 @@ open class Pokemon {
     var uuid = UUID.randomUUID()
     var species = PokemonSpecies.EEVEE
         set(value) {
-            if (value == field) {
-                return
-            }
-
-            val quotient = currentHealth.toFloat() / hp
+            val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             val previousFeatureKeys = species.features
             field = value
             val newFeatureKeys = species.features
@@ -77,7 +74,10 @@ open class Pokemon {
             _species.emit(value)
         }
     var form = species.forms.first()
-        set(value) { field = value ; _form.emit(value) }
+        set(value) {
+            field = value
+            _form.emit(value)
+        }
     var currentHealth = Int.MAX_VALUE
         set(value) {
             if(currentHealth <= 0 && value > 0) {
@@ -224,7 +224,9 @@ open class Pokemon {
         set(value) {
             if (field != value) {
                 field = value
-                updateForm()
+                if (!isClient) {
+                    updateForm()
+                }
                 _aspects.emit(value)
             }
         }

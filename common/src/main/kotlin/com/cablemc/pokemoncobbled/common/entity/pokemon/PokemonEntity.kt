@@ -9,7 +9,6 @@ import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerial
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
-import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.mixin.accessor.AccessorEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
@@ -41,13 +40,14 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import java.util.*
+import java.util.EnumSet
+import java.util.Optional
 
 class PokemonEntity(
-    level: World,
+    world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
-) : TameableShoulderEntity(type, level), EntitySpawnExtension {
+) : TameableShoulderEntity(type, world), EntitySpawnExtension {
 
     var pokemon: Pokemon = pokemon
         set(value) {
@@ -58,9 +58,9 @@ class PokemonEntity(
         }
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.defaultPokemonDespawner
 
-    val delegate = if (level.isClient) {
+    val delegate = if (world.isClient) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
-        PokemonClientDelegate()
+        com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate()
     } else {
         PokemonServerDelegate()
     }

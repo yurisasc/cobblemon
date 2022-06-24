@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.events
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.spawnerManagers
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
+import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.util.party
 import net.minecraft.server.MinecraftServer
 
@@ -10,6 +11,7 @@ object ServerTickHandler {
 
     fun onTick(server: MinecraftServer) {
         spawnerManagers.forEach { it.onServerTick() }
+        BattleRegistry.tick()
 
         secondsTick++
 

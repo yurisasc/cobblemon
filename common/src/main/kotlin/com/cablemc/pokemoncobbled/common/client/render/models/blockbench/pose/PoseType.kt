@@ -20,6 +20,8 @@ enum class PoseType {
     SHOULDER_RIGHT,
     /** A pose for rendering in the SummaryUI */
     PROFILE,
+    /** A pose for rendering in the party overlay and in minor spaces like the battle tiles. */
+    PORTRAIT,
     /** A simple type for non-living entities or errant cases. */
     NONE
 }
