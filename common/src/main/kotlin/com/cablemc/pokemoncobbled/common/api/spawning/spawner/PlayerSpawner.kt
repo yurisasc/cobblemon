@@ -30,14 +30,16 @@ class PlayerSpawner(player: ServerPlayerEntity, spawns: SpawnPool, manager: Spaw
         val rand = Random()
 
         val center = player.pos
-        val movementUnit = if (player.velocity.length() < 0.1) {
-            Vec3d(1.0, 0.0, 0.0).rotateY(rand.nextFloat() * 2 * PI)
-        } else {
-            player.velocity.normalize()
-        }
 
         val r = nextBetween(rand, config.minimumSliceDistanceFromPlayer, config.maximumSliceDistanceFromPlayer)
-        val theta = atan(movementUnit.y / movementUnit.x) + nextBetween(rand, -PI/2, PI/2 )
+        val thetatemp = atan(player.velocity.z / player.velocity.x) + nextBetween(rand, -PI/2, PI/2 )
+        val theta = if (player.velocity.horizontalLength() < 0.1) {
+            rand.nextDouble() * 2 * PI
+        } else if (player.velocity.x < 0) {
+            PI - thetatemp
+        } else {
+            thetatemp
+        }
         val x = center.x + r * cos(theta)
         val z = center.z + r * sin(theta)
 

@@ -64,6 +64,12 @@ object CobbledNetwork {
         buildClientMessage<BenchedMovesUpdatePacket>()
         buildClientMessage<GenderUpdatePacket>()
         buildClientMessage<AspectsUpdatePacket>()
+        // Evolution start
+        buildClientMessage<AddEvolutionPacket>()
+        buildClientMessage<ClearEvolutionsPacket>()
+        buildClientMessage<RemoveEvolutionPacket>()
+        // Evolution End
+
 
         // Storage Packets
         buildClientMessage<InitializePartyPacket>()
@@ -80,6 +86,11 @@ object CobbledNetwork {
         /**
          * Server Packets
          */
+
+        // Pokemon Update Packets
+        // Evolution start
+        buildServerMessage<AcceptEvolutionPacket>()
+        // Evolution End
 
         // Storage Packets
         buildServerMessage<SendOutPokemonPacket>()

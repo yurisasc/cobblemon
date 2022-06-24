@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
 import com.cablemc.pokemoncobbled.common.api.reactive.ObservableSubscription
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.common.client.gui.pokenav.PokeNav
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.PartyWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.SummarySwitchButton
@@ -146,7 +147,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
                 pWidth = 28, pHeight = 16,
                 pXTexStart = 0, pYTexStart = 0, pYDiffText = 0
             ) {
-            MinecraftClient.getInstance().setScreen(null)
+            MinecraftClient.getInstance().setScreen(PokeNav())
         })
 
         // Add Party
@@ -185,7 +186,6 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
         listenToMoveSet()
         switchTo(currentPageIndex)
         modelWidget.pokemon = currentPokemon
-
     }
 
     private var moveSetSubscription: ObservableSubscription<MoveSet>? = null
@@ -217,7 +217,8 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
             INFO -> {
                 currentPage = InfoWidget(
                     pX = (width - BASE_WIDTH) / 2, pY = (height - BASE_HEIGHT) / 2,
-                    pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT
+                    pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
+                    pokemon = this.currentPokemon
                 )
             }
             MOVES -> {

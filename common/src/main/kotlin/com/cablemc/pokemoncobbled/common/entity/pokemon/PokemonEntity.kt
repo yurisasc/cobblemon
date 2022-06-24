@@ -7,10 +7,12 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.item.interactive.PokemonInteractiveItem
 import com.cablemc.pokemoncobbled.common.mixin.accessor.AccessorEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -32,6 +34,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.Packet
 import net.minecraft.network.PacketByteBuf
@@ -92,6 +95,7 @@ class PokemonEntity(
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
+
         battleId
             .subscribeIncludingCurrent {
                 if (it.isPresent) {
@@ -125,6 +129,9 @@ class PokemonEntity(
         ticksLived++
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
+            if (this.pokemon.isPlayerOwned() && this.world.isServerSide()) {
+                this.attemptPassiveEvolution()
+            }
         }
     }
 
@@ -204,6 +211,7 @@ class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         // TODO: Move to proper pokemon interaction menu
+        this.attemptItemInteraction(player, player.getStackInHand(hand))
         if (player.isSneaking && hand == Hand.MAIN_HAND) {
             if (isReadyToSitOnPlayer && player is ServerPlayerEntity && !isBusy) {
                 this.tryMountingShoulder(player)
@@ -282,6 +290,11 @@ class PokemonEntity(
         return true
     }
 
+    private fun attemptItemInteraction(playerIn: PlayerEntity, stack: ItemStack) {
+        if (playerIn !is ServerPlayerEntity || stack.isEmpty) return
+        (stack.item as? PokemonInteractiveItem)?.onInteraction(playerIn, this, stack)
+    }
+
     private fun tryMountingShoulder(player: ServerPlayerEntity) {
         if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
             CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
@@ -316,6 +329,13 @@ class PokemonEntity(
     private fun updateEyeHeight() {
         @Suppress("CAST_NEVER_SUCCEEDS")
         (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
+    }
+
+    private fun attemptPassiveEvolution() {
+        this.pokemon.evolutions.filterIsInstance<PassiveEvolution>()
+            .forEach { evolution ->
+                evolution.attemptEvolution(this.pokemon)
+            }
     }
 
 }

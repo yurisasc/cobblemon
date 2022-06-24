@@ -2,6 +2,8 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
@@ -41,6 +43,11 @@ class Species {
     private val flyingEyeHeight: Float? = null
 
     var forms = mutableListOf(FormData())
+
+    // Only exists for use of Pokemon.evolutions do not expose to end user due to how the species/form data is structured
+    internal val evolutions: MutableSet<Evolution> = hashSetOf()
+
+    internal val preEvolution: PreEvolution? = null
 
     fun types(form: Int): Iterable<ElementalType> = forms[form].types
 

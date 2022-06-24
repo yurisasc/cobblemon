@@ -6,6 +6,7 @@ import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 
 object CobbledCommands {
+
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>, selection: CommandManager.RegistrationEnvironment) {
         SpawnPokemon.register(dispatcher)
         GivePokemon.register(dispatcher)
@@ -13,6 +14,8 @@ object CobbledCommands {
         ChangeScaleAndSize.register(dispatcher)
         TestCommand.register(dispatcher)
         ClickTextCommand.register(dispatcher)
+        PokemonEditCommand.register(dispatcher)
         LevelUp.register(dispatcher)
     }
+
 }

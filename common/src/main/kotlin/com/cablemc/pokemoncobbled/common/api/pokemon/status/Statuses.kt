@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.status
 
-import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.Poison
 import net.minecraft.util.Identifier
 
 /**
@@ -13,7 +12,7 @@ import net.minecraft.util.Identifier
 object Statuses {
     private val allStatuses = mutableListOf<Status>()
 
-    val BURN = registerStatus(PersistentStatus(name = cobbledResource("burn"), defaultDuration = IntRange(180, 300)))
+    val POISON = registerStatus(Poison())
 
     fun <T: Status> registerStatus(status: T) : T {
         allStatuses.add(status)

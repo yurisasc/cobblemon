@@ -39,10 +39,9 @@
   "block.pokemoncobbled.apricorn_door": "Apricorn Door",
   "block.pokemoncobbled.apricorn_trapdoor": "Apricorn Trapdoor",
   "block.pokemoncobbled.healing_machine": "Healing Machine",
-  "itemGroup.minecraft.pokemoncobbled.pokeballtab": "Pokeballs",
   "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
-  "itemGroup.pokemoncobbled.pokeballtab": "Poké Balls",
+  "itemGroup.pokemoncobbled.pokeball": "Poké Balls",
   "pokemoncobbled.ui.pokenav.title": "PokeNav",
   "pokemoncobbled.ui.summary.title": "Summary",
   "pokemoncobbled.ui.starter.title": "Starter Selection",
@@ -74,9 +73,34 @@
   "pokemoncobbled.ui.lv": "Lv.",
   "pokemoncobbled.ui.changemove": "Change",
 
+  "pokemoncobbled.ui.evolve": "Evolve",
+  "pokemoncobbled.ui.evolve_offer": "Evolve into which Pokémon?",
+
   "pokemoncobbled.challenge_label": "Press %1$s to battle.",
 
+  "itemGroup.pokemoncobbled.evolution_item": "Evolution Items",
+  "item.pokemoncobbled.black_augurite": "Black Augurite",
+  "item.pokemoncobbled.dragon_scale": "Dragon Scale",
+  "item.pokemoncobbled.dubious_disc": "Dubious Disc",
+  "item.pokemoncobbled.electirizer": "Electirizer",
+  "item.pokemoncobbled.kings_rock": "Kings Rock",
+  "item.pokemoncobbled.link_cable": "Link Cable",
+  "item.pokemoncobbled.magmarizer": "Magmarizer",
+  "item.pokemoncobbled.metal_coat": "Metal Coat",
+  "item.pokemoncobbled.oval_stone": "Oval Stone",
+  "item.pokemoncobbled.protector": "Protector",
+  "item.pokemoncobbled.upgrade": "Upgrade",
+
+  "itemGroup.pokemoncobbled.medicine": "Medicine",
+  "item.pokemoncobbled.rare_candy": "Rare Candy",
+  "item.pokemoncobbled.exp_candy_xs": "Exp. Candy XS",
+  "item.pokemoncobbled.exp_candy_s": "Exp. Candy S",
+  "item.pokemoncobbled.exp_candy_m": "Exp. Candy M",
+  "item.pokemoncobbled.exp_candy_l": "Exp. Candy L",
+  "item.pokemoncobbled.exp_candy_xl": "Exp. Candy XL",
+
   "pokemoncobbled.command.givepokemon.give": "Gave %1$s to %2$s.",
+  "pokemoncobbled.command.pokemonedit": "Edited %2$s' %1$s.",
 
   "pokemoncobbled.battle.damage_dealt": "%1$s took %2$s damage!",
   "pokemoncobbled.battle.used_move": "%1$s used %2$s!",
@@ -99,6 +123,8 @@
   "pokemoncobbled.experience.gained": "%1$s received %2$s experience.",
   "pokemoncobbled.experience.level_up": "%1$s is now level %2$s!",
   "pokemoncobbled.experience.learned_move": "%1$s has learned %2$s.",
+
+  "pokemoncobbled.party.faintRecover": "%1$s has recovered from fainting.",
 
   "pokemoncobbled.type.fire": "Fire",
   "pokemoncobbled.type.water": "Water",
@@ -2724,6 +2750,7 @@
   "item.pokemoncobbled.shiny_stone": "Shiny Stone",
   "item.pokemoncobbled.sun_stone": "Sun Stone",
   "item.pokemoncobbled.thunder_stone": "Thunder Stone",
-  "item.pokemoncobbled.water_stone": "Water Stone"
+  "item.pokemoncobbled.water_stone": "Water Stone",
 
+  "gamerule.doPokemonSpawning": "Spawn pokémon"
 }

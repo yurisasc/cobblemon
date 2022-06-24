@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.net.serverhandling
 
 import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
+import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
+import com.cablemc.pokemoncobbled.common.net.serverhandling.evolution.EvolutionDisplayUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.BenchMoveHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.RequestMoveSwapHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SendOutPokemonHandler
@@ -21,5 +23,6 @@ object ServerPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(RequestMoveSwapHandler)
         registerHandler(BenchMoveHandler)
         registerHandler(ChallengeHandler)
+        registerHandler<AcceptEvolutionPacket>(EvolutionDisplayUpdatePacketHandler())
     }
 }

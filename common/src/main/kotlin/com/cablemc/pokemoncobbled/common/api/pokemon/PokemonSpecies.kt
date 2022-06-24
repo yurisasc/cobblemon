@@ -4,9 +4,12 @@ import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.SpeciesLoader
 
 object PokemonSpecies {
-    private val allSpecies = mutableListOf<Species>()
+
+    private val speciesNames = hashMapOf<String, Species>()
+    private val speciesDex = hashMapOf<Int, Species>()
 
     // TODO rework to create read-optimized views for dex number, name, others
+    // Just a quick workaround out of necessity for case-insensitive lookup, when rework is done please keep that functionality
 
     val BULBASAUR = register(SpeciesLoader.loadFromAssets("bulbasaur"))
     val IVYSAUR = register(SpeciesLoader.loadFromAssets("ivysaur"))
@@ -17,7 +20,12 @@ object PokemonSpecies {
     val SQUIRTLE = register(SpeciesLoader.loadFromAssets("squirtle"))
     val WARTORTLE = register(SpeciesLoader.loadFromAssets("wartortle"))
     val BLASTOISE = register(SpeciesLoader.loadFromAssets("blastoise"))
+    val CATERPIE = register(SpeciesLoader.loadFromAssets("caterpie"))
+    val METAPOD = register(SpeciesLoader.loadFromAssets("metapod"))
     val BUTTERFREE = register(SpeciesLoader.loadFromAssets("butterfree"))
+    val WEEDLE = register(SpeciesLoader.loadFromAssets("weedle"))
+    val KAKUNA = register(SpeciesLoader.loadFromAssets("kakuna"))
+    val BEEDRILL = register(SpeciesLoader.loadFromAssets("beedrill"))
     val PIDGEY = register(SpeciesLoader.loadFromAssets("pidgey"))
     val PIDGEOTTO = register(SpeciesLoader.loadFromAssets("pidgeotto"))
     val PIDGEOT = register(SpeciesLoader.loadFromAssets("pidgeot"))
@@ -34,19 +42,19 @@ object PokemonSpecies {
 
 
     val species: List<Species>
-        get() = allSpecies
+        get() = this.speciesNames.values.toList()
 
     fun register(species: Species): Species {
-        allSpecies.add(species)
+        this.speciesNames[species.name.lowercase()] = species
+        this.speciesDex[species.nationalPokedexNumber] = species
         species.forms.forEach { it.species = species }
         return species
     }
 
-    fun getByName(name: String): Species? {
-        return allSpecies.firstOrNull { species -> species.name == name }
-    }
+    fun getByName(name: String) = this.speciesNames[name.lowercase()]
 
-    fun getByPokedexNumber(ndex: Int): Species? = allSpecies.find { it.nationalPokedexNumber == ndex }
+    fun getByPokedexNumber(ndex: Int) = this.speciesDex[ndex]
 
-    fun count() = allSpecies.size
+    fun count() = this.speciesNames.size
+
 }

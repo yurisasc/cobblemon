@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokemoncobbled:rare_candy",
+    "pokemoncobbled:exp_candy_xs",
+    "pokemoncobbled:exp_candy_s",
+    "pokemoncobbled:exp_candy_m",
+    "pokemoncobbled:exp_candy_l",
+    "pokemoncobbled:exp_candy_xl"
+  ]
+}

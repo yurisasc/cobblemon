@@ -1,0 +1,28 @@
+{
+  "name": "weedle",
+  "nationalPokedexNumber": 13,
+  "primaryType": "bug",
+  "secondaryType": "poison",
+  "maleRatio": 0.5,
+  "baseStats": {
+    "hp": 40,
+    "attack": 35,
+    "defence": 30,
+    "specialAttack": 20,
+    "specialDefence": 20,
+    "speed": 50
+  },
+  "levelUpMoves": {
+    "1": ["poisonsting", "stringshot"],
+    "9": [ "bugbite" ]
+  },
+  "catchRate": 255,
+  "experienceGroup": "mediumslow",
+  "baseExperienceYield": 64,
+  "baseScale": 0.8,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.8,
+    "fixed": false
+  }
+}

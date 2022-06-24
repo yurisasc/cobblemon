@@ -103,7 +103,6 @@ fun drawText(
         val width = mcFont.getWidth(comp)
         x = x.toDouble() - width / 2
     }
-
     if (shadow)
         mcFont.drawWithShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
     else

@@ -26,6 +26,8 @@ object DataKeys {
     const val POKEMON_STATUS_NAME = "StatusName"
     const val POKEMON_STATUS_TIMER = "StatusTimer"
     const val POKEMON_CAUGHT_BALL = "CaughtBall"
+    const val POKEMON_FAINTED_TIMER = "FaintedTimer"
+    const val POKEMON_HEALING_TIMER = "HealingTimer"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
@@ -33,6 +35,7 @@ object DataKeys {
     const val POKEMON_STATE_ID = "StateId"
     const val POKEMON_STATE_PLAYER_UUID = "PlayerUUID"
     const val POKEMON_STATE_POKEMON_UUID = "PokemonUUID"
+    const val POKEMON_PENDING_EVOLUTIONS = "PendingEvolutions"
 
     const val BENCHED_MOVES = "BenchedMoves"
 
@@ -65,4 +68,5 @@ object DataKeys {
     const val HEALER_MACHINE_TIME_LEFT = "MachineTimeLeft"
     const val HEALER_MACHINE_CHARGE = "MachineCharge"
     /* ----------- */
+
 }
