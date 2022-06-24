@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.
 
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
@@ -12,6 +13,7 @@ import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.util.math.MatrixStack
@@ -192,7 +194,18 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
                 shiny = evolution.shiny
                 gender = evolution.gender
             }
-
+            matrices.translate(
+                x.toDouble(),
+                y.toDouble(),
+                0.0
+            )
+            drawPortraitPokemon(
+                species = evolutionPokemon.species,
+                aspects = evolutionPokemon.aspects,
+                matrixStack = matrices,
+                scale = MODEL_SCALE,
+                state = null
+            )
         }
 
     }
@@ -246,6 +259,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         private const val MODEL_UNDERLAY_WIDTH = 33
         private const val MODEL_UNDERLAY_HEIGHT = MODEL_UNDERLAY_WIDTH
         private const val MODEL_UNDERLAY_X_OFFSET = -4
+        private const val MODEL_SCALE = 12.5F
 
     }
 
