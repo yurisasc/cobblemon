@@ -18,6 +18,7 @@ object CobbledKeybinds {
         registerKeybind(DownShiftPartyBinding)
         registerKeybind(PartySendBinding)
         registerKeybind(UpShiftPartyBinding)
+        registerKeybind(TempKeybind)
 
         keybinds.forEach { KeyMappingRegistry.register(it) }
     }
