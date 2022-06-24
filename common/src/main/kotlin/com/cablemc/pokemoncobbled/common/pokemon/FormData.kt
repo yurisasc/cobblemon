@@ -99,4 +99,11 @@ class FormData(
 
     @Transient
     lateinit var species: Species
+
+    override fun equals(other: Any?): Boolean {
+        return other is FormData
+                && other.species.name.equals(this.species.name, true)
+                && other.name.equals(this.name, true)
+    }
+
 }

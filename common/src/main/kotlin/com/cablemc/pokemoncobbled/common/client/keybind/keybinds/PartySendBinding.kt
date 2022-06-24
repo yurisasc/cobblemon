@@ -31,7 +31,7 @@ object PartySendBinding : CobbledBlockingKeyBinding(
 
         if (PokemonCobbledClient.storage.selectedSlot != -1 && MinecraftClient.getInstance().currentScreen == null && player != null) {
             val pokemon = PokemonCobbledClient.storage.myParty.get(PokemonCobbledClient.storage.selectedSlot)
-            if (pokemon != null) {
+            if (pokemon != null && pokemon.currentHealth > 0 ) {
                 val targetedPokemon = player.traceFirstEntityCollision(entityClass = PokemonEntity::class.java)
                 if (targetedPokemon != null && targetedPokemon.canBattle(player)) {
                     sendToServer(ChallengePacket(targetedPokemon.id, pokemon.uuid))
