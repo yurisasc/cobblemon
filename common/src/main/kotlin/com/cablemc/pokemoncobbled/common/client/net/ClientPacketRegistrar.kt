@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.net
 
+import com.cablemc.pokemoncobbled.common.client.net.battle.*
 import com.cablemc.pokemoncobbled.common.client.net.gui.SummaryUIPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.EvolutionUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.SingleUpdatePacketHandler
@@ -44,6 +45,16 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<AddEvolutionPacket>(EvolutionUpdatePacketHandler())
         registerHandler<RemoveEvolutionPacket>(EvolutionUpdatePacketHandler())
         registerHandler<ClearEvolutionsPacket>(EvolutionUpdatePacketHandler())
+
+        // Battle handlers
+        registerHandler(BattleEndHandler)
+        registerHandler(BattleInitializeHandler)
+        registerHandler(BattleFaintHandler)
+        registerHandler(BattleQueueRequestHandler)
+        registerHandler(BattleMakeChoiceHandler)
+        registerHandler(BattleHealthChangeHandler)
+        registerHandler(BattleSetTeamPokemonHandler)
+        registerHandler(BattleSwitchPokemonHandler)
     }
 }
 

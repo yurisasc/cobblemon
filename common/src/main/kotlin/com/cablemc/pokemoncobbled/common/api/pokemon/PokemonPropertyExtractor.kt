@@ -14,6 +14,8 @@ fun interface PokemonPropertyExtractor {
     companion object {
         val SPECIES = PokemonPropertyExtractor { pokemon, properties -> properties.species = pokemon.species.name }
         val SHINY = PokemonPropertyExtractor { pokemon, properties -> properties.shiny = pokemon.shiny }
+        val ASPECTS = PokemonPropertyExtractor { pokemon, properties -> properties.aspects = pokemon.aspects }
+        val LEVEL = PokemonPropertyExtractor { pokemon, properties -> properties.level = pokemon.level }
     }
 
     operator fun invoke(pokemon: Pokemon, properties: PokemonProperties)

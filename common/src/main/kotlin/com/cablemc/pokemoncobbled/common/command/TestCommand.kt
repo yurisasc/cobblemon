@@ -1,7 +1,15 @@
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.battles.BattleFormat
+import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
+import com.cablemc.pokemoncobbled.common.battles.BattleSide
+import com.cablemc.pokemoncobbled.common.battles.actor.MultiPokemonBattleActor
+import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
+import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
+import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.party
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -33,28 +41,28 @@ object TestCommand {
                     entity.setBehaviourFlag(PokemonBehaviourFlag.EXCITED, !entity.getBehaviourFlag(PokemonBehaviourFlag.EXCITED))
                 }
             }
-//            party.heal()
-//
-//            val playerActor = PlayerBattleActor(
-//                player.uuid,
-//                party.toBattleTeam()
-//            )
-//
-//            // Enemy variables
-//            val pokemon = Pokemon().apply { species = PokemonSpecies.MAGIKARP }
-//            pokemon.moveSet.add(Moves.getByName("splash")!!.create()) // TODO remove when move loading works properly
-//            val enemyPokemon = BattlePokemon(pokemon)
-//
-//            val enemyPokemon2 = BattlePokemon(PokemonSpecies.BLASTOISE.create())
-//            val enemyPokemon3 = BattlePokemon(PokemonSpecies.BUTTERFREE.create())
-//            val enemyPokemon4 = BattlePokemon(PokemonSpecies.DIGLETT.create())
-//
-//            // Start the battle
-//            BattleRegistry.startBattle(
-//                battleFormat = BattleFormat.GEN_8_DOUBLES,
-//                side1 = BattleSide(playerActor),
-//                side2 = BattleSide(MultiPokemonBattleActor(listOf(enemyPokemon, enemyPokemon2, enemyPokemon3, enemyPokemon4)))
-//            )
+            party.heal()
+
+            val playerActor = PlayerBattleActor(
+                player.uuid,
+                party.toBattleTeam()
+            )
+
+            // Enemy variables
+            val pokemon = Pokemon().apply { species = PokemonSpecies.MAGIKARP }
+            pokemon.moveSet.add(Moves.getByName("splash")!!.create()) // TODO remove when move loading works properly
+            val enemyPokemon = BattlePokemon(pokemon)
+
+            val enemyPokemon2 = BattlePokemon(PokemonSpecies.BLASTOISE.create())
+            val enemyPokemon3 = BattlePokemon(PokemonSpecies.BUTTERFREE.create())
+            val enemyPokemon4 = BattlePokemon(PokemonSpecies.DIGLETT.create())
+
+            // Start the battle
+            BattleRegistry.startBattle(
+                battleFormat = BattleFormat.GEN_8_DOUBLES,
+                side1 = BattleSide(playerActor),
+                side2 = BattleSide(MultiPokemonBattleActor(listOf(enemyPokemon, enemyPokemon2, enemyPokemon3, enemyPokemon4)))
+            )
         } catch (e: Exception) {
             e.printStackTrace()
         }

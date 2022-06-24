@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.*
@@ -13,6 +14,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.*
+import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.util.getServer
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -85,6 +87,16 @@ object CobbledNetwork {
         // UI Packets
         buildClientMessage<SummaryUIPacket>()
 
+        // Battle packets
+        buildClientMessage<BattleEndPacket>()
+        buildClientMessage<BattleInitializePacket>()
+        buildClientMessage<BattleQueueRequestPacket>()
+        buildClientMessage<BattleFaintPacket>()
+        buildClientMessage<BattleMakeChoicePacket>()
+        buildClientMessage<BattleHealthChangePacket>()
+        buildClientMessage<BattleSetTeamPokemonPacket>()
+        buildClientMessage<BattleSwitchPokemonPacket>()
+
         /**
          * Server Packets
          */
@@ -99,6 +111,9 @@ object CobbledNetwork {
         buildServerMessage<RequestMoveSwapPacket>()
         buildServerMessage<BenchMovePacket>()
         buildServerMessage<ChallengePacket>()
+
+        // Battle packets
+        buildServerMessage<BattleSelectActionsPacket>()
     }
 
     private inline fun <reified P : NetworkPacket> buildClientMessage() =
