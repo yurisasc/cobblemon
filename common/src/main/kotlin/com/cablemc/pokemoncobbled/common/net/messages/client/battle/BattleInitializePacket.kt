@@ -14,11 +14,19 @@ import com.cablemc.pokemoncobbled.common.util.readMapK
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.writeMapK
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
+import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
-import java.util.UUID
 
+/**
+ * Initializes the client's understanding of a battle. This can be for a participant or for a spectator.
+ *
+ * Handled by [com.cablemc.pokemoncobbled.common.client.net.battle.BattleInitializeHandler].
+ *
+ * @author Hiroku
+ * @since May 10th, 2022
+ */
 class BattleInitializePacket() : NetworkPacket {
 
     lateinit var battleId: UUID
