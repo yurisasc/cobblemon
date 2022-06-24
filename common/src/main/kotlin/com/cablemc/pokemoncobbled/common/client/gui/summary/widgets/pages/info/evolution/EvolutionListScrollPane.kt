@@ -5,28 +5,18 @@ import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.client.gui.summary.SummaryButton
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.common.ModelSectionScrollPane
-import com.cablemc.pokemoncobbled.common.client.render.drawScaled
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
-import net.minecraft.client.render.DiffuseLighting
-import net.minecraft.client.render.LightmapTextureManager
-import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
-import kotlin.math.roundToInt
 
 /**
  * Displays the different possible pending evolutions in the [Pokemon.evolutionProxy].
@@ -142,7 +132,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             val textWidth = client.textRenderer.getWidth(text).toFloat()
             val scaleMultiplier = if (textWidth >= POKEMON_NAME_MAX_WIDTH) POKEMON_NAME_MAX_WIDTH / textWidth else 1F
             val textScale = (POKEMON_NAME_SCALE * scaleMultiplier).coerceAtMost(POKEMON_NAME_SCALE)
-            client.textRenderer.drawScaled(
+            drawScaledText(
                 matrixStack = matrices,
                 text = text,
                 x = x.toFloat() + POKEMON_NAME_X_OFFSET, y = y.toFloat() + POKEMON_NAME_Y_OFFSET + (1 - textScale),
