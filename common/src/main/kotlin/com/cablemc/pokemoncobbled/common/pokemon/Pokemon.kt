@@ -7,14 +7,22 @@ import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.PokemonFaintedEvent
-import com.cablemc.pokemoncobbled.common.api.moves.*
+import com.cablemc.pokemoncobbled.common.api.moves.BenchedMove
+import com.cablemc.pokemoncobbled.common.api.moves.BenchedMoves
+import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
+import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonPropertyExtractor
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.*
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionProxy
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
@@ -36,13 +44,20 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonStat
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionProxy
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledClientEvolutionController
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledServerEvolutionController
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
-import com.cablemc.pokemoncobbled.common.util.*
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.lang
+import com.cablemc.pokemoncobbled.common.util.readSizedInt
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
+import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import java.util.UUID
+import kotlin.math.min
+import kotlin.math.roundToInt
+import kotlin.random.Random
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
@@ -54,10 +69,6 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
-import java.util.UUID
-import kotlin.math.min
-import kotlin.math.roundToInt
-import kotlin.random.Random
 
 open class Pokemon {
     var uuid = UUID.randomUUID()
@@ -547,7 +558,7 @@ open class Pokemon {
     }
 
     fun updateForm() {
-        val newForm = species.forms.firstOrNull { it.aspects.all { it in aspects } } ?: run {
+        val newForm = species.getForm(aspects) ?: run {
             LOGGER.error("Unable to find a suitable form for a ${species.name} with aspects: ${aspects.joinToString()}!")
             species.forms.first()
         }

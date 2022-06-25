@@ -5,7 +5,6 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
-import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
@@ -56,6 +55,8 @@ class Species {
         this.level = level
         initialize()
     }
+
+    fun getForm(aspects: Set<String>) = forms.firstOrNull { it.aspects.all { it in aspects } }
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: VANILLA_DEFAULT_EYE_HEIGHT
