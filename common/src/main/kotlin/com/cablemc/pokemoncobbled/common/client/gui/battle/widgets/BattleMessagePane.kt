@@ -37,7 +37,11 @@ class BattleMessagePane(
         setRenderSelection(false)
 
         messageQueue.subscribe {
+            val fullyScrolledDown = maxScroll - scrollAmount < 10
             addEntry(BattleMessageLine(this, it))
+            if (fullyScrolledDown) {
+                scrollAmount = maxScroll.toDouble()
+            }
         }
     }
 
@@ -47,7 +51,7 @@ class BattleMessagePane(
         get() = client.window.scaledHeight - 100
 
     fun correctSize() {
-        updateSize(ceil(UNDERLAY_WIDTH), ceil(UNDERLAY_HEIGHT), appropriateY, appropriateY + ceil(UNDERLAY_HEIGHT) - 4)
+        updateSize(ceil(UNDERLAY_WIDTH), ceil(UNDERLAY_HEIGHT), appropriateY, appropriateY + ceil(UNDERLAY_HEIGHT) + 2)
         setLeftPos(appropriateX)
     }
 
@@ -75,7 +79,11 @@ class BattleMessagePane(
     }
 
     override fun getScrollbarPositionX(): Int {
-        return left + width - 12
+        return left + width - 22
+    }
+
+    override fun getScrollAmount(): Double {
+        return super.getScrollAmount()
     }
 
     private fun scaleIt(i: Number): Int {
@@ -90,7 +98,7 @@ class BattleMessagePane(
             x = left,
             y = top + 2,
             height = UNDERLAY_HEIGHT,
-            width = UNDERLAY_WIDTH,
+            width = UNDERLAY_WIDTH - 2,
             alpha = 0.7
         )
         blitk(
@@ -102,7 +110,7 @@ class BattleMessagePane(
             width = FRAME_WIDTH
         )
 
-        RenderSystem.enableScissor(scaleIt(left + 2), scaleIt(98 - UNDERLAY_HEIGHT), scaleIt(width - 4), scaleIt(height - 1))
+        RenderSystem.enableScissor(scaleIt(left + 2), scaleIt(98 - UNDERLAY_HEIGHT), scaleIt(width - 4), scaleIt(height - 2))
         super.render(poseStack, mouseX, mouseY, partialTicks)
         RenderSystem.disableScissor()
     }
@@ -121,7 +129,6 @@ class BattleMessagePane(
             isHovered: Boolean,
             partialTicks: Float
         ) {
-            val rowTop = rowTop
             drawScaledText(poseStack, line, rowLeft - 52, rowTop, 0.8F, 0.8F)
         }
     }
