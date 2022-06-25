@@ -68,6 +68,13 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
     inner class EvolutionOption(private val pokemon: Pokemon, private val evolution: EvolutionDisplay) : Entry<EvolutionOption>() {
 
+        private val evolutionPokemon = Pokemon().apply {
+            species = this@EvolutionOption.evolution.species
+            aspects = this@EvolutionOption.evolution.aspects
+            // We need to do this manually as the client side doesn't update the form when the aspects change
+            updateForm()
+        }
+
         private var lastKnownButton: SummaryButton? = null
 
         fun scaleIt(value: Number) = (MinecraftClient.getInstance().window.scaleFactor * value.toFloat()).toInt()
@@ -86,7 +93,6 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         ) {
             // We render this first so it fits nicely behind the entry itself
             this.renderModelUnderlay(matrices, x, y)
-
             RenderSystem.enableScissor(
                 scaleIt(x + MODEL_UNDERLAY_X_OFFSET),
                 MinecraftClient.getInstance().window.height - scaleIt(y + MODEL_UNDERLAY_HEIGHT),
@@ -95,8 +101,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             )
             this.renderModelPortrait(matrices, x + MODEL_UNDERLAY_WIDTH / 2 + MODEL_UNDERLAY_X_OFFSET, y + 4)
             RenderSystem.disableScissor()
-
-            val isDualType = this.evolution.form.secondaryType != null
+            val isDualType = this.evolutionPokemon.form.secondaryType != null
             // We want to offset the entries a bit for them to not collide with the scroll bar
             val entryTexture = if (isDualType) DUAL_TYPE_ENTRY_RESOURCE else SINGLE_TYPE_ENTRY_RESOURCE
             blitk(
@@ -174,11 +179,11 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             matrices.push()
             matrices.scale(TYPE_ICON_SCALE, TYPE_ICON_SCALE, 1F)
             if (isDualType) {
-                this.renderTypeIcon(this.evolution.form.secondaryType!!, matrices, x + DUAL_TYPE_ICON_X_OFFSET_2, y + DUAL_TYPE_ICON_Y_OFFSET_2)
-                this.renderTypeIcon(this.evolution.form.primaryType, matrices, x + DUAL_TYPE_ICON_X_OFFSET_1, y + DUAL_TYPE_ICON_Y_OFFSET_1)
+                this.renderTypeIcon(this.evolutionPokemon.form.secondaryType!!, matrices, x + DUAL_TYPE_ICON_X_OFFSET_2, y + DUAL_TYPE_ICON_Y_OFFSET_2)
+                this.renderTypeIcon(this.evolutionPokemon.form.primaryType, matrices, x + DUAL_TYPE_ICON_X_OFFSET_1, y + DUAL_TYPE_ICON_Y_OFFSET_1)
             }
             else {
-                this.renderTypeIcon(this.evolution.form.primaryType, matrices, x + SINGLE_TYPE_ICON_X_OFFSET, y + SINGLE_TYPE_ICON_Y_OFFSET)
+                this.renderTypeIcon(this.evolutionPokemon.form.primaryType, matrices, x + SINGLE_TYPE_ICON_X_OFFSET, y + SINGLE_TYPE_ICON_Y_OFFSET)
             }
             matrices.pop()
         }
@@ -195,12 +200,6 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         }
 
         private fun renderModelPortrait(matrices: MatrixStack, x: Int, y: Int) {
-            val evolutionPokemon = Pokemon().apply {
-                species = evolution.species
-                form = evolution.form
-                shiny = evolution.shiny
-                gender = evolution.gender
-            }
             matrices.push()
             matrices.translate(
                 x.toDouble(),
@@ -208,8 +207,8 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
                 0.0
             )
             drawPortraitPokemon(
-                species = evolutionPokemon.species,
-                aspects = evolutionPokemon.aspects,
+                species = this.evolution.species,
+                aspects = this.evolution.aspects,
                 matrixStack = matrices,
                 scale = MODEL_SCALE,
                 state = null

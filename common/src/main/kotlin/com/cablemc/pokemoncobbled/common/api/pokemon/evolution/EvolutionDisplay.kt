@@ -20,18 +20,8 @@ interface EvolutionDisplay : EvolutionLike {
     val species: Species
 
     /**
-     * The [FormData] of the evolution result.
+     * The aspects of the evolution result.
      */
-    val form: FormData
-
-    /**
-     * The [Gender] of the evolution result.
-     */
-    val gender: Gender
-
-    /**
-     * If the evolution result is shiny.
-     */
-    val shiny: Boolean
+    val aspects: Set<String>
 
 }

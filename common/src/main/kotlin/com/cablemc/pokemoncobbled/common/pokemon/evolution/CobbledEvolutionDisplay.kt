@@ -9,11 +9,9 @@ import com.cablemc.pokemoncobbled.common.pokemon.Species
 internal data class CobbledEvolutionDisplay(
     override val id: String,
     override val species: Species,
-    override val form: FormData,
-    override val gender: Gender,
-    override val shiny: Boolean
+    override val aspects: Set<String>
 ) : EvolutionDisplay {
 
-    constructor(id: String, pokemon: Pokemon) : this(id, pokemon.species, pokemon.form, pokemon.gender, pokemon.shiny)
+    constructor(id: String, pokemon: Pokemon) : this(id, pokemon.species, pokemon.aspects)
 
 }

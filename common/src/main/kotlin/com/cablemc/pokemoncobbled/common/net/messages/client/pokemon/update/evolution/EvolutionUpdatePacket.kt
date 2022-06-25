@@ -5,11 +5,14 @@ import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionD
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
+import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.common.pokemon.update.evolution.EvolutionLikeUpdatePacket
 import com.cablemc.pokemoncobbled.common.pokemon.Gender
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionDisplay
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.DummyEvolution
+import com.cablemc.pokemoncobbled.common.util.readSizedInt
+import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -56,20 +59,21 @@ abstract class EvolutionUpdatePacket : EvolutionLikeUpdatePacket<Evolution, Evol
         internal fun encodeSending(display: EvolutionDisplay, buffer: PacketByteBuf) {
             buffer.writeString(display.id)
             buffer.writeString(display.species.name)
-            buffer.writeString(display.form.name)
-            buffer.writeEnumConstant(display.gender)
-            buffer.writeBoolean(display.shiny)
+            buffer.writeSizedInt(IntSize.U_BYTE, display.aspects.size)
+            display.aspects.forEach { aspect ->
+                buffer.writeString(aspect)
+            }
         }
 
         internal fun decodeSending(buffer: PacketByteBuf): EvolutionDisplay {
             val id = buffer.readString()
             val speciesName = buffer.readString()
-            val formName = buffer.readString()
             val species = PokemonSpecies.getByName(speciesName) ?: throw IllegalArgumentException("Cannot resolve species from name $speciesName")
-            val form = species.forms.firstOrNull { form -> form.name.equals(formName, true) } ?: throw IllegalArgumentException("Cannot resolve form for ${species.name} from ID $formName")
-            val gender = buffer.readEnumConstant(Gender::class.java)
-            val shiny = buffer.readBoolean()
-            return CobbledEvolutionDisplay(id, species, form, gender, shiny)
+            val aspects = mutableSetOf<String>()
+            repeat(buffer.readSizedInt(IntSize.U_BYTE)) {
+                aspects += buffer.readString()
+            }
+            return CobbledEvolutionDisplay(id, species, aspects)
         }
 
     }
