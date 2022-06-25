@@ -329,7 +329,7 @@ open class Pokemon {
         nbt.putInt(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         nbt.putInt(DataKeys.POKEMON_HEALING_TIMER, healTimer)
         nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(NbtList()))
-        nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.evolutionProxy.current().saveToNBT())
+        nbt.put(DataKeys.POKEMON_EVOLUTION_PROXY, this.evolutionProxy.saveToNBT())
         return nbt
     }
 
@@ -365,7 +365,7 @@ open class Pokemon {
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
-        nbt.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.let { tag -> this.evolutionProxy.current().loadFromNBT(tag) }
+        nbt.get(DataKeys.POKEMON_EVOLUTION_PROXY)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
         return this
     }
 
@@ -389,7 +389,7 @@ open class Pokemon {
         json.add(DataKeys.BENCHED_MOVES, benchedMoves.saveToJSON(JsonArray()))
         json.addProperty(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         json.addProperty(DataKeys.POKEMON_HEALING_TIMER, healTimer)
-        json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.evolutionProxy.current().saveToJson())
+        json.add(DataKeys.POKEMON_EVOLUTION_PROXY, this.evolutionProxy.saveToJson())
         return json
     }
 
@@ -424,7 +424,7 @@ open class Pokemon {
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
-        this.evolutionProxy.current().loadFromJson(json.get(DataKeys.POKEMON_PENDING_EVOLUTIONS))
+        this.evolutionProxy.loadFromJson(json.get(DataKeys.POKEMON_EVOLUTION_PROXY))
         return this
     }
 
@@ -451,7 +451,7 @@ open class Pokemon {
         buffer.writeInt(healTimer)
         buffer.writeSizedInt(IntSize.U_BYTE, aspects.size)
         aspects.forEach { buffer.writeString(it) }
-        this.evolutionProxy.current().saveToBuffer(buffer, toClient)
+        this.evolutionProxy.saveToBuffer(buffer, toClient)
         return buffer
     }
 
@@ -487,7 +487,7 @@ open class Pokemon {
             aspects.add(buffer.readString())
         }
         this.aspects = aspects
-        this.evolutionProxy.current().loadFromBuffer(buffer)
+        this.evolutionProxy.loadFromBuffer(buffer)
         return this
     }
 
