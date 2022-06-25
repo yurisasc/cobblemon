@@ -33,6 +33,7 @@ object CobbledEntities {
                     .add(EntityAttributes.HORSE_JUMP_STRENGTH)
                     .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE)
                     .add(EntityAttributes.GENERIC_ARMOR)
+                    .add(EntityAttributes.GENERIC_ARMOR_TOUGHNESS)
                     .also { CobbledEvents.ENTITY_ATTRIBUTE.post(EntityAttributeEvent(POKEMON_TYPE, it)) }
             }
         )

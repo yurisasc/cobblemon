@@ -6,17 +6,15 @@ import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.util.getPlayer
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import java.util.UUID
 import net.minecraft.text.MutableText
-import net.minecraft.text.Text
 
 class PlayerBattleActor(
     uuid: UUID,
     pokemonList: List<BattlePokemon>
 ) : BattleActor(uuid, pokemonList.toMutableList()) {
     fun getPlayerEntity() = uuid.getPlayer()
-    override fun sendMessage(component: Text) = getPlayerEntity()?.sendServerMessage(component) ?: Unit
+//    override fun sendMessage(component: Text) = getPlayerEntity()?.sendServerMessage(component) ?: Unit
     override fun getName(): MutableText = getPlayerEntity()?.name?.copy() ?: "".text()
 
     override fun getPlayerUUIDs() = setOf(uuid)
