@@ -129,9 +129,6 @@ class PokemonEntity(
         ticksLived++
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
-            if (this.pokemon.isPlayerOwned() && this.world.isServerSide()) {
-                this.attemptPassiveEvolution()
-            }
         }
     }
 
@@ -329,13 +326,6 @@ class PokemonEntity(
     private fun updateEyeHeight() {
         @Suppress("CAST_NEVER_SUCCEEDS")
         (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
-    }
-
-    private fun attemptPassiveEvolution() {
-        this.pokemon.evolutions.filterIsInstance<PassiveEvolution>()
-            .forEach { evolution ->
-                evolution.attemptEvolution(this.pokemon)
-            }
     }
 
 }
