@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
+import com.cablemc.pokemoncobbled.common.api.text.font
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.summary.SummaryButton
@@ -11,8 +12,8 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.common.ModelSectionScrollPane
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
@@ -38,9 +39,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
     var render = false
 
-    override fun createEntries(): Collection<EvolutionOption> = this.pokemon.evolutionProxy.client().map { evolutionDisplay ->
-        EvolutionOption(this.pokemon, evolutionDisplay)
-    }
+    override fun createEntries() = this.pokemon.evolutionProxy.client().map { EvolutionOption(this.pokemon, it) }
 
     override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
         if (this.render) {
@@ -52,7 +51,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
     private fun renderPropositionText(matrices: MatrixStack, x: Int, y: Int) {
         matrices.push()
         matrices.scale(PROPOSITION_TEXT_SCALE, PROPOSITION_TEXT_SCALE, 1F)
-        val text = "pokemoncobbled.ui.evolve_offer".asTranslated().apply { style = style.withFont(CobbledResources.NOTO_SANS_BOLD_SMALL) }
+        val text = lang("ui.evolve_offer").font(CobbledResources.NOTO_SANS_BOLD_SMALL)
         val compressedText = this.client.textRenderer.wrapLines(text, PROPOSITION_TEXT_MAX_WIDTH)
         var current = 0
         compressedText.forEach { line ->
@@ -72,6 +71,8 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
         private var lastKnownButton: SummaryButton? = null
 
+        fun scaleIt(value: Number) = (MinecraftClient.getInstance().window.scaleFactor * value.toFloat()).toInt()
+
         override fun render(
             matrices: MatrixStack,
             index: Int,
@@ -86,6 +87,16 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         ) {
             // We render this first so it fits nicely behind the entry itself
             this.renderModelUnderlay(matrices, x, y)
+
+            RenderSystem.enableScissor(
+                scaleIt(x + MODEL_UNDERLAY_X_OFFSET),
+                MinecraftClient.getInstance().window.height - scaleIt(y + MODEL_UNDERLAY_HEIGHT),
+                scaleIt(MODEL_UNDERLAY_WIDTH),
+                scaleIt(MODEL_UNDERLAY_HEIGHT)
+            )
+            this.renderModelPortrait(matrices, x + MODEL_UNDERLAY_WIDTH / 2 + MODEL_UNDERLAY_X_OFFSET, y + 4)
+            RenderSystem.disableScissor()
+
             val isDualType = this.evolution.form.secondaryType != null
             // We want to offset the entries a bit for them to not collide with the scroll bar
             val entryTexture = if (isDualType) DUAL_TYPE_ENTRY_RESOURCE else SINGLE_TYPE_ENTRY_RESOURCE
@@ -98,7 +109,6 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             this.renderPreviewName(matrices, x, y)
             this.renderButton(matrices, mouseX, mouseY, tickDelta, x, y)
             this.renderTyping(matrices, x, y, isDualType)
-            this.renderModelPortrait(matrices, x, y)
         }
 
         // ToDo narration should return Undiscovered or something among those lines if not registered in the Pokédex just so it makes a bit more sense coming from TTS
@@ -128,9 +138,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
         private fun renderPreviewName(matrices: MatrixStack, x: Int, y: Int) {
             val client = MinecraftClient.getInstance()
-            val text = this.displayName().apply {
-                style = style.withFont(CobbledResources.NOTO_SANS_BOLD)
-            }
+            val text = this.displayName().font(CobbledResources.NOTO_SANS_BOLD)
             val textWidth = client.textRenderer.getWidth(text).toFloat()
             val scaleMultiplier = if (textWidth >= POKEMON_NAME_MAX_WIDTH) POKEMON_NAME_MAX_WIDTH / textWidth else 1F
             val textScale = (POKEMON_NAME_SCALE * scaleMultiplier).coerceAtMost(POKEMON_NAME_SCALE)
@@ -149,7 +157,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
                 BUTTON_WIDTH, BUTTON_HEIGHT,
                 resource = BUTTON_RESOURCE,
                 clickAction = { this.acceptAndClose() },
-                text = "pokemoncobbled.ui.evolve".asTranslated(),
+                text = lang("ui.evolve"),
                 buttonScale = BUTTON_SCALE
             ).also { button ->
                 this.lastKnownButton = button
@@ -194,6 +202,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
                 shiny = evolution.shiny
                 gender = evolution.gender
             }
+            matrices.push()
             matrices.translate(
                 x.toDouble(),
                 y.toDouble(),
@@ -206,6 +215,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
                 scale = MODEL_SCALE,
                 state = null
             )
+            matrices.pop()
         }
 
     }
@@ -259,7 +269,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         private const val MODEL_UNDERLAY_WIDTH = 33
         private const val MODEL_UNDERLAY_HEIGHT = MODEL_UNDERLAY_WIDTH
         private const val MODEL_UNDERLAY_X_OFFSET = -4
-        private const val MODEL_SCALE = 12.5F
+        private const val MODEL_SCALE = 16F
 
     }
 
