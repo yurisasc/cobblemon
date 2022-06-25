@@ -28,6 +28,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.pokemon.species.nationalPokedexNumber != entity.dexNumber.get()) {
             entity.dexNumber.set(entity.pokemon.species.nationalPokedexNumber)
         }
+        if (entity.aspects.get() != entity.pokemon.aspects) {
+            entity.aspects.set(entity.pokemon.aspects)
+        }
         val isMoving = entity.velocity.length() > 0.1
         if (isMoving && !entity.isMoving.get()) {
             entity.isMoving.set(true)
