@@ -102,7 +102,7 @@ class PokemonRenderer(
         }
 
         MinecraftClient.getInstance().player?.let { player ->
-            if (player.isLookingAt(entity) && phaseTarget == null) {
+            if (player.isLookingAt(entity) && phaseTarget == null && !MinecraftClient.getInstance().options.hudHidden) {
                 renderLabel(poseMatrix, partialTicks, entity, player, buffer)
             }
         }
