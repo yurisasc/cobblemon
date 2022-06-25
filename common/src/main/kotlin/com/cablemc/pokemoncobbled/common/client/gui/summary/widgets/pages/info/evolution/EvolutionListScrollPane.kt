@@ -16,7 +16,6 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
@@ -67,7 +66,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         matrices.pop()
     }
 
-    inner class EvolutionOption(private val pokemon: Pokemon, private val evolution: EvolutionDisplay) : AlwaysSelectedEntryListWidget.Entry<EvolutionOption>() {
+    inner class EvolutionOption(private val pokemon: Pokemon, private val evolution: EvolutionDisplay) : Entry<EvolutionOption>() {
 
         private var lastKnownButton: SummaryButton? = null
 
