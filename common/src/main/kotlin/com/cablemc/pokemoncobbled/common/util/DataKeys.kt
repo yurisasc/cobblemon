@@ -37,8 +37,8 @@ object DataKeys {
     const val POKEMON_STATE_POKEMON_UUID = "PokemonUUID"
 
     // Evolution stuff
-    const val POKEMON_EVOLUTION_PROXY = "EvolutionProxy"
-    const val POKEMON_PENDING_EVOLUTIONS = "PendingEvolutions"
+    const val POKEMON_EVOLUTIONS = "Evolutions"
+    const val POKEMON_PENDING_EVOLUTIONS = "Pending"
 
     const val BENCHED_MOVES = "BenchedMoves"
 
