@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.Priority
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_JOIN
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STOPPING
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.TICK_POST
@@ -119,7 +120,7 @@ object PokemonCobbled {
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.subscribe { storage.onPlayerLogin(it) }
-        PLAYER_QUIT.register { PCLinkManager.removeLink(it.uuid) }
+        PLAYER_QUIT.subscribe { PCLinkManager.removeLink(it.uuid) }
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         //Command Arguments

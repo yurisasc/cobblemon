@@ -14,10 +14,10 @@ import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.google.gson.JsonObject
+import java.util.UUID
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
-import java.util.UUID
 
 /**
  * The store used for PCs. It is divided into some number of [PCBox]es, and can
@@ -33,8 +33,10 @@ import java.util.UUID
  */
 open class PCStore(
     final override val uuid: UUID,
-    val name: MutableText = lang("your_pc")
+    val name: MutableText
 ) : PokemonStore<PCPosition>() {
+    constructor(uuid: UUID): this(uuid, lang("your_pc"))
+
     val boxes = mutableListOf<PCBox>()
     protected var lockedSize = false
     val backupStore = BottomlessStore(UUID(0L, 0L))

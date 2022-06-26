@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import com.cablemc.pokemoncobbled.common.world.level.block.entity.HealingMachineBlockEntity
+import com.cablemc.pokemoncobbled.common.world.level.block.entity.PCBlockEntity
 import dev.architectury.registry.registries.RegistrySupplier
 import java.util.function.Supplier
 import net.minecraft.block.entity.BlockEntityType
