@@ -31,7 +31,6 @@ class BattleGeneralActionSelection(
             addOption(rank++, battleLang("ui.fight"), BattleGUI.fightResource) {
                 playDownSound(MinecraftClient.getInstance().soundManager)
                 battleGUI.changeActionSelection(BattleMoveSelection(battleGUI, request))
-                // Show move selection
             }
         )
 
@@ -39,7 +38,6 @@ class BattleGeneralActionSelection(
             addOption(rank++, battleLang("ui.switch"), BattleGUI.runResource) {
                 battleGUI.changeActionSelection(BattleSwitchPokemonSelection(battleGUI, request))
                 playDownSound(MinecraftClient.getInstance().soundManager)
-                // Show a party list
             }
         )
     }

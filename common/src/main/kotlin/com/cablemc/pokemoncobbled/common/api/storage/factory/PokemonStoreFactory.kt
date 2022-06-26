@@ -26,4 +26,5 @@ interface PokemonStoreFactory {
     fun getPCForPlayer(player: ServerPlayerEntity, pcBlockEntity: PCBlockEntity): PCStore? = getPC(player.uuid)
 
     fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID): T?
+    fun shutdown()
 }

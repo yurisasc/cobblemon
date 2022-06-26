@@ -20,7 +20,7 @@ class BattleMoveSelection(
 ) : BattleActionSelection(
     battleGUI = battleGUI,
     request = request,
-    x = 30,
+    x = 10,
     y = MinecraftClient.getInstance().window.scaledHeight - 100,
     width = 100,
     height = 100,

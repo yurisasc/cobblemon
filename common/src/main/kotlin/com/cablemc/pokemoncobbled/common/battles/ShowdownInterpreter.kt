@@ -4,11 +4,21 @@ import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
-import com.cablemc.pokemoncobbled.common.api.text.*
+import com.cablemc.pokemoncobbled.common.api.text.aqua
+import com.cablemc.pokemoncobbled.common.api.text.gold
+import com.cablemc.pokemoncobbled.common.api.text.plus
+import com.cablemc.pokemoncobbled.common.api.text.red
+import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
 import com.cablemc.pokemoncobbled.common.battles.dispatch.WaitDispatch
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleFaintPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleHealthChangePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleInitializePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMakeChoicePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleQueueRequestPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSetTeamPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSwitchPokemonPacket
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.swap
@@ -315,10 +325,7 @@ object ShowdownInterpreter {
 
         battle.dispatch {
             battle.sendToActors(BattleMakeChoicePacket())
-
-            battle.broadcastChatMessage("".text())
-            battle.broadcastChatMessage(">>".aqua() + " It is now turn ${message.split("|turn|")[1]}".aqua())
-            battle.broadcastChatMessage("".text())
+            battle.broadcastChatMessage("It is now turn ${message.split("|turn|")[1]}".aqua())
             battle.turn()
             GO
         }
@@ -343,9 +350,7 @@ object ShowdownInterpreter {
         battle.dispatch {
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
-            battle.broadcastChatMessage("".text())
-            battle.broadcastChatMessage(">> ".red() + battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).gold())
-            battle.broadcastChatMessage("".text())
+            battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
             WaitDispatch(0.75F)
         }
     }
@@ -355,7 +360,7 @@ object ShowdownInterpreter {
             val ids = message.split("|win|")[1].split("&").map { it.trim() }
             val winners = ids.map { battle.getActor(UUID.fromString(it))!!.getName() }.reduce { acc, next -> acc + " & " + next }
 
-            battle.broadcastChatMessage(">> ".gold() + battleLang("win", winners).gold())
+            battle.broadcastChatMessage(battleLang("win", winners).gold())
 
             battle.end()
             BattleRegistry.closeBattle(battle)
@@ -375,14 +380,14 @@ object ShowdownInterpreter {
             if (hasTarget) {
                 val targetPNX = editMessaged.split("|")[2].split(":")[0]
                 val (_, targetPokemon) = battle.getActorAndActiveSlotFromPNX(targetPNX)
-                battle.broadcastChatMessage(">> ".yellow() + battleLang(
+                battle.broadcastChatMessage(battleLang(
                     key = "used_move_on",
                     userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
                     move,
                     targetPokemon.battlePokemon?.getName() ?: "ERROR".red()
                 ))
             } else {
-                battle.broadcastChatMessage(">> ".yellow() + battleLang(
+                battle.broadcastChatMessage(battleLang(
                     key = "used_move_on",
                     userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
                     move
@@ -401,7 +406,8 @@ object ShowdownInterpreter {
             val action = editMessaged.split("|")[1]
             val actionText = if (action == "flinch") "flinched" else action
 
-            battle.broadcastChatMessage(">> ".red() + (pokemon.battlePokemon?.getName() ?: "DEAD".text()) + " has $actionText".red())
+            // TODO lang
+            battle.broadcastChatMessage((pokemon.battlePokemon?.getName() ?: "DEAD".text()) + " has $actionText".red())
             GO
         }
     }
@@ -480,9 +486,9 @@ object ShowdownInterpreter {
         val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val uuid = UUID.fromString(publicMessage.split("|")[3].split(",")[1].trim())
         val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
-        battle.broadcastChatMessage(">> ".yellow() + battleLang("dragged_out", pokemon.getName()).yellow())
+        battle.broadcastChatMessage(battleLang("dragged_out", pokemon.getName()))
         actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(pokemon))
         activePokemon.battlePokemon = pokemon
-        // TODO switch packet
+        battle.sendUpdate(BattleSwitchPokemonPacket(pnx, pokemon))
     }
 }

@@ -1,8 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.battle
 
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
-import com.cablemc.pokemoncobbled.common.battles.ShowdownActionRequest
-import com.cablemc.pokemoncobbled.common.battles.ShowdownActionResponse
 import java.util.UUID
 
 class ClientBattle(
@@ -19,6 +17,7 @@ class ClientBattle(
         get() = arrayOf(side1, side2)
 
     var pendingActionRequests = mutableListOf<SingleActionRequest>()
+    val messages = ClientBattleMessageQueue()
     var mustChoose = false
 
     fun getFirstUnansweredRequest() = pendingActionRequests.firstOrNull { it.response == null }

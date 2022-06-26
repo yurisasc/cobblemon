@@ -2,6 +2,10 @@ package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_JOIN
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STOPPING
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.TICK_POST
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
@@ -17,9 +21,24 @@ import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledWorldSpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.*
-import com.cablemc.pokemoncobbled.common.api.spawning.context.*
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.*
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.AreaSpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.BasicSpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.GroundedSpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.SubmergedSpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolver
+import com.cablemc.pokemoncobbled.common.api.spawning.context.GroundedSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.LavafloorSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.SeafloorSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderlavaSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderwaterSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.GroundedSpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.LavafloorSpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SeafloorSpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderlavaSpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderwaterSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.PokemonSpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
@@ -45,17 +64,20 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.features.SunglassesFeature
+import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.cablemc.pokemoncobbled.common.world.CobbledGameRules
 import com.cablemc.pokemoncobbled.common.worldgen.CobbledWorldgen
 import com.google.gson.GsonBuilder
 import dev.architectury.event.events.common.CommandRegistrationEvent
-import dev.architectury.event.events.common.LifecycleEvent.SERVER_STARTED
-import dev.architectury.event.events.common.PlayerEvent.PLAYER_JOIN
-import dev.architectury.event.events.common.PlayerEvent.PLAYER_QUIT
-import dev.architectury.event.events.common.TickEvent.SERVER_POST
 import dev.architectury.hooks.item.tool.AxeItemHooks
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.util.UUID
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 import net.minecraft.client.MinecraftClient
 import net.minecraft.command.argument.ArgumentTypes
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
@@ -64,12 +86,6 @@ import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.util.UUID
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.memberProperties
 
 object PokemonCobbled {
     const val MODID = "pokemoncobbled"
@@ -102,7 +118,7 @@ object PokemonCobbled {
         CobbledGameRules.register()
 
         ShoulderEffectRegistry.register()
-        PLAYER_JOIN.register { storage.onPlayerLogin(it) }
+        PLAYER_JOIN.subscribe { storage.onPlayerLogin(it) }
         PLAYER_QUIT.register { PCLinkManager.removeLink(it.uuid) }
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
@@ -113,6 +129,10 @@ object PokemonCobbled {
 
     fun initialize() {
         showdownThread.start()
+
+        CompletableRegistry.allRegistriesCompleted.thenAccept {
+            LOGGER.info("All registries loaded.")
+        }
 
         ExperienceGroups.registerDefaults()
 
@@ -132,14 +152,15 @@ object PokemonCobbled {
 
         ifDedicatedServer {
             isDedicatedServer = true
-            SERVER_POST.register { ScheduledTaskTracker.update() }
+            TICK_POST.subscribe { ScheduledTaskTracker.update() }
         }
 
-        SERVER_STARTED.register {
+        CobbledBlocks.completed.thenAccept {
             AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_LOG.get(), CobbledBlocks.STRIPPED_APRICORN_LOG.get())
             AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_WOOD.get(), CobbledBlocks.STRIPPED_APRICORN_WOOD.get())
+        }
 
-            // TODO config options for default storage
+        SERVER_STARTED.subscribe {
             val pokemonStoreRoot = it.getSavePath(WorldSavePath.PLAYERDATA).parent.resolve("pokemon").toFile()
             storage.registerFactory(
                 priority = Priority.LOWEST,
@@ -149,6 +170,8 @@ object PokemonCobbled {
                 )
             )
         }
+
+        SERVER_STOPPING.subscribe { storage.unregisterAll() }
 
         SpawningContextCalculator.register(GroundedSpawningContextCalculator)
         SpawningContextCalculator.register(SeafloorSpawningContextCalculator)
@@ -169,8 +192,8 @@ object PokemonCobbled {
 
         SpawnDetail.registerSpawnType(name = PokemonSpawnDetail.TYPE, PokemonSpawnDetail::class.java)
 
-        SERVER_STARTED.register { spawnerManagers.forEach { it.onServerStarted() } }
-        SERVER_POST.register(ServerTickHandler::onTick)
+        SERVER_STARTED.subscribe { spawnerManagers.forEach { it.onServerStarted() } }
+        TICK_POST.subscribe { ServerTickHandler.onTick(it) }
 
         showdownThread.showdownStarted.thenAccept {
             LOGGER.info("Starting dummy battle to pre-load data.")

@@ -25,6 +25,9 @@ object SendOutPokemonHandler : ServerPacketHandler<SendOutPokemonPacket> {
         val state = pokemon.state
 
         if (state !is ActivePokemonState) {
+            if (pokemon.currentHealth <= 0) {
+                return
+            }
             val trace = player.traceBlockCollision(maxDistance = 15F)
             if (trace != null && trace.direction == Direction.UP && !player.world.getBlockState(trace.blockPos.up()).material.isSolid) {
                 val position = Vec3d(trace.location.x, trace.blockPos.up().toVec3d().y, trace.location.z)

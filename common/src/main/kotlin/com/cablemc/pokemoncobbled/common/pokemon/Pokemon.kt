@@ -53,6 +53,7 @@ import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
 import java.util.UUID
 import kotlin.math.min
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 open class Pokemon {
@@ -68,7 +69,8 @@ open class Pokemon {
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.getDeclaredConstructor()?.newInstance() })
             features.removeAll { SpeciesFeature.getName(it) in removedFeatures }
             updateAspects()
-            currentHealth = ceil(quotient * hp)
+            updateForm()
+            currentHealth = (hp * quotient).roundToInt()
             _species.emit(value)
         }
     var form = species.forms.first()

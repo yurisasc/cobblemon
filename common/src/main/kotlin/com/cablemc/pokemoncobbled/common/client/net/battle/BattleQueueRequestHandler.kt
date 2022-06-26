@@ -9,10 +9,8 @@ import net.minecraft.client.MinecraftClient
 
 object BattleQueueRequestHandler : ClientPacketHandler<BattleQueueRequestPacket> {
     override fun invokeOnClient(packet: BattleQueueRequestPacket, ctx: CobbledNetwork.NetworkContext) {
-        MinecraftClient.getInstance().execute {
-            val battle = PokemonCobbledClient.battle ?: return@execute
-            val actor = battle.side1.actors.find { it.uuid == MinecraftClient.getInstance().player?.uuid } ?: return@execute
-            PokemonCobbledClient.battle?.pendingActionRequests = SingleActionRequest.composeFrom(actor, packet.request)
-        }
+        val battle = PokemonCobbledClient.battle ?: return
+        val actor = battle.side1.actors.find { it.uuid == MinecraftClient.getInstance().player?.uuid } ?: return
+        PokemonCobbledClient.battle?.pendingActionRequests = SingleActionRequest.composeFrom(actor, packet.request)
     }
 }

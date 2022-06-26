@@ -4,6 +4,15 @@ import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import net.minecraft.network.PacketByteBuf
 
+
+/**
+ * Informs the client about a switch occurring in the battle.
+ *
+ * Handled by [com.cablemc.pokemoncobbled.common.client.net.battle.BattleSwitchPokemonHandler].
+ *
+ * @author Hiroku
+ * @since June 6th, 2022
+ */
 class BattleSwitchPokemonPacket() : NetworkPacket {
     lateinit var pnx: String
     lateinit var newPokemon: BattleInitializePacket.ActiveBattlePokemonDTO

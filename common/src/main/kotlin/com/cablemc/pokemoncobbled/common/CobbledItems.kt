@@ -3,18 +3,9 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.item.ApricornItem
 import com.cablemc.pokemoncobbled.common.item.PokeBallItem
+import com.cablemc.pokemoncobbled.common.item.evo.*
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
-import com.cablemc.pokemoncobbled.common.item.evo.DawnStone
-import com.cablemc.pokemoncobbled.common.item.evo.DuskStone
-import com.cablemc.pokemoncobbled.common.item.evo.FireStone
-import com.cablemc.pokemoncobbled.common.item.evo.IceStone
-import com.cablemc.pokemoncobbled.common.item.evo.LeafStone
-import com.cablemc.pokemoncobbled.common.item.evo.MoonStone
-import com.cablemc.pokemoncobbled.common.item.evo.ShinyStone
-import com.cablemc.pokemoncobbled.common.item.evo.SunStone
-import com.cablemc.pokemoncobbled.common.item.evo.ThunderStone
-import com.cablemc.pokemoncobbled.common.item.evo.WaterStone
-import dev.architectury.registry.registries.DeferredRegister
+import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
 import net.minecraft.item.AliasedBlockItem
@@ -22,12 +13,8 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.util.registry.Registry
-import java.util.function.Supplier
 
-object CobbledItems {
-
-    private val itemRegister = DeferredRegister.create(PokemonCobbled.MODID, Registry.ITEM_KEY)
-    private fun <T : Item> queue(name: String, item: Supplier<T>) = itemRegister.register(name, item)
+object CobbledItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
 
     val POKE_BALL = queue("poke_ball") { PokeBallItem(PokeBalls.POKE_BALL) }
     val GREAT_BALL = queue("great_ball") { PokeBallItem(PokeBalls.GREAT_BALL) }
@@ -115,9 +102,8 @@ object CobbledItems {
     val THUNDER_STONE = queue("thunder_stone") { ThunderStone() }
     val WATER_STONE = queue("water_stone") { WaterStone() }
 
-
-    fun register() {
-        itemRegister.register()
+    override fun register() {
+        super.register()
         ballMap[PokeBalls.POKE_BALL] = POKE_BALL
         ballMap[PokeBalls.GREAT_BALL] = GREAT_BALL
         ballMap[PokeBalls.ULTRA_BALL] = ULTRA_BALL

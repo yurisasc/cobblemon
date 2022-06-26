@@ -8,10 +8,10 @@ import com.cablemc.pokemoncobbled.common.client.battle.SingleActionRequest
 import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleActionSelection
 import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleGeneralActionSelection
 import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleSwitchPokemonSelection
+import com.cablemc.pokemoncobbled.common.client.gui.battle.widgets.BattleMessagePane
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -31,10 +31,14 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     }
 
     var opacity = 0F
-    var childrenHidden = true
     val actor = PokemonCobbledClient.battle?.side1?.actors?.find { it.uuid == MinecraftClient.getInstance().player?.uuid }
 
     var queuedActions = mutableListOf<() -> Unit>()
+
+    override fun init() {
+        super.init()
+        addDrawableChild(BattleMessagePane(this, PokemonCobbledClient.battle!!.messages))
+    }
 
     fun changeActionSelection(newSelection: BattleActionSelection?) {
         val current = children().find { it is BattleActionSelection }
@@ -64,13 +68,6 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             }
 
         }
-    }
-
-    override fun resize(client: MinecraftClient, width: Int, height: Int) {
-        super.resize(client, width, height)
-        childrenHidden = true
-//        clearChildren()
-//        init()
     }
 
     override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {

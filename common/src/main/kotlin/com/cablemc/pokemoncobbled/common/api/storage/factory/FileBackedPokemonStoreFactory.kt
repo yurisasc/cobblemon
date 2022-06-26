@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.storage.factory
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
@@ -10,8 +11,6 @@ import com.cablemc.pokemoncobbled.common.api.storage.adapter.SerializedStore
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.util.subscribeOnServer
-import dev.architectury.event.events.common.LifecycleEvent
-import dev.architectury.event.events.common.TickEvent
 import java.util.UUID
 import java.util.concurrent.Executors
 
@@ -28,25 +27,11 @@ open class FileBackedPokemonStoreFactory<S>(
 ) : PokemonStoreFactory {
 
     var passedTicks = 0
-
-    init {
-        LifecycleEvent.SERVER_STARTING.register {
-            if (saveExecutor.isShutdown) {
-                saveExecutor = Executors.newSingleThreadExecutor()
-            }
-        }
-
-        TickEvent.SERVER_PRE.register {
+    protected val saveSubscription = CobbledEvents.TICK_PRE.subscribe {
             passedTicks++
             if (passedTicks > 20 * PokemonCobbled.config.pokemonSaveIntervalSeconds) {
-                saveAll()
-                passedTicks = 0
-            }
-        }
-
-        LifecycleEvent.SERVER_STOPPING.register {
             saveAll()
-            saveExecutor.shutdown()
+            passedTicks = 0
         }
     }
 
@@ -116,4 +101,11 @@ open class FileBackedPokemonStoreFactory<S>(
             .pipe(emitWhile { isCached(store) })
             .subscribeOnServer { dirtyStores.add(store) }
     }
+
+    override fun shutdown() {
+        saveSubscription.unsubscribe()
+        saveAll()
+        saveExecutor.shutdown()
+    }
+
 }

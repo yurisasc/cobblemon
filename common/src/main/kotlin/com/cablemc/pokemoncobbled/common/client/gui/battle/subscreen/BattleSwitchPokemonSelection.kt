@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen
 
-import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.battles.ShowdownPokemon
 import com.cablemc.pokemoncobbled.common.battles.SwitchActionResponse
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
@@ -9,7 +8,6 @@ import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleOverlay
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.battleLang
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
