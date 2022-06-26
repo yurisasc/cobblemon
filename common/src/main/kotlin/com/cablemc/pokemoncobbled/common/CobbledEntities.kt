@@ -5,9 +5,9 @@ import com.cablemc.pokemoncobbled.common.api.events.entity.EntityAttributeEvent
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import dev.architectury.registry.level.entity.EntityAttributeRegistry
-import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
@@ -17,10 +17,9 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.util.registry.Registry
 
-object CobbledEntities {
-    private val registry = DeferredRegister.create(PokemonCobbled.MODID, Registry.ENTITY_TYPE_KEY)
-    fun register() {
-        registry.register()
+object CobbledEntities : CompletableRegistry<EntityType<*>>(Registry.ENTITY_TYPE_KEY) {
+    override fun register() {
+        super.register()
 
         EntityAttributeRegistry.register(
             { POKEMON_TYPE },
@@ -42,14 +41,14 @@ object CobbledEntities {
         name: String,
         entityTypeBuilder: EntityType.Builder<T>
     ): RegistrySupplier<EntityType<T>> {
-        return registry.register(name) { entityTypeBuilder.build(cobbledResource(name).toString()) }
+        return queue(name) { entityTypeBuilder.build(cobbledResource(name).toString()) }
     }
 
     private fun <T : LivingEntity> livingEntity(
         name: String,
         entityTypeBuilder: EntityType.Builder<T>
     ): RegistrySupplier<EntityType<T>> {
-        return registry.register(name) { entityTypeBuilder.build(cobbledResource("pokemon").toString()) }
+        return queue(name) { entityTypeBuilder.build(cobbledResource("pokemon").toString()) }
     }
 
     val POKEMON = livingEntity(
@@ -68,6 +67,7 @@ object CobbledEntities {
         )
     )
 
+    // TODO remove these because they're pretty hair brained
     val POKEMON_TYPE: EntityType<PokemonEntity>
         get() = POKEMON.get()
 

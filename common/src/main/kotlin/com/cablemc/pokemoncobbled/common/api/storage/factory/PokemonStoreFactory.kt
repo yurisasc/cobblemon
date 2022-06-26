@@ -21,4 +21,5 @@ interface PokemonStoreFactory {
     fun getPlayerParty(uuid: UUID): PlayerPartyStore?
 //    fun providePCForPlayerUUID(uuid: UUID): PCStore?
     fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID): T?
+    fun shutdown()
 }
