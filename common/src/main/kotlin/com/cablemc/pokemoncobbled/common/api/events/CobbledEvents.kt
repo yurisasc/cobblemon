@@ -5,6 +5,9 @@ import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.FriendshipUpdateEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.PokemonFaintedEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionDisplayEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
 import com.cablemc.pokemoncobbled.common.api.reactive.CancelableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.EventObservable
 import com.cablemc.pokemoncobbled.common.util.asObservable
