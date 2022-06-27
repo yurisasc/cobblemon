@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
@@ -17,6 +18,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.*
 import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.util.getServer
 import net.minecraft.server.network.ServerPlayerEntity
@@ -71,6 +73,12 @@ object CobbledNetwork {
         buildClientMessage<BenchedMovesUpdatePacket>()
         buildClientMessage<GenderUpdatePacket>()
         buildClientMessage<AspectsUpdatePacket>()
+        // Evolution start
+        buildClientMessage<AddEvolutionPacket>()
+        buildClientMessage<ClearEvolutionsPacket>()
+        buildClientMessage<RemoveEvolutionPacket>()
+        // Evolution End
+
 
         // Storage Packets
         buildClientMessage<InitializePartyPacket>()
@@ -98,6 +106,11 @@ object CobbledNetwork {
         /**
          * Server Packets
          */
+
+        // Pokemon Update Packets
+        // Evolution start
+        buildServerMessage<AcceptEvolutionPacket>()
+        // Evolution End
 
         // Storage Packets
         buildServerMessage<SendOutPokemonPacket>()

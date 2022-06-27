@@ -5,6 +5,9 @@ import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.FriendshipUpdateEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.PokemonFaintedEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionDisplayEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
 import com.cablemc.pokemoncobbled.common.api.reactive.CancelableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.EventObservable
 import com.cablemc.pokemoncobbled.common.util.asObservable
@@ -23,6 +26,10 @@ object CobbledEvents {
     val SHOULDER_MOUNT = CancelableObservable<ShoulderMountEvent>()
     val FRIENDSHIP_UPDATED = EventObservable<FriendshipUpdateEvent>()
     val POKEMON_FAINTED = EventObservable<PokemonFaintedEvent>()
+    val EVOLUTION_ACCEPTED = CancelableObservable<EvolutionAcceptedEvent>()
+    val EVOLUTION_DISPLAY = EventObservable<EvolutionDisplayEvent>()
+    val EXPERIENCE_CANDY_USE_PRE = CancelableObservable<ExperienceCandyUseEvent.Pre>()
+    val EXPERIENCE_CANDY_USE_POST = EventObservable<ExperienceCandyUseEvent.Post>()
 
     val SERVER_STARTING = LifecycleEvent.SERVER_STARTING.asServerObservable()
     val SERVER_STOPPING = LifecycleEvent.SERVER_STOPPING.asServerObservable()

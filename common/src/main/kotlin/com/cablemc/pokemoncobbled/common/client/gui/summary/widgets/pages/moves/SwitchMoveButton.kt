@@ -5,8 +5,8 @@ import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.lang
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.util.math.MatrixStack
 
@@ -45,7 +45,7 @@ class SwitchMoveButton(
         drawCenteredText(
             poseStack = poseStack,
             font = CobbledResources.NOTO_SANS_BOLD,
-            text = "pokemoncobbled.ui.changemove".asTranslated(),
+            text = lang("ui.changemove"),
             x = (x + SWITCH_MOVE_BUTTON_WIDTH / 2) / scale, y = (y + 4) / scale,
             colour = if (isHovered || movesWidget.moveSwitchPane?.replacedMove?.template == move) ColourLibrary.BUTTON_HOVER_COLOUR else ColourLibrary.WHITE,
             shadow = false
