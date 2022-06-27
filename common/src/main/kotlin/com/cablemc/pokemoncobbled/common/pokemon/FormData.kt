@@ -94,7 +94,7 @@ class FormData(
     internal val preEvolution: PreEvolution?
         get() = _preEvolution ?: species.preEvolution
 
-    // Only exists for use of Pokemon.evolutions do not expose to end user due to how the species/form data is structured
+    // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution>
         get() = _evolutions ?: species.evolutions
 

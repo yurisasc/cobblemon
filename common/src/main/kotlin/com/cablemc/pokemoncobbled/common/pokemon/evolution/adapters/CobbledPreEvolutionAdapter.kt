@@ -1,15 +1,11 @@
 package com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.adapters.PreEvolutionAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledPreEvolution
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.JsonSerializationContext
+import com.google.gson.*
 import java.lang.reflect.Type
 
-object CobbledPreEvolutionAdapter : PreEvolutionAdapter {
+object CobbledPreEvolutionAdapter : JsonDeserializer<PreEvolution>, JsonSerializer<PreEvolution> {
 
     private const val SPECIES = "species"
     private const val FORM = "form"

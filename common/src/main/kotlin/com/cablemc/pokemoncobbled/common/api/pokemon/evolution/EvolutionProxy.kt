@@ -1,8 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
 
+import com.cablemc.pokemoncobbled.common.api.serialization.BufferSerializer
+import com.cablemc.pokemoncobbled.common.api.serialization.DataSerializer
 import com.google.gson.JsonElement
 import net.minecraft.nbt.NbtElement
-import net.minecraft.network.PacketByteBuf
 
 /**
  * Responsible for holding the different [EvolutionController] implementations based on the logical side.
@@ -14,7 +15,7 @@ import net.minecraft.network.PacketByteBuf
  * @author Licious
  * @since June 18th, 2022
  */
-interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> {
+interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> : DataSerializer<NbtElement, JsonElement>, BufferSerializer {
 
     /**
      * Checks if the current logical side is the client.
@@ -49,17 +50,5 @@ interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> {
      * @return The server side implementation of the [EvolutionController] if possible.
      */
     fun server(): EvolutionController<S>
-
-    fun saveToNBT(): NbtElement
-
-    fun loadFromNBT(nbt: NbtElement)
-
-    fun saveToJson(): JsonElement
-
-    fun loadFromJson(json: JsonElement)
-
-    fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean)
-
-    fun loadFromBuffer(buffer: PacketByteBuf)
 
 }

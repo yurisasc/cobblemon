@@ -43,7 +43,7 @@ class Species {
 
     var forms = mutableListOf(FormData())
 
-    // Only exists for use of Pokemon.evolutions do not expose to end user due to how the species/form data is structured
+    // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution> = hashSetOf()
 
     internal val preEvolution: PreEvolution? = null

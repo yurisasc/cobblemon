@@ -10,7 +10,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.TradeEvoluti
 
 /**
  * Represents an evolution of a [Pokemon], this is the server side counterpart of [EvolutionDisplay].
- * Following Pokemon these can be triggered by 3 possible events, level ups, trades or using an item.
+ * Following Pokémon these can be triggered by 3 possible events, level ups, trades or using an item.
  * For the default implementations see [LevelEvolution], [TradeEvolution] & [ItemInteractionEvolution].
  * Also see [PassiveEvolution] & [ContextEvolution].
  *
@@ -25,7 +25,7 @@ interface Evolution : EvolutionLike {
     val result: PokemonProperties
 
     /**
-     * If this evolution will allow the user to choose when to start it or not.
+     * If this evolution allows the user to choose when to start it or not.
      */
     var optional: Boolean
 

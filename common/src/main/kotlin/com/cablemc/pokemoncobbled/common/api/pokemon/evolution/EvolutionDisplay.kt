@@ -21,6 +21,7 @@ interface EvolutionDisplay : EvolutionLike {
 
     /**
      * The aspects of the evolution result.
+     * These are used by the client to resolve the entity it needs to display.
      */
     val aspects: Set<String>
 

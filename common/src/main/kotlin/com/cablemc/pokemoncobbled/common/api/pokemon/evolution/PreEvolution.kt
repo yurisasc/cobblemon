@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledPreEvolution
 
 /**
- * Represents the previous stage in the evolutionary line of a given Pokemon.
+ * Represents the previous stage in the evolutionary line of a given Pokémon.
  * Not all species will have one.
  *
  * @author Licious
