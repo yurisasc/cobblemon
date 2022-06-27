@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.item
 
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
-import com.cablemc.pokemoncobbled.common.item.CobbledItemGroups.POKE_BALL_TAB
+import com.cablemc.pokemoncobbled.common.item.CobbledItemGroups.POKE_BALL_GROUP
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.entity.player.PlayerEntity
@@ -14,7 +14,7 @@ import kotlin.math.cos
 
 class PokeBallItem(
     val pokeBall : PokeBall
-) : CobbledItem(Settings().group(POKE_BALL_TAB)) {
+) : CobbledItem(Settings().group(POKE_BALL_GROUP)) {
 
     override fun use(world: World, player: PlayerEntity, usedHand: Hand): TypedActionResult<ItemStack> {
         val itemStack = player.getStackInHand(usedHand)

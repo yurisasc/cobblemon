@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.storage.party
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import net.minecraft.network.MessageType
 import net.minecraft.server.network.ServerPlayerEntity
@@ -65,7 +66,14 @@ class PlayerPartyStore(
                         status.tickTimer()
                     }
                 }
+
+                // Passive evolutions
+                pokemon.evolutions.filterIsInstance<PassiveEvolution>()
+                    .forEach { evolution ->
+                        evolution.attemptEvolution(pokemon)
+                    }
             }
         }
     }
+
 }
