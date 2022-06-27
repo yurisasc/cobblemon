@@ -67,15 +67,16 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
     }
 
     inner class EvolutionOption(private val pokemon: Pokemon, private val evolution: EvolutionDisplay) : Entry<EvolutionOption>() {
+        val form = evolution.species.getForm(evolution.aspects)!!
 
-        private val evolutionPokemon = Pokemon().apply {
-            species = this@EvolutionOption.evolution.species
-            aspects = this@EvolutionOption.evolution.aspects
-            // We need to do this manually as the client side doesn't update the form when the aspects change
-            updateForm()
-        }
-
-        private var lastKnownButton: SummaryButton? = null
+        private var evolveButton: SummaryButton = SummaryButton(
+            0F + BUTTON_X_OFFSET, 0F + BUTTON_Y_OFFSET,
+            BUTTON_WIDTH, BUTTON_HEIGHT,
+            resource = BUTTON_RESOURCE,
+            clickAction = { this.acceptAndClose() },
+            text = lang("ui.evolve"),
+            buttonScale = BUTTON_SCALE
+        )
 
         fun scaleIt(value: Number) = (MinecraftClient.getInstance().window.scaleFactor * value.toFloat()).toInt()
 
@@ -101,7 +102,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             )
             this.renderModelPortrait(matrices, x + MODEL_UNDERLAY_WIDTH / 2 + MODEL_UNDERLAY_X_OFFSET, y + 4)
             RenderSystem.disableScissor()
-            val isDualType = this.evolutionPokemon.form.secondaryType != null
+            val isDualType = form.secondaryType != null
             // We want to offset the entries a bit for them to not collide with the scroll bar
             val entryTexture = if (isDualType) DUAL_TYPE_ENTRY_RESOURCE else SINGLE_TYPE_ENTRY_RESOURCE
             blitk(
@@ -119,8 +120,8 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         override fun getNarration(): Text = this.displayName()
 
         override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-            if (this.lastKnownButton?.isHovered == true) {
-                this.lastKnownButton?.onPress()
+            if (this.evolveButton.isHovered) {
+                this.evolveButton.onPress()
                 return true
             }
             return false
@@ -156,17 +157,8 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         }
 
         private fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, tickDelta: Float, x: Int, y: Int) {
-            SummaryButton(
-                x + BUTTON_X_OFFSET, y + BUTTON_Y_OFFSET,
-                BUTTON_WIDTH, BUTTON_HEIGHT,
-                resource = BUTTON_RESOURCE,
-                clickAction = { this.acceptAndClose() },
-                text = lang("ui.evolve"),
-                buttonScale = BUTTON_SCALE
-            ).also { button ->
-                this.lastKnownButton = button
-                button.render(matrices, mouseX, mouseY, tickDelta)
-            }
+            evolveButton.setPosFloat(x + BUTTON_X_OFFSET, y + BUTTON_Y_OFFSET)
+            evolveButton.render(matrices, mouseX, mouseY, tickDelta)
         }
 
         private fun acceptAndClose() {
@@ -179,20 +171,20 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             matrices.push()
             matrices.scale(TYPE_ICON_SCALE, TYPE_ICON_SCALE, 1F)
             if (isDualType) {
-                this.renderTypeIcon(this.evolutionPokemon.form.secondaryType!!, matrices, x + DUAL_TYPE_ICON_X_OFFSET_2, y + DUAL_TYPE_ICON_Y_OFFSET_2)
-                this.renderTypeIcon(this.evolutionPokemon.form.primaryType, matrices, x + DUAL_TYPE_ICON_X_OFFSET_1, y + DUAL_TYPE_ICON_Y_OFFSET_1)
+                this.renderTypeIcon(form.secondaryType!!, matrices, x + DUAL_TYPE_ICON_X_OFFSET_2, y + DUAL_TYPE_ICON_Y_OFFSET_2)
+                this.renderTypeIcon(form.primaryType, matrices, x + DUAL_TYPE_ICON_X_OFFSET_1, y + DUAL_TYPE_ICON_Y_OFFSET_1)
             }
             else {
-                this.renderTypeIcon(this.evolutionPokemon.form.primaryType, matrices, x + SINGLE_TYPE_ICON_X_OFFSET, y + SINGLE_TYPE_ICON_Y_OFFSET)
+                this.renderTypeIcon(form.primaryType, matrices, x + SINGLE_TYPE_ICON_X_OFFSET, y + SINGLE_TYPE_ICON_Y_OFFSET)
             }
             matrices.pop()
         }
 
-        private fun renderTypeIcon(type: ElementalType, matrices: MatrixStack, x: Int, y: Int) {
+        private fun renderTypeIcon(type: ElementalType, matrices: MatrixStack, x: Number, y: Number) {
             blitk(
                 matrixStack = matrices,
                 texture = TYPE_CHART_RESOURCE,
-                x = x / TYPE_ICON_SCALE, y = y / TYPE_ICON_SCALE,
+                x = x.toFloat() / TYPE_ICON_SCALE, y = y.toFloat() / TYPE_ICON_SCALE,
                 width = TYPE_ICON_WIDTH, height = TYPE_ICON_HEIGHT,
                 uOffset = TYPE_ICON_WIDTH * type.textureXMultiplier.toFloat(),
                 textureWidth = TYPE_ICON_WIDTH * 18
@@ -244,11 +236,12 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
         // Confirmation button
         private val BUTTON_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_slot_button.png")
-        private const val BUTTON_SCALE = .25F
-        private const val BUTTON_WIDTH = 108
-        private const val BUTTON_HEIGHT = 40
-        private const val BUTTON_X_OFFSET = 62
-        private const val BUTTON_Y_OFFSET = 19
+        private const val BUTTON_SCALE = 1F
+        private const val BUTTON_WIDTH_TO_HEIGHT = 108F / 40F
+        private const val BUTTON_WIDTH = 27F
+        private const val BUTTON_HEIGHT = BUTTON_WIDTH / BUTTON_WIDTH_TO_HEIGHT
+        private const val BUTTON_X_OFFSET = 62.25F
+        private const val BUTTON_Y_OFFSET = 18.75F
 
         // Type preview
         private val TYPE_CHART_RESOURCE = cobbledResource("ui/types.png")
@@ -257,8 +250,8 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         private const val TYPE_ICON_SCALE = .23F
         private const val SINGLE_TYPE_ICON_X_OFFSET = 35
         private const val SINGLE_TYPE_ICON_Y_OFFSET = 15
-        private const val DUAL_TYPE_ICON_X_OFFSET_1 = 27
-        private const val DUAL_TYPE_ICON_X_OFFSET_2 = 42
+        private const val DUAL_TYPE_ICON_X_OFFSET_1 = 26.5F
+        private const val DUAL_TYPE_ICON_X_OFFSET_2 = 42F
         private const val DUAL_TYPE_ICON_Y_OFFSET_1 = 15
         private const val DUAL_TYPE_ICON_Y_OFFSET_2 = 15
 

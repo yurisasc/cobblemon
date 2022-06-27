@@ -11,8 +11,8 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 class SummaryButton(
-    x: Number, y: Number,
-    width: Int, height: Int,
+    var buttonX: Float, var buttonY: Float,
+    val buttonWidth: Number, val buttonHeight: Number,
     clickAction: PressAction,
     private val text: Text,
     private val resource: Identifier = cobbledResource("ui/summary/summary_button.png"),
@@ -22,7 +22,7 @@ class SummaryButton(
     private val silent: Boolean = false,
     private val buttonScale: Float = 1F,
     private val textScale: Float = .4F
-): TexturedButtonWidget(x.toInt(), y.toInt(), width, height, 0, 0, 0, resource, width, height, clickAction) {
+): TexturedButtonWidget(buttonX.toInt(), buttonY.toInt(), buttonWidth.toInt(), buttonHeight.toInt(), 0, 0, 0, resource, buttonWidth.toInt(), buttonHeight.toInt(), clickAction) {
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double) = false
 
@@ -31,17 +31,12 @@ class SummaryButton(
             return
         }
         // Render Button Image
-        poseStack.push()
-        poseStack.scale(this.buttonScale, this.buttonScale, 1F)
-        val buttonX = this.x / this.buttonScale
-        val buttonY = this.y / this.buttonScale
         blitk(
             matrixStack = poseStack,
             texture = this.resource,
             x = buttonX, y = buttonY,
-            width = this.width, height = this.height
+            width = buttonWidth, height = buttonHeight
         )
-        poseStack.pop()
         poseStack.push()
         poseStack.scale(this.textScale, this.textScale, 1F)
         // Draw Text
@@ -49,7 +44,7 @@ class SummaryButton(
             poseStack = poseStack,
             font = CobbledResources.NOTO_SANS_BOLD,
             text = this.text,
-            x = (this.x + (this.width * this.buttonScale) / 2) / this.textScale, y = (this.y + ((this.height * this.buttonScale) * .25F)) / this.textScale,
+            x = (this.buttonX + (buttonWidth.toFloat() * this.buttonScale) / 2) / this.textScale, y = (buttonY + ((this.buttonHeight.toFloat() * this.buttonScale) * .25F)) / this.textScale,
             colour = if (this.hoverColorRequirement.invoke(this)) ColourLibrary.BUTTON_HOVER_COLOUR else ColourLibrary.WHITE,
             shadow = false
         )
@@ -67,6 +62,12 @@ class SummaryButton(
         if (!this.silent) {
             super.playDownSound(soundManager)
         }
+    }
+
+    fun setPosFloat(x: Float, y: Float) {
+        setPos(x.toInt(), y.toInt())
+        this.buttonX = x
+        this.buttonY = y
     }
 
     companion object {

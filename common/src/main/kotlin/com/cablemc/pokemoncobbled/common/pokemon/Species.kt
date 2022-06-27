@@ -9,14 +9,14 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.util.asTranslated
+import com.cablemc.pokemoncobbled.common.util.lang
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText
 
 class Species {
     var name: String = "bulbasaur"
     val translatedName: MutableText
-        get() = "pokemoncobbled.species.$name.name".asTranslated()
+        get() = lang("species.$name.name")
     var nationalPokedexNumber = 1
 
     val baseStats = mapOf<Stat, Int>()
