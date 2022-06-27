@@ -3,12 +3,13 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.blocks.EvolutionStoneOre
 import com.cablemc.pokemoncobbled.common.api.blocks.EvolutionStoneOre.Companion.DEEPSLATE_PROPERTIES
 import com.cablemc.pokemoncobbled.common.api.blocks.EvolutionStoneOre.Companion.NORMAL_PROPERTIES
-import dev.architectury.registry.registries.DeferredRegister
 import com.cablemc.pokemoncobbled.common.item.ApricornItem
+import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import com.cablemc.pokemoncobbled.common.world.level.block.ApricornBlock
 import com.cablemc.pokemoncobbled.common.world.level.block.ApricornSaplingBlock
 import com.cablemc.pokemoncobbled.common.world.level.block.HealingMachineBlock
 import dev.architectury.registry.registries.RegistrySupplier
+import java.util.function.Supplier
 import net.minecraft.block.*
 import net.minecraft.entity.EntityType
 import net.minecraft.sound.BlockSoundGroup
@@ -16,12 +17,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.BlockView
-import java.util.function.Supplier
 
-object CobbledBlocks {
-    private val blockRegister = DeferredRegister.create(PokemonCobbled.MODID, Registry.BLOCK_KEY)
-    private fun <T : Block> queue(name: String, block: Supplier<T>) = blockRegister.register(name, block)
-
+object CobbledBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     /**
      * Evolution Ores
      */
@@ -93,10 +90,6 @@ object CobbledBlocks {
     val YELLOW_APRICORN = registerApricornBlock("yellow_apricorn") { CobbledItems.YELLOW_APRICORN.get() }
 
     val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque()) }
-
-    fun register() {
-        blockRegister.register()
-    }
 
     private fun registerApricornBlock(id: String, apricornSupplier: Supplier<ApricornItem>): RegistrySupplier<ApricornBlock> {
         return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricornSupplier) }

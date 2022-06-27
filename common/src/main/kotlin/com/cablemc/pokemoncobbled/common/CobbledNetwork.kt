@@ -7,7 +7,12 @@ import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.*
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.*
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MovePartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.RemovePartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
@@ -96,6 +101,7 @@ object CobbledNetwork {
         buildClientMessage<BattleHealthChangePacket>()
         buildClientMessage<BattleSetTeamPokemonPacket>()
         buildClientMessage<BattleSwitchPokemonPacket>()
+        buildClientMessage<BattleMessagePacket>()
 
         /**
          * Server Packets

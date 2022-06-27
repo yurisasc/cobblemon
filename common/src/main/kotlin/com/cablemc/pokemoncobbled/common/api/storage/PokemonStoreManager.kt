@@ -6,8 +6,8 @@ import com.cablemc.pokemoncobbled.common.api.Priority
 import com.cablemc.pokemoncobbled.common.api.storage.factory.PokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
+import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
-import java.util.*
 
 /**
  * Manages the providing of [PokemonStore]s for party, PC, and custom use. The main utilities of this class
@@ -26,7 +26,12 @@ open class PokemonStoreManager {
     }
 
     open fun unregisterFactory(factory: PokemonStoreFactory) {
+        factory.shutdown()
         factories.remove(factory)
+    }
+
+    open fun unregisterAll() {
+        factories.toList().forEach(::unregisterFactory)
     }
 
     open fun getParty(player: ServerPlayerEntity) = getParty(player.uuid)

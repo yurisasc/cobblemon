@@ -17,6 +17,7 @@ class ClientBattle(
         get() = arrayOf(side1, side2)
 
     var pendingActionRequests = mutableListOf<SingleActionRequest>()
+    val messages = ClientBattleMessageQueue()
     var mustChoose = false
 
     fun getFirstUnansweredRequest() = pendingActionRequests.firstOrNull { it.response == null }

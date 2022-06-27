@@ -12,6 +12,7 @@ import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
+import net.minecraft.text.OrderedText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Matrix4f
@@ -109,10 +110,34 @@ fun drawText(
         val width = mcFont.getWidth(comp)
         x = x.toDouble() - width / 2
     }
-    if (shadow)
+
+    if (shadow) {
         mcFont.drawWithShadow(poseStack, comp, x.toFloat(), y.toFloat(), colour)
-    else
+    } else {
         mcFont.draw(poseStack, comp, x.toFloat(), y.toFloat(), colour)
+    }
+}
+
+fun drawText(
+    poseStack: MatrixStack,
+    text: OrderedText,
+    x: Number,
+    y: Number,
+    centered: Boolean = false,
+    colour: Int,
+    shadow: Boolean = true
+) {
+    val mcFont = MinecraftClient.getInstance().textRenderer
+    var x = x
+    if (centered) {
+        val width = mcFont.getWidth(text)
+        x = x.toDouble() - width / 2
+    }
+
+    if (shadow)
+        mcFont.drawWithShadow(poseStack, text, x.toFloat(), y.toFloat(), colour)
+    else
+        mcFont.draw(poseStack, text, x.toFloat(), y.toFloat(), colour)
 }
 
 fun drawString(

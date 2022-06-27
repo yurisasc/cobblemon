@@ -8,9 +8,10 @@ import com.cablemc.pokemoncobbled.common.battles.ShowdownActionResponse
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.exception.IllegalActionChoiceException
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMakeChoicePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMessagePacket
+import java.util.UUID
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import java.util.UUID
 
 abstract class BattleActor(
     val uuid: UUID,
@@ -44,26 +45,6 @@ abstract class BattleActor(
             this.request = null
             return
         }
-//        val toChoose = mutableListOf<ActiveBattlePokemon>()
-//        for ((activeIndex, active) in requestActive.withIndex()) {
-//            val pokemon = activePokemon[activeIndex]
-//            pokemon.selectableMoves = active.moves
-//            toChoose.add(pokemon)
-//        }
-//
-//        if (toChoose.isNotEmpty()) {
-//            getChoices(toChoose).thenAccept {
-//                val switches = it.filter { it.startsWith("switch ") }
-//                switches.forEach {
-//                    val uuid = UUID.fromString(it.substring(7))
-//                    pokemonList.find { it.uuid == uuid }?.willBeSwitchedIn = false
-//                }
-//
-//                val joinedChoices = it.joinToString()
-//                this.request = null
-//                battle.writeShowdownAction(">$showdownId $joinedChoices")
-//            }
-//        }
     }
 
     fun upkeep() {
@@ -75,15 +56,6 @@ abstract class BattleActor(
 
         sendUpdate(BattleMakeChoicePacket())
         mustChoose = true
-
-//        getSwitch(forceSwitchPokemon).thenApply { uuids ->
-//            var switchRequests = uuids.joinToString { "switch $it" }
-//            repeat(times = forceSwitchPokemon.size - uuids.count()) {
-//                switchRequests += ",pass"
-//            }
-//            pokemonList.filter { it.uuid in uuids }.forEach { it.willBeSwitchedIn = false }
-//            battle.writeShowdownAction(">$showdownId $switchRequests")
-//        }
     }
 
     fun setActionResponses(responses: List<ShowdownActionResponse>) {
@@ -115,7 +87,9 @@ abstract class BattleActor(
     }
 
     abstract fun getName(): MutableText
-    open fun sendMessage(component: Text) {}
+    open fun sendMessage(component: Text) {
+        sendUpdate(BattleMessagePacket(component))
+    }
     open fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {}
     open fun sendUpdate(packet: NetworkPacket) {}
 }
