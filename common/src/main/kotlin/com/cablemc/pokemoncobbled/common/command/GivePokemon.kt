@@ -38,7 +38,6 @@ object GivePokemon {
             val pokemon = pokemonProperties.create()
             val party = PokemonCobbled.storage.getParty(player)
             party.add(pokemon)
-            println("${pokemon.species.name} HP is ${pokemon.currentHealth}")
             context.source.sendFeedback(commandLang("givepokemon.give", pokemon.species.translatedName, player.name), true)
         } catch (e: Exception) {
             e.printStackTrace()
