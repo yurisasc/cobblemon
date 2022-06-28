@@ -85,22 +85,33 @@ open class Pokemon {
             this.evolutionProxy.current().clear()
             updateAspects()
             updateForm()
-            currentHealth = (hp * quotient).roundToInt()
+            updateHP(quotient)
             _species.emit(value)
         }
+
     var form = species.forms.first()
         set(value) {
             field = value
             // Evo proxy is already cleared on species update but the form may be changed by itself, this is fine and no unnecessary packets will be sent out
             this.evolutionProxy.current().clear()
+            // Species updates already update HP but just a form change may require it
+            val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
+            updateHP(quotient)
             _form.emit(value)
         }
-    var currentHealth = Int.MAX_VALUE
+
+    // Need to happen before currentHealth init due to the calc
+    var ivs = IVs.createRandomIVs()
+    var evs = EVs.createEmpty()
+
+    var currentHealth = this.hp
         set(value) {
+            if (value == field) {
+                return
+            }
             if(currentHealth <= 0 && value > 0) {
                 this.healTimer = PokemonCobbled.config.healTimer
             }
-
             field = min(hp, value)
             _currentHealth.emit(field)
 
@@ -230,8 +241,6 @@ open class Pokemon {
     val speed: Int
         get() = getStat(Stats.SPEED)
 
-    var ivs = IVs.createRandomIVs()
-    var evs = EVs.createEmpty()
     var scaleModifier = 1F
 
     var caughtBall: PokeBall = PokeBalls.POKE_BALL
@@ -298,6 +307,10 @@ open class Pokemon {
 
     fun isFainted(): Boolean {
         return currentHealth <= 0
+    }
+
+    private fun updateHP(quotient: Float) {
+        currentHealth = (hp * quotient).roundToInt()
     }
 
     fun applyStatus(status: PersistentStatus) {
