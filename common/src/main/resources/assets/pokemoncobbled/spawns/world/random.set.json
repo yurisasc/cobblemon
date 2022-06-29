@@ -9,6 +9,7 @@
       "id": "random-day-spawn",
       "pokemon": "random",
       "context": "grounded",
+      "bucket": "common",
       "rarity": 10,
       "conditions": [
         {
@@ -22,6 +23,7 @@
       "id": "random-night-spawn",
       "pokemon": "random",
       "context": "grounded",
+      "bucket": "common",
       "rarity": 10,
       "conditions": [
         {

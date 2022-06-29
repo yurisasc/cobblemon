@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.spawner
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
@@ -32,7 +33,7 @@ abstract class TickingSpawner(
     override fun getSpawnPool() = spawns
     override fun setSpawnPool(spawnPool: SpawnPool) { spawns = spawnPool }
 
-    abstract fun run(): Pair<SpawningContext, SpawnDetail>?
+    abstract fun run(cause: SpawnCause): Pair<SpawningContext, SpawnDetail>?
 
     var active = true
     val spawnedEntities = mutableListOf<Entity>()
@@ -67,12 +68,12 @@ abstract class TickingSpawner(
         ticksUntilNextSpawn -= tickTimerMultiplier
         if (ticksUntilNextSpawn <= 0) {
             // TODO some kind of async logic would be nice.
-            val spawn = run()
+            val spawn = run(SpawnCause(spawner = this, bucket = chooseBucket(), entity = getCauseEntity()))
             ticksUntilNextSpawn = ticksBetweenSpawns
             if (spawn != null) {
                 val ctx = spawn.first
                 val detail = spawn.second
-                val spawnAction = detail.doSpawn(spawner = this, ctx = ctx)
+                val spawnAction = detail.doSpawn(ctx = ctx)
                 this.scheduledSpawn = spawnAction
             }
         }
@@ -89,4 +90,6 @@ abstract class TickingSpawner(
         spawnAction.run()
         this.scheduledSpawn = null
     }
+
+    open fun getCauseEntity(): Entity? = null
 }

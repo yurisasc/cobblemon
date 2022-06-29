@@ -30,6 +30,9 @@ object SpawnDetailAdapter : JsonDeserializer<SpawnDetail> {
             ?: throw IllegalStateException("There is no spawning condition registered with the name '${ctxType.defaultCondition}'")
         SpawnLoader.deserializingRegisteredSpawnDetail = registeredSpawnDetail
         val detail = registeredSpawnDetail.deserializeDetail(element, ctx)
+        if (detail.bucket.name.isBlank()) {
+            throw IllegalStateException("No bucket was specified for spawn: ${detail.id}")
+        }
         detail.autoLabel()
         return detail
     }

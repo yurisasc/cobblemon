@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.BucketPrecalculation
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.ContextPrecalculation
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 
@@ -13,5 +14,5 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
  */
 object CobbledSpawnPools {
     /** [SpawnPool] used for standard world spawning. */
-    var WORLD_SPAWN_POOL = SpawnLoader.load("world").addPrecalculators(ContextPrecalculation)
+    var WORLD_SPAWN_POOL = SpawnLoader.load("world").addPrecalculators(ContextPrecalculation, BucketPrecalculation)
 }

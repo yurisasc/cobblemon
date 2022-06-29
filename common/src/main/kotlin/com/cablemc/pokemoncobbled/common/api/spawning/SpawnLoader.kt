@@ -12,25 +12,19 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.util.AssetLoading
 import com.cablemc.pokemoncobbled.common.util.AssetLoading.toPath
-import com.cablemc.pokemoncobbled.common.util.adapters.BiomeListAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.RegisteredSpawningContextAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.IdentifierAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.SpawnDetailAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.SpawningConditionAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.TimeRangeAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.pokemonPropertiesShortAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.*
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.cablemc.pokemoncobbled.common.util.isHigherVersion
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
-import net.minecraft.util.Identifier
 import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.nio.file.Path
 import kotlin.io.path.pathString
+import net.minecraft.util.Identifier
 
 /**
  * Object responsible for actually deserializing spawns. You should probably
@@ -51,6 +45,7 @@ object SpawnLoader {
         .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
         .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
+        .registerTypeAdapter(SpawnBucket::class.java, SpawnBucketAdapter)
         .create()
 
     var deserializingRegisteredSpawnDetail: RegisteredSpawnDetail<*>? = null

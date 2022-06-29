@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.condition
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnBucket
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
@@ -75,6 +76,12 @@ object RootPrecalculation : SpawningPrecalculation<Any> {
 object ContextPrecalculation : SpawningPrecalculation<Class<out SpawningContext>> {
     override fun select(detail: SpawnDetail) = listOf(detail.context.clazz)
     override fun select(ctx: SpawningContext) = ctx::class.java
+}
+
+object BucketPrecalculation : SpawningPrecalculation<SpawnBucket> {
+    override fun select(detail: SpawnDetail) = listOf(detail.bucket)
+    override fun select(ctx: SpawningContext) = ctx.cause.bucket
+
 }
 
 /**

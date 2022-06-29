@@ -1,12 +1,12 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
+import kotlin.math.max
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import kotlin.math.max
 
 /**
  * A slice of the world that can be accessed safely from an async thread. This includes all of the information
@@ -18,7 +18,7 @@ import kotlin.math.max
  * @since January 31st, 2022
  */
 class WorldSlice(
-    val cause: Any,
+    val cause: SpawnCause,
     val world: World,
     val baseX: Int,
     val baseY: Int,
