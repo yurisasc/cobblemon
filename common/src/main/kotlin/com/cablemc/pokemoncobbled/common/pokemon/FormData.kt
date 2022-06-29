@@ -2,6 +2,8 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
@@ -40,6 +42,9 @@ class FormData(
     private val _shoulderEffects: MutableList<ShoulderEffect>? = null,
     @SerializedName("levelUpMoves")
     private val _levelUpMoves: LevelUpMoves? = null,
+    @SerializedName("evolutions")
+    private val _evolutions: MutableSet<Evolution>? = null,
+    private val _preEvolution: PreEvolution? = null,
     private val eyeHeight: Float? = null,
     private val standingEyeHeight: Float? = null,
     private val swimmingEyeHeight: Float? = null,
@@ -86,6 +91,13 @@ class FormData(
 
     var aspects = mutableListOf<String>()
 
+    internal val preEvolution: PreEvolution?
+        get() = _preEvolution ?: species.preEvolution
+
+    // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
+    internal val evolutions: MutableSet<Evolution>
+        get() = _evolutions ?: species.evolutions
+
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)
         return entity.height * multiplier
@@ -99,4 +111,11 @@ class FormData(
 
     @Transient
     lateinit var species: Species
+
+    override fun equals(other: Any?): Boolean {
+        return other is FormData
+                && other.species.name.equals(this.species.name, true)
+                && other.name.equals(this.name, true)
+    }
+
 }

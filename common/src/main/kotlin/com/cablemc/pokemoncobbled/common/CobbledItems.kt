@@ -3,18 +3,11 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.item.ApricornItem
 import com.cablemc.pokemoncobbled.common.item.PokeBallItem
+import com.cablemc.pokemoncobbled.common.item.interactive.CandyItem
+import com.cablemc.pokemoncobbled.common.item.interactive.EvolutionItem
+import com.cablemc.pokemoncobbled.common.item.evo.*
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
-import com.cablemc.pokemoncobbled.common.item.evo.DawnStone
-import com.cablemc.pokemoncobbled.common.item.evo.DuskStone
-import com.cablemc.pokemoncobbled.common.item.evo.FireStone
-import com.cablemc.pokemoncobbled.common.item.evo.IceStone
-import com.cablemc.pokemoncobbled.common.item.evo.LeafStone
-import com.cablemc.pokemoncobbled.common.item.evo.MoonStone
-import com.cablemc.pokemoncobbled.common.item.evo.ShinyStone
-import com.cablemc.pokemoncobbled.common.item.evo.SunStone
-import com.cablemc.pokemoncobbled.common.item.evo.ThunderStone
-import com.cablemc.pokemoncobbled.common.item.evo.WaterStone
-import dev.architectury.registry.registries.DeferredRegister
+import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
 import net.minecraft.item.AliasedBlockItem
@@ -22,12 +15,8 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.util.registry.Registry
-import java.util.function.Supplier
 
-object CobbledItems {
-
-    private val itemRegister = DeferredRegister.create(PokemonCobbled.MODID, Registry.ITEM_KEY)
-    private fun <T : Item> queue(name: String, item: Supplier<T>) = itemRegister.register(name, item)
+object CobbledItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
 
     val POKE_BALL = queue("poke_ball") { PokeBallItem(PokeBalls.POKE_BALL) }
     val GREAT_BALL = queue("great_ball") { PokeBallItem(PokeBalls.GREAT_BALL) }
@@ -70,6 +59,27 @@ object CobbledItems {
     val APRICORN_STAIRS = queue("apricorn_stairs") { blockItem(CobbledBlocks.APRICORN_STAIRS.get(), ItemGroup.BUILDING_BLOCKS) }
 
     val HEALING_MACHINE = queue("healing_machine") { blockItem(CobbledBlocks.HEALING_MACHINE.get(), ItemGroup.REDSTONE) }
+
+    // Evolution items
+    val LINK_CABLE = queue("link_cable") { EvolutionItem() }
+    val KINGS_ROCK = queue("kings_rock") { EvolutionItem() }
+    val METAL_COAT = queue("metal_coat") { EvolutionItem() }
+    val BLACK_AUGURITE = queue("black_augurite") { EvolutionItem() }
+    val PROTECTOR = queue("protector") { EvolutionItem() }
+    val OVAL_STONE = queue("oval_stone") { EvolutionItem() }
+    val DRAGON_SCALE = queue("dragon_scale") { EvolutionItem() }
+    val ELECTIRIZER = queue("electirizer") { EvolutionItem() }
+    val MAGMARIZER = queue("magmarizer") { EvolutionItem() }
+    val UPGRADE = queue("upgrade") { EvolutionItem() }
+    val DUBIOUS_DISC = queue("dubious_disc") { EvolutionItem() }
+
+    // Medicine
+    val RARE_CANDY = queue("rare_candy") { CandyItem { _, pokemon -> pokemon.getExperienceToNextLevel() } }
+    val EXPERIENCE_CANDY_XS = queue("exp_candy_xs") { CandyItem { _, _ -> CandyItem.DEFAULT_XS_CANDY_YIELD } }
+    val EXPERIENCE_CANDY_S = queue("exp_candy_s") { CandyItem { _, _ -> CandyItem.DEFAULT_S_CANDY_YIELD } }
+    val EXPERIENCE_CANDY_M = queue("exp_candy_m") { CandyItem { _, _ -> CandyItem.DEFAULT_M_CANDY_YIELD } }
+    val EXPERIENCE_CANDY_L = queue("exp_candy_l") { CandyItem { _, _ -> CandyItem.DEFAULT_L_CANDY_YIELD } }
+    val EXPERIENCE_CANDY_XL = queue("exp_candy_xl") { CandyItem { _, _ -> CandyItem.DEFAULT_XL_CANDY_YIELD } }
 
     private fun blockItem(block: Block, tab: ItemGroup) : BlockItem {
         return BlockItem(block, Item.Settings().group(tab))
@@ -114,9 +124,8 @@ object CobbledItems {
     val THUNDER_STONE = queue("thunder_stone") { ThunderStone() }
     val WATER_STONE = queue("water_stone") { WaterStone() }
 
-
-    fun register() {
-        itemRegister.register()
+    override fun register() {
+        super.register()
         ballMap[PokeBalls.POKE_BALL] = POKE_BALL
         ballMap[PokeBalls.GREAT_BALL] = GREAT_BALL
         ballMap[PokeBalls.ULTRA_BALL] = ULTRA_BALL

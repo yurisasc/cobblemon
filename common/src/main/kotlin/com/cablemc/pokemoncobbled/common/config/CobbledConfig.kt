@@ -14,7 +14,7 @@ class CobbledConfig {
             .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
             .create()
     }
-    
+
     @NodeCategory(Category.Pokemon)
     @IntConstraint(min = 1, max = 1000)
     var maxPokemonLevel = 100
@@ -91,4 +91,5 @@ class CobbledConfig {
 
     @NodeCategory(Category.Healing)
     var healTimer = 60
+
 }

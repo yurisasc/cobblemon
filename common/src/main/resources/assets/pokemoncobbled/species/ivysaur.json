@@ -33,5 +33,20 @@
     "width": 0.7,
     "height": 0.8,
     "fixed": false
-  }
+  },
+  "evolutions": [
+    {
+      "variant": "level_up",
+      "levels": 32,
+      "id": "ivysaur_level",
+      "result": "venusaur",
+      "optional": true,
+      "consumeHeldItem": false,
+      "requirements": [],
+      "learnableMoves": [
+        "Petal Blizzard"
+      ]
+    }
+  ],
+  "preEvolution": "Bulbasaur"
 }

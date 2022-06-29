@@ -76,6 +76,52 @@
                 "description": "idk",
                 "type": "boolean"
             }
+        },
+        "evolutions": {
+            "description": "The Pokémon's evolutions",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "variant": {
+                    "description": "The ID of the event that attempts to start an evolution",
+                    "type": "string",
+                    "enum": ["level_up", "trade", "item_interact"]
+                },
+                "id": {
+                    "description": "An unique ID for this evolution, IE pikachu_level",
+                    "type": "string"
+                },
+                "result": {
+                    "description": "The PokemonProperties that represents the result of this evolution",
+                    "type": "string"
+                },
+                "optional": {
+                    "description": "If this evolution will allow the user to choose when to start it or not",
+                    "type": "boolean"
+                },
+                "consumeHeldItem": {
+                    "description": "If this evolution will consume the held item",
+                    "type": "boolean"
+                },
+                "data": {
+                    "description": "The data that backs this event"
+                },
+                "requirements": {
+                    "description": "The requirements behind this evolution",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "variant": {
+                            "description": "The ID of the requirement",
+                            "type": "string",
+                            "enum": ["friendship", "held_item", "world", "area", "biome", "time", "stat_balance", "has_move"]
+                        },
+                        "data": {
+                            "description": "The data that backs this requirement"
+                        }
+                    }
+                }
+            }
         }
     }
   }

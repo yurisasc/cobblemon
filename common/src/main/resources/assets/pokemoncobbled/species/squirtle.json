@@ -37,5 +37,17 @@
     "width": 0.6,
     "height": 1,
     "fixed": false
-  }
+  },
+  "evolutions": [
+    {
+      "variant": "level_up",
+      "levels": 16,
+      "id": "squirtle_level",
+      "result": "Wartortle",
+      "optional": true,
+      "consumeHeldItem": false,
+      "requirements": [],
+      "learnableMoves": []
+    }
+  ]
 }

@@ -8,7 +8,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.server.network.ServerPlayerEntity
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
 object BattleRegistry {
@@ -124,7 +124,7 @@ object BattleRegistry {
 
         // -> Set team size
         for (actor in battle.actors.sortedBy { it.showdownId }) {
-            jsonArray.add(""">${actor.showdownId} team ${actor.pokemonList.count()}""")
+            jsonArray.add(">${actor.showdownId} team ${actor.pokemonList.count()}")
         }
 
         // Compiles the request and sends it off
@@ -147,5 +147,9 @@ object BattleRegistry {
 
     fun getBattleByParticipatingPlayer(ServerPlayerEntity: ServerPlayerEntity) : PokemonBattle? {
         return battleMap.values.find { it.actors.any { it.uuid == ServerPlayerEntity.uuid } }
+    }
+
+    fun tick() {
+        battleMap.forEachValue(Long.MAX_VALUE) { it.tick() }
     }
 }

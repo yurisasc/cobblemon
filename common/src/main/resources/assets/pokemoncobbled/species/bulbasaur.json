@@ -35,5 +35,17 @@
     "width": 0.6,
     "height": 0.8,
     "fixed": false
-  }
+  },
+  "evolutions": [
+    {
+      "variant": "level_up",
+      "levels": 16,
+      "id": "bulbasaur_level",
+      "result": "ivysaur",
+      "optional": true,
+      "consumeHeldItem": false,
+      "requirements": [],
+      "learnableMoves": []
+    }
+  ]
 }

@@ -7,10 +7,11 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
-import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.item.interactive.PokemonInteractiveItem
 import com.cablemc.pokemoncobbled.common.mixin.accessor.AccessorEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -32,6 +33,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.Packet
 import net.minecraft.network.PacketByteBuf
@@ -41,13 +43,14 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import java.util.*
+import java.util.EnumSet
+import java.util.Optional
 
 class PokemonEntity(
-    level: World,
+    world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
-) : TameableShoulderEntity(type, level), EntitySpawnExtension {
+) : TameableShoulderEntity(type, world), EntitySpawnExtension {
 
     var pokemon: Pokemon = pokemon
         set(value) {
@@ -58,9 +61,9 @@ class PokemonEntity(
         }
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.defaultPokemonDespawner
 
-    val delegate = if (level.isClient) {
+    val delegate = if (world.isClient) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
-        PokemonClientDelegate()
+        com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate()
     } else {
         PokemonServerDelegate()
     }
@@ -92,6 +95,7 @@ class PokemonEntity(
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
+
         battleId
             .subscribeIncludingCurrent {
                 if (it.isPresent) {
@@ -204,6 +208,7 @@ class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         // TODO: Move to proper pokemon interaction menu
+        this.attemptItemInteraction(player, player.getStackInHand(hand))
         if (player.isSneaking && hand == Hand.MAIN_HAND) {
             if (isReadyToSitOnPlayer && player is ServerPlayerEntity && !isBusy) {
                 this.tryMountingShoulder(player)
@@ -280,6 +285,11 @@ class PokemonEntity(
         }
 
         return true
+    }
+
+    private fun attemptItemInteraction(playerIn: PlayerEntity, stack: ItemStack) {
+        if (playerIn !is ServerPlayerEntity || stack.isEmpty) return
+        (stack.item as? PokemonInteractiveItem)?.onInteraction(playerIn, this, stack)
     }
 
     private fun tryMountingShoulder(player: ServerPlayerEntity) {

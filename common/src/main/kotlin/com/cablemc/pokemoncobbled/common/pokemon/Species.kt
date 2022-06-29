@@ -2,20 +2,21 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
-import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.util.asTranslated
+import com.cablemc.pokemoncobbled.common.util.lang
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText
 
 class Species {
     var name: String = "bulbasaur"
     val translatedName: MutableText
-        get() = "pokemoncobbled.species.$name.name".asTranslated()
+        get() = lang("species.$name.name")
     var nationalPokedexNumber = 1
 
     val baseStats = mapOf<Stat, Int>()
@@ -42,6 +43,11 @@ class Species {
 
     var forms = mutableListOf(FormData())
 
+    // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
+    internal val evolutions: MutableSet<Evolution> = hashSetOf()
+
+    internal val preEvolution: PreEvolution? = null
+
     fun types(form: Int): Iterable<ElementalType> = forms[form].types
 
     fun create(level: Int = 5) = Pokemon().apply {
@@ -49,6 +55,8 @@ class Species {
         this.level = level
         initialize()
     }
+
+    fun getForm(aspects: Set<String>) = forms.firstOrNull { it.aspects.all { it in aspects } }
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: VANILLA_DEFAULT_EYE_HEIGHT
