@@ -99,10 +99,10 @@ class PartyWidget(
             return false
         }
 
-        if (mouseX > x && mouseX < x + PARTY_BOX_WIDTH && mouseY > y && mouseY < y + (partySize - 1) * PARTY_BOX_HEIGHT_DIFF - 3F) {
+        if (mouseX > x && mouseX < x + PARTY_BOX_WIDTH && mouseY > y && mouseY < y + (partySize) * PARTY_BOX_HEIGHT_DIFF - 3F) {
             val diff = mouseY - y
             val clickedIndex = (diff / PARTY_BOX_HEIGHT_DIFF).toInt()
-            val newPokemon = pokemonList[clickedIndex]
+            val newPokemon = pokemonList.getOrNull(clickedIndex)
             if (newPokemon != null) {
                 summary.switchSelection(clickedIndex)
             }
