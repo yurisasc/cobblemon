@@ -9,14 +9,14 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives.EarBounceAdditive
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.entity.Entity
 import java.lang.Float.min
 import kotlin.math.abs
+import net.minecraft.entity.Entity
 
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
-        const val BEAM_SHRINK_TIME = 0.7F
-        const val BEAM_EXTEND_TIME = 0.3F
+        const val BEAM_SHRINK_TIME = 0.8F
+        const val BEAM_EXTEND_TIME = 0.2F
     }
 
     lateinit var entity: PokemonEntity

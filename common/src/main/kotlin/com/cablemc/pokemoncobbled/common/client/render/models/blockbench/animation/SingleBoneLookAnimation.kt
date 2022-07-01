@@ -20,7 +20,10 @@ import net.minecraft.entity.Entity
 class SingleBoneLookAnimation<T : Entity>(frame: HeadedFrame) : StatelessAnimation<T, HeadedFrame>(frame) {
     override val targetFrame: Class<HeadedFrame> = HeadedFrame::class.java
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        frame.head.addRotation(X_AXIS, headPitch.toRadians())
-        frame.head.addRotation(Y_AXIS, headYaw.toRadians())
+        val pitch = headPitch.coerceIn(-45F, 70F)
+        val yaw = headYaw.coerceIn(-90F, 90F)
+
+        frame.head.addRotation(X_AXIS, pitch.toRadians())
+        frame.head.addRotation(Y_AXIS, yaw.toRadians())
     }
 }
