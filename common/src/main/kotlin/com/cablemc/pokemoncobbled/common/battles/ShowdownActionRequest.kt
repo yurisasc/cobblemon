@@ -59,7 +59,8 @@ class ShowdownActionRequest(
 enum class ShowdownActionResponseType(val loader: (PacketByteBuf) -> ShowdownActionResponse) {
     SWITCH({ SwitchActionResponse(UUID.randomUUID()) }),
     MOVE({ MoveActionResponse("", null) }),
-    DEFAULT({ DefaultActionResponse() });
+    DEFAULT({ DefaultActionResponse() }),
+    PASS({ PassActionResponse });
 }
 
 abstract class ShowdownActionResponse(val type: ShowdownActionResponseType) {
@@ -164,6 +165,10 @@ class DefaultActionResponse: ShowdownActionResponse(ShowdownActionResponseType.D
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "default"
 }
 
+object PassActionResponse : ShowdownActionResponse(ShowdownActionResponseType.PASS) {
+    override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean) = true
+    override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "pass"
+}
 class ShowdownMoveset {
     lateinit var moves: List<InBattleMove>
     fun saveToBuffer(buffer: PacketByteBuf) {
