@@ -40,9 +40,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerSpeciesWithAnimator(PokemonSpecies.BEEDRILL) { BeedrillModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.RATTATA) { RattataModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.RATICATE) { RaticateModel(it) }
-
-
-
+        registerSpeciesWithAnimator(PokemonSpecies.EEVEE) { EeveeModel(it) }
 
         registerBaseSpeciesModel(PokemonSpecies.PIDGEY, BlockBenchModelWrapper(PidgeyModel.LAYER_LOCATION, PidgeyModel::createBodyLayer) { PidgeyModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.PIDGEOTTO, BlockBenchModelWrapper(PidgeottoModel.LAYER_LOCATION, PidgeottoModel::createBodyLayer) { PidgeottoModel(it) })
@@ -53,7 +51,6 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerBaseSpeciesModel(PokemonSpecies.DUGTRIO, BlockBenchModelWrapper(DugtrioModel.LAYER_LOCATION, DugtrioModel::createBodyLayer) { DugtrioModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.MAGIKARP, BlockBenchModelWrapper(MagikarpModel.LAYER_LOCATION, MagikarpModel::createBodyLayer) { MagikarpModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.GYARADOS, BlockBenchModelWrapper(GyaradosModel.LAYER_LOCATION, GyaradosModel::createBodyLayer) { GyaradosModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.EEVEE, BlockBenchModelWrapper(EeveeModel.LAYER_LOCATION, EeveeModel::createBodyLayer) { EeveeModel(it) })
     }
 
     override fun initializeModelLayers() {
