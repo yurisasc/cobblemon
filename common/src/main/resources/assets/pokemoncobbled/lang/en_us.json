@@ -39,6 +39,8 @@
   "block.pokemoncobbled.apricorn_door": "Apricorn Door",
   "block.pokemoncobbled.apricorn_trapdoor": "Apricorn Trapdoor",
   "block.pokemoncobbled.healing_machine": "Healing Machine",
+  "block.pokemoncobbled.pc": "PC",
+  "itemGroup.minecraft.pokemoncobbled.pokeballtab": "Pokeballs",
   "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
   "itemGroup.pokemoncobbled.pokeball": "Poké Balls",

@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyPosition
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledClientEvolutionController
 import java.util.*
@@ -18,8 +19,6 @@ import java.util.*
 class ClientStorageManager {
     var myParty = ClientParty(UUID.randomUUID(), 1)
     val partyStores = mutableMapOf<UUID, ClientParty>()
-
-    var myPC = ClientPC(UUID.randomUUID(), 1)
     val pcStores = mutableMapOf<UUID, ClientPC>()
 
     var selectedSlot = -1
@@ -92,6 +91,12 @@ class ClientStorageManager {
         checkSelectedPokemon()
     }
 
+    fun setPCPokemon(storeID: UUID, position: PCPosition, pokemon: Pokemon) {
+        val pc = pcStores[storeID]
+            ?: return LOGGER.error("Tried setting a Pokémon in position $position for PC store $storeID but no such store found.")
+        pc.set(position, pokemon)
+    }
+
     fun setPartyStore(storeID: UUID) {
         myParty = partyStores[storeID] ?: throw IllegalArgumentException("Was told to set party store to $storeID but no such store is known!")
         checkSelectedPokemon()
@@ -112,10 +117,22 @@ class ClientStorageManager {
         checkSelectedPokemon()
     }
 
+    fun swapInPC(storeID: UUID, pokemonID1: UUID, pokemonID2: UUID) {
+        pcStores[storeID]?.swap(pokemonID1, pokemonID2)
+    }
+
+    fun moveInPC(storeID: UUID, pokemonID: UUID, newPosition: PCPosition) {
+        pcStores[storeID]?.move(pokemonID, newPosition)
+        checkSelectedPokemon()
+    }
+
+    fun removeFromPC(storeID: UUID, pokemonID: UUID) {
+        pcStores[storeID]?.remove(pokemonID)
+    }
+
     fun onLogin() {
         partyStores.clear()
         pcStores.clear()
-        myPC = ClientPC(UUID.randomUUID(), 1)
         myParty = ClientParty(UUID.randomUUID(), 1)
         checkSelectedPokemon()
     }
