@@ -1,8 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.context
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.BasicSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
+import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -33,8 +35,10 @@ abstract class SpawningContext {
         }
     }
 
-    /** What caused the spawn context. Almost always will be a player entity. */
-    abstract val cause: Any
+    /** What caused the spawn context, as a [SpawnCause]. */
+    abstract val cause: SpawnCause
+    val spawner: Spawner
+        get() = cause.spawner
     /** The [World] the spawning context exists in. */
     abstract val world: World
     /** The location of the spawning attempt. */

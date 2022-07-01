@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
 import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class MoveSetTest {

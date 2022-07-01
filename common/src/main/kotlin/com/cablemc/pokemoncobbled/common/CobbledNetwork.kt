@@ -8,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.RemoveClientPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.SwapClientPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MoveClientPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
@@ -23,6 +24,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.*
 import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.SwapPCPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.MovePartyPokemonPacket
@@ -85,6 +87,12 @@ object CobbledNetwork {
         buildClientMessage<BenchedMovesUpdatePacket>()
         buildClientMessage<GenderUpdatePacket>()
         buildClientMessage<AspectsUpdatePacket>()
+        // Evolution start
+        buildClientMessage<AddEvolutionPacket>()
+        buildClientMessage<ClearEvolutionsPacket>()
+        buildClientMessage<RemoveEvolutionPacket>()
+        // Evolution End
+
         buildClientMessage<PokemonStateUpdatePacket>()
 
         // Storage Packets
@@ -120,6 +128,11 @@ object CobbledNetwork {
         /**
          * Server Packets
          */
+
+        // Pokemon Update Packets
+        // Evolution start
+        buildServerMessage<AcceptEvolutionPacket>()
+        // Evolution End
 
         // Storage Packets
         buildServerMessage<SendOutPokemonPacket>()

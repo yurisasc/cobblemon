@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.context
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.block.BlockState
@@ -13,7 +14,7 @@ import net.minecraft.world.World
  * @since February 7th, 2022
  */
 abstract class SubmergedSpawningContext(
-    cause: Any,
+    cause: SpawnCause,
     world: World,
     position: BlockPos,
     light: Int,
@@ -36,7 +37,7 @@ abstract class SubmergedSpawningContext(
  * @since February 7th, 2022
  */
 open class UnderwaterSpawningContext(
-    cause: Any,
+    cause: SpawnCause,
     world: World,
     position: BlockPos,
     light: Int,
@@ -56,7 +57,7 @@ open class UnderwaterSpawningContext(
  * @since February 7th, 2022
  */
 open class UnderlavaSpawningContext(
-    cause: Any,
+    cause: SpawnCause,
     world: World,
     position: BlockPos,
     light: Int,

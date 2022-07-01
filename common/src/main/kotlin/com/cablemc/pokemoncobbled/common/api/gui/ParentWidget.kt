@@ -85,4 +85,17 @@ abstract class ParentWidget(
 
     override fun appendNarrations(pNarrationElementOutput: NarrationMessageBuilder) {
     }
+
+    /**
+     * TODO
+     *
+     * @param mouseX
+     * @param mouseY
+     * @return
+     *
+     * @author Licious
+     * @since April 29th, 2022
+     */
+    fun ishHovered(mouseX: Number, mouseY: Number) = mouseX in this.x..(this.x + this.width) && mouseY in this.y..(this.y + this.height)
+
 }

@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.spawner
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import net.minecraft.world.World
 
@@ -10,7 +11,7 @@ import net.minecraft.world.World
  * @since February 5th, 2022
  */
 data class SpawningArea(
-    val cause: Any,
+    val cause: SpawnCause,
     val world: World,
     val baseX: Int,
     val baseY: Int,

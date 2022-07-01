@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.context.calculators
 
 import com.cablemc.pokemoncobbled.common.api.PrioritizedList
 import com.cablemc.pokemoncobbled.common.api.Priority
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import net.minecraft.block.BlockState
 import net.minecraft.block.Material
@@ -52,8 +53,8 @@ interface SpawningContextCalculator<I : SpawningContextInput, O : SpawningContex
  * @since January 31st, 2022
  */
 open class SpawningContextInput(
-    /** What caused the spawn context. Almost always will be a player entity. */
-    val cause: Any,
+    /** What caused the spawn context, as a [SpawnCause]. */
+    val cause: SpawnCause,
     /** The [Level] the spawning context exists in. */
     val world: World
 )

@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.config
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnBucket
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
 import com.google.gson.GsonBuilder
@@ -13,7 +14,7 @@ class CobbledConfig {
             .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
             .create()
     }
-    
+
     @NodeCategory(Category.Pokemon)
     @IntConstraint(min = 1, max = 1000)
     var maxPokemonLevel = 100
@@ -64,6 +65,14 @@ class CobbledConfig {
     @NodeCategory(Category.Spawning)
     var exportSpawnsToConfig = false
 
+    @NodeCategory(Category.Spawning)
+    var spawnBuckets = mutableListOf(
+        SpawnBucket("common", 94.4F),
+        SpawnBucket("uncommon", 5F),
+        SpawnBucket("rare", 0.5F),
+        SpawnBucket("ultra-rare", 0.1F)
+    )
+
     @NodeCategory(Category.Battles)
     var autoUpdateShowdown = true
 
@@ -92,4 +101,5 @@ class CobbledConfig {
 
     @NodeCategory(Category.Healing)
     var healTimer = 60
+
 }

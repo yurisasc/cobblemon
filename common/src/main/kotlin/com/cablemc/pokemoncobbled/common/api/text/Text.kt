@@ -1,13 +1,19 @@
 package com.cablemc.pokemoncobbled.common.api.text
 
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
 import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.*
+import net.minecraft.text.ClickEvent
+import net.minecraft.text.HoverEvent
+import net.minecraft.text.LiteralText
+import net.minecraft.text.MutableText
+import net.minecraft.text.Style
 import net.minecraft.text.Text
+import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
-import java.util.*
-import java.util.concurrent.atomic.AtomicBoolean
+import net.minecraft.util.Identifier
 
 /**
  * Text utility shamelessly stolen from Cable Libs
@@ -138,6 +144,7 @@ fun MutableText.aqua() = also { it.style = it.style.withColor(Formatting.AQUA) }
 fun MutableText.lightPurple() = also { it.style = it.style.withColor(Formatting.LIGHT_PURPLE) }
 fun MutableText.yellow() = also { it.style = it.style.withColor(Formatting.YELLOW) }
 fun MutableText.white() = also { it.style = it.style.withColor(Formatting.WHITE) }
+fun MutableText.font(identifier: Identifier) = also { it.style = it.style.withFont(identifier) }
 
 fun String.text() = text(this)
 fun String.stripCodes(): String = this.replace("[&§][A-Ea-e0-9K-Ok-oRr]".toRegex(), "")

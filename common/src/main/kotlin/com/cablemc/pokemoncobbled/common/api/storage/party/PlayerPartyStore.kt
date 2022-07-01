@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.storage.party
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.getPlayer
@@ -95,7 +96,14 @@ open class PlayerPartyStore(
                         status.tickTimer()
                     }
                 }
+
+                // Passive evolutions
+                pokemon.evolutions.filterIsInstance<PassiveEvolution>()
+                    .forEach { evolution ->
+                        evolution.attemptEvolution(pokemon)
+                    }
             }
         }
     }
+
 }

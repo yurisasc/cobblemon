@@ -7,16 +7,16 @@ import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
-import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
+import kotlin.math.roundToInt
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.TranslatableText
-import kotlin.math.roundToInt
 
 class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
@@ -172,7 +172,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
                 drawScaledText(
                     matrixStack = matrixStack,
-                    text = "pokemoncobbled.ui.lv".asTranslated(),
+                    text = lang("ui.lv"),
                     x = panelX + 2.5F,
                     y = startY + slotHeight * index + slotHeight * 0.84F - 10.75F,
                     scaleX = 0.4F,

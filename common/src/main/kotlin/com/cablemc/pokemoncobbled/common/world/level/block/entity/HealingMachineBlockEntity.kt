@@ -160,6 +160,7 @@ class HealingMachineBlockEntity(
                 val maxCharge = PokemonCobbled.config.maxHealerCharge
                 if (tileEntity.healingCharge < maxCharge) {
                     tileEntity.healingCharge = (tileEntity.healingCharge + PokemonCobbled.config.chargeGainedPerTick).coerceAtMost(maxCharge)
+                    tileEntity.markUpdated()
                 }
             }
         }

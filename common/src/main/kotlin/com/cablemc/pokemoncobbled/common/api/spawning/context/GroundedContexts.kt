@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.context
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.block.BlockState
@@ -13,7 +14,7 @@ import net.minecraft.world.World
  * @since February 7th, 2022
  */
 abstract class FlooredSpawningContext(
-    cause: Any,
+    cause: SpawnCause,
     world: World,
     position: BlockPos,
     light: Int,
@@ -35,7 +36,7 @@ abstract class FlooredSpawningContext(
  * @since February 7th, 2022
  */
 open class GroundedSpawningContext(
-    cause: Any,
+    cause: SpawnCause,
     world: World,
     position: BlockPos,
     light: Int,
@@ -54,7 +55,7 @@ open class GroundedSpawningContext(
  * @since February 7th, 2022
  */
 open class SeafloorSpawningContext(
-    cause: Any,
+    cause: SpawnCause,
     world: World,
     position: BlockPos,
     light: Int,
@@ -73,7 +74,7 @@ open class SeafloorSpawningContext(
  * @since February 7th, 2022
  */
 open class LavafloorSpawningContext(
-    cause: Any,
+    cause: SpawnCause,
     world: World,
     position: BlockPos,
     light: Int,

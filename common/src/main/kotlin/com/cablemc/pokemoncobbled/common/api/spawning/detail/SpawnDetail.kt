@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.detail
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnBucket
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.CompositeSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 
 /**
  * A spawnable unit in the Best Spawner API. This is extended for any kind of entity
@@ -24,6 +24,7 @@ abstract class SpawnDetail {
     abstract val type: String
     var id = ""
     lateinit var context: RegisteredSpawningContext<*>
+    var bucket = SpawnBucket("", 0F)
     var conditions = mutableListOf<SpawningCondition<*>>()
     var anticonditions = mutableListOf<SpawningCondition<*>>()
     var compositeCondition: CompositeSpawningCondition? = null
@@ -48,5 +49,5 @@ abstract class SpawnDetail {
         return true
     }
 
-    abstract fun doSpawn(spawner: Spawner, ctx: SpawningContext): SpawnAction<*>
+    abstract fun doSpawn(ctx: SpawningContext): SpawnAction<*>
 }

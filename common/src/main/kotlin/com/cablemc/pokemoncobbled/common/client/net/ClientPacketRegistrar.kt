@@ -2,7 +2,9 @@ package com.cablemc.pokemoncobbled.common.client.net
 
 import com.cablemc.pokemoncobbled.common.client.net.battle.*
 import com.cablemc.pokemoncobbled.common.client.net.gui.SummaryUIPacketHandler
+import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.EvolutionUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.SingleUpdatePacketHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.party.*
 import com.cablemc.pokemoncobbled.common.client.net.storage.RemoveClientPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.SwapClientPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.InitializePartyHandler
@@ -12,6 +14,7 @@ import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyRefere
 import com.cablemc.pokemoncobbled.common.client.net.storage.pc.*
 import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.*
 
 /**
  * Registers packet handlers that the client will need. This is separated from the server ones
@@ -59,6 +62,9 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(SwapClientPokemonHandler)
 
         registerHandler(SummaryUIPacketHandler)
+        registerHandler<AddEvolutionPacket>(EvolutionUpdatePacketHandler())
+        registerHandler<RemoveEvolutionPacket>(EvolutionUpdatePacketHandler())
+        registerHandler<ClearEvolutionsPacket>(EvolutionUpdatePacketHandler())
 
         // Battle handlers
         registerHandler(BattleEndHandler)

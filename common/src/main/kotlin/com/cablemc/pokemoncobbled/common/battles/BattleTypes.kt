@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.net.IntSize
-import com.cablemc.pokemoncobbled.common.util.asTranslated
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
@@ -18,7 +18,7 @@ object BattleTypes {
 
     fun makeBattleType(
         name: String,
-        displayName: MutableText = "pokemoncobbled.battle.types.$name".asTranslated(),
+        displayName: MutableText = lang("battle.types.$name"),
         actorsPerSide: Int,
         slotsPerActor: Int
     ) = object : BattleType {

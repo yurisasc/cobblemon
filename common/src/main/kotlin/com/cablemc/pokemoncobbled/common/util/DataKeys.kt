@@ -36,6 +36,10 @@ object DataKeys {
     const val POKEMON_STATE_PLAYER_UUID = "PlayerUUID"
     const val POKEMON_STATE_POKEMON_UUID = "PokemonUUID"
 
+    // Evolution stuff
+    const val POKEMON_EVOLUTIONS = "Evolutions"
+    const val POKEMON_PENDING_EVOLUTIONS = "Pending"
+
     const val BENCHED_MOVES = "BenchedMoves"
 
     const val STORE_SLOT = "Slot"
@@ -69,4 +73,5 @@ object DataKeys {
     const val HEALER_MACHINE_TIME_LEFT = "MachineTimeLeft"
     const val HEALER_MACHINE_CHARGE = "MachineCharge"
     /* ----------- */
+
 }
