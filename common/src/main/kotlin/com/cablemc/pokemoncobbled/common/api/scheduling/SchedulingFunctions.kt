@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.scheduling
 
 import com.cablemc.pokemoncobbled.common.util.runOnServer
 
-fun after(ticks: Int = 0, seconds: Float = 0F, serverThread: Boolean = true, action: () -> Unit) {
+fun after(ticks: Int = 0, seconds: Float = 0F, serverThread: Boolean = false, action: () -> Unit) {
     ScheduledTaskTracker.addTask(
         ScheduledTask(
             action = { if (serverThread) runOnServer(action) else action() },
