@@ -16,10 +16,4 @@ class BiomeIdentifierCondition(override val requiredValue: Identifier) : BiomeLi
 
     override fun accepts(biome: Biome, registry: Registry<Biome>) = registry.getId(biome) == this.requiredValue
 
-    companion object {
-
-        const val ID = "identifiers"
-
-    }
-
 }

@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.condition
 
-import com.cablemc.pokemoncobbled.common.api.spawning.BiomeConditionList
+import com.cablemc.pokemoncobbled.common.api.spawning.BiomeLikeCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.ListCheckMode.ALL
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.ListCheckMode.ANY
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
@@ -8,7 +8,6 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.util.math.orMax
 import com.cablemc.pokemoncobbled.common.util.math.orMin
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 
 /**
  * The root of spawning conditions that can be applied to a spawning context. What type
@@ -27,7 +26,7 @@ abstract class SpawningCondition<T : SpawningContext> {
     }
 
     val dimensions: MutableList<Identifier> = mutableListOf()
-    val biomes = BiomeConditionList()
+    val biomes: MutableSet<BiomeLikeCondition<*>> = linkedSetOf()
     val moonPhase: Int? = null
     var skyAbove: Boolean? = null
     var minX: Float? = null
@@ -65,7 +64,7 @@ abstract class SpawningCondition<T : SpawningContext> {
         } else if (moonPhase != null && moonPhase != ctx.moonPhase) {
             return false
         }
-        else if (biomes.isNotEmpty() && biomes.none { condition -> condition.accepts(ctx.biome, ctx.world.registryManager.get(Registry.BIOME_KEY)) }) {
+        else if (biomes.isNotEmpty() && biomes.none { condition -> condition.accepts(ctx.biome, ctx.biomeRegistry) }) {
             return false
         }
         else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {

@@ -1,10 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
-import com.cablemc.pokemoncobbled.common.util.adapters.BiomeConditionCollectionAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.BiomeLikeConditionAdapter
 import com.google.gson.reflect.TypeToken
-import net.minecraft.util.registry.DynamicRegistryManager
+import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
-import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import kotlin.reflect.KClass
 
@@ -38,12 +37,17 @@ interface BiomeLikeCondition<T> {
         /**
          * Registers a [BiomeLikeCondition] variant to the adapter.
          *
-         * @param id The unique ID of this variant. You may also match existing ones in order to replace them.
+         * @param prefix The prefix of this variant. You may also match existing ones in order to replace them. This prefix must not return true for [Identifier.isCharValid].
          * @param variantType The type of the [BiomeLikeCondition].
          * @param valueType The type of the [BiomeLikeCondition.requiredValue].
+         *
+         * @throws IllegalArgumentException if the [prefix] returns true for [Identifier.isCharValid]
          */
-        fun <T : Any> registerVariant(id: String, variantType: KClass<out BiomeLikeCondition<T>>, valueType: TypeToken<T>, factory: (T) -> BiomeLikeCondition<T>) {
-            BiomeConditionCollectionAdapter.registerVariant(id, variantType, valueType)
+        fun <T : Any> registerVariant(prefix: Char, variantType: KClass<out BiomeLikeCondition<T>>, valueType: TypeToken<T>) {
+            if (Identifier.isCharValid(prefix)) {
+                throw IllegalArgumentException("Cannot register a prefix reserved for Identifier namespaces: [a-z0-9_.-]")
+            }
+            BiomeLikeConditionAdapter.registerVariant(prefix, variantType, valueType)
         }
 
     }

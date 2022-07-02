@@ -54,8 +54,10 @@ abstract class SpawningContext {
     /** The biome of this location. */
     val biome: Biome by lazy { world.getBiome(position).value() }
 
+    val biomeRegistry: Registry<Biome> by lazy { world.registryManager.get(Registry.BIOME_KEY) }
+
     val biomeName: Identifier
-        get() = world.registryManager.get(Registry.BIOME_KEY).getId(biome)!!
+        get() = this.biomeRegistry.getId(biome)!!
 
     /**
      * Filters a spawning detail by some extra condition defined by the context itself. This is for API purposes.

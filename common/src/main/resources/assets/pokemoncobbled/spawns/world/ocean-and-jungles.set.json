@@ -13,11 +13,9 @@
       "rarity": 10,
       "conditions": [
         {
-          "biomes": {
-            "identifiers": [
-              "minecraft:ocean"
-            ]
-          }
+          "biomes": [
+            "minecraft:ocean"
+          ]
         }
       ]
     },
@@ -30,11 +28,9 @@
       "rarity": 10,
       "conditions": [
         {
-          "biomes": {
-            "tags": [
-              "minecraft:is_jungle"
-            ]
-          }
+          "biomes": [
+            "#minecraft:is_jungle"
+          ]
         }
       ]
     }

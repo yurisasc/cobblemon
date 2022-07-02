@@ -28,7 +28,7 @@ class BiomeTagCondition(override val requiredValue: TagKey<Biome>) : BiomeLikeCo
 
     companion object {
 
-        const val ID = "tags"
+        const val PREFIX = '#'
 
     }
 
