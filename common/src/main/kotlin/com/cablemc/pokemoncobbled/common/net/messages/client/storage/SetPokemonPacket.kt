@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.common.net.messages.client.storage
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import io.netty.buffer.ByteBuf
 import net.minecraft.network.PacketByteBuf
 import java.util.UUID
 
@@ -20,7 +19,7 @@ abstract class SetPokemonPacket<T : StorePosition> : NetworkPacket {
     var storeID = UUID.randomUUID()
     lateinit var storePosition: T
 
-    abstract fun encodePosition(buffer: PacketByteBuf): ByteBuf
+    abstract fun encodePosition(buffer: PacketByteBuf)
     override fun encode(buffer: PacketByteBuf) {
         pokemon.saveToBuffer(buffer, toClient = true)
         buffer.writeUuid(storeID)

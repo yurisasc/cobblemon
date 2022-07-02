@@ -1,7 +1,10 @@
 package com.cablemc.pokemoncobbled.common.net.messages.server
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
+import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SendOutPokemonHandler
+import com.cablemc.pokemoncobbled.common.util.readSizedInt
+import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 
 /**
@@ -21,10 +24,10 @@ class SendOutPokemonPacket() : NetworkPacket {
     }
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeByte(slot)
+        buffer.writeSizedInt(IntSize.U_BYTE, slot)
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        slot = buffer.readUnsignedByte().toInt()
+        slot = buffer.readSizedInt(IntSize.U_BYTE)
     }
 }

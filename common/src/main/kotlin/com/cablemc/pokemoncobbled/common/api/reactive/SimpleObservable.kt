@@ -11,7 +11,6 @@ import com.cablemc.pokemoncobbled.common.api.Priority
  */
 open class SimpleObservable<T> : Observable<T> {
     protected val subscriptions = PrioritizedList<ObservableSubscription<T>>()
-
     override fun subscribe(priority: Priority, handler: (T) -> Unit): ObservableSubscription<T> {
         val subscription = ObservableSubscription(this, handler)
         subscriptions.add(priority, subscription)

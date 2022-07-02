@@ -7,7 +7,6 @@ import java.util.UUID
 
 class ClientPC(uuid: UUID, boxCount: Int) : ClientStorage<PCPosition>(uuid) {
     val boxes = MutableList(boxCount) { ClientBox() }
-
     override fun findByUUID(uuid: UUID): Pokemon? {
         for (box in boxes) {
             for (pokemon in box) {
