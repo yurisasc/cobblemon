@@ -82,19 +82,19 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
             return ActionResult.SUCCESS
         }
 
-        val BlockWithEntity = world.getBlockEntity(blockPos)
-        if (BlockWithEntity !is HealingMachineBlockEntity) {
+        val blockEntity = world.getBlockEntity(blockPos)
+        if (blockEntity !is HealingMachineBlockEntity) {
             return ActionResult.SUCCESS
         }
 
-        if (BlockWithEntity.isInUse) {
+        if (blockEntity.isInUse) {
             player.sendServerMessage(lang("healingmachine.alreadyinuse").red())
             return ActionResult.SUCCESS
         }
 
-        val ServerPlayerEntity = player as ServerPlayerEntity
-        val party = ServerPlayerEntity.party()
-        if (party.getAll().isEmpty()) {
+        val serverPlayerEntity = player as ServerPlayerEntity
+        val party = serverPlayerEntity.party()
+        if (party.none()) {
             player.sendServerMessage(lang("healingmachine.nopokemon").red())
             return ActionResult.SUCCESS
         }
@@ -104,12 +104,12 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
             return ActionResult.SUCCESS
         }
 
-        if (BlockWithEntity.canHeal(player)) {
-            BlockWithEntity.activate(player)
+        if (blockEntity.canHeal(player)) {
+            blockEntity.activate(player)
             player.sendServerMessage(lang("healingmachine.healing").green())
         } else {
-            val neededCharge = player.party().getHealingRemainderPercent() - BlockWithEntity.healingCharge
-            player.sendServerMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.getAll().size)*100f).toInt()}%").red())
+            val neededCharge = player.party().getHealingRemainderPercent() - blockEntity.healingCharge
+            player.sendServerMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red())
         }
         return ActionResult.CONSUME
     }

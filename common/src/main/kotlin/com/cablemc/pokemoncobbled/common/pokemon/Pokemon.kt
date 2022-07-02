@@ -747,17 +747,17 @@ open class Pokemon {
             if (notifyPacket != null && storeCoordinates.get() != null) {
                 notify(notifyPacket(it))
             }
-            anyChangeObservable.emit(Unit)
+            anyChangeObservable.emit(this)
         }
         return observable
     }
 
     private val observables = mutableListOf<Observable<*>>()
-    private val anyChangeObservable = SimpleObservable<Unit>()
+    private val anyChangeObservable = SimpleObservable<Pokemon>()
 
     fun getAllObservables() = observables.asIterable()
     /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
-    fun getChangeObservable(): Observable<Unit> = anyChangeObservable
+    fun getChangeObservable(): Observable<Pokemon> = anyChangeObservable
 
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
