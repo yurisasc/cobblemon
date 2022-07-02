@@ -8,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.util.math.orMax
 import com.cablemc.pokemoncobbled.common.util.math.orMin
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 
 /**
  * The root of spawning conditions that can be applied to a spawning context. What type
@@ -64,8 +65,7 @@ abstract class SpawningCondition<T : SpawningContext> {
         } else if (moonPhase != null && moonPhase != ctx.moonPhase) {
             return false
         }
-        else if (biomes.isNotEmpty() && biomes.none { condition -> condition.accepts(ctx.biome) }) {
-            println("Failed the check on ${biomes.filter { condition -> !condition.accepts(ctx.biome) }.map { condition -> condition::class.simpleName }.joinToString(", ")}")
+        else if (biomes.isNotEmpty() && biomes.none { condition -> condition.accepts(ctx.biome, ctx.world.registryManager.get(Registry.BIOME_KEY)) }) {
             return false
         }
         else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {

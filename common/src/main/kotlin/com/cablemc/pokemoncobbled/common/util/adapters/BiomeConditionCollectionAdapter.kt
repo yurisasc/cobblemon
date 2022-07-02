@@ -7,13 +7,11 @@ import com.cablemc.pokemoncobbled.common.api.spawning.BiomeTagCondition
 import com.google.common.collect.HashBiMap
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
-import net.minecraft.tag.Tag
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
 import java.lang.reflect.Type
 import kotlin.reflect.KClass
-import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.primaryConstructor
 
 /**
@@ -22,7 +20,7 @@ import kotlin.reflect.full.primaryConstructor
  * @author Hiroku, Licious
  * @since July 2nd, 2022
  */
-object BiomeConditionListAdapter : JsonDeserializer<BiomeConditionList>, JsonSerializer<BiomeConditionList> {
+object BiomeConditionCollectionAdapter : JsonDeserializer<BiomeConditionList>, JsonSerializer<BiomeConditionList> {
 
     private val variants = HashBiMap.create<String, KClass<out BiomeLikeCondition<*>>>()
     private val variantValueTypes = hashMapOf<String, TypeToken<*>>()

@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
 import net.minecraft.tag.TagKey
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
 
 /**
@@ -13,16 +14,13 @@ import net.minecraft.world.biome.Biome
  */
 class BiomeTagCondition(override val requiredValue: TagKey<Biome>) : BiomeLikeCondition<TagKey<Biome>> {
 
-    override fun accepts(biome: Biome): Boolean {
-        val registry = this.registry()
+    override fun accepts(biome: Biome, registry: Registry<Biome>): Boolean {
         val optKey = registry.getKey(biome)
         if (!optKey.isPresent) {
-            //println("Biome has no attached ID")
             return false
         }
         val optEntry = registry.getEntry(optKey.get())
         if (!optEntry.isPresent) {
-            //println("Biome has no attached registry entry")
             return false
         }
         return optEntry.get().isIn(this.requiredValue)

@@ -42,7 +42,7 @@ object SpawnLoader {
         .setPrettyPrinting()
         .disableHtmlEscaping()
         .setLenient()
-        .registerTypeAdapter(BiomeConditionList::class.java, BiomeConditionListAdapter)
+        .registerTypeAdapter(BiomeConditionList::class.java, BiomeConditionCollectionAdapter)
         .registerTypeAdapter(RegisteredSpawningContext::class.java, RegisteredSpawningContextAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(TagKey::class.java, Biome::class.java).type, TagKeyAdapter<Biome>(Registry.BIOME_KEY))

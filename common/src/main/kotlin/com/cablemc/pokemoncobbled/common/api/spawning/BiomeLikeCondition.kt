@@ -1,9 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
-import com.cablemc.pokemoncobbled.common.util.adapters.BiomeConditionListAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.BiomeConditionCollectionAdapter
 import com.google.gson.reflect.TypeToken
 import net.minecraft.util.registry.DynamicRegistryManager
 import net.minecraft.util.registry.Registry
+import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import kotlin.reflect.KClass
 
@@ -27,17 +28,10 @@ interface BiomeLikeCondition<T> {
      * Checks if the given [Biome] is valid for the [requiredValue].
      *
      * @param biome The [Biome] the spawn is happening in.
+     * @param registry The [Biome] [Registry] of the world the spawn is happening in.
      * @return If the [requiredValue] is satisfied.
      */
-    fun accepts(biome: Biome): Boolean
-
-    /**
-     * Provides the [Biome] [Registry].
-     * The default implementation is platform-agnostic.
-     *
-     * @return The [Biome] [Registry].
-     */
-    fun registry(): Registry<Biome> = DynamicRegistryManager.BUILTIN.get().get(Registry.BIOME_KEY)
+    fun accepts(biome: Biome, registry: Registry<Biome>): Boolean
 
     companion object {
 
@@ -49,7 +43,7 @@ interface BiomeLikeCondition<T> {
          * @param valueType The type of the [BiomeLikeCondition.requiredValue].
          */
         fun <T : Any> registerVariant(id: String, variantType: KClass<out BiomeLikeCondition<T>>, valueType: TypeToken<T>, factory: (T) -> BiomeLikeCondition<T>) {
-            BiomeConditionListAdapter.registerVariant(id, variantType, valueType)
+            BiomeConditionCollectionAdapter.registerVariant(id, variantType, valueType)
         }
 
     }
