@@ -1,0 +1,42 @@
+{
+  "id": "biomes-test",
+  "version": "1",
+  "neededInstalledMods": [],
+  "neededUninstalledMods": [],
+  "spawns": [
+    {
+      "type": "pokemon",
+      "id": "ocean-test",
+      "pokemon": "Blastoise level:100",
+      "context": "grounded",
+      "bucket": "common",
+      "rarity": 10,
+      "conditions": [
+        {
+          "biomes": {
+            "identifiers": [
+              "minecraft:ocean"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "pokemon",
+      "id": "jungles-test",
+      "pokemon": "Venusaur level:100",
+      "context": "grounded",
+      "bucket": "common",
+      "rarity": 10,
+      "conditions": [
+        {
+          "biomes": {
+            "tags": [
+              "minecraft:is_jungle"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

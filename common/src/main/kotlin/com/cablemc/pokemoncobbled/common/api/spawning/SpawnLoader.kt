@@ -18,6 +18,8 @@ import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.cablemc.pokemoncobbled.common.util.isHigherVersion
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
+import com.google.gson.reflect.TypeToken
+import net.minecraft.tag.TagKey
 import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -25,6 +27,8 @@ import java.io.PrintWriter
 import java.nio.file.Path
 import kotlin.io.path.pathString
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
+import net.minecraft.world.biome.Biome
 
 /**
  * Object responsible for actually deserializing spawns. You should probably
@@ -38,9 +42,10 @@ object SpawnLoader {
         .setPrettyPrinting()
         .disableHtmlEscaping()
         .setLenient()
-        .registerTypeAdapter(BiomeList::class.java, BiomeListAdapter)
+        .registerTypeAdapter(BiomeConditionList::class.java, BiomeConditionListAdapter)
         .registerTypeAdapter(RegisteredSpawningContext::class.java, RegisteredSpawningContextAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(TagKey::class.java, Biome::class.java).type, TagKeyAdapter<Biome>(Registry.BIOME_KEY))
         .registerTypeAdapter(SpawnDetail::class.java, SpawnDetailAdapter)
         .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
         .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)

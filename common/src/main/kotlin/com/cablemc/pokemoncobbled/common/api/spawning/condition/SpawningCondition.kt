@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.condition
 
-import com.cablemc.pokemoncobbled.common.api.spawning.BiomeList
+import com.cablemc.pokemoncobbled.common.api.spawning.BiomeConditionList
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.ListCheckMode.ALL
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.ListCheckMode.ANY
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
@@ -26,7 +26,7 @@ abstract class SpawningCondition<T : SpawningContext> {
     }
 
     val dimensions: MutableList<Identifier> = mutableListOf()
-    val biomes = BiomeList()
+    val biomes = BiomeConditionList()
     val moonPhase: Int? = null
     var skyAbove: Boolean? = null
     var minX: Float? = null
@@ -63,9 +63,12 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (moonPhase != null && moonPhase != ctx.moonPhase) {
             return false
-        } else if (biomes.isNotEmpty() && ctx.biomeName !in biomes) {
+        }
+        else if (biomes.isNotEmpty() && biomes.none { condition -> condition.accepts(ctx.biome) }) {
+            println("Failed the check on ${biomes.filter { condition -> !condition.accepts(ctx.biome) }.map { condition -> condition::class.simpleName }.joinToString(", ")}")
             return false
-        } else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
+        }
+        else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
             return false
         } else if (timeRange != null && !timeRange!!.contains((ctx.world.timeOfDay % 24000).toInt())) {
             return false
