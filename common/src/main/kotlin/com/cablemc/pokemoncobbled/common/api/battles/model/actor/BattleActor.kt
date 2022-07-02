@@ -31,6 +31,8 @@ abstract class BattleActor(
     var responses = mutableListOf<ShowdownActionResponse>()
     var mustChoose = false
 
+    abstract val type: ActorType
+
     fun getSide() = if (this in battle.side1.actors) battle.side1 else battle.side2
     open fun getPlayerUUIDs(): Iterable<UUID> = emptyList()
 

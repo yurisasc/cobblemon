@@ -8,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
+import com.cablemc.pokemoncobbled.common.battles.BattleCaptureAction
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
@@ -17,6 +18,7 @@ import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.sendParticlesServer
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
+import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
@@ -48,6 +50,9 @@ class EmptyPokeBallEntity(
         SHAKE
     }
 
+    constructor(world: World, battleCaptureAction: BattleCaptureAction): this(battleCaptureAction.pokeBall, world) {
+        this.battleCaptureAction = battleCaptureAction
+    }
     companion object {
         private val CAPTURE_STATE = DataTracker.registerData(EmptyPokeBallEntity::class.java, TrackedDataHandlerRegistry.BYTE)
         private val HIT_TARGET_POSITION = DataTracker.registerData(EmptyPokeBallEntity::class.java, Vec3DataSerializer)
@@ -60,12 +65,14 @@ class EmptyPokeBallEntity(
 
     val DIMENSIONS = EntityDimensions(0.4F, 0.4F, true)
     val entityProperties = mutableListOf<EntityProperty<*>>()
+    var battleCaptureAction: BattleCaptureAction? = null
 
     var capturingPokemon: PokemonEntity? = null
     val captureState = addEntityProperty(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
     val hitTargetPosition = addEntityProperty(HIT_TARGET_POSITION, Vec3d.ZERO)
     val hitVelocity = addEntityProperty(HIT_VELOCITY, Vec3d.ZERO)
     val shakeEmitter = addEntityProperty(SHAKE, false)
+    val captureFuture = CompletableFuture<Boolean>()
 
     val delegate = if (world.isClient) {
         com.cablemc.pokemoncobbled.common.client.entity.EmptyPokeBallClientDelegate()

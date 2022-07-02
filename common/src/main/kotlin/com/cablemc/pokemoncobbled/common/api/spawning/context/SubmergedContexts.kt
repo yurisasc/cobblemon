@@ -18,14 +18,14 @@ abstract class SubmergedSpawningContext(
     world: World,
     position: BlockPos,
     light: Int,
-    skyAbove: Boolean,
+    canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
     val depth: Int,
     nearbyBlocks: Set<BlockState>,
     slice: WorldSlice
-) : AreaSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice) {
+) : AreaSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice) {
     val fluidBlock = slice.getBlockState(position.x, position.y, position.z).block
     val fluidState = slice.getBlockState(position.x, position.y, position.z).fluidState
 }
@@ -41,14 +41,14 @@ open class UnderwaterSpawningContext(
     world: World,
     position: BlockPos,
     light: Int,
-    skyAbove: Boolean,
+    canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
     depth: Int,
     nearbyBlocks: Set<BlockState>,
     slice: WorldSlice
-): SubmergedSpawningContext(cause, world, position, light, skyAbove, influences, width, height, depth, nearbyBlocks, slice)
+): SubmergedSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, depth, nearbyBlocks, slice)
 
 /**
  * A spawning context that occurs in pools of lava at least 2 blocks deep.
@@ -61,11 +61,11 @@ open class UnderlavaSpawningContext(
     world: World,
     position: BlockPos,
     light: Int,
-    skyAbove: Boolean,
+    canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
     depth: Int,
     nearbyBlocks: Set<BlockState>,
     slice: WorldSlice
-): SubmergedSpawningContext(cause, world, position, light, skyAbove, influences, width, height, depth, nearbyBlocks, slice)
+): SubmergedSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, depth, nearbyBlocks, slice)

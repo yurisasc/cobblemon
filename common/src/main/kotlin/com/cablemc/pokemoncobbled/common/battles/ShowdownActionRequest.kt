@@ -1,11 +1,18 @@
 package com.cablemc.pokemoncobbled.common.battles
 
+import com.cablemc.pokemoncobbled.common.CobbledItems
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
+import com.cablemc.pokemoncobbled.common.item.PokeBallItem
 import com.cablemc.pokemoncobbled.common.net.IntSize
+import com.cablemc.pokemoncobbled.common.pokemon.properties.UncatchableProperty
+import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
+import com.cablemc.pokemoncobbled.common.util.usableItems
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import java.lang.Integer.max
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.util.Identifier
 
 class ShowdownActionRequest(
     var wait: Boolean = false,
@@ -60,6 +67,7 @@ enum class ShowdownActionResponseType(val loader: (PacketByteBuf) -> ShowdownAct
     SWITCH({ SwitchActionResponse(UUID.randomUUID()) }),
     MOVE({ MoveActionResponse("", null) }),
     DEFAULT({ DefaultActionResponse() }),
+    BALL({ BallActionResponse() }),
     PASS({ PassActionResponse });
 }
 
@@ -169,6 +177,55 @@ object PassActionResponse : ShowdownActionResponse(ShowdownActionResponseType.PA
     override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean) = true
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "pass"
 }
+
+class BallActionResponse() : ShowdownActionResponse(ShowdownActionResponseType.BALL) {
+    lateinit var targetPnx: String
+    lateinit var pokeBallType: Identifier
+
+    constructor(targetPnx: String, pokeBallType: Identifier): this() {
+        this.targetPnx = targetPnx
+        this.pokeBallType = pokeBallType
+    }
+
+    override fun loadFromBuffer(buffer: PacketByteBuf): ShowdownActionResponse {
+        super.loadFromBuffer(buffer)
+        targetPnx = buffer.readString()
+        pokeBallType = Identifier(buffer.readString())
+        return this
+    }
+
+    override fun saveToBuffer(buffer: PacketByteBuf) {
+        super.saveToBuffer(buffer)
+        buffer.writeString(targetPnx)
+        buffer.writeString(pokeBallType.toString())
+    }
+
+    override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean): Boolean {
+        if (forceSwitch) {
+            return false
+        } else if (showdownMoveSet == null) {
+            return false
+        }
+
+        val (actor, targetPokemon) = activeBattlePokemon.actor.battle.getActorAndActiveSlotFromPNX(targetPnx)
+        val pokemon = targetPokemon.battlePokemon ?: return false
+        return activeBattlePokemon.battle.isPvW
+                && UncatchableProperty.isCatchable(pokemon.effectedPokemon)
+                && getPokeBallStack(actor) != null
+                && targetPokemon.getSide().actors.flatMap { it.pokemonList }.count { it.health > 0 } == 1
+    }
+
+    fun getPokeBallStack(actor: BattleActor) = actor.getPlayerUUIDs()
+        .mapNotNull { it.getPlayer() }
+        .firstNotNullOfOrNull { player ->
+            player.inventory.usableItems()
+                .filter { it.isOf(CobbledItems.POKE_BALL.get()) }
+                .firstOrNull { (it.item as PokeBallItem).pokeBall.name == pokeBallType }
+        }
+
+    override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "pass"
+}
+
 class ShowdownMoveset {
     lateinit var moves: List<InBattleMove>
     fun saveToBuffer(buffer: PacketByteBuf) {

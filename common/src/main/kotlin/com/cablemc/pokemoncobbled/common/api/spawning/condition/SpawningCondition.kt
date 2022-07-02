@@ -28,7 +28,7 @@ abstract class SpawningCondition<T : SpawningContext> {
     val dimensions: MutableList<Identifier> = mutableListOf()
     val biomes = BiomeList()
     val moonPhase: Int? = null
-    var skyAbove: Boolean? = null
+    var canSeeSky: Boolean? = null
     var minX: Float? = null
     var minY: Float? = null
     var minZ: Float? = null
@@ -69,7 +69,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (timeRange != null && !timeRange!!.contains((ctx.world.timeOfDay % 24000).toInt())) {
             return false
-        } else if (skyAbove != null && skyAbove != ctx.skyAbove) {
+        } else if (canSeeSky != null && canSeeSky != ctx.canSeeSky) {
             return false
         } else if (labels != null && labels!!.isNotEmpty() &&
             (
