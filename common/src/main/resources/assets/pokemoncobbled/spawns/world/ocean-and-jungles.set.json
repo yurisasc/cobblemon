@@ -7,7 +7,7 @@
     {
       "type": "pokemon",
       "id": "ocean-test",
-      "pokemon": "Blastoise level:100",
+      "pokemon": "Blastoise level=100",
       "context": "grounded",
       "bucket": "common",
       "rarity": 10,
@@ -22,7 +22,7 @@
     {
       "type": "pokemon",
       "id": "jungles-test",
-      "pokemon": "Venusaur level:100",
+      "pokemon": "Venusaur level=100",
       "context": "grounded",
       "bucket": "common",
       "rarity": 10,
