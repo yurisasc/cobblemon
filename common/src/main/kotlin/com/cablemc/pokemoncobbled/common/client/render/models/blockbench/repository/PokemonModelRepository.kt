@@ -97,7 +97,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     fun registerSpecies(species: Species) {
         this.species[species] = RegisteredSpeciesRendering(
             species,
-            SpeciesAssetResolver.load("geo/species/${species.name}.json")
+            SpeciesAssetResolver.load("bedrock/species/${species.name}.json")
         )
     }
 

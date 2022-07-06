@@ -1,6 +1,6 @@
 {
   "animator": "eevee",
-  "model": "pokemoncobbled:geo/models/eevee_male.geo.json",
+  "model": "pokemoncobbled:bedrock/models/eevee_male.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/eevee.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "pokemoncobbled:geo/models/eevee_female.geo.json"
+      "model": "pokemoncobbled:bedrock/models/eevee_female.geo.json"
     }
   ]
 }
