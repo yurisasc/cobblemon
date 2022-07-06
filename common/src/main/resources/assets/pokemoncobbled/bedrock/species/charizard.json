@@ -1,6 +1,6 @@
 {
   "animator": "charizard",
-  "model": "pokemoncobbled:geo/models/charizard.geo.json",
+  "model": "pokemoncobbled:bedrock/models/charizard.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/charizard.png",
   "variations": [
     {

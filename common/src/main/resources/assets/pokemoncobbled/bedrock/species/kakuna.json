@@ -1,6 +1,6 @@
 {
   "animator": "kakuna",
-  "model": "pokemoncobbled:geo/models/kakuna.geo.json",
+  "model": "pokemoncobbled:bedrock/models/kakuna.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/kakuna.png",
   "variations": [
     {

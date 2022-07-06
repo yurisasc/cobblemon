@@ -1,6 +1,6 @@
 {
   "animator": "raticate",
-  "model": "pokemoncobbled:geo/models/raticate_male.geo.json",
+  "model": "pokemoncobbled:bedrock/models/raticate_male.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/raticate.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "pokemoncobbled:geo/models/raticate_female.geo.json"
+      "model": "pokemoncobbled:bedrock/models/raticate_female.geo.json"
     }
   ]
 }

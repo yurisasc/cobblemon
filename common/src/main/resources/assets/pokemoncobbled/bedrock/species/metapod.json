@@ -1,6 +1,6 @@
 {
   "animator": "metapod",
-  "model": "pokemoncobbled:geo/models/metapod.geo.json",
+  "model": "pokemoncobbled:bedrock/models/metapod.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/metapod.png",
   "variations": [
     {

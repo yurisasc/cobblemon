@@ -1,6 +1,6 @@
 {
   "animator": "caterpie",
-  "model": "pokemoncobbled:geo/models/caterpie.geo.json",
+  "model": "pokemoncobbled:bedrock/models/caterpie.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/caterpie.png",
   "variations": [
     {
