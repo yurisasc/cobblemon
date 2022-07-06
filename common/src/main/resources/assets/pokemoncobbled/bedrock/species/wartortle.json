@@ -1,6 +1,6 @@
 {
   "animator": "wartortle",
-  "model": "pokemoncobbled:geo/models/wartortle.geo.json",
+  "model": "pokemoncobbled:bedrock/models/wartortle.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/wartortle.png",
   "variations": [
     {

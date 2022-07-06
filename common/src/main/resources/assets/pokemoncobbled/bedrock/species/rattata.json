@@ -1,6 +1,6 @@
 {
   "animator": "rattata",
-  "model": "pokemoncobbled:geo/models/rattata_male.geo.json",
+  "model": "pokemoncobbled:bedrock/models/rattata_male.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/rattata.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "pokemoncobbled:geo/models/rattata_female.geo.json"
+      "model": "pokemoncobbled:bedrock/models/rattata_female.geo.json"
     }
   ]
 }

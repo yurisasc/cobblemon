@@ -1,6 +1,6 @@
 {
   "animator": "bulbasaur",
-  "model": "pokemoncobbled:geo/models/bulbasaur.geo.json",
+  "model": "pokemoncobbled:bedrock/models/bulbasaur.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/bulbasaur.png",
   "variations": [
     {

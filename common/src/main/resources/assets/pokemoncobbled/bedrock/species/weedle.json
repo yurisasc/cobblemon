@@ -1,6 +1,6 @@
 {
   "animator": "weedle",
-  "model": "pokemoncobbled:geo/models/weedle.geo.json",
+  "model": "pokemoncobbled:bedrock/models/weedle.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/weedle.png",
   "variations": [
     {

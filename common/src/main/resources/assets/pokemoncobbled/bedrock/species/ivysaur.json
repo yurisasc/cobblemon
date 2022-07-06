@@ -1,6 +1,6 @@
 {
   "animator": "ivysaur",
-  "model": "pokemoncobbled:geo/models/ivysaur.geo.json",
+  "model": "pokemoncobbled:bedrock/models/ivysaur.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/ivysaur.png",
   "variations": [
     {
