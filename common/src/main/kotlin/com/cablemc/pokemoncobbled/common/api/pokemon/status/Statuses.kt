@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.status
 
+import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.Paralysis
 import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.Poison
 import net.minecraft.util.Identifier
 
@@ -13,6 +14,7 @@ object Statuses {
     private val allStatuses = mutableListOf<Status>()
 
     val POISON = registerStatus(Poison())
+    val PARALYSIS = registerStatus(Paralysis())
 
     fun <T: Status> registerStatus(status: T) : T {
         allStatuses.add(status)

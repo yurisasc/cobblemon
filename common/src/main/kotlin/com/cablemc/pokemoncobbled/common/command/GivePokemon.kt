@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.command
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
 import com.cablemc.pokemoncobbled.common.util.commandLang
 import com.cablemc.pokemoncobbled.common.util.player
@@ -36,6 +37,7 @@ object GivePokemon {
         try {
             val pokemonProperties = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
             val pokemon = pokemonProperties.create()
+            pokemon.moveSet.get(1)?.currentPp = 10
             val party = PokemonCobbled.storage.getParty(player)
             party.add(pokemon)
             context.source.sendFeedback(commandLang("givepokemon.give", pokemon.species.translatedName, player.name), true)
