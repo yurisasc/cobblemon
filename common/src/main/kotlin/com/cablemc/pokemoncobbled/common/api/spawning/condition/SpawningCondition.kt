@@ -38,6 +38,8 @@ abstract class SpawningCondition<T : SpawningContext> {
     var maxZ: Float? = null
     var minLight: Int? = null
     var maxLight: Int? = null
+    var isRaining: Boolean? = null
+    var isThundering: Boolean? = null
     var timeRange: TimeRange? = null
     var labels: MutableList<String>? = null
     var labelMode = ANY
@@ -71,6 +73,10 @@ abstract class SpawningCondition<T : SpawningContext> {
         } else if (timeRange != null && !timeRange!!.contains((ctx.world.timeOfDay % 24000).toInt())) {
             return false
         } else if (skyAbove != null && skyAbove != ctx.skyAbove) {
+            return false
+        } else if (isRaining != null && ctx.world.isRaining != isRaining!!) {
+            return false
+        } else if (isThundering != null && ctx.world.isThundering != isThundering!!) {
             return false
         } else if (labels != null && labels!!.isNotEmpty() &&
             (
