@@ -14,11 +14,9 @@ import net.minecraft.world.biome.Biome
  */
 class BiomeTagCondition(override val requiredValue: TagKey<Biome>) : BiomeLikeCondition<TagKey<Biome>> {
 
-    override fun accepts(biome: Biome, registry: Registry<Biome>): Boolean {
-        return registry.getKey(biome)
+    override fun accepts(biome: Biome, registry: Registry<Biome>) = !registry.containsTag(this.requiredValue) || registry.getKey(biome)
             .flatMap(registry::getEntry)
             .map { entry -> entry.isIn(this.requiredValue) }.orElse(false)
-    }
 
     companion object {
 
