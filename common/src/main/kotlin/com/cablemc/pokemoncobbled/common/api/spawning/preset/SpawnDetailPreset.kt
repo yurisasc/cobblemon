@@ -9,6 +9,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.SpawnLoader
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
+import com.cablemc.pokemoncobbled.common.api.spawning.multiplier.WeightMultiplier
 import com.cablemc.pokemoncobbled.common.util.AssetLoading
 import com.cablemc.pokemoncobbled.common.util.MergeMode
 import com.cablemc.pokemoncobbled.common.util.adapters.BiomeLikeConditionAdapter
@@ -112,6 +113,7 @@ abstract class SpawnDetailPreset {
     var context: RegisteredSpawningContext<*>? = null
     var condition: JsonObject? = null
     var anticondition: JsonObject? = null
+    var weightMultipliers: MutableList<WeightMultiplier>? = null
     var weight: Float? = null
     var percentage: Float? = null
     var mergeMode = MergeMode.REPLACE
@@ -121,6 +123,7 @@ abstract class SpawnDetailPreset {
         context?.let { spawnDetail.context = it }
         weight?.let { spawnDetail.weight = it }
         percentage?.let { spawnDetail.percentage = it }
+        mergeMode.merge(spawnDetail.weightMultipliers, weightMultipliers)
 
         applyToConditionList(spawnDetail.conditions, condition?.let { resolveCondition(spawnDetail, it) })
         anticondition?.let { spawnDetail.anticonditions.add(resolveCondition(spawnDetail, it)) }
