@@ -1,0 +1,15 @@
+{
+  "animator": "eevee",
+  "model": "pokemoncobbled:bedrock/models/eevee_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/eevee.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/eevee_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:bedrock/models/eevee_female.geo.json"
+    }
+  ]
+}

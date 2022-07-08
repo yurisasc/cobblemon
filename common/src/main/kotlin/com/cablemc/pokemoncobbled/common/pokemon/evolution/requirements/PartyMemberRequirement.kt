@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements
 
-import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
@@ -18,7 +17,7 @@ class PartyMemberRequirement(val target: PokemonProperties, val contains: Boolea
 
     override fun check(pokemon: Pokemon): Boolean {
         val party = pokemon.storeCoordinates.get()?.store as? PartyStore ?: return false
-        if (party.getAll().any { member -> member.uuid != pokemon.uuid && this.target.matches(member) })
+        if (party.any { member -> member.uuid != pokemon.uuid && this.target.matches(member) })
             return this.contains
         return !this.contains
     }

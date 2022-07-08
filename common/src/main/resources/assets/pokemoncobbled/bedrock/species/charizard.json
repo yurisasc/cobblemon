@@ -1,0 +1,11 @@
+{
+  "animator": "charizard",
+  "model": "pokemoncobbled:bedrock/models/charizard.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/charizard.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/charizard_shiny.png"
+    }
+  ]
+}

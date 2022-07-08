@@ -1,0 +1,11 @@
+{
+  "animator": "kakuna",
+  "model": "pokemoncobbled:bedrock/models/kakuna.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/kakuna.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/kakuna_shiny.png"
+    }
+  ]
+}

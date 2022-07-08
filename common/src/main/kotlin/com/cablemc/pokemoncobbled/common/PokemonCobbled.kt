@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.Priority
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_JOIN
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STOPPING
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.TICK_POST
@@ -46,6 +47,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspe
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
+import com.cablemc.pokemoncobbled.common.api.storage.pc.link.PCLinkManager
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.battles.BattleSide
@@ -121,6 +123,7 @@ object PokemonCobbled {
 
         ShoulderEffectRegistry.register()
         PLAYER_JOIN.subscribe { storage.onPlayerLogin(it) }
+        PLAYER_QUIT.subscribe { PCLinkManager.removeLink(it.uuid) }
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         //Command Arguments

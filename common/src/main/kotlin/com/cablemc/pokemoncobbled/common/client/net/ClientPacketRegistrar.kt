@@ -5,6 +5,13 @@ import com.cablemc.pokemoncobbled.common.client.net.gui.SummaryUIPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.EvolutionUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.SingleUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.*
+import com.cablemc.pokemoncobbled.common.client.net.storage.RemoveClientPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.SwapClientPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.party.InitializePartyHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.party.MoveClientPartyPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyReferenceHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.pc.*
 import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.*
@@ -35,12 +42,25 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<BenchedMovesUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<GenderUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<AspectsUpdatePacket>(SingleUpdatePacketHandler())
+
+        // Party storage
         registerHandler(InitializePartyHandler)
         registerHandler(SetPartyPokemonHandler)
-        registerHandler(MovePartyPokemonHandler)
-        registerHandler(RemovePartyPokemonHandler)
-        registerHandler(SwapPartyPokemonHandler)
+        registerHandler(MoveClientPartyPokemonHandler)
         registerHandler(SetPartyReferenceHandler)
+
+        // PC storage
+        registerHandler(InitializePCHandler)
+        registerHandler(MoveClientPCPokemonHandler)
+        registerHandler(SetPCBoxPokemonHandler)
+        registerHandler(SetPCPokemonHandler)
+        registerHandler(OpenPCHandler)
+        registerHandler(ClosePCHandler)
+
+        // General storage
+        registerHandler(RemoveClientPokemonHandler)
+        registerHandler(SwapClientPokemonHandler)
+
         registerHandler(SummaryUIPacketHandler)
         registerHandler<AddEvolutionPacket>(EvolutionUpdatePacketHandler())
         registerHandler<RemoveEvolutionPacket>(EvolutionUpdatePacketHandler())

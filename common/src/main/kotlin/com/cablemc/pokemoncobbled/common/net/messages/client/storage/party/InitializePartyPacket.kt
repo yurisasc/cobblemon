@@ -14,7 +14,7 @@ import java.util.UUID
  * in overlay rendering, but generally is just necessary before sending Pokémon updates
  * targeting this store.
  *
- * Handled by [com.cablemc.pokemoncobbled.client.net.storage.party.InitializePartyHandler]
+ * Handled by [com.cablemc.pokemoncobbled.common.client.net.storage.party.InitializePartyHandler]
  *
  * @author Hiroku
  * @since November 29th, 2021

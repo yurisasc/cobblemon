@@ -6,12 +6,12 @@ import com.cablemc.pokemoncobbled.common.client.battle.ActiveClientBattlePokemon
 import com.cablemc.pokemoncobbled.common.client.battle.ClientBattle
 import com.cablemc.pokemoncobbled.common.client.battle.ClientBattleActor
 import com.cablemc.pokemoncobbled.common.client.battle.ClientBattlePokemon
-import com.cablemc.pokemoncobbled.common.net.PacketHandler
+import com.cablemc.pokemoncobbled.common.client.net.ClientPacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleInitializePacket
 import net.minecraft.client.MinecraftClient
 
-object BattleInitializeHandler : PacketHandler<BattleInitializePacket> {
-    override fun invoke(packet: BattleInitializePacket, ctx: CobbledNetwork.NetworkContext) {
+object BattleInitializeHandler : ClientPacketHandler<BattleInitializePacket> {
+    override fun invokeOnClient(packet: BattleInitializePacket, ctx: CobbledNetwork.NetworkContext) {
         val playerUUID = MinecraftClient.getInstance().player?.uuid
         PokemonCobbledClient.battle = ClientBattle(
             packet.battleId,

@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.storage.factory
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
@@ -8,6 +9,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.FileStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.SerializedStore
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.util.subscribeOnServer
 import java.util.UUID
 import java.util.concurrent.Executors
@@ -26,9 +28,8 @@ open class FileBackedPokemonStoreFactory<S>(
 
     var passedTicks = 0
     protected val saveSubscription = CobbledEvents.TICK_PRE.subscribe {
-        passedTicks++
-        // TODO config option
-        if (passedTicks > 20 * 30) {
+            passedTicks++
+            if (passedTicks > 20 * PokemonCobbled.config.pokemonSaveIntervalSeconds) {
             saveAll()
             passedTicks = 0
         }
@@ -47,9 +48,10 @@ open class FileBackedPokemonStoreFactory<S>(
 
     private val dirtyStores = mutableSetOf<PokemonStore<*>>()
 
-    override fun getPlayerParty(uuid: UUID) = getStore(PlayerPartyStore::class.java, uuid)
-    // TODO PC storage #19
-    // override fun getPC(uuid: UUID) = getStore(uuid, dirtyPCs, cachedPCs)
+    override fun getPlayerParty(playerID: UUID) = getStore(PlayerPartyStore::class.java, playerID)
+    override fun getPC(playerID: UUID) = getStore(PCStore::class.java, playerID)
+
+
     override fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID) = getStore(storeClass, uuid)
 
     fun <E : StorePosition, T : PokemonStore<E>> getStore(storeClass: Class<T>, uuid: UUID): T? {

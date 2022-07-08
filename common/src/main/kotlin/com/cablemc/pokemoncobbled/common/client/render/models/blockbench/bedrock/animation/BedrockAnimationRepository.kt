@@ -30,7 +30,7 @@ object BedrockAnimationRepository {
     }
 
     fun loadAnimationsFromFile(fileName: String) {
-        val stream = PokemonCobbled::class.java.getResourceAsStream("/assets/${PokemonCobbled.MODID}/geo/animations/$fileName") ?: throw IllegalStateException("animation file $fileName could not be found")
+        val stream = PokemonCobbled::class.java.getResourceAsStream("/assets/${PokemonCobbled.MODID}/bedrock/animations/$fileName") ?: throw IllegalStateException("animation file $fileName could not be found")
         val animationGroup = gson.fromJson<BedrockAnimationGroup>(stream.reader())
         animationGroup.animations.forEach { (name, animation) -> animations[name] = animation }
     }
