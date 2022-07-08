@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:roofed",
+    {
+      "id": "#byg:is_spooky",
+      "required": false
+    }
+  ]
+}
