@@ -44,6 +44,9 @@ abstract class SpawningCondition<T : SpawningContext> {
     var labels: MutableList<String>? = null
     var labelMode = ANY
 
+    @Transient
+    var appendages = mutableListOf<AppendageCondition>()
+
     abstract fun contextClass(): Class<out T>
     fun contextMatches(ctx: SpawningContext) = contextClass().isAssignableFrom(ctx::class.java)
 
@@ -84,6 +87,8 @@ abstract class SpawningCondition<T : SpawningContext> {
                 (labelMode == ALL && labels!!.any { it !in detail.labels })
             )
         ) {
+            return false
+        } else if (appendages.any { !it.fits(ctx, detail) }) {
             return false
         }
 

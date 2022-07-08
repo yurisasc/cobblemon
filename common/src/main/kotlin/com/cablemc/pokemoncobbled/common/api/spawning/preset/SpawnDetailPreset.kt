@@ -64,7 +64,6 @@ abstract class SpawnDetailPreset {
             .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
             .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
             .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
-
             .create()
 
         val presetTypes = mutableMapOf<String, Class<out SpawnDetailPreset>>()
