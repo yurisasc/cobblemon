@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.condition
 
 import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
+import com.cablemc.pokemoncobbled.common.util.Merger
 import net.minecraft.util.Identifier
 
 /**
@@ -16,7 +17,7 @@ abstract class AreaTypeSpawningCondition<T : AreaSpawningContext> : SpawningCond
     var maximumWidth: Int? = null
     var minimumHeight: Int? = null
     var maximumHeight: Int? = null
-    var neededNearbyBlocks: List<Identifier>? = null
+    var neededNearbyBlocks: MutableList<Identifier>? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
         if (!super.fits(ctx, detail)) {
@@ -33,6 +34,17 @@ abstract class AreaTypeSpawningCondition<T : AreaSpawningContext> : SpawningCond
             return false
         } else {
             return true
+        }
+    }
+
+    override fun copyFrom(other: SpawningCondition<*>, merger: Merger) {
+        super.copyFrom(other, merger)
+        if (other is AreaTypeSpawningCondition) {
+            if (other.minimumWidth != null) minimumWidth = other.minimumWidth
+            if (other.maximumWidth != null) maximumWidth = other.maximumWidth
+            if (other.minimumHeight != null) minimumHeight = other.minimumHeight
+            if (other.maximumHeight != null) maximumHeight = other.maximumHeight
+            neededNearbyBlocks = merger.merge(neededNearbyBlocks, other.neededNearbyBlocks)?.toMutableList()
         }
     }
 }

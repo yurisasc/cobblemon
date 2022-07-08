@@ -71,11 +71,11 @@ abstract class SpawningContext {
         influences.forEach { it.affectSpawn(entity) }
     }
 
-    open fun getRarity(detail: SpawnDetail): Float {
-        var rarity = detail.rarity
+    open fun getWeight(detail: SpawnDetail): Float {
+        var weight = detail.weight
         for (influence in influences) {
-            rarity = influence.affectRarity(detail, rarity)
+            weight = influence.affectWeight(detail, weight)
         }
-        return rarity
+        return weight
     }
 }

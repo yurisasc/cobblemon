@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.condition
 
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SubmergedSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
+import com.cablemc.pokemoncobbled.common.util.Merger
 import com.cablemc.pokemoncobbled.common.util.asResource
 import net.minecraft.util.Identifier
 
@@ -18,13 +19,22 @@ abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : Ar
     var fluidBlock: Identifier? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
-        if (!super.fits(ctx, detail)) {
-            return false
+        return if (!super.fits(ctx, detail)) {
+            false
         } else if (depth != null && ctx.depth < depth!!) {
-            return false
+            false
         } else if (fluidIsSource != null && ctx.fluidState.isStill != fluidIsSource!!) {
-            return false
-        } else return !(fluidBlock != null && ctx.fluidBlock.translationKey.asResource() != fluidBlock!!)
+            false
+        } else !(fluidBlock != null && ctx.fluidBlock.translationKey.asResource() != fluidBlock!!)
+    }
+
+    override fun copyFrom(other: SpawningCondition<*>, merger: Merger) {
+        super.copyFrom(other, merger)
+        if (other is SubmergedTypeSpawningCondition) {
+            if (other.depth != null) depth = other.depth
+            if (other.fluidIsSource != null) fluidIsSource = other.fluidIsSource
+            if (other.fluidBlock != null) fluidBlock = other.fluidBlock
+        }
     }
 }
 

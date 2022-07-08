@@ -10,13 +10,11 @@
       "pokemon": "random",
       "context": "grounded",
       "bucket": "common",
-      "rarity": 10,
-      "conditions": [
-        {
-          "timeRange": "day",
-          "skyAbove": true
-        }
-      ]
+      "weight": 10,
+      "condition": {
+        "timeRange": "day",
+        "skyAbove": true
+      }
     },
     {
       "type": "pokemon",
@@ -24,7 +22,7 @@
       "pokemon": "random",
       "context": "grounded",
       "bucket": "common",
-      "rarity": 10,
+      "weight": 10,
       "conditions": [
         {
           "timeRange": "night",

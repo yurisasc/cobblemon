@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.spawner
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.spawning.BestSpawner
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnBucket
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
@@ -11,7 +12,7 @@ import net.minecraft.entity.Entity
 
 /**
  * Interface representing something that performs the action of spawning. Various functions
- * exist to streamline the process of using the Best Spawner API.
+ * exist to streamline the process of using the [BestSpawner].
  *
  * @author Hiroku
  * @since January 24th, 2022
@@ -31,9 +32,9 @@ interface Spawner {
     fun afterSpawn(entity: Entity) {}
     fun canSpawn(): Boolean
     fun getMatchingSpawns(ctx: SpawningContext) = getSpawnPool().retrieve(ctx).filter { it.isSatisfiedBy(ctx) }
-    fun copyInfluences() = influences.toMutableList()
+    fun copyInfluences() = influences.filter { !it.isExpired() }.toMutableList()
     fun chooseBucket(): SpawnBucket {
-        val buckets = PokemonCobbled.config.spawnBuckets
+        val buckets = PokemonCobbled.bestSpawner.config.buckets
         val weightSum = buckets.sumOf { it.weight.toDouble() }.toFloat()
         // Make the 0 exclusive and the weightSum inclusive on the random
         val chosenSum = weightSum - Random().nextFloat(weightSum)

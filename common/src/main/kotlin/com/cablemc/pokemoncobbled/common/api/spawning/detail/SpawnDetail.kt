@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.detail
 
+import com.cablemc.pokemoncobbled.common.api.ModDependant
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnBucket
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.CompositeSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
@@ -13,7 +14,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
  * @author Hiroku
  * @since January 31st, 2022
  */
-abstract class SpawnDetail {
+abstract class SpawnDetail : ModDependant {
     companion object {
         val spawnDetailTypes = mutableMapOf<String, RegisteredSpawnDetail<*>>()
         fun <T : SpawnDetail> registerSpawnType(name: String, detailClass: Class<T>) {
@@ -29,10 +30,13 @@ abstract class SpawnDetail {
     var anticonditions = mutableListOf<SpawningCondition<*>>()
     var compositeCondition: CompositeSpawningCondition? = null
 
-    var rarity = -1F
+    var weight = -1F
     var percentage = -1F
 
     var labels = mutableListOf<String>()
+
+    override var neededInstalledMods = listOf<String>()
+    override var neededUninstalledMods = listOf<String>()
 
     open fun autoLabel() {}
 

@@ -69,7 +69,7 @@ object ContextWeightedSelector : SpawningSelector {
                 }
             }
 
-            val possibleToWeight = possible.associateWith { ctx.getRarity(it) }
+            val possibleToWeight = possible.associateWith { ctx.getWeight(it) }
 
             possibleToWeight.entries.weightedSelection { it.value }?.let {
                 contextToSpawn[ctx] = it.key
