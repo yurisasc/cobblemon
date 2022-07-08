@@ -3,9 +3,9 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.item.ApricornItem
 import com.cablemc.pokemoncobbled.common.item.PokeBallItem
+import com.cablemc.pokemoncobbled.common.item.evo.*
 import com.cablemc.pokemoncobbled.common.item.interactive.CandyItem
 import com.cablemc.pokemoncobbled.common.item.interactive.EvolutionItem
-import com.cablemc.pokemoncobbled.common.item.evo.*
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import dev.architectury.registry.registries.RegistrySupplier

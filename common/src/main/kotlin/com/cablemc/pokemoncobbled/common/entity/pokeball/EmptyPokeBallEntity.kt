@@ -8,20 +8,29 @@ import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
+import com.cablemc.pokemoncobbled.common.api.text.red
+import com.cablemc.pokemoncobbled.common.api.text.yellow
 import com.cablemc.pokemoncobbled.common.battles.BattleCaptureAction
+import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
+import com.cablemc.pokemoncobbled.common.battles.BattleTypes
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleApplyCaptureResponsePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleCaptureStartPacket
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.util.asResource
 import com.cablemc.pokemoncobbled.common.util.isServerSide
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.sendParticlesServer
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -50,9 +59,6 @@ class EmptyPokeBallEntity(
         SHAKE
     }
 
-    constructor(world: World, battleCaptureAction: BattleCaptureAction): this(battleCaptureAction.pokeBall, world) {
-        this.battleCaptureAction = battleCaptureAction
-    }
     companion object {
         private val CAPTURE_STATE = DataTracker.registerData(EmptyPokeBallEntity::class.java, TrackedDataHandlerRegistry.BYTE)
         private val HIT_TARGET_POSITION = DataTracker.registerData(EmptyPokeBallEntity::class.java, Vec3DataSerializer)
@@ -65,7 +71,6 @@ class EmptyPokeBallEntity(
 
     val DIMENSIONS = EntityDimensions(0.4F, 0.4F, true)
     val entityProperties = mutableListOf<EntityProperty<*>>()
-    var battleCaptureAction: BattleCaptureAction? = null
 
     var capturingPokemon: PokemonEntity? = null
     val captureState = addEntityProperty(CAPTURE_STATE, CaptureState.NOT.ordinal.toByte())
@@ -112,21 +117,81 @@ class EmptyPokeBallEntity(
     override fun onEntityHit(hitResult: EntityHitResult) {
         if (captureState.get() == CaptureState.NOT.ordinal.toByte()) {
             if (hitResult.entity is PokemonEntity && world.isServerSide()) {
-                val pokemon = hitResult.entity as PokemonEntity
-                if (pokemon.isBusy || !pokemon.pokemon.isWild()) {
-                    discard()
-                    val player = this.owner as ServerPlayerEntity
-                    if (!player.isCreative) dropItem(defaultItem)
-                    return
+                val pokemonEntity = hitResult.entity as PokemonEntity
+
+                val battle = pokemonEntity.battleId.get().orElse(null)?.let { BattleRegistry.getBattle(it) }
+                val owner = owner
+
+                if (!pokemonEntity.pokemon.isWild()) {
+                    owner?.sendServerMessage(lang("capture.not_wild", pokemonEntity.pokemon.species.translatedName).red())
+                    return drop()
                 }
-                capturingPokemon = pokemon
+
+                if (battle != null && owner != null && owner is LivingEntity) {
+                    val throwerActor = battle.getActor(owner.uuid)
+                    val hitActor = battle.actors.find { it.isForPokemon(pokemonEntity) }
+                    val hitBattlePokemon = hitActor?.activePokemon?.find { it.battlePokemon?.effectedPokemon?.entity == pokemonEntity }
+
+                    if (throwerActor == null) {
+                        owner.sendServerMessage(lang("capture.in_battle", pokemonEntity.pokemon.species.translatedName).red())
+                        return drop()
+                    }
+
+                    if (hitActor == null || hitBattlePokemon == null) {
+                        return drop() // Weird, shouldn't be possible
+                    }
+
+                    if (battle.format.battleType != BattleTypes.SINGLES || hitActor.pokemonList.count { it.health > 0 } > 1) {
+                        owner.sendServerMessage(lang("capture.not_single").red())
+                        return drop()
+                    }
+
+                    val request = throwerActor.request?.takeIf { throwerActor.mustChoose } ?: run {
+                        owner.sendServerMessage(lang("capture.not_your_turn").red())
+                        return drop()
+                    }
+
+                    val countMovable = (request.active?.count() ?: 0) - request.forceSwitch.count { it }
+                    if (countMovable > throwerActor.expectingCaptureActions) {
+                        throwerActor.expectingCaptureActions++
+                        battle.captureActions.add(BattleCaptureAction(battle, hitBattlePokemon, this).also { it.attach() })
+                        battle.broadcastChatMessage(
+                            lang(
+                                "capture.attempted_capture",
+                                throwerActor.getName(),
+                                CobbledItems.ballMap[pokeBall]!!.get().name,
+                                pokemonEntity.pokemon.species.translatedName
+                            ).yellow()
+                        )
+                        battle.sendUpdate(BattleCaptureStartPacket(pokeBall.name, hitBattlePokemon.getPNX()))
+                        throwerActor.sendUpdate(BattleApplyCaptureResponsePacket())
+                    } else {
+                        owner.sendServerMessage(lang("capture.not_your_turn").red())
+                        return drop()
+                    }
+                } else if (pokemonEntity.isBusy) {
+                    owner?.sendServerMessage(lang("capture.busy", pokemonEntity.pokemon.species.translatedName).red())
+                    return drop()
+                } else if (owner is ServerPlayerEntity && BattleRegistry.getBattleByParticipatingPlayer(owner) != null) {
+                    owner.sendServerMessage(lang("you_in_battle").red())
+                    return drop()
+                }
+                capturingPokemon = pokemonEntity
                 hitVelocity.set(velocity.normalize())
                 hitTargetPosition.set(hitResult.pos)
-                attemptCatch(pokemon)
+                attemptCatch(pokemonEntity)
                 return
             }
         }
         super.onEntityHit(hitResult)
+    }
+
+    private fun drop() {
+        val owner = owner
+        discard()
+        val player = owner?.takeIf { it is ServerPlayerEntity } as? ServerPlayerEntity
+        if (player?.isCreative != true) dropItem(defaultItem)
+        return
     }
 
     override fun tick() {
@@ -176,6 +241,7 @@ class EmptyPokeBallEntity(
                                 afterOnMain(seconds = 1F) {
                                     pokemon.discard()
                                     discard()
+                                    captureFuture.complete(true)
                                     val party = PokemonCobbled.storage.getParty(player.uuid)
                                     pokemon.pokemon.caughtBall = pokeBall
                                     party.add(pokemon.pokemon)
@@ -205,6 +271,7 @@ class EmptyPokeBallEntity(
 
         afterOnMain(seconds = 0.25F) {
             pokemon.busyLocks.remove(this)
+            captureFuture.complete(false)
             world.sendParticlesServer(ParticleTypes.CLOUD, pos, 20, Vec3d(0.0, 0.2, 0.0), 0.05)
             world.playSoundServer(pos, SoundEvents.BLOCK_GLASS_BREAK)
             discard()

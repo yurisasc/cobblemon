@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.gui
 
+import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
@@ -175,7 +176,6 @@ fun drawPortraitPokemon(
     val renderType = model.getLayer(texture)
 
     RenderSystem.applyModelViewMatrix()
-    matrixStack.scale(scale, scale, -scale)
     val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F * if (reversed) -1F else 1F)
     val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
 
@@ -186,9 +186,11 @@ fun drawPortraitPokemon(
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     }
 
+    matrixStack.translate(0.0, PORTRAIT_DIAMETER.toDouble(), 0.0)
+    matrixStack.scale(scale, scale, -scale)
+    matrixStack.translate(0.0, -PORTRAIT_DIAMETER / 18.0, 0.0)
     matrixStack.translate(model.portraitTranslation.x * if (reversed) -1F else 1F, model.portraitTranslation.y, model.portraitTranslation.z - 4)
     matrixStack.scale(model.portraitScale, model.portraitScale, 0.01F)
-
     matrixStack.multiply(quaternion1)
     matrixStack.multiply(quaternion2)
 

@@ -8,6 +8,8 @@ import net.minecraft.util.Identifier
  * Used to indicate that a capture is being started in a battle. This is
  * to show the capture in the battle overlay.
  *
+ * Handled by [com.cablemc.pokemoncobbled.common.client.net.battle.BattleCaptureStartHandler].
+ *
  * @author Hiroku
  * @since July 2nd, 2022
  */

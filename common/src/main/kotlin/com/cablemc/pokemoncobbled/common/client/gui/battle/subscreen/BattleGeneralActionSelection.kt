@@ -34,12 +34,14 @@ class BattleGeneralActionSelection(
             }
         )
 
-        tiles.add(
-            addOption(rank++, battleLang("ui.switch"), BattleGUI.runResource) {
-                battleGUI.changeActionSelection(BattleSwitchPokemonSelection(battleGUI, request))
-                playDownSound(MinecraftClient.getInstance().soundManager)
-            }
-        )
+        if (request.moveSet?.trapped != true) {
+            tiles.add(
+                addOption(rank++, battleLang("ui.switch"), BattleGUI.runResource) {
+                    battleGUI.changeActionSelection(BattleSwitchPokemonSelection(battleGUI, request))
+                    playDownSound(MinecraftClient.getInstance().soundManager)
+                }
+            )
+        }
     }
 
     private fun addOption(rank: Int, text: MutableText, texture: Identifier, onClick: () -> Unit): BattleOptionTile {

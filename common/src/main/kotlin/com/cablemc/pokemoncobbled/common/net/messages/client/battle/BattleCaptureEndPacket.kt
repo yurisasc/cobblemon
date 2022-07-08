@@ -6,6 +6,8 @@ import net.minecraft.network.PacketByteBuf
 /**
  * Tells the participants that the capture on the specified Pokémon has finished.
  *
+ * Handled by [com.cablemc.pokemoncobbled.common.client.net.battle.BattleCaptureEndHandler].
+ *
  * @author Hiroku
  * @since July 2nd, 2022
  */

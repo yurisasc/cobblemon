@@ -63,14 +63,12 @@ import kotlin.random.Random
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
-import net.minecraft.nbt.NbtHelper
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
-import net.minecraft.util.JsonHelper
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
@@ -178,8 +176,11 @@ open class Pokemon {
         set(value) { field = value ; _friendship.emit(value) }
     var state: PokemonState = InactivePokemonState()
         set(value) {
-            if (field is ActivePokemonState && !isClient) {
-                (field as ActivePokemonState).recall()
+            val current = field
+            if (current is ActivePokemonState && !isClient) {
+                if (value !is ActivePokemonState || value.entity != current.entity) {
+                    current.recall()
+                }
             }
             field = value
             _state.emit(value)

@@ -38,6 +38,7 @@ open class BattlePokemon(
     val moveSet: MoveSet
         get() = effectedPokemon.moveSet
     val statChanges = mutableMapOf<Stat, Int>()
+    var gone = false
     // etc
 
     val entity: PokemonEntity?

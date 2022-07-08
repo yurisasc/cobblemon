@@ -106,6 +106,8 @@ object CobbledNetwork {
         buildClientMessage<BattleMessagePacket>()
         buildClientMessage<BattleCaptureStartPacket>()
         buildClientMessage<BattleCaptureEndPacket>()
+        buildClientMessage<BattleCaptureShakePacket>()
+        buildClientMessage<BattleApplyCaptureResponsePacket>()
 
         /**
          * Server Packets

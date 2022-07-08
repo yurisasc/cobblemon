@@ -164,6 +164,11 @@ class PokemonBattle(
         sendUpdate(BattleEndPacket())
     }
 
+    fun finishCaptureAction(captureAction: BattleCaptureAction) {
+        captureActions.remove(captureAction)
+        checkForInputDispatch()
+    }
+
     fun log(message: String = "") {
         if (!mute) {
             LOGGER.info(message)
@@ -205,7 +210,7 @@ class PokemonBattle(
 
     fun checkForInputDispatch() {
         val readyToInput = actors.any { !it.mustChoose && it.responses.isNotEmpty() } && actors.none { it.mustChoose }
-        if (readyToInput) {
+        if (readyToInput && captureActions.isEmpty()) {
             actors.filter { it.responses.isNotEmpty() }.forEach { it.writeShowdownResponse() }
             actors.forEach { it.responses.clear() ; it.request = null }
         }
