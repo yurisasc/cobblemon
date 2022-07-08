@@ -24,7 +24,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         const val OPTION_VERTICAL_SPACING = 25
         const val OPTION_HORIZONTAL_SPACING = 7
         const val OPTION_ROOT_X = 40
-        const val OPTION_VERTICAL_OFFSET = 100
+        const val OPTION_VERTICAL_OFFSET = 125
 
         val fightResource = cobbledResource("ui/battle/battle_menu_fight.png")
         val runResource = cobbledResource("ui/battle/battle_menu_run.png")
