@@ -3,25 +3,28 @@ package com.cablemc.pokemoncobbled.common.api.spawning.preset
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.asset.JsonManifestWalker
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.spawning.BiomeLikeCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnBucket
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnLoader
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.multiplier.WeightMultiplier
 import com.cablemc.pokemoncobbled.common.util.AssetLoading
 import com.cablemc.pokemoncobbled.common.util.MergeMode
-import com.cablemc.pokemoncobbled.common.util.adapters.BiomeLikeConditionAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.RegisteredSpawningContextAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.SpawnBucketAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.SpawnDetailAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.SpawnDetailPresetAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.*
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.FileReader
+import net.minecraft.tag.TagKey
+import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
+import net.minecraft.world.biome.Biome
 
 /**
  * Base class for spawn detail presets. Presets are a spawn loading mechanism that allows various properties to be
@@ -53,6 +56,15 @@ abstract class SpawnDetailPreset {
             .registerTypeAdapter(RegisteredSpawningContext::class.java, RegisteredSpawningContextAdapter)
             .registerTypeAdapter(BiomeLikeCondition::class.java, BiomeLikeConditionAdapter)
             .registerTypeAdapter(SpawnDetailPreset::class.java, SpawnDetailPresetAdapter)
+            .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+            .registerTypeAdapter(
+                TypeToken.getParameterized(TagKey::class.java, Biome::class.java).type,
+                TagKeyAdapter<Biome>(Registry.BIOME_KEY)
+            )
+            .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
+            .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
+            .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
+
             .create()
 
         val presetTypes = mutableMapOf<String, Class<out SpawnDetailPreset>>()
