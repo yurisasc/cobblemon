@@ -46,7 +46,7 @@ abstract class SpawningContext {
     /** The light level at this location. */
     abstract val light: Int
     /** Whether or not the sky is visible at this location. */
-    abstract val skyAbove: Boolean
+    abstract val canSeeSky: Boolean
     /** A list of [SpawningInfluence]s that apply due to this specific context. */
     abstract val influences: MutableList<SpawningInfluence>
     /** The current phase of the moon at this location. */

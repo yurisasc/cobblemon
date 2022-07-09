@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.pokeball.catching
 
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.entity.LivingEntity
 
 /**
  * A modifier that can be used to modify the chance a poke ball.
@@ -11,5 +11,5 @@ import net.minecraft.server.network.ServerPlayerEntity
  * @since  November 30, 2021
  */
 interface CatchRateModifier {
-    fun modifyCatchRate(currentCatchRate: Float, player: ServerPlayerEntity, pokemon: Pokemon): Float
+    fun modifyCatchRate(currentCatchRate: Float, thrower: LivingEntity, pokemon: Pokemon): Float
 }

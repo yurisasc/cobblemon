@@ -15,21 +15,23 @@ class RandomBattleAI : BattleAI {
         moveset: ShowdownMoveset?,
         forceSwitch: Boolean
     ): ShowdownActionResponse {
-        if (forceSwitch) {
+        if (forceSwitch || activeBattlePokemon.isGone()) {
             val switchTo = activeBattlePokemon.actor.pokemonList.filter { it.canBeSentOut() }.randomOrNull()
                 ?: return DefaultActionResponse() //throw IllegalStateException("Need to switch but no Pokémon to switch to")
             switchTo.willBeSwitchedIn = true
             return SwitchActionResponse(switchTo.uuid)
         }
 
-        moveset!!
+        if (moveset == null) {
+            return PassActionResponse
+        }
         val move = moveset.moves
             .filter { it.canBeUsed() }
-            .filter { it.target.targetList(activeBattlePokemon)?.isEmpty() != true }
+            .filter { it.mustBeUsed() || it.target.targetList(activeBattlePokemon)?.isEmpty() != true }
             .randomOrNull()
             ?: return MoveActionResponse("struggle")
 
-        val target = move.target.targetList(activeBattlePokemon)
+        val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
         return if (target == null) {
             MoveActionResponse(move.id)
         } else {
