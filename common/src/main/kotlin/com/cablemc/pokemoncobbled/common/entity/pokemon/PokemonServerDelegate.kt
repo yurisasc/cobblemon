@@ -19,7 +19,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
     }
 
     override fun tick(entity: PokemonEntity) {
-        if (entity.health.toInt() != entity.pokemon.currentHealth) {
+        if (entity.health.toInt() != entity.pokemon.currentHealth && entity.health > 0) {
             entity.health = entity.pokemon.currentHealth.toFloat()
         }
         if (entity.ownerUuid != entity.pokemon.getOwnerUUID()) {
