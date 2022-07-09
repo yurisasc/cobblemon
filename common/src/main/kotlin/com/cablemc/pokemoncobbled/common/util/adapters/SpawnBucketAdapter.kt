@@ -20,7 +20,7 @@ import java.lang.reflect.Type
 object SpawnBucketAdapter : JsonDeserializer<SpawnBucket>, JsonSerializer<SpawnBucket> {
     override fun serialize(bucket: SpawnBucket, type: Type, ctx: JsonSerializationContext) = JsonPrimitive(bucket.name)
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): SpawnBucket {
-        return PokemonCobbled.config.spawnBuckets.find { it.name == json.asString }
+        return PokemonCobbled.bestSpawner.config.buckets.find { it.name == json.asString }
             ?: throw IllegalStateException("Spawn referred to invalid spawn bucket: ${json.asString}. Is it missing from the config?")
     }
 }

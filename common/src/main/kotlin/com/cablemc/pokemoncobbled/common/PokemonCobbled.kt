@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
-import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_JOIN
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
@@ -19,29 +18,9 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.StandardExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
+import com.cablemc.pokemoncobbled.common.api.spawning.BestSpawner
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
-import com.cablemc.pokemoncobbled.common.api.spawning.CobbledWorldSpawnerManager
-import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.AreaSpawningCondition
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.BasicSpawningCondition
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.GroundedSpawningCondition
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
-import com.cablemc.pokemoncobbled.common.api.spawning.condition.SubmergedSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolver
-import com.cablemc.pokemoncobbled.common.api.spawning.context.GroundedSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.LavafloorSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.SeafloorSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderlavaSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderwaterSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.GroundedSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.LavafloorSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SeafloorSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderlavaSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderwaterSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.detail.PokemonSpawnDetail
-import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
@@ -58,8 +37,6 @@ import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
-import com.cablemc.pokemoncobbled.common.entity.pokemon.CobbledAgingDespawner
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
@@ -91,6 +68,7 @@ import org.apache.logging.log4j.LogManager
 object PokemonCobbled {
     const val MODID = "pokemoncobbled"
     const val VERSION = "0.0.1"
+    const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER = LogManager.getLogger()
 
     lateinit var implementation: PokemonCobbledModImplementation
@@ -102,9 +80,8 @@ object PokemonCobbled {
     var config = CobbledConfig()
     var prospector: SpawningProspector = CobbledSpawningProspector
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
-    val spawnerManagers = mutableListOf<SpawnerManager>(CobbledWorldSpawnerManager)
+    val bestSpawner = BestSpawner
     var storage = PokemonStoreManager()
-    var defaultPokemonDespawner: Despawner<PokemonEntity> = CobbledAgingDespawner(getAgeTicks = { it.ticksLived })
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         this.loadConfig()
@@ -174,26 +151,7 @@ object PokemonCobbled {
 
         SERVER_STOPPING.subscribe { storage.unregisterAll() }
 
-        SpawningContextCalculator.register(GroundedSpawningContextCalculator)
-        SpawningContextCalculator.register(SeafloorSpawningContextCalculator)
-        SpawningContextCalculator.register(LavafloorSpawningContextCalculator)
-        SpawningContextCalculator.register(UnderwaterSpawningContextCalculator)
-        SpawningContextCalculator.register(UnderlavaSpawningContextCalculator)
-
-        SpawningCondition.register(BasicSpawningCondition.NAME, BasicSpawningCondition::class.java)
-        SpawningCondition.register(AreaSpawningCondition.NAME, AreaSpawningCondition::class.java)
-        SpawningCondition.register(SubmergedSpawningCondition.NAME, SubmergedSpawningCondition::class.java)
-        SpawningCondition.register(GroundedSpawningCondition.NAME, GroundedSpawningCondition::class.java)
-
-        SpawningContext.register(name = "grounded", clazz = GroundedSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
-        SpawningContext.register(name = "seafloor", clazz = SeafloorSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
-        SpawningContext.register(name = "lavafloor", clazz = LavafloorSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
-        SpawningContext.register(name = "underwater", clazz = UnderwaterSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
-        SpawningContext.register(name = "underlava", clazz = UnderlavaSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
-
-        SpawnDetail.registerSpawnType(name = PokemonSpawnDetail.TYPE, PokemonSpawnDetail::class.java)
-
-        SERVER_STARTED.subscribe { spawnerManagers.forEach { it.onServerStarted() } }
+        SERVER_STARTED.subscribe { bestSpawner.onServerStarted() }
         TICK_POST.subscribe { ServerTickHandler.onTick(it) }
 
         showdownThread.showdownStarted.thenAccept {
@@ -216,7 +174,7 @@ object PokemonCobbled {
     }
 
     fun loadConfig() {
-        val configFile = File("config/$MODID.json")
+        val configFile = File(CONFIG_PATH)
         configFile.parentFile.mkdirs()
 
         // Check config existence and load if it exists, otherwise create default.
@@ -250,11 +208,13 @@ object PokemonCobbled {
             this.config = CobbledConfig()
             this.saveConfig()
         }
+
+        bestSpawner.loadConfig()
     }
 
     fun saveConfig() {
         try {
-            val configFile = File("config/$MODID.json")
+            val configFile = File(CONFIG_PATH)
             val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
             val fileWriter = FileWriter(configFile)
 

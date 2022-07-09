@@ -1,0 +1,23 @@
+{
+  "name": "rare-desert-land-daytime",
+  "bucket": "rare",
+  "spawnDetailType": "pokemon",
+  "context": "grounded",
+  "weightMultipliers": [
+    {
+      "multiplier": 2,
+      "condition": {
+        "minY": 100
+      }
+    }
+  ],
+  "condition": {
+    "biomes": [ "minecraft:desert" ],
+    "canSeeSky": true
+  },
+  "anticondition": {
+    "timeRange": "night"
+  },
+  "weight": 100,
+  "percentage": 20
+}
