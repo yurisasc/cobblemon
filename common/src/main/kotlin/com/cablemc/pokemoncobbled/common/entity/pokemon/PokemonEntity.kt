@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
@@ -59,7 +58,7 @@ class PokemonEntity(
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
             this.updateEyeHeight()
         }
-    var despawner: Despawner<PokemonEntity> = PokemonCobbled.defaultPokemonDespawner
+    var despawner: Despawner<PokemonEntity> = PokemonCobbled.bestSpawner.defaultPokemonDespawner
 
     val delegate = if (world.isClient) {
         // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server

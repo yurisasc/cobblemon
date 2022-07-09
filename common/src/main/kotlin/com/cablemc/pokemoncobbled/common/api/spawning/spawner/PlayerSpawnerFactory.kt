@@ -10,7 +10,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * Responsible for creating [PlayerSpawner]s with whatever appropriate settings. You can
- * swap over the spawn pool and the influences here and it will apply to all newly-generated
+ * swap over the spawn pool and the influences here, and it will apply to all newly-generated
  * [PlayerSpawner]s.
  *
  * @author Hiroku
