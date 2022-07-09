@@ -12,7 +12,6 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.Ground
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.LavafloorSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SeafloorSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderlavaSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SubmergedSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.PokemonSpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
@@ -83,7 +82,6 @@ object BestSpawner {
         SpawningContextCalculator.register(SeafloorSpawningContextCalculator)
         SpawningContextCalculator.register(LavafloorSpawningContextCalculator)
         SpawningContextCalculator.register(SubmergedSpawningContextCalculator)
-        SpawningContextCalculator.register(UnderlavaSpawningContextCalculator)
 
         SpawningContext.register(name = "grounded", clazz = GroundedSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
         SpawningContext.register(name = "seafloor", clazz = SeafloorSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
