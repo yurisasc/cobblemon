@@ -1,6 +1,10 @@
 {
   "version": 1,
   "replaceWithNewVersion": true,
+  "contextWeights": {
+    "grounded": 1.0,
+    "submerged": 0.7
+  },
   "buckets": [
     {
       "name": "common",

@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.spawning.BestSpawner
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnBucket
+import com.cablemc.pokemoncobbled.common.api.spawning.context.GroundedSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.util.adapters.RegisteredSpawningContextAdapter
 import com.google.gson.GsonBuilder
@@ -23,6 +24,10 @@ class BestSpawnerConfig {
     val version = 0
     /** Whether or not an external config will be replaced by an internal one once [version] is higher on the internal. */
     val replaceWithNewVersion = true
+    val contextWeights = mutableMapOf(
+        "grounded" to 1F,
+        "submerged" to 0.7F
+    )
     val buckets = mutableListOf(
         SpawnBucket("common", 94.4F),
         SpawnBucket("uncommon", 5F),

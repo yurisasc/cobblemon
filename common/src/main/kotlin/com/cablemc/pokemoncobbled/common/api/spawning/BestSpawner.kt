@@ -7,19 +7,13 @@ import com.cablemc.pokemoncobbled.common.api.spawning.condition.BasicSpawningCon
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.GroundedSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SubmergedSpawningCondition
-import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolver
-import com.cablemc.pokemoncobbled.common.api.spawning.context.GroundedSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.LavafloorSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.SeafloorSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderlavaSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.context.UnderwaterSpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.context.*
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.GroundedSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.LavafloorSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SeafloorSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderlavaSpawningContextCalculator
-import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.UnderwaterSpawningContextCalculator
+import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SubmergedSpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.PokemonSpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
@@ -88,14 +82,13 @@ object BestSpawner {
         SpawningContextCalculator.register(GroundedSpawningContextCalculator)
         SpawningContextCalculator.register(SeafloorSpawningContextCalculator)
         SpawningContextCalculator.register(LavafloorSpawningContextCalculator)
-        SpawningContextCalculator.register(UnderwaterSpawningContextCalculator)
+        SpawningContextCalculator.register(SubmergedSpawningContextCalculator)
         SpawningContextCalculator.register(UnderlavaSpawningContextCalculator)
 
         SpawningContext.register(name = "grounded", clazz = GroundedSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
         SpawningContext.register(name = "seafloor", clazz = SeafloorSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
         SpawningContext.register(name = "lavafloor", clazz = LavafloorSpawningContext::class.java, defaultCondition = GroundedSpawningCondition.NAME)
-        SpawningContext.register(name = "underwater", clazz = UnderwaterSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
-        SpawningContext.register(name = "underlava", clazz = UnderlavaSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
+        SpawningContext.register(name = "submerged", clazz = SubmergedSpawningContext::class.java, defaultCondition = SubmergedSpawningCondition.NAME)
 
         LOGGER.info("Loaded ${SpawningContext.contexts.size} spawning context types.")
 
