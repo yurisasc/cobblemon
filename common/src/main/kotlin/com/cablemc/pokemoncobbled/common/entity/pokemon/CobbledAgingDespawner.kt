@@ -34,7 +34,7 @@ class CobbledAgingDespawner<T : Entity>(
     override fun beginTracking(entity: T) {}
     override fun shouldDespawn(entity: T): Boolean {
         val age = getAgeTicks(entity)
-        if (age < minAgeTicks) {
+        if (age < minAgeTicks || (entity is PokemonEntity && entity.isBusy)) {
             return false
         }
 

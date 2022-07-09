@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.pokeball
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import net.minecraft.client.render.OverlayTexture
@@ -17,7 +18,7 @@ class PokeBallRenderer(context: EntityRendererFactory.Context) : EntityRenderer<
     }
 
     override fun render(entity: EmptyPokeBallEntity, yaw: Float, partialTicks: Float, poseStack: MatrixStack, buffer: VertexConsumerProvider, packedLight: Int) {
-        val model = PokeBallModelRepository.getModel(entity.pokeBall).entityModel
+        val model = PokeBallModelRepository.getModel(entity.pokeBall).entityModel as PoseableEntityModel<EmptyPokeBallEntity>
         poseStack.push()
         poseStack.scale(0.7F, 0.7F, 0.7F)
         val vertexConsumer = ItemRenderer.getDirectItemGlintConsumer(buffer, model.getLayer(getTexture(entity)), false, false)

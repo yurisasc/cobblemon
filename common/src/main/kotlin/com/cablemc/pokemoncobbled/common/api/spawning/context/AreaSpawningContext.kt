@@ -18,7 +18,7 @@ open class AreaSpawningContext(
     override val world: World,
     override val position: BlockPos,
     override val light: Int,
-    override val skyAbove: Boolean,
+    override val canSeeSky: Boolean,
     override val influences: MutableList<SpawningInfluence>,
     /** Space horizontally (diameter) */
     val width: Int,

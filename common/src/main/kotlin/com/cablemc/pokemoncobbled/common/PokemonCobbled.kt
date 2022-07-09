@@ -17,6 +17,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalcul
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.StandardExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.feature.FlagSpeciesFeature
+import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.spawning.BestSpawner
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
@@ -42,6 +43,8 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.features.SunglassesFeature
+import com.cablemc.pokemoncobbled.common.pokemon.properties.UncatchableProperty
+import com.cablemc.pokemoncobbled.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
@@ -125,6 +128,8 @@ object PokemonCobbled {
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()
         FlagSpeciesFeature.registerWithPropertyAndAspect("sunglasses", SunglassesFeature::class.java)
+        CustomPokemonProperty.register(UntradeableProperty)
+        CustomPokemonProperty.register(UncatchableProperty)
 
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 

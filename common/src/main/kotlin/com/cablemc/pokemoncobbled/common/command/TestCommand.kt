@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.command
 
-import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
@@ -8,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.battles.BattleSide
 import com.cablemc.pokemoncobbled.common.battles.actor.MultiPokemonBattleActor
 import com.cablemc.pokemoncobbled.common.battles.actor.PlayerBattleActor
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.party
 import com.mojang.brigadier.Command
@@ -17,6 +15,7 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 
 object TestCommand {
 
@@ -36,11 +35,6 @@ object TestCommand {
             // Player variables
             val player = context.source.entity as ServerPlayerEntity
             val party = player.party()
-            party.find { it.species === PokemonSpecies.CHARIZARD }?.let {
-                it.entity?.let { entity ->
-                    entity.setBehaviourFlag(PokemonBehaviourFlag.EXCITED, !entity.getBehaviourFlag(PokemonBehaviourFlag.EXCITED))
-                }
-            }
             party.heal()
 
             val playerActor = PlayerBattleActor(
@@ -49,13 +43,18 @@ object TestCommand {
             )
 
             // Enemy variables
-            val pokemon = Pokemon().apply { species = PokemonSpecies.MAGIKARP }
-            pokemon.moveSet.add(Moves.getByName("splash")!!.create()) // TODO remove when move loading works properly
+            val pokemon = Pokemon().apply { species = PokemonSpecies.MAGIKARP }.also { it.initialize() }
             val enemyPokemon = BattlePokemon(pokemon)
 
             val enemyPokemon2 = BattlePokemon(PokemonSpecies.BLASTOISE.create())
             val enemyPokemon3 = BattlePokemon(PokemonSpecies.BUTTERFREE.create())
             val enemyPokemon4 = BattlePokemon(PokemonSpecies.DIGLETT.create())
+
+
+            enemyPokemon.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(2.0, 0.0, 0.0))
+            enemyPokemon2.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(-2.0, 0.0, 0.0))
+            enemyPokemon3.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(0.0, 0.0, 2.0))
+            enemyPokemon4.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(0.0, 0.0, -2.0))
 
             // Start the battle
             BattleRegistry.startBattle(

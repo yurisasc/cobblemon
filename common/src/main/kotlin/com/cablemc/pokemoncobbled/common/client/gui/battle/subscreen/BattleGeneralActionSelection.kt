@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen
 
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.ActorType
+import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.battle.SingleActionRequest
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.gui.battle.widgets.BattleOptionTile
@@ -27,29 +29,39 @@ class BattleGeneralActionSelection(
     init {
         var rank = 0
 
-        tiles.add(
-            addOption(rank++, battleLang("ui.fight"), BattleGUI.fightResource) {
-                playDownSound(MinecraftClient.getInstance().soundManager)
-                battleGUI.changeActionSelection(BattleMoveSelection(battleGUI, request))
-            }
-        )
+        addOption(rank++, battleLang("ui.fight"), BattleGUI.fightResource) {
+            playDownSound(MinecraftClient.getInstance().soundManager)
+            battleGUI.changeActionSelection(BattleMoveSelection(battleGUI, request))
+        }
 
-        tiles.add(
+        if (request.moveSet?.trapped != true) {
             addOption(rank++, battleLang("ui.switch"), BattleGUI.runResource) {
                 battleGUI.changeActionSelection(BattleSwitchPokemonSelection(battleGUI, request))
                 playDownSound(MinecraftClient.getInstance().soundManager)
             }
-        )
+        }
+
+        PokemonCobbledClient.battle?.let { battle ->
+            if (battle.battleFormat.battleType.pokemonPerSide == 1 && battle.side2.actors.first().type == ActorType.WILD) {
+                addOption(rank++, battleLang("ui.capture"), BattleGUI.fightResource) {
+                    PokemonCobbledClient.battle?.minimised = true
+                    MinecraftClient.getInstance().player?.sendMessage(battleLang("throw_pokeball_prompt"), false)
+                    playDownSound(MinecraftClient.getInstance().soundManager)
+                }
+            }
+        }
     }
 
-    private fun addOption(rank: Int, text: MutableText, texture: Identifier, onClick: () -> Unit): BattleOptionTile {
-        return BattleOptionTile(
-            battleGUI = battleGUI,
-            x = BattleGUI.OPTION_ROOT_X + rank * BattleGUI.OPTION_HORIZONTAL_SPACING,
-            y = MinecraftClient.getInstance().window.scaledHeight - BattleGUI.OPTION_VERTICAL_OFFSET + rank * BattleGUI.OPTION_VERTICAL_SPACING,
-            resource = texture,
-            text = text,
-            onClick = onClick
+    private fun addOption(rank: Int, text: MutableText, texture: Identifier, onClick: () -> Unit) {
+        tiles.add(
+            BattleOptionTile(
+                battleGUI = battleGUI,
+                x = BattleGUI.OPTION_ROOT_X + rank * BattleGUI.OPTION_HORIZONTAL_SPACING,
+                y = MinecraftClient.getInstance().window.scaledHeight - BattleGUI.OPTION_VERTICAL_OFFSET + rank * BattleGUI.OPTION_VERTICAL_SPACING,
+                resource = texture,
+                text = text,
+                onClick = onClick
+            )
         )
     }
 

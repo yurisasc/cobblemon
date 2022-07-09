@@ -44,7 +44,8 @@ object BattleInitializeHandler : ClientPacketHandler<BattleInitializePacket> {
         return ClientBattleActor(
             showdownId = actorDTO.showdownId,
             displayName = actorDTO.displayName,
-            uuid = actorDTO.uuid
+            uuid = actorDTO.uuid,
+            type = actorDTO.type
         ).apply {
             activePokemon.addAll(actorDTO.activePokemon.map {
                 ActiveClientBattlePokemon(this, it?.let {
