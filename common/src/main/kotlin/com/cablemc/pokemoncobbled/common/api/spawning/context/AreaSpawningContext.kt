@@ -24,7 +24,7 @@ open class AreaSpawningContext(
     val width: Int,
     /** Space above. */
     val height: Int,
-    val nearbyBlocks: Set<BlockState>,
+    val nearbyBlocks: List<BlockState>,
     val slice: WorldSlice
 ) : SpawningContext() {
     val nearbyBlockTypes = nearbyBlocks.map { it.block.translationKey }

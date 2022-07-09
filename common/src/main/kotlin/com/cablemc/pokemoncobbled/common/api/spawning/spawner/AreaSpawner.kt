@@ -37,14 +37,14 @@ abstract class AreaSpawner(
     override fun run(cause: SpawnCause): Pair<SpawningContext, SpawnDetail>? {
         val area = getArea(cause)
         if (area != null) {
-//            val prospectStart = System.currentTimeMillis()
+            val prospectStart = System.currentTimeMillis()
             val slice = prospector.prospect(this, area)
-//            val prospectEnd = System.currentTimeMillis()
+            val prospectEnd = System.currentTimeMillis()
             val contexts = resolver.resolve(this, contextCalculators, slice)
-//            val resolveEnd = System.currentTimeMillis()
-//            val prospectDuration = prospectEnd - prospectStart
-//            val resolveDuration = resolveEnd - prospectEnd
-//            println("Prospecting took: $prospectDuration ms. Resolution took: $resolveDuration ms")
+            val resolveEnd = System.currentTimeMillis()
+            val prospectDuration = prospectEnd - prospectStart
+            val resolveDuration = resolveEnd - prospectEnd
+            println("Prospecting took: $prospectDuration ms. Resolution took: $resolveDuration ms")
             // Takes about 3ms on my laptop to prospect, similar to context resolve - not very good, needs some thought
             return getSpawningSelector().select(this, contexts, getSpawnPool().details)
         }

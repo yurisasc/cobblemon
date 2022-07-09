@@ -80,72 +80,23 @@ class WorldSlice(
     }
     fun skyAbove(position: BlockPos, elseSkyAbove: Boolean = false) = skyAbove(position.x, position.y, position.z, elseSkyAbove)
 
-    fun nearbyBlocks(position: BlockPos, maxRadius: Int) = nearbyBlocks(position.x, position.y, position.z, maxRadius)
-    fun nearbyBlocks(centerX: Int, centerY: Int, centerZ: Int, maxRadius: Int): Set<BlockState> {
-        val blocks = hashSetOf<BlockState>()
-        var radius = 1
-        while (radius <= maxRadius) {
-            val minX = centerX - radius
-            val maxX = centerX + radius
-            val minZ = centerZ - radius
-            val maxZ = centerZ + radius
-            val minY = centerY - radius
-            val maxY = centerY + radius
+    fun nearbyBlocks(position: BlockPos, maxHorizontalRadius: Int, maxVerticalRadius: Int) = nearbyBlocks(position.x, position.y, position.z, maxHorizontalRadius, maxVerticalRadius)
+    fun nearbyBlocks(centerX: Int, centerY: Int, centerZ: Int, maxHorizontalRadius: Int, maxVerticalRadius: Int): List<BlockState> {
+        val blocks = mutableListOf<BlockState>()
 
-            if (!isInBounds(minX, minY, minZ) || !isInBounds(maxX, maxY, maxZ)) {
-                return blocks
-            }
+        val minX = (centerX - maxHorizontalRadius).coerceAtLeast(baseX)
+        val minY = (centerY - maxVerticalRadius).coerceAtLeast(baseY)
+        val minZ = (centerZ - maxHorizontalRadius).coerceAtLeast(baseZ)
+        val maxX = (centerX + maxHorizontalRadius).coerceAtMost(baseX + length)
+        val maxY = (centerY + maxVerticalRadius).coerceAtMost(baseY + height)
+        val maxZ = (centerZ + maxHorizontalRadius).coerceAtMost(baseZ + width)
 
-            var x: Int
-            var z: Int
-
-            for (y in (minY + 1) until maxY) {
-                // Check left side of square
-                x = minX
-                z = minZ
-                while (z <= maxZ) {
+        for (x in minX..maxX) {
+            for (y in minY..maxY) {
+                for (z in minZ..maxZ) {
                     blocks.add(getBlockState(x, y, z))
-                    z++
-                }
-
-                // Check right side of square
-                x = maxX
-                z = minZ
-                while (z <= maxZ) {
-                    blocks.add(getBlockState(x, y, z))
-                    z++
-                }
-
-                // Check bottom side of square minus the corners (minX and maxX)
-                z = minZ
-                x = minX + 1
-                while (x < maxX) {
-                    blocks.add(getBlockState(x, y, z))
-                    x++
-                }
-
-                // Check top side of square minus the corners (minX and maxX)
-                z = maxZ
-                x = minX + 1
-                while (x < maxX) {
-                    blocks.add(getBlockState(x, y, z))
-                    x++
                 }
             }
-
-            x = minX
-            z = minZ
-
-            while (x < maxX) {
-                while (z < maxZ) {
-                    blocks.add(getBlockState(x, minY, z))
-                    blocks.add(getBlockState(x, maxY, z))
-                    z++
-                }
-                x++
-            }
-
-            radius++
         }
 
         return blocks
