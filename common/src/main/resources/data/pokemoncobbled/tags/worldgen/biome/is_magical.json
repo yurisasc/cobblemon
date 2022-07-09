@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "#byg:is_magical",
+      "required": false
+    }
+  ]
+}
