@@ -18,14 +18,14 @@ open class SubmergedSpawningContext(
     world: World,
     position: BlockPos,
     light: Int,
-    skyAbove: Boolean,
+    canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
     val depth: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : AreaSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice) {
+) : AreaSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice) {
     val fluidBlock = slice.getBlockState(position.x, position.y, position.z).block
     val fluidState = slice.getBlockState(position.x, position.y, position.z).fluidState
 }

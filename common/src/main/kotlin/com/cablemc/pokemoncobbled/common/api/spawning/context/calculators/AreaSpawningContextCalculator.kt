@@ -37,7 +37,7 @@ interface AreaSpawningContextCalculator<O : AreaSpawningContext> : SpawningConte
         = input.slice.horizontalSpace(input.position.x + offsetX, input.position.y + offsetY, input.position.z + offsetZ, condition, maximum)
     fun getLight(input: AreaSpawningInput, elseLight: Int = 0): Int
         = input.slice.getLight(input.position.x, input.position.y + 1, input.position.z, elseLight)
-    fun getSkyAbove(input: AreaSpawningInput): Boolean = input.slice.skyAbove(input.position.x, input.position.y + 1, input.position.z)
+    fun getCanSeeSky(input: AreaSpawningInput): Boolean = input.slice.canSeeSky(input.position.x, input.position.y + 1, input.position.z)
     fun getSkySpaceAbove(input: AreaSpawningInput): Int = input.slice.skySpaceAbove(input.position.x, input.position.y, input.position.z)
     fun getNearbyBlocks(
         input: AreaSpawningInput,

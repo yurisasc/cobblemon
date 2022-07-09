@@ -3,9 +3,9 @@ package com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.CaptureContext
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.server.network.ServerPlayerEntity
 import kotlin.math.pow
 import kotlin.random.Random.Default.nextInt
+import net.minecraft.entity.LivingEntity
 
 /**
  * Calculates captures for generation 7 and generation 8.
@@ -16,9 +16,9 @@ import kotlin.random.Random.Default.nextInt
  */
 object Gen7CaptureCalculator : CaptureCalculator {
 
-    override fun processCapture(player: ServerPlayerEntity, pokemon: Pokemon, pokeBall: PokeBall): CaptureContext {
-        val catchRate = getCatchRate(player, pokemon, pokeBall)
-        return if (tryCriticalCapture(catchRate, player)) {
+    override fun processCapture(thrower: LivingEntity, pokemon: Pokemon, pokeBall: PokeBall): CaptureContext {
+        val catchRate = getCatchRate(thrower, pokemon, pokeBall)
+        return if (tryCriticalCapture(catchRate, thrower)) {
             CaptureContext(isSuccessfulCapture = true, isCriticalCapture = true, numberOfShakes = 1)
         } else {
             val shakeProbability = (65536 / (255 / catchRate.toDouble()).pow(3.0 / 16))
@@ -35,21 +35,21 @@ object Gen7CaptureCalculator : CaptureCalculator {
         }
     }
 
-    fun getCatchRate(player: ServerPlayerEntity, pokemon: Pokemon, pokeBall: PokeBall): Float {
+    fun getCatchRate(thrower: LivingEntity, pokemon: Pokemon, pokeBall: PokeBall): Float {
         var catchRate = pokemon.species.catchRate.toFloat()
-        pokeBall.catchRateModifiers.forEach { catchRate = it.modifyCatchRate(catchRate, player, pokemon) }
+        pokeBall.catchRateModifiers.forEach { catchRate = it.modifyCatchRate(catchRate, thrower, pokemon) }
         val maxHealth = pokemon.hp
         val currentHealth = pokemon.currentHealth
         val statusBonus = getStatusBonus(pokemon)
         return ((3 * maxHealth - 2 * currentHealth) * catchRate) * statusBonus / (3 * maxHealth)
     }
 
-    private fun tryCriticalCapture(catchRate: Float, player: ServerPlayerEntity): Boolean {
-        val critCaptureRate = (minOf(255f, catchRate) * getCriticalCaptureMultiplier(player) / 6).toInt()
+    private fun tryCriticalCapture(catchRate: Float, thrower: LivingEntity): Boolean {
+        val critCaptureRate = (minOf(255f, catchRate) * getCriticalCaptureMultiplier(thrower) / 6).toInt()
         return nextInt(256) < critCaptureRate
     }
 
-    fun getCriticalCaptureMultiplier(player: ServerPlayerEntity): Float {
+    fun getCriticalCaptureMultiplier(thrower: LivingEntity): Float {
         // TODO: Get pokedex, determine modifier based on how many pokemon player has caught
         return 0f
     }

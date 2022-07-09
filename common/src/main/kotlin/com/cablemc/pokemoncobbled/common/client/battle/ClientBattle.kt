@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.client.battle
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
+import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import java.util.UUID
 
 class ClientBattle(
@@ -21,6 +23,17 @@ class ClientBattle(
     var mustChoose = false
 
     fun getFirstUnansweredRequest() = pendingActionRequests.firstOrNull { it.response == null }
+    fun checkForFinishedChoosing() {
+        if (getFirstUnansweredRequest() == null) {
+            CobbledNetwork.sendToServer(
+                BattleSelectActionsPacket(
+                    battleId = battleId,
+                    pendingActionRequests.map { it.response!! }
+                )
+            )
+            mustChoose = false
+        }
+    }
 
     fun getPokemonFromPNX(pnx: String): Pair<ClientBattleActor, ActiveClientBattlePokemon> {
         val actor = sides.flatMap { it.actors }.find { it.showdownId == pnx.substring(0, 2) }

@@ -6,11 +6,16 @@ import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.battle.ActiveClientBattlePokemon
+import com.cablemc.pokemoncobbled.common.client.battle.ClientBallDisplay
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokeball.PokeBallModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokeBallModelRepository
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Species
@@ -25,6 +30,10 @@ import net.minecraft.text.MutableText
 import java.lang.Double.max
 import java.lang.Double.min
 import kotlin.math.roundToInt
+import net.minecraft.client.render.DiffuseLighting
+import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.render.OverlayTexture
+import net.minecraft.util.math.Vec3f
 
 class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
     companion object {
@@ -90,9 +99,6 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
 
     fun drawTile(matrices: MatrixStack, tickDelta: Float, activeBattlePokemon: ActiveClientBattlePokemon, left: Boolean, rank: Int) {
         val mc = MinecraftClient.getInstance()
-        fun scaleIt(i: Number): Int {
-            return (mc.window.scaleFactor * i.toFloat()).roundToInt()
-        }
 
         val battlePokemon = activeBattlePokemon.battlePokemon ?: return
         // First render the underlay
@@ -129,7 +135,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             hpRatio = battlePokemon.hpRatio,
             state = battlePokemon.state,
             colour = Triple(r, g, b),
-            opacity = opacity.toFloat()
+            opacity = opacity.toFloat(),
+            ballState = activeBattlePokemon.ballCapturing
         )
     }
 
@@ -145,7 +152,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         hpRatio: Float,
         state: PoseableEntityState<PokemonEntity>?,
         colour: Triple<Float, Float, Float>?,
-        opacity: Float
+        opacity: Float,
+        ballState: ClientBallDisplay? = null
     ) {
         val mc = MinecraftClient.getInstance()
         fun scaleIt(i: Number): Int {
@@ -173,17 +181,28 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         val matrixStack = MatrixStack()
         matrixStack.translate(
             portraitStartX + PORTRAIT_DIAMETER / 2.0,
-            y.toDouble() + PORTRAIT_OFFSET,
+            y.toDouble() + PORTRAIT_OFFSET ,
             0.0
         )
-        drawPortraitPokemon(
-            species,
-            aspects,
-            matrixStack,
-            scale = 18F,
-            reversed = reversed,
-            state = state
-        )
+        matrixStack.push()
+        if (ballState != null && ballState.phase == ClientBallDisplay.Phase.SHAKING) {
+            drawPokeBall(
+                state = ballState,
+                matrixStack = matrixStack,
+            )
+        } else {
+            matrixStack.push()
+            drawPortraitPokemon(
+                species,
+                aspects,
+                matrixStack,
+                scale = 18F * (ballState?.scale ?: 1F),
+                reversed = reversed,
+                state = state
+            )
+            matrixStack.pop()
+        }
+        matrixStack.pop()
         RenderSystem.disableScissor()
 
         // Third render the tile
@@ -253,5 +272,44 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             green = healthGreen,
             blue = 0
         )
+    }
+
+    fun drawPokeBall(
+        state: ClientBallDisplay,
+        matrixStack: MatrixStack,
+        scale: Float = 6F,
+        reversed: Boolean = false
+    ) {
+        val model = PokeBallModelRepository.getModel(state.pokeBall).entityModel as PokeBallModel
+        val texture = PokeBallModelRepository.getModelTexture(state.pokeBall)
+        val renderType = model.getLayer(texture)
+
+        RenderSystem.applyModelViewMatrix()
+        val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F * if (reversed) -1F else 1F)
+        val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
+
+        model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
+        model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+
+        matrixStack.scale(scale, -scale, scale)
+        matrixStack.translate(0.0, -4.5, -4.0)
+        matrixStack.scale(scale * state.scale, scale * state.scale, 0.01F)
+
+        matrixStack.multiply(quaternion1)
+        matrixStack.multiply(quaternion2)
+
+        val light1 = Vec3f(0.2F, 1.0F, -1.0F)
+        val light2 = Vec3f(0.1F, -1.0F, 2.0F)
+        RenderSystem.setShaderLights(light1, light2)
+        quaternion1.conjugate()
+
+        val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
+        val buffer = immediate.getBuffer(renderType)
+        val packedLight = LightmapTextureManager.pack(8, 4)
+        model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+
+        immediate.draw()
+
+        DiffuseLighting.enableGuiDepthLighting()
     }
 }

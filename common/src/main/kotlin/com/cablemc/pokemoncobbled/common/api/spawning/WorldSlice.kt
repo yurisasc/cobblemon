@@ -71,14 +71,14 @@ class WorldSlice(
     }
     fun skySpaceAbove(position: BlockPos) = skySpaceAbove(position.x, position.y, position.z)
 
-    fun skyAbove(x: Int, y: Int, z: Int, elseSkyAbove: Boolean = false): Boolean {
+    fun canSeeSky(x: Int, y: Int, z: Int, elseCanSeeSky: Boolean = false): Boolean {
         return if (!isInBounds(x, y, z)) {
-            elseSkyAbove
+            elseCanSeeSky
         } else {
             skyLevel[x - baseX][z - baseZ] <= y
         }
     }
-    fun skyAbove(position: BlockPos, elseSkyAbove: Boolean = false) = skyAbove(position.x, position.y, position.z, elseSkyAbove)
+    fun canSeeSky(position: BlockPos, elseCanSeeSky: Boolean = false) = canSeeSky(position.x, position.y, position.z, elseCanSeeSky)
 
     fun nearbyBlocks(position: BlockPos, maxHorizontalRadius: Int, maxVerticalRadius: Int) = nearbyBlocks(position.x, position.y, position.z, maxHorizontalRadius, maxVerticalRadius)
     fun nearbyBlocks(centerX: Int, centerY: Int, centerZ: Int, maxHorizontalRadius: Int, maxVerticalRadius: Int): List<BlockState> {

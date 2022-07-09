@@ -5,29 +5,30 @@ import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 
-class InBattleMove(
-    val id: String,
-    val move: String,
-    val pp: Int,
-    val maxpp: Int,
-    val target: MoveTarget,
-    val disabled: Boolean
-) {
+class InBattleMove {
+    lateinit var id: String
+    lateinit var move: String
+    var pp: Int = 100
+    var maxpp: Int = 100
+    var target: MoveTarget = MoveTarget.self
+    var disabled: Boolean = false
+
     companion object {
         fun loadFromBuffer(buffer: PacketByteBuf): InBattleMove {
-            return InBattleMove(
-                id = buffer.readString(),
-                move = buffer.readString(),
-                pp = buffer.readSizedInt(IntSize.U_BYTE),
-                maxpp = buffer.readSizedInt(IntSize.U_BYTE),
-                target = MoveTarget.values()[buffer.readSizedInt(IntSize.U_BYTE)],
+            return InBattleMove().apply {
+                id = buffer.readString()
+                move = buffer.readString()
+                pp = buffer.readSizedInt(IntSize.U_BYTE)
+                maxpp = buffer.readSizedInt(IntSize.U_BYTE)
+                target = MoveTarget.values()[buffer.readSizedInt(IntSize.U_BYTE)]
                 disabled = buffer.readBoolean()
-            )
+            }
         }
     }
 
     fun getTargets(user: ActiveBattlePokemon) = target.targetList(user)
-    fun canBeUsed() = pp > 0 && !disabled
+    fun canBeUsed() = (pp > 0 && !disabled) || mustBeUsed() // Second case is like Thrash, forced choice
+    fun mustBeUsed() = maxpp == 100 && pp == 100 && target == MoveTarget.self
     fun saveToBuffer(buffer: PacketByteBuf) {
         buffer.writeString(id)
         buffer.writeString(move)

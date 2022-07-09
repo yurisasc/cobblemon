@@ -18,13 +18,13 @@ abstract class FlooredSpawningContext(
     world: World,
     position: BlockPos,
     light: Int,
-    skyAbove: Boolean,
+    canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : AreaSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice) {
+) : AreaSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice) {
     /** The block that the spawning is occurring on. */
     val baseBlock = slice.getBlockState(position.x, position.y, position.z)
 }
@@ -40,13 +40,13 @@ open class GroundedSpawningContext(
     world: World,
     position: BlockPos,
     light: Int,
-    skyAbove: Boolean,
+    canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice)
 
 /**
  * A spawning context that occurs at the bottom of a body of water.
@@ -59,13 +59,13 @@ open class SeafloorSpawningContext(
     world: World,
     position: BlockPos,
     light: Int,
-    skyAbove: Boolean,
+    canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice)
 
 /**
  * A spawning context that occurs at the bottom of bodies of lava.
@@ -78,10 +78,10 @@ open class LavafloorSpawningContext(
     world: World,
     position: BlockPos,
     light: Int,
-    skyAbove: Boolean,
+    canSeeSky: Boolean,
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
     nearbyBlocks: List<BlockState>,
     slice: WorldSlice
-) : FlooredSpawningContext(cause, world, position, light, skyAbove, influences, width, height, nearbyBlocks, slice)
+) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice)
