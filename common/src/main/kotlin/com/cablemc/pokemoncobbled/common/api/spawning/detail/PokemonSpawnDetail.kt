@@ -20,7 +20,7 @@ class PokemonSpawnDetail : SpawnDetail() {
     override val type: String = TYPE
     var pokemon = PokemonProperties()
     var levelRange: IntRange? = null
-    /* todo breadcrumbing */
+    /* todo breadcrumbing, drops, ai */
 
     override fun autoLabel() {
         super.autoLabel()
