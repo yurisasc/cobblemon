@@ -9,7 +9,7 @@ import com.google.gson.JsonObject
 import java.lang.reflect.Type
 
 /**
- * A simple map adapter for [SpawnDetailPreset]s that uses the [SpawnDetailPreset.presetTypes] mapping.
+ * A simple map adapter for [SpawnDetailPreset] classes that uses the [SpawnDetailPreset.presetTypes] mapping.
  *
  * @author Hiroku
  * @since July 8th, 2022

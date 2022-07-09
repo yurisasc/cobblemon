@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.condition.CompositeSpawnin
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
+import com.cablemc.pokemoncobbled.common.api.spawning.multiplier.WeightMultiplier
 
 /**
  * A spawnable unit in the Best Spawner API. This is extended for any kind of entity
@@ -29,6 +30,7 @@ abstract class SpawnDetail : ModDependant {
     var conditions = mutableListOf<SpawningCondition<*>>()
     var anticonditions = mutableListOf<SpawningCondition<*>>()
     var compositeCondition: CompositeSpawningCondition? = null
+    var weightMultipliers = mutableListOf<WeightMultiplier>()
 
     var weight = -1F
     var percentage = -1F

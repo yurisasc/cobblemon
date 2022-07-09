@@ -1,9 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.selection
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
+import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
-import com.cablemc.pokemoncobbled.common.api.spawning.selection.ContextWeightedSelector.getWeight
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.util.weightedSelection
 import kotlin.math.max
@@ -27,10 +28,9 @@ import kotlin.random.Random
  * @author Hiroku
  * @since February 5th, 2022
  */
-object ContextWeightedSelector : SpawningSelector {
-    fun getWeight(clazz: Class<out SpawningContext>): Float {
-        // TODO proper variables for the context weights
-        return 1F
+open class ContextWeightedSelector : SpawningSelector {
+    open fun getWeight(contextType: RegisteredSpawningContext<*>): Float {
+        return PokemonCobbled.bestSpawner.config.contextWeights[contextType.name] ?: 1F
     }
 
     override fun select(
@@ -39,7 +39,7 @@ object ContextWeightedSelector : SpawningSelector {
         spawnDetails: List<SpawnDetail>
     ): Pair<SpawningContext, SpawnDetail>? {
         val contextToSpawn = mutableMapOf<SpawningContext, SpawnDetail>()
-        val contextTypes = mutableListOf<Class<out SpawningContext>>()
+        val contextTypes = mutableListOf<RegisteredSpawningContext<*>>()
 
         contexts.forEach { ctx ->
             val possible = spawner.getMatchingSpawns(ctx)
@@ -73,9 +73,9 @@ object ContextWeightedSelector : SpawningSelector {
 
             possibleToWeight.entries.weightedSelection { it.value }?.let {
                 contextToSpawn[ctx] = it.key
-                val clazz = ctx::class.java
-                if (clazz !in contextTypes) {
-                    contextTypes.add(clazz)
+                val contextType = SpawningContext.getByClass(ctx)!!
+                if (contextType !in contextTypes) {
+                    contextTypes.add(contextType)
                 }
             }
         }
@@ -85,7 +85,7 @@ object ContextWeightedSelector : SpawningSelector {
         }
 
         val contextType = contextTypes.weightedSelection { getWeight(it) } ?: return null
-        val chosenContext = contextToSpawn.keys.filterIsInstance(contextType).random()
+        val chosenContext = contextToSpawn.keys.filterIsInstance(contextType.clazz).random()
         return chosenContext to contextToSpawn[chosenContext]!!
     }
 

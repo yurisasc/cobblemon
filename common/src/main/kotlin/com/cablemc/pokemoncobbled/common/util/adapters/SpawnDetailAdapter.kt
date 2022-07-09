@@ -7,7 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningConditio
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.preset.SpawnDetailPreset
-import com.google.gson.JsonArray
+import com.cablemc.pokemoncobbled.common.util.singularToPluralList
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
@@ -25,8 +25,8 @@ import java.lang.reflect.Type
 object SpawnDetailAdapter : JsonDeserializer<SpawnDetail> {
     override fun deserialize(element: JsonElement, type: Type, ctx: JsonDeserializationContext): SpawnDetail {
         element as JsonObject
+        element.singularToPluralList("preset")
         val presetNames = element.get("presets")?.asJsonArray?.map { it.asString }?.toMutableSet() ?: mutableSetOf()
-        element.get("preset")?.let { presetNames.add(it.asString) }
         val presets = presetNames.mapNotNull {
             val preset = PokemonCobbled.bestSpawner.presets[it]
             if (preset == null) {
@@ -36,22 +36,22 @@ object SpawnDetailAdapter : JsonDeserializer<SpawnDetail> {
         }
         val firstType = presets.firstNotNullOfOrNull { it.spawnDetailType }
 
+
         // Move `condition` into the `conditions`
-        if (element.has("condition")) {
-            if (!element.has("conditions")) {
-                element.add("conditions", JsonArray())
-            }
-            element.get("conditions").asJsonArray.add(element.get("condition"))
-            element.remove("condition")
-        }
+        element.singularToPluralList("condition")
 
         // Move `anticondition` into the `anticonditions`
-        if (element.has("anticondition")) {
-            if (!element.has("anticonditions")) {
-                element.add("anticonditions", JsonArray())
+        element.singularToPluralList("anticondition")
+
+        // Move `weightMultiplier` into `weightMultipliers`
+        element.singularToPluralList("weightMultiplier")
+
+        if (element.has("weightMultipliers")) {
+            element.get("weightMultipliers").asJsonArray.forEach { json ->
+                json as JsonObject
+                json.singularToPluralList("condition")
+                json.singularToPluralList("anticondition")
             }
-            element.get("anticonditions").asJsonArray.add(element.get("anticondition"))
-            element.remove("anticondition")
         }
 
         val spawnDetailTypeName = firstType

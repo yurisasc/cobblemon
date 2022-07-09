@@ -24,7 +24,7 @@ abstract class TickingSpawner(
     var spawns: SpawnPool,
     val manager: SpawnerManager
 ) : Spawner {
-    private var selector: SpawningSelector = ContextWeightedSelector
+    private var selector: SpawningSelector = ContextWeightedSelector()
     override val influences = mutableListOf<SpawningInfluence>()
 
     override fun canSpawn() = active

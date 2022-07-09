@@ -73,8 +73,8 @@ abstract class SpawningContext {
 
     open fun getWeight(detail: SpawnDetail): Float {
         var weight = detail.weight
-        for (influence in influences) {
-            weight = influence.affectWeight(detail, weight)
+        for (influence in influences + detail.weightMultipliers) {
+            weight = influence.affectWeight(detail, this, weight)
         }
         return weight
     }

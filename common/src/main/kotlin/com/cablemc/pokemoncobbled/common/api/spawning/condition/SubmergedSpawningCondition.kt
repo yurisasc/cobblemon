@@ -14,14 +14,17 @@ import net.minecraft.util.Identifier
  * @since February 7th, 2022
  */
 abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : AreaTypeSpawningCondition<T>() {
-    var depth: Int? = null
+    var minDepth: Int? = null
+    var maxDepth: Int? = null
     var fluidIsSource: Boolean? = null
     var fluidBlock: Identifier? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
         return if (!super.fits(ctx, detail)) {
             false
-        } else if (depth != null && ctx.depth < depth!!) {
+        } else if (minDepth != null && ctx.depth < minDepth!!) {
+            false
+        } else if (maxDepth != null && ctx.depth > maxDepth!!) {
             false
         } else if (fluidIsSource != null && ctx.fluidState.isStill != fluidIsSource!!) {
             false
@@ -31,7 +34,7 @@ abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : Ar
     override fun copyFrom(other: SpawningCondition<*>, merger: Merger) {
         super.copyFrom(other, merger)
         if (other is SubmergedTypeSpawningCondition) {
-            if (other.depth != null) depth = other.depth
+            if (other.minDepth != null) minDepth = other.minDepth
             if (other.fluidIsSource != null) fluidIsSource = other.fluidIsSource
             if (other.fluidBlock != null) fluidBlock = other.fluidBlock
         }

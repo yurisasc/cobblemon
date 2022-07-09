@@ -19,7 +19,7 @@ interface SpawningInfluence {
     /** Returns true if the given spawn detail is able to spawn under this influence. */
     fun affectSpawnable(detail: SpawnDetail, ctx: SpawningContext): Boolean = true
     /** Returns the effective weight of spawning under this influence. This is after typical weight multipliers. */
-    fun affectWeight(detail: SpawnDetail, weight: Float): Float = weight
+    fun affectWeight(detail: SpawnDetail, ctx: SpawningContext, weight: Float): Float = weight
     /** Affects the spawn action prior to it generating the entity. */
     fun affectAction(action: SpawnAction<*>) {}
     /** Applies some influence over the entity that's been spawned. */
