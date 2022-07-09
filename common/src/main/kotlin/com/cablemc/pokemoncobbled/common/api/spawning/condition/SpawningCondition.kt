@@ -100,7 +100,7 @@ abstract class SpawningCondition<T : SpawningContext> {
         biomes = merger.merge(biomes, other.biomes)?.toMutableSet()
         labels = merger.merge(labels, other.labels)?.toMutableList()
         if (other.moonPhase != null) moonPhase = other.moonPhase
-        if (other.skyAbove != null) skyAbove = other.skyAbove
+        if (other.canSeeSky != null) canSeeSky = other.canSeeSky
         if (other.minX != null) minX = other.minX
         if (other.minY != null) minY = other.minY
         if (other.minZ != null) minZ = other.minZ
