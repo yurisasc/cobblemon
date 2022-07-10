@@ -46,7 +46,7 @@ abstract class AreaSpawner(
             val resolveDuration = resolveEnd - prospectEnd
             println("Prospecting took: $prospectDuration ms. Resolution took: $resolveDuration ms")
             // Takes about 3ms on my laptop to prospect, similar to context resolve - not very good, needs some thought
-            return getSpawningSelector().select(this, contexts, getSpawnPool().details)
+            return getSpawningSelector().select(this, contexts)
         }
 
         return null
