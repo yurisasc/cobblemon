@@ -37,7 +37,6 @@ object GivePokemon {
         try {
             val pokemonProperties = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
             val pokemon = pokemonProperties.create()
-            pokemon.moveSet.get(1)?.currentPp = 10
             val party = PokemonCobbled.storage.getParty(player)
             party.add(pokemon)
             context.source.sendFeedback(commandLang("givepokemon.give", pokemon.species.translatedName, player.name), true)
