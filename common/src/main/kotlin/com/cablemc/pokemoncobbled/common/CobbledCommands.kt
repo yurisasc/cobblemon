@@ -17,6 +17,7 @@ object CobbledCommands {
         PokemonEditCommand.register(dispatcher)
         LevelUp.register(dispatcher)
         HealPokemonCommand.register(dispatcher)
+        StopBattleCommand.register(dispatcher)
     }
 
 }

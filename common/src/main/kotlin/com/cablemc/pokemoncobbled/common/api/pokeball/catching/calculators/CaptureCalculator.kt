@@ -3,16 +3,16 @@ package com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.CaptureContext
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.entity.LivingEntity
 
 /**
- * Used to process pokemon captures.
- * This interface is here with the intention that several pokemon calculators can be created,
- * ie. supporting an earlier generation capture system.
+ * Used to process Pokémon captures.
+ * This interface is here with the intention that several capture calculators can be created,
+ * i.e. supporting an earlier generation capture system.
  *
  * @author landonjw
- * @since  November 30, 2021
+ * @since November 30, 2021
  */
 interface CaptureCalculator {
-    fun processCapture(player: ServerPlayerEntity, pokemon: Pokemon, pokeBall: PokeBall) : CaptureContext
+    fun processCapture(thrower: LivingEntity, pokemon: Pokemon, pokeBall: PokeBall) : CaptureContext
 }

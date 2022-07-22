@@ -12,6 +12,9 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 import java.util.*
+import java.util.function.Predicate
+import net.minecraft.entity.player.PlayerInventory
+import net.minecraft.item.ItemStack
 
 // Stuff like getting their party
 fun ServerPlayerEntity.party() = PokemonCobbled.storage.getParty(this)
@@ -190,3 +193,5 @@ fun findDirectionForIntercept(p0: Vec3d, p1: Vec3d, blockPos: BlockPos): Directi
 
     return minDirection
 }
+
+fun PlayerInventory.usableItems() = offHand + main

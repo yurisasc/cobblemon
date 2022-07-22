@@ -30,7 +30,7 @@ abstract class SpawningCondition<T : SpawningContext> {
     var dimensions: MutableList<Identifier>? = null
     var biomes: MutableSet<RegistryLikeCondition<Biome>>? = null
     var moonPhase: Int? = null
-    var skyAbove: Boolean? = null
+    var canSeeSky: Boolean? = null
     var minX: Float? = null
     var minY: Float? = null
     var minZ: Float? = null
@@ -76,7 +76,7 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (timeRange != null && !timeRange!!.contains((ctx.world.timeOfDay % 24000).toInt())) {
             return false
-        } else if (skyAbove != null && skyAbove != ctx.skyAbove) {
+        } else if (canSeeSky != null && canSeeSky != ctx.canSeeSky) {
             return false
         } else if (isRaining != null && ctx.world.isRaining != isRaining!!) {
             return false
@@ -101,7 +101,7 @@ abstract class SpawningCondition<T : SpawningContext> {
         biomes = merger.merge(biomes, other.biomes)?.toMutableSet()
         labels = merger.merge(labels, other.labels)?.toMutableList()
         if (other.moonPhase != null) moonPhase = other.moonPhase
-        if (other.skyAbove != null) skyAbove = other.skyAbove
+        if (other.canSeeSky != null) canSeeSky = other.canSeeSky
         if (other.minX != null) minX = other.minX
         if (other.minY != null) minY = other.minY
         if (other.minZ != null) minZ = other.minZ

@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.net.messages.client.battle
 
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.ActorType
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonPropertyExtractor
@@ -45,7 +46,8 @@ class BattleInitializePacket() : NetworkPacket {
                         uuid = actor.uuid,
                         showdownId = actor.showdownId,
                         displayName = actor.getName(),
-                        activePokemon = actor.activePokemon.map { it.battlePokemon?.let(ActiveBattlePokemonDTO::fromPokemon) }
+                        activePokemon = actor.activePokemon.map { it.battlePokemon?.let(ActiveBattlePokemonDTO::fromPokemon) },
+                        type = actor.type
                     )
                 }
             )
@@ -68,6 +70,7 @@ class BattleInitializePacket() : NetworkPacket {
                     buffer.writeBoolean(activePokemon != null)
                     activePokemon?.saveToBuffer(buffer)
                 }
+                buffer.writeSizedInt(IntSize.U_BYTE, actor.type.ordinal)
             }
         }
     }
@@ -90,12 +93,14 @@ class BattleInitializePacket() : NetworkPacket {
                         activePokemon.add(null)
                     }
                 }
+                val type = ActorType.values()[buffer.readSizedInt(IntSize.U_BYTE)]
                 actors.add(
                     BattleActorDTO(
                         uuid = uuid,
                         displayName = displayName,
                         showdownId = showdownId,
-                        activePokemon = activePokemon
+                        activePokemon = activePokemon,
+                        type = type
                     )
                 )
             }
@@ -111,7 +116,8 @@ class BattleInitializePacket() : NetworkPacket {
         val uuid: UUID,
         val displayName: MutableText,
         val showdownId: String,
-        val activePokemon: List<ActiveBattlePokemonDTO?>
+        val activePokemon: List<ActiveBattlePokemonDTO?>,
+        val type: ActorType
     )
 
     data class ActiveBattlePokemonDTO(

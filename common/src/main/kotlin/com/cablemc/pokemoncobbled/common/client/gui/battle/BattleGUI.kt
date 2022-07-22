@@ -1,18 +1,18 @@
 package com.cablemc.pokemoncobbled.common.client.gui.battle
 
-import com.cablemc.pokemoncobbled.common.CobbledNetwork
+import com.cablemc.pokemoncobbled.common.battles.MoveActionResponse
 import com.cablemc.pokemoncobbled.common.battles.ShowdownActionResponse
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.battle.ClientBattleActor
 import com.cablemc.pokemoncobbled.common.client.battle.SingleActionRequest
 import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleActionSelection
 import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleGeneralActionSelection
+import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleMoveSelection
 import com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen.BattleSwitchPokemonSelection
 import com.cablemc.pokemoncobbled.common.client.gui.battle.widgets.BattleMessagePane
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
-import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.MinecraftClient
@@ -24,7 +24,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         const val OPTION_VERTICAL_SPACING = 25
         const val OPTION_HORIZONTAL_SPACING = 7
         const val OPTION_ROOT_X = 40
-        const val OPTION_VERTICAL_OFFSET = 100
+        const val OPTION_VERTICAL_OFFSET = 125
 
         val fightResource = cobbledResource("ui/battle/battle_menu_fight.png")
         val runResource = cobbledResource("ui/battle/battle_menu_run.png")
@@ -57,16 +57,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         if (request.response == null) {
             request.response = response
             changeActionSelection(null)
-            if (battle.getFirstUnansweredRequest() == null) {
-                CobbledNetwork.sendToServer(
-                    BattleSelectActionsPacket(
-                        battleId = battle.battleId,
-                        battle.pendingActionRequests.map { it.response!! }
-                    )
-                )
-                battle.mustChoose = false
-            }
-
+            battle.checkForFinishedChoosing()
         }
     }
 

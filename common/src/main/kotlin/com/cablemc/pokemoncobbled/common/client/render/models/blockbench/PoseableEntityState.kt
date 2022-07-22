@@ -35,24 +35,6 @@ abstract class PoseableEntityState<T : Entity> {
         return currentPose
     }
 
-//    fun transitionPose(toPoseType: PoseType, durationTicks: Int = 20) {
-//        val model = currentModel ?: run {
-//            currentPose = PoseType.NONE // Bad
-//            return
-//        }
-//
-//        val beforePose = model.poses[currentPose ?: PoseType.NONE]
-//            ?: Pose(PoseType.NONE, { true }, 0, emptyArray(), emptyArray())
-//        val afterPose = model.poses[toPoseType]
-//            ?: run {
-//                LOGGER.error("Tried transitioning ${model::class.java} to pose type $toPoseType but there is no registered pose of that type.")
-//                return
-//            }
-//
-//        val animation = PoseTransitionAnimation(beforePose, afterPose, durationTicks)
-//        statefulAnimations.add(animation)
-//    }
-
     fun setPose(pose: String) {
         currentPose = pose
     }

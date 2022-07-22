@@ -8,7 +8,9 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.RemoveClientPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.SwapClientPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.*
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MoveClientPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
@@ -24,7 +26,6 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.*
 import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.SwapPCPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.MovePartyPokemonPacket
@@ -33,6 +34,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePCPo
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePCPokemonToPartyPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.SwapPCPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cablemc.pokemoncobbled.common.util.getServer
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -124,6 +126,10 @@ object CobbledNetwork {
         buildClientMessage<BattleSetTeamPokemonPacket>()
         buildClientMessage<BattleSwitchPokemonPacket>()
         buildClientMessage<BattleMessagePacket>()
+        buildClientMessage<BattleCaptureStartPacket>()
+        buildClientMessage<BattleCaptureEndPacket>()
+        buildClientMessage<BattleCaptureShakePacket>()
+        buildClientMessage<BattleApplyCaptureResponsePacket>()
 
         /**
          * Server Packets
