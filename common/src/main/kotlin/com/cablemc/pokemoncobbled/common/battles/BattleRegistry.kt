@@ -34,6 +34,9 @@ object BattleRegistry {
 
             // REQUIRES OUR SHOWDOWN
             packedTeamBuilder.append("${pk.uuid}|")
+            packedTeamBuilder.append("${pk.currentHealth}|")
+            val showdownStatus = if (pk.status != null) pk.status!!.status.showdownName else ""
+            packedTeamBuilder.append("$showdownStatus|")
 
             // Held item, empty if non TODO: Replace with actual held item
             packedTeamBuilder.append("|")
@@ -43,6 +46,12 @@ object BattleRegistry {
             packedTeamBuilder.append(
                 "${
                     pk.moveSet.getMoves().joinToString(",") { move -> move.name.replace("_", "") }
+                }|"
+            )
+            // Additional move info
+            packedTeamBuilder.append(
+                "${
+                    pk.moveSet.getMoves().joinToString(",") { move -> move.currentPp.toString() + "/" + move.maxPp.toString() }
                 }|"
             )
             // Nature
