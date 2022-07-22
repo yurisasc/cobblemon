@@ -131,10 +131,12 @@ class ClientStorageManager {
     }
 
     fun onLogin() {
-        partyStores.clear()
-        pcStores.clear()
         myParty = ClientParty(UUID.randomUUID(), 1)
         checkSelectedPokemon()
     }
 
+    fun onLogout() {
+        partyStores.clear()
+        pcStores.clear()
+    }
 }

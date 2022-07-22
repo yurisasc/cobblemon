@@ -1,8 +1,11 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import com.eliotlash.molang.expressions.MolangExpression
-import net.minecraft.util.math.Vec3d
 import java.util.SortedMap
+import net.minecraft.util.math.Vec3d
 
 data class BedrockAnimationGroup(
     val formatVersion: String,
@@ -13,7 +16,39 @@ data class BedrockAnimation(
     val shouldLoop: Boolean,
     val animationLength: Double,
     val boneTimelines: Map<String, BedrockBoneTimeline>
-)
+) {
+    fun run(model: PoseableEntityModel<*>, state: PoseableEntityState<*>?, secondsPassed: Float): Boolean {
+        var animationSeconds = secondsPassed.toDouble()
+        if (shouldLoop) {
+            animationSeconds %= animationLength
+        } else if (animationSeconds > animationLength && animationLength > 0) {
+            return false
+        }
+        boneTimelines.forEach { (boneName, timeline) ->
+            val part = model.relevantPartsByName[boneName]
+            if (part != null) {
+                if (!timeline.position.isEmpty()) {
+                    val position = timeline.position.resolve(animationSeconds).multiply(model.getChangeFactor(part.modelPart).toDouble())
+                    part.modelPart.apply {
+                        pivotX += position.x.toFloat()
+                        pivotY += position.y.toFloat()
+                        pivotZ += position.z.toFloat()
+                    }
+                }
+
+                if (!timeline.rotation.isEmpty()) {
+                    val rotation = timeline.rotation.resolve(animationSeconds).multiply(model.getChangeFactor(part.modelPart).toDouble())
+                    part.modelPart.apply {
+                        pitch += rotation.x.toFloat().toRadians()
+                        yaw += rotation.y.toFloat().toRadians()
+                        roll += rotation.z.toFloat().toRadians()
+                    }
+                }
+            }
+        }
+        return true
+    }
+}
 
 interface BedrockBoneValue {
     fun resolve(time: Double): Vec3d
@@ -68,6 +103,9 @@ class BedrockKeyFrameBoneValue : HashMap<Double, BedrockAnimationKeyFrame>(), Be
         val after = sortedTimeline.getAtIndex(afterIndex)
         val before = sortedTimeline.getAtIndex(beforeIndex)
 
+        val afterData = after?.data?.resolve(time) ?: Vec3d.ZERO
+        val beforeData = before?.data?.resolve(time) ?: Vec3d.ZERO
+
         if (before != null || after != null) {
             if (before != null && before.interpolationType == InterpolationType.SMOOTH || after != null && after.interpolationType == InterpolationType.SMOOTH) {
                 when {
@@ -78,23 +116,21 @@ class BedrockKeyFrameBoneValue : HashMap<Double, BedrockAnimationKeyFrame>(), Be
                         val afterPlus = sortedTimeline.getAtIndex(afterPlusIndex)
                         return catmullromLerp(beforePlus, before, after, afterPlus, time)
                     }
-                    before != null -> return before.data
-                    after != null -> return after.data
-                    else -> throw IllegalStateException()
+                    before != null -> return beforeData
+                    else -> return afterData
                 }
             }
             else {
                 when {
                     before != null && after != null -> {
                         return Vec3d(
-                            before.data.x + (after.data.x - before.data.x) * linearLerpAlpha(before.time, after.time, time),
-                            before.data.y + (after.data.y - before.data.y) * linearLerpAlpha(before.time, after.time, time),
-                            before.data.z + (after.data.z - before.data.z) * linearLerpAlpha(before.time, after.time, time)
+                            beforeData.x + (afterData.x - beforeData.x) * linearLerpAlpha(before.time, after.time, time),
+                            beforeData.y + (afterData.y - beforeData.y) * linearLerpAlpha(before.time, after.time, time),
+                            beforeData.z + (afterData.z - beforeData.z) * linearLerpAlpha(before.time, after.time, time)
                         )
                     }
-                    before != null -> return before.data
-                    after != null -> return after.data
-                    else -> throw IllegalStateException()
+                    before != null -> return beforeData
+                    else -> return afterData
                 }
             }
         }
@@ -108,7 +144,7 @@ class BedrockKeyFrameBoneValue : HashMap<Double, BedrockAnimationKeyFrame>(), Be
 data class BedrockAnimationKeyFrame(
     val time: Double,
     val transformation: Transformation,
-    val data: Vec3d,
+    val data: MolangBoneValue,
     val interpolationType: InterpolationType
 )
 

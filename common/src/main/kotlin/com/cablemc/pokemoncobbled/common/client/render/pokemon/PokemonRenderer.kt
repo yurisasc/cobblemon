@@ -277,4 +277,6 @@ class PokemonRenderer(
             matrixStack.pop()
         }
     }
+
+    override fun getLyingAngle(entity: PokemonEntity?) = 0F
 }

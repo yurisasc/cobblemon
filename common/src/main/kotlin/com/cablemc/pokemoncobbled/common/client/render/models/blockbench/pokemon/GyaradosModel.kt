@@ -121,8 +121,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel() {
                         tail7WaveSegment
                     )
                 ),
-            ),
-            transformedParts = arrayOf()
+            )
         )
     }
 

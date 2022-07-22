@@ -8,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.ai.FormPokemonBehaviour
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 
@@ -94,6 +95,8 @@ class FormData(
     internal val preEvolution: PreEvolution?
         get() = _preEvolution ?: species.preEvolution
 
+    val behaviour = FormPokemonBehaviour()
+
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution>
         get() = _evolutions ?: species.evolutions
@@ -111,6 +114,11 @@ class FormData(
 
     @Transient
     lateinit var species: Species
+
+    fun initialize(species: Species) {
+        this.species = species
+        this.behaviour.parent = species.behaviour
+    }
 
     override fun equals(other: Any?): Boolean {
         return other is FormData

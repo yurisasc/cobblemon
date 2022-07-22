@@ -13,6 +13,8 @@ class InBattleMove(
     val target: MoveTarget,
     val disabled: Boolean
 ) {
+    constructor() : this("", "", 100, 100, MoveTarget.self, false)
+
     companion object {
         fun loadFromBuffer(buffer: PacketByteBuf): InBattleMove {
             return InBattleMove(

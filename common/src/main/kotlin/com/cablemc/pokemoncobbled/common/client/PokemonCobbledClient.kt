@@ -43,12 +43,23 @@ object PokemonCobbledClient {
     lateinit var overlay: PartyOverlay
     lateinit var battleOverlay: BattleOverlay
 
+    fun onLogin() {
+        storage.onLogin()
+    }
+
+    fun onLogout() {
+        storage.onLogout()
+        battle = null
+        battleOverlay = BattleOverlay()
+        ScheduledTaskTracker.clear()
+    }
+
     fun initialize(implementation: PokemonCobbledClientImplementation) {
         LOGGER.info("Initializing Pokémon Cobbled client")
         this.implementation = implementation
 
-        CLIENT_PLAYER_JOIN.register { storage.onLogin() }
-        CLIENT_PLAYER_QUIT.register { ScheduledTaskTracker.clear() }
+        CLIENT_PLAYER_JOIN.register { onLogin() }
+        CLIENT_PLAYER_QUIT.register { onLogout() }
 
         overlay = PartyOverlay()
         battleOverlay = BattleOverlay()

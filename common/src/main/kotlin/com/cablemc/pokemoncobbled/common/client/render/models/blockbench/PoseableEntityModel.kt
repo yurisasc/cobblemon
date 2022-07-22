@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
@@ -62,8 +63,10 @@ abstract class PoseableEntityModel<T : Entity>(
         transformTicks: Int = 20,
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray()
-    ) {
-        poses[poseType.name] = Pose(poseType.name, setOf(poseType), condition, transformTicks, idleAnimations, transformedParts)
+    ): Pose<T, F> {
+        return Pose(poseType.name, setOf(poseType), condition, transformTicks, idleAnimations, transformedParts).also {
+            poses[poseType.name] = it
+        }
     }
 
     fun <F : ModelFrame> registerPose(
@@ -73,8 +76,10 @@ abstract class PoseableEntityModel<T : Entity>(
         transformTicks: Int = 20,
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray()
-    ) {
-        poses[poseName] = Pose(poseName, poseTypes, condition, transformTicks, idleAnimations, transformedParts)
+    ): Pose<T, F> {
+        return Pose(poseName, poseTypes, condition, transformTicks, idleAnimations, transformedParts).also {
+            poses[poseName] = it
+        }
     }
 
     fun ModelPart.registerChildWithAllChildren(name: String): ModelPart {
@@ -236,5 +241,16 @@ abstract class PoseableEntityModel<T : Entity>(
     ) = BedrockStatelessAnimation<T>(
         this,
         BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation")
+    )
+
+    fun bedrockStateful(
+        file: String,
+        animation: String,
+        fileSuffix: String = ".animation.json",
+        animationPrefix: String = "animation.$file",
+        preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean = { _, _, _ -> true }
+    ) = BedrockStatefulAnimation(
+        BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation"),
+        preventsIdleCheck
     )
 }

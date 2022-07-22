@@ -1,11 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives.PosedAdditiveAnimation
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatefulAnimation
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import net.minecraft.entity.Entity
 
 /**
@@ -23,6 +21,9 @@ abstract class PoseableEntityState<T : Entity> {
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     var animationSeconds = 0F
     var timeLastRendered = System.currentTimeMillis()
+
+    fun isPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.any { it.poseName == currentPose }
+    fun isNotPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.none { it.poseName == currentPose }
 
     fun preRender() {
         val now = System.currentTimeMillis()

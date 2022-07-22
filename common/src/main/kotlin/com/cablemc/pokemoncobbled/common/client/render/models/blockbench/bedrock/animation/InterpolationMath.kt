@@ -1,10 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
+import kotlin.math.floor
 import net.minecraft.client.util.math.Vector3d
 import net.minecraft.util.math.Vec3d
-
-import kotlin.math.floor
 
 /**
  * Interpolates a vector based on a Catmull-Rom spline.
@@ -33,10 +32,14 @@ fun linearLerpAlpha(before: Double, after: Double, value: Double): Double {
  */
 fun catmullromLerp(frameA: BedrockAnimationKeyFrame?, frameB: BedrockAnimationKeyFrame, frameC: BedrockAnimationKeyFrame, frameD: BedrockAnimationKeyFrame?, axis: Int, time: Double) : Double {
     val vectors = mutableListOf<Vector2d>()
-    if (frameA != null) vectors.add(Vector2d(frameA.time, frameA.data.get(axis)))
-    vectors.add(Vector2d(frameB.time, frameB.data.get(axis)))
-    vectors.add(Vector2d(frameC.time, frameC.data.get(axis)))
-    if (frameD != null) vectors.add(Vector2d(frameD.time, frameD.data.get(axis)))
+    val frameAData = frameA?.data?.resolve(time)
+    val frameBData = frameB.data.resolve(time)
+    val frameCData = frameC.data.resolve(time)
+    val frameDData = frameD?.data?.resolve(time)
+    if (frameAData != null) vectors.add(Vector2d(frameA.time, frameAData.get(axis)))
+    vectors.add(Vector2d(frameB.time, frameBData.get(axis)))
+    vectors.add(Vector2d(frameC.time, frameCData.get(axis)))
+    if (frameDData != null) vectors.add(Vector2d(frameD.time, frameDData.get(axis)))
     val alpha = ((linearLerpAlpha(frameB.time, frameC.time, time)) + if (frameA != null) 1 else 0) / (vectors.size - 1)
     return getPointOnSpline(vectors, alpha).b
 }
@@ -62,8 +65,8 @@ private fun getPointOnSpline(points: List<Vector2d>, time: Double): Vector2d {
     val p3 = points[p3Index]
 
     return Vector2d(
-            a = catmullrom(weight, p0.a, p1.a, p2.a, p3.a),
-            b = catmullrom(weight, p0.b, p1.b, p2.b, p3.b)
+        a = catmullrom(weight, p0.a, p1.a, p2.a, p3.a),
+        b = catmullrom(weight, p0.b, p1.b, p2.b, p3.b)
     )
 }
 

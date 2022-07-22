@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose
 
+import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 
 /**
@@ -70,29 +71,45 @@ class TransformedModelPart(
             rotation[2] = value
         }
 
-    fun withPosition(axis: Int, position: Float): TransformedModelPart {
-        this.position[axis] = position
+    fun withPosition(axis: Int, position: Number): TransformedModelPart {
+        this.position[axis] = position.toFloat()
         return this
     }
 
-    fun withPosition(xPos: Float, yPos: Float, zPos: Float): TransformedModelPart {
+    fun withPosition(xPos: Number, yPos: Number, zPos: Number): TransformedModelPart {
         return withPosition(X_AXIS, xPos).withPosition(Y_AXIS, yPos).withPosition(Z_AXIS, zPos)
     }
 
-    fun withRotation(axis: Int, angleRadians: Float): TransformedModelPart {
-        this.rotation[axis] = angleRadians
+    fun withRotation(axis: Int, angleRadians: Number): TransformedModelPart {
+        this.rotation[axis] = angleRadians.toFloat()
         return this
     }
 
-    fun withRotation(pitch: Float, yaw: Float, roll: Float): TransformedModelPart {
+    fun withRotation(pitch: Number, yaw: Number, roll: Number): TransformedModelPart {
         return withRotation(X_AXIS, pitch).withRotation(Y_AXIS, yaw).withRotation(Z_AXIS, roll)
     }
 
-    fun addPosition(axis: Int, distance: Float): TransformedModelPart {
-        return withPosition(axis, position[axis] + distance * changeFactor)
+    fun addPosition(axis: Int, distance: Number): TransformedModelPart {
+        return withPosition(axis, position[axis] + distance.toFloat() * changeFactor)
     }
 
-    fun addRotation(axis: Int, angleRadians: Float): TransformedModelPart {
-        return withRotation(axis, rotation[axis] + angleRadians * changeFactor)
+    fun addPosition(xDist: Number, yDist: Number, zDist: Number): TransformedModelPart {
+        return addPosition(X_AXIS, xDist).addPosition(Y_AXIS, yDist).addPosition(Z_AXIS, zDist)
+    }
+
+    fun addRotation(axis: Int, angleRadians: Number): TransformedModelPart {
+        return withRotation(axis, rotation[axis] + angleRadians.toFloat() * changeFactor)
+    }
+
+    fun addRotation(pitchRadians: Number, yawRadians: Number, rollRadians: Number): TransformedModelPart {
+        return addRotation(X_AXIS, pitchRadians).addRotation(Y_AXIS, yawRadians).addRotation(Z_AXIS, rollRadians)
+    }
+
+    fun addRotationDegrees(pitch: Number, yaw: Number, roll: Number): TransformedModelPart {
+        return addRotation(X_AXIS, pitch.toFloat().toRadians()).addRotation(Y_AXIS, yaw.toFloat().toRadians()).addRotation(Z_AXIS, roll.toFloat().toRadians())
+    }
+
+    fun addRotationDegrees(axis: Int, angle: Number): TransformedModelPart {
+        return addRotation(axis, rotation[axis] + angle.toFloat().toRadians() * changeFactor)
     }
 }
