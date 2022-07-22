@@ -66,12 +66,7 @@ class CobbledConfig {
     var exportSpawnsToConfig = false
 
     @NodeCategory(Category.Spawning)
-    var spawnBuckets = mutableListOf(
-        SpawnBucket("common", 94.4F),
-        SpawnBucket("uncommon", 5F),
-        SpawnBucket("rare", 0.5F),
-        SpawnBucket("ultra-rare", 0.1F)
-    )
+    var exportSpawnConfigToConfig = false
 
     @NodeCategory(Category.Battles)
     var autoUpdateShowdown = true

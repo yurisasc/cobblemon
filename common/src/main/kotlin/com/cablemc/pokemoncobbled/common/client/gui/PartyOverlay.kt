@@ -91,7 +91,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 val matrixStack = MatrixStack()
                 matrixStack.translate(
                     panelX + frameOffsetX + portraitRadius / 2.0,
-                    y.toDouble(),
+                    y.toDouble() - 9,
                     0.0
                 )
                 matrixStack.scale(1F, 1F, 1F)
@@ -104,7 +104,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
         // Some long models end up translated such that the text ends up behind the invisible viewport rendered bits.
         // Kinda messed up but pushing these next elements forward seems a cheap enough fix.
-        matrixStack.translate(0.0, 0.0, 10.0)
+        matrixStack.translate(0.0, 0.0, 300.0)
         party.slots.forEachIndexed { index, pokemon ->
             blitk(
                 matrixStack = matrixStack,

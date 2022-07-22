@@ -35,6 +35,9 @@ interface BattleType {
     val actorsPerSide: Int
     val slotsPerActor: Int
 
+    val pokemonPerSide: Int
+        get() = actorsPerSide * slotsPerActor
+
     companion object {
         fun loadFromBuffer(buffer: PacketByteBuf): BattleType {
             val name = buffer.readString()

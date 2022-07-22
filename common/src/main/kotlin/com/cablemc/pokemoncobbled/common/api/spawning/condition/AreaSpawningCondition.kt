@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.condition
 
 import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
+import com.cablemc.pokemoncobbled.common.util.Merger
 import net.minecraft.util.Identifier
 
 /**
@@ -12,27 +13,38 @@ import net.minecraft.util.Identifier
  * @since February 7th, 2022
  */
 abstract class AreaTypeSpawningCondition<T : AreaSpawningContext> : SpawningCondition<T>() {
-    var minimumWidth: Int? = null
-    var maximumWidth: Int? = null
-    var minimumHeight: Int? = null
-    var maximumHeight: Int? = null
-    var neededNearbyBlocks: List<Identifier>? = null
+    var minWidth: Int? = null
+    var maxWidth: Int? = null
+    var minHeight: Int? = null
+    var maxHeight: Int? = null
+    var neededNearbyBlocks: MutableList<Identifier>? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
         if (!super.fits(ctx, detail)) {
             return false
-        } else if (minimumWidth != null && ctx.width < minimumWidth!!) {
+        } else if (minWidth != null && ctx.width < minWidth!!) {
             return false
-        } else if (maximumWidth != null && ctx.width > maximumWidth!!) {
+        } else if (maxWidth != null && ctx.width > maxWidth!!) {
             return false
-        } else if (minimumHeight != null && ctx.height < minimumHeight!!) {
+        } else if (minHeight != null && ctx.height < minHeight!!) {
             return false
-        } else if (maximumHeight != null && ctx.height > maximumHeight!!) {
+        } else if (maxHeight != null && ctx.height > maxHeight!!) {
             return false
         } else if (neededNearbyBlocks != null && neededNearbyBlocks!!.none { it.toString() !in ctx.nearbyBlockTypes }) {
             return false
         } else {
             return true
+        }
+    }
+
+    override fun copyFrom(other: SpawningCondition<*>, merger: Merger) {
+        super.copyFrom(other, merger)
+        if (other is AreaTypeSpawningCondition) {
+            if (other.minWidth != null) minWidth = other.minWidth
+            if (other.maxWidth != null) maxWidth = other.maxWidth
+            if (other.minHeight != null) minHeight = other.minHeight
+            if (other.maxHeight != null) maxHeight = other.maxHeight
+            neededNearbyBlocks = merger.merge(neededNearbyBlocks, other.neededNearbyBlocks)?.toMutableList()
         }
     }
 }

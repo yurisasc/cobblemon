@@ -351,6 +351,7 @@ object ShowdownInterpreter {
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
+            pokemon.battlePokemon = null
             WaitDispatch(0.75F)
         }
     }
@@ -430,11 +431,20 @@ object ShowdownInterpreter {
         if (battle.started) {
             battle.dispatch {
                 battleActor.sendUpdate(BattleQueueRequestPacket(request))
+                battleActor.request = request
+                battleActor.responses.clear()
+                val goneIndices = battleActor.activePokemon.filter { it.isGone() }.map { battleActor.activePokemon.indexOf(it) }
+                val forceSwitchIndices = request.forceSwitch.mapIndexedNotNull { index, b -> if (b) index else null }
+                if (forceSwitchIndices.any { it in goneIndices }) {
+                    battleActor.mustChoose = true
+                    battleActor.sendUpdate(BattleMakeChoicePacket())
+                }
                 GO
             }
+        } else {
+            battleActor.request = request
+            battleActor.responses.clear()
         }
-        battleActor.request = request
-        battleActor.responses.clear()
     }
 
     private fun handleSwitchInstruction(battle: PokemonBattle, battleActor: BattleActor, publicMessage: String, privateMessage: String) {

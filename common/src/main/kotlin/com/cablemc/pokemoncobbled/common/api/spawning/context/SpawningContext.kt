@@ -46,7 +46,7 @@ abstract class SpawningContext {
     /** The light level at this location. */
     abstract val light: Int
     /** Whether or not the sky is visible at this location. */
-    abstract val skyAbove: Boolean
+    abstract val canSeeSky: Boolean
     /** A list of [SpawningInfluence]s that apply due to this specific context. */
     abstract val influences: MutableList<SpawningInfluence>
     /** The current phase of the moon at this location. */
@@ -71,11 +71,11 @@ abstract class SpawningContext {
         influences.forEach { it.affectSpawn(entity) }
     }
 
-    open fun getRarity(detail: SpawnDetail): Float {
-        var rarity = detail.rarity
-        for (influence in influences) {
-            rarity = influence.affectRarity(detail, rarity)
+    open fun getWeight(detail: SpawnDetail): Float {
+        var weight = detail.weight
+        for (influence in influences + detail.weightMultipliers) {
+            weight = influence.affectWeight(detail, this, weight)
         }
-        return rarity
+        return weight
     }
 }

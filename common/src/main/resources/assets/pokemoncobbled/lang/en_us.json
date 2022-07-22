@@ -75,6 +75,7 @@
   "pokemoncobbled.ui.changemove": "Change",
   "pokemoncobbled.battle.ui.fight": "Fight",
   "pokemoncobbled.battle.ui.switch": "Switch",
+  "pokemoncobbled.battle.ui.capture": "Catch",
   "pokemoncobbled.battle.ui.hide_label": "Press %1$s to move around.",
   "pokemoncobbled.battle.ui.actions_label": "You need to choose an action. Press %1$s.",
 
@@ -119,6 +120,17 @@
   "pokemoncobbled.battle.your_team": "Your Team:",
   "pokemoncobbled.battle.must_switch": "Choose a Pokémon to switch in",
   "pokemoncobbled.battle.dragged_out": "%1$s was dragged out!",
+  "pokemoncobbled.battle.throw_pokeball_prompt": "Throw a PokéBall at your opponent to capture it.",
+
+  "pokemoncobbled.capture.broke_free": "The %1$s broke free!",
+  "pokemoncobbled.capture.not_your_turn": "It's not your turn to act.",
+  "pokemoncobbled.capture.attempted_capture": "%1$s threw a %2$s at %3$s!",
+  "pokemoncobbled.capture.succeeded": "Gotcha! Caught the %1$s.",
+  "pokemoncobbled.capture.not_wild": "That %1$s is not a wild Pokémon.",
+  "pokemoncobbled.capture.in_battle": "That %1$s is in a battle and cannot be caught by you.",
+  "pokemoncobbled.capture.busy": "The %1$s is busy!",
+  "pokemoncobbled.capture.you_in_battle": "You are in a battle.",
+  "pokemoncobbled.capture.not_single": "You can only capture wild Pokémon in a 1v1 battle.",
 
   "pokemoncobbled.battle.error.in_battle": "%1$s is already in a battle.",
   "pokemoncobbled.battle.error.in_battle.personal": "You are already in a battle!",

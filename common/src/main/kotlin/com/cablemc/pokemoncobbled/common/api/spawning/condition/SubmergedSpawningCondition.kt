@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning.condition
 
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SubmergedSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
+import com.cablemc.pokemoncobbled.common.util.Merger
 import com.cablemc.pokemoncobbled.common.util.asResource
 import net.minecraft.util.Identifier
 
@@ -13,18 +14,30 @@ import net.minecraft.util.Identifier
  * @since February 7th, 2022
  */
 abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : AreaTypeSpawningCondition<T>() {
-    var depth: Int? = null
+    var minDepth: Int? = null
+    var maxDepth: Int? = null
     var fluidIsSource: Boolean? = null
     var fluidBlock: Identifier? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
-        if (!super.fits(ctx, detail)) {
-            return false
-        } else if (depth != null && ctx.depth < depth!!) {
-            return false
+        return if (!super.fits(ctx, detail)) {
+            false
+        } else if (minDepth != null && ctx.depth < minDepth!!) {
+            false
+        } else if (maxDepth != null && ctx.depth > maxDepth!!) {
+            false
         } else if (fluidIsSource != null && ctx.fluidState.isStill != fluidIsSource!!) {
-            return false
-        } else return !(fluidBlock != null && ctx.fluidBlock.translationKey.asResource() != fluidBlock!!)
+            false
+        } else !(fluidBlock != null && ctx.fluidBlock.translationKey.asResource() != fluidBlock!!)
+    }
+
+    override fun copyFrom(other: SpawningCondition<*>, merger: Merger) {
+        super.copyFrom(other, merger)
+        if (other is SubmergedTypeSpawningCondition) {
+            if (other.minDepth != null) minDepth = other.minDepth
+            if (other.fluidIsSource != null) fluidIsSource = other.fluidIsSource
+            if (other.fluidBlock != null) fluidBlock = other.fluidBlock
+        }
     }
 }
 

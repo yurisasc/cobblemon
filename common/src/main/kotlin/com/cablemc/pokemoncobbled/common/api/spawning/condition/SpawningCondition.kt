@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.condition.ListCheckMode.AL
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.ListCheckMode.ANY
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
+import com.cablemc.pokemoncobbled.common.util.Merger
 import com.cablemc.pokemoncobbled.common.util.math.orMax
 import com.cablemc.pokemoncobbled.common.util.math.orMin
 import net.minecraft.util.Identifier
@@ -18,17 +19,17 @@ import net.minecraft.util.Identifier
  */
 abstract class SpawningCondition<T : SpawningContext> {
     companion object {
-        private val conditionTypes = mutableMapOf<String, Class<out SpawningCondition<*>>>()
+        val conditionTypes = mutableMapOf<String, Class<out SpawningCondition<*>>>()
         fun getByName(name: String) = conditionTypes[name]
         fun <T : SpawningContext, C : SpawningCondition<T>> register(name: String, clazz: Class<C>) {
             conditionTypes[name] = clazz
         }
     }
 
-    val dimensions: MutableList<Identifier> = mutableListOf()
-    val biomes: MutableSet<BiomeLikeCondition<*>> = linkedSetOf()
-    val moonPhase: Int? = null
-    var skyAbove: Boolean? = null
+    var dimensions: MutableList<Identifier>? = null
+    var biomes: MutableSet<BiomeLikeCondition<*>>? = null
+    var moonPhase: Int? = null
+    var canSeeSky: Boolean? = null
     var minX: Float? = null
     var minY: Float? = null
     var minZ: Float? = null
@@ -37,9 +38,14 @@ abstract class SpawningCondition<T : SpawningContext> {
     var maxZ: Float? = null
     var minLight: Int? = null
     var maxLight: Int? = null
+    var isRaining: Boolean? = null
+    var isThundering: Boolean? = null
     var timeRange: TimeRange? = null
-    var labels: List<String>? = null
+    var labels: MutableList<String>? = null
     var labelMode = ANY
+
+    @Transient
+    var appendages = mutableListOf<AppendageCondition>()
 
     abstract fun contextClass(): Class<out T>
     fun contextMatches(ctx: SpawningContext) = contextClass().isAssignableFrom(ctx::class.java)
@@ -59,19 +65,21 @@ abstract class SpawningCondition<T : SpawningContext> {
             return false
         } else if (ctx.position.z < minZ.orMin() || ctx.position.z > maxZ.orMax()) {
             return false
-        } else if (dimensions.isNotEmpty() && ctx.world.dimension.effects !in dimensions) {
+        } else if (dimensions != null && dimensions!!.isNotEmpty() && ctx.world.dimension.effects !in dimensions!!) {
             return false
         } else if (moonPhase != null && moonPhase != ctx.moonPhase) {
             return false
-        }
-        else if (biomes.isNotEmpty() && biomes.none { condition -> condition.accepts(ctx.biome, ctx.biomeRegistry) }) {
+        } else if (biomes != null && biomes!!.isNotEmpty() && biomes!!.none { condition -> condition.accepts(ctx.biome, ctx.biomeRegistry) }) {
             return false
-        }
-        else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
+        } else if (ctx.light > maxLight.orMax() || ctx.light < minLight.orMin()) {
             return false
         } else if (timeRange != null && !timeRange!!.contains((ctx.world.timeOfDay % 24000).toInt())) {
             return false
-        } else if (skyAbove != null && skyAbove != ctx.skyAbove) {
+        } else if (canSeeSky != null && canSeeSky != ctx.canSeeSky) {
+            return false
+        } else if (isRaining != null && ctx.world.isRaining != isRaining!!) {
+            return false
+        } else if (isThundering != null && ctx.world.isThundering != isThundering!!) {
             return false
         } else if (labels != null && labels!!.isNotEmpty() &&
             (
@@ -80,8 +88,28 @@ abstract class SpawningCondition<T : SpawningContext> {
             )
         ) {
             return false
+        } else if (appendages.any { !it.fits(ctx, detail) }) {
+            return false
         }
 
         return true
+    }
+
+    open fun copyFrom(other: SpawningCondition<*>, merger: Merger) {
+        dimensions = merger.merge(dimensions, other.dimensions)?.toMutableList()
+        biomes = merger.merge(biomes, other.biomes)?.toMutableSet()
+        labels = merger.merge(labels, other.labels)?.toMutableList()
+        if (other.moonPhase != null) moonPhase = other.moonPhase
+        if (other.canSeeSky != null) canSeeSky = other.canSeeSky
+        if (other.minX != null) minX = other.minX
+        if (other.minY != null) minY = other.minY
+        if (other.minZ != null) minZ = other.minZ
+        if (other.maxX != null) maxX = other.maxX
+        if (other.maxY != null) maxY = other.maxY
+        if (other.maxZ != null) maxZ = other.maxZ
+        if (other.minLight != null) minLight = other.minLight
+        if (other.maxLight != null) maxLight = other.maxLight
+        if (other.timeRange != null) timeRange = other.timeRange
+        if (other.labelMode != ANY) labelMode = other.labelMode
     }
 }

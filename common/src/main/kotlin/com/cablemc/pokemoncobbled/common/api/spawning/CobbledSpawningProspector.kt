@@ -65,7 +65,7 @@ object CobbledSpawningProspector : SpawningProspector {
         val yRange = (baseY until baseY + height).reversed()
         for (x in area.baseX until area.baseX + area.length) {
             for (z in area.baseZ until area.baseZ + area.width) {
-                var skyAbove = true
+                var canSeeSky = true
                 for (y in yRange) {
                     val state = world.getBlockState(pos.set(x, y, z))
                     blocks[x - area.baseX][y - baseY][z - area.baseZ] = WorldSlice.BlockData(
@@ -74,8 +74,8 @@ object CobbledSpawningProspector : SpawningProspector {
                     )
 
                     // TODO don't just check solid, have some property somewhere modifiable that excludes some blocks from occluding
-                    if (skyAbove && state.material.isSolid && state.material != Material.LEAVES) {
-                        skyAbove = false
+                    if (canSeeSky && state.material.isSolid && state.material != Material.LEAVES) {
+                        canSeeSky = false
                         skyLevel[x - area.baseX][z - area.baseZ] = y + 1
                     }
                 }

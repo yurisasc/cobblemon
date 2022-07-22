@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.detail.RegisteredSpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.util.AssetLoading
@@ -19,13 +18,14 @@ import com.cablemc.pokemoncobbled.common.util.isHigherVersion
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.reflect.TypeToken
-import net.minecraft.tag.TagKey
 import java.io.File
+import java.io.FileOutputStream
+import java.io.FileReader
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.io.PrintWriter
 import java.nio.file.Path
 import kotlin.io.path.pathString
+import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
@@ -53,7 +53,6 @@ object SpawnLoader {
         .registerTypeAdapter(SpawnBucket::class.java, SpawnBucketAdapter)
         .create()
 
-    var deserializingRegisteredSpawnDetail: RegisteredSpawnDetail<*>? = null
     var deserializingConditionClass: Class<out SpawningCondition<*>>? = null
 
     fun load(folder: String): SpawnPool {
@@ -69,12 +68,12 @@ object SpawnLoader {
                     internal.remove(matchingInternal)
                 }
                 if (set.isEnabled()) {
-                    pool.details.addAll(set)
+                    pool.details.addAll(set.filter { it.isModDependencySatisfied() })
                 }
             } else {
                 if (matchingInternal != null && matchingInternal.version.isHigherVersion(set.version)) {
                     if (matchingInternal.isEnabled()) {
-                        pool.details.addAll(matchingInternal)
+                        pool.details.addAll(matchingInternal.filter { it.isModDependencySatisfied() })
                     }
                     internal.remove(matchingInternal)
                     exportSet(folder, matchingInternal)
@@ -84,7 +83,7 @@ object SpawnLoader {
 
         internal.forEach { set ->
             if (set.isEnabled()) {
-                pool.details.addAll(set)
+                pool.details.addAll(set.filter { it.isModDependencySatisfied() })
             }
             if (config.exportSpawnsToConfig) {
                 exportSet(folder, set)
@@ -97,20 +96,24 @@ object SpawnLoader {
     }
 
     fun exportSet(folder: String, set: SpawnSet) {
-        val file = File("./config/pokemoncobbled/spawns/$folder/${set.id.lowercase()}.set.json")
+        val file = File("./config/pokemoncobbled/spawning/spawns/$folder/${set.id.lowercase()}.set.json")
+        file.parentFile.mkdirs()
         file.createNewFile()
-        val writer = PrintWriter(file)
-        val json = gson.toJson(set)
-        writer.print(json)
-        writer.flush()
-        writer.close()
+
+        val internalStream = PokemonCobbled::class.java.getResourceAsStream(set.path.toAbsolutePath().toString())!!
+        val bytes = internalStream.readAllBytes()
+        internalStream.close()
+
+        val externalStream = FileOutputStream(file)
+        externalStream.write(bytes)
+        externalStream.close()
     }
 
     fun getExternalSets(folder: String): MutableList<SpawnSet> {
         val sets = mutableListOf<SpawnSet>()
         val files = mutableListOf<File>()
         AssetLoading.searchFor(
-            dir = "config/spawns/$folder",
+            dir = "config/pokemoncobbled/spawning/spawns/$folder",
             suffix = ".json",
             list = files
         )
@@ -119,7 +122,11 @@ object SpawnLoader {
         sets.addAll(
             paths.mapNotNull {
                 try {
-                    loadSetFromPath(it)
+                    val file = it.toFile()
+                    val reader = FileReader(file)
+                    val set = gson.fromJson<SpawnSet>(reader)
+                    reader.close()
+                    return@mapNotNull set
                 } catch (exception : Exception) {
                     LOGGER.error("Unable to load spawn set from ${it.pathString}")
                     exception.printStackTrace()
@@ -132,25 +139,29 @@ object SpawnLoader {
     }
 
     fun loadSetFromPath(path: Path): SpawnSet {
-        val inputStream = PokemonCobbled::class.java.getResourceAsStream(path.toAbsolutePath().toString())
-            ?: throw IllegalArgumentException("Unable to open resource stream for: ${path.pathString}")
-        return gson.fromJson<SpawnSet>(InputStreamReader(inputStream))
+        val pathString = if (path.toString().startsWith("/")) path.toString() else "/$path"
+        val inputStream = PokemonCobbled.javaClass.getResourceAsStream(pathString)
+            ?: throw IllegalArgumentException("Unable to open resource stream for: $pathString")
+        val reader = InputStreamReader(inputStream)
+        val set = gson.fromJson<SpawnSet>(reader)
+        reader.close()
+        return set
     }
 
     fun loadInternalFolder(folder: String): MutableList<SpawnSet> {
-        val internalFolder = cobbledResource("spawns/$folder")
+        val internalFolder = cobbledResource("spawning/spawns/$folder")
         val path = internalFolder.toPath() ?: throw IllegalArgumentException("There is no valid, internal path for $internalFolder")
         val internalPaths = AssetLoading.fileSearch(path, { it.toString().endsWith(".json") }, recursive = true)
         val sets = mutableListOf<SpawnSet>()
-        sets.addAll(internalPaths.flatMap { loadInternalFile(it) })
+        sets.addAll(internalPaths.flatMap { filePath -> loadInternalFile(filePath) })
         return sets
     }
 
     fun loadInternalFile(path: Path): MutableList<SpawnSet> {
         if (path.toString().endsWith(".packed.json")) {
-            return loadPackedSets(path)
+            return loadPackedSets(path).onEach { it.path = path }
         } else if (path.toString().endsWith(".set.json")) {
-            return mutableListOf(loadSetFromPath(path))
+            return mutableListOf(loadSetFromPath(path)).onEach { it.path = path }
         }
 
         return mutableListOf()
@@ -165,13 +176,17 @@ object SpawnLoader {
         } catch (e: Exception) {
             LOGGER.error(e.message)
             return mutableListOf()
+        } finally {
+            fileStream.close()
         }
     }
 
 
     fun loadPackedSetsFromStream(inputStream: InputStream): MutableList<SpawnSet> {
         val sets = mutableListOf<SpawnSet>()
-        val jsonArray = gson.fromJson(InputStreamReader(inputStream), JsonArray::class.java)
+        val stream = InputStreamReader(inputStream)
+        val jsonArray = gson.fromJson(stream, JsonArray::class.java)
+        stream.close()
         jsonArray.forEach { jsonElement ->
             try {
                 sets.add(gson.fromJson<SpawnSet>(jsonElement))

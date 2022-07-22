@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.battles.actor
 
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.AIBattleActor
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.ActorType
 import com.cablemc.pokemoncobbled.common.api.battles.model.ai.BattleAI
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.util.asTranslated
@@ -13,4 +14,5 @@ class TrainerBattleActor(
     artificialDecider: BattleAI
 ) : AIBattleActor(uuid, pokemonList, artificialDecider) {
     override fun getName() = trainerName.asTranslated()
+    override val type = ActorType.NPC
 }

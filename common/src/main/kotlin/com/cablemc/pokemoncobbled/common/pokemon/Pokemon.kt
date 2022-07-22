@@ -28,6 +28,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
+import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
@@ -54,6 +55,7 @@ import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
 import java.util.UUID
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -62,6 +64,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtString
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -173,8 +176,11 @@ open class Pokemon {
         set(value) { field = value ; _friendship.emit(value) }
     var state: PokemonState = InactivePokemonState()
         set(value) {
-            if (field is ActivePokemonState && !isClient) {
-                (field as ActivePokemonState).recall()
+            val current = field
+            if (current is ActivePokemonState && !isClient) {
+                if (value !is ActivePokemonState || value.entity != current.entity) {
+                    current.recall()
+                }
             }
             field = value
             _state.emit(value)
@@ -272,6 +278,8 @@ open class Pokemon {
      */
     val evolutionProxy: EvolutionProxy<EvolutionDisplay, Evolution> by lazy { CobbledEvolutionProxy(this, this.isClient) }
 
+    val customProperties = mutableListOf<CustomPokemonProperty>()
+
     open fun getStat(stat: Stat): Int {
         return if (stat == Stats.HP) {
             if (species.name == "shedinja") {
@@ -343,6 +351,8 @@ open class Pokemon {
         nbt.putInt(DataKeys.POKEMON_HEALING_TIMER, healTimer)
         nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(NbtList()))
         nbt.put(DataKeys.POKEMON_EVOLUTIONS, this.evolutionProxy.saveToNBT())
+        val propertyList = customProperties.map { it.asString() }.map { NbtString.of(it) }
+        nbt.put(DataKeys.POKEMON_DATA, NbtList().also { it.addAll(propertyList) })
         return nbt
     }
 
@@ -379,6 +389,10 @@ open class Pokemon {
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
         nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
+        val propertiesList = nbt.getList(DataKeys.POKEMON_DATA, NbtString.STRING_TYPE.toInt())
+        val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString() }, " ")
+        this.customProperties.clear()
+        this.customProperties.addAll(properties.customProperties)
         return this
     }
 
@@ -403,6 +417,8 @@ open class Pokemon {
         json.addProperty(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         json.addProperty(DataKeys.POKEMON_HEALING_TIMER, healTimer)
         json.add(DataKeys.POKEMON_EVOLUTIONS, this.evolutionProxy.saveToJson())
+        val propertyList = customProperties.map { it.asString() }.map { JsonPrimitive(it) }
+        json.add(DataKeys.POKEMON_DATA, JsonArray().also { propertyList.forEach(it::add) })
         return json
     }
 
@@ -438,6 +454,10 @@ open class Pokemon {
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
         this.evolutionProxy.loadFromJson(json.get(DataKeys.POKEMON_EVOLUTIONS))
+        val propertyList = json.getAsJsonArray(DataKeys.POKEMON_DATA)?.map { it.asString } ?: emptyList()
+        val properties = PokemonProperties.parse(propertyList.joinToString(" "), " ")
+        this.customProperties.clear()
+        this.customProperties.addAll(properties.customProperties)
         return this
     }
 
@@ -536,16 +556,14 @@ open class Pokemon {
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
     fun isWild() = storeCoordinates.get() == null
 
-    private fun validFriendship (value : Int) : Boolean {
-        return value in 0..255
-    }
+    private fun validFriendship(value : Int) = value in 0..255
 
-    fun setFriendship (amount : Int) : Boolean {
+    fun setFriendship(amount : Int) : Boolean {
         if (validFriendship(amount)) friendship = amount
         return friendship == amount
     }
 
-    fun incrementFriendship (amount : Int) : Boolean {
+    fun incrementFriendship(amount : Int) : Boolean {
         val value = friendship + amount
         if (validFriendship(value)) friendship = value
         return friendship == value

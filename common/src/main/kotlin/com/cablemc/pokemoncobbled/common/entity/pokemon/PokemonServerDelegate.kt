@@ -2,6 +2,8 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.entity.PokemonSideDelegate
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 
 /** Handles purely server logic for a Pokémon */
 class PokemonServerDelegate : PokemonSideDelegate {
@@ -19,6 +21,12 @@ class PokemonServerDelegate : PokemonSideDelegate {
     }
 
     override fun tick(entity: PokemonEntity) {
+        val state = entity.pokemon.state
+        if (state !is ActivePokemonState || state.entity != entity) {
+            if (state !is ActivePokemonState || state.entity != entity) {
+                entity.pokemon.state = SentOutState(entity)
+            }
+        }
         if (entity.health.toInt() != entity.pokemon.currentHealth) {
             entity.health = entity.pokemon.currentHealth.toFloat()
         }

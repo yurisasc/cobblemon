@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:frozen_peaks",
+    "minecraft:jagged_peaks",
+	"minecraft:snowy_slopes",
+    "minecraft:stony_peaks",
+    {
+      "id": "#byg:is_peak",
+      "required": false
+    }
+  ]
+}

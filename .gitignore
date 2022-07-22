@@ -6,7 +6,7 @@ bin
 .classpath
 .project
 /.architectury-transformer/
-
+common/src/main/resources/assets/pokemoncobbled/showdown
 # idea
 out
 *.ipr

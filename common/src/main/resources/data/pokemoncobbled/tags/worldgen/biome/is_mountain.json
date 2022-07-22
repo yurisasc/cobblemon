@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:is_hill",
+	"#minecraft:is_mountain",
+    {
+      "id": "#byg:is_peak",
+      "required": false
+    },
+	{
+      "id": "#byg:is_slope",
+      "required": false
+    }
+  ]
+}

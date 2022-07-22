@@ -60,6 +60,7 @@ enum class ShowdownActionResponseType(val loader: (PacketByteBuf) -> ShowdownAct
     SWITCH({ SwitchActionResponse(UUID.randomUUID()) }),
     MOVE({ MoveActionResponse("", null) }),
     DEFAULT({ DefaultActionResponse() }),
+    BALL({ BallActionResponse() }),
     PASS({ PassActionResponse });
 }
 
@@ -150,6 +151,7 @@ data class SwitchActionResponse(var newPokemonId: UUID) : ShowdownActionResponse
         return when {
             pokemon == null -> false // No such Pokémon
             pokemon.health <= 0 -> false // Pokémon is dead
+            showdownMoveSet != null && showdownMoveSet.trapped -> false // You're not allowed to switch
             activeBattlePokemon.actor.getSide().activePokemon.any { it.battlePokemon?.uuid == newPokemonId } -> false // Pokémon is already sent out
             else -> true
         }
@@ -169,11 +171,29 @@ object PassActionResponse : ShowdownActionResponse(ShowdownActionResponseType.PA
     override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean) = true
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "pass"
 }
+
+class BallActionResponse() : ShowdownActionResponse(ShowdownActionResponseType.BALL) {
+    override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean): Boolean {
+        if (forceSwitch) {
+            return false
+        } else if (showdownMoveSet == null) {
+            return false
+        }
+
+        return activeBattlePokemon.actor.expectingCaptureActions-- > 0
+    }
+
+    override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "pass"
+}
+
 class ShowdownMoveset {
     lateinit var moves: List<InBattleMove>
+    var trapped = false
+
     fun saveToBuffer(buffer: PacketByteBuf) {
         buffer.writeSizedInt(IntSize.U_BYTE, moves.size)
         moves.forEach { it.saveToBuffer(buffer) }
+        buffer.writeBoolean(trapped)
     }
 
     fun loadFromBuffer(buffer: PacketByteBuf): ShowdownMoveset {
@@ -182,6 +202,7 @@ class ShowdownMoveset {
             moves.add(InBattleMove.loadFromBuffer(buffer))
         }
         this.moves = moves
+        this.trapped = buffer.readBoolean()
         return this
     }
 }
