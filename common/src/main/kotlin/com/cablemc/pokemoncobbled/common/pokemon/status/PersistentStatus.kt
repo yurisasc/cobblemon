@@ -14,6 +14,7 @@ import net.minecraft.util.Identifier
  */
 open class PersistentStatus(
     name: Identifier,
+    showdownName: String = "",
     private val defaultDuration: IntRange = 0..0
 ) : Status(name) {
     /**
