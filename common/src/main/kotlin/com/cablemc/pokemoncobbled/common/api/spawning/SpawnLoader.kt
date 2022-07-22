@@ -139,9 +139,9 @@ object SpawnLoader {
     }
 
     fun loadSetFromPath(path: Path): SpawnSet {
-        val absolutePath = path.toAbsolutePath().toString()
-        val inputStream = PokemonCobbled::class.java.getResourceAsStream(path.toString())
-            ?: throw IllegalArgumentException("Unable to open resource stream for: $absolutePath")
+        val pathString = if (path.toString().startsWith("/")) path.toString() else "/$path"
+        val inputStream = PokemonCobbled.javaClass.getResourceAsStream(pathString)
+            ?: throw IllegalArgumentException("Unable to open resource stream for: $pathString")
         val reader = InputStreamReader(inputStream)
         val set = gson.fromJson<SpawnSet>(reader)
         reader.close()
