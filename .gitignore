@@ -28,3 +28,4 @@ forge*changelog.txt
 /logs/
 .vscode/launch.json
 .vscode
+common/src/main/resources/assets/pokemoncobbled/showdown
