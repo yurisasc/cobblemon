@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
+import com.cablemc.pokemoncobbled.common.api.conditional.RegistryLikeCondition
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
@@ -25,9 +26,8 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.file.Path
 import kotlin.io.path.pathString
-import net.minecraft.tag.TagKey
+import net.minecraft.block.Block
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
 
 /**
@@ -139,9 +139,9 @@ object SpawnLoader {
     }
 
     fun loadSetFromPath(path: Path): SpawnSet {
-        val absolutePath = path.toAbsolutePath().toString()
-        val inputStream = PokemonCobbled::class.java.getResourceAsStream(path.toString())
-            ?: throw IllegalArgumentException("Unable to open resource stream for: $absolutePath")
+        val pathString = if (path.toString().startsWith("/")) path.toString() else "/$path"
+        val inputStream = PokemonCobbled.javaClass.getResourceAsStream(pathString)
+            ?: throw IllegalArgumentException("Unable to open resource stream for: $pathString")
         val reader = InputStreamReader(inputStream)
         val set = gson.fromJson<SpawnSet>(reader)
         reader.close()
