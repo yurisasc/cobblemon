@@ -13,7 +13,7 @@
       "weight": 10,
       "condition": {
         "timeRange": "day",
-        "skyAbove": true
+        "canSeeSky": true
       }
     },
     {
@@ -26,7 +26,7 @@
       "conditions": [
         {
           "timeRange": "night",
-          "skyAbove": true
+          "canSeeSky": true
         }
       ]
     }

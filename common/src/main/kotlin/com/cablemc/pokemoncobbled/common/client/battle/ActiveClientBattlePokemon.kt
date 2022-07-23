@@ -13,6 +13,7 @@ class ActiveClientBattlePokemon(val actor: ClientBattleActor, var battlePokemon:
     var animations = ConcurrentLinkedQueue<TileAnimation>()
     var xDisplacement = 0F
     var invisibleX = -1F
+    var ballCapturing: ClientBallDisplay? = null
 
     override fun getAllActivePokemon() =  actor.side.battle.sides.flatMap { it.activeClientBattlePokemon }
     override fun getActorPokemon() = actor.activePokemon

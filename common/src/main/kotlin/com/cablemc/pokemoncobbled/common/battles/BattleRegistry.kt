@@ -2,11 +2,13 @@ package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.ActorType
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import java.util.Optional
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
@@ -32,6 +34,9 @@ object BattleRegistry {
 
             // REQUIRES OUR SHOWDOWN
             packedTeamBuilder.append("${pk.uuid}|")
+            packedTeamBuilder.append("${pk.currentHealth}|")
+            val showdownStatus = if (pk.status != null) pk.status!!.status.showdownName else ""
+            packedTeamBuilder.append("$showdownStatus|")
 
             // Held item, empty if non TODO: Replace with actual held item
             packedTeamBuilder.append("|")
@@ -41,6 +46,12 @@ object BattleRegistry {
             packedTeamBuilder.append(
                 "${
                     pk.moveSet.getMoves().joinToString(",") { move -> move.name.replace("_", "") }
+                }|"
+            )
+            // Additional move info
+            packedTeamBuilder.append(
+                "${
+                    pk.moveSet.getMoves().joinToString(",") { move -> move.currentPp.toString() + "/" + move.maxPp.toString() }
                 }|"
             )
             // Nature
@@ -115,6 +126,8 @@ object BattleRegistry {
             repeat(battleFormat.battleType.slotsPerActor) {
                 actor.activePokemon.add(ActiveBattlePokemon(actor))
             }
+            val entities = actor.pokemonList.mapNotNull { it.entity }
+            entities.forEach { it.battleId.set(Optional.of(battle.battleId)) }
         }
 
         // -> Add the players and team
@@ -145,8 +158,8 @@ object BattleRegistry {
         return battleMap[id]
     }
 
-    fun getBattleByParticipatingPlayer(ServerPlayerEntity: ServerPlayerEntity) : PokemonBattle? {
-        return battleMap.values.find { it.actors.any { it.uuid == ServerPlayerEntity.uuid } }
+    fun getBattleByParticipatingPlayer(serverPlayerEntity: ServerPlayerEntity) : PokemonBattle? {
+        return battleMap.values.find { it.actors.any { it.isForPlayer(serverPlayerEntity) } }
     }
 
     fun tick() {

@@ -15,7 +15,7 @@ interface Targetable {
 
     fun getAdjacent(): List<Targetable> {
         val digit = getDigit()
-        val sideSize = getFormat().battleType.slotsPerActor *  getFormat().battleType.actorsPerSide
+        val sideSize = getFormat().battleType.pokemonPerSide
         return getAllActivePokemon().filter {
             val sameSideDigit = if (it.isAllied(this)) {
                 it.getDigit()
