@@ -41,7 +41,6 @@
   "block.pokemoncobbled.healing_machine": "Healing Machine",
   "block.pokemoncobbled.pc": "PC",
   "itemGroup.minecraft.pokemoncobbled.pokeballtab": "Pokeballs",
-  "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
   "pokemoncobbled.overflow_no_pc": "Your party was full and you don't have a PC!",
   "pokemoncobbled.overflow_no_space": "Your party was full and so was %1$s!",
   "pokemoncobbled.overflow_to_pc": "Your party was full! %1$s has been added to %2$s.",
