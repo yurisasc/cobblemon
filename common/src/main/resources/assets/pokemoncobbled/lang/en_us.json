@@ -2774,5 +2774,6 @@
   "item.pokemoncobbled.thunder_stone": "Thunder Stone",
   "item.pokemoncobbled.water_stone": "Water Stone",
 
-  "gamerule.doPokemonSpawning": "Spawn pokémon"
+  "gamerule.doPokemonSpawning": "Spawn pokémon",
+  "command.checkspawns.invalid-bucket": "Invalid Spawn Bucket"
 }
