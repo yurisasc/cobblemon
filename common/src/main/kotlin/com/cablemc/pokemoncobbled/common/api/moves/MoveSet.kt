@@ -1,7 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
+import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.readSizedInt
+import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
@@ -85,7 +88,7 @@ class MoveSet : Iterable<Move> {
      * Writes the MoveSet to Buffer
      */
     fun saveToBuffer(buffer: PacketByteBuf) {
-        buffer.writeInt(getMoves().size)
+        buffer.writeSizedInt(IntSize.U_BYTE, getMoves().size)
         getMoves().forEach {
             it.saveToBuffer(buffer)
         }
@@ -145,7 +148,7 @@ class MoveSet : Iterable<Move> {
     fun loadFromBuffer(buffer: PacketByteBuf): MoveSet {
         doWithoutEmitting {
             clear()
-            val amountMoves = buffer.readInt()
+            val amountMoves = buffer.readSizedInt(IntSize.U_BYTE)
             for (i in 0 until amountMoves) {
                 setMove(i, Move.loadFromBuffer(buffer))
             }

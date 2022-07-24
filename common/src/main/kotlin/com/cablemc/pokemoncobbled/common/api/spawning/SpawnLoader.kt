@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.spawning
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
+import com.cablemc.pokemoncobbled.common.api.conditional.RegistryLikeCondition
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
@@ -25,9 +26,8 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.nio.file.Path
 import kotlin.io.path.pathString
-import net.minecraft.tag.TagKey
+import net.minecraft.block.Block
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
 
 /**
@@ -42,10 +42,10 @@ object SpawnLoader {
         .setPrettyPrinting()
         .disableHtmlEscaping()
         .setLenient()
-        .registerTypeAdapter(BiomeLikeCondition::class.java, BiomeLikeConditionAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
         .registerTypeAdapter(RegisteredSpawningContext::class.java, RegisteredSpawningContextAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
-        .registerTypeAdapter(TypeToken.getParameterized(TagKey::class.java, Biome::class.java).type, TagKeyAdapter<Biome>(Registry.BIOME_KEY))
         .registerTypeAdapter(SpawnDetail::class.java, SpawnDetailAdapter)
         .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
         .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)

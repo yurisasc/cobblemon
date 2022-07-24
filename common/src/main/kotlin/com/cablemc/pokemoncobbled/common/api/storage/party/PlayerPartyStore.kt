@@ -68,17 +68,17 @@ open class PlayerPartyStore(
             val random = Random.Default
             for (pokemon in this) {
                 // Awake from fainted
-                if(pokemon.isFainted()) {
+                if (pokemon.isFainted()) {
                     pokemon.faintedTimer -= 1
-                    if(pokemon.faintedTimer <= -1) {
+                    if (pokemon.faintedTimer <= -1) {
                         pokemon.currentHealth = (pokemon.hp * PokemonCobbled.config.faintAwakenHealthPercent).toInt()
                         player.sendMessage(TranslatableText("pokemoncobbled.party.faintRecover", pokemon.species.translatedName), MessageType.CHAT, Util.NIL_UUID)
                     }
                 }
                 // Passive healing while less than full health
-                else if(pokemon.currentHealth < pokemon.hp) {
+                else if (pokemon.currentHealth < pokemon.hp) {
                     pokemon.healTimer -= 1
-                    if(pokemon.healTimer <= -1) {
+                    if (pokemon.healTimer <= -1) {
                         pokemon.healTimer = PokemonCobbled.config.healTimer;
                         val healAmount = 1.0.coerceAtLeast(pokemon.hp.toDouble() * PokemonCobbled.config.healPercent)
                         pokemon.currentHealth = pokemon.currentHealth + round(healAmount).toInt();

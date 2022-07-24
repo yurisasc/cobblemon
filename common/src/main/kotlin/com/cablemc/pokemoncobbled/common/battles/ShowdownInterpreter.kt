@@ -352,7 +352,7 @@ object ShowdownInterpreter {
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
             pokemon.battlePokemon = null
-            WaitDispatch(0.75F)
+            WaitDispatch(1F)
         }
     }
 

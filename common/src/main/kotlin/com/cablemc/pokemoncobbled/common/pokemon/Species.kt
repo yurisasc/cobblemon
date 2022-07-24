@@ -9,6 +9,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.ai.PokemonBehaviour
 import com.cablemc.pokemoncobbled.common.util.lang
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText
@@ -40,6 +41,7 @@ class Species {
     private val standingEyeHeight: Float? = null
     private val swimmingEyeHeight: Float? = null
     private val flyingEyeHeight: Float? = null
+    val behaviour = PokemonBehaviour()
 
     var forms = mutableListOf(FormData())
 
@@ -69,10 +71,9 @@ class Species {
         else -> this.standingEyeHeight
     }
 
+    override fun toString() = name
+
     companion object {
-
         private const val VANILLA_DEFAULT_EYE_HEIGHT = .85F
-
     }
-
 }

@@ -22,8 +22,7 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
             poseType = PoseType.NONE,
             condition = { it.captureState.get() != EmptyPokeBallEntity.CaptureState.NOT.ordinal.toByte() },
             idleAnimations = arrayOf(RootPokeBallLookAnimation(this)),
-            transformTicks = 0,
-            transformedParts = arrayOf()
+            transformTicks = 0
         )
         registerPose(
             poseType = PoseType.WALK,
@@ -46,8 +45,7 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
                     axis = Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks }
                 )
-            ),
-            transformedParts = arrayOf()
+            )
         )
     }
 

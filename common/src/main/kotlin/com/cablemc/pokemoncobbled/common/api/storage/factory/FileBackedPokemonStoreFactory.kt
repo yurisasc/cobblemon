@@ -28,8 +28,8 @@ open class FileBackedPokemonStoreFactory<S>(
 
     var passedTicks = 0
     protected val saveSubscription = CobbledEvents.TICK_PRE.subscribe {
-            passedTicks++
-            if (passedTicks > 20 * PokemonCobbled.config.pokemonSaveIntervalSeconds) {
+        passedTicks++
+        if (passedTicks > 20 * PokemonCobbled.config.pokemonSaveIntervalSeconds) {
             saveAll()
             passedTicks = 0
         }

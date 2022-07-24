@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.eliotlash.molang.MolangParser
 import com.google.gson.*
 import net.minecraft.util.math.Vec3d
@@ -51,13 +52,20 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
         return BedrockBoneTimeline(positions, rotations)
     }
 
+    fun pruneLeadingPlus(value: String) = if (value.startsWith("+")) value.substring(1) else value
+
     fun deserializeMolangBoneValue(array: JsonArray, transformation: Transformation): MolangBoneValue {
-        return MolangBoneValue(
-            x = molangParser.parseExpression(array[0].asString),
-            y = molangParser.parseExpression(array[1].asString),
-            z = molangParser.parseExpression(array[2].asString),
-            transformation = transformation
-        )
+        try {
+            return MolangBoneValue(
+                x = molangParser.parseExpression(pruneLeadingPlus(array[0].asString)),
+                y = molangParser.parseExpression(pruneLeadingPlus(array[1].asString)),
+                z = molangParser.parseExpression(pruneLeadingPlus(array[2].asString)),
+                transformation = transformation
+            )
+        } catch (e: Exception) {
+            LOGGER.error(array.joinToString { it.toString() })
+            throw e
+        }
     }
 
     private fun deserializeRotationKeyframes(frames: JsonObject, transformation: Transformation): BedrockKeyFrameBoneValue {
@@ -67,12 +75,12 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
             when {
                 keyframeJson is JsonObject -> {
                     if (keyframeJson.has("post")) {
-                        val transformationData = keyframeJson["post"].asJsonArray.map { it.asDouble }
-                        val transformationVector = Vec3d(transformationData[0], transformationData[1], transformationData[2])
+//                        val transformationData = keyframeJson["post"].asJsonArray.map { it.asDouble }
+//                        val transformationVector = Vec3d(transformationData[0], transformationData[1], transformationData[2])
                         keyframes[timeDbl] = BedrockAnimationKeyFrame(
                             time = timeDbl,
                             transformation = transformation,
-                            data = transformationVector,
+                            data = deserializeMolangBoneValue(keyframeJson["post"].asJsonArray, transformation),
                             interpolationType = InterpolationType.SMOOTH
                         )
                     }
@@ -81,12 +89,12 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
                     }
                 }
                 keyframeJson is JsonArray -> {
-                    val transformationData = keyframeJson.map { it.asDouble }
-                    val transformationVector = Vec3d(transformationData[0], transformationData[1], transformationData[2])
+//                    val transformationData = keyframeJson.map { it.asDouble }
+//                    val transformationVector = Vec3d(transformationData[0], transformationData[1], transformationData[2])
                     keyframes[timeDbl] = BedrockAnimationKeyFrame(
                         time = timeDbl,
                         transformation = transformation,
-                        data = transformationVector,
+                        data = deserializeMolangBoneValue(keyframeJson, transformation),
                         interpolationType = InterpolationType.LINEAR
                     )
                 }

@@ -42,14 +42,12 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
             idleAnimations = arrayOf(
                 SingleBoneLookAnimation(this),
                 QuadrupedWalkAnimation(this)
-            ),
-            transformedParts = arrayOf()
+            )
         )
 
         registerShoulderPoses(
             condition = { true },
-            idleAnimations = arrayOf(SingleBoneLookAnimation(this)),
-            transformedParts = arrayOf()
+            idleAnimations = arrayOf(SingleBoneLookAnimation(this))
         )
     }
 
