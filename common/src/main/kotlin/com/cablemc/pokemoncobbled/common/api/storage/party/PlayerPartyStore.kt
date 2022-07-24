@@ -98,12 +98,8 @@ open class PlayerPartyStore(
                 }
 
                 // Passive evolutions
-                pokemon.evolutions.filterIsInstance<PassiveEvolution>()
-                    .forEach { evolution ->
-                        evolution.attemptEvolution(pokemon)
-                    }
+                pokemon.evolutions.filterIsInstance<PassiveEvolution>().forEach { it.attemptEvolution(pokemon) }
             }
         }
     }
-
 }

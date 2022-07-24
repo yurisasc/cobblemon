@@ -49,8 +49,20 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
             throw IllegalArgumentException("Slot position is out of bounds")
         } else {
             slots[position.slot] = pokemon
+            if (pokemon != null) {
+                if (pokemon.storeCoordinates.get()?.store != this) {
+                    // It's new to this store. Attach the listener
+                    trackPokemon(pokemon)
+                }
+            }
             anyChangeObservable.emit(Unit)
         }
+    }
+
+    fun trackPokemon(pokemon: Pokemon) {
+        pokemon.getChangeObservable()
+            .pipe(stopAfter { pokemon.storeCoordinates.get()?.store != this })
+            .subscribe { anyChangeObservable.emit(Unit) }
     }
 
     override fun getFirstAvailablePosition(): PartyPosition? {
@@ -118,9 +130,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
         for (slot in slots.indices) {
             val pokemon = get(slot) ?: continue
             pokemon.storeCoordinates.set(StoreCoordinates(this, PartyPosition(slot)))
-            pokemon.getChangeObservable()
-                .pipe(stopAfter { pokemon.storeCoordinates.get()?.store != this })
-                .subscribe { anyChangeObservable.emit(Unit) }
+            trackPokemon(pokemon)
         }
     }
 

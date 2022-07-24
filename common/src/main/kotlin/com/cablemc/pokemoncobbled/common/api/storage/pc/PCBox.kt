@@ -37,7 +37,14 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
     open operator fun set(index: Int, pokemon: Pokemon?) {
         if (index in 0 until POKEMON_PER_BOX) {
             this.pokemon[index] = pokemon
-            pokemon?.run { storeCoordinates.set(StoreCoordinates(pc, PCPosition(boxNumber, index))) }
+            if (pokemon != null) {
+                val previousCoordinates = pokemon.storeCoordinates.get()
+                val position = previousCoordinates?.position
+                pokemon.storeCoordinates.set(StoreCoordinates(pc, PCPosition(boxNumber, index)))
+                if (previousCoordinates?.store != this || (position as PCPosition).box != boxNumber) {
+                    trackPokemon(pokemon)
+                }
+            }
             if (emit) {
                 boxChangeEmitter.emit(Unit)
             }
@@ -62,11 +69,20 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
             if (pokemon != null) {
                 val position = PCPosition(box, slot)
                 pokemon.storeCoordinates.set(StoreCoordinates(pc, position))
-                pokemon.getChangeObservable().pipe(
-                    stopAfter { it.storeCoordinates.get()?.store != pc }
-                ).subscribe { boxChangeEmitter.emit(Unit) }
+                trackPokemon(pokemon)
             }
         }
+    }
+
+    fun trackPokemon(pokemon: Pokemon) {
+        pokemon.getChangeObservable()
+            .pipe(
+                stopAfter {
+                    val coordinates = it.storeCoordinates.get() ?: return@stopAfter true
+                    return@stopAfter coordinates.store != this || (coordinates.position as PCPosition).box != boxNumber
+                }
+            )
+            .subscribe { boxChangeEmitter.emit(Unit) }
     }
 
     fun sendTo(player: ServerPlayerEntity) {
