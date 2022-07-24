@@ -23,7 +23,9 @@ import java.util.concurrent.Executors
  */
 open class FileBackedPokemonStoreFactory<S>(
     protected val adapter: FileStoreAdapter<S>,
-    protected val createIfMissing: Boolean
+    protected val createIfMissing: Boolean,
+    val partyConstructor: (UUID) -> PlayerPartyStore = { PlayerPartyStore(it) },
+    val pcConstructor: (UUID) -> PCStore = { PCStore(it) }
 ) : PokemonStoreFactory {
 
     var passedTicks = 0
@@ -48,13 +50,17 @@ open class FileBackedPokemonStoreFactory<S>(
 
     private val dirtyStores = mutableSetOf<PokemonStore<*>>()
 
-    override fun getPlayerParty(playerID: UUID) = getStore(PlayerPartyStore::class.java, playerID)
-    override fun getPC(playerID: UUID) = getStore(PCStore::class.java, playerID)
+    override fun getPlayerParty(playerID: UUID) = getStore(PlayerPartyStore::class.java, playerID, partyConstructor)
+    override fun getPC(playerID: UUID) = getStore(PCStore::class.java, playerID, pcConstructor)
 
 
     override fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID) = getStore(storeClass, uuid)
 
-    fun <E : StorePosition, T : PokemonStore<E>> getStore(storeClass: Class<T>, uuid: UUID): T? {
+    fun <E : StorePosition, T : PokemonStore<E>> getStore(
+        storeClass: Class<T>,
+        uuid: UUID,
+        constructor: ((UUID) -> T) = { storeClass.getConstructor(UUID::class.java).newInstance(it) }
+    ): T? {
         val cache = getStoreCache(storeClass).cacheMap
         val cached = cache[uuid]
         if (cached != null) {
@@ -63,7 +69,7 @@ open class FileBackedPokemonStoreFactory<S>(
             val loaded = adapter.load(storeClass, uuid)
                 ?: run {
                     if (createIfMissing) {
-                        return@run storeClass.getConstructor(UUID::class.java).newInstance(uuid)
+                        return@run constructor(uuid)
                     } else {
                         return@run null
                     }

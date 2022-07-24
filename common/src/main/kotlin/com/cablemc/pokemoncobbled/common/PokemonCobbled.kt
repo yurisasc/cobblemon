@@ -26,6 +26,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspe
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.api.storage.pc.link.PCLinkManager
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
@@ -151,7 +152,12 @@ object PokemonCobbled {
                 priority = Priority.LOWEST,
                 factory = FileBackedPokemonStoreFactory(
                     adapter = NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true),
-                    createIfMissing = true
+                    createIfMissing = true,
+                    pcConstructor = { uuid ->
+                        val pc = PCStore(uuid)
+                        pc.resize(config.defaultBoxCount)
+                        return@FileBackedPokemonStoreFactory pc
+                    }
                 )
             )
         }

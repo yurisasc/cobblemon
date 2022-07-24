@@ -52,7 +52,7 @@ open class PlayerPartyStore(
                 }
                 false
             } else {
-                player?.sendServerMessage(lang("overflow_to_pc", pc.name))
+                player?.sendServerMessage(lang("overflow_to_pc", pokemon.species.translatedName, pc.name))
                 true
             }
         }
