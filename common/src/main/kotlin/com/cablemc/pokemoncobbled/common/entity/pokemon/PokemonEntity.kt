@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledEntities
+import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
@@ -10,14 +11,25 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.SleepOnTrainerGoal
+import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.WildRestGoal
 import com.cablemc.pokemoncobbled.common.item.interactive.PokemonInteractiveItem
 import com.cablemc.pokemoncobbled.common.mixin.accessor.AccessorEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
+import com.cablemc.pokemoncobbled.common.pokemon.FormData
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
-import com.cablemc.pokemoncobbled.common.util.*
+import com.cablemc.pokemoncobbled.common.pokemon.ai.FormPokemonBehaviour
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getBitForByte
+import com.cablemc.pokemoncobbled.common.util.playSoundServer
+import com.cablemc.pokemoncobbled.common.util.readSizedInt
+import com.cablemc.pokemoncobbled.common.util.setBitForByte
+import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
+import java.util.EnumSet
+import java.util.Optional
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -26,6 +38,7 @@ import net.minecraft.entity.ai.goal.FollowOwnerGoal
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.goal.LookAtEntityGoal
 import net.minecraft.entity.ai.goal.WanderAroundGoal
+import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
@@ -42,14 +55,16 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import java.util.EnumSet
-import java.util.Optional
 
 class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
 ) : TameableShoulderEntity(type, world), EntitySpawnExtension {
+    val form: FormData
+        get() = pokemon.form
+    val behaviour: FormPokemonBehaviour
+        get() = form.behaviour
 
     var pokemon: Pokemon = pokemon
         set(value) {
@@ -81,6 +96,7 @@ class PokemonEntity(
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
     val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
+    val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
 
     /**
      * 0 is do nothing,
@@ -115,6 +131,7 @@ class PokemonEntity(
         private val BEAM_MODE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
         private val BATTLE_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
         private val ASPECTS = DataTracker.registerData(PokemonEntity::class.java, StringSetDataSerializer)
+        private val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
 
         const val BATTLE_LOCK = "battle"
     }
@@ -184,9 +201,12 @@ class PokemonEntity(
             override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1
             override fun getControls() = EnumSet.allOf(Control::class.java)
         })
+
+        goalSelector.add(2, SleepOnTrainerGoal(this))
         goalSelector.add(3, FollowOwnerGoal(this, 0.6, 8F, 2F, false))
-        goalSelector.add(4, WanderAroundGoal(this, 0.33))
-        goalSelector.add(5, LookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
+        goalSelector.add(4, WildRestGoal(this))
+        goalSelector.add(5, WanderAroundGoal(this, 0.33))
+        goalSelector.add(6, LookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
     }
 
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {
@@ -322,9 +342,36 @@ class PokemonEntity(
                 && !player.inPowderSnow
     }
 
+    fun startDeathEffects() {
+        deathEffectsStarted.set(true)
+    }
+
+    override fun updatePostDeath() {
+        super.updatePostDeath()
+        if (!deathEffectsStarted.get()) {
+            startDeathEffects()
+        }
+        ++deathTime
+
+        if (deathTime == 60 && !world.isClient()) {
+            val owner = owner
+            if (owner != null) {
+                world.playSoundServer(owner.pos, CobbledSounds.RECALL.get(), volume = 0.2F)
+                phasingTargetId.set(owner.id)
+                beamModeEmitter.set(2)
+            }
+        }
+
+        if (deathTime == 120 && !world.isClient()) {
+            if (owner == null) {
+                world.sendEntityStatus(this, 60.toByte())
+            }
+            this.remove(RemovalReason.KILLED)
+        }
+    }
+
     private fun updateEyeHeight() {
         @Suppress("CAST_NEVER_SUCCEEDS")
         (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
     }
-
 }

@@ -3,6 +3,14 @@
   "nationalPokedexNumber": 4,
   "primaryType": "fire",
   "maleRatio": 0.875,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-2"
+    }
+  },
   "baseStats": {
     "hp": 39,
     "attack": 52,

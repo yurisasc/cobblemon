@@ -342,7 +342,7 @@ open class Pokemon {
         nbt.putInt(DataKeys.POKEMON_EXPERIENCE, experience)
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_FRIENDSHIP, friendship.toShort())
-
+        nbt.putString(DataKeys.POKEMON_GENDER, gender.name)
         nbt.putShort(DataKeys.POKEMON_HEALTH, currentHealth.toShort())
         nbt.put(DataKeys.POKEMON_IVS, ivs.saveToNBT(NbtCompound()))
         nbt.put(DataKeys.POKEMON_EVS, evs.saveToNBT(NbtCompound()))
@@ -371,6 +371,7 @@ open class Pokemon {
         experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE)
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt()
+        gender = Gender.valueOf(nbt.getString(DataKeys.POKEMON_GENDER).takeIf { it.isNotBlank() } ?: Gender.MALE.name)
         currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
         evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
@@ -411,6 +412,7 @@ open class Pokemon {
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
         json.addProperty(DataKeys.POKEMON_FRIENDSHIP, friendship)
         json.addProperty(DataKeys.POKEMON_HEALTH, currentHealth)
+        json.addProperty(DataKeys.POKEMON_GENDER, gender.name)
         json.add(DataKeys.POKEMON_IVS, ivs.saveToJSON(JsonObject()))
         json.add(DataKeys.POKEMON_EVS, evs.saveToJSON(JsonObject()))
         json.add(DataKeys.POKEMON_MOVESET, moveSet.saveToJSON(JsonObject()))
@@ -438,6 +440,7 @@ open class Pokemon {
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt
         currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
+        gender = Gender.valueOf(json.get(DataKeys.POKEMON_GENDER)?.asString ?: "male")
         ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
         evs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_EVS))
         moveSet.loadFromJSON(json.get(DataKeys.POKEMON_MOVESET).asJsonObject)
@@ -477,6 +480,7 @@ open class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(friendship)
         buffer.writeShort(currentHealth)
+        buffer.writeSizedInt(IntSize.U_BYTE, gender.ordinal)
         ivs.saveToBuffer(buffer)
         evs.saveToBuffer(buffer)
         moveSet.saveToBuffer(buffer)
@@ -506,6 +510,7 @@ open class Pokemon {
         level = buffer.readUnsignedByte().toInt()
         friendship = buffer.readUnsignedShort()
         currentHealth = buffer.readUnsignedShort()
+        gender = Gender.values()[buffer.readSizedInt(IntSize.U_BYTE)]
         ivs.loadFromBuffer(buffer)
         evs.loadFromBuffer(buffer)
         moveSet.loadFromBuffer(buffer)
@@ -563,22 +568,20 @@ open class Pokemon {
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
     fun isWild() = storeCoordinates.get() == null
 
-    private fun validFriendship(value : Int) = value in 0..255
-
-    fun setFriendship(amount : Int) : Boolean {
-        if (validFriendship(amount)) friendship = amount
+    fun setFriendship (amount : Int) : Boolean {
+        if (amount in FRIENDSHIP_RANGE) friendship = amount
         return friendship == amount
     }
 
     fun incrementFriendship(amount : Int) : Boolean {
         val value = friendship + amount
-        if (validFriendship(value)) friendship = value
+        if (value in FRIENDSHIP_RANGE) friendship = value
         return friendship == value
     }
 
     fun decrementFriendship (amount : Int) : Boolean {
         val value = friendship - amount
-        if (validFriendship(value)) friendship = value
+        if (value in FRIENDSHIP_RANGE) friendship = value
         return friendship == value
     }
 
@@ -802,4 +805,8 @@ open class Pokemon {
     private val _evs = registerObservable(evs.observable) // TODO needs a packet
     private val _aspects = registerObservable(SimpleObservable<Set<String>>()) { AspectsUpdatePacket(this, it) }
     private val _gender = registerObservable(SimpleObservable<Gender>()) { GenderUpdatePacket(this, it) }
+
+    companion object {
+        var FRIENDSHIP_RANGE = 0..255
+    }
 }
