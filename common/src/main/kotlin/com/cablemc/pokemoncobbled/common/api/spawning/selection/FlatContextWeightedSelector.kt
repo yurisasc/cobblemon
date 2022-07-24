@@ -68,16 +68,22 @@ open class FlatContextWeightedSelector : SpawningSelector {
         contexts.forEach { ctx ->
             val contextType = SpawningContext.getByClass(ctx)!!
 
-            val contextSelectionData = contextTypesToSpawns.getOrPut(contextType) { ContextSelectionData(mutableMapOf(), 0F) }
-
             val possible = spawner.getMatchingSpawns(ctx)
-            possible.forEach {
-                if (it.percentage > 0) {
-                    contextSelectionData.percentSum += it.percentage
-                }
+            if (possible.isNotEmpty()) {
 
-                val selectingSpawnInformation = contextSelectionData.spawnsToContexts.getOrPut(it, SelectingSpawnInformation::class::createInstance)
-                selectingSpawnInformation.add(it, ctx, getWeight(contextType))
+                val contextSelectionData = contextTypesToSpawns.getOrPut(contextType) { ContextSelectionData(mutableMapOf(), 0F) }
+
+                possible.forEach {
+                    if (it.percentage > 0) {
+                        contextSelectionData.percentSum += it.percentage
+                    }
+
+                    val selectingSpawnInformation = contextSelectionData.spawnsToContexts.getOrPut(
+                        it,
+                        SelectingSpawnInformation::class::createInstance
+                    )
+                    selectingSpawnInformation.add(it, ctx, getWeight(contextType))
+                }
             }
         }
 
