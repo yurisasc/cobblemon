@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
@@ -45,6 +46,8 @@ class FormData(
     private val _levelUpMoves: LevelUpMoves? = null,
     @SerializedName("evolutions")
     private val _evolutions: MutableSet<Evolution>? = null,
+    @SerializedName("drops")
+    private val _drops: DropTable? = null,
     private val _preEvolution: PreEvolution? = null,
     private val eyeHeight: Float? = null,
     private val standingEyeHeight: Float? = null,
@@ -89,6 +92,9 @@ class FormData(
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
+
+    val drops: DropTable
+        get() = _drops ?: species.drops
 
     var aspects = mutableListOf<String>()
 

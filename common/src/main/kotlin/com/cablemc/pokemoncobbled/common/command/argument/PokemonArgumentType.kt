@@ -27,13 +27,8 @@ class PokemonArgumentType: ArgumentType<Species> {
     }
 
     override fun parse(reader: StringReader): Species {
-
-        val pkmString = reader.readString()
-
-        return PokemonSpecies.getByName(pkmString.lowercase())
-            ?: throw SimpleCommandExceptionType(INVALID_POKEMON).createWithContext(
-                reader
-            )
+        return PokemonSpecies.getByName(reader.readString().lowercase())
+            ?: throw SimpleCommandExceptionType(INVALID_POKEMON).createWithContext(reader)
     }
 
     override fun <S : Any> listSuggestions(

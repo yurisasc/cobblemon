@@ -27,7 +27,6 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
 
     override fun parse(reader: StringReader): PokemonProperties {
         return PokemonProperties.parse(reader.readString())
-            ?: throw SimpleCommandExceptionType(INVALID_POKEMON).createWithContext(reader)
     }
 
     override fun <S : Any> listSuggestions(

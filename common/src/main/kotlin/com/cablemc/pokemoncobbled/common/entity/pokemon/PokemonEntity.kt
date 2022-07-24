@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
 import com.cablemc.pokemoncobbled.common.CobbledEntities
 import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
@@ -22,6 +23,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.pokemon.ai.FormPokemonBehaviour
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
+import com.cablemc.pokemoncobbled.common.util.isServerSide
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
@@ -34,6 +36,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.goal.FollowOwnerGoal
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.goal.LookAtEntityGoal
@@ -86,6 +89,8 @@ class PokemonEntity(
     val busyLocks = mutableListOf<Any>()
     val isBusy: Boolean
         get() = busyLocks.isNotEmpty()
+
+    var drops: DropTable? = null
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
@@ -344,6 +349,11 @@ class PokemonEntity(
 
     fun startDeathEffects() {
         deathEffectsStarted.set(true)
+    }
+
+    override fun drop(source: DamageSource?) {
+        super.drop(source)
+        delegate.drop(source)
     }
 
     override fun updatePostDeath() {

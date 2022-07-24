@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
@@ -42,6 +43,7 @@ class Species {
     private val swimmingEyeHeight: Float? = null
     private val flyingEyeHeight: Float? = null
     val behaviour = PokemonBehaviour()
+    val drops = DropTable()
 
     var forms = mutableListOf(FormData())
 

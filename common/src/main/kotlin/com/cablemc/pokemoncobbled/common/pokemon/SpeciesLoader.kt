@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.abilities.adapters.AbilityTemplateAdapter
 import com.cablemc.pokemoncobbled.common.api.ai.SleepDepth
 import com.cablemc.pokemoncobbled.common.api.conditional.RegistryLikeCondition
+import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
 import com.cablemc.pokemoncobbled.common.api.entity.EntityDimensionsAdapter
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.moves.adapters.MoveTemplateAdapter
@@ -53,6 +54,7 @@ object SpeciesLoader {
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
         .registerTypeAdapter(SleepDepth::class.java, SleepDepth.adapter)
+        .registerTypeAdapter(DropEntry::class.java, DropEntryAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
         .disableHtmlEscaping()

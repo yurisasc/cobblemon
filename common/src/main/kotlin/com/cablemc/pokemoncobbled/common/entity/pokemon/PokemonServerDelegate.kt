@@ -4,6 +4,9 @@ import com.cablemc.pokemoncobbled.common.api.entity.PokemonSideDelegate
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
+import net.minecraft.entity.damage.DamageSource
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.server.world.ServerWorld
 
 /** Handles purely server logic for a Pokémon */
 class PokemonServerDelegate : PokemonSideDelegate {
@@ -44,6 +47,14 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.isMoving.set(true)
         } else if (!isMoving && entity.isMoving.get()) {
             entity.isMoving.set(false)
+        }
+    }
+
+    override fun drop(source: DamageSource?) {
+        val player = source?.source as? ServerPlayerEntity
+        if (entity.pokemon.isWild()) {
+            val drops = entity.drops ?: return
+            drops.drop(entity, entity.world as ServerWorld, entity.pos, player)
         }
     }
 }

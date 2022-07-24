@@ -12,14 +12,17 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
  */
 class PokemonSpawnAction(
     ctx: SpawningContext,
-    detail: PokemonSpawnDetail,
+    override val detail: PokemonSpawnDetail,
     /** The [PokemonProperties] that are about to be used. */
     var props: PokemonProperties = detail.pokemon.copy()
 ) : SpawnAction<PokemonEntity>(ctx, detail) {
     override fun createEntity(): PokemonEntity {
-        if (props.level == null && detail is PokemonSpawnDetail) {
+        if (props.level == null) {
             props.level = detail.getDerivedLevelRange().random()
         }
-        return props.createEntity(ctx.world)
+
+        val entity = props.createEntity(ctx.world)
+        entity.drops = detail.drops
+        return entity
     }
 }

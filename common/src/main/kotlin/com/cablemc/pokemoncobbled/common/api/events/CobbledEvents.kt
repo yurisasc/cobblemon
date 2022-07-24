@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.events
 
+import com.cablemc.pokemoncobbled.common.api.events.drops.DroppedEvent
 import com.cablemc.pokemoncobbled.common.api.events.entity.EntityAttributeEvent
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.FriendshipUpdatedEvent
@@ -30,6 +31,8 @@ object CobbledEvents {
     val EVOLUTION_DISPLAY = EventObservable<EvolutionDisplayEvent>()
     val EXPERIENCE_CANDY_USE_PRE = CancelableObservable<ExperienceCandyUseEvent.Pre>()
     val EXPERIENCE_CANDY_USE_POST = EventObservable<ExperienceCandyUseEvent.Post>()
+
+    val DROPPED = CancelableObservable<DroppedEvent>()
 
     val SERVER_STARTING = LifecycleEvent.SERVER_STARTING.asServerObservable()
     val SERVER_STOPPING = LifecycleEvent.SERVER_STOPPING.asServerObservable()
