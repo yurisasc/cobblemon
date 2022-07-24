@@ -7,7 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
-import com.cablemc.pokemoncobbled.common.api.spawning.selection.ContextWeightedSelector
+import com.cablemc.pokemoncobbled.common.api.spawning.selection.FlatContextWeightedSelector
 import com.cablemc.pokemoncobbled.common.api.spawning.selection.SpawningSelector
 import net.minecraft.entity.Entity
 
@@ -24,7 +24,7 @@ abstract class TickingSpawner(
     var spawns: SpawnPool,
     val manager: SpawnerManager
 ) : Spawner {
-    private var selector: SpawningSelector = ContextWeightedSelector()
+    private var selector: SpawningSelector = FlatContextWeightedSelector()
     override val influences = mutableListOf<SpawningInfluence>()
 
     override fun canSpawn() = active

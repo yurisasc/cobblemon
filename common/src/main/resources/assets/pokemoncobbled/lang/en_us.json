@@ -1832,6 +1832,10 @@
   "pokemoncobbled.move.takeheart": "Take Heart",
   "pokemoncobbled.move.takeheart.desc": "MOVE DESCRIPTION",
 
+  "pokemoncobbled.species.random": "Random Pokémon",
+  "pokemoncobbled.species.unknown": "Unknown Pokémon",
+  "pokemoncobbled.a_pokemon": "A Pokémon",
+
   "pokemoncobbled.species.bulbasaur.name": "Bulbasaur",
   "pokemoncobbled.species.ivysaur.name": "Ivysaur",
   "pokemoncobbled.species.venusaur.name": "Venusaur",
@@ -2770,5 +2774,6 @@
   "item.pokemoncobbled.thunder_stone": "Thunder Stone",
   "item.pokemoncobbled.water_stone": "Water Stone",
 
-  "gamerule.doPokemonSpawning": "Spawn pokémon"
+  "gamerule.doPokemonSpawning": "Spawn pokémon",
+  "command.checkspawns.invalid-bucket": "Invalid Spawn Bucket"
 }

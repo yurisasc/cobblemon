@@ -22,8 +22,8 @@ class SpawnPool : Iterable<SpawnDetail> {
     val details = mutableListOf<SpawnDetail>()
     var precalculation: PrecalculationResult<*> = RootPrecalculation.generate(details, emptyList())
     val precalculators = mutableListOf<SpawningPrecalculation<*>>()
-    /** A set of all [RegisteredSpawningContext]s that are mentioned in this pool. */
-    val contexts = mutableSetOf<RegisteredSpawningContext<*>>()
+//    /** A set of all [RegisteredSpawningContext]s that are mentioned in this pool. */
+//    val contexts = mutableSetOf<RegisteredSpawningContext<*>>()
 
     override fun iterator() = details.iterator()
 
@@ -48,8 +48,8 @@ class SpawnPool : Iterable<SpawnDetail> {
             precalculation = precalculators.first().generate(details, precalculators.subList(1, precalculators.size))
         }
 
-        contexts.clear()
-        details.forEach { contexts.add(it.context) }
+//        contexts.clear()
+//        details.forEach { contexts.add(it.context) }
     }
 
     /**

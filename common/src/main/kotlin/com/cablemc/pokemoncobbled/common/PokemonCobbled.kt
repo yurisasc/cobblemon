@@ -36,6 +36,7 @@ import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
+import com.cablemc.pokemoncobbled.common.command.argument.SpawnBucketArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
@@ -106,6 +107,7 @@ object PokemonCobbled {
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, ConstantArgumentSerializer(PokemonArgumentType::pokemon))
         ArgumentTypes.register("pokemoncobbled:pokemonproperties", PokemonPropertiesArgumentType::class.java, ConstantArgumentSerializer(PokemonPropertiesArgumentType::properties))
+        ArgumentTypes.register("pokemoncobbled:spawnbucket", SpawnBucketArgumentType::class.java, ConstantArgumentSerializer(SpawnBucketArgumentType::spawnBucket))
     }
 
     fun initialize() {

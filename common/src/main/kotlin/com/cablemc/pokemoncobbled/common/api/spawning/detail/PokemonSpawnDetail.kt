@@ -5,6 +5,8 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.lang
+import net.minecraft.text.MutableText
 
 /**
  * A [SpawnDetail] for spawning a [PokemonEntity].
@@ -21,6 +23,24 @@ class PokemonSpawnDetail : SpawnDetail() {
     var pokemon = PokemonProperties()
     var levelRange: IntRange? = null
     /* todo breadcrumbing, drops, ai */
+
+
+    override fun getName(): MutableText {
+        val speciesString = pokemon.species
+        if (speciesString != null) {
+            if (speciesString.lowercase() == "random") {
+                return lang("species.random")
+            }
+            val species = PokemonSpecies.getByName(speciesString)
+            if (species == null) {
+                return lang("species.unknown")
+            } else {
+                return species.translatedName
+            }
+        } else {
+            return lang("a_pokemon")
+        }
+    }
 
     override fun autoLabel() {
         super.autoLabel()

@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.context
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.spawning.context.calculators.SpawningContextCalculator
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 
@@ -20,4 +21,6 @@ data class RegisteredSpawningContext<T : SpawningContext>(
     val name: String,
     val clazz: Class<T>,
     val defaultCondition: String
-)
+) {
+    fun getWeight() = PokemonCobbled.bestSpawner.config.contextWeights[name] ?: 1F
+}
