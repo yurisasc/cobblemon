@@ -7,6 +7,9 @@ import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningConditio
 import com.cablemc.pokemoncobbled.common.api.spawning.context.RegisteredSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.multiplier.WeightMultiplier
+import com.cablemc.pokemoncobbled.common.api.text.text
+import com.cablemc.pokemoncobbled.common.util.asTranslated
+import net.minecraft.text.MutableText
 
 /**
  * A spawnable unit in the Best Spawner API. This is extended for any kind of entity
@@ -25,6 +28,7 @@ abstract class SpawnDetail : ModDependant {
 
     abstract val type: String
     var id = ""
+    var displayName: String? =  null
     lateinit var context: RegisteredSpawningContext<*>
     var bucket = SpawnBucket("", 0F)
     var conditions = mutableListOf<SpawningCondition<*>>()
@@ -41,6 +45,7 @@ abstract class SpawnDetail : ModDependant {
     override var neededUninstalledMods = listOf<String>()
 
     open fun autoLabel() {}
+    open fun getName() = displayName?.asTranslated() ?: id.text()
 
     open fun isSatisfiedBy(ctx: SpawningContext): Boolean {
         if (!ctx.preFilter(this)) {

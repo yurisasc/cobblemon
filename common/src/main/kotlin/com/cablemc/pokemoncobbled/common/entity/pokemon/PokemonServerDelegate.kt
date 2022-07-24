@@ -27,7 +27,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
                 entity.pokemon.state = SentOutState(entity)
             }
         }
-        if (entity.health.toInt() != entity.pokemon.currentHealth) {
+        if (entity.health.toInt() != entity.pokemon.currentHealth && entity.health > 0) {
             entity.health = entity.pokemon.currentHealth.toFloat()
         }
         if (entity.ownerUuid != entity.pokemon.getOwnerUUID()) {

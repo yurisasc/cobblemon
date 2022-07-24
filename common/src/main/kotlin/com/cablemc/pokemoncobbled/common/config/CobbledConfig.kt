@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.config
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
-import com.cablemc.pokemoncobbled.common.api.spawning.SpawnBucket
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
 import com.google.gson.GsonBuilder
@@ -42,7 +41,10 @@ class CobbledConfig {
     var minimumDistanceBetweenEntities = 6.0
 
     @NodeCategory(Category.Spawning)
-    var maxNearbyBlocksRange = 8
+    var maxNearbyBlocksHorizontalRange = 4
+
+    @NodeCategory(Category.Spawning)
+    var maxNearbyBlocksVerticalRange = 2
 
     @NodeCategory(Category.Spawning)
     var maxHorizontalSpace = 6
@@ -51,16 +53,16 @@ class CobbledConfig {
     var maxVerticalSpace = 8
 
     @NodeCategory(Category.Spawning)
-    var worldSliceDiameter = 8
+    var worldSliceDiameter = 12
 
     @NodeCategory(Category.Spawning)
     var worldSliceHeight = 8
 
     @NodeCategory(Category.Spawning)
-    var minimumSliceDistanceFromPlayer = 16F
+    var minimumSliceDistanceFromPlayer = 16 * 1.5F
 
     @NodeCategory(Category.Spawning)
-    var maximumSliceDistanceFromPlayer = 28F
+    var maximumSliceDistanceFromPlayer = 16 * 2.5F
 
     @NodeCategory(Category.Spawning)
     var exportSpawnsToConfig = false

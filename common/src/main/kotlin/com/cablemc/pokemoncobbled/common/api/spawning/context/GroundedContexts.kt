@@ -22,7 +22,7 @@ abstract class FlooredSpawningContext(
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
-    nearbyBlocks: Set<BlockState>,
+    nearbyBlocks: List<BlockState>,
     slice: WorldSlice
 ) : AreaSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice) {
     /** The block that the spawning is occurring on. */
@@ -44,7 +44,7 @@ open class GroundedSpawningContext(
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
-    nearbyBlocks: Set<BlockState>,
+    nearbyBlocks: List<BlockState>,
     slice: WorldSlice
 ) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice)
 
@@ -63,7 +63,7 @@ open class SeafloorSpawningContext(
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
-    nearbyBlocks: Set<BlockState>,
+    nearbyBlocks: List<BlockState>,
     slice: WorldSlice
 ) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice)
 
@@ -82,6 +82,6 @@ open class LavafloorSpawningContext(
     influences: MutableList<SpawningInfluence>,
     width: Int,
     height: Int,
-    nearbyBlocks: Set<BlockState>,
+    nearbyBlocks: List<BlockState>,
     slice: WorldSlice
 ) : FlooredSpawningContext(cause, world, position, light, canSeeSky, influences, width, height, nearbyBlocks, slice)
