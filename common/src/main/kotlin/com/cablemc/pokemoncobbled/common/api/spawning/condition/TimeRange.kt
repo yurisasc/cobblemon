@@ -19,13 +19,14 @@ package com.cablemc.pokemoncobbled.common.api.spawning.condition
 class TimeRange() {
     companion object {
         val ranges = mutableMapOf(
-            "day" to TimeRange(23460..24000, 0..12541),
+            "any" to TimeRange(0..23999),
+            "day" to TimeRange(23460..23999, 0..12541),
             "night" to TimeRange(12542..23459),
             "noon" to TimeRange(5000..6999),
             "midnight" to TimeRange(17000..18999),
-            "dawn" to TimeRange(22300..24000, 0..166),
+            "dawn" to TimeRange(22300..23999, 0..166),
             "dusk" to TimeRange(11834..13701),
-            "twilight" to TimeRange(11834..13701, 22300..24000, 0..166),
+            "twilight" to TimeRange(11834..13701, 22300..23999, 0..166),
             "morning" to TimeRange(0..4999),
             "afternoon" to TimeRange(7000..12039)
         )
@@ -37,5 +38,5 @@ class TimeRange() {
 
     var ranges = mutableListOf<IntRange>()
 
-    fun contains(timeTicks: Int) = ranges.any { timeTicks in it }
+    operator fun contains(timeTicks: Int) = ranges.any { timeTicks in it }
 }

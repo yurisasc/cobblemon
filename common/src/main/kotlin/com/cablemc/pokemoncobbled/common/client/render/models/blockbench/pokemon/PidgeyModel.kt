@@ -37,8 +37,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             transformTicks = 0,
             idleAnimations = arrayOf(
                 SingleBoneLookAnimation(this),
-            ),
-            transformedParts = arrayOf()
+            )
         )
         registerPose(
             poseType = PoseType.WALK,
@@ -117,8 +116,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
-            ),
-            transformedParts = arrayOf(),
+            )
         )
     }
 

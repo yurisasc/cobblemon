@@ -21,7 +21,7 @@ class SingleBoneLookAnimation<T : Entity>(frame: HeadedFrame) : StatelessAnimati
     override val targetFrame: Class<HeadedFrame> = HeadedFrame::class.java
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         val pitch = headPitch.coerceIn(-45F, 70F)
-        val yaw = headYaw.coerceIn(-90F, 90F)
+        val yaw = headYaw.coerceIn(-45F, 45F)
 
         frame.head.addRotation(X_AXIS, pitch.toRadians())
         frame.head.addRotation(Y_AXIS, yaw.toRadians())

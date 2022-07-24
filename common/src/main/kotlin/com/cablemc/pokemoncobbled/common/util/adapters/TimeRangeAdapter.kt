@@ -21,7 +21,6 @@ import java.lang.reflect.Type
  */
 object TimeRangeAdapter : JsonSerializer<TimeRange>, JsonDeserializer<TimeRange> {
     override fun serialize(timeRange: TimeRange, type: Type, ctx: JsonSerializationContext): JsonElement {
-        // TODO check whether it's a known range and save the name instead?
         return JsonPrimitive(timeRange.ranges.joinToString { "${it.first}-${it.last}" })
     }
 

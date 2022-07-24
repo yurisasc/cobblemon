@@ -47,7 +47,7 @@ object PokemonSpecies {
     fun register(species: Species): Species {
         this.speciesNames[species.name.lowercase()] = species
         this.speciesDex[species.nationalPokedexNumber] = species
-        species.forms.forEach { it.species = species }
+        species.forms.forEach { it.initialize(species) }
         return species
     }
 

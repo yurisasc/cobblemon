@@ -1,11 +1,11 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.asTransformed
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.*
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -23,29 +23,35 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+
     override fun registerPoses() {
-        registerPose(
+        standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
+            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
             transformTicks = 10,
             condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("venusaur", "ground_idle")
-            ),
-            transformedParts = arrayOf()
+            )
         )
 
-        registerPose(
+        walk = registerPose(
             poseType = PoseType.WALK,
             transformTicks = 10,
-            condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
+            condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("venusaur", "ground_idle"),
                 bedrock("venusaur", "ground_walk")
-            ),
-            transformedParts = emptyArray()
+            )
         )
     }
+
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("venusaur", "faint") else null
 }
