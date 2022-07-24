@@ -27,8 +27,7 @@ class KakunaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("kakuna", "ground_idle")
-            ),
-            transformedParts = arrayOf()
+            )
         )
     }
 }

@@ -54,8 +54,7 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
                 )
-            ),
-            transformedParts = emptyArray()
+            )
         )
     }
 

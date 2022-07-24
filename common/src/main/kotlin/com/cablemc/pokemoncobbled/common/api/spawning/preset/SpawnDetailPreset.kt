@@ -3,8 +3,8 @@ package com.cablemc.pokemoncobbled.common.api.spawning.preset
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.asset.JsonManifestWalker
+import com.cablemc.pokemoncobbled.common.api.conditional.RegistryLikeCondition
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
-import com.cablemc.pokemoncobbled.common.api.spawning.BiomeLikeCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnBucket
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnLoader
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
@@ -21,9 +21,8 @@ import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.io.FileReader
-import net.minecraft.tag.TagKey
+import net.minecraft.block.Block
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
 
 /**
@@ -54,13 +53,10 @@ abstract class SpawnDetailPreset {
             .disableHtmlEscaping()
             .registerTypeAdapter(SpawnBucket::class.java, SpawnBucketAdapter)
             .registerTypeAdapter(RegisteredSpawningContext::class.java, RegisteredSpawningContextAdapter)
-            .registerTypeAdapter(BiomeLikeCondition::class.java, BiomeLikeConditionAdapter)
+            .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
+            .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
             .registerTypeAdapter(SpawnDetailPreset::class.java, SpawnDetailPresetAdapter)
             .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
-            .registerTypeAdapter(
-                TypeToken.getParameterized(TagKey::class.java, Biome::class.java).type,
-                TagKeyAdapter<Biome>(Registry.BIOME_KEY)
-            )
             .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
             .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
             .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)

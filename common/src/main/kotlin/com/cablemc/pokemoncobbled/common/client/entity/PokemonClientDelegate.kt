@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.api.scheduling.lerp
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives.EarBounceAdditive
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import java.lang.Float.min
@@ -36,6 +37,14 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         entity.dexNumber.subscribeIncludingCurrent {
             currentPose = null
             entity.pokemon.species = PokemonSpecies.getByPokedexNumber(it)!! // TODO exception handling
+        }
+
+        entity.deathEffectsStarted.subscribe {
+            if (it) {
+                val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
+                val animation = model.getFaintAnimation(entity, this) ?: return@subscribe
+                statefulAnimations.add(animation)
+            }
         }
 
         entity.shiny.subscribeIncludingCurrent { entity.pokemon.shiny = it }
