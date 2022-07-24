@@ -52,7 +52,7 @@ abstract class TickingSpawner(
     open fun tick() {
         removalCheckTicks++
         influences.removeIf { it.isExpired() }
-        if (removalCheckTicks == 72) {
+        if (removalCheckTicks == 60) {
             spawnedEntities.removeIf { it.isRemoved }
             removalCheckTicks = 0
         }
