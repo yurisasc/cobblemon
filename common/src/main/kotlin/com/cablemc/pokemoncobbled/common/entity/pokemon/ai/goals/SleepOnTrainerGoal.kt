@@ -124,10 +124,8 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
                 ++ticksOnBed
                 if (ticksOnBed > getTickCount(16)) {
                     pokemonEntity.setBehaviourFlag(RESTING, true)
-//                    pokemonEntity.isHeadDown = false
                 } else {
                     pokemonEntity.lookAtEntity(owner, 45.0f, 45.0f)
-//                    pokemonEntity.isHeadDown = true
                 }
             } else {
                 pokemonEntity.setBehaviourFlag(RESTING, false)
