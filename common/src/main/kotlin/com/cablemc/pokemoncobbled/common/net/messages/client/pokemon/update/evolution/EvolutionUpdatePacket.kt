@@ -6,8 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.net.IntSize
-import com.cablemc.pokemoncobbled.common.net.messages.common.pokemon.update.evolution.EvolutionLikeUpdatePacket
-import com.cablemc.pokemoncobbled.common.pokemon.Gender
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.EvolutionLikeUpdatePacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionDisplay
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.DummyEvolution

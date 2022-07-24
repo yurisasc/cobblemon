@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.api.storage.party
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendPacket
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.stopAfter
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
@@ -118,7 +119,7 @@ open class PartyStore(override val uuid: UUID) : PokemonStore<PartyPosition>() {
             val pokemon = get(slot) ?: continue
             pokemon.storeCoordinates.set(StoreCoordinates(this, PartyPosition(slot)))
             pokemon.getChangeObservable()
-                .pipe(emitWhile { pokemon.storeCoordinates.get()?.store == this })
+                .pipe(stopAfter { pokemon.storeCoordinates.get()?.store != this })
                 .subscribe { anyChangeObservable.emit(Unit) }
         }
     }

@@ -5,7 +5,9 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
-import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.FRIENDSHIP_UPDATED
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.POKEMON_FAINTED
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.FriendshipUpdatedEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.PokemonFaintedEvent
 import com.cablemc.pokemoncobbled.common.api.moves.BenchedMove
 import com.cablemc.pokemoncobbled.common.api.moves.BenchedMoves
@@ -119,9 +121,9 @@ open class Pokemon {
             _currentHealth.emit(field)
 
             // If the Pokémon is fainted, give it a timer for it to wake back up
-            if(this.isFainted()) {
+            if (this.isFainted()) {
                 val faintTime = PokemonCobbled.config.defaultFaintTimer
-                CobbledEvents.POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
+                POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
                     this.faintedTimer = it.faintedTimer
                 }
             }
@@ -173,7 +175,12 @@ open class Pokemon {
             _experience.emit(value)
         }
     var friendship = 0
-        set(value) { field = value ; _friendship.emit(value) }
+        set(value) {
+            FRIENDSHIP_UPDATED.post(FriendshipUpdatedEvent(this, value)) {
+                field = it.newFriendship
+                _friendship.emit(it.newFriendship)
+            }
+        }
     var state: PokemonState = InactivePokemonState()
         set(value) {
             val current = field

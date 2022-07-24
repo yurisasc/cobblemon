@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.net.messages.common.pokemon.update.evolution
+package com.cablemc.pokemoncobbled.common.net.messages.client.storage
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionLike
