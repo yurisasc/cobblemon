@@ -27,10 +27,11 @@ interface DropEntry {
     }
 
     /**
-     * The weight used for selection. If this value is -1, it is treated as guaranteed according to the logic outlined
-     * for [DropTable]. Other than that, a higher weight value means the drop entry will be more likely to be dropped.
+     * The percentage chance of it being selected. If this value is 100, it is treated as guaranteed according to the
+     * logic outline for [DropTable]. Other than that, a higher weight value means the drop entry will be more likely
+     * to be dropped.
      */
-    val weight: Float
+    val percentage: Float
     /**
      * The drop's quantity when doing selection from the [DropTable]. See the drop table documentation for more on how
      * this works.
@@ -42,6 +43,6 @@ interface DropEntry {
      * appearing multiple times in a drop action.
      */
     val maxSelectableTimes: Int
-    /** The logic to use to actually drop the item. */
+    /** The logic to use to actually drop the thing. */
     fun drop(entity: LivingEntity?, world: ServerWorld, pos: Vec3d, player: ServerPlayerEntity?)
 }
