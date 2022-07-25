@@ -1,33 +1,30 @@
 package com.cablemc.pokemoncobbled.common.battles.actor
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
-import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.ActorType
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.EntityBattleActor
 import com.cablemc.pokemoncobbled.common.util.getPlayer
-import java.util.UUID
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
 
 class PlayerBattleActor(
-    uuid: UUID,
+    entity: ServerPlayerEntity,
     pokemonList: List<BattlePokemon>
-) : BattleActor(uuid, pokemonList.toMutableList()) {
-    fun getPlayerEntity() = uuid.getPlayer()
+) : EntityBattleActor<ServerPlayerEntity>(entity, pokemonList.toMutableList()) {
+
 //    override fun sendMessage(component: Text) = getPlayerEntity()?.sendServerMessage(component) ?: Unit
-    override fun getName(): MutableText = getPlayerEntity()?.name?.copy() ?: "".text()
     override val type = ActorType.PLAYER
-    override fun getPlayerUUIDs() = setOf(uuid)
+    override fun getPlayerUUIDs() = setOf(this.entity.uuid)
     override fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {
         if (battlePokemon.effectedPokemon == battlePokemon.originalPokemon && experience > 0) {
-            uuid.getPlayer()
-                ?.let { battlePokemon.effectedPokemon.addExperienceWithPlayer(it, experience) }
-                ?: run { battlePokemon.effectedPokemon.addExperience(experience) }
+            battlePokemon.effectedPokemon.addExperienceWithPlayer(this.entity, experience)
         }
     }
 
     override fun sendUpdate(packet: NetworkPacket) {
-        CobbledNetwork.sendToPlayers(getPlayerUUIDs().mapNotNull { it.getPlayer() }, packet)
+        CobbledNetwork.sendToPlayer(this.entity, packet)
     }
+
 }
