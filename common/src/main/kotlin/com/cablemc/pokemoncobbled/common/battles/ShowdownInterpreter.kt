@@ -6,7 +6,6 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.EntityBackedBattleActor
-import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.text.aqua
 import com.cablemc.pokemoncobbled.common.api.text.gold
@@ -489,7 +488,6 @@ object ShowdownInterpreter {
             pokemonEntity.beamModeEmitter.set(1)
             afterOnMain(seconds = 1.5F) {
                 // Welcome back lil one
-                Moves
                 battle.sendUpdate(BattleSwitchPokemonPacket(pnx, newPokemon))
                 pokemonEntity.isInvisible = false
                 pokemonEntity.phasingTargetId.set(-1)
