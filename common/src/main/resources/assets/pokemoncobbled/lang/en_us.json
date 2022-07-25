@@ -46,6 +46,7 @@
   "pokemoncobbled.overflow_to_pc": "Your party was full! %1$s has been added to %2$s.",
   "pokemoncobbled.your_pc": "Your PC",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
+  "pokemoncobbled.command.pokespawn.invalid-move": "Invalid move name",
   "itemGroup.pokemoncobbled.pokeball": "Poké Balls",
   "pokemoncobbled.ui.pokenav.title": "PokeNav",
   "pokemoncobbled.ui.summary.title": "Summary",

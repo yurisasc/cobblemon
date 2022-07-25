@@ -1,16 +1,22 @@
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
+import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.EntityBackedBattleActor
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.text.aqua
 import com.cablemc.pokemoncobbled.common.api.text.gold
 import com.cablemc.pokemoncobbled.common.api.text.plus
 import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.api.text.text
+import com.cablemc.pokemoncobbled.common.battles.dispatch.DispatchResult
 import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
 import com.cablemc.pokemoncobbled.common.battles.dispatch.WaitDispatch
+import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleFaintPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleHealthChangePacket
@@ -21,7 +27,9 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSetTea
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSwitchPokemonPacket
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
+import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.swap
+import net.minecraft.entity.LivingEntity
 import java.util.UUID
 
 object ShowdownInterpreter {
@@ -455,14 +463,48 @@ object ShowdownInterpreter {
 
         if (battle.started) {
             battle.dispatch {
-                battleActor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(pokemon))
-                activePokemon.battlePokemon = pokemon
-                battle.sendUpdate(BattleSwitchPokemonPacket(pnx, pokemon))
-                WaitDispatch(1.5F)
+                if (actor is EntityBackedBattleActor<*>) this.createEntitySwitch(battle, actor, actor.entity, pnx, activePokemon, pokemon) else this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
             }
         } else {
             activePokemon.battlePokemon = pokemon
         }
+    }
+
+    private fun createEntitySwitch(battle: PokemonBattle, actor: BattleActor, entity: LivingEntity, pnx: String, activePokemon: ActiveBattlePokemon, newPokemon: BattlePokemon): DispatchResult {
+        // I'm sorry in advance
+        // If we can't find the entity for some reason don't do anything animation wise
+        val pokemonEntity = activePokemon.battlePokemon?.entity ?: return this.createNonEntitySwitch(battle, actor, pnx, activePokemon, newPokemon)
+        // Scoop up initial entity
+        entity.getWorld().playSoundServer(entity.pos, CobbledSounds.RECALL.get(), volume = 0.2F)
+        pokemonEntity.phasingTargetId.set(entity.id)
+        pokemonEntity.beamModeEmitter.set(2)
+        // Queue actual swap after the animation has ended, following SendOutPokemonHandler it's 1.5 seconds
+        battle.dispatch {
+            // Instead of actually recalling we just make it disappear
+            pokemonEntity.isInvisible = true
+            actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(newPokemon))
+            activePokemon.battlePokemon = newPokemon
+            pokemonEntity.pokemon = newPokemon.effectedPokemon
+            entity.getWorld().playSoundServer(entity.pos, CobbledSounds.SEND_OUT.get(), volume = 0.2F)
+            pokemonEntity.beamModeEmitter.set(1)
+            afterOnMain(seconds = 1.5F) {
+                // Welcome back lil one
+                Moves
+                battle.sendUpdate(BattleSwitchPokemonPacket(pnx, newPokemon))
+                pokemonEntity.isInvisible = false
+                pokemonEntity.phasingTargetId.set(-1)
+                pokemonEntity.beamModeEmitter.set(0)
+            }
+            WaitDispatch(1.5F)
+        }
+        return WaitDispatch(1.5F)
+    }
+
+    private fun createNonEntitySwitch(battle: PokemonBattle, actor: BattleActor, pnx: String, activePokemon: ActiveBattlePokemon, newPokemon: BattlePokemon): DispatchResult {
+        actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(newPokemon))
+        activePokemon.battlePokemon = newPokemon
+        battle.sendUpdate(BattleSwitchPokemonPacket(pnx, newPokemon))
+        return WaitDispatch(1.5F)
     }
 
     fun handleDamageInstruction(battle: PokemonBattle, actor: BattleActor, publicMessage: String, privateMessage: String) {
