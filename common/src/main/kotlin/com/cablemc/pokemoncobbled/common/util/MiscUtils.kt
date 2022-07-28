@@ -35,3 +35,5 @@ fun String.isHigherVersion(other: String): Boolean {
 
     return thisCount > thatCount
 }
+
+fun String.substitute(placeholder: String, value: Any?) = replace("{{$placeholder}}", value?.toString() ?: "")

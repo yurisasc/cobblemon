@@ -1,8 +1,8 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledEntities
-import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
@@ -18,11 +18,12 @@ import com.cablemc.pokemoncobbled.common.mixin.accessor.AccessorEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.pokemon.FormData
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.pokemon.ai.FormPokemonBehaviour
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
-import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
@@ -87,6 +88,8 @@ class PokemonEntity(
     val isBusy: Boolean
         get() = busyLocks.isNotEmpty()
 
+    var drops: DropTable? = null
+
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
@@ -97,6 +100,9 @@ class PokemonEntity(
     val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
+
+    /** The player that caused this Pokémon to faint. */
+    var killer: ServerPlayerEntity? = null
 
     /**
      * 0 is do nothing,
@@ -252,6 +258,18 @@ class PokemonEntity(
         pokemon.aspects.forEach(buffer::writeString)
     }
 
+    override fun canTakeDamage() = super.canTakeDamage() && !isBusy
+    override fun damage(source: DamageSource?, amount: Float): Boolean {
+        return if (super.damage(source, amount)) {
+            if (this.health == 0F) {
+                pokemon.currentHealth = 0
+            } else {
+                pokemon.currentHealth = this.health.toInt()
+            }
+            true
+        } else false
+    }
+
     override fun loadAdditionalSpawnData(buffer: PacketByteBuf) {
         if (this.world.isClient) {
             pokemon.scaleModifier = buffer.readFloat()
@@ -333,6 +351,14 @@ class PokemonEntity(
         }
     }
 
+    override fun remove(reason: RemovalReason?) {
+        val stateEntity = (pokemon.state as? ActivePokemonState)?.entity
+        super.remove(reason)
+        if (stateEntity == this) {
+            pokemon.state = InactivePokemonState()
+        }
+    }
+
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
     private fun hasRoomToMount(player: PlayerEntity): Boolean {
         return (player.shoulderEntityLeft.isEmpty || player.shoulderEntityRight.isEmpty)
@@ -342,32 +368,16 @@ class PokemonEntity(
                 && !player.inPowderSnow
     }
 
-    fun startDeathEffects() {
-        deathEffectsStarted.set(true)
+    override fun drop(source: DamageSource?) {
+        if (pokemon.isWild()) {
+            super.drop(source)
+            delegate.drop(source)
+        }
     }
 
     override fun updatePostDeath() {
         super.updatePostDeath()
-        if (!deathEffectsStarted.get()) {
-            startDeathEffects()
-        }
-        ++deathTime
-
-        if (deathTime == 60 && !world.isClient()) {
-            val owner = owner
-            if (owner != null) {
-                world.playSoundServer(owner.pos, CobbledSounds.RECALL.get(), volume = 0.2F)
-                phasingTargetId.set(owner.id)
-                beamModeEmitter.set(2)
-            }
-        }
-
-        if (deathTime == 120 && !world.isClient()) {
-            if (owner == null) {
-                world.sendEntityStatus(this, 60.toByte())
-            }
-            this.remove(RemovalReason.KILLED)
-        }
+        delegate.updatePostDeath()
     }
 
     private fun updateEyeHeight() {
