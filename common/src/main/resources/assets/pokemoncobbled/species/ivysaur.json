@@ -29,6 +29,10 @@
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 142,
   "baseScale": 1,
+  "abilities": [
+    "overgrow",
+    "h:chlorophyll"
+  ],
   "hitbox": {
     "width": 0.7,
     "height": 0.8,

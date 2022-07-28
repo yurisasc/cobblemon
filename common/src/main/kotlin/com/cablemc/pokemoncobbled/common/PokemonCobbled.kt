@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
+import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_JOIN
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
@@ -119,6 +120,7 @@ object PokemonCobbled {
         }
 
         ExperienceGroups.registerDefaults()
+        Abilities.loadPotentialAbilityInterpreters()
 
         CobbledWorldgen.register()
 

@@ -30,6 +30,10 @@
   "experienceGroup": "mediumfast",
   "baseExperienceYield": 178,
   "baseScale": 0.75,
+  "abilities": [
+    "compoundeyes",
+    "h:tintedlens"
+  ],
   "hitbox": {
     "width": 0.5,
     "height": 1.15,
