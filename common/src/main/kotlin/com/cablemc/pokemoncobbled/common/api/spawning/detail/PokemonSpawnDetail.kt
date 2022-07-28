@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.detail
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
+import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
@@ -22,7 +23,8 @@ class PokemonSpawnDetail : SpawnDetail() {
     override val type: String = TYPE
     var pokemon = PokemonProperties()
     var levelRange: IntRange? = null
-    /* todo breadcrumbing, drops, ai */
+    val drops: DropTable? = null
+    /* todo breadcrumbing, ai */
 
 
     override fun getName(): MutableText {
@@ -32,10 +34,10 @@ class PokemonSpawnDetail : SpawnDetail() {
                 return lang("species.random")
             }
             val species = PokemonSpecies.getByName(speciesString)
-            if (species == null) {
-                return lang("species.unknown")
+            return if (species == null) {
+                lang("species.unknown")
             } else {
-                return species.translatedName
+                species.translatedName
             }
         } else {
             return lang("a_pokemon")

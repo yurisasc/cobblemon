@@ -6,6 +6,8 @@ import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.util.adapters.AbilityTemplateAdapter
 import com.cablemc.pokemoncobbled.common.api.ai.SleepDepth
 import com.cablemc.pokemoncobbled.common.api.conditional.RegistryLikeCondition
+import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
+import com.cablemc.pokemoncobbled.common.api.drop.ItemDropMethod
 import com.cablemc.pokemoncobbled.common.api.entity.EntityDimensionsAdapter
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.moves.adapters.MoveTemplateAdapter
@@ -18,6 +20,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.Evolu
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroupAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.api.serialization.StringIdentifiedObjectAdapter
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
@@ -33,6 +36,7 @@ import net.minecraft.entity.EntityDimensions
 import net.minecraft.util.Identifier
 import java.io.InputStreamReader
 import net.minecraft.block.Block
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.world.biome.Biome
 
 object SpeciesLoader {
@@ -54,7 +58,10 @@ object SpeciesLoader {
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
+        .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
         .registerTypeAdapter(SleepDepth::class.java, SleepDepth.adapter)
+        .registerTypeAdapter(DropEntry::class.java, DropEntryAdapter)
+        .registerTypeAdapter(NbtCompound::class.java, NbtCompoundAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
         .disableHtmlEscaping()

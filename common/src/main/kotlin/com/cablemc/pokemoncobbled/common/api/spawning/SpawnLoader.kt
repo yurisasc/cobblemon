@@ -4,6 +4,8 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
 import com.cablemc.pokemoncobbled.common.api.conditional.RegistryLikeCondition
+import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
+import com.cablemc.pokemoncobbled.common.api.drop.ItemDropMethod
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
@@ -27,6 +29,7 @@ import java.io.InputStreamReader
 import java.nio.file.Path
 import kotlin.io.path.pathString
 import net.minecraft.block.Block
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
 
@@ -47,10 +50,14 @@ object SpawnLoader {
         .registerTypeAdapter(RegisteredSpawningContext::class.java, RegisteredSpawningContextAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .registerTypeAdapter(SpawnDetail::class.java, SpawnDetailAdapter)
+        .registerTypeAdapter(DropEntry::class.java, DropEntryAdapter)
         .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
         .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
+        .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
         .registerTypeAdapter(SpawnBucket::class.java, SpawnBucketAdapter)
+        .registerTypeAdapter(NbtCompound::class.java, NbtCompoundAdapter)
+        .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
         .create()
 
     var deserializingConditionClass: Class<out SpawningCondition<*>>? = null
