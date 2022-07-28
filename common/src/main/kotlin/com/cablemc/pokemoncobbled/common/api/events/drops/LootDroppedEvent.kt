@@ -8,7 +8,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
- * Cancelable event posted to [CobbledEvents.DROPPED] when a [DropTable] is used to drop items. This
+ * Cancelable event posted to [CobbledEvents.LOOT_DROPPED] when a [DropTable] is used to drop items. This
  * event is posted prior to the drops being performed, but after a drop list has been chosen.
  *
  * If the event is cancelled, nothing will be dropped. The final drop list that will be used can
@@ -25,7 +25,7 @@ import net.minecraft.server.network.ServerPlayerEntity
  * @author Hiroku
  * @since July 24th, 2022
  */
-class DroppedEvent(
+class LootDroppedEvent(
     val table: DropTable,
     val player: ServerPlayerEntity?,
     val entity: LivingEntity?,

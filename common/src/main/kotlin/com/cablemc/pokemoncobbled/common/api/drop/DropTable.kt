@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.drop
 
-import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.DROPPED
-import com.cablemc.pokemoncobbled.common.api.events.drops.DroppedEvent
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.LOOT_DROPPED
+import com.cablemc.pokemoncobbled.common.api.events.drops.LootDroppedEvent
 import kotlin.random.Random
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.network.ServerPlayerEntity
@@ -71,7 +71,7 @@ class DropTable {
     }
 
     /**
-     * Performs a drop, including posting the [DroppedEvent]. The entity that is dropping it and the player that caused
+     * Performs a drop, including posting the [LootDroppedEvent]. The entity that is dropping it and the player that caused
      * the drop are both optional, but in some cases a drop will only be possible when these fields are non-null. A
      * command drop that needs the player for its command will do nothing when it is dropped without a player cause.
      *
@@ -86,8 +86,8 @@ class DropTable {
         amount: IntRange = this.amount
     ) {
         val drops = getDrops(amount).toMutableList()
-        DROPPED.postThen(
-            event = DroppedEvent(this, player, entity, drops),
+        LOOT_DROPPED.postThen(
+            event = LootDroppedEvent(this, player, entity, drops),
             ifSucceeded = { it.drops.forEach { it.drop(entity, world, pos, player) } }
         )
     }
