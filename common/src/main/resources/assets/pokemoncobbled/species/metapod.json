@@ -19,6 +19,9 @@
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 64,
   "baseScale": 0.8,
+  "abilities": [
+    "shedskin"
+  ],
   "hitbox": {
     "width": 0.6,
     "height": 0.8,

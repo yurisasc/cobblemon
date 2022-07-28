@@ -31,6 +31,10 @@
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 142,
   "baseScale": 0.7,
+  "abilities": [
+    "torrent",
+    "h:raindish"
+  ],
   "hitbox": {
     "width": 0.6,
     "height": 1.3,
