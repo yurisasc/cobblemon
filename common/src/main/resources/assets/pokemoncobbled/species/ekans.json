@@ -31,6 +31,11 @@
   "experienceGroup": "mediumfast",
   "baseExperienceYield": 58,
   "baseScale": 0.6,
+  "abilities": [
+    "intimidate",
+    "shedskin",
+    "h:unnerve"
+  ],
   "hitbox": {
     "width": 1.7,
     "height": 0.4,

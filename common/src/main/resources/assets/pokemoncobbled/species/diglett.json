@@ -28,6 +28,11 @@
   "experienceGroup": "mediumfast",
   "baseExperienceYield": 53,
   "baseScale": 0.95,
+  "abilities": [
+    "sandveil",
+    "arenatrap",
+    "h:sandforce"
+  ],
   "hitbox": {
     "width": 0.5,
     "height": 0.7,
