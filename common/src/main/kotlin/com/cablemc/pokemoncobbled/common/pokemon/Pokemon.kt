@@ -239,7 +239,7 @@ open class Pokemon {
      */
     val benchedMoves = BenchedMoves()
 
-    var ability: Ability = form.standardAbilities.random().create()
+    var ability: Ability = Abilities.RUN_AWAY.create()
 
     val hp: Int
         get() = getStat(Stats.HP)
@@ -378,7 +378,7 @@ open class Pokemon {
         moveSet.loadFromNBT(nbt)
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: NbtCompound()
-        val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "drought"
+        val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "runaway"
         ability = Abilities.getOrException(abilityName).create(abilityNBT)
         shiny = nbt.getBoolean(DataKeys.POKEMON_SHINY)
         if (nbt.contains(DataKeys.POKEMON_STATE)) {
@@ -623,6 +623,8 @@ open class Pokemon {
         // shiny = randomize, probably
         initializeMoveset()
         initializeSpeciesFeatures()
+
+        ability = form.abilities.select(species, aspects)
         return this
     }
 
