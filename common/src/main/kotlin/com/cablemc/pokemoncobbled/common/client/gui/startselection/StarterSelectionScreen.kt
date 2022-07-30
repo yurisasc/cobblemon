@@ -125,7 +125,7 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
         addDrawableChild(selectionButton)
 
         starterRoundabout = StarterRoundabout(
-            pX = x + 120, pY = 140,
+            pX = x + 119, pY = height / 2 + 86,
             pWidth = StarterRoundabout.MODEL_WIDTH * 3, pHeight = StarterRoundabout.MODEL_HEIGHT,
             starterSelectionScreen = this
         )

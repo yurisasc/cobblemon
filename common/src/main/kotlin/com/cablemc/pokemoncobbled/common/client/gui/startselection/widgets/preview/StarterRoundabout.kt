@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets.preview
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.client.gui.startselection.StarterSelectionScreen
@@ -28,8 +29,8 @@ class StarterRoundabout(
 ): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("StarterRoundabout")) {
 
     companion object {
-        const val MODEL_WIDTH = 58
-        const val MODEL_HEIGHT = 58
+        const val MODEL_WIDTH = 30
+        const val MODEL_HEIGHT = 30
     }
 
     lateinit var leftWidget: ModelWidget
@@ -45,20 +46,35 @@ class StarterRoundabout(
         matrices.push()
         RenderSystem.enableScissor(
             (x * minecraft.window.scaleFactor).toInt(),
-            (minecraft.window.height - (y * minecraft.window.scaleFactor) - (height * minecraft.window.scaleFactor)).toInt(),
+            (minecraft.window.height - y * minecraft.window.scaleFactor).toInt(),
             (MODEL_WIDTH * minecraft.window.scaleFactor).toInt(),
             (MODEL_HEIGHT * minecraft.window.scaleFactor).toInt()
         )
+        // Use a big red blit to debug whether you have the scissor placed correctly
+//        blitk(
+//            matrices,
+//            CobbledResources.RED,
+//            0, 0, 1000, 1000
+//        )
 
-        matrices.translate((x + width / 21.0), y.toDouble(), 0.0)
-        matrices.scale(2.5F, 2.5F, 1F)
+        /*
+         * This correction term is due to where scaling comes from in a render. We are giving the drawProfilePokemon
+         * a different scale to usual, which means our position offsets that were used in the summary GUI (which is
+         * what was used to calibrate those offsets) are slightly off. In this specific case, -3 on the Y axis is
+         * enough to correct this deviation.
+         *
+         * If you want to up the scale, then you'll also need to change the correction term (trial and error it)
+         * - Hiro
+         */
+        val correctionTerm = -3.0
+        matrices.translate(x.toDouble() + MODEL_WIDTH / 2.0, y.toDouble() - MODEL_HEIGHT.toDouble() + correctionTerm, 0.0)
 
         drawProfilePokemon(
             pokemon = starterSelectionScreen.currentPokemon,
             matrixStack = matrices,
             rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
             state = null,
-            scale = 6F
+            scale = 18F
         )
 
         RenderSystem.disableScissor()
