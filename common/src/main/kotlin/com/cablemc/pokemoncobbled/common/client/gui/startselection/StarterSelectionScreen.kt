@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.gui.startselection
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.MultiLineLabelK
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
@@ -15,10 +16,10 @@ import com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets.previ
 import com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets.preview.SelectionButton
 import com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets.preview.StarterRoundabout
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.MoveInfoWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.DualTypeWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.TypeWidget
+import com.cablemc.pokemoncobbled.common.net.messages.server.SelectStarterPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
@@ -57,7 +58,9 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
     lateinit var leftButton: ArrowButton
     lateinit var typeWidget: TypeWidget
     lateinit var selectionButton: SelectionButton
-    lateinit var starterRoundabout: StarterRoundabout
+    lateinit var starterRoundaboutCenter: StarterRoundabout
+    lateinit var starterRoundaboutLeft: StarterRoundabout
+    lateinit var starterRoundaboutRight: StarterRoundabout
 
     constructor(categories: List<StarterCategory>) : this() {
         this.categories = categories
@@ -68,6 +71,11 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
 
         val x = (width - BASE_WIDTH) / 2
         val y = (height - BASE_HEIGHT) / 2
+
+        if (categories.isEmpty()) {
+            println("Empty category list while opening StarterSelectionUI")
+            return
+        }
 
         addDrawableChild(
             CategoryList(
@@ -119,18 +127,38 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
             pX = x + 106, pY = y + 124,
             pWidth = SelectionButton.BUTTON_WIDTH, pHeight = SelectionButton.BUTTON_HEIGHT
         ) {
-            println("Selected ${currentPokemon.species.name}")
+            CobbledNetwork.sendToServer(
+                SelectStarterPacket(
+                    categoryName = currentCategory.name,
+                    selected = currentSelection
+                )
+            )
+            MinecraftClient.getInstance().setScreen(null)
         }
 
         addDrawableChild(selectionButton)
 
-        starterRoundabout = StarterRoundabout(
+        starterRoundaboutCenter = StarterRoundabout(
             pX = x + 119, pY = height / 2 + 86,
-            pWidth = StarterRoundabout.MODEL_WIDTH * 3, pHeight = StarterRoundabout.MODEL_HEIGHT,
-            starterSelectionScreen = this
+            pWidth = StarterRoundabout.MODEL_WIDTH, pHeight = StarterRoundabout.MODEL_HEIGHT,
+            pokemon = currentPokemon
         )
 
-        addDrawableChild(starterRoundabout)
+        starterRoundaboutLeft = StarterRoundabout(
+            pX = x + 89, pY = height / 2 + 86,
+            pWidth = StarterRoundabout.MODEL_WIDTH, pHeight = StarterRoundabout.MODEL_HEIGHT,
+            pokemon = currentCategory.pokemon[leftOfCurrentSelection()].create()
+        )
+
+        starterRoundaboutRight = StarterRoundabout(
+            pX = x + 149, pY = height / 2 + 86,
+            pWidth = StarterRoundabout.MODEL_WIDTH, pHeight = StarterRoundabout.MODEL_HEIGHT,
+            pokemon = currentCategory.pokemon[rightOfCurrentSelection()].create()
+        )
+
+        addDrawableChild(starterRoundaboutLeft)
+        addDrawableChild(starterRoundaboutCenter)
+        addDrawableChild(starterRoundaboutRight)
 
         addDrawableChild(
             ExitButton(
@@ -229,28 +257,27 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
     }
 
     private fun right() {
-        if (currentSelection + 1 <= currentCategory.pokemon.size - 1) {
-            currentSelection++
-        } else {
-            currentSelection = 0
-        }
+        currentSelection = rightOfCurrentSelection()
         updateSelection()
     }
 
+    private fun rightOfCurrentSelection() : Int = if (currentSelection + 1 <= currentCategory.pokemon.size - 1) currentSelection + 1 else 0
+
     private fun left() {
-        if (currentSelection - 1 == -1) {
-            currentSelection = currentCategory.pokemon.size - 1
-        } else {
-            currentSelection--
-        }
+        currentSelection = leftOfCurrentSelection()
         updateSelection()
     }
+
+    private fun leftOfCurrentSelection() : Int = if (currentSelection - 1 == -1) currentCategory.pokemon.size - 1 else currentSelection - 1
 
     private fun updateSelection() {
         currentPokemon = currentCategory.pokemon[currentSelection].create().also {
             modelWidget.pokemon = it
             typeWidget = typeWidget(it, (width - BASE_WIDTH) / 2, (height - BASE_HEIGHT) / 2)
         }
+        starterRoundaboutLeft.pokemon = currentCategory.pokemon[leftOfCurrentSelection()].create()
+        starterRoundaboutCenter.pokemon = currentPokemon
+        starterRoundaboutRight.pokemon = currentCategory.pokemon[rightOfCurrentSelection()].create()
     }
 
     private fun typeWidget(pokemon: Pokemon, x: Int, y: Int) : TypeWidget {
