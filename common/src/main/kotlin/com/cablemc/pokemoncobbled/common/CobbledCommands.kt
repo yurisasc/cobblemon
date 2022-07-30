@@ -19,5 +19,6 @@ object CobbledCommands {
         StopBattleCommand.register(dispatcher)
         CheckSpawnsCommand.register(dispatcher)
         GetNBT.register(dispatcher)
+        OpenStarterScreenCommand.register(dispatcher)
     }
 }
