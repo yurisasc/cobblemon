@@ -4,6 +4,12 @@
   "primaryType": "bug",
   "secondaryType": "poison",
   "maleRatio": 0.5,
+  "behaviour": {
+    "moving": {
+      "canMove": false,
+      "canLook": false
+    }
+  },
   "baseStats": {
     "hp": 45,
     "attack": 25,

@@ -11,6 +11,9 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonFollowOwnerGoal
+import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonLookAtEntityGoal
+import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonWanderAroundGoal
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.SleepOnTrainerGoal
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.WildRestGoal
 import com.cablemc.pokemoncobbled.common.item.interactive.PokemonInteractiveItem
@@ -209,10 +212,10 @@ class PokemonEntity(
         })
 
         goalSelector.add(2, SleepOnTrainerGoal(this))
-        goalSelector.add(3, FollowOwnerGoal(this, 0.6, 8F, 2F, false))
+        goalSelector.add(3, PokemonFollowOwnerGoal(this, 0.6, 8F, 2F, false))
         goalSelector.add(4, WildRestGoal(this))
-        goalSelector.add(5, WanderAroundGoal(this, 0.33))
-        goalSelector.add(6, LookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
+        goalSelector.add(5, PokemonWanderAroundGoal(this, 0.33))
+        goalSelector.add(6, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
     }
 
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {

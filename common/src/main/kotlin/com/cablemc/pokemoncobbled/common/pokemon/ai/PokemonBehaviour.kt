@@ -8,4 +8,5 @@ package com.cablemc.pokemoncobbled.common.pokemon.ai
  */
 open class PokemonBehaviour {
     val resting = RestBehaviour()
+    var moving = MoveBehaviour()
 }
