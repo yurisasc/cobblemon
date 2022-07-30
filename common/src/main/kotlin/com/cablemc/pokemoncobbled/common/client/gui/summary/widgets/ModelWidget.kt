@@ -13,7 +13,8 @@ import net.minecraft.util.math.Vec3f
 class ModelWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    pokemon: Pokemon
+    pokemon: Pokemon,
+    val baseScale: Float = 2.7F
 ): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("Summary - ModelWidget")) {
 
     companion object {
@@ -43,7 +44,6 @@ class ModelWidget(
             (height * minecraft.window.scaleFactor).toInt()
         )
 
-        val baseScale = 2.7F
         poseStack.translate(x + width * 0.5, y.toDouble(), 0.0)
         poseStack.scale(baseScale, baseScale, baseScale)
         poseStack.push()

@@ -13,8 +13,8 @@ class ExitButton(
 ): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, exitButtonResource, onPress) {
 
     companion object {
-        private const val EXIT_BUTTON_WIDTH = 21.3F
-        private const val EXIT_BUTTON_HEIGHT = 15F
+        private const val EXIT_BUTTON_WIDTH = 15.95F
+        private const val EXIT_BUTTON_HEIGHT = 11.95F
         private val exitButtonResource = cobbledResource("ui/starterselection/starterselection_exit.png")
     }
 
@@ -23,7 +23,7 @@ class ExitButton(
         if (isHovered) {
             blitk(
                 matrixStack = pMatrixStack,
-                x = x - 0.3f, y = y + 0.7f,
+                x = x + 0.075f, y = y + 1.05f,
                 texture = exitButtonResource,
                 width = EXIT_BUTTON_WIDTH, height = EXIT_BUTTON_HEIGHT
             )

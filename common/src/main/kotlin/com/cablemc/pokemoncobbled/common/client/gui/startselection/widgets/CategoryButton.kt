@@ -8,7 +8,6 @@ import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.util.math.MatrixStack
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import net.minecraft.text.Text
 
 class CategoryButton(
     pX: Int, pY: Int,
