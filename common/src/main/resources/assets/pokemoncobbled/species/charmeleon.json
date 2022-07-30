@@ -26,9 +26,26 @@
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 142,
   "baseScale": 0.8,
+  "abilities": [
+    "blaze",
+    "h:solarpower"
+  ],
   "hitbox": {
     "width": 0.7,
     "height": 1.5,
     "fixed": false
-  }
+  },
+  "evolutions": [
+    {
+      "variant": "level_up",
+      "levels": 36,
+      "id": "charmeleon_level",
+      "result": "Charizard",
+      "optional": true,
+      "consumeHeldItem": false,
+      "requirements": [],
+      "learnableMoves": ["Air Slash"]
+    }
+  ],
+  "preEvolution": "Charmander"
 }

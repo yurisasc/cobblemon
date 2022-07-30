@@ -2,23 +2,21 @@ package com.cablemc.pokemoncobbled.common.client.entity
 
 import com.cablemc.pokemoncobbled.common.api.entity.PokemonSideDelegate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.api.reactive.Observable
-import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
 import com.cablemc.pokemoncobbled.common.api.scheduling.after
-import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.scheduling.lerp
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additives.EarBounceAdditive
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.entity.Entity
 import java.lang.Float.min
 import kotlin.math.abs
+import net.minecraft.entity.Entity
 
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
-        const val BEAM_SHRINK_TIME = 0.7F
-        const val BEAM_EXTEND_TIME = 0.3F
+        const val BEAM_SHRINK_TIME = 0.8F
+        const val BEAM_EXTEND_TIME = 0.2F
     }
 
     lateinit var entity: PokemonEntity
@@ -39,6 +37,14 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
         entity.dexNumber.subscribeIncludingCurrent {
             currentPose = null
             entity.pokemon.species = PokemonSpecies.getByPokedexNumber(it)!! // TODO exception handling
+        }
+
+        entity.deathEffectsStarted.subscribe {
+            if (it) {
+                val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
+                val animation = model.getFaintAnimation(entity, this) ?: return@subscribe
+                statefulAnimations.add(animation)
+            }
         }
 
         entity.shiny.subscribeIncludingCurrent { entity.pokemon.shiny = it }
@@ -63,7 +69,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                 entityScaleModifier = 0F
                 beamStartTime = System.currentTimeMillis()
                 entity.isInvisible = true
-                afterOnMain(seconds = BEAM_EXTEND_TIME) {
+                after(seconds = BEAM_EXTEND_TIME) {
                     lerp(BEAM_SHRINK_TIME) { entityScaleModifier = it }
                     entity.isInvisible = false
                 }

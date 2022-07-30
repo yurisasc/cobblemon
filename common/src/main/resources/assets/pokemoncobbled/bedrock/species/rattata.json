@@ -1,0 +1,15 @@
+{
+  "animator": "rattata",
+  "model": "pokemoncobbled:bedrock/models/rattata_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/rattata.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/rattata_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:bedrock/models/rattata_female.geo.json"
+    }
+  ]
+}

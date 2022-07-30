@@ -5,21 +5,32 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
-import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.FRIENDSHIP_UPDATED
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.POKEMON_FAINTED
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.FriendshipUpdatedEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.PokemonFaintedEvent
-import com.cablemc.pokemoncobbled.common.api.moves.*
+import com.cablemc.pokemoncobbled.common.api.moves.BenchedMove
+import com.cablemc.pokemoncobbled.common.api.moves.BenchedMoves
+import com.cablemc.pokemoncobbled.common.api.moves.MoveSet
+import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
+import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonPropertyExtractor
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.*
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionProxy
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
+import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
@@ -36,36 +47,39 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonStat
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionProxy
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledClientEvolutionController
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.controller.CobbledServerEvolutionController
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
-import com.cablemc.pokemoncobbled.common.util.*
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.lang
+import com.cablemc.pokemoncobbled.common.util.readSizedInt
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
+import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
+import java.util.UUID
+import kotlin.math.min
+import kotlin.math.roundToInt
+import kotlin.random.Random
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtString
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper.ceil
+import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
-import java.util.UUID
-import kotlin.math.min
-import kotlin.math.roundToInt
-import kotlin.random.Random
 
 open class Pokemon {
     var uuid = UUID.randomUUID()
     var species = PokemonSpecies.EEVEE
         set(value) {
-            if (value == field) {
-                return
-            }
-            val quotient = currentHealth.toFloat() / hp
+            val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             val previousFeatureKeys = species.features
             field = value
             val newFeatureKeys = species.features
@@ -75,29 +89,41 @@ open class Pokemon {
             features.removeAll { SpeciesFeature.getName(it) in removedFeatures }
             this.evolutionProxy.current().clear()
             updateAspects()
-            currentHealth = (hp * quotient).roundToInt()
+            updateForm()
+            updateHP(quotient)
             _species.emit(value)
         }
+
     var form = species.forms.first()
         set(value) {
             field = value
             // Evo proxy is already cleared on species update but the form may be changed by itself, this is fine and no unnecessary packets will be sent out
             this.evolutionProxy.current().clear()
+            // Species updates already update HP but just a form change may require it
+            val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
+            updateHP(quotient)
             _form.emit(value)
         }
-    var currentHealth = Int.MAX_VALUE
+
+    // Need to happen before currentHealth init due to the calc
+    var ivs = IVs.createRandomIVs()
+    var evs = EVs.createEmpty()
+
+    var currentHealth = this.hp
         set(value) {
+            if (value == field) {
+                return
+            }
             if(currentHealth <= 0 && value > 0) {
                 this.healTimer = PokemonCobbled.config.healTimer
             }
-
             field = min(hp, value)
             _currentHealth.emit(field)
 
             // If the Pokémon is fainted, give it a timer for it to wake back up
-            if(this.isFainted()) {
+            if (this.isFainted()) {
                 val faintTime = PokemonCobbled.config.defaultFaintTimer
-                CobbledEvents.POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
+                POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
                     this.faintedTimer = it.faintedTimer
                 }
             }
@@ -149,11 +175,19 @@ open class Pokemon {
             _experience.emit(value)
         }
     var friendship = 0
-        set(value) { field = value ; _friendship.emit(value) }
+        set(value) {
+            FRIENDSHIP_UPDATED.post(FriendshipUpdatedEvent(this, value)) {
+                field = it.newFriendship
+                _friendship.emit(it.newFriendship)
+            }
+        }
     var state: PokemonState = InactivePokemonState()
         set(value) {
-            if (field is ActivePokemonState && !isClient) {
-                (field as ActivePokemonState).recall()
+            val current = field
+            if (current is ActivePokemonState && !isClient) {
+                if (value !is ActivePokemonState || value.entity != current.entity) {
+                    current.recall()
+                }
             }
             field = value
             _state.emit(value)
@@ -205,7 +239,7 @@ open class Pokemon {
      */
     val benchedMoves = BenchedMoves()
 
-    var ability: Ability = form.standardAbilities.random().create()
+    var ability: Ability = Abilities.RUN_AWAY.create()
 
     val hp: Int
         get() = getStat(Stats.HP)
@@ -220,8 +254,6 @@ open class Pokemon {
     val speed: Int
         get() = getStat(Stats.SPEED)
 
-    var ivs = IVs.createRandomIVs()
-    var evs = EVs.createEmpty()
     var scaleModifier = 1F
 
     var caughtBall: PokeBall = PokeBalls.POKE_BALL
@@ -231,6 +263,9 @@ open class Pokemon {
         set(value) {
             if (field != value) {
                 field = value
+                if (!isClient) {
+                    updateForm()
+                }
                 _aspects.emit(value)
             }
         }
@@ -249,6 +284,8 @@ open class Pokemon {
      * This can be done beforehand or using [EvolutionProxy.isClient].
      */
     val evolutionProxy: EvolutionProxy<EvolutionDisplay, Evolution> by lazy { CobbledEvolutionProxy(this, this.isClient) }
+
+    val customProperties = mutableListOf<CustomPokemonProperty>()
 
     open fun getStat(stat: Stat): Int {
         return if (stat == Stats.HP) {
@@ -287,6 +324,10 @@ open class Pokemon {
         return currentHealth <= 0
     }
 
+    private fun updateHP(quotient: Float) {
+        currentHealth = (hp * quotient).roundToInt()
+    }
+
     fun applyStatus(status: PersistentStatus) {
         this.status = PersistentStatusContainer(status, status.statusPeriod().random())
         if (this.status != null) {
@@ -301,7 +342,7 @@ open class Pokemon {
         nbt.putInt(DataKeys.POKEMON_EXPERIENCE, experience)
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_FRIENDSHIP, friendship.toShort())
-
+        nbt.putString(DataKeys.POKEMON_GENDER, gender.name)
         nbt.putShort(DataKeys.POKEMON_HEALTH, currentHealth.toShort())
         nbt.put(DataKeys.POKEMON_IVS, ivs.saveToNBT(NbtCompound()))
         nbt.put(DataKeys.POKEMON_EVS, evs.saveToNBT(NbtCompound()))
@@ -316,7 +357,9 @@ open class Pokemon {
         nbt.putInt(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         nbt.putInt(DataKeys.POKEMON_HEALING_TIMER, healTimer)
         nbt.put(DataKeys.BENCHED_MOVES, benchedMoves.saveToNBT(NbtList()))
-        nbt.put(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.evolutionProxy.current().saveToNBT())
+        nbt.put(DataKeys.POKEMON_EVOLUTIONS, this.evolutionProxy.saveToNBT())
+        val propertyList = customProperties.map { it.asString() }.map { NbtString.of(it) }
+        nbt.put(DataKeys.POKEMON_DATA, NbtList().also { it.addAll(propertyList) })
         return nbt
     }
 
@@ -328,13 +371,14 @@ open class Pokemon {
         experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE)
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt()
+        gender = Gender.valueOf(nbt.getString(DataKeys.POKEMON_GENDER).takeIf { it.isNotBlank() } ?: Gender.MALE.name)
         currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
         evs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_EVS))
         moveSet.loadFromNBT(nbt)
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: NbtCompound()
-        val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "drought"
+        val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "runaway"
         ability = Abilities.getOrException(abilityName).create(abilityNBT)
         shiny = nbt.getBoolean(DataKeys.POKEMON_SHINY)
         if (nbt.contains(DataKeys.POKEMON_STATE)) {
@@ -352,7 +396,11 @@ open class Pokemon {
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
-        nbt.get(DataKeys.POKEMON_PENDING_EVOLUTIONS)?.let { tag -> this.evolutionProxy.current().loadFromNBT(tag) }
+        nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
+        val propertiesList = nbt.getList(DataKeys.POKEMON_DATA, NbtString.STRING_TYPE.toInt())
+        val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString() }, " ")
+        this.customProperties.clear()
+        this.customProperties.addAll(properties.customProperties)
         return this
     }
 
@@ -364,6 +412,7 @@ open class Pokemon {
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
         json.addProperty(DataKeys.POKEMON_FRIENDSHIP, friendship)
         json.addProperty(DataKeys.POKEMON_HEALTH, currentHealth)
+        json.addProperty(DataKeys.POKEMON_GENDER, gender.name)
         json.add(DataKeys.POKEMON_IVS, ivs.saveToJSON(JsonObject()))
         json.add(DataKeys.POKEMON_EVS, evs.saveToJSON(JsonObject()))
         json.add(DataKeys.POKEMON_MOVESET, moveSet.saveToJSON(JsonObject()))
@@ -376,7 +425,9 @@ open class Pokemon {
         json.add(DataKeys.BENCHED_MOVES, benchedMoves.saveToJSON(JsonArray()))
         json.addProperty(DataKeys.POKEMON_FAINTED_TIMER, faintedTimer)
         json.addProperty(DataKeys.POKEMON_HEALING_TIMER, healTimer)
-        json.add(DataKeys.POKEMON_PENDING_EVOLUTIONS, this.evolutionProxy.current().saveToJson())
+        json.add(DataKeys.POKEMON_EVOLUTIONS, this.evolutionProxy.saveToJson())
+        val propertyList = customProperties.map { it.asString() }.map { JsonPrimitive(it) }
+        json.add(DataKeys.POKEMON_DATA, JsonArray().also { propertyList.forEach(it::add) })
         return json
     }
 
@@ -389,6 +440,7 @@ open class Pokemon {
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt
         currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
+        gender = Gender.valueOf(json.get(DataKeys.POKEMON_GENDER)?.asString ?: "male")
         ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
         evs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_EVS))
         moveSet.loadFromJSON(json.get(DataKeys.POKEMON_MOVESET).asJsonObject)
@@ -411,7 +463,11 @@ open class Pokemon {
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
-        this.evolutionProxy.current().loadFromJson(json.get(DataKeys.POKEMON_PENDING_EVOLUTIONS))
+        this.evolutionProxy.loadFromJson(json.get(DataKeys.POKEMON_EVOLUTIONS))
+        val propertyList = json.getAsJsonArray(DataKeys.POKEMON_DATA)?.map { it.asString } ?: emptyList()
+        val properties = PokemonProperties.parse(propertyList.joinToString(" "), " ")
+        this.customProperties.clear()
+        this.customProperties.addAll(properties.customProperties)
         return this
     }
 
@@ -424,6 +480,7 @@ open class Pokemon {
         buffer.writeByte(level)
         buffer.writeShort(friendship)
         buffer.writeShort(currentHealth)
+        buffer.writeSizedInt(IntSize.U_BYTE, gender.ordinal)
         ivs.saveToBuffer(buffer)
         evs.saveToBuffer(buffer)
         moveSet.saveToBuffer(buffer)
@@ -438,7 +495,7 @@ open class Pokemon {
         buffer.writeInt(healTimer)
         buffer.writeSizedInt(IntSize.U_BYTE, aspects.size)
         aspects.forEach { buffer.writeString(it) }
-        this.evolutionProxy.current().saveToBuffer(buffer, toClient)
+        this.evolutionProxy.saveToBuffer(buffer, toClient)
         return buffer
     }
 
@@ -453,6 +510,7 @@ open class Pokemon {
         level = buffer.readUnsignedByte().toInt()
         friendship = buffer.readUnsignedShort()
         currentHealth = buffer.readUnsignedShort()
+        gender = Gender.values()[buffer.readSizedInt(IntSize.U_BYTE)]
         ivs.loadFromBuffer(buffer)
         evs.loadFromBuffer(buffer)
         moveSet.loadFromBuffer(buffer)
@@ -474,7 +532,7 @@ open class Pokemon {
             aspects.add(buffer.readString())
         }
         this.aspects = aspects
-        this.evolutionProxy.current().loadFromBuffer(buffer)
+        this.evolutionProxy.loadFromBuffer(buffer)
         return this
     }
 
@@ -510,24 +568,20 @@ open class Pokemon {
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
     fun isWild() = storeCoordinates.get() == null
 
-    private fun validFriendship (value : Int) : Boolean {
-        return value in 0..255
-    }
-
     fun setFriendship (amount : Int) : Boolean {
-        if (validFriendship(amount)) friendship = amount
+        if (amount in FRIENDSHIP_RANGE) friendship = amount
         return friendship == amount
     }
 
-    fun incrementFriendship (amount : Int) : Boolean {
+    fun incrementFriendship(amount : Int) : Boolean {
         val value = friendship + amount
-        if (validFriendship(value)) friendship = value
+        if (value in FRIENDSHIP_RANGE) friendship = value
         return friendship == value
     }
 
     fun decrementFriendship (amount : Int) : Boolean {
         val value = friendship - amount
-        if (validFriendship(value)) friendship = value
+        if (value in FRIENDSHIP_RANGE) friendship = value
         return friendship == value
     }
 
@@ -542,12 +596,10 @@ open class Pokemon {
         if (!isClient) {
             aspects = AspectProvider.providers.flatMap { it.provide(this) }.toSet()
         }
-        // We always want an update attempt after an aspects update regardless of side, this is also triggered by species change
-        this.updateForm()
     }
 
     fun updateForm() {
-        val newForm = species.forms.firstOrNull { it.aspects.all { it in aspects } } ?: run {
+        val newForm = species.getForm(aspects) ?: run {
             LOGGER.error("Unable to find a suitable form for a ${species.name} with aspects: ${aspects.joinToString()}!")
             species.forms.first()
         }
@@ -571,6 +623,8 @@ open class Pokemon {
         // shiny = randomize, probably
         initializeMoveset()
         initializeSpeciesFeatures()
+
+        ability = form.abilities.select(species, aspects)
         return this
     }
 
@@ -723,17 +777,17 @@ open class Pokemon {
             if (notifyPacket != null && storeCoordinates.get() != null) {
                 notify(notifyPacket(it))
             }
-            anyChangeObservable.emit(Unit)
+            anyChangeObservable.emit(this)
         }
         return observable
     }
 
     private val observables = mutableListOf<Observable<*>>()
-    private val anyChangeObservable = SimpleObservable<Unit>()
+    private val anyChangeObservable = SimpleObservable<Pokemon>()
 
     fun getAllObservables() = observables.asIterable()
     /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
-    fun getChangeObservable(): Observable<Unit> = anyChangeObservable
+    fun getChangeObservable(): Observable<Pokemon> = anyChangeObservable
 
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
@@ -753,4 +807,8 @@ open class Pokemon {
     private val _evs = registerObservable(evs.observable) // TODO needs a packet
     private val _aspects = registerObservable(SimpleObservable<Set<String>>()) { AspectsUpdatePacket(this, it) }
     private val _gender = registerObservable(SimpleObservable<Gender>()) { GenderUpdatePacket(this, it) }
+
+    companion object {
+        var FRIENDSHIP_RANGE = 0..255
+    }
 }

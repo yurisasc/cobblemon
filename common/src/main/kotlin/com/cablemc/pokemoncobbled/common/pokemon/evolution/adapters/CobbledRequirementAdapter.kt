@@ -1,7 +1,5 @@
 package com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters
 
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
-import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.adapters.EvolutionAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.adapters.RequirementAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.*
@@ -28,7 +26,7 @@ object CobbledRequirementAdapter : RequirementAdapter {
         this.registerType(AreaRequirement.ADAPTER_VARIANT, AreaRequirement::class)
         this.registerType(BiomeRequirement.ADAPTER_VARIANT, BiomeRequirement::class)
         this.registerType(FriendshipRequirement.ADAPTER_VARIANT, FriendshipRequirement::class)
-        // Pending impl of held items
+        // ToDo Pending impl of held items
         //this.registerType(HeldItemRequirement.ADAPTER_VARIANT, HeldItemRequirement::class)
         this.registerType(LevelRequirement.ADAPTER_VARIANT, LevelRequirement::class)
         this.registerType(MoveSetRequirement.ADAPTER_VARIANT, MoveSetRequirement::class)

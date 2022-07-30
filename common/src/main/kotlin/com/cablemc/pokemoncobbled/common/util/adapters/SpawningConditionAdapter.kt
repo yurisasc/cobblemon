@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.util.adapters
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnLoader.deserializingConditionClass
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.AppendageCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.BasicSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.SpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
@@ -23,7 +25,8 @@ import java.lang.reflect.Type
 object SpawningConditionAdapter : JsonDeserializer<SpawningCondition<*>> {
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): SpawningCondition<*> {
         val name = json.asJsonObject.get("type")?.asString
-        return if (name == null) {
+
+        val condition: SpawningCondition<*> = if (name == null) {
             if (deserializingConditionClass == null) {
                 ctx.deserialize(json, BasicSpawningCondition::class.java)
             } else {
@@ -37,5 +40,17 @@ object SpawningConditionAdapter : JsonDeserializer<SpawningCondition<*>> {
                 ctx.deserialize(json, clazz)
             }
         }
+
+        val appendageClasses = AppendageCondition.getAppendages(condition)
+        appendageClasses.forEach {
+            try {
+                condition.appendages.add(ctx.deserialize(json, it))
+            } catch (e: Exception) {
+                LOGGER.error("Unable to deserialize appendage condition of type: ${it.simpleName}")
+                throw e
+            }
+        }
+
+        return condition
     }
 }

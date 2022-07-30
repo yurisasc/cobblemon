@@ -13,6 +13,16 @@ import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
  * @since January 31st, 2022
  */
 interface SpawningSelector {
-    fun select(spawner: Spawner, contexts: List<SpawningContext>, spawnDetails: List<SpawnDetail>): Pair<SpawningContext, SpawnDetail>?
-    fun getProbabilities(spawner: Spawner, contexts: List<SpawningContext>, spawnDetails: List<SpawnDetail>): Map<String, Float>
+    fun select(spawner: Spawner, contexts: List<SpawningContext>): Pair<SpawningContext, SpawnDetail>?
+
+    fun getProbabilities(spawner: Spawner, contexts: List<SpawningContext>): Map<SpawnDetail, Float> {
+        val weights = getTotalWeights(spawner, contexts)
+        val totalWeight = weights.values.sum()
+        val percentages = mutableMapOf<SpawnDetail, Float>()
+        weights.forEach { (spawnDetail, weight) -> percentages[spawnDetail] = (weight / totalWeight * 100F).coerceIn(0F..100F) }
+        return percentages
+    }
+
+    fun getTotalWeights(spawner: Spawner, contexts: List<SpawningContext>): Map<SpawnDetail, Float>
+
 }

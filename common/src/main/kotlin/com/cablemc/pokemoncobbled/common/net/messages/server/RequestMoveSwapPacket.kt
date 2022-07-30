@@ -9,11 +9,7 @@ class RequestMoveSwapPacket(): NetworkPacket {
     var move2 = -1
     var slot = -1
 
-    constructor(
-        move1: Int,
-        move2: Int,
-        slot: Int
-    ): this() {
+    constructor(move1: Int, move2: Int, slot: Int): this() {
         this.move1 = move1
         this.move2 = move2
         this.slot = slot

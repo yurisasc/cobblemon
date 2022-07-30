@@ -1,8 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.context
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.BasicSpawningCondition
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
+import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -33,8 +35,10 @@ abstract class SpawningContext {
         }
     }
 
-    /** What caused the spawn context. Almost always will be a player entity. */
-    abstract val cause: Any
+    /** What caused the spawn context, as a [SpawnCause]. */
+    abstract val cause: SpawnCause
+    val spawner: Spawner
+        get() = cause.spawner
     /** The [World] the spawning context exists in. */
     abstract val world: World
     /** The location of the spawning attempt. */
@@ -42,7 +46,7 @@ abstract class SpawningContext {
     /** The light level at this location. */
     abstract val light: Int
     /** Whether or not the sky is visible at this location. */
-    abstract val skyAbove: Boolean
+    abstract val canSeeSky: Boolean
     /** A list of [SpawningInfluence]s that apply due to this specific context. */
     abstract val influences: MutableList<SpawningInfluence>
     /** The current phase of the moon at this location. */
@@ -50,8 +54,10 @@ abstract class SpawningContext {
     /** The biome of this location. */
     val biome: Biome by lazy { world.getBiome(position).value() }
 
+    val biomeRegistry: Registry<Biome> by lazy { world.registryManager.get(Registry.BIOME_KEY) }
+
     val biomeName: Identifier
-        get() = world.registryManager.get(Registry.BIOME_KEY).getId(biome)!!
+        get() = this.biomeRegistry.getId(biome)!!
 
     /**
      * Filters a spawning detail by some extra condition defined by the context itself. This is for API purposes.
@@ -65,11 +71,11 @@ abstract class SpawningContext {
         influences.forEach { it.affectSpawn(entity) }
     }
 
-    open fun getRarity(detail: SpawnDetail): Float {
-        var rarity = detail.rarity
-        for (influence in influences) {
-            rarity = influence.affectRarity(detail, rarity)
+    open fun getWeight(detail: SpawnDetail): Float {
+        var weight = detail.weight
+        for (influence in influences + detail.weightMultipliers) {
+            weight = influence.affectWeight(detail, this, weight)
         }
-        return rarity
+        return weight
     }
 }

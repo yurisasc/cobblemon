@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.asTransformed
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BimanualFrame
@@ -8,6 +9,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.H
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -27,20 +29,24 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(0.0, 0.73, 0.0)
 
+    lateinit var standing: PokemonPose
+    lateinit var walk: PokemonPose
+    lateinit var flyIdle: PokemonPose
+    lateinit var fly: PokemonPose
+
     override fun registerPoses() {
-        registerPose(
+        standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
+            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
             transformTicks = 10,
             condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "ground_idle")
-            ),
-            transformedParts = arrayOf()
+            )
         )
 
-        registerPose(
+        walk = registerPose(
             poseType = PoseType.WALK,
             transformTicks = 10,
             condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
@@ -48,12 +54,12 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
                 singleBoneLook(),
                 bedrock("charizard", "ground_idle"),
                 bedrock("charizard", "ground_walk")
-            ),
-            transformedParts = emptyArray()
+            )
         )
 
-        registerPose(
-            poseType = PoseType.FLY,
+        flyIdle = registerPose(
+            poseName = "hover",
+            poseTypes = setOf(PoseType.FLY),
             transformTicks = 10,
             condition = { !it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(
@@ -63,8 +69,9 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -2F))
         )
 
-        registerPose(
-            poseType = PoseType.SWIM,
+        fly = registerPose(
+            poseName = "fly",
+            poseTypes = setOf(PoseType.FLY),
             transformTicks = 10,
             condition = { it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(
@@ -74,4 +81,9 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, 6F))
         )
     }
+
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("charizard", "faint") else null
 }

@@ -1,11 +1,18 @@
 package com.cablemc.pokemoncobbled.common.client.render
 
+import com.cablemc.pokemoncobbled.common.api.gui.drawText
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.font.TextRenderer
-import net.minecraft.client.render.*
+import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.RenderLayer
+import net.minecraft.client.render.Tessellator
+import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.Text
+import net.minecraft.text.MutableText
+import net.minecraft.text.OrderedText
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Matrix3f
 import net.minecraft.util.math.Matrix4f
@@ -50,21 +57,65 @@ fun getDepletableRedGreen(
     return r.toFloat() to g.toFloat()
 }
 
-fun TextRenderer.drawScaled(
+fun drawScaledText(
     matrixStack: MatrixStack,
-    text: Text,
-    x: Float,
-    y: Float,
+    font: Identifier? = null,
+    text: MutableText,
+    x: Number,
+    y: Number,
     scaleX: Float = 1F,
     scaleY: Float = 1F,
-    colour: Int = 0xFFFFFF
+    opacity: Number = 1F,
+    colour: Int = 0x00FFFFFF + ((opacity.toFloat() * 255).toInt() shl 24),
+    centered: Boolean = false,
+    shadow: Boolean = false
 ) {
+    if (opacity.toFloat() < 0.05F) {
+        return
+    }
     matrixStack.push()
     matrixStack.scale(scaleX, scaleY, 1F)
-    draw(matrixStack, text, x / scaleX, y / scaleY, colour)
+    drawText(
+        poseStack = matrixStack,
+        font = font,
+        text = text,
+        x = x.toFloat() / scaleX,
+        y = y.toFloat() / scaleY,
+        centered = centered,
+        colour = colour,
+        shadow = shadow
+    )
     matrixStack.pop()
 }
 
+fun drawScaledText(
+    matrixStack: MatrixStack,
+    text: OrderedText,
+    x: Number,
+    y: Number,
+    scaleX: Float = 1F,
+    scaleY: Float = 1F,
+    opacity: Number = 1F,
+    colour: Int = 0x00FFFFFF + ((opacity.toFloat() * 255).toInt() shl 24),
+    centered: Boolean = false,
+    shadow: Boolean = false
+) {
+    if (opacity.toFloat() < 0.05F) {
+        return
+    }
+    matrixStack.push()
+    matrixStack.scale(scaleX, scaleY, 1F)
+    drawText(
+        poseStack = matrixStack,
+        text = text,
+        x = x.toFloat() / scaleX,
+        y = y.toFloat() / scaleY,
+        centered = centered,
+        colour = colour,
+        shadow = shadow
+    )
+    matrixStack.pop()
+}
 
 fun renderBeaconBeam(
     matrixStack: MatrixStack,

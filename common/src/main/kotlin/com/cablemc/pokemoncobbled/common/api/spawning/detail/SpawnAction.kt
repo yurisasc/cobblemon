@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.api.spawning.detail
 
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.util.toVec3d
 import net.minecraft.entity.Entity
 
@@ -14,9 +13,8 @@ import net.minecraft.entity.Entity
  * @since February 4th, 2022
  */
 abstract class SpawnAction<T : Entity>(
-    val spawner: Spawner,
     val ctx: SpawningContext,
-    val detail: SpawnDetail
+    open val detail: SpawnDetail
 ) {
     abstract fun createEntity(): T?
 

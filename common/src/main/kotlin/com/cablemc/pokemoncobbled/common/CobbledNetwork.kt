@@ -4,13 +4,38 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.*
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.RemoveClientPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.SwapClientPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.InitializePartyPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MoveClientPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.ClosePCPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.InitializePCPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.MoveClientPCPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.OpenPCPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCBoxPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.SwapPCPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.MovePartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.SwapPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePCPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePCPokemonToPartyPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.SwapPCPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cablemc.pokemoncobbled.common.util.getServer
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -26,6 +51,7 @@ object CobbledNetwork {
     const val PROTOCOL_VERSION = "1"
 
     lateinit var networkDelegate: NetworkDelegate
+
 
     fun ServerPlayerEntity.sendPacket(packet: NetworkPacket) = sendToPlayer(this, packet)
     fun sendToPlayer(player: ServerPlayerEntity, packet: NetworkPacket) = networkDelegate.sendPacketToPlayer(player, packet)
@@ -70,18 +96,41 @@ object CobbledNetwork {
         buildClientMessage<RemoveEvolutionPacket>()
         // Evolution End
 
+        buildClientMessage<PokemonStateUpdatePacket>()
 
         // Storage Packets
         buildClientMessage<InitializePartyPacket>()
         buildClientMessage<SetPartyPokemonPacket>()
-        buildClientMessage<RemovePartyPokemonPacket>()
-        buildClientMessage<MovePartyPokemonPacket>()
-        buildClientMessage<SwapPartyPokemonPacket>()
+        buildClientMessage<MoveClientPartyPokemonPacket>()
         buildClientMessage<SetPartyReferencePacket>()
-        buildClientMessage<PokemonStateUpdatePacket>()
+
+        buildClientMessage<InitializePCPacket>()
+        buildClientMessage<MoveClientPCPokemonPacket>()
+        buildClientMessage<SetPCBoxPokemonPacket>()
+        buildClientMessage<SetPCPokemonPacket>()
+        buildClientMessage<OpenPCPacket>()
+        buildClientMessage<ClosePCPacket>()
+
+        buildClientMessage<SwapClientPokemonPacket>()
+        buildClientMessage<RemoveClientPokemonPacket>()
 
         // UI Packets
         buildClientMessage<SummaryUIPacket>()
+
+        // Battle packets
+        buildClientMessage<BattleEndPacket>()
+        buildClientMessage<BattleInitializePacket>()
+        buildClientMessage<BattleQueueRequestPacket>()
+        buildClientMessage<BattleFaintPacket>()
+        buildClientMessage<BattleMakeChoicePacket>()
+        buildClientMessage<BattleHealthChangePacket>()
+        buildClientMessage<BattleSetTeamPokemonPacket>()
+        buildClientMessage<BattleSwitchPokemonPacket>()
+        buildClientMessage<BattleMessagePacket>()
+        buildClientMessage<BattleCaptureStartPacket>()
+        buildClientMessage<BattleCaptureEndPacket>()
+        buildClientMessage<BattleCaptureShakePacket>()
+        buildClientMessage<BattleApplyCaptureResponsePacket>()
 
         /**
          * Server Packets
@@ -97,6 +146,20 @@ object CobbledNetwork {
         buildServerMessage<RequestMoveSwapPacket>()
         buildServerMessage<BenchMovePacket>()
         buildServerMessage<ChallengePacket>()
+
+        buildServerMessage<MovePCPokemonToPartyPacket>()
+        buildServerMessage<MovePartyPokemonToPCPacket>()
+
+        buildServerMessage<SwapPCPokemonPacket>()
+        buildServerMessage<SwapPartyPokemonPacket>()
+
+        buildServerMessage<MovePCPokemonPacket>()
+        buildServerMessage<MovePartyPokemonPacket>()
+
+        buildServerMessage<SwapPCPartyPokemonPacket>()
+
+        // Battle packets
+        buildServerMessage<BattleSelectActionsPacket>()
     }
 
     private inline fun <reified P : NetworkPacket> buildClientMessage() =

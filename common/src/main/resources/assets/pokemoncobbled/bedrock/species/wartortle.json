@@ -1,0 +1,19 @@
+{
+  "animator": "wartortle",
+  "model": "pokemoncobbled:bedrock/models/wartortle.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/wartortle.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/wartortle_shiny.png"
+    },
+    {
+      "aspects": ["sunglasses"],
+      "texture": "pokemoncobbled:textures/pokemon/wartortle_sunglasses.png"
+    },
+    {
+      "aspects": ["shiny", "sunglasses"],
+      "texture": "pokemoncobbled:textures/pokemon/wartortle_shiny_sunglasses.png"
+    }
+  ]
+}

@@ -3,25 +3,23 @@ package com.cablemc.pokemoncobbled.common
 import com.cablemc.pokemoncobbled.common.api.blocks.EvolutionStoneOre
 import com.cablemc.pokemoncobbled.common.api.blocks.EvolutionStoneOre.Companion.DEEPSLATE_PROPERTIES
 import com.cablemc.pokemoncobbled.common.api.blocks.EvolutionStoneOre.Companion.NORMAL_PROPERTIES
-import dev.architectury.registry.registries.DeferredRegister
 import com.cablemc.pokemoncobbled.common.item.ApricornItem
+import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import com.cablemc.pokemoncobbled.common.world.level.block.ApricornBlock
 import com.cablemc.pokemoncobbled.common.world.level.block.ApricornSaplingBlock
 import com.cablemc.pokemoncobbled.common.world.level.block.HealingMachineBlock
+import com.cablemc.pokemoncobbled.common.world.level.block.PCBlock
+import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
+import java.util.function.Supplier
 import net.minecraft.block.*
 import net.minecraft.entity.EntityType
 import net.minecraft.sound.BlockSoundGroup
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.BlockView
-import java.util.function.Supplier
 
-object CobbledBlocks {
-    private val blockRegister = DeferredRegister.create(PokemonCobbled.MODID, Registry.BLOCK_KEY)
-    private fun <T : Block> queue(name: String, block: Supplier<T>) = blockRegister.register(name, block)
-
+object CobbledBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     /**
      * Evolution Ores
      */
@@ -73,7 +71,7 @@ object CobbledBlocks {
     val APRICORN_SLAB = queue("apricorn_slab") { SlabBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)) }
     val APRICORN_STAIRS = queue("apricorn_stairs") { StairsBlock(APRICORN_PLANKS.get().defaultState, AbstractBlock.Settings.copy(APRICORN_PLANKS.get())) }
     val APRICORN_DOOR = queue("apricorn_door") { DoorBlock(AbstractBlock.Settings.of(Material.WOOD, APRICORN_PLANKS.get().defaultMapColor).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque()) }
-    val APRICORN_TRAPDOOR = queue("apricorn_trapdoor") { TrapdoorBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning(CobbledBlocks::never)) }
+    val APRICORN_TRAPDOOR = queue("apricorn_trapdoor") { TrapdoorBlock(AbstractBlock.Settings.of(Material.WOOD, MapColor.OAK_TAN).strength(3.0F).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning { _, _, _, _ -> false }) }
 
     private val PLANT_PROPERTIES = AbstractBlock.Settings.of(Material.PLANT).noCollision().ticksRandomly().breakInstantly().sounds(BlockSoundGroup.GRASS)
     val BLACK_APRICORN_SAPLING = queue("black_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, "black") }
@@ -93,10 +91,7 @@ object CobbledBlocks {
     val YELLOW_APRICORN = registerApricornBlock("yellow_apricorn") { CobbledItems.YELLOW_APRICORN.get() }
 
     val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque()) }
-
-    fun register() {
-        blockRegister.register()
-    }
+    val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque()) }
 
     private fun registerApricornBlock(id: String, apricornSupplier: Supplier<ApricornItem>): RegistrySupplier<ApricornBlock> {
         return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricornSupplier) }
@@ -119,29 +114,8 @@ object CobbledBlocks {
     private fun leaves(sound: BlockSoundGroup): LeavesBlock {
         return LeavesBlock(
             AbstractBlock.Settings.of(Material.LEAVES).strength(0.2f).ticksRandomly().sounds(sound).nonOpaque()
-                .allowsSpawning { arg: BlockState, arg2: BlockView, arg3: BlockPos, arg4: EntityType<*> -> ocelotOrParrot(arg, arg2, arg3, arg4) }
-                .suffocates { arg: BlockState, arg2: BlockView, arg3: BlockPos -> false }
-                .blockVision { arg: BlockState, arg2: BlockView, arg3: BlockPos -> false })
-    }
-
-    private fun ocelotOrParrot(arg: BlockState, arg2: BlockView, arg3: BlockPos, arg4: EntityType<*>): Boolean {
-        return arg4 === EntityType.OCELOT || arg4 === EntityType.PARROT
-    }
-
-    // Short hands for predicate arguments
-    private fun always(arg: BlockState, arg2: BlockView, arg3: BlockPos): Boolean {
-        return true
-    }
-
-    private fun never(arg: BlockState, arg2: BlockView, arg3: BlockPos): Boolean {
-        return false
-    }
-
-    private fun never(arg: BlockState, arg2: BlockView, arg3: BlockPos, arg4: EntityType<*>): Boolean {
-        return false;
-    }
-
-    private fun always(arg: BlockState, arg2: BlockView, arg3: BlockPos, arg4: EntityType<*>): Boolean {
-        return true;
+                .allowsSpawning { _, _, _, type -> type === EntityType.OCELOT || type === EntityType.PARROT }
+                .suffocates { _, _, _ -> false }
+                .blockVision { _, _, _ -> false })
     }
 }

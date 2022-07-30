@@ -31,9 +31,26 @@
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 142,
   "baseScale": 0.7,
+  "abilities": [
+    "torrent",
+    "h:raindish"
+  ],
   "hitbox": {
     "width": 0.6,
     "height": 1.3,
     "fixed": false
-  }
+  },
+  "evolutions": [
+    {
+      "variant": "level_up",
+      "levels": 36,
+      "id": "wartortle_level",
+      "result": "Blastoise",
+      "optional": true,
+      "consumeHeldItem": false,
+      "requirements": [],
+      "learnableMoves": ["Flash Cannon"]
+    }
+  ],
+  "preEvolution": "Squirtle"
 }

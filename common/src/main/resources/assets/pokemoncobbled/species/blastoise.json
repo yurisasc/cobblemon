@@ -31,9 +31,14 @@
   "baseScale": 0.8,
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 239,
+  "abilities": [
+    "torrent",
+    "h:raindish"
+  ],
   "hitbox": {
     "width": 1,
     "height": 1.8,
     "fixed": false
-  }
+  },
+  "preEvolution": "Wartortle"
 }

@@ -9,13 +9,14 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.argument.EntityArgumentType
 import net.minecraft.server.command.CommandManager
+import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 
 object GivePokemon {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = CommandManager.literal("givepokemon")
+        val command = dispatcher.register(literal("givepokemon")
             .requires { it.hasPermissionLevel(4) }
             .then(
                 CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
@@ -27,9 +28,8 @@ object GivePokemon {
                     .then(CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
                         .executes { execute(it, it.player()) }
                     )
-            )
-
-        dispatcher.register(command)
+            ))
+        dispatcher.register(literal("pokegive").redirect(command))
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {

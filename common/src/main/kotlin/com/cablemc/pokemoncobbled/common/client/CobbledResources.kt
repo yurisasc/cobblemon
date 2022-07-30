@@ -7,6 +7,7 @@ object CobbledResources {
      * Textures
      */
     val RED = cobbledResource("textures/red.png")
+    val WHITE = cobbledResource("textures/white.png")
     val PHASE_BEAM = cobbledResource("textures/phase_beam.png")
 
     /**

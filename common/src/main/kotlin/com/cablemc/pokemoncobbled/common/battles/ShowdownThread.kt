@@ -9,13 +9,13 @@ import com.cablemc.pokemoncobbled.common.util.FileUtils
 import com.cablemc.pokemoncobbled.common.util.extractTo
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.google.gson.GsonBuilder
-import net.minecraft.client.MinecraftClient
-import net.minecraft.util.Identifier
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
 import java.util.concurrent.CompletableFuture
+import net.minecraft.client.MinecraftClient
+import net.minecraft.util.Identifier
 
 class ShowdownThread : Thread() {
 
@@ -37,7 +37,9 @@ class ShowdownThread : Thread() {
             var extract = true
 
             if (showdownMetadataFile.exists()) {
-                val localShowdownMetadata = gson.fromJson<ShowdownMetadata>(InputStreamReader(FileInputStream(showdownMetadataFile)))
+                val metaDataStream = InputStreamReader(FileInputStream(showdownMetadataFile))
+                val localShowdownMetadata = gson.fromJson<ShowdownMetadata>(metaDataStream)
+                metaDataStream.close()
                 if (showdownMetadata!!.showdownVersion == localShowdownMetadata.showdownVersion) {
                     extract = false
                 } else {

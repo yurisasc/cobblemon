@@ -6,5 +6,6 @@ enum class Category {
     Spawning,
     Battles,
     PassiveStatus,
-    Healing
+    Healing,
+    Storage
 }

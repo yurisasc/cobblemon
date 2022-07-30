@@ -8,6 +8,7 @@ accessible method net/minecraft/entity/player/PlayerEntity getShoulderEntityRigh
 accessible method net/minecraft/client/render/entity/EntityRenderers register (Lnet/minecraft/entity/EntityType;Lnet/minecraft/client/render/entity/EntityRendererFactory;)V
 accessible    field    net/minecraft/client/MinecraftClient    itemColors    Lnet/minecraft/client/color/item/ItemColors;
 accessible    field    net/minecraft/client/model/ModelPart    children    Ljava/util/Map;
+accessible    field    net/minecraft/entity/player/PlayerInventory    combinedInventory    Ljava/util/List;
 #accessible method net/minecraft/world/gen/feature/TreeFeature createStraightBlobTree (Lnet/minecraft/world/level/block/Block;Lnet/minecraft/world/level/block/Block;IIII)Lnet/minecraft/world/level/levelgen/feature/configurations/TreeConfiguration$TreeConfigurationBuilder;
 accessible method net/minecraft/block/LeavesBlock updateDistanceFromLogs (Lnet/minecraft/block/BlockState;Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/BlockState;
 #accessible method net/minecraft/world/block/state/properties/WoodType register (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;

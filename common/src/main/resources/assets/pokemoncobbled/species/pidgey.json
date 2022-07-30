@@ -32,6 +32,11 @@
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 50,
   "baseScale": 1,
+  "abilities": [
+    "keeneye",
+    "tangledfeet",
+    "h:bigpecks"
+  ],
   "hitbox": {
     "width": 0.5,
     "height": 0.8,

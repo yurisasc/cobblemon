@@ -101,9 +101,11 @@ class PokemonRenderer(
             }
         }
 
-        MinecraftClient.getInstance().player?.let { player ->
-            if (player.isLookingAt(entity) && phaseTarget == null) {
-                renderLabel(poseMatrix, partialTicks, entity, player, buffer)
+        if (!MinecraftClient.getInstance().options.hudHidden) {
+            MinecraftClient.getInstance().player?.let { player ->
+                if (player.isLookingAt(entity) && phaseTarget == null) {
+                    renderLabel(poseMatrix, partialTicks, entity, player, buffer)
+                }
             }
         }
     }
@@ -275,4 +277,6 @@ class PokemonRenderer(
             matrixStack.pop()
         }
     }
+
+    override fun getLyingAngle(entity: PokemonEntity?) = 0F
 }

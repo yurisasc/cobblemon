@@ -30,13 +30,14 @@
   "baseExperienceYield": 65,
   "baseScale": 0.6,
   "shoulderMountable": true,
+  "abilities": [
+    "runaway",
+    "adaptability",
+    "h:anticipation"
+  ],
   "hitbox": {
     "width": 0.7,
     "height": 0.8,
     "fixed": false
-  },
-  "standardAbilities": [
-    "flash_fire"
-  ],
-  "hiddenAbility": "drought"
+  }
 }

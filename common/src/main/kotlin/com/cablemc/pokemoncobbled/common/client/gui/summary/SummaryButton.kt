@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.sound.SoundManager
@@ -12,17 +11,18 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 class SummaryButton(
-    pX: Int, pY: Int,
-    pWidth: Int, pHeight: Int,
-    pXTexStart: Int, pYTexStart: Int, pYDiffText: Int,
+    var buttonX: Float, var buttonY: Float,
+    val buttonWidth: Number, val buttonHeight: Number,
     clickAction: PressAction,
     private val text: Text,
     private val resource: Identifier = cobbledResource("ui/summary/summary_button.png"),
     private val renderRequirement: ((button: TexturedButtonWidget) -> Boolean) = { true },
     private val clickRequirement: ((button: TexturedButtonWidget) -> Boolean) = { true },
     private val hoverColorRequirement: ((button: TexturedButtonWidget) -> Boolean) = { button -> button.isHovered },
-    private val silent: Boolean = false
-): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, resource, pWidth, pHeight, clickAction) {
+    private val silent: Boolean = false,
+    private val buttonScale: Float = 1F,
+    private val textScale: Float = .4F
+): TexturedButtonWidget(buttonX.toInt(), buttonY.toInt(), buttonWidth.toInt(), buttonHeight.toInt(), 0, 0, 0, resource, buttonWidth.toInt(), buttonHeight.toInt(), clickAction) {
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double) = false
 
@@ -34,23 +34,20 @@ class SummaryButton(
         blitk(
             matrixStack = poseStack,
             texture = this.resource,
-            x = x, y = y,
-            width = width, height = height
+            x = buttonX, y = buttonY,
+            width = buttonWidth, height = buttonHeight
         )
-
         poseStack.push()
-        val scale = 0.4F
-        poseStack.scale(scale, scale, 1F)
+        poseStack.scale(this.textScale, this.textScale, 1F)
         // Draw Text
         com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText(
             poseStack = poseStack,
             font = CobbledResources.NOTO_SANS_BOLD,
             text = this.text,
-            x = (x + BUTTON_WIDTH / 2) / scale, y = (y + 4) / scale,
+            x = (this.buttonX + (buttonWidth.toFloat() * this.buttonScale) / 2) / this.textScale, y = (buttonY + ((this.buttonHeight.toFloat() * this.buttonScale) * .25F)) / this.textScale,
             colour = if (this.hoverColorRequirement.invoke(this)) ColourLibrary.BUTTON_HOVER_COLOUR else ColourLibrary.WHITE,
             shadow = false
         )
-
         poseStack.pop()
     }
 
@@ -65,6 +62,12 @@ class SummaryButton(
         if (!this.silent) {
             super.playDownSound(soundManager)
         }
+    }
+
+    fun setPosFloat(x: Float, y: Float) {
+        setPos(x.toInt(), y.toInt())
+        this.buttonX = x
+        this.buttonY = y
     }
 
     companion object {

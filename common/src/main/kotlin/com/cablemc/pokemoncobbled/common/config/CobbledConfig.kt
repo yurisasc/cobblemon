@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.config
 
+import com.cablemc.pokemoncobbled.common.api.drop.ItemDropMethod
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
@@ -15,6 +16,7 @@ class CobbledConfig {
             .disableHtmlEscaping()
             .setPrettyPrinting()
             .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
+            .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
             .registerTypeAdapter(StarterCategory::class.java, StarterCategoryAdapter)
             .create()
     }
@@ -22,6 +24,21 @@ class CobbledConfig {
     @NodeCategory(Category.Pokemon)
     @IntConstraint(min = 1, max = 1000)
     var maxPokemonLevel = 100
+
+    @NodeCategory(Category.Pokemon)
+    var announceDropItems = true
+    @NodeCategory(Category.Pokemon)
+    var defaultDropItemMethod = ItemDropMethod.ON_ENTITY
+
+    @NodeCategory(Category.Storage)
+    @IntConstraint(min = 1, max = 1000)
+    var defaultBoxCount = 30
+    @NodeCategory(Category.Storage)
+    @IntConstraint(min = 1, max = 120)
+    var pokemonSaveIntervalSeconds = 30
+
+//    @NodeCategory(Category.Storage)
+//    var storageFormat = "nbt"
 
     // TODO new types of constraint
 
@@ -36,7 +53,10 @@ class CobbledConfig {
     var minimumDistanceBetweenEntities = 6.0
 
     @NodeCategory(Category.Spawning)
-    var maxNearbyBlocksRange = 8
+    var maxNearbyBlocksHorizontalRange = 4
+
+    @NodeCategory(Category.Spawning)
+    var maxNearbyBlocksVerticalRange = 2
 
     @NodeCategory(Category.Spawning)
     var maxHorizontalSpace = 6
@@ -45,26 +65,30 @@ class CobbledConfig {
     var maxVerticalSpace = 8
 
     @NodeCategory(Category.Spawning)
-    var worldSliceDiameter = 8
+    var worldSliceDiameter = 12
 
     @NodeCategory(Category.Spawning)
     var worldSliceHeight = 8
 
     @NodeCategory(Category.Spawning)
-    var minimumSliceDistanceFromPlayer = 16F
+    var minimumSliceDistanceFromPlayer = 16 * 1.5F
 
     @NodeCategory(Category.Spawning)
-    var maximumSliceDistanceFromPlayer = 28F
+    var maximumSliceDistanceFromPlayer = 16 * 2.5F
 
     @NodeCategory(Category.Spawning)
     var exportSpawnsToConfig = false
+
+    @NodeCategory(Category.Spawning)
+    var exportSpawnConfigToConfig = false
 
     @NodeCategory(Category.Battles)
     var autoUpdateShowdown = true
 
     @NodeCategory(Category.PassiveStatus)
     var passiveStatuses = mutableMapOf(
-        Statuses.POISON.configEntry()
+        Statuses.POISON.configEntry(),
+        Statuses.PARALYSIS.configEntry()
     )
 
     @NodeCategory(Category.Healing)

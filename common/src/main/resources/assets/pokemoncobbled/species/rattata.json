@@ -29,6 +29,11 @@
   "experienceGroup": "mediumfast",
   "baseExperienceYield": 51,
   "baseScale": 1,
+  "abilities": [
+    "runaway",
+    "guts",
+    "h:hustle"
+  ],
   "hitbox": {
     "width": 1,
     "height": 1,

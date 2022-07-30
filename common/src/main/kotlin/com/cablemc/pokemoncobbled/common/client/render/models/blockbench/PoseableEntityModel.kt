@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockStatefulAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
@@ -60,10 +61,12 @@ abstract class PoseableEntityModel<T : Entity>(
         poseType: PoseType,
         condition: (T) -> Boolean = { true },
         transformTicks: Int = 20,
-        idleAnimations: Array<StatelessAnimation<T, out F>>,
-        transformedParts: Array<TransformedModelPart>
-    ) {
-        poses[poseType.name] = Pose(poseType.name, setOf(poseType), condition, transformTicks, idleAnimations, transformedParts)
+        idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
+        transformedParts: Array<TransformedModelPart> = emptyArray()
+    ): Pose<T, F> {
+        return Pose(poseType.name, setOf(poseType), condition, transformTicks, idleAnimations, transformedParts).also {
+            poses[poseType.name] = it
+        }
     }
 
     fun <F : ModelFrame> registerPose(
@@ -71,10 +74,12 @@ abstract class PoseableEntityModel<T : Entity>(
         poseTypes: Set<PoseType>,
         condition: (T) -> Boolean = { true },
         transformTicks: Int = 20,
-        idleAnimations: Array<StatelessAnimation<T, out F>>,
-        transformedParts: Array<TransformedModelPart>
-    ) {
-        poses[poseName] = Pose(poseName, poseTypes, condition, transformTicks, idleAnimations, transformedParts)
+        idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
+        transformedParts: Array<TransformedModelPart> = emptyArray()
+    ): Pose<T, F> {
+        return Pose(poseName, poseTypes, condition, transformTicks, idleAnimations, transformedParts).also {
+            poses[poseName] = it
+        }
     }
 
     fun ModelPart.registerChildWithAllChildren(name: String): ModelPart {
@@ -138,9 +143,17 @@ abstract class PoseableEntityModel<T : Entity>(
      * and optionally things like limb swinging and head rotations.
      */
     fun setupAnimStateless(poseType: PoseType, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, ageInTicks: Float = 0F) {
+        setupAnimStateless(setOf(poseType), limbSwing, limbSwingAmount, headYaw, headPitch, ageInTicks)
+    }
+
+    /**
+     * Sets up the angles and positions for the model knowing that there is no state. Is given a list of pose types,
+     * and it will use the first of these that is defined for the model.
+     */
+    fun setupAnimStateless(poseTypes: Set<PoseType>, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F, ageInTicks: Float = 0F) {
         currentEntity = null
         setDefault()
-        val pose = getPose(poseType) ?: poses.values.first()
+        val pose = poseTypes.firstNotNullOfOrNull { getPose(it)  } ?: poses.values.first()
         pose.transformedParts.forEach { it.apply() }
         pose.idleStateless(this, null, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
     }
@@ -228,5 +241,16 @@ abstract class PoseableEntityModel<T : Entity>(
     ) = BedrockStatelessAnimation<T>(
         this,
         BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation")
+    )
+
+    fun bedrockStateful(
+        file: String,
+        animation: String,
+        fileSuffix: String = ".animation.json",
+        animationPrefix: String = "animation.$file",
+        preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean = { _, _, _ -> true }
+    ) = BedrockStatefulAnimation(
+        BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation"),
+        preventsIdleCheck
     )
 }

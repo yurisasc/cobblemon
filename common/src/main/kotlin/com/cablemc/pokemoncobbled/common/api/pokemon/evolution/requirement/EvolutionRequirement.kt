@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 
 /**
  * Represents a requirement for an evolution.
- * Requirements are constant and will never changed regardless of the backing action.
+ * Requirements are constant and will never change regardless of the backing action.
  * For dynamic requirements see [ContextEvolution].
  *
  * See [Evolution.requirements] & [Evolution.test] for usage.

@@ -3,6 +3,14 @@
   "nationalPokedexNumber": 4,
   "primaryType": "fire",
   "maleRatio": 0.875,
+  "behaviour": {
+    "resting": {
+      "canSleep": true,
+      "willSleepOnBed": true,
+      "depth": "normal",
+      "light": "0-2"
+    }
+  },
   "baseStats": {
     "hp": 39,
     "attack": 52,
@@ -28,6 +36,10 @@
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 62,
   "baseScale": "0.7",
+  "abilities": [
+    "blaze",
+    "h:solarpower"
+  ],
   "hitbox": {
     "width": 0.7,
     "height": 1.15,
@@ -38,6 +50,18 @@
     {
       "type": "light_source",
       "Test": "Baguette"
+    }
+  ],
+  "evolutions": [
+    {
+      "variant": "level_up",
+      "levels": 16,
+      "id": "charmander_level",
+      "result": "Charmeleon",
+      "optional": true,
+      "consumeHeldItem": false,
+      "requirements": [],
+      "learnableMoves": []
     }
   ]
 }

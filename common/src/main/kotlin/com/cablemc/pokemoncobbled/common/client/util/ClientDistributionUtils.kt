@@ -9,3 +9,7 @@ import net.minecraft.util.Identifier
 fun Identifier.exists(): Boolean {
     return MinecraftClient.getInstance().resourceManager.containsResource(this)
 }
+
+fun runOnRender(action: () -> Unit) {
+    MinecraftClient.getInstance().execute(action)
+}

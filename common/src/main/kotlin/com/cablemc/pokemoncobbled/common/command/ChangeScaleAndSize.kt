@@ -36,7 +36,7 @@ object ChangeScaleAndSize {
         pkm.baseScale = scale
         pkm.hitbox = EntityDimensions(width, height, false)
         pkm.forms.clear()
-        pkm.forms.add(FormData().also { it.species = pkm })
+        pkm.forms.add(FormData().also { it.initialize(pkm) })
         return Command.SINGLE_SUCCESS
     }
 }

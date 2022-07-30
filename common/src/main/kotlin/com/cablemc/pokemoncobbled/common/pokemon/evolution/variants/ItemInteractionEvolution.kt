@@ -10,10 +10,10 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
 /**
- * Represents a [ContextEvolution] with [ItemStack] context.
- * These are triggered upon interaction with the target [ItemStack].
+ * Represents a [ContextEvolution] with [Identifier] context.
+ * These are triggered upon interaction with any [EvolutionItem] whose [Identifier] identifier matches the given context.
  *
- * @property requiredContext The [ItemStack] expected to be used.
+ * @property requiredContext The [Identifier] expected to match.
  * @author Licious
  * @since March 20th, 2022
  */
@@ -29,7 +29,6 @@ open class ItemInteractionEvolution(
 
     override fun testContext(pokemon: Pokemon, context: EvolutionItem): Boolean {
         val contextKey = Registry.ITEM.getKey(context)
-        println("Requires: $requiredContext, Got: $contextKey")
         return contextKey == this.requiredContext
     }
 

@@ -1,12 +1,12 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
+import kotlin.math.max
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-import kotlin.math.max
 
 /**
  * A slice of the world that can be accessed safely from an async thread. This includes all of the information
@@ -18,7 +18,7 @@ import kotlin.math.max
  * @since January 31st, 2022
  */
 class WorldSlice(
-    val cause: Any,
+    val cause: SpawnCause,
     val world: World,
     val baseX: Int,
     val baseY: Int,
@@ -71,81 +71,32 @@ class WorldSlice(
     }
     fun skySpaceAbove(position: BlockPos) = skySpaceAbove(position.x, position.y, position.z)
 
-    fun skyAbove(x: Int, y: Int, z: Int, elseSkyAbove: Boolean = false): Boolean {
+    fun canSeeSky(x: Int, y: Int, z: Int, elseCanSeeSky: Boolean = false): Boolean {
         return if (!isInBounds(x, y, z)) {
-            elseSkyAbove
+            elseCanSeeSky
         } else {
             skyLevel[x - baseX][z - baseZ] <= y
         }
     }
-    fun skyAbove(position: BlockPos, elseSkyAbove: Boolean = false) = skyAbove(position.x, position.y, position.z, elseSkyAbove)
+    fun canSeeSky(position: BlockPos, elseCanSeeSky: Boolean = false) = canSeeSky(position.x, position.y, position.z, elseCanSeeSky)
 
-    fun nearbyBlocks(position: BlockPos, maxRadius: Int) = nearbyBlocks(position.x, position.y, position.z, maxRadius)
-    fun nearbyBlocks(centerX: Int, centerY: Int, centerZ: Int, maxRadius: Int): Set<BlockState> {
-        val blocks = hashSetOf<BlockState>()
-        var radius = 1
-        while (radius <= maxRadius) {
-            val minX = centerX - radius
-            val maxX = centerX + radius
-            val minZ = centerZ - radius
-            val maxZ = centerZ + radius
-            val minY = centerY - radius
-            val maxY = centerY + radius
+    fun nearbyBlocks(position: BlockPos, maxHorizontalRadius: Int, maxVerticalRadius: Int) = nearbyBlocks(position.x, position.y, position.z, maxHorizontalRadius, maxVerticalRadius)
+    fun nearbyBlocks(centerX: Int, centerY: Int, centerZ: Int, maxHorizontalRadius: Int, maxVerticalRadius: Int): List<BlockState> {
+        val blocks = mutableListOf<BlockState>()
 
-            if (!isInBounds(minX, minY, minZ) || !isInBounds(maxX, maxY, maxZ)) {
-                return blocks
-            }
+        val minX = (centerX - maxHorizontalRadius).coerceAtLeast(baseX)
+        val minY = (centerY - maxVerticalRadius).coerceAtLeast(baseY)
+        val minZ = (centerZ - maxHorizontalRadius).coerceAtLeast(baseZ)
+        val maxX = (centerX + maxHorizontalRadius).coerceAtMost(baseX + length)
+        val maxY = (centerY + maxVerticalRadius).coerceAtMost(baseY + height)
+        val maxZ = (centerZ + maxHorizontalRadius).coerceAtMost(baseZ + width)
 
-            var x: Int
-            var z: Int
-
-            for (y in (minY + 1) until maxY) {
-                // Check left side of square
-                x = minX
-                z = minZ
-                while (z <= maxZ) {
+        for (x in minX..maxX) {
+            for (y in minY..maxY) {
+                for (z in minZ..maxZ) {
                     blocks.add(getBlockState(x, y, z))
-                    z++
-                }
-
-                // Check right side of square
-                x = maxX
-                z = minZ
-                while (z <= maxZ) {
-                    blocks.add(getBlockState(x, y, z))
-                    z++
-                }
-
-                // Check bottom side of square minus the corners (minX and maxX)
-                z = minZ
-                x = minX + 1
-                while (x < maxX) {
-                    blocks.add(getBlockState(x, y, z))
-                    x++
-                }
-
-                // Check top side of square minus the corners (minX and maxX)
-                z = maxZ
-                x = minX + 1
-                while (x < maxX) {
-                    blocks.add(getBlockState(x, y, z))
-                    x++
                 }
             }
-
-            x = minX
-            z = minZ
-
-            while (x < maxX) {
-                while (z < maxZ) {
-                    blocks.add(getBlockState(x, minY, z))
-                    blocks.add(getBlockState(x, maxY, z))
-                    z++
-                }
-                x++
-            }
-
-            radius++
         }
 
         return blocks

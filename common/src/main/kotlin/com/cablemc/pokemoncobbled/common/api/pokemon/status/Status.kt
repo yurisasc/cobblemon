@@ -9,6 +9,7 @@ import net.minecraft.util.Identifier
  */
 open class Status(
     val name: Identifier,
+    val showdownName: String = ""
 ) {
 
 }

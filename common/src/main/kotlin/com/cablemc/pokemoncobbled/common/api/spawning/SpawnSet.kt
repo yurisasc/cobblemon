@@ -1,7 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.spawning
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.implementation
+import com.cablemc.pokemoncobbled.common.api.ModDependant
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
+import java.nio.file.Path
 
 /**
  * A simple collection of spawns to make it more straightforward to read from
@@ -10,27 +12,18 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
  * @author Hiroku
  * @since January 27th, 2022
  */
-class SpawnSet : Iterable<SpawnDetail> {
+class SpawnSet : Iterable<SpawnDetail>, ModDependant {
     var id = ""
 
     var enabled = true
     var version = "1"
     var preventOverwrite = false
-    var neededInstalledMods = listOf<String>()
-    var neededUninstalledMods = listOf<String>()
+    override var neededInstalledMods = listOf<String>()
+    override var neededUninstalledMods = listOf<String>()
     var spawns = mutableListOf<SpawnDetail>()
+    lateinit var path: Path
 
-    fun isEnabled(): Boolean {
-        return if (!enabled) {
-            false
-        } else if (neededInstalledMods.isNotEmpty() && neededInstalledMods.any { !implementation.isModInstalled(it) }) {
-            false
-        } else if (neededUninstalledMods.isNotEmpty() && neededUninstalledMods.any { implementation.isModInstalled(it) }) {
-            false
-        } else {
-            true
-        }
-    }
+    fun isEnabled(): Boolean = enabled && isModDependencySatisfied()
 
     override fun iterator() = spawns.iterator()
 }

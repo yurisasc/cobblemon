@@ -1,5 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
 
+import com.cablemc.pokemoncobbled.common.api.serialization.BufferSerializer
+import com.cablemc.pokemoncobbled.common.api.serialization.DataSerializer
+import com.google.gson.JsonElement
+import net.minecraft.nbt.NbtElement
+
 /**
  * Responsible for holding the different [EvolutionController] implementations based on the logical side.
  * If you haven't already checked your side previously you can use [isClient].
@@ -10,7 +15,7 @@ package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
  * @author Licious
  * @since June 18th, 2022
  */
-interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> {
+interface EvolutionProxy<C : EvolutionLike, S : EvolutionLike> : DataSerializer<NbtElement, JsonElement>, BufferSerializer {
 
     /**
      * Checks if the current logical side is the client.

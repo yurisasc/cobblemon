@@ -1,12 +1,13 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.spawner
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnAction
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
-import com.cablemc.pokemoncobbled.common.api.spawning.selection.ContextWeightedSelector
+import com.cablemc.pokemoncobbled.common.api.spawning.selection.FlatContextWeightedSelector
 import com.cablemc.pokemoncobbled.common.api.spawning.selection.SpawningSelector
 import net.minecraft.entity.Entity
 
@@ -23,7 +24,7 @@ abstract class TickingSpawner(
     var spawns: SpawnPool,
     val manager: SpawnerManager
 ) : Spawner {
-    private var selector: SpawningSelector = ContextWeightedSelector
+    private var selector: SpawningSelector = FlatContextWeightedSelector()
     override val influences = mutableListOf<SpawningInfluence>()
 
     override fun canSpawn() = active
@@ -32,7 +33,7 @@ abstract class TickingSpawner(
     override fun getSpawnPool() = spawns
     override fun setSpawnPool(spawnPool: SpawnPool) { spawns = spawnPool }
 
-    abstract fun run(): Pair<SpawningContext, SpawnDetail>?
+    abstract fun run(cause: SpawnCause): Pair<SpawningContext, SpawnDetail>?
 
     var active = true
     val spawnedEntities = mutableListOf<Entity>()
@@ -50,6 +51,7 @@ abstract class TickingSpawner(
 
     open fun tick() {
         removalCheckTicks++
+        influences.removeIf { it.isExpired() }
         if (removalCheckTicks == 60) {
             spawnedEntities.removeIf { it.isRemoved }
             removalCheckTicks = 0
@@ -67,12 +69,12 @@ abstract class TickingSpawner(
         ticksUntilNextSpawn -= tickTimerMultiplier
         if (ticksUntilNextSpawn <= 0) {
             // TODO some kind of async logic would be nice.
-            val spawn = run()
+            val spawn = run(SpawnCause(spawner = this, bucket = chooseBucket(), entity = getCauseEntity()))
             ticksUntilNextSpawn = ticksBetweenSpawns
             if (spawn != null) {
                 val ctx = spawn.first
                 val detail = spawn.second
-                val spawnAction = detail.doSpawn(spawner = this, ctx = ctx)
+                val spawnAction = detail.doSpawn(ctx = ctx)
                 this.scheduledSpawn = spawnAction
             }
         }
@@ -89,4 +91,6 @@ abstract class TickingSpawner(
         spawnAction.run()
         this.scheduledSpawn = null
     }
+
+    open fun getCauseEntity(): Entity? = null
 }

@@ -27,9 +27,14 @@
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 240,
   "baseScale": 1.65,
+  "abilities": [
+    "blaze",
+    "h:solarpower"
+  ],
   "hitbox": {
     "width": 0.7,
     "height": 2,
     "fixed": false
-  }
+  },
+  "preEvolution": "Charmeleon"
 }

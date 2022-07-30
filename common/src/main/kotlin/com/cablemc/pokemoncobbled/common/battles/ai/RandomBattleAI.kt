@@ -1,9 +1,7 @@
 package com.cablemc.pokemoncobbled.common.battles.ai
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.battles.model.ai.BattleAI
-import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
-import java.util.UUID
+import com.cablemc.pokemoncobbled.common.battles.*
 
 /**
  * AI that randomly chooses a move from its moveset at a random target.
@@ -12,41 +10,34 @@ import java.util.UUID
  * @author Deltric, Hiroku
  */
 class RandomBattleAI : BattleAI {
-    override fun chooseMoves(activePokemon: Iterable<ActiveBattlePokemon>): Iterable<String> {
-        val decisions = mutableListOf<String>()
-        for (pokemon in activePokemon) {
-            val move = pokemon.selectableMoves
-                .filter { it.canBeUsed() }
-                .filter { it.target.targetList(pokemon)?.isEmpty() != true }
-                .randomOrNull()
-
-            if (move == null) {
-                decisions.add("move struggle")
-                continue
-            }
-
-            val moveIndex = pokemon.selectableMoves.indexOf(move) + 1
-            val target = move.target.targetList(pokemon)
-            if (target == null) {
-                decisions.add("move $moveIndex")
-            } else {
-                // prioritize opponents
-                val chosenTarget = target.filter { !it.isAllied(pokemon) }.randomOrNull() ?: target.random()
-
-                decisions.add("move $moveIndex ${chosenTarget.getSignedDigitRelativeTo(pokemon)}")
-            }
-        }
-        return decisions
-    }
-
-    override fun chooseSwitches(activePokemon: Iterable<ActiveBattlePokemon>): Iterable<UUID> {
-        val switches = mutableListOf<UUID>()
-        for (pokemon in activePokemon) {
-            val switchTo = pokemon.actor.pokemonList.filter { it.canBeSentOut() }.randomOrNull()
-                ?: break //throw IllegalStateException("Need to switch but no Pokémon to switch to")
+    override fun choose(
+        activeBattlePokemon: ActiveBattlePokemon,
+        moveset: ShowdownMoveset?,
+        forceSwitch: Boolean
+    ): ShowdownActionResponse {
+        if (forceSwitch || activeBattlePokemon.isGone()) {
+            val switchTo = activeBattlePokemon.actor.pokemonList.filter { it.canBeSentOut() }.randomOrNull()
+                ?: return DefaultActionResponse() //throw IllegalStateException("Need to switch but no Pokémon to switch to")
             switchTo.willBeSwitchedIn = true
-            switches.add(switchTo.uuid)
+            return SwitchActionResponse(switchTo.uuid)
         }
-        return switches
+
+        if (moveset == null) {
+            return PassActionResponse
+        }
+        val move = moveset.moves
+            .filter { it.canBeUsed() }
+            .filter { it.mustBeUsed() || it.target.targetList(activeBattlePokemon)?.isEmpty() != true }
+            .randomOrNull()
+            ?: return MoveActionResponse("struggle")
+
+        val target = if (move.mustBeUsed()) null else move.target.targetList(activeBattlePokemon)
+        return if (target == null) {
+            MoveActionResponse(move.id)
+        } else {
+            // prioritize opponents rather than allies
+            val chosenTarget = target.filter { !it.isAllied(activeBattlePokemon) }.randomOrNull() ?: target.random()
+            MoveActionResponse(move.id, (chosenTarget as ActiveBattlePokemon).getPNX())
+        }
     }
 }

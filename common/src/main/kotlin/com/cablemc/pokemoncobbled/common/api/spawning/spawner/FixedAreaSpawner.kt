@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.spawner
 
+import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.util.squeezeWithinBounds
@@ -23,13 +24,13 @@ open class FixedAreaSpawner(
     val horizontalRadius: Int,
     val verticalRadius: Int
 ) : AreaSpawner(name, spawns, manager) {
-    override fun getArea(): SpawningArea? {
+    override fun getArea(cause: SpawnCause): SpawningArea? {
         val min = world.squeezeWithinBounds(position.add(-horizontalRadius, -verticalRadius, -horizontalRadius))
         val max = world.squeezeWithinBounds(position.add(horizontalRadius, verticalRadius, horizontalRadius))
 
         return if (world.canSetBlock(min) && world.canSetBlock(max)) {
             SpawningArea(
-                cause = this,
+                cause = cause,
                 world = world,
                 baseX = min.x,
                 baseY = min.y,

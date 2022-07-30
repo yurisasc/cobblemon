@@ -1,18 +1,28 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model
 
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.ActorType
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
+import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
+import com.cablemc.pokemoncobbled.common.battles.BattleCaptureAction
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.battles.BattleSide
+import com.cablemc.pokemoncobbled.common.battles.dispatch.BattleDispatch
+import com.cablemc.pokemoncobbled.common.battles.dispatch.DispatchResult
+import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleEndPacket
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.text.Text
 import java.util.UUID
+import java.util.concurrent.ConcurrentLinkedQueue
 
 /**
  * Individual battle instance
@@ -38,12 +48,48 @@ class PokemonBattle(
         get() = sides.flatMap { it.actors.toList() }
     val activePokemon: Iterable<ActiveBattlePokemon>
         get() = actors.flatMap { it.activePokemon }
+    val playerUUIDs: Iterable<UUID>
+        get() = actors.flatMap { it.getPlayerUUIDs() }
+    val players = playerUUIDs.mapNotNull { it.getPlayer() }
+    val spectators = mutableListOf<UUID>()
 
     val battleId = UUID.randomUUID()
 
+    val showdownMessages = mutableListOf<String>()
     var started = false
     // TEMP battle showcase stuff
     var announcingRules = false
+
+    var dispatchResult = GO
+    val dispatches = ConcurrentLinkedQueue<BattleDispatch>()
+
+    val captureActions = mutableListOf<BattleCaptureAction>()
+
+    /** Whether or not there is one side with at least one player, and the other only has wild Pokémon. */
+    val isPvW: Boolean
+        get() {
+            val playerSide = sides.find { it.actors.any { it.type == ActorType.PLAYER } } ?: return false
+            if (playerSide.actors.any { it.type != ActorType.PLAYER }) {
+                return false
+            }
+            val otherSide = sides.find { it != playerSide }!!
+            return otherSide.actors.all { it.type == ActorType.WILD }
+        }
+
+    /** Whether or not there are player actors on both sides. */
+    val isPvP: Boolean
+        get() = sides.all { it.actors.any { it.type == ActorType.PLAYER } }
+
+    /** Whether or not there is one player side and one NPC side. The opposite side to the player must all be NPCs. */
+    val isPvN: Boolean
+        get() {
+            val playerSide = sides.find { it.actors.any { it.type == ActorType.PLAYER } } ?: return false
+            if (playerSide.actors.any { it.type != ActorType.PLAYER }) {
+                return false
+            }
+            val otherSide = sides.find { it != playerSide }!!
+            return otherSide.actors.all { it.type == ActorType.NPC }
+        }
 
     /**
      * Gets an actor by their showdown id
@@ -74,8 +120,6 @@ class PokemonBattle(
             ?: throw IllegalStateException("Invalid pnx: $pnx - unknown pokemon")
         return actor to pokemon
     }
-
-//    fun getPokemon(showdownLabel: String): Pokemo
 
     fun broadcastChatMessage(component: Text) {
         return actors.forEach { it.sendMessage(component) }
@@ -109,7 +153,7 @@ class PokemonBattle(
     fun end() {
         for (actor in actors) {
             for (pokemon in actor.pokemonList.filter { it.health > 0 }) {
-                if (pokemon.facedOpponents.isNotEmpty() /* exp share held item check */) {
+                if (pokemon.facedOpponents.isNotEmpty() /* TODO exp share held item check */) {
                     val experience = PokemonCobbled.experienceCalculator.calculate(pokemon)
                     if (experience > 0) {
                         actor.awardExperience(pokemon, experience)
@@ -117,11 +161,58 @@ class PokemonBattle(
                 }
             }
         }
+        sendUpdate(BattleEndPacket())
+    }
+
+    fun finishCaptureAction(captureAction: BattleCaptureAction) {
+        captureActions.remove(captureAction)
+        checkForInputDispatch()
     }
 
     fun log(message: String = "") {
         if (!mute) {
             LOGGER.info(message)
+        }
+    }
+
+    fun sendUpdate(packet: NetworkPacket) {
+        actors.forEach { it.sendUpdate(packet) }
+        sendSpectatorUpdate(packet)
+    }
+
+    fun sendToActors(packet: NetworkPacket) {
+        CobbledNetwork.sendToPlayers(actors.flatMap { it.getPlayerUUIDs().mapNotNull { it.getPlayer() } }, packet)
+    }
+
+    fun sendSplitUpdate(privateActor: BattleActor, publicPacket: NetworkPacket, privatePacket: NetworkPacket) {
+        actors.forEach {  it.sendUpdate(if (it == privateActor) privatePacket else publicPacket) }
+        sendSpectatorUpdate(publicPacket)
+    }
+
+    fun sendSpectatorUpdate(packet: NetworkPacket) {
+        CobbledNetwork.sendToPlayers(spectators.mapNotNull { it.getPlayer() }, packet)
+    }
+
+    fun dispatch(dispatcher: () -> DispatchResult) {
+        dispatches.add(BattleDispatch { dispatcher() })
+    }
+
+    fun dispatch(dispatcher: BattleDispatch) {
+        dispatches.add(dispatcher)
+    }
+
+    fun tick() {
+        while (dispatchResult.canProceed()) {
+            val dispatch = dispatches.poll() ?: break
+            dispatchResult = dispatch(this)
+        }
+    }
+
+    fun checkForInputDispatch() {
+        val readyToInput = actors.any { !it.mustChoose && it.responses.isNotEmpty() } && actors.none { it.mustChoose }
+        if (readyToInput && captureActions.isEmpty()) {
+            actors.filter { it.responses.isNotEmpty() }.forEach { it.writeShowdownResponse() }
+            actors.forEach { it.responses.clear() ; it.request = null }
         }
     }
 }

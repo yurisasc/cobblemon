@@ -4,6 +4,9 @@ import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
+import com.cablemc.pokemoncobbled.common.world.level.block.entity.PCBlockEntity
+import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 
 /**
@@ -18,7 +21,10 @@ import java.util.UUID
  * @since November 29th, 2021
  */
 interface PokemonStoreFactory {
-    fun getPlayerParty(uuid: UUID): PlayerPartyStore?
-//    fun providePCForPlayerUUID(uuid: UUID): PCStore?
+    fun getPlayerParty(playerID: UUID): PlayerPartyStore?
+    fun getPC(playerID: UUID): PCStore?
+    fun getPCForPlayer(player: ServerPlayerEntity, pcBlockEntity: PCBlockEntity): PCStore? = getPC(player.uuid)
+
     fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID): T?
+    fun shutdown()
 }

@@ -39,7 +39,12 @@
   "block.pokemoncobbled.apricorn_door": "Apricorn Door",
   "block.pokemoncobbled.apricorn_trapdoor": "Apricorn Trapdoor",
   "block.pokemoncobbled.healing_machine": "Healing Machine",
-  "pokemoncobbled.storage.party.party-full": "Your party is currently full!",
+  "block.pokemoncobbled.pc": "PC",
+  "itemGroup.minecraft.pokemoncobbled.pokeballtab": "Pokeballs",
+  "pokemoncobbled.overflow_no_pc": "Your party was full and you don't have a PC!",
+  "pokemoncobbled.overflow_no_space": "Your party was full and so was %1$s!",
+  "pokemoncobbled.overflow_to_pc": "Your party was full! %1$s has been added to %2$s.",
+  "pokemoncobbled.your_pc": "Your PC",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
   "itemGroup.pokemoncobbled.pokeball": "Poké Balls",
   "pokemoncobbled.ui.pokenav.title": "PokeNav",
@@ -73,11 +78,19 @@
   "pokemoncobbled.ui.pokemonteam": "Pokémon Team",
   "pokemoncobbled.ui.lv": "Lv.",
   "pokemoncobbled.ui.changemove": "Change",
+  "pokemoncobbled.battle.ui.fight": "Fight",
+  "pokemoncobbled.battle.ui.switch": "Switch",
+  "pokemoncobbled.battle.ui.capture": "Catch",
+  "pokemoncobbled.battle.ui.hide_label": "Press %1$s to move around.",
+  "pokemoncobbled.battle.ui.actions_label": "You need to choose an action. Press %1$s.",
 
   "pokemoncobbled.ui.evolve": "Evolve",
   "pokemoncobbled.ui.evolve_offer": "Evolve into which Pokémon?",
 
   "pokemoncobbled.challenge_label": "Press %1$s to battle.",
+
+  "pokemoncobbled.drop.item.inventory": "You received %2$s (%1$sx).",
+  "pokemoncobbled.drop.item.full": "Your inventory was full so the %1$s dropped to the ground.",
 
   "itemGroup.pokemoncobbled.evolution_item": "Evolution Items",
   "item.pokemoncobbled.black_augurite": "Black Augurite",
@@ -102,6 +115,7 @@
 
   "pokemoncobbled.command.givepokemon.give": "Gave %1$s to %2$s.",
   "pokemoncobbled.command.pokemonedit": "Edited %2$s' %1$s.",
+  "pokemoncobbled.command.healpokemon.heal": "Fully healed %1$s's party.",
 
   "pokemoncobbled.battle.damage_dealt": "%1$s took %2$s damage!",
   "pokemoncobbled.battle.used_move": "%1$s used %2$s!",
@@ -114,6 +128,17 @@
   "pokemoncobbled.battle.your_team": "Your Team:",
   "pokemoncobbled.battle.must_switch": "Choose a Pokémon to switch in",
   "pokemoncobbled.battle.dragged_out": "%1$s was dragged out!",
+  "pokemoncobbled.battle.throw_pokeball_prompt": "Throw a PokéBall at your opponent to capture it.",
+
+  "pokemoncobbled.capture.broke_free": "The %1$s broke free!",
+  "pokemoncobbled.capture.not_your_turn": "It's not your turn to act.",
+  "pokemoncobbled.capture.attempted_capture": "%1$s threw a %2$s at %3$s!",
+  "pokemoncobbled.capture.succeeded": "Gotcha! Caught the %1$s.",
+  "pokemoncobbled.capture.not_wild": "That %1$s is not a wild Pokémon.",
+  "pokemoncobbled.capture.in_battle": "That %1$s is in a battle and cannot be caught by you.",
+  "pokemoncobbled.capture.busy": "The %1$s is busy!",
+  "pokemoncobbled.capture.you_in_battle": "You are in a battle.",
+  "pokemoncobbled.capture.not_single": "You can only capture wild Pokémon in a 1v1 battle.",
 
   "pokemoncobbled.battle.error.in_battle": "%1$s is already in a battle.",
   "pokemoncobbled.battle.error.in_battle.personal": "You are already in a battle!",
@@ -1815,6 +1840,10 @@
   "pokemoncobbled.move.takeheart": "Take Heart",
   "pokemoncobbled.move.takeheart.desc": "MOVE DESCRIPTION",
 
+  "pokemoncobbled.species.random": "Random Pokémon",
+  "pokemoncobbled.species.unknown": "Unknown Pokémon",
+  "pokemoncobbled.a_pokemon": "A Pokémon",
+
   "pokemoncobbled.species.bulbasaur.name": "Bulbasaur",
   "pokemoncobbled.species.ivysaur.name": "Ivysaur",
   "pokemoncobbled.species.venusaur.name": "Venusaur",
@@ -2753,5 +2782,6 @@
   "item.pokemoncobbled.thunder_stone": "Thunder Stone",
   "item.pokemoncobbled.water_stone": "Water Stone",
 
-  "gamerule.doPokemonSpawning": "Spawn pokémon"
+  "gamerule.doPokemonSpawning": "Spawn pokémon",
+  "command.checkspawns.invalid-bucket": "Invalid Spawn Bucket"
 }

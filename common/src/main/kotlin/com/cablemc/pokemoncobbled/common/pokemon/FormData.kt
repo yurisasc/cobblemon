@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemoncobbled.common.api.drop.DropTable
+import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
@@ -8,6 +10,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.ai.FormPokemonBehaviour
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 
@@ -32,10 +35,6 @@ class FormData(
     private val _primaryType: ElementalType? = null,
     @SerializedName("secondaryType")
     private val _secondaryType: ElementalType? = null,
-    @SerializedName("standardAbilities")
-    private val _standardAbilities: List<AbilityTemplate>? = null,
-    @SerializedName("hiddenAbility")
-    private val _hiddenAbility: AbilityTemplate? = null,
     @SerializedName("shoulderMountable")
     private val _shoulderMountable: Boolean? = null,
     @SerializedName("shoulderEffects")
@@ -44,6 +43,10 @@ class FormData(
     private val _levelUpMoves: LevelUpMoves? = null,
     @SerializedName("evolutions")
     private val _evolutions: MutableSet<Evolution>? = null,
+    @SerializedName("abilities")
+    private val _abilities: AbilityPool? = null,
+    @SerializedName("drops")
+    private val _drops: DropTable? = null,
     private val _preEvolution: PreEvolution? = null,
     private val eyeHeight: Float? = null,
     private val standingEyeHeight: Float? = null,
@@ -71,12 +74,6 @@ class FormData(
     val secondaryType: ElementalType?
         get() = _secondaryType ?: species.secondaryType
 
-    val standardAbilities: List<AbilityTemplate>
-        get() = _standardAbilities ?: species.standardAbilities
-
-    val hiddenAbility: AbilityTemplate?
-        get() = _hiddenAbility
-
     val shoulderMountable: Boolean
         get() = _shoulderMountable ?: species.shoulderMountable
 
@@ -89,12 +86,20 @@ class FormData(
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
 
+    val abilities: AbilityPool
+        get() = _abilities ?: species.abilities
+
+    val drops: DropTable
+        get() = _drops ?: species.drops
+
     var aspects = mutableListOf<String>()
 
     internal val preEvolution: PreEvolution?
         get() = _preEvolution ?: species.preEvolution
 
-    // Only exists for use of Pokemon.evolutions do not expose to end user due to how the species/form data is structured
+    val behaviour = FormPokemonBehaviour()
+
+    // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution>
         get() = _evolutions ?: species.evolutions
 
@@ -111,6 +116,11 @@ class FormData(
 
     @Transient
     lateinit var species: Species
+
+    fun initialize(species: Species) {
+        this.species = species
+        this.behaviour.parent = species.behaviour
+    }
 
     override fun equals(other: Any?): Boolean {
         return other is FormData

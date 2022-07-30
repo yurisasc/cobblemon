@@ -27,8 +27,6 @@ import java.util.UUID
 abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
     /** The UUID of the store. The exact uniqueness requirements depend on the method used for saving. */
     abstract val uuid: UUID
-    /** Returns an iterable of all the [Pokemon] in this store, with nulls removed. */
-    abstract fun getAll(): Iterable<Pokemon>
     /** Gets the [Pokemon] at the given position. */
     abstract operator fun get(position: T): Pokemon?
     /** Gets the first empty position that a [Pokemon] might be put. */
@@ -55,6 +53,9 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
      */
     protected abstract fun setAtPosition(position: T, pokemon: Pokemon?)
 
+    /** Returns true if the given position is pointing to a legitimate location in this store. */
+    abstract fun isValidPosition(position: T): Boolean
+
     /** Sends the given packet to all observing players. */
     open fun sendPacketToObservers(packet: NetworkPacket) = getObservingPlayers().forEach { it.sendPacket(packet) }
 
@@ -71,7 +72,7 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
      *
      * This method will also notify any observing players about the changes.
      */
-    open fun set(position: T, pokemon: Pokemon) {
+    open operator fun set(position: T, pokemon: Pokemon) {
         val existing = get(position)
         if (existing == pokemon) {
             return
@@ -82,6 +83,7 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
         }
 
         setAtPosition(position, pokemon)
+        pokemon.storeCoordinates.set(StoreCoordinates(this, position))
     }
 
     /** Swaps the Pokémon at the specified positions. If one of the spaces is empty, it will simply move the not-null one to that space. */
@@ -126,6 +128,7 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
             return false
         }
         pokemon.recall()
+        pokemon.storeCoordinates.set(null)
         setAtPosition(currentPosition.position, null)
         return true
     }

@@ -10,8 +10,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity.Cap
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity.CaptureState.HIT
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity.CaptureState.SHAKE
 
-class EmptyPokeBallClientDelegate : PoseableEntityState<EmptyPokeBallEntity>(),
-    EntitySideDelegate<EmptyPokeBallEntity> {
+class EmptyPokeBallClientDelegate : PoseableEntityState<EmptyPokeBallEntity>(), EntitySideDelegate<EmptyPokeBallEntity> {
     override fun initialize(entity: EmptyPokeBallEntity) {
         entity.captureState.subscribe {
             when (CaptureState.values()[it.toInt()]) {

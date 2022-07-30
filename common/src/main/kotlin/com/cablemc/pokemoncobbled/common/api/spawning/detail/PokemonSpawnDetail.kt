@@ -1,11 +1,13 @@
 package com.cablemc.pokemoncobbled.common.api.spawning.detail
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.config
+import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
-import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.lang
+import net.minecraft.text.MutableText
 
 /**
  * A [SpawnDetail] for spawning a [PokemonEntity].
@@ -21,7 +23,26 @@ class PokemonSpawnDetail : SpawnDetail() {
     override val type: String = TYPE
     var pokemon = PokemonProperties()
     var levelRange: IntRange? = null
-    /* todo breadcrumbing */
+    val drops: DropTable? = null
+    /* todo breadcrumbing, ai */
+
+
+    override fun getName(): MutableText {
+        val speciesString = pokemon.species
+        if (speciesString != null) {
+            if (speciesString.lowercase() == "random") {
+                return lang("species.random")
+            }
+            val species = PokemonSpecies.getByName(speciesString)
+            return if (species == null) {
+                lang("species.unknown")
+            } else {
+                species.translatedName
+            }
+        } else {
+            return lang("a_pokemon")
+        }
+    }
 
     override fun autoLabel() {
         super.autoLabel()
@@ -46,8 +67,8 @@ class PokemonSpawnDetail : SpawnDetail() {
         }
     }
 
-    override fun doSpawn(spawner: Spawner, ctx: SpawningContext): SpawnAction<*> {
+    override fun doSpawn(ctx: SpawningContext): SpawnAction<*> {
         // TODO should do more maybe
-        return PokemonSpawnAction(spawner, ctx, this)
+        return PokemonSpawnAction(ctx, this)
     }
 }

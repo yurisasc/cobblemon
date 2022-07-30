@@ -39,8 +39,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
                 )
-            ),
-            transformedParts = arrayOf()
+            )
         )
 
         registerPose(
@@ -57,8 +56,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { state, _, _ -> state?.animationSeconds }
                 )
-            ),
-            transformedParts = emptyArray()
+            )
         )
     }
 

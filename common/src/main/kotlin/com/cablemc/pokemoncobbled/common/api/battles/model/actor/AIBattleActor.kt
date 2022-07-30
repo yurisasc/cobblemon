@@ -1,22 +1,21 @@
 package com.cablemc.pokemoncobbled.common.api.battles.model.actor
 
 import com.cablemc.pokemoncobbled.common.api.battles.model.ai.BattleAI
-import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
-import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
+import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
-import java.util.*
-import java.util.concurrent.CompletableFuture
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMakeChoicePacket
+import java.util.UUID
 
 abstract class AIBattleActor(
     gameId: UUID,
     pokemonList: List<BattlePokemon>,
     val battleAI: BattleAI
-) : BattleActor(gameId, pokemonList) {
-    override fun getChoices(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<String>> {
-        return CompletableFuture.completedFuture(battleAI.chooseMoves(activePokemon))
-    }
+) : BattleActor(gameId, pokemonList.toMutableList()) {
+    override fun sendUpdate(packet: NetworkPacket) {
+        super.sendUpdate(packet)
 
-    override fun getSwitch(activePokemon: Iterable<ActiveBattlePokemon>): CompletableFuture<Iterable<UUID>> {
-        return CompletableFuture.completedFuture(battleAI.chooseSwitches(activePokemon))
+        if (packet is BattleMakeChoicePacket) {
+            setActionResponses(request!!.iterate(this.activePokemon, battleAI::choose) )
+        }
     }
 }

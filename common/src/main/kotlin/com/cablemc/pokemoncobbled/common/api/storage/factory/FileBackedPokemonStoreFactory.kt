@@ -1,15 +1,16 @@
 package com.cablemc.pokemoncobbled.common.api.storage.factory
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.FileStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.SerializedStore
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.util.subscribeOnServer
-import dev.architectury.event.events.common.LifecycleEvent
-import dev.architectury.event.events.common.TickEvent
 import java.util.UUID
 import java.util.concurrent.Executors
 
@@ -22,30 +23,17 @@ import java.util.concurrent.Executors
  */
 open class FileBackedPokemonStoreFactory<S>(
     protected val adapter: FileStoreAdapter<S>,
-    protected val createIfMissing: Boolean
+    protected val createIfMissing: Boolean,
+    val partyConstructor: (UUID) -> PlayerPartyStore = { PlayerPartyStore(it) },
+    val pcConstructor: (UUID) -> PCStore = { PCStore(it) }
 ) : PokemonStoreFactory {
 
     var passedTicks = 0
-
-    init {
-        LifecycleEvent.SERVER_STARTING.register {
-            if (saveExecutor.isShutdown) {
-                saveExecutor = Executors.newSingleThreadExecutor()
-            }
-        }
-
-        TickEvent.SERVER_PRE.register {
-            passedTicks++
-            // TODO config option
-            if (passedTicks > 20 * 30) {
-                saveAll()
-                passedTicks = 0
-            }
-        }
-
-        LifecycleEvent.SERVER_STOPPING.register {
+    protected val saveSubscription = CobbledEvents.TICK_PRE.subscribe {
+        passedTicks++
+        if (passedTicks > 20 * PokemonCobbled.config.pokemonSaveIntervalSeconds) {
             saveAll()
-            saveExecutor.shutdown()
+            passedTicks = 0
         }
     }
 
@@ -62,12 +50,17 @@ open class FileBackedPokemonStoreFactory<S>(
 
     private val dirtyStores = mutableSetOf<PokemonStore<*>>()
 
-    override fun getPlayerParty(uuid: UUID) = getStore(PlayerPartyStore::class.java, uuid)
-    // TODO PC storage #19
-    // override fun getPC(uuid: UUID) = getStore(uuid, dirtyPCs, cachedPCs)
+    override fun getPlayerParty(playerID: UUID) = getStore(PlayerPartyStore::class.java, playerID, partyConstructor)
+    override fun getPC(playerID: UUID) = getStore(PCStore::class.java, playerID, pcConstructor)
+
+
     override fun <E : StorePosition, T : PokemonStore<E>> getCustomStore(storeClass: Class<T>, uuid: UUID) = getStore(storeClass, uuid)
 
-    fun <E : StorePosition, T : PokemonStore<E>> getStore(storeClass: Class<T>, uuid: UUID): T? {
+    fun <E : StorePosition, T : PokemonStore<E>> getStore(
+        storeClass: Class<T>,
+        uuid: UUID,
+        constructor: ((UUID) -> T) = { storeClass.getConstructor(UUID::class.java).newInstance(it) }
+    ): T? {
         val cache = getStoreCache(storeClass).cacheMap
         val cached = cache[uuid]
         if (cached != null) {
@@ -76,7 +69,7 @@ open class FileBackedPokemonStoreFactory<S>(
             val loaded = adapter.load(storeClass, uuid)
                 ?: run {
                     if (createIfMissing) {
-                        return@run storeClass.getConstructor(UUID::class.java).newInstance(uuid)
+                        return@run constructor(uuid)
                     } else {
                         return@run null
                     }
@@ -114,4 +107,11 @@ open class FileBackedPokemonStoreFactory<S>(
             .pipe(emitWhile { isCached(store) })
             .subscribeOnServer { dirtyStores.add(store) }
     }
+
+    override fun shutdown() {
+        saveSubscription.unsubscribe()
+        saveAll()
+        saveExecutor.shutdown()
+    }
+
 }

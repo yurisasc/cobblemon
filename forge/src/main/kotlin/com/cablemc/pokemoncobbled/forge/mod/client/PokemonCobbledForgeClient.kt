@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.CobbledEntities.EMPTY_POKEBALL_TYPE
 import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -53,9 +52,6 @@ object PokemonCobbledForgeClient : PokemonCobbledClientImplementation {
     @SubscribeEvent
     fun onRenderGameOverlay(event: RenderGameOverlayEvent.Pre) {
         if (event.type != RenderGameOverlayEvent.ElementType.ALL) return
-        PokemonCobbledClient.overlay.onRenderGameOverlay(
-            matrixStack = event.matrixStack,
-            partialDeltaTicks = event.partialTicks
-        )
+        PokemonCobbledClient.beforeChatRender(event.matrixStack, event.partialTicks)
     }
 }
