@@ -14,8 +14,10 @@ class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
+    lateinit var standing: PokemonPose
+
     override fun registerPoses() {
-        registerPose(
+        standing = registerPose(
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
             transformTicks = 10,

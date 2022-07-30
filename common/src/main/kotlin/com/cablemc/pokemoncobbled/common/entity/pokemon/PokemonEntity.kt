@@ -200,10 +200,7 @@ class PokemonEntity(
         speed = 0.35F
     }
 
-    override fun createSpawnPacket(): Packet<*> {
-        return NetworkManager.createAddEntityPacket(this)
-    }
-
+    override fun createSpawnPacket() = NetworkManager.createAddEntityPacket(this)
     public override fun initGoals() {
         goalSelector.clear()
         goalSelector.add(0, object : Goal() {
