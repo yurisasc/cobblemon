@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.config
 
+import com.cablemc.pokemoncobbled.common.api.drop.ItemDropMethod
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
@@ -11,12 +12,18 @@ class CobbledConfig {
             .disableHtmlEscaping()
             .setPrettyPrinting()
             .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
+            .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
             .create()
     }
 
     @NodeCategory(Category.Pokemon)
     @IntConstraint(min = 1, max = 1000)
     var maxPokemonLevel = 100
+
+    @NodeCategory(Category.Pokemon)
+    var announceDropItems = true
+    @NodeCategory(Category.Pokemon)
+    var defaultDropItemMethod = ItemDropMethod.ON_ENTITY
 
     @NodeCategory(Category.Storage)
     @IntConstraint(min = 1, max = 1000)
@@ -25,8 +32,8 @@ class CobbledConfig {
     @IntConstraint(min = 1, max = 120)
     var pokemonSaveIntervalSeconds = 30
 
-    @NodeCategory(Category.Storage)
-    var storageFormat = "nbt"
+//    @NodeCategory(Category.Storage)
+//    var storageFormat = "nbt"
 
     // TODO new types of constraint
 

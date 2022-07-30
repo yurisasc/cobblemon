@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemoncobbled.common.api.drop.DropTable
+import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
@@ -33,10 +35,6 @@ class FormData(
     private val _primaryType: ElementalType? = null,
     @SerializedName("secondaryType")
     private val _secondaryType: ElementalType? = null,
-    @SerializedName("standardAbilities")
-    private val _standardAbilities: List<AbilityTemplate>? = null,
-    @SerializedName("hiddenAbility")
-    private val _hiddenAbility: AbilityTemplate? = null,
     @SerializedName("shoulderMountable")
     private val _shoulderMountable: Boolean? = null,
     @SerializedName("shoulderEffects")
@@ -45,6 +43,10 @@ class FormData(
     private val _levelUpMoves: LevelUpMoves? = null,
     @SerializedName("evolutions")
     private val _evolutions: MutableSet<Evolution>? = null,
+    @SerializedName("abilities")
+    private val _abilities: AbilityPool? = null,
+    @SerializedName("drops")
+    private val _drops: DropTable? = null,
     private val _preEvolution: PreEvolution? = null,
     private val eyeHeight: Float? = null,
     private val standingEyeHeight: Float? = null,
@@ -72,12 +74,6 @@ class FormData(
     val secondaryType: ElementalType?
         get() = _secondaryType ?: species.secondaryType
 
-    val standardAbilities: List<AbilityTemplate>
-        get() = _standardAbilities ?: species.standardAbilities
-
-    val hiddenAbility: AbilityTemplate?
-        get() = _hiddenAbility
-
     val shoulderMountable: Boolean
         get() = _shoulderMountable ?: species.shoulderMountable
 
@@ -89,6 +85,12 @@ class FormData(
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
+
+    val abilities: AbilityPool
+        get() = _abilities ?: species.abilities
+
+    val drops: DropTable
+        get() = _drops ?: species.drops
 
     var aspects = mutableListOf<String>()
 

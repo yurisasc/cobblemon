@@ -7,7 +7,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 
 class EvolutionItem(properties: Settings = Settings().group(CobbledItemGroups.EVOLUTION_ITEM_GROUP)) : PokemonInteractiveItem(properties, Ownership.OWNER) {
-
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack) {
         val pokemon = entity.pokemon
         pokemon.evolutions.filterIsInstance<ItemInteractionEvolution>()
@@ -17,5 +16,4 @@ class EvolutionItem(properties: Settings = Settings().group(CobbledItemGroups.EV
                 }
             }
     }
-
 }

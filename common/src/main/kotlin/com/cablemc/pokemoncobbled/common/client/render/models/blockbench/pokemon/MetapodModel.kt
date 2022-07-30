@@ -1,6 +1,8 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -12,8 +14,10 @@ class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
+    lateinit var standing: PokemonPose
+
     override fun registerPoses() {
-        registerPose(
+        standing = registerPose(
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
             transformTicks = 10,
@@ -23,4 +27,9 @@ class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
             )
         )
     }
+
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = bedrockStateful("metapod", "faint")
 }

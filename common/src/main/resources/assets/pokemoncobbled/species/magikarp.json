@@ -20,6 +20,10 @@
   "experienceGroup": "slow",
   "baseExperienceYield": 40,
   "baseScale": 0.8,
+  "abilities": [
+    "swiftswim",
+    "h:rattled"
+  ],
   "hitbox": {
     "width": 0.6,
     "height": 0.8,

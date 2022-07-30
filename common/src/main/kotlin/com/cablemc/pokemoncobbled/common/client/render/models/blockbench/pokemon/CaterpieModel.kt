@@ -1,7 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -18,7 +20,7 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        registerPose(
+        standing = registerPose(
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
             transformTicks = 10,
@@ -29,7 +31,7 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
 
-        registerPose(
+        walk = registerPose(
             poseType = PoseType.WALK,
             transformTicks = 10,
             condition = { it.isMoving.get() },
@@ -39,4 +41,9 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
+
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = bedrockStateful("caterpie", "faint")
 }

@@ -14,7 +14,7 @@ import net.minecraft.entity.Entity
  */
 abstract class SpawnAction<T : Entity>(
     val ctx: SpawningContext,
-    val detail: SpawnDetail
+    open val detail: SpawnDetail
 ) {
     abstract fun createEntity(): T?
 

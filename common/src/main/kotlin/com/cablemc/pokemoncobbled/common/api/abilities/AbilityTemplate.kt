@@ -1,9 +1,9 @@
 package com.cablemc.pokemoncobbled.common.api.abilities
 
-import com.cablemc.pokemoncobbled.common.api.abilities.extensions.AbilityExtensions
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.MutableText
 
 /**
  * This represents the base of an Ability.
@@ -12,26 +12,15 @@ import net.minecraft.text.TranslatableText
  * @param name: The English name used to load / find it (spaces -> _)
  */
 class AbilityTemplate(
-    val name: String
+    val name: String,
+    val builder: (AbilityTemplate) -> Ability = { Ability(it) },
+    val displayName: MutableText = lang("ability.${name.lowercase()}"),
+    val description: MutableText = lang("ability.${name.lowercase()}.desc")
 ) {
-    @Transient
-    lateinit var displayName: TranslatableText
-    @Transient
-    lateinit var description: TranslatableText
-
-    companion object {
-        const val PREFIX = "pokemoncobbled.ability."
-    }
-
     /**
      * Returns the Ability or if applicable the extension connected to this template
      */
-    fun create(): Ability {
-        if (AbilityExtensions.contains(name)) {
-            return AbilityExtensions.get(name)!!.getConstructor().newInstance()
-        }
-        return Ability(this)
-    }
+    fun create() = builder(this)
 
 
     /**
@@ -39,24 +28,12 @@ class AbilityTemplate(
      *
      * Ability extensions need to write and read their needed data from here.
      */
-    fun create(nbt: NbtCompound): Ability {
-        return (AbilityExtensions.get(name)?.getDeclaredConstructor()?.newInstance() ?: Ability(this)).loadFromNBT(nbt)
-    }
+    fun create(nbt: NbtCompound) = builder(this).loadFromNBT(nbt)
 
     /**
      * Returns the Ability and loads the given JSON object into it.
      *
      * Ability extensions need to write and read their needed data from here.
      */
-    fun create(json: JsonObject): Ability {
-        return (AbilityExtensions.get(name)?.getDeclaredConstructor()?.newInstance() ?: Ability(this)).loadFromJSON(json)
-    }
-
-    /**
-     * Creates the Components needed to display the Move and its Description
-     */
-    fun createLiteralTexts() {
-        displayName = TranslatableText(PREFIX + name.lowercase())
-        description = TranslatableText(PREFIX + name.lowercase() + ".desc")
-    }
+    fun create(json: JsonObject) = builder(this).loadFromJSON(json)
 }

@@ -1,6 +1,10 @@
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
+import com.cablemc.pokemoncobbled.common.api.drop.CommandDropEntry
+import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
+import com.cablemc.pokemoncobbled.common.api.drop.ItemDropEntry
+import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_JOIN
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
@@ -89,8 +93,12 @@ object PokemonCobbled {
     var storage = PokemonStoreManager()
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
+        DropEntry.register("command", CommandDropEntry::class.java)
+        DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
+
         this.loadConfig()
         this.implementation = implementation
+
         CobbledEntities.register()
         CobbledBlocks.register()
         CobbledBlockEntities.register()
@@ -119,6 +127,7 @@ object PokemonCobbled {
         }
 
         ExperienceGroups.registerDefaults()
+        Abilities.loadPotentialAbilityInterpreters()
 
         CobbledWorldgen.register()
 
@@ -153,17 +162,12 @@ object PokemonCobbled {
                 factory = FileBackedPokemonStoreFactory(
                     adapter = NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true),
                     createIfMissing = true,
-                    pcConstructor = { uuid ->
-                        val pc = PCStore(uuid)
-                        pc.resize(config.defaultBoxCount)
-                        return@FileBackedPokemonStoreFactory pc
-                    }
+                    pcConstructor = { uuid -> PCStore(uuid).also { it.resize(config.defaultBoxCount) } }
                 )
             )
         }
 
         SERVER_STOPPING.subscribe { storage.unregisterAll() }
-
         SERVER_STARTED.subscribe { bestSpawner.onServerStarted() }
         TICK_POST.subscribe { ServerTickHandler.onTick(it) }
 

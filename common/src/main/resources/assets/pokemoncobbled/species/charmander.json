@@ -36,6 +36,10 @@
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 62,
   "baseScale": "0.7",
+  "abilities": [
+    "blaze",
+    "h:solarpower"
+  ],
   "hitbox": {
     "width": 0.7,
     "height": 1.15,

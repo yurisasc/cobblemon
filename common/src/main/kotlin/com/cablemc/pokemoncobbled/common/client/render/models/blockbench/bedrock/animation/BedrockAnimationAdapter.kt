@@ -2,8 +2,11 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedroc
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.eliotlash.molang.MolangParser
-import com.google.gson.*
-import net.minecraft.util.math.Vec3d
+import com.google.gson.JsonArray
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
 import java.lang.reflect.Type
 
 /**
@@ -52,14 +55,17 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
         return BedrockBoneTimeline(positions, rotations)
     }
 
-    fun pruneLeadingPlus(value: String) = if (value.startsWith("+")) value.substring(1) else value
+    fun cleanExpression(value: String) =
+        (if (value.startsWith("+")) value.substring(1) else value).let {
+            if (it.startsWith("-(")) it.replaceFirst("-(", "-1*(") else it
+        }
 
     fun deserializeMolangBoneValue(array: JsonArray, transformation: Transformation): MolangBoneValue {
         try {
             return MolangBoneValue(
-                x = molangParser.parseExpression(pruneLeadingPlus(array[0].asString)),
-                y = molangParser.parseExpression(pruneLeadingPlus(array[1].asString)),
-                z = molangParser.parseExpression(pruneLeadingPlus(array[2].asString)),
+                x = molangParser.parseExpression(cleanExpression(array[0].asString)),
+                y = molangParser.parseExpression(cleanExpression(array[1].asString)),
+                z = molangParser.parseExpression(cleanExpression(array[2].asString)),
                 transformation = transformation
             )
         } catch (e: Exception) {

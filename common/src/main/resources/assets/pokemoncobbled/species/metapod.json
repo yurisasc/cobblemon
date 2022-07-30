@@ -4,6 +4,12 @@
   "primaryType": "bug",
   "secondaryType": null,
   "maleRatio": 0.5,
+  "behaviour": {
+    "moving": {
+      "canMove": false,
+      "canLook": false
+    }
+  },
   "baseStats": {
     "hp": 50,
     "attack": 20,
@@ -19,6 +25,9 @@
   "experienceGroup": "mediumslow",
   "baseExperienceYield": 64,
   "baseScale": 0.8,
+  "abilities": [
+    "shedskin"
+  ],
   "hitbox": {
     "width": 0.6,
     "height": 0.8,

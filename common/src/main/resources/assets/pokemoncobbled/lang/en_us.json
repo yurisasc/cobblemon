@@ -88,6 +88,9 @@
 
   "pokemoncobbled.challenge_label": "Press %1$s to battle.",
 
+  "pokemoncobbled.drop.item.inventory": "You received %2$s (%1$sx).",
+  "pokemoncobbled.drop.item.full": "Your inventory was full so the %1$s dropped to the ground.",
+
   "itemGroup.pokemoncobbled.evolution_item": "Evolution Items",
   "item.pokemoncobbled.black_augurite": "Black Augurite",
   "item.pokemoncobbled.dragon_scale": "Dragon Scale",
