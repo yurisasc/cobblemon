@@ -483,7 +483,6 @@ object ShowdownInterpreter {
     }
 
     private fun createEntitySwitch(battle: PokemonBattle, actor: BattleActor, entity: LivingEntity, pnx: String, activePokemon: ActiveBattlePokemon, newPokemon: BattlePokemon): DispatchResult {
-        // I'm sorry in advance
         val pokemonEntity = activePokemon.battlePokemon?.entity
         // If we can't find the entity for some reason then we're going to skip the recall animation
         val sendOutFuture = CompletableFuture<Unit>()
