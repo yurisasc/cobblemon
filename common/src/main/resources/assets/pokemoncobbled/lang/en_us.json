@@ -46,6 +46,7 @@
   "pokemoncobbled.overflow_to_pc": "Your party was full! %1$s has been added to %2$s.",
   "pokemoncobbled.your_pc": "Your PC",
   "pokemoncobbled.command.pokespawn.invalid-pokemon": "Invalid pokemon name",
+  "pokemoncobbled.command.pokespawn.invalid-move": "Invalid move name",
   "itemGroup.pokemoncobbled.pokeball": "Poké Balls",
   "pokemoncobbled.ui.pokenav.title": "PokeNav",
   "pokemoncobbled.ui.summary.title": "Summary",
@@ -113,6 +114,7 @@
 
   "pokemoncobbled.command.givepokemon.give": "Gave %1$s to %2$s.",
   "pokemoncobbled.command.pokemonedit": "Edited %2$s' %1$s.",
+  "pokemoncobbled.command.teach": "%2$s' %1$s learnt %3$s.",
   "pokemoncobbled.command.healpokemon.heal": "Fully healed %1$s's party.",
 
   "pokemoncobbled.battle.damage_dealt": "%1$s took %2$s damage!",

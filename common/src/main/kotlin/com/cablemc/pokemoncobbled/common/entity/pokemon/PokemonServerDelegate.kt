@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.api.entity.PokemonSideDelegate
+import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
@@ -33,6 +34,17 @@ class PokemonServerDelegate : PokemonSideDelegate {
                 entity.pokemon.state = SentOutState(entity)
             }
         }
+
+        if (entity.ticksLived % 20 == 0) {
+            val activeBattlePokemon = entity.battleId.get().orElse(null)?.let { BattleRegistry.getBattle(it) }
+                ?.activePokemon
+                ?.find { it.battlePokemon?.uuid == entity.pokemon.uuid }
+
+            if (activeBattlePokemon != null) {
+                activeBattlePokemon.position = entity.world as ServerWorld to entity.pos
+            }
+        }
+
         if (entity.health.toInt() != entity.pokemon.currentHealth && entity.health > 0) {
             entity.health = entity.pokemon.currentHealth.toFloat()
         }
