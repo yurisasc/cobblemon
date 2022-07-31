@@ -14,6 +14,7 @@ object CobbledCommands {
         TestCommand.register(dispatcher)
         ClickTextCommand.register(dispatcher)
         PokemonEditCommand.register(dispatcher)
+        TeachCommand.register(dispatcher)
         LevelUp.register(dispatcher)
         HealPokemonCommand.register(dispatcher)
         StopBattleCommand.register(dispatcher)

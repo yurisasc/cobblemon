@@ -29,6 +29,7 @@ object Moves {
     fun getByNameOrDummy(name: String) = allMoves[name.lowercase()] ?: MoveTemplate.dummy(name.lowercase())
     fun getExceptional() = getByName("tackle") ?: allMoves.values.random()
     fun count() = allMoves.size
+    fun names(): Collection<String> = this.allMoves.keys.toSet()
 
     /**
      * Loads the move JSON files into a HashMap.

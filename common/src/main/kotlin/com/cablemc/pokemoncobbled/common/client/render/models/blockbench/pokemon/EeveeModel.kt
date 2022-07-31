@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.EarJoint
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.RangeOfMotion
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.EaredFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.QuadrupedFrame
@@ -40,14 +39,14 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
             poseType = PoseType.WALK,
             condition = { true },
             idleAnimations = arrayOf(
-                SingleBoneLookAnimation(this),
+                singleBoneLook(),
                 QuadrupedWalkAnimation(this)
             )
         )
 
         registerShoulderPoses(
             condition = { true },
-            idleAnimations = arrayOf(SingleBoneLookAnimation(this))
+            idleAnimations = arrayOf(singleBoneLook())
         )
     }
 
