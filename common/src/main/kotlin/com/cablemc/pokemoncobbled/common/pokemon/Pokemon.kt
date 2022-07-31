@@ -55,6 +55,7 @@ import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
+import com.cablemc.pokemoncobbled.common.util.setPositionSafely
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
@@ -301,7 +302,7 @@ open class Pokemon {
 
     fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
         val entity = PokemonEntity(level, this)
-        entity.setPosition(position)
+        entity.setPositionSafely(position)
         mutation(entity)
         level.spawnEntity(entity)
         state = SentOutState(entity)
