@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.text.hover
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.startselection.StarterSelectionScreen
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.config.starter.StarterCategory
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
@@ -111,16 +112,16 @@ class CategoryList(
                     texture = categoryResource,
                     width = CATEGORY_BUTTON_WIDTH, height = CATEGORY_BUTTON_HEIGHT
                 )
-            matrices.push()
-            matrices.scale(0.8f, 0.95f, 0.95f)
-            drawCenteredText(
-                poseStack = matrices,
-                font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+            drawScaledText(
+                matrixStack = matrices,
                 text = category.displayName,
-                x = (x + 25.75f) / 0.8f, y = (y + 4.0f) / 0.95f,
-                colour = ColourLibrary.WHITE, shadow = false
+                scale = 0.95F,
+                x = x + 26,
+                y = y + 4F,
+                maxCharacterWidth = 50,
+                shadow = false,
+                centered = true
             )
-            matrices.pop()
         }
 
         override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

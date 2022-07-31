@@ -52,8 +52,7 @@ class BattleOptionTile(
             x = x + 24,
             y = y + 7,
             opacity = opacity,
-            scaleX = scale,
-            scaleY = scale
+            scale = scale
         )
     }
 

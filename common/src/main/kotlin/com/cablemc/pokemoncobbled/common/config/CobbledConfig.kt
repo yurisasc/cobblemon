@@ -7,6 +7,7 @@ import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.config.starter.StarterCategory
 import com.cablemc.pokemoncobbled.common.config.starter.StarterCategoryAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.google.gson.GsonBuilder
 import net.minecraft.text.Text
 
@@ -117,21 +118,21 @@ class CobbledConfig {
     var starters = mutableListOf(
             StarterCategory(
                 name = "Kanto",
-                displayName = Text.of("Kanto"),
+                displayName = lang("starterselection.category.kanto"),
                 pokemon = mutableListOf(
                     PokemonProperties().also { it.level = 5 ; it.species = "Bulbasaur" },
                     PokemonProperties().also { it.level = 5 ; it.species = "Charmander" },
                     PokemonProperties().also { it.level = 5 ; it.species = "Squirtle" }
                 )
-            ),
-            StarterCategory(
-                name = "Johto",
-                displayName = Text.of("Johto"),
-                pokemon = mutableListOf(
-                    PokemonProperties().also { it.level = 5 ; it.species = "Chikorita" },
-                    PokemonProperties().also { it.level = 5 ; it.species = "Cyndaquil" },
-                    PokemonProperties().also { it.level = 5 ; it.species = "Totodile" }
-                )
-            )
+            )//,
+//            StarterCategory(
+//                name = "Johto",
+//                displayName = lang("starterselection.category.johto"),
+//                pokemon = mutableListOf(
+//                    PokemonProperties().also { it.level = 5 ; it.species = "Chikorita" },
+//                    PokemonProperties().also { it.level = 5 ; it.species = "Cyndaquil" },
+//                    PokemonProperties().also { it.level = 5 ; it.species = "Totodile" }
+//                )
+//            )
         )
 }

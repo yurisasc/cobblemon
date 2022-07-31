@@ -84,8 +84,7 @@ class BattleMoveSelection(
                 text = moveTemplate.displayName,
                 x = x + 28,
                 y = y + 5,
-                scaleX = 0.7F,
-                scaleY = 0.7F,
+                scale = 0.7F,
                 opacity = moveSelection.opacity
             )
         }

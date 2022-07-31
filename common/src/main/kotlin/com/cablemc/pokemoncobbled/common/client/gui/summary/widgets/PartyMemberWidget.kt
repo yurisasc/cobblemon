@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.evolution.EvolutionListScrollPane
@@ -53,12 +54,13 @@ class PartyMemberWidget(
         matrices.push()
         val minecraft = MinecraftClient.getInstance()
         RenderSystem.enableScissor(
-            this.scaleIt(this.x + 3),
+            this.scaleIt(this.x + 2),
             minecraft.window.height - this.scaleIt(this.y + PORTRAIT_DIMENSIONS + 2),
-            this.scaleIt(PORTRAIT_DIMENSIONS),
+            this.scaleIt(PORTRAIT_DIMENSIONS - 1),
             this.scaleIt(PORTRAIT_DIMENSIONS)
         )
-        matrices.translate(this.x + (PORTRAIT_DIMENSIONS / 2.0) + 4, this.y + 4.0, 0.0)
+//        blitk(matrices, CobbledResources.RED, 0, 0, 1000, 1000)
+        matrices.translate(this.x + (PORTRAIT_DIMENSIONS / 2.0) + 2, this.y + 0.0, 0.0)
         matrices.scale(2.5F, 2.5F, 1F)
         drawProfilePokemon(
             pokemon = this.pokemon,
@@ -86,7 +88,7 @@ class PartyMemberWidget(
     companion object {
 
         // Party slot
-        private const val PARTY_BOX_DIMENSION = 32
+        private const val PARTY_BOX_DIMENSION = 30
         private val PARTY_START_TEXTURE = cobbledResource("ui/summary/summary_party_1.png")
         private val PARTY_END_TEXTURE = cobbledResource("ui/summary/summary_party_2.png")
         private val PARTY_SURROUNDED_TEXTURE = cobbledResource("ui/summary/summary_party_2-5.png")
@@ -95,7 +97,7 @@ class PartyMemberWidget(
         // Selected member
         private val SELECTED_TEXTURE = cobbledResource("ui/summary/summary_overlay_party.png")
         private const val SELECTED_WIDTH = PARTY_BOX_DIMENSION - 4
-        private const val SELECTED_HEIGHT = PARTY_BOX_DIMENSION - 5
+        private const val SELECTED_HEIGHT = PARTY_BOX_DIMENSION - 4
 
         // Portrait
         private const val PORTRAIT_DIMENSIONS = 27

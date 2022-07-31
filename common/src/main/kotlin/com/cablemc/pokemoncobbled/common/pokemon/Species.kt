@@ -21,6 +21,8 @@ class Species {
     var name: String = "bulbasaur"
     val translatedName: MutableText
         get() = lang("species.$name.name")
+    val description: MutableText
+        get() = lang("species.$name.desc")
     var nationalPokedexNumber = 1
 
     val baseStats = mapOf<Stat, Int>()

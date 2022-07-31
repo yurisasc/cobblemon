@@ -151,7 +151,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
                 matrixStack = matrices,
                 text = text,
                 x = x.toFloat() + POKEMON_NAME_X_OFFSET, y = y.toFloat() + POKEMON_NAME_Y_OFFSET + (1 - textScale),
-                scaleX = textScale, scaleY = textScale,
+                scale = textScale,
                 colour = ColourLibrary.WHITE
             )
         }

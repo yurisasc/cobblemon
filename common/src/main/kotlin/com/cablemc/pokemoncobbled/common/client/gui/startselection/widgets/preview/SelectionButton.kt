@@ -3,9 +3,12 @@ package com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets.prev
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
+import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.lang
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
@@ -39,16 +42,16 @@ class SelectionButton(
                 x = x + 0.6, y = y + 0.6,
                 width = BUTTON_WIDTH - 0.25, height = BUTTON_HEIGHT - 0.25
             )
-        matrices.push()
-        matrices.scale(SCALE, SCALE, SCALE)
-        drawCenteredText(
-            poseStack = matrices,
-            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
-            text = "pokemoncobbled.ui.starter.choosebutton".asTranslated(),
-            x = (x + BUTTON_WIDTH / 2) / SCALE, y = (y + BUTTON_HEIGHT / 2 - 2.4) / SCALE,
+        drawScaledText(
+            matrixStack = matrices,
+//            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+            text = lang("ui.starter.choosebutton"),
+            x = x + BUTTON_WIDTH / 2, y = y + BUTTON_HEIGHT / 2 - 2.4,
             colour = ColourLibrary.WHITE,
+            centered = true,
+            maxCharacterWidth = 68,
+            scale = SCALE,
             shadow = false
         )
-        matrices.pop()
     }
 }

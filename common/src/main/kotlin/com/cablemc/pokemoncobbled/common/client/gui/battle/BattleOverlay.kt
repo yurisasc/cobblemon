@@ -15,7 +15,6 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokeball.PokeBallModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokeBallModelRepository
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Species
@@ -23,16 +22,16 @@ import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.hud.InGameHud
-import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.MutableText
 import java.lang.Double.max
 import java.lang.Double.min
 import kotlin.math.roundToInt
+import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.MutableText
 import net.minecraft.util.math.Vec3f
 
 class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
@@ -225,8 +224,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         // Draw labels
         val infoBoxX = x + if (!reversed) { PORTRAIT_DIAMETER + 2 * PORTRAIT_OFFSET + 2 } else { INFO_OFFSET_X.toFloat() }
         drawScaledText(
-            scaleX = 0.7F,
-            scaleY = 0.7F,
+            scale = 0.7F,
             matrixStack = matrices,
             font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = displayName,
@@ -236,8 +234,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
             shadow = false
         )
         drawScaledText(
-            scaleX = 0.65F,
-            scaleY = 0.65F,
+            scale = 0.65F,
             matrixStack = matrices,
             font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = lang("ui.lv"),
@@ -248,8 +245,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         )
 
         drawScaledText(
-            scaleX = 0.75F,
-            scaleY = 0.75F,
+            scale = 0.75F,
             matrixStack = matrices,
             font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = level.toString().text(),

@@ -9,6 +9,7 @@ import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.gui.drawText
+import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets.CategoryList
 import com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets.ExitButton
@@ -19,8 +20,11 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.DualTypeWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.TypeWidget
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.net.messages.server.SelectStarterPacket
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.util.lang
+import com.cablemc.pokemoncobbled.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
@@ -189,49 +193,56 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
             width = BASE_WIDTH, height = BASE_HEIGHT
         )
         // Render Frame
+        val (r, g, b) = currentPokemon.primaryType.hue.toRGB()
         blitk(
             matrixStack = matrices,
             texture = baseFrame,
+            red = r,
+            green = g,
+            blue = b,
             x = x, y = y,
             width = BASE_WIDTH, height = BASE_HEIGHT
         )
         // Render Text
-        matrices.push()
-        matrices.scale(0.75f, 0.95f, 0.95f)
-        drawCenteredText(
-            poseStack = matrices,
-            font = CobbledResources.NOTO_SANS_BOLD,
-            text = "pokemoncobbled.ui.starter.title".asTranslated(),
-            x = (x + 122.5) / 0.75f, y = (y + 1.5f) / 0.95f,
+        drawScaledText(
+            matrixStack = matrices,
+//            font = CobbledResources.NOTO_SANS_BOLD,
+            text = lang("ui.starter.title"),
+            x = (x + 124), y = y + 4F,
+            centered = true,
             colour = ColourLibrary.WHITE,
+            scale = 1.2F,
+            maxCharacterWidth = 120,
             shadow = false
         )
-        matrices.pop()
 
         // Render Name
-        val scale = 0.60F
-        matrices.push()
-        matrices.scale(scale, scale, 1F)
-        drawText(
-            poseStack = matrices, font = CobbledResources.NOTO_SANS_BOLD_SMALL,
-            text = currentPokemon.species.translatedName,
-            x = (x + 71) / scale + 1.5, y = (y + 18) / scale +3.25,
-            colour = ColourLibrary.WHITE, shadow = false
+        val pokemonName = currentPokemon.species.translatedName
+        val scale = 0.8F
+        drawScaledText(
+            matrixStack = matrices,
+            text = pokemonName,
+            centered = true,
+            scale = scale,
+            maxCharacterWidth = 50,
+            x = x + 94,
+            y = y + 19.5,
+            shadow = false
         )
-        matrices.pop()
 
         // Render Description
         val scale2 = 0.60F
         matrices.push()
         matrices.scale(scale2, scale2, 1F)
+
         MultiLineLabelK.create(
-            component = "pokemoncobbled.species.${currentPokemon.species.name}.desc".asTranslated(),
+            component = currentPokemon.species.description,
             width = 127,
             maxLines = 4,
             font = CobbledResources.NOTO_SANS_REGULAR
         ).renderLeftAligned(
             poseStack = matrices,
-            x = (x + 119) / scale + 3.85, y = (y + 18) / scale + 4.0,
+            x = (x + 119) / scale2 + 4, y = (y + 18) / scale2 + 4.0,
             ySpacing = (8.0 / scale2) - 1.25,
             colour = ColourLibrary.WHITE, shadow = false
         )

@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.gui
 
+import com.cablemc.pokemoncobbled.common.api.text.font
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
@@ -79,14 +80,14 @@ fun drawRectangle(
 
 fun drawCenteredText(
     poseStack: MatrixStack,
-    font: Identifier,
+    font: Identifier? = null,
     text: Text,
     x: Number,
     y: Number,
     colour: Int,
     shadow: Boolean = true
 ) {
-    val comp = (text as MutableText).setStyle(text.style.withFont(font))
+    val comp = (text as MutableText).let { if (font != null) it.font(font) else it }
     val mcFont = MinecraftClient.getInstance().textRenderer
     if (shadow)
         mcFont.drawWithShadow(poseStack, comp, x.toFloat() - mcFont.getWidth(comp) / 2, y.toFloat(), colour)

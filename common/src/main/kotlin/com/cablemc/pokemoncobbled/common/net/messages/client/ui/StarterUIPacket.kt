@@ -33,7 +33,7 @@ class StarterUIPacket internal constructor() : NetworkPacket {
         val numCategories = buffer.readInt()
         for (i in 0 until numCategories) {
             val name = buffer.readString()
-            val displayName = buffer.readText()
+            val displayName = buffer.readText().copy()
             val numProperties = buffer.readInt()
             val properties = mutableListOf<PokemonProperties>()
             for (j in 0 until numProperties) {
@@ -41,10 +41,13 @@ class StarterUIPacket internal constructor() : NetworkPacket {
                     properties.add(PokemonProperties().loadFromNBT(it))
                 }
             }
-            categories.add(StarterCategory(
-                name = name, displayName = displayName,
-                pokemon = properties
-            ))
+            categories.add(
+                StarterCategory(
+                    name = name,
+                    displayName = displayName,
+                    pokemon = properties
+                )
+            )
         }
     }
 }

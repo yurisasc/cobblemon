@@ -92,8 +92,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         drawScaledText(
             matrixStack = poseStack,
             text = battleLang("ui.hide_label", PartySendBinding.currentKey().localizedText),
-            scaleX = 0.8F,
-            scaleY = 0.8F,
+            scale = 0.8F,
             x = 40,
             y = MinecraftClient.getInstance().window.scaledHeight - 40,
             opacity = 0.75F * opacity

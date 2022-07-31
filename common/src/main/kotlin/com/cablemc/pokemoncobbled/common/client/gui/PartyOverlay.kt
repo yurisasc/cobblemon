@@ -159,15 +159,13 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 )
 
                 val fontScale = 0.5F
-                val horizontalScale = fontScale * 1F
 
                 drawScaledText(
                     matrixStack = matrixStack,
                     text = pokemon.species.translatedName,
                     x = panelX + 2.5F,
                     y = startY + slotHeight * index + slotHeight * 0.84F - 1F,
-                    scaleX = fontScale,
-                    scaleY = horizontalScale
+                    scale = fontScale
                 )
 
                 drawScaledText(
@@ -175,8 +173,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                     text = lang("ui.lv"),
                     x = panelX + 2.5F,
                     y = startY + slotHeight * index + slotHeight * 0.84F - 10.75F,
-                    scaleX = 0.4F,
-                    scaleY = 0.4F
+                    scale = 0.4F
                 )
 
                 val width = minecraft.textRenderer.getWidth(pokemon.level.toString())
@@ -185,8 +182,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                     text = TranslatableText(pokemon.level.toString()),
                     x = panelX + 6.5F - width / 4F,
                     y = startY + slotHeight * index + slotHeight * 0.84F - 7F,
-                    scaleX = 0.45F,
-                    scaleY = 0.45F
+                    scale = 0.45F
                 )
 
                 val stateIcon = pokemon.state.getIcon(pokemon)
