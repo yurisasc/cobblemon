@@ -14,6 +14,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
 
+const val SEND_OUT_DURATION = 1.5F
 object SendOutPokemonHandler : ServerPacketHandler<SendOutPokemonPacket> {
     override fun invokeOnServer(packet: SendOutPokemonPacket, ctx: CobbledNetwork.NetworkContext, player: ServerPlayerEntity) {
         val slot = packet.slot.takeIf { it >= 0 } ?: return
@@ -28,24 +29,12 @@ object SendOutPokemonHandler : ServerPacketHandler<SendOutPokemonPacket> {
             val trace = player.traceBlockCollision(maxDistance = 15F)
             if (trace != null && trace.direction == Direction.UP && !player.world.getBlockState(trace.blockPos.up()).material.isSolid) {
                 val position = Vec3d(trace.location.x, trace.blockPos.up().toVec3d().y, trace.location.z)
-                pokemon.sendOut(player.getWorld(), position) {
-                    player.getWorld().playSoundServer(position, CobbledSounds.SEND_OUT.get(), volume = 0.2F)
-                    it.phasingTargetId.set(player.id)
-                    it.beamModeEmitter.set(1)
-
-                    afterOnMain(seconds = 1.5F) {
-                        it.phasingTargetId.set(-1)
-                        it.beamModeEmitter.set(0)
-                    }
-                }
+                pokemon.sendOutWithAnimation(player, player.getWorld(), position)
             }
         } else {
             val entity = state.entity
-            if (entity != null && entity.phasingTargetId.get() == -1) {
-                player.getWorld().playSoundServer(entity.pos, CobbledSounds.RECALL.get(), volume = 0.2F)
-                entity.phasingTargetId.set(player.id)
-                entity.beamModeEmitter.set(2)
-                afterOnMain(seconds = 1.5F) { pokemon.recall() }
+            if (entity != null) {
+                entity.recallWithAnimation()
             } else {
                 pokemon.recall()
             }

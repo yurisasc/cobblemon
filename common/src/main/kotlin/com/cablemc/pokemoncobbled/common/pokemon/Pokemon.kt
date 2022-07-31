@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToPlayers
+import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
@@ -34,6 +35,7 @@ import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
+import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.storage.StoreCoordinates
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
@@ -41,6 +43,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
+import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
@@ -52,16 +55,21 @@ import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContaine
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.lang
+import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
+import com.cablemc.pokemoncobbled.common.util.setPositionSafely
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import java.util.Optional
 import java.util.UUID
+import java.util.concurrent.CompletableFuture
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
@@ -301,13 +309,31 @@ open class Pokemon {
 
     fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
         val entity = PokemonEntity(level, this)
-        entity.setPosition(position)
+        entity.setPositionSafely(position)
         mutation(entity)
         level.spawnEntity(entity)
         state = SentOutState(entity)
         return entity
     }
 
+    fun sendOutWithAnimation(source: LivingEntity, level: ServerWorld, position: Vec3d, battleId: UUID? = null, mutation: (PokemonEntity) -> Unit = {}): CompletableFuture<PokemonEntity> {
+        val future = CompletableFuture<PokemonEntity>()
+        sendOut(level, position) {
+            level.playSoundServer(position, CobbledSounds.SEND_OUT.get(), volume = 0.2F)
+            it.phasingTargetId.set(source.id)
+            it.beamModeEmitter.set(1)
+            it.battleId.set(Optional.ofNullable(battleId))
+
+            afterOnMain(seconds = SEND_OUT_DURATION) {
+                it.phasingTargetId.set(-1)
+                it.beamModeEmitter.set(0)
+                future.complete(it)
+            }
+
+            mutation(it)
+        }
+        return future
+    }
     fun recall() {
         this.state = InactivePokemonState()
     }

@@ -3,14 +3,12 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemo
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.EarJoint
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.RangeOfMotion
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatefulAnimation
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.asTransformed
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.*
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BimanualFrame
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BipedFrame
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.EaredFrame
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
@@ -18,7 +16,7 @@ import net.minecraft.util.math.Vec3d
 
 class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, EaredFrame {
     override val rootPart = root.registerChildWithAllChildren("blastoise")
-    override val head = getPart("head")
+    override val head = getPart("head_AI")
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
     override val rightLeg = getPart("leg_right")
@@ -58,8 +56,8 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformTicks = 10,
             condition = { it.isSubmergedInWater && !it.isMoving.get() },
             idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("blastoise", "water_idle")
+                bedrock("blastoise", "water_idle"),
+                singleBoneLook()
             )
         )
 

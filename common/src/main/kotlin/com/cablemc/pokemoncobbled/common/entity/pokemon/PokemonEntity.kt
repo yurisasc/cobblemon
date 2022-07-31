@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledEntities
+import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
@@ -19,6 +20,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.WildRestGoal
 import com.cablemc.pokemoncobbled.common.item.interactive.PokemonInteractiveItem
 import com.cablemc.pokemoncobbled.common.mixin.accessor.AccessorEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
+import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cablemc.pokemoncobbled.common.pokemon.FormData
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
@@ -27,6 +29,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.pokemon.ai.FormPokemonBehaviour
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
+import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
@@ -34,6 +37,7 @@ import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import java.util.EnumSet
 import java.util.Optional
+import java.util.concurrent.CompletableFuture
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -190,6 +194,25 @@ class PokemonEntity(
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
         nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
         return super.writeNbt(nbt)
+    }
+
+    fun recallWithAnimation(): CompletableFuture<Pokemon> {
+        val owner = owner
+        val future = CompletableFuture<Pokemon>()
+        if (phasingTargetId.get() == -1 && owner != null) {
+            owner.getWorld().playSoundServer(pos, CobbledSounds.RECALL.get(), volume = 0.2F)
+            phasingTargetId.set(owner.id)
+            beamModeEmitter.set(2)
+            afterOnMain(seconds = SEND_OUT_DURATION) {
+                pokemon.recall()
+                future.complete(pokemon)
+            }
+        } else {
+            pokemon.recall()
+            future.complete(pokemon)
+        }
+
+        return future
     }
 
     override fun readNbt(nbt: NbtCompound) {

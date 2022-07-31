@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.SingleBoneLookAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
@@ -11,7 +10,12 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefun
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
-import net.minecraft.client.model.*
+import net.minecraft.client.model.Dilation
+import net.minecraft.client.model.ModelData
+import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.ModelPartBuilder
+import net.minecraft.client.model.ModelTransform
+import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.util.math.Vec3d
 
@@ -34,16 +38,14 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseType = PoseType.NONE,
             condition = { !it.isMoving.get() },
             transformTicks = 0,
-            idleAnimations = arrayOf(
-                SingleBoneLookAnimation(this),
-            )
+            idleAnimations = arrayOf(singleBoneLook(),)
         )
         registerPose(
             poseType = PoseType.WALK,
             condition = { it.isMoving.get() },
             transformTicks = 5,
             idleAnimations = arrayOf(
-                SingleBoneLookAnimation(this),
+                singleBoneLook(),
                 rootPart.translation(
                     function = parabolaFunction(
                         peak = -4F,
