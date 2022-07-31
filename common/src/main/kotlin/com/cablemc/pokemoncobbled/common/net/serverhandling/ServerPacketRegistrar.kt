@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.net.serverhandling.evolution.EvolutionD
 import com.cablemc.pokemoncobbled.common.net.serverhandling.battle.BattleSelectActionsHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.BenchMoveHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.RequestMoveSwapHandler
+import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SelectStarterPacketHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.party.MovePartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.party.SwapPartyPokemonHandler
@@ -32,6 +33,7 @@ object ServerPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(ChallengeHandler)
         registerHandler<AcceptEvolutionPacket>(EvolutionDisplayUpdatePacketHandler())
         registerHandler(BattleSelectActionsHandler)
+        registerHandler(SelectStarterPacketHandler)
 
         // PC actions
         registerHandler(MovePCPokemonHandler)

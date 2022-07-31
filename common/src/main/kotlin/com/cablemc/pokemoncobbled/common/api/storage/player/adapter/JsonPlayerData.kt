@@ -18,8 +18,9 @@ class JsonPlayerData: PlayerDataFileStoreAdapter {
             .disableHtmlEscaping()
             .registerTypeAdapter(PlayerDataExtension::class.java, PlayerDataExtensionAdapter)
             .create()
-        private val cache = mutableMapOf<UUID, PlayerData>()
     }
+
+    private val cache = mutableMapOf<UUID, PlayerData>()
 
     override val rootFolder: String
         get() = "pokemoncobbled/playerdata"
@@ -46,6 +47,11 @@ class JsonPlayerData: PlayerDataFileStoreAdapter {
                 save(it)
             }
         }
+    }
+
+    fun saveCache() {
+        cache.forEach { (_, pd) -> save(pd)}
+        cache.clear()
     }
 
     override fun save(playerData: PlayerData) {

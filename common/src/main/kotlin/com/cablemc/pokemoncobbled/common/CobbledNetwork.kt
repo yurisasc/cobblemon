@@ -6,7 +6,6 @@ import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.RemoveClientPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.SwapClientPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
@@ -22,10 +21,12 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.MoveClie
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.OpenPCPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCBoxPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.ui.StarterUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.SelectStarterPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.SwapPCPartyPokemonPacket
@@ -116,6 +117,7 @@ object CobbledNetwork {
 
         // UI Packets
         buildClientMessage<SummaryUIPacket>()
+        buildClientMessage<StarterUIPacket>()
 
         // Battle packets
         buildClientMessage<BattleEndPacket>()
@@ -149,6 +151,8 @@ object CobbledNetwork {
 
         buildServerMessage<MovePCPokemonToPartyPacket>()
         buildServerMessage<MovePartyPokemonToPCPacket>()
+
+        buildServerMessage<SelectStarterPacket>()
 
         buildServerMessage<SwapPCPokemonPacket>()
         buildServerMessage<SwapPartyPokemonPacket>()

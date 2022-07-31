@@ -32,6 +32,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.api.storage.pc.link.PCLinkManager
+import com.cablemc.pokemoncobbled.common.api.storage.player.PlayerDataStoreManager
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.battles.BattleSide
@@ -91,6 +92,7 @@ object PokemonCobbled {
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
     val bestSpawner = BestSpawner
     var storage = PokemonStoreManager()
+    var playerData = PlayerDataStoreManager()
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
@@ -167,7 +169,10 @@ object PokemonCobbled {
             )
         }
 
-        SERVER_STOPPING.subscribe { storage.unregisterAll() }
+        SERVER_STOPPING.subscribe {
+            storage.unregisterAll()
+            playerData.saveAll()
+        }
         SERVER_STARTED.subscribe { bestSpawner.onServerStarted() }
         TICK_POST.subscribe { ServerTickHandler.onTick(it) }
 

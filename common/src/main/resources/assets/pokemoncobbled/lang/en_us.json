@@ -52,6 +52,7 @@
   "pokemoncobbled.ui.summary.title": "Summary",
   "pokemoncobbled.ui.starter.title": "Starter Selection",
   "pokemoncobbled.ui.starter.choosebutton": "I choose you!",
+  "pokemoncobbled.ui.starter.alreadyselected": "You already selected a starter!",
   "pokemoncobbled.ui.moves": "Moves",
   "pokemoncobbled.ui.stats": "Stats",
   "pokemoncobbled.ui.info": "Info",
