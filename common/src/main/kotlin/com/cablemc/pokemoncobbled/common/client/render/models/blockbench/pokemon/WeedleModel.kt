@@ -25,7 +25,7 @@ class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
             transformTicks = 4,
-            condition = { (!it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.LOOKING)) || it.deathEffectsStarted.get() },
+            condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("weedle", "ground_idle2")
