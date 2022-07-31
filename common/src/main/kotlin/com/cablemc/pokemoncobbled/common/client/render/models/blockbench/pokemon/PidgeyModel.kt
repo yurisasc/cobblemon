@@ -36,7 +36,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             condition = { !it.isMoving.get() },
             transformTicks = 0,
             idleAnimations = arrayOf(
-                SingleBoneLookAnimation(this),
+                singleBoneLook(),
             )
         )
         registerPose(
@@ -44,7 +44,7 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
             condition = { it.isMoving.get() },
             transformTicks = 5,
             idleAnimations = arrayOf(
-                SingleBoneLookAnimation(this),
+                singleBoneLook(),
                 rootPart.translation(
                     function = parabolaFunction(
                         peak = -4F,

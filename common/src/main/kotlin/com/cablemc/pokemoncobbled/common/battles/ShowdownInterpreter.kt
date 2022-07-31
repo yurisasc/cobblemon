@@ -1,12 +1,10 @@
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
-import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.EntityBackedBattleActor
-import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.text.aqua
 import com.cablemc.pokemoncobbled.common.api.text.gold
 import com.cablemc.pokemoncobbled.common.api.text.plus
@@ -14,6 +12,7 @@ import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.battles.dispatch.DispatchResult
 import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
+import com.cablemc.pokemoncobbled.common.battles.dispatch.UntilDispatch
 import com.cablemc.pokemoncobbled.common.battles.dispatch.WaitDispatch
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
@@ -26,10 +25,11 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSetTea
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSwitchPokemonPacket
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
-import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.swap
-import net.minecraft.entity.LivingEntity
 import java.util.UUID
+import java.util.concurrent.CompletableFuture
+import net.minecraft.entity.LivingEntity
+import net.minecraft.server.world.ServerWorld
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String) -> Unit>()
@@ -89,7 +89,7 @@ object ShowdownInterpreter {
 
         val lines = rawMessage.split("\n")
         if (lines[0] == "update") {
-            var i = 1;
+            var i = 1
             while (i < lines.size) {
                 val line = lines[i]
 
@@ -109,7 +109,7 @@ object ShowdownInterpreter {
                         }
                     }
 
-                    i += 2;
+                    i += 2
                 } else {
                     for (instruction in updateInstructions.entries) {
                         if (line.startsWith(instruction.key)) {
@@ -157,7 +157,7 @@ object ShowdownInterpreter {
      *
      * Definitions:
      * PLAYER is p1 or p2 unless 4 player battle which adds p3 and p4
-     * NUMBER is number of Pokemon your opponent starts with for team preview.
+     * NUMBER is number of Pokémon your opponent starts with for team preview.
      */
     private fun handleTeamSizeInstruction(battle: PokemonBattle, message: String) {
 //        battle.log("Team Size Instruction")
@@ -359,7 +359,7 @@ object ShowdownInterpreter {
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
             pokemon.battlePokemon = null
-            WaitDispatch(1F)
+            WaitDispatch(2.5F)
         }
     }
 
@@ -462,40 +462,49 @@ object ShowdownInterpreter {
 
         if (battle.started) {
             battle.dispatch {
-                if (actor is EntityBackedBattleActor<*>) this.createEntitySwitch(battle, actor, actor.entity, pnx, activePokemon, pokemon) else this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
+                if (actor is EntityBackedBattleActor<*>) {
+                    this.createEntitySwitch(battle, actor, actor.entity, pnx, activePokemon, pokemon)
+                } else {
+                    this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
+                }
             }
         } else {
             activePokemon.battlePokemon = pokemon
+            val pokemonEntity = pokemon.entity
+            if (pokemonEntity == null && battleActor is EntityBackedBattleActor<*>) {
+                pokemon.effectedPokemon.sendOutWithAnimation(
+                    source = battleActor.entity,
+                    battleId = battle.battleId,
+                    level = battleActor.entity.world as ServerWorld,
+                    position = battleActor.entity.pos
+                )
+            }
         }
     }
 
     private fun createEntitySwitch(battle: PokemonBattle, actor: BattleActor, entity: LivingEntity, pnx: String, activePokemon: ActiveBattlePokemon, newPokemon: BattlePokemon): DispatchResult {
         // I'm sorry in advance
-        // If we can't find the entity for some reason don't do anything animation wise
-        val pokemonEntity = activePokemon.battlePokemon?.entity ?: return this.createNonEntitySwitch(battle, actor, pnx, activePokemon, newPokemon)
-        // Scoop up initial entity
-        entity.getWorld().playSoundServer(entity.pos, CobbledSounds.RECALL.get(), volume = 0.2F)
-        pokemonEntity.phasingTargetId.set(entity.id)
-        pokemonEntity.beamModeEmitter.set(2)
-        // Queue actual swap after the animation has ended, following SendOutPokemonHandler it's 1.5 seconds
-        battle.dispatch {
-            // Instead of actually recalling we just make it disappear
-            pokemonEntity.isInvisible = true
+        val pokemonEntity = activePokemon.battlePokemon?.entity
+        // If we can't find the entity for some reason then we're going to skip the recall animation
+        val sendOutFuture = CompletableFuture<Unit>()
+        (pokemonEntity?.recallWithAnimation() ?: CompletableFuture.completedFuture(Unit)).thenApply {
+            // Queue actual swap and send-in after the animation has ended
             actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(newPokemon))
+            val lastPosition = activePokemon.position
+            // Send out at previous Pokémon's location if it is known, otherwise actor location
+            val world = lastPosition?.first ?: entity.world as ServerWorld
+            val pos = lastPosition?.second ?: entity.pos
             activePokemon.battlePokemon = newPokemon
-            pokemonEntity.pokemon = newPokemon.effectedPokemon
-            entity.getWorld().playSoundServer(entity.pos, CobbledSounds.SEND_OUT.get(), volume = 0.2F)
-            pokemonEntity.beamModeEmitter.set(1)
-            afterOnMain(seconds = 1.5F) {
-                // Welcome back lil one
-                battle.sendUpdate(BattleSwitchPokemonPacket(pnx, newPokemon))
-                pokemonEntity.isInvisible = false
-                pokemonEntity.phasingTargetId.set(-1)
-                pokemonEntity.beamModeEmitter.set(0)
-            }
-            WaitDispatch(1.5F)
+            battle.sendUpdate(BattleSwitchPokemonPacket(pnx, newPokemon))
+            newPokemon.effectedPokemon.sendOutWithAnimation(
+                source = entity,
+                battleId = battle.battleId,
+                level = world,
+                position = pos
+            ).thenAccept { sendOutFuture.complete(Unit) }
         }
-        return WaitDispatch(1.5F)
+
+        return UntilDispatch { sendOutFuture.isDone }
     }
 
     private fun createNonEntitySwitch(battle: PokemonBattle, actor: BattleActor, pnx: String, activePokemon: ActiveBattlePokemon, newPokemon: BattlePokemon): DispatchResult {
