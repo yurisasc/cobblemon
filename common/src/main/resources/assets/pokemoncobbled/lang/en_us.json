@@ -143,6 +143,7 @@
   "pokemoncobbled.capture.you_in_battle": "You are in a battle.",
   "pokemoncobbled.capture.not_single": "You can only capture wild Pokémon in a 1v1 battle.",
 
+  "pokemoncobbled.battle.errors.busy": "%1$s is busy!",
   "pokemoncobbled.battle.error.in_battle": "%1$s is already in a battle.",
   "pokemoncobbled.battle.error.in_battle.personal": "You are already in a battle!",
   "pokemoncobbled.battle.error.no_pokemon": "You don't have any usable Pokémon!",
