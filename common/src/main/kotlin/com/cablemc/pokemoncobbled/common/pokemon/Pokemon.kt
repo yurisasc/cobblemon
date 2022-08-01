@@ -85,7 +85,7 @@ import net.minecraft.util.math.Vec3d
 
 open class Pokemon {
     var uuid = UUID.randomUUID()
-    var species = PokemonSpecies.EEVEE
+    var species = PokemonSpecies.random()
         set(value) {
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             val previousFeatureKeys = species.features

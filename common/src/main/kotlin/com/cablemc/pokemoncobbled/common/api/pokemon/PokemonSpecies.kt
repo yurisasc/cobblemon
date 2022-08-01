@@ -1,16 +1,91 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
+import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemoncobbled.common.api.ai.SleepDepth
+import com.cablemc.pokemoncobbled.common.api.conditional.RegistryLikeCondition
+import com.cablemc.pokemoncobbled.common.api.data.DataRegistry
+import com.cablemc.pokemoncobbled.common.api.data.SynchronousJsonResourceReloader
+import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
+import com.cablemc.pokemoncobbled.common.api.drop.ItemDropMethod
+import com.cablemc.pokemoncobbled.common.api.entity.EntityDimensionsAdapter
+import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
+import com.cablemc.pokemoncobbled.common.api.moves.adapters.MoveTemplateAdapter
+import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.effect.adapter.ShoulderEffectAdapter
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
+import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroupAdapter
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
+import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.Species
-import com.cablemc.pokemoncobbled.common.pokemon.SpeciesLoader
+import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledEvolutionAdapter
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledPreEvolutionAdapter
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledRequirementAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.*
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import net.minecraft.block.Block
+import net.minecraft.entity.EntityDimensions
+import net.minecraft.nbt.NbtCompound
+import net.minecraft.resource.ResourceReloader
+import net.minecraft.resource.ResourceType
+import net.minecraft.util.Identifier
+import net.minecraft.world.biome.Biome
+import kotlin.io.path.Path
 
-object PokemonSpecies {
+object PokemonSpecies : DataRegistry {
 
-    private val speciesNames = hashMapOf<String, Species>()
-    private val speciesDex = hashMapOf<Int, Species>()
+    override val id: Identifier = cobbledResource("species")
+    override val type: ResourceType = ResourceType.SERVER_DATA
 
-    // TODO rework to create read-optimized views for dex number, name, others
-    // Just a quick workaround out of necessity for case-insensitive lookup, when rework is done please keep that functionality
+    private val gson: Gson = GsonBuilder()
+        .registerTypeAdapter(Stat::class.java, StatAdapter)
+        .registerTypeAdapter(ElementalType::class.java, ElementalTypeAdapter)
+        .registerTypeAdapter(AbilityTemplate::class.java, AbilityTemplateAdapter)
+        .registerTypeAdapter(ShoulderEffect::class.java, ShoulderEffectAdapter)
+        .registerTypeAdapter(MoveTemplate::class.java, MoveTemplateAdapter)
+        .registerTypeAdapter(ExperienceGroup::class.java, ExperienceGroupAdapter)
+        .registerTypeAdapter(EntityDimensions::class.java, EntityDimensionsAdapter)
+        .registerTypeAdapter(Evolution::class.java, CobbledEvolutionAdapter)
+        .registerTypeAdapter(AbilityPool::class.java, AbilityPoolAdapter)
+        .registerTypeAdapter(EvolutionRequirement::class.java, CobbledRequirementAdapter)
+        .registerTypeAdapter(PreEvolution::class.java, CobbledPreEvolutionAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(Set::class.java, Evolution::class.java).type, LazySetAdapter(Evolution::class))
+        .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
+        .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
+        .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+        .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
+        .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
+        .registerTypeAdapter(SleepDepth::class.java, SleepDepth.adapter)
+        .registerTypeAdapter(DropEntry::class.java, DropEntryAdapter)
+        .registerTypeAdapter(NbtCompound::class.java, NbtCompoundAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
+        .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
+        .disableHtmlEscaping()
+        .enableComplexMapKeySerialization()
+        .create()
 
+    private val typeToken: TypeToken<Species> = TypeToken.get(Species::class.java)
+
+    override val reloader: ResourceReloader = SynchronousJsonResourceReloader.create(this.gson, Path("species"), this.typeToken, this::load)
+
+    private val speciesByIdentifier = hashMapOf<Identifier, Species>()
+    private val speciesByDex = hashMapOf<Int, Species>()
+
+    val species: Collection<Species>
+        get() = this.speciesByIdentifier.values
+
+    // ToDo decide what to do with default values
+    /*
     val BULBASAUR = register(SpeciesLoader.loadFromAssets("bulbasaur"))
     val IVYSAUR = register(SpeciesLoader.loadFromAssets("ivysaur"))
     val VENUSAUR = register(SpeciesLoader.loadFromAssets("venusaur"))
@@ -38,23 +113,75 @@ object PokemonSpecies {
     val EEVEE = register(SpeciesLoader.loadFromAssets("eevee"))
     val RATTATA = register(SpeciesLoader.loadFromAssets("rattata"))
     val RATICATE = register(SpeciesLoader.loadFromAssets("raticate"))
+     */
 
-
-
-    val species: List<Species>
-        get() = this.speciesNames.values.toList()
-
+    // ToDo Decide if we want to allow dynamic register
+    /*
     fun register(species: Species): Species {
         this.speciesNames[species.name.lowercase()] = species
         this.speciesDex[species.nationalPokedexNumber] = species
         species.forms.forEach { it.initialize(species) }
         return species
     }
+     */
 
-    fun getByName(name: String) = this.speciesNames[name.lowercase()]
+    /**
+     * TODO
+     *
+     * @param name
+     * @return
+     */
+    fun getByName(name: String) = this.getByIdentifier(cobbledResource(name))
 
-    fun getByPokedexNumber(ndex: Int) = this.speciesDex[ndex]
+    /**
+     * TODO
+     *
+     * @param ndex
+     * @return
+     */
+    fun getByPokedexNumber(ndex: Int) = this.speciesByDex[ndex]
 
-    fun count() = this.speciesNames.size
+    /**
+     * TODO
+     *
+     * @param identifier
+     * @return
+     */
+    fun getByIdentifier(identifier: Identifier) = this.speciesByIdentifier[identifier]
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    fun count() = this.speciesByIdentifier.size
+
+    /**
+     * Picks a random [Species].
+     *
+     * @throws [NoSuchElementException] if there are no Pokémon species loaded.
+     *
+     * @return A randomly selected [Species].
+     */
+    fun random(): Species = this.species.random()
+
+    private fun load(data: Map<Identifier, Species>) {
+        this.speciesByIdentifier.clear()
+        this.speciesByDex.clear()
+        data.forEach { (identifier, species) ->
+            // ToDo Decide if we wanna skip or replace
+            if (this.speciesByDex.containsKey(species.nationalPokedexNumber)) {
+                PokemonCobbled.LOGGER.warn("Found duplicate national Pokédex entry for species {}, skipping...", identifier.toString())
+                return@forEach
+            }
+            this.speciesByIdentifier[identifier] = species
+            this.speciesByDex[species.nationalPokedexNumber] = species
+            species.forms.forEach { form ->
+                form.initialize(species)
+            }
+        }
+        PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
+        // ToDo we need to queue a refresh of data attached to species such as models, dex entries, etc.
+    }
 
 }

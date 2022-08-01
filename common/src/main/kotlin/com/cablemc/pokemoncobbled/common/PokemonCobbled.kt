@@ -59,6 +59,7 @@ import com.cablemc.pokemoncobbled.common.worldgen.CobbledWorldgen
 import com.google.gson.GsonBuilder
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
+import dev.architectury.registry.ReloadListenerRegistry
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -135,7 +136,11 @@ object PokemonCobbled {
         LOGGER.info("Loaded ${Moves.count()} Moves.")
 
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
+        /*
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
+         */
+        // Register data pack stuff, the order this is declared will be load order provided the backing registry reloads synchronously.
+        PokemonSpecies.registerDataListener()
 
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()
