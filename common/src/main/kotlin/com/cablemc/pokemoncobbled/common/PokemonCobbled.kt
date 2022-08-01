@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
+import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.drop.CommandDropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.ItemDropEntry
-import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_JOIN
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
@@ -92,7 +92,7 @@ object PokemonCobbled {
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
     val bestSpawner = BestSpawner
     var storage = PokemonStoreManager()
-    var playerData = PlayerDataStoreManager()
+    lateinit var playerData: PlayerDataStoreManager
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
@@ -157,8 +157,9 @@ object PokemonCobbled {
             AxeItemHooks.addStrippable(CobbledBlocks.APRICORN_WOOD.get(), CobbledBlocks.STRIPPED_APRICORN_WOOD.get())
         }
 
-        SERVER_STARTED.subscribe {
-            val pokemonStoreRoot = it.getSavePath(WorldSavePath.PLAYERDATA).parent.resolve("pokemon").toFile()
+        SERVER_STARTED.subscribe { server ->
+            playerData = PlayerDataStoreManager().also { it.setup(server) }
+            val pokemonStoreRoot = server.getSavePath(WorldSavePath.PLAYERDATA).parent.resolve("pokemon").toFile()
             storage.registerFactory(
                 priority = Priority.LOWEST,
                 factory = FileBackedPokemonStoreFactory(
