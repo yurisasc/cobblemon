@@ -226,7 +226,6 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         drawScaledText(
             scale = 0.7F,
             matrixStack = matrices,
-            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = displayName,
             x = infoBoxX,
             y = y + 5,
@@ -236,7 +235,6 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         drawScaledText(
             scale = 0.65F,
             matrixStack = matrices,
-            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = lang("ui.lv"),
             x = infoBoxX + 55,
             y = y + 5,
@@ -247,7 +245,6 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         drawScaledText(
             scale = 0.75F,
             matrixStack = matrices,
-            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = level.toString().text(),
             x = infoBoxX + 70,
             y = y + 4.3,

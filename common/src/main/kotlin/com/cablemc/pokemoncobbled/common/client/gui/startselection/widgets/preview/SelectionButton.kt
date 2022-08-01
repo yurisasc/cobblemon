@@ -3,8 +3,10 @@ package com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets.prev
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
+import com.cablemc.pokemoncobbled.common.api.text.bold
 import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import com.cablemc.pokemoncobbled.common.client.CobbledResources.DEFAULT_LARGE
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -23,7 +25,7 @@ class SelectionButton(
         private val buttonTexture = cobbledResource("ui/starterselection/starterselection_button.png")
         const val BUTTON_WIDTH = 56
         const val BUTTON_HEIGHT = 12
-        private const val SCALE = 0.75f
+        private const val SCALE = 0.7f
     }
 
     override fun renderButton(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -44,14 +46,13 @@ class SelectionButton(
             )
         drawScaledText(
             matrixStack = matrices,
-//            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = lang("ui.starter.choosebutton"),
             x = x + BUTTON_WIDTH / 2, y = y + BUTTON_HEIGHT / 2 - 2.4,
             colour = ColourLibrary.WHITE,
             centered = true,
             maxCharacterWidth = 68,
             scale = SCALE,
-            shadow = false
+            shadow = true
         )
     }
 }

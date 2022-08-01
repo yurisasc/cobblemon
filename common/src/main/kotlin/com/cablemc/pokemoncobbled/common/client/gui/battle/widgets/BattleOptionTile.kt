@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.gui.battle.widgets
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
@@ -47,7 +46,6 @@ class BattleOptionTile(
         val scale = 1F
         drawScaledText(
             matrixStack = matrices,
-            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = text,
             x = x + 24,
             y = y + 7,

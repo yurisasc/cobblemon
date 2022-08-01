@@ -5,11 +5,9 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.config.starter.StarterCategory
-import com.cablemc.pokemoncobbled.common.config.starter.StarterCategoryAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
-import com.cablemc.pokemoncobbled.common.util.lang
+import com.cablemc.pokemoncobbled.common.util.adapters.pokemonPropertiesShortAdapter
 import com.google.gson.GsonBuilder
-import net.minecraft.text.Text
 
 class CobbledConfig {
     companion object {
@@ -18,7 +16,7 @@ class CobbledConfig {
             .setPrettyPrinting()
             .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
             .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
-            .registerTypeAdapter(StarterCategory::class.java, StarterCategoryAdapter)
+            .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
             .create()
     }
 
@@ -118,11 +116,11 @@ class CobbledConfig {
     var starters = mutableListOf(
             StarterCategory(
                 name = "Kanto",
-                displayName = lang("starterselection.category.kanto"),
+                displayName = "pokemoncobbled.starterselection.category.kanto",
                 pokemon = mutableListOf(
-                    PokemonProperties().also { it.level = 5 ; it.species = "Bulbasaur" },
-                    PokemonProperties().also { it.level = 5 ; it.species = "Charmander" },
-                    PokemonProperties().also { it.level = 5 ; it.species = "Squirtle" }
+                    PokemonProperties.parse("Bulbasaur level=5"),
+                    PokemonProperties.parse("Charmander level=5"),
+                    PokemonProperties.parse("Squirtle level=5"),
                 )
             )//,
 //            StarterCategory(

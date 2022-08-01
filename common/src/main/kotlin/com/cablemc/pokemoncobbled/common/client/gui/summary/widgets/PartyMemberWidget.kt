@@ -63,7 +63,8 @@ class PartyMemberWidget(
         matrices.translate(this.x + (PORTRAIT_DIMENSIONS / 2.0) + 2, this.y + 0.0, 0.0)
         matrices.scale(2.5F, 2.5F, 1F)
         drawProfilePokemon(
-            pokemon = this.pokemon,
+            species = this.pokemon.species,
+            aspects = this.pokemon.aspects,
             matrixStack = matrices,
             rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
             state = null,

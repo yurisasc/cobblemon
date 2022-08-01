@@ -87,7 +87,7 @@ object PokemonCobbled {
     var experienceCalculator: ExperienceCalculator = StandardExperienceCalculator
     var isDedicatedServer = false
     var showdownThread = ShowdownThread()
-    var config = CobbledConfig()
+    lateinit var config: CobbledConfig
     var prospector: SpawningProspector = CobbledSpawningProspector
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
     val bestSpawner = BestSpawner
@@ -97,6 +97,15 @@ object PokemonCobbled {
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
+
+        ExperienceGroups.registerDefaults()
+        Abilities.loadPotentialAbilityInterpreters()
+
+        Moves.load()
+        LOGGER.info("Loaded ${Moves.count()} Moves.")
+
+        // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
+        LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
 
         this.loadConfig()
         this.implementation = implementation
@@ -128,16 +137,7 @@ object PokemonCobbled {
             LOGGER.info("All registries loaded.")
         }
 
-        ExperienceGroups.registerDefaults()
-        Abilities.loadPotentialAbilityInterpreters()
-
         CobbledWorldgen.register()
-
-        Moves.load()
-        LOGGER.info("Loaded ${Moves.count()} Moves.")
-
-        // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
-        LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
 
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()

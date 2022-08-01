@@ -14,6 +14,6 @@ object TempKeybind : CobbledKeyBinding(
     KeybindCategories.COBBLED_CATEGORY
 ) {
     override fun onPress() {
-        MinecraftClient.getInstance().setScreen(StarterSelectionScreen(PokemonCobbled.config.starters))
+        MinecraftClient.getInstance().setScreen(StarterSelectionScreen(PokemonCobbled.config.starters.map { it.asRenderableStarterCategory() }))
     }
 }

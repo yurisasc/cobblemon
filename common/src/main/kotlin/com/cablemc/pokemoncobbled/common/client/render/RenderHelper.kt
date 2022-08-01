@@ -77,6 +77,7 @@ fun drawScaledText(
 
     val textWidth = MinecraftClient.getInstance().textRenderer.getWidth(if (font != null) text.font(font) else text)
     val extraScale = if (textWidth < maxCharacterWidth) 1F else (maxCharacterWidth / textWidth.toFloat())
+    val fontHeight = if (font == null) 5 else 6
 
     matrixStack.push()
     matrixStack.scale(scale * extraScale, scale * extraScale, 1F)
@@ -85,7 +86,7 @@ fun drawScaledText(
         font = font,
         text = text,
         x = x.toFloat() / (scale * extraScale),
-        y = y.toFloat() / (scale * extraScale) + (1 - extraScale) * 4 * scale,
+        y = y.toFloat() / (scale * extraScale) + (1 - extraScale) * fontHeight * scale,
         centered = centered,
         colour = colour,
         shadow = shadow

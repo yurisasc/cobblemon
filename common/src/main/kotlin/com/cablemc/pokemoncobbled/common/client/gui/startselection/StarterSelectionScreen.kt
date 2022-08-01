@@ -4,12 +4,7 @@ import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.MultiLineLabelK
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.config.starter.StarterCategory
-import com.cablemc.pokemoncobbled.common.util.asTranslated
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
-import com.cablemc.pokemoncobbled.common.api.gui.drawText
-import com.cablemc.pokemoncobbled.common.api.text.text
+import com.cablemc.pokemoncobbled.common.api.text.bold
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets.CategoryList
 import com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets.ExitButton
@@ -21,8 +16,11 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.DualTyp
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.SingleTypeWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.TypeWidget
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
+import com.cablemc.pokemoncobbled.common.config.starter.RenderableStarterCategory
 import com.cablemc.pokemoncobbled.common.net.messages.server.SelectStarterPacket
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.RenderablePokemon
+import com.cablemc.pokemoncobbled.common.util.asTranslated
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
@@ -53,10 +51,10 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
         private val doubleTypeBackground = cobbledResource("ui/starterselection/starterselection_type_slot2.png")
     }
 
-    lateinit var categories: List<StarterCategory>
-    lateinit var currentCategory: StarterCategory
+    lateinit var categories: List<RenderableStarterCategory>
+    lateinit var currentCategory: RenderableStarterCategory
     lateinit var modelWidget: ModelWidget
-    lateinit var currentPokemon: Pokemon
+    lateinit var currentPokemon: RenderablePokemon
     var currentSelection = 0
     lateinit var rightButton: ArrowButton
     lateinit var leftButton: ArrowButton
@@ -66,7 +64,7 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
     lateinit var starterRoundaboutLeft: StarterRoundabout
     lateinit var starterRoundaboutRight: StarterRoundabout
 
-    constructor(categories: List<StarterCategory>) : this() {
+    constructor(categories: List<RenderableStarterCategory>) : this() {
         this.categories = categories
     }
 
@@ -112,7 +110,7 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
         addDrawableChild(leftButton)
 
         currentCategory = categories.first()
-        currentPokemon = currentCategory.pokemon[currentSelection].create()
+        currentPokemon = currentCategory.pokemon[currentSelection]
 
         with(currentPokemon) {
             modelWidget = ModelWidget(
@@ -151,13 +149,13 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
         starterRoundaboutLeft = StarterRoundabout(
             pX = x + 89, pY = height / 2 + 86,
             pWidth = StarterRoundabout.MODEL_WIDTH, pHeight = StarterRoundabout.MODEL_HEIGHT,
-            pokemon = currentCategory.pokemon[leftOfCurrentSelection()].create()
+            pokemon = currentCategory.pokemon[leftOfCurrentSelection()]
         )
 
         starterRoundaboutRight = StarterRoundabout(
             pX = x + 149, pY = height / 2 + 86,
             pWidth = StarterRoundabout.MODEL_WIDTH, pHeight = StarterRoundabout.MODEL_HEIGHT,
-            pokemon = currentCategory.pokemon[rightOfCurrentSelection()].create()
+            pokemon = currentCategory.pokemon[rightOfCurrentSelection()]
         )
 
         addDrawableChild(starterRoundaboutLeft)
@@ -193,7 +191,7 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
             width = BASE_WIDTH, height = BASE_HEIGHT
         )
         // Render Frame
-        val (r, g, b) = currentPokemon.primaryType.hue.toRGB()
+        val (r, g, b) = currentPokemon.form.primaryType.hue.toRGB()
         blitk(
             matrixStack = matrices,
             texture = baseFrame,
@@ -206,14 +204,13 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
         // Render Text
         drawScaledText(
             matrixStack = matrices,
-//            font = CobbledResources.NOTO_SANS_BOLD,
-            text = lang("ui.starter.title"),
-            x = (x + 124), y = y + 4F,
+            font = CobbledResources.DEFAULT_LARGE,
+            text = lang("ui.starter.title").bold(),
+            x = x + 125, y = y + 3F,
             centered = true,
-            colour = ColourLibrary.WHITE,
-            scale = 1.2F,
+            scale = 1.4F,
             maxCharacterWidth = 120,
-            shadow = false
+            shadow = true
         )
 
         // Render Name
@@ -238,8 +235,7 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
         MultiLineLabelK.create(
             component = currentPokemon.species.description,
             width = 127,
-            maxLines = 4,
-            font = CobbledResources.NOTO_SANS_REGULAR
+            maxLines = 4
         ).renderLeftAligned(
             poseStack = matrices,
             x = (x + 119) / scale2 + 4, y = (y + 18) / scale2 + 4.0,
@@ -251,9 +247,9 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
         // Render the type background
         blitk(
             matrixStack = matrices,
-            texture = currentPokemon.secondaryType?.let { doubleTypeBackground } ?: singleTypeBackground,
-            x = (currentPokemon.secondaryType?.let { x + 76.75 } ?: (x + 85.25)), y = y + 29.4,
-            width = currentPokemon.secondaryType?.let { 35.25 } ?: 19, height = 19.25
+            texture = currentPokemon.form.secondaryType?.let { doubleTypeBackground } ?: singleTypeBackground,
+            x = (currentPokemon.form.secondaryType?.let { x + 76.75 } ?: (x + 85.25)), y = y + 29.4,
+            width = currentPokemon.form.secondaryType?.let { 35.25 } ?: 19, height = 19.25
         )
         // Render the type widget
         typeWidget.render(matrices, mouseX, mouseY, delta)
@@ -261,7 +257,7 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
         super.render(matrices, mouseX, mouseY, delta)
     }
 
-    fun changeCategory(category: StarterCategory) {
+    fun changeCategory(category: RenderableStarterCategory) {
         currentCategory = category
         currentSelection = 0
         updateSelection()
@@ -282,27 +278,27 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
     private fun leftOfCurrentSelection() : Int = if (currentSelection - 1 == -1) currentCategory.pokemon.size - 1 else currentSelection - 1
 
     private fun updateSelection() {
-        currentPokemon = currentCategory.pokemon[currentSelection].create().also {
+        currentPokemon = currentCategory.pokemon[currentSelection].also {
             modelWidget.pokemon = it
             typeWidget = typeWidget(it, (width - BASE_WIDTH) / 2, (height - BASE_HEIGHT) / 2)
         }
-        starterRoundaboutLeft.pokemon = currentCategory.pokemon[leftOfCurrentSelection()].create()
+        starterRoundaboutLeft.pokemon = currentCategory.pokemon[leftOfCurrentSelection()]
         starterRoundaboutCenter.pokemon = currentPokemon
-        starterRoundaboutRight.pokemon = currentCategory.pokemon[rightOfCurrentSelection()].create()
+        starterRoundaboutRight.pokemon = currentCategory.pokemon[rightOfCurrentSelection()]
     }
 
-    private fun typeWidget(pokemon: Pokemon, x: Int, y: Int) : TypeWidget {
-        return pokemon.secondaryType?.let {
+    private fun typeWidget(pokemon: RenderablePokemon, x: Int, y: Int) : TypeWidget {
+        return pokemon.form.secondaryType?.let {
             DualTypeWidget(
                 pX = x + 77, pY = y + 30,
                 pWidth = 18, pHeight = 18,
                 pMessage = Text.of("What?"),
-                mainType = pokemon.primaryType, secondaryType = it
+                mainType = pokemon.form.primaryType, secondaryType = it
             )
         } ?: SingleTypeWidget(
             pX = x + 85, pY = y + 30,
             pWidth = 18, pHeight = 18,
-            type = pokemon.primaryType,
+            type = pokemon.form.primaryType,
             renderText = false
         )
     }

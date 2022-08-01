@@ -4,7 +4,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.RenderablePokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.DiffuseLighting
@@ -15,14 +16,30 @@ import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 
 fun drawProfilePokemon(
-    pokemon: Pokemon,
+    renderablePokemon: RenderablePokemon,
+    matrixStack: MatrixStack,
+    rotation: Quaternion,
+    state: PoseableEntityState<PokemonEntity>?,
+    scale: Float = 20F
+) = drawProfilePokemon(
+    renderablePokemon.species,
+    renderablePokemon.aspects,
+    matrixStack,
+    rotation,
+    state,
+    scale
+)
+
+fun drawProfilePokemon(
+    species: Species,
+    aspects: Set<String>,
     matrixStack: MatrixStack,
     rotation: Quaternion,
     state: PoseableEntityState<PokemonEntity>?,
     scale: Float = 20F
 ) {
-    val model = PokemonModelRepository.getEntityModel(pokemon.species, pokemon.aspects)
-    val texture = PokemonModelRepository.getModelTexture(pokemon.species, pokemon.aspects)
+    val model = PokemonModelRepository.getEntityModel(species, aspects)
+    val texture = PokemonModelRepository.getModelTexture(species, aspects)
 
     val renderType = model.getLayer(texture)
 

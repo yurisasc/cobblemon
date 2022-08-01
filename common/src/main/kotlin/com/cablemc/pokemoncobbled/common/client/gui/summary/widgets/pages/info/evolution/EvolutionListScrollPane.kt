@@ -4,9 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
-import com.cablemc.pokemoncobbled.common.api.text.font
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.summary.SummaryButton
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.common.ModelSectionScrollPane
@@ -50,7 +48,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
     private fun renderPropositionText(matrices: MatrixStack, x: Int, y: Int) {
         matrices.push()
         matrices.scale(PROPOSITION_TEXT_SCALE, PROPOSITION_TEXT_SCALE, 1F)
-        val text = lang("ui.evolve_offer").font(CobbledResources.NOTO_SANS_BOLD_SMALL)
+        val text = lang("ui.evolve_offer")
         val compressedText = this.client.textRenderer.wrapLines(text, PROPOSITION_TEXT_MAX_WIDTH)
         var current = 0
         compressedText.forEach { line ->
@@ -143,7 +141,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
         private fun renderPreviewName(matrices: MatrixStack, x: Int, y: Int) {
             val client = MinecraftClient.getInstance()
-            val text = this.displayName().font(CobbledResources.NOTO_SANS_BOLD)
+            val text = this.displayName()
             val textWidth = client.textRenderer.getWidth(text).toFloat()
             val scaleMultiplier = if (textWidth >= POKEMON_NAME_MAX_WIDTH) POKEMON_NAME_MAX_WIDTH / textWidth else 1F
             val textScale = (POKEMON_NAME_SCALE * scaleMultiplier).coerceAtMost(POKEMON_NAME_SCALE)

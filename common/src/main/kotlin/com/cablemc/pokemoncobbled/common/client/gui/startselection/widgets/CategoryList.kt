@@ -1,13 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.gui.startselection.widgets
 
-import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
-import com.cablemc.pokemoncobbled.common.api.text.hover
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.startselection.StarterSelectionScreen
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
-import com.cablemc.pokemoncobbled.common.config.starter.StarterCategory
+import com.cablemc.pokemoncobbled.common.config.starter.RenderableStarterCategory
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
@@ -22,7 +18,7 @@ class CategoryList(
     bottomOffset: Int,
     private val entryWidth: Int,
     entryHeight: Int,
-    private val categories: List<StarterCategory>,
+    private val categories: List<RenderableStarterCategory>,
     val x: Int, val y: Int,
     private val minecraft: MinecraftClient = MinecraftClient.getInstance(),
     private val starterSelectionScreen: StarterSelectionScreen
@@ -82,7 +78,7 @@ class CategoryList(
     }
 
 
-    inner class Category(private val category: StarterCategory) : AlwaysSelectedEntryListWidget.Entry<Category>() {
+    inner class Category(private val category: RenderableStarterCategory) : Entry<Category>() {
 
         override fun render(
             matrices: MatrixStack,
@@ -100,7 +96,7 @@ class CategoryList(
             if (isHovered) {
                 blitk(
                     matrixStack = matrices,
-                    x = x + 0.5f, y = y,
+                    x = x + 2.5f, y = y,
                     texture = categoryResource,
                     width = CATEGORY_BUTTON_WIDTH, height = CATEGORY_BUTTON_HEIGHT,
                     red = 0.75f, green = 0.75f, blue = 0.75f
@@ -108,18 +104,18 @@ class CategoryList(
             } else
                 blitk(
                     matrixStack = matrices,
-                    x = x + 0.5f, y = y,
+                    x = x + 2.5f, y = y,
                     texture = categoryResource,
                     width = CATEGORY_BUTTON_WIDTH, height = CATEGORY_BUTTON_HEIGHT
                 )
             drawScaledText(
                 matrixStack = matrices,
-                text = category.displayName,
-                scale = 0.95F,
-                x = x + 26,
-                y = y + 4F,
+                text = category.displayNameText,
+                x = x + 28,
+                y = y + 4.5F,
+                scale = 1F,
                 maxCharacterWidth = 50,
-                shadow = false,
+                shadow = true,
                 centered = true
             )
         }
