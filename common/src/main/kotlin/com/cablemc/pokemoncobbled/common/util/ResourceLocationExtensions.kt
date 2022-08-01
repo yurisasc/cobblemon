@@ -12,3 +12,7 @@ fun Identifier.extractTo(directory : File) {
     Files.copy(stream, directory.toPath(), StandardCopyOption.REPLACE_EXISTING)
     stream.close()
 }
+
+fun Identifier.pathName() {
+    this.path.substringBeforeLast(".")
+}

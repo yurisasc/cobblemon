@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraft.util.Identifier
+import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.pathString
 
@@ -39,7 +40,7 @@ interface SynchronousJsonResourceReloader<T> : SynchronousResourceReloader {
             manager.getResource(identifier).use { resource ->
                 resource.inputStream.use { stream ->
                     stream.bufferedReader().use { reader ->
-                        val resolvedIdentifier = Identifier(identifier.namespace, identifier.path.substringBefore(JSON_EXTENSION))
+                        val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
                         data[resolvedIdentifier] = this.gson.fromJson(reader, this.typeToken.type)
                     }
                 }

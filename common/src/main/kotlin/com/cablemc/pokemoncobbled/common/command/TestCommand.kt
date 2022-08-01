@@ -43,12 +43,12 @@ object TestCommand {
             )
 
             // Enemy variables
-            val pokemon = Pokemon().apply { species = PokemonSpecies.MAGIKARP }.also { it.initialize() }
+            val pokemon = Pokemon().apply { species = PokemonSpecies.random() }.also { it.initialize() }
             val enemyPokemon = BattlePokemon(pokemon)
 
-            val enemyPokemon2 = BattlePokemon(PokemonSpecies.BLASTOISE.create())
-            val enemyPokemon3 = BattlePokemon(PokemonSpecies.BUTTERFREE.create())
-            val enemyPokemon4 = BattlePokemon(PokemonSpecies.DIGLETT.create())
+            val enemyPokemon2 = BattlePokemon(PokemonSpecies.random().create())
+            val enemyPokemon3 = BattlePokemon(PokemonSpecies.random().create())
+            val enemyPokemon4 = BattlePokemon(PokemonSpecies.random().create())
 
 
             enemyPokemon.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(2.0, 0.0, 0.0))

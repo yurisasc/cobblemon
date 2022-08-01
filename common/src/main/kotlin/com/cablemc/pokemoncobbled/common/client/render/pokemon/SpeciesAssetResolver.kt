@@ -122,8 +122,8 @@ class SpeciesAssetResolver {
             .disableHtmlEscaping()
             .setLenient()
             .create()
-        fun load(path: String): SpeciesAssetResolver {
-            return GSON.fromJson(PokemonCobbled::class.java.getResourceAsStream("/assets/pokemoncobbled/$path")!!.reader(), SpeciesAssetResolver::class.java)
+        fun load(path: String, namespace: String = PokemonCobbled.MODID): SpeciesAssetResolver {
+            return GSON.fromJson(PokemonCobbled::class.java.getResourceAsStream("/assets/$namespace/$path")!!.reader(), SpeciesAssetResolver::class.java)
         }
     }
 }

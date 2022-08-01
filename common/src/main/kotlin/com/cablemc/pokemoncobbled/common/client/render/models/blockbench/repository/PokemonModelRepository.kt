@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository
 
+import com.cablemc.pokemoncobbled.common.api.data.DataRegistry
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.BlockBenchModelWrapper
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.*
@@ -20,9 +21,12 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     private val shinyModelTexturesBySpecies: MutableMap<Species, Identifier> = mutableMapOf()
 
     val animators = mutableMapOf<String, (ModelPart) -> PokemonPoseableModel>()
-    val species = mutableMapOf<Species, RegisteredSpeciesRendering>()
+    //val species = mutableMapOf<Species, RegisteredSpeciesRendering>()
+    private val renders = hashMapOf<Identifier, RegisteredSpeciesRendering>()
 
     override fun registerAll() {
+        // ToDo decide what to do here, ideally we don't want this to be a thing anymore and instead use a DataRegistry for the client assets
+        /*
         registerSpeciesWithAnimator(PokemonSpecies.BULBASAUR) { BulbasaurModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.IVYSAUR) { IvysaurModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.VENUSAUR) { VenusaurModel(it) }
@@ -51,21 +55,22 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerBaseSpeciesModel(PokemonSpecies.DUGTRIO, BlockBenchModelWrapper(DugtrioModel.LAYER_LOCATION, DugtrioModel::createBodyLayer) { DugtrioModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.MAGIKARP, BlockBenchModelWrapper(MagikarpModel.LAYER_LOCATION, MagikarpModel::createBodyLayer) { MagikarpModel(it) })
         registerBaseSpeciesModel(PokemonSpecies.GYARADOS, BlockBenchModelWrapper(GyaradosModel.LAYER_LOCATION, GyaradosModel::createBodyLayer) { GyaradosModel(it) })
+         */
     }
 
     override fun initializeModelLayers() {
         super.initializeModelLayers()
-        species.values.forEach(RegisteredSpeciesRendering::initializeLayers)
+        this.renders.values.forEach(RegisteredSpeciesRendering::initializeLayers)
     }
 
     override fun initializeModels(context: EntityRendererFactory.Context) {
         super.initializeModels(context)
-        species.values.forEach { it.parseModels(context) }
+        this.renders.values.forEach { it.parseModels(context) }
     }
 
     override fun reload() {
         super.reload()
-        species.values.forEach { it.reload() }
+        this.renders.values.forEach { it.reload() }
     }
 
     private fun registerBaseSpeciesModel(species: Species, model: BlockBenchModelWrapper<PokemonEntity>) {
@@ -94,18 +99,24 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerSpecies(species)
     }
 
-    fun registerSpecies(species: Species) {
-        this.species[species] = RegisteredSpeciesRendering(
-            species,
-            SpeciesAssetResolver.load("bedrock/species/${species.name}.json")
-        )
+    fun registerSpecies(species: Species): Boolean {
+        // ToDo Consider how we want to handle "safety"
+        return try {
+            this.renders[species.resourceIdentifier] = RegisteredSpeciesRendering(
+                species,
+                SpeciesAssetResolver.load("bedrock/species/${species.name}.json", species.resourceIdentifier.namespace)
+            )
+            true
+        } catch (e: NullPointerException) {
+            false
+        }
     }
 
     private fun baseTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-base.png")
     private fun shinyTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-shiny.png")
 
     fun getEntityModel(species: Species, aspects: Set<String>): PokemonPoseableModel {
-        this.species[species]?.let {
+        this.renders[species.resourceIdentifier]?.let {
             return it.getEntityModel(aspects)
         }
         // TODO: This is just fetching by species at the moment. This will be developed further.
@@ -113,7 +124,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     }
 
     fun getModelTexture(species: Species, aspects: Set<String>): Identifier {
-        this.species[species]?.let {
+        this.renders[species.resourceIdentifier]?.let {
             return it.getTexture(aspects)
         }
 

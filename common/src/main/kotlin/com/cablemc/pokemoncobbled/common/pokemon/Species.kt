@@ -16,6 +16,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.ai.PokemonBehaviour
 import com.cablemc.pokemoncobbled.common.util.lang
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText
+import net.minecraft.util.Identifier
 
 class Species {
     var name: String = "bulbasaur"
@@ -52,6 +53,9 @@ class Species {
     internal val evolutions: MutableSet<Evolution> = hashSetOf()
 
     internal val preEvolution: PreEvolution? = null
+
+    @Transient
+    internal lateinit var resourceIdentifier: Identifier
 
     fun types(form: Int): Iterable<ElementalType> = forms[form].types
 

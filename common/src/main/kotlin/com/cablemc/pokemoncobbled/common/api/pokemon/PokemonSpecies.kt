@@ -23,6 +23,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledEvolutionAdapter
@@ -176,8 +177,14 @@ object PokemonSpecies : DataRegistry {
             }
             this.speciesByIdentifier[identifier] = species
             this.speciesByDex[species.nationalPokedexNumber] = species
+            species.resourceIdentifier = identifier
             species.forms.forEach { form ->
                 form.initialize(species)
+            }
+            if (!PokemonModelRepository.registerSpecies(species)) {
+                PokemonCobbled.LOGGER.warn("Not registering species {} due to a missing model", identifier.toString())
+                this.speciesByIdentifier.remove(identifier)
+                this.speciesByDex.remove(species.nationalPokedexNumber)
             }
         }
         PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
