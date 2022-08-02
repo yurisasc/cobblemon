@@ -27,6 +27,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.BestSpawner
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolver
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
+import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
@@ -53,6 +54,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.features.SunglassesFeature
 import com.cablemc.pokemoncobbled.common.pokemon.properties.UncatchableProperty
 import com.cablemc.pokemoncobbled.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
+import com.cablemc.pokemoncobbled.common.starter.CobbledStarterHandler
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.cablemc.pokemoncobbled.common.world.CobbledGameRules
@@ -85,6 +87,7 @@ object PokemonCobbled {
     lateinit var showdown: ShowdownConnection
     var captureCalculator: CaptureCalculator = Gen7CaptureCalculator
     var experienceCalculator: ExperienceCalculator = StandardExperienceCalculator
+    var starterHandler: StarterHandler = CobbledStarterHandler()
     var isDedicatedServer = false
     var showdownThread = ShowdownThread()
     lateinit var config: CobbledConfig
@@ -120,7 +123,11 @@ object PokemonCobbled {
         CobbledGameRules.register()
 
         ShoulderEffectRegistry.register()
-        PLAYER_JOIN.subscribe { storage.onPlayerLogin(it) }
+        PLAYER_JOIN.subscribe {
+            storage.onPlayerLogin(it)
+            playerData.get(it).sendToPlayer(it)
+            starterHandler.handleJoin(it)
+        }
         PLAYER_QUIT.subscribe { PCLinkManager.removeLink(it.uuid) }
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
@@ -238,9 +245,7 @@ object PokemonCobbled {
     fun saveConfig() {
         try {
             val configFile = File(CONFIG_PATH)
-            val gson = GsonBuilder().disableHtmlEscaping().setPrettyPrinting().create()
             val fileWriter = FileWriter(configFile)
-
             // Put the config to json then flush the writer to commence writing.
             CobbledConfig.GSON.toJson(this.config, fileWriter)
             fileWriter.flush()

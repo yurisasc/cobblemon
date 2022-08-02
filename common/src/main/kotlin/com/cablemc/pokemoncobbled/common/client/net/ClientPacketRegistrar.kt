@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.net
 
 import com.cablemc.pokemoncobbled.common.client.net.battle.*
-import com.cablemc.pokemoncobbled.common.client.net.gui.StarterUIPacketHandler
+import com.cablemc.pokemoncobbled.common.client.net.starter.StarterUIPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.gui.SummaryUIPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.EvolutionUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.SingleUpdatePacketHandler
@@ -67,6 +67,8 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         // General storage
         registerHandler(RemoveClientPokemonHandler)
         registerHandler(SwapClientPokemonHandler)
+
+        registerHandler(SetClientPlayerDataHandler)
 
         registerHandler(SummaryUIPacketHandler)
         registerHandler(StarterUIPacketHandler)

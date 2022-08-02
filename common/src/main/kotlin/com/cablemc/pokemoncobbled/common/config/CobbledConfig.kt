@@ -111,6 +111,8 @@ class CobbledConfig {
     @NodeCategory(Category.Healing)
     var healTimer = 60
 
+    @NodeCategory(Category.Starter)
+    var allowStarterOnJoin = true
 
     @NodeCategory(Category.Starter)
     var starters = mutableListOf(

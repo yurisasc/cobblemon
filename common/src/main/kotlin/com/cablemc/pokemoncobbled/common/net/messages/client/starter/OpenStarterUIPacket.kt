@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.net.messages.client.ui
+package com.cablemc.pokemoncobbled.common.net.messages.client.starter
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.config.starter.RenderableStarterCategory
@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.config.starter.StarterCategory
 import com.cablemc.pokemoncobbled.common.pokemon.RenderablePokemon
 import net.minecraft.network.PacketByteBuf
 
-class StarterUIPacket internal constructor() : NetworkPacket {
+class OpenStarterUIPacket internal constructor() : NetworkPacket {
 
     constructor(categories: List<StarterCategory>) : this() {
         this.categories.addAll(categories.map { it.asRenderableStarterCategory() })

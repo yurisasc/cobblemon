@@ -21,7 +21,8 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.MoveClie
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.OpenPCPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCBoxPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.ui.StarterUIPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.starter.OpenStarterUIPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.starter.SetClientPlayerDataPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.ChallengePacket
@@ -37,6 +38,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePCPo
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.SwapPCPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.starter.RequestStarterScreenPacket
 import com.cablemc.pokemoncobbled.common.util.getServer
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -117,7 +119,10 @@ object CobbledNetwork {
 
         // UI Packets
         buildClientMessage<SummaryUIPacket>()
-        buildClientMessage<StarterUIPacket>()
+
+        // Starter packets
+        buildClientMessage<OpenStarterUIPacket>()
+        buildClientMessage<SetClientPlayerDataPacket>()
 
         // Battle packets
         buildClientMessage<BattleEndPacket>()
@@ -152,7 +157,9 @@ object CobbledNetwork {
         buildServerMessage<MovePCPokemonToPartyPacket>()
         buildServerMessage<MovePartyPokemonToPCPacket>()
 
+        // Starter packets
         buildServerMessage<SelectStarterPacket>()
+        buildServerMessage<RequestStarterScreenPacket>()
 
         buildServerMessage<SwapPCPokemonPacket>()
         buildServerMessage<SwapPartyPokemonPacket>()
