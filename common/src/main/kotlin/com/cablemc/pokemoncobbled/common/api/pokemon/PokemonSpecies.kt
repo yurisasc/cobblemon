@@ -127,33 +127,35 @@ object PokemonSpecies : DataRegistry {
      */
 
     /**
-     * TODO
+     * Finds a species by the pathname of their [Identifier].
+     * This method exists for the convenience of finding Cobble default Pokémon.
+     * This uses [getByIdentifier] using the [PokemonCobbled.MODID] as the namespace and the [name] as the path.
      *
-     * @param name
-     * @return
+     * @param name The path of the species asset.
+     * @return The [Species] if existing.
      */
     fun getByName(name: String) = this.getByIdentifier(cobbledResource(name))
 
     /**
-     * TODO
+     * Finds a [Species] by its national Pokédex entry number.
      *
-     * @param ndex
-     * @return
+     * @param ndex The [Species.nationalPokedexNumber].
+     * @return The [Species] if existing.
      */
     fun getByPokedexNumber(ndex: Int) = this.speciesByDex[ndex]
 
     /**
-     * TODO
+     * Finds a [Species] by its unique [Identifier].
      *
-     * @param identifier
-     * @return
+     * @param identifier The unique [Species.resourceIdentifier] of the [Species].
+     * @return The [Species] if existing.
      */
     fun getByIdentifier(identifier: Identifier) = this.speciesByIdentifier[identifier]
 
     /**
-     * TODO
+     * Counts the currently loaded species.
      *
-     * @return
+     * @return The loaded species amount.
      */
     fun count() = this.speciesByIdentifier.size
 
@@ -180,11 +182,6 @@ object PokemonSpecies : DataRegistry {
             species.resourceIdentifier = identifier
             species.forms.forEach { form ->
                 form.initialize(species)
-            }
-            if (!PokemonModelRepository.registerSpecies(species)) {
-                PokemonCobbled.LOGGER.warn("Not registering species {} due to a missing model", identifier.toString())
-                this.speciesByIdentifier.remove(identifier)
-                this.speciesByDex.remove(species.nationalPokedexNumber)
             }
         }
         PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
