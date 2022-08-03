@@ -1,6 +1,9 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
@@ -23,6 +26,12 @@ fun UUID.getPlayer() = getServer()?.playerManager?.getPlayer(this)
 fun Entity.sendServerMessage(component: Text) {
     sendSystemMessage(component, Util.NIL_UUID)
 }
+
+fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
+    CobbledEvents.PLAYER_QUIT.pipe(filter { it.uuid == uuid }, takeFirst()).subscribe { handler() }
+}
+
+// Player extension for queueing next logout or login
 
 fun Entity.sendTranslatedServerMessage(str: String) {
     sendServerMessage(str.asTranslated())

@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.battles.InBattleMove
 import com.cablemc.pokemoncobbled.common.battles.MoveActionResponse
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.battle.SingleActionRequest
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
@@ -80,12 +79,10 @@ class BattleMoveSelection(
 
             drawScaledText(
                 matrixStack = matrices,
-                font = CobbledResources.NOTO_SANS_BOLD_SMALL,
                 text = moveTemplate.displayName,
                 x = x + 28,
                 y = y + 5,
-                scaleX = 0.7F,
-                scaleY = 0.7F,
+                scale = 0.7F,
                 opacity = moveSelection.opacity
             )
         }

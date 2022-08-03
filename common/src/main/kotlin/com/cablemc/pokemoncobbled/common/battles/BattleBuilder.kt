@@ -11,11 +11,12 @@ import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.party
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
+import java.util.Optional
+import java.util.UUID
 import net.minecraft.entity.Entity
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import java.util.*
 
 class BattleBuilder {
     companion object {
@@ -84,6 +85,10 @@ class BattleBuilder {
                 )
             }
 
+            if (pokemonEntity.isBusy) {
+                errors.participantErrors[playerActor] += BattleStartError.targetIsBusy(wildActor.getName())
+            }
+
             if (BattleRegistry.getBattleByParticipatingPlayer(player) != null) {
                 errors.participantErrors[playerActor] += BattleStartError.alreadyInBattle(playerActor)
             }
@@ -136,6 +141,8 @@ interface BattleStartError {
         fun alreadyInBattle(player: ServerPlayerEntity) = AlreadyInBattleError(player.uuid, player.displayName)
         fun alreadyInBattle(pokemonEntity: PokemonEntity) = AlreadyInBattleError(pokemonEntity.uuid, pokemonEntity.displayName)
         fun alreadyInBattle(actor: BattleActor) = AlreadyInBattleError(actor.uuid, actor.getName())
+
+        fun targetIsBusy(targetName: MutableText) = BusyError(targetName)
         fun insufficientPokemon(
             player: ServerPlayerEntity,
             requiredCount: Int,
@@ -182,6 +189,12 @@ class AlreadyInBattleError(
             battleLang("error.in_battle", name)
         }
     }
+}
+
+class BusyError(
+    val targetName: MutableText
+): BattleStartError {
+    override fun getMessageFor(entity: Entity) = battleLang("errors.busy", targetName)
 }
 
 open class BattleActorErrors : HashMap<BattleActor, MutableSet<BattleStartError>>() {

@@ -4,12 +4,14 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.moves.Move
+import com.cablemc.pokemoncobbled.common.api.text.bold
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.SwitchMoveButton.Companion.SWITCH_MOVE_BUTTON_HEIGHT
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.SwitchMoveButton.Companion.SWITCH_MOVE_BUTTON_WIDTH
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.change.MoveSwitchPane
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.SingleTypeWidget
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
@@ -124,16 +126,14 @@ class MoveWidget(
 
 
         // Render remaining PP Text
-        pMatrixStack.push()
-        pMatrixStack.scale(0.6F, 0.6F, 0.6F)
-        drawCenteredText(
-            poseStack = pMatrixStack,
-            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+        drawScaledText(
+            matrixStack = pMatrixStack,
             text = LiteralText("${move.currentPp} / ${move.maxPp}"),
-            x = (x + width / 2) / 0.6 + 3, y = (y + 23) / 0.6 + 1,
-            colour = ColourLibrary.WHITE, shadow = false
+            x = x + width / 2, y = y + 24,
+            colour = ColourLibrary.WHITE, shadow = false,
+            centered = true,
+            scale = 0.5F
         )
-        pMatrixStack.pop()
 
         // Render Type Icon
         typeWidget.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
@@ -153,15 +153,16 @@ class MoveWidget(
         )
 
         // Render Move Name
-        pMatrixStack.push()
-        pMatrixStack.scale(0.4F, 0.4F, 0.4F)
-        drawCenteredText(
-            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD,
-            text = move.displayName,
-            x = (x + 88.55) / 0.4F, y = y / 0.4F + 19,
-            colour = MOVE_NAME_COLOUR, shadow = false
+        drawScaledText(
+            matrixStack = pMatrixStack,
+            text = move.displayName.bold(),
+            font = CobbledResources.DEFAULT_LARGE,
+            x = x + 88, y = y + 7,
+            maxCharacterWidth = 50,
+            colour = MOVE_NAME_COLOUR,
+            shadow = false,
+            centered = true
         )
-        pMatrixStack.pop()
 
         // Render Move Info
         if (isHovered) {

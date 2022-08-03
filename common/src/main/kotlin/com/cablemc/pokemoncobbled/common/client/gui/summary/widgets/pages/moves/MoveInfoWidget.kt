@@ -2,16 +2,15 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves
 
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.MultiLineLabelK
-import com.cablemc.pokemoncobbled.common.api.gui.drawText
 import com.cablemc.pokemoncobbled.common.api.moves.Move
 import com.cablemc.pokemoncobbled.common.api.text.text
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
 import net.minecraft.text.TranslatableText
-import java.math.RoundingMode
-import java.text.DecimalFormat
 
 class MoveInfoWidget(
     pX: Int, pY: Int,
@@ -39,42 +38,42 @@ class MoveInfoWidget(
 
         val moveInfoValueOffset = 84
 
-        drawText(
-            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+        drawScaledText(
+            matrixStack = pMatrixStack,
             text = powerText,
             x = infoX / SCALE + 1, y = infoY / SCALE + 2.25,
             colour = ColourLibrary.WHITE, shadow = false
         )
-        drawText(
-            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+        drawScaledText(
+            matrixStack = pMatrixStack,
             text = move.power.toInt().toString().text(),
             centered = true,
             x = infoX / SCALE + moveInfoValueOffset, y = infoY / SCALE + 2.25,
             colour = ColourLibrary.WHITE, shadow = false
         )
 
-        drawText(
-            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+        drawScaledText(
+            matrixStack = pMatrixStack,
             text = accuracyText,
             x = infoX / SCALE + 1, y = infoY / SCALE + MOVE_INFO_SPACING + 0.25,
             colour = ColourLibrary.WHITE, shadow = false
         )
-        drawText(
-            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+        drawScaledText(
+            matrixStack = pMatrixStack,
             text = format(move.accuracy).text(),
             centered = true,
             x = infoX / SCALE + moveInfoValueOffset, y = infoY / SCALE + MOVE_INFO_SPACING + 0.25,
             colour = ColourLibrary.WHITE, shadow = false
         )
 
-        drawText(
-            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+        drawScaledText(
+            matrixStack = pMatrixStack,
             text = effectText,
             x = infoX / SCALE + 1, y = infoY / SCALE + MOVE_INFO_SPACING * 2 - 1.0,
             colour = ColourLibrary.WHITE, shadow = false
         )
-        drawText(
-            poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+        drawScaledText(
+            matrixStack = pMatrixStack,
             text = format(move.effectChance).text(),
             centered = true,
             x = infoX / SCALE + 1 + moveInfoValueOffset, y = infoY / SCALE + MOVE_INFO_SPACING * 2 - 1.0,
@@ -84,8 +83,7 @@ class MoveInfoWidget(
         MultiLineLabelK.create(
             component = move.description,
             width = 170,
-            maxLines = 4,
-            font = CobbledResources.NOTO_SANS_REGULAR
+            maxLines = 4
         ).renderLeftAligned(
             poseStack = pMatrixStack,
             x = (infoX + 67.0) / SCALE, y = (infoY) / SCALE,

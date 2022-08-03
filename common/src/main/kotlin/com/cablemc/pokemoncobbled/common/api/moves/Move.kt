@@ -9,6 +9,7 @@ import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
 /**
@@ -22,10 +23,10 @@ open class Move(
     val name: String
         get() = template.name
 
-    val displayName: Text
+    val displayName: MutableText
         get() = template.displayName
 
-    val description: Text
+    val description: MutableText
         get() = template.description
 
     val type: ElementalType

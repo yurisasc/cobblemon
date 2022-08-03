@@ -18,6 +18,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.reposit
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer
+import com.cablemc.pokemoncobbled.common.client.starter.ClientPlayerData
 import com.cablemc.pokemoncobbled.common.client.storage.ClientStorageManager
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
@@ -39,11 +40,15 @@ object PokemonCobbledClient {
     lateinit var implementation: PokemonCobbledClientImplementation
     val storage = ClientStorageManager()
     var battle: ClientBattle? = null
+    var clientPlayerData = ClientPlayerData()
+    /** If true then we won't bother them anymore about choosing a starter even if it's a thing they can do. */
+    var checkedStarterScreen = false
 
     lateinit var overlay: PartyOverlay
     lateinit var battleOverlay: BattleOverlay
 
     fun onLogin() {
+        clientPlayerData = ClientPlayerData()
         storage.onLogin()
     }
 
@@ -52,6 +57,8 @@ object PokemonCobbledClient {
         battle = null
         battleOverlay = BattleOverlay()
         ScheduledTaskTracker.clear()
+        checkedStarterScreen = false
+
     }
 
     fun initialize(implementation: PokemonCobbledClientImplementation) {

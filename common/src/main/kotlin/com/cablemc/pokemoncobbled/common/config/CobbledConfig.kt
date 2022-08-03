@@ -1,9 +1,12 @@
 package com.cablemc.pokemoncobbled.common.config
 
 import com.cablemc.pokemoncobbled.common.api.drop.ItemDropMethod
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
+import com.cablemc.pokemoncobbled.common.config.starter.StarterCategory
 import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.pokemonPropertiesShortAdapter
 import com.google.gson.GsonBuilder
 
 class CobbledConfig {
@@ -13,6 +16,7 @@ class CobbledConfig {
             .setPrettyPrinting()
             .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
             .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
+            .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
             .create()
     }
 
@@ -107,4 +111,28 @@ class CobbledConfig {
     @NodeCategory(Category.Healing)
     var healTimer = 60
 
+    @NodeCategory(Category.Starter)
+    var allowStarterOnJoin = true
+
+    @NodeCategory(Category.Starter)
+    var starters = mutableListOf(
+            StarterCategory(
+                name = "Kanto",
+                displayName = "pokemoncobbled.starterselection.category.kanto",
+                pokemon = mutableListOf(
+                    PokemonProperties.parse("Bulbasaur level=5"),
+                    PokemonProperties.parse("Charmander level=5"),
+                    PokemonProperties.parse("Squirtle level=5"),
+                )
+            )//,
+//            StarterCategory(
+//                name = "Johto",
+//                displayName = lang("starterselection.category.johto"),
+//                pokemon = mutableListOf(
+//                    PokemonProperties().also { it.level = 5 ; it.species = "Chikorita" },
+//                    PokemonProperties().also { it.level = 5 ; it.species = "Cyndaquil" },
+//                    PokemonProperties().also { it.level = 5 ; it.species = "Totodile" }
+//                )
+//            )
+        )
 }

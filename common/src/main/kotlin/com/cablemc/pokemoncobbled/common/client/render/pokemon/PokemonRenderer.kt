@@ -179,6 +179,10 @@ class PokemonRenderer(
     }
 
     fun renderLabel(poseStack: MatrixStack, partialTicks: Float, entity: PokemonEntity, player: PlayerEntity, multiBufferSource: VertexConsumerProvider) {
+        if (entity.isInvisible) {
+            return
+        }
+
         val mc = MinecraftClient.getInstance()
 
         val stepMultiplier = 0.5F

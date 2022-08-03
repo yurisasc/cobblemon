@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.battle.animations
 
 import com.cablemc.pokemoncobbled.common.client.battle.ActiveClientBattlePokemon
 
-class HealthChangeAnimation(val newHealthRatio: Float, val duration: Float = 1.5F) : TileAnimation {
+class HealthChangeAnimation(val newHealthRatio: Float, val duration: Float = 1F) : TileAnimation {
     var passedSeconds = 0F
     var initialHealth = -1F
     var difference = 0F

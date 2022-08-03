@@ -31,8 +31,8 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     override val portraitScale = 1.55F
     override val portraitTranslation = Vec3d(-0.15, 0.1, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileScale = 0.8F
+    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     override fun registerPoses() {
         registerPose(
