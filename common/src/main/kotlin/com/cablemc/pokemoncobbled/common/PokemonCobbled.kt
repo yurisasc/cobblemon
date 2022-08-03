@@ -46,6 +46,7 @@ import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgum
 import com.cablemc.pokemoncobbled.common.command.argument.SpawnBucketArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
+import com.cablemc.pokemoncobbled.common.config.starter.StarterConfig
 import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
@@ -59,12 +60,12 @@ import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
 import com.cablemc.pokemoncobbled.common.world.CobbledGameRules
 import com.cablemc.pokemoncobbled.common.worldgen.CobbledWorldgen
-import com.google.gson.GsonBuilder
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
+import java.io.PrintWriter
 import java.util.UUID
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.memberProperties
@@ -96,6 +97,7 @@ object PokemonCobbled {
     val bestSpawner = BestSpawner
     var storage = PokemonStoreManager()
     lateinit var playerData: PlayerDataStoreManager
+    lateinit var starterConfig: StarterConfig
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
@@ -240,6 +242,23 @@ object PokemonCobbled {
         }
 
         bestSpawner.loadConfig()
+        starterConfig = loadStarterConfig()
+    }
+
+    fun loadStarterConfig(): StarterConfig {
+        val file = File("config/pokemoncobbled/starters.json")
+        file.parentFile.mkdirs()
+        if (!file.exists()) {
+            val config = StarterConfig()
+            val pw = PrintWriter(file)
+            StarterConfig.GSON.toJson(config, pw)
+            pw.close()
+            return config
+        }
+        val reader = FileReader(file)
+        val config = StarterConfig.GSON.fromJson(reader, StarterConfig::class.java)
+        reader.close()
+        return config
     }
 
     fun saveConfig() {

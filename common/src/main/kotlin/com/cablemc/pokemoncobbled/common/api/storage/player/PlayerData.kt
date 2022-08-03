@@ -21,7 +21,7 @@ data class PlayerData(
     companion object {
         fun default(forPlayer: UUID) = PlayerData(
             forPlayer,
-            !PokemonCobbled.config.allowStarterOnJoin,
+            !PokemonCobbled.starterConfig.allowStarterOnJoin,
             false,
             null,
             mutableMapOf()

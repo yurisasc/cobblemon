@@ -12,7 +12,7 @@ import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import net.minecraft.server.network.ServerPlayerEntity
 
 open class CobbledStarterHandler : StarterHandler {
-    override fun getStarterList(player: ServerPlayerEntity) = PokemonCobbled.config.starters
+    override fun getStarterList(player: ServerPlayerEntity) = PokemonCobbled.starterConfig.starters
     override fun handleJoin(player: ServerPlayerEntity) {}
     override fun requestStarterChoice(player: ServerPlayerEntity) {
         val playerData = PokemonCobbled.playerData.get(player)
