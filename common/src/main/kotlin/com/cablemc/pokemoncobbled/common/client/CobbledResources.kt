@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client
 
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import net.minecraft.util.Identifier
 
 object CobbledResources {
     /**
@@ -13,7 +14,5 @@ object CobbledResources {
     /**
      * Fonts
      */
-    val NOTO_SANS_BOLD = cobbledResource("notosans_bold")
-    val NOTO_SANS_BOLD_SMALL = cobbledResource("notosans_bold_small")
-    val NOTO_SANS_REGULAR = cobbledResource("notosans_regular_small")
+    val DEFAULT_LARGE = Identifier("uniform")
 }

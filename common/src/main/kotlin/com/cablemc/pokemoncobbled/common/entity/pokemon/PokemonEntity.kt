@@ -83,13 +83,6 @@ class PokemonEntity(
         }
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.bestSpawner.defaultPokemonDespawner
 
-    val delegate = if (world.isClient) {
-        // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
-        com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate()
-    } else {
-        PokemonServerDelegate()
-    }
-
     var ticksLived = 0
     val busyLocks = mutableListOf<Any>()
     val isBusy: Boolean
@@ -118,6 +111,13 @@ class PokemonEntity(
      */
     val beamModeEmitter = addEntityProperty(BEAM_MODE, 0.toByte())
     // properties like the above are synced and can be subscribed to for changes on either side
+
+    val delegate = if (world.isClient) {
+        // Don't import because scanning for imports is a CI job we'll do later to detect errant access to client from server
+        com.cablemc.pokemoncobbled.common.client.entity.PokemonClientDelegate()
+    } else {
+        PokemonServerDelegate()
+    }
 
     init {
         delegate.initialize(this)
@@ -337,6 +337,10 @@ class PokemonEntity(
 
     fun canBattle(player: PlayerEntity): Boolean {
         if (isBusy) {
+            return false
+        }
+
+        if (battleId.get().isPresent) {
             return false
         }
 

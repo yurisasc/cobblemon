@@ -2,7 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets
 
 import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonFloatingState
-import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.RenderablePokemon
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
@@ -13,7 +13,8 @@ import net.minecraft.util.math.Vec3f
 class ModelWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    pokemon: Pokemon
+    var pokemon: RenderablePokemon,
+    val baseScale: Float = 2.7F
 ): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("Summary - ModelWidget")) {
 
     companion object {
@@ -21,7 +22,6 @@ class ModelWidget(
     }
 
     var state = PokemonFloatingState()
-    var pokemon = pokemon
     private val minecraft = MinecraftClient.getInstance()
     private var rotVec = Vec3f(13F, 35F, 0F)
 
@@ -43,13 +43,12 @@ class ModelWidget(
             (height * minecraft.window.scaleFactor).toInt()
         )
 
-        val baseScale = 2.7F
         poseStack.translate(x + width * 0.5, y.toDouble(), 0.0)
         poseStack.scale(baseScale, baseScale, baseScale)
         poseStack.push()
 
         drawProfilePokemon(
-            pokemon = pokemon,
+            renderablePokemon = pokemon,
             matrixStack = poseStack,
             rotation = Quaternion.fromEulerXyzDegrees(rotVec),
             state = state

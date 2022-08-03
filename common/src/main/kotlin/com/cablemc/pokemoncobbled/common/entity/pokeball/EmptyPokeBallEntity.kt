@@ -24,6 +24,7 @@ import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.sendParticlesServer
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
+import com.cablemc.pokemoncobbled.common.util.setPositionSafely
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
 import java.util.concurrent.CompletableFuture
@@ -104,8 +105,10 @@ class EmptyPokeBallEntity(
             if (world.isServerSide()) {
                 super.onBlockHit(hitResult)
                 discard()
-                val player = this.owner as ServerPlayerEntity
-                if (!player.isCreative) dropItem(defaultItem)
+                val player = this.owner as? ServerPlayerEntity
+                if (player?.isCreative == false) {
+                    dropItem(defaultItem)
+                }
             }
         } else {
             setNoGravity(false)
@@ -177,6 +180,7 @@ class EmptyPokeBallEntity(
                     return drop()
                 }
                 capturingPokemon = pokemonEntity
+                pokemonEntity.busyLocks.add(this)
                 hitVelocity.set(velocity.normalize())
                 hitTargetPosition.set(hitResult.pos)
                 attemptCatch(pokemonEntity)
@@ -194,6 +198,9 @@ class EmptyPokeBallEntity(
         return
     }
 
+    override fun shouldSave(): Boolean {
+        return false
+    }
     override fun tick() {
         delegate.tick(this)
         entityProperties.forEach { it.checkForUpdate() }
@@ -206,7 +213,7 @@ class EmptyPokeBallEntity(
             }
 
             if (isOnGround && captureState.get() == CaptureState.FALL.ordinal.toByte()) {
-                capturingPokemon?.setPosition(pos)
+                capturingPokemon?.setPositionSafely(pos)
                 captureState.set(CaptureState.SHAKE.ordinal.toByte())
 
                 val captureResult = PokemonCobbled.captureCalculator.processCapture(owner as ServerPlayerEntity, capturingPokemon!!.pokemon, pokeBall)

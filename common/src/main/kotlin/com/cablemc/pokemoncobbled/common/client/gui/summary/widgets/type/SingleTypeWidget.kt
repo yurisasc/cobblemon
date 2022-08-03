@@ -4,6 +4,8 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
+import com.cablemc.pokemoncobbled.common.util.asTranslated
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
 
@@ -22,14 +24,15 @@ class SingleTypeWidget(
         // Render Type Name
         if (this.renderText) {
             pMatrixStack.push()
-            pMatrixStack.scale(0.35F, 0.35F, 0.35F)
-            drawCenteredText(
-                poseStack = pMatrixStack, font = CobbledResources.NOTO_SANS_BOLD,
+            drawScaledText(
+                matrixStack = pMatrixStack,
                 text = type.displayName,
-                x = (x + 34) / 0.35F, y = y / 0.35F + 5.75,
-                colour = ColourLibrary.WHITE, shadow = false
+                x = x + 35.5F, y = y + 3F,
+                colour = ColourLibrary.WHITE, shadow = false,
+                centered = true,
+                maxCharacterWidth = 40,
+                scale = 0.6F
             )
-            pMatrixStack.pop()
         }
     }
 }

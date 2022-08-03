@@ -268,6 +268,8 @@ open class Pokemon {
     var caughtBall: PokeBall = PokeBalls.POKE_BALL
         set(value) { field = value ; _caughtBall.emit(caughtBall.name.toString()) }
     var features = mutableListOf<SpeciesFeature>()
+
+    fun asRenderablePokemon() = RenderablePokemon(species, aspects)
     var aspects = setOf<String>()
         set(value) {
             if (field != value) {

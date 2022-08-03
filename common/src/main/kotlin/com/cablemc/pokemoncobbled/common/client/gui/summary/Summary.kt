@@ -165,7 +165,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
         modelWidget = ModelWidget(
             pX = x + 183, pY = y + 24,
             pWidth = 102, pHeight = 100,
-            pokemon = currentPokemon
+            pokemon = currentPokemon.asRenderablePokemon()
         )
         addDrawableChild(
             modelWidget
@@ -185,7 +185,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
         moveSetSubscription?.unsubscribe()
         listenToMoveSet()
         switchTo(currentPageIndex)
-        modelWidget.pokemon = currentPokemon
+        modelWidget.pokemon = currentPokemon.asRenderablePokemon()
     }
 
     private var moveSetSubscription: ObservableSubscription<MoveSet>? = null

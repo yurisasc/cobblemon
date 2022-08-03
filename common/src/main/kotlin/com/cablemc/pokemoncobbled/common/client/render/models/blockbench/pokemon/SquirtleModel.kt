@@ -21,7 +21,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val portraitTranslation = Vec3d(0.0, 0.10, 0.0)
 
     override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileTranslation = Vec3d(-0.0, 0.2, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var swimIdle: PokemonPose
