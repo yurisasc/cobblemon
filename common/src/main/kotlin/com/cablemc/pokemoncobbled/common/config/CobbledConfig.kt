@@ -1,12 +1,9 @@
 package com.cablemc.pokemoncobbled.common.config
 
 import com.cablemc.pokemoncobbled.common.api.drop.ItemDropMethod
-import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
-import com.cablemc.pokemoncobbled.common.config.starter.StarterCategory
 import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.pokemonPropertiesShortAdapter
 import com.google.gson.GsonBuilder
 
 class CobbledConfig {
