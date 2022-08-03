@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.client.gui
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
-import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
@@ -13,7 +12,6 @@ import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
-import kotlin.math.min
 import kotlin.math.roundToInt
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.hud.InGameHud
@@ -54,8 +52,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
         val panelX = 0
         val party = PokemonCobbledClient.storage.myParty
         if (party.slots.none { it != null }) {
-
-            if (!PokemonCobbledClient.clientPlayerData.starterLocked && !PokemonCobbledClient.clientPlayerData.starterSelected) {
+            if (!PokemonCobbledClient.clientPlayerData.starterLocked && !PokemonCobbledClient.clientPlayerData.starterSelected && !PokemonCobbledClient.checkedStarterScreen) {
                 drawScaledText(
                     matrixStack = matrixStack,
                     text = lang("ui.starter.chooseyourstarter", PokeNavigatorBinding.currentKey().localizedText),
