@@ -1,6 +1,10 @@
 package com.cablemc.pokemoncobbled.common.client.keybind
 
-import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.*
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.DownShiftPartyBinding
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBinding
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PokeNavigatorBinding
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.UpShiftPartyBinding
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 
 /**

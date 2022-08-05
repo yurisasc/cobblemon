@@ -106,5 +106,4 @@ class CobbledConfig {
 
     @NodeCategory(Category.Healing)
     var healTimer = 60
-
 }

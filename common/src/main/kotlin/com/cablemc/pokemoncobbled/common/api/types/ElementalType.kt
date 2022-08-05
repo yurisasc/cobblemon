@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.types
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import net.minecraft.text.Text
+import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
 /**
@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier
  */
 class ElementalType(
     val name: String,
-    val displayName: Text,
+    val displayName: MutableText,
     val hue: Int,
     val textureXMultiplier: Int,
     val resourceLocation: Identifier = Identifier(PokemonCobbled.MODID, "ui/types.png")

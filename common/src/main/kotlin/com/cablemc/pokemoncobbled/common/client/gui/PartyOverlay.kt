@@ -4,7 +4,9 @@ import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
+import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.HidePartyBinding
+import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -43,12 +45,28 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
             return
         }
         // Hiding if toggled via Keybind
-        if (HidePartyBinding.shouldHide)
+        if (HidePartyBinding.shouldHide) {
             return
+        }
 
         val panelX = 0
         val party = PokemonCobbledClient.storage.myParty
         if (party.slots.none { it != null }) {
+            if (PokemonCobbledClient.clientPlayerData.promptStarter &&
+                !PokemonCobbledClient.clientPlayerData.starterLocked &&
+                !PokemonCobbledClient.clientPlayerData.starterSelected &&
+                !PokemonCobbledClient.checkedStarterScreen
+            ) {
+                drawScaledText(
+                    matrixStack = matrixStack,
+                    text = lang("ui.starter.chooseyourstarter", PokeNavigatorBinding.currentKey().localizedText),
+                    x = minecraft.window.scaledWidth / 2,
+                    y = 70,
+                    centered = true,
+                    shadow = true
+                )
+            }
+
             return
         }
 
@@ -159,15 +177,13 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 )
 
                 val fontScale = 0.5F
-                val horizontalScale = fontScale * 1F
 
                 drawScaledText(
                     matrixStack = matrixStack,
                     text = pokemon.species.translatedName,
                     x = panelX + 2.5F,
                     y = startY + slotHeight * index + slotHeight * 0.84F - 1F,
-                    scaleX = fontScale,
-                    scaleY = horizontalScale
+                    scale = fontScale
                 )
 
                 drawScaledText(
@@ -175,8 +191,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                     text = lang("ui.lv"),
                     x = panelX + 2.5F,
                     y = startY + slotHeight * index + slotHeight * 0.84F - 10.75F,
-                    scaleX = 0.4F,
-                    scaleY = 0.4F
+                    scale = 0.4F
                 )
 
                 val width = minecraft.textRenderer.getWidth(pokemon.level.toString())
@@ -185,8 +200,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                     text = TranslatableText(pokemon.level.toString()),
                     x = panelX + 6.5F - width / 4F,
                     y = startY + slotHeight * index + slotHeight * 0.84F - 7F,
-                    scaleX = 0.45F,
-                    scaleY = 0.45F
+                    scale = 0.45F
                 )
 
                 val stateIcon = pokemon.state.getIcon(pokemon)

@@ -4,8 +4,10 @@ import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
 import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cablemc.pokemoncobbled.common.net.serverhandling.evolution.EvolutionDisplayUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.battle.BattleSelectActionsHandler
+import com.cablemc.pokemoncobbled.common.net.serverhandling.starter.RequestStarterScreenHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.BenchMoveHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.RequestMoveSwapHandler
+import com.cablemc.pokemoncobbled.common.net.serverhandling.starter.SelectStarterPacketHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.party.MovePartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.party.SwapPartyPokemonHandler
@@ -32,6 +34,7 @@ object ServerPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(ChallengeHandler)
         registerHandler<AcceptEvolutionPacket>(EvolutionDisplayUpdatePacketHandler())
         registerHandler(BattleSelectActionsHandler)
+        registerHandler(SelectStarterPacketHandler)
 
         // PC actions
         registerHandler(MovePCPokemonHandler)
@@ -42,5 +45,7 @@ object ServerPacketRegistrar : SidedPacketRegistrar() {
         // Party actions
         registerHandler(MovePartyPokemonHandler)
         registerHandler(SwapPartyPokemonHandler)
+
+        registerHandler(RequestStarterScreenHandler)
     }
 }

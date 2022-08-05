@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.item
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.item.CobbledItemGroups.POKE_BALL_GROUP
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
+import com.cablemc.pokemoncobbled.common.util.isServerSide
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
@@ -18,7 +19,7 @@ class PokeBallItem(
 
     override fun use(world: World, player: PlayerEntity, usedHand: Hand): TypedActionResult<ItemStack> {
         val itemStack = player.getStackInHand(usedHand)
-        if (!world.isClient) {
+        if (world.isServerSide()) {
             throwPokeBall(world, player as ServerPlayerEntity)
         }
         if (!player.abilities.creativeMode) {
