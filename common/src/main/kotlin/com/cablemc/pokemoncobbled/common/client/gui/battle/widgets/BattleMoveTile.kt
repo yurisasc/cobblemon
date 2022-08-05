@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.common.client.gui.battle.widgets
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.battles.InBattleMove
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.battle.ActiveClientBattlePokemon
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.TypeWidget
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
@@ -51,7 +50,6 @@ class BattleMoveTile(
 
         drawScaledText(
             matrixStack = matrices,
-            font = CobbledResources.NOTO_SANS_BOLD_SMALL,
             text = moveName,
             x = x + 20,
             y = y + 5

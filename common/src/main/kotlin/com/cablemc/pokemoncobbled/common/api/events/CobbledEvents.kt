@@ -12,6 +12,7 @@ import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionDisplayEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
+import com.cablemc.pokemoncobbled.common.api.events.starter.StarterChosenEvent
 import com.cablemc.pokemoncobbled.common.api.reactive.CancelableObservable
 import com.cablemc.pokemoncobbled.common.api.reactive.EventObservable
 import com.cablemc.pokemoncobbled.common.util.asObservable
@@ -41,6 +42,7 @@ object CobbledEvents {
     val EXPERIENCE_CANDY_USE_POST = EventObservable<ExperienceCandyUseEvent.Post>()
 
     val LOOT_DROPPED = CancelableObservable<LootDroppedEvent>()
+    val STARTER_CHOSEN = CancelableObservable<StarterChosenEvent>()
 
     val SERVER_STARTING = LifecycleEvent.SERVER_STARTING.asServerObservable()
     val SERVER_STOPPING = LifecycleEvent.SERVER_STOPPING.asServerObservable()

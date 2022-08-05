@@ -11,6 +11,7 @@ import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves.MovesWidget
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
@@ -161,9 +162,8 @@ class MoveSwitchPane(
             poseStack.push()
             val textScale = 0.6F
             poseStack.scale(textScale, textScale, 1F)
-            drawText(
-                poseStack = poseStack,
-                font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+            drawScaledText(
+                matrixStack = poseStack,
                 text = move.displayName,
                 x = (rowLeft + 37) / textScale,
                 y = (rowTop + 4) / textScale,
@@ -176,13 +176,13 @@ class MoveSwitchPane(
             val labelTextScale = 0.5F
             val labelY = rowTop + 13
             poseStack.scale(labelTextScale, labelTextScale, 1F)
-            drawCenteredText(
-                poseStack = poseStack,
-                font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+            drawScaledText(
+                matrixStack = poseStack,
                 text = (if (move.power == 0.0) "—" else move.power.toInt().toString()).text(),
                 x = (rowLeft + 30) / labelTextScale,
                 y = labelY / labelTextScale,
-                colour = 0xFFFFFF
+                colour = 0xFFFFFF,
+                centered = true
             )
 
             fun format(input: Double): String = if (input == -1.0 || input == 0.0) {
@@ -190,29 +190,29 @@ class MoveSwitchPane(
             } else {
                 "${df.format(input)}%"
             }
-            drawCenteredText(
-                poseStack = poseStack,
-                font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+            drawScaledText(
+                matrixStack = poseStack,
                 text = format(move.accuracy).text(),
                 x = (rowLeft + 49) / labelTextScale,
                 y = labelY / labelTextScale,
-                colour = 0xFFFFFF
+                colour = 0xFFFFFF,
+                centered = true
             )
-            drawCenteredText(
-                poseStack = poseStack,
-                font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+            drawScaledText(
+                matrixStack = poseStack,
                 text = format(move.effectChance).text(),
                 x = (rowLeft + 67) / labelTextScale,
                 y = labelY / labelTextScale,
-                colour = 0xFFFFFF
+                colour = 0xFFFFFF,
+                centered = true
             )
-            drawCenteredText(
-                poseStack = poseStack,
-                font = CobbledResources.NOTO_SANS_BOLD_SMALL,
+            drawScaledText(
+                matrixStack = poseStack,
                 text = pp.toString().text(),
                 x = (rowLeft + 85) / labelTextScale,
                 y = labelY / labelTextScale,
-                colour = 0xFFFFFF
+                colour = 0xFFFFFF,
+                centered = true
             )
             poseStack.pop()
         }

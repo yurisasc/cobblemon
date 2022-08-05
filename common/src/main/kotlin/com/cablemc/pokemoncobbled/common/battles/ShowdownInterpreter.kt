@@ -489,18 +489,22 @@ object ShowdownInterpreter {
         (pokemonEntity?.recallWithAnimation() ?: CompletableFuture.completedFuture(Unit)).thenApply {
             // Queue actual swap and send-in after the animation has ended
             actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(newPokemon))
-            val lastPosition = activePokemon.position
-            // Send out at previous Pokémon's location if it is known, otherwise actor location
-            val world = lastPosition?.first ?: entity.world as ServerWorld
-            val pos = lastPosition?.second ?: entity.pos
             activePokemon.battlePokemon = newPokemon
             battle.sendUpdate(BattleSwitchPokemonPacket(pnx, newPokemon))
-            newPokemon.effectedPokemon.sendOutWithAnimation(
-                source = entity,
-                battleId = battle.battleId,
-                level = world,
-                position = pos
-            ).thenAccept { sendOutFuture.complete(Unit) }
+            if (newPokemon.entity != null) {
+                sendOutFuture.complete(Unit)
+            } else {
+                val lastPosition = activePokemon.position
+                // Send out at previous Pokémon's location if it is known, otherwise actor location
+                val world = lastPosition?.first ?: entity.world as ServerWorld
+                val pos = lastPosition?.second ?: entity.pos
+                newPokemon.effectedPokemon.sendOutWithAnimation(
+                    source = entity,
+                    battleId = battle.battleId,
+                    level = world,
+                    position = pos
+                ).thenAccept { sendOutFuture.complete(Unit) }
+            }
         }
 
         return UntilDispatch { sendOutFuture.isDone }
@@ -535,7 +539,7 @@ object ShowdownInterpreter {
                 }
             }
             battle.sendUpdate(BattleHealthChangePacket(pnx, newHealthRatio))
-            WaitDispatch(1.5F)
+            WaitDispatch(1F)
         }
     }
 

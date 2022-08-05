@@ -44,6 +44,10 @@ object BattleBuilder {
                 )
             }
 
+            if (pokemonEntity.isBusy) {
+                errors.participantErrors[playerActor] += BattleStartError.targetIsBusy(wildActor.getName())
+            }
+
             if (BattleRegistry.getBattleByParticipatingPlayer(player) != null) {
                 errors.participantErrors[actor] += BattleStartError.alreadyInBattle(player)
             }
@@ -135,6 +139,8 @@ interface BattleStartError {
         fun alreadyInBattle(player: ServerPlayerEntity) = AlreadyInBattleError(player.uuid, player.displayName)
         fun alreadyInBattle(pokemonEntity: PokemonEntity) = AlreadyInBattleError(pokemonEntity.uuid, pokemonEntity.displayName)
         fun alreadyInBattle(actor: BattleActor) = AlreadyInBattleError(actor.uuid, actor.getName())
+
+        fun targetIsBusy(targetName: MutableText) = BusyError(targetName)
         fun insufficientPokemon(
             player: ServerPlayerEntity,
             requiredCount: Int,
@@ -181,6 +187,12 @@ class AlreadyInBattleError(
             battleLang("error.in_battle", name)
         }
     }
+}
+
+class BusyError(
+    val targetName: MutableText
+): BattleStartError {
+    override fun getMessageFor(entity: Entity) = battleLang("errors.busy", targetName)
 }
 
 open class BattleActorErrors : HashMap<BattleActor, MutableSet<BattleStartError>>() {

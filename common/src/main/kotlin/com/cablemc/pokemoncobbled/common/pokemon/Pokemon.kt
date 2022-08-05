@@ -115,6 +115,26 @@ open class Pokemon {
     var ivs = IVs.createRandomIVs()
     var evs = EVs.createEmpty()
 
+    var level = 1
+        set(value) {
+            if (value < 1) {
+                throw IllegalArgumentException("Level cannot be negative")
+            }
+
+            val hpRatio = (currentHealth / hp.toFloat()).coerceIn(0F, 1F)
+            /*
+             * When people set the level programmatically the experience value will become incorrect.
+             * Specifically check for when there's a mismatch and update the experience.
+             */
+            field = value
+            if (experienceGroup.getLevel(experience) != value) {
+                experience = experienceGroup.getExperience(value)
+            }
+            _level.emit(value)
+
+            currentHealth = ceil(hpRatio * hp).coerceIn(0..hp)
+        }
+
     var currentHealth = this.hp
         set(value) {
             if (value == field) {
@@ -155,25 +175,6 @@ open class Pokemon {
         set(value) {
             field = value
             this._status.emit(value?.status?.name?.toString() ?: "")
-        }
-    var level = 1
-        set(value) {
-            if (value < 1) {
-                throw IllegalArgumentException("Level cannot be negative")
-            }
-
-            val hpRatio = (currentHealth / hp.toFloat()).coerceIn(0F, 1F)
-            /*
-             * When people set the level programmatically the experience value will become incorrect.
-             * Specifically check for when there's a mismatch and update the experience.
-             */
-            field = value
-            if (experienceGroup.getLevel(experience) != value) {
-                experience = experienceGroup.getExperience(value)
-            }
-            _level.emit(value)
-
-            currentHealth = ceil(hpRatio * hp).coerceIn(0..hp)
         }
     var experience = 0
         protected set(value) {
@@ -265,6 +266,8 @@ open class Pokemon {
     var caughtBall: PokeBall = PokeBalls.POKE_BALL
         set(value) { field = value ; _caughtBall.emit(caughtBall.name.toString()) }
     var features = mutableListOf<SpeciesFeature>()
+
+    fun asRenderablePokemon() = RenderablePokemon(species, aspects)
     var aspects = setOf<String>()
         set(value) {
             if (field != value) {

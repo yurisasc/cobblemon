@@ -3,10 +3,13 @@ package com.cablemc.pokemoncobbled.common.client.gui.pokenav
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
+import com.cablemc.pokemoncobbled.common.api.text.bold
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
@@ -17,25 +20,22 @@ open class PokeNavImageButton(
     pXTexStart: Int, pYTexStart: Int, pYDiffText: Int,
     private val resourceLocation: Identifier, pTextureWidth: Int, pTextureHeight: Int,
     onPress: PressAction,
-    private val text: Text,
+    private val text: MutableText,
     private val canClick: () -> Boolean = { true }
 ): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, resourceLocation, pTextureWidth, pTextureHeight, onPress) {
 
     override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         // Render Button Image
         this.applyBlitk(pMatrixStack, pMouseX, pMouseY, pPartialTicks)
-        pMatrixStack.push()
-        val scale = 0.5F
-        pMatrixStack.scale(scale, scale, scale)
         // Draw Text
-        drawCenteredText(
-            poseStack = pMatrixStack,
-            font = CobbledResources.NOTO_SANS_BOLD,
-            text = text,
-            x = (x + width / 2) / scale, y = (y + height + 3) / scale,
-            colour = ColourLibrary.WHITE, shadow = false
+        drawScaledText(
+            matrixStack = pMatrixStack,
+            font = CobbledResources.DEFAULT_LARGE,
+            text = text.bold(),
+            x = x + width / 2, y = y + height + 3,
+            colour = ColourLibrary.WHITE, shadow = false,
+            centered = true
         )
-        pMatrixStack.pop()
     }
 
     fun canClick() = this.canClick.invoke()

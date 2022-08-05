@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Gender
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.RenderablePokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.isInt
 import com.google.gson.JsonArray
@@ -137,7 +138,7 @@ open class PokemonProperties {
                     if (pair.second == null && pair.first.lowercase() == "random") {
                         species = "random"
                     } else {
-                        species = PokemonSpecies.species.firstOrNull { it.name.lowercase() == pair.first }?.name
+                        species = PokemonSpecies.species.firstOrNull { it.name.lowercase() == pair.first.lowercase() }?.name
                     }
                     return@find species != null
                 }
@@ -200,6 +201,11 @@ open class PokemonProperties {
     var aspects: Set<String> = emptySet()
 
     var customProperties = mutableListOf<CustomPokemonProperty>()
+
+    fun asRenderablePokemon() = RenderablePokemon(
+        species = species?.let { PokemonSpecies.getByName(it) } ?: PokemonSpecies.EEVEE,
+        aspects = aspects
+    )
 
     fun apply(pokemon: Pokemon) {
         level?.let { pokemon.level = it }

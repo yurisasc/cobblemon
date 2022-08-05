@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
 import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PokeNavigatorBinding
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import net.minecraft.client.MinecraftClient
@@ -13,6 +14,7 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
@@ -53,10 +55,10 @@ class PokeNav : Screen(TranslatableText("pokemoncobbled.ui.pokenav.title")) {
     override fun init() {
         this.buttons.clear()
         // Pokemon Button
-        this.insertButton(pokemon, this::onPressPokemon, TranslatableText("pokemoncobbled.ui.pokemon")) { PokemonCobbledClient.storage.myParty.slots.filterNotNull().isNotEmpty() }
+        this.insertButton(pokemon, this::onPressPokemon, lang("ui.pokemon")) { PokemonCobbledClient.storage.myParty.slots.filterNotNull().isNotEmpty() }
 
         // EXIT Button
-        this.insertButton(exit, this::onPressExit, TranslatableText("pokemoncobbled.ui.exit"))
+        this.insertButton(exit, this::onPressExit, lang("ui.exit"))
 
         this.buttons.values().forEach { button ->
             addDrawableChild(button)
@@ -278,7 +280,7 @@ class PokeNav : Screen(TranslatableText("pokemoncobbled.ui.pokenav.title")) {
     private fun insertButton(
         identifier: Identifier,
         onPress: ButtonWidget.PressAction,
-        text: Text,
+        text: MutableText,
         canClick: () -> Boolean = { true }
     ) {
         val insertion = this.findNextInsertion()

@@ -42,7 +42,7 @@ class SummaryButton(
         // Draw Text
         com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText(
             poseStack = poseStack,
-            font = CobbledResources.NOTO_SANS_BOLD,
+            font = CobbledResources.DEFAULT_LARGE,
             text = this.text,
             x = (this.buttonX + (buttonWidth.toFloat() * this.buttonScale) / 2) / this.textScale, y = (buttonY + ((this.buttonHeight.toFloat() * this.buttonScale) * .25F)) / this.textScale,
             colour = if (this.hoverColorRequirement.invoke(this)) ColourLibrary.BUTTON_HOVER_COLOUR else ColourLibrary.WHITE,

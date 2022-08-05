@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render
 
 import com.cablemc.pokemoncobbled.common.api.gui.drawText
+import com.cablemc.pokemoncobbled.common.api.text.font
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.OverlayTexture
@@ -63,9 +64,9 @@ fun drawScaledText(
     text: MutableText,
     x: Number,
     y: Number,
-    scaleX: Float = 1F,
-    scaleY: Float = 1F,
+    scale: Float = 1F,
     opacity: Number = 1F,
+    maxCharacterWidth: Int = Int.MAX_VALUE,
     colour: Int = 0x00FFFFFF + ((opacity.toFloat() * 255).toInt() shl 24),
     centered: Boolean = false,
     shadow: Boolean = false
@@ -73,14 +74,19 @@ fun drawScaledText(
     if (opacity.toFloat() < 0.05F) {
         return
     }
+
+    val textWidth = MinecraftClient.getInstance().textRenderer.getWidth(if (font != null) text.font(font) else text)
+    val extraScale = if (textWidth < maxCharacterWidth) 1F else (maxCharacterWidth / textWidth.toFloat())
+    val fontHeight = if (font == null) 5 else 6
+
     matrixStack.push()
-    matrixStack.scale(scaleX, scaleY, 1F)
+    matrixStack.scale(scale * extraScale, scale * extraScale, 1F)
     drawText(
         poseStack = matrixStack,
         font = font,
         text = text,
-        x = x.toFloat() / scaleX,
-        y = y.toFloat() / scaleY,
+        x = x.toFloat() / (scale * extraScale),
+        y = y.toFloat() / (scale * extraScale) + (1 - extraScale) * fontHeight * scale,
         centered = centered,
         colour = colour,
         shadow = shadow

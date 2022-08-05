@@ -27,7 +27,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val portraitTranslation = Vec3d(-0.4, 1.6, 0.0)
 
     override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.73, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.68, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

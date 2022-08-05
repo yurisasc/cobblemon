@@ -1,9 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.gui.pokenav
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
 
 class PokeNavFillerButton(
     posX: Int, posY: Int,
@@ -11,7 +11,7 @@ class PokeNavFillerButton(
     pWidth: Int, pHeight: Int,
     pXTexStart: Int, pYTexStart: Int, pYDiffText: Int,
     pTextureWidth: Int, pTextureHeight: Int
-): PokeNavImageButton(posX, posY, pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, FILLER, pTextureWidth, pTextureHeight, {}, LiteralText.EMPTY) {
+): PokeNavImageButton(posX, posY, pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, FILLER, pTextureWidth, pTextureHeight, {}, "".text()) {
 
     override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         this.applyBlitk(pMatrixStack, pMouseX, pMouseY, pPartialTicks)

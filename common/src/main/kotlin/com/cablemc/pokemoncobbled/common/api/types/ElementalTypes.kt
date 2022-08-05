@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.types
 
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 import net.minecraft.text.TranslatableText
 
@@ -136,7 +137,7 @@ object ElementalTypes {
         textureXMultiplier = 17
     )
 
-    fun register(name: String, displayName: Text, hue: Int, textureXMultiplier: Int): ElementalType {
+    fun register(name: String, displayName: MutableText, hue: Int, textureXMultiplier: Int): ElementalType {
         return ElementalType(
             name = name,
             displayName = displayName,
