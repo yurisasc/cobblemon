@@ -716,7 +716,7 @@ open class Pokemon {
         val result = addExperience(xp)
         if (result.oldLevel != result.newLevel) {
             player.sendServerMessage(lang("experience.level_up", species.translatedName, result.newLevel))
-            when(GetFriendshipSpan()){
+            when(getFriendshipSpan()){
                 1 -> incrementFriendship(5)
                 2 -> incrementFriendship(4)
                 3 -> incrementFriendship(3)
@@ -848,7 +848,7 @@ open class Pokemon {
         var FRIENDSHIP_RANGE = 0..255
     }
 
-    fun GetFriendshipSpan(): Int{
+    fun getFriendshipSpan(): Int{
         /*
             Used to figure out how much friendship should be gained/lost.
             The amount gained/lost can vary depending on current friendship
