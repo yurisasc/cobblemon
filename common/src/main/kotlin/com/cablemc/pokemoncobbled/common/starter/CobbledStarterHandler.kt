@@ -5,7 +5,6 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.starter.StarterChosenEvent
 import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.text.red
-import com.cablemc.pokemoncobbled.common.config.starter.StarterCategory
 import com.cablemc.pokemoncobbled.common.net.messages.client.starter.OpenStarterUIPacket
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
@@ -23,6 +22,8 @@ open class CobbledStarterHandler : StarterHandler {
             player.sendServerMessage(lang("ui.starter.cannotchoose").red())
         } else {
             OpenStarterUIPacket(getStarterList(player)).sendToPlayer(player)
+            playerData.starterPrompted = true
+            PokemonCobbled.playerData.saveSingle(playerData)
         }
     }
 

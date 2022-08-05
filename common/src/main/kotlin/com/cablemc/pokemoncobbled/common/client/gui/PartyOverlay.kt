@@ -52,7 +52,11 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
         val panelX = 0
         val party = PokemonCobbledClient.storage.myParty
         if (party.slots.none { it != null }) {
-            if (!PokemonCobbledClient.clientPlayerData.starterLocked && !PokemonCobbledClient.clientPlayerData.starterSelected && !PokemonCobbledClient.checkedStarterScreen) {
+            if (PokemonCobbledClient.clientPlayerData.promptStarter &&
+                !PokemonCobbledClient.clientPlayerData.starterLocked &&
+                !PokemonCobbledClient.clientPlayerData.starterSelected &&
+                !PokemonCobbledClient.checkedStarterScreen
+            ) {
                 drawScaledText(
                     matrixStack = matrixStack,
                     text = lang("ui.starter.chooseyourstarter", PokeNavigatorBinding.currentKey().localizedText),

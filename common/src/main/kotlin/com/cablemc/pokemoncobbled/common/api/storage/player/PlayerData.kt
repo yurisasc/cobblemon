@@ -3,12 +3,12 @@ package com.cablemc.pokemoncobbled.common.api.storage.player
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendPacket
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.net.messages.client.starter.SetClientPlayerDataPacket
-import com.cablemc.pokemoncobbled.common.util.getPlayer
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 
 data class PlayerData(
     val uuid: UUID,
+    var starterPrompted: Boolean,
     var starterLocked: Boolean,
     var starterSelected: Boolean,
     var starterUUID: UUID?,
@@ -20,11 +20,12 @@ data class PlayerData(
 
     companion object {
         fun default(forPlayer: UUID) = PlayerData(
-            forPlayer,
-            !PokemonCobbled.starterConfig.allowStarterOnJoin,
-            false,
-            null,
-            mutableMapOf()
+            uuid = forPlayer,
+            starterPrompted = false,
+            starterLocked = !PokemonCobbled.starterConfig.allowStarterOnJoin,
+            starterSelected =  false,
+            starterUUID =  null,
+            extraData = mutableMapOf()
         )
     }
 }

@@ -8,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.starter.SetClientPl
 object SetClientPlayerDataHandler : ClientPacketHandler<SetClientPlayerDataPacket> {
     override fun invokeOnClient(packet: SetClientPlayerDataPacket, ctx: CobbledNetwork.NetworkContext) {
         PokemonCobbledClient.clientPlayerData = ClientPlayerData(
+            promptStarter = packet.promptStarter,
             starterLocked = packet.starterLocked,
             starterSelected = packet.starterSelected,
             starterUUID = packet.starterUUID

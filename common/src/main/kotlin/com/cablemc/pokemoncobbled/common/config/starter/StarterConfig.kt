@@ -19,6 +19,9 @@ class StarterConfig {
     var allowStarterOnJoin = true
 
     @NodeCategory(Category.Starter)
+    var promptStarterOnceOnly = false
+
+    @NodeCategory(Category.Starter)
     var starters = mutableListOf(
         StarterCategory(
             name = "Kanto",

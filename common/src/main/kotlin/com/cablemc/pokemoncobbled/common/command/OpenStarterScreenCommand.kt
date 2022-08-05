@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.command
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendPacket
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.net.messages.client.starter.OpenStarterUIPacket
 import com.cablemc.pokemoncobbled.common.util.lang
@@ -38,6 +37,8 @@ object OpenStarterScreenCommand {
             playerData.starterLocked = false
             playerData.sendToPlayer(player)
         }
+        playerData.starterPrompted = true
+        PokemonCobbled.playerData.saveSingle(playerData)
         player.sendPacket(OpenStarterUIPacket(PokemonCobbled.starterHandler.getStarterList(player)))
         return SINGLE_SUCCESS
     }
