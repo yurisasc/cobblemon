@@ -5,7 +5,6 @@ import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.drop.CommandDropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.ItemDropEntry
-import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.data.DataProvider
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_JOIN
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
@@ -65,7 +64,6 @@ import com.cablemc.pokemoncobbled.common.world.CobbledGameRules
 import com.cablemc.pokemoncobbled.common.worldgen.CobbledWorldgen
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
-import dev.architectury.registry.ReloadListenerRegistry
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
