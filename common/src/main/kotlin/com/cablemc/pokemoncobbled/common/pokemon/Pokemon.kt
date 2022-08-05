@@ -150,10 +150,12 @@ open class Pokemon {
 
             // If the Pokémon is fainted, give it a timer for it to wake back up
             if (this.isFainted()) {
+                decrementFriendship(1)
                 val faintTime = PokemonCobbled.config.defaultFaintTimer
                 POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
                     this.faintedTimer = it.faintedTimer
                 }
+
             }
         }
     var gender = Gender.GENDERLESS
@@ -714,6 +716,11 @@ open class Pokemon {
         val result = addExperience(xp)
         if (result.oldLevel != result.newLevel) {
             player.sendServerMessage(lang("experience.level_up", species.translatedName, result.newLevel))
+            when(getFriendshipSpan()){
+                1 -> incrementFriendship(5)
+                2 -> incrementFriendship(4)
+                3 -> incrementFriendship(3)
+            }
             result.newMoves.forEach {
                 player.sendServerMessage(lang("experience.learned_move", species.translatedName, it.displayName))
             }
@@ -839,5 +846,23 @@ open class Pokemon {
 
     companion object {
         var FRIENDSHIP_RANGE = 0..255
+    }
+
+    fun getFriendshipSpan(): Int{
+        /*
+            Used to figure out how much friendship should be gained/lost.
+            The amount gained/lost can vary depending on current friendship
+            Refer to https://bulbapedia.bulbagarden.net/wiki/Friendship#Generation_VII
+         */
+        if(friendship in 0..99){
+            return 1
+        }
+        else if(friendship in 100..199){
+            return 2
+        }
+        else if(friendship in 200..255){
+            return 3
+        }
+        return 0
     }
 }
