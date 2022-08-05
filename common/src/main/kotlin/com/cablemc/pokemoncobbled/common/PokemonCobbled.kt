@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.drop.CommandDropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.ItemDropEntry
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
+import com.cablemc.pokemoncobbled.common.api.data.DataProvider
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_JOIN
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
@@ -44,6 +45,7 @@ import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgum
 import com.cablemc.pokemoncobbled.common.command.argument.SpawnBucketArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
+import com.cablemc.pokemoncobbled.common.data.CobbledDataProvider
 import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
@@ -92,6 +94,7 @@ object PokemonCobbled {
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
     val bestSpawner = BestSpawner
     var storage = PokemonStoreManager()
+    val dataProvider: DataProvider = CobbledDataProvider
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
@@ -139,8 +142,8 @@ object PokemonCobbled {
         /*
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
          */
-        // Register data pack stuff, the order this is declared will be load order provided the backing registry reloads synchronously.
-        PokemonSpecies.registerDataListener()
+        // Start up the data provider.
+        CobbledDataProvider.registerDefaults()
 
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()

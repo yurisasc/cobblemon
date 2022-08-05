@@ -5,8 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemoncobbled.common.api.ai.SleepDepth
 import com.cablemc.pokemoncobbled.common.api.conditional.RegistryLikeCondition
-import com.cablemc.pokemoncobbled.common.api.data.DataRegistry
-import com.cablemc.pokemoncobbled.common.api.data.SynchronousJsonResourceReloader
+import com.cablemc.pokemoncobbled.common.api.data.JsonDataRegistry
 import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.ItemDropMethod
 import com.cablemc.pokemoncobbled.common.api.entity.EntityDimensionsAdapter
@@ -20,10 +19,10 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.Evolu
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroupAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledEvolutionAdapter
@@ -37,18 +36,18 @@ import com.google.gson.reflect.TypeToken
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.resource.ResourceReloader
 import net.minecraft.resource.ResourceType
 import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
+import java.nio.file.Path
 import kotlin.io.path.Path
 
-object PokemonSpecies : DataRegistry {
+object PokemonSpecies : JsonDataRegistry<PokemonSpecies, Species> {
 
     override val id: Identifier = cobbledResource("species")
     override val type: ResourceType = ResourceType.SERVER_DATA
 
-    private val gson: Gson = GsonBuilder()
+    override val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Stat::class.java, StatAdapter)
         .registerTypeAdapter(ElementalType::class.java, ElementalTypeAdapter)
         .registerTypeAdapter(AbilityTemplate::class.java, AbilityTemplateAdapter)
@@ -75,9 +74,11 @@ object PokemonSpecies : DataRegistry {
         .enableComplexMapKeySerialization()
         .create()
 
-    private val typeToken: TypeToken<Species> = TypeToken.get(Species::class.java)
+    override val typeToken: TypeToken<Species> = TypeToken.get(Species::class.java)
 
-    override val reloader: ResourceReloader = SynchronousJsonResourceReloader.create(this.gson, Path("species"), this.typeToken, this::load)
+    override val resourcePath: Path = Path("species")
+
+    override val observable: SimpleObservable<PokemonSpecies> = SimpleObservable()
 
     private val speciesByIdentifier = hashMapOf<Identifier, Species>()
     private val speciesByDex = hashMapOf<Int, Species>()
@@ -168,7 +169,7 @@ object PokemonSpecies : DataRegistry {
      */
     fun random(): Species = this.species.random()
 
-    private fun load(data: Map<Identifier, Species>) {
+    override fun reload(data: Map<Identifier, Species>) {
         this.speciesByIdentifier.clear()
         this.speciesByDex.clear()
         data.forEach { (identifier, species) ->
@@ -185,7 +186,7 @@ object PokemonSpecies : DataRegistry {
             }
         }
         PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
-        // ToDo we need to queue a refresh of data attached to species such as models, dex entries, etc.
+        this.observable.emit(this)
     }
 
 }
