@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.common.net.messages.server
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
-import net.minecraft.network.PacketByteBuf
 import java.util.UUID
+import net.minecraft.network.PacketByteBuf
 
-class ChallengePacket() : NetworkPacket {
+class BattleChallengePacket() : NetworkPacket {
     var targetedEntityId: Int = -1
     lateinit var selectedPokemonId: UUID
 

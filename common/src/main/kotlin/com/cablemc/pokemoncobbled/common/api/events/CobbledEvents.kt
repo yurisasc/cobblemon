@@ -3,7 +3,10 @@ package com.cablemc.pokemoncobbled.common.api.events
 import com.cablemc.pokemoncobbled.common.api.events.drops.LootDroppedEvent
 import com.cablemc.pokemoncobbled.common.api.events.entity.EntityAttributeEvent
 import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.ExperienceGainedPostEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.ExperienceGainedPreEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.FriendshipUpdatedEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.LevelUpEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.PokemonFaintedEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
@@ -29,6 +32,11 @@ object CobbledEvents {
     val POKEMON_FAINTED = EventObservable<PokemonFaintedEvent>()
     val EVOLUTION_ACCEPTED = CancelableObservable<EvolutionAcceptedEvent>()
     val EVOLUTION_DISPLAY = EventObservable<EvolutionDisplayEvent>()
+
+    val LEVEL_UP_EVENT = EventObservable<LevelUpEvent>()
+
+    val EXPERIENCE_GAINED_EVENT_PRE = CancelableObservable<ExperienceGainedPreEvent>()
+    val EXPERIENCE_GAINED_EVENT_POST = EventObservable<ExperienceGainedPostEvent>()
     val EXPERIENCE_CANDY_USE_PRE = CancelableObservable<ExperienceCandyUseEvent.Pre>()
     val EXPERIENCE_CANDY_USE_POST = EventObservable<ExperienceCandyUseEvent.Post>()
 

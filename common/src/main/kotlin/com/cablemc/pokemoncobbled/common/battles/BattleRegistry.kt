@@ -2,21 +2,31 @@ package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
-import com.cablemc.pokemoncobbled.common.api.battles.model.actor.ActorType
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import java.time.Instant
 import java.util.Optional
-import net.minecraft.server.network.ServerPlayerEntity
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import net.minecraft.server.network.ServerPlayerEntity
 
 object BattleRegistry {
 
+    class BattleChallenge(
+        val challengedPlayerUUID: UUID,
+        var expiryTimeSeconds: Int = 60
+    ) {
+        val challengedTime = Instant.now()
+        fun isExpired() = Instant.now().isAfter(challengedTime.plusSeconds(expiryTimeSeconds.toLong()))
+    }
+
     val gson = GsonBuilder().disableHtmlEscaping().create()
     private val battleMap = ConcurrentHashMap<UUID, PokemonBattle>()
+    // Challenger to challenged
+    val pvpChallenges = mutableMapOf<UUID, BattleChallenge>()
 
     /**
      * Packs a team into the showdown format

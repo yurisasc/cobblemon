@@ -1,9 +1,11 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import java.util.UUID
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.entity.player.PlayerInventory
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.Util
@@ -11,10 +13,6 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3d
-import java.util.*
-import java.util.function.Predicate
-import net.minecraft.entity.player.PlayerInventory
-import net.minecraft.item.ItemStack
 
 // Stuff like getting their party
 fun ServerPlayerEntity.party() = PokemonCobbled.storage.getParty(this)
@@ -58,19 +56,22 @@ class EntityTraceResult<T : Entity>(
 fun <T : Entity> PlayerEntity.traceFirstEntityCollision(
     maxDistance: Float = 10F,
     stepDistance: Float = 0.05F,
-    entityClass: Class<T>
+    entityClass: Class<T>,
+    ignoreEntity: T? = null
 ): T? {
     return traceEntityCollision(
         maxDistance,
         stepDistance,
-        entityClass
+        entityClass,
+        ignoreEntity
     )?.let { it.entities.minByOrNull { it.distanceTo(this) } }
 }
 
 fun <T : Entity> PlayerEntity.traceEntityCollision(
     maxDistance: Float = 10F,
     stepDistance: Float = 0.05F,
-    entityClass: Class<T>
+    entityClass: Class<T>,
+    ignoreEntity: T? = null
 ): EntityTraceResult<T>? {
     var step = stepDistance
     val startPos = eyePos
@@ -87,10 +88,10 @@ fun <T : Entity> PlayerEntity.traceEntityCollision(
         val location = startPos.add(direction.multiply(step.toDouble()))
         step += stepDistance
 
-        val collided = entities.filter { location in it.boundingBox }.filterIsInstance(entityClass)
+        val collided = entities.filter { ignoreEntity != it && location in it.boundingBox }.filter { entityClass.isInstance(it) }
 
         if (collided.isNotEmpty()) {
-            return EntityTraceResult(location, collided)
+            return EntityTraceResult(location, collided.filterIsInstance(entityClass))
         }
     }
 

@@ -86,6 +86,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(BattleCaptureStartHandler)
         registerHandler(BattleCaptureShakeHandler)
         registerHandler(BattleCaptureEndHandler)
+        registerHandler(ChallengeNotificationHandler)
     }
 }
 
