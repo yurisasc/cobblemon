@@ -58,7 +58,7 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
     fun cleanExpression(value: String) =
         (if (value.startsWith("+")) value.substring(1) else value).let {
             if (it.startsWith("-(")) it.replaceFirst("-(", "-1*(") else it
-        }
+        }.replace("*+", "*")
 
     fun deserializeMolangBoneValue(array: JsonArray, transformation: Transformation): MolangBoneValue {
         try {
