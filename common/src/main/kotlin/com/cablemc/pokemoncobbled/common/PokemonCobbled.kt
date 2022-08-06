@@ -91,6 +91,15 @@ object PokemonCobbled {
     var captureCalculator: CaptureCalculator = Gen7CaptureCalculator
     var experienceCalculator: ExperienceCalculator = StandardExperienceCalculator
     var starterHandler: StarterHandler = CobbledStarterHandler()
+        set(value) {
+            if (field is CobbledStarterHandler) {
+                CobbledStarterHandler.replaced = true
+            }
+            field = value
+            if (value is CobbledStarterHandler) {
+                CobbledStarterHandler.replaced = false
+            }
+        }
     var isDedicatedServer = false
     var showdownThread = ShowdownThread()
     lateinit var config: CobbledConfig
@@ -112,8 +121,10 @@ object PokemonCobbled {
         Moves.load()
         LOGGER.info("Loaded ${Moves.count()} Moves.")
 
+        /*
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
         LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
+         */
 
         this.loadConfig()
         this.implementation = implementation

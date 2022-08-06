@@ -1,7 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.data
 
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
-import java.nio.file.Path
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
 import net.minecraft.util.Identifier
@@ -25,11 +24,6 @@ interface DataRegistry {
     val type: ResourceType
 
     /**
-     * The [Path] for the data this registry will consume.
-     */
-    val resourcePath: Path
-
-    /**
      * An observable that emits whenever this registry has finished reloading.
      */
     val observable: SimpleObservable<out DataRegistry>
@@ -40,12 +34,5 @@ interface DataRegistry {
      * @param manager The newly updated [ResourceManager]
      */
     fun reload(manager: ResourceManager)
-
-    /*
-    fun registerDataListener() {
-        ReloadListenerRegistry.register(this.type, this.reloader)
-        PokemonCobbled.LOGGER.info("Registered {} DataRegistry", this.id.toString())
-    }
-     */
 
 }
