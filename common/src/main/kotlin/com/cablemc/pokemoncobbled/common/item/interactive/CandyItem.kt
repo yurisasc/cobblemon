@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.item.interactive
 
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.CandyExperienceSource
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.item.CobbledItemGroups
 import com.cablemc.pokemoncobbled.common.item.interactive.CandyItem.Calculator
@@ -30,7 +31,8 @@ class CandyItem(
             ifSucceeded = { preEvent ->
                 val finalExperience = preEvent.experienceYield
                 CobbledEvents.EXPERIENCE_CANDY_USE_POST.post(ExperienceCandyUseEvent.Post(player, pokemon, this, finalExperience))
-                pokemon.addExperienceWithPlayer(player, finalExperience)
+                val source = CandyExperienceSource(player, stack)
+                pokemon.addExperienceWithPlayer(player, source, finalExperience)
                 this.consumeItem(player, stack)
             }
         )

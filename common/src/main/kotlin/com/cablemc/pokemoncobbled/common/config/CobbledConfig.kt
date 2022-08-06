@@ -80,6 +80,9 @@ class CobbledConfig {
     @NodeCategory(Category.Battles)
     var autoUpdateShowdown = true
 
+    @NodeCategory(category = Category.Battles)
+    var allowExperienceFromPvP = true
+
     @NodeCategory(Category.PassiveStatus)
     var passiveStatuses = mutableMapOf(
         Statuses.POISON.configEntry(),

@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.CommandExperienceSource
 import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.util.party
 import com.cablemc.pokemoncobbled.common.util.player
@@ -48,7 +49,8 @@ object LevelUp {
             return 0
         }
 
-        pokemon.addExperienceWithPlayer(player, pokemon.getExperienceToNextLevel())
+        val source = CommandExperienceSource(context.source)
+        pokemon.addExperienceWithPlayer(player, source, pokemon.getExperienceToNextLevel())
         return Command.SINGLE_SUCCESS
     }
 }
