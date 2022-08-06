@@ -1,14 +1,14 @@
-package com.cablemc.pokemoncobbled.client.render.models.blockbench.animation
+package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation
 
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toDegrees
 import com.cablemc.pokemoncobbled.common.util.toVec3d
+import kotlin.math.acos
+import kotlin.math.asin
+import kotlin.math.cos
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.Vec3f
 import org.junit.jupiter.api.Test
-import kotlin.math.acos
-import kotlin.math.asin
-import kotlin.math.cos
 
 internal class RootPokeBallLookAnimationTest {
     @Test
