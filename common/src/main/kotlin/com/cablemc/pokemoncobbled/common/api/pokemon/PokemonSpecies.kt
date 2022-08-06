@@ -33,16 +33,16 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import java.nio.file.Path
+import kotlin.io.path.Path
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.resource.ResourceType
 import net.minecraft.util.Identifier
 import net.minecraft.world.biome.Biome
-import java.nio.file.Path
-import kotlin.io.path.Path
 
-object PokemonSpecies : JsonDataRegistry<PokemonSpecies, Species> {
+object PokemonSpecies : JsonDataRegistry<Species> {
 
     override val id: Identifier = cobbledResource("species")
     override val type: ResourceType = ResourceType.SERVER_DATA
@@ -78,7 +78,7 @@ object PokemonSpecies : JsonDataRegistry<PokemonSpecies, Species> {
 
     override val resourcePath: Path = Path("species")
 
-    override val observable: SimpleObservable<PokemonSpecies> = SimpleObservable()
+    override val observable = SimpleObservable<PokemonSpecies>()
 
     private val speciesByIdentifier = hashMapOf<Identifier, Species>()
     private val speciesByDex = hashMapOf<Int, Species>()

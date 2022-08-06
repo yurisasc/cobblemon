@@ -14,19 +14,15 @@ internal object CobbledDataProvider : DataProvider {
         this.register(PokemonSpecies)
     }
 
-    override fun register(registry: DataRegistry<*>) {
+    override fun register(registry: DataRegistry) {
         ReloadListenerRegistry.register(registry.type, SimpleResourceReloader(registry))
         PokemonCobbled.LOGGER.info("Registered the {} registry", registry.id.toString())
         PokemonCobbled.LOGGER.debug("Registered the {} registry of class {}", registry.id.toString(), registry::class.qualifiedName)
-
     }
 
-    private class SimpleResourceReloader(private val registry: DataRegistry<*>) : SynchronousResourceReloader {
-
+    private class SimpleResourceReloader(private val registry: DataRegistry) : SynchronousResourceReloader {
         override fun reload(manager: ResourceManager) {
             this.registry.reload(manager)
         }
-
     }
-
 }

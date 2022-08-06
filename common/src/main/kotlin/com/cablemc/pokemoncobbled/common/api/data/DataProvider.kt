@@ -14,6 +14,6 @@ interface DataProvider {
      *
      * @param registry The [DataRegistry] being registered.
      */
-    fun register(registry: DataRegistry<*>)
+    fun register(registry: DataRegistry)
 
 }

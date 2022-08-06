@@ -1,20 +1,18 @@
 package com.cablemc.pokemoncobbled.common.api.data
 
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
+import java.nio.file.Path
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
 import net.minecraft.util.Identifier
-import java.nio.file.Path
 
 /**
  * A registry with data provided by a resource or data pack.
  *
- * @param T The type of this registry
- *
  * @author Licious
  * @since August 1st, 2022
  */
-interface DataRegistry<T> {
+interface DataRegistry {
 
     /**
      * The unique [Identifier] of this registry.
@@ -34,7 +32,7 @@ interface DataRegistry<T> {
     /**
      * An observable that emits whenever this registry has finished reloading.
      */
-    val observable: SimpleObservable<T>
+    val observable: SimpleObservable<out DataRegistry>
 
     /**
      * Reloads this registry.
