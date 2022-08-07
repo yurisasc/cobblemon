@@ -92,15 +92,6 @@ object PokemonCobbled {
     var captureCalculator: CaptureCalculator = Gen7CaptureCalculator
     var experienceCalculator: ExperienceCalculator = StandardExperienceCalculator
     var starterHandler: StarterHandler = CobbledStarterHandler()
-        set(value) {
-            if (field is CobbledStarterHandler) {
-                CobbledStarterHandler.replaced = true
-            }
-            field = value
-            if (value is CobbledStarterHandler) {
-                CobbledStarterHandler.replaced = false
-            }
-        }
     var isDedicatedServer = false
     var showdownThread = ShowdownThread()
     lateinit var config: CobbledConfig
@@ -266,6 +257,7 @@ object PokemonCobbled {
 
         bestSpawner.loadConfig()
         starterConfig = loadStarterConfig()
+        PokemonSpecies.observable.subscribe { this.loadStarterConfig() }
     }
 
     fun loadStarterConfig(): StarterConfig {
