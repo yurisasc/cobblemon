@@ -4,11 +4,16 @@ import com.cablemc.pokemoncobbled.common.client.entity.EmptyPokeBallClientDelega
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.RootPokeBallLookAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.PokeBallFrame
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import net.minecraft.client.model.*
+import net.minecraft.client.model.Dilation
+import net.minecraft.client.model.ModelData
+import net.minecraft.client.model.ModelPart
+import net.minecraft.client.model.ModelPartBuilder
+import net.minecraft.client.model.ModelTransform
+import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.util.math.MathHelper.PI
 
@@ -19,13 +24,15 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.NONE,
+            poseName = "sit",
+            poseTypes = setOf(PoseType.NONE),
             condition = { it.captureState.get() != EmptyPokeBallEntity.CaptureState.NOT.ordinal.toByte() },
             idleAnimations = arrayOf(RootPokeBallLookAnimation(this)),
             transformTicks = 0
         )
         registerPose(
-            poseType = PoseType.WALK,
+            poseName = "flying",
+            poseTypes = setOf(PoseType.NONE),
             condition = { it.captureState.get() == EmptyPokeBallEntity.CaptureState.NOT.ordinal.toByte() },
             transformTicks = 0,
             idleAnimations = arrayOf(

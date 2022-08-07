@@ -33,8 +33,8 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.nio.file.Path
 import kotlin.io.path.Path
+import kotlin.reflect.KProperty
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.nbt.NbtCompound
@@ -44,8 +44,8 @@ import net.minecraft.world.biome.Biome
 
 object PokemonSpecies : JsonDataRegistry<Species> {
 
-    override val id: Identifier = cobbledResource("species")
-    override val type: ResourceType = ResourceType.SERVER_DATA
+    override val id = cobbledResource("species")
+    override val type = ResourceType.SERVER_DATA
 
     override val gson: Gson = GsonBuilder()
         .registerTypeAdapter(Stat::class.java, StatAdapter)
@@ -75,8 +75,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .create()
 
     override val typeToken: TypeToken<Species> = TypeToken.get(Species::class.java)
-
-    override val resourcePath: Path = Path("species")
+    override val resourcePath = Path("species")
 
     override val observable = SimpleObservable<PokemonSpecies>()
 
@@ -86,46 +85,37 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     val species: Collection<Species>
         get() = this.speciesByIdentifier.values
 
-    // ToDo decide what to do with default values
-    /*
-    val BULBASAUR = register(SpeciesLoader.loadFromAssets("bulbasaur"))
-    val IVYSAUR = register(SpeciesLoader.loadFromAssets("ivysaur"))
-    val VENUSAUR = register(SpeciesLoader.loadFromAssets("venusaur"))
-    val CHARMANDER = register(SpeciesLoader.loadFromAssets("charmander"))
-    val CHARMELEON = register(SpeciesLoader.loadFromAssets("charmeleon"))
-    val CHARIZARD = register(SpeciesLoader.loadFromAssets("charizard"))
-    val SQUIRTLE = register(SpeciesLoader.loadFromAssets("squirtle"))
-    val WARTORTLE = register(SpeciesLoader.loadFromAssets("wartortle"))
-    val BLASTOISE = register(SpeciesLoader.loadFromAssets("blastoise"))
-    val CATERPIE = register(SpeciesLoader.loadFromAssets("caterpie"))
-    val METAPOD = register(SpeciesLoader.loadFromAssets("metapod"))
-    val BUTTERFREE = register(SpeciesLoader.loadFromAssets("butterfree"))
-    val WEEDLE = register(SpeciesLoader.loadFromAssets("weedle"))
-    val KAKUNA = register(SpeciesLoader.loadFromAssets("kakuna"))
-    val BEEDRILL = register(SpeciesLoader.loadFromAssets("beedrill"))
-    val PIDGEY = register(SpeciesLoader.loadFromAssets("pidgey"))
-    val PIDGEOTTO = register(SpeciesLoader.loadFromAssets("pidgeotto"))
-    val PIDGEOT = register(SpeciesLoader.loadFromAssets("pidgeot"))
-    val EKANS = register(SpeciesLoader.loadFromAssets("ekans"))
-    val ZUBAT = register(SpeciesLoader.loadFromAssets("zubat"))
-    val DIGLETT = register(SpeciesLoader.loadFromAssets("diglett"))
-    val DUGTRIO = register(SpeciesLoader.loadFromAssets("dugtrio"))
-    val MAGIKARP = register(SpeciesLoader.loadFromAssets("magikarp"))
-    val GYARADOS = register(SpeciesLoader.loadFromAssets("gyarados"))
-    val EEVEE = register(SpeciesLoader.loadFromAssets("eevee"))
-    val RATTATA = register(SpeciesLoader.loadFromAssets("rattata"))
-    val RATICATE = register(SpeciesLoader.loadFromAssets("raticate"))
-     */
-
-    // ToDo Decide if we want to allow dynamic register
-    /*
-    fun register(species: Species): Species {
-        this.speciesNames[species.name.lowercase()] = species
-        this.speciesDex[species.nationalPokedexNumber] = species
-        species.forms.forEach { it.initialize(species) }
-        return species
+    object SpeciesByNameDelegate {
+        operator fun getValue(_species: PokemonSpecies, property: KProperty<*>) = getByIdentifier(cobbledResource(property.name.lowercase()))
     }
-     */
+
+    val BULBASAUR by SpeciesByNameDelegate
+    val IVYSAUR by SpeciesByNameDelegate
+    val VENUSAUR by SpeciesByNameDelegate
+    val CHARMANDER by SpeciesByNameDelegate
+    val CHARMELEON by SpeciesByNameDelegate
+    val CHARIZARD by SpeciesByNameDelegate
+    val SQUIRTLE by SpeciesByNameDelegate
+    val WARTORTLE by SpeciesByNameDelegate
+    val BLASTOISE by SpeciesByNameDelegate
+    val CATERPIE by SpeciesByNameDelegate
+    val METAPOD by SpeciesByNameDelegate
+    val BUTTERFREE by SpeciesByNameDelegate
+    val WEEDLE by SpeciesByNameDelegate
+    val KAKUNA by SpeciesByNameDelegate
+    val BEEDRILL by SpeciesByNameDelegate
+    val PIDGEY by SpeciesByNameDelegate
+    val PIDGEOTTO by SpeciesByNameDelegate
+    val PIDGEOT by SpeciesByNameDelegate
+    val EKANS by SpeciesByNameDelegate
+    val ZUBAT by SpeciesByNameDelegate
+    val DIGLETT by SpeciesByNameDelegate
+    val DUGTRIO by SpeciesByNameDelegate
+    val MAGIKARP by SpeciesByNameDelegate
+    val GYARADOS by SpeciesByNameDelegate
+    val EEVEE by SpeciesByNameDelegate
+    val RATTATA by SpeciesByNameDelegate
+    val RATICATE by SpeciesByNameDelegate
 
     /**
      * Finds a species by the pathname of their [Identifier].
@@ -188,5 +178,4 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
         this.observable.emit(this)
     }
-
 }

@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose
+package com.cablemc.pokemoncobbled.common.entity
 
 /**
  * The type of a pose. Used for normalizing pose swapping for all models.
@@ -7,12 +7,12 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose
  * @since December 5th, 2021
  */
 enum class PoseType {
-    /** A grounded stationary and moving pose type. */
+    STAND,
     WALK,
     SLEEP,
-    /** An air-borne stationary or moving pose type. */
+    HOVER,
     FLY,
-    /** An underwater stationary or moving pose type. */
+    FLOAT,
     SWIM,
     /** A pose for rendering statelessly on the left shoulder. Stateless animations are given the player head yaw, pitch, and ageInTicks. */
     SHOULDER_LEFT,

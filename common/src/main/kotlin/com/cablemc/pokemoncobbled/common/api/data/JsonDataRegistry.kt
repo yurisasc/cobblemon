@@ -29,6 +29,7 @@ interface JsonDataRegistry<T> : DataRegistry {
      */
     val typeToken: TypeToken<T>
 
+
     override fun reload(manager: ResourceManager) {
         val data = hashMapOf<Identifier, T>()
         manager.findResources(this.resourcePath.pathString) { path -> path.endsWith(JSON_EXTENSION) }.forEach { identifier ->
@@ -52,9 +53,6 @@ interface JsonDataRegistry<T> : DataRegistry {
     fun reload(data: Map<Identifier, T>)
 
     companion object {
-
         private const val JSON_EXTENSION = ".json"
-
     }
-
 }

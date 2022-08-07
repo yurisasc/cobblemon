@@ -7,8 +7,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumer
@@ -32,14 +32,12 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
 
     /** Registers the same configuration for both left and right shoulder poses. */
     fun <F : ModelFrame> registerShoulderPoses(
-        condition: (PokemonEntity) -> Boolean = { true },
         transformTicks: Int = 30,
         idleAnimations: Array<StatelessAnimation<PokemonEntity, out F>>,
         transformedParts: Array<TransformedModelPart> = emptyArray()
     ) {
         registerPose(
             poseType = PoseType.SHOULDER_LEFT,
-            condition = condition,
             transformTicks = transformTicks,
             idleAnimations = idleAnimations,
             transformedParts = transformedParts
@@ -47,7 +45,6 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
 
         registerPose(
             poseType = PoseType.SHOULDER_RIGHT,
-            condition = condition,
             transformTicks = transformTicks,
             idleAnimations = idleAnimations,
             transformedParts = transformedParts

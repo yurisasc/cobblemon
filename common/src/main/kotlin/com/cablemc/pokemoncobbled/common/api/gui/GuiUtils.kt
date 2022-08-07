@@ -3,8 +3,8 @@ package com.cablemc.pokemoncobbled.common.api.gui
 import com.cablemc.pokemoncobbled.common.api.text.font
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.mojang.blaze3d.platform.GlStateManager

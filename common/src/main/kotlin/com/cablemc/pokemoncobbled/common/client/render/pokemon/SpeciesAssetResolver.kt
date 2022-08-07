@@ -43,9 +43,11 @@ class RegisteredSpeciesRendering(
 
     fun reload() {
         animators.clear()
+        initializeLayers()
     }
 
     fun initializeLayers() {
+        println("Registering layers for ${species.name}")
         layers.values.forEach {  data ->
             PokemonCobbledClient.implementation.registerLayer(data.layer) { data.texturedModelData }
         }
@@ -59,7 +61,7 @@ class RegisteredSpeciesRendering(
 
     fun getEntityModel(aspects: Set<String>): PokemonPoseableModel {
         val animatorName = assetResolver.getAnimator(aspects)
-        val animatorSupplier = PokemonModelRepository.animators[animatorName] ?: throw IllegalStateException("No animator found for name: $animatorName")
+        val animatorSupplier = PokemonModelRepository.posers[animatorName] ?: throw IllegalStateException("No animator found for name: $animatorName")
         val modelName = assetResolver.getModel(aspects)
         val existingEntityModel = animators[animatorName to modelName]
         return if (existingEntityModel != null) {

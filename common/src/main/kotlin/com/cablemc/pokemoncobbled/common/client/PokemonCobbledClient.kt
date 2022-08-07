@@ -76,10 +76,9 @@ object PokemonCobbledClient {
 
         ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() })
 
-        /*
         LOGGER.info("Initializing Pokémon models")
         PokemonModelRepository.init()
-         */
+
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()
 

@@ -1,8 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.layer
 
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.isPokemonEntity

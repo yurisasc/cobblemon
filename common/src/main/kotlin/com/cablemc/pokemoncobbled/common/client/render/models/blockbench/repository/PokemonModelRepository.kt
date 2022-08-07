@@ -1,9 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository
 
-import com.cablemc.pokemoncobbled.common.api.data.DataRegistry
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.BlockBenchModelWrapper
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.*
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BulbasaurModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -20,12 +20,13 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     // TODO: Temporary until we decide the texture system we want to go with and its capabilities
     private val shinyModelTexturesBySpecies: MutableMap<Species, Identifier> = mutableMapOf()
 
-    val animators = mutableMapOf<String, (ModelPart) -> PokemonPoseableModel>()
+    val posers = mutableMapOf<String, (ModelPart) -> PokemonPoseableModel>()
     //val species = mutableMapOf<Species, RegisteredSpeciesRendering>()
     private val renders = hashMapOf<Identifier, RegisteredSpeciesRendering>()
 
     override fun registerAll() {
         // ToDo decide what to do here, ideally we don't want this to be a thing anymore and instead use a DataRegistry for the client assets
+        registerSpeciesWithAnimator(PokemonSpecies.BULBASAUR!!) { BulbasaurModel(it) }
         /*
         registerSpeciesWithAnimator(PokemonSpecies.BULBASAUR) { BulbasaurModel(it) }
         registerSpeciesWithAnimator(PokemonSpecies.IVYSAUR) { IvysaurModel(it) }
@@ -91,7 +92,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     }
 
     fun registerAnimator(name: String, animatorSupplier: (ModelPart) -> PokemonPoseableModel) {
-        animators[name] = animatorSupplier
+        posers[name] = animatorSupplier
     }
 
     fun registerSpeciesWithAnimator(species: Species, animatorSupplier: (ModelPart) -> PokemonPoseableModel) {

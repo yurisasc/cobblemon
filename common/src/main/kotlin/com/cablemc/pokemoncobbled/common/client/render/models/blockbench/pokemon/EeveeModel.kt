@@ -7,9 +7,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.EaredFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.QuadrupedFrame
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer.Companion.DELTA_TICKS
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
@@ -37,17 +37,13 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     override fun registerPoses() {
         registerPose(
             poseType = PoseType.WALK,
-            condition = { true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 QuadrupedWalkAnimation(this)
             )
         )
 
-        registerShoulderPoses(
-            condition = { true },
-            idleAnimations = arrayOf(singleBoneLook())
-        )
+        registerShoulderPoses(idleAnimations = arrayOf(singleBoneLook()))
     }
 
     override fun setAngles(entity: PokemonEntity, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {

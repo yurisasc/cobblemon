@@ -13,7 +13,8 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
 enum class PokemonBehaviourFlag {
     RESTING,
     LOOKING,
-    EXCITED;
+    EXCITED,
+    FLYING;
 
     val bit: Int = ordinal + 1
 }
