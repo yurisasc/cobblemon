@@ -51,7 +51,9 @@ class FormData(
     private val eyeHeight: Float? = null,
     private val standingEyeHeight: Float? = null,
     private val swimmingEyeHeight: Float? = null,
-    private val flyingEyeHeight: Float? = null
+    private val flyingEyeHeight: Float? = null,
+    @SerializedName("tags")
+    private val _tags: Set<String>? = null
 ) {
     val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
@@ -99,6 +101,9 @@ class FormData(
 
     val behaviour = FormPokemonBehaviour()
 
+    val tags: Set<String>
+        get() = _tags ?: species.tags
+
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution>
         get() = _evolutions ?: species.evolutions
@@ -107,6 +112,8 @@ class FormData(
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)
         return entity.height * multiplier
     }
+
+    fun hasTags(vararg tags: String): Boolean = tags.all { tag -> this.tags.any { it.equals(tag, true) } }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
         entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight

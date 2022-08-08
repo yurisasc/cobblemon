@@ -36,6 +36,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
+import com.cablemc.pokemoncobbled.common.api.pokemon.tags.CobbledPokemonTags
 import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
@@ -381,6 +382,10 @@ open class Pokemon {
             this._status.emit(this.status!!.status.name.toString())
         }
     }
+
+    fun isLegendary() = this.form.hasTags(CobbledPokemonTags.LEGENDARY)
+
+    fun isUltraBeast() = this.form.hasTags(CobbledPokemonTags.ULTRA_BEAST)
 
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)

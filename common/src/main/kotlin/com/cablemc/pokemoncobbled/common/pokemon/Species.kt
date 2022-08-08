@@ -48,6 +48,7 @@ class Species {
     val drops = DropTable()
 
     var forms = mutableListOf(FormData())
+    internal val tags = emptySet<String>()
 
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution> = hashSetOf()
@@ -71,6 +72,8 @@ class Species {
         val multiplier = this.resolveEyeHeight(entity) ?: VANILLA_DEFAULT_EYE_HEIGHT
         return entity.height * multiplier
     }
+
+    fun hasTags(vararg tags: String): Boolean = tags.all { tag -> this.tags.any { it.equals(tag, true) } }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
         entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight
