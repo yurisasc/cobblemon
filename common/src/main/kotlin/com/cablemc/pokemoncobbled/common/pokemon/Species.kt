@@ -55,7 +55,7 @@ class Species {
     internal val preEvolution: PreEvolution? = null
 
     @Transient
-    internal lateinit var resourceIdentifier: Identifier
+    lateinit var resourceIdentifier: Identifier
 
     fun types(form: Int): Iterable<ElementalType> = forms[form].types
 
