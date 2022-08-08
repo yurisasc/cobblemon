@@ -30,6 +30,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledPreEv
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledRequirementAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.*
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.google.common.collect.HashBasedTable
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -80,7 +81,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     override val observable = SimpleObservable<PokemonSpecies>()
 
     private val speciesByIdentifier = hashMapOf<Identifier, Species>()
-    private val speciesByDex = hashMapOf<Int, Species>()
+    private val speciesByDex = HashBasedTable.create<String, Int, Species>()
 
     val species: Collection<Species>
         get() = this.speciesByIdentifier.values
@@ -133,7 +134,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
      * @param ndex The [Species.nationalPokedexNumber].
      * @return The [Species] if existing.
      */
-    fun getByPokedexNumber(ndex: Int) = this.speciesByDex[ndex]
+    fun getByPokedexNumber(ndex: Int, namespace: String = PokemonCobbled.MODID) = this.speciesByDex.get(namespace, ndex)
 
     /**
      * Finds a [Species] by its unique [Identifier].
@@ -163,14 +164,11 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         this.speciesByIdentifier.clear()
         this.speciesByDex.clear()
         data.forEach { (identifier, species) ->
-            // ToDo Decide if we wanna skip or replace
-            if (this.speciesByDex.containsKey(species.nationalPokedexNumber)) {
-                PokemonCobbled.LOGGER.warn("Found duplicate national Pokédex entry for species {}, skipping...", identifier.toString())
-                return@forEach
-            }
-            this.speciesByIdentifier[identifier] = species
-            this.speciesByDex[species.nationalPokedexNumber] = species
             species.resourceIdentifier = identifier
+            this.speciesByIdentifier.put(identifier, species)?.let { old ->
+                this.speciesByDex.remove(old.resourceIdentifier.namespace, old.nationalPokedexNumber)
+            }
+            this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
             species.forms.forEach { form ->
                 form.initialize(species)
             }

@@ -4,7 +4,6 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.data.DataProvider
 import com.cablemc.pokemoncobbled.common.api.data.DataRegistry
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.starter.CobbledStarterHandler
 import dev.architectury.registry.ReloadListenerRegistry
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
@@ -14,10 +13,6 @@ internal object CobbledDataProvider : DataProvider {
     // Both Forge n Fabric keep insertion order so if a registry depends on another simply register it after
     fun registerDefaults() {
         this.register(PokemonSpecies)
-        // The default implementation may have been replaced
-        if (PokemonCobbled.starterHandler is CobbledStarterHandler) {
-            this.register(PokemonCobbled.starterHandler as CobbledStarterHandler)
-        }
     }
 
     override fun register(registry: DataRegistry) {

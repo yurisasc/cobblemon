@@ -1,35 +1,16 @@
 package com.cablemc.pokemoncobbled.common.starter
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.data.DataRegistry
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.starter.StarterChosenEvent
-import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
-import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.text.red
-import com.cablemc.pokemoncobbled.common.config.starter.StarterConfig
 import com.cablemc.pokemoncobbled.common.net.messages.client.starter.OpenStarterUIPacket
-import com.cablemc.pokemoncobbled.common.util.adapters.pokemonPropertiesShortAdapter
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
-import com.google.gson.GsonBuilder
-import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
-import java.io.File
 
-open class CobbledStarterHandler : StarterHandler, DataRegistry {
-
-    override val id: Identifier = cobbledResource("starter_handler")
-
-    override val type: ResourceType = ResourceType.SERVER_DATA
-
-    override val observable = SimpleObservable<CobbledStarterHandler>()
+open class CobbledStarterHandler : StarterHandler {
 
     override fun getStarterList(player: ServerPlayerEntity) = PokemonCobbled.starterConfig.starters
 
@@ -77,19 +58,6 @@ open class CobbledStarterHandler : StarterHandler, DataRegistry {
             PokemonCobbled.playerData.saveSingle(playerData)
             playerData.sendToPlayer(player)
         }
-    }
-
-    override fun reload(manager: ResourceManager) {
-        if (!replaced) {
-            PokemonCobbled.loadStarterConfig()
-        }
-    }
-
-    companion object {
-
-        // Ugly hack but we can't dynamically remove listeners
-        internal var replaced = false
-
     }
 
 }
