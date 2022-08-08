@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.bulbasaur",
+				"identifier": "geometry.unknown",
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 3,
@@ -46,8 +46,8 @@
 					"cubes": [
 						{"origin": [-4.5, 4.5, -8.25], "size": [9, 6, 6], "inflate": 0.01, "uv": [28, 24]},
 						{"origin": [-4.5, 3.5, -6.25], "size": [9, 1, 3], "inflate": 0.01, "uv": [40, 37]},
-						{"origin": [-4.25, 4, -7.5], "size": [1, 1, 0], "inflate": 0.01, "pivot": [-3.75, 4.5, -7.75], "rotation": [30, 25, 50], "uv": [44, 12]},
-						{"origin": [3.25, 4, -7.5], "size": [1, 1, 0], "inflate": 0.01, "pivot": [3.75, 4.5, -7.75], "rotation": [30, -25, -50], "uv": [44, 12], "mirror": true}
+						{"origin": [-4.25, 4, -7.5], "size": [1, 1, 0], "pivot": [-3.75, 4.5, -7.75], "rotation": [30, 25, 50], "uv": [44, 12]},
+						{"origin": [3.25, 4, -7.5], "size": [1, 1, 0], "pivot": [3.75, 4.5, -7.75], "rotation": [30, -25, -50], "uv": [44, 12], "mirror": true}
 					]
 				},
 				{
@@ -61,26 +61,38 @@
 				{
 					"name": "eyes",
 					"parent": "head",
-					"pivot": [0, 7.5, -7.45],
+					"pivot": [0, 7.5, -7.45]
+				},
+				{
+					"name": "eye_right",
+					"parent": "eyes",
+					"pivot": [-3.501, 7.5, -7.251],
 					"cubes": [
-						{"origin": [-4.5, 6, -8.25], "size": [2, 3, 2], "inflate": 0.02, "uv": [44, 5]},
-						{"origin": [2.5, 6, -8.25], "size": [2, 3, 2], "inflate": 0.02, "uv": [44, 5], "mirror": true}
+						{"origin": [-4.501, 6, -8.251], "size": [2, 3, 2], "inflate": 0.01, "uv": [44, 5]}
 					]
 				},
 				{
 					"name": "eyelid_right",
-					"parent": "eyes",
-					"pivot": [-3.4, 7.5, -7.15],
+					"parent": "eye_right",
+					"pivot": [-3.401, 7.5, -7.151],
 					"cubes": [
-						{"origin": [-4.4, 6, -8.15], "size": [2, 3, 2], "inflate": 0.03, "uv": [28, 37]}
+						{"origin": [-4.401, 6, -8.151], "size": [2, 3, 2], "inflate": 0.02, "uv": [28, 37]}
+					]
+				},
+				{
+					"name": "eye_left",
+					"parent": "eyes",
+					"pivot": [3.501, 7.5, -7.251],
+					"cubes": [
+						{"origin": [2.501, 6, -8.251], "size": [2, 3, 2], "inflate": 0.01, "uv": [44, 5], "mirror": true}
 					]
 				},
 				{
 					"name": "eyelid_left",
-					"parent": "eyes",
-					"pivot": [3.4, 7.5, -7.15],
+					"parent": "eye_left",
+					"pivot": [3.401, 7.5, -7.151],
 					"cubes": [
-						{"origin": [2.4, 6, -8.15], "size": [2, 3, 2], "inflate": 0.03, "uv": [28, 37], "mirror": true}
+						{"origin": [2.401, 6, -8.151], "size": [2, 3, 2], "inflate": 0.02, "uv": [28, 37], "mirror": true}
 					]
 				},
 				{
@@ -94,7 +106,7 @@
 					"pivot": [-2.75, 10.125, -5],
 					"rotation": [0, 40, -17.5],
 					"cubes": [
-						{"origin": [-4.75, 10, -5], "size": [4, 3, 0], "inflate": 0.01, "uv": [0, 0], "mirror": true}
+						{"origin": [-4.75, 10, -5], "size": [4, 3, 0], "uv": [0, 0], "mirror": true}
 					]
 				},
 				{
@@ -103,7 +115,7 @@
 					"pivot": [2.75, 10.125, -5],
 					"rotation": [0, -40, 17.5],
 					"cubes": [
-						{"origin": [0.75, 10, -5], "size": [4, 3, 0], "inflate": 0.01, "uv": [0, 0]}
+						{"origin": [0.75, 10, -5], "size": [4, 3, 0], "uv": [0, 0]}
 					]
 				},
 				{
