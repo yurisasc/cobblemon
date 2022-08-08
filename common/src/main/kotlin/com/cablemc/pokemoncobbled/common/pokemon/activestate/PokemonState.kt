@@ -49,12 +49,6 @@ sealed class PokemonState {
 
 class InactivePokemonState : PokemonState() {
     override fun writeToNBT(nbt: NbtCompound) = null
-    override fun getIcon(pokemon: Pokemon): Identifier {
-//        if (pokemon.caughtBall == PokeBalls.POKE_BALL) {
-//
-//        }
-        return cobbledResource("ui/party/party_icon_poke_ball.png")
-    }
 }
 
 sealed class ActivePokemonState : PokemonState() {
