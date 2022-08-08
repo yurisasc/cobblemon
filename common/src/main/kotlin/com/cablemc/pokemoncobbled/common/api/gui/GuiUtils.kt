@@ -36,7 +36,8 @@ fun blitk(
     green: Number = 1,
     blue: Number = 1,
     alpha: Number = 1F,
-    blend: Boolean = true
+    blend: Boolean = true,
+    scale: Float = 1F
 ) {
     RenderSystem.setShader { GameRenderer.getPositionTexShader() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
@@ -46,7 +47,8 @@ fun blitk(
         RenderSystem.defaultBlendFunc()
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
     }
-
+    matrixStack.push()
+    matrixStack.scale(scale, scale, 1F)
     drawRectangle(
         matrixStack.peek().positionMatrix,
         x.toFloat(), y.toFloat(), x.toFloat() + width.toFloat(), y.toFloat() + height.toFloat(),
@@ -54,6 +56,7 @@ fun blitk(
         uOffset.toFloat() / textureWidth.toFloat(), (uOffset.toFloat() + width.toFloat()) / textureWidth.toFloat(),
         vOffset.toFloat() / textureHeight.toFloat(), (vOffset.toFloat() + height.toFloat()) / textureHeight.toFloat()
     )
+    matrixStack.pop()
 }
 
 fun drawRectangle(

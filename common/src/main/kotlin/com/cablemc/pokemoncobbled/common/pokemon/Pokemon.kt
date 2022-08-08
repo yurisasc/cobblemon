@@ -6,9 +6,13 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.FRIENDSHIP_UPDATED
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.POKEMON_FAINTED
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.ExperienceGainedPostEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.ExperienceGainedPreEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.FriendshipUpdatedEvent
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.LevelUpEvent
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.PokemonFaintedEvent
 import com.cablemc.pokemoncobbled.common.api.moves.BenchedMove
 import com.cablemc.pokemoncobbled.common.api.moves.BenchedMoves
@@ -27,6 +31,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionProxy
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
+import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceSource
 import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
@@ -364,9 +369,7 @@ open class Pokemon {
         this.healTimer = -1
     }
 
-    fun isFainted(): Boolean {
-        return currentHealth <= 0
-    }
+    fun isFainted() = currentHealth <= 0
 
     private fun updateHP(quotient: Float) {
         currentHealth = (hp * quotient).roundToInt()
@@ -730,9 +733,9 @@ open class Pokemon {
         }
     }
 
-    fun addExperienceWithPlayer(player: ServerPlayerEntity, xp: Int) {
+    fun addExperienceWithPlayer(player: ServerPlayerEntity, source: ExperienceSource, xp: Int) {
         player.sendServerMessage(lang("experience.gained", species.translatedName, xp))
-        val result = addExperience(xp)
+        val result = addExperience(source, xp)
         if (result.oldLevel != result.newLevel) {
             player.sendServerMessage(lang("experience.level_up", species.translatedName, result.newLevel))
             when(getFriendshipSpan()){
@@ -759,33 +762,50 @@ open class Pokemon {
         return properties
     }
 
-    fun addExperience(xp: Int): AddExperienceResult {
+    fun addExperience(source: ExperienceSource, xp: Int): AddExperienceResult {
         if (xp < 0) {
             return AddExperienceResult(level, level, emptySet()) // no negatives!
         }
 
         val oldLevel = level
         val previousLevelUpMoves = form.levelUpMoves.getMovesUpTo(oldLevel)
-        // TODO xp gain event
-        experience += xp
-        val newLevel = experienceGroup.getLevel(experience)
+        var appliedXP = xp
+        CobbledEvents.EXPERIENCE_GAINED_EVENT_PRE.postThen(
+            event = ExperienceGainedPreEvent(this, source, appliedXP),
+            ifSucceeded = { appliedXP = it.experience},
+            ifCanceled = {
+                return AddExperienceResult(level, level, emptySet())
+            }
+        )
+
+        experience += appliedXP
+        var newLevel = experienceGroup.getLevel(experience)
         if (newLevel != oldLevel) {
-            // TODO level up event?
+            CobbledEvents.LEVEL_UP_EVENT.post(
+                LevelUpEvent(this, oldLevel, newLevel),
+                then = { newLevel = it.newLevel }
+            )
             level = newLevel
         }
 
         val newLevelUpMoves = form.levelUpMoves.getMovesUpTo(newLevel)
-        val differences = newLevelUpMoves - previousLevelUpMoves
+        val differences = (newLevelUpMoves - previousLevelUpMoves).toMutableSet()
         differences.forEach {
             if (moveSet.hasSpace()) {
                 moveSet.add(it.create())
             }
         }
 
+        CobbledEvents.EXPERIENCE_GAINED_EVENT_POST.post(
+            ExperienceGainedPostEvent(this, source, xp, oldLevel, newLevel, differences),
+            then = { return AddExperienceResult(oldLevel, newLevel, it.learnedMoves) }
+        )
+
+        // This probably will never run, Kotlin just doesn't realize the inline function always runs the `then` block
         return AddExperienceResult(oldLevel, newLevel, differences)
     }
 
-    fun levelUp() = addExperience(getExperienceToNextLevel())
+    fun levelUp(source: ExperienceSource) = addExperience(source, getExperienceToNextLevel())
 
     /**
      * Exchanges an existing move set move with a benched or otherwise accessible move that is not in the move set.

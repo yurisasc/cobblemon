@@ -89,10 +89,13 @@
   "pokemoncobbled.battle.ui.hide_label": "Press %1$s to move around.",
   "pokemoncobbled.battle.ui.actions_label": "You need to choose an action. Press %1$s.",
 
+
   "pokemoncobbled.ui.evolve": "Evolve",
   "pokemoncobbled.ui.evolve_offer": "Evolve into which Pokémon?",
 
   "pokemoncobbled.challenge_label": "Press %1$s to battle.",
+  "pokemoncobbled.challenge.sender": "You challenged %1$s to a battle!",
+  "pokemoncobbled.challenge.receiver": "%1$s has challenged you to battle! Press %2$s while looking at them to battle.",
 
   "pokemoncobbled.drop.item.inventory": "You received %2$s (%1$sx).",
   "pokemoncobbled.drop.item.full": "Your inventory was full so the %1$s dropped to the ground.",
