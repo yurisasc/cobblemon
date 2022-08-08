@@ -29,7 +29,7 @@ class FabricClientBootstrap: ClientModInitializer, PokemonCobbledClientImplement
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : SimpleSynchronousResourceReloadListener {
             override fun getFabricId() = cobbledResource("resources")
-            override fun reload(resourceManager: ResourceManager) { PokemonCobbledClient.reloadCodedAssets() }
+            override fun reload(resourceManager: ResourceManager) { PokemonCobbledClient.reloadCodedAssets(resourceManager) }
         })
     }
 

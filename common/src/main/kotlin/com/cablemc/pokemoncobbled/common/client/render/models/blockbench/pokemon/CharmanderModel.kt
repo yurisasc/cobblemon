@@ -63,7 +63,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
+            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PROFILE, PoseType.PORTRAIT),
             transformTicks = 5,
             condition = { !it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.RESTING)},
             idleAnimations = arrayOf(

@@ -17,7 +17,6 @@ import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerial
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
-import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
@@ -31,6 +30,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolve
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
 import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.JSONStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
@@ -54,7 +54,6 @@ import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
-import com.cablemc.pokemoncobbled.common.pokemon.features.SunglassesFeature
 import com.cablemc.pokemoncobbled.common.pokemon.properties.UncatchableProperty
 import com.cablemc.pokemoncobbled.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
@@ -164,16 +163,18 @@ object PokemonCobbled {
 
         CobbledWorldgen.register()
 
-        // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
-        /*
-        LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
-         */
         // Start up the data provider.
         CobbledDataProvider.registerDefaults()
 
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()
-        FlagSpeciesFeature.registerWithPropertyAndAspect("sunglasses", SunglassesFeature::class.java)
+
+        FlagSpeciesFeature.registerWithPropertyAndAspect("sunglasses")
+        config.globalSpeciesFeatures.forEach { name ->
+            FlagSpeciesFeature.registerWithPropertyAndAspect(name)
+        }
+
+
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)
 
@@ -195,7 +196,11 @@ object PokemonCobbled {
             storage.registerFactory(
                 priority = Priority.LOWEST,
                 factory = FileBackedPokemonStoreFactory(
-                    adapter = NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true),
+                    adapter = if (config.storageFormat == "nbt") {
+                        NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
+                    } else {
+                        JSONStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
+                    },
                     createIfMissing = true,
                     pcConstructor = { uuid -> PCStore(uuid).also { it.resize(config.defaultBoxCount) } }
                 )

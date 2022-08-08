@@ -42,7 +42,20 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.AspectsUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.GenderUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.HealthUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.ShinyUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.StatusUpdatePacket
 import com.cablemc.pokemoncobbled.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
@@ -58,8 +71,8 @@ import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
-import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import com.cablemc.pokemoncobbled.common.util.setPositionSafely
+import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
@@ -88,13 +101,13 @@ open class Pokemon {
     var species = PokemonSpecies.random()
         set(value) {
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
-            val previousFeatureKeys = species.features
+            val previousFeatureKeys = features.map { it.name }.toSet()
             field = value
-            val newFeatureKeys = species.features
+            val newFeatureKeys = species.features + PokemonCobbled.config.globalSpeciesFeatures
             val addedFeatures = newFeatureKeys - previousFeatureKeys
             val removedFeatures = previousFeatureKeys - newFeatureKeys
-            features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.getDeclaredConstructor()?.newInstance() })
-            features.removeAll { SpeciesFeature.getName(it) in removedFeatures }
+            features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
+            features.removeAll { it.name in removedFeatures }
             this.evolutionProxy.current().clear()
             updateAspects()
             updateForm()
@@ -391,6 +404,7 @@ open class Pokemon {
         nbt.put(DataKeys.POKEMON_EVOLUTIONS, this.evolutionProxy.saveToNBT())
         val propertyList = customProperties.map { it.asString() }.map { NbtString.of(it) }
         nbt.put(DataKeys.POKEMON_DATA, NbtList().also { it.addAll(propertyList) })
+        features.forEach { it.saveToNBT(nbt) }
         return nbt
     }
 
@@ -432,6 +446,8 @@ open class Pokemon {
         val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString() }, " ")
         this.customProperties.clear()
         this.customProperties.addAll(properties.customProperties)
+        features.forEach { it.loadFromNBT(nbt) }
+        updateAspects()
         return this
     }
 
@@ -459,6 +475,7 @@ open class Pokemon {
         json.add(DataKeys.POKEMON_EVOLUTIONS, this.evolutionProxy.saveToJson())
         val propertyList = customProperties.map { it.asString() }.map { JsonPrimitive(it) }
         json.add(DataKeys.POKEMON_DATA, JsonArray().also { propertyList.forEach(it::add) })
+        features.forEach { it.saveToJSON(json) }
         return json
     }
 
@@ -499,6 +516,8 @@ open class Pokemon {
         val properties = PokemonProperties.parse(propertyList.joinToString(" "), " ")
         this.customProperties.clear()
         this.customProperties.addAll(properties.customProperties)
+        features.forEach { it.loadFromJSON(json) }
+        updateAspects()
         return this
     }
 
@@ -653,7 +672,6 @@ open class Pokemon {
         }
         // shiny = randomize, probably
         initializeMoveset()
-        initializeSpeciesFeatures()
 
         ability = form.abilities.select(species, aspects)
         return this
@@ -661,7 +679,8 @@ open class Pokemon {
 
     fun initializeSpeciesFeatures() {
         features.clear()
-        features.addAll(species.features.mapNotNull { SpeciesFeature.get(it)?.getDeclaredConstructor()?.newInstance() })
+        features.addAll(species.features.mapNotNull { SpeciesFeature.get(it)?.invoke() })
+        features.addAll(PokemonCobbled.config.globalSpeciesFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
     }
 
     fun initializeMoveset(preferLatest: Boolean = true) {
@@ -727,7 +746,7 @@ open class Pokemon {
         }
     }
 
-    fun <T : SpeciesFeature> getFeature(name: String) = features.find { SpeciesFeature.getName(it) == name } as? T
+    fun <T : SpeciesFeature> getFeature(name: String) = features.find { it.name == name } as? T
 
     /**
      * Copies the specified properties from this Pokémon into a new [PokemonProperties] instance.

@@ -1,10 +1,10 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.feature
 
+import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
+import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.google.common.collect.HashBiMap
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
-import com.cablemc.pokemoncobbled.common.pokemon.Species
-import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
 
 /**
  * A piece of state that can be added to some species of Pokémon. Registering an implementing class
@@ -14,28 +14,28 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
  * The role of this is to allow species-specific data to be attached to individual Pokémon, such as an alolan
  * flag or a Vivillon pattern variety. This is powerful when combined with [AspectProvider]s.
  *
- * Note: It's important that you don't have two features of the exact same class - the class is used for
- *       reverse lookups so having the same class for different features breaks things.
- *
  * @author Hiroku
  * @since May 13th, 2022
  */
 interface SpeciesFeature {
+    val name: String
     companion object {
-        private val speciesFeatures = HashBiMap.create<String, Class<out SpeciesFeature>>()
+        private val speciesFeatures = HashBiMap.create<String, () -> SpeciesFeature>()
         fun <T : SpeciesFeature> register(name: String, clazz: Class<T>) {
             try {
                 clazz.getDeclaredConstructor().newInstance()
             } catch (e: Exception) {
                 throw IllegalArgumentException("The given species feature class for $name cannot be constructed with a default constructor. You need a default constructor to use species features.")
             }
-            speciesFeatures[name] = clazz
+            speciesFeatures[name] = { clazz.getDeclaredConstructor().newInstance() }
+        }
+        fun <T : SpeciesFeature> register(name: String, instantiator: () -> T) {
+            speciesFeatures[name] = instantiator
         }
         fun unregister(name: String) {
             speciesFeatures.remove(name)
         }
         fun get(name: String) = speciesFeatures[name]
-        fun getName(feature: SpeciesFeature) = speciesFeatures.inverse()[feature::class.java]
     }
 
     fun saveToNBT(pokemonNBT: NbtCompound): NbtCompound

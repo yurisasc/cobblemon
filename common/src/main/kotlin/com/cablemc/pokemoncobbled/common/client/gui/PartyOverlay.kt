@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.gui
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
@@ -113,7 +114,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 )
                 matrixStack.scale(1F, 1F, 1F)
 
-//                drawPortraitPokemon(pokemon.species, pokemon.aspects, matrixStack)
+                drawPortraitPokemon(pokemon.species, pokemon.aspects, matrixStack)
 
                 RenderSystem.disableScissor()
             }

@@ -1,5 +1,5 @@
 {
-  "animator": "rattata",
+  "poser": "pokemoncobbled:rattata",
   "model": "pokemoncobbled:bedrock/models/rattata_male.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/rattata.png",
   "variations": [

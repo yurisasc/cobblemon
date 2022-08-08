@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
@@ -13,7 +12,6 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Po
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cablemc.pokemoncobbled.common.entity.PoseType
-
 import com.cablemc.pokemoncobbled.common.entity.Poseable
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.render.RenderLayer
@@ -111,7 +109,7 @@ abstract class PoseableEntityModel<T : Entity>(
         }
     }
 
-    private fun loadAllNamedChildren(modelPart: ModelPart) {
+    fun loadAllNamedChildren(modelPart: ModelPart) {
         for ((name, child) in modelPart.children.entries) {
             val transformed = child.asTransformed()
             relevantParts.add(transformed)
@@ -171,10 +169,11 @@ abstract class PoseableEntityModel<T : Entity>(
 
         if (entity != null && (poseName == null || pose == null || !pose.condition(entity))) {
             val previousPose = pose
-            val desirablePose = poses.values.firstOrNull { entityPose == null || entityPose in it.poseTypes } ?: run {
-                LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
-                return@run Pose("none", setOf(PoseType.NONE), { true },0, emptyArray(), emptyArray())
-            }
+            val desirablePose = poses.values.firstOrNull { entityPose == null || entityPose in it.poseTypes }
+                ?: Pose("none", setOf(PoseType.NONE), { true },0, emptyArray(), emptyArray())
+//                LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
+//                return@run
+//            }
             val desirablePoseType = desirablePose.poseTypes.first()
 
             // If this condition matches then it just no longer fits this pose

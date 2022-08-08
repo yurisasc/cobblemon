@@ -1,5 +1,5 @@
 {
-  "animator": "butterfree",
+  "poser": "pokemoncobbled:butterfree",
   "model": "pokemoncobbled:bedrock/models/butterfree_male.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/butterfree.png",
   "variations": [

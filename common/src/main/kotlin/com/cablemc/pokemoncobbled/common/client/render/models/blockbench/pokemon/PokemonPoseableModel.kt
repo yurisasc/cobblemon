@@ -55,10 +55,14 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
         super.render(stack, buffer, packedLight, OverlayTexture.DEFAULT_UV, red * r, green * g, blue * b, alpha * a)
     }
 
+    @Transient
     open val portraitScale: Float = 1F
+    @Transient
     open val portraitTranslation: Vec3d = Vec3d.ZERO
 
+    @Transient
     open val profileScale: Float = 1F
+    @Transient
     open val profileTranslation: Vec3d = Vec3d.ZERO
 
     open fun getFaintAnimation(

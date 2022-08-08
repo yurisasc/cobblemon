@@ -36,7 +36,8 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.WALK,
+            poseName = "on-foot",
+            poseTypes = PoseType.values().toSet(),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 QuadrupedWalkAnimation(this)

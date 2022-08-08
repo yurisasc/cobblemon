@@ -1,5 +1,5 @@
 {
-  "animator": "blastoise",
+  "poser": "pokemoncobbled:blastoise",
   "model": "pokemoncobbled:bedrock/models/blastoise.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/blastoise.png",
   "variations": [

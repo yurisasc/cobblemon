@@ -1,5 +1,5 @@
 {
-  "animator": "raticate",
+  "poser": "pokemoncobbled:raticate",
   "model": "pokemoncobbled:bedrock/models/raticate_male.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/raticate.png",
   "variations": [

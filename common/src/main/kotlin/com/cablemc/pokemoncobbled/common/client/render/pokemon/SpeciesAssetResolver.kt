@@ -1,19 +1,13 @@
 package com.cablemc.pokemoncobbled.common.client.render.pokemon
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
-import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.TexturedModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.adapters.IdentifierAdapter
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.google.gson.GsonBuilder
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.model.TexturedModelData
-import net.minecraft.client.render.entity.EntityRendererFactory
-import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.util.Identifier
 
 /**
@@ -23,58 +17,36 @@ import net.minecraft.util.Identifier
  * @since May 14th, 2022
  */
 class RegisteredSpeciesRendering(
-    val species: Species,
+    val species: Identifier,
     private val assetResolver: SpeciesAssetResolver
 ) {
-    class LayerData(val layer: EntityModelLayer, var texturedModelData: TexturedModelData)
-
-    val animators = mutableMapOf<Pair<String, Identifier>, PokemonPoseableModel>()
+    val posers = mutableMapOf<Pair<Identifier, Identifier>, PokemonPoseableModel>()
     val models = mutableMapOf<Identifier, ModelPart>()
-    val layers = mutableMapOf<Identifier, LayerData>()
 
     init {
-        assetResolver.getAllModels().forEach {
-            layers[it] = LayerData(
-                layer = EntityModelLayer(cobbledResource(species.name), it.path),
-                texturedModelData = TexturedModel.from(it.path).create()
-            )
-        }
-    }
-
-    fun reload() {
-        animators.clear()
-        initializeLayers()
-    }
-
-    fun initializeLayers() {
-        println("Registering layers for ${species.name}")
-        layers.values.forEach {  data ->
-            PokemonCobbledClient.implementation.registerLayer(data.layer) { data.texturedModelData }
-        }
-    }
-
-    fun parseModels(context: EntityRendererFactory.Context) {
-        assetResolver.getAllModels().forEach { model ->
-            models[model] = context.modelLoader.getModelPart(layers[model]!!.layer)
+        posers.clear()
+        assetResolver.getAllModels().forEach { identifier ->
+            models[identifier] = TexturedModel.from(identifier.path).create().createModel()
         }
     }
 
     fun getEntityModel(aspects: Set<String>): PokemonPoseableModel {
-        val animatorName = assetResolver.getAnimator(aspects)
-        val animatorSupplier = PokemonModelRepository.posers[animatorName] ?: throw IllegalStateException("No animator found for name: $animatorName")
+        val poserName = assetResolver.getPoser(aspects)
+        val poserSupplier = PokemonModelRepository.posers[poserName] ?: throw IllegalStateException("No poser found for name: $poserName")
         val modelName = assetResolver.getModel(aspects)
-        val existingEntityModel = animators[animatorName to modelName]
+        val existingEntityModel = posers[poserName to modelName]
         return if (existingEntityModel != null) {
             existingEntityModel
         } else {
-            val entityModel = animatorSupplier(models[modelName]!!)
-            animators[animatorName to modelName] = entityModel
+            val entityModel = poserSupplier(models[modelName]!!)
             entityModel.registerPoses()
+            posers[poserName to modelName] = entityModel
             entityModel
         }
     }
 
     fun getTexture(aspects: Set<String>): Identifier {
+        PokemonModelRepository.posers[assetResolver.getPoser(aspects)] ?: throw IllegalStateException("No poser for $species")
         return assetResolver.getTexture(aspects)
     }
 }
@@ -88,14 +60,13 @@ class RegisteredSpeciesRendering(
  * @since May 14th, 2022
  */
 class SpeciesAssetResolver {
-    val animator = ""
+    val poser = Identifier("")
     val model = Identifier("")
     val texture = Identifier("")
-
     val variations = mutableListOf<ModelAssetVariation>()
 
-    fun getAnimator(aspects: Set<String>): String {
-        return variations.lastOrNull { it.aspects.all { it in aspects } && it.animator != null }?.animator ?: animator
+    fun getPoser(aspects: Set<String>): Identifier {
+        return variations.lastOrNull { it.aspects.all { it in aspects } && it.poser != null }?.poser ?: poser
     }
 
     fun getModel(aspects: Set<String>): Identifier {
@@ -124,9 +95,6 @@ class SpeciesAssetResolver {
             .disableHtmlEscaping()
             .setLenient()
             .create()
-        fun load(path: String, namespace: String = PokemonCobbled.MODID): SpeciesAssetResolver {
-            return GSON.fromJson(PokemonCobbled::class.java.getResourceAsStream("/assets/$namespace/$path")!!.reader(), SpeciesAssetResolver::class.java)
-        }
     }
 }
 
@@ -141,7 +109,7 @@ class SpeciesAssetResolver {
  */
 class ModelAssetVariation {
     val aspects = mutableSetOf<String>()
-    val animator: String? = null
+    val poser: Identifier? = null
     val model: Identifier? = null
     val texture: Identifier? = null
 }

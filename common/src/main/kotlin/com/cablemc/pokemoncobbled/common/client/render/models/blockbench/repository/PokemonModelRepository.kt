@@ -1,135 +1,147 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository
 
-import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.BlockBenchModelWrapper
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BeedrillModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BlastoiseModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BulbasaurModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ButterfreeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CaterpieModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharizardModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmanderModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmeleonModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DiglettModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GyaradosModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.IvysaurModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KakunaModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MetapodModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeotModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeottoModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.RaticateModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.RattataModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.SquirtleModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VenusaurModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import java.io.File
+import java.nio.charset.StandardCharsets
+import kotlin.io.path.Path
+import kotlin.io.path.pathString
 import net.minecraft.client.model.ModelPart
-import net.minecraft.client.render.entity.EntityRendererFactory
+import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 
 object PokemonModelRepository : ModelRepository<PokemonEntity>() {
+    val posers = mutableMapOf<Identifier, (ModelPart) -> PokemonPoseableModel>()
+    val renders = mutableMapOf<Identifier, RegisteredSpeciesRendering>()
 
-    private val modelsBySpecies: MutableMap<Species, BlockBenchModelWrapper<PokemonEntity>> = mutableMapOf()
-    private val modelTexturesBySpecies: MutableMap<Species, Identifier> = mutableMapOf()
-    // TODO: Temporary until we decide the texture system we want to go with and its capabilities
-    private val shinyModelTexturesBySpecies: MutableMap<Species, Identifier> = mutableMapOf()
+    fun registerPosers(resourceManager: ResourceManager) {
+        posers.clear()
+        registerInBuiltPosers()
+        registerJsonPosers(resourceManager)
+    }
 
-    val posers = mutableMapOf<String, (ModelPart) -> PokemonPoseableModel>()
-    //val species = mutableMapOf<Species, RegisteredSpeciesRendering>()
-    private val renders = hashMapOf<Identifier, RegisteredSpeciesRendering>()
+    fun registerInBuiltPosers() {
+        posers[cobbledResource("bulbasaur")] = { BulbasaurModel(it) }
+        posers[cobbledResource("ivysaur")] = { IvysaurModel(it) }
+        posers[cobbledResource("venusaur")] = { VenusaurModel(it) }
+        posers[cobbledResource("charmander")] = { CharmanderModel(it) }
+        posers[cobbledResource("charmeleon")] = { CharmeleonModel(it) }
+        posers[cobbledResource("charizard")] = { CharizardModel(it) }
+        posers[cobbledResource("squirtle")] = { SquirtleModel(it) }
+        posers[cobbledResource("wartortle")] = { WartortleModel(it) }
+        posers[cobbledResource("blastoise")] = { BlastoiseModel(it) }
+        posers[cobbledResource("caterpie")] = { CaterpieModel(it) }
+        posers[cobbledResource("metapod")] = { MetapodModel(it) }
+        posers[cobbledResource("butterfree")] = { ButterfreeModel(it) }
+        posers[cobbledResource("weedle")] = { WeedleModel(it) }
+        posers[cobbledResource("kakuna")] = { KakunaModel(it) }
+        posers[cobbledResource("beedrill")] = { BeedrillModel(it) }
+        posers[cobbledResource("rattata")] = { RattataModel(it) }
+        posers[cobbledResource("raticate")] = { RaticateModel(it) }
+        posers[cobbledResource("eevee")] = { EeveeModel(it) }
+
+        // These are still substitutes in-game because we don't have these as aspect JSONs yet. Not animated.
+        posers[cobbledResource("magikarp")] = { MagikarpModel(it) }
+        posers[cobbledResource("gyarados")] = { GyaradosModel(it) }
+        posers[cobbledResource("pidgey")] = { PidgeyModel(it) }
+        posers[cobbledResource("pidgeotto")] = { PidgeottoModel(it) }
+        posers[cobbledResource("pidgeot")] = { PidgeotModel(it) }
+        posers[cobbledResource("diglett")] = { DiglettModel(it) }
+        posers[cobbledResource("dugtrio")] = { DugtrioModel(it) }
+        posers[cobbledResource("zubat")] = { DugtrioModel(it) }
+    }
+
+    fun registerJsonPosers(resourceManager: ResourceManager) {
+        resourceManager.findResources(Path("bedrock/posers").pathString) { path -> path.endsWith(".json") }.forEach { identifier ->
+            resourceManager.getResource(identifier).use { resource ->
+                resource.inputStream.use { stream ->
+                    val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    posers[resolvedIdentifier] = {
+                        JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
+                        JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
+                    }
+                }
+            }
+        }
+    }
+
+    fun registerSpeciesAssetResolvers(resourceManager: ResourceManager) {
+        resourceManager.findResources(Path("bedrock/species").pathString) { path -> path.endsWith(".json") }.forEach { identifier ->
+            resourceManager.getResource(identifier).use { resource ->
+                resource.inputStream.use { stream ->
+                    val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    renders[resolvedIdentifier] = RegisteredSpeciesRendering(
+                        resolvedIdentifier,
+                        SpeciesAssetResolver.GSON.fromJson(json, SpeciesAssetResolver::class.java)
+                    )
+                }
+            }
+        }
+    }
 
     override fun registerAll() {
-        // ToDo decide what to do here, ideally we don't want this to be a thing anymore and instead use a DataRegistry for the client assets
-        registerSpeciesWithAnimator(PokemonSpecies.BULBASAUR!!) { BulbasaurModel(it) }
-        /*
-        registerSpeciesWithAnimator(PokemonSpecies.BULBASAUR) { BulbasaurModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.IVYSAUR) { IvysaurModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.VENUSAUR) { VenusaurModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.SQUIRTLE) { SquirtleModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.WARTORTLE) { WartortleModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.BLASTOISE) { BlastoiseModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.CHARMELEON) { CharmeleonModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.CHARMANDER) { CharmanderModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.CHARIZARD) { CharizardModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.CATERPIE) { CaterpieModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.METAPOD) { MetapodModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.BUTTERFREE) { ButterfreeModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.WEEDLE) { WeedleModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.KAKUNA) { KakunaModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.BEEDRILL) { BeedrillModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.RATTATA) { RattataModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.RATICATE) { RaticateModel(it) }
-        registerSpeciesWithAnimator(PokemonSpecies.EEVEE) { EeveeModel(it) }
-
-        registerBaseSpeciesModel(PokemonSpecies.PIDGEY, BlockBenchModelWrapper(PidgeyModel.LAYER_LOCATION, PidgeyModel::createBodyLayer) { PidgeyModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.PIDGEOTTO, BlockBenchModelWrapper(PidgeottoModel.LAYER_LOCATION, PidgeottoModel::createBodyLayer) { PidgeottoModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.PIDGEOT, BlockBenchModelWrapper(PidgeotModel.LAYER_LOCATION, PidgeotModel::createBodyLayer) { PidgeotModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.EKANS, BlockBenchModelWrapper(EkansModel.LAYER_LOCATION, EkansModel::createBodyLayer) { EkansModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.ZUBAT, BlockBenchModelWrapper(ZubatModel.LAYER_LOCATION, ZubatModel::createBodyLayer) { ZubatModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.DIGLETT, BlockBenchModelWrapper(DiglettModel.LAYER_LOCATION, DiglettModel::createBodyLayer) { DiglettModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.DUGTRIO, BlockBenchModelWrapper(DugtrioModel.LAYER_LOCATION, DugtrioModel::createBodyLayer) { DugtrioModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.MAGIKARP, BlockBenchModelWrapper(MagikarpModel.LAYER_LOCATION, MagikarpModel::createBodyLayer) { MagikarpModel(it) })
-        registerBaseSpeciesModel(PokemonSpecies.GYARADOS, BlockBenchModelWrapper(GyaradosModel.LAYER_LOCATION, GyaradosModel::createBodyLayer) { GyaradosModel(it) })
-         */
     }
 
-    override fun initializeModelLayers() {
-        super.initializeModelLayers()
-        this.renders.values.forEach(RegisteredSpeciesRendering::initializeLayers)
+    override fun reload(resourceManager: ResourceManager) {
+        PokemonCobbled.LOGGER.info("Initializing Pokémon models")
+        this.renders.clear()
+        this.posers.clear()
+        registerPosers(resourceManager)
+        registerSpeciesAssetResolvers(resourceManager)
+        initializeModelLayers()
     }
-
-    override fun initializeModels(context: EntityRendererFactory.Context) {
-        super.initializeModels(context)
-        this.renders.values.forEach { it.parseModels(context) }
-    }
-
-    override fun reload() {
-        super.reload()
-        this.renders.values.forEach { it.reload() }
-    }
-
-    private fun registerBaseSpeciesModel(species: Species, model: BlockBenchModelWrapper<PokemonEntity>) {
-        modelsBySpecies[species] = model
-        addModel(model)
-        registerBaseSpeciesModelTexture(species)
-        registerShinySpeciesModelTexture(species)
-    }
-
-
-    private fun registerBaseSpeciesModelTexture(species: Species) {
-        modelTexturesBySpecies[species] = baseTextureFor(species)
-    }
-
-    private fun registerShinySpeciesModelTexture(species: Species) {
-        val shinyTexture = shinyTextureFor(species)
-        shinyModelTexturesBySpecies[species] = /* TODO do this later or just wait until resolved texture searchin if (shinyTexture.exists()) shinyTexture else */ baseTextureFor(species)
-    }
-
-    fun registerAnimator(name: String, animatorSupplier: (ModelPart) -> PokemonPoseableModel) {
-        posers[name] = animatorSupplier
-    }
-
-    fun registerSpeciesWithAnimator(species: Species, animatorSupplier: (ModelPart) -> PokemonPoseableModel) {
-        registerAnimator(species.name, animatorSupplier)
-        registerSpecies(species)
-    }
-
-    fun registerSpecies(species: Species): Boolean {
-        // ToDo Consider how we want to handle "safety"
-        return try {
-            this.renders[species.resourceIdentifier] = RegisteredSpeciesRendering(
-                species,
-                SpeciesAssetResolver.load("bedrock/species/${species.name}.json", species.resourceIdentifier.namespace)
-            )
-            true
-        } catch (e: NullPointerException) {
-            false
-        }
-    }
-
-    private fun baseTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-base.png")
-    private fun shinyTextureFor(species: Species) = cobbledResource("textures/pokemon/${species.name}-shiny.png")
 
     fun getEntityModel(species: Species, aspects: Set<String>): PokemonPoseableModel {
-        this.renders[species.resourceIdentifier]?.let {
-            return it.getEntityModel(aspects)
-        }
-        // TODO: This is just fetching by species at the moment. This will be developed further.
-        return modelsBySpecies[species]?.entityModel as? PokemonPoseableModel ?: throw IllegalStateException("${species.name} has no appropriate model")
+        try {
+            val entityModel = this.renders[species.resourceIdentifier]?.getEntityModel(aspects)
+            if (entityModel != null) {
+                return entityModel
+            }
+        } catch(_: IllegalStateException) { }
+        return this.renders[cobbledResource("substitute")]!!.getEntityModel(aspects)
     }
 
     fun getModelTexture(species: Species, aspects: Set<String>): Identifier {
-        this.renders[species.resourceIdentifier]?.let {
-            return it.getTexture(aspects)
-        }
-
-        return modelTexturesBySpecies[species] ?: throw IllegalStateException("pokemon has no appropriate model texture")
+        try {
+            val texture = this.renders[species.resourceIdentifier]?.getTexture(aspects)
+            if (texture != null) {
+                return texture
+            }
+        } catch(_: IllegalStateException) { }
+        return this.renders[cobbledResource("substitute")]!!.getTexture(aspects)
     }
 
 }
