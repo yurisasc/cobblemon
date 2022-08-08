@@ -103,7 +103,7 @@ open class Pokemon {
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             val previousFeatureKeys = features.map { it.name }.toSet()
             field = value
-            val newFeatureKeys = species.features + PokemonCobbled.config.globalSpeciesFeatures
+            val newFeatureKeys = species.features + PokemonCobbled.config.globalFlagSpeciesFeatures
             val addedFeatures = newFeatureKeys - previousFeatureKeys
             val removedFeatures = previousFeatureKeys - newFeatureKeys
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
@@ -680,7 +680,7 @@ open class Pokemon {
     fun initializeSpeciesFeatures() {
         features.clear()
         features.addAll(species.features.mapNotNull { SpeciesFeature.get(it)?.invoke() })
-        features.addAll(PokemonCobbled.config.globalSpeciesFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
+        features.addAll(PokemonCobbled.config.globalFlagSpeciesFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
     }
 
     fun initializeMoveset(preferLatest: Boolean = true) {

@@ -108,5 +108,8 @@ class CobbledConfig {
     var healTimer = 60
 
     @NodeCategory(Category.Pokemon)
-    var globalSpeciesFeatures = mutableListOf<String>()
+    var globalFlagSpeciesFeatures = mutableListOf<String>()
+
+    @NodeCategory(Category.Pokemon)
+    var flagSpeciesFeatures = mutableListOf("sunglasses")
 }

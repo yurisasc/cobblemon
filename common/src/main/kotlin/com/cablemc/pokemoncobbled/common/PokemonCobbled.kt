@@ -161,10 +161,8 @@ object PokemonCobbled {
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()
 
-        FlagSpeciesFeature.registerWithPropertyAndAspect("sunglasses")
-        config.globalSpeciesFeatures.forEach { name ->
-            FlagSpeciesFeature.registerWithPropertyAndAspect(name)
-        }
+        config.flagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
+        config.globalFlagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
 
 
         CustomPokemonProperty.register(UntradeableProperty)
