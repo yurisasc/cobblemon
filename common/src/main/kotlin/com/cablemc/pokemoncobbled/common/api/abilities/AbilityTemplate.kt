@@ -12,10 +12,10 @@ import net.minecraft.text.MutableText
  * @param name: The English name used to load / find it (spaces -> _)
  */
 class AbilityTemplate(
-    val name: String,
-    val builder: (AbilityTemplate) -> Ability = { Ability(it) },
-    val displayName: MutableText = lang("ability.${name.lowercase()}"),
-    val description: MutableText = lang("ability.${name.lowercase()}.desc")
+    val name: String = "",
+    var builder: (AbilityTemplate) -> Ability = { Ability(it) },
+    val displayName: MutableText = lang("ability.$name"),
+    val description: MutableText = lang("ability.$name.desc")
 ) {
     /**
      * Returns the Ability or if applicable the extension connected to this template

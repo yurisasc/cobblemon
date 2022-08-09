@@ -269,7 +269,7 @@ open class Pokemon {
      */
     val benchedMoves = BenchedMoves()
 
-    var ability: Ability = Abilities.RUN_AWAY.create()
+    var ability: Ability = Abilities.first().create()
 
     val hp: Int
         get() = getStat(Stats.HP)

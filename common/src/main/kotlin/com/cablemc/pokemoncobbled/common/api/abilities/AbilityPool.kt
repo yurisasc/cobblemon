@@ -23,6 +23,6 @@ open class AbilityPool : PrioritizedList<PotentialAbility>() {
         }
 
         LOGGER.error("Unable to select an ability from the pool for $species and aspects: ${aspects.joinToString()}")
-        return Abilities.RUN_AWAY.create()
+        return Abilities.first().create()
     }
 }
