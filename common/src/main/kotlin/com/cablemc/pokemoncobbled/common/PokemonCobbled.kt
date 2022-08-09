@@ -57,6 +57,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.properties.UncatchableProperty
 import com.cablemc.pokemoncobbled.common.pokemon.properties.UntradeableProperty
+import com.cablemc.pokemoncobbled.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import com.cablemc.pokemoncobbled.common.starter.CobbledStarterHandler
 import com.cablemc.pokemoncobbled.common.util.getServer
@@ -167,6 +168,7 @@ object PokemonCobbled {
 
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)
+        CustomPokemonProperty.register(PokemonFlagProperty)
 
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 
