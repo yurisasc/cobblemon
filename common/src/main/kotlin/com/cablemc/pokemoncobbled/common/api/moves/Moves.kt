@@ -1,28 +1,42 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.asset.JsonManifestWalker
+import com.cablemc.pokemoncobbled.common.api.data.JsonDataRegistry
 import com.cablemc.pokemoncobbled.common.api.moves.adapters.DamageCategoryAdapter
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
+import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import kotlin.io.path.Path
+import net.minecraft.resource.ResourceType
+import net.minecraft.util.Identifier
 
 /**
  * Registry for all known Moves
  */
-object Moves {
-    val GSON = GsonBuilder()
+object Moves : JsonDataRegistry<MoveTemplate> {
+    override val gson = GsonBuilder()
         .registerTypeAdapter(DamageCategory::class.java, DamageCategoryAdapter)
         .registerTypeAdapter(ElementalType::class.java, ElementalTypeAdapter)
         .setLenient()
         .disableHtmlEscaping()
         .create()
 
-    private val allMoves = mutableMapOf<String, MoveTemplate>()
+    override val id = cobbledResource("moves")
+    override val type = ResourceType.SERVER_DATA
+    override val typeToken: TypeToken<MoveTemplate> = TypeToken.get(MoveTemplate::class.java)
+    override val resourcePath = Path("moves")
+    override val observable = SimpleObservable<Moves>()
 
-    fun load() {
-        allMoves.putAll(loadFromFiles())
+    private val allMoves = mutableMapOf<String, MoveTemplate>()
+    override fun reload(data: Map<Identifier, MoveTemplate>) {
+        this.allMoves.clear()
+        data.forEach { (identifier, moveTemplate) -> this.allMoves[identifier.path] = moveTemplate }
+        PokemonCobbled.LOGGER.info("Loaded {} moves", this.allMoves.size)
+        this.observable.emit(this)
     }
 
     fun getByName(name: String) = allMoves[name.lowercase()]
@@ -30,26 +44,4 @@ object Moves {
     fun getExceptional() = getByName("tackle") ?: allMoves.values.random()
     fun count() = allMoves.size
     fun names(): Collection<String> = this.allMoves.keys.toSet()
-
-    /**
-     * Loads the move JSON files into a HashMap.
-     */
-    fun loadFromFiles() : MutableMap<String, MoveTemplate> {
-        val map = mutableMapOf<String, MoveTemplate>()
-        try {
-            val moveTemplates = JsonManifestWalker.load(
-                MoveTemplate::class.java,
-                "moves",
-                GSON
-            )
-            for (template in moveTemplates) {
-                map[template.name] = template
-            }
-            return map
-        } catch (e: Exception) {
-            PokemonCobbled.LOGGER.error("Error loading moves from files.")
-            e.printStackTrace()
-        }
-        return mutableMapOf()
-    }
 }

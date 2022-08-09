@@ -11,7 +11,6 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STOPPING
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.TICK_POST
-import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.net.serializers.PoseTypeDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
@@ -109,9 +108,6 @@ object PokemonCobbled {
 
         ExperienceGroups.registerDefaults()
         Abilities.loadPotentialAbilityInterpreters()
-
-        Moves.load()
-        LOGGER.info("Loaded ${Moves.count()} Moves.")
 
         /*
         // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
