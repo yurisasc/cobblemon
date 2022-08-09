@@ -42,6 +42,28 @@ class PCGui(
                 MinecraftClient.getInstance().setScreen(null)
             })
 
+        // Add Forward Button
+        this.addDrawableChild(
+            NavigationButton(
+                pX = x + 230, pY = y + 9,
+                pWidth = 9, pHeight = 14,
+                pXTexStart = 0, pYTexStart = 0, pYDiffText = 0,
+                forward = true
+            ) {
+                pcWidget.box += 1
+            })
+
+        // Add Backwards Button
+        this.addDrawableChild(
+            NavigationButton(
+                pX = x + 108, pY = y + 9,
+                pWidth = 9, pHeight = 14,
+                pXTexStart = 0, pYTexStart = 0, pYDiffText = 0,
+                forward = false
+            ) {
+                pcWidget.box -= 1
+            })
+
         // Add PC
         this.pcWidget = PCWidget(
             pX = x + 116, pY = y + 32,
