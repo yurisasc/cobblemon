@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.entity.LivingEntity
 
 object DebugCaptureCalculator : CaptureCalculator {
-    override fun processCapture(thrower: LivingEntity, pokemon: Pokemon, pokeBall: PokeBall): CaptureContext {
+    override fun processCapture(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon, host: Pokemon?): CaptureContext {
         return CaptureContext(numberOfShakes = 4, isSuccessfulCapture = true, isCriticalCapture = false)
     }
 }

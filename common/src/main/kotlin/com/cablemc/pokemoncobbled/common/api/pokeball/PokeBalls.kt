@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.pokeball
 
+import com.cablemc.pokemoncobbled.common.api.pokeball.catching.modifiers.GuaranteedModifier
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.modifiers.MultiplierModifier
 import com.cablemc.pokemoncobbled.common.pokeball.PokeBall
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -14,9 +15,9 @@ object PokeBalls {
     private val allPokeBalls = mutableListOf<PokeBall>()
 
     val POKE_BALL = registerPokeBall(PokeBall(cobbledResource("poke_ball")))
-    val GREAT_BALL = registerPokeBall(PokeBall(cobbledResource("great_ball"), listOf(MultiplierModifier(1.5f))))
-    val ULTRA_BALL = registerPokeBall(PokeBall(cobbledResource("ultra_ball"), listOf(MultiplierModifier(2f))))
-    val MASTER_BALL = registerPokeBall(PokeBall(cobbledResource("master_ball"), listOf(MultiplierModifier(255f))))
+    val GREAT_BALL = registerPokeBall(PokeBall(cobbledResource("great_ball"), listOf(MultiplierModifier(1.5f, null))))
+    val ULTRA_BALL = registerPokeBall(PokeBall(cobbledResource("ultra_ball"), listOf(MultiplierModifier(2.0f, null))))
+    val MASTER_BALL = registerPokeBall(PokeBall(cobbledResource("master_ball"), listOf(GuaranteedModifier())))
 
     /**
      * Registers a new pokeball type.
