@@ -1,8 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
-import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
-import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
+import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
