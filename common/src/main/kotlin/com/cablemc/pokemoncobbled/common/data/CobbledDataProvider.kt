@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.data
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
+import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.data.DataProvider
 import com.cablemc.pokemoncobbled.common.api.data.DataRegistry
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
@@ -19,6 +20,7 @@ internal object CobbledDataProvider : DataProvider {
 
     fun registerDefaults() {
         this.register(Moves)
+        this.register(Abilities)
         this.register(PokemonSpecies)
     }
 
