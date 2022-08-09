@@ -30,6 +30,43 @@ object CobbledGen348CaptureCalculator : CaptureCalculator {
         }
     }
 
+    /**
+     * Calculates catch rates based on the following mechanics:
+     *
+     * Gen 3/4: https://bulbapedia.bulbagarden.net/wiki/Catch_rate#Capture_method_.28Generation_III-IV.29
+     * Gen 8: https://bulbapedia.bulbagarden.net/wiki/Catch_rate#Capture_method_.28Generation_VIII.29
+     *
+     * Due to pokemon making pokemon captures on Gen 5 and higher much easier, this implementation
+     * calculates catch rate in a modified manner to increase difficulty. First, it calculates the base capture
+     * rate via the Gen 3/4 mechanics. This involves the following variables:
+     * * The pokemon's maximum HP at its current level
+     * * The pokemon's current HP
+     * * The base catch rate of the pokemon
+     * * Modifiers which directly affect the catch rate
+     * * A status inflicted on the pokemon
+     *
+     * These values are used in accordance with the Gen 3/4 modified catch rate formula, and are then
+     * additionally ran through difficulty modifiers introduced in generation 8. These modifiers can be
+     * described as the following:
+     * * L: Based on the level of the target wild pokemon
+     * * D: A difficulty factor, modified to scale with your own pokemon's level, which is directly affected
+     * by the level of the wild pokemon against your own.
+     *
+     * Normally, the difficulty factor simply checks if the level of your pokemon is less than the target wild
+     * pokemon. If so, your capture rate is immediately reduced by 90%, making it far more difficult for a
+     * pokeball to succeed in capture. In this implementation, the mechanic scales to your level, so the closer
+     * your pokemon is to the opponent's level, the better the odds. So, if the target pokemon is level 100 and
+     * your pokemon is level 95, you'd only face a 10% reduction. Now, in the event your pokemon is level 5 and
+     * the target is level 10, you'd have a 50% reduction in catch rate potential. This should see a better
+     * difficulty factor for users who simply start and catch the highest level pokemon they can find immediately,
+     * effectively skipping the entire starting phase.
+     *
+     * In the event you throw a pokeball out of battle, the difficulty factor will automatically default to the base
+     * 90% reduction.
+     *
+     * Finally, if your pokemon has a level higher than that of the target, a maximum multiplier of 1 will be applied,
+     * which simply forces this modifier to act as a no-op.
+     */
     private fun getCatchRate(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon, host: Pokemon?): Float {
         var catchRate = target.species.catchRate.toFloat()
         pokeBall.catchRateModifiers.forEach { catchRate = it.modifyCatchRate(catchRate, thrower, target, host) }
@@ -39,7 +76,13 @@ object CobbledGen348CaptureCalculator : CaptureCalculator {
 
         val base = (((3 * target.hp - 2 * target.currentHealth) * catchRate) / (3 * target.hp)) * statusBonus
         val l = max(1, (30 - target.level) / 10)
-        val d = min(410.0f, max(1.0f, (host?.level ?: 10) / (10.0f / (100 / target.level))) * 410.0f) / 4096.0f
+
+        val min = 33.0f/100.0f
+        val d = if(host != null) {
+            min(1.0f, max(min, host.level.toFloat() / target.level.toFloat()))
+        } else {
+            min
+        }
 
         return if(guaranteed) 255.0f else (base * l * d)
     }
