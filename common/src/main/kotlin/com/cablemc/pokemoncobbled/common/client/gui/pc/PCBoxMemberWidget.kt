@@ -43,7 +43,7 @@ class PCBoxMemberWidget(
         matrices.translate(this.x + (PORTRAIT_DIMENSIONS / 2.0) + 4, this.y + 4.0, 0.0)
         matrices.scale(2.5F, 2.5F, 1F)
         drawProfilePokemon(
-            pokemon = this.pokemon,
+            renderablePokemon = this.pokemon.asRenderablePokemon(),
             matrixStack = matrices,
             rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
             state = null,

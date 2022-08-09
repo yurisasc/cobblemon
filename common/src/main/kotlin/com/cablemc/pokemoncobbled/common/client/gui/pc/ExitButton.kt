@@ -7,14 +7,12 @@ import net.minecraft.client.util.math.MatrixStack
 
 class ExitButton(
     pX: Int, pY: Int,
-    pWidth: Int, pHeight: Int,
+    val pWidth: Int, val pHeight: Int,
     pXTexStart: Int, pYTexStart: Int, pYDiffText: Int,
     onPress: PressAction
 ): TexturedButtonWidget(pX, pY, pWidth, pHeight, pXTexStart, pYTexStart, pYDiffText, exitButtonResource, onPress) {
 
     companion object {
-        private const val EXIT_BUTTON_WIDTH = 17F
-        private const val EXIT_BUTTON_HEIGHT = 13F
         private val exitButtonResource = cobbledResource("ui/pc/pc_exit.png")
     }
 
@@ -23,9 +21,9 @@ class ExitButton(
         if (isHovered) {
             blitk(
                 matrixStack = pMatrixStack,
-                x = x + 0.57F, y = y - 0.5F,
+                x = x + 0.1, y = y - 1F,
                 texture = exitButtonResource,
-                width = EXIT_BUTTON_WIDTH, height = EXIT_BUTTON_HEIGHT
+                width = pWidth, height = pHeight
             )
         }
     }

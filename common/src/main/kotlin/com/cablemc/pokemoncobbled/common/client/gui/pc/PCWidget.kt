@@ -9,21 +9,41 @@ import net.minecraft.text.LiteralText
 class PCWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
-    pcGui: PCGui,
-    pc: ClientPC
+    private val pcGui: PCGui,
+    private val pc: ClientPC
 ) : SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("PCWidget")) {
 
     var box = 0
+        set(value) {
+            // If value is within min and max
+            field = if (value > 0 && value < pc.boxes.size) {
+                value
+            }
+            // If value is less than zero, wrap around to end.
+            else if (value < 0) {
+                pc.boxes.size - 1;
+            }
+            // Else it's greater than max, wrap around to start.
+            else {
+                0
+            }
+            this.setupMemberWidgets()
+        }
     private val pcWidgets = arrayListOf<PCBoxMemberWidget>()
 
     init {
+        this.setupMemberWidgets()
+    }
+
+    private fun setupMemberWidgets() {
+        this.pcWidgets.clear()
         var index = 0;
 
         for (row in 1..5) {
             for (col in 1..6) {
                 PCBoxMemberWidget(
-                    x = pX + (col-1) * 29,
-                    y = pY + (row-1) * 29,
+                    x = x + (col-1) * 29,
+                    y = y + (row-1) * 29,
                     pcGui = pcGui,
                     pc = pc,
                     pokemon = pc.get(PCPosition(box, index)),

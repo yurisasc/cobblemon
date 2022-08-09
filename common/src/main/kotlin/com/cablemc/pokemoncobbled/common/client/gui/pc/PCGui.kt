@@ -4,6 +4,8 @@ import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
+import com.cablemc.pokemoncobbled.common.api.text.bold
+import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.storage.ClientPC
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.MinecraftClient
@@ -24,30 +26,30 @@ class PCGui(
         private val underlay = cobbledResource("ui/pc/pc_underlay.png")
     }
 
+    private lateinit var pcWidget: PCWidget
+
     override fun init() {
         val x = (width - backgroundWidth) / 2
         val y = (height - backgroundHeight) / 2
 
         // Add Exit Button
-        addDrawableChild(
+        this.addDrawableChild(
             ExitButton(
-                pX = x + 248, pY = y + 3,
-                pWidth = 18, pHeight = 13,
+                pX = x + 249, pY = y + 4,
+                pWidth = 16, pHeight = 12,
                 pXTexStart = 0, pYTexStart = 0, pYDiffText = 0
             ) {
                 MinecraftClient.getInstance().setScreen(null)
             })
 
-        // Add Party
-        addDrawableChild(
-            PCWidget(
-                pX = x + 116, pY = y + 32,
-                pWidth = 175, pHeight = 145,
-                pcGui = this,
-                pc = pc
-            )
+        // Add PC
+        this.pcWidget = PCWidget(
+            pX = x + 116, pY = y + 32,
+            pWidth = 175, pHeight = 145,
+            pcGui = this,
+            pc = pc
         )
-
+        this.addDrawableChild(pcWidget)
         super.init()
     }
 
@@ -73,13 +75,14 @@ class PCGui(
             width = backgroundWidth, height = backgroundHeight
         )
 
-        val titleTextScale = 1.0
-        drawCenteredText(
-            poseStack = matrices,
-            font = CobbledResources.NOTO_SANS_BOLD,
-            text = TranslatableText("pokemoncobbled.ui.box.title", 0.toString()),
-            x = (x) / titleTextScale, y = (y) / titleTextScale,
-            colour = ColourLibrary.WHITE, shadow = false
+        drawScaledText(
+            matrixStack = matrices,
+            font = CobbledResources.DEFAULT_LARGE,
+            text = TranslatableText("pokemoncobbled.ui.box.title", (this.pcWidget.box + 1).toString()),
+            x = (x + 173.5), y = (y + 8.75),
+            colour = ColourLibrary.WHITE, shadow = false,
+            centered = true,
+            scale = 1.5f,
         )
 
         super.render(matrices, mouseX, mouseY, delta)
