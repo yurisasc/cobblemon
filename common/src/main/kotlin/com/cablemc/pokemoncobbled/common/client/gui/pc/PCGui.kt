@@ -1,7 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.gui.pc
 
+import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
+import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.client.storage.ClientPC
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.MinecraftClient
@@ -71,7 +73,23 @@ class PCGui(
             width = backgroundWidth, height = backgroundHeight
         )
 
+        val titleTextScale = 1.0
+        drawCenteredText(
+            poseStack = matrices,
+            font = CobbledResources.NOTO_SANS_BOLD,
+            text = TranslatableText("pokemoncobbled.ui.box.title", 0.toString()),
+            x = (x) / titleTextScale, y = (y) / titleTextScale,
+            colour = ColourLibrary.WHITE, shadow = false
+        )
+
         super.render(matrices, mouseX, mouseY, delta)
+    }
+
+    /**
+     * Whether this Screen should pause the Game in SinglePlayer
+     */
+    override fun shouldPause(): Boolean {
+        return false
     }
 
 }
