@@ -20,6 +20,7 @@ import com.cablemc.pokemoncobbled.common.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.common.client.starter.ClientPlayerData
 import com.cablemc.pokemoncobbled.common.client.storage.ClientStorageManager
+import com.cablemc.pokemoncobbled.common.data.CobbledDataProvider
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
@@ -51,6 +52,7 @@ object PokemonCobbledClient {
     fun onLogin() {
         clientPlayerData = ClientPlayerData()
         storage.onLogin()
+        CobbledDataProvider.canReload = false
     }
 
     fun onLogout() {
@@ -59,7 +61,7 @@ object PokemonCobbledClient {
         battleOverlay = BattleOverlay()
         ScheduledTaskTracker.clear()
         checkedStarterScreen = false
-
+        CobbledDataProvider.canReload = true
     }
 
     fun initialize(implementation: PokemonCobbledClientImplementation) {
