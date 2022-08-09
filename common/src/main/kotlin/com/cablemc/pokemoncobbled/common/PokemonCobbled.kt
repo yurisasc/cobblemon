@@ -25,6 +25,7 @@ import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.spawning.BestSpawner
+import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawnPools
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolver
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
@@ -107,11 +108,7 @@ object PokemonCobbled {
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
 
         ExperienceGroups.registerDefaults()
-
-        /*
-        // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
-        LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
-         */
+        PokemonSpecies.observable.subscribe { CobbledSpawnPools.load() }
 
         this.loadConfig()
         this.implementation = implementation
