@@ -7,6 +7,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.scaleIt
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
 import net.minecraft.util.math.Quaternion
@@ -16,9 +17,10 @@ class PCBoxMemberWidget(
     x: Int, y: Int,
     private val pcGui: PCGui,
     private val pc: ClientPC,
-    private val pokemon: Pokemon?,
-    private val index: Int
-) : SoundlessWidget(x - PC_BOX_DIMENSION, y, PC_BOX_DIMENSION, PC_BOX_DIMENSION, LiteralText("PCBoxMember")) {
+    val pokemon: Pokemon?,
+    val index: Int,
+    onPress: PressAction
+) : ButtonWidget(x - PC_BOX_DIMENSION, y, PC_BOX_DIMENSION, PC_BOX_DIMENSION, LiteralText("PCBoxMember"), onPress) {
 
     companion object {
         // Box slot

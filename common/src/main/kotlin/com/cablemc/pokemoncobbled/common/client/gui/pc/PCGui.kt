@@ -3,10 +3,9 @@ package com.cablemc.pokemoncobbled.common.client.gui.pc
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
-import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
-import com.cablemc.pokemoncobbled.common.api.text.bold
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.storage.ClientPC
+import com.cablemc.pokemoncobbled.common.client.storage.ClientParty
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
@@ -14,7 +13,8 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.TranslatableText
 
 class PCGui(
-    private val pc: ClientPC
+    private val pc: ClientPC,
+    private val party: ClientParty
 ) : Screen(TranslatableText("pokemoncobbled.ui.pc.title")) {
 
     companion object {
@@ -69,7 +69,8 @@ class PCGui(
             pX = x + 116, pY = y + 32,
             pWidth = 175, pHeight = 145,
             pcGui = this,
-            pc = pc
+            pc = pc,
+            party = party
         )
         this.addDrawableChild(pcWidget)
         super.init()

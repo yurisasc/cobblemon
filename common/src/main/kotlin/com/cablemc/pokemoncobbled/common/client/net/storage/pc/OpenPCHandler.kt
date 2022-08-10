@@ -10,6 +10,6 @@ import net.minecraft.client.MinecraftClient
 object OpenPCHandler : ClientPacketHandler<OpenPCPacket> {
     override fun invokeOnClient(packet: OpenPCPacket, ctx: CobbledNetwork.NetworkContext) {
         val pc = PokemonCobbledClient.storage.pcStores[packet.storeID] ?: return
-        MinecraftClient.getInstance().setScreen(PCGui(pc))
+        MinecraftClient.getInstance().setScreen(PCGui(pc, PokemonCobbledClient.storage.myParty))
     }
 }
