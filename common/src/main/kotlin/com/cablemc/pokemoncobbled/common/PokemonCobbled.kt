@@ -14,6 +14,7 @@ import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
+import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CobbledGen348CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegistry
@@ -86,7 +87,7 @@ object PokemonCobbled {
 
     lateinit var implementation: PokemonCobbledModImplementation
     lateinit var showdown: ShowdownConnection
-    var captureCalculator: CaptureCalculator = Gen7CaptureCalculator
+    var captureCalculator: CaptureCalculator = CobbledGen348CaptureCalculator
     var experienceCalculator: ExperienceCalculator = StandardExperienceCalculator
     var starterHandler: StarterHandler = CobbledStarterHandler()
     var isDedicatedServer = false

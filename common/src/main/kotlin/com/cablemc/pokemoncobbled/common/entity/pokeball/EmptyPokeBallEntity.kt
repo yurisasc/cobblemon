@@ -180,7 +180,6 @@ class EmptyPokeBallEntity(
                     return drop()
                 }
                 capturingPokemon = pokemonEntity
-                pokemonEntity.busyLocks.add(this)
                 hitVelocity.set(velocity.normalize())
                 hitTargetPosition.set(hitResult.pos)
                 attemptCatch(pokemonEntity)
@@ -216,7 +215,7 @@ class EmptyPokeBallEntity(
                 capturingPokemon?.setPositionSafely(pos)
                 captureState.set(CaptureState.SHAKE.ordinal.toByte())
 
-                val captureResult = PokemonCobbled.captureCalculator.processCapture(owner as ServerPlayerEntity, capturingPokemon!!.pokemon, pokeBall)
+                val captureResult = PokemonCobbled.captureCalculator.processCapture(owner as ServerPlayerEntity, pokeBall, capturingPokemon!!.pokemon, null)
 
                 var rollsRemaining = captureResult.numberOfShakes
                 if (rollsRemaining == 4) {
