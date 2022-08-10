@@ -15,6 +15,8 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.isLookingAt
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
+import kotlin.math.min
+import kotlin.math.tan
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.RenderLayer
@@ -25,12 +27,11 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 import net.minecraft.util.math.Vector4f
-import kotlin.math.min
-import kotlin.math.tan
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
@@ -43,10 +44,20 @@ class PokemonRenderer(
         )
     }
 
-    override fun getTexture(pEntity: PokemonEntity) = PokemonModelRepository.getModelTexture(pEntity.pokemon.species, pEntity.aspects.get())
-    override fun render(entity: PokemonEntity, pEntityYaw: Float, partialTicks: Float, poseMatrix: MatrixStack, buffer: VertexConsumerProvider, pPackedLight: Int) {
+    override fun getTexture(entity: PokemonEntity): Identifier {
+        return PokemonModelRepository.getTexture(entity.pokemon.species, entity.aspects.get())
+    }
+
+    override fun render(
+        entity: PokemonEntity,
+        entityYaw: Float,
+        partialTicks: Float,
+        poseMatrix: MatrixStack,
+        buffer: VertexConsumerProvider,
+        packedLight: Int
+    ) {
         DELTA_TICKS = partialTicks // TODO move this somewhere universal // or just fecking remove it
-        model = PokemonModelRepository.getEntityModel(entity.pokemon.species, entity.aspects.get())
+        model = PokemonModelRepository.getPoser(entity.pokemon.species, entity.aspects.get())
 
         val clientDelegate = entity.delegate as PokemonClientDelegate
         val beamMode = entity.beamModeEmitter.get().toInt()
@@ -71,11 +82,17 @@ class PokemonRenderer(
             renderBeam(poseMatrix, partialTicks, entity, phaseTarget, buffer)
         }
 
-        super.render(entity, pEntityYaw, partialTicks, poseMatrix, buffer, pPackedLight)
+        if (modelNow is PokemonPoseableModel) {
+            modelNow.setLayerContext(buffer, PokemonModelRepository.getLayers(entity.pokemon.species, entity.aspects.get()))
+        }
+
+        super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)
 
         if (modelNow is PokemonPoseableModel) {
             modelNow.green = 1F
             modelNow.blue = 1F
+
+            modelNow.resetLayerContext()
         }
 
         if (phaseTarget != null && beamMode != 0) {

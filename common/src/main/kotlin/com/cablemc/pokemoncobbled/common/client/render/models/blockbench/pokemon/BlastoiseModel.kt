@@ -25,6 +25,7 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     private val leftEar = getPart("ear_left")
     override val leftEarJoint = EarJoint(leftEar, TransformedModelPart.Z_AXIS, RangeOfMotion(50F.toRadians(), 0F))
     override val rightEarJoint = EarJoint(rightEar, TransformedModelPart.Z_AXIS, RangeOfMotion((-50F).toRadians(), 0F))
+
     override val portraitScale = 1.35F
     override val portraitTranslation = Vec3d(-0.2, 1.25, 0.0)
 
@@ -41,7 +42,6 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
             transformTicks = 10,
-            condition = { !it.isMoving.get() && !it.isSubmergedInWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("blastoise", "ground_idle")
@@ -52,7 +52,6 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "swim_idle",
             poseTypes = setOf(PoseType.SWIM),
             transformTicks = 10,
-            condition = { it.isSubmergedInWater && !it.isMoving.get() },
             idleAnimations = arrayOf(
                 bedrock("blastoise", "water_idle"),
                 singleBoneLook()
@@ -63,7 +62,6 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "swim_move",
             poseTypes = setOf(PoseType.SWIM),
             transformTicks = 10,
-            condition = { it.isSubmergedInWater && it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("blastoise", "water_swim")

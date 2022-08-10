@@ -28,6 +28,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VenusaurModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
+import com.cablemc.pokemoncobbled.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -124,17 +125,17 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         initializeModelLayers()
     }
 
-    fun getEntityModel(species: Species, aspects: Set<String>): PokemonPoseableModel {
+    fun getPoser(species: Species, aspects: Set<String>): PokemonPoseableModel {
         try {
-            val entityModel = this.renders[species.resourceIdentifier]?.getEntityModel(aspects)
-            if (entityModel != null) {
-                return entityModel
+            val poser = this.renders[species.resourceIdentifier]?.getPoser(aspects)
+            if (poser != null) {
+                return poser
             }
         } catch(_: IllegalStateException) { }
-        return this.renders[cobbledResource("substitute")]!!.getEntityModel(aspects)
+        return this.renders[cobbledResource("substitute")]!!.getPoser(aspects)
     }
 
-    fun getModelTexture(species: Species, aspects: Set<String>): Identifier {
+    fun getTexture(species: Species, aspects: Set<String>): Identifier {
         try {
             val texture = this.renders[species.resourceIdentifier]?.getTexture(aspects)
             if (texture != null) {
@@ -144,4 +145,13 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         return this.renders[cobbledResource("substitute")]!!.getTexture(aspects)
     }
 
+    fun getLayers(species: Species, aspects: Set<String>): List<ModelLayer> {
+        try {
+            val layers = this.renders[species.resourceIdentifier]?.getLayers(aspects)
+            if (layers != null) {
+                return layers
+            }
+        } catch(_: IllegalStateException) { }
+        return this.renders[cobbledResource("substitute")]!!.getLayers(aspects)
+    }
 }
