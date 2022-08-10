@@ -20,7 +20,7 @@ open class FlagSpeciesFeatureCustomPropertyType(val name: String) : CustomPokemo
                 enabled = value.toBoolean()
             } catch (_: Exception) {}
         }
-        val feature = SpeciesFeature.get(name)!!.getDeclaredConstructor().newInstance() as FlagSpeciesFeature
+        val feature = SpeciesFeature.get(name)?.invoke() as? FlagSpeciesFeature ?: return null
         feature.enabled = enabled
         return feature
     }

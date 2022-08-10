@@ -3,8 +3,7 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemo
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.QuadrupedFrame
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d

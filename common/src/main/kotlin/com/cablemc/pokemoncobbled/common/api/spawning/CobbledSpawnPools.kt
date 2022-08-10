@@ -14,5 +14,9 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
  */
 object CobbledSpawnPools {
     /** [SpawnPool] used for standard world spawning. */
-    var WORLD_SPAWN_POOL = SpawnLoader.load("world").addPrecalculators(ContextPrecalculation, BucketPrecalculation)
+    lateinit var WORLD_SPAWN_POOL: SpawnPool
+
+    fun load() {
+        WORLD_SPAWN_POOL = SpawnLoader.load("world").addPrecalculators(ContextPrecalculation, BucketPrecalculation)
+    }
 }

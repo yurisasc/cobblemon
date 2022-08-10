@@ -109,6 +109,10 @@ class TransformedModelPart(
         return addRotation(X_AXIS, pitch.toFloat().toRadians()).addRotation(Y_AXIS, yaw.toFloat().toRadians()).addRotation(Z_AXIS, roll.toFloat().toRadians())
     }
 
+    fun withRotationDegrees(pitch: Number, yaw: Number, roll: Number): TransformedModelPart {
+        return withRotation(pitch.toFloat().toRadians(), yaw.toFloat().toRadians(), roll.toFloat().toRadians())
+    }
+
     fun addRotationDegrees(axis: Int, angle: Number): TransformedModelPart {
         return addRotation(axis, rotation[axis] + angle.toFloat().toRadians() * changeFactor)
     }

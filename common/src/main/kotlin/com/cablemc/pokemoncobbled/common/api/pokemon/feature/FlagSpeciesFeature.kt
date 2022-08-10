@@ -13,28 +13,25 @@ import net.minecraft.nbt.NbtCompound
  * to provide a convenient means of registering it with a [CustomPokemonPropertyType]. That can be done
  * smoothly using [FlagSpeciesFeature.registerWithProperty].
  *
- * Implementations of this class don't need to implement anything, but as mentioned in [SpeciesFeature]
- * it's crucial that the same class not be reused for multiple distinct features and making this abstract
- * protects you from yourselves.
+ * Implementations of this class don't need to implement anything.
  *
  * @author Hiroku
  * @since May 13th, 2022
  */
-abstract class FlagSpeciesFeature : SpeciesFeature, CustomPokemonProperty {
+open class FlagSpeciesFeature(override val name: String) : SpeciesFeature, CustomPokemonProperty {
     companion object {
         fun <T : FlagSpeciesFeature> registerWithProperty(name: String, clazz: Class<T>) {
             SpeciesFeature.register(name, clazz)
             CustomPokemonProperty.properties.add(FlagSpeciesFeatureCustomPropertyType(name))
         }
 
-        fun <T : FlagSpeciesFeature> registerWithPropertyAndAspect(name: String, clazz: Class<T>) {
-            SpeciesFeature.register(name, clazz)
+        fun registerWithPropertyAndAspect(name: String) {
+            SpeciesFeature.register(name) { FlagSpeciesFeature(name) }
             CustomPokemonProperty.properties.add(FlagSpeciesFeatureCustomPropertyType(name))
             AspectProvider.register(SingleConditionalAspectProvider.getForFeature(name))
         }
     }
 
-    val name by lazy { SpeciesFeature.getName(this)!! }
     open var enabled = false
 
     override fun saveToNBT(pokemonNBT: NbtCompound): NbtCompound {
@@ -53,11 +50,12 @@ abstract class FlagSpeciesFeature : SpeciesFeature, CustomPokemonProperty {
     }
 
     override fun loadFromJSON(pokemonJSON: JsonObject): SpeciesFeature {
-        enabled = pokemonJSON.get(name)?.asBoolean ?: enabled
+        val isEnabled = pokemonJSON.get(name)?.asBoolean
+        enabled = isEnabled ?: this.enabled
         return this
     }
 
-    override fun asString() = "name=$enabled"
+    override fun asString() = "$name=$enabled"
 
     override fun apply(pokemon: Pokemon) {
         pokemon.getFeature<FlagSpeciesFeature>(name)?.enabled = enabled

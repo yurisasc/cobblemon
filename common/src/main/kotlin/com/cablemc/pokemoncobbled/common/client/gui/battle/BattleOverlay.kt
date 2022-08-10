@@ -13,9 +13,9 @@ import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.client.render.getDepletableRedGreen
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokeball.PokeBallModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokeBallModelRepository
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.battleLang

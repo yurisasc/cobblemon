@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.command.argument
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.pokemon.Species
+import com.cablemc.pokemoncobbled.common.util.asIdentifierDefaultingNamespace
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -13,7 +14,7 @@ import net.minecraft.text.TranslatableText
 import java.util.concurrent.CompletableFuture
 
 //Very helpful for all command related stuff: https://fabricmc.net/wiki/tutorial:commands#brigadier_explained
-class PokemonArgumentType: ArgumentType<Species> {
+class PokemonArgumentType : ArgumentType<Species> {
 
     companion object {
         val EXAMPLES: List<String> = listOf("eevee")
@@ -27,7 +28,8 @@ class PokemonArgumentType: ArgumentType<Species> {
     }
 
     override fun parse(reader: StringReader): Species {
-        return PokemonSpecies.getByName(reader.readString().lowercase())
+        val identifier = reader.readString().asIdentifierDefaultingNamespace()
+        return PokemonSpecies.getByIdentifier(identifier)
             ?: throw SimpleCommandExceptionType(INVALID_POKEMON).createWithContext(reader)
     }
 
@@ -35,7 +37,7 @@ class PokemonArgumentType: ArgumentType<Species> {
         context: CommandContext<S>,
         builder: SuggestionsBuilder
     ): CompletableFuture<Suggestions> {
-        return CommandSource.suggestMatching(PokemonSpecies.species.map { it.name }, builder)
+        return CommandSource.suggestMatching(PokemonSpecies.species.map { it.resourceIdentifier.toString() }, builder)
     }
 
     override fun getExamples() = EXAMPLES

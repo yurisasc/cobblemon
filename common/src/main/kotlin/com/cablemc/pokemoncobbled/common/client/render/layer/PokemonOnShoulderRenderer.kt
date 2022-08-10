@@ -1,8 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.render.layer
 
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.isPokemonEntity
@@ -55,8 +54,8 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
                 0.0
             )
             pMatrixStack.scale(scale, scale, scale)
-            val model = PokemonModelRepository.getEntityModel(pokemon.species, pokemon.aspects)
-            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getModelTexture(pokemon.species, pokemon.aspects)))
+            val model = PokemonModelRepository.getPoser(pokemon.species, pokemon.aspects)
+            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(pokemon.species, pokemon.aspects)))
             val i = LivingEntityRenderer.getOverlay(pLivingEntity, 0.0f)
             model.setupAnimStateless(
                 poseType = if (pLeftShoulder) PoseType.SHOULDER_LEFT else PoseType.SHOULDER_RIGHT,

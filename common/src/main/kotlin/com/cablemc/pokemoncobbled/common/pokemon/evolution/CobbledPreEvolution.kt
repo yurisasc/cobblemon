@@ -4,14 +4,15 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.FormData
 import com.cablemc.pokemoncobbled.common.pokemon.Species
+import net.minecraft.util.Identifier
 
 class CobbledPreEvolution(
-    private val speciesName: String,
+    private val speciesName: Identifier,
     private val formName: String? = null,
 ) : PreEvolution {
 
     override val species: Species
-        get() = PokemonSpecies.getByName(this.speciesName) ?: throw IllegalArgumentException("Cannot find species with name $speciesName")
+        get() = PokemonSpecies.getByIdentifier(this.speciesName) ?: throw IllegalArgumentException("Cannot find species with $speciesName")
 
     override val form: FormData
         get() =

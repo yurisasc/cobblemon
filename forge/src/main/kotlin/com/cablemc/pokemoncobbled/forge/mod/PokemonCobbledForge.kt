@@ -1,7 +1,11 @@
 package com.cablemc.pokemoncobbled.forge.mod
 
-import com.cablemc.pokemoncobbled.common.*
+import com.cablemc.pokemoncobbled.common.CobbledConfiguredFeatures
 import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
+import com.cablemc.pokemoncobbled.common.CobbledNetwork
+import com.cablemc.pokemoncobbled.common.CobbledPlacements
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.PokemonCobbledModImplementation
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst

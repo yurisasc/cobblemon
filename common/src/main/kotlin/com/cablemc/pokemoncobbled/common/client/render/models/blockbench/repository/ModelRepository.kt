@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.BlockBe
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityModel
 import net.minecraft.client.render.entity.EntityRendererFactory
 import net.minecraft.entity.Entity
+import net.minecraft.resource.ResourceManager
 
 abstract class ModelRepository<T : Entity> {
 
@@ -30,7 +31,7 @@ abstract class ModelRepository<T : Entity> {
         initializeModelLayers()
     }
 
-    open fun reload() {
+    open fun reload(resourceManager: ResourceManager) {
         _models.filter { it.isModelInitialized }.forEach {
             val model = it.entityModel
             if (model is PoseableEntityModel<*>) {

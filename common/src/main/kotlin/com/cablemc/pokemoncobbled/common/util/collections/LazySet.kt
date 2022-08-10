@@ -1,12 +1,12 @@
 package com.cablemc.pokemoncobbled.common.util.collections
 
-import com.cablemc.pokemoncobbled.common.pokemon.SpeciesLoader
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.google.gson.JsonArray
 import kotlin.reflect.KClass
 
 /**
  * Used for unique properties in species that cannot be instanced while species load.
- * Properties are deserialized when needed using [SpeciesLoader.GSON].
+ * Properties are deserialized when needed using [PokemonSpecies.gson].
  *
  * @param T The type of the elements.
  * @property type The [KClass] of type [T].
@@ -24,7 +24,7 @@ class LazySet<T : Any>(
     private val json = values.toSet()
 
     private val elements: MutableSet<T> by lazy {
-        this.json.map { jsonElement -> SpeciesLoader.GSON.fromJson(jsonElement, type.java) }.toMutableSet()
+        this.json.map { jsonElement -> PokemonSpecies.gson.fromJson(jsonElement, type.java) }.toMutableSet()
     }
 
     override fun add(element: T) = this.elements.add(element)

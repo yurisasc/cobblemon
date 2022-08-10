@@ -1,5 +1,5 @@
 {
-  "animator": "beedrill",
+  "poser": "pokemoncobbled:beedrill",
   "model": "pokemoncobbled:bedrock/models/beedrill.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/beedrill.png",
   "variations": [

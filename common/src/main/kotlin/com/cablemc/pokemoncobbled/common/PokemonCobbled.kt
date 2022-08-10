@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
-import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
+import com.cablemc.pokemoncobbled.common.api.data.DataProvider
 import com.cablemc.pokemoncobbled.common.api.drop.CommandDropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.ItemDropEntry
@@ -10,7 +10,7 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STOPPING
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.TICK_POST
-import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.api.net.serializers.PoseTypeDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
@@ -23,13 +23,16 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.StandardExperienceCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
+import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 import com.cablemc.pokemoncobbled.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemoncobbled.common.api.spawning.BestSpawner
+import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawnPools
 import com.cablemc.pokemoncobbled.common.api.spawning.CobbledSpawningProspector
 import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolver
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
 import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.JSONStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
@@ -48,13 +51,14 @@ import com.cablemc.pokemoncobbled.common.command.argument.SpawnBucketArgumentTyp
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.config.starter.StarterConfig
+import com.cablemc.pokemoncobbled.common.data.CobbledDataProvider
 import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
-import com.cablemc.pokemoncobbled.common.pokemon.features.SunglassesFeature
 import com.cablemc.pokemoncobbled.common.pokemon.properties.UncatchableProperty
 import com.cablemc.pokemoncobbled.common.pokemon.properties.UntradeableProperty
+import com.cablemc.pokemoncobbled.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import com.cablemc.pokemoncobbled.common.starter.CobbledStarterHandler
 import com.cablemc.pokemoncobbled.common.util.getServer
@@ -99,19 +103,14 @@ object PokemonCobbled {
     var storage = PokemonStoreManager()
     lateinit var playerData: PlayerDataStoreManager
     lateinit var starterConfig: StarterConfig
+    val dataProvider: DataProvider = CobbledDataProvider
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
 
         ExperienceGroups.registerDefaults()
-        Abilities.loadPotentialAbilityInterpreters()
-
-        Moves.load()
-        LOGGER.info("Loaded ${Moves.count()} Moves.")
-
-        // Touching this object loads them and the stats. Probably better to use lateinit and a dedicated .register for this and stats
-        LOGGER.info("Loaded ${PokemonSpecies.count()} Pokémon species.")
+        PokemonSpecies.observable.subscribe { CobbledSpawnPools.load() }
 
         this.loadConfig()
         this.implementation = implementation
@@ -134,6 +133,7 @@ object PokemonCobbled {
         PLAYER_QUIT.subscribe { PCLinkManager.removeLink(it.uuid) }
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
+        TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
         //Command Arguments
         ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, ConstantArgumentSerializer(PokemonArgumentType::pokemon))
         ArgumentTypes.register("pokemoncobbled:pokemonproperties", PokemonPropertiesArgumentType::class.java, ConstantArgumentSerializer(PokemonPropertiesArgumentType::properties))
@@ -149,11 +149,19 @@ object PokemonCobbled {
 
         CobbledWorldgen.register()
 
+        // Start up the data provider.
+        CobbledDataProvider.registerDefaults()
+
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()
-        FlagSpeciesFeature.registerWithPropertyAndAspect("sunglasses", SunglassesFeature::class.java)
+
+        config.flagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
+        config.globalFlagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
+
+
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)
+        CustomPokemonProperty.register(PokemonFlagProperty)
 
         CommandRegistrationEvent.EVENT.register(CobbledCommands::register)
 
@@ -173,7 +181,11 @@ object PokemonCobbled {
             storage.registerFactory(
                 priority = Priority.LOWEST,
                 factory = FileBackedPokemonStoreFactory(
-                    adapter = NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true),
+                    adapter = if (config.storageFormat == "nbt") {
+                        NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
+                    } else {
+                        JSONStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
+                    },
                     createIfMissing = true,
                     pcConstructor = { uuid -> PCStore(uuid).also { it.resize(config.defaultBoxCount) } }
                 )
@@ -188,12 +200,14 @@ object PokemonCobbled {
         TICK_POST.subscribe { ServerTickHandler.onTick(it) }
 
         showdownThread.showdownStarted.thenAccept {
-            LOGGER.info("Starting dummy battle to pre-load data.")
-            BattleRegistry.startBattle(
-                BattleFormat.GEN_8_SINGLES,
-                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()))),
-                BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize())))
-            ).apply { mute = true }
+            SERVER_STARTED.pipe(takeFirst()).subscribe {
+                LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
+                BattleRegistry.startBattle(
+                    BattleFormat.GEN_8_SINGLES,
+                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()))),
+                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize())))
+                ).apply { mute = true }
+            }
         }
     }
 
@@ -243,7 +257,7 @@ object PokemonCobbled {
         }
 
         bestSpawner.loadConfig()
-        starterConfig = loadStarterConfig()
+        PokemonSpecies.observable.subscribe { starterConfig = this.loadStarterConfig() }
     }
 
     fun loadStarterConfig(): StarterConfig {

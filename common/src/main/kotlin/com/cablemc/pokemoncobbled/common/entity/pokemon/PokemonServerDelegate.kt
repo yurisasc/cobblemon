@@ -3,6 +3,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
 import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.api.entity.PokemonSideDelegate
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
@@ -62,6 +63,27 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.isMoving.set(true)
         } else if (!isMoving && entity.isMoving.get()) {
             entity.isMoving.set(false)
+        }
+
+        updatePoseType()
+    }
+
+    fun updatePoseType() {
+        val isMoving = entity.isMoving.get()
+        val isUnderwater = entity.getIsSubmerged()
+        val isFlying = entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
+
+        val poseType = when {
+            isMoving && isUnderwater  -> PoseType.SWIM
+            isUnderwater -> PoseType.FLOAT
+            isMoving && isFlying -> PoseType.FLY
+            isFlying -> PoseType.HOVER
+            isMoving -> PoseType.WALK
+            else -> PoseType.STAND
+        }
+
+        if (poseType != entity.poseType.get()) {
+            entity.poseType.set(poseType)
         }
     }
 

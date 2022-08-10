@@ -19,7 +19,7 @@ interface PreEvolution {
 
     companion object {
 
-        fun of(species: Species, form: FormData = species.forms.first()): PreEvolution = CobbledPreEvolution(species.name, form.name)
+        fun of(species: Species, form: FormData = species.forms.first()): PreEvolution = CobbledPreEvolution(species.resourceIdentifier, form.name)
 
     }
 
