@@ -1,8 +1,7 @@
 package com.cablemc.pokemoncobbled.common.pokemon
 
-import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
-import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
+import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
@@ -13,6 +12,7 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.ai.FormPokemonBehaviour
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.util.Identifier
 
 class FormData(
     @SerializedName("name")
@@ -53,7 +53,7 @@ class FormData(
     private val swimmingEyeHeight: Float? = null,
     private val flyingEyeHeight: Float? = null,
     @SerializedName("tags")
-    private val _tags: Set<String>? = null
+    private val _tags: Set<Identifier>? = null
 ) {
     val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
@@ -101,7 +101,7 @@ class FormData(
 
     val behaviour = FormPokemonBehaviour()
 
-    val tags: Set<String>
+    internal val tags: Set<Identifier>
         get() = _tags ?: species.tags
 
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
@@ -112,8 +112,6 @@ class FormData(
         val multiplier = this.resolveEyeHeight(entity) ?: return this.species.eyeHeight(entity)
         return entity.height * multiplier
     }
-
-    fun hasTags(vararg tags: String): Boolean = tags.all { tag -> this.tags.any { it.equals(tag, true) } }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
         entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight

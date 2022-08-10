@@ -383,9 +383,30 @@ open class Pokemon {
         }
     }
 
-    fun isLegendary() = this.form.hasTags(CobbledPokemonTags.LEGENDARY)
+    /**
+     * A utility method that checks if this Pokémon species or form data contains the [CobbledPokemonTags.LEGENDARY] tag.
+     * This is used in Pokémon officially considered legendary.
+     *
+     * @return If the Pokémon is legendary.
+     */
+    fun isLegendary() = this.hasTags(CobbledPokemonTags.LEGENDARY)
 
-    fun isUltraBeast() = this.form.hasTags(CobbledPokemonTags.ULTRA_BEAST)
+    /**
+     * A utility method that checks if this Pokémon species or form data contains the [CobbledPokemonTags.ULTRA_BEAST] tag.
+     * This is used in Pokémon officially considered legendary.
+     *
+     * @return If the Pokémon is an ultra beast.
+     */
+    fun isUltraBeast() = this.hasTags(CobbledPokemonTags.ULTRA_BEAST)
+
+    /**
+     * Checks if a Pokémon has all the given tags.
+     * Tags used by the mod can be found in [CobbledPokemonTags].
+     *
+     * @param tags The different tags being queried.
+     * @return If the Pokémon has all the given tags.
+     */
+    fun hasTags(vararg tags: Identifier) = this.form.tags.containsAll(tags.toSet())
 
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
