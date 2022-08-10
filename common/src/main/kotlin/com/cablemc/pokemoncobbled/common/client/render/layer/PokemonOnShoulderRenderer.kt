@@ -54,8 +54,8 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
                 0.0
             )
             pMatrixStack.scale(scale, scale, scale)
-            val model = PokemonModelRepository.getEntityModel(pokemon.species, pokemon.aspects)
-            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getModelTexture(pokemon.species, pokemon.aspects)))
+            val model = PokemonModelRepository.getPoser(pokemon.species, pokemon.aspects)
+            val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(pokemon.species, pokemon.aspects)))
             val i = LivingEntityRenderer.getOverlay(pLivingEntity, 0.0f)
             model.setupAnimStateless(
                 poseType = if (pLeftShoulder) PoseType.SHOULDER_LEFT else PoseType.SHOULDER_RIGHT,

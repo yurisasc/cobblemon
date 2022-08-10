@@ -6,9 +6,13 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.adapters.IdentifierAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.Vec3fAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.Vector4fAdapter
 import com.google.gson.GsonBuilder
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.Vector4f
 
 /**
  * All the information required for rendering a Pokémon [Species] with aspects.
@@ -30,7 +34,7 @@ class RegisteredSpeciesRendering(
         }
     }
 
-    fun getEntityModel(aspects: Set<String>): PokemonPoseableModel {
+    fun getPoser(aspects: Set<String>): PokemonPoseableModel {
         val poserName = assetResolver.getPoser(aspects)
         val poserSupplier = PokemonModelRepository.posers[poserName] ?: throw IllegalStateException("No poser found for name: $poserName")
         val modelName = assetResolver.getModel(aspects)
@@ -49,6 +53,11 @@ class RegisteredSpeciesRendering(
         PokemonModelRepository.posers[assetResolver.getPoser(aspects)] ?: throw IllegalStateException("No poser for $species")
         return assetResolver.getTexture(aspects)
     }
+
+    fun getLayers(aspects: Set<String>): List<ModelLayer> {
+        PokemonModelRepository.posers[assetResolver.getPoser(aspects)] ?: throw IllegalStateException("No poser for $species")
+        return assetResolver.getLayers(aspects)
+    }
 }
 
 /**
@@ -63,6 +72,7 @@ class SpeciesAssetResolver {
     val poser = Identifier("")
     val model = Identifier("")
     val texture = Identifier("")
+    val layers: List<ModelLayer>? = null
     val variations = mutableListOf<ModelAssetVariation>()
 
     fun getPoser(aspects: Set<String>): Identifier {
@@ -75,6 +85,21 @@ class SpeciesAssetResolver {
 
     fun getTexture(aspects: Set<String>): Identifier {
         return variations.lastOrNull { it.aspects.all { it in aspects } && it.texture != null }?.texture ?: texture
+    }
+
+    fun getLayers(aspects: Set<String>): List<ModelLayer> {
+        val allLayers = mutableListOf<ModelLayer>()
+        layers?.let(allLayers::addAll)
+
+        val variationLayers = variations.lastOrNull { it.aspects.all { it in aspects } && it.layers != null }?.layers ?: emptyList()
+        variationLayers.forEach { layer ->
+            allLayers.removeIf { it.name == layer.name }
+            if (layer.texture != null) {
+                allLayers.add(layer)
+            }
+        }
+
+        return allLayers
     }
 
     fun getAllModels(): Set<Identifier> {
@@ -92,6 +117,8 @@ class SpeciesAssetResolver {
         val GSON = GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+            .registerTypeAdapter(Vec3f::class.java, Vec3fAdapter)
+            .registerTypeAdapter(Vector4f::class.java, Vector4fAdapter)
             .disableHtmlEscaping()
             .setLenient()
             .create()
@@ -112,18 +139,37 @@ class ModelAssetVariation {
     val poser: Identifier? = null
     val model: Identifier? = null
     val texture: Identifier? = null
+    val layers: List<ModelLayer>? = null
 }
 
-/**
- * {
- *   animator: "CharizardModel",
- *   model: "charizard.json"
- *   texture: "charizard-base.json",
- *   variations: [
- *      {
- *        aspects: ["shiny"],
- *        texture: "charizard-shiny.json"
- *      }
- *   ]
- * }
+class ModelLayer {
+    val name: String = ""
+    val scale: Vec3f = Vec3f(1F, 1F, 1F)
+    val tint: Vector4f = Vector4f(1F, 1F, 1F, 1F)
+    val texture: Identifier? = null
+}
+
+/*
+{
+  "poser": "pokemoncobbled:squirtle",
+  "model": "pokemoncobbled:bedrock/models/squirtle.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/squirtle.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/squirtle_shiny.png"
+    },
+    {
+      "aspects": ["sunglasses"],
+      "layers": [
+        {
+          "name": "sunnies",
+          "texture": "pokemoncobbled:textures/pokemon/squirtle_sunglasses.png",
+          "scale": [1.05, 1, 1.05],
+          "tint": [1, 0.1, 0.1, 0.6]
+        }
+      ]
+    }
+  ]
+}
  */

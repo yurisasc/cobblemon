@@ -10,7 +10,14 @@ import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.*
+import net.minecraft.client.render.BufferRenderer
+import net.minecraft.client.render.DiffuseLighting
+import net.minecraft.client.render.GameRenderer
+import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.render.OverlayTexture
+import net.minecraft.client.render.Tessellator
+import net.minecraft.client.render.VertexFormat
+import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
@@ -174,8 +181,8 @@ fun drawPortraitPokemon(
     reversed: Boolean = false,
     state: PoseableEntityState<PokemonEntity>? = null
 ) {
-    val model = PokemonModelRepository.getEntityModel(species, aspects)
-    val texture = PokemonModelRepository.getModelTexture(species, aspects)
+    val model = PokemonModelRepository.getPoser(species, aspects)
+    val texture = PokemonModelRepository.getTexture(species, aspects)
 
     val renderType = model.getLayer(texture)
 
@@ -206,9 +213,11 @@ fun drawPortraitPokemon(
     val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
     val buffer = immediate.getBuffer(renderType)
     val packedLight = LightmapTextureManager.pack(8, 4)
-    model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
 
-    immediate.draw()
+    model.withLayerContext(immediate, PokemonModelRepository.getLayers(species, aspects)) {
+        model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
+        immediate.draw()
+    }
 
     DiffuseLighting.enableGuiDepthLighting()
 }
