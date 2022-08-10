@@ -12,7 +12,6 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.ai.FormPokemonBehaviour
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
-import net.minecraft.util.Identifier
 
 class FormData(
     @SerializedName("name")
@@ -52,8 +51,8 @@ class FormData(
     private val standingEyeHeight: Float? = null,
     private val swimmingEyeHeight: Float? = null,
     private val flyingEyeHeight: Float? = null,
-    @SerializedName("tags")
-    private val _tags: Set<String>? = null
+    @SerializedName("labels")
+    private val _labels: Set<String>? = null
 ) {
     val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
@@ -101,8 +100,8 @@ class FormData(
 
     val behaviour = FormPokemonBehaviour()
 
-    internal val tags: Set<String>
-        get() = _tags ?: species.tags
+    internal val labels: Set<String>
+        get() = _labels ?: species.labels
 
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution>
