@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.pokeball.catching
 
+import com.cablemc.pokemoncobbled.common.api.pokeball.catching.modifiers.GuaranteedModifier
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.entity.LivingEntity
 
@@ -11,5 +12,10 @@ import net.minecraft.entity.LivingEntity
  * @since  November 30, 2021
  */
 interface CatchRateModifier {
-    fun modifyCatchRate(currentCatchRate: Float, thrower: LivingEntity, pokemon: Pokemon): Float
+
+    fun isGuaranteed() : Boolean {
+        return this is GuaranteedModifier
+    }
+
+    fun modifyCatchRate(currentCatchRate: Float, thrower: LivingEntity, pokemon: Pokemon, host: Pokemon?): Float
 }

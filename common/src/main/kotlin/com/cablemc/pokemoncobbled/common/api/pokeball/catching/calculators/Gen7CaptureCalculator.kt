@@ -16,8 +16,8 @@ import net.minecraft.entity.LivingEntity
  */
 object Gen7CaptureCalculator : CaptureCalculator {
 
-    override fun processCapture(thrower: LivingEntity, pokemon: Pokemon, pokeBall: PokeBall): CaptureContext {
-        val catchRate = getCatchRate(thrower, pokemon, pokeBall)
+    override fun processCapture(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon, host: Pokemon?): CaptureContext {
+        val catchRate = getCatchRate(thrower, pokeBall, target, host)
         return if (tryCriticalCapture(catchRate, thrower)) {
             CaptureContext(isSuccessfulCapture = true, isCriticalCapture = true, numberOfShakes = 1)
         } else {
@@ -35,13 +35,14 @@ object Gen7CaptureCalculator : CaptureCalculator {
         }
     }
 
-    fun getCatchRate(thrower: LivingEntity, pokemon: Pokemon, pokeBall: PokeBall): Float {
-        var catchRate = pokemon.species.catchRate.toFloat()
-        pokeBall.catchRateModifiers.forEach { catchRate = it.modifyCatchRate(catchRate, thrower, pokemon) }
-        val maxHealth = pokemon.hp
-        val currentHealth = pokemon.currentHealth
-        val statusBonus = getStatusBonus(pokemon)
-        return ((3 * maxHealth - 2 * currentHealth) * catchRate) * statusBonus / (3 * maxHealth)
+    fun getCatchRate(thrower: LivingEntity, pokeBall: PokeBall, target: Pokemon, host: Pokemon?): Float {
+        var catchRate = target.species.catchRate.toFloat()
+        pokeBall.catchRateModifiers.forEach { catchRate = it.modifyCatchRate(catchRate, thrower, target, host) }
+        val maxHealth = target.hp
+        val currentHealth = target.currentHealth
+        val statusBonus = getStatusBonus(target)
+
+        return (((3 * maxHealth - 2 * currentHealth) * catchRate) / (3 * maxHealth)) * statusBonus
     }
 
     private fun tryCriticalCapture(catchRate: Float, thrower: LivingEntity): Boolean {
