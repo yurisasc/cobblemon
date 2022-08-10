@@ -36,7 +36,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
-import com.cablemc.pokemoncobbled.common.api.pokemon.tags.CobbledPokemonTags
+import com.cablemc.pokemoncobbled.common.api.pokemon.tags.CobbledPokemonLabels
 import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable
 import com.cablemc.pokemoncobbled.common.api.reactive.SettableObservable
@@ -384,29 +384,29 @@ open class Pokemon {
     }
 
     /**
-     * A utility method that checks if this Pokémon species or form data contains the [CobbledPokemonTags.LEGENDARY] tag.
+     * A utility method that checks if this Pokémon species or form data contains the [CobbledPokemonLabels.LEGENDARY] label.
      * This is used in Pokémon officially considered legendary.
      *
      * @return If the Pokémon is legendary.
      */
-    fun isLegendary() = this.hasTags(CobbledPokemonTags.LEGENDARY)
+    fun isLegendary() = this.hasLabels(CobbledPokemonLabels.LEGENDARY)
 
     /**
-     * A utility method that checks if this Pokémon species or form data contains the [CobbledPokemonTags.ULTRA_BEAST] tag.
+     * A utility method that checks if this Pokémon species or form data contains the [CobbledPokemonLabels.ULTRA_BEAST] label.
      * This is used in Pokémon officially considered legendary.
      *
      * @return If the Pokémon is an ultra beast.
      */
-    fun isUltraBeast() = this.hasTags(CobbledPokemonTags.ULTRA_BEAST)
+    fun isUltraBeast() = this.hasLabels(CobbledPokemonLabels.ULTRA_BEAST)
 
     /**
-     * Checks if a Pokémon has all the given tags.
-     * Tags used by the mod can be found in [CobbledPokemonTags].
+     * Checks if a Pokémon has all the given labels.
+     * Tags used by the mod can be found in [CobbledPokemonLabels].
      *
-     * @param tags The different tags being queried.
-     * @return If the Pokémon has all the given tags.
+     * @param labels The different tags being queried.
+     * @return If the Pokémon has all the given labels.
      */
-    fun hasTags(vararg tags: String) = tags.all { tag -> this.form.tags.any { it.equals(tag, true) } }
+    fun hasLabels(vararg labels: String) = labels.all { label -> this.form.labels.any { it.equals(label, true) } }
 
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)

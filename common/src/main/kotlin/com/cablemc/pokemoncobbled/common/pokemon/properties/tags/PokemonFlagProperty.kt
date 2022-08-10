@@ -10,6 +10,6 @@ object PokemonFlagProperty : CustomPokemonPropertyType<StringProperty> {
     override val keys = setOf(KEY)
     override val needsKey = true
 
-    override fun fromString(value: String?) = if (value == null) null else StringProperty(KEY, value, { _, _ -> }, { pokemon, underlyingValue -> pokemon.hasTags(underlyingValue) })
+    override fun fromString(value: String?) = if (value == null) null else StringProperty(KEY, value, { _, _ -> }, { pokemon, underlyingValue -> pokemon.hasLabels(underlyingValue) })
 
 }
