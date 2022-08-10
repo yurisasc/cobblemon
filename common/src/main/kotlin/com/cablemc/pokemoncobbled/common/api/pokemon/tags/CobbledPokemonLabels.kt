@@ -1,12 +1,12 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.tags
 
 /**
- * A collection of commonly used tags in the mod.
+ * A collection of commonly used labels in the mod.
  *
  * @author Licious
  * @since August 8th, 2022
  */
-object CobbledPokemonTags {
+object CobbledPokemonLabels {
 
     /**
      * Represents a legendary Pokémon.
