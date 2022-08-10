@@ -1,5 +1,5 @@
 {
-  "animator": "squirtle",
+  "poser": "pokemoncobbled:squirtle",
   "model": "pokemoncobbled:bedrock/models/squirtle.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/squirtle.png",
   "variations": [

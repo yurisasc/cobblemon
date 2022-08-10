@@ -203,7 +203,7 @@ open class PokemonProperties {
     var customProperties = mutableListOf<CustomPokemonProperty>()
 
     fun asRenderablePokemon() = RenderablePokemon(
-        species = species?.let { PokemonSpecies.getByName(it) } ?: PokemonSpecies.EEVEE,
+        species = species?.let { PokemonSpecies.getByName(it) } ?: PokemonSpecies.random(),
         aspects = aspects
     )
 

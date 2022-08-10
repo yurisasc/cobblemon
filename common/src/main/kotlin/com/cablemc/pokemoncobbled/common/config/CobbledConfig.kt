@@ -32,8 +32,8 @@ class CobbledConfig {
     @IntConstraint(min = 1, max = 120)
     var pokemonSaveIntervalSeconds = 30
 
-//    @NodeCategory(Category.Storage)
-//    var storageFormat = "nbt"
+    @NodeCategory(Category.Storage)
+    var storageFormat = "nbt"
 
     // TODO new types of constraint
 
@@ -109,4 +109,10 @@ class CobbledConfig {
 
     @NodeCategory(Category.Healing)
     var healTimer = 60
+
+    @NodeCategory(Category.Pokemon)
+    var globalFlagSpeciesFeatures = mutableListOf<String>()
+
+    @NodeCategory(Category.Pokemon)
+    var flagSpeciesFeatures = mutableListOf("sunglasses")
 }

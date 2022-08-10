@@ -4,10 +4,10 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.B
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.getChildOf
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.Dilation

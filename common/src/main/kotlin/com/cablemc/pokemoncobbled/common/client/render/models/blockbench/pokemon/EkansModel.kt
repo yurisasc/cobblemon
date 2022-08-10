@@ -4,11 +4,11 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animati
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.WaveSegment
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.childNamed
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.withRotationDegrees
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.model.Dilation
 import net.minecraft.client.model.ModelData

@@ -7,11 +7,14 @@ import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.entity.Despawner
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
+import com.cablemc.pokemoncobbled.common.api.net.serializers.PoseTypeDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
+import com.cablemc.pokemoncobbled.common.entity.PoseType
+import com.cablemc.pokemoncobbled.common.entity.Poseable
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonFollowOwnerGoal
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonLookAtEntityGoal
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonWanderAroundGoal
@@ -42,10 +45,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
-import net.minecraft.entity.ai.goal.FollowOwnerGoal
 import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.entity.ai.goal.LookAtEntityGoal
-import net.minecraft.entity.ai.goal.WanderAroundGoal
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
@@ -55,7 +55,6 @@ import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.network.Packet
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -68,7 +67,7 @@ class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
-) : TameableShoulderEntity(type, world), EntitySpawnExtension {
+) : TameableShoulderEntity(type, world), EntitySpawnExtension, Poseable {
     val form: FormData
         get() = pokemon.form
     val behaviour: FormPokemonBehaviour
@@ -81,6 +80,7 @@ class PokemonEntity(
             // We need to update this value every time the Pokémon changes, other eye height related things will be dynamic.
             this.updateEyeHeight()
         }
+
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.bestSpawner.defaultPokemonDespawner
 
     var ticksLived = 0
@@ -100,6 +100,7 @@ class PokemonEntity(
     val battleId = addEntityProperty(BATTLE_ID, Optional.empty())
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
+    val poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
 
     /** The player that caused this Pokémon to faint. */
     var killer: ServerPlayerEntity? = null
@@ -145,6 +146,7 @@ class PokemonEntity(
         private val BATTLE_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
         private val ASPECTS = DataTracker.registerData(PokemonEntity::class.java, StringSetDataSerializer)
         private val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        private val POSE_TYPE = DataTracker.registerData(PokemonEntity::class.java, PoseTypeDataSerializer)
 
         const val BATTLE_LOCK = "battle"
     }
@@ -411,4 +413,7 @@ class PokemonEntity(
         @Suppress("CAST_NEVER_SUCCEEDS")
         (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
     }
+
+    fun getIsSubmerged() = submergedInWater
+    override fun getPoseType(): PoseType = this.poseType.get()
 }

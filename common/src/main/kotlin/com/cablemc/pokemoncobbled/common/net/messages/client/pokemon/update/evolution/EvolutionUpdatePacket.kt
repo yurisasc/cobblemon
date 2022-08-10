@@ -57,7 +57,7 @@ abstract class EvolutionUpdatePacket : EvolutionLikeUpdatePacket<Evolution, Evol
 
         internal fun encodeSending(display: EvolutionDisplay, buffer: PacketByteBuf) {
             buffer.writeString(display.id)
-            buffer.writeString(display.species.name)
+            buffer.writeIdentifier(display.species.resourceIdentifier)
             buffer.writeSizedInt(IntSize.U_BYTE, display.aspects.size)
             display.aspects.forEach { aspect ->
                 buffer.writeString(aspect)
@@ -66,8 +66,8 @@ abstract class EvolutionUpdatePacket : EvolutionLikeUpdatePacket<Evolution, Evol
 
         internal fun decodeSending(buffer: PacketByteBuf): EvolutionDisplay {
             val id = buffer.readString()
-            val speciesName = buffer.readString()
-            val species = PokemonSpecies.getByName(speciesName) ?: throw IllegalArgumentException("Cannot resolve species from name $speciesName")
+            val speciesIdentifier = buffer.readIdentifier()
+            val species = PokemonSpecies.getByIdentifier(speciesIdentifier) ?: throw IllegalArgumentException("Cannot resolve species from $speciesIdentifier")
             val aspects = mutableSetOf<String>()
             repeat(buffer.readSizedInt(IntSize.U_BYTE)) {
                 aspects += buffer.readString()

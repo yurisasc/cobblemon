@@ -3,10 +3,12 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemo
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.EarJoint
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.RangeOfMotion
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.*
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BimanualFrame
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BipedFrame
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.EaredFrame
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart

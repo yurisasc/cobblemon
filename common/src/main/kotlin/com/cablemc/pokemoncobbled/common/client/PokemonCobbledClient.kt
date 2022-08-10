@@ -20,6 +20,7 @@ import com.cablemc.pokemoncobbled.common.client.render.pokeball.PokeBallRenderer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemoncobbled.common.client.starter.ClientPlayerData
 import com.cablemc.pokemoncobbled.common.client.storage.ClientStorageManager
+import com.cablemc.pokemoncobbled.common.data.CobbledDataProvider
 import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
@@ -35,6 +36,7 @@ import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.render.entity.model.PlayerEntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.resource.ResourceManager
 
 object PokemonCobbledClient {
     lateinit var implementation: PokemonCobbledClientImplementation
@@ -50,6 +52,7 @@ object PokemonCobbledClient {
     fun onLogin() {
         clientPlayerData = ClientPlayerData()
         storage.onLogin()
+        CobbledDataProvider.canReload = false
     }
 
     fun onLogout() {
@@ -58,7 +61,7 @@ object PokemonCobbledClient {
         battleOverlay = BattleOverlay()
         ScheduledTaskTracker.clear()
         checkedStarterScreen = false
-
+        CobbledDataProvider.canReload = true
     }
 
     fun initialize(implementation: PokemonCobbledClientImplementation) {
@@ -76,8 +79,24 @@ object PokemonCobbledClient {
 
         ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() })
 
-        LOGGER.info("Initializing Pokémon models")
-        PokemonModelRepository.init()
+//        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, object : ResourceReloader {
+//            override fun getName() = "cobbled"
+//            override fun reload(
+//                synchronizer: ResourceReloader.Synchronizer?,
+//                manager: ResourceManager,
+//                prepareProfiler: Profiler?,
+//                applyProfiler: Profiler?,
+//                prepareExecutor: Executor?,
+//                applyExecutor: Executor?
+//            ): CompletableFuture<Void> {
+//                return CompletableFuture.supplyAsync {
+//                    reloadCodedAssets(manager)
+//                    null
+//                }
+////                return CompletableFuture.completedFuture(null)
+//            }
+//        })
+
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()
 
@@ -145,10 +164,12 @@ object PokemonCobbledClient {
         return PokeBallRenderer(context)
     }
 
-    fun reloadCodedAssets() {
+    fun reloadCodedAssets(resourceManager: ResourceManager) {
+        LOGGER.info("Reloading assets")
         BedrockAnimationRepository.clear()
-        PokemonModelRepository.reload()
-        PokeBallModelRepository.reload()
+        PokemonModelRepository.reload(resourceManager)
+        LOGGER.info("Loaded assets")
+//        PokeBallModelRepository.reload(resourceManager)
     }
 
     fun endBattle() {

@@ -3,8 +3,8 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemo
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.asTransformed
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 

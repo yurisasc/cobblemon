@@ -1,5 +1,5 @@
 {
-  "animator": "ivysaur",
+  "poser": "pokemoncobbled:ivysaur",
   "model": "pokemoncobbled:bedrock/models/ivysaur.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/ivysaur.png",
   "variations": [

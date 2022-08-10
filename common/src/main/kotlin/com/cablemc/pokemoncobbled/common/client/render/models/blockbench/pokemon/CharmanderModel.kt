@@ -5,9 +5,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.asTrans
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
@@ -63,7 +63,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
+            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PROFILE, PoseType.PORTRAIT),
             transformTicks = 5,
             condition = { !it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.RESTING)},
             idleAnimations = arrayOf(

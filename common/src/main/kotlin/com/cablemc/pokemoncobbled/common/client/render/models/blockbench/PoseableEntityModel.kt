@@ -1,6 +1,5 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
@@ -10,9 +9,10 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
+import com.cablemc.pokemoncobbled.common.entity.PoseType
+import com.cablemc.pokemoncobbled.common.entity.Poseable
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumer
@@ -59,7 +59,7 @@ abstract class PoseableEntityModel<T : Entity>(
      */
     fun <F : ModelFrame> registerPose(
         poseType: PoseType,
-        condition: (T) -> Boolean = { true },
+        condition: (T) -> Boolean = { it is Poseable && it.getPoseType() == poseType },
         transformTicks: Int = 20,
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray()
@@ -72,7 +72,7 @@ abstract class PoseableEntityModel<T : Entity>(
     fun <F : ModelFrame> registerPose(
         poseName: String,
         poseTypes: Set<PoseType>,
-        condition: (T) -> Boolean = { true },
+        condition: (T) -> Boolean = { it is Poseable && it.getPoseType() in poseTypes },
         transformTicks: Int = 20,
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray()
@@ -109,7 +109,7 @@ abstract class PoseableEntityModel<T : Entity>(
         }
     }
 
-    private fun loadAllNamedChildren(modelPart: ModelPart) {
+    fun loadAllNamedChildren(modelPart: ModelPart) {
         for ((name, child) in modelPart.children.entries) {
             val transformed = child.asTransformed()
             relevantParts.add(transformed)
@@ -165,13 +165,15 @@ abstract class PoseableEntityModel<T : Entity>(
         state.currentModel = this
         var poseName = state.getPose()
         var pose = poseName?.let { getPose(it) }
+        val entityPose = if (entity is Poseable) entity.getPoseType() else null
 
         if (entity != null && (poseName == null || pose == null || !pose.condition(entity))) {
             val previousPose = pose
-            val desirablePose = poses.values.firstOrNull { it.condition(entity) } ?: run {
-                LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
-                return@run Pose("none", setOf(PoseType.NONE), { true }, 0, emptyArray(), emptyArray())
-            }
+            val desirablePose = poses.values.firstOrNull { entityPose == null || entityPose in it.poseTypes }
+                ?: Pose("none", setOf(PoseType.NONE), { true },0, emptyArray(), emptyArray())
+//                LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
+//                return@run
+//            }
             val desirablePoseType = desirablePose.poseTypes.first()
 
             // If this condition matches then it just no longer fits this pose

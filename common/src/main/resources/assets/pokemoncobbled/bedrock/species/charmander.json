@@ -1,5 +1,5 @@
 {
-  "animator": "charmander",
+  "poser": "pokemoncobbled:charmander",
   "model": "pokemoncobbled:bedrock/models/charmander.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/charmander.png",
   "variations": [

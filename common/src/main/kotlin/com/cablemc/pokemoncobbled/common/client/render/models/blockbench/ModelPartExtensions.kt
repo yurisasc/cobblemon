@@ -40,7 +40,7 @@ fun ModelPart.setPosition(axis: Int, position: Float): ModelPart {
 fun ModelPart.addRotation(axis: Int, differenceInRadians: Float) = setRotation(axis, getRotation(axis) + differenceInRadians)
 fun ModelPart.addPosition(axis: Int, difference: Float) = setPosition(axis, getPosition(axis) + difference)
 fun ModelPart.withPosition(axis: Int, position: Float) = TransformedModelPart(this).withPosition(axis, position)
-fun ModelPart.withPosition(xPos: Float, yPos: Float, zPos: Float) = TransformedModelPart(this).withPosition(xPos, yPos, zPos)
+fun ModelPart.withPosition(xPos: Number, yPos: Number, zPos: Number) = TransformedModelPart(this).withPosition(xPos, yPos, zPos)
 fun ModelPart.withRotation(axis: Int, angleRadians: Float) = TransformedModelPart(this).withRotation(axis, angleRadians)
 fun ModelPart.withRotation(xRot: Float, yRot: Float, zRot: Float) = TransformedModelPart(this).withRotation(xRot, yRot, zRot)
 fun ModelPart.withRotationDegrees(xRot: Float, yRot: Float, zRot: Float) = TransformedModelPart(this).withRotation(xRot.toRadians(), yRot.toRadians(), zRot.toRadians())

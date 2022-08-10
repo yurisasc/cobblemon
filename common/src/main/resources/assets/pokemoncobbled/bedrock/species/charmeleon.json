@@ -1,5 +1,5 @@
 {
-  "animator": "charmeleon",
+  "poser": "pokemoncobbled:charmeleon",
   "model": "pokemoncobbled:bedrock/models/charmeleon.geo.json",
   "texture": "pokemoncobbled:textures/pokemon/charmeleon.png",
   "variations": [
