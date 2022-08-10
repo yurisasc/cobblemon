@@ -14,9 +14,7 @@ internal object CobbledDataProvider : DataProvider {
 
     // Both Forge n Fabric keep insertion order so if a registry depends on another simply register it after
     var canReload = true
-    val headRegistry = Moves
-    // Change this when you add more registries so that it's always the final registry
-    val tailRegistry = PokemonSpecies
+    private var tailRegistry: DataRegistry? = null
 
     fun registerDefaults() {
         this.register(Moves)
@@ -25,9 +23,14 @@ internal object CobbledDataProvider : DataProvider {
     }
 
     override fun register(registry: DataRegistry) {
+        // Only send message once
+        if (this.tailRegistry == null) {
+            LOGGER.info("Note: Pokémon Cobbled data registries are only loaded once as Pokémon species are not safe to reload.")
+        }
         ReloadListenerRegistry.register(registry.type, SimpleResourceReloader(registry))
         LOGGER.info("Registered the {} registry", registry.id.toString())
         LOGGER.debug("Registered the {} registry of class {}", registry.id.toString(), registry::class.qualifiedName)
+        this.tailRegistry = registry
     }
 
     private class SimpleResourceReloader(private val registry: DataRegistry) : SynchronousResourceReloader {
@@ -38,8 +41,6 @@ internal object CobbledDataProvider : DataProvider {
                     // Turn it off since this is the final registry. It can be turned back on upon client logout.
                     canReload = false
                 }
-            } else if (registry == headRegistry) { // Only send message once
-                LOGGER.info("Note: Pokémon Cobbled data registries were skipped as Pokémon species are not safe to reload.")
             }
         }
     }

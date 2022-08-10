@@ -53,7 +53,7 @@ class FormData(
     private val swimmingEyeHeight: Float? = null,
     private val flyingEyeHeight: Float? = null,
     @SerializedName("tags")
-    private val _tags: Set<Identifier>? = null
+    private val _tags: Set<String>? = null
 ) {
     val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
@@ -101,7 +101,7 @@ class FormData(
 
     val behaviour = FormPokemonBehaviour()
 
-    internal val tags: Set<Identifier>
+    internal val tags: Set<String>
         get() = _tags ?: species.tags
 
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured

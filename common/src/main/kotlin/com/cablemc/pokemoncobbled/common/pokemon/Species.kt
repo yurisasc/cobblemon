@@ -48,7 +48,7 @@ class Species {
     val drops = DropTable()
 
     var forms = mutableListOf(FormData())
-    internal val tags = emptySet<Identifier>()
+    internal val tags = emptySet<String>()
 
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
     internal val evolutions: MutableSet<Evolution> = hashSetOf()

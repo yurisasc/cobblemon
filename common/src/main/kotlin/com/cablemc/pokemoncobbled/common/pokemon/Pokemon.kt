@@ -406,7 +406,7 @@ open class Pokemon {
      * @param tags The different tags being queried.
      * @return If the Pokémon has all the given tags.
      */
-    fun hasTags(vararg tags: Identifier) = this.form.tags.containsAll(tags.toSet())
+    fun hasTags(vararg tags: String) = tags.all { tag -> this.form.tags.any { it.equals(tag, true) } }
 
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
