@@ -12,6 +12,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import java.lang.Float.min
 import kotlin.math.abs
 import net.minecraft.entity.Entity
+import net.minecraft.util.Identifier
 
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
@@ -34,9 +35,9 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     private val minimumFallSpeed = -0.1F
     private val intensityVelocityCap = -0.5F
     override fun changePokemon(pokemon: Pokemon) {
-        entity.dexNumber.subscribeIncludingCurrent {
+        entity.species.subscribeIncludingCurrent {
             currentPose = null
-            entity.pokemon.species = PokemonSpecies.getByPokedexNumber(it)!! // TODO exception handling
+            entity.pokemon.species = PokemonSpecies.getByIdentifier(Identifier(it))!! // TODO exception handling
         }
 
         entity.deathEffectsStarted.subscribe {
