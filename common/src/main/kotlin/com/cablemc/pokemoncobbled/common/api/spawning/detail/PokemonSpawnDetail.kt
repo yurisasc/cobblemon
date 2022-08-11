@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.util.asIdentifierDefaultingNamespace
 import com.cablemc.pokemoncobbled.common.util.lang
 import net.minecraft.text.MutableText
 
@@ -33,7 +34,8 @@ class PokemonSpawnDetail : SpawnDetail() {
             if (speciesString.lowercase() == "random") {
                 return lang("species.random")
             }
-            val species = PokemonSpecies.getByName(speciesString)
+            // ToDo exception handling
+            val species = PokemonSpecies.getByIdentifier(speciesString.asIdentifierDefaultingNamespace())
             return if (species == null) {
                 lang("species.unknown")
             } else {
@@ -47,7 +49,7 @@ class PokemonSpawnDetail : SpawnDetail() {
     override fun autoLabel() {
         super.autoLabel()
         if (pokemon.species != null) {
-            val species = PokemonSpecies.getByName(pokemon.species!!.lowercase())
+            val species = PokemonSpecies.getByIdentifier(pokemon.species!!.asIdentifierDefaultingNamespace())
             if (species != null) {
                 labels.addAll(
                     species.secondaryType?.let { listOf(species.primaryType.name.lowercase(), it.name.lowercase()) }

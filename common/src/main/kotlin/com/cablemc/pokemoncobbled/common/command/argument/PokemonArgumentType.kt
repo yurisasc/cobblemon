@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.command.argument
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.asIdentifierDefaultingNamespace
@@ -28,8 +29,7 @@ class PokemonArgumentType : ArgumentType<Species> {
     }
 
     override fun parse(reader: StringReader): Species {
-        val identifier = reader.readString().asIdentifierDefaultingNamespace()
-        return PokemonSpecies.getByIdentifier(identifier)
+        return PokemonSpecies.getByIdentifier(reader.asIdentifierDefaultingNamespace())
             ?: throw SimpleCommandExceptionType(INVALID_POKEMON).createWithContext(reader)
     }
 
@@ -37,7 +37,8 @@ class PokemonArgumentType : ArgumentType<Species> {
         context: CommandContext<S>,
         builder: SuggestionsBuilder
     ): CompletableFuture<Suggestions> {
-        return CommandSource.suggestMatching(PokemonSpecies.species.map { it.resourceIdentifier.toString() }, builder)
+        // Just a neat shortcut for our own Pokémon since that will be the most common setup no need to overcomplicate
+        return CommandSource.suggestMatching(PokemonSpecies.species.map { if (it.resourceIdentifier.namespace == PokemonCobbled.MODID) it.resourceIdentifier.path else it.resourceIdentifier.toString() }, builder)
     }
 
     override fun getExamples() = EXAMPLES
