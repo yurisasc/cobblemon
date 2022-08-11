@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.aspect.AspectProvider
 import com.cablemc.pokemoncobbled.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
@@ -7,6 +8,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.Gender
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.RenderablePokemon
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.asIdentifierDefaultingNamespace
 import com.cablemc.pokemoncobbled.common.util.isInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
@@ -14,6 +16,8 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.util.Identifier
+import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.world.World
 
 /**
@@ -59,7 +63,7 @@ open class PokemonProperties {
             props.gender = Gender.values().toList().parsePropertyOfCollection(keyPairs, listOf("gender"), labelsOptional = true) { it.name.lowercase() }
             props.level = parseIntProperty(keyPairs, listOf("level", "lvl", "l"))
             props.shiny = parseBooleanProperty(keyPairs, listOf("shiny", "s"))
-            props.species = parseSpeciesString(keyPairs)
+            props.species = parseSpeciesIdentifier(keyPairs)
             props.updateAspects()
             return props
         }
@@ -122,23 +126,34 @@ open class PokemonProperties {
             }
         }
 
-        private fun parseSpeciesString(keyPairs: MutableList<Pair<String, String?>>): String? {
+        private fun parseSpeciesIdentifier(keyPairs: MutableList<Pair<String, String?>>): String? {
             val matched = getMatchedKeyPair(keyPairs, listOf("species"))
             if (matched != null) {
                 val value = matched.second?.lowercase() ?: return null
                 return if (value.lowercase() == "random") {
                     "random"
                 } else {
-                    PokemonSpecies.species.find { it.name.lowercase() == value }?.name
+                    try {
+                        val species = PokemonSpecies.getByIdentifier(value.asIdentifierDefaultingNamespace()) ?: return null
+                        return if (species.resourceIdentifier.namespace == PokemonCobbled.MODID) species.resourceIdentifier.path else species.resourceIdentifier.toString()
+                    } catch (e: InvalidIdentifierException) {
+                        return null
+                    }
                 }
             } else {
                 var species: String? = null
 
                 val keyPair = keyPairs.find { pair ->
-                    if (pair.second == null && pair.first.lowercase() == "random") {
-                        species = "random"
+                    species = if (pair.second == null && pair.first.lowercase() == "random") {
+                        "random"
                     } else {
-                        species = PokemonSpecies.species.firstOrNull { it.name.lowercase() == pair.first.lowercase() }?.name
+                        try {
+                            val identifier = pair.first.asIdentifierDefaultingNamespace()
+                            val found = PokemonSpecies.getByIdentifier(identifier) ?: return@find false
+                            if (found.resourceIdentifier.namespace == PokemonCobbled.MODID) found.resourceIdentifier.path else found.resourceIdentifier.toString()
+                        } catch (e: InvalidIdentifierException) {
+                            return@find false
+                        }
                     }
                     return@find species != null
                 }
@@ -203,7 +218,13 @@ open class PokemonProperties {
     var customProperties = mutableListOf<CustomPokemonProperty>()
 
     fun asRenderablePokemon() = RenderablePokemon(
-        species = species?.let { PokemonSpecies.getByName(it) } ?: PokemonSpecies.random(),
+        species = species?.let {
+            return@let try {
+                PokemonSpecies.getByIdentifier(Identifier(it)) ?: PokemonSpecies.random()
+            } catch (e: InvalidIdentifierException) {
+                PokemonSpecies.random()
+            }
+        } ?: PokemonSpecies.random(),
         aspects = aspects
     )
 
@@ -212,10 +233,14 @@ open class PokemonProperties {
         shiny?.let { pokemon.shiny = it }
         gender?.let { pokemon.gender = it }
         species?.let {
-            if (it == "random") {
-                PokemonSpecies.species.random()
-            } else {
-                PokemonSpecies.getByName(it) ?: return@let null
+            return@let try {
+                if (it == "random") {
+                    PokemonSpecies.species.random()
+                } else {
+                    PokemonSpecies.getByIdentifier(it.asIdentifierDefaultingNamespace())
+                }
+            } catch (e: InvalidIdentifierException) {
+                null
             }
         }?.let { pokemon.species = it }
         customProperties.forEach { it.apply(pokemon) }
@@ -226,10 +251,14 @@ open class PokemonProperties {
         shiny?.let { pokemonEntity.pokemon.shiny = it }
         gender?.let { pokemonEntity.pokemon.gender = it }
         species?.let {
-            if (it == "random") {
-                PokemonSpecies.species.random()
-            } else {
-                PokemonSpecies.getByName(it) ?: return@let null
+            return@let try {
+                if (it == "random") {
+                    PokemonSpecies.species.random()
+                } else {
+                    PokemonSpecies.getByIdentifier(it.asIdentifierDefaultingNamespace())
+                }
+            } catch (e: InvalidIdentifierException) {
+                null
             }
         }?.let { pokemonEntity.pokemon.species = it }
         customProperties.forEach { it.apply(pokemonEntity) }
@@ -240,13 +269,16 @@ open class PokemonProperties {
         shiny?.takeIf { it != pokemon.shiny }?.let { return false }
         gender?.takeIf { it != pokemon.gender }?.let { return false }
         species?.run {
-            val species = if (this == "random") {
-                PokemonSpecies.species.random()
-            } else {
-                PokemonSpecies.getByName(this) ?: return@run
-            }
-
-            if (pokemon.species != species) {
+            try {
+                val species = if (this == "random") {
+                    PokemonSpecies.species.random()
+                } else {
+                    PokemonSpecies.getByIdentifier(this.asIdentifierDefaultingNamespace()) ?: return@run
+                }
+                if (pokemon.species != species) {
+                    return false
+                }
+            } catch (e: InvalidIdentifierException) {
                 return false
             }
         }
@@ -258,15 +290,16 @@ open class PokemonProperties {
         shiny?.takeIf { it != pokemonEntity.shiny.get() }?.let { return false }
         gender?.takeIf { it != pokemonEntity.pokemon.gender }?.let { return false }
         species?.run {
-            val species = if (this == "random") {
-                PokemonSpecies.species.random()
-            } else {
-                PokemonSpecies.getByName(this) ?: return@run
-            }
-
-            if (pokemonEntity.pokemon.species != species) {
-                return false
-            }
+            try {
+                val species = if (this == "random") {
+                    PokemonSpecies.species.random()
+                } else {
+                    PokemonSpecies.getByIdentifier(this.asIdentifierDefaultingNamespace()) ?: return@run
+                }
+                if (pokemonEntity.pokemon.species != species) {
+                    return false
+                }
+            } catch (e: InvalidIdentifierException) {}
         }
         return customProperties.none { !it.matches(pokemonEntity) }
     }

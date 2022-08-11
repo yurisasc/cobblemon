@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.command.argument
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.mojang.brigadier.StringReader
@@ -16,7 +17,6 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
 
     companion object {
         val EXAMPLES: List<String> = listOf("eevee")
-        val INVALID_POKEMON = TranslatableText("pokemoncobbled.command.pokespawn.invalid-pokemon")
 
         fun properties() = PokemonPropertiesArgumentType()
 
@@ -26,14 +26,17 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
     }
 
     override fun parse(reader: StringReader): PokemonProperties {
-        return PokemonProperties.parse(reader.readString())
+        val text = reader.remaining
+        reader.cursor = reader.totalLength
+        return PokemonProperties.parse(text)
     }
 
     override fun <S : Any> listSuggestions(
         context: CommandContext<S>,
         builder: SuggestionsBuilder
     ): CompletableFuture<Suggestions> {
-        return CommandSource.suggestMatching(PokemonSpecies.species.map { it.name }, builder)
+        // Just a neat shortcut for our own Pokémon since that will be the most common setup no need to overcomplicate
+        return CommandSource.suggestMatching(PokemonSpecies.species.map { if (it.resourceIdentifier.namespace == PokemonCobbled.MODID) it.resourceIdentifier.path else it.resourceIdentifier.toString() }, builder)
     }
 
     override fun getExamples() = EXAMPLES

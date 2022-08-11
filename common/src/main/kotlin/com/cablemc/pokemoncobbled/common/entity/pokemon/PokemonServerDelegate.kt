@@ -52,8 +52,8 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.ownerUuid != entity.pokemon.getOwnerUUID()) {
             entity.ownerUuid = entity.pokemon.getOwnerUUID()
         }
-        if (entity.pokemon.species.nationalPokedexNumber != entity.dexNumber.get()) {
-            entity.dexNumber.set(entity.pokemon.species.nationalPokedexNumber)
+        if (entity.pokemon.species.resourceIdentifier.toString() != entity.species.get()) {
+            entity.species.set(entity.pokemon.species.resourceIdentifier.toString())
         }
         if (entity.aspects.get() != entity.pokemon.aspects) {
             entity.aspects.set(entity.pokemon.aspects)
