@@ -1,28 +1,28 @@
 package com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements
 
+import com.cablemc.pokemoncobbled.common.api.conditional.RegistryLikeCondition
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.template.EntityQueryRequirement
+import com.cablemc.pokemoncobbled.common.registry.BiomeIdentifierCondition
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
 /**
  * A [EntityQueryRequirement] for when a [Pokemon] is expected to be in a certain [Biome].
  *
- * @property identifier The [Identifier] of the [Biome] the queried entity is expected to be in.
+ * @property biomeCondition The [Identifier] of the [Biome] the queried entity is expected to be in.
  * @author Licious
  * @since March 21st, 2022
  */
-class BiomeRequirement(val identifier: Identifier) : EntityQueryRequirement() {
-
-    override fun check(pokemon: Pokemon, queriedEntity: LivingEntity): Boolean {
-        val biome = queriedEntity.world.getBiome(queriedEntity.blockPos)
-        return biome.key.map { key -> key.value == this.identifier }.orElse(false)
-    }
+class BiomeRequirement : EntityQueryRequirement {
+    val biomeCondition: RegistryLikeCondition<Biome> = BiomeIdentifierCondition(Identifier("plains"))
+    override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = biomeCondition.fits(
+        queriedEntity.world.getBiome(queriedEntity.blockPos).value(),
+        queriedEntity.world.registryManager.get(Registry.BIOME_KEY)
+    )
 
     companion object {
-
-        internal const val ADAPTER_VARIANT = "biome"
-
+        const val ADAPTER_VARIANT = "biome"
     }
-
 }

@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
 import com.cablemc.pokemoncobbled.common.api.drop.DropTable
+import com.cablemc.pokemoncobbled.common.api.pokemon.Learnset
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
@@ -38,14 +39,16 @@ class FormData(
     private val _shoulderMountable: Boolean? = null,
     @SerializedName("shoulderEffects")
     private val _shoulderEffects: MutableList<ShoulderEffect>? = null,
-    @SerializedName("levelUpMoves")
-    private val _levelUpMoves: LevelUpMoves? = null,
+    @SerializedName("moves")
+    private val _moves: Learnset? = null,
     @SerializedName("evolutions")
     private val _evolutions: MutableSet<Evolution>? = null,
     @SerializedName("abilities")
     private val _abilities: AbilityPool? = null,
     @SerializedName("drops")
     private val _drops: DropTable? = null,
+    @SerializedName("pokedex")
+    private val _pokedex: MutableList<String>? = null,
     private val _preEvolution: PreEvolution? = null,
     private val eyeHeight: Float? = null,
     private val standingEyeHeight: Float? = null,
@@ -81,8 +84,10 @@ class FormData(
     val shoulderEffects: MutableList<ShoulderEffect>
         get() = _shoulderEffects ?: species.shoulderEffects
 
-    val levelUpMoves: LevelUpMoves
-        get() = _levelUpMoves ?: species.levelUpMoves
+    val pokedex
+        get() = _pokedex ?: species.pokedex
+    val moves: Learnset
+        get() = _moves ?: species.moves
 
     val types: Iterable<ElementalType>
         get() = secondaryType?.let { listOf(primaryType, it) } ?: listOf(primaryType)
@@ -121,9 +126,10 @@ class FormData(
     @Transient
     lateinit var species: Species
 
-    fun initialize(species: Species) {
+    fun initialize(species: Species): FormData {
         this.species = species
         this.behaviour.parent = species.behaviour
+        return this
     }
 
     override fun equals(other: Any?): Boolean {

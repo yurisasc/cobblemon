@@ -13,15 +13,11 @@ import net.minecraft.entity.LivingEntity
  * @author Licious
  * @since March 26th, 2022
  */
-class TimeRangeRequirement(val range: TimeRange) : EntityQueryRequirement() {
-
+class TimeRangeRequirement : EntityQueryRequirement {
+    val range = TimeRange(0..23999)
     override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = this.range.contains((queriedEntity.world.timeOfDay % DAY_DURATION).toInt())
-
     companion object {
-
-        internal const val ADAPTER_VARIANT = "time_range"
+        const val ADAPTER_VARIANT = "time_range"
         private const val DAY_DURATION = 24000
-
     }
-
 }

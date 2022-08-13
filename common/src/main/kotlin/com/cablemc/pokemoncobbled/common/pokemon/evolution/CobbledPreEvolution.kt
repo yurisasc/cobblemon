@@ -17,7 +17,7 @@ class CobbledPreEvolution(
     override val form: FormData
         get() =
             if (this.formName.isNullOrBlank())
-                this.species.forms.first()
+                this.species.forms.firstOrNull() ?: species.standardForm
             else
                 this.species.forms.firstOrNull { form -> form.name.equals(this.formName, true) } ?: throw IllegalArgumentException("Cannot find form with name $formName")
 

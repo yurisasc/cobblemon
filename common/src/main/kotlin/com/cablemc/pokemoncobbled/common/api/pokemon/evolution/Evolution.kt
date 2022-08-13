@@ -5,13 +5,13 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.ItemInteractionEvolution
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.LevelEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.TradeEvolution
 
 /**
  * Represents an evolution of a [Pokemon], this is the server side counterpart of [EvolutionDisplay].
  * Following Pokémon these can be triggered by 3 possible events, level ups, trades or using an item.
- * For the default implementations see [LevelEvolution], [TradeEvolution] & [ItemInteractionEvolution].
+ * For the default implementations see [LevelUpEvolution], [TradeEvolution] & [ItemInteractionEvolution].
  * Also see [PassiveEvolution] & [ContextEvolution].
  *
  * @author Licious

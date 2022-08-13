@@ -1,67 +1,117 @@
 {
-  "name": "charmander",
-  "nationalPokedexNumber": 4,
-  "primaryType": "fire",
-  "maleRatio": 0.875,
-  "behaviour": {
-    "resting": {
-      "canSleep": true,
-      "willSleepOnBed": true,
-      "depth": "normal",
-      "light": "0-2"
+    "name": "charmander",
+    "nationalPokedexNumber": 4,
+    "primaryType": "fire",
+    "abilities": [
+        "blaze",
+        "h:solarpower"
+    ],
+    "baseStats": {
+        "hp": 39,
+        "attack": 52,
+        "defence": 43,
+        "special_attack": 60,
+        "special_defence": 50,
+        "speed": 65
+    },
+    "catchRate": 45,
+    "maleRatio": 0.125,
+    "shoulderMountable": true,
+    "forms": [],
+    "baseExperienceYield": 62,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster",
+        "dragon"
+    ],
+    "moves": [
+        "1:scratch",
+        "1:growl",
+        "4:ember",
+        "8:smokescreen",
+        "12:dragonbreath",
+        "17:firefang",
+        "20:slash",
+        "24:flamethrower",
+        "28:scaryface",
+        "32:firespin",
+        "36:inferno",
+        "40:flareblitz",
+        "egg:ancientpower",
+        "egg:bellydrum",
+        "egg:bite",
+        "egg:counter",
+        "egg:dragonrush",
+        "egg:dragontail",
+        "egg:metalclaw",
+        "egg:wingattack",
+        "tm:acrobatics",
+        "tm:attract",
+        "tm:beatup",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:crunch",
+        "tm:dig",
+        "tm:dragonclaw",
+        "tm:dragondance",
+        "tm:dragonpulse",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fireblast",
+        "tm:firepunch",
+        "tm:fling",
+        "tm:heatwave",
+        "tm:helpinghand",
+        "tm:irontail",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:outrage",
+        "tm:overheat",
+        "tm:protect",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:thunderpunch",
+        "tm:weatherball",
+        "tm:willowisp",
+        "tm:workup",
+        "tutor:firepledge"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.charmander.desc1",
+        "pokemoncobbled.species.charmander.desc2"
+    ],
+    "evolutions": [
+        {
+            "variant": "level_up",
+            "result": "charmeleon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "level": 16
+                }
+            ]
+        }
+    ],
+    "baseScale": "0.7",
+    "hitbox": {
+        "width": 0.7,
+        "height": 1.15,
+        "fixed": false
     }
-  },
-  "baseStats": {
-    "hp": 39,
-    "attack": 52,
-    "defence": 43,
-    "special_attack": 60,
-    "special_defence": 50,
-    "speed": 65
-  },
-  "levelUpMoves": {
-    "1": [ "scratch", "growl" ],
-    "4": [ "ember" ],
-    "8": [ "smokescreen" ],
-    "12": [ "dragonbreath" ],
-    "17": [ "firefang" ],
-    "20": [ "slash" ],
-    "24": [ "flamethrower" ],
-    "28": [ "scaryface" ],
-    "32": [ "firespin" ],
-    "36": [ "inferno" ],
-    "40": [ "flareblitz" ]
-  },
-  "catchRate": 45,
-  "experienceGroup": "mediumslow",
-  "baseExperienceYield": 62,
-  "baseScale": "0.7",
-  "abilities": [
-    "blaze",
-    "h:solarpower"
-  ],
-  "hitbox": {
-    "width": 0.7,
-    "height": 1.15,
-    "fixed": false
-  },
-  "shoulderMountable": true,
-  "shoulderEffect": [
-    {
-      "type": "light_source",
-      "Test": "Baguette"
-    }
-  ],
-  "evolutions": [
-    {
-      "variant": "level_up",
-      "levels": 16,
-      "id": "charmander_level",
-      "result": "Charmeleon",
-      "optional": true,
-      "consumeHeldItem": false,
-      "requirements": [],
-      "learnableMoves": []
-    }
-  ]
 }

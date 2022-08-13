@@ -301,7 +301,8 @@ class PokemonEntity(
             // TODO exception handling
             pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!!
             // TODO exception handling
-            pokemon.form = pokemon.species.forms.find { form -> form.name == buffer.readString() }!!
+            val formName = buffer.readString()
+            pokemon.form = pokemon.species.forms.find { form -> form.name == formName } ?: pokemon.species.standardForm
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
             shiny.set(buffer.readBoolean())
@@ -340,13 +341,9 @@ class PokemonEntity(
     fun canBattle(player: PlayerEntity): Boolean {
         if (isBusy) {
             return false
-        }
-
-        if (battleId.get().isPresent) {
+        } else if (battleId.get().isPresent) {
             return false
-        }
-
-        if (ownerUuid == player.uuid) {
+        } else if (ownerUuid == player.uuid) {
             return false
         }
 

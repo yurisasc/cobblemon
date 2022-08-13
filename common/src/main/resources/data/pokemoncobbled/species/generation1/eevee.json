@@ -1,43 +1,299 @@
 {
-  "name": "eevee",
-  "nationalPokedexNumber": 133,
-  "primaryType": "normal",
-  "maleRatio": 0.85,
-  "baseStats": {
-    "hp": 55,
-    "attack": 55,
-    "defence": 50,
-    "special_attack": 45,
-    "special_defence": 65,
-    "speed": 55
-  },
-  "levelUpMoves": {
-    "1": [ "covet", "helpinghand", "tackle", "growl", "tailwhip" ],
-    "5": [ "sandattack" ],
-    "10": [ "quickattack" ],
-    "15": [ "babydolleyes" ],
-    "20": [ "swift" ],
-    "25": [ "bite" ],
-    "30": [ "copycat" ],
-    "35": [ "batonpass" ],
-    "40": [ "takedown" ],
-    "45": [ "charm" ],
-    "50": [ "doubleedge" ],
-    "55": [ "lastresort" ]
-  },
-  "catchRate": 45,
-  "experienceGroup": "mediumfast",
-  "baseExperienceYield": 65,
-  "baseScale": 0.6,
-  "shoulderMountable": true,
-  "abilities": [
-    "runaway",
-    "adaptability",
-    "h:anticipation"
-  ],
-  "hitbox": {
-    "width": 0.7,
-    "height": 0.8,
-    "fixed": false
-  }
+    "name": "eevee",
+    "nationalPokedexNumber": 133,
+    "primaryType": "normal",
+    "abilities": [
+        "runaway",
+        "adaptability",
+        "h:anticipation"
+    ],
+    "baseStats": {
+        "hp": 55,
+        "attack": 55,
+        "defence": 50,
+        "special_attack": 45,
+        "special_defence": 65,
+        "speed": 55
+    },
+    "catchRate": 45,
+    "maleRatio": 0.125,
+    "shoulderMountable": true,
+    "forms": [
+        {
+            "name": "starter",
+            "baseStats": {
+                "hp": 65,
+                "attack": 75,
+                "defence": 70,
+                "special_attack": 65,
+                "special_defence": 85,
+                "speed": 75
+            },
+            "aspects": [
+                "starter"
+            ]
+        },
+        {
+            "name": "gmax",
+            "aspects": [
+                "gmax"
+            ]
+        }
+    ],
+    "baseExperienceYield": 65,
+    "experienceGroup": "medium",
+    "eggCycles": 35,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:tailwhip",
+        "1:growl",
+        "1:helpinghand",
+        "1:covet",
+        "5:sandattack",
+        "10:quickattack",
+        "15:babydolleyes",
+        "20:swift",
+        "25:bite",
+        "30:copycat",
+        "35:batonpass",
+        "40:takedown",
+        "45:charm",
+        "50:doubleedge",
+        "55:lastresort",
+        "egg:curse",
+        "egg:detect",
+        "egg:doublekick",
+        "egg:flail",
+        "egg:mudslap",
+        "egg:tickle",
+        "egg:wish",
+        "egg:yawn",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:dig",
+        "tm:endure",
+        "tm:facade",
+        "tm:faketears",
+        "tm:focusenergy",
+        "tm:hypervoice",
+        "tm:irontail",
+        "tm:payday",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:round",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:storedpower",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:weatherball",
+        "tm:workup"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.eevee.desc1",
+        "pokemoncobbled.species.eevee.desc2"
+    ],
+    "evolutions": [
+        {
+            "variant": "item",
+            "result": "vaporeon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "water-stone"
+        },
+        {
+            "variant": "item",
+            "result": "jolteon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "thunder-stone"
+        },
+        {
+            "variant": "item",
+            "result": "flareon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "fire-stone"
+        },
+        {
+            "variant": "level_up",
+            "result": "espeon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "friendship",
+                    "amount": 160
+                },
+                {
+                    "variant": "time_range",
+                    "range": "day"
+                }
+            ]
+        },
+        {
+            "variant": "level_up",
+            "result": "umbreon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "friendship",
+                    "amount": 160
+                },
+                {
+                    "variant": "time_range",
+                    "range": "night"
+                }
+            ]
+        },
+        {
+            "variant": "level_up",
+            "result": "leafeon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "biome",
+                    "biomeCondition": "eterna-forest"
+                }
+            ]
+        },
+        {
+            "variant": "level_up",
+            "result": "leafeon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "biome",
+                    "biomeCondition": "pinwheel-forest"
+                }
+            ]
+        },
+        {
+            "variant": "level_up",
+            "result": "leafeon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "biome",
+                    "biomeCondition": "kalos-route-20"
+                }
+            ]
+        },
+        {
+            "variant": "level_up",
+            "result": "leafeon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": []
+        },
+        {
+            "variant": "item",
+            "result": "leafeon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "leaf-stone"
+        },
+        {
+            "variant": "level_up",
+            "result": "glaceon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "biome",
+                    "biomeCondition": "sinnoh-route-217"
+                }
+            ]
+        },
+        {
+            "variant": "level_up",
+            "result": "glaceon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "biome",
+                    "biomeCondition": "twist-mountain"
+                }
+            ]
+        },
+        {
+            "variant": "level_up",
+            "result": "glaceon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "biome",
+                    "biomeCondition": "frost-cavern"
+                }
+            ]
+        },
+        {
+            "variant": "level_up",
+            "result": "glaceon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": []
+        },
+        {
+            "variant": "item",
+            "result": "glaceon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "ice-stone"
+        },
+        {
+            "variant": "level_up",
+            "result": "sylveon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "has_move_type",
+                    "type": "fairy"
+                }
+            ]
+        },
+        {
+            "variant": "level_up",
+            "result": "sylveon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "friendship",
+                    "amount": 160
+                },
+                {
+                    "variant": "has_move_type",
+                    "type": "fairy"
+                }
+            ]
+        }
+    ],
+    "baseScale": 0.6,
+    "hitbox": {
+        "width": 0.7,
+        "height": 0.8,
+        "fixed": false
+    }
 }
