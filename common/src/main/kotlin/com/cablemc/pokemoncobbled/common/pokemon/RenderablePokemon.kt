@@ -16,7 +16,7 @@ data class RenderablePokemon(val species: Species, val aspects: Set<String>) {
     val form: FormData by lazy { species.getForm(aspects)!! }
 
     fun saveToBuffer(buffer: PacketByteBuf): PacketByteBuf {
-        buffer.writeSizedInt(IntSize.U_SHORT, species.nationalPokedexNumber)
+        buffer.writeIdentifier(species.resourceIdentifier)
         buffer.writeSizedInt(IntSize.U_BYTE, aspects.size)
         aspects.forEach(buffer::writeString)
         return buffer
@@ -24,7 +24,7 @@ data class RenderablePokemon(val species: Species, val aspects: Set<String>) {
 
     companion object {
         fun loadFromBuffer(buffer: PacketByteBuf): RenderablePokemon {
-            val species = PokemonSpecies.getByPokedexNumber(buffer.readSizedInt(IntSize.U_SHORT))!!
+            val species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
             val aspects = mutableSetOf<String>()
             repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
                 aspects.add(buffer.readString())

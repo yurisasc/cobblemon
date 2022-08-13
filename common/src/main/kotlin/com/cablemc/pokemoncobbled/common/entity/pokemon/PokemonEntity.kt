@@ -92,7 +92,7 @@ class PokemonEntity(
 
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
-    val dexNumber = addEntityProperty(SPECIES_DEX, pokemon.species.nationalPokedexNumber)
+    val species = addEntityProperty(SPECIES, pokemon.species.resourceIdentifier.toString())
     val shiny = addEntityProperty(SHINY, pokemon.shiny)
     val isMoving = addEntityProperty(MOVING, false)
     val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
@@ -137,7 +137,7 @@ class PokemonEntity(
     }
 
     companion object {
-        private val SPECIES_DEX = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        private val SPECIES = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.STRING)
         private val SHINY = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         private val MOVING = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         private val BEHAVIOUR_FLAGS = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
@@ -220,7 +220,7 @@ class PokemonEntity(
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
-        dexNumber.set(pokemon.species.nationalPokedexNumber)
+        species.set(pokemon.species.resourceIdentifier.toString())
         shiny.set(pokemon.shiny)
         speed = 0.35F
     }
@@ -274,7 +274,7 @@ class PokemonEntity(
 
     override fun saveAdditionalSpawnData(buffer: PacketByteBuf) {
         buffer.writeFloat(pokemon.scaleModifier)
-        buffer.writeShort(pokemon.species.nationalPokedexNumber)
+        buffer.writeIdentifier(pokemon.species.resourceIdentifier)
         buffer.writeString(pokemon.form.name)
         buffer.writeInt(phasingTargetId.get())
         buffer.writeByte(beamModeEmitter.get().toInt())
@@ -299,7 +299,7 @@ class PokemonEntity(
         if (this.world.isClient) {
             pokemon.scaleModifier = buffer.readFloat()
             // TODO exception handling
-            pokemon.species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())!!
+            pokemon.species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
             // TODO exception handling
             val formName = buffer.readString()
             pokemon.form = pokemon.species.forms.find { form -> form.name == formName } ?: pokemon.species.standardForm

@@ -4,13 +4,15 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
+import net.minecraft.util.Identifier
 
-class SpeciesUpdatePacket() : IntUpdatePacket() {
+class SpeciesUpdatePacket() : StringUpdatePacket() {
     constructor(pokemon: Pokemon, species: Species): this() {
         setTarget(pokemon)
-        value = species.nationalPokedexNumber
+        value = species.resourceIdentifier.toString()
     }
-    override fun getSize() = IntSize.U_SHORT
+
     // TODO: Proper check
-    override fun set(pokemon: Pokemon, value: Int) { pokemon.species = PokemonSpecies.getByPokedexNumber(value)!! }
+    override fun set(pokemon: Pokemon, value: String) { pokemon.species = PokemonSpecies.getByIdentifier(Identifier(value))!! }
+
 }

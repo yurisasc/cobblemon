@@ -6,6 +6,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonFloatingState
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
+import com.cablemc.pokemoncobbled.common.util.asIdentifierDefaultingNamespace
 import net.minecraft.text.MutableText
 import java.util.UUID
 
@@ -19,7 +20,7 @@ class ClientBattlePokemon(
 ) {
     lateinit var actor: ClientBattleActor
     val species: Species
-        get() = PokemonSpecies.getByName(properties.species!!)!!
+        get() = PokemonSpecies.getByIdentifier(properties.species!!.asIdentifierDefaultingNamespace())!!
     val level: Int
         get() = properties.level ?: 0
 

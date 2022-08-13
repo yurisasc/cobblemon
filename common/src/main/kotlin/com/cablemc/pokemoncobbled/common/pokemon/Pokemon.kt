@@ -70,14 +70,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionProxy
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
-import com.cablemc.pokemoncobbled.common.util.DataKeys
-import com.cablemc.pokemoncobbled.common.util.getServer
-import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.playSoundServer
-import com.cablemc.pokemoncobbled.common.util.readSizedInt
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
-import com.cablemc.pokemoncobbled.common.util.setPositionSafely
-import com.cablemc.pokemoncobbled.common.util.writeSizedInt
+import com.cablemc.pokemoncobbled.common.util.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
@@ -97,6 +90,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.Identifier
+import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
@@ -320,7 +314,7 @@ open class Pokemon {
 
     open fun getStat(stat: Stat): Int {
         return if (stat == Stats.HP) {
-            if (species.name == "shedinja") {
+            if (species.resourceIdentifier == SHEDINJA) {
                 1
             } else {
                 (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4)) * level / 100 + level + 10
@@ -409,7 +403,7 @@ open class Pokemon {
 
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
-        nbt.putShort(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber.toShort())
+        nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
         nbt.putString(DataKeys.POKEMON_FORM_ID, form.name)
         nbt.putInt(DataKeys.POKEMON_EXPERIENCE, experience)
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
@@ -438,8 +432,13 @@ open class Pokemon {
 
     fun loadFromNBT(nbt: NbtCompound): Pokemon {
         uuid = nbt.getUuid(DataKeys.POKEMON_UUID)
-        species = PokemonSpecies.getByPokedexNumber(nbt.getInt(DataKeys.POKEMON_SPECIES_DEX))
-            ?: throw IllegalStateException("Tried to read a species with national PokéDex number ${nbt.getInt(DataKeys.POKEMON_SPECIES_DEX)}")
+        try {
+            val rawID = nbt.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER)
+            species = PokemonSpecies.getByIdentifier(Identifier(rawID))
+                ?: throw IllegalStateException("Failed to read a species with identifier $rawID")
+        } catch (e: InvalidIdentifierException) {
+            throw IllegalStateException("Failed to read a species identifier from NBT")
+        }
         form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm
         experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE)
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
@@ -481,7 +480,7 @@ open class Pokemon {
 
     fun saveToJSON(json: JsonObject): JsonObject {
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
-        json.addProperty(DataKeys.POKEMON_SPECIES_DEX, species.nationalPokedexNumber)
+        json.addProperty(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.name)
         json.addProperty(DataKeys.POKEMON_EXPERIENCE, experience)
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
@@ -509,8 +508,13 @@ open class Pokemon {
 
     fun loadFromJSON(json: JsonObject): Pokemon {
         uuid = UUID.fromString(json.get(DataKeys.POKEMON_UUID).asString)
-        species = PokemonSpecies.getByPokedexNumber(json.get(DataKeys.POKEMON_SPECIES_DEX).asInt)
-            ?: throw IllegalStateException("Tried to read a species with national pokedex number ${json.get(DataKeys.POKEMON_SPECIES_DEX).asInt}")
+        try {
+            val rawID = json.get(DataKeys.POKEMON_SPECIES_IDENTIFIER).asString
+            species = PokemonSpecies.getByIdentifier(Identifier(rawID))
+                ?: throw IllegalStateException("Failed to read a species with identifier $rawID")
+        } catch (e: InvalidIdentifierException) {
+            throw IllegalStateException("Failed to deserialize a species identifier")
+        }
         form = species.forms.find { it.name == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
@@ -552,7 +556,7 @@ open class Pokemon {
     fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean): PacketByteBuf {
         buffer.writeBoolean(toClient)
         buffer.writeUuid(uuid)
-        buffer.writeShort(species.nationalPokedexNumber)
+        buffer.writeIdentifier(species.resourceIdentifier)
         buffer.writeString(form.name)
         buffer.writeInt(experience)
         buffer.writeByte(level)
@@ -580,7 +584,7 @@ open class Pokemon {
     fun loadFromBuffer(buffer: PacketByteBuf): Pokemon {
         isClient = buffer.readBoolean()
         uuid = buffer.readUuid()
-        species = PokemonSpecies.getByPokedexNumber(buffer.readUnsignedShort())
+        species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())
             ?: throw IllegalStateException("Pokemon#loadFromBuffer cannot find the species! Species reference data has not been synchronized correctly!")
         val formId = buffer.readString()
         form = species.forms.find { it.name == formId } ?: species.standardForm
@@ -905,10 +909,6 @@ open class Pokemon {
     private val _aspects = registerObservable(SimpleObservable<Set<String>>()) { AspectsUpdatePacket(this, it) }
     private val _gender = registerObservable(SimpleObservable<Gender>()) { GenderUpdatePacket(this, it) }
 
-    companion object {
-        var FRIENDSHIP_RANGE = 0..255
-    }
-
     fun getFriendshipSpan(): Int{
         /*
             Used to figure out how much friendship should be gained/lost.
@@ -926,4 +926,12 @@ open class Pokemon {
         }
         return 0
     }
+
+    companion object {
+        var FRIENDSHIP_RANGE = 0..255
+
+        val SHEDINJA = cobbledResource("shedinja")
+
+    }
+
 }
