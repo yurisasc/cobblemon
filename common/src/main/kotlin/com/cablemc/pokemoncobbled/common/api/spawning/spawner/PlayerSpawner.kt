@@ -5,7 +5,6 @@ import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.SpawnerManager
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.util.getPlayer
-import java.util.Random
 import java.util.UUID
 import kotlin.math.atan
 import kotlin.math.cos
@@ -14,6 +13,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.nextBetween
+import net.minecraft.util.math.random.Random
 
 /**
  * A spawner that works around a single player. It will do basic tracking of a player's speed
@@ -31,7 +31,7 @@ class PlayerSpawner(player: ServerPlayerEntity, spawns: SpawnPool, manager: Spaw
         val sliceDiameter = config.worldSliceDiameter
         val sliceHeight = config.worldSliceHeight
 
-        val rand = Random()
+        val rand = Random.create()
 
         val center = player.pos
 
