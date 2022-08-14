@@ -12,7 +12,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.command.CommandSource
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import java.util.concurrent.CompletableFuture
 
 class PartySlotArgumentType : ArgumentType<Int> {
@@ -35,7 +35,7 @@ class PartySlotArgumentType : ArgumentType<Int> {
         private const val MIN = 1
         private const val MAX = 6
         private val EXAMPLES = (MIN..MAX).map { it.toString() }
-        private val INVALID_SLOT = DynamicCommandExceptionType { slot -> TranslatableText("pokemoncobbled.command.general.invalid-party-slot", slot) }
+        private val INVALID_SLOT = DynamicCommandExceptionType { slot -> Text.translatable("pokemoncobbled.command.general.invalid-party-slot", slot) }
 
         fun partySlot() = PartySlotArgumentType()
 

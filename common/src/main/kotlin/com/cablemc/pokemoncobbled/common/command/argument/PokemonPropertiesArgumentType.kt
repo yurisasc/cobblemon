@@ -6,11 +6,9 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.command.CommandSource
-import net.minecraft.text.TranslatableText
 import java.util.concurrent.CompletableFuture
 
 class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {

@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3f
 
 /**
@@ -17,7 +17,7 @@ class MovesMoveButton(
     pWidth: Int, pHeight: Int,
     private val isUp: Boolean,
     onPress: PressAction
-): ButtonWidget(pX, pY, pWidth, pHeight, LiteralText("MoveButton"), onPress) {
+): ButtonWidget(pX, pY, pWidth, pHeight, Text.literal("MoveButton"), onPress) {
 
     companion object {
         private const val MOVE_BUTTON_WIDTH = 11

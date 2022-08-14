@@ -15,7 +15,6 @@ import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerial
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CobbledGen348CaptureCalculator
-import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalculator

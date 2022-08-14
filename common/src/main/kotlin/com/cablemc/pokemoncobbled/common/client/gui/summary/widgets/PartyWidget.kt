@@ -3,7 +3,7 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets
 import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import java.security.InvalidParameterException
 import kotlin.math.roundToInt
 
@@ -13,7 +13,7 @@ class PartyWidget(
     val isParty: Boolean,
     val summary: Summary,
     private val pokemonList: List<Pokemon?>
-) : SoundlessWidget(pX, pY + 7, pWidth, pHeight, LiteralText("PartyOverlay")) {
+) : SoundlessWidget(pX, pY + 7, pWidth, pHeight, Text.literal("PartyOverlay")) {
 
     private val partySize = pokemonList.size
     private val partyWidgets = arrayListOf<PartyMemberWidget>()

@@ -19,7 +19,6 @@ import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.text.Text
@@ -85,7 +84,9 @@ fun drawRectangle(
     bufferbuilder.vertex(matrix, endX, y, blitOffset).texture(maxU, minV).next()
     bufferbuilder.vertex(matrix, x, y, blitOffset).texture(minU, minV).next()
     bufferbuilder.end()
-    BufferRenderer.draw(bufferbuilder)
+    // TODO: Figure out if this is correct replacement.
+    // OLD: BufferRenderer.draw(bufferbuilder)
+    BufferRenderer.drawWithShader(bufferbuilder.end())
 }
 
 fun drawCenteredText(
@@ -161,7 +162,7 @@ fun drawString(
     shadow: Boolean = true,
     font: Identifier? = null
 ) {
-    val comp = LiteralText(text).also {
+    val comp = Text.literal(text).also {
         font?.run {
             it.getWithStyle(it.style.withFont(this))
         }

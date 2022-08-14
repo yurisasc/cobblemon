@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.moves
 
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.moves.Move
 import com.cablemc.pokemoncobbled.common.api.text.bold
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
@@ -14,7 +13,7 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type.SingleT
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 
 class MoveWidget(
     pX: Int, pY: Int,
@@ -23,7 +22,7 @@ class MoveWidget(
     infoX: Int, infoY: Int,
     private val movesWidget: MovesWidget,
     private val index: Int
-): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText(move.name)) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal(move.name)) {
 
     companion object {
         private val moveResource = cobbledResource("ui/summary/summary_moves_slot.png")
@@ -128,7 +127,7 @@ class MoveWidget(
         // Render remaining PP Text
         drawScaledText(
             matrixStack = pMatrixStack,
-            text = LiteralText("${move.currentPp} / ${move.maxPp}"),
+            text = Text.literal("${move.currentPp} / ${move.maxPp}"),
             x = x + width / 2, y = y + 24,
             colour = ColourLibrary.WHITE, shadow = false,
             centered = true,

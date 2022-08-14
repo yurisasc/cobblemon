@@ -117,7 +117,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
     }
 
     override fun charTyped(chr: Char, modifiers: Int): Boolean {
-        if (chr.toString() == PartySendBinding.currentKey().localizedText.asString() && PokemonCobbledClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY) {
+        if (chr.toString() == PartySendBinding.currentKey().localizedText.string && PokemonCobbledClient.battleOverlay.opacity == BattleOverlay.MAX_OPACITY) {
             val battle = PokemonCobbledClient.battle ?: return false
             battle.minimised = !battle.minimised
             return true

@@ -8,9 +8,9 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.sendServerMessage
-import net.minecraft.network.MessageType
+import net.minecraft.network.message.MessageType
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.Util
 import java.util.UUID
 import kotlin.math.round
@@ -72,7 +72,7 @@ open class PlayerPartyStore(
                     pokemon.faintedTimer -= 1
                     if (pokemon.faintedTimer <= -1) {
                         pokemon.currentHealth = (pokemon.hp * PokemonCobbled.config.faintAwakenHealthPercent).toInt()
-                        player.sendMessage(TranslatableText("pokemoncobbled.party.faintRecover", pokemon.species.translatedName), MessageType.CHAT, Util.NIL_UUID)
+                        player.sendMessage(Text.translatable("pokemoncobbled.party.faintRecover", pokemon.species.translatedName))
                     }
                 }
                 // Passive healing while less than full health
