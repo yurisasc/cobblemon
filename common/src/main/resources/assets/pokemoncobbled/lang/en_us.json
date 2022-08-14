@@ -64,6 +64,7 @@
   "pokemoncobbled.ui.effect": "Effect",
   "pokemoncobbled.ui.pokemon": "Pokémon",
   "pokemoncobbled.ui.exit": "Exit",
+  "pokemoncobbled.ui.box.title": "Box %1$s",
   "key.pokemoncobbled.upshiftparty": "Party Shift Up",
   "key.pokemoncobbled.downshiftparty": "Party Shift Down",
   "key.pokemoncobbled.hideparty": "Hide Party Overlay",
