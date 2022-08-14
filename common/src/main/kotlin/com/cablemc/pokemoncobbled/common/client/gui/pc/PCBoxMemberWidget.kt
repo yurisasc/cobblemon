@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.gui.pc
 
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition
 import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.client.storage.ClientPC
@@ -17,8 +18,7 @@ class PCBoxMemberWidget(
     x: Int, y: Int,
     private val pcGui: PCGui,
     private val pc: ClientPC,
-    val pokemon: Pokemon?,
-    val index: Int,
+    val position: PCPosition,
     onPress: PressAction
 ) : ButtonWidget(x - PC_BOX_DIMENSION, y, PC_BOX_DIMENSION, PC_BOX_DIMENSION, LiteralText("PCBoxMember"), onPress) {
 
@@ -31,9 +31,7 @@ class PCBoxMemberWidget(
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        if (this.pokemon == null) {
-            return
-        }
+        val pokemon = pc.get(position) ?: return
         matrices.push()
         val minecraft = MinecraftClient.getInstance()
         RenderSystem.enableScissor(
@@ -45,7 +43,7 @@ class PCBoxMemberWidget(
         matrices.translate(this.x + (PORTRAIT_DIMENSIONS / 2.0) + 4, this.y + 4.0, 0.0)
         matrices.scale(2.5F, 2.5F, 1F)
         drawProfilePokemon(
-            renderablePokemon = this.pokemon.asRenderablePokemon(),
+            renderablePokemon = pokemon.asRenderablePokemon(),
             matrixStack = matrices,
             rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
             state = null,

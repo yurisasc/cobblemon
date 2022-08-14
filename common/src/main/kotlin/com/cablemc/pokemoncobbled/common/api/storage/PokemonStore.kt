@@ -92,6 +92,8 @@ abstract class PokemonStore<T : StorePosition> : Iterable<Pokemon> {
         val pokemon2 = get(position2)
         setAtPosition(position1, pokemon2)
         setAtPosition(position2, pokemon1)
+        pokemon1?.storeCoordinates?.set(StoreCoordinates(this, position2))
+        pokemon2?.storeCoordinates?.set(StoreCoordinates(this, position1))
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.client.gui.pc
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
+import com.cablemc.pokemoncobbled.common.api.storage.party.PartyPosition
 import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.client.storage.ClientPC
@@ -22,8 +23,7 @@ class PartyMemberWidget(
     private val pcGui: PCGui,
     private val pc: ClientPC,
     private val party: ClientParty,
-    val pokemon: Pokemon?,
-    val index: Int,
+    val position: PartyPosition,
     private val texture: Identifier,
     onPress: PressAction
 ) : ButtonWidget(x - PC_BOX_DIMENSION, y, PC_BOX_DIMENSION, PC_BOX_DIMENSION, LiteralText("PartyMember"), onPress) {
@@ -53,7 +53,8 @@ class PartyMemberWidget(
             width = slotWidth, height = 33
         )
 
-        if (this.pokemon != null) {
+        val pokemon = party.get(position)
+        if (pokemon != null) {
             val pokemonX = this.x - 3
             val pokemonY = this.y - 4
 
@@ -67,7 +68,7 @@ class PartyMemberWidget(
             matrices.translate(pokemonX + (PORTRAIT_DIMENSIONS / 2.0) + 4, pokemonY + 4.0, 0.0)
             matrices.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
-                renderablePokemon = this.pokemon.asRenderablePokemon(),
+                renderablePokemon = pokemon.asRenderablePokemon(),
                 matrixStack = matrices,
                 rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
                 state = null,

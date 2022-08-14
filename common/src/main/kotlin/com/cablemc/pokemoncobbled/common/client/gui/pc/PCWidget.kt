@@ -6,7 +6,12 @@ import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.client.storage.ClientPC
 import com.cablemc.pokemoncobbled.common.client.storage.ClientParty
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.SwapPCPartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.MovePartyPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePCPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePCPokemonToPartyPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.SwapPCPokemonPacket
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.math.MatrixStack
@@ -40,9 +45,23 @@ class PCWidget(
         }
     private val partyWidgets = arrayListOf<PartyMemberWidget>()
     private val pcWidgets = arrayListOf<PCBoxMemberWidget>()
+    private val previewWidget: PCPreviewSelectedWidget
 
     init {
         this.setupMemberWidgets()
+
+        this.previewWidget = PCPreviewSelectedWidget(
+            pX = x - 105,
+            pY = y,
+            pWidth = 60,
+            pHeight = 70,
+            baseScale = 1.5f,
+            parent = this,
+            pc = pc,
+            party = party
+        ).also {
+            this.addWidget(it)
+        }
     }
 
     private fun setupMemberWidgets() {
@@ -57,8 +76,7 @@ class PCWidget(
                     y = y + (row-1) * 29,
                     pcGui = pcGui,
                     pc = pc,
-                    pokemon = pc.get(PCPosition(box, index)),
-                    index = index,
+                    position = PCPosition(box, index),
                     onPress = { this.onPokemonPressed(it) }
                 ).also {  widget ->
                     this.addWidget(widget)
@@ -82,12 +100,9 @@ class PCWidget(
                 pcGui = pcGui,
                 pc = pc,
                 party = party,
-                pokemon = party.get(partySlot),
-                index = index,
+                position = PartyPosition(partySlot),
                 texture = texture,
-                onPress = {
-                    println("hi there you click")
-                }
+                onPress = { this.onPokemonPressed(it) }
             ).also { widget ->
                 this.addWidget(widget)
                 this.partyWidgets.add(widget)
@@ -96,6 +111,7 @@ class PCWidget(
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+        this.previewWidget.render(matrices, mouseX, mouseY, delta)
         this.pcWidgets.forEach { widget -> widget.render(matrices, mouseX, mouseY, delta) }
         this.partyWidgets.forEach { widget -> widget.render(matrices, mouseX, mouseY, delta) }
     }
@@ -111,8 +127,8 @@ class PCWidget(
     private fun onPokemonPressed(button: ButtonWidget) {
         // Only use on member widgets
         val clickedPosition = when(button) {
-            is PCBoxMemberWidget -> PCPosition(box, button.index)
-            is PartyMemberWidget -> PartyPosition(button.index)
+            is PCBoxMemberWidget -> button.position
+            is PartyMemberWidget -> button.position
             else -> return
         }
 
@@ -129,7 +145,7 @@ class PCWidget(
             else -> null
         }
         if (this.selectedPosition == null && clickedPokemon != null) {
-            this.selectedPosition = clickedPosition;
+            this.selectedPosition = clickedPosition
             return
         }
 
@@ -140,27 +156,34 @@ class PCWidget(
             else -> null
         } ?: return
 
+        // PC -> PC
         if (this.selectedPosition is PCPosition && clickedPosition is PCPosition) {
             val packet = clickedPokemon?.let { SwapPCPokemonPacket(it.uuid, clickedPosition, selectedPokemon.uuid, this.selectedPosition as PCPosition) } ?:
                 MovePCPokemonPacket(selectedPokemon.uuid, selectedPosition as PCPosition, clickedPosition)
             packet.sendToServer()
             this.selectedPosition = null
-            this.setupMemberWidgets()
-        } else if (this.selectedPosition is PCPosition && clickedPosition is PartyPosition) {
-
-        } else if (this.selectedPosition is PartyPosition && clickedPosition is PCPosition) {
-
         }
-
-        /*if (selectedPokemon != null) {
-            if (clickedPokemon != null) {
-                pc.swap(clickedPokemon.uuid, selectedPokemon.uuid)
-            } else {
-                pc.move(selectedPokemon.uuid, clickedPosition)
-            }
+        // PC -> Party
+        else if (this.selectedPosition is PCPosition && clickedPosition is PartyPosition) {
+            val packet = clickedPokemon?.let { SwapPCPartyPokemonPacket(clickedPokemon.uuid, clickedPosition, selectedPokemon.uuid, this.selectedPosition as PCPosition) } ?:
+                MovePCPokemonToPartyPacket(selectedPokemon.uuid, this.selectedPosition as PCPosition, clickedPosition)
+            packet.sendToServer()
             this.selectedPosition = null
-            this.setupMemberWidgets()
-        }*/
+        }
+        // Party -> PC
+        else if (this.selectedPosition is PartyPosition && clickedPosition is PCPosition) {
+            val packet = clickedPokemon?.let { SwapPCPartyPokemonPacket(selectedPokemon.uuid, this.selectedPosition as PartyPosition, clickedPokemon.uuid, clickedPosition) } ?:
+                MovePartyPokemonToPCPacket(selectedPokemon.uuid, this.selectedPosition as PartyPosition, clickedPosition)
+            packet.sendToServer()
+            this.selectedPosition = null
+        }
+        // Party -> Party
+        else if (this.selectedPosition is PartyPosition && clickedPosition is PartyPosition) {
+            val packet = clickedPokemon?.let { SwapPartyPokemonPacket(it.uuid, clickedPosition, selectedPokemon.uuid, this.selectedPosition as PartyPosition) } ?:
+                MovePartyPokemonPacket(selectedPokemon.uuid, selectedPosition as PartyPosition, clickedPosition)
+            packet.sendToServer()
+            this.selectedPosition = null
+        }
     }
 
 }
