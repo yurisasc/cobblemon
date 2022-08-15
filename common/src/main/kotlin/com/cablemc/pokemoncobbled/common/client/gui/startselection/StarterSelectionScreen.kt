@@ -232,8 +232,9 @@ class StarterSelectionScreen private constructor(): Screen("pokemoncobbled.ui.st
         matrices.push()
         matrices.scale(scale2, scale2, 1F)
 
+        // TODO use all pokedex lines across multiple clickable pages in this screen
         MultiLineLabelK.create(
-            component = currentPokemon.species.description,
+            component = currentPokemon.form.pokedex.first().asTranslated(),
             width = 127,
             maxLines = 4
         ).renderLeftAligned(

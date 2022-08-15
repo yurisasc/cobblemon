@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.common.pokemon
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendToPlayers
 import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.Ability
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
@@ -115,7 +114,7 @@ open class Pokemon {
             _species.emit(value)
         }
 
-    var form = species.forms.first()
+    var form = species.standardForm
         set(value) {
             field = value
             // Evo proxy is already cleared on species update but the form may be changed by itself, this is fine and no unnecessary packets will be sent out
@@ -440,7 +439,7 @@ open class Pokemon {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
-        form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.forms.first()
+        form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm
         experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE)
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt()
@@ -516,7 +515,7 @@ open class Pokemon {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
-        form = species.forms.find { it.name == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.forms.first()
+        form = species.forms.find { it.name == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt
@@ -588,7 +587,7 @@ open class Pokemon {
         species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())
             ?: throw IllegalStateException("Pokemon#loadFromBuffer cannot find the species! Species reference data has not been synchronized correctly!")
         val formId = buffer.readString()
-        form = species.forms.find { it.name == formId } ?: species.forms.first()
+        form = species.forms.find { it.name == formId } ?: species.standardForm
         experience = buffer.readInt()
         level = buffer.readUnsignedByte().toInt()
         friendship = buffer.readUnsignedShort()
@@ -669,7 +668,7 @@ open class Pokemon {
     }
 
     val allAccessibleMoves: Set<MoveTemplate>
-        get() = form.levelUpMoves.getMovesUpTo(level) + benchedMoves.map { it.moveTemplate }
+        get() = form.moves.getLevelUpMovesUpTo(level) + benchedMoves.map { it.moveTemplate }
 
     fun updateAspects() {
         /*
@@ -682,10 +681,7 @@ open class Pokemon {
     }
 
     fun updateForm() {
-        val newForm = species.getForm(aspects) ?: run {
-            LOGGER.error("Unable to find a suitable form for a ${species.resourceIdentifier} with aspects: ${aspects.joinToString()}!")
-            species.forms.first()
-        }
+        val newForm = species.getForm(aspects)
         if (form != newForm) {
             // Form updated!
             form = newForm
@@ -717,7 +713,7 @@ open class Pokemon {
     }
 
     fun initializeMoveset(preferLatest: Boolean = true) {
-        val possibleMoves = form.levelUpMoves.getMovesUpTo(level).toMutableList()
+        val possibleMoves = form.moves.getLevelUpMovesUpTo(level).toMutableList()
 
         moveSet.doWithoutEmitting {
             moveSet.clear()
@@ -798,7 +794,7 @@ open class Pokemon {
         }
 
         val oldLevel = level
-        val previousLevelUpMoves = form.levelUpMoves.getMovesUpTo(oldLevel)
+        val previousLevelUpMoves = form.moves.getLevelUpMovesUpTo(oldLevel)
         var appliedXP = xp
         CobbledEvents.EXPERIENCE_GAINED_EVENT_PRE.postThen(
             event = ExperienceGainedPreEvent(this, source, appliedXP),
@@ -818,7 +814,7 @@ open class Pokemon {
             level = newLevel
         }
 
-        val newLevelUpMoves = form.levelUpMoves.getMovesUpTo(newLevel)
+        val newLevelUpMoves = form.moves.getLevelUpMovesUpTo(newLevel)
         val differences = (newLevelUpMoves - previousLevelUpMoves).toMutableSet()
         differences.forEach {
             if (moveSet.hasSpace()) {

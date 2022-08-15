@@ -1,42 +1,128 @@
 {
-  "name": "venusaur",
-  "nationalPokedexNumber": 3,
-  "primaryType": "grass",
-  "secondaryType": "poison",
-  "maleRatio": 0.875,
-  "baseStats": {
-    "hp": 80,
-    "attack": 82,
-    "defence": 83,
-    "special_attack": 100,
-    "special_defence": 100,
-    "speed": 80
-  },
-  "levelUpMoves": {
-    "1": [ "petalblizzard", "petaldance", "tackle", "growl", "vinewhip", "growth" ],
-    "9": [ "leechseed" ],
-    "12": [ "razorleaf" ],
-    "15": [ "poisonpowder", "sleeppowder" ],
-    "20": [ "seedbomb" ],
-    "25": [ "takedown" ],
-    "30": [ "sweetscent" ],
-    "37": [ "synthesis" ],
-    "44": [ "worryseed" ],
-    "51": [ "doubleedge" ],
-    "58": [ "solarbeam" ]
-  },
-  "catchRate": 45,
-  "experienceGroup": "mediumslow",
-  "baseExperienceYield": 236,
-  "baseScale": 1.2,
-  "abilities": [
-    "overgrow",
-    "h:chlorophyll"
-  ],
-  "hitbox": {
-    "width": 0.9,
-    "height": 0.8,
-    "fixed": false
-  },
-  "preEvolution": "Ivysaur"
+    "name": "venusaur",
+    "nationalPokedexNumber": 3,
+    "primaryType": "grass",
+    "secondaryType": "poison",
+    "abilities": [
+        "overgrow",
+        "h:chlorophyll"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 82,
+        "defence": 83,
+        "special_attack": 100,
+        "special_defence": 100,
+        "speed": 80
+    },
+    "catchRate": 45,
+    "maleRatio": 0.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "thickfat"
+            ],
+            "baseStats": {
+                "hp": 80,
+                "attack": 100,
+                "defence": 123,
+                "special_attack": 122,
+                "special_defence": 120,
+                "speed": 80
+            },
+            "aspects": [
+                "mega"
+            ]
+        },
+        {
+            "name": "gmax",
+            "aspects": [
+                "gmax"
+            ]
+        }
+    ],
+    "baseExperienceYield": 263,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster",
+        "plant"
+    ],
+    "moves": [
+        "0:petalblizzard",
+        "1:vinewhip",
+        "1:tackle",
+        "1:growl",
+        "1:growth",
+        "1:petaldance",
+        "9:leechseed",
+        "12:razorleaf",
+        "15:poisonpowder",
+        "15:sleeppowder",
+        "20:seedbomb",
+        "25:takedown",
+        "30:sweetscent",
+        "37:synthesis",
+        "44:worryseed",
+        "51:doubleedge",
+        "58:solarbeam",
+        "tm:amnesia",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:bulldoze",
+        "tm:bulletseed",
+        "tm:charm",
+        "tm:earthpower",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:gigadrain",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:grassyterrain",
+        "tm:helpinghand",
+        "tm:hyperbeam",
+        "tm:leafstorm",
+        "tm:lightscreen",
+        "tm:magicalleaf",
+        "tm:outrage",
+        "tm:powerwhip",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:stompingtantrum",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swordsdance",
+        "tm:venoshock",
+        "tm:weatherball",
+        "tm:workup",
+        "tutor:frenzyplant",
+        "tutor:grasspledge",
+        "tutor:grassyglide",
+        "tutor:terrainpulse"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.venusaur.desc1",
+        "pokemoncobbled.species.venusaur.desc2"
+    ],
+    "preEvolution": "ivysaur",
+    "evolutions": [],
+    "baseScale": 1.2,
+    "hitbox": {
+        "width": 0.9,
+        "height": 0.8,
+        "fixed": false
+    }
 }

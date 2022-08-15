@@ -1,55 +1,111 @@
 {
-  "name": "bulbasaur",
-  "nationalPokedexNumber": 1,
-  "primaryType": "grass",
-  "secondaryType": "poison",
-  "maleRatio": 0.875,
-  "baseStats": {
-    "hp": 45,
-    "attack": 49,
-    "defence": 49,
-    "special_attack": 65,
-    "special_defence": 65,
-    "speed": 45
-  },
-  "levelUpMoves": {
-    "1": ["tackle", "growl"],
-    "3": [ "vinewhip" ],
-    "6": [ "growth" ],
-    "9": [ "leechseed" ],
-    "12": [ "razorleaf" ],
-    "15": [ "poisonpowder", "sleeppowder" ],
-    "18": [ "seedbomb" ],
-    "21": [ "takedown" ],
-    "24": [ "sweetscent" ],
-    "27": [ "synthesis" ],
-    "30": [ "worryseed" ],
-    "33": [ "doubleedge" ],
-    "36": [ "solarbeam" ]
-  },
-  "catchRate": 45,
-  "experienceGroup": "mediumslow",
-  "baseExperienceYield": 64,
-  "baseScale": 0.8,
-  "abilities": [
-    "overgrow",
-    "h:chlorophyll"
-  ],
-  "hitbox": {
-    "width": 0.6,
-    "height": 0.8,
-    "fixed": false
-  },
-  "evolutions": [
-    {
-      "variant": "level_up",
-      "levels": 16,
-      "id": "bulbasaur_level",
-      "result": "ivysaur",
-      "optional": true,
-      "consumeHeldItem": false,
-      "requirements": [],
-      "learnableMoves": []
+    "name": "bulbasaur",
+    "nationalPokedexNumber": 1,
+    "primaryType": "grass",
+    "secondaryType": "poison",
+    "abilities": [
+        "overgrow",
+        "h:chlorophyll"
+    ],
+    "baseStats": {
+        "hp": 45,
+        "attack": 49,
+        "defence": 49,
+        "special_attack": 65,
+        "special_defence": 65,
+        "speed": 45
+    },
+    "catchRate": 45,
+    "maleRatio": 0.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 64,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster",
+        "plant"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:growl",
+        "3:vinewhip",
+        "6:growth",
+        "9:leechseed",
+        "12:razorleaf",
+        "15:poisonpowder",
+        "15:sleeppowder",
+        "18:seedbomb",
+        "21:takedown",
+        "24:sweetscent",
+        "27:synthesis",
+        "30:worryseed",
+        "33:doubleedge",
+        "36:solarbeam",
+        "egg:curse",
+        "egg:ingrain",
+        "egg:naturepower",
+        "egg:petaldance",
+        "egg:skullbash",
+        "egg:toxic",
+        "tm:amnesia",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:bulletseed",
+        "tm:charm",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:gigadrain",
+        "tm:grassknot",
+        "tm:grassyterrain",
+        "tm:helpinghand",
+        "tm:leafstorm",
+        "tm:lightscreen",
+        "tm:magicalleaf",
+        "tm:powerwhip",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swordsdance",
+        "tm:venoshock",
+        "tm:weatherball",
+        "tm:workup",
+        "tutor:grasspledge",
+        "tutor:grassyglide"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.bulbasaur.desc1",
+        "pokemoncobbled.species.bulbasaur.desc2"
+    ],
+    "evolutions": [
+        {
+            "variant": "level_up",
+            "result": "ivysaur",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "level": 16
+                }
+            ]
+        }
+    ],
+    "baseScale": 0.8,
+    "hitbox": {
+        "width": 0.6,
+        "height": 0.8,
+        "fixed": false
     }
-  ]
 }

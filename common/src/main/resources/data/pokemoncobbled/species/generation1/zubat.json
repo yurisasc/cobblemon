@@ -1,42 +1,109 @@
 {
-  "name": "zubat",
-  "nationalPokedexNumber": 41,
-  "primaryType": "poison",
-  "secondaryType": "flying",
-  "maleRatio": 0.5,
-  "baseStats": {
-    "hp": 40,
-    "attack": 45,
-    "defence": 35,
-    "special_attack": 30,
-    "special_defence": 40,
-    "speed": 55
-  },
-  "levelUpMoves": {
-    "1": [ "absorb", "supersonic" ],
-    "5": [ "astonish" ],
-    "10": [ "meanlook" ],
-    "15": [ "poisonfang" ],
-    "20": [ "quickguard" ],
-    "25": [ "aircutter" ],
-    "30": [ "bite" ],
-    "35": [ "haze" ],
-    "40": [ "venoshock" ],
-    "45": [ "confuseray" ],
-    "50": [ "airslash" ],
-    "55": [ "leechlife" ]
-  },
-  "catchRate": 255,
-  "experienceGroup": "mediumfast",
-  "baseExperienceYield": 49,
-  "baseScale": 0.8,
-  "abilities": [
-    "innerfocus",
-    "h:infiltrator"
-  ],
-  "hitbox": {
-    "width": 0.6,
-    "height": 0.8,
-    "fixed": false
-  }
+    "name": "zubat",
+    "nationalPokedexNumber": 41,
+    "primaryType": "poison",
+    "secondaryType": "flying",
+    "abilities": [
+        "innerfocus",
+        "h:infiltrator"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 45,
+        "defence": 35,
+        "special_attack": 30,
+        "special_defence": 40,
+        "speed": 55
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 49,
+    "experienceGroup": "medium",
+    "eggCycles": 15,
+    "eggGroups": [
+        "flying"
+    ],
+    "moves": [
+        "1:supersonic",
+        "1:absorb",
+        "5:astonish",
+        "10:meanlook",
+        "15:poisonfang",
+        "20:quickguard",
+        "25:aircutter",
+        "30:bite",
+        "35:haze",
+        "40:venoshock",
+        "45:confuseray",
+        "50:airslash",
+        "55:leechlife",
+        "egg:curse",
+        "egg:defog",
+        "egg:gust",
+        "egg:hypnosis",
+        "egg:quickattack",
+        "egg:whirlwind",
+        "egg:wingattack",
+        "tm:acrobatics",
+        "tm:agility",
+        "tm:assurance",
+        "tm:attract",
+        "tm:bravebird",
+        "tm:crunch",
+        "tm:endure",
+        "tm:facade",
+        "tm:fly",
+        "tm:gigadrain",
+        "tm:heatwave",
+        "tm:nastyplot",
+        "tm:payback",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:taunt",
+        "tm:thief",
+        "tm:uproar",
+        "tm:uturn",
+        "tm:venomdrench",
+        "tm:zenheadbutt",
+        "tutor:dualwingbeat"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.zubat.desc1",
+        "pokemoncobbled.species.zubat.desc2"
+    ],
+    "evolutions": [
+        {
+            "variant": "level_up",
+            "result": "golbat",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "level": 22
+                }
+            ]
+        }
+    ],
+    "baseScale": 0.8,
+    "hitbox": {
+        "width": 0.6,
+        "height": 0.8,
+        "fixed": false
+    }
 }

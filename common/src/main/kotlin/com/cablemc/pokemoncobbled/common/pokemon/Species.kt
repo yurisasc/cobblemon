@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
 import com.cablemc.pokemoncobbled.common.api.drop.DropTable
+import com.cablemc.pokemoncobbled.common.api.pokemon.Learnset
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
@@ -20,13 +21,11 @@ class Species {
     var name: String = "bulbasaur"
     val translatedName: MutableText
         get() = lang("species.$name.name")
-    val description: MutableText
-        get() = lang("species.$name.desc")
     var nationalPokedexNumber = 1
 
     val baseStats = mapOf<Stat, Int>()
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
-    val maleRatio: Float? = 0.5F
+    val maleRatio: Float = 0.5F
     val catchRate = 45
     // Only modifiable for debugging sizes
     var baseScale = 1F
@@ -39,15 +38,20 @@ class Species {
     val abilities = AbilityPool()
     val shoulderMountable: Boolean = false
     val shoulderEffects = mutableListOf<ShoulderEffect>()
-    val levelUpMoves = LevelUpMoves()
+    val moves = Learnset()
     val features = mutableSetOf<String>()
     private val standingEyeHeight: Float? = null
     private val swimmingEyeHeight: Float? = null
     private val flyingEyeHeight: Float? = null
     val behaviour = PokemonBehaviour()
+    val pokedex = mutableListOf<String>()
     val drops = DropTable()
 
     var forms = mutableListOf(FormData())
+
+    @Transient
+    val standardForm = FormData().initialize(this)
+
     internal val labels = emptySet<String>()
 
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
@@ -58,7 +62,11 @@ class Species {
     @Transient
     lateinit var resourceIdentifier: Identifier
 
-    fun types(form: Int): Iterable<ElementalType> = forms[form].types
+    fun initialize() {
+        for (form in forms) {
+            form.initialize(this)
+        }
+    }
 
     fun create(level: Int = 5) = Pokemon().apply {
         species = this@Species
@@ -66,7 +74,7 @@ class Species {
         initialize()
     }
 
-    fun getForm(aspects: Set<String>) = forms.firstOrNull { it.aspects.all { it in aspects } }
+    fun getForm(aspects: Set<String>) = forms.firstOrNull { it.aspects.all { it in aspects } } ?: standardForm
 
     fun eyeHeight(entity: PokemonEntity): Float {
         val multiplier = this.resolveEyeHeight(entity) ?: VANILLA_DEFAULT_EYE_HEIGHT

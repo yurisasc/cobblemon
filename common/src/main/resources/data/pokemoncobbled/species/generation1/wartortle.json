@@ -1,56 +1,110 @@
 {
-  "name": "wartortle",
-  "nationalPokedexNumber": 8,
-  "primaryType": "water",
-  "maleRatio": 0.875,
-  "baseStats": {
-    "hp": 59,
-    "attack": 63,
-    "defence": 80,
-    "special_attack": 865,
-    "special_defence": 80,
-    "speed": 58
-  },
-  "features": [
-    "sunglasses"
-  ],
-  "levelUpMoves": {
-    "1": [ "tackle", "tailwhip", "watergun", "withdrawal"],
-    "9": [ "rapidspin" ],
-    "12": [ "bite" ],
-    "15": [ "waterpulse" ],
-    "20": [ "protect" ],
-    "25": [ "raindance" ],
-    "30": [ "aquatail" ],
-    "35": [ "shellsmash" ],
-    "40": [ "irondefense" ],
-    "45": [ "hydropump" ],
-    "50": [ "skullbash" ]
-  },
-  "catchRate": 45,
-  "experienceGroup": "mediumslow",
-  "baseExperienceYield": 142,
-  "baseScale": 0.7,
-  "abilities": [
-    "torrent",
-    "h:raindish"
-  ],
-  "hitbox": {
-    "width": 0.6,
-    "height": 1.3,
-    "fixed": false
-  },
-  "evolutions": [
-    {
-      "variant": "level_up",
-      "levels": 36,
-      "id": "wartortle_level",
-      "result": "Blastoise",
-      "optional": true,
-      "consumeHeldItem": false,
-      "requirements": [],
-      "learnableMoves": ["Flash Cannon"]
+    "name": "wartortle",
+    "nationalPokedexNumber": 8,
+    "primaryType": "water",
+    "abilities": [
+        "torrent",
+        "h:raindish"
+    ],
+    "baseStats": {
+        "hp": 59,
+        "attack": 63,
+        "defence": 80,
+        "special_attack": 65,
+        "special_defence": 80,
+        "speed": 58
+    },
+    "catchRate": 45,
+    "maleRatio": 0.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 142,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster",
+        "water1"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:tailwhip",
+        "1:watergun",
+        "1:withdraw",
+        "9:rapidspin",
+        "12:bite",
+        "15:waterpulse",
+        "20:protect",
+        "25:raindance",
+        "30:aquatail",
+        "35:shellsmash",
+        "40:irondefense",
+        "45:hydropump",
+        "50:skullbash",
+        "tm:attract",
+        "tm:aurasphere",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brine",
+        "tm:dig",
+        "tm:dive",
+        "tm:dragonpulse",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:gyroball",
+        "tm:hail",
+        "tm:helpinghand",
+        "tm:icebeam",
+        "tm:icepunch",
+        "tm:icywind",
+        "tm:irontail",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:muddywater",
+        "tm:rest",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:waterfall",
+        "tm:weatherball",
+        "tm:whirlpool",
+        "tm:workup",
+        "tm:zenheadbutt",
+        "tutor:flipturn",
+        "tutor:waterpledge"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.wartortle.desc1",
+        "pokemoncobbled.species.wartortle.desc2"
+    ],
+    "preEvolution": "squirtle",
+    "evolutions": [
+        {
+            "variant": "level_up",
+            "result": "blastoise",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "level": 36
+                }
+            ]
+        }
+    ],
+    "baseScale": 0.7,
+    "hitbox": {
+        "width": 0.6,
+        "height": 1.3,
+        "fixed": false
     }
-  ],
-  "preEvolution": "Squirtle"
 }

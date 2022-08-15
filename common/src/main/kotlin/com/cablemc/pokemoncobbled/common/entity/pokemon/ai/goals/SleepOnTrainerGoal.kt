@@ -1,6 +1,6 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals
 
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag.RESTING
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag.SLEEPING
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.block.BedBlock
 import net.minecraft.entity.ai.goal.Goal
@@ -49,7 +49,7 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
 
     private fun cannotSleep(): Boolean {
         val closePokemon = pokemonEntity.world.getNonSpectatingEntities(PokemonEntity::class.java, Box(bedPos).expand(2.0))
-        return closePokemon.any { it.getBehaviourFlag(RESTING) && it != pokemonEntity }
+        return closePokemon.any { it.getBehaviourFlag(SLEEPING) && it != pokemonEntity }
     }
 
     override fun shouldContinue(): Boolean {
@@ -59,7 +59,7 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
 
     override fun start() {
         if (bedPos != null) {
-            pokemonEntity.setBehaviourFlag(RESTING, false)
+            pokemonEntity.setBehaviourFlag(SLEEPING, false)
             pokemonEntity.navigation.startMovingTo(
                 bedPos!!.x.toDouble(),
                 bedPos!!.y.toDouble(),
@@ -70,7 +70,7 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
     }
 
     override fun stop() {
-        pokemonEntity.setBehaviourFlag(RESTING, false)
+        pokemonEntity.setBehaviourFlag(SLEEPING, false)
 //        val f = pokemonEntity.world.getSkyAngle(1.0f)
 //        if (owner!!.sleepTimer >= 100 && f.toDouble() > 0.77 && f.toDouble() < 0.8 && pokemonEntity.world.getRandom().nextFloat() < 0.7) {
 //            dropMorningGifts()
@@ -123,12 +123,12 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
             if (pokemonEntity.squaredDistanceTo(owner) < 2.5) {
                 ++ticksOnBed
                 if (ticksOnBed > getTickCount(16)) {
-                    pokemonEntity.setBehaviourFlag(RESTING, true)
+                    pokemonEntity.setBehaviourFlag(SLEEPING, true)
                 } else {
                     pokemonEntity.lookAtEntity(owner, 45.0f, 45.0f)
                 }
             } else {
-                pokemonEntity.setBehaviourFlag(RESTING, false)
+                pokemonEntity.setBehaviourFlag(SLEEPING, false)
             }
         }
     }

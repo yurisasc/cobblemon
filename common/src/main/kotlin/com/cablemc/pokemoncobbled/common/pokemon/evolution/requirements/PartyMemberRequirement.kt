@@ -13,19 +13,16 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
  * @author Licious
  * @since March 21st, 2022
  */
-class PartyMemberRequirement(val target: PokemonProperties, val contains: Boolean) : EvolutionRequirement {
+class PartyMemberRequirement : EvolutionRequirement {
+    companion object {
+        const val ADAPTER_VARIANT = "party_member"
+    }
 
+    val target = PokemonProperties()
+    val contains = true
     override fun check(pokemon: Pokemon): Boolean {
         val party = pokemon.storeCoordinates.get()?.store as? PartyStore ?: return false
-        if (party.any { member -> member.uuid != pokemon.uuid && this.target.matches(member) })
-            return this.contains
-        return !this.contains
+        val has = party.any { member -> member.uuid != pokemon.uuid && this.target.matches(member) }
+        return this.contains == has
     }
-
-    companion object {
-
-        internal const val ADAPTER_VARIANT = "party_member"
-
-    }
-
 }

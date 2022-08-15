@@ -1,11 +1,11 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
 
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.LevelEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.LevelUpEvolution
 
 /**
  * Represents an evolution of a [Pokemon] that can occur without any additional context or actions.
- * For the default implementation see [LevelEvolution].
+ * For the default implementation see [LevelUpEvolution].
  *
  * @author Licious
  * @since March 19th, 2022
