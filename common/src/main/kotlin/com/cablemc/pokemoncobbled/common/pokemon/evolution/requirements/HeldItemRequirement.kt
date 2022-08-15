@@ -10,9 +10,6 @@ class HeldItemRequirement : EvolutionRequirement {
     }
 
     companion object {
-
-        internal const val ADAPTER_VARIANT = "held_item"
-
+        const val ADAPTER_VARIANT = "held_item"
     }
-
 }

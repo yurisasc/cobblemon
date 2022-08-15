@@ -40,6 +40,6 @@ open class SpawnerManager {
         if (!PokemonCobbled.config.enableSpawning) {
             return;
         }
-        getSpawnersOfType<TickingSpawner>().forEach { it.tick() }
+        getSpawnersOfType<TickingSpawner>().forEach(TickingSpawner::tick)
     }
 }

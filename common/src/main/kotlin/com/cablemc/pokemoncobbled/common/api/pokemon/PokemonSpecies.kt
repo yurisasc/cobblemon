@@ -28,7 +28,19 @@ import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledEvolutionAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledPreEvolutionAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledRequirementAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.*
+import com.cablemc.pokemoncobbled.common.util.adapters.AbilityPoolAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.AbilityTemplateAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.BiomeLikeConditionAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.BlockLikeConditionAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.BoxAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.DropEntryAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.IdentifierAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.LazySetAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.LearnsetAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.NbtCompoundAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.TimeRangeAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.pokemonPropertiesShortAdapter
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.google.common.collect.HashBasedTable
 import com.google.gson.Gson
@@ -41,6 +53,7 @@ import net.minecraft.entity.EntityDimensions
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.resource.ResourceType
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
 
 object PokemonSpecies : JsonDataRegistry<Species> {
@@ -56,7 +69,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(MoveTemplate::class.java, MoveTemplateAdapter)
         .registerTypeAdapter(ExperienceGroup::class.java, ExperienceGroupAdapter)
         .registerTypeAdapter(EntityDimensions::class.java, EntityDimensionsAdapter)
+        .registerTypeAdapter(Learnset::class.java, LearnsetAdapter)
         .registerTypeAdapter(Evolution::class.java, CobbledEvolutionAdapter)
+        .registerTypeAdapter(Box::class.java, BoxAdapter)
         .registerTypeAdapter(AbilityPool::class.java, AbilityPoolAdapter)
         .registerTypeAdapter(EvolutionRequirement::class.java, CobbledRequirementAdapter)
         .registerTypeAdapter(PreEvolution::class.java, CobbledPreEvolutionAdapter)
@@ -169,9 +184,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 this.speciesByDex.remove(old.resourceIdentifier.namespace, old.nationalPokedexNumber)
             }
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
-            species.forms.forEach { form ->
-                form.initialize(species)
-            }
+            species.initialize()
         }
         PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
         this.observable.emit(this)

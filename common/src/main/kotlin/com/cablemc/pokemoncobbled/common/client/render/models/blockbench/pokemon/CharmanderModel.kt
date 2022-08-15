@@ -42,7 +42,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            condition = { it.getBehaviourFlag(PokemonBehaviourFlag.RESTING) },
+            condition = { it.getBehaviourFlag(PokemonBehaviourFlag.SLEEPING) },
             transformTicks = 10,
             idleAnimations = emptyArray(),
             transformedParts = arrayOf(
@@ -65,7 +65,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PROFILE, PoseType.PORTRAIT),
             transformTicks = 5,
-            condition = { !it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.RESTING)},
+            condition = { !it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.SLEEPING)},
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charmander", "ground_idle")

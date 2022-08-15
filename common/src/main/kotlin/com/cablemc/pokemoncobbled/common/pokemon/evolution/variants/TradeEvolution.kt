@@ -24,6 +24,15 @@ open class TradeEvolution(
     override val requirements: MutableSet<EvolutionRequirement>,
     override val learnableMoves: MutableSet<MoveTemplate>
 ) : ContextEvolution<Pokemon, PokemonProperties> {
+    constructor(): this(
+        id = "id",
+        result = PokemonProperties(),
+        requiredContext = PokemonProperties(),
+        optional = true,
+        consumeHeldItem = true,
+        requirements = mutableSetOf(),
+        learnableMoves = mutableSetOf()
+    )
 
     override fun testContext(pokemon: Pokemon, context: Pokemon) = this.requiredContext.matches(context)
 
@@ -36,9 +45,6 @@ open class TradeEvolution(
     }
 
     companion object {
-
-        internal const val ADAPTER_VARIANT = "trade"
-
+        const val ADAPTER_VARIANT = "trade"
     }
-
 }

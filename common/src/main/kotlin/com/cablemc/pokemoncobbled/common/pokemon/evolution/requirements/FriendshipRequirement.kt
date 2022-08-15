@@ -10,20 +10,11 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
  * @author Licious
  * @since March 21st, 2022
  */
-class FriendshipRequirement(val amount: Int) : EvolutionRequirement {
-
-    init {
-        if (this.amount !in validRange)
-            throw IllegalArgumentException("Cannot instance ${this::class.simpleName} with ${this.amount}, amount must be between ${validRange.first} & ${validRange.last}")
-    }
-
+class FriendshipRequirement : EvolutionRequirement {
+    val amount = 0
     override fun check(pokemon: Pokemon) = pokemon.friendship >= this.amount
 
     companion object {
-
-        internal const val ADAPTER_VARIANT = "friendship"
-        private val validRange = 0..255
-
+        const val ADAPTER_VARIANT = "friendship"
     }
-
 }

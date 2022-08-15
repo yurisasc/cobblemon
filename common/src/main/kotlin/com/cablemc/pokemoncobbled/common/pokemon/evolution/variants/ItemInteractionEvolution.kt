@@ -26,6 +26,15 @@ open class ItemInteractionEvolution(
     override val requirements: MutableSet<EvolutionRequirement>,
     override val learnableMoves: MutableSet<MoveTemplate>
 ) : ContextEvolution<EvolutionItem, Identifier> {
+    constructor(): this(
+        id = "id",
+        result = PokemonProperties(),
+        requiredContext = Identifier("minecraft", "fish"),
+        optional = true,
+        consumeHeldItem = true,
+        requirements = mutableSetOf(),
+        learnableMoves = mutableSetOf()
+    )
 
     override fun testContext(pokemon: Pokemon, context: EvolutionItem): Boolean {
         val contextKey = Registry.ITEM.getKey(context)
@@ -41,9 +50,6 @@ open class ItemInteractionEvolution(
     }
 
     companion object {
-
-        internal const val ADAPTER_VARIANT = "item_interact"
-
+        const val ADAPTER_VARIANT = "item_interact"
     }
-
 }

@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
-import com.cablemc.pokemoncobbled.common.api.storage.party.PartyStore
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 
 /**
@@ -12,14 +11,11 @@ import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
  * @author Licious
  * @since March 26th, 2022
  */
-class PokemonPropertiesRequirement(val target: PokemonProperties) : EvolutionRequirement {
-
+class PokemonPropertiesRequirement : EvolutionRequirement {
+    val target = PokemonProperties()
     override fun check(pokemon: Pokemon) = this.target.matches(pokemon)
 
     companion object {
-
-        internal const val ADAPTER_VARIANT = "properties"
-
+        const val ADAPTER_VARIANT = "properties"
     }
-
 }

@@ -3,10 +3,12 @@ package com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.adapters.EvolutionAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.ItemInteractionEvolution
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.LevelEvolution
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.TradeEvolution
 import com.google.common.collect.HashBiMap
-import com.google.gson.*
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonElement
+import com.google.gson.JsonSerializationContext
 import java.lang.reflect.Type
 import kotlin.reflect.KClass
 
@@ -23,7 +25,7 @@ object CobbledEvolutionAdapter : EvolutionAdapter {
     private val types = HashBiMap.create<String, KClass<out Evolution>>()
 
     init {
-        this.registerType(LevelEvolution.ADAPTER_VARIANT, LevelEvolution::class)
+        this.registerType(LevelUpEvolution.ADAPTER_VARIANT, LevelUpEvolution::class)
         this.registerType(TradeEvolution.ADAPTER_VARIANT, TradeEvolution::class)
         this.registerType(ItemInteractionEvolution.ADAPTER_VARIANT, ItemInteractionEvolution::class)
     }

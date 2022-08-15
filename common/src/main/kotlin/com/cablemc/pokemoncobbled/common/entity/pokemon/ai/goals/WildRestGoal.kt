@@ -1,7 +1,7 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals
 
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag.EXCITED
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag.RESTING
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag.SLEEPING
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import java.util.EnumSet
 import kotlin.random.Random
@@ -47,11 +47,11 @@ class WildRestGoal(private val pokemonEntity: PokemonEntity) : Goal() {
     }
 
     override fun start() {
-        pokemonEntity.setBehaviourFlag(RESTING, true)
+        pokemonEntity.setBehaviourFlag(SLEEPING, true)
     }
 
     override fun stop() {
-        pokemonEntity.setBehaviourFlag(RESTING, false)
+        pokemonEntity.setBehaviourFlag(SLEEPING, false)
     }
 
     override fun tick() {
