@@ -1,18 +1,9 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets
 
-import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
-import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
-import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.MinecraftClient
-import net.minecraft.client.gui.Drawable
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.LiteralText
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
 import java.security.InvalidParameterException
 import kotlin.math.roundToInt
 

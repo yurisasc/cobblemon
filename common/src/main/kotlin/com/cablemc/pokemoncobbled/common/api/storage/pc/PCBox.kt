@@ -72,6 +72,7 @@ open class PCBox(val pc: PCStore) : Iterable<Pokemon> {
                 trackPokemon(pokemon)
             }
         }
+        boxChangeEmitter.subscribe { pc.pcChangeObservable.emit(Unit) }
     }
 
     fun trackPokemon(pokemon: Pokemon) {
