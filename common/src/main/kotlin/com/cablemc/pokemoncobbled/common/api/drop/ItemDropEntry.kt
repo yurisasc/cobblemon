@@ -5,7 +5,6 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.text.green
 import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.util.toBlockPos
 import net.minecraft.block.Blocks
 import net.minecraft.entity.ItemEntity

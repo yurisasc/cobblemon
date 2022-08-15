@@ -6,7 +6,6 @@ import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.net.messages.server.starter.RequestStarterScreenPacket
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketHandler
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import net.minecraft.server.network.ServerPlayerEntity
 
 object RequestStarterScreenHandler : ServerPacketHandler<RequestStarterScreenPacket> {

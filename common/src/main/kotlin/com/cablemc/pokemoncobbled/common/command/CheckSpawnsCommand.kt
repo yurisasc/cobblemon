@@ -14,7 +14,6 @@ import com.cablemc.pokemoncobbled.common.api.text.underline
 import com.cablemc.pokemoncobbled.common.api.text.yellow
 import com.cablemc.pokemoncobbled.common.command.argument.SpawnBucketArgumentType
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext

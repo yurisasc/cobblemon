@@ -5,7 +5,6 @@ import com.cablemc.pokemoncobbled.common.api.text.green
 import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.party
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.world.level.block.entity.HealingMachineBlockEntity
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity

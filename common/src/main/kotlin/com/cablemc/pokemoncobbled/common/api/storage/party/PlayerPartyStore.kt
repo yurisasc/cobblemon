@@ -7,11 +7,8 @@ import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
-import net.minecraft.network.message.MessageType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
-import net.minecraft.util.Util
 import java.util.UUID
 import kotlin.math.round
 import kotlin.random.Random

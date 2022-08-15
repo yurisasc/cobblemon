@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBindin
 import com.cablemc.pokemoncobbled.common.client.net.ClientPacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.ChallengeNotificationPacket
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import net.minecraft.client.MinecraftClient
 
 object ChallengeNotificationHandler : ClientPacketHandler<ChallengeNotificationPacket> {

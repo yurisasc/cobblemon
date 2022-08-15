@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.net.messages.client.starter.OpenStarterUIPacket
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import net.minecraft.server.network.ServerPlayerEntity
 
 open class CobbledStarterHandler : StarterHandler {

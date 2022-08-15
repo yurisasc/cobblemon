@@ -23,7 +23,6 @@ import com.cablemc.pokemoncobbled.common.util.isServerSide
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.sendParticlesServer
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.util.setPositionSafely
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager

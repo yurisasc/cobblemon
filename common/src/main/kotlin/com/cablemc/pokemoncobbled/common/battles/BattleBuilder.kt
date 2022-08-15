@@ -10,7 +10,6 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.party
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import java.util.Optional
 import java.util.UUID
 import net.minecraft.entity.Entity

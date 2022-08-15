@@ -15,7 +15,6 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.BattleChallengePack
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.party
 import com.cablemc.pokemoncobbled.common.util.runOnServer
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import net.minecraft.server.network.ServerPlayerEntity
 
 object ChallengeHandler : PacketHandler<BattleChallengePacket> {
