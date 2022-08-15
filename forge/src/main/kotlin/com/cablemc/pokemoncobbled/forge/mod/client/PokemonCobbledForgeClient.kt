@@ -17,7 +17,7 @@ import net.minecraft.resource.ResourceReloader
 import net.minecraft.util.profiler.Profiler
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
-import net.minecraftforge.client.event.RenderGameOverlayEvent
+import net.minecraftforge.client.event.RenderGuiOverlayEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.AddReloadListenerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -65,8 +65,9 @@ object PokemonCobbledForgeClient : PokemonCobbledClientImplementation {
     }
 
     @SubscribeEvent
-    fun onRenderGameOverlay(event: RenderGameOverlayEvent.Pre) {
-        if (event.type != RenderGameOverlayEvent.ElementType.ALL) return
-        PokemonCobbledClient.beforeChatRender(event.matrixStack, event.partialTicks)
+    fun onRenderGameOverlay(event: RenderGuiOverlayEvent.Pre) {
+        println(event.overlay.id)
+        //if (event.type != RenderGuiOverlayEvent.ElementType.ALL) return
+        PokemonCobbledClient.beforeChatRender(event.poseStack, event.partialTick)
     }
 }
