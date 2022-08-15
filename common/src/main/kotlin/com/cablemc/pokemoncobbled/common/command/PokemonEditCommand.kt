@@ -27,7 +27,7 @@ object PokemonEditCommand {
             .then(CommandManager.argument(PLAYER, EntityArgumentType.player())
                 .then(createCommonArguments { it.player() })
             )
-            .then(createCommonArguments { it.source.player })
+            .then(createCommonArguments { it.source.playerOrThrow })
         dispatcher.register(command)
     }
 

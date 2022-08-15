@@ -32,8 +32,8 @@ object CheckSpawnsCommand {
             .requires { it.hasPermissionLevel(4) }
             .then(
                 CommandManager.argument("bucket", SpawnBucketArgumentType.spawnBucket())
-                    .requires { it != it.server}
-                    .executes { execute(it, it.source.player) }
+                    .requires { it.player != null }
+                    .executes { execute(it, it.source.playerOrThrow) }
             ))
         dispatcher.register(CommandManager.literal("pokegive").redirect(command))
     }
@@ -66,7 +66,7 @@ object CheckSpawnsCommand {
 
         spawnProbabilities.entries.forEach {
             val nameText = it.key.getName()
-            val nameString = nameText.asString()
+            val nameString = nameText.string
             if (!spawnNames.containsKey(nameString)) {
                 spawnNames[nameString] = it.key.getName()
             }

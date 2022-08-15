@@ -83,7 +83,6 @@ fun drawRectangle(
     bufferbuilder.vertex(matrix, endX, endY, blitOffset).texture(maxU, maxV).next()
     bufferbuilder.vertex(matrix, endX, y, blitOffset).texture(maxU, minV).next()
     bufferbuilder.vertex(matrix, x, y, blitOffset).texture(minU, minV).next()
-    bufferbuilder.end()
     // TODO: Figure out if this is correct replacement.
     // OLD: BufferRenderer.draw(bufferbuilder)
     BufferRenderer.drawWithShader(bufferbuilder.end())

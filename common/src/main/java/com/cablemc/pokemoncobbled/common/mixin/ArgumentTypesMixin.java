@@ -1,5 +1,7 @@
 package com.cablemc.pokemoncobbled.common.mixin;
 
+import com.cablemc.pokemoncobbled.common.command.argument.MoveArgumentType;
+import com.cablemc.pokemoncobbled.common.command.argument.PartySlotArgumentType;
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType;
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType;
 import com.cablemc.pokemoncobbled.common.command.argument.SpawnBucketArgumentType;
@@ -27,6 +29,8 @@ public class ArgumentTypesMixin {
         register(registry, "pokemoncobbled:pokemon", PokemonArgumentType.class, ConstantArgumentSerializer.of(PokemonArgumentType.Companion::pokemon));
         register(registry, "pokemoncobbled:pokemonproperties", PokemonPropertiesArgumentType.class, ConstantArgumentSerializer.of(PokemonPropertiesArgumentType.Companion::properties));
         register(registry, "pokemoncobbled:spawnbucket", SpawnBucketArgumentType.class, ConstantArgumentSerializer.of(SpawnBucketArgumentType.Companion::spawnBucket));
+        register(registry, "pokemoncobbled:move", MoveArgumentType.class, ConstantArgumentSerializer.of(MoveArgumentType.Companion::move));
+        register(registry, "pokemoncobbled:partyslot", PartySlotArgumentType.class, ConstantArgumentSerializer.of(PartySlotArgumentType.Companion::partySlot));
     }
 
 }

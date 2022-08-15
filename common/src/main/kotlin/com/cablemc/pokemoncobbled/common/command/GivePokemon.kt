@@ -20,8 +20,8 @@ object GivePokemon {
             .requires { it.hasPermissionLevel(4) }
             .then(
                 CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
-                    .requires { it != it.server}
-                    .executes { execute(it, it.source.player) }
+                    .requires { it.player != null }
+                    .executes { execute(it, it.source.playerOrThrow) }
             )
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())

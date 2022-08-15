@@ -21,6 +21,7 @@ import net.minecraft.util.math.Vec3d
 fun ServerPlayerEntity.party() = PokemonCobbled.storage.getParty(this)
 fun UUID.getPlayer() = getServer()?.playerManager?.getPlayer(this)
 
+// TODO: Mass replace in a little bit
 fun Entity.sendServerMessage(component: Text) {
     sendMessage(component)
 }

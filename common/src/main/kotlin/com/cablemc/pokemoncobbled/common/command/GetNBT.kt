@@ -16,8 +16,8 @@ object GetNBT {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(CommandManager.literal("getnbt")
             .requires { it.hasPermissionLevel(4) }
-            .requires { it != it.server}
-            .executes { execute(it, it.source.player) })
+            .requires { it.player != null}
+            .executes { execute(it, it.source.playerOrThrow) })
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {
