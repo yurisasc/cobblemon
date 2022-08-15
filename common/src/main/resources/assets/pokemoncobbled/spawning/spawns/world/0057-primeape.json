@@ -1,0 +1,24 @@
+{
+    "id": "0057-primeape",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "primeape",
+            "pokemon": "primeape",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "28-45",
+            "weight": 1.8,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemoncobbled:is_crag"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}

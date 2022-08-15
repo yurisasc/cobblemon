@@ -1,0 +1,115 @@
+{
+    "name": "lapras",
+    "nationalPokedexNumber": 131,
+    "primaryType": "water",
+    "secondaryType": "ice",
+    "abilities": [
+        "waterabsorb",
+        "shellarmor",
+        "h:hydration"
+    ],
+    "baseStats": {
+        "hp": 130,
+        "attack": 85,
+        "defence": 80,
+        "special_attack": 85,
+        "special_defence": 95,
+        "speed": 60
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "gmax",
+            "aspects": [
+                "gmax"
+            ]
+        }
+    ],
+    "baseExperienceYield": 187,
+    "experienceGroup": "slow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "monster",
+        "water1"
+    ],
+    "moves": [
+        "1:growl",
+        "1:watergun",
+        "5:sing",
+        "10:mist",
+        "15:lifedew",
+        "20:iceshard",
+        "25:confuseray",
+        "30:waterpulse",
+        "35:brine",
+        "40:bodyslam",
+        "45:icebeam",
+        "50:raindance",
+        "55:hydropump",
+        "60:perishsong",
+        "65:sheercold",
+        "egg:ancientpower",
+        "egg:curse",
+        "egg:fissure",
+        "egg:freezedry",
+        "egg:horndrill",
+        "egg:sparklingaria",
+        "egg:tickle",
+        "tm:attract",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:bodypress",
+        "tm:bulldoze",
+        "tm:charm",
+        "tm:dive",
+        "tm:dragondance",
+        "tm:dragonpulse",
+        "tm:drillrun",
+        "tm:endure",
+        "tm:facade",
+        "tm:futuresight",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:helpinghand",
+        "tm:hyperbeam",
+        "tm:hypervoice",
+        "tm:icywind",
+        "tm:ironhead",
+        "tm:irontail",
+        "tm:liquidation",
+        "tm:megahorn",
+        "tm:outrage",
+        "tm:protect",
+        "tm:psychic",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sleeptalk",
+        "tm:smartstrike",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:waterfall",
+        "tm:weatherball",
+        "tm:whirlpool",
+        "tm:zenheadbutt"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.lapras.desc1",
+        "pokemoncobbled.species.lapras.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

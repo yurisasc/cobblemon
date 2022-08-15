@@ -1,0 +1,118 @@
+{
+    "name": "pinsir",
+    "nationalPokedexNumber": 127,
+    "primaryType": "bug",
+    "abilities": [
+        "hypercutter",
+        "moldbreaker",
+        "h:moxie"
+    ],
+    "baseStats": {
+        "hp": 65,
+        "attack": 125,
+        "defence": 100,
+        "special_attack": 55,
+        "special_defence": 70,
+        "speed": 85
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "secondaryType": "flying",
+            "abilities": [
+                "aerilate"
+            ],
+            "baseStats": {
+                "hp": 65,
+                "attack": 155,
+                "defence": 120,
+                "special_attack": 65,
+                "special_defence": 90,
+                "speed": 105
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 175,
+    "experienceGroup": "slow",
+    "eggCycles": 25,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "1:visegrip",
+        "1:harden",
+        "4:focusenergy",
+        "8:bind",
+        "12:seismictoss",
+        "16:bugbite",
+        "20:stormthrow",
+        "24:doublehit",
+        "28:vitalthrow",
+        "32:xscissor",
+        "36:strength",
+        "40:swordsdance",
+        "44:submission",
+        "48:guillotine",
+        "52:superpower",
+        "egg:feint",
+        "egg:flail",
+        "egg:furyattack",
+        "egg:quickattack",
+        "egg:thrash",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:closecombat",
+        "tm:dig",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:gigaimpact",
+        "tm:helpinghand",
+        "tm:highhorsepower",
+        "tm:hyperbeam",
+        "tm:irondefense",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:revenge",
+        "tm:reversal",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thief",
+        "tm:throatchop"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.pinsir.desc1",
+        "pokemoncobbled.species.pinsir.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

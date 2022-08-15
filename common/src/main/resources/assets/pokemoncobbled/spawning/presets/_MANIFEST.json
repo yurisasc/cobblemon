@@ -1,3 +1,8 @@
 [
-  "rare-desert-land-daytime.json"
+  "freshwater.json",
+  "river.json",
+  "underground.json",
+  "underlava.json",
+  "underwater.json",
+  "urban.json"
 ]

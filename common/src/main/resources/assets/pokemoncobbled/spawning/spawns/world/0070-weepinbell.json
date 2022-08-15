@@ -1,0 +1,23 @@
+{
+    "id": "0070-weepinbell",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "weepinbell",
+            "pokemon": "weepinbell",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "21-39",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_jungle"
+                ]
+            }
+        }
+    ]
+}

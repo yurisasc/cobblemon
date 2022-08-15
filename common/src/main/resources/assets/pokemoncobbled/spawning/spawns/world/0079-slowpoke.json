@@ -1,0 +1,23 @@
+{
+    "id": "0079-slowpoke",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "slowpoke",
+            "pokemon": "slowpoke",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "12-31",
+            "weight": 4.2,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_beach"
+                ]
+            }
+        }
+    ]
+}

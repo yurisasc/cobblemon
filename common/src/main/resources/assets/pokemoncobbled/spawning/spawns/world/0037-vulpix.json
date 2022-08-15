@@ -1,0 +1,29 @@
+{
+    "id": "0037-vulpix",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "vulpix",
+            "pokemon": "vulpix",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "16-30",
+            "weight": 6.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_forest"
+                ],
+                "timeRange": "twilight"
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,7 @@
+{
+  "name": "underwater",
+  "context": "submerged",
+  "condition": {
+    "fluidBlock": "water"
+  }
+}

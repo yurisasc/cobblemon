@@ -1,0 +1,54 @@
+{
+    "id": "0041-zubat",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "zubat",
+            "pokemon": "zubat",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "5-21",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemoncobbled:is_crag",
+                    "#minecraft:is_forest",
+                    "#pokemoncobbled:is_grassland",
+                    "#minecraft:is_jungle",
+                    "#pokemoncobbled:is_spooky",
+                    "#pokemoncobbled:is_swamp"
+                ],
+                "timeRange": "night",
+                "isRaining": false
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        },
+        {
+            "id": "zubat",
+            "pokemon": "zubat",
+            "presets": [
+                "underground"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "5-21",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#minecraft:is_overworld"
+                ],
+                "isRaining": false
+            }
+        }
+    ]
+}

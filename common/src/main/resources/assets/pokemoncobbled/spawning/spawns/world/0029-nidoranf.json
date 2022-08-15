@@ -1,0 +1,24 @@
+{
+    "id": "0029-nidoranf",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "nidoranf",
+            "pokemon": "nidoranf",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "5-15",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_savanna"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}

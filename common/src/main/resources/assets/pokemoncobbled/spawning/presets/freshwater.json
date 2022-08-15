@@ -1,0 +1,9 @@
+{
+  "name": "freshwater",
+  "condition": {
+    "biomes": [ "#pokemoncobbled:is_freshwater" ]
+  },
+  "anticondition": {
+    "biomes": [ "#pokemoncobbled:is_snowy" ]
+  }
+}

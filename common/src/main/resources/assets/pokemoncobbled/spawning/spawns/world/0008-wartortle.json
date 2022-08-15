@@ -1,0 +1,51 @@
+{
+    "id": "0008-wartortle",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "wartortle",
+            "pokemon": "wartortle",
+            "presets": [
+                "river"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "16-35",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "timeRange": "day"
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        },
+        {
+            "id": "wartortle",
+            "pokemon": "wartortle",
+            "presets": [
+                "river",
+                "underwater"
+            ],
+            "type": "pokemon",
+            "context": "submerged",
+            "bucket": "ultra-rare",
+            "level": "16-35",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "timeRange": "day"
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+{
+    "id": "0126-magmar",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "magmar",
+            "pokemon": "magmar",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "30-49",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemoncobbled:is_crag"
+                ],
+                "isRaining": false,
+				"neededNearbyBlocks": [
+                    "minecraft:lava", "minecraft:flowing_lava"
+                ]
+            }
+        },
+        {
+            "id": "magmar",
+            "pokemon": "magmar",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "30-49",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_nether"
+                ]
+            }
+        }
+    ]
+}

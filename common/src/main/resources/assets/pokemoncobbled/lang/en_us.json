@@ -4552,5 +4552,7 @@
   "item.pokemoncobbled.water_stone": "Water Stone",
 
   "gamerule.doPokemonSpawning": "Spawn pokémon",
-  "command.checkspawns.invalid-bucket": "Invalid Spawn Bucket"
+  "pokemoncobbled.command.checkspawns.invalid-bucket": "Invalid Spawn Bucket",
+  "pokemoncobbled.command.checkspawns.spawns": "Spawns",
+  "pokemoncobbled.command.checkspawns.nothing": "Nothing can spawn here right now."
 }

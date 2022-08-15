@@ -1,0 +1,24 @@
+{
+    "id": "0030-nidorina",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "nidorina",
+            "pokemon": "nidorina",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "16-36",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_savanna"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}

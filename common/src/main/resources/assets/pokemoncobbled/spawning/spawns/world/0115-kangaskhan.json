@@ -1,0 +1,24 @@
+{
+    "id": "0115-kangaskhan",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "kangaskhan",
+            "pokemon": "kangaskhan",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "rare",
+            "level": "20-49",
+            "weight": 10.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_savanna"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}

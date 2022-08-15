@@ -1,0 +1,24 @@
+{
+    "id": "0044-gloom",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "gloom",
+            "pokemon": "gloom",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "21-39",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_jungle"
+                ],
+                "timeRange": "night"
+            }
+        }
+    ]
+}

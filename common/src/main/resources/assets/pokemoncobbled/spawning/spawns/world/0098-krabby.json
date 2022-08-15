@@ -1,0 +1,23 @@
+{
+    "id": "0098-krabby",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "krabby",
+            "pokemon": "krabby",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "4-27",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemoncobbled:is_coast"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,24 @@
+{
+    "id": "0039-jigglypuff",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "jigglypuff",
+            "pokemon": "jigglypuff",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "12-27",
+            "weight": 10.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemoncobbled:is_magical",
+                    "#pokemoncobbled:is_plains"
+                ]
+            }
+        }
+    ]
+}

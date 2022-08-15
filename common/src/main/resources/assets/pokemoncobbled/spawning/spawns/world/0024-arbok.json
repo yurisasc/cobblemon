@@ -1,0 +1,23 @@
+{
+    "id": "0024-arbok",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "arbok",
+            "pokemon": "arbok",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "22-45",
+            "weight": 1.8,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemoncobbled:is_arid"
+                ]
+            }
+        }
+    ]
+}

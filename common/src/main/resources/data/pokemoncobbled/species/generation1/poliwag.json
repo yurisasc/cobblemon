@@ -1,0 +1,99 @@
+{
+    "name": "poliwag",
+    "nationalPokedexNumber": 60,
+    "primaryType": "water",
+    "abilities": [
+        "waterabsorb",
+        "damp",
+        "h:swiftswim"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 50,
+        "defence": 40,
+        "special_attack": 40,
+        "special_defence": 40,
+        "speed": 90
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 60,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water1"
+    ],
+    "moves": [
+        "1:watergun",
+        "1:hypnosis",
+        "6:pound",
+        "12:mudshot",
+        "18:bubblebeam",
+        "24:raindance",
+        "30:bodyslam",
+        "36:earthpower",
+        "42:hydropump",
+        "48:bellydrum",
+        "54:doubleedge",
+        "egg:endeavor",
+        "egg:haze",
+        "egg:mindreader",
+        "egg:mist",
+        "egg:splash",
+        "egg:waterpulse",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:bulldoze",
+        "tm:dig",
+        "tm:dive",
+        "tm:encore",
+        "tm:endure",
+        "tm:facade",
+        "tm:hail",
+        "tm:helpinghand",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:muddywater",
+        "tm:protect",
+        "tm:psychic",
+        "tm:rest",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:thief",
+        "tm:waterfall",
+        "tm:whirlpool"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.poliwag.desc1",
+        "pokemoncobbled.species.poliwag.desc2"
+    ],
+    "evolutions": [
+        {
+            "variant": "level_up",
+            "result": "poliwhirl",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "level": 25
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

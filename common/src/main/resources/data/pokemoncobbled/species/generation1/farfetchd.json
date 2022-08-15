@@ -1,0 +1,134 @@
+{
+    "name": "farfetchd",
+    "nationalPokedexNumber": 83,
+    "primaryType": "normal",
+    "secondaryType": "flying",
+    "abilities": [
+        "keeneye",
+        "innerfocus",
+        "h:defiant"
+    ],
+    "baseStats": {
+        "hp": 52,
+        "attack": 90,
+        "defence": 55,
+        "special_attack": 58,
+        "special_defence": 62,
+        "speed": 60
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "galar",
+            "primaryType": "fighting",
+            "abilities": [
+                "steadfast",
+                "h:scrappy"
+            ],
+            "baseStats": {
+                "hp": 52,
+                "attack": 95,
+                "defence": 55,
+                "special_attack": 58,
+                "special_defence": 62,
+                "speed": 55
+            },
+            "aspects": [
+                "galar"
+            ]
+        }
+    ],
+    "baseExperienceYield": 132,
+    "experienceGroup": "medium",
+    "eggCycles": 20,
+    "eggGroups": [
+        "flying",
+        "ground"
+    ],
+    "moves": [
+        "1:sandattack",
+        "1:peck",
+        "5:leer",
+        "10:furycutter",
+        "15:cut",
+        "20:aerialace",
+        "25:aircutter",
+        "30:knockoff",
+        "35:falseswipe",
+        "40:slash",
+        "45:swordsdance",
+        "50:airslash",
+        "55:leafblade",
+        "60:agility",
+        "65:bravebird",
+        "egg:covet",
+        "egg:curse",
+        "egg:featherdance",
+        "egg:feint",
+        "egg:finalgambit",
+        "egg:firstimpression",
+        "egg:flail",
+        "egg:gust",
+        "egg:nightslash",
+        "egg:quickattack",
+        "egg:roost",
+        "egg:simplebeam",
+        "egg:skyattack",
+        "tm:acrobatics",
+        "tm:attract",
+        "tm:batonpass",
+        "tm:bodyslam",
+        "tm:brutalswing",
+        "tm:closecombat",
+        "tm:endure",
+        "tm:facade",
+        "tm:fly",
+        "tm:focusenergy",
+        "tm:heatwave",
+        "tm:helpinghand",
+        "tm:irontail",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarblade",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:thief",
+        "tm:throatchop",
+        "tm:uproar",
+        "tm:uturn",
+        "tm:workup",
+        "tutor:dualwingbeat"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.farfetchd.desc1",
+        "pokemoncobbled.species.farfetchd.desc2"
+    ],
+    "evolutions": [
+        {
+            "variant": "variant",
+            "result": "sirfetchd",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": []
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

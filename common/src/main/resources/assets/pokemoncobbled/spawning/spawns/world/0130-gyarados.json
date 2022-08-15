@@ -1,0 +1,47 @@
+{
+    "id": "0130-gyarados",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "gyarados",
+            "pokemon": "gyarados",
+            "presets": [
+                "freshwater",
+                "underwater"
+            ],
+            "type": "pokemon",
+            "context": "submerged",
+            "bucket": "rare",
+            "level": "20-54",
+            "weight": 10.0,
+            "condition": {
+                "canSeeSky": true
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        },
+        {
+            "id": "gyarados",
+            "pokemon": "gyarados",
+            "presets": [
+                "underwater"
+            ],
+            "type": "pokemon",
+            "context": "submerged",
+            "bucket": "uncommon",
+            "level": "20-54",
+            "weight": 6.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_ocean"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+{
+    "id": "0054-psyduck",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "psyduck",
+            "pokemon": "psyduck",
+            "presets": [
+                "freshwater"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "12-32",
+            "weight": 4.2,
+            "condition": {
+                "canSeeSky": true
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        }
+    ]
+}
