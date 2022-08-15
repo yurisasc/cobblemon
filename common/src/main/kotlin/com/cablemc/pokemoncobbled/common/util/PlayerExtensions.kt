@@ -22,7 +22,7 @@ fun ServerPlayerEntity.party() = PokemonCobbled.storage.getParty(this)
 fun UUID.getPlayer() = getServer()?.playerManager?.getPlayer(this)
 
 fun Entity.sendServerMessage(component: Text) {
-    sendSystemMessage(component, Util.NIL_UUID)
+    sendMessage(component)
 }
 
 fun ServerPlayerEntity.onLogout(handler: () -> Unit) {

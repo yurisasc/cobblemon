@@ -7,6 +7,7 @@ import kotlin.io.path.pathString
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
 import java.nio.file.Path
+import com.cablemc.pokemoncobbled.common.util.endsWith
 
 /**
  * A [DataRegistry] that consumes JSON files.
@@ -37,13 +38,11 @@ interface JsonDataRegistry<T> : DataRegistry {
 
     override fun reload(manager: ResourceManager) {
         val data = hashMapOf<Identifier, T>()
-        manager.findResources(this.resourcePath.pathString) { path -> path.endsWith(JSON_EXTENSION) }.forEach { identifier ->
-            manager.getResource(identifier).use { resource ->
-                resource.inputStream.use { stream ->
-                    stream.bufferedReader().use { reader ->
-                        val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                        data[resolvedIdentifier] = this.gson.fromJson(reader, this.typeToken.type)
-                    }
+        manager.findResources(this.resourcePath.pathString) { path -> path.endsWith(JSON_EXTENSION) }.forEach { (identifier, resource) ->
+            resource.inputStream.use { stream ->
+                stream.bufferedReader().use { reader ->
+                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                    data[resolvedIdentifier] = this.gson.fromJson(reader, this.typeToken.type)
                 }
             }
         }

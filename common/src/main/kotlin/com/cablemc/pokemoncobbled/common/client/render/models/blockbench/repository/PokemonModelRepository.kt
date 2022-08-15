@@ -34,6 +34,7 @@ import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResol
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.endsWith
 import java.io.File
 import java.nio.charset.StandardCharsets
 import kotlin.io.path.Path
@@ -84,31 +85,27 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {
-        resourceManager.findResources(Path("bedrock/posers").pathString) { path -> path.endsWith(".json") }.forEach { identifier ->
-            resourceManager.getResource(identifier).use { resource ->
-                resource.inputStream.use { stream ->
-                    val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                    posers[resolvedIdentifier] = {
-                        JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
-                        JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
-                    }
+        resourceManager.findResources(Path("bedrock/posers").pathString) { path -> path.endsWith(".json") }.forEach { identifier, resource ->
+            resource.inputStream.use { stream ->
+                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                posers[resolvedIdentifier] = {
+                    JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
+                    JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
                 }
             }
         }
     }
 
     fun registerSpeciesAssetResolvers(resourceManager: ResourceManager) {
-        resourceManager.findResources(Path("bedrock/species").pathString) { path -> path.endsWith(".json") }.forEach { identifier ->
-            resourceManager.getResource(identifier).use { resource ->
-                resource.inputStream.use { stream ->
-                    val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                    renders[resolvedIdentifier] = RegisteredSpeciesRendering(
-                        resolvedIdentifier,
-                        SpeciesAssetResolver.GSON.fromJson(json, SpeciesAssetResolver::class.java)
-                    )
-                }
+        resourceManager.findResources(Path("bedrock/species").pathString) { path -> path.endsWith(".json") }.forEach { identifier, resource ->
+            resource.inputStream.use { stream ->
+                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                renders[resolvedIdentifier] = RegisteredSpeciesRendering(
+                    resolvedIdentifier,
+                    SpeciesAssetResolver.GSON.fromJson(json, SpeciesAssetResolver::class.java)
+                )
             }
         }
     }
