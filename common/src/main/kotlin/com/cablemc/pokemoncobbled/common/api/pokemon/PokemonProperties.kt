@@ -16,7 +16,6 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
-import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.world.World
 
@@ -220,7 +219,7 @@ open class PokemonProperties {
     fun asRenderablePokemon() = RenderablePokemon(
         species = species?.let {
             return@let try {
-                PokemonSpecies.getByIdentifier(Identifier(it)) ?: PokemonSpecies.random()
+                PokemonSpecies.getByIdentifier(it.asIdentifierDefaultingNamespace())
             } catch (e: InvalidIdentifierException) {
                 PokemonSpecies.random()
             }

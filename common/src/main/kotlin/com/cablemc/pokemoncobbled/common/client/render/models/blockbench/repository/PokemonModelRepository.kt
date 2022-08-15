@@ -71,10 +71,10 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("rattata")] = { RattataModel(it) }
         posers[cobbledResource("raticate")] = { RaticateModel(it) }
         posers[cobbledResource("eevee")] = { EeveeModel(it) }
+        posers[cobbledResource("gyarados")] = { GyaradosModel(it) }
 
         // These are still substitutes in-game because we don't have these as aspect JSONs yet. Not animated.
         posers[cobbledResource("magikarp")] = { MagikarpModel(it) }
-        posers[cobbledResource("gyarados")] = { GyaradosModel(it) }
         posers[cobbledResource("pidgey")] = { PidgeyModel(it) }
         posers[cobbledResource("pidgeotto")] = { PidgeottoModel(it) }
         posers[cobbledResource("pidgeot")] = { PidgeotModel(it) }
