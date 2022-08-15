@@ -211,7 +211,7 @@ open class ErroredBattleStart(
     }
 
     fun sendTo(entity: Entity, transformer: (MutableText) -> (MutableText) = { it }) {
-        errors.forEach { entity.sendServerMessage(transformer(it.getMessageFor(entity))) }
+        errors.forEach { entity.sendMessage(transformer(it.getMessageFor(entity))) }
     }
 
     inline fun <reified T : BattleStartError> ifHasError(action: () -> Unit): ErroredBattleStart {

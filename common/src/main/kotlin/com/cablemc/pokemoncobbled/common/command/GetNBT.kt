@@ -24,7 +24,7 @@ object GetNBT {
         try {
             val formatter = NbtOrderedStringFormatter("", 0, mutableListOf())
             val str = formatter.apply(stack.nbt)
-            player.sendServerMessage(str.text().suggest(str))
+            player.sendMessage(str.text().suggest(str))
         } catch (e: Exception) {
             e.printStackTrace()
         }

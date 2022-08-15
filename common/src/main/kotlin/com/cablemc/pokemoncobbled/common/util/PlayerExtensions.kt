@@ -21,11 +21,6 @@ import net.minecraft.util.math.Vec3d
 fun ServerPlayerEntity.party() = PokemonCobbled.storage.getParty(this)
 fun UUID.getPlayer() = getServer()?.playerManager?.getPlayer(this)
 
-// TODO: Mass replace in a little bit
-fun Entity.sendServerMessage(component: Text) {
-    sendMessage(component)
-}
-
 fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
     CobbledEvents.PLAYER_QUIT.pipe(filter { it.uuid == uuid }, takeFirst()).subscribe { handler() }
 }
@@ -33,7 +28,7 @@ fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
 // Player extension for queueing next logout or login
 
 fun Entity.sendTranslatedServerMessage(str: String) {
-    sendServerMessage(str.asTranslated())
+    sendMessage(str.asTranslated())
 }
 
 class TraceResult(

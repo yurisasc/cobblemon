@@ -87,28 +87,28 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         }
 
         if (blockEntity.isInUse) {
-            player.sendServerMessage(lang("healingmachine.alreadyinuse").red())
+            player.sendMessage(lang("healingmachine.alreadyinuse").red())
             return ActionResult.SUCCESS
         }
 
         val serverPlayerEntity = player as ServerPlayerEntity
         val party = serverPlayerEntity.party()
         if (party.none()) {
-            player.sendServerMessage(lang("healingmachine.nopokemon").red())
+            player.sendMessage(lang("healingmachine.nopokemon").red())
             return ActionResult.SUCCESS
         }
 
         if (party.getHealingRemainderPercent() == 0.0f) {
-            player.sendServerMessage(lang("healingmachine.alreadyhealed").red())
+            player.sendMessage(lang("healingmachine.alreadyhealed").red())
             return ActionResult.SUCCESS
         }
 
         if (blockEntity.canHeal(player)) {
             blockEntity.activate(player)
-            player.sendServerMessage(lang("healingmachine.healing").green())
+            player.sendMessage(lang("healingmachine.healing").green())
         } else {
             val neededCharge = player.party().getHealingRemainderPercent() - blockEntity.healingCharge
-            player.sendServerMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red())
+            player.sendMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red())
         }
         return ActionResult.CONSUME
     }

@@ -41,7 +41,7 @@ object ChallengeHandler : PacketHandler<BattleChallengePacket> {
                             BattleRegistry.pvpChallenges.remove(player.uuid, challenge)
                         }
                         targetedEntity.sendPacket(ChallengeNotificationPacket(player.name.copy().aqua()))
-                        player.sendServerMessage(lang("challenge.sender", targetedEntity.name).yellow())
+                        player.sendMessage(lang("challenge.sender", targetedEntity.name).yellow())
                     }
                 }
                 else -> {

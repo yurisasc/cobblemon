@@ -82,19 +82,19 @@ object CheckSpawnsCommand {
         val messages = mutableListOf<MutableText>()
         sortedEntries.forEach { (name, percentage) ->
             val message = name + ": " + applyColour("${df.format(percentage)}%".text(), percentage)
-//            player.sendServerMessage()
+//            player.sendMessage()
             messages.add(message)
         }
 
         if (messages.isEmpty()) {
-            player.sendServerMessage(lang("command.checkspawns.nothing").red())
+            player.sendMessage(lang("command.checkspawns.nothing").red())
         } else {
-            player.sendServerMessage(lang("command.checkspawns.spawns").underline())
+            player.sendMessage(lang("command.checkspawns.spawns").underline())
             val msg = messages[0]
             for (nextMessage in messages.subList(1, messages.size)) {
                 msg.add(", ".text() + nextMessage)
             }
-            player.sendServerMessage(msg)
+            player.sendMessage(msg)
         }
 
         return Command.SINGLE_SUCCESS

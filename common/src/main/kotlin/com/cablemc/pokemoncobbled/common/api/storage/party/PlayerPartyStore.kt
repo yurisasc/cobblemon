@@ -43,13 +43,13 @@ open class PlayerPartyStore(
 
             if (pc == null || !pc.add(pokemon)) {
                 if (pc == null) {
-                    player?.sendServerMessage(lang("overflow_no_pc"))
+                    player?.sendMessage(lang("overflow_no_pc"))
                 } else {
-                    player?.sendServerMessage(lang("overflow_no_space", pc.name))
+                    player?.sendMessage(lang("overflow_no_space", pc.name))
                 }
                 false
             } else {
-                player?.sendServerMessage(lang("overflow_to_pc", pokemon.species.translatedName, pc.name))
+                player?.sendMessage(lang("overflow_to_pc", pokemon.species.translatedName, pc.name))
                 true
             }
         }

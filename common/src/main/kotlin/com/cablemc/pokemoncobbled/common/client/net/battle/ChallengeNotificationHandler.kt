@@ -11,7 +11,7 @@ import net.minecraft.client.MinecraftClient
 
 object ChallengeNotificationHandler : ClientPacketHandler<ChallengeNotificationPacket> {
     override fun invokeOnClient(packet: ChallengeNotificationPacket, ctx: CobbledNetwork.NetworkContext) {
-        MinecraftClient.getInstance().player?.sendServerMessage(
+        MinecraftClient.getInstance().player?.sendMessage(
             lang(
                 "challenge.receiver",
                 packet.challengerName,

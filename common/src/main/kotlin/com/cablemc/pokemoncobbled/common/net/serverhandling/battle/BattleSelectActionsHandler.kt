@@ -24,7 +24,7 @@ object BattleSelectActionsHandler : PacketHandler<BattleSelectActionsPacket> {
             try {
                 actor.setActionResponses(packet.showdownActionResponses)
             } catch (e: IllegalActionChoiceException) {
-                player.sendServerMessage(e.message!!.red())
+                player.sendMessage(e.message!!.red())
                 actor.sendUpdate(BattleQueueRequestPacket(actor.request!!))
                 actor.sendUpdate(BattleMakeChoicePacket())
             }

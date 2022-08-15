@@ -65,7 +65,7 @@ class HealingMachineBlockEntity(
         val party = player.party()
 
         party.heal()
-        player.sendServerMessage(lang("healingmachine.healed").green())
+        player.sendMessage(lang("healingmachine.healed").green())
         this.clearData()
     }
 

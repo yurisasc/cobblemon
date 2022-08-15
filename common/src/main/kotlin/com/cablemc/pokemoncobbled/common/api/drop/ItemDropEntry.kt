@@ -52,7 +52,7 @@ class ItemDropEntry : DropEntry {
             val count = stack.count
             val succeeded = player.giveItemStack(stack)
             if (PokemonCobbled.config.announceDropItems) {
-                player.sendServerMessage(
+                player.sendMessage(
                     if (succeeded) lang("drop.item.inventory", count, name.copy().green())
                     else lang("drop.item.full", name).red()
                 )
