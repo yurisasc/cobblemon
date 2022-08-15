@@ -11,7 +11,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon
  * @since December 16th, 2021
  */
 enum class PokemonBehaviourFlag {
-    RESTING,
+    SLEEPING,
     LOOKING,
     EXCITED,
     FLYING;

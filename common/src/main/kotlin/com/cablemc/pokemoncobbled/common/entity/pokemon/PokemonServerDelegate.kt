@@ -69,7 +69,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
     }
 
     fun updatePoseType() {
-        val isSleeping = entity.getBehaviourFlag(PokemonBehaviourFlag.RESTING)
+        val isSleeping = entity.getBehaviourFlag(PokemonBehaviourFlag.SLEEPING)
         val isMoving = entity.isMoving.get()
         val isUnderwater = entity.getIsSubmerged()
         val isFlying = entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
