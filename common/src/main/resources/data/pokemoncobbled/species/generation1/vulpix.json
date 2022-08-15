@@ -100,7 +100,7 @@
     ],
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "ninetales",
             "consumeHeldItem": false,
             "learnableMoves": [],
@@ -108,7 +108,7 @@
             "requiredContext": "fire-stone"
         },
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "ninetales",
             "consumeHeldItem": false,
             "learnableMoves": [],
