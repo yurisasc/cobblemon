@@ -1,0 +1,23 @@
+{
+    "id": "0114-tangela",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "tangela",
+            "pokemon": "tangela",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "8-23",
+            "weight": 1.4,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_jungle"
+                ]
+            }
+        }
+    ]
+}

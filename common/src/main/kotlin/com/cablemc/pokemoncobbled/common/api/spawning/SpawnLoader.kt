@@ -14,7 +14,18 @@ import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemoncobbled.common.util.AssetLoading
 import com.cablemc.pokemoncobbled.common.util.AssetLoading.toPath
-import com.cablemc.pokemoncobbled.common.util.adapters.*
+import com.cablemc.pokemoncobbled.common.util.adapters.BiomeLikeConditionAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.BlockLikeConditionAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.DropEntryAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.IdentifierAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.NbtCompoundAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.RegisteredSpawningContextAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.SpawnBucketAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.SpawnDetailAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.SpawningConditionAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.TimeRangeAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.pokemonPropertiesShortAdapter
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.fromJson
 import com.cablemc.pokemoncobbled.common.util.isHigherVersion
@@ -167,7 +178,7 @@ object SpawnLoader {
     fun loadInternalFile(path: Path): MutableList<SpawnSet> {
         if (path.toString().endsWith(".packed.json")) {
             return loadPackedSets(path).onEach { it.path = path }
-        } else if (path.toString().endsWith(".set.json")) {
+        } else if (path.toString().endsWith(".json")) {
             return mutableListOf(loadSetFromPath(path)).onEach { it.path = path }
         }
 

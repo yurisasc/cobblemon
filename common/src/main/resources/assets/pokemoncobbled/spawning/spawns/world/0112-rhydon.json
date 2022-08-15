@@ -1,0 +1,24 @@
+{
+    "id": "0112-rhydon",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "rhydon",
+            "pokemon": "rhydon",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "42-48",
+            "weight": 1.8,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_savanna"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}

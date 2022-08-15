@@ -1,0 +1,24 @@
+{
+    "id": "0084-doduo",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "doduo",
+            "pokemon": "doduo",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "8-30",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_savanna"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}

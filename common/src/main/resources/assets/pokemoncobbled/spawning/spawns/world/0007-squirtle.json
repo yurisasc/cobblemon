@@ -1,0 +1,51 @@
+{
+    "id": "0007-squirtle",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "squirtle",
+            "pokemon": "squirtle",
+            "presets": [
+                "river"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "5-15",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": true,
+                "timeRange": "day"
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        },
+        {
+            "id": "squirtle",
+            "pokemon": "squirtle",
+            "presets": [
+                "river",
+                "underwater"
+            ],
+            "type": "pokemon",
+            "context": "submerged",
+            "bucket": "ultra-rare",
+            "level": "5-15",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": true,
+                "timeRange": "day"
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        }
+    ]
+}

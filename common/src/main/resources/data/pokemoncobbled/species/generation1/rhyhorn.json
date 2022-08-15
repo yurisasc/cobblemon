@@ -1,0 +1,123 @@
+{
+    "name": "rhyhorn",
+    "nationalPokedexNumber": 111,
+    "primaryType": "ground",
+    "secondaryType": "rock",
+    "abilities": [
+        "lightningrod",
+        "rockhead",
+        "h:reckless"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 85,
+        "defence": 95,
+        "special_attack": 30,
+        "special_defence": 30,
+        "speed": 25
+    },
+    "catchRate": 120,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 69,
+    "experienceGroup": "slow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster",
+        "ground"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:tailwhip",
+        "5:smackdown",
+        "10:bulldoze",
+        "15:hornattack",
+        "20:scaryface",
+        "25:stomp",
+        "30:rockblast",
+        "35:drillrun",
+        "40:takedown",
+        "45:earthquake",
+        "50:stoneedge",
+        "55:megahorn",
+        "60:horndrill",
+        "egg:counter",
+        "egg:curse",
+        "egg:dragonrush",
+        "egg:guardsplit",
+        "egg:metalburst",
+        "egg:rockpolish",
+        "egg:skullbash",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:crunch",
+        "tm:dig",
+        "tm:dragonpulse",
+        "tm:earthpower",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firefang",
+        "tm:flamethrower",
+        "tm:highhorsepower",
+        "tm:icebeam",
+        "tm:icefang",
+        "tm:icywind",
+        "tm:irontail",
+        "tm:mudshot",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:reversal",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:sleeptalk",
+        "tm:smartstrike",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stompingtantrum",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:superpower",
+        "tm:swordsdance",
+        "tm:thief",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderfang",
+        "tm:uproar",
+        "tutor:scorchingsands"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.rhyhorn.desc1",
+        "pokemoncobbled.species.rhyhorn.desc2"
+    ],
+    "evolutions": [
+        {
+            "variant": "level_up",
+            "result": "rhydon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "level": 42
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

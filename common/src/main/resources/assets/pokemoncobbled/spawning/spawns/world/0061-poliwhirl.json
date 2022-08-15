@@ -1,0 +1,55 @@
+{
+    "id": "0061-poliwhirl",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "poliwhirl",
+            "pokemon": "poliwhirl",
+            "presets": [
+                "freshwater"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "25-38",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+				"neededNearbyBlocks": [
+                    "minecraft:lily_pad"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        },
+        {
+            "id": "poliwhirl",
+            "pokemon": "poliwhirl",
+            "presets": [
+                "freshwater",
+                "underwater"
+            ],
+            "type": "pokemon",
+            "context": "submerged",
+            "bucket": "common",
+            "level": "25-38",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+				"neededNearbyBlocks": [
+                    "minecraft:lily_pad"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        }
+    ]
+}

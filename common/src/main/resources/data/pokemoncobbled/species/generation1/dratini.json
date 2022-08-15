@@ -1,0 +1,110 @@
+{
+    "name": "dratini",
+    "nationalPokedexNumber": 147,
+    "primaryType": "dragon",
+    "abilities": [
+        "shedskin",
+        "h:marvelscale"
+    ],
+    "baseStats": {
+        "hp": 41,
+        "attack": 64,
+        "defence": 45,
+        "special_attack": 50,
+        "special_defence": 50,
+        "speed": 50
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 60,
+    "experienceGroup": "slow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "water1",
+        "dragon"
+    ],
+    "moves": [
+        "1:wrap",
+        "1:leer",
+        "5:twister",
+        "10:thunderwave",
+        "15:dragontail",
+        "20:agility",
+        "25:slam",
+        "31:aquatail",
+        "35:dragonrush",
+        "40:safeguard",
+        "45:raindance",
+        "50:dragondance",
+        "55:outrage",
+        "60:hyperbeam",
+        "egg:aquajet",
+        "egg:dragonbreath",
+        "egg:extremespeed",
+        "egg:mist",
+        "egg:supersonic",
+        "egg:waterpulse",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:breakingswipe",
+        "tm:brutalswing",
+        "tm:dragonpulse",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firespin",
+        "tm:flamethrower",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:hydropump",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irontail",
+        "tm:lightscreen",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:surf",
+        "tm:swift",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:waterfall",
+        "tm:whirlpool",
+        "tutor:dracometeor",
+        "tutor:scaleshot"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.dratini.desc1",
+        "pokemoncobbled.species.dratini.desc2"
+    ],
+    "evolutions": [
+        {
+            "variant": "level_up",
+            "result": "dragonair",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "level": 30
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

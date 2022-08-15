@@ -1,0 +1,108 @@
+{
+    "name": "voltorb",
+    "nationalPokedexNumber": 100,
+    "primaryType": "electric",
+    "abilities": [
+        "soundproof",
+        "static",
+        "h:aftermath"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 30,
+        "defence": 50,
+        "special_attack": 55,
+        "special_defence": 55,
+        "speed": 100
+    },
+    "catchRate": 190,
+    "maleRatio": -0.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "hisui",
+            "secondaryType": "grass",
+            "aspects": [
+                "hisui"
+            ]
+        }
+    ],
+    "baseExperienceYield": 66,
+    "experienceGroup": "medium",
+    "eggCycles": 20,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:charge",
+        "4:sonicboom",
+        "6:eerieimpulse",
+        "9:spark",
+        "11:rollout",
+        "13:screech",
+        "16:chargebeam",
+        "20:swift",
+        "22:electroball",
+        "26:selfdestruct",
+        "29:lightscreen",
+        "34:magnetrise",
+        "37:discharge",
+        "41:explosion",
+        "46:gyroball",
+        "48:mirrorcoat",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:facade",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:swagger",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:torment",
+        "tm:toxic",
+        "tm:voltswitch",
+        "tm:wildcharge",
+        "tutor:foulplay",
+        "tutor:magiccoat",
+        "tutor:shockwave",
+        "tutor:signalbeam",
+        "tutor:snore"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.voltorb.desc1"
+    ],
+    "evolutions": [
+        {
+            "variant": "level_up",
+            "result": "electrode",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "level": 30
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

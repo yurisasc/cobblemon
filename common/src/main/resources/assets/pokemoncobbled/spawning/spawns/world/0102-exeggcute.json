@@ -1,0 +1,23 @@
+{
+    "id": "0102-exeggcute",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "exeggcute",
+            "pokemon": "exeggcute",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "10-32",
+            "weight": 2.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_jungle"
+                ]
+            }
+        }
+    ]
+}

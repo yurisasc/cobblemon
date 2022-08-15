@@ -1,0 +1,132 @@
+{
+    "name": "marowak",
+    "nationalPokedexNumber": 105,
+    "primaryType": "ground",
+    "abilities": [
+        "rockhead",
+        "lightningrod",
+        "h:battlearmor"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 80,
+        "defence": 110,
+        "special_attack": 50,
+        "special_defence": 80,
+        "speed": 45
+    },
+    "catchRate": 75,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "alola",
+            "primaryType": "fire",
+            "secondaryType": "ghost",
+            "abilities": [
+                "cursedbody",
+                "lightningrod",
+                "h:rockhead"
+            ],
+            "aspects": [
+                "alola"
+            ]
+        },
+        {
+            "name": "totem",
+            "primaryType": "fire",
+            "secondaryType": "ghost",
+            "abilities": [
+                "cursedbody",
+                "lightningrod",
+                "h:rockhead"
+            ],
+            "aspects": [
+                "totem"
+            ]
+        }
+    ],
+    "baseExperienceYield": 149,
+    "experienceGroup": "medium",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster"
+    ],
+    "moves": [
+        "1:tailwhip",
+        "1:growl",
+        "1:mudslap",
+        "1:falseswipe",
+        "12:headbutt",
+        "16:retaliate",
+        "20:fling",
+        "24:stompingtantrum",
+        "31:bonerush",
+        "36:focusenergy",
+        "42:endeavor",
+        "48:bonemerang",
+        "54:thrash",
+        "60:doubleedge",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bulldoze",
+        "tm:dig",
+        "tm:earthpower",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firepunch",
+        "tm:flamethrower",
+        "tm:focusblast",
+        "tm:gigaimpact",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irondefense",
+        "tm:ironhead",
+        "tm:irontail",
+        "tm:lowkick",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:outrage",
+        "tm:protect",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:screech",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:thief",
+        "tm:throatchop",
+        "tm:thunderpunch",
+        "tm:uproar",
+        "tutor:scorchingsands"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.marowak.desc1",
+        "pokemoncobbled.species.marowak.desc2"
+    ],
+    "preEvolution": "cubone",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -1,0 +1,96 @@
+{
+    "name": "shellder",
+    "nationalPokedexNumber": 90,
+    "primaryType": "water",
+    "abilities": [
+        "shellarmor",
+        "skilllink",
+        "h:overcoat"
+    ],
+    "baseStats": {
+        "hp": 30,
+        "attack": 65,
+        "defence": 100,
+        "special_attack": 45,
+        "special_defence": 25,
+        "speed": 40
+    },
+    "catchRate": 190,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 61,
+    "experienceGroup": "slow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water3"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:watergun",
+        "4:withdraw",
+        "8:iceshard",
+        "12:leer",
+        "16:whirlpool",
+        "20:supersonic",
+        "24:aurorabeam",
+        "28:protect",
+        "32:razorshell",
+        "36:irondefense",
+        "40:icebeam",
+        "44:shellsmash",
+        "48:hydropump",
+        "egg:aquaring",
+        "egg:bubblebeam",
+        "egg:lifedew",
+        "egg:waterpulse",
+        "tm:attract",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:brine",
+        "tm:dive",
+        "tm:endure",
+        "tm:facade",
+        "tm:hail",
+        "tm:iciclespear",
+        "tm:icywind",
+        "tm:liquidation",
+        "tm:mudshot",
+        "tm:payback",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockblast",
+        "tm:round",
+        "tm:screech",
+        "tm:selfdestruct",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swift",
+        "tm:triattack"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.shellder.desc1",
+        "pokemoncobbled.species.shellder.desc2"
+    ],
+    "evolutions": [
+        {
+            "variant": "item",
+            "result": "cloyster",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "water-stone"
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

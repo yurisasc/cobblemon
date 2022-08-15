@@ -1,0 +1,28 @@
+{
+    "id": "0097-hypno",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "hypno",
+            "pokemon": "hypno",
+            "presets": [
+                "urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "26-48",
+            "weight": 1.8,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_jungle",
+                    "#minecraft:is_savanna"
+                ],
+                "timeRange": "night"
+            }
+        }
+    ]
+}

@@ -1,0 +1,112 @@
+{
+    "name": "tentacool",
+    "nationalPokedexNumber": 72,
+    "primaryType": "water",
+    "secondaryType": "poison",
+    "abilities": [
+        "clearbody",
+        "liquidooze",
+        "h:raindish"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 40,
+        "defence": 35,
+        "special_attack": 50,
+        "special_defence": 100,
+        "speed": 70
+    },
+    "catchRate": 190,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 67,
+    "experienceGroup": "slow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water3"
+    ],
+    "moves": [
+        "1:poisonsting",
+        "1:watergun",
+        "4:acid",
+        "8:wrap",
+        "12:supersonic",
+        "16:waterpulse",
+        "20:screech",
+        "24:bubblebeam",
+        "28:hex",
+        "32:acidarmor",
+        "36:poisonjab",
+        "40:surf",
+        "44:sludgewave",
+        "48:hydropump",
+        "egg:acupressure",
+        "egg:aquaring",
+        "egg:aurorabeam",
+        "egg:confuseray",
+        "egg:haze",
+        "egg:knockoff",
+        "egg:mirrorcoat",
+        "egg:rapidspin",
+        "egg:tickle",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:brine",
+        "tm:brutalswing",
+        "tm:crosspoison",
+        "tm:dazzlinggleam",
+        "tm:dive",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigadrain",
+        "tm:hail",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:muddywater",
+        "tm:payback",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:substitute",
+        "tm:swordsdance",
+        "tm:thief",
+        "tm:toxicspikes",
+        "tm:venoshock",
+        "tm:waterfall",
+        "tm:whirlpool"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.tentacool.desc1",
+        "pokemoncobbled.species.tentacool.desc2"
+    ],
+    "evolutions": [
+        {
+            "variant": "level_up",
+            "result": "tentacruel",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "level": 30
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

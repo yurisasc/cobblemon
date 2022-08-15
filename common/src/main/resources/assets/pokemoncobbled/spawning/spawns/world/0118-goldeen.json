@@ -1,0 +1,29 @@
+{
+    "id": "0118-goldeen",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "goldeen",
+            "pokemon": "goldeen",
+            "presets": [
+                "river",
+                "underwater"
+            ],
+            "type": "pokemon",
+            "context": "submerged",
+            "bucket": "common",
+            "level": "10-32",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": true
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemoncobbled:is_snowy"
+                ]
+            }
+        }
+    ]
+}
