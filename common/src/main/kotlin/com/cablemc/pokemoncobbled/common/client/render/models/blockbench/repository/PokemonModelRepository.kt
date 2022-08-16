@@ -28,6 +28,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VenusaurModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KrabbyModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
@@ -73,6 +74,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("raticate")] = { RaticateModel(it) }
         posers[cobbledResource("eevee")] = { EeveeModel(it) }
         posers[cobbledResource("gyarados")] = { GyaradosModel(it) }
+        posers[cobbledResource("krabby")] = { KrabbyModel(it) }
 
         // These are still substitutes in-game because we don't have these as aspect JSONs yet. Not animated.
         posers[cobbledResource("magikarp")] = { MagikarpModel(it) }

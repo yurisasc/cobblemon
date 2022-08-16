@@ -1,0 +1,11 @@
+{
+    "poser": "pokemoncobbled:krabby",
+    "model": "pokemoncobbled:bedrock/models/krabby.geo.json",
+    "texture": "pokemoncobbled:textures/pokemon/krabby.png",
+    "variations": [
+        {
+            "aspects": ["shiny"],
+            "texture": "pokemoncobbled:textures/pokemon/krabby_shiny.png"
+        }
+    ]
+}
