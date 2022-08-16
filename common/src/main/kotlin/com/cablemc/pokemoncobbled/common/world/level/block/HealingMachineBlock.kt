@@ -10,9 +10,11 @@ import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.block.entity.BlockEntityTicker
 import net.minecraft.block.entity.BlockEntityType
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
+import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.state.StateManager
 import net.minecraft.util.ActionResult
@@ -111,6 +113,18 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
             player.sendMessage(lang("healingmachine.notenoughcharge", "${((neededCharge/party.count())*100f).toInt()}%").red())
         }
         return ActionResult.CONSUME
+    }
+
+    override fun onPlaced(world: World, blockPos: BlockPos, blockState: BlockState, livingEntity: LivingEntity?, itemStack: ItemStack) {
+        super.onPlaced(world, blockPos, blockState, livingEntity, itemStack)
+
+        if (!world.isClient && livingEntity is ServerPlayerEntity && livingEntity.isCreative) {
+            val blockEntity = world.getBlockEntity(blockPos)
+            if (blockEntity !is HealingMachineBlockEntity) {
+                return
+            }
+            blockEntity.infinite = true
+        }
     }
 
     override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? {

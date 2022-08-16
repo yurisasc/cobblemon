@@ -29,6 +29,7 @@ class HealingMachineBlockEntity(
     var healingCharge: Float = 0.0f
     val isInUse: Boolean
         get() = currentUser != null
+    var infinite: Boolean = false
 
     fun setUser(user: UUID) {
         this.clearData()
@@ -45,7 +46,7 @@ class HealingMachineBlockEntity(
     }
 
     fun canHeal(player: ServerPlayerEntity): Boolean {
-        if (PokemonCobbled.config.infiniteHealerCharge) {
+        if (PokemonCobbled.config.infiniteHealerCharge || this.infinite) {
             return true
         }
         val neededHealthPercent = player.party().getHealingRemainderPercent()
@@ -104,6 +105,9 @@ class HealingMachineBlockEntity(
         if (compoundTag.contains(DataKeys.HEALER_MACHINE_CHARGE)) {
             this.healingCharge = compoundTag.getFloat(DataKeys.HEALER_MACHINE_CHARGE)
         }
+        if (compoundTag.contains(DataKeys.HEALER_MACHINE_INFINITE)) {
+            this.infinite = compoundTag.getBoolean(DataKeys.HEALER_MACHINE_INFINITE)
+        }
     }
 
     override fun writeNbt(compoundTag: NbtCompound) {
@@ -130,6 +134,7 @@ class HealingMachineBlockEntity(
 
         compoundTag.putInt(DataKeys.HEALER_MACHINE_TIME_LEFT, this.healTimeLeft)
         compoundTag.putFloat(DataKeys.HEALER_MACHINE_CHARGE, this.healingCharge)
+        compoundTag.putBoolean(DataKeys.HEALER_MACHINE_INFINITE, this.infinite)
     }
 
     override fun toUpdatePacket() =  BlockEntityUpdateS2CPacket.create(this)
