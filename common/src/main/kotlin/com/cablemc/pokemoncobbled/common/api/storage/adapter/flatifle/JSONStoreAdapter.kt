@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.api.storage.adapter
+package com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle
 
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
@@ -24,8 +24,7 @@ open class JSONStoreAdapter(
     override val useNestedFolders: Boolean,
     override val folderPerClass: Boolean,
     private val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
-) : OneToOneFileStoreAdapter<JsonObject> {
-    override val fileExtension: String = "json"
+) : AbstractOneToOneFileStoreAdapter<JsonObject>(rootFolder, useNestedFolders, folderPerClass, "json") {
     override fun <E : StorePosition, T : PokemonStore<E>> serialize(store: T) = store.saveToJSON(JsonObject())
 
     override fun save(file: File, serialized: JsonObject) {

@@ -15,7 +15,6 @@ import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerial
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CobbledGen348CaptureCalculator
-import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.Gen7CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceCalculator
@@ -32,8 +31,9 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolve
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
 import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
-import com.cablemc.pokemoncobbled.common.api.storage.adapter.JSONStoreAdapter
-import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.conversions.ReforgedConversion
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle.JSONStoreAdapter
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.api.storage.pc.link.PCLinkManager
@@ -177,12 +177,14 @@ object PokemonCobbled {
 
         SERVER_STARTED.subscribe { server ->
             playerData = PlayerDataStoreManager().also { it.setup(server) }
-            val pokemonStoreRoot = server.getSavePath(WorldSavePath.PLAYERDATA).parent.resolve("pokemon").toFile()
+            val pokemonStoreRoot = server.getSavePath(WorldSavePath.ROOT).resolve("pokemon").toFile()
+
             storage.registerFactory(
                 priority = Priority.LOWEST,
                 factory = FileBackedPokemonStoreFactory(
                     adapter = if (config.storageFormat == "nbt") {
                         NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
+                            .with(ReforgedConversion(server.getSavePath(WorldSavePath.ROOT)))
                     } else {
                         JSONStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
                     },

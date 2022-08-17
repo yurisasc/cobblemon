@@ -132,7 +132,7 @@
             ]
         },
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "slowbro",
             "consumeHeldItem": false,
             "learnableMoves": [],
@@ -152,7 +152,7 @@
             ]
         },
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "slowking",
             "consumeHeldItem": false,
             "learnableMoves": [],

@@ -124,7 +124,7 @@
         }
     ],
     "baseExperienceYield": 112,
-    "experienceGroup": "medium",
+    "experienceGroup": "mediumfast",
     "eggCycles": 10,
     "eggGroups": [
         "ground",
@@ -197,7 +197,7 @@
     "preEvolution": "pichu",
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "raichu",
             "consumeHeldItem": false,
             "learnableMoves": [],

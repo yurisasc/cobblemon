@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.api.storage.adapter
+package com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle
 
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
