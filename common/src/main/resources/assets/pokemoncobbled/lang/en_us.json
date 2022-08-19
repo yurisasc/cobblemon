@@ -139,6 +139,9 @@
   "pokemoncobbled.battle.must_switch": "Choose a Pokémon to switch in",
   "pokemoncobbled.battle.dragged_out": "%1$s was dragged out!",
   "pokemoncobbled.battle.throw_pokeball_prompt": "Throw a PokéBall at your opponent to capture it.",
+  "pokemoncobbled.battle.resisted": "It wasn't very effective....",
+  "pokemoncobbled.battle.superEffective": "It was super effective!",
+  "pokemoncobbled.battle.crit": "It was a critical hit!",
 
   "pokemoncobbled.capture.broke_free": "The %1$s broke free!",
   "pokemoncobbled.capture.not_your_turn": "It's not your turn to act.",
@@ -149,6 +152,7 @@
   "pokemoncobbled.capture.busy": "The %1$s is busy!",
   "pokemoncobbled.capture.you_in_battle": "You are in a battle.",
   "pokemoncobbled.capture.not_single": "You can only capture wild Pokémon in a 1v1 battle.",
+  "pokemoncobbled.you_in_battle": "You can't do that while in a battle!",
 
   "pokemoncobbled.battle.errors.busy": "%1$s is busy!",
   "pokemoncobbled.battle.error.in_battle": "%1$s is already in a battle.",
@@ -156,6 +160,7 @@
   "pokemoncobbled.battle.error.no_pokemon": "You don't have any usable Pokémon!",
   "pokemoncobbled.battle.error.insufficient_pokemon": "%1$s has %2 Pokémon when %3 are required.",
   "pokemoncobbled.battle.error.insufficient_pokemon.personal": "You have %1 usable Pokémon but you need %2.",
+
 
   "pokemoncobbled.experience.gained": "%1$s received %2$s experience.",
   "pokemoncobbled.experience.level_up": "%1$s is now level %2$s!",
