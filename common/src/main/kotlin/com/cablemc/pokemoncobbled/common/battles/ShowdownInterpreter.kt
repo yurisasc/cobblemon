@@ -30,6 +30,7 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.text.TranslatableText
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String) -> Unit>()
@@ -54,6 +55,9 @@ object ShowdownInterpreter {
         updateInstructions["|win|"] = this::handleWinInstruction
         updateInstructions["|move|"] = this::handleMoveInstruction
         updateInstructions["|cant|"] = this::handleCantInstruction
+        updateInstructions["|-supereffective|"] = this::handleSuperEffectiveInstruction
+        updateInstructions["|-resisted|"] = this::handleResistInstruction
+        updateInstructions["-crit"] = this::handleResistInstruction
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
         splitUpdateInstructions["|-damage|"] = this::handleDamageInstruction
@@ -418,6 +422,41 @@ object ShowdownInterpreter {
             battle.broadcastChatMessage((pokemon.battlePokemon?.getName() ?: "DEAD".text()) + " has $actionText".red())
             GO
         }
+    }
+
+    /**
+     * Format:
+     * |-resisted|p%a
+     *
+     * player % resisted the attack.
+     */
+    private fun handleResistInstruction(battle: PokemonBattle, message: String){
+        battle.dispatch {
+            battle.broadcastChatMessage(TranslatableText("pokemoncobbled.battle.resisted"))
+            GO
+        }
+    }
+
+    /**
+     * Format:
+     * |-supereffective|p%a
+     *
+     * player % was weak against the attack.
+     */
+    private fun handleSuperEffectiveInstruction(battle: PokemonBattle, message: String){
+        battle.dispatch {
+            battle.broadcastChatMessage(TranslatableText("pokemoncobbled.battle.superEffective"))
+            GO
+        }
+    }
+
+    private fun handleCritInstruction(battle: PokemonBattle, message: String){
+        battle.dispatch {
+            battle.broadcastChatMessage(TranslatableText("pokemoncobbled.battle.crit"))
+            GO
+        }
+
+
     }
 
 
