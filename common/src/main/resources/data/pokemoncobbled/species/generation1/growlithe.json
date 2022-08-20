@@ -99,7 +99,7 @@
     ],
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "arcanine",
             "consumeHeldItem": false,
             "learnableMoves": [],

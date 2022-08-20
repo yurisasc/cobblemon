@@ -120,7 +120,7 @@
             "requirements": []
         },
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "magnezone",
             "consumeHeldItem": false,
             "learnableMoves": [],

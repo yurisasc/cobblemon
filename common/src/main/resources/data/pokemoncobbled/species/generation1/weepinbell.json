@@ -81,7 +81,7 @@
     "preEvolution": "bellsprout",
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "victreebel",
             "consumeHeldItem": false,
             "learnableMoves": [],

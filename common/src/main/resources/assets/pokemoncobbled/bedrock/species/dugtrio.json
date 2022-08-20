@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:dugtrio",
+  "model": "pokemoncobbled:bedrock/models/dugtrio.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/dugtrio.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/dugtrio_shiny.png"
+    }
+  ]
+}

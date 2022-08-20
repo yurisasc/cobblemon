@@ -80,7 +80,7 @@
     "preEvolution": "poliwag",
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "poliwrath",
             "consumeHeldItem": false,
             "learnableMoves": [],

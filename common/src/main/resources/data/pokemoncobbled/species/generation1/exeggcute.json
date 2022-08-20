@@ -82,7 +82,7 @@
     ],
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "exeggutor",
             "consumeHeldItem": false,
             "learnableMoves": [],

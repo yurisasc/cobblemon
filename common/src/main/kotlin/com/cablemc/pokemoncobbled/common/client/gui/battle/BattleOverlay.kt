@@ -192,9 +192,9 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance()) {
         } else {
             matrixStack.push()
             drawPortraitPokemon(
-                species,
-                aspects,
-                matrixStack,
+                species = species,
+                aspects = aspects,
+                matrixStack = matrixStack,
                 scale = 18F * (ballState?.scale ?: 1F),
                 reversed = reversed,
                 state = state

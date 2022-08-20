@@ -197,6 +197,13 @@ class PokemonBattle(
         dispatches.add(BattleDispatch { dispatcher() })
     }
 
+    fun dispatchGo(dispatcher: () -> Unit) {
+        dispatch {
+            dispatcher()
+            GO
+        }
+    }
+
     fun dispatch(dispatcher: BattleDispatch) {
         dispatches.add(dispatcher)
     }
