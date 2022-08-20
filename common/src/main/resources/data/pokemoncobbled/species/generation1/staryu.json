@@ -78,7 +78,7 @@
     ],
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "starmie",
             "consumeHeldItem": false,
             "learnableMoves": [],

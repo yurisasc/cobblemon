@@ -197,7 +197,7 @@
     "preEvolution": "pichu",
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "raichu",
             "consumeHeldItem": false,
             "learnableMoves": [],

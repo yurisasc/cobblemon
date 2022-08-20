@@ -115,8 +115,8 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
                 val matrixStack = MatrixStack()
                 matrixStack.translate(
-                    panelX + frameOffsetX + selectedOffsetX + portraitDiameter / 2.0,
-                    y.toDouble() - 8,
+                    panelX + frameOffsetX + selectedOffsetX + portraitDiameter / 2.0 - 1.0,
+                    y.toDouble() - 12,
                     0.0
                 )
                 matrixStack.scale(1F, 1F, 1F)

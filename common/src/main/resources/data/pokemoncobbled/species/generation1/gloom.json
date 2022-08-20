@@ -74,7 +74,7 @@
     "preEvolution": "oddish",
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "vileplume",
             "consumeHeldItem": false,
             "learnableMoves": [],
@@ -82,7 +82,7 @@
             "requiredContext": "leaf-stone"
         },
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "bellossom",
             "consumeHeldItem": false,
             "learnableMoves": [],

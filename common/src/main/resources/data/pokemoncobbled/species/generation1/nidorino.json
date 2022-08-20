@@ -79,7 +79,7 @@
     "preEvolution": "nidoranm",
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "nidoking",
             "consumeHeldItem": false,
             "learnableMoves": [],
