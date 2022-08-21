@@ -52,7 +52,7 @@ abstract class SpawningContext {
     /** The current phase of the moon at this location. */
     val moonPhase: Int by lazy { world.moonPhase }
     /** The biome of this location. */
-    val biome: Biome by lazy { world.getBiome(position).comp_349() } // Previously: value()
+    val biome: Biome by lazy { world.getBiome(position).value() } // Previously: value()
 
     val biomeRegistry: Registry<Biome> by lazy { world.registryManager.get(Registry.BIOME_KEY) }
 

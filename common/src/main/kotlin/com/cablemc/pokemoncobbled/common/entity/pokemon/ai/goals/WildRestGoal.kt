@@ -30,7 +30,7 @@ class WildRestGoal(private val pokemonEntity: PokemonEntity) : Goal() {
         val worldTime = (pokemonEntity.world.timeOfDay % 24000).toInt()
         val light = pokemonEntity.world.getLightLevel(pokemonEntity.blockPos)
         val block = pokemonEntity.world.getBlockState(pokemonEntity.blockPos).block
-        val biome = pokemonEntity.world.getBiome(pokemonEntity.blockPos).comp_349() // Previous: value()
+        val biome = pokemonEntity.world.getBiome(pokemonEntity.blockPos).value() // Previous: value()
 
         return rest.canSleep &&
                 !pokemonEntity.getBehaviourFlag(EXCITED) &&
