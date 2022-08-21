@@ -1,0 +1,15 @@
+{
+  "poser": "pokemoncobbled:magikarp",
+  "model": "pokemoncobbled:bedrock/models/magikarp_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/magikarp.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/magikarp_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:bedrock/models/magikarp_female.geo.json"
+    }
+  ]
+}

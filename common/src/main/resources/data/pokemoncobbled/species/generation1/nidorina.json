@@ -78,7 +78,7 @@
     "preEvolution": "nidoranf",
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "nidoqueen",
             "consumeHeldItem": false,
             "learnableMoves": [],

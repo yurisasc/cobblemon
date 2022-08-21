@@ -104,7 +104,7 @@
     ],
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "vaporeon",
             "consumeHeldItem": false,
             "learnableMoves": [],
@@ -112,7 +112,7 @@
             "requiredContext": "water-stone"
         },
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "jolteon",
             "consumeHeldItem": false,
             "learnableMoves": [],
@@ -120,7 +120,7 @@
             "requiredContext": "thunder-stone"
         },
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "flareon",
             "consumeHeldItem": false,
             "learnableMoves": [],
@@ -203,7 +203,7 @@
             "requirements": []
         },
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "leafeon",
             "consumeHeldItem": false,
             "learnableMoves": [],
@@ -254,7 +254,7 @@
             "requirements": []
         },
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "glaceon",
             "consumeHeldItem": false,
             "learnableMoves": [],

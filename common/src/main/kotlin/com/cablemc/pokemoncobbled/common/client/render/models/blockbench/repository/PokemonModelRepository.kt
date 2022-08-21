@@ -28,6 +28,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VenusaurModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
@@ -71,16 +72,14 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("rattata")] = { RattataModel(it) }
         posers[cobbledResource("raticate")] = { RaticateModel(it) }
         posers[cobbledResource("eevee")] = { EeveeModel(it) }
-        posers[cobbledResource("gyarados")] = { GyaradosModel(it) }
-
-        // These are still substitutes in-game because we don't have these as aspect JSONs yet. Not animated.
         posers[cobbledResource("magikarp")] = { MagikarpModel(it) }
+        posers[cobbledResource("gyarados")] = { GyaradosModel(it) }
         posers[cobbledResource("pidgey")] = { PidgeyModel(it) }
         posers[cobbledResource("pidgeotto")] = { PidgeottoModel(it) }
         posers[cobbledResource("pidgeot")] = { PidgeotModel(it) }
         posers[cobbledResource("diglett")] = { DiglettModel(it) }
         posers[cobbledResource("dugtrio")] = { DugtrioModel(it) }
-        posers[cobbledResource("zubat")] = { DugtrioModel(it) }
+        posers[cobbledResource("zubat")] = { ZubatModel(it) }
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {

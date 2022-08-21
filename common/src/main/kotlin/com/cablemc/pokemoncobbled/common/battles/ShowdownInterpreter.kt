@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.EntityBackedBattleActor
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.text.aqua
 import com.cablemc.pokemoncobbled.common.api.text.gold
 import com.cablemc.pokemoncobbled.common.api.text.plus
@@ -23,6 +24,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMakeCh
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleQueueRequestPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSetTeamPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.swap
@@ -30,10 +32,9 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.text.TranslatableText
 
 object ShowdownInterpreter {
-    private val updateInstructions = mutableMapOf<String, (PokemonBattle, String) -> Unit>()
+    private val updateInstructions = mutableMapOf<String, (PokemonBattle, String, MutableList<String>) -> Unit>()
     private val sideUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, String) -> Unit>()
     private val splitUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, String, String) -> Unit>()
 
@@ -57,11 +58,64 @@ object ShowdownInterpreter {
         updateInstructions["|cant|"] = this::handleCantInstruction
         updateInstructions["|-supereffective|"] = this::handleSuperEffectiveInstruction
         updateInstructions["|-resisted|"] = this::handleResistInstruction
-        updateInstructions["-crit"] = this::handleResistInstruction
+        updateInstructions["|-crit"] = this::handleResistInstruction
+        updateInstructions["|-nothing"] = { battle, _, _ ->
+            battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
+        }
+        updateInstructions["|-unboost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, false) }
+        updateInstructions["|-boost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, true) }
+        updateInstructions["|t:|"] = {_, _, _ -> }
+
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
         splitUpdateInstructions["|-damage|"] = this::handleDamageInstruction
         splitUpdateInstructions["|drag|"] = this::handleDragInstruction
+    }
+
+    private fun boostInstruction(battle: PokemonBattle, line: String, remainingLines: MutableList<String>, isBoost: Boolean) {
+        val targetPNX = line.split("|")[2].split(":")[0]
+        val targetPokemon = battle.getActorAndActiveSlotFromPNX(targetPNX)
+        val statKey = line.split("|")[3]
+        val stages = line.split("|")[4].toInt()
+        val stat = getStat(statKey).name.asTranslated()
+        val severity = getSeverity(stages)
+        val rootKey = if (isBoost) "boost" else "unboost"
+
+        if (stages == 0) {
+            val othersExist = remainingLines.removeIf {
+                val isAlsoBoost = it.startsWith(if (isBoost) "|-boost" else "|-unboost")
+                // Same type boost targeting the same person and both zero
+                return@removeIf isAlsoBoost && it.split("|")[2] == line.split("|")[2] && it.split("|")[4] == "0"
+            }
+            if (othersExist) {
+                battle.dispatchGo {
+                    battle.broadcastChatMessage(battleLang("$rootKey.cap.multiple", targetPokemon.second.battlePokemon?.getName() ?: "ERROR".text()))
+                }
+                return
+            }
+        }
+
+        battle.dispatchGo {
+            battle.broadcastChatMessage(battleLang("$rootKey.$severity", targetPokemon.second.battlePokemon?.getName() ?: "ERROR".text(), stat))
+        }
+    }
+
+    private fun getStat(statKey: String) = when(statKey) {
+        "atk" -> Stats.ATTACK
+        "def" -> Stats.DEFENCE
+        "spa" -> Stats.SPECIAL_ATTACK
+        "spd" -> Stats.SPECIAL_DEFENCE
+        "spe" -> Stats.SPEED
+        "evasion" -> Stats.EVASION
+        else -> Stats.ACCURACY
+    }
+
+    private fun getSeverity(stages: Int) = when(stages) {
+        0 -> "cap.single"
+        1 -> "slight"
+        2 -> "sharp"
+        3 -> "severe"
+        else -> "HUH!?"
     }
 
     fun interpretMessage(message: String) {
@@ -91,11 +145,11 @@ object ShowdownInterpreter {
         battle.log(rawMessage)
         battle.log()
 
-        val lines = rawMessage.split("\n")
+        val lines = rawMessage.split("\n").toMutableList()
         if (lines[0] == "update") {
-            var i = 1
-            while (i < lines.size) {
-                val line = lines[i]
+            lines.removeAt(0)
+            while (lines.isNotEmpty()) {
+                val line = lines.removeAt(0)
 
                 // Split blocks have a public and private message below
                 if (line.startsWith("|split|")) {
@@ -108,19 +162,26 @@ object ShowdownInterpreter {
                     }
 
                     for (instruction in splitUpdateInstructions.entries) {
-                        if (lines[i+1].startsWith(instruction.key)) {
-                            instruction.value(battle, targetActor, lines[i+2], lines[i+1])
+                        if (lines[0].startsWith(instruction.key)) {
+                            instruction.value(battle, targetActor, lines[0], lines[1])
+                            break
                         }
                     }
 
-                    i += 2
+                    lines.removeFirst()
+                    lines.removeFirst()
                 } else {
-                    for (instruction in updateInstructions.entries) {
-                        if (line.startsWith(instruction.key)) {
-                            instruction.value(battle, line)
+                    if (line != "|") {
+                        val instruction = updateInstructions.entries.find { line.startsWith(it.key) }?.value
+                        if (instruction != null) {
+                            instruction(battle, line, lines)
+                        } else {
+                            battle.dispatch {
+                                battle.broadcastChatMessage(line.text())
+                                GO
+                            }
                         }
                     }
-                    i++
                 }
             }
         } else if (lines[0] == "sideupdate") {
@@ -151,7 +212,7 @@ object ShowdownInterpreter {
      * AVATAR is unused currently
      * RATING is unused currently
      */
-    private fun handlePlayerInstruction(battle: PokemonBattle, message: String) {
+    private fun handlePlayerInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
 //        battle.log("Player Instruction")
     }
 
@@ -163,7 +224,7 @@ object ShowdownInterpreter {
      * PLAYER is p1 or p2 unless 4 player battle which adds p3 and p4
      * NUMBER is number of Pokémon your opponent starts with for team preview.
      */
-    private fun handleTeamSizeInstruction(battle: PokemonBattle, message: String) {
+    private fun handleTeamSizeInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
 //        battle.log("Team Size Instruction")
     }
 
@@ -174,7 +235,7 @@ object ShowdownInterpreter {
      * Definitions:
      * GAMETYPE is singles, doubles, triples, multi, and or freeforall
      */
-    private fun handleGameTypeInstruction(battle: PokemonBattle, message: String) {
+    private fun handleGameTypeInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.log("Game Type Instruction: $message")
 //
 //        battle.broadcastChatMessage(LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Type:"))
@@ -193,7 +254,7 @@ object ShowdownInterpreter {
      * GENNUM is Generation number, from 1 to 7. Stadium counts as its respective gens;
      * Let's Go counts as 7, and modded formats count as whatever gen they were based on.
      */
-    private fun handleGenInstruction(battle: PokemonBattle, message: String) {
+    private fun handleGenInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.log("Gen Instruction: $message")
     }
 
@@ -204,7 +265,7 @@ object ShowdownInterpreter {
      * Definitions:
      * FORMATNAME is the name of the format being played.
      */
-    private fun handleTierInstruction(battle: PokemonBattle, message: String) {
+    private fun handleTierInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.log("Tier Instruction: $message")
 //
 //        battle.broadcastChatMessage(LiteralText("${Formatting.GOLD}${Formatting.BOLD}Battle Tier:"))
@@ -224,7 +285,7 @@ object ShowdownInterpreter {
      * Message: Will be sent if the game is official in some other way, such as being a tournament game.
      * Does not actually mean the game is rated.
      */
-    private fun handleRatedInstruction(battle: PokemonBattle, message: String) {
+    private fun handleRatedInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
 //        battle.log("Rated Instruction")
     }
 
@@ -235,7 +296,7 @@ object ShowdownInterpreter {
      * Definitions:
      * RULE is a rule and its description
      */
-    private fun handleRuleInstruction(battle: PokemonBattle, message: String) {
+    private fun handleRuleInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.log("Rule Instruction: $message")
         if (!battle.announcingRules) {
             battle.announcingRules = true
@@ -253,7 +314,7 @@ object ShowdownInterpreter {
      *
      * Marks the start of Team Preview
      */
-    private fun handleClearPokeInstruction(battle: PokemonBattle, message: String) {
+    private fun handleClearPokeInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.log("Clear Poke Instruction")
     }
 
@@ -267,7 +328,7 @@ object ShowdownInterpreter {
      * DETAILS describes the pokemon
      * ITEM will be an item if the pokemon is holding an item or blank if it isn't
      */
-    private fun handlePokeInstruction(battle: PokemonBattle, message: String) {
+    private fun handlePokeInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.log("Poke Instruction: $message")
 //
 //        val args = message.split("|")
@@ -296,7 +357,7 @@ object ShowdownInterpreter {
      * Format:
      * |teampreview indicates team preview is over
      */
-    private fun handleTeamPreviewInstruction(battle: PokemonBattle, message: String) {
+    private fun handleTeamPreviewInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.log("Start Team Preview Instruction: $message")
     }
 
@@ -306,7 +367,7 @@ object ShowdownInterpreter {
      *
      * Indicates that the game has started.
      */
-    private fun handleStartInstruction(battle: PokemonBattle, message: String) {
+    private fun handleStartInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.log("Start Instruction: $message")
     }
 
@@ -316,7 +377,7 @@ object ShowdownInterpreter {
      *
      * It is now turn NUMBER.
      */
-    private fun handleTurnInstruction(battle: PokemonBattle, message: String) {
+    private fun handleTurnInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         if (!battle.started) {
             battle.started = true
             val players = battle.actors.mapNotNull { it.uuid.getPlayer() }
@@ -342,7 +403,7 @@ object ShowdownInterpreter {
         }
     }
 
-    private fun handleUpkeepInstruction(battle: PokemonBattle, message: String) {
+    private fun handleUpkeepInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             battle.actors.forEach { it.upkeep() }
             GO
@@ -355,7 +416,7 @@ object ShowdownInterpreter {
      *
      * The Pokémon POKEMON has fainted.
      */
-    private fun handleFaintInstruction(battle: PokemonBattle, message: String) {
+    private fun handleFaintInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         val pnx = message.split("|faint|")[1].substring(0, 3)
         val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         battle.dispatch {
@@ -367,7 +428,7 @@ object ShowdownInterpreter {
         }
     }
 
-    private fun handleWinInstruction(battle: PokemonBattle, message: String) {
+    private fun handleWinInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val ids = message.split("|win|")[1].split("&").map { it.trim() }
             val winners = ids.map { battle.getActor(UUID.fromString(it))!!.getName() }.reduce { acc, next -> acc + " & " + next }
@@ -381,7 +442,7 @@ object ShowdownInterpreter {
     }
 
     // |move|p1a: Charizard|Tackle|p2a: Magikarp
-    private fun handleMoveInstruction(battle: PokemonBattle, message: String) {
+    private fun handleMoveInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val editMessaged = message.replace("|move|", "")
 
@@ -389,7 +450,13 @@ object ShowdownInterpreter {
             val (_, userPokemon) = battle.getActorAndActiveSlotFromPNX(userPNX)
             val move = editMessaged.split("|")[1].split("|")[0]
             val hasTarget = editMessaged.split("|").size == 3 && editMessaged.split("|")[2].isNotEmpty()
-            if (hasTarget) {
+            val targetPokemon = if (hasTarget) {
+                val targetPNX = editMessaged.split("|")[2].split(":")[0]
+                battle.getActorAndActiveSlotFromPNX(targetPNX)
+            } else {
+                null
+            }
+            if (targetPokemon != null && targetPokemon.second != userPokemon) {
                 val targetPNX = editMessaged.split("|")[2].split(":")[0]
                 val (_, targetPokemon) = battle.getActorAndActiveSlotFromPNX(targetPNX)
                 battle.broadcastChatMessage(battleLang(
@@ -400,7 +467,7 @@ object ShowdownInterpreter {
                 ))
             } else {
                 battle.broadcastChatMessage(battleLang(
-                    key = "used_move_on",
+                    key = "used_move",
                     userPokemon.battlePokemon?.getName() ?: "ERROR".red(),
                     move
                 ))
@@ -409,7 +476,7 @@ object ShowdownInterpreter {
         }
     }
 
-    private fun handleCantInstruction(battle: PokemonBattle, message: String) {
+    private fun handleCantInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val editMessaged = message.replace("|cant|", "")
 
@@ -430,9 +497,9 @@ object ShowdownInterpreter {
      *
      * player % resisted the attack.
      */
-    private fun handleResistInstruction(battle: PokemonBattle, message: String){
+    private fun handleResistInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
-            battle.broadcastChatMessage(TranslatableText("pokemoncobbled.battle.resisted"))
+            battle.broadcastChatMessage(battleLang("resisted"))
             GO
         }
     }
@@ -443,20 +510,18 @@ object ShowdownInterpreter {
      *
      * player % was weak against the attack.
      */
-    private fun handleSuperEffectiveInstruction(battle: PokemonBattle, message: String){
+    private fun handleSuperEffectiveInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
-            battle.broadcastChatMessage(TranslatableText("pokemoncobbled.battle.superEffective"))
+            battle.broadcastChatMessage(battleLang("superEffective"))
             GO
         }
     }
 
-    private fun handleCritInstruction(battle: PokemonBattle, message: String){
+    private fun handleCritInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
-            battle.broadcastChatMessage(TranslatableText("pokemoncobbled.battle.crit"))
+            battle.broadcastChatMessage(battleLang("crit"))
             GO
         }
-
-
     }
 
 

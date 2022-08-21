@@ -79,7 +79,7 @@
     ],
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "cloyster",
             "consumeHeldItem": false,
             "learnableMoves": [],
