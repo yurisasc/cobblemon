@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.SidemodExperienceSource
+import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
@@ -26,12 +27,6 @@ class ReforgedConversion(val base: Path) : CobbledConverter<NbtCompound> {
     override fun root(): Path {
         return this.base.resolve("data").resolve("pokemon")
     }
-
-    override fun children(): MutableList<CobbledAdapter<NbtCompound>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun with(vararg children: CobbledAdapter<NbtCompound>) = this
 
     @Suppress("UNCHECKED_CAST")
     override fun <E : StorePosition, T : PokemonStore<E>> load(storeClass: Class<T>, uuid: UUID): T? {
@@ -73,6 +68,8 @@ class ReforgedConversion(val base: Path) : CobbledConverter<NbtCompound> {
         result.species = PokemonSpecies.getByPokedexNumber(nbt.getInt("ndex"))
             ?: throw IllegalStateException("Failed to read a species with pokedex identifier ${nbt.getInt("ndex")}")
         result.form = result.species.forms.find { it.name == nbt.getString("Variant") } ?: result.species.standardForm
+
+
         result.gender = Gender.values()[nbt.getInt("Gender")]
         result.shiny = this.find(nbt, "IsShiny", NbtCompound::getBoolean) ?:
                         this.find(nbt, "palette", NbtCompound::getString)?.equals("shiny") ?: false
@@ -105,11 +102,9 @@ class ReforgedConversion(val base: Path) : CobbledConverter<NbtCompound> {
         result.evs = evs
         result.ivs = ivs
 
-        result.scaleModifier = ReforgedGrowthScales.values()[nbt.getInt("Growth")].scale
-
         for (move in nbt.getList("Moveset", 10)) {
             val compound = move as NbtCompound
-            val id = compound.getString("MoveID")
+            val id = compound.getString("MoveID").replace(Regex("[-\\s]", RegexOption.IGNORE_CASE), "")
             val pp = compound.getInt("MovePP")
             val level = compound.getInt("MovePPLevel")
 
@@ -164,18 +159,6 @@ class ReforgedConversion(val base: Path) : CobbledConverter<NbtCompound> {
         GENTLE,
         SASSY,
         CAREFUL,
-    }
-
-    enum class ReforgedGrowthScales(val scale: Float) {
-        Pygmy(0.5f),
-        Runt(0.75f),
-        Small(0.9f),
-        Ordinary(1.0f),
-        Huge(1.1f),
-        Giant(1.25f),
-        Enormous(1.5f),
-        Ginormous(1.66f),
-        Microscopic(0.33f);
     }
 
 }

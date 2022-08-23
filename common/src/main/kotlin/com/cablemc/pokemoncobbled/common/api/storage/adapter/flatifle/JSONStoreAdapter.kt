@@ -20,11 +20,11 @@ import java.util.UUID
  * @since November 29th, 2021
  */
 open class JSONStoreAdapter(
-    override val rootFolder: String,
-    override val useNestedFolders: Boolean,
-    override val folderPerClass: Boolean,
-    private val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
-) : AbstractOneToOneFileStoreAdapter<JsonObject>(rootFolder, useNestedFolders, folderPerClass, "json") {
+    rootFolder: String,
+    useNestedFolders: Boolean,
+    folderPerClass: Boolean,
+    private val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create(),
+) : OneToOneFileStoreAdapter<JsonObject>(rootFolder, useNestedFolders, folderPerClass, "json") {
     override fun <E : StorePosition, T : PokemonStore<E>> serialize(store: T) = store.saveToJSON(JsonObject())
 
     override fun save(file: File, serialized: JsonObject) {

@@ -32,6 +32,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspe
 import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.conversions.ReforgedConversion
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle.FileStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle.JSONStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
@@ -184,10 +185,9 @@ object PokemonCobbled {
                 factory = FileBackedPokemonStoreFactory(
                     adapter = if (config.storageFormat == "nbt") {
                         NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
-                            .with(ReforgedConversion(server.getSavePath(WorldSavePath.ROOT)))
                     } else {
                         JSONStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
-                    },
+                    }.with(ReforgedConversion(server.getSavePath(WorldSavePath.ROOT))) as FileStoreAdapter<*>,
                     createIfMissing = true,
                     pcConstructor = { uuid -> PCStore(uuid).also { it.resize(config.defaultBoxCount) } }
                 )
