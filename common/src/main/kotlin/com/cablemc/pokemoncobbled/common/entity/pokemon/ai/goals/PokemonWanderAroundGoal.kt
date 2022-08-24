@@ -10,7 +10,7 @@ import net.minecraft.entity.ai.goal.WanderAroundGoal
  * @since July 30th, 2022
  */
 class PokemonWanderAroundGoal(entity: PokemonEntity, speed: Double) : WanderAroundGoal(entity, speed) {
-    fun canMove() = (mob as PokemonEntity).behaviour.moving.canMove
+    fun canMove() = (mob as PokemonEntity).behaviour.moving.walk.canWalk
     override fun canStart() = super.canStart() && canMove()
     override fun shouldContinue() = super.shouldContinue() && canMove()
 }

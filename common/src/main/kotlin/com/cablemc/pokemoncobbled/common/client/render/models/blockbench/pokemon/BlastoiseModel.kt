@@ -40,7 +40,7 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
+            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -50,7 +50,7 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         swimIdle = registerPose(
             poseName = "swim_idle",
-            poseTypes = setOf(PoseType.SWIM),
+            poseTypes = setOf(PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("blastoise", "water_idle"),
@@ -71,7 +71,6 @@ class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         walk = registerPose(
             poseType = PoseType.WALK,
             transformTicks = 10,
-            condition = { it.isMoving.get() && !it.isSubmergedInWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("blastoise", "ground_walk")

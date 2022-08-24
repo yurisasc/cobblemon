@@ -10,11 +10,15 @@ import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.net.serializers.PoseTypeDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.reactive.ObservableSubscription
+import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.Poseable
+import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.PokemonMoveControl
+import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.PokemonNavigation
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonFollowOwnerGoal
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonLookAtEntityGoal
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonWanderAroundGoal
@@ -45,6 +49,7 @@ import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
@@ -68,6 +73,10 @@ class PokemonEntity(
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
 ) : TameableShoulderEntity(type, world), EntitySpawnExtension, Poseable {
+    val removalObservable = SimpleObservable<RemovalReason?>()
+    /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
+    val subscriptions = mutableListOf<ObservableSubscription<*>>()
+
     val form: FormData
         get() = pokemon.form
     val behaviour: FormPokemonBehaviour
@@ -83,13 +92,15 @@ class PokemonEntity(
 
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.bestSpawner.defaultPokemonDespawner
 
+    /** The player that caused this Pokémon to faint. */
+    var killer: ServerPlayerEntity? = null
+
     var ticksLived = 0
     val busyLocks = mutableListOf<Any>()
     val isBusy: Boolean
         get() = busyLocks.isNotEmpty()
 
     var drops: DropTable? = null
-
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val species = addEntityProperty(SPECIES, pokemon.species.resourceIdentifier.toString())
@@ -101,9 +112,6 @@ class PokemonEntity(
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
-
-    /** The player that caused this Pokémon to faint. */
-    var killer: ServerPlayerEntity? = null
 
     /**
      * 0 is do nothing,
@@ -121,19 +129,22 @@ class PokemonEntity(
     }
 
     init {
+        moveControl = PokemonMoveControl(this)
+        navigation = PokemonNavigation(world, this)
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
 
-        battleId
-            .subscribeIncludingCurrent {
-                if (it.isPresent) {
-                    busyLocks.add(BATTLE_LOCK)
-                } else {
-                    busyLocks.remove(BATTLE_LOCK)
+        subscriptions.add(
+            battleId
+                .subscribeIncludingCurrent {
+                    if (it.isPresent) {
+                        busyLocks.add(BATTLE_LOCK)
+                    } else {
+                        busyLocks.remove(BATTLE_LOCK)
+                    }
                 }
-            }
-            .unsubscribeWhen { isRemoved }
+        )
     }
 
     companion object {
@@ -161,6 +172,10 @@ class PokemonEntity(
         if (this.ticksLived % 20 == 0) {
             this.updateEyeHeight()
         }
+    }
+
+    fun setMoveControl(moveControl: MoveControl) {
+        this.moveControl = moveControl
     }
 
     /**
@@ -234,9 +249,9 @@ class PokemonEntity(
         })
 
         goalSelector.add(2, SleepOnTrainerGoal(this))
-        goalSelector.add(3, PokemonFollowOwnerGoal(this, 0.6, 8F, 2F, false))
+        goalSelector.add(3, PokemonFollowOwnerGoal(this, 1.0, 8F, 2F, false))
         goalSelector.add(4, WildRestGoal(this))
-        goalSelector.add(5, PokemonWanderAroundGoal(this, 0.33))
+        goalSelector.add(5, PokemonWanderAroundGoal(this, 1.0))
         goalSelector.add(6, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
     }
 
@@ -383,6 +398,8 @@ class PokemonEntity(
         if (stateEntity == this) {
             pokemon.state = InactivePokemonState()
         }
+        subscriptions.forEach(ObservableSubscription<*>::unsubscribe)
+        removalObservable.emit(reason)
     }
 
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
