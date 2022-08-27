@@ -436,7 +436,6 @@ object ShowdownInterpreter {
             battle.broadcastChatMessage(battleLang("win", winners).gold())
 
             battle.end()
-            BattleRegistry.closeBattle(battle)
             GO
         }
     }
@@ -563,11 +562,11 @@ object ShowdownInterpreter {
         val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val uuid = UUID.fromString(publicMessage.split("|")[2].split(":")[1].trim())
         val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
-
+        val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
         if (battle.started) {
             battle.dispatch {
-                if (actor is EntityBackedBattleActor<*>) {
-                    this.createEntitySwitch(battle, actor, actor.entity, pnx, activePokemon, pokemon)
+                if (entity != null) {
+                    this.createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon)
                 } else {
                     this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
                 }
@@ -575,12 +574,12 @@ object ShowdownInterpreter {
         } else {
             activePokemon.battlePokemon = pokemon
             val pokemonEntity = pokemon.entity
-            if (pokemonEntity == null && battleActor is EntityBackedBattleActor<*>) {
+            if (pokemonEntity == null && entity != null) {
                 pokemon.effectedPokemon.sendOutWithAnimation(
-                    source = battleActor.entity,
+                    source = entity,
                     battleId = battle.battleId,
-                    level = battleActor.entity.world as ServerWorld,
-                    position = battleActor.entity.pos
+                    level = entity.world as ServerWorld,
+                    position = entity.pos
                 )
             }
         }

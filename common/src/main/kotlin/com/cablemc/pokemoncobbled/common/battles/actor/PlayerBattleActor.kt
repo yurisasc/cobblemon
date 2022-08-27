@@ -7,6 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.BattleExperienceSource
+import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import java.util.UUID
@@ -18,11 +19,10 @@ class PlayerBattleActor(
     pokemonList: List<BattlePokemon>
 ) : BattleActor(uuid, pokemonList.toMutableList()), EntityBackedBattleActor<ServerPlayerEntity> {
 
-    // ToDo pending exception handling on battles for the how to handle if for some reason null.
-    override val entity: ServerPlayerEntity
-        get() = this.uuid.getPlayer()!!
+    override val entity: ServerPlayerEntity?
+        get() = this.uuid.getPlayer()
 
-    override fun getName(): MutableText = this.entity.name.copy()
+    override fun getName(): MutableText = this.entity?.name?.copy() ?: "Offline Player".red()
     override val type = ActorType.PLAYER
     override fun getPlayerUUIDs() = setOf(uuid)
     override fun awardExperience(battlePokemon: BattlePokemon, experience: Int) {
