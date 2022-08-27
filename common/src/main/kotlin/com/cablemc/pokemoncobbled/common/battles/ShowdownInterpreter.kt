@@ -422,6 +422,7 @@ object ShowdownInterpreter {
         battle.dispatch {
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
+            pokemon.battlePokemon?.sendUpdate()
             battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
             pokemon.battlePokemon = null
             WaitDispatch(2.5F)
@@ -631,6 +632,7 @@ object ShowdownInterpreter {
                 newHealthRatio = 0F
                 battle.dispatch {
                     activePokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
+                    activePokemon.battlePokemon?.sendUpdate()
                     GO
                 }
             } else {
@@ -638,6 +640,7 @@ object ShowdownInterpreter {
                 newHealthRatio = remainingHealth.toFloat() / newHealth.split("/")[1].toInt()
                 battle.dispatch {
                     activePokemon.battlePokemon?.effectedPokemon?.currentHealth = remainingHealth
+                    activePokemon.battlePokemon?.sendUpdate()
                     GO
                 }
             }
