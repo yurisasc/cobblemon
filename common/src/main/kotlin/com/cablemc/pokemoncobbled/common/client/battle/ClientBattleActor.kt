@@ -14,6 +14,6 @@ class ClientBattleActor(
 ) {
     lateinit var side: ClientBattleSide
 
-    var pokemon = listOf<Pokemon>()
+    var pokemon = mutableListOf<Pokemon>()
     val activePokemon = mutableListOf<ActiveClientBattlePokemon>()
 }

@@ -26,8 +26,7 @@ object StopBattleCommand {
         val player = context.player("player") ?: (if (entity is ServerPlayerEntity) entity else return 0)
         if (!player.world.isClient) {
             val battle = BattleRegistry.getBattleByParticipatingPlayer(player) ?: return 0
-            BattleRegistry.closeBattle(battle)
-            battle.end()
+            battle.stop()
         }
         return Command.SINGLE_SUCCESS
     }

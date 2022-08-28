@@ -134,6 +134,7 @@
   "pokemoncobbled.battle.owned_pokemon": "%1$s's %2$s",
   "pokemoncobbled.battle.fainted": "%1$s fainted!",
   "pokemoncobbled.battle.win": "%1$s won!",
+  "pokemoncobbled.battle.flee": "The battle was fled.",
   "pokemoncobbled.battle.switch_option": "Switch Pokémon: ",
   "pokemoncobbled.battle.your_team": "Your Team:",
   "pokemoncobbled.battle.must_switch": "Choose a Pokémon to switch in",
