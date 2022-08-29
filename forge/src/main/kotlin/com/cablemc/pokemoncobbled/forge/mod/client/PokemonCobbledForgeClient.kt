@@ -6,15 +6,14 @@ import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
 import java.util.function.Supplier
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.EntityRenderers
 import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.resource.ReloadableResourceManagerImpl
 import net.minecraft.resource.ResourceManager
-import net.minecraft.resource.ResourceReloader
-import net.minecraft.util.profiler.Profiler
+import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
@@ -33,7 +32,13 @@ object PokemonCobbledForgeClient : PokemonCobbledClientImplementation {
     @JvmStatic
     @SubscribeEvent
     fun onClientSetup(event: FMLClientSetupEvent) {
-//        NetworkManagerImpl.canServerReceive(cobbledResource("dummy"))
+        (MinecraftClient.getInstance().resourceManager as ReloadableResourceManagerImpl)
+            .registerReloader(object : SynchronousResourceReloader {
+                override fun reload(resourceManager: ResourceManager) {
+                    PokemonCobbledClient.reloadCodedAssets(resourceManager)
+                }
+            })
+        PokemonCobbledClient.reloadCodedAssets(MinecraftClient.getInstance().resourceManager)
         MinecraftForge.EVENT_BUS.register(this)
         event.enqueueWork {
             PokemonCobbledClient.initialize(this)
@@ -49,25 +54,24 @@ object PokemonCobbledForgeClient : PokemonCobbledClientImplementation {
 
     @SubscribeEvent
     fun onAddReloadHandler(event: AddReloadListenerEvent) {
-        event.addListener(object : ResourceReloader {
-            override fun reload(
-                synchronizer: ResourceReloader.Synchronizer?,
-                manager: ResourceManager?,
-                prepareProfiler: Profiler?,
-                applyProfiler: Profiler?,
-                prepareExecutor: Executor?,
-                applyExecutor: Executor?
-            ): CompletableFuture<Void> {
-                TODO("Not yet implemented")
-            }
-
-        })
+//        println("Reload handler")vent.addListener(object : ResourceReloader {
+//            override fun reload(
+//                synchronizer: ResourceReloader.Synchronizer?,
+//                manager: ResourceManager?,
+//                prepareProfiler: Profiler?,
+//                applyProfiler: Profiler?,
+//                prepareExecutor: Executor?,
+//                applyExecutor: Executor?
+//            ): CompletableFuture<Void> {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
+//        e
     }
 
     @SubscribeEvent
     fun onRenderGameOverlay(event: RenderGuiOverlayEvent.Pre) {
-        println(event.overlay.id)
-        //if (event.type != RenderGuiOverlayEvent.ElementType.ALL) return
         PokemonCobbledClient.beforeChatRender(event.poseStack, event.partialTick)
     }
 }

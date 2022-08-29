@@ -25,11 +25,7 @@ fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
     CobbledEvents.PLAYER_QUIT.pipe(filter { it.uuid == uuid }, takeFirst()).subscribe { handler() }
 }
 
-// Player extension for queueing next logout or login
-
-fun Entity.sendTranslatedServerMessage(str: String) {
-    sendMessage(str.asTranslated())
-}
+// TODO Player extension for queueing next login?
 
 class TraceResult(
     val location: Vec3d,

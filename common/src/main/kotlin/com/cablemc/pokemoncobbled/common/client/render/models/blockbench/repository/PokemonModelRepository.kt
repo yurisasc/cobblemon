@@ -9,6 +9,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharizardModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmanderModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmeleonModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefableModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefairyModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CleffaModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DiglettModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
@@ -16,6 +19,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.IvysaurModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KakunaModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KrabbyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MetapodModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeotModel
@@ -29,10 +33,6 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CleffaModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefairyModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefableModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KrabbyModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver

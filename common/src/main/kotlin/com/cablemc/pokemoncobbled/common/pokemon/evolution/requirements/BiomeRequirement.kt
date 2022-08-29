@@ -18,7 +18,7 @@ import net.minecraft.world.biome.Biome
 class BiomeRequirement : EntityQueryRequirement {
     val biomeCondition: RegistryLikeCondition<Biome> = BiomeIdentifierCondition(Identifier("plains"))
     override fun check(pokemon: Pokemon, queriedEntity: LivingEntity) = biomeCondition.fits(
-        queriedEntity.world.getBiome(queriedEntity.blockPos).comp_349(), // Previously value()
+        queriedEntity.world.getBiome(queriedEntity.blockPos).value(),
         queriedEntity.world.registryManager.get(Registry.BIOME_KEY)
     )
 
