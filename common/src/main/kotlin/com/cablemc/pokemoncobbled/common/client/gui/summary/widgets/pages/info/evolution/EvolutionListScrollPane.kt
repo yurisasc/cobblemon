@@ -65,11 +65,13 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
     }
 
     inner class EvolutionOption(private val pokemon: Pokemon, private val evolution: EvolutionDisplay) : Entry<EvolutionOption>() {
-        val form = evolution.species.getForm(evolution.aspects)!!
+        val form = evolution.species.getForm(evolution.aspects)
 
         private var evolveButton: SummaryButton = SummaryButton(
-            0F + BUTTON_X_OFFSET, 0F + BUTTON_Y_OFFSET,
-            BUTTON_WIDTH, BUTTON_HEIGHT,
+            buttonX = 0F + BUTTON_X_OFFSET,
+            buttonY = 0F + BUTTON_Y_OFFSET,
+            buttonWidth = BUTTON_WIDTH,
+            buttonHeight = BUTTON_HEIGHT,
             resource = BUTTON_RESOURCE,
             clickAction = { this.acceptAndClose() },
             text = lang("ui.evolve"),
@@ -94,9 +96,9 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             this.renderModelUnderlay(matrices, x, y)
             RenderSystem.enableScissor(
                 scaleIt(x + MODEL_UNDERLAY_X_OFFSET),
-                MinecraftClient.getInstance().window.height - scaleIt(y + MODEL_UNDERLAY_HEIGHT),
+                MinecraftClient.getInstance().window.height - scaleIt(y - 1 + MODEL_UNDERLAY_HEIGHT),
                 scaleIt(MODEL_UNDERLAY_WIDTH),
-                scaleIt(MODEL_UNDERLAY_HEIGHT)
+                scaleIt(MODEL_UNDERLAY_HEIGHT - 4)
             )
             this.renderModelPortrait(matrices, x + MODEL_UNDERLAY_WIDTH / 2 + MODEL_UNDERLAY_X_OFFSET, y + 4)
             RenderSystem.disableScissor()
@@ -140,17 +142,13 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         }
 
         private fun renderPreviewName(matrices: MatrixStack, x: Int, y: Int) {
-            val client = MinecraftClient.getInstance()
-            val text = this.displayName()
-            val textWidth = client.textRenderer.getWidth(text).toFloat()
-            val scaleMultiplier = if (textWidth >= POKEMON_NAME_MAX_WIDTH) POKEMON_NAME_MAX_WIDTH / textWidth else 1F
-            val textScale = (POKEMON_NAME_SCALE * scaleMultiplier).coerceAtMost(POKEMON_NAME_SCALE)
             drawScaledText(
                 matrixStack = matrices,
-                text = text,
-                x = x.toFloat() + POKEMON_NAME_X_OFFSET, y = y.toFloat() + POKEMON_NAME_Y_OFFSET + (1 - textScale),
-                scale = textScale,
-                colour = ColourLibrary.WHITE
+                text = displayName(),
+                x = x.toFloat() + POKEMON_NAME_X_OFFSET, y = y.toFloat() + POKEMON_NAME_Y_OFFSET,
+                scale = POKEMON_NAME_SCALE,
+                colour = ColourLibrary.WHITE,
+                maxCharacterWidth = POKEMON_NAME_MAX_WIDTH
             )
         }
 
@@ -192,8 +190,8 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
         private fun renderModelPortrait(matrices: MatrixStack, x: Int, y: Int) {
             matrices.push()
             matrices.translate(
-                x.toDouble(),
-                y.toDouble(),
+                x.toDouble() - 4,
+                y.toDouble() - 4,
                 0.0
             )
             drawPortraitPokemon(
@@ -228,9 +226,9 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
         // Pokémon name text
         private const val POKEMON_NAME_MAX_WIDTH = ENTRY_WIDTH - 5
-        private const val POKEMON_NAME_SCALE = .55F
-        private const val POKEMON_NAME_X_OFFSET = 27
-        private const val POKEMON_NAME_Y_OFFSET = 3
+        private const val POKEMON_NAME_SCALE = 0.75F
+        private const val POKEMON_NAME_X_OFFSET = 28
+        private const val POKEMON_NAME_Y_OFFSET = 5
 
         // Confirmation button
         private val BUTTON_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_slot_button.png")
@@ -243,22 +241,22 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
 
         // Type preview
         private val TYPE_CHART_RESOURCE = cobbledResource("ui/types.png")
-        private const val TYPE_ICON_WIDTH = 76
-        private const val TYPE_ICON_HEIGHT = 76
-        private const val TYPE_ICON_SCALE = .23F
-        private const val SINGLE_TYPE_ICON_X_OFFSET = 35
-        private const val SINGLE_TYPE_ICON_Y_OFFSET = 15
-        private const val DUAL_TYPE_ICON_X_OFFSET_1 = 26.5F
-        private const val DUAL_TYPE_ICON_X_OFFSET_2 = 42F
-        private const val DUAL_TYPE_ICON_Y_OFFSET_1 = 15
-        private const val DUAL_TYPE_ICON_Y_OFFSET_2 = 15
+        private const val TYPE_ICON_WIDTH = 76F
+        private const val TYPE_ICON_HEIGHT = 76F
+        private const val TYPE_ICON_SCALE = .245F
+        private const val SINGLE_TYPE_ICON_X_OFFSET = 33.8F
+        private const val SINGLE_TYPE_ICON_Y_OFFSET = 14.5F
+        private const val DUAL_TYPE_ICON_X_OFFSET_1 = 26.0F
+        private const val DUAL_TYPE_ICON_X_OFFSET_2 = 41.5F
+        private const val DUAL_TYPE_ICON_Y_OFFSET_1 = 14.5F
+        private const val DUAL_TYPE_ICON_Y_OFFSET_2 = 14.5F
 
         // Model preview
         private val MODEL_UNDERLAY_RESOURCE = cobbledResource("ui/summary/summary_info_evolve_underlay.png")
-        private const val MODEL_UNDERLAY_WIDTH = 33
+        private const val MODEL_UNDERLAY_WIDTH = 34
         private const val MODEL_UNDERLAY_HEIGHT = MODEL_UNDERLAY_WIDTH
         private const val MODEL_UNDERLAY_X_OFFSET = -4
-        private const val MODEL_SCALE = 16F
+        private const val MODEL_SCALE = 18F
 
     }
 

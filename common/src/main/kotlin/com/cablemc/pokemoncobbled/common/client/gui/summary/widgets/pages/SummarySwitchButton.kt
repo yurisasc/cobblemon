@@ -25,7 +25,7 @@ class SummarySwitchButton(
                 matrixStack = pMatrixStack,
                 font = CobbledResources.DEFAULT_LARGE,
                 text = text,
-                scale = 1.2F,
+                scale = 1.3F,
                 x = x + width / 2 - 0.1, y = y + 1,
                 colour = ColourLibrary.BUTTON_HOVER_COLOUR,
                 centered = true
@@ -35,10 +35,11 @@ class SummarySwitchButton(
                 matrixStack = pMatrixStack,
                 font = CobbledResources.DEFAULT_LARGE,
                 text = text,
-                scale = 1.2F,
+                scale = 1.3F,
                 x = x + width / 2 - 0.1, y = y + 1,
                 colour = ColourLibrary.BUTTON_NORMAL_COLOUR,
-                centered = true
+                centered = true,
+                maxCharacterWidth = 36
             )
         pMatrixStack.pop()
     }

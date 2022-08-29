@@ -8,6 +8,7 @@ class LevelRequirement : EvolutionRequirement {
         const val ADAPTER_VARIANT = "level"
     }
 
-    val level = 1..100
-    override fun check(pokemon: Pokemon) = pokemon.level in level
+    val minLevel = 1
+    val maxLevel = Int.MAX_VALUE
+    override fun check(pokemon: Pokemon) = pokemon.level in minLevel..maxLevel
 }
