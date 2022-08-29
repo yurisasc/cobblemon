@@ -56,7 +56,7 @@ subprojects {
 
     dependencies {
         "minecraft"("net.minecraft:minecraft:${rootProject.property("mc_version")}")
-        "mappings"("net.fabricmc:yarn:${rootProject.property("yarn_version")}:v2")//(loom.officialMojangMappings())
+        "mappings"("net.fabricmc:yarn:${rootProject.property("yarn_version")}")//(loom.officialMojangMappings())
     }
 
     tasks {

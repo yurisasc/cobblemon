@@ -47,12 +47,12 @@ fun blitk(
 ) {
     RenderSystem.setShader { GameRenderer.getPositionTexShader() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
-    RenderSystem.setShaderColor(red.toFloat(), green.toFloat(), blue.toFloat(), alpha.toFloat())
     if (blend) {
         RenderSystem.enableBlend()
         RenderSystem.defaultBlendFunc()
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
     }
+    RenderSystem.setShaderColor(red.toFloat(), green.toFloat(), blue.toFloat(), alpha.toFloat())
     matrixStack.push()
     matrixStack.scale(scale, scale, 1F)
     drawRectangle(

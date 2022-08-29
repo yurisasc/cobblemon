@@ -129,6 +129,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
 
         // Some long models end up translated such that the text ends up behind the invisible viewport rendered bits.
         // Kinda messed up but pushing these next elements forward seems a cheap enough fix.
+        matrixStack.push()
         matrixStack.translate(0.0, 0.0, 300.0)
         party.slots.forEachIndexed { index, pokemon ->
             val selectedOffsetX = if (selectedSlot == index) 6 else 0
@@ -257,5 +258,6 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 )
             }
         }
+        matrixStack.pop()
     }
 }
