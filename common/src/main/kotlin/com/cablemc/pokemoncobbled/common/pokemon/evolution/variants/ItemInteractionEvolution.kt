@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.Evolu
 import com.cablemc.pokemoncobbled.common.item.interactive.EvolutionItem
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
 
 /**
  * Represents a [ContextEvolution] with [Identifier] context.
@@ -25,7 +24,7 @@ open class ItemInteractionEvolution(
     override var consumeHeldItem: Boolean,
     override val requirements: MutableSet<EvolutionRequirement>,
     override val learnableMoves: MutableSet<MoveTemplate>
-) : ContextEvolution<EvolutionItem, Identifier> {
+) : ContextEvolution<Identifier, Identifier> {
     constructor(): this(
         id = "id",
         result = PokemonProperties(),
@@ -36,9 +35,8 @@ open class ItemInteractionEvolution(
         learnableMoves = mutableSetOf()
     )
 
-    override fun testContext(pokemon: Pokemon, context: EvolutionItem): Boolean {
-        val contextKey = Registry.ITEM.getKey(context)
-        return contextKey == this.requiredContext
+    override fun testContext(pokemon: Pokemon, context: Identifier): Boolean {
+        return context == this.requiredContext
     }
 
     override fun equals(other: Any?) = other is ItemInteractionEvolution && other.id.equals(this.id, true)
