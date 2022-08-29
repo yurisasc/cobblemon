@@ -6,7 +6,8 @@
   "client": [
     "EntityRenderDispatcherMixin",
     "KeyBindingMixin",
-    "KeyboardHandlerMixin"
+    "KeyboardHandlerMixin",
+    "ReloadableResourceManagerImplMixin"
   ],
   "mixins": [
     "PlayerMixin",

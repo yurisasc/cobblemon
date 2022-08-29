@@ -6,22 +6,22 @@ import com.cablemc.pokemoncobbled.common.CobbledNetwork
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbledClientImplementation
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
+import net.minecraft.client.model.TexturedModelData
 import java.util.function.Supplier
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.EntityRenderers
 import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraftforge.api.distmarker.Dist
 import net.minecraft.resource.ReloadableResourceManagerImpl
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
-import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.event.AddReloadListenerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
+import java.util.function.Supplier
 
 @EventBusSubscriber(
     modid = PokemonCobbled.MODID,
@@ -50,24 +50,6 @@ object PokemonCobbledForgeClient : PokemonCobbledClientImplementation {
 
     override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
         ForgeHooksClient.registerLayerDefinition(modelLayer, supplier)
-    }
-
-    @SubscribeEvent
-    fun onAddReloadHandler(event: AddReloadListenerEvent) {
-//        println("Reload handler")vent.addListener(object : ResourceReloader {
-//            override fun reload(
-//                synchronizer: ResourceReloader.Synchronizer?,
-//                manager: ResourceManager?,
-//                prepareProfiler: Profiler?,
-//                applyProfiler: Profiler?,
-//                prepareExecutor: Executor?,
-//                applyExecutor: Executor?
-//            ): CompletableFuture<Void> {
-//                TODO("Not yet implemented")
-//            }
-//
-//        })
-//        e
     }
 
     @SubscribeEvent
