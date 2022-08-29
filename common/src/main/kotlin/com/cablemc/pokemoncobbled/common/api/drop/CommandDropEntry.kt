@@ -33,7 +33,7 @@ class CommandDropEntry : DropEntry {
 
         world.server.commandManager.executeWithPrefix(
             world.server.commandSource,
-            command.substitute("player", player?.name?.string!!)
+            command.substitute("player", player?.name?.string ?: "")
                 .substitute("world", world.registryKey.value)
                 .substitute("x", pos.x)
                 .substitute("y", pos.y)
