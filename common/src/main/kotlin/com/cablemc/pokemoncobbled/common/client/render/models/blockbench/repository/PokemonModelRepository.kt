@@ -29,6 +29,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CleffaModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefairyModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefableModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
@@ -80,6 +83,9 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("diglett")] = { DiglettModel(it) }
         posers[cobbledResource("dugtrio")] = { DugtrioModel(it) }
         posers[cobbledResource("zubat")] = { ZubatModel(it) }
+        posers[cobbledResource("cleffa")] = { CleffaModel(it) }
+        posers[cobbledResource("clefable")] = { ClefableModel(it) }
+        posers[cobbledResource("clefairy")] = { ClefairyModel(it) }
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {

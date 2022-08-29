@@ -23,7 +23,7 @@ class CandyItem(
     val calculator: Calculator
 ) : PokemonInteractiveItem(Settings().group(CobbledItemGroups.MEDICINE_ITEM_GROUP), Ownership.OWNER) {
 
-    override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack) {
+    override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon
         val experience = this.calculator.calculate(player, pokemon)
         CobbledEvents.EXPERIENCE_CANDY_USE_PRE.postThen(
@@ -34,8 +34,10 @@ class CandyItem(
                 val source = CandyExperienceSource(player, stack)
                 pokemon.addExperienceWithPlayer(player, source, finalExperience)
                 this.consumeItem(player, stack)
+                return true
             }
         )
+        return false
     }
 
     /**

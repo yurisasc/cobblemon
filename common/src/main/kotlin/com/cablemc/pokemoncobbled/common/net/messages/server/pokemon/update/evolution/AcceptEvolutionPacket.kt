@@ -14,5 +14,4 @@ class AcceptEvolutionPacket() : EvolutionDisplayUpdatePacket() {
         val evolution = pokemon.evolutionProxy.server().firstOrNull { evolution -> evolution.id.equals(this.evolutionId, true) } ?: return
         pokemon.evolutionProxy.server().start(evolution)
     }
-
 }

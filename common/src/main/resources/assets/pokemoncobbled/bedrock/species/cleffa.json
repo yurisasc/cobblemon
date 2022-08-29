@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:cleffa",
+  "model": "pokemoncobbled:bedrock/models/cleffa.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/cleffa.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/cleffa_shiny.png"
+    }
+  ]
+}
