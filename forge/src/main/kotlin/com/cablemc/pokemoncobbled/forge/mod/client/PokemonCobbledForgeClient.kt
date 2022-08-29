@@ -17,6 +17,7 @@ import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
+import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber
@@ -53,6 +54,8 @@ object PokemonCobbledForgeClient : PokemonCobbledClientImplementation {
 
     @SubscribeEvent
     fun onRenderGameOverlay(event: RenderGuiOverlayEvent.Pre) {
-        PokemonCobbledClient.beforeChatRender(event.poseStack, event.partialTick)
+        if (event.overlay.id == VanillaGuiOverlay.CHAT_PANEL.id()) {
+            PokemonCobbledClient.beforeChatRender(event.poseStack, event.partialTick)
+        }
     }
 }
