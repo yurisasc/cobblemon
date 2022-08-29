@@ -10,12 +10,12 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 
 class PCGui(
     private val pc: ClientPC,
     private val party: ClientParty
-) : Screen(TranslatableText("pokemoncobbled.ui.pc.title")) {
+) : Screen(Text.translatable("pokemoncobbled.ui.pc.title")) {
 
     companion object {
         // Size of Background
@@ -101,7 +101,7 @@ class PCGui(
         drawScaledText(
             matrixStack = matrices,
             font = CobbledResources.DEFAULT_LARGE,
-            text = TranslatableText("pokemoncobbled.ui.box.title", (this.pcWidget.box + 1).toString()),
+            text = Text.translatable("pokemoncobbled.ui.box.title", (this.pcWidget.box + 1).toString()),
             x = (x + 173.5), y = (y + 8.75),
             colour = ColourLibrary.WHITE, shadow = false,
             centered = true,

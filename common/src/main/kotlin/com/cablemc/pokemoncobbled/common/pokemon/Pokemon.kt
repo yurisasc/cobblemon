@@ -748,17 +748,17 @@ open class Pokemon {
     }
 
     fun addExperienceWithPlayer(player: ServerPlayerEntity, source: ExperienceSource, xp: Int) {
-        player.sendServerMessage(lang("experience.gained", species.translatedName, xp))
+        player.sendMessage(lang("experience.gained", species.translatedName, xp))
         val result = addExperience(source, xp)
         if (result.oldLevel != result.newLevel) {
-            player.sendServerMessage(lang("experience.level_up", species.translatedName, result.newLevel))
+            player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
             when (getFriendshipSpan()) {
                 1 -> incrementFriendship(5)
                 2 -> incrementFriendship(4)
                 3 -> incrementFriendship(3)
             }
             result.newMoves.forEach {
-                player.sendServerMessage(lang("experience.learned_move", species.translatedName, it.displayName))
+                player.sendMessage(lang("experience.learned_move", species.translatedName, it.displayName))
             }
         }
     }

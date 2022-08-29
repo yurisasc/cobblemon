@@ -11,7 +11,7 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.command.CommandSource
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import java.util.concurrent.CompletableFuture
 
 //Very helpful for all command related stuff: https://fabricmc.net/wiki/tutorial:commands#brigadier_explained
@@ -19,7 +19,7 @@ class PokemonArgumentType : ArgumentType<Species> {
 
     companion object {
         val EXAMPLES: List<String> = listOf("eevee")
-        val INVALID_POKEMON = TranslatableText("pokemoncobbled.command.pokespawn.invalid-pokemon")
+        val INVALID_POKEMON = Text.translatable("pokemoncobbled.command.pokespawn.invalid-pokemon")
 
         fun pokemon() = PokemonArgumentType()
 

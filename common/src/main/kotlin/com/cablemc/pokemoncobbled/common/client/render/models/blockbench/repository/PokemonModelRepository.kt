@@ -9,6 +9,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharizardModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmanderModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmeleonModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefableModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefairyModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CleffaModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DiglettModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
@@ -16,6 +19,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.IvysaurModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KakunaModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KrabbyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MetapodModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeotModel
@@ -29,15 +33,13 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CleffaModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefairyModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefableModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.endsWith
 import java.io.File
 import java.nio.charset.StandardCharsets
 import kotlin.io.path.Path
@@ -86,34 +88,31 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("cleffa")] = { CleffaModel(it) }
         posers[cobbledResource("clefable")] = { ClefableModel(it) }
         posers[cobbledResource("clefairy")] = { ClefairyModel(it) }
+        posers[cobbledResource("krabby")] = { KrabbyModel(it) }
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {
-        resourceManager.findResources(Path("bedrock/posers").pathString) { path -> path.endsWith(".json") }.forEach { identifier ->
-            resourceManager.getResource(identifier).use { resource ->
-                resource.inputStream.use { stream ->
-                    val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                    posers[resolvedIdentifier] = {
-                        JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
-                        JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
-                    }
+        resourceManager.findResources(Path("bedrock/posers").pathString) { path -> path.endsWith(".json") }.forEach { identifier, resource ->
+            resource.inputStream.use { stream ->
+                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                posers[resolvedIdentifier] = {
+                    JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
+                    JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
                 }
             }
         }
     }
 
     fun registerSpeciesAssetResolvers(resourceManager: ResourceManager) {
-        resourceManager.findResources(Path("bedrock/species").pathString) { path -> path.endsWith(".json") }.forEach { identifier ->
-            resourceManager.getResource(identifier).use { resource ->
-                resource.inputStream.use { stream ->
-                    val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                    renders[resolvedIdentifier] = RegisteredSpeciesRendering(
-                        resolvedIdentifier,
-                        SpeciesAssetResolver.GSON.fromJson(json, SpeciesAssetResolver::class.java)
-                    )
-                }
+        resourceManager.findResources(Path("bedrock/species").pathString) { path -> path.endsWith(".json") }.forEach { identifier, resource ->
+            resource.inputStream.use { stream ->
+                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                renders[resolvedIdentifier] = RegisteredSpeciesRendering(
+                    resolvedIdentifier,
+                    SpeciesAssetResolver.GSON.fromJson(json, SpeciesAssetResolver::class.java)
+                )
             }
         }
     }

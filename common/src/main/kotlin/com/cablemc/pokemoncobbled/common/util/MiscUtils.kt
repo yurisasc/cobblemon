@@ -1,15 +1,15 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import kotlin.math.min
 
 fun cobbledResource(path: String) = Identifier(PokemonCobbled.MODID, path)
 
-fun String.asTranslated() = TranslatableText(this)
+fun String.asTranslated() = Text.translatable(this)
 fun String.asResource() = Identifier(this)
-fun String.asTranslated(vararg data: Any) = TranslatableText(this, *data)
+fun String.asTranslated(vararg data: Any) = Text.translatable(this, *data)
 fun String.isInt() = this.toIntOrNull() != null
 fun String.isHigherVersion(other: String): Boolean {
     val thisSplits = split(".")

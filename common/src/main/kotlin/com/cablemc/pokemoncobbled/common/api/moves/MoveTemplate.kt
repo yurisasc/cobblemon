@@ -7,7 +7,7 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.battles.MoveTarget
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.google.gson.annotations.SerializedName
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.MutableText
 
 /**
  * This class represents the base of a Move.
@@ -35,9 +35,9 @@ open class MoveTemplate(
     val effectChance: Double,
     val effectStatus: String
 ) {
-    val displayName: TranslatableText
+    val displayName: MutableText
         get() = lang("move.$name")
-    val description: TranslatableText
+    val description: MutableText
         get() = lang("move.$name.desc")
     val maxPp: Int
         get() = 8 * pp / 5

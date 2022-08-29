@@ -7,11 +7,8 @@ import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
-import net.minecraft.network.MessageType
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.TranslatableText
-import net.minecraft.util.Util
+import net.minecraft.text.Text
 import java.util.UUID
 import kotlin.math.round
 import kotlin.random.Random
@@ -46,13 +43,13 @@ open class PlayerPartyStore(
 
             if (pc == null || !pc.add(pokemon)) {
                 if (pc == null) {
-                    player?.sendServerMessage(lang("overflow_no_pc"))
+                    player?.sendMessage(lang("overflow_no_pc"))
                 } else {
-                    player?.sendServerMessage(lang("overflow_no_space", pc.name))
+                    player?.sendMessage(lang("overflow_no_space", pc.name))
                 }
                 false
             } else {
-                player?.sendServerMessage(lang("overflow_to_pc", pokemon.species.translatedName, pc.name))
+                player?.sendMessage(lang("overflow_to_pc", pokemon.species.translatedName, pc.name))
                 true
             }
         }
@@ -72,7 +69,7 @@ open class PlayerPartyStore(
                     pokemon.faintedTimer -= 1
                     if (pokemon.faintedTimer <= -1) {
                         pokemon.currentHealth = (pokemon.hp * PokemonCobbled.config.faintAwakenHealthPercent).toInt()
-                        player.sendMessage(TranslatableText("pokemoncobbled.party.faintRecover", pokemon.species.translatedName), MessageType.CHAT, Util.NIL_UUID)
+                        player.sendMessage(Text.translatable("pokemoncobbled.party.faintRecover", pokemon.species.translatedName))
                     }
                 }
                 // Passive healing while less than full health

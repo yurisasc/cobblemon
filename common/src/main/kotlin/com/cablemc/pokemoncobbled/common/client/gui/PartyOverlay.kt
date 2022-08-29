@@ -19,9 +19,9 @@ import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 
-class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
+class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
 
     val partySlot = cobbledResource("ui/party/party_slot.png")
     val partySlotActive = cobbledResource("ui/party/party_slot_active.png")
@@ -129,6 +129,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
         // Some long models end up translated such that the text ends up behind the invisible viewport rendered bits.
         // Kinda messed up but pushing these next elements forward seems a cheap enough fix.
+        matrixStack.push()
         matrixStack.translate(0.0, 0.0, 300.0)
         party.slots.forEachIndexed { index, pokemon ->
             val selectedOffsetX = if (selectedSlot == index) 6 else 0
@@ -211,7 +212,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 val width = minecraft.textRenderer.getWidth(pokemon.level.toString())
                 drawScaledText(
                     matrixStack = matrixStack,
-                    text = TranslatableText(pokemon.level.toString()),
+                    text = Text.translatable(pokemon.level.toString()),
                     x = panelX + selectedOffsetX + 6.5F - width / 4F,
                     y = startY + ((slotHeight + slotSpacing) * index) + slotHeight * 0.84F - 7F,
                     scale = 0.45F
@@ -257,5 +258,6 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 )
             }
         }
+        matrixStack.pop()
     }
 }

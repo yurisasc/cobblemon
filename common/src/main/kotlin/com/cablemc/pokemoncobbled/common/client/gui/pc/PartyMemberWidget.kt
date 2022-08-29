@@ -13,7 +13,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
@@ -26,7 +26,7 @@ class PartyMemberWidget(
     val position: PartyPosition,
     private val texture: Identifier,
     onPress: PressAction
-) : ButtonWidget(x - PC_BOX_DIMENSION, y, PC_BOX_DIMENSION, PC_BOX_DIMENSION, LiteralText("PartyMember"), onPress) {
+) : ButtonWidget(x - PC_BOX_DIMENSION, y, PC_BOX_DIMENSION, PC_BOX_DIMENSION, Text.literal("PartyMember"), onPress) {
 
     companion object {
         // Box slot

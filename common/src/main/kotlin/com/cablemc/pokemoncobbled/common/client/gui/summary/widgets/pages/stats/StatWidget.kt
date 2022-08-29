@@ -4,12 +4,12 @@ import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWid
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 
 class StatWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int
-): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("StatWidget")) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("StatWidget")) {
 
     companion object {
         private val statBaseResource = cobbledResource("ui/summary/summary_stats.png")

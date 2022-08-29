@@ -5,7 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.LevelCurve
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.math.pow
 import com.google.gson.*
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.MutableText
 import java.lang.reflect.Type
 import kotlin.math.max
 
@@ -52,7 +52,7 @@ object ExperienceGroupAdapter : JsonSerializer<ExperienceGroup>, JsonDeserialize
  */
 interface ExperienceGroup : LevelCurve {
     val name: String
-    val translatedName: TranslatableText
+    val translatedName: MutableText
         get() = lang("experience_group.${name.lowercase()}")
 
     companion object {

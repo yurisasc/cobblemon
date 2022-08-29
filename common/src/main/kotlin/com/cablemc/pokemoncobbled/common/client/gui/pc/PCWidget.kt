@@ -15,7 +15,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.MovePart
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.pc.SwapPCPokemonPacket
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 
 class PCWidget(
     pX: Int, pY: Int,
@@ -23,7 +23,7 @@ class PCWidget(
     private val pcGui: PCGui,
     private val pc: ClientPC,
     private val party: ClientParty
-) : SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("PCWidget")) {
+) : SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("PCWidget")) {
 
     var selectedPosition: StorePosition? = null
 

@@ -27,8 +27,8 @@ object LevelUp {
             )
             .then(
                 CommandManager.argument("slot", IntegerArgumentType.integer(1, 99))
-                    .requires { it.entity is ServerPlayerEntity }
-                    .executes { execute(it, it.source.player) }
+                    .requires { it.entity is ServerPlayerEntity && it.player != null }
+                    .executes { execute(it, it.source.playerOrThrow) }
             )
 
         dispatcher.register(command)

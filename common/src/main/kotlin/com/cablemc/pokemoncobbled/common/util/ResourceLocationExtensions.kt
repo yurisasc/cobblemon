@@ -4,7 +4,7 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
@@ -48,6 +48,6 @@ fun StringReader.asIdentifierDefaultingNamespace(namespace: String = PokemonCobb
         return raw.asIdentifierDefaultingNamespace(namespace)
     } catch (e: InvalidIdentifierException) {
         this.cursor = start
-        throw SimpleCommandExceptionType(TranslatableText("argument.id.invalid")).createWithContext(this)
+        throw SimpleCommandExceptionType(Text.translatable("argument.id.invalid")).createWithContext(this)
     }
 }
