@@ -199,8 +199,8 @@ object PokemonCobbled {
                 LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
                 BattleRegistry.startBattle(
                     BattleFormat.GEN_8_SINGLES,
-                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()))),
-                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize())))
+                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
+                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
                 ).apply { mute = true }
             }
         }

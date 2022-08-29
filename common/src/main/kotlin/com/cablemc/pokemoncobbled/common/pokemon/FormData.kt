@@ -60,7 +60,7 @@ class FormData(
     val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
 
-    val maleRatio: Float?
+    val maleRatio: Float
         get() = _maleRatio ?: species.maleRatio
     val baseScale: Float
         get() = _baseScale ?: species.baseScale

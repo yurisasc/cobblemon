@@ -19,8 +19,10 @@ class InfoWidget(
     private val evolutionListWidget = EvolutionListScrollPane(this.pokemon).also { widget -> this.addWidget(widget) }
 
     private val evolutionListButton = SummaryButton(
-        x + 10F, y + 30F,
-        SummaryButton.BUTTON_WIDTH, SummaryButton.BUTTON_HEIGHT,
+        buttonX = x + 10F,
+        buttonY = y + 30F,
+        buttonWidth = SummaryButton.BUTTON_WIDTH,
+        buttonHeight = SummaryButton.BUTTON_HEIGHT,
         clickAction = { this.evolutionListWidget.render = true },
         text = lang("ui.evolve"),
         renderRequirement = { this.pokemon.evolutionProxy.client().isNotEmpty() },

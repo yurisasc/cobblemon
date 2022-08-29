@@ -692,9 +692,9 @@ open class Pokemon {
 
     fun initialize(): Pokemon {
         // TODO some other initializations to do with form n shit
-        gender = if (species.maleRatio == null || species.maleRatio!! !in 0F..1F) {
+        gender = if (form.maleRatio !in 0F..1F) {
             Gender.GENDERLESS
-        } else if (species.maleRatio!! == 1F || Random.nextFloat() <= species.maleRatio!!) {
+        } else if (form.maleRatio == 1F || Random.nextFloat() <= form.maleRatio) {
             Gender.MALE
         } else {
             Gender.FEMALE
@@ -704,12 +704,6 @@ open class Pokemon {
 
         ability = form.abilities.select(species, aspects)
         return this
-    }
-
-    fun initializeSpeciesFeatures() {
-        features.clear()
-        features.addAll(species.features.mapNotNull { SpeciesFeature.get(it)?.invoke() })
-        features.addAll(PokemonCobbled.config.globalFlagSpeciesFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
     }
 
     fun initializeMoveset(preferLatest: Boolean = true) {
@@ -743,13 +737,7 @@ open class Pokemon {
     }
 
     fun getExperienceToNextLevel() = getExperienceToLevel(level + 1)
-    fun getExperienceToLevel(level: Int): Int {
-        return if (level <= this.level) {
-            0
-        } else {
-            experienceGroup.getExperience(level) - experience
-        }
-    }
+    fun getExperienceToLevel(level: Int) = if (level <= this.level) 0 else experienceGroup.getExperience(level) - experience
 
     fun setExperienceAndUpdateLevel(xp: Int) {
         experience = xp
@@ -764,7 +752,7 @@ open class Pokemon {
         val result = addExperience(source, xp)
         if (result.oldLevel != result.newLevel) {
             player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
-            when(getFriendshipSpan()){
+            when (getFriendshipSpan()) {
                 1 -> incrementFriendship(5)
                 2 -> incrementFriendship(4)
                 3 -> incrementFriendship(3)

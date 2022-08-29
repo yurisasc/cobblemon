@@ -6,7 +6,10 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.ActorType
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.EntityBackedBattleActor
+import com.cablemc.pokemoncobbled.common.api.battles.model.actor.FleeableBattleActor
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
+import com.cablemc.pokemoncobbled.common.api.text.yellow
 import com.cablemc.pokemoncobbled.common.battles.ActiveBattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.BattleCaptureAction
 import com.cablemc.pokemoncobbled.common.battles.BattleFormat
@@ -17,7 +20,9 @@ import com.cablemc.pokemoncobbled.common.battles.dispatch.DispatchResult
 import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleEndPacket
 import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
+import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.text.Text
@@ -30,7 +35,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
  * @since January 16th, 2022
  * @author Deltric, Hiroku
  */
-class PokemonBattle(
+open class PokemonBattle(
     val format: BattleFormat,
     val side1: BattleSide,
     val side2: BattleSide
@@ -162,6 +167,7 @@ class PokemonBattle(
             }
         }
         sendUpdate(BattleEndPacket())
+        BattleRegistry.closeBattle(this)
     }
 
     fun finishCaptureAction(captureAction: BattleCaptureAction) {
@@ -197,6 +203,13 @@ class PokemonBattle(
         dispatches.add(BattleDispatch { dispatcher() })
     }
 
+    fun dispatchGo(dispatcher: () -> Unit) {
+        dispatch {
+            dispatcher()
+            GO
+        }
+    }
+
     fun dispatch(dispatcher: BattleDispatch) {
         dispatches.add(dispatcher)
     }
@@ -206,6 +219,38 @@ class PokemonBattle(
             val dispatch = dispatches.poll() ?: break
             dispatchResult = dispatch(this)
         }
+
+        if (started && isPvW) {
+            checkFlee()
+        }
+    }
+
+    open fun checkFlee() {
+        // Do we check the player's pokemon being nearby or the player themselves? Player themselves because pokemon could be stuck together in a pit
+        val wildPokemonOutOfRange = actors
+            .filterIsInstance<FleeableBattleActor>()
+            .filter { it.getWorldAndPosition() != null }
+            .none { pokemonActor ->
+                val (world, pos) = pokemonActor.getWorldAndPosition()!!
+                val nearestPlayerActorDistance = actors
+                    .filter { it.type == ActorType.PLAYER }
+                    .filterIsInstance<EntityBackedBattleActor<*>>()
+                    .mapNotNull { it.entity }
+                    .filter { it.world == world }
+                    .minOfOrNull { pos.distanceTo(it.pos) }
+
+                nearestPlayerActorDistance != null && nearestPlayerActorDistance < pokemonActor.fleeDistance
+            }
+
+        if (wildPokemonOutOfRange) {
+            actors.filterIsInstance<EntityBackedBattleActor<*>>().mapNotNull { it.entity }.forEach { it.sendServerMessage(battleLang("flee").yellow()) }
+            stop()
+        }
+    }
+
+    fun stop() {
+        end()
+        writeShowdownAction(">forcetie") // This will terminate the Showdown connection
     }
 
     fun checkForInputDispatch() {

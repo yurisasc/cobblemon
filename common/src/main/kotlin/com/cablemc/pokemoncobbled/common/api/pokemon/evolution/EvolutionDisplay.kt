@@ -1,7 +1,5 @@
 package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
 
-import com.cablemc.pokemoncobbled.common.pokemon.FormData
-import com.cablemc.pokemoncobbled.common.pokemon.Gender
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 

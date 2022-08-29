@@ -201,12 +201,12 @@ fun drawPortraitPokemon(
     matrixStack.scale(scale, scale, -scale)
     matrixStack.translate(0.0, -PORTRAIT_DIAMETER / 18.0, 0.0)
     matrixStack.translate(model.portraitTranslation.x * if (reversed) -1F else 1F, model.portraitTranslation.y, model.portraitTranslation.z - 4)
-    matrixStack.scale(model.portraitScale, model.portraitScale, 0.01F)
+    matrixStack.scale(model.portraitScale, model.portraitScale, 0.1F)
     matrixStack.multiply(quaternion1)
     matrixStack.multiply(quaternion2)
 
     val light1 = Vec3f(0.2F, 1.0F, -1.0F)
-    val light2 = Vec3f(0.1F, -1.0F, 2.0F)
+    val light2 = Vec3f(0.1F, 0.0F, 8.0F)
     RenderSystem.setShaderLights(light1, light2)
     quaternion1.conjugate()
 

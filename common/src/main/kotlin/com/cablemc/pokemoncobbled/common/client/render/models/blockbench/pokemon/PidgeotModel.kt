@@ -21,10 +21,10 @@ import net.minecraft.util.math.Vec3d
 
 class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
     override val rootPart = registerRelevantPart("pidgeot", root.getChild("pidgeot"))
-    override val leftWing = registerRelevantPart("leftwing", rootPart.getChildOf("body","leftwing"))
-    override val rightWing = registerRelevantPart("rightwing", rootPart.getChildOf("body","rightwing"))
-    override val leftLeg = registerRelevantPart("leftleg", rootPart.getChildOf("body","leftleg"))
-    override val rightLeg = registerRelevantPart("rightleg", rootPart.getChildOf("body","rightleg"))
+    override val leftWing = registerRelevantPart("leftwing", rootPart.getChildOf("body","wing_left"))
+    override val rightWing = registerRelevantPart("rightwing", rootPart.getChildOf("body","wing_right"))
+    override val leftLeg = registerRelevantPart("leftleg", rootPart.getChildOf("body","leg_left"))
+    override val rightLeg = registerRelevantPart("rightleg", rootPart.getChildOf("body","leg_right"))
     override val head = registerRelevantPart("head", rootPart.getChildOf("body","head"))
     private val tail = registerRelevantPart("tail", rootPart.getChildOf("body","tail"))
 
@@ -35,16 +35,16 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.NONE,
-            condition = { !it.isMoving.get() },
+            poseName = "stand",
+            poseTypes = setOf(PoseType.NONE, PoseType.PORTRAIT, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 0,
             idleAnimations = arrayOf(
                 singleBoneLook(),
             )
         )
         registerPose(
-            poseType = PoseType.WALK,
-            condition = { it.isMoving.get() },
+            poseName = "walk",
+            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 5,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -121,172 +121,5 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 ),
             )
         )
-    }
-
-    companion object {
-        val LAYER_LOCATION = EntityModelLayer(cobbledResource("pidgeot"), "main")
-        fun createBodyLayer(): TexturedModelData {
-            val meshdefinition = ModelData()
-            val partdefinition = meshdefinition.root
-
-            val pidgeot = partdefinition.addChild(
-                "pidgeot",
-                ModelPartBuilder.create(),
-                ModelTransform.pivot(0.0f, 24.0f, 0.0f)
-            )
-
-            val body =
-                pidgeot.addChild("body", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, -7.1635f, -0.7418f))
-
-            val body_r1 = body.addChild(
-                "body_r1",
-                ModelPartBuilder.create().uv(0, 0)
-                    .cuboid(-2.5f, -2.5f, -7.0f, 6.0f, 6.0f, 12.0f, Dilation(0.0f)),
-                ModelTransform.of(-0.5f, -0.8365f, 0.7418f, -0.2618f, 0.0f, 0.0f)
-            )
-
-            val tail = body.addChild(
-                "tail",
-                ModelPartBuilder.create().uv(16, 0)
-                    .cuboid(-5.0f, 0.0f, 0.0f, 10.0f, 0.0f, 8.0f, Dilation(0.02f)),
-                ModelTransform.pivot(0.0f, 2.4135f, 4.9918f)
-            )
-
-            val head = body.addChild(
-                "head",
-                ModelPartBuilder.create().uv(24, 18)
-                    .cuboid(-2.5f, -8.0f, -2.5f, 5.0f, 9.0f, 5.0f, Dilation(0.0f))
-                    .uv(24, 32).cuboid(-1.0f, -5.75f, -5.5f, 2.0f, 2.0f, 3.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, -1.5865f, -4.2582f)
-            )
-
-            val hair = head.addChild(
-                "hair",
-                ModelPartBuilder.create().uv(36, 12)
-                    .cuboid(-2.5f, -3.0f, 0.0f, 5.0f, 3.0f, 0.0f, Dilation(0.02f)),
-                ModelTransform.pivot(0.0f, -5.25f, -3.1193f)
-            )
-
-            val hair2 = hair.addChild(
-                "hair2",
-                ModelPartBuilder.create().uv(24, 8)
-                    .cuboid(-3.0f, -3.0f, 0.0f, 6.0f, 3.0f, 0.0f, Dilation(0.02f)),
-                ModelTransform.pivot(0.0f, -3.0f, 0.0f)
-            )
-
-            val hair3 = hair2.addChild(
-                "hair3",
-                ModelPartBuilder.create().uv(0, 0)
-                    .cuboid(-3.0f, -8.0f, 0.0f, 6.0f, 8.0f, 0.0f, Dilation(0.02f)),
-                ModelTransform.pivot(0.0f, -3.0f, 0.0f)
-            )
-
-            val hair4 = hair3.addChild(
-                "hair4",
-                ModelPartBuilder.create().uv(0, 8)
-                    .cuboid(-3.0f, -4.0f, 0.0f, 6.0f, 4.0f, 0.0f, Dilation(0.02f)),
-                ModelTransform.pivot(0.0f, -8.0f, 0.0f)
-            )
-
-            val leftwing = body.addChild(
-                "leftwing",
-                ModelPartBuilder.create().uv(0, 13)
-                    .cuboid(0.0f, -2.5f, 0.0f, 0.0f, 7.0f, 12.0f, Dilation(0.02f)),
-                ModelTransform.of(3.0f, -2.8365f, -5.2582f, -0.3491f, 0.1222f, -0.0436f)
-            )
-
-            val rightwing = body.addChild(
-                "rightwing",
-                ModelPartBuilder.create().uv(0, 6)
-                    .cuboid(0.0f, -2.5f, 0.0f, 0.0f, 7.0f, 12.0f, Dilation(0.02f)),
-                ModelTransform.of(-3.0f, -2.8365f, -5.2582f, -0.3491f, -0.1222f, 0.0436f)
-            )
-
-            val leftleg = body.addChild(
-                "leftleg",
-                ModelPartBuilder.create().uv(12, 32)
-                    .cuboid(-1.0f, -0.75f, -2.0f, 2.0f, 3.0f, 4.0f, Dilation(0.0f)),
-                ModelTransform.pivot(2.25f, 1.9135f, 1.2418f)
-            )
-
-            val leftknee = leftleg.addChild(
-                "leftknee",
-                ModelPartBuilder.create().uv(0, 32)
-                    .cuboid(-0.5f, -1.0f, -0.5f, 1.0f, 3.0f, 1.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 2.25f, 0.5f)
-            )
-
-            val leftfoot = leftknee.addChild(
-                "leftfoot",
-                ModelPartBuilder.create().uv(31, 34)
-                    .cuboid(-1.0f, 0.0f, -2.0f, 2.0f, 1.0f, 3.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 2.0f, 0.0f)
-            )
-
-            val leftbacktoe = leftfoot.addChild(
-                "leftbacktoe",
-                ModelPartBuilder.create().uv(20, 31)
-                    .cuboid(0.0f, -0.5f, 0.0f, 0.0f, 1.0f, 2.0f, Dilation(0.02f)),
-                ModelTransform.pivot(0.0f, 0.5f, 1.0f)
-            )
-
-            val leftfronttoe3 = leftfoot.addChild(
-                "leftfronttoe3",
-                ModelPartBuilder.create().uv(8, 30)
-                    .cuboid(0.0f, -0.5f, -3.0f, 0.0f, 1.0f, 3.0f, Dilation(0.02f)),
-                ModelTransform.pivot(0.75f, 0.5f, -2.0f)
-            )
-
-            val leftfronttoe4 = leftfoot.addChild(
-                "leftfronttoe4",
-                ModelPartBuilder.create().uv(20, 29)
-                    .cuboid(0.0f, -0.5f, -3.0f, 0.0f, 1.0f, 3.0f, Dilation(0.02f)),
-                ModelTransform.pivot(-0.75f, 0.5f, -2.0f)
-            )
-
-            val rightleg = body.addChild(
-                "rightleg",
-                ModelPartBuilder.create().uv(0, 32)
-                    .cuboid(-1.0f, -0.75f, -2.0f, 2.0f, 3.0f, 4.0f, Dilation(0.0f)),
-                ModelTransform.pivot(-2.25f, 1.9135f, 1.2418f)
-            )
-
-            val rightknee = rightleg.addChild(
-                "rightknee",
-                ModelPartBuilder.create().uv(24, 18)
-                    .cuboid(-0.5f, -1.0f, -0.5f, 1.0f, 3.0f, 1.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 2.25f, 0.5f)
-            )
-
-            val rightfoot = rightknee.addChild(
-                "rightfoot",
-                ModelPartBuilder.create().uv(33, 8)
-                    .cuboid(-1.0f, 0.0f, -2.0f, 2.0f, 1.0f, 3.0f, Dilation(0.0f)),
-                ModelTransform.pivot(0.0f, 2.0f, 0.0f)
-            )
-
-            val rightbacktoe = rightfoot.addChild(
-                "rightbacktoe",
-                ModelPartBuilder.create().uv(24, 20)
-                    .cuboid(0.0f, -0.5f, 0.0f, 0.0f, 1.0f, 2.0f, Dilation(0.02f)),
-                ModelTransform.pivot(0.0f, 0.5f, 1.0f)
-            )
-
-            val rightfronttoe = rightfoot.addChild(
-                "rightfronttoe",
-                ModelPartBuilder.create().uv(8, 29)
-                    .cuboid(0.0f, -0.5f, -3.0f, 0.0f, 1.0f, 3.0f, Dilation(0.02f)),
-                ModelTransform.pivot(-0.75f, 0.5f, -2.0f)
-            )
-
-            val rightfronttoe2 = rightfoot.addChild(
-                "rightfronttoe2",
-                ModelPartBuilder.create().uv(24, 8)
-                    .cuboid(0.0f, -0.5f, -3.0f, 0.0f, 1.0f, 3.0f, Dilation(0.02f)),
-                ModelTransform.pivot(0.75f, 0.5f, -2.0f)
-            )
-
-            return TexturedModelData.of(meshdefinition, 64, 64)
-        }
     }
 }

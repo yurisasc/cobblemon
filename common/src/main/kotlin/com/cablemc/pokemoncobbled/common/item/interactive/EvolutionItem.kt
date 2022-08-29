@@ -1,19 +1,6 @@
 package com.cablemc.pokemoncobbled.common.item.interactive
 
-import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.item.CobbledItem
 import com.cablemc.pokemoncobbled.common.item.CobbledItemGroups
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.ItemInteractionEvolution
-import net.minecraft.item.ItemStack
-import net.minecraft.server.network.ServerPlayerEntity
 
-class EvolutionItem(properties: Settings = Settings().group(CobbledItemGroups.EVOLUTION_ITEM_GROUP)) : PokemonInteractiveItem(properties, Ownership.OWNER) {
-    override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack) {
-        val pokemon = entity.pokemon
-        pokemon.evolutions.filterIsInstance<ItemInteractionEvolution>()
-            .forEach { evolution ->
-                if (evolution.attemptEvolution(pokemon, this)) {
-                    this.consumeItem(player, stack)
-                }
-            }
-    }
-}
+open class EvolutionItem(properties: Settings = Settings().group(CobbledItemGroups.EVOLUTION_ITEM_GROUP)) : CobbledItem(properties)
