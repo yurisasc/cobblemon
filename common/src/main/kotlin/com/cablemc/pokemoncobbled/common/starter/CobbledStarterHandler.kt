@@ -7,7 +7,6 @@ import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.net.messages.client.starter.OpenStarterUIPacket
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import net.minecraft.server.network.ServerPlayerEntity
 
 open class CobbledStarterHandler : StarterHandler {
@@ -20,9 +19,9 @@ open class CobbledStarterHandler : StarterHandler {
         val playerData = PokemonCobbled.playerData.get(player)
         if (playerData.starterSelected) {
             playerData.sendToPlayer(player)
-            player.sendServerMessage(lang("ui.starter.alreadyselected").red())
+            player.sendMessage(lang("ui.starter.alreadyselected").red())
         } else if (playerData.starterLocked) {
-            player.sendServerMessage(lang("ui.starter.cannotchoose").red())
+            player.sendMessage(lang("ui.starter.cannotchoose").red())
         } else {
             OpenStarterUIPacket(getStarterList(player)).sendToPlayer(player)
             playerData.starterPrompted = true
@@ -33,9 +32,9 @@ open class CobbledStarterHandler : StarterHandler {
     override fun chooseStarter(player: ServerPlayerEntity, categoryName: String, index: Int) {
         val playerData = PokemonCobbled.playerData.get(player)
         if (playerData.starterSelected) {
-            return player.sendServerMessage(lang("ui.starter.alreadyselected").red())
+            return player.sendMessage(lang("ui.starter.alreadyselected").red())
         } else if (playerData.starterLocked) {
-            return player.sendServerMessage(lang("ui.starter.cannotchoose").red())
+            return player.sendMessage(lang("ui.starter.cannotchoose").red())
         }
 
         val category = getStarterList(player).find { it.name == categoryName } ?: return

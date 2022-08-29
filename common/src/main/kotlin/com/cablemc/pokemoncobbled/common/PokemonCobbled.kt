@@ -133,10 +133,6 @@ object PokemonCobbled {
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
-        //Command Arguments
-        ArgumentTypes.register("pokemoncobbled:pokemon", PokemonArgumentType::class.java, ConstantArgumentSerializer(PokemonArgumentType::pokemon))
-        ArgumentTypes.register("pokemoncobbled:pokemonproperties", PokemonPropertiesArgumentType::class.java, ConstantArgumentSerializer(PokemonPropertiesArgumentType::properties))
-        ArgumentTypes.register("pokemoncobbled:spawnbucket", SpawnBucketArgumentType::class.java, ConstantArgumentSerializer(SpawnBucketArgumentType::spawnBucket))
     }
 
     fun initialize() {

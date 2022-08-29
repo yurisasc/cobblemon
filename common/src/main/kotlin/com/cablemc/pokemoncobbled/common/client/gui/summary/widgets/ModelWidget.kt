@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.RenderablePokemon
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 
@@ -15,7 +15,7 @@ class ModelWidget(
     pWidth: Int, pHeight: Int,
     var pokemon: RenderablePokemon,
     val baseScale: Float = 2.7F
-): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("Summary - ModelWidget")) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("Summary - ModelWidget")) {
 
     companion object {
         var render = true

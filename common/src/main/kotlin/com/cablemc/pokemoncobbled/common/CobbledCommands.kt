@@ -2,11 +2,12 @@ package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.command.*
 import com.mojang.brigadier.CommandDispatcher
+import net.minecraft.command.CommandRegistryAccess
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 
 object CobbledCommands {
-    fun register(dispatcher: CommandDispatcher<ServerCommandSource>, selection: CommandManager.RegistrationEnvironment) {
+    fun register(dispatcher: CommandDispatcher<ServerCommandSource>, registry: CommandRegistryAccess, selection: CommandManager.RegistrationEnvironment) {
         SpawnPokemon.register(dispatcher)
         GivePokemon.register(dispatcher)
         TakePokemon.register(dispatcher)

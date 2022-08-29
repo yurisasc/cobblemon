@@ -16,10 +16,9 @@ import net.minecraft.client.util.InputUtil
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 
-class PokeNav : Screen(TranslatableText("pokemoncobbled.ui.pokenav.title")) {
+class PokeNav : Screen(Text.translatable("pokemoncobbled.ui.pokenav.title")) {
 
     companion object {
         // Limiting

@@ -7,12 +7,11 @@ import com.cablemc.pokemoncobbled.common.client.keybind.keybinds.PartySendBindin
 import com.cablemc.pokemoncobbled.common.client.net.ClientPacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.ChallengeNotificationPacket
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import net.minecraft.client.MinecraftClient
 
 object ChallengeNotificationHandler : ClientPacketHandler<ChallengeNotificationPacket> {
     override fun invokeOnClient(packet: ChallengeNotificationPacket, ctx: CobbledNetwork.NetworkContext) {
-        MinecraftClient.getInstance().player?.sendServerMessage(
+        MinecraftClient.getInstance().player?.sendMessage(
             lang(
                 "challenge.receiver",
                 packet.challengerName,

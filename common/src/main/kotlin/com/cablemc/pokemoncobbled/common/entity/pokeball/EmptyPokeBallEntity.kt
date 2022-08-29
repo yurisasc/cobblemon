@@ -23,7 +23,6 @@ import com.cablemc.pokemoncobbled.common.util.isServerSide
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.sendParticlesServer
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.util.setPositionSafely
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
@@ -126,7 +125,7 @@ class EmptyPokeBallEntity(
                 val owner = owner
 
                 if (!pokemonEntity.pokemon.isWild()) {
-                    owner?.sendServerMessage(lang("capture.not_wild", pokemonEntity.pokemon.species.translatedName).red())
+                    owner?.sendMessage(lang("capture.not_wild", pokemonEntity.pokemon.species.translatedName).red())
                     return drop()
                 }
 
@@ -136,7 +135,7 @@ class EmptyPokeBallEntity(
                     val hitBattlePokemon = hitActor?.activePokemon?.find { it.battlePokemon?.effectedPokemon?.entity == pokemonEntity }
 
                     if (throwerActor == null) {
-                        owner.sendServerMessage(lang("capture.in_battle", pokemonEntity.pokemon.species.translatedName).red())
+                        owner.sendMessage(lang("capture.in_battle", pokemonEntity.pokemon.species.translatedName).red())
                         return drop()
                     }
 
@@ -145,12 +144,12 @@ class EmptyPokeBallEntity(
                     }
 
                     if (battle.format.battleType != BattleTypes.SINGLES || hitActor.pokemonList.count { it.health > 0 } > 1) {
-                        owner.sendServerMessage(lang("capture.not_single").red())
+                        owner.sendMessage(lang("capture.not_single").red())
                         return drop()
                     }
 
                     val request = throwerActor.request?.takeIf { throwerActor.mustChoose } ?: run {
-                        owner.sendServerMessage(lang("capture.not_your_turn").red())
+                        owner.sendMessage(lang("capture.not_your_turn").red())
                         return drop()
                     }
 
@@ -169,14 +168,14 @@ class EmptyPokeBallEntity(
                         battle.sendUpdate(BattleCaptureStartPacket(pokeBall.name, hitBattlePokemon.getPNX()))
                         throwerActor.sendUpdate(BattleApplyCaptureResponsePacket())
                     } else {
-                        owner.sendServerMessage(lang("capture.not_your_turn").red())
+                        owner.sendMessage(lang("capture.not_your_turn").red())
                         return drop()
                     }
                 } else if (pokemonEntity.isBusy) {
-                    owner?.sendServerMessage(lang("capture.busy", pokemonEntity.pokemon.species.translatedName).red())
+                    owner?.sendMessage(lang("capture.busy", pokemonEntity.pokemon.species.translatedName).red())
                     return drop()
                 } else if (owner is ServerPlayerEntity && BattleRegistry.getBattleByParticipatingPlayer(owner) != null) {
-                    owner.sendServerMessage(lang("you_in_battle").red())
+                    owner.sendMessage(lang("you_in_battle").red())
                     return drop()
                 }
                 capturingPokemon = pokemonEntity

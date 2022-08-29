@@ -7,11 +7,9 @@ import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.ClickEvent
 import net.minecraft.text.HoverEvent
-import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
 import net.minecraft.text.Style
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Formatting
 import net.minecraft.util.Identifier
 
@@ -24,7 +22,7 @@ class Text internal constructor() {
 
     companion object {
         internal fun resolveComponent(text: Any): MutableText {
-            return TranslatableText(text.toString().replace("&[A-Fa-f\\dk-oK-oRr]".toRegex()) { "§${it.value.substring(1)}" })
+            return Text.translatable(text.toString().replace("&[A-Fa-f\\dk-oK-oRr]".toRegex()) { "§${it.value.substring(1)}" })
         }
     }
 
@@ -54,7 +52,7 @@ class Text internal constructor() {
             }
         }
 
-        return head ?: LiteralText("Empty!")
+        return head ?: Text.literal("Empty!")
     }
 
     private fun addComponent(component: MutableText) {

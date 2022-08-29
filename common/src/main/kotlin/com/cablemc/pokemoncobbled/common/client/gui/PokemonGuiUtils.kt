@@ -52,8 +52,8 @@ fun drawProfilePokemon(
     } else {
         model.setupAnimStateless(PoseType.PROFILE)
     }
-    matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y, -10.0)
-    matrixStack.scale(model.profileScale, model.profileScale, 0.01F)
+    matrixStack.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
+    matrixStack.scale(model.profileScale, model.profileScale, 0.1F)
 
     matrixStack.multiply(rotation)
     DiffuseLighting.method_34742()

@@ -19,10 +19,10 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import java.security.InvalidParameterException
 
-class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.summary.title")) {
+class Summary private constructor(): Screen(Text.translatable("pokemoncobbled.ui.summary.title")) {
 
     companion object {
         // Size of UI at Scale 1
@@ -118,7 +118,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
             SummarySwitchButton(
                 pX = x + 3, pY = y + 6,
                 pWidth = 55, pHeight =  17,
-                component = TranslatableText("pokemoncobbled.ui.info")
+                component = Text.translatable("pokemoncobbled.ui.info")
             ) {
             switchTo(INFO)
         })
@@ -126,7 +126,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
             SummarySwitchButton(
                 pX = x + 62, pY = y + 6,
                 pWidth = 55, pHeight = 17,
-                component = TranslatableText("pokemoncobbled.ui.moves")
+                component = Text.translatable("pokemoncobbled.ui.moves")
             ) {
             switchTo(MOVES)
         })
@@ -134,7 +134,7 @@ class Summary private constructor(): Screen(TranslatableText("pokemoncobbled.ui.
             SummarySwitchButton(
                 pX = x + 121, pY = y + 6,
                 pWidth = 55, pHeight = 17,
-                component = TranslatableText("pokemoncobbled.ui.stats")
+                component = Text.translatable("pokemoncobbled.ui.stats")
             ) {
             switchTo(STATS)
         })

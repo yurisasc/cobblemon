@@ -1,17 +1,15 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemoncobbled.common.client.gui.summary.Summary
-import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.pages.info.evolution.EvolutionListScrollPane
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.scaleIt
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
@@ -23,7 +21,7 @@ class PartyMemberWidget(
     private val index: Int,
     private val isClientPartyMember: Boolean,
     private val partySize: Int
-) : SoundlessWidget(x - PARTY_BOX_DIMENSION, y, PARTY_BOX_DIMENSION, PARTY_BOX_DIMENSION, LiteralText("PartyMember")) {
+) : SoundlessWidget(x - PARTY_BOX_DIMENSION, y, PARTY_BOX_DIMENSION, PARTY_BOX_DIMENSION, Text.literal("PartyMember")) {
 
     private val texture: Identifier = when(this.index) {
         0 -> PARTY_START_TEXTURE

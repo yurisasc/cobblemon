@@ -1,10 +1,8 @@
 package com.cablemc.pokemoncobbled.common.world.level.block.grower
 
 import com.cablemc.pokemoncobbled.common.CobbledConfiguredFeatures
-import dev.architectury.core.RegistryEntry
 import net.minecraft.block.sapling.SaplingGenerator
-import net.minecraft.world.gen.feature.ConfiguredFeature
-import java.util.*
+import net.minecraft.util.math.random.Random
 
 class ApricornTreeGrower(private val color: String) : SaplingGenerator() {
     override fun getTreeFeature(random: Random, bl: Boolean) = when (color) {

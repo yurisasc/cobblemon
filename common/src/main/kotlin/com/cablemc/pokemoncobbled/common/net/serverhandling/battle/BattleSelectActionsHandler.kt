@@ -9,7 +9,6 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMakeCh
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleQueueRequestPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.util.runOnServer
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 
 object BattleSelectActionsHandler : PacketHandler<BattleSelectActionsPacket> {
     override fun invoke(packet: BattleSelectActionsPacket, ctx: CobbledNetwork.NetworkContext) {
@@ -25,7 +24,7 @@ object BattleSelectActionsHandler : PacketHandler<BattleSelectActionsPacket> {
             try {
                 actor.setActionResponses(packet.showdownActionResponses)
             } catch (e: IllegalActionChoiceException) {
-                player.sendServerMessage(e.message!!.red())
+                player.sendMessage(e.message!!.red())
                 actor.sendUpdate(BattleQueueRequestPacket(actor.request!!))
                 actor.sendUpdate(BattleMakeChoicePacket())
             }

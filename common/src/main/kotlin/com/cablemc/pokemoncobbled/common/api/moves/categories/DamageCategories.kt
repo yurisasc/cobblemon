@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.api.moves.categories
 
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 import net.minecraft.util.Identifier
 
 object DamageCategories {
@@ -10,17 +9,17 @@ object DamageCategories {
 
     val PHYSICAL = register(
         name = "physical",
-        displayName = TranslatableText("pokemoncobbled.move.category.physical"),
+        displayName = Text.translatable("pokemoncobbled.move.category.physical"),
         textureXMultiplier = 0
     )
     val SPECIAL = register(
         name = "special",
-        displayName = TranslatableText("pokemoncobbled.move.category.special"),
+        displayName = Text.translatable("pokemoncobbled.move.category.special"),
         textureXMultiplier = 1
     )
     val STATUS = register(
         name = "status",
-        displayName = TranslatableText("pokemoncobbled.move.category.status"),
+        displayName = Text.translatable("pokemoncobbled.move.category.status"),
         textureXMultiplier = 2
     )
 

@@ -5,9 +5,12 @@ import com.cablemc.pokemoncobbled.common.api.battles.model.actor.ActorType
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.FleeableBattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.ai.BattleAI
+import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.battles.ai.RandomBattleAI
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleEndPacket
+import java.util.Optional
 import java.util.UUID
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Vec3d
@@ -22,6 +25,15 @@ open class PokemonBattleActor(
     override fun getWorldAndPosition(): Pair<ServerWorld, Vec3d>? {
         val entity = this.entity ?: return null
         return entity.world as ServerWorld to entity.pos
+    }
+
+    override fun sendUpdate(packet: NetworkPacket) {
+        super.sendUpdate(packet)
+        if (packet is BattleEndPacket) {
+            // Do some shit
+            val entity = entity ?: return
+            entity.battleId.set(Optional.empty())
+        }
     }
 
     override val entity: PokemonEntity?

@@ -9,20 +9,19 @@ import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 
 class MoveInfoWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     val move: Move,
     private val infoX: Int, private val infoY: Int
-): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText(move.name)) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal(move.name)) {
 
     companion object {
-        private val powerText = TranslatableText("pokemoncobbled.ui.power")
-        private val accuracyText = TranslatableText("pokemoncobbled.ui.accuracy")
-        private val effectText = TranslatableText("pokemoncobbled.ui.effect")
+        private val powerText = Text.translatable("pokemoncobbled.ui.power")
+        private val accuracyText = Text.translatable("pokemoncobbled.ui.accuracy")
+        private val effectText = Text.translatable("pokemoncobbled.ui.effect")
 
         private const val MOVE_INFO_SPACING = 20.25F
         private const val SCALE = 0.60F

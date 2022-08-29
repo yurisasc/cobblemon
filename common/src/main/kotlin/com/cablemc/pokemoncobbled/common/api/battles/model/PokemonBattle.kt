@@ -22,7 +22,6 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleEndPac
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import net.minecraft.text.Text
@@ -243,7 +242,7 @@ open class PokemonBattle(
             }
 
         if (wildPokemonOutOfRange) {
-            actors.filterIsInstance<EntityBackedBattleActor<*>>().mapNotNull { it.entity }.forEach { it.sendServerMessage(battleLang("flee").yellow()) }
+            actors.filterIsInstance<EntityBackedBattleActor<*>>().mapNotNull { it.entity }.forEach { it.sendMessage(battleLang("flee").yellow()) }
             stop()
         }
     }
