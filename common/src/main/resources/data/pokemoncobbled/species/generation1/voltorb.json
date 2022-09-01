@@ -16,7 +16,7 @@
         "speed": 100
     },
     "catchRate": 190,
-    "maleRatio": -0.125,
+    "maleRatio": 1.125,
     "shoulderMountable": false,
     "forms": [
         {
@@ -87,6 +87,7 @@
     ],
     "evolutions": [
         {
+            "id": "voltorb_electrode",
             "variant": "level_up",
             "result": "electrode",
             "consumeHeldItem": false,
@@ -94,7 +95,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 30
+                    "minLevel": 30
                 }
             ]
         }

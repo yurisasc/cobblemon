@@ -15,6 +15,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DiglettModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ElectrodeModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GyaradosModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.IvysaurModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
@@ -34,6 +35,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.RattataModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.SquirtleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VenusaurModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VoltorbModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
@@ -97,6 +99,8 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("parasect")] = { ParasectModel(it) }
         posers[cobbledResource("mankey")] = { MankeyModel(it) }
         posers[cobbledResource("primeape")] = { PrimeapeModel(it) }
+        posers[cobbledResource("voltorb")] = { VoltorbModel(it) }
+        posers[cobbledResource("electrode")] = { ElectrodeModel(it) }
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {

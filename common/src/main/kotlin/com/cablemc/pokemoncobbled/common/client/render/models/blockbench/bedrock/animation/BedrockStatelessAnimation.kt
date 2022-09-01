@@ -18,8 +18,14 @@ import net.minecraft.entity.Entity
  */
 class BedrockStatelessAnimation<T: Entity>(frame: ModelFrame, val animation: BedrockAnimation) : StatelessAnimation<T, ModelFrame>(frame) {
     override val targetFrame: Class<ModelFrame> = ModelFrame::class.java
+    var speed = 1F
+
+    fun setSpeed(speed: Float): BedrockStatelessAnimation<T> {
+        this.speed = speed
+        return this
+    }
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
-        animation.run(model, state, state?.animationSeconds ?: 0F)
+        animation.run(model, state, (state?.animationSeconds ?: 0F) * speed)
     }
 }

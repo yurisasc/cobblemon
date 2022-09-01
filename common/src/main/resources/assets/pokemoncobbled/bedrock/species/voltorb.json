@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:voltorb",
+  "model": "pokemoncobbled:bedrock/models/voltorb.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/voltorb.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/voltorb_shiny.png"
+    }
+  ]
+}
