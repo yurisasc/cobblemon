@@ -22,6 +22,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KrabbyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MetapodModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ParasModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ParasectModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeotModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeottoModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeyModel
@@ -89,6 +91,9 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("clefable")] = { ClefableModel(it) }
         posers[cobbledResource("clefairy")] = { ClefairyModel(it) }
         posers[cobbledResource("krabby")] = { KrabbyModel(it) }
+        posers[cobbledResource("paras")] = { ParasModel(it) }
+        posers[cobbledResource("parasect")] = { ParasectModel(it) }
+
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {
