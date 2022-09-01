@@ -1,0 +1,15 @@
+{
+  "poser": "pokemoncobbled:gloom",
+  "model": "pokemoncobbled:bedrock/models/gloom_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/gloom.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/gloom_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:bedrock/models/gloom_female.geo.json"
+    }
+  ]
+}

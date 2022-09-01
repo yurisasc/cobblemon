@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:bellossom",
+  "model": "pokemoncobbled:bedrock/models/bellossom.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/bellossom.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/bellossom_shiny.png"
+    }
+  ]
+}
