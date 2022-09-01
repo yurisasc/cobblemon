@@ -13,6 +13,12 @@
         "special_defence": 25,
         "speed": 30
     },
+    "behaviour": {
+        "moving": {
+            "canMove": false,
+            "canLook": false
+        }
+    },
     "catchRate": 120,
     "maleRatio": 0.5,
     "shoulderMountable": false,

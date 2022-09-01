@@ -6,14 +6,14 @@ import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ParasModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart = root.registerChildWithAllChildren("paras")
+class MankeyModel(root: ModelPart) : PokemonPoseableModel() {
+    override val rootPart = root.registerChildWithAllChildren("mankey")
 
     override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(0.1, -0.45, 0.0)
+    override val portraitTranslation = Vec3d(0.1, 0.1, 0.0)
 
-    override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.0, 0.6, 0.0)
+    override val profileScale = 0.8F
+    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -21,10 +21,10 @@ class ParasModel(root: ModelPart) : PokemonPoseableModel() {
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.SHOULDER_LEFT, PoseType.SHOULDER_RIGHT, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
+            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("paras", "ground_idle")
+                bedrock("mankey", "ground_idle")
             )
         )
 
@@ -33,12 +33,13 @@ class ParasModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("paras", "ground_walk")
+                bedrock("mankey", "ground_walk")
             )
         )
     }
+
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("paras", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("mankey", "faint") else null
 }

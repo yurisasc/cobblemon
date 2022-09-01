@@ -21,6 +21,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KakunaModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KrabbyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MankeyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MetapodModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ParasModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ParasectModel
@@ -28,6 +29,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeottoModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PrimeapeModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.RaticateModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.RattataModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.SquirtleModel
@@ -93,7 +95,8 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("krabby")] = { KrabbyModel(it) }
         posers[cobbledResource("paras")] = { ParasModel(it) }
         posers[cobbledResource("parasect")] = { ParasectModel(it) }
-
+        posers[cobbledResource("mankey")] = { MankeyModel(it) }
+        posers[cobbledResource("primeape")] = { PrimeapeModel(it) }
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {
