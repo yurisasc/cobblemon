@@ -20,6 +20,7 @@ class ObservableSubscription<T>(
      * objects to be released.
      */
     fun unsubscribeWhen(checkInterval: Float = 5F, condition: () -> Boolean): ObservableSubscription<T> {
+        // Maybe there should just be 1 task that has a list of the conditions and observables to check, I dunno what's better - Hiro
         taskBuilder()
             .interval(checkInterval)
             .execute {
