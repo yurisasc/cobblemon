@@ -7,12 +7,17 @@
 				"texture_width": 32,
 				"texture_height": 32,
 				"visible_bounds_width": 2,
-				"visible_bounds_height": 1.5,
-				"visible_bounds_offset": [0, 0.25, 0]
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
 			},
 			"bones": [
 				{
 					"name": "voltorb",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "body",
+					"parent": "voltorb",
 					"pivot": [0, 4, 0],
 					"cubes": [
 						{"origin": [-4, 0, -4], "size": [8, 8, 8], "uv": [0, 0]}
@@ -20,7 +25,7 @@
 				},
 				{
 					"name": "eyes",
-					"parent": "voltorb",
+					"parent": "body",
 					"pivot": [0, 0, 0]
 				},
 				{

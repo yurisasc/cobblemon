@@ -14,6 +14,7 @@ class Pose<T : Entity, F : ModelFrame>(
     val poseName: String,
     val poseTypes: Set<PoseType>,
     val condition: (T) -> Boolean,
+    val onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
     val transformTicks: Int,
     val idleAnimations: Array<StatelessAnimation<T, out F>>,
     val transformedParts: Array<TransformedModelPart>

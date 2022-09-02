@@ -8,10 +8,10 @@ class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("voltorb")
 
     override val portraitScale = 2.0F
-    override val portraitTranslation = Vec3d(0.1, -1.6, 0.0)
+    override val portraitTranslation = Vec3d(0.1, -1.2, 0.0)
 
     override val profileScale = 0.9F
-    override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.3, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -20,7 +20,7 @@ class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
-            transformTicks = 10,
+            transformTicks = 0,
             idleAnimations = arrayOf(
                 bedrock("voltorb", "ground_idle")
             )
@@ -29,7 +29,8 @@ class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
-            transformTicks = 10,
+            onTransitionedInto = { it?.animationSeconds = 0F },
+            transformTicks = 0,
             idleAnimations = arrayOf(
                 bedrock("voltorb", "ground_walk")
             )

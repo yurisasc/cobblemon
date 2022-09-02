@@ -61,10 +61,11 @@ abstract class PoseableEntityModel<T : Entity>(
         poseType: PoseType,
         condition: (T) -> Boolean = { it is Poseable && it.getPoseType() == poseType },
         transformTicks: Int = 20,
+        onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray()
     ): Pose<T, F> {
-        return Pose(poseType.name, setOf(poseType), condition, transformTicks, idleAnimations, transformedParts).also {
+        return Pose(poseType.name, setOf(poseType), condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts).also {
             poses[poseType.name] = it
         }
     }
@@ -74,10 +75,11 @@ abstract class PoseableEntityModel<T : Entity>(
         poseTypes: Set<PoseType>,
         condition: (T) -> Boolean = { it is Poseable && it.getPoseType() in poseTypes },
         transformTicks: Int = 20,
+        onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray()
     ): Pose<T, F> {
-        return Pose(poseName, poseTypes, condition, transformTicks, idleAnimations, transformedParts).also {
+        return Pose(poseName, poseTypes, condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts).also {
             poses[poseName] = it
         }
     }
@@ -170,7 +172,7 @@ abstract class PoseableEntityModel<T : Entity>(
         if (entity != null && (poseName == null || pose == null || !pose.condition(entity))) {
             val previousPose = pose
             val desirablePose = poses.values.firstOrNull { entityPose == null || entityPose in it.poseTypes }
-                ?: Pose("none", setOf(PoseType.NONE), { true },0, emptyArray(), emptyArray())
+                ?: Pose("none", setOf(PoseType.NONE), { true }, {},0, emptyArray(), emptyArray())
 //                LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
 //                return@run
 //            }

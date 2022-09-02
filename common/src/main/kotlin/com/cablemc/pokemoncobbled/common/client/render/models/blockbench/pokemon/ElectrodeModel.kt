@@ -10,10 +10,10 @@ class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("electrode")
 
     override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(0.1, -0.7, 0.0)
+    override val portraitTranslation = Vec3d(0.1, -0.8, 0.0)
 
     override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.0, 0.1, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.05, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -22,7 +22,7 @@ class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
-            transformTicks = 10,
+            transformTicks = 0,
             idleAnimations = arrayOf(
                 bedrock("electrode", "ground_idle")
             )
@@ -31,7 +31,8 @@ class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
-            transformTicks = 10,
+            transformTicks = 0,
+            onTransitionedInto = { it?.animationSeconds = 0F },
             idleAnimations = arrayOf(
                 bedrock("electrode", "ground_walk")
             )

@@ -13,14 +13,24 @@
 			"bones": [
 				{
 					"name": "electrode",
-					"pivot": [0, 5.5, 0],
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "body",
+					"parent": "electrode",
+					"pivot": [0, 5, 0],
 					"cubes": [
 						{"origin": [-5, 0, -5], "size": [10, 10, 10], "uv": [0, 0]}
 					]
 				},
 				{
 					"name": "mouth",
-					"parent": "electrode",
+					"parent": "body",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "mouth_open",
+					"parent": "mouth",
 					"pivot": [0.5, 3, -5.01],
 					"cubes": [
 						{"origin": [-2.5, 2, -5.01], "size": [6, 2, 0], "pivot": [0.5, 3, -5.01], "rotation": [0, 0, -5], "uv": [30, 0]}
@@ -28,7 +38,7 @@
 				},
 				{
 					"name": "mouth_frown",
-					"parent": "electrode",
+					"parent": "mouth",
 					"pivot": [0, 3, -4.91],
 					"cubes": [
 						{"origin": [-2.5, 2, -4.91], "size": [5, 2, 0], "pivot": [0, 3, -4.91], "rotation": [0, 0, -5], "uv": [30, 3]}
@@ -36,7 +46,7 @@
 				},
 				{
 					"name": "eyes",
-					"parent": "electrode",
+					"parent": "body",
 					"pivot": [0, 0, 0]
 				},
 				{

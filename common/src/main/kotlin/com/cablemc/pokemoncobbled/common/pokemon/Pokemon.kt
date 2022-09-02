@@ -691,19 +691,34 @@ open class Pokemon {
     // TODO a check function for gender to make sure a changed species hasn't broken the gender of the pokemon, and fix
 
     fun initialize(): Pokemon {
-        // TODO some other initializations to do with form n shit
-        gender = if (form.maleRatio !in 0F..1F) {
-            Gender.GENDERLESS
-        } else if (form.maleRatio == 1F || Random.nextFloat() <= form.maleRatio) {
-            Gender.MALE
-        } else {
-            Gender.FEMALE
-        }
+        // TODO some other initializations to do with form n shit\
+        checkGender()
         // shiny = randomize, probably
         initializeMoveset()
 
         ability = form.abilities.select(species, aspects)
         return this
+    }
+
+    fun checkGender() {
+        var reassess = false
+        if (form.maleRatio !in 0F..1F && gender != Gender.GENDERLESS) {
+            reassess = true
+        } else if (form.maleRatio == 0F && gender != Gender.FEMALE) {
+            reassess = true
+        } else if (form.maleRatio == 1F && gender != Gender.MALE) {
+            reassess = true
+        }
+
+        if (reassess) {
+            gender = if (form.maleRatio !in 0F..1F) {
+                Gender.GENDERLESS
+            } else if (form.maleRatio == 1F || Random.nextFloat() <= form.maleRatio) {
+                Gender.MALE
+            } else {
+                Gender.FEMALE
+            }
+        }
     }
 
     fun initializeMoveset(preferLatest: Boolean = true) {
