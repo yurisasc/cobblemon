@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.reposi
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BeedrillModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BellossomModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BlastoiseModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BulbasaurModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ButterfreeModel
@@ -16,6 +17,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ElectrodeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GloomModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GyaradosModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.IvysaurModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
@@ -24,6 +26,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MankeyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MetapodModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.OddishModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ParasModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ParasectModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeotModel
@@ -35,6 +38,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.RattataModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.SquirtleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VenusaurModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VileplumeModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VoltorbModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
@@ -99,6 +103,10 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("parasect")] = { ParasectModel(it) }
         posers[cobbledResource("mankey")] = { MankeyModel(it) }
         posers[cobbledResource("primeape")] = { PrimeapeModel(it) }
+        posers[cobbledResource("oddish")] = { OddishModel(it) }
+        posers[cobbledResource("gloom")] = { GloomModel(it) }
+        posers[cobbledResource("vileplume")] = { VileplumeModel(it) }
+        posers[cobbledResource("bellossom")] = { BellossomModel(it) }
         posers[cobbledResource("voltorb")] = { VoltorbModel(it) }
         posers[cobbledResource("electrode")] = { ElectrodeModel(it) }
     }

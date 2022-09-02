@@ -1,18 +1,17 @@
 {
-    "name": "vileplume",
-    "nationalPokedexNumber": 45,
+    "name": "bellossom",
+    "nationalPokedexNumber": 182,
     "primaryType": "grass",
-    "secondaryType": "poison",
     "abilities": [
         "chlorophyll",
-        "h:effectspore"
+        "h:healer"
     ],
     "baseStats": {
         "hp": 75,
         "attack": 80,
-        "defence": 85,
-        "special_attack": 110,
-        "special_defence": 90,
+        "defence": 95,
+        "special_attack": 90,
+        "special_defence": 100,
         "speed": 50
     },
     "catchRate": 45,
@@ -39,11 +38,11 @@
         "1:gigadrain",
         "1:sweetscent",
         "1:moonlight",
-        "1:aromatherapy",
+        "1:quiverdance",
         "1:grassyterrain",
         "1:moonblast",
         "tm:attract",
-        "tm:bodyslam",
+        "tm:batonpass",
         "tm:bulletseed",
         "tm:charm",
         "tm:dazzlinggleam",
@@ -54,8 +53,12 @@
         "tm:fling",
         "tm:gigaimpact",
         "tm:grassknot",
+        "tm:helpinghand",
         "tm:hyperbeam",
-        "tm:pollenpuff",
+        "tm:leafblade",
+        "tm:leafstorm",
+        "tm:magicalleaf",
+        "tm:playrough",
         "tm:protect",
         "tm:rest",
         "tm:round",
@@ -63,29 +66,28 @@
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:sludgebomb",
-        "tm:sludgewave",
         "tm:snore",
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swordsdance",
+        "tm:uproar",
         "tm:venoshock",
-        "tutor:corrosivegas",
         "tutor:grassyglide"
     ],
     "labels": [
-        "gen1"
+        "gen2"
     ],
     "pokedex": [
-        "pokemoncobbled.species.vileplume.desc1",
-        "pokemoncobbled.species.vileplume.desc2"
+        "pokemoncobbled.species.bellossom.desc1",
+        "pokemoncobbled.species.bellossom.desc2"
     ],
     "preEvolution": "gloom",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 0.65,
     "hitbox": {
-        "width": 0.9,
-        "height": 0.9,
+        "width": 0.8,
+        "height": 1.0,
         "fixed": false
     }
 }
