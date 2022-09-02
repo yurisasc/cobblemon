@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:lapras",
+  "model": "pokemoncobbled:bedrock/models/lapras.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/lapras.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/lapras_shiny.png"
+    }
+  ]
+}

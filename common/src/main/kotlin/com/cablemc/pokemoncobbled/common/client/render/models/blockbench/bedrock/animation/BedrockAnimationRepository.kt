@@ -24,11 +24,7 @@ object BedrockAnimationRepository {
 
     fun getAnimation(fileName: String, animationName: String): BedrockAnimation {
         if (animations[animationName] == null) {
-            try {
-                loadAnimationsFromFile(fileName)
-            } catch (e: Exception) {
-
-            }
+            loadAnimationsFromFile(fileName)
         }
         return animations[animationName] ?: throw IllegalArgumentException("animation is not in specified file")
     }

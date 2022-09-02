@@ -59,7 +59,7 @@ abstract class PoseableEntityModel<T : Entity>(
      */
     fun <F : ModelFrame> registerPose(
         poseType: PoseType,
-        condition: (T) -> Boolean = { it is Poseable && it.getPoseType() == poseType },
+        condition: (T) -> Boolean = { true },
         transformTicks: Int = 20,
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
@@ -73,7 +73,7 @@ abstract class PoseableEntityModel<T : Entity>(
     fun <F : ModelFrame> registerPose(
         poseName: String,
         poseTypes: Set<PoseType>,
-        condition: (T) -> Boolean = { it is Poseable && it.getPoseType() in poseTypes },
+        condition: (T) -> Boolean = { true },
         transformTicks: Int = 20,
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
@@ -167,11 +167,11 @@ abstract class PoseableEntityModel<T : Entity>(
         state.currentModel = this
         var poseName = state.getPose()
         var pose = poseName?.let { getPose(it) }
-        val entityPose = if (entity is Poseable) entity.getPoseType() else null
+        val entityPoseType = if (entity is Poseable) entity.getPoseType() else null
 
-        if (entity != null && (poseName == null || pose == null || !pose.condition(entity))) {
+        if (entity != null && (poseName == null || pose == null || !pose.condition(entity) || entityPoseType !in pose.poseTypes)) {
             val previousPose = pose
-            val desirablePose = poses.values.firstOrNull { entityPose == null || entityPose in it.poseTypes }
+            val desirablePose = poses.values.firstOrNull { (entityPoseType == null || entityPoseType in it.poseTypes) && it.condition(entity) }
                 ?: Pose("none", setOf(PoseType.NONE), { true }, {},0, emptyArray(), emptyArray())
 //                LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
 //                return@run
@@ -190,7 +190,7 @@ abstract class PoseableEntityModel<T : Entity>(
                             )
                         )
                     } else {
-                        getState(entity).setPose(poses.values.first {  desirablePoseType in it.poseTypes }.poseName)
+                        getState(entity).setPose(poses.values.first { desirablePoseType in it.poseTypes && it.condition(entity) }.poseName)
                     }
                 }
             } else {

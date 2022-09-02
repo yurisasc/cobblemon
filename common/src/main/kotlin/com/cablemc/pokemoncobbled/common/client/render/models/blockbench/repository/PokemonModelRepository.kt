@@ -23,6 +23,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KakunaModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KrabbyModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.LaprasModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MankeyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MetapodModel
@@ -109,6 +110,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("bellossom")] = { BellossomModel(it) }
         posers[cobbledResource("voltorb")] = { VoltorbModel(it) }
         posers[cobbledResource("electrode")] = { ElectrodeModel(it) }
+        posers[cobbledResource("lapras")] = { LaprasModel(it) }
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {
