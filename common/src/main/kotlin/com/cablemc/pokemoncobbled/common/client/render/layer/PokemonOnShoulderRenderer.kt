@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.layer
 
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonFloatingState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -57,8 +58,15 @@ class PokemonOnShoulderRenderer<T : PlayerEntity>(renderLayerParent: FeatureRend
             val model = PokemonModelRepository.getPoser(pokemon.species, pokemon.aspects)
             val vertexConsumer = pBuffer.getBuffer(model.getLayer(PokemonModelRepository.getTexture(pokemon.species, pokemon.aspects)))
             val i = LivingEntityRenderer.getOverlay(pLivingEntity, 0.0f)
-            model.setupAnimStateless(
-                poseType = if (pLeftShoulder) PoseType.SHOULDER_LEFT else PoseType.SHOULDER_RIGHT,
+            val state = PokemonFloatingState()
+            state.animationSeconds = pLivingEntity.age.toFloat() / 20F
+            val pose = model.poses.values
+                .firstOrNull { (if (pLeftShoulder) PoseType.SHOULDER_LEFT else PoseType.SHOULDER_RIGHT) in it.poseTypes  }
+                ?: model.poses.values.first()
+            state.setPose(pose.poseName)
+            model.setupAnimStateful(
+                entity = null,
+                state = state,
                 headYaw = pNetHeadYaw,
                 headPitch = pHeadPitch,
                 limbSwing = pLimbSwing,
