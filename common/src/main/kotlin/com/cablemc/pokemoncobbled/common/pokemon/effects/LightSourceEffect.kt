@@ -15,14 +15,4 @@ class LightSourceEffect: ShoulderEffect {
     override fun removeEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean) {
         println("Removing effect...")
     }
-
-    override fun serialize(json: JsonObject): JsonObject {
-        json.addProperty("Test", test)
-        return json
-    }
-
-    override fun deserialize(json: JsonObject): ShoulderEffect {
-        test = json.get("Test").asString
-        return this
-    }
 }
