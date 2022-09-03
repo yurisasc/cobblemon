@@ -25,6 +25,8 @@ class PokemonServerDelegate : PokemonSideDelegate {
         with(entity) {
             speed = 0.35F
             entity.despawner.beginTracking(this)
+            subscriptions.add(behaviourFlags.subscribe { updatePoseType() })
+            subscriptions.add(poseType.subscribe { updateMoveControl() })
         }
     }
 
@@ -87,6 +89,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (poseType != entity.poseType.get()) {
             entity.poseType.set(poseType)
         }
+    }
+
+    fun updateMoveControl() {
     }
 
     override fun drop(source: DamageSource?) {
