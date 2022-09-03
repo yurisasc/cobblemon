@@ -47,10 +47,9 @@ class Species {
     val pokedex = mutableListOf<String>()
     val drops = DropTable()
 
-    var forms = mutableListOf(FormData())
+    var forms = mutableListOf<FormData>()
 
-    @Transient
-    val standardForm = FormData().initialize(this)
+    val standardForm by lazy { FormData().initialize(this) }
 
     internal val labels = emptySet<String>()
 
