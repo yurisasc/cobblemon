@@ -131,8 +131,8 @@ class PokemonEntity(
     }
 
     init {
-        moveControl = PokemonMoveControl(this)
-        navigation = PokemonNavigation(world, this)
+//        moveControl = PokemonMoveControl(this)
+//        navigation = PokemonNavigation(world, this)
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
@@ -239,7 +239,7 @@ class PokemonEntity(
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
         shiny.set(pokemon.shiny)
-        speed = 0.35F
+        speed = 0.1F
     }
 
     override fun createSpawnPacket() = NetworkManager.createAddEntityPacket(this)
@@ -251,9 +251,9 @@ class PokemonEntity(
         })
 
         goalSelector.add(2, SleepOnTrainerGoal(this))
-        goalSelector.add(3, PokemonFollowOwnerGoal(this, 1.0, 8F, 2F, false))
+        goalSelector.add(3, PokemonFollowOwnerGoal(this, 0.4, 8F, 2F, false))
         goalSelector.add(4, WildRestGoal(this))
-        goalSelector.add(5, PokemonWanderAroundGoal(this, 1.0))
+        goalSelector.add(5, PokemonWanderAroundGoal(this, 0.4))
         goalSelector.add(6, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
     }
 

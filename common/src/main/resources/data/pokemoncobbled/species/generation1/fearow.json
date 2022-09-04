@@ -20,7 +20,7 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 155,
-    "experienceGroup": "medium",
+    "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
         "flying"

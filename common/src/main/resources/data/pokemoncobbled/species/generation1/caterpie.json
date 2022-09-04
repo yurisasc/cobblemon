@@ -19,7 +19,7 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 39,
-    "experienceGroup": "medium",
+    "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
         "bug"

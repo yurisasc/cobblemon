@@ -16,7 +16,8 @@ import net.minecraft.server.network.ServerPlayerEntity
  * @since 2022-01-29
  */
 class SlowFallEffect : ShoulderEffect {
-    class SlowFallShoulderStatusEffect(val pokemonId: UUID) : StatusEffectInstance(StatusEffects.SLOW_FALLING, Int.MAX_VALUE)
+    class SlowFallShoulderStatusEffect(val pokemonId: UUID) : StatusEffectInstance(StatusEffects.SLOW_FALLING, Int.MAX_VALUE) {
+    }
 
     companion object {
         private val SLOW_FALLING_ID = UUID.fromString("A5B6CF2A-2F7C-31EF-9022-7C3E7D5E6ABB")
@@ -59,7 +60,8 @@ class SlowFallEffect : ShoulderEffect {
     }
 
     override fun removeEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean) {
-        player.statusEffects.removeIf { it is SlowFallShoulderStatusEffect && it.pokemonId == pokemon.uuid }
+        player.statusEffects.filter { it is SlowFallShoulderStatusEffect && it.pokemonId == pokemon.uuid }
+            .forEach { (it as SlowFallShoulderStatusEffect) }
     }
 
     /**

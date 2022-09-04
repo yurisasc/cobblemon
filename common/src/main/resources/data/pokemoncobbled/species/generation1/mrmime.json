@@ -43,7 +43,7 @@
         }
     ],
     "baseExperienceYield": 161,
-    "experienceGroup": "medium",
+    "experienceGroup": "mediumfast",
     "eggCycles": 25,
     "eggGroups": [
         "humanshape"

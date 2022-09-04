@@ -23,7 +23,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
     override fun initialize(entity: PokemonEntity) {
         this.entity = entity
         with(entity) {
-            speed = 0.35F
+            speed = 0.1F
             entity.despawner.beginTracking(this)
             subscriptions.add(behaviourFlags.subscribe { updatePoseType() })
             subscriptions.add(poseType.subscribe { updateMoveControl() })
@@ -60,7 +60,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.aspects.get() != entity.pokemon.aspects) {
             entity.aspects.set(entity.pokemon.aspects)
         }
-        val isMoving = entity.velocity.length() > 0.1
+
+        val isMoving = entity.forwardSpeed > 0F
+//        val isMoving = entity.velocity.length() > 0.1
         if (isMoving && !entity.isMoving.get()) {
             entity.isMoving.set(true)
         } else if (!isMoving && entity.isMoving.get()) {
