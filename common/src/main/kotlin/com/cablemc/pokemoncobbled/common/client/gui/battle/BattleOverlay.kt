@@ -60,6 +60,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
 
         val battleInfoBase = cobbledResource("ui/battle/battle_info_base.png")
         val battleInfoBaseFlipped = cobbledResource("ui/battle/battle_info_base_flipped.png")
+        val battleInfoRole = cobbledResource("ui/battle/battle_info_role.png")
+        val battleInfoRoleFlipped = cobbledResource("ui/battle/battle_info_role_flipped.png")
         val battleInfoUnderlay = cobbledResource("ui/battle/battle_info_underlay.png")
     }
 
@@ -221,6 +223,22 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             width = TILE_WIDTH,
             alpha = opacity
         )
+
+        if (colour != null) {
+            val (r, g, b) = colour
+            blitk(
+                matrixStack = matrices,
+                texture = if (reversed) battleInfoRoleFlipped else battleInfoRole,
+                x = x + if (reversed) 93 else 11,
+                y = y + 1,
+                height = 3,
+                width = 27,
+                alpha = opacity,
+                red = r,
+                green = g,
+                blue = b
+            )
+        }
 
         // Draw labels
         val infoBoxX = x + if (!reversed) PORTRAIT_DIAMETER + PORTRAIT_OFFSET_X + INFO_OFFSET_X else INFO_OFFSET_X
