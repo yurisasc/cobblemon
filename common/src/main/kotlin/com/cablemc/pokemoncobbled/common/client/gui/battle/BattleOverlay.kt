@@ -2,6 +2,9 @@ package com.cablemc.pokemoncobbled.common.client.gui.battle
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
+import com.cablemc.pokemoncobbled.common.api.text.blue
+import com.cablemc.pokemoncobbled.common.api.text.bold
+import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
@@ -17,6 +20,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.reposit
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.pokemon.Gender
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
@@ -39,17 +43,18 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         const val MAX_OPACITY = 1.0
         const val MIN_OPACITY = 0.5
         const val OPACITY_CHANGE_PER_SECOND = 0.1
-        const val HORIZONTAL_INSET = 20
+        const val HORIZONTAL_INSET = 12
         const val VERTICAL_INSET = 10
         const val HORIZONTAL_SPACING = 15
         const val VERTICAL_SPACING = 40
-        const val INFO_OFFSET_X = 5
+        const val INFO_OFFSET_X = 7
 
-        const val TILE_WIDTH_TO_HEIGHT = 1 / 3.1764705F
-        const val TILE_WIDTH = 120
-        const val TILE_HEIGHT = TILE_WIDTH * TILE_WIDTH_TO_HEIGHT
-        const val PORTRAIT_DIAMETER = 116 / 432F * TILE_WIDTH
-        const val PORTRAIT_OFFSET = 10 / 432F * TILE_WIDTH
+        const val TILE_WIDTH = 131
+        const val TILE_HEIGHT = 40
+        const val PORTRAIT_DIAMETER = 28
+        const val PORTRAIT_OFFSET_X = 5
+        const val PORTRAIT_OFFSET_Y = 8
+
 
         private val PROMPT_TEXT_OPACITY_CURVE = sineFunction(period = 4F, verticalShift = 0.5F, amplitude = 0.5F)
 
@@ -88,7 +93,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
                 matrixStack = matrices,
                 text = battleLang("ui.actions_label", PartySendBinding.currentKey().localizedText),
                 x = MinecraftClient.getInstance().window.scaledWidth / 2,
-                y = 40,
+                y = MinecraftClient.getInstance().window.scaledHeight - 110,
                 opacity = textOpacity,
                 centered = true
             )
@@ -131,6 +136,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             level = battlePokemon.level,
             aspects = battlePokemon.properties.aspects,
             displayName = battlePokemon.displayName,
+            gender = battlePokemon.gender,
             hpRatio = battlePokemon.hpRatio,
             state = battlePokemon.state,
             colour = Triple(r, g, b),
@@ -148,6 +154,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         level: Int,
         aspects: Set<String>,
         displayName: MutableText,
+        gender: Gender,
         hpRatio: Float,
         state: PoseableEntityState<PokemonEntity>?,
         colour: Triple<Float, Float, Float>?,
@@ -159,11 +166,11 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             return (mc.window.scaleFactor * i.toFloat()).roundToInt()
         }
 
-        val portraitStartX = x + if (!reversed) PORTRAIT_OFFSET else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET }
+        val portraitStartX = x + if (!reversed) PORTRAIT_OFFSET_X else { TILE_WIDTH - PORTRAIT_DIAMETER - PORTRAIT_OFFSET_X }
         blitk(
             matrixStack = matrices,
             texture = battleInfoUnderlay,
-            y = y + PORTRAIT_OFFSET,
+            y = y + PORTRAIT_OFFSET_Y,
             x = portraitStartX,
             height = PORTRAIT_DIAMETER,
             width = PORTRAIT_DIAMETER,
@@ -173,14 +180,14 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         // Second render the Pokémon through the scissors
         RenderSystem.enableScissor(
             scaleIt(portraitStartX),
-            mc.window.height - scaleIt(y + PORTRAIT_DIAMETER + PORTRAIT_OFFSET),
+            mc.window.height - scaleIt(y + PORTRAIT_DIAMETER + PORTRAIT_OFFSET_Y),
             scaleIt(PORTRAIT_DIAMETER.toInt()),
             scaleIt(PORTRAIT_DIAMETER.toInt())
         )
         val matrixStack = MatrixStack()
         matrixStack.translate(
             portraitStartX + PORTRAIT_DIAMETER / 2.0,
-            y.toDouble() + PORTRAIT_OFFSET ,
+            y.toDouble() + PORTRAIT_OFFSET_Y ,
             0.0
         )
         matrixStack.push()
@@ -205,9 +212,6 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         RenderSystem.disableScissor()
 
         // Third render the tile
-        val colourNonNull = colour ?: Triple(1, 1, 1)
-        val (r, g, b) = colourNonNull
-
         blitk(
             matrixStack = matrices,
             texture = if (reversed) battleInfoBaseFlipped else battleInfoBase,
@@ -215,55 +219,68 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             y = y,
             height = TILE_HEIGHT,
             width = TILE_WIDTH,
-            alpha = opacity,
-            red = r,
-            green = g,
-            blue = b
+            alpha = opacity
         )
 
         // Draw labels
-        val infoBoxX = x + if (!reversed) { PORTRAIT_DIAMETER + 2 * PORTRAIT_OFFSET + 2 } else { INFO_OFFSET_X.toFloat() }
+        val infoBoxX = x + if (!reversed) PORTRAIT_DIAMETER + PORTRAIT_OFFSET_X + INFO_OFFSET_X else INFO_OFFSET_X
         drawScaledText(
-            scale = 0.7F,
             matrixStack = matrices,
-            text = displayName,
+            font = CobbledResources.DEFAULT_LARGE,
+            text = displayName.bold(),
             x = infoBoxX,
-            y = y + 5,
+            y = y + 7,
             opacity = opacity,
-            shadow = false
+            shadow = true
         )
+
+        if (gender != Gender.GENDERLESS) {
+            val textSymbol = if (gender == Gender.MALE) "♂".text().blue() else "♀".text().red()
+            drawScaledText(
+                matrixStack = matrices,
+                font = CobbledResources.DEFAULT_LARGE,
+                text = textSymbol.bold(),
+                x = infoBoxX + 53,
+                y = y + 7,
+                opacity = opacity,
+                shadow = true
+            )
+        }
+
         drawScaledText(
-            scale = 0.65F,
             matrixStack = matrices,
-            text = lang("ui.lv"),
-            x = infoBoxX + 55,
-            y = y + 5,
+            font = CobbledResources.DEFAULT_LARGE,
+            text = lang("ui.lv").bold(),
+            x = infoBoxX + 59,
+            y = y + 7,
             opacity = opacity,
-            shadow = false
+            shadow = true
         )
 
         drawScaledText(
-            scale = 0.75F,
             matrixStack = matrices,
-            text = level.toString().text(),
-            x = infoBoxX + 70,
-            y = y + 4.3,
+            font = CobbledResources.DEFAULT_LARGE,
+            text = level.toString().text().bold(),
+            x = infoBoxX + 72,
+            y = y + 7,
             opacity = opacity,
-            shadow = false,
-            centered = true
+            shadow = true
         )
 
         val (healthRed, healthGreen) = getDepletableRedGreen(hpRatio)
+        val fullWidth = 83
+        val barWidth = hpRatio * fullWidth
+        val barX = if (!reversed) infoBoxX - 2 else infoBoxX + 3 + (fullWidth - barWidth)
         blitk(
             matrixStack = matrices,
             texture = CobbledResources.WHITE,
-            x = infoBoxX - 0.5,
-            y = y + 13,
-            height = 8.5,
-            width = hpRatio * 76.5,
-            red = healthRed,
-            green = healthGreen,
-            blue = 0
+            x = barX,
+            y = y + 22,
+            height = 4,
+            width = barWidth,
+            red = healthRed * 0.8F,
+            green = healthGreen * 0.8F,
+            blue = 0.27F
         )
     }
 

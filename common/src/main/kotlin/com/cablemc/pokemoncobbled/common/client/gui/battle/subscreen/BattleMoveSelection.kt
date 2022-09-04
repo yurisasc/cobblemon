@@ -2,8 +2,11 @@ package com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
+import com.cablemc.pokemoncobbled.common.api.text.bold
+import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.battles.InBattleMove
 import com.cablemc.pokemoncobbled.common.battles.MoveActionResponse
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.battle.SingleActionRequest
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
@@ -19,25 +22,26 @@ class BattleMoveSelection(
 ) : BattleActionSelection(
     battleGUI = battleGUI,
     request = request,
-    x = 10,
-    y = MinecraftClient.getInstance().window.scaledHeight - 100,
+    x = 20,
+    y = MinecraftClient.getInstance().window.scaledHeight - 84,
     width = 100,
     height = 100,
     battleLang("ui.select_move")
 ) {
     companion object {
-        const val MOVE_WIDTH_TO_HEIGHT = 352 / 84F
-        const val MOVE_WIDTH = 100F
-        const val MOVE_HEIGHT = MOVE_WIDTH / MOVE_WIDTH_TO_HEIGHT
-        const val MOVE_VERTICAL_SPACING = 7F
-        const val MOVE_HORIZONTAL_SPACING = 7F
+        const val MOVE_WIDTH = 92
+        const val MOVE_HEIGHT = 24
+        const val MOVE_VERTICAL_SPACING = 5F
+        const val MOVE_HORIZONTAL_SPACING = 13F
+        const val TYPE_ICON_DIAMETER = 36
         val moveTexture = cobbledResource("ui/battle/battle_move.png")
+        val moveOverlayTexture = cobbledResource("ui/battle/battle_move_overlay.png")
     }
 
     val moveSet = request.moveSet!!
     val moveTiles = moveSet.moves.mapIndexed { index, inBattleMove ->
         val isEven = index % 2 == 0
-        val x = (if (isEven) this.x.toFloat() else this.x + MOVE_HORIZONTAL_SPACING + MOVE_WIDTH) + if (index > 1) 8 else 0
+        val x = if (isEven) this.x.toFloat() else this.x + MOVE_HORIZONTAL_SPACING + MOVE_WIDTH
         val y = if (index > 1) this.y + MOVE_HEIGHT + MOVE_VERTICAL_SPACING else this.y.toFloat()
         MoveTile(this, inBattleMove, x, y)
     }
@@ -59,6 +63,8 @@ class BattleMoveSelection(
                 y = y,
                 width = MOVE_WIDTH,
                 height = MOVE_HEIGHT,
+                vOffset = if (isHovered(mouseX.toDouble(), mouseY.toDouble())) MOVE_HEIGHT else 0,
+                textureHeight = MOVE_HEIGHT * 2,
                 red = rgb.first,
                 green = rgb.second,
                 blue = rgb.third,
@@ -67,23 +73,59 @@ class BattleMoveSelection(
 
             blitk(
                 matrixStack = matrices,
-                texture = moveTemplate.elementalType.resourceLocation,
-                x = x + 0.5,
-                y = y + 0.5,
-                height = MOVE_HEIGHT - 1,
-                width = MOVE_HEIGHT - 1.5,
-                uOffset = (MOVE_HEIGHT - 1.5) * moveTemplate.elementalType.textureXMultiplier.toFloat() + 0.1,
-                textureWidth = (MOVE_HEIGHT - 1.5) * 18,
+                texture = moveOverlayTexture,
+                x = x,
+                y = y,
+                width = MOVE_WIDTH,
+                height = MOVE_HEIGHT,
                 alpha = moveSelection.opacity
+            )
+
+            blitk(
+                matrixStack = matrices,
+                texture = moveTemplate.elementalType.resourceLocation,
+                x = (x * 2) - (TYPE_ICON_DIAMETER / 2),
+                y = (y + 2) * 2,
+                height = TYPE_ICON_DIAMETER,
+                width = TYPE_ICON_DIAMETER,
+                uOffset = TYPE_ICON_DIAMETER * moveTemplate.elementalType.textureXMultiplier.toFloat() + 0.1,
+                textureWidth = TYPE_ICON_DIAMETER * 18,
+                alpha = moveSelection.opacity,
+                scale = 0.5F
+            )
+
+            val categoryWidth = 24
+            val categoryHeight = 16
+            blitk(
+                matrixStack = matrices,
+                texture = moveTemplate.damageCategory.resourceLocation,
+                x = (x + 48) * 2,
+                y = (y + 14.5) * 2,
+                width = categoryWidth,
+                height = categoryHeight,
+                vOffset = categoryHeight * moveTemplate.damageCategory.textureXMultiplier,
+                textureHeight = categoryHeight * 3,
+                scale = 0.5F
             )
 
             drawScaledText(
                 matrixStack = matrices,
-                text = moveTemplate.displayName,
-                x = x + 28,
-                y = y + 5,
-                scale = 0.7F,
-                opacity = moveSelection.opacity
+                font = CobbledResources.DEFAULT_LARGE,
+                text = moveTemplate.displayName.bold(),
+                x = x + 17,
+                y = y + 2,
+                opacity = moveSelection.opacity,
+                shadow = true
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                font = CobbledResources.DEFAULT_LARGE,
+                text = (move.pp.toString() + "/" + move.maxpp.toString()).text().bold(),
+                x = x + 75,
+                y = y + 14,
+                opacity = moveSelection.opacity,
+                centered = true
             )
         }
 

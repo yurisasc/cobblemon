@@ -21,12 +21,14 @@ import net.minecraft.client.util.math.MatrixStack
 
 class BattleGUI : Screen(battleLang("gui.title")) {
     companion object {
-        const val OPTION_VERTICAL_SPACING = 25
-        const val OPTION_HORIZONTAL_SPACING = 7
-        const val OPTION_ROOT_X = 40
-        const val OPTION_VERTICAL_OFFSET = 125
+        const val OPTION_VERTICAL_SPACING = 3
+        const val OPTION_HORIZONTAL_SPACING = 3
+        const val OPTION_ROOT_X = 12
+        const val OPTION_VERTICAL_OFFSET = 85
 
         val fightResource = cobbledResource("ui/battle/battle_menu_fight.png")
+        val bagResource = cobbledResource("ui/battle/battle_menu_bag.png")
+        val switchResource = cobbledResource("ui/battle/battle_menu_switch.png")
         val runResource = cobbledResource("ui/battle/battle_menu_run.png")
     }
 
@@ -92,10 +94,10 @@ class BattleGUI : Screen(battleLang("gui.title")) {
         drawScaledText(
             matrixStack = poseStack,
             text = battleLang("ui.hide_label", PartySendBinding.currentKey().localizedText),
-            scale = 0.8F,
-            x = 40,
-            y = MinecraftClient.getInstance().window.scaledHeight - 40,
-            opacity = 0.75F * opacity
+            x = MinecraftClient.getInstance().window.scaledWidth / 2,
+            y = MinecraftClient.getInstance().window.scaledHeight - 110,
+            opacity = 0.75F * opacity,
+            centered = true
         )
 
         queuedActions.forEach { it() }

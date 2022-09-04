@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.gui
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
@@ -31,7 +32,6 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
     val genderIconMale = cobbledResource("ui/party/party_gender_male.png")
     val genderIconFemale = cobbledResource("ui/party/party_gender_female.png")
     val portraitBackground = cobbledResource("ui/party/party_slot_portrait_background.png")
-    val statBar = cobbledResource("ui/party/party_overlay_stat_bar.png")
     val screenExemptions: List<Class<out Screen>> = listOf(
         ChatScreen::class.java,
         BattleGUI::class.java
@@ -165,7 +165,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
 
                 blitk(
                     matrixStack = matrixStack,
-                    texture = statBar,
+                    texture = CobbledResources.WHITE,
                     x = panelX + selectedOffsetX + 41,
                     y = startY + 5 + ((slotHeight + slotSpacing) * index) + (barHeightMax - hpBarHeight),
                     width = hpBarWidth,
@@ -179,7 +179,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
 
                 blitk(
                     matrixStack = matrixStack,
-                    texture = statBar,
+                    texture = CobbledResources.WHITE,
                     x = panelX + selectedOffsetX + 44,
                     y = startY + 5 + ((slotHeight + slotSpacing) * index) + (barHeightMax - expBarHeight),
                     width = expBarWidth,
