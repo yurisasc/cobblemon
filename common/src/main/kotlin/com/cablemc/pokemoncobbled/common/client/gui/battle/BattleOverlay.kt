@@ -183,13 +183,13 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         RenderSystem.enableScissor(
             scaleIt(portraitStartX),
             mc.window.height - scaleIt(y + PORTRAIT_DIAMETER + PORTRAIT_OFFSET_Y),
-            scaleIt(PORTRAIT_DIAMETER.toInt()),
-            scaleIt(PORTRAIT_DIAMETER.toInt())
+            scaleIt(PORTRAIT_DIAMETER),
+            scaleIt(PORTRAIT_DIAMETER)
         )
         val matrixStack = MatrixStack()
         matrixStack.translate(
             portraitStartX + PORTRAIT_DIAMETER / 2.0,
-            y.toDouble() + PORTRAIT_OFFSET_Y ,
+            y.toDouble() + PORTRAIT_OFFSET_Y - 5.0 ,
             0.0
         )
         matrixStack.push()
