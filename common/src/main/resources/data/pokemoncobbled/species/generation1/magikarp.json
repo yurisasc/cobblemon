@@ -25,6 +25,14 @@
         "water2",
         "dragon"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:salmon"
+            }
+        ]
+    },
     "moves": [
         "1:splash",
         "15:tackle",
