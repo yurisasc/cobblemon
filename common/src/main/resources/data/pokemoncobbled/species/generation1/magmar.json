@@ -30,6 +30,10 @@
             {
                 "item": "minecraft:blaze_powder",
                 "percentage": 10
+            },
+            {
+                "item": "pokemoncobbled:magmarizer",
+                "percentage": 5
             }
         ]
     },
