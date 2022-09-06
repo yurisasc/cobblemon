@@ -25,6 +25,20 @@
     "eggGroups": [
         "humanshape"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:ender_pearl",
+                "quantityRange": "1-2",
+                "percentage": 66
+            },
+            {
+                "item": "pokemoncobbled:link_cable",
+                "percentage": 5
+            }
+        ]
+    },
     "moves": [
         "0:confusion",
         "1:disable",
