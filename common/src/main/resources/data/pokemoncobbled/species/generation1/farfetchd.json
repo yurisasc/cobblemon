@@ -47,6 +47,20 @@
         "flying",
         "ground"
     ],
+    "drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:feather",
+                "percentage": 50,
+                "maxSelectableTimes": 1
+            },
+            {
+                "item": "minecraft:chicken",
+                "maxSelectableTimes": 1
+            }
+        ]
+    },
     "moves": [
         "1:sandattack",
         "1:peck",
