@@ -44,11 +44,6 @@
 				"neededNearbyBlocks": [
                     "minecraft:lily_pad"
                 ]
-            },
-            "anticondition": {
-                "biomes": [
-                    "#pokemoncobbled:is_snowy"
-                ]
             }
         }
     ]
