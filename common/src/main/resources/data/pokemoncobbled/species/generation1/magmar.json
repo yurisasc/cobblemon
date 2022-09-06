@@ -24,6 +24,15 @@
     "eggGroups": [
         "humanshape"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:blaze_powder",
+                "percentage": 10
+            }
+        ]
+    },
     "moves": [
         "1:leer",
         "1:ember",
