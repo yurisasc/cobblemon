@@ -38,6 +38,15 @@
     "eggGroups": [
         "indeterminate"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:slime_ball",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:pound",
         "1:poisongas",
