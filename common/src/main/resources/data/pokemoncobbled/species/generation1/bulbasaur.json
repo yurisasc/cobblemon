@@ -31,7 +31,6 @@
         "entries": [
             {
                 "item": "minecraft:melon_seeds",
-                "quantityRange": "1",
                 "percentage": 50
             }
         ]
