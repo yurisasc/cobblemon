@@ -32,12 +32,10 @@
             {
                 "item": "minecraft:feather",
                 "quantityRange": "1-2",
-                "percentage": 66,
-                "maxSelectableTimes": 1
+                "percentage": 66
             },
             {
-                "item": "minecraft:chicken",
-                "maxSelectableTimes": 1
+                "item": "minecraft:chicken"
             }
         ]
     },
