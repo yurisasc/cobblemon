@@ -40,7 +40,7 @@
         "mineral"
     ],
     "drops": {
-        "amount": "1",
+        "amount": "2",
         "entries": [
             {
                 "item": "minecraft:coal",
