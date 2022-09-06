@@ -18,11 +18,6 @@
             "condition": {
                 "canSeeSky": true,
                 "timeRange": "day"
-            },
-            "anticondition": {
-                "biomes": [
-                    "#pokemoncobbled:is_snowy"
-                ]
             }
         },
         {
