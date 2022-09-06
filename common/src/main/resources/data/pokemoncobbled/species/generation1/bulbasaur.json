@@ -26,6 +26,16 @@
         "monster",
         "plant"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:melon_seeds",
+                "quantityRange": "1",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:tackle",
         "1:growl",
