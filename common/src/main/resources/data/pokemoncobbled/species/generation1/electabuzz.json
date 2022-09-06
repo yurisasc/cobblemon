@@ -25,7 +25,7 @@
         "humanshape"
     ],
     "drops": {
-        "amount": "1",
+        "amount": "2",
         "entries": [
             {
                 "item": "minecraft:redstone",
