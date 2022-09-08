@@ -271,7 +271,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 color: "White",
                 eggGroups: [${species.eggGroups.joinToString(", ") { "\"${it.showdownID}\"" }}],
         """.trimIndent())
-        species.preEvolution?.let { executable.append("prevo: \"${createShowdownKey(it.species, it.form)}\",") }
+        species.preEvolution?.let { executable.append("prevo: \"${createShowdownName(it.species, it.form)}\",") }
         if (species.evolutions.isNotEmpty()) {
             executable.append("evos: [${species.evolutions.joinToString(", ") { "\"$dummySpeciesName\"" }}],")
         }
