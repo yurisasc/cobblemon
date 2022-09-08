@@ -38,7 +38,10 @@ object BattleRegistry {
             val pk = pokemon.effectedPokemon
             val packedTeamBuilder = StringBuilder()
             // If no nickname, write species first and leave next blank
-            packedTeamBuilder.append("${pk.species.name}|")
+            // We convert the species + form here into our custom format
+            val baseSpeciesKey = "${pk.species.resourceIdentifier.namespace}${pk.species.resourceIdentifier.path}".lowercase()
+            val speciesKey = "$baseSpeciesKey${if (pk.form.name.equals(pk.species.standardForm.name, true)) "" else pk.form.name.lowercase()}"
+            packedTeamBuilder.append("$speciesKey|")
             // Species, left empty if no nickname
             packedTeamBuilder.append("|")
 
@@ -50,7 +53,7 @@ object BattleRegistry {
 
             // Held item, empty if non TODO: Replace with actual held item
             packedTeamBuilder.append("|")
-            // Ability
+            // Ability, our showdown has edits here to trust whatever we tell it, this was needed to support more than 4 abilities.
             packedTeamBuilder.append("${pk.ability.name.replace("_", "")}|")
             // Moves
             packedTeamBuilder.append(

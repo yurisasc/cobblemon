@@ -24,7 +24,9 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
+import com.cablemc.pokemoncobbled.common.pokemon.FormData
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledEvolutionAdapter
@@ -47,6 +49,7 @@ import net.minecraft.resource.ResourceType
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
+import java.util.*
 
 object PokemonSpecies : JsonDataRegistry<Species> {
 
@@ -190,20 +193,45 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             }
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
             species.initialize()
-            this.createShowdownRepresentation(executable, species)
         }
-        PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
-        this.observable.emit(this)
+        var dummyName = cobbledResource(UUID.randomUUID().toString().replace("-", ""))
+        while (this.speciesByIdentifier.containsKey(dummyName)) {
+            // If this is happening to you, you need better names
+            dummyName = cobbledResource(UUID.randomUUID().toString().replace("-", ""))
+        }
         V8Host.getNodeInstance().createV8Runtime<V8Runtime>().use { runtime ->
             val executor = runtime.getExecutor(executable.toString())
             executor.resourceName = "./node_modules"
             executor.executeVoid()
         }
+        this.createDummySpecies(executable, dummyName.toString())
+        this.species.forEach { species ->
+            this.createShowdownRepresentation(executable, species, dummyName.toString())
+        }
+        PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
+        this.observable.emit(this)
     }
 
-    private fun createShowdownRepresentation(executable: StringBuilder, species: Species) {
+    private fun createDummySpecies(executable: StringBuilder, dummySpeciesName: String) {
+        executable.append("""
+            PokemonShowdown.CobbledPokedex["$dummySpeciesName"] = {
+                num: -1,
+                name: "$dummySpeciesName",
+                types: ["${ElementalTypes.NORMAL.name}"],
+                gender: "N",
+                baseStats: { hp: 1, atk: 1, def: 1, spa: 1, spd: 1, spe: 1 },
+                abilities: { 0: "No Ability", 1: "No Ability", H: "No Ability", S: "No Ability" },
+                heightm: 1,
+                weightkg: 1,
+                color: "White",
+                eggGroups: [${EggGroup.UNDISCOVERED.showdownID}],
+            };
+        """.trimIndent())
+    }
+
+    private fun createShowdownRepresentation(executable: StringBuilder, species: Species, dummySpeciesName: String) {
         // We will use this as the name too as it doesn't really matter for our use case, some properties will also be ignored due to not affecting us
-        val baseSpeciesKey = "${species.resourceIdentifier.namespace}${species.resourceIdentifier.path}".lowercase()
+        val baseSpeciesKey = this.createShowdownKey(species)
         // Convert the gender ratio to the appropriate showdown format
         val genderDetails = when (species.maleRatio) {
             1F -> "gender: \"F\""
@@ -217,6 +245,14 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         // ToDo weight and height on our end as it is necessary for battle mechanics
         // ToDo Ability to dynamax on our end
         // ToDo Signature GMax move on our end
+        /**
+         * THINGS TO NOTE:
+         *
+         * Abilities will be sent alongside other Pokémon level battle data, this is done due to showdown being limited to 4 ability slots
+         * Color attribute does not affect battles as such we just assume it's always white
+         * Evolutions will affect battle mechanics however we do not to specifically say what the result will be, to adapt to the potential result being unknown from a property until it is created we will just assign a fake result.
+         *
+         */
         executable.append("""
             PokemonShowdown.CobbledPokedex["$baseSpeciesKey"] = {
                 num: ${species.nationalPokedexNumber},
@@ -228,14 +264,25 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 heightm: 1,
                 weightkg: 1,
                 color: "White",
-                prevo: "Ivysaur",
-                evos: [],
-                evoLevel: 32,
                 eggGroups: [${species.eggGroups.joinToString(", ") { "\"${it.showdownID}\"" }}],
-                otherFormes: ["Venusaur-Mega"],
-                formeOrder: ["Venusaur", "Venusaur-Mega"],
-            };
         """.trimIndent())
+        species.preEvolution?.let { executable.append("prevo: \"${createShowdownKey(it.species, it.form)}\",") }
+        if (species.evolutions.isNotEmpty()) {
+            executable.append("evos: [${species.evolutions.joinToString(", ") { "\"$dummySpeciesName\"" }}],")
+        }
+        if (species.forms.isNotEmpty()) {
+            val otherForms = species.forms.joinToString(", ") { "\"${this.createShowdownKey(species, it)}\"" }
+            executable.append("""
+                otherFormes: [$otherForms],
+                formeOrder: ["$baseSpeciesKey", $otherForms],
+            """.trimIndent())
+        }
+        executable.append("};")
+    }
+
+    private fun createShowdownKey(species: Species, form: FormData? = null): String {
+        val baseSpeciesKey = "${species.resourceIdentifier.namespace}${species.resourceIdentifier.path}".lowercase()
+        return "$baseSpeciesKey${if (form == null || form.name.equals(species.standardForm.name, true)) "" else form.name.lowercase()}"
     }
 
 }
