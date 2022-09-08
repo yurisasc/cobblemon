@@ -199,14 +199,18 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             // If this is happening to you, you need better names
             dummyName = cobbledResource(UUID.randomUUID().toString().replace("-", ""))
         }
+        this.createDummySpecies(executable, dummyName.toString())
+        this.species.forEach { species ->
+            try {
+                this.createShowdownRepresentation(executable, species, dummyName.toString())
+            } catch (e: Exception) {
+                PokemonCobbled.LOGGER.error("Failed to create showdown representation for ${species.resourceIdentifier}", e)
+            }
+        }
         V8Host.getNodeInstance().createV8Runtime<V8Runtime>().use { runtime ->
             val executor = runtime.getExecutor(executable.toString())
             executor.resourceName = "./node_modules"
             executor.executeVoid()
-        }
-        this.createDummySpecies(executable, dummyName.toString())
-        this.species.forEach { species ->
-            this.createShowdownRepresentation(executable, species, dummyName.toString())
         }
         PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
         this.observable.emit(this)

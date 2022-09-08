@@ -43,13 +43,13 @@ object CobbledRequirementAdapter : RequirementAdapter {
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): EvolutionRequirement {
         val variant = json.asJsonObject.get(VARIANT).asString.lowercase()
-        val type = this.types[variant] ?: throw IllegalArgumentException("Cannot resolve type for variant $variant")
+        val type = this.types[variant] ?: throw IllegalArgumentException("Cannot resolve evolution requirement type for variant $variant")
         return context.deserialize(json, type.java)
     }
 
     override fun serialize(src: EvolutionRequirement, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
         val json = context.serialize(src, src::class.java).asJsonObject
-        val variant = this.types.inverse()[src::class] ?: throw IllegalArgumentException("Cannot resolve variant for type ${src::class.qualifiedName}")
+        val variant = this.types.inverse()[src::class] ?: throw IllegalArgumentException("Cannot resolve evolution requirement for type ${src::class.qualifiedName}")
         json.addProperty(VARIANT, variant)
         return json
     }
