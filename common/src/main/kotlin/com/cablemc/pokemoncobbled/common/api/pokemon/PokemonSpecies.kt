@@ -224,7 +224,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 types: ["${species.primaryType.name}"${if (species.secondaryType != null) ", \"${species.secondaryType.name}\"" else ""}],
                 $genderDetails,
                 baseStats: { hp: ${species.baseStats[Stats.HP]}, atk: ${species.baseStats[Stats.ATTACK]}, def: ${species.baseStats[Stats.DEFENCE]}, spa: ${species.baseStats[Stats.SPECIAL_ATTACK]}, spd: ${species.baseStats[Stats.SPECIAL_DEFENCE]}, spe: ${species.baseStats[Stats.SPEED]} },
-                abilities: { 0: "Overgrow", H: "Chlorophyll" },
+                abilities: { 0: "No Ability", 1: "No Ability", H: "No Ability", S: "No Ability" },
                 heightm: 1,
                 weightkg: 1,
                 color: "White",
