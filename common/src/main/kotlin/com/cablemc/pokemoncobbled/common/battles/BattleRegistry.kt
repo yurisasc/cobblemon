@@ -2,7 +2,9 @@ package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
@@ -39,9 +41,8 @@ object BattleRegistry {
             val packedTeamBuilder = StringBuilder()
             // If no nickname, write species first and leave next blank
             // We convert the species + form here into our custom format
-            val baseSpeciesKey = "${pk.species.resourceIdentifier.namespace}${pk.species.resourceIdentifier.path}".lowercase()
-            val speciesKey = "$baseSpeciesKey${if (pk.form.name.equals(pk.species.standardForm.name, true)) "" else pk.form.name.lowercase()}"
-            packedTeamBuilder.append("$speciesKey|")
+            val species = "${pk.species.resourceIdentifier}${if (pk.form.name.equals(pk.species.standardForm.name, true)) "" else "-${pk.form.name}"}"
+            packedTeamBuilder.append("$species|")
             // Species, left empty if no nickname
             packedTeamBuilder.append("|")
 

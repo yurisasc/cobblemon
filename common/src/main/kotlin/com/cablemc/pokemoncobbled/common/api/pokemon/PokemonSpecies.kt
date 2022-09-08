@@ -236,8 +236,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     }
 
     private fun createShowdownRepresentation(executable: StringBuilder, species: Species, dummySpeciesName: String) {
-        // We will use this as the name too as it doesn't really matter for our use case, some properties will also be ignored due to not affecting us
-        val baseSpeciesKey = this.createShowdownKey(species)
+        val showdownName = this.createShowdownName(species)
         // Convert the gender ratio to the appropriate showdown format
         val genderDetails = when (species.maleRatio) {
             1F -> "gender: \"F\""
@@ -260,9 +259,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
          *
          */
         executable.append("""
-            PokemonShowdown.CobbledPokedex["$baseSpeciesKey"] = {
+            PokemonShowdown.CobbledPokedex["${this.createShowdownKey(species)}"] = {
                 num: ${species.nationalPokedexNumber},
-                name: "$baseSpeciesKey",
+                name: "$showdownName",
                 types: ["${species.primaryType.name}"${if (species.secondaryType != null) ", \"${species.secondaryType.name}\"" else ""}],
                 $genderDetails,
                 baseStats: { hp: ${species.baseStats[Stats.HP]}, atk: ${species.baseStats[Stats.ATTACK]}, def: ${species.baseStats[Stats.DEFENCE]}, spa: ${species.baseStats[Stats.SPECIAL_ATTACK]}, spd: ${species.baseStats[Stats.SPECIAL_DEFENCE]}, spe: ${species.baseStats[Stats.SPEED]} },
@@ -277,10 +276,10 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             executable.append("evos: [${species.evolutions.joinToString(", ") { "\"$dummySpeciesName\"" }}],")
         }
         if (species.forms.isNotEmpty()) {
-            val otherForms = species.forms.joinToString(", ") { "\"${this.createShowdownKey(species, it)}\"" }
+            val otherForms = species.forms.joinToString(", ") { "\"${this.createShowdownName(species, it)}\"" }
             executable.append("""
                 otherFormes: [$otherForms],
-                formeOrder: ["$baseSpeciesKey", $otherForms],
+                formeOrder: ["$showdownName", $otherForms],
             """.trimIndent())
         }
         executable.append("};")
@@ -289,6 +288,10 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     private fun createShowdownKey(species: Species, form: FormData? = null): String {
         val baseSpeciesKey = "${species.resourceIdentifier.namespace}${species.resourceIdentifier.path}".lowercase()
         return "$baseSpeciesKey${if (form == null || form.name.equals(species.standardForm.name, true)) "" else form.name.lowercase()}"
+    }
+
+    private fun createShowdownName(species: Species, form: FormData? = null): String {
+        return "${species.resourceIdentifier}${if (form == null || form.name.equals(species.standardForm.name, true)) "" else "-${form.name}"}"
     }
 
 }
