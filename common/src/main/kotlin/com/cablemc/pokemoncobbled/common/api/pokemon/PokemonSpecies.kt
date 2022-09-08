@@ -13,6 +13,7 @@ import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.moves.adapters.MoveTemplateAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.adapter.ShoulderEffectAdapter
+import com.cablemc.pokemoncobbled.common.api.pokemon.egg.EggGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
@@ -29,19 +30,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledEvolutionAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledPreEvolutionAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledRequirementAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.AbilityPoolAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.AbilityTemplateAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.BiomeLikeConditionAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.BlockLikeConditionAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.BoxAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.DropEntryAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.IdentifierAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.LazySetAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.LearnsetAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.NbtCompoundAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.TimeRangeAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.pokemonPropertiesShortAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.*
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.caoccao.javet.interop.V8Host
 import com.caoccao.javet.interop.V8Runtime
@@ -89,6 +78,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(NbtCompound::class.java, NbtCompoundAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
+        .registerTypeAdapter(EggGroup::class.java, EggGroupAdapter)
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()
         .create()
@@ -225,7 +215,6 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         // ToDo generate forms data too
         // ToDo ability conversion
         // ToDo weight and height on our end as it is necessary for battle mechanics
-        // ToDo Egg groups on our end
         // ToDo Ability to dynamax on our end
         // ToDo Signature GMax move on our end
         executable.append("""
@@ -242,7 +231,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 prevo: "Ivysaur",
                 evos: [],
                 evoLevel: 32,
-                eggGroups: ["Undiscovered"],
+                eggGroups: [${species.eggGroups.joinToString(", ") { "\"${it.showdownID}\"" }}],
                 otherFormes: ["Venusaur-Mega"],
                 formeOrder: ["Venusaur", "Venusaur-Mega"],
             };

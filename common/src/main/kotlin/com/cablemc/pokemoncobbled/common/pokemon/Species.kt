@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
 import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.pokemon.Learnset
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.egg.EggGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
@@ -46,6 +47,8 @@ class Species {
     val behaviour = PokemonBehaviour()
     val pokedex = mutableListOf<String>()
     val drops = DropTable()
+    val eggCycles = 120
+    val eggGroups = setOf<EggGroup>()
 
     var forms = mutableListOf<FormData>()
 
