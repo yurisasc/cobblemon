@@ -179,9 +179,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         this.speciesByDex.clear()
         val executable = StringBuilder("""
                 const PokemonShowdown = require('pokemon-showdown');
-
-                PokemonShowdown.Dex.modsLoaded = false;
-
+                
                 Object.keys(PokemonShowdown.CobbledPokedex).forEach(key => {
                     delete PokemonShowdown.CobbledPokedex[key];
                 });
@@ -207,6 +205,10 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 PokemonCobbled.LOGGER.error("Failed to create showdown representation for ${species.resourceIdentifier}", e)
             }
         }
+        executable.append("""
+            PokemonShowdown.Dex.modsLoaded = false;
+            PokemonShowdown.Dex.includeMods();
+        """.trimIndent())
         V8Host.getNodeInstance().createV8Runtime<V8Runtime>().use { runtime ->
             val executor = runtime.getExecutor(executable.toString())
             executor.resourceName = "./node_modules"
@@ -228,7 +230,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 heightm: 1,
                 weightkg: 1,
                 color: "White",
-                eggGroups: [${EggGroup.UNDISCOVERED.showdownID}],
+                eggGroups: ["${EggGroup.UNDISCOVERED.showdownID}"],
             };
         """.trimIndent())
     }
