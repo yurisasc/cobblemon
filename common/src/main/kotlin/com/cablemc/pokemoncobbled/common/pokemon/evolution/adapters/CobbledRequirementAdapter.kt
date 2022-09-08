@@ -35,6 +35,7 @@ object CobbledRequirementAdapter : RequirementAdapter {
         this.registerType(TimeRangeRequirement.ADAPTER_VARIANT, TimeRangeRequirement::class)
         this.registerType(LevelRequirement.ADAPTER_VARIANT, LevelRequirement::class)
         this.registerType(WeatherRequirement.ADAPTER_VARIANT, WeatherRequirement::class)
+        this.registerType(AttackDefenceRatioRequirement.ADAPTER_VARIANT, AttackDefenceRatioRequirement::class)
     }
 
     override fun <T : EvolutionRequirement> registerType(id: String, type: KClass<T>) {
