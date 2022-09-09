@@ -15,13 +15,7 @@
             "context": "submerged",
             "bucket": "rare",
             "level": "30-42",
-            "weight": 3.0,
-            "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "#minecraft:is_overworld"
-                ]
-            }
+            "weight": 3.0
         }
     ]
 }

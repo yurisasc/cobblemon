@@ -41,14 +41,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "22-45",
-            "weight": 3.0,
-            "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "#minecraft:is_overworld"
-                ],
-                "isRaining": false
-            }
+            "weight": 3.0
         }
     ]
 }

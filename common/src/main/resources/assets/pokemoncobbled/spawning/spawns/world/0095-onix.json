@@ -14,13 +14,7 @@
             "context": "grounded",
             "bucket": "rare",
             "level": "20-38",
-            "weight": 10.0,
-            "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "#minecraft:is_overworld"
-                ]
-            }
+            "weight": 10.0
         }
     ]
 }
