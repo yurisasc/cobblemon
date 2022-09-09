@@ -49,6 +49,7 @@ import net.minecraft.resource.ResourceType
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
+import java.io.File
 import java.util.*
 
 object PokemonSpecies : JsonDataRegistry<Species> {
@@ -93,6 +94,8 @@ object PokemonSpecies : JsonDataRegistry<Species> {
 
     private val speciesByIdentifier = hashMapOf<Identifier, Species>()
     private val speciesByDex = HashBasedTable.create<String, Int, Species>()
+    private const val DUMMY_SPECIES_KEY = "${PokemonCobbled.MODID}dummy"
+    private const val DUMMY_SPECIES_NAME = "${PokemonCobbled.MODID}:Dummy"
 
     val species: Collection<Species>
         get() = this.speciesByIdentifier.values
@@ -177,13 +180,6 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     override fun reload(data: Map<Identifier, Species>) {
         this.speciesByIdentifier.clear()
         this.speciesByDex.clear()
-        val executable = StringBuilder("""
-                const PokemonShowdown = require('pokemon-showdown');
-                
-                Object.keys(PokemonShowdown.CobbledPokedex).forEach(key => {
-                    delete PokemonShowdown.CobbledPokedex[key];
-                });
-            """.trimIndent())
         data.forEach { (identifier, species) ->
             species.resourceIdentifier = identifier
             this.speciesByIdentifier.put(identifier, species)?.let { old ->
@@ -192,25 +188,37 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
             species.initialize()
         }
-        var dummyName = cobbledResource(UUID.randomUUID().toString().replace("-", ""))
-        while (this.speciesByIdentifier.containsKey(dummyName)) {
-            // If this is happening to you, you need better names
-            dummyName = cobbledResource(UUID.randomUUID().toString().replace("-", ""))
-        }
-        this.createDummySpecies(executable, dummyName.toString())
+        val executable = StringBuilder()
+        this.createDummySpecies(executable)
         this.species.forEach { species ->
             try {
-                this.createShowdownRepresentation(executable, species, dummyName.toString())
+                this.createShowdownRepresentation(executable, species)
             } catch (e: Exception) {
-                PokemonCobbled.LOGGER.error("Failed to create showdown representation for ${species.resourceIdentifier}", e)
+                PokemonCobbled.LOGGER.error("Failed to create showdown representation for ${species.resourceIdentifier}, this Pokémon will not be loaded", e)
+                this.speciesByIdentifier.remove(species.resourceIdentifier)
+                this.speciesByDex.remove(species.resourceIdentifier.namespace, species.nationalPokedexNumber)
             }
         }
-        executable.append("""
-            PokemonShowdown.Dex.modsLoaded = false;
-            PokemonShowdown.Dex.includeMods();
-        """.trimIndent())
         V8Host.getNodeInstance().createV8Runtime<V8Runtime>().use { runtime ->
-            val executor = runtime.getExecutor(executable.toString())
+            // Showdown loads mods by reading existing files as such we cannot dynamically add to the Pokédex, instead, we will overwrite the existing file and force a mod reload.
+            val showdownFile = File("node_modules/pokemon-showdown/.data-dist/mods/cobbled/pokedex.js")
+            showdownFile.bufferedWriter().use { writer ->
+                writer.write("""
+                    "use strict";
+                    Object.defineProperty(exports, "__esModule", {value: true});
+                    const Pokedex = {
+                        $executable
+                    };
+                    exports.Pokedex = Pokedex;
+                """.trimIndent())
+            }
+            val executor = runtime.getExecutor(
+                """
+                    const PokemonShowdown = require('pokemon-showdown');
+                    PokemonShowdown.Dex.modsLoaded = false;
+                    PokemonShowdown.Dex.includeMods();
+                """.trimIndent()
+            )
             executor.resourceName = "./node_modules"
             executor.executeVoid()
         }
@@ -218,11 +226,11 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         this.observable.emit(this)
     }
 
-    private fun createDummySpecies(executable: StringBuilder, dummySpeciesName: String) {
+    private fun createDummySpecies(executable: StringBuilder) {
         executable.append("""
-            PokemonShowdown.CobbledPokedex["$dummySpeciesName"] = {
+            $DUMMY_SPECIES_KEY: {
                 num: -1,
-                name: "$dummySpeciesName",
+                name: "$DUMMY_SPECIES_NAME",
                 types: ["${ElementalTypes.NORMAL.name}"],
                 gender: "N",
                 baseStats: { hp: 1, atk: 1, def: 1, spa: 1, spd: 1, spe: 1 },
@@ -231,11 +239,11 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 weightkg: 1,
                 color: "White",
                 eggGroups: ["${EggGroup.UNDISCOVERED.showdownID}"],
-            };
+            },
         """.trimIndent())
     }
 
-    private fun createShowdownRepresentation(executable: StringBuilder, species: Species, dummySpeciesName: String) {
+    private fun createShowdownRepresentation(executable: StringBuilder, species: Species) {
         val showdownName = this.createShowdownName(species)
         // Convert the gender ratio to the appropriate showdown format
         val genderDetails = when (species.maleRatio) {
@@ -259,7 +267,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
          *
          */
         executable.append("""
-            PokemonShowdown.CobbledPokedex["${this.createShowdownKey(species)}"] = {
+            ${this.createShowdownKey(species)}: {
                 num: ${species.nationalPokedexNumber},
                 name: "$showdownName",
                 types: ["${species.primaryType.name}"${if (species.secondaryType != null) ", \"${species.secondaryType.name}\"" else ""}],
@@ -273,7 +281,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         """.trimIndent())
         species.preEvolution?.let { executable.append("prevo: \"${createShowdownName(it.species, it.form)}\",") }
         if (species.evolutions.isNotEmpty()) {
-            executable.append("evos: [${species.evolutions.joinToString(", ") { "\"$dummySpeciesName\"" }}],")
+            executable.append("evos: [${species.evolutions.joinToString(", ") { "\"$DUMMY_SPECIES_NAME\"" }}],")
         }
         if (species.forms.isNotEmpty()) {
             val otherForms = species.forms.joinToString(", ") { "\"${this.createShowdownName(species, it)}\"" }
@@ -282,16 +290,18 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 formeOrder: ["$showdownName", $otherForms],
             """.trimIndent())
         }
-        executable.append("};")
+        executable.append("},")
     }
 
+    // Converts a species into a showdown key resulting in '<namespace><path><form-name(if not base)>'
     private fun createShowdownKey(species: Species, form: FormData? = null): String {
-        val baseSpeciesKey = "${species.resourceIdentifier.namespace}${species.resourceIdentifier.path}".lowercase()
+        val baseSpeciesKey = species.resourceIdentifier.toString().lowercase().replaceFirst(":", "")
         return "$baseSpeciesKey${if (form == null || form.name.equals(species.standardForm.name, true)) "" else form.name.lowercase()}"
     }
 
+    // Converts a species into a showdown name resulting in '<namespace>:<species_name>-<form-name(if not base)>'
     private fun createShowdownName(species: Species, form: FormData? = null): String {
-        return "${species.resourceIdentifier}${if (form == null || form.name.equals(species.standardForm.name, true)) "" else "-${form.name}"}"
+        return "${species.resourceIdentifier.namespace}:${species.name}${if (form == null || form.name.equals(species.standardForm.name, true)) "" else "-${form.name}"}"
     }
 
 }

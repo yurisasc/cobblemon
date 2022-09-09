@@ -41,7 +41,7 @@ object BattleRegistry {
             val packedTeamBuilder = StringBuilder()
             // If no nickname, write species first and leave next blank
             // We convert the species + form here into our custom format
-            val species = "${pk.species.resourceIdentifier}${if (pk.form.name.equals(pk.species.standardForm.name, true)) "" else "-${pk.form.name}"}"
+            val species = "${pk.species.resourceIdentifier.namespace}:${pk.species.name}${if (pk.form.name.equals(pk.species.standardForm.name, true)) "" else "-${pk.form.name}"}"
             packedTeamBuilder.append("$species|")
             // Species, left empty if no nickname
             packedTeamBuilder.append("|")
