@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.SpawnCause
 import com.cablemc.pokemoncobbled.common.api.spawning.WorldSlice
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import net.minecraft.block.BlockState
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -27,5 +28,5 @@ open class AreaSpawningContext(
     val nearbyBlocks: List<BlockState>,
     val slice: WorldSlice
 ) : SpawningContext() {
-    val nearbyBlockTypes = nearbyBlocks.map { it.block.translationKey }
+    val nearbyBlockTypes: List<Identifier> by lazy { nearbyBlocks.mapNotNull { blockRegistry.getKey(it.block).orElse(null)?.value }.distinct() }
 }

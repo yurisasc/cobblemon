@@ -43,16 +43,11 @@ class DropTable {
             return emptyList()
         }
 
-        val guaranteed = possibleDrops.filter { it.percentage >= 100F }.toMutableList()
         val drops = mutableListOf<DropEntry>()
         var dropCount = 0
 
         do {
-            possibleDrops.shuffle()
-            val drop = (
-                if (guaranteed.isNotEmpty()) guaranteed.random()
-                else possibleDrops.firstOrNull { Random.Default.nextFloat() * 100F < it.percentage }
-            )
+            val drop = possibleDrops.firstOrNull { Random.Default.nextFloat() * 100F < it.percentage }
 
             if (drop == null) {
                 // That counts as a drop in the eyes of the law, otherwise we'd be looping all week and percentages won't mean squat.
@@ -64,7 +59,6 @@ class DropTable {
             dropCount += drop.quantity
             val remaining = chosenAmount - dropCount
             possibleDrops.removeIf { (it == drop && it.maxSelectableTimes <= drops.count { it == drop }) || it.quantity > remaining }
-            guaranteed.removeIf { it !in possibleDrops }
         } while (dropCount < chosenAmount && possibleDrops.isNotEmpty())
 
         return drops
