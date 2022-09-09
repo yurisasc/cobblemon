@@ -173,10 +173,12 @@ open class Pokemon {
     var gender = Gender.GENDERLESS
         set(value) {
             field = value
-            updateAspects()
-            _gender.emit(value)
             if (!isClient) {
                 checkGender()
+            }
+            if (field == value) {
+                updateAspects()
+                _gender.emit(value)
             }
         }
     var status: PersistentStatusContainer? = null
