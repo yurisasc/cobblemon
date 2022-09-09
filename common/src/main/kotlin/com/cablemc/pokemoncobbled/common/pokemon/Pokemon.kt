@@ -172,20 +172,12 @@ open class Pokemon {
         }
     var gender = Gender.GENDERLESS
         set(value) {
-            if (!isClient) {
-                if (species.maleRatio == null && value != Gender.GENDERLESS) {
-                    return
-                } else if (species.maleRatio != null && value == Gender.GENDERLESS) {
-                    return
-                } else if (species.maleRatio == 0F && value == Gender.MALE) {
-                    return
-                } else if (species.maleRatio == 1F && value == Gender.FEMALE) {
-                    return
-                }
-            }
             field = value
             updateAspects()
             _gender.emit(value)
+            if (!isClient) {
+                checkGender()
+            }
         }
     var status: PersistentStatusContainer? = null
         set(value) {
@@ -707,6 +699,8 @@ open class Pokemon {
         } else if (form.maleRatio == 0F && gender != Gender.FEMALE) {
             reassess = true
         } else if (form.maleRatio == 1F && gender != Gender.MALE) {
+            reassess = true
+        } else if (form.maleRatio in 0F..1F && gender == Gender.GENDERLESS) {
             reassess = true
         }
 
