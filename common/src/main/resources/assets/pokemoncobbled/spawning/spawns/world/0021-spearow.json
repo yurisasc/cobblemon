@@ -15,7 +15,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemoncobbled:is_badlands",
+                    "#minecraft:is_badlands",
                     "#minecraft:is_savanna"
                 ],
                 "timeRange": "day",

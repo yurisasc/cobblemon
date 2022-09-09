@@ -3,7 +3,6 @@ package com.cablemc.pokemoncobbled.common.api.spawning.condition
 import com.cablemc.pokemoncobbled.common.api.spawning.context.SubmergedSpawningContext
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.util.Merger
-import com.cablemc.pokemoncobbled.common.util.asResource
 import net.minecraft.util.Identifier
 
 /**
@@ -28,7 +27,7 @@ abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : Ar
             false
         } else if (fluidIsSource != null && ctx.fluidState.isStill != fluidIsSource!!) {
             false
-        } else !(fluidBlock != null && ctx.fluidBlock.translationKey.asResource() != fluidBlock!!)
+        } else !(fluidBlock != null && ctx.blockRegistry.getKey(ctx.fluidBlock).get().value != fluidBlock!!)
     }
 
     override fun copyFrom(other: SpawningCondition<*>, merger: Merger) {
