@@ -46,6 +46,8 @@ class BattleMoveSelection(
         MoveTile(this, inBattleMove, x, y)
     }
 
+    val backButton = BattleBackButton(x.toFloat() + MOVE_HORIZONTAL_SPACING + MOVE_WIDTH + MOVE_WIDTH + 3F, y + 3F)
+
     class MoveTile(
         val moveSelection: BattleMoveSelection,
         val move: InBattleMove,
@@ -148,6 +150,10 @@ class BattleMoveSelection(
         moveTiles.forEach {
             it.render(matrices, mouseX, mouseY, delta)
         }
+
+//        if (!backButton.isHovered(mouseX.toDouble(), mouseY.toDouble())) {
+            backButton.render(matrices, mouseX, mouseY, delta)
+//        }
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
@@ -155,6 +161,9 @@ class BattleMoveSelection(
         if (move != null) {
             move.onClick()
             return true
+        } else if (backButton.isHovered(mouseX, mouseY)) {
+            playDownSound(MinecraftClient.getInstance().soundManager)
+            battleGUI.changeActionSelection(null)
         }
         return false
     }

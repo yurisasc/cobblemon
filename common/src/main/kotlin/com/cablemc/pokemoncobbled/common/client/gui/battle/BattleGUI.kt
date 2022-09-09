@@ -91,14 +91,18 @@ class BattleGUI : Screen(battleLang("gui.title")) {
             }
         }
 
-        drawScaledText(
-            matrixStack = poseStack,
-            text = battleLang("ui.hide_label", PartySendBinding.currentKey().localizedText),
-            x = MinecraftClient.getInstance().window.scaledWidth / 2,
-            y = MinecraftClient.getInstance().window.scaledHeight - 110,
-            opacity = 0.75F * opacity,
-            centered = true
-        )
+        val currentSelection = getCurrentActionSelection()
+        if (currentSelection == null || currentSelection is BattleGeneralActionSelection ) {
+            drawScaledText(
+                matrixStack = poseStack,
+                text = battleLang("ui.hide_label", PartySendBinding.currentKey().localizedText),
+                x = MinecraftClient.getInstance().window.scaledWidth / 2,
+                y = MinecraftClient.getInstance().window.scaledHeight - 110,
+                opacity = 0.75F * opacity,
+                centered = true
+            )
+        }
+
 
         queuedActions.forEach { it() }
         queuedActions.clear()

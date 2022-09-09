@@ -33,6 +33,8 @@ class BattleSwitchPokemonSelection(
     }
 
     val tiles = mutableListOf<SwitchTile>()
+    val backButton = BattleBackButton(x.toFloat() + 2 * SWITCH_TILE_WIDTH + 2 * SWITCH_TILE_HORIZONTAL_SPACING, y.toFloat() )
+
     class SwitchTile(
         val selection: BattleSwitchPokemonSelection,
         val x: Float,
@@ -88,18 +90,24 @@ class BattleSwitchPokemonSelection(
             return
         }
         tiles.forEach { it.render(matrices, mouseX.toDouble(), mouseY.toDouble(), delta) }
+        backButton.render(matrices, mouseX, mouseY, delta)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        if (backButton.isHovered(mouseX, mouseY)) {
+            battleGUI.changeActionSelection(null)
+            playDownSound(MinecraftClient.getInstance().soundManager)
+            return true
+        }
         val clicked = tiles.find { it.isHovered(mouseX, mouseY) } ?: return false
         val pokemon = clicked.pokemon
         playDownSound(MinecraftClient.getInstance().soundManager)
         battleGUI.selectAction(request, SwitchActionResponse(pokemon.uuid))
+
         return true
     }
 
     override fun appendNarrations(builder: NarrationMessageBuilder) {
-//        TODO("Not yet implemented")
     }
 
     override fun getType() = Selectable.SelectionType.HOVERED
