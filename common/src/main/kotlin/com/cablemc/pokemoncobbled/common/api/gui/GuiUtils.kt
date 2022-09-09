@@ -197,7 +197,7 @@ fun drawPortraitPokemon(
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     }
 
-    matrixStack.translate(0.0, PORTRAIT_DIAMETER.toDouble(), 0.0)
+    matrixStack.translate(0.0, PORTRAIT_DIAMETER.toDouble() + 2.0, 0.0)
     matrixStack.scale(scale, scale, -scale)
     matrixStack.translate(0.0, -PORTRAIT_DIAMETER / 18.0, 0.0)
     matrixStack.translate(model.portraitTranslation.x * if (reversed) -1F else 1F, model.portraitTranslation.y, model.portraitTranslation.z - 4)
