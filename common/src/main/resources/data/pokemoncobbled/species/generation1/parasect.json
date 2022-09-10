@@ -27,6 +27,14 @@
         "bug",
         "plant"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:red_mushroom"
+            }
+        ]
+    },
     "moves": [
         "1:scratch",
         "1:absorb",

@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:mushroom_fields",
-    "minecraft:roofed",
+    "minecraft:dark_forest",
     {
       "id": "#byg:is_mushroom",
       "required": false

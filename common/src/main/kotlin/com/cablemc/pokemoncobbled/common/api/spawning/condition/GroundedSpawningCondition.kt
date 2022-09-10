@@ -31,7 +31,7 @@ abstract class GroundedTypeSpawningCondition<T : GroundedSpawningContext> : Area
 }
 
 /**
- * A spawning condition for an [GroundedSpawningContext].
+ * A spawning condition for a [GroundedSpawningContext].
  *
  * @author Hiroku
  * @since February 7th, 2022

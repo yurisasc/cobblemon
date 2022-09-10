@@ -15,7 +15,7 @@
         "speed": 43
     },
     "catchRate": 45,
-    "maleRatio": 0.125,
+    "maleRatio": 0.875,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 63,
@@ -25,6 +25,15 @@
         "monster",
         "water1"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:scute",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:tackle",
         "1:tailwhip",

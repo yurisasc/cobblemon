@@ -11,7 +11,6 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.OrderedText
-import net.minecraft.util.math.MathHelper.ceil
 
 /**
  * Pane for seeing and interacting with battle messages.
@@ -24,10 +23,10 @@ class BattleMessagePane(
     val messageQueue: ClientBattleMessageQueue
 ): AlwaysSelectedEntryListWidget<BattleMessagePane.BattleMessageLine>(
     MinecraftClient.getInstance(),
-    ceil(UNDERLAY_WIDTH),
-    ceil(UNDERLAY_HEIGHT),
-    1,
-    1 + ceil(UNDERLAY_HEIGHT),
+    TEXT_BOX_WIDTH, // width
+    TEXT_BOX_HEIGHT, // height
+    1, // top
+    1 + TEXT_BOX_HEIGHT, // bottom
     LINE_HEIGHT
 ) {
     init {
@@ -46,28 +45,24 @@ class BattleMessagePane(
     }
 
     val appropriateX: Int
-        get() = client.window.scaledWidth / 2 + 13
+        get() = client.window.scaledWidth - (FRAME_WIDTH + 12)
     val appropriateY: Int
-        get() = client.window.scaledHeight - 100
+        get() = client.window.scaledHeight - 85
 
     fun correctSize() {
-        updateSize(ceil(UNDERLAY_WIDTH), ceil(UNDERLAY_HEIGHT), appropriateY, appropriateY + ceil(UNDERLAY_HEIGHT) + 2)
+        updateSize(TEXT_BOX_WIDTH, TEXT_BOX_HEIGHT, appropriateY + 6, appropriateY + 6 + TEXT_BOX_HEIGHT)
         setLeftPos(appropriateX)
     }
 
     companion object {
         const val LINE_HEIGHT = 10
-        const val LINE_WIDTH = 210
-        const val FRAME_WIDTH_TO_HEIGHT = 604F / 125
-        const val FRAME_WIDTH = 188F
-        const val FRAME_HEIGHT = FRAME_WIDTH / FRAME_WIDTH_TO_HEIGHT
-        const val UNDERLAY_WIDTH_TO_HEIGHT = 580F / 100
-        const val UNDERLAY_WIDTH = 188F
-        const val UNDERLAY_HEIGHT = UNDERLAY_WIDTH / UNDERLAY_WIDTH_TO_HEIGHT
-        private val battleMessagePaneBackgroundResource = cobbledResource("ui/battle/battle_log_underlay.png")
-        private val battleMessagePaneBackgroundExpandedResource = cobbledResource("ui/battle/battle_log_expanded_underlay.png")
+        const val LINE_WIDTH = 142
+        const val FRAME_WIDTH = 169
+        const val FRAME_HEIGHT = 55
+        const val TEXT_BOX_WIDTH = 153
+        const val TEXT_BOX_HEIGHT = 46
+
         private val battleMessagePaneFrameResource = cobbledResource("ui/battle/battle_log_base.png")
-        private val battleMessagePaneFrameExpandedResource = cobbledResource("ui/battle/battle_log_base_expanded.png")
     }
 
     override fun addEntry(entry: BattleMessageLine): Int {
@@ -79,7 +74,7 @@ class BattleMessagePane(
     }
 
     override fun getScrollbarPositionX(): Int {
-        return left + width - 22
+        return left + 154
     }
 
     override fun getScrollAmount(): Double {
@@ -94,23 +89,14 @@ class BattleMessagePane(
         correctSize()
         blitk(
             matrixStack = poseStack,
-            texture = battleMessagePaneBackgroundResource,
-            x = left,
-            y = top + 2,
-            height = UNDERLAY_HEIGHT,
-            width = UNDERLAY_WIDTH - 2,
-            alpha = 0.7
-        )
-        blitk(
-            matrixStack = poseStack,
             texture = battleMessagePaneFrameResource,
-            x = left - 2,
-            y = top - 1,
+            x = left,
+            y = appropriateY,
             height = FRAME_HEIGHT,
             width = FRAME_WIDTH
         )
 
-        RenderSystem.enableScissor(scaleIt(left + 2), scaleIt(98 - UNDERLAY_HEIGHT), scaleIt(width - 4), scaleIt(height - 2))
+        RenderSystem.enableScissor(scaleIt(left + 5), scaleIt(33), scaleIt(width), scaleIt(height))
         super.render(poseStack, mouseX, mouseY, partialTicks)
         RenderSystem.disableScissor()
     }
@@ -129,7 +115,12 @@ class BattleMessagePane(
             isHovered: Boolean,
             partialTicks: Float
         ) {
-            drawScaledText(poseStack, line, rowLeft - 52, rowTop, 0.8F, 0.8F)
+            drawScaledText(
+                poseStack,
+                line,
+                rowLeft - 29,
+                rowTop - 2
+            )
         }
     }
 }

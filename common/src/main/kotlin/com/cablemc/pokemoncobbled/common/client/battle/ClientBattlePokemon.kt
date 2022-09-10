@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonFloatingState
+import com.cablemc.pokemoncobbled.common.pokemon.Gender
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.util.asIdentifierDefaultingNamespace
@@ -23,6 +24,9 @@ class ClientBattlePokemon(
         get() = PokemonSpecies.getByIdentifier(properties.species!!.asIdentifierDefaultingNamespace())!!
     val level: Int
         get() = properties.level ?: 0
+
+    val gender: Gender
+        get() = properties.gender ?: Gender.GENDERLESS
 
     var state = PokemonFloatingState()
 }

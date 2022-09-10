@@ -26,6 +26,15 @@
         "water1",
         "ground"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:cod",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:headbutt",
         "3:growl",

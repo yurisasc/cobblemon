@@ -29,13 +29,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "25-39",
-            "weight": 3.0,
-            "condition": {
-                "canSeeSky": false,
-                "biomes": [
-                    "#minecraft:is_overworld"
-                ]
-            }
+            "weight": 3.0
         }
     ]
 }

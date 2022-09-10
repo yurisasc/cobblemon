@@ -46,6 +46,15 @@
     "eggGroups": [
         "ground"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:potato",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:scratch",
         "1:sandattack",

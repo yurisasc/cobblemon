@@ -87,6 +87,7 @@
   "pokemoncobbled.battle.ui.fight": "Fight",
   "pokemoncobbled.battle.ui.switch": "Switch",
   "pokemoncobbled.battle.ui.capture": "Catch",
+  "pokemoncobbled.battle.ui.run": "Run",
   "pokemoncobbled.battle.ui.hide_label": "Press %1$s to move around.",
   "pokemoncobbled.battle.ui.actions_label": "You need to choose an action. Press %1$s.",
 
@@ -140,6 +141,7 @@
   "pokemoncobbled.battle.must_switch": "Choose a Pokémon to switch in",
   "pokemoncobbled.battle.dragged_out": "%1$s was dragged out!",
   "pokemoncobbled.battle.throw_pokeball_prompt": "Throw a PokéBall at your opponent to capture it.",
+  "pokemoncobbled.battle.run_prompt": "Run away from the opposing Pokémon to flee and end the battle.",
   "pokemoncobbled.battle.resisted": "It wasn't very effective....",
   "pokemoncobbled.battle.superEffective": "It was super effective!",
   "pokemoncobbled.battle.crit": "It was a critical hit!",

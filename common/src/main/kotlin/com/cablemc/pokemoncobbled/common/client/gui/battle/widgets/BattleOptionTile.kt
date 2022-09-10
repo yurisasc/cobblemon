@@ -23,9 +23,8 @@ class BattleOptionTile(
     val onClick: () -> Unit
 ) : Drawable, Element, Selectable {
     companion object {
-        const val OPTION_WIDTH_TO_HEIGHT = 352/80F
-        const val  OPTION_WIDTH = 100F
-        const val OPTION_HEIGHT = OPTION_WIDTH / OPTION_WIDTH_TO_HEIGHT
+        const val  OPTION_WIDTH = 90
+        const val OPTION_HEIGHT = 26
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -35,22 +34,25 @@ class BattleOptionTile(
         }
         blitk(
             matrixStack = matrices,
+            texture = resource,
             x = x,
             y = y,
             alpha = opacity,
             width = OPTION_WIDTH,
             height = OPTION_HEIGHT,
-            texture = resource
+            vOffset = if (isHovered(mouseX.toDouble(), mouseY.toDouble())) OPTION_HEIGHT else 0,
+            textureHeight = OPTION_HEIGHT * 2
         )
 
         val scale = 1F
         drawScaledText(
             matrixStack = matrices,
             text = text,
-            x = x + 24,
-            y = y + 7,
+            x = x + 6,
+            y = y + 8,
             opacity = opacity,
-            scale = scale
+            scale = scale,
+            shadow = true
         )
     }
 
@@ -61,6 +63,8 @@ class BattleOptionTile(
         onClick()
         return true
     }
+
+    fun isHovered(mouseX: Double, mouseY: Double) = mouseX > x && mouseY > y && mouseX < x + OPTION_WIDTH && mouseY < y + OPTION_HEIGHT
 
     override fun appendNarrations(builder: NarrationMessageBuilder) = builder.put(NarrationPart.TITLE, text)
     override fun getType() = HOVERED

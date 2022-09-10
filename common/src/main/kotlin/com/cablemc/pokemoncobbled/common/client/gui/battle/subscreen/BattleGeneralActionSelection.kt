@@ -35,7 +35,7 @@ class BattleGeneralActionSelection(
         }
 
         if (request.moveSet?.trapped != true) {
-            addOption(rank++, battleLang("ui.switch"), BattleGUI.runResource) {
+            addOption(rank++, battleLang("ui.switch"), BattleGUI.switchResource) {
                 battleGUI.changeActionSelection(BattleSwitchPokemonSelection(battleGUI, request))
                 playDownSound(MinecraftClient.getInstance().soundManager)
             }
@@ -43,9 +43,15 @@ class BattleGeneralActionSelection(
 
         PokemonCobbledClient.battle?.let { battle ->
             if (battle.battleFormat.battleType.pokemonPerSide == 1 && battle.side2.actors.first().type == ActorType.WILD) {
-                addOption(rank++, battleLang("ui.capture"), BattleGUI.fightResource) {
+                addOption(rank++, battleLang("ui.capture"), BattleGUI.bagResource) {
                     PokemonCobbledClient.battle?.minimised = true
                     MinecraftClient.getInstance().player?.sendMessage(battleLang("throw_pokeball_prompt"), false)
+                    playDownSound(MinecraftClient.getInstance().soundManager)
+                }
+
+                addOption(rank++, battleLang("ui.run"), BattleGUI.runResource) {
+                    PokemonCobbledClient.battle?.minimised = true
+                    MinecraftClient.getInstance().player?.sendMessage(battleLang("run_prompt"), false)
                     playDownSound(MinecraftClient.getInstance().soundManager)
                 }
             }
@@ -53,11 +59,14 @@ class BattleGeneralActionSelection(
     }
 
     private fun addOption(rank: Int, text: MutableText, texture: Identifier, onClick: () -> Unit) {
+        val startY = MinecraftClient.getInstance().window.scaledHeight - BattleGUI.OPTION_VERTICAL_OFFSET
+        val x = if (rank % 2 == 0) BattleGUI.OPTION_ROOT_X else BattleGUI.OPTION_ROOT_X + BattleGUI.OPTION_HORIZONTAL_SPACING + BattleOptionTile.OPTION_WIDTH
+        val y = if (rank > 1) startY + BattleOptionTile.OPTION_HEIGHT + BattleGUI.OPTION_HORIZONTAL_SPACING else startY
         tiles.add(
             BattleOptionTile(
                 battleGUI = battleGUI,
-                x = BattleGUI.OPTION_ROOT_X + rank * BattleGUI.OPTION_HORIZONTAL_SPACING,
-                y = MinecraftClient.getInstance().window.scaledHeight - BattleGUI.OPTION_VERTICAL_OFFSET + rank * BattleGUI.OPTION_VERTICAL_SPACING,
+                x = x,
+                y = y,
                 resource = texture,
                 text = text,
                 onClick = onClick

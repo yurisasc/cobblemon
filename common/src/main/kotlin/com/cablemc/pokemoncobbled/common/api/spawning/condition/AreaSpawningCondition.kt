@@ -30,7 +30,7 @@ abstract class AreaTypeSpawningCondition<T : AreaSpawningContext> : SpawningCond
             return false
         } else if (maxHeight != null && ctx.height > maxHeight!!) {
             return false
-        } else if (neededNearbyBlocks != null && neededNearbyBlocks!!.none { it.toString() !in ctx.nearbyBlockTypes }) {
+        } else if (neededNearbyBlocks != null && neededNearbyBlocks!!.none { it in ctx.nearbyBlockTypes }) {
             return false
         } else {
             return true

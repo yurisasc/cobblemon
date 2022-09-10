@@ -38,6 +38,15 @@
     "eggGroups": [
         "ground"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:leather",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:tackle",
         "1:growl",
