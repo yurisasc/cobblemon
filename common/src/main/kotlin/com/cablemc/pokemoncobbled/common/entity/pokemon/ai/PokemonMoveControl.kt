@@ -1,13 +1,20 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon.ai
 
 import com.cablemc.pokemoncobbled.common.entity.PoseType
+import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toDegrees
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
+import kotlin.math.abs
+import kotlin.math.min
+import kotlin.math.sign
+import net.minecraft.entity.ai.control.AquaticMoveControl
 import net.minecraft.entity.ai.control.MoveControl
+import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.tag.BlockTags
+import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 
@@ -22,9 +29,10 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             behaviour.moving.walk.walkSpeed
         }
 
+        val baseSpeed = entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED).toFloat()
+        val adjustedSpeed = baseSpeed * mediumSpeed
+
         if (state == State.STRAFE) {
-            val baseSpeed = entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED).toFloat()
-            val adjustedSpeed = speed.toFloat() * baseSpeed * mediumSpeed
             var movingDistanceTotal = MathHelper.sqrt(forwardMovement * forwardMovement + sidewaysMovement * sidewaysMovement)
             if (movingDistanceTotal < 1.0f) {
                 movingDistanceTotal = 1.0f
@@ -48,6 +56,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             entity.setSidewaysSpeed(sidewaysMovement)
             state = State.WAIT
         } else if (state == State.MOVE_TO) {
+            // TODO check for what type of node we are moving to
             state = State.WAIT
             val xDist = targetX - entity.x
             val zDist = targetZ - entity.z
@@ -57,28 +66,54 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
                 entity.setForwardSpeed(0.0f)
                 return
             }
+
             val movingAngle = MathHelper.atan2(zDist, xDist).toDegrees() - 90.0f
             entity.yaw = wrapDegrees(entity.yaw, movingAngle, 90.0f)
-            entity.movementSpeed = (speed * entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)).toFloat()
+            entity.movementSpeed = adjustedSpeed
+
+            var verticalHandled = false
+            if (entity.isTouchingWater || pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
+                entity.upwardSpeed = (min(abs(baseSpeed * behaviour.moving.fly.flySpeedVertical).toDouble(), abs(yDist / 20)) * sign(yDist)).toFloat()
+                verticalHandled = true
+            }
+
             val blockPos = entity.blockPos
             val blockState = entity.world.getBlockState(blockPos)
             val voxelShape = blockState.getCollisionShape(entity.world, blockPos)
-            if (yDist > entity.stepHeight.toDouble() &&
-                xDist * xDist + zDist * zDist < Math.max(1.0f, entity.width).toDouble() ||
-                !voxelShape.isEmpty && entity.y < voxelShape.getMax(Direction.Axis.Y) + blockPos.y.toDouble() &&
-                !blockState.isIn(BlockTags.DOORS) &&
-                !blockState.isIn(BlockTags.FENCES)
-            ) {
-                entity.jumpControl.setActive()
-                state = State.JUMPING
+
+            if (!verticalHandled) {
+                if (yDist > entity.stepHeight.toDouble() &&
+                    xDist * xDist + zDist * zDist < 1.0f.coerceAtLeast(entity.width).toDouble() ||
+                    !voxelShape.isEmpty && entity.y < voxelShape.getMax(Direction.Axis.Y) + blockPos.y.toDouble() &&
+                    !blockState.isIn(BlockTags.DOORS) &&
+                    !blockState.isIn(BlockTags.FENCES)
+                ) {
+                    entity.jumpControl.setActive()
+                    state = State.JUMPING
+                }
             }
         } else if (state == State.JUMPING) {
             entity.movementSpeed = (speed * entity.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED)).toFloat()
-            if (entity.isOnGround) {
+            entity.upwardSpeed = 0F
+            if (entity.isOnGround || pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
                 state = State.WAIT
             }
         } else {
-            entity.setForwardSpeed(0.0f)
+//            entity.setForwardSpeed(0.0f)
+//            entity.upwardSpeed = 0F
+        }
+
+        if (this.entity.navigation.isIdle) {
+            entity.upwardSpeed = 0F
+            entity.forwardSpeed = 0F
+        }
+
+        if (state == State.WAIT) {
+//            entity.upwardSpeed = 0F
+//            entity.forwardSpeed = 0F
+            if (entity.isOnGround && behaviour.moving.walk.canWalk && pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
+                pokemonEntity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, false)
+            }
         }
     }
 

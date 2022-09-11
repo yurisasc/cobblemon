@@ -1,8 +1,11 @@
 package com.cablemc.pokemoncobbled.common.pokemon.ai
 
 class SwimBehaviour {
-    val canSwim = true
+    val canSwimInWater = true
+    val canSwimInLava = true
     val swimSpeed = 0.35F
     val canBreatheUnderwater = false
-    val floatsOnWater = false
+    val canBreatheUnderlava = false
+    val canWalkOnWater = false
+    val canWalkOnLava = false
 }

@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals
 
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.entity.ai.goal.WanderAroundGoal
+import net.minecraft.util.math.Vec3d
 
 /**
  * An override of the [WanderAroundGoal] so that Pokémon behaviours can be implemented.
@@ -13,4 +14,8 @@ class PokemonWanderAroundGoal(entity: PokemonEntity, speed: Double) : WanderArou
     fun canMove() = (mob as PokemonEntity).behaviour.moving.walk.canWalk
     override fun canStart() = super.canStart() && canMove()
     override fun shouldContinue() = super.shouldContinue() && canMove()
+
+    override fun getWanderTarget(): Vec3d? {
+        return super.getWanderTarget()?.add(0.0, 0.0, 0.0)
+    }
 }

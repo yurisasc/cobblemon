@@ -59,11 +59,13 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.fluid.FluidState
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.tag.FluidTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -131,8 +133,8 @@ class PokemonEntity(
     }
 
     init {
-//        moveControl = PokemonMoveControl(this)
-//        navigation = PokemonNavigation(world, this)
+        moveControl = PokemonMoveControl(this)
+        navigation = PokemonNavigation(world, this)
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
@@ -146,6 +148,16 @@ class PokemonEntity(
                         busyLocks.remove(BATTLE_LOCK)
                     }
                 }
+        )
+
+        subscriptions.add(
+            poseType.subscribe {
+                if (it == PoseType.FLY || it == PoseType.HOVER) {
+                    setNoGravity(true)
+                } else {
+                    setNoGravity(false)
+                }
+            }
         )
     }
 
@@ -163,6 +175,15 @@ class PokemonEntity(
 
         const val BATTLE_LOCK = "battle"
     }
+
+    override fun canWalkOnFluid(state: FluidState) =
+        if (state.isIn(FluidTags.WATER)) {
+            behaviour.moving.swim.canWalkOnWater
+        } else if (state.isIn(FluidTags.LAVA)) {
+            behaviour.moving.swim.canWalkOnLava
+        } else {
+            super.canWalkOnFluid(state)
+        }
 
     override fun tick() {
         super.tick()
