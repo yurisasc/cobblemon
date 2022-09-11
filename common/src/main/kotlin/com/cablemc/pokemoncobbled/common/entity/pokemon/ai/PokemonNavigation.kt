@@ -69,25 +69,25 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
 
     override fun findPathTo(target: BlockPos, distance: Int): Path? {
         return this.findPathTo(ImmutableSet.of(target), 8, false, distance)?.also {
-            try {
-                var i = 0
-                while (true) {
-                    val node = it.getNode(i)
-                    entity.world.spawnEntity(
-                        ItemEntity(entity.world, node.blockPos.x.toDouble(), node.blockPos.y.toDouble(), node.blockPos.z.toDouble(), ItemStack(Items.PUFFERFISH))
-                            .also {
-                                it.setNoGravity(true)
-                                it.velocity = Vec3d.ZERO
-                                after(seconds = 5F, serverThread = true) {
-                                    it.discard()
-                                }
-                            }
-                    )
-//                    entity.world.setBlockState(node.blockPos, Blocks.GOLD_BLOCK.defaultState)
-                    i++
-                }
-            } catch(e: Exception) {
-            }
+//            try {
+//                var i = 0
+//                while (true) {
+//                    val node = it.getNode(i)
+//                    entity.world.spawnEntity(
+//                        ItemEntity(entity.world, node.blockPos.x.toDouble(), node.blockPos.y.toDouble(), node.blockPos.z.toDouble(), ItemStack(Items.PUFFERFISH))
+//                            .also {
+//                                it.setNoGravity(true)
+//                                it.velocity = Vec3d.ZERO
+//                                after(seconds = 5F, serverThread = true) {
+//                                    it.discard()
+//                                }
+//                            }
+//                    )
+////                    entity.world.setBlockState(node.blockPos, Blocks.GOLD_BLOCK.defaultState)
+//                    i++
+//                }
+//            } catch(e: Exception) {
+//            }
 //            entity.remove(Entity.RemovalReason.DISCARDED)
         }
     }
