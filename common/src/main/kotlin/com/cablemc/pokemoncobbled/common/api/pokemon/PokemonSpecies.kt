@@ -96,6 +96,8 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     private const val DUMMY_SPECIES_KEY = "${PokemonCobbled.MODID}dummy"
     private const val DUMMY_SPECIES_NAME = "${PokemonCobbled.MODID}:Dummy"
     private const val DUMMY_ABILITY_DATA = "abilities: { 0: \"No Ability\", 1: \"No Ability\", H: \"No Ability\", S: \"No Ability\" }"
+    private const val DUMMY_SINGLES_TIER = "AG"
+    private const val DUMMY_DOUBLES_TIER = "DUber"
 
     val species: Collection<Species>
         get() = this.speciesByIdentifier.values
@@ -188,46 +190,72 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
             species.initialize()
         }
-        val dataHolder = StringBuilder()
-        this.createDummySpecies(dataHolder)
+        PokemonCobbled.showdownThread.showdownStarted.thenAccept { this.createShowdownData() }
+        PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
+        this.observable.emit(this)
+    }
+
+    private fun createShowdownData() {
+        PokemonCobbled.LOGGER.info("Creating showdown data for species")
+        val pokedexDataHolder = StringBuilder()
+        val formatsDataHolder = StringBuilder()
+        this.createDummySpecies(pokedexDataHolder, formatsDataHolder)
         this.species.forEach { species ->
             try {
-                this.createShowdownRepresentation(dataHolder, species)
+                this.createShowdownRepresentation(pokedexDataHolder, species)
+                this.createTierRepresentation(formatsDataHolder, species)
             } catch (e: Exception) {
-                PokemonCobbled.LOGGER.error("Failed to create showdown representation for ${species.resourceIdentifier}, this Pokémon will not be loaded", e)
+                PokemonCobbled.LOGGER.error(
+                    "Failed to create showdown representation for ${species.resourceIdentifier}, this Pokémon will not be loaded",
+                    e
+                )
                 this.speciesByIdentifier.remove(species.resourceIdentifier)
                 this.speciesByDex.remove(species.resourceIdentifier.namespace, species.nationalPokedexNumber)
             }
         }
         V8Host.getNodeInstance().createV8Runtime<V8Runtime>().use { runtime ->
             // Showdown loads mods by reading existing files as such we cannot dynamically add to the Pokédex, instead, we will overwrite the existing file and force a mod reload.
-            val showdownFile = File("node_modules/pokemon-showdown/.data-dist/mods/cobbled/pokedex.js")
-            showdownFile.bufferedWriter().use { writer ->
-                writer.write("""
-                    "use strict";
-                    Object.defineProperty(exports, "__esModule", {value: true});
-                    const Pokedex = {
-                        $dataHolder
-                    };
-                    exports.Pokedex = Pokedex;
-                """.trimIndent())
+            val pokedexFile = File("node_modules/pokemon-showdown/.data-dist/mods/cobbled/pokedex.js")
+            pokedexFile.bufferedWriter().use { writer ->
+                writer.write(
+                    """
+                        "use strict";
+                        Object.defineProperty(exports, "__esModule", {value: true});
+                        const Pokedex = {
+                            $pokedexDataHolder
+                        };
+                        exports.Pokedex = Pokedex;
+                    """.trimIndent()
+                )
+            }
+            val formatsDataFile = File("node_modules/pokemon-showdown/.data-dist/mods/cobbled/formats-data.js")
+            formatsDataFile.bufferedWriter().use { writer ->
+                writer.write(
+                    """
+                        "use strict";
+                        Object.defineProperty(exports, "__esModule", {value: true});
+                        const FormatsData = {
+                            $formatsDataHolder
+                        };
+                        exports.FormatsData = FormatsData;
+                    """.trimIndent()
+                )
             }
             val executor = runtime.getExecutor(
                 """
-                    const PokemonShowdown = require('pokemon-showdown');
-                    PokemonShowdown.Dex.modsLoaded = false;
-                    PokemonShowdown.Dex.includeMods();
-                """.trimIndent()
+                        const PokemonShowdown = require('pokemon-showdown');
+                        PokemonShowdown.Dex.modsLoaded = false;
+                        PokemonShowdown.Dex.includeMods();
+                    """.trimIndent()
             )
             executor.resourceName = "./node_modules"
             executor.executeVoid()
         }
-        PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
-        this.observable.emit(this)
+        PokemonCobbled.LOGGER.info("Finished creating showdown data for species")
     }
 
-    private fun createDummySpecies(dataHolder: StringBuilder) {
-        dataHolder.append("""
+    private fun createDummySpecies(pokedexDataHolder: StringBuilder, formatsDataHolder: StringBuilder) {
+        pokedexDataHolder.append("""
             $DUMMY_SPECIES_KEY: {
                 num: -1,
                 name: "$DUMMY_SPECIES_NAME",
@@ -239,6 +267,12 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 weightkg: 1,
                 color: "White",
                 eggGroups: ["${EggGroup.UNDISCOVERED.showdownID}"],
+            },
+        """.trimIndent())
+        formatsDataHolder.append("""
+            $DUMMY_SPECIES_KEY: {
+		        tier: "$DUMMY_SINGLES_TIER",
+                doublesTier: "$DUMMY_DOUBLES_TIER",
             },
         """.trimIndent())
     }
@@ -283,6 +317,26 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         dataHolder.append("},")
         species.forms.forEach { form ->
             this.createFormShowdownRepresentation(dataHolder, species, form)
+        }
+    }
+
+    private fun createTierRepresentation(dataHolder: StringBuilder, species: Species) {
+        dataHolder.append("""
+            ${this.createShowdownKey(species)}: {
+		        tier: "$DUMMY_SINGLES_TIER",
+                doublesTier: "$DUMMY_DOUBLES_TIER",
+            },
+        """.trimIndent())
+        species.forms.forEach { form ->
+            dataHolder.append("""
+                ${this.createShowdownKey(species, form)}: {
+                    tier: "$DUMMY_SINGLES_TIER",
+                    doublesTier: "$DUMMY_DOUBLES_TIER",
+            """.trimIndent())
+            if (form.gigantamaxMove != null) {
+                dataHolder.append("isNonstandard: \"Gigantamax\",")
+            }
+            dataHolder.append("},")
         }
     }
 
