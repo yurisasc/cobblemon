@@ -312,12 +312,13 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         if (form.gigantamaxMove != null) {
             dataHolder.append("canGigantamax: \"${form.gigantamaxMove.name.replace("_", " ")}\",")
         }
+        dataHolder.append("},")
     }
 
     // Converts a species into a showdown key resulting in '<namespace><path><form-name(if not base)>'
     private fun createShowdownKey(species: Species, form: FormData? = null): String {
         val baseSpeciesKey = species.resourceIdentifier.toString().lowercase().replaceFirst(":", "")
-        return "$baseSpeciesKey${if (form == null || form.name.equals(species.standardForm.name, true)) "" else form.name.lowercase()}"
+        return "$baseSpeciesKey${if (form == null || form.name.equals(species.standardForm.name, true)) "" else form.name.replace("-", "").lowercase()}"
     }
 
     // Converts a species into a showdown name resulting in '<namespace>:<species_name>-<form-name(if not base)>'
