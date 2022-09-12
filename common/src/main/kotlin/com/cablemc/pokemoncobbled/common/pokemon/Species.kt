@@ -49,6 +49,7 @@ class Species {
     val drops = DropTable()
     val eggCycles = 120
     val eggGroups = setOf<EggGroup>()
+    val dynamaxBlocked = false
 
     var forms = mutableListOf<FormData>()
 
