@@ -41,6 +41,15 @@
     "eggGroups": [
         "ground"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:bone",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:leer",
         "1:ember",

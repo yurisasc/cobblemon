@@ -1,5 +1,6 @@
 package com.cablemc.pokemoncobbled.common.api.conditional
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.google.gson.JsonElement
 import net.minecraft.tag.TagKey
 import net.minecraft.util.Identifier
@@ -34,6 +35,7 @@ open class RegistryLikeTagCondition<T>(val tag: TagKey<T>) : RegistryLikeConditi
     override fun fits(t: T, registry: Registry<T>): Boolean {
         val registryHasTag = registry.containsTag(tag)
         if (!registryHasTag) {
+            LOGGER.warn("No tag in registry: ${tag.id}")
             return false
         }
 

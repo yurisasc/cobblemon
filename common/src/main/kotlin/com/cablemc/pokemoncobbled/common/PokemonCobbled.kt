@@ -44,9 +44,6 @@ import com.cablemc.pokemoncobbled.common.battles.ShowdownThread
 import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
-import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
-import com.cablemc.pokemoncobbled.common.command.argument.SpawnBucketArgumentType
 import com.cablemc.pokemoncobbled.common.config.CobbledConfig
 import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.config.starter.StarterConfig
@@ -74,8 +71,6 @@ import java.util.UUID
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.memberProperties
 import net.minecraft.client.MinecraftClient
-import net.minecraft.command.argument.ArgumentTypes
-import net.minecraft.command.argument.serialize.ConstantArgumentSerializer
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
@@ -152,7 +147,6 @@ object PokemonCobbled {
 
         config.flagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
         config.globalFlagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
-
 
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)

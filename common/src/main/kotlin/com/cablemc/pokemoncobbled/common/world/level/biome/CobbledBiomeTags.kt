@@ -43,5 +43,4 @@ object CobbledBiomeTags {
     val IS_VOID = create("is_void")
 
     private fun create(path: String) = TagKey.of(Registry.BIOME_KEY, cobbledResource(path))
-
 }

@@ -25,6 +25,15 @@
     "eggGroups": [
         "humanshape"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "pokemoncobbled:link_cable",
+                "percentage": 5
+            }
+        ]
+    },
     "moves": [
         "1:leer",
         "1:lowkick",

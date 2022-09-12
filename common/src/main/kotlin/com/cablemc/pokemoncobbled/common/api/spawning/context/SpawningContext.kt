@@ -5,6 +5,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.condition.BasicSpawningCon
 import com.cablemc.pokemoncobbled.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemoncobbled.common.api.spawning.influence.SpawningInfluence
 import com.cablemc.pokemoncobbled.common.api.spawning.spawner.Spawner
+import net.minecraft.block.Block
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -55,6 +56,7 @@ abstract class SpawningContext {
     val biome: Biome by lazy { world.getBiome(position).value() }
 
     val biomeRegistry: Registry<Biome> by lazy { world.registryManager.get(Registry.BIOME_KEY) }
+    val blockRegistry: Registry<Block> by lazy { world.registryManager.get(Registry.BLOCK_KEY) }
 
     val biomeName: Identifier
         get() = this.biomeRegistry.getId(biome)!!

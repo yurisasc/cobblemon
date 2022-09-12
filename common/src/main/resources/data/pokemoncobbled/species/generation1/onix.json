@@ -26,6 +26,21 @@
     "eggGroups": [
         "mineral"
     ],
+    "drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:flint",
+                "quantityRange": "1-3",
+                "percentage": 75
+            },
+            {
+                "item": "pokemoncobbled:metal_coat",
+                "percentage": 5
+            }
+        ]
+    },
+
     "moves": [
         "1:bind",
         "1:tackle",

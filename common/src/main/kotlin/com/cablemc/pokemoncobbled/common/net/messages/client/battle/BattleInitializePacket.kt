@@ -136,6 +136,7 @@ class BattleInitializePacket() : NetworkPacket {
                     properties = createPokemonProperties(
                         PokemonPropertyExtractor.SPECIES,
                         PokemonPropertyExtractor.LEVEL,
+                        PokemonPropertyExtractor.GENDER,
                         PokemonPropertyExtractor.ASPECTS
                     ),
                     status = status?.status,

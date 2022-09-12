@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:roofed",
+    "minecraft:dark_forest",
     {
       "id": "#byg:is_spooky",
       "required": false
