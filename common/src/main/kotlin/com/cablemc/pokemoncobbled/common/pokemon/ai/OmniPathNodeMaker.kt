@@ -173,16 +173,12 @@ class OmniPathNodeMaker : PathNodeMaker() {
     }
 
     fun isValidPathNodeType(pathNodeType: PathNodeType): Boolean {
-        if (pathNodeType == PathNodeType.BREACH && canWalk()) {
-            return true
-        } else if (pathNodeType in arrayOf(PathNodeType.WATER, PathNodeType.WATER_BORDER) && canSwimUnderwater()) {
-            return true
-        } else if (pathNodeType == PathNodeType.OPEN && canFly()) {
-            return true
-        } else if (pathNodeType == PathNodeType.WALKABLE && canWalk()){
-            return true
-        } else {
-            return false
+        return when {
+            pathNodeType == PathNodeType.BREACH && canWalk() -> true
+            (pathNodeType == PathNodeType.WATER || pathNodeType == PathNodeType.WATER_BORDER) && canSwimUnderwater() -> true
+            pathNodeType == PathNodeType.OPEN && canFly() -> true
+            pathNodeType == PathNodeType.WALKABLE && canWalk() -> true
+            else -> false
         }
     }
 
@@ -203,7 +199,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
         return pathNode
     }
 
-    protected fun addPathNodePos(x: Int, y: Int, z: Int): PathNodeType {
+    fun addPathNodePos(x: Int, y: Int, z: Int): PathNodeType {
         return nodePosToType.computeIfAbsent(BlockPos.asLong(x, y, z), Long2ObjectFunction { getDefaultNodeType(cachedWorld, x, y, z) })
     }
 
@@ -242,10 +238,10 @@ class OmniPathNodeMaker : PathNodeMaker() {
                     }
                     if (fluidState.isIn(FluidTags.WATER)) {
                         continue
-                    } else if ((canWalk() || canFly()) && blockState.canPathfindThrough(world, mutable.down() as BlockPos, NavigationType.LAND)) {
+                    } else if (blockState.canPathfindThrough(world, mutable.down() as BlockPos, NavigationType.LAND)) {
                         continue
                     } else if (canSwimUnderlava() && fluidState.isIn(FluidTags.LAVA)) {
-                        return PathNodeType.WATER
+                        continue
                     }
                     return PathNodeType.BLOCKED
                 }
@@ -257,11 +253,11 @@ class OmniPathNodeMaker : PathNodeMaker() {
         val blockStateBelow = world.getBlockState(below)
         val isWater = blockState2.fluidState.isIn(FluidTags.WATER)
         val isLava = blockState2.fluidState.isIn(FluidTags.LAVA) // NavigationType.WATER is an explicit water check, lava needs more work
-        return if (isWater && blockState2.canPathfindThrough(world, mutable, NavigationType.WATER)) {
+        return if ((isWater && canSwimUnderwater()) || (isLava && canSwimUnderlava()) && blockState2.canPathfindThrough(world, mutable, NavigationType.WATER)) {
             PathNodeType.WATER
         } else if (canFly() && blockState2.canPathfindThrough(world, mutable, NavigationType.AIR) && blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
             PathNodeType.OPEN
-        } else if (canWalk() && blockState2.canPathfindThrough(world, mutable, NavigationType.LAND)) {
+        } else if (canWalk() && blockState2.canPathfindThrough(world, mutable, NavigationType.LAND) && !blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
             PathNodeType.WALKABLE
         } else PathNodeType.BLOCKED
     }

@@ -1,22 +1,17 @@
 package com.cablemc.pokemoncobbled.common.entity.pokemon.ai
 
-import com.cablemc.pokemoncobbled.common.api.scheduling.after
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonBehaviourFlag
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.ai.OmniPathNodeMaker
+import com.cablemc.pokemoncobbled.common.util.toVec3d
 import com.google.common.collect.ImmutableSet
-import java.lang.Exception
-import net.minecraft.block.Blocks
 import net.minecraft.entity.Entity
-import net.minecraft.entity.EntityType
-import net.minecraft.entity.ItemEntity
 import net.minecraft.entity.ai.pathing.MobNavigation
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.ai.pathing.Path
+import net.minecraft.entity.ai.pathing.PathNode
 import net.minecraft.entity.ai.pathing.PathNodeNavigator
 import net.minecraft.entity.ai.pathing.PathNodeType
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
@@ -53,7 +48,6 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
         val isFlying = pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
         val canWalk = pokemonEntity.behaviour.moving.walk.canWalk
         if (node != null) {
-//            println(node.type.toString() + " - " + node.blockPos.toString())
             if (node.type == PathNodeType.OPEN) {
                 val canFly = moving.fly.canFly
                 if (canFly && !pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
@@ -83,7 +77,7 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
 //                                }
 //                            }
 //                    )
-////                    entity.world.setBlockState(node.blockPos, Blocks.GOLD_BLOCK.defaultState)
+//                    entity.world.setBlockState(node.blockPos, Blocks.GOLD_BLOCK.defaultState)
 //                    i++
 //                }
 //            } catch(e: Exception) {
@@ -98,6 +92,42 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
 
     override fun adjustPath() {
         super.adjustPath()
+        val path = getCurrentPath() ?: return
+        var i = 2
+        while (i < path.length) {
+            val firstNode = path.getNode(i - 2)
+            val middleNode = path.getNode(i - 1)
+            val nextNode = path.getNode(i)
+
+            val directionToMiddle = middleNode.blockPos.subtract(firstNode.blockPos).toVec3d().normalize()
+            val nodeType = firstNode.type
+            if (nodeType != middleNode.type || nodeType != nextNode.type) {
+                i++
+                continue
+            }
+
+            val directionToEnd = nextNode.blockPos.subtract(middleNode.blockPos).toVec3d().normalize()
+            if (directionToEnd != directionToMiddle) {
+                i++
+                continue
+            }
+
+            // 3 of the same node in a row in the same direction - the second node is unnecessary
+            val remainingNodes = mutableListOf<PathNode>()
+            var j = i
+            while (true) {
+                try {
+                    remainingNodes.add(path.getNode(j))
+                    j++
+                } catch(e: Exception) { break }
+            }
+
+            path.length = i + remainingNodes.size - 1
+            for (k in remainingNodes.indices) {
+                path.setNode(i - 1 + k, remainingNodes[k])
+            }
+        }
+
         // Could check for direct sunlight or rain or something
 //        if (avoidSunlight) {
 //            if (this.world.isSkyVisible(BlockPos(entity.x, entity.y + 0.5, entity.z))) {

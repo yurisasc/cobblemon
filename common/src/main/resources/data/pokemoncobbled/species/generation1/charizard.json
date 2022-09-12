@@ -19,7 +19,7 @@
         "moving": {
             "fly": {
                 "canFly": true,
-                "flySpeedHorizontal": 2.0
+                "flySpeedHorizontal": 0.6
             }
         }
     },

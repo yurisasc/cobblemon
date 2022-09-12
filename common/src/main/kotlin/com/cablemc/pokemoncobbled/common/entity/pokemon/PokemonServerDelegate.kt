@@ -61,7 +61,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.aspects.set(entity.pokemon.aspects)
         }
 
-        val isMoving = entity.forwardSpeed > 0F
+        val isMoving = !entity.navigation.isIdle
 //        val isMoving = entity.velocity.length() > 0.1
         if (isMoving && !entity.isMoving.get()) {
             entity.isMoving.set(true)

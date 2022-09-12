@@ -205,7 +205,7 @@ class PokemonEntity(
      * Prevents water type Pokémon from taking drowning damage.
      */
     override fun canBreatheInWater(): Boolean {
-        return ElementalTypes.WATER in pokemon.types
+        return behaviour.moving.swim.canBreatheUnderwater
     }
 
     /**
@@ -367,10 +367,11 @@ class PokemonEntity(
 
     override fun getEyeHeight(pose: EntityPose): Float = this.pokemon.form.eyeHeight(this)
 
-    @Suppress("SAFE_CALL_WILL_CHANGE_NULLABILITY", "USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
     override fun getActiveEyeHeight(pose: EntityPose?, dimensions: EntityDimensions?): Float {
-        // This property will be null during Entity#<init>
-        return this.pokemon?.form?.eyeHeight(this) ?: super.getActiveEyeHeight(pose, dimensions)
+        if (this.pokemon == null) {
+            return super.getActiveEyeHeight(pose, dimensions)
+        }
+        return this.pokemon.form.eyeHeight(this)
     }
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
@@ -481,6 +482,6 @@ class PokemonEntity(
         (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
     }
 
-    fun getIsSubmerged() = submergedInWater
+    fun getIsSubmerged() = isInLava || isSubmergedInWater
     override fun getPoseType(): PoseType = this.poseType.get()
 }
