@@ -280,7 +280,6 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     private fun createShowdownRepresentation(dataHolder: StringBuilder, species: Species) {
         val showdownName = this.createShowdownName(species)
         // ToDo types will need a refresh when we introduce custom typing support
-        // ToDo weight and height on our end as it is necessary for battle mechanics
         /**
          * THINGS TO NOTE:
          *
@@ -296,8 +295,8 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 ${this.generateGenderDetails(species)},
                 ${this.generateBaseStatsDetails(species)},
                 $DUMMY_ABILITY_DATA,
-                heightm: 1,
-                weightkg: 1,
+                heightm: ${species.height},
+                weightkg: ${species.weight},
                 ${this.generateEggGroupDetails(species)},
         """.trimIndent())
         species.preEvolution?.let { dataHolder.append("prevo: \"${createShowdownName(it.species, it.form)}\",") }
@@ -352,8 +351,8 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 ${this.generateGenderDetails(species, form)},
                 ${this.generateBaseStatsDetails(species, form)},
                 $DUMMY_ABILITY_DATA,
-                heightm: 1,
-                weightkg: 1,
+                heightm: ${form.height},
+                weightkg: ${form.weight},
                 ${this.generateEggGroupDetails(species, form)},
         """.trimIndent())
         form.preEvolution?.let { dataHolder.append("prevo: \"${createShowdownName(it.species, it.form)}\",") }

@@ -62,6 +62,10 @@ class FormData(
     private val _dynamaxBlocked: Boolean? = null,
     @SerializedName("eggGroups")
     private val _eggGroups: Set<EggGroup>? = null,
+    @SerializedName("weight")
+    private val _height: Float? = null,
+    @SerializedName("weight")
+    private val _weight: Float? = null,
     /**
      * The [MoveTemplate] of the signature attack of the G-Max form.
      * This is always null on any form aside G-Max.
@@ -121,6 +125,14 @@ class FormData(
 
     val eggGroups: Set<EggGroup>
         get() = _eggGroups ?: species.eggGroups
+
+    // In metric
+    val height: Float
+        get() = _height ?: species.height
+
+    // In metric
+    val weight: Float
+        get() = _weight ?: species.weight
 
     internal val labels: Set<String>
         get() = _labels ?: species.labels

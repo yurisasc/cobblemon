@@ -14,6 +14,7 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.ai.PokemonBehaviour
 import com.cablemc.pokemoncobbled.common.util.lang
+import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
@@ -50,6 +51,10 @@ class Species {
     val eggCycles = 120
     val eggGroups = setOf<EggGroup>()
     val dynamaxBlocked = false
+    // In metric
+    val height = 1F
+    // In metric
+    val weight = 1F
 
     var forms = mutableListOf<FormData>()
 
