@@ -4,6 +4,7 @@ import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
 import com.cablemc.pokemoncobbled.common.api.drop.DropTable
 import com.cablemc.pokemoncobbled.common.api.pokemon.Learnset
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.egg.EggGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
@@ -13,6 +14,7 @@ import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.ai.PokemonBehaviour
 import com.cablemc.pokemoncobbled.common.util.lang
+import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
@@ -46,6 +48,13 @@ class Species {
     val behaviour = PokemonBehaviour()
     val pokedex = mutableListOf<String>()
     val drops = DropTable()
+    val eggCycles = 120
+    val eggGroups = setOf<EggGroup>()
+    val dynamaxBlocked = false
+    // In metric
+    val height = 1F
+    // In metric
+    val weight = 1F
 
     var forms = mutableListOf<FormData>()
 
