@@ -136,6 +136,10 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     val CLEFFA by SpeciesByNameDelegate
     val CLEFABLE by SpeciesByNameDelegate
     val CLEFAIRY by SpeciesByNameDelegate
+    val MACHOP by SpeciesByNameDelegate
+    val MACHOKE by SpeciesByNameDelegate
+    val MACHAMP by SpeciesByNameDelegate
+
 
     /**
      * Finds a species by the pathname of their [Identifier].
