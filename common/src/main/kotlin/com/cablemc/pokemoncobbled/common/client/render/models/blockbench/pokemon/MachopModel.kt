@@ -1,13 +1,16 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class MachopModel(root: ModelPart) : PokemonPoseableModel() {
+class MachopModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("machop")
+    override val head = registerRelevantPart("head", rootPart.getChildOf("body","torso","head"))
 
     override val portraitScale = 1.6F
     override val portraitTranslation = Vec3d(0.1, 0.4, 0.0)
@@ -24,6 +27,7 @@ class MachopModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 bedrock("machop", "ground_idle")
             )
         )
@@ -33,7 +37,7 @@ class MachopModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("machop", "ground_idle"),
+                singleBoneLook(),
                 bedrock("machop", "ground_walk")
             )
         )
