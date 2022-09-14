@@ -5,18 +5,21 @@ import com.cablemc.pokemoncobbled.common.util.randomNoCopy
 import com.google.common.collect.Lists
 import com.mojang.serialization.Codec
 import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.LeavesBlock
 import net.minecraft.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Direction.*
+import net.minecraft.util.math.random.Random
 import net.minecraft.world.StructureWorldAccess
+import net.minecraft.world.TestableWorld
 import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig
 import net.minecraft.world.gen.feature.TreeFeature
 import net.minecraft.world.gen.feature.util.FeatureContext
-import java.util.*
+import kotlin.random.Random.Default.nextInt
 
 class ApricornTreeFeature(
     codec: Codec<SingleStateFeatureConfig>
@@ -91,7 +94,7 @@ class ApricornTreeFeature(
 
             for (direction in listOf(NORTH, EAST, SOUTH, WEST)) {
                 val apricornPos = leafPos.offset(direction)
-                if (TreeFeature.isAir(worldGenLevel, apricornPos)) {
+                if (isAir(worldGenLevel, apricornPos)) {
                     apricornSpots.add(direction.opposite to apricornPos)
                 }
             }
@@ -101,7 +104,7 @@ class ApricornTreeFeature(
 
             for (direction in listOf(NORTH, EAST, SOUTH, WEST)) {
                 val apricornPos = leafPos.offset(direction)
-                if (TreeFeature.isAir(worldGenLevel, apricornPos)) {
+                if (isAir(worldGenLevel, apricornPos)) {
                     apricornSpots.add(direction.opposite to apricornPos)
                 }
             }
@@ -159,7 +162,7 @@ class ApricornTreeFeature(
         val variationList = mutableListOf<List<BlockPos>>()
         val usedDirections = mutableListOf<Direction>()
 
-        for (i in 1..random.nextInt(2,4)) {
+        for (i in 1..nextInt(2,4)) {
             var direction: Direction? = null
 
             while(direction == null || usedDirections.contains(direction)) {
@@ -181,6 +184,16 @@ class ApricornTreeFeature(
             }
         }
         return variationList
+    }
+
+    private fun isAir(testableWorld: TestableWorld, blockPos: BlockPos?): Boolean {
+        return testableWorld.testBlockState(
+            blockPos
+        ) { blockState: BlockState ->
+            blockState.isOf(
+                Blocks.AIR
+            )
+        }
     }
 
 }

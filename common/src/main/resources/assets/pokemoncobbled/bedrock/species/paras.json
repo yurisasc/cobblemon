@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:paras",
+  "model": "pokemoncobbled:bedrock/models/paras.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/paras.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/paras_shiny.png"
+    }
+  ]
+}

@@ -17,11 +17,6 @@
             "weight": 4.2,
             "condition": {
                 "canSeeSky": true
-            },
-            "anticondition": {
-                "biomes": [
-                    "#pokemoncobbled:is_snowy"
-                ]
             }
         }
     ]

@@ -12,6 +12,6 @@ interface EntityBackedBattleActor<T : LivingEntity> {
     /**
      * The [LivingEntity] attached to the [BattleActor].
      */
-    val entity: T
+    val entity: T?
 
 }

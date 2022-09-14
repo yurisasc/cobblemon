@@ -27,6 +27,16 @@
         "bug",
         "plant"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:red_mushroom",
+                "quantityRange": "1-2",
+                "percentage": 66
+            }
+        ]
+    },
     "moves": [
         "1:scratch",
         "6:poisonpowder",
@@ -100,6 +110,7 @@
     ],
     "evolutions": [
         {
+            "id": "paras_parasect",
             "variant": "level_up",
             "result": "parasect",
             "consumeHeldItem": false,
@@ -107,12 +118,12 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 24
+                    "minLevel": 24
                 }
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.7,
     "hitbox": {
         "width": 1.0,
         "height": 1.0,

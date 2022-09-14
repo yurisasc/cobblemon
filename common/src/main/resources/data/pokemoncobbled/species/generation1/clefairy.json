@@ -123,12 +123,12 @@
     "preEvolution": "cleffa",
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "clefable",
             "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "moon-stone"
+            "requiredContext": "pokemoncobbled:moon_stone"
         }
     ],
     "baseScale": 1.0,

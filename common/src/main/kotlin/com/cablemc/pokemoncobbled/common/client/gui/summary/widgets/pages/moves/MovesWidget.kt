@@ -10,13 +10,13 @@ import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPack
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 
 class MovesWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     val summary: Summary
-): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("MovesWidget")) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("MovesWidget")) {
     companion object {
         private const val MOVE_WIDTH = 120
         private const val MOVE_HEIGHT = 30

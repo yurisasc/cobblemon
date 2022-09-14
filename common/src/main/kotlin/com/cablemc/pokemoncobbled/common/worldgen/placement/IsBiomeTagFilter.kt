@@ -4,12 +4,12 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.tag.TagKey
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.feature.FeaturePlacementContext
 import net.minecraft.world.gen.placementmodifier.AbstractConditionalPlacementModifier
 import net.minecraft.world.gen.placementmodifier.PlacementModifierType
-import java.util.Random
 
 /**
  * A world generation placement filter which makes placing conditional on
@@ -29,7 +29,7 @@ class IsBiomeTagFilter(private val tag: TagKey<Biome>) : AbstractConditionalPlac
         val CODEC: Codec<IsBiomeTagFilter> = RecordCodecBuilder.create { builder ->
             builder
                 .group(
-                    TagKey.stringCodec(Registry.BIOME_KEY)
+                    TagKey.codec(Registry.BIOME_KEY)
                         .fieldOf("valid_biome")
                         .forGetter { it.tag }
                 )

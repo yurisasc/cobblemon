@@ -8,19 +8,21 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 
 class InfoWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     private val pokemon: Pokemon
-): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("InfoWidget")) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("InfoWidget")) {
 
     private val evolutionListWidget = EvolutionListScrollPane(this.pokemon).also { widget -> this.addWidget(widget) }
 
     private val evolutionListButton = SummaryButton(
-        x + 10F, y + 30F,
-        SummaryButton.BUTTON_WIDTH, SummaryButton.BUTTON_HEIGHT,
+        buttonX = x + 10F,
+        buttonY = y + 30F,
+        buttonWidth = SummaryButton.BUTTON_WIDTH,
+        buttonHeight = SummaryButton.BUTTON_HEIGHT,
         clickAction = { this.evolutionListWidget.render = true },
         text = lang("ui.evolve"),
         renderRequirement = { this.pokemon.evolutionProxy.client().isNotEmpty() },

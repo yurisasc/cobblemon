@@ -41,6 +41,15 @@
     "eggGroups": [
         "ground"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:bone",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:leer",
         "1:ember",
@@ -99,7 +108,7 @@
     ],
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "arcanine",
             "consumeHeldItem": false,
             "learnableMoves": [],

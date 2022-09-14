@@ -1,0 +1,68 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.voltorb",
+				"texture_width": 32,
+				"texture_height": 32,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "voltorb",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "body",
+					"parent": "voltorb",
+					"pivot": [0, 4, 0],
+					"cubes": [
+						{"origin": [-4, 0, -4], "size": [8, 8, 8], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "eyes",
+					"parent": "body",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "eye_right",
+					"parent": "eyes",
+					"pivot": [-2, 5.25, -4.01],
+					"rotation": [0, 0, 37.5],
+					"cubes": [
+						{"origin": [-3.5, 4.25, -4.01], "size": [3, 2, 0], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "eyelid_right",
+					"parent": "eye_right",
+					"pivot": [-2, 5.25, -3.41],
+					"cubes": [
+						{"origin": [-3.5, 4.25, -3.91], "size": [3, 2, 1], "inflate": 0.01, "uv": [0, 2]}
+					]
+				},
+				{
+					"name": "eye_left",
+					"parent": "eyes",
+					"pivot": [2, 5.25, -4.01],
+					"rotation": [0, 0, -37.5],
+					"cubes": [
+						{"origin": [0.5, 4.25, -4.01], "size": [3, 2, 0], "uv": [0, 0], "mirror": true}
+					]
+				},
+				{
+					"name": "eyelid_left",
+					"parent": "eye_left",
+					"pivot": [2, 5.25, -3.41],
+					"cubes": [
+						{"origin": [0.5, 4.25, -3.91], "size": [3, 2, 1], "inflate": 0.01, "uv": [0, 2], "mirror": true}
+					]
+				}
+			]
+		}
+	]
+}

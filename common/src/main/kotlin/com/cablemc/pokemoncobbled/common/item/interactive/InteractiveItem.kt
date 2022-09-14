@@ -21,7 +21,8 @@ abstract class InteractiveItem<T : Entity>(properties: Settings) : CobbledItem(p
      * @param player The [ServerPlayerEntity] interacting with the [entity].
      * @param entity The [Entity] of type [T] being interacted.
      * @param stack The [ItemStack] used in this interaction. [ItemStack.getItem] will always be of the same type as this [InteractiveItem].
+     * @return true if the interaction was successful and no further interactions should be processed
      */
-    abstract fun onInteraction(player: ServerPlayerEntity, entity: T, stack: ItemStack)
+    abstract fun onInteraction(player: ServerPlayerEntity, entity: T, stack: ItemStack): Boolean
 
 }

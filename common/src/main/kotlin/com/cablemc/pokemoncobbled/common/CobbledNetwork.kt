@@ -139,6 +139,7 @@ object CobbledNetwork {
         buildClientMessage<BattleCaptureShakePacket>()
         buildClientMessage<BattleApplyCaptureResponsePacket>()
         buildClientMessage<ChallengeNotificationPacket>()
+        buildClientMessage<BattleUpdateTeamPokemonPacket>()
         /**
          * Server Packets
          */

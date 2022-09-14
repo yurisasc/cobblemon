@@ -172,20 +172,14 @@ open class Pokemon {
         }
     var gender = Gender.GENDERLESS
         set(value) {
-            if (!isClient) {
-                if (species.maleRatio == null && value != Gender.GENDERLESS) {
-                    return
-                } else if (species.maleRatio != null && value == Gender.GENDERLESS) {
-                    return
-                } else if (species.maleRatio == 0F && value == Gender.MALE) {
-                    return
-                } else if (species.maleRatio == 1F && value == Gender.FEMALE) {
-                    return
-                }
-            }
             field = value
-            updateAspects()
-            _gender.emit(value)
+            if (!isClient) {
+                checkGender()
+            }
+            if (field == value) {
+                updateAspects()
+                _gender.emit(value)
+            }
         }
     var status: PersistentStatusContainer? = null
         set(value) {
@@ -691,14 +685,8 @@ open class Pokemon {
     // TODO a check function for gender to make sure a changed species hasn't broken the gender of the pokemon, and fix
 
     fun initialize(): Pokemon {
-        // TODO some other initializations to do with form n shit
-        gender = if (species.maleRatio == null || species.maleRatio!! !in 0F..1F) {
-            Gender.GENDERLESS
-        } else if (species.maleRatio!! == 1F || Random.nextFloat() <= species.maleRatio!!) {
-            Gender.MALE
-        } else {
-            Gender.FEMALE
-        }
+        // TODO some other initializations to do with form n shit\
+        checkGender()
         // shiny = randomize, probably
         initializeMoveset()
 
@@ -706,10 +694,27 @@ open class Pokemon {
         return this
     }
 
-    fun initializeSpeciesFeatures() {
-        features.clear()
-        features.addAll(species.features.mapNotNull { SpeciesFeature.get(it)?.invoke() })
-        features.addAll(PokemonCobbled.config.globalFlagSpeciesFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
+    fun checkGender() {
+        var reassess = false
+        if (form.maleRatio !in 0F..1F && gender != Gender.GENDERLESS) {
+            reassess = true
+        } else if (form.maleRatio == 0F && gender != Gender.FEMALE) {
+            reassess = true
+        } else if (form.maleRatio == 1F && gender != Gender.MALE) {
+            reassess = true
+        } else if (form.maleRatio in 0F..1F && gender == Gender.GENDERLESS) {
+            reassess = true
+        }
+
+        if (reassess) {
+            gender = if (form.maleRatio !in 0F..1F) {
+                Gender.GENDERLESS
+            } else if (form.maleRatio == 1F || Random.nextFloat() <= form.maleRatio) {
+                Gender.MALE
+            } else {
+                Gender.FEMALE
+            }
+        }
     }
 
     fun initializeMoveset(preferLatest: Boolean = true) {
@@ -743,13 +748,7 @@ open class Pokemon {
     }
 
     fun getExperienceToNextLevel() = getExperienceToLevel(level + 1)
-    fun getExperienceToLevel(level: Int): Int {
-        return if (level <= this.level) {
-            0
-        } else {
-            experienceGroup.getExperience(level) - experience
-        }
-    }
+    fun getExperienceToLevel(level: Int) = if (level <= this.level) 0 else experienceGroup.getExperience(level) - experience
 
     fun setExperienceAndUpdateLevel(xp: Int) {
         experience = xp
@@ -760,17 +759,17 @@ open class Pokemon {
     }
 
     fun addExperienceWithPlayer(player: ServerPlayerEntity, source: ExperienceSource, xp: Int) {
-        player.sendServerMessage(lang("experience.gained", species.translatedName, xp))
+        player.sendMessage(lang("experience.gained", species.translatedName, xp))
         val result = addExperience(source, xp)
         if (result.oldLevel != result.newLevel) {
-            player.sendServerMessage(lang("experience.level_up", species.translatedName, result.newLevel))
-            when(getFriendshipSpan()){
+            player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
+            when (getFriendshipSpan()) {
                 1 -> incrementFriendship(5)
                 2 -> incrementFriendship(4)
                 3 -> incrementFriendship(3)
             }
             result.newMoves.forEach {
-                player.sendServerMessage(lang("experience.learned_move", species.translatedName, it.displayName))
+                player.sendMessage(lang("experience.learned_move", species.translatedName, it.displayName))
             }
         }
     }

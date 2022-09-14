@@ -14,7 +14,6 @@ import com.cablemc.pokemoncobbled.common.api.text.underline
 import com.cablemc.pokemoncobbled.common.api.text.yellow
 import com.cablemc.pokemoncobbled.common.command.argument.SpawnBucketArgumentType
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -36,8 +35,8 @@ object CheckSpawnsCommand {
             .requires { it.hasPermissionLevel(4) }
             .then(
                 CommandManager.argument("bucket", SpawnBucketArgumentType.spawnBucket())
-                    .requires { it != it.server}
-                    .executes { execute(it, it.source.player) }
+                    .requires { it.player != null }
+                    .executes { execute(it, it.source.playerOrThrow) }
             ))
         dispatcher.register(CommandManager.literal("pokegive").redirect(command))
     }
@@ -83,19 +82,19 @@ object CheckSpawnsCommand {
         val messages = mutableListOf<MutableText>()
         sortedEntries.forEach { (name, percentage) ->
             val message = name + ": " + applyColour("${df.format(percentage)}%".text(), percentage)
-//            player.sendServerMessage()
+//            player.sendMessage()
             messages.add(message)
         }
 
         if (messages.isEmpty()) {
-            player.sendServerMessage(lang("command.checkspawns.nothing").red())
+            player.sendMessage(lang("command.checkspawns.nothing").red())
         } else {
-            player.sendServerMessage(lang("command.checkspawns.spawns").underline())
+            player.sendMessage(lang("command.checkspawns.spawns").underline())
             val msg = messages[0]
             for (nextMessage in messages.subList(1, messages.size)) {
                 msg.add(", ".text() + nextMessage)
             }
-            player.sendServerMessage(msg)
+            player.sendMessage(msg)
         }
 
         return Command.SINGLE_SUCCESS

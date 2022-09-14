@@ -2,7 +2,6 @@ package com.cablemc.pokemoncobbled.common.api.types
 
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-import net.minecraft.text.TranslatableText
 
 /**
  * Registry for all known ElementalTypes
@@ -13,127 +12,127 @@ object ElementalTypes {
 
     val NORMAL = register(
         name = "normal",
-        displayName = TranslatableText("pokemoncobbled.type.normal"),
-        hue = 0xC0C0C0,
+        displayName = Text.translatable("pokemoncobbled.type.normal"),
+        hue = 0xBFC0B8,
         textureXMultiplier = 0
     )
 
     val FIRE = register(
         name = "fire",
-        displayName = TranslatableText("pokemoncobbled.type.fire"),
-        hue = 0xCD663A,
+        displayName = Text.translatable("pokemoncobbled.type.fire"),
+        hue = 0xE25215,
         textureXMultiplier = 1
     )
 
     val WATER = register(
         name = "water",
-        displayName = TranslatableText("pokemoncobbled.type.water"),
-        hue = 0x3575E9,
+        displayName = Text.translatable("pokemoncobbled.type.water"),
+        hue = 0x2E97E2,
         textureXMultiplier = 2
     )
 
     val GRASS = register(
         name = "grass",
-        displayName = TranslatableText("pokemoncobbled.type.grass"),
-        hue = 0x46B446,
+        displayName = Text.translatable("pokemoncobbled.type.grass"),
+        hue = 0x34A725,
         textureXMultiplier = 3
     )
 
     val ELECTRIC = register(
         name = "electric",
-        displayName = TranslatableText("pokemoncobbled.type.electric"),
-        hue = 0xF0D25D,
+        displayName = Text.translatable("pokemoncobbled.type.electric"),
+        hue = 0xE6CF11,
         textureXMultiplier = 4
     )
 
     val ICE = register(
         name = "ice",
-        displayName = TranslatableText("pokemoncobbled.type.ice"),
-        hue = 0x9BE3EE,
+        displayName = Text.translatable("pokemoncobbled.type.ice"),
+        hue = 0x4ECEEF,
         textureXMultiplier = 5
     )
 
     val FIGHTING = register(
         name = "fighting",
-        displayName = TranslatableText("pokemoncobbled.type.fighting"),
-        hue = 0xA4474A,
+        displayName = Text.translatable("pokemoncobbled.type.fighting"),
+        hue = 0xBE2832,
         textureXMultiplier = 6
     )
 
     val POISON = register(
         name = "poison",
-        displayName = TranslatableText("pokemoncobbled.type.poison"),
-        hue = 0x7A47B9,
+        displayName = Text.translatable("pokemoncobbled.type.poison"),
+        hue = 0x9127C5,
         textureXMultiplier = 7
     )
 
     val GROUND = register(
         name = "ground",
-        displayName = TranslatableText("pokemoncobbled.type.ground"),
-        hue = 0xCEA785,
+        displayName = Text.translatable("pokemoncobbled.type.ground"),
+        hue = 0xCE8833,
         textureXMultiplier = 8
     )
 
     val FLYING = register(
         name = "flying",
-        displayName = TranslatableText("pokemoncobbled.type.flying"),
-        hue = 0x59D4CF,
+        displayName = Text.translatable("pokemoncobbled.type.flying"),
+        hue = 0xA8AFF4,
         textureXMultiplier = 9
     )
 
     val PSYCHIC = register(
         name = "psychic",
-        displayName = TranslatableText("pokemoncobbled.type.psychic"),
-        hue = 0xB65ECC,
+        displayName = Text.translatable("pokemoncobbled.type.psychic"),
+        hue = 0xD54CC9,
         textureXMultiplier = 10
     )
 
     val BUG = register(
         name = "bug",
-        displayName = TranslatableText("pokemoncobbled.type.bug"),
-        hue = 0xA2CE44,
+        displayName = Text.translatable("pokemoncobbled.type.bug"),
+        hue = 0xA0C815,
         textureXMultiplier = 11
     )
 
     val ROCK = register(
         name = "rock",
-        displayName = TranslatableText("pokemoncobbled.type.rock"),
-        hue = 0x958677,
+        displayName = Text.translatable("pokemoncobbled.type.rock"),
+        hue = 0xAC9150,
         textureXMultiplier = 12
     )
 
     val GHOST = register(
         name = "ghost",
-        displayName = TranslatableText("pokemoncobbled.type.ghost"),
-        hue = 0x6159A5,
+        displayName = Text.translatable("pokemoncobbled.type.ghost"),
+        hue = 0x764CCC,
         textureXMultiplier = 13
     )
 
     val DRAGON = register(
         name = "dragon",
-        displayName = TranslatableText("pokemoncobbled.type.dragon"),
-        hue = 0x458F7A,
+        displayName = Text.translatable("pokemoncobbled.type.dragon"),
+        hue = 0x5572E3,
         textureXMultiplier = 14
     )
 
     val DARK = register(
         name = "dark",
-        displayName = TranslatableText("pokemoncobbled.type.dark"),
-        hue = 0x4B5977,
+        displayName = Text.translatable("pokemoncobbled.type.dark"),
+        hue = 0x4B59B7,
         textureXMultiplier = 15
     )
 
     val STEEL = register(
         name = "steel",
-        displayName = TranslatableText("pokemoncobbled.type.steel"),
-        hue = 0x949494,
+        displayName = Text.translatable("pokemoncobbled.type.steel"),
+        hue = 0xB6C3DF,
         textureXMultiplier = 16
     )
 
     val FAIRY = register(
         name = "fairy",
-        displayName = TranslatableText("pokemoncobbled.type.fairy"),
-        hue = 0xE089B9,
+        displayName = Text.translatable("pokemoncobbled.type.fairy"),
+        hue = 0xEF7064,
         textureXMultiplier = 17
     )
 

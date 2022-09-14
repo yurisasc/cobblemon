@@ -80,6 +80,9 @@ class CobbledConfig {
     @NodeCategory(Category.Battles)
     var autoUpdateShowdown = true
 
+    @NodeCategory(Category.Battles)
+    var defaultFleeDistance = 16F * 2
+
     @NodeCategory(category = Category.Battles)
     var allowExperienceFromPvP = true
 

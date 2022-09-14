@@ -29,7 +29,8 @@ open class EvolutionStoneOre(properties: Settings, var xpRange: UniformIntProvid
         blockState: BlockState,
         serverWorld: ServerWorld,
         blockPos: BlockPos,
-        itemStack: ItemStack
+        itemStack: ItemStack,
+        bl: Boolean // I have no idea what this is
     ) {
         if (EnchantmentHelper.getLevel(Enchantments.SILK_TOUCH, itemStack) == 0) {
             val xp = xpRange.get(serverWorld.random)

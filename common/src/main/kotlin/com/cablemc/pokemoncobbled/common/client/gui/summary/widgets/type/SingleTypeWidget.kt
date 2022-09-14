@@ -1,20 +1,17 @@
 package com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.type
 
 import com.cablemc.pokemoncobbled.common.api.gui.ColourLibrary
-import com.cablemc.pokemoncobbled.common.api.gui.drawCenteredText
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
-import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.render.drawScaledText
-import com.cablemc.pokemoncobbled.common.util.asTranslated
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 
 class SingleTypeWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     private val type: ElementalType,
     private val renderText: Boolean = true
-) : TypeWidget(pX, pY, pWidth, pHeight, LiteralText("SingleTypeWidget - ${type.name}")) {
+) : TypeWidget(pX, pY, pWidth, pHeight, Text.literal("SingleTypeWidget - ${type.name}")) {
 
     override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         pMatrixStack.push()

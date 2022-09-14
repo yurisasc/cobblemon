@@ -6,7 +6,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.RenderablePokemon
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 
@@ -22,7 +22,7 @@ class StarterRoundabout(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     var pokemon: RenderablePokemon
-): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("StarterRoundabout")) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("StarterRoundabout")) {
 
     companion object {
         const val MODEL_WIDTH = 30

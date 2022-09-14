@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:diglett",
+  "model": "pokemoncobbled:bedrock/models/diglett.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/diglett.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/diglett_shiny.png"
+    }
+  ]
+}

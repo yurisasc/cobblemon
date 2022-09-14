@@ -19,7 +19,6 @@ import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
 import net.minecraft.text.OrderedText
 import net.minecraft.text.Text
@@ -48,12 +47,12 @@ fun blitk(
 ) {
     RenderSystem.setShader { GameRenderer.getPositionTexShader() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
-    RenderSystem.setShaderColor(red.toFloat(), green.toFloat(), blue.toFloat(), alpha.toFloat())
     if (blend) {
         RenderSystem.enableBlend()
         RenderSystem.defaultBlendFunc()
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
     }
+    RenderSystem.setShaderColor(red.toFloat(), green.toFloat(), blue.toFloat(), alpha.toFloat())
     matrixStack.push()
     matrixStack.scale(scale, scale, 1F)
     drawRectangle(
@@ -84,8 +83,9 @@ fun drawRectangle(
     bufferbuilder.vertex(matrix, endX, endY, blitOffset).texture(maxU, maxV).next()
     bufferbuilder.vertex(matrix, endX, y, blitOffset).texture(maxU, minV).next()
     bufferbuilder.vertex(matrix, x, y, blitOffset).texture(minU, minV).next()
-    bufferbuilder.end()
-    BufferRenderer.draw(bufferbuilder)
+    // TODO: Figure out if this is correct replacement.
+    // OLD: BufferRenderer.draw(bufferbuilder)
+    BufferRenderer.drawWithShader(bufferbuilder.end())
 }
 
 fun drawCenteredText(
@@ -161,7 +161,7 @@ fun drawString(
     shadow: Boolean = true,
     font: Identifier? = null
 ) {
-    val comp = LiteralText(text).also {
+    val comp = Text.literal(text).also {
         font?.run {
             it.getWithStyle(it.style.withFont(this))
         }
@@ -197,16 +197,16 @@ fun drawPortraitPokemon(
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
     }
 
-    matrixStack.translate(0.0, PORTRAIT_DIAMETER.toDouble(), 0.0)
+    matrixStack.translate(0.0, PORTRAIT_DIAMETER.toDouble() + 2.0, 0.0)
     matrixStack.scale(scale, scale, -scale)
     matrixStack.translate(0.0, -PORTRAIT_DIAMETER / 18.0, 0.0)
     matrixStack.translate(model.portraitTranslation.x * if (reversed) -1F else 1F, model.portraitTranslation.y, model.portraitTranslation.z - 4)
-    matrixStack.scale(model.portraitScale, model.portraitScale, 0.01F)
+    matrixStack.scale(model.portraitScale, model.portraitScale, 0.1F)
     matrixStack.multiply(quaternion1)
     matrixStack.multiply(quaternion2)
 
     val light1 = Vec3f(0.2F, 1.0F, -1.0F)
-    val light2 = Vec3f(0.1F, -1.0F, 2.0F)
+    val light2 = Vec3f(0.1F, 0.0F, 8.0F)
     RenderSystem.setShaderLights(light1, light2)
     quaternion1.conjugate()
 

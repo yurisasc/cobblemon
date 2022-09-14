@@ -7,7 +7,7 @@ import net.minecraft.util.Identifier
  * Checks if a resource exists at this location
  */
 fun Identifier.exists(): Boolean {
-    return MinecraftClient.getInstance().resourceManager.containsResource(this)
+    return MinecraftClient.getInstance().resourceManager.getResource(this).isPresent
 }
 
 fun runOnRender(action: () -> Unit) {

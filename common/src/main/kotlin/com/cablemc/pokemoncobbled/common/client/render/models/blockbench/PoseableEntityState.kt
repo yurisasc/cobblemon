@@ -37,6 +37,12 @@ abstract class PoseableEntityState<T : Entity> {
 
     fun setPose(pose: String) {
         currentPose = pose
+        val model = currentModel
+        if (model != null) {
+            val poseImpl = model.getPose(pose) ?: return
+            poseImpl.onTransitionedInto(this)
+        }
+
     }
 
     fun applyAdditives(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?) {

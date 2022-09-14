@@ -144,7 +144,7 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
             return Pose(
                 poseName = poseName,
                 poseTypes = poseTypes.toSet(),
-                condition = { it.getPoseType() in poseTypes },
+                condition = { true },
                 transformTicks =  transformTicks,
                 idleAnimations = idleAnimations,
                 transformedParts = transformedParts

@@ -17,7 +17,7 @@
             "weight": 10.0,
             "condition": {
 				"biomes": [
-                    "#pokemoncobbled:is_frozen"
+                    "#minecraft:is_ocean"
                 ],
                 "canSeeSky": true
             }

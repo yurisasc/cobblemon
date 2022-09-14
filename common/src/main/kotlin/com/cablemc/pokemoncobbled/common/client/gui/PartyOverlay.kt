@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.gui
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.gui.drawPortraitPokemon
+import com.cablemc.pokemoncobbled.common.client.CobbledResources
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
 import com.cablemc.pokemoncobbled.common.client.gui.battle.BattleGUI
 import com.cablemc.pokemoncobbled.common.client.keybind.currentKey
@@ -19,9 +20,9 @@ import net.minecraft.client.gui.hud.InGameHud
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 
-class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
+class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
 
     val partySlot = cobbledResource("ui/party/party_slot.png")
     val partySlotActive = cobbledResource("ui/party/party_slot_active.png")
@@ -31,7 +32,6 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
     val genderIconMale = cobbledResource("ui/party/party_gender_male.png")
     val genderIconFemale = cobbledResource("ui/party/party_gender_female.png")
     val portraitBackground = cobbledResource("ui/party/party_slot_portrait_background.png")
-    val statBar = cobbledResource("ui/party/party_overlay_stat_bar.png")
     val screenExemptions: List<Class<out Screen>> = listOf(
         ChatScreen::class.java,
         BattleGUI::class.java
@@ -115,8 +115,8 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
                 val matrixStack = MatrixStack()
                 matrixStack.translate(
-                    panelX + frameOffsetX + selectedOffsetX + portraitDiameter / 2.0,
-                    y.toDouble() - 8,
+                    panelX + frameOffsetX + selectedOffsetX + portraitDiameter / 2.0 - 1.0,
+                    y.toDouble() - 12,
                     0.0
                 )
                 matrixStack.scale(1F, 1F, 1F)
@@ -129,6 +129,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
         // Some long models end up translated such that the text ends up behind the invisible viewport rendered bits.
         // Kinda messed up but pushing these next elements forward seems a cheap enough fix.
+        matrixStack.push()
         matrixStack.translate(0.0, 0.0, 300.0)
         party.slots.forEachIndexed { index, pokemon ->
             val selectedOffsetX = if (selectedSlot == index) 6 else 0
@@ -164,7 +165,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
                 blitk(
                     matrixStack = matrixStack,
-                    texture = statBar,
+                    texture = CobbledResources.WHITE,
                     x = panelX + selectedOffsetX + 41,
                     y = startY + 5 + ((slotHeight + slotSpacing) * index) + (barHeightMax - hpBarHeight),
                     width = hpBarWidth,
@@ -178,7 +179,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
 
                 blitk(
                     matrixStack = matrixStack,
-                    texture = statBar,
+                    texture = CobbledResources.WHITE,
                     x = panelX + selectedOffsetX + 44,
                     y = startY + 5 + ((slotHeight + slotSpacing) * index) + (barHeightMax - expBarHeight),
                     width = expBarWidth,
@@ -211,7 +212,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 val width = minecraft.textRenderer.getWidth(pokemon.level.toString())
                 drawScaledText(
                     matrixStack = matrixStack,
-                    text = TranslatableText(pokemon.level.toString()),
+                    text = Text.translatable(pokemon.level.toString()),
                     x = panelX + selectedOffsetX + 6.5F - width / 4F,
                     y = startY + ((slotHeight + slotSpacing) * index) + slotHeight * 0.84F - 7F,
                     scale = 0.45F
@@ -257,5 +258,6 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance()) {
                 )
             }
         }
+        matrixStack.pop()
     }
 }

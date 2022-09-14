@@ -37,9 +37,8 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
+            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
-            condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "ground_idle")
@@ -47,9 +46,9 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         )
 
         walk = registerPose(
-            poseType = PoseType.WALK,
+            poseName = "walk",
+            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
-            condition = { it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "ground_idle"),
@@ -59,9 +58,8 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         flyIdle = registerPose(
             poseName = "hover",
-            poseTypes = setOf(PoseType.FLY),
+            poseTypes = setOf(PoseType.HOVER),
             transformTicks = 10,
-            condition = { !it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "air_idle")
@@ -73,7 +71,6 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY),
             transformTicks = 10,
-            condition = { it.isMoving.get() && it.getBehaviourFlag(PokemonBehaviourFlag.EXCITED) },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charizard", "air_fly")

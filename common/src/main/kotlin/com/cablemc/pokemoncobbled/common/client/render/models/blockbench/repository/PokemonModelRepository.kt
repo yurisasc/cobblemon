@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.reposi
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BeedrillModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BellossomModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BlastoiseModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BulbasaurModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ButterfreeModel
@@ -9,31 +10,50 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharizardModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmanderModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmeleonModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefableModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefairyModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CleffaModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DiglettModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ElectrodeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GloomModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GyaradosModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.IvysaurModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KakunaModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KrabbyModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.LaprasModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MankeyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MetapodModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.OddishModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ParasModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ParasectModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeotModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeottoModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeyModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PrimeapeModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.RaticateModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.RattataModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.SquirtleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VenusaurModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VileplumeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VoltorbModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MachopModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MachokeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MachampModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.endsWith
 import java.io.File
 import java.nio.charset.StandardCharsets
 import kotlin.io.path.Path
@@ -71,44 +91,56 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("rattata")] = { RattataModel(it) }
         posers[cobbledResource("raticate")] = { RaticateModel(it) }
         posers[cobbledResource("eevee")] = { EeveeModel(it) }
-        posers[cobbledResource("gyarados")] = { GyaradosModel(it) }
-
-        // These are still substitutes in-game because we don't have these as aspect JSONs yet. Not animated.
         posers[cobbledResource("magikarp")] = { MagikarpModel(it) }
+        posers[cobbledResource("gyarados")] = { GyaradosModel(it) }
         posers[cobbledResource("pidgey")] = { PidgeyModel(it) }
         posers[cobbledResource("pidgeotto")] = { PidgeottoModel(it) }
         posers[cobbledResource("pidgeot")] = { PidgeotModel(it) }
         posers[cobbledResource("diglett")] = { DiglettModel(it) }
         posers[cobbledResource("dugtrio")] = { DugtrioModel(it) }
-        posers[cobbledResource("zubat")] = { DugtrioModel(it) }
+        posers[cobbledResource("zubat")] = { ZubatModel(it) }
+        posers[cobbledResource("cleffa")] = { CleffaModel(it) }
+        posers[cobbledResource("clefable")] = { ClefableModel(it) }
+        posers[cobbledResource("clefairy")] = { ClefairyModel(it) }
+        posers[cobbledResource("krabby")] = { KrabbyModel(it) }
+        posers[cobbledResource("paras")] = { ParasModel(it) }
+        posers[cobbledResource("parasect")] = { ParasectModel(it) }
+        posers[cobbledResource("mankey")] = { MankeyModel(it) }
+        posers[cobbledResource("primeape")] = { PrimeapeModel(it) }
+        posers[cobbledResource("oddish")] = { OddishModel(it) }
+        posers[cobbledResource("gloom")] = { GloomModel(it) }
+        posers[cobbledResource("vileplume")] = { VileplumeModel(it) }
+        posers[cobbledResource("bellossom")] = { BellossomModel(it) }
+        posers[cobbledResource("voltorb")] = { VoltorbModel(it) }
+        posers[cobbledResource("electrode")] = { ElectrodeModel(it) }
+        posers[cobbledResource("lapras")] = { LaprasModel(it) }
+        posers[cobbledResource("machop")] = { MachopModel(it) }
+        posers[cobbledResource("machoke")] = { MachokeModel(it) }
+        posers[cobbledResource("machamp")] = { MachampModel(it) }
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {
-        resourceManager.findResources(Path("bedrock/posers").pathString) { path -> path.endsWith(".json") }.forEach { identifier ->
-            resourceManager.getResource(identifier).use { resource ->
-                resource.inputStream.use { stream ->
-                    val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                    posers[resolvedIdentifier] = {
-                        JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
-                        JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
-                    }
+        resourceManager.findResources(Path("bedrock/posers").pathString) { path -> path.endsWith(".json") }.forEach { identifier, resource ->
+            resource.inputStream.use { stream ->
+                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                posers[resolvedIdentifier] = {
+                    JsonPokemonPoseableModel.JsonPokemonPoseableModelAdapter.modelPart = it
+                    JsonPokemonPoseableModel.gson.fromJson(json, JsonPokemonPoseableModel::class.java)
                 }
             }
         }
     }
 
     fun registerSpeciesAssetResolvers(resourceManager: ResourceManager) {
-        resourceManager.findResources(Path("bedrock/species").pathString) { path -> path.endsWith(".json") }.forEach { identifier ->
-            resourceManager.getResource(identifier).use { resource ->
-                resource.inputStream.use { stream ->
-                    val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                    val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                    renders[resolvedIdentifier] = RegisteredSpeciesRendering(
-                        resolvedIdentifier,
-                        SpeciesAssetResolver.GSON.fromJson(json, SpeciesAssetResolver::class.java)
-                    )
-                }
+        resourceManager.findResources(Path("bedrock/species").pathString) { path -> path.endsWith(".json") }.forEach { identifier, resource ->
+            resource.inputStream.use { stream ->
+                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                renders[resolvedIdentifier] = RegisteredSpeciesRendering(
+                    resolvedIdentifier,
+                    SpeciesAssetResolver.GSON.fromJson(json, SpeciesAssetResolver::class.java)
+                )
             }
         }
     }

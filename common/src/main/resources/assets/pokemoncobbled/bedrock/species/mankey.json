@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:mankey",
+  "model": "pokemoncobbled:bedrock/models/mankey.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/mankey.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/mankey_shiny.png"
+    }
+  ]
+}

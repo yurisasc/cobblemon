@@ -25,6 +25,15 @@
     "eggGroups": [
         "water1"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "pokemoncobbled:kings_rock",
+                "percentage": 5
+            }
+        ]
+    },
     "moves": [
         "1:pound",
         "1:watergun",
@@ -80,7 +89,7 @@
     "preEvolution": "poliwag",
     "evolutions": [
         {
-            "variant": "item",
+            "variant": "item_interact",
             "result": "poliwrath",
             "consumeHeldItem": false,
             "learnableMoves": [],

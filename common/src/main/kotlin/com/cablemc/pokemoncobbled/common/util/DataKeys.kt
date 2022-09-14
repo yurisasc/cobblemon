@@ -73,6 +73,7 @@ object DataKeys {
     const val HEALER_MACHINE_POKEBALLS = "MachinePokeBalls"
     const val HEALER_MACHINE_TIME_LEFT = "MachineTimeLeft"
     const val HEALER_MACHINE_CHARGE = "MachineCharge"
+    const val HEALER_MACHINE_INFINITE = "MachineInfinite"
     /* ----------- */
 
 }

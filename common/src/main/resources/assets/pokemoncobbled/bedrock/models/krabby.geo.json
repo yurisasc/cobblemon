@@ -1,0 +1,162 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.krabby",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 4,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "krabby",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "body",
+					"parent": "krabby",
+					"pivot": [0, 6.375, -1],
+					"cubes": [
+						{"origin": [-2.5, 6.75, -1.25], "size": [5, 4, 0], "inflate": 0.02, "pivot": [0, 9.25, -1.25], "rotation": [5, 0, 0], "uv": [24, 27]},
+						{"origin": [-4.5, 2, -4], "size": [9, 5, 8], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "eyes",
+					"parent": "body",
+					"pivot": [0, 7.5, -3.75],
+					"rotation": [-7.5, 0, 0],
+					"cubes": [
+						{"origin": [-3.46962, 6.1527, -3.75], "size": [3, 2, 0], "inflate": 0.02, "pivot": [0, 7.5, -3.75], "rotation": [0, 0, 10], "uv": [56, 2], "mirror": true},
+						{"origin": [0.46962, 6.1527, -3.75], "size": [3, 2, 0], "inflate": 0.02, "pivot": [0, 7.5, -3.75], "rotation": [0, 0, -10], "uv": [56, 2]}
+					]
+				},
+				{
+					"name": "leftleg",
+					"parent": "body",
+					"pivot": [4.5, 3.25, 2.75],
+					"rotation": [0, 0, -20],
+					"cubes": [
+						{"origin": [3.5, 2.25, 2.75], "size": [6, 2, 0], "inflate": 0.02, "uv": [26, 0]}
+					]
+				},
+				{
+					"name": "leftknee",
+					"parent": "leftleg",
+					"pivot": [9.5, 3.25, 2.75],
+					"rotation": [0, 0, 90],
+					"cubes": [
+						{"origin": [9.5, 2.25, 2.75], "size": [6, 3, 0], "inflate": 0.02, "uv": [0, 21]}
+					]
+				},
+				{
+					"name": "leftleg2",
+					"parent": "body",
+					"pivot": [4.5, 3.25, 0.5],
+					"rotation": [0, 0, -20],
+					"cubes": [
+						{"origin": [3.5, 2.25, 0.5], "size": [6, 2, 0], "inflate": 0.02, "uv": [24, 25]}
+					]
+				},
+				{
+					"name": "leftknee2",
+					"parent": "leftleg2",
+					"pivot": [9.5, 3.25, 0.5],
+					"rotation": [0, 0, 90],
+					"cubes": [
+						{"origin": [9.5, 2.25, 0.5], "size": [6, 3, 0], "inflate": 0.02, "uv": [18, 13]}
+					]
+				},
+				{
+					"name": "rightleg",
+					"parent": "body",
+					"pivot": [-4.5, 3.25, 0.5],
+					"rotation": [0, 0, 20],
+					"cubes": [
+						{"origin": [-9.5, 2.25, 0.5], "size": [6, 2, 0], "inflate": 0.02, "uv": [26, 4]}
+					]
+				},
+				{
+					"name": "rightknee",
+					"parent": "rightleg",
+					"pivot": [-9.5, 3.25, 0.5],
+					"rotation": [0, 0, -90],
+					"cubes": [
+						{"origin": [-15.5, 2.25, 0.5], "size": [6, 3, 0], "inflate": 0.02, "uv": [12, 25]}
+					]
+				},
+				{
+					"name": "rightleg2",
+					"parent": "body",
+					"pivot": [-4.5, 3.25, 2.75],
+					"rotation": [0, 0, 20],
+					"cubes": [
+						{"origin": [-9.5, 2.25, 2.75], "size": [6, 2, 0], "inflate": 0.02, "uv": [26, 2]}
+					]
+				},
+				{
+					"name": "rightknee2",
+					"parent": "rightleg2",
+					"pivot": [-9.5, 3.25, 2.75],
+					"rotation": [0, 0, -90],
+					"cubes": [
+						{"origin": [-15.5, 2.25, 2.75], "size": [6, 3, 0], "inflate": 0.02, "uv": [0, 24]}
+					]
+				},
+				{
+					"name": "leftarm",
+					"parent": "body",
+					"pivot": [4.5, 3.75, -2.25],
+					"cubes": [
+						{"origin": [3.5, 2.75, -2.25], "size": [6, 2, 0], "inflate": 0.02, "uv": [26, 6]}
+					]
+				},
+				{
+					"name": "leftforearm",
+					"parent": "leftarm",
+					"pivot": [9.5, 3.75, -2.25],
+					"cubes": [
+						{"origin": [9.5, 2.75, -2.25], "size": [5, 2, 0], "inflate": 0.02, "uv": [12, 28]}
+					]
+				},
+				{
+					"name": "lefthand",
+					"parent": "leftforearm",
+					"pivot": [13.5, 3.75, -2.25],
+					"cubes": [
+						{"origin": [13.5, 2.75, -3.25], "size": [1, 2, 2], "uv": [0, 0]},
+						{"origin": [14.5, 2.25, -4.25], "size": [7, 4, 4], "uv": [0, 13]}
+					]
+				},
+				{
+					"name": "rightarm",
+					"parent": "body",
+					"pivot": [-4.5, 3.75, -2.25],
+					"cubes": [
+						{"origin": [-9.5, 2.75, -2.25], "size": [6, 2, 0], "uv": [0, 27]}
+					]
+				},
+				{
+					"name": "rightforearm",
+					"parent": "rightarm",
+					"pivot": [-9.5, 3.75, -2.25],
+					"cubes": [
+						{"origin": [-14.5, 2.75, -2.25], "size": [5, 2, 0], "uv": [0, 29]}
+					]
+				},
+				{
+					"name": "righthand",
+					"parent": "rightforearm",
+					"pivot": [-13.5, 3.75, -2.25],
+					"cubes": [
+						{"origin": [-14.5, 2.75, -3.25], "size": [1, 2, 2], "uv": [0, 4]},
+						{"origin": [-21.5, 2.25, -4.25], "size": [7, 4, 4], "uv": [18, 17]}
+					]
+				}
+			]
+		}
+	]
+}

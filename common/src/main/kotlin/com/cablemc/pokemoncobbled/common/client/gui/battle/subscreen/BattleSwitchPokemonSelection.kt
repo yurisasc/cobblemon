@@ -19,7 +19,7 @@ class BattleSwitchPokemonSelection(
 ) : BattleActionSelection(
     battleGUI,
     request,
-    x = 30,
+    x = 12,
     y = MinecraftClient.getInstance().window.scaledHeight - 150,
     width = 250,
     height = 100,
@@ -27,14 +27,14 @@ class BattleSwitchPokemonSelection(
 ) {
     companion object {
         const val SWITCH_TILE_WIDTH = BattleOverlay.TILE_WIDTH
-        const val SWITCH_TILE_WIDTH_TO_HEIGHT = 432 / 136F
-        const val SWITCH_TILE_HEIGHT = SWITCH_TILE_WIDTH / SWITCH_TILE_WIDTH_TO_HEIGHT
+        const val SWITCH_TILE_HEIGHT = BattleOverlay.TILE_HEIGHT
         const val SWITCH_TILE_HORIZONTAL_SPACING = 10F
         const val SWITCH_TILE_VERTICAL_SPACING = 5F
-        const val SWITCH_TILE_ROW_INSET = 5F
     }
 
     val tiles = mutableListOf<SwitchTile>()
+    val backButton = BattleBackButton(x.toFloat() + 2 * SWITCH_TILE_WIDTH + 2 * SWITCH_TILE_HORIZONTAL_SPACING, y.toFloat() )
+
     class SwitchTile(
         val selection: BattleSwitchPokemonSelection,
         val x: Float,
@@ -53,6 +53,7 @@ class BattleSwitchPokemonSelection(
                 level = pokemon.level,
                 aspects = pokemon.aspects,
                 displayName = pokemon.species.translatedName,
+                gender = pokemon.gender,
                 hpRatio = pokemon.currentHealth.toFloat() / pokemon.hp,
                 state = null,
                 colour = null,
@@ -77,7 +78,7 @@ class BattleSwitchPokemonSelection(
             val row = index / 2
             val column = index % 2
 
-            val x = this.x.toFloat() + column * (SWITCH_TILE_HORIZONTAL_SPACING + SWITCH_TILE_WIDTH) + row * SWITCH_TILE_ROW_INSET
+            val x = this.x.toFloat() + column * (SWITCH_TILE_HORIZONTAL_SPACING + SWITCH_TILE_WIDTH)
             val y = this.y.toFloat() + row * (SWITCH_TILE_VERTICAL_SPACING + SWITCH_TILE_HEIGHT)
 
             tiles.add(SwitchTile(this, x, y, pokemon, showdownPokemon))
@@ -89,18 +90,24 @@ class BattleSwitchPokemonSelection(
             return
         }
         tiles.forEach { it.render(matrices, mouseX.toDouble(), mouseY.toDouble(), delta) }
+        backButton.render(matrices, mouseX, mouseY, delta)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        if (backButton.isHovered(mouseX, mouseY)) {
+            battleGUI.changeActionSelection(null)
+            playDownSound(MinecraftClient.getInstance().soundManager)
+            return true
+        }
         val clicked = tiles.find { it.isHovered(mouseX, mouseY) } ?: return false
         val pokemon = clicked.pokemon
         playDownSound(MinecraftClient.getInstance().soundManager)
         battleGUI.selectAction(request, SwitchActionResponse(pokemon.uuid))
+
         return true
     }
 
     override fun appendNarrations(builder: NarrationMessageBuilder) {
-//        TODO("Not yet implemented")
     }
 
     override fun getType() = Selectable.SelectionType.HOVERED

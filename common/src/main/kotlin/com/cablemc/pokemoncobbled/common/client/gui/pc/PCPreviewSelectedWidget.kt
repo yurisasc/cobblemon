@@ -10,7 +10,7 @@ import com.cablemc.pokemoncobbled.common.client.storage.ClientParty
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 
@@ -21,7 +21,7 @@ class PCPreviewSelectedWidget(
     private val parent: PCWidget,
     private val pc: ClientPC,
     private val party: ClientParty,
-): SoundlessWidget(pX, pY, pWidth, pHeight, LiteralText("PC - PreviewSelectedWidget")) {
+): SoundlessWidget(pX, pY, pWidth, pHeight, Text.literal("PC - PreviewSelectedWidget")) {
 
     companion object {
         var render = true

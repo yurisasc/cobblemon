@@ -16,7 +16,7 @@
         "speed": 45
     },
     "catchRate": 45,
-    "maleRatio": 0.125,
+    "maleRatio": 0.875,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 64,
@@ -26,6 +26,15 @@
         "monster",
         "plant"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:melon_seeds",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:tackle",
         "1:growl",
@@ -90,6 +99,7 @@
     ],
     "evolutions": [
         {
+            "id": "bulbasaur_ivysaur",
             "variant": "level_up",
             "result": "ivysaur",
             "consumeHeldItem": false,
@@ -97,7 +107,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 16
+                    "minLevel": 16
                 }
             ]
         }

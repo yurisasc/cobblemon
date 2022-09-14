@@ -10,7 +10,8 @@
   ],
   "mixins": [
     "PlayerMixin",
-    "accessor.AccessorEntity"
+    "accessor.AccessorEntity",
+    "ArgumentTypesMixin"
   ],
   "injectors": {
     "defaultRequire": 1

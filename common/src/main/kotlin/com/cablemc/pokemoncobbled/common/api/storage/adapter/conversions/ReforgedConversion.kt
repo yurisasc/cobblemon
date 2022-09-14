@@ -3,15 +3,15 @@ package com.cablemc.pokemoncobbled.common.api.storage.adapter.conversions
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.pokeball.PokeBalls
 import com.cablemc.pokemoncobbled.common.api.pokemon.Natures
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.SidemodExperienceSource
-import com.cablemc.pokemoncobbled.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
-import com.cablemc.pokemoncobbled.common.api.storage.adapter.CobbledAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
+import com.cablemc.pokemoncobbled.common.api.storage.pc.POKEMON_PER_BOX
 import com.cablemc.pokemoncobbled.common.pokemon.EVs
 import com.cablemc.pokemoncobbled.common.pokemon.Gender
 import com.cablemc.pokemoncobbled.common.pokemon.IVs
@@ -21,6 +21,8 @@ import net.minecraft.nbt.NbtIo
 import net.minecraft.util.Identifier
 import java.nio.file.Path
 import java.util.UUID
+
+const val REFORGED_POKEMON_PER_BOX = 30
 
 class ReforgedConversion(val base: Path) : CobbledConverter<NbtCompound> {
 
@@ -59,6 +61,21 @@ class ReforgedConversion(val base: Path) : CobbledConverter<NbtCompound> {
 
     override fun pc(user: UUID, nbt: NbtCompound) : PCStore {
         val result = PCStore(user)
+        var box = 0
+        while (nbt.contains("BoxNumber$box")) {
+            val storage = nbt.getCompound("BoxNumber$box")
+            for (x in 0 until REFORGED_POKEMON_PER_BOX) {
+                if (storage.contains("pc$x")) {
+                    val pokemon = this.translate(storage.getCompound("pc$x"))
+                    if (!result.add(pokemon)) {
+                        result.backupStore.add(pokemon)
+                    }
+                }
+            }
+            ++box
+        }
+
+        result.tryRestoreBackedUpPokemon()
         return result
     }
 
@@ -67,8 +84,7 @@ class ReforgedConversion(val base: Path) : CobbledConverter<NbtCompound> {
         result.uuid = nbt.getUuid("UUID")
         result.species = PokemonSpecies.getByPokedexNumber(nbt.getInt("ndex"))
             ?: throw IllegalStateException("Failed to read a species with pokedex identifier ${nbt.getInt("ndex")}")
-        result.form = result.species.forms.find { it.name == nbt.getString("Variant") } ?: result.species.standardForm
-
+        PokemonProperties.parse((result.species.forms.find { it.name == nbt.getString("Variant") } ?: result.species.standardForm).name).apply(result)
 
         result.gender = Gender.values()[nbt.getInt("Gender")]
         result.shiny = this.find(nbt, "IsShiny", NbtCompound::getBoolean) ?:

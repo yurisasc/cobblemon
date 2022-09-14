@@ -30,6 +30,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemoncobbled.common.pokemon.ai.FormPokemonBehaviour
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
@@ -61,6 +62,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 
 class PokemonEntity(
@@ -258,7 +260,10 @@ class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         // TODO: Move to proper pokemon interaction menu
-        this.attemptItemInteraction(player, player.getStackInHand(hand))
+        if (this.attemptItemInteraction(player, player.getStackInHand(hand))) {
+            // TODO #105
+            return ActionResult.SUCCESS
+        }
         if (player.isSneaking && hand == Hand.MAIN_HAND) {
             if (isReadyToSitOnPlayer && player is ServerPlayerEntity && !isBusy) {
                 this.tryMountingShoulder(player)
@@ -350,12 +355,37 @@ class PokemonEntity(
         return true
     }
 
-    private fun attemptItemInteraction(playerIn: PlayerEntity, stack: ItemStack) {
-        if (playerIn !is ServerPlayerEntity || stack.isEmpty) return
-        (stack.item as? PokemonInteractiveItem)?.onInteraction(playerIn, this, stack)
+    private fun attemptItemInteraction(player: PlayerEntity, stack: ItemStack): Boolean {
+        if (player !is ServerPlayerEntity || stack.isEmpty) {
+            return false
+        }
+
+        val itemRegistry = player.getWorld().registryManager.get(Registry.ITEM_KEY)
+        val item = itemRegistry.getKey(stack.item).orElse(null).value
+
+        if (pokemon.getOwnerPlayer() == player) {
+            pokemon.evolutions
+                .filterIsInstance<ItemInteractionEvolution>()
+                .forEach { evolution ->
+                    if (evolution.attemptEvolution(pokemon, item)) {
+                        if (!player.isCreative && evolution.consumeHeldItem) {
+                            stack.decrement(1)
+                        }
+                        return true
+                    }
+                }
+        }
+
+        (stack.item as? PokemonInteractiveItem)?.let {
+            if (it.onInteraction(player, this, stack)) {
+                return true
+            }
+        }
+
+        return false
     }
 
-    private fun tryMountingShoulder(player: ServerPlayerEntity) {
+    private fun tryMountingShoulder(player: ServerPlayerEntity): Boolean {
         if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
             CobbledEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
                 val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
@@ -373,8 +403,10 @@ class PokemonEntity(
                         }
                     }
                 }
+                return true
             }
         }
+        return false
     }
 
     override fun remove(reason: RemovalReason?) {

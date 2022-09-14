@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:parasect",
+  "model": "pokemoncobbled:bedrock/models/parasect.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/parasect.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/parasect_shiny.png"
+    }
+  ]
+}

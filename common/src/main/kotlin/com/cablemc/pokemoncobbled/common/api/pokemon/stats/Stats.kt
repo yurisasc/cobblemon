@@ -10,6 +10,9 @@ object Stats {
     var SPECIAL_DEFENCE = registerStat("special_defence")
     var SPEED = registerStat("speed")
 
+    val EVASION = registerStat("evasion")
+    val ACCURACY = registerStat("accuracy")
+
     val mainStats = listOf(HP, ATTACK, DEFENCE, SPECIAL_ATTACK, SPECIAL_DEFENCE, SPEED)
 
     fun registerStat(id: String): Stat {

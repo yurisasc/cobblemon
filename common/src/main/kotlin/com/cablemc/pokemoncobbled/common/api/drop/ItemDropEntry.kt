@@ -5,7 +5,6 @@ import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.text.green
 import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.sendServerMessage
 import com.cablemc.pokemoncobbled.common.util.toBlockPos
 import net.minecraft.block.Blocks
 import net.minecraft.entity.ItemEntity
@@ -53,7 +52,7 @@ class ItemDropEntry : DropEntry {
             val count = stack.count
             val succeeded = player.giveItemStack(stack)
             if (PokemonCobbled.config.announceDropItems) {
-                player.sendServerMessage(
+                player.sendMessage(
                     if (succeeded) lang("drop.item.inventory", count, name.copy().green())
                     else lang("drop.item.full", name).red()
                 )

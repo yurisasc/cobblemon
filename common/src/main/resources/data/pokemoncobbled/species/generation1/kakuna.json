@@ -14,6 +14,12 @@
         "special_defence": 25,
         "speed": 35
     },
+    "behaviour": {
+        "moving": {
+            "canMove": false,
+            "canLook": false
+        }
+    },
     "catchRate": 120,
     "maleRatio": 0.5,
     "shoulderMountable": false,
@@ -24,6 +30,16 @@
     "eggGroups": [
         "bug"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:string",
+                "quantityRange": "1-2",
+                "percentage": 66
+            }
+        ]
+    },
     "moves": [
         "0:harden",
         "tutor:bugbite",

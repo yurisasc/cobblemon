@@ -114,6 +114,7 @@
     ],
     "evolutions": [
         {
+            "id": "mankey_primeape",
             "variant": "level_up",
             "result": "primeape",
             "consumeHeldItem": false,
@@ -121,12 +122,12 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 28
+                    "minLevel": 28
                 }
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.75,
     "hitbox": {
         "width": 1.0,
         "height": 1.0,

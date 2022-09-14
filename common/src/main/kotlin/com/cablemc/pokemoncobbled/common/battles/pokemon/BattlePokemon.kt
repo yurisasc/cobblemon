@@ -6,12 +6,13 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
 import com.cablemc.pokemoncobbled.common.battles.actor.MultiPokemonBattleActor
 import com.cablemc.pokemoncobbled.common.battles.actor.PokemonBattleActor
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleUpdateTeamPokemonPacket
 import com.cablemc.pokemoncobbled.common.pokemon.IVs
 import com.cablemc.pokemoncobbled.common.pokemon.Nature
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.battleLang
+import java.util.UUID
 import net.minecraft.text.MutableText
-import java.util.*
 
 open class BattlePokemon(
     val originalPokemon: Pokemon,
@@ -43,6 +44,7 @@ open class BattlePokemon(
 
     val entity: PokemonEntity?
         get() = effectedPokemon.entity
+
     var willBeSwitchedIn = false
 
     /** A set of all the BattlePokemon that they faced during the battle (for exp purposes) */
@@ -54,6 +56,10 @@ open class BattlePokemon(
         } else {
             battleLang("owned_pokemon", actor.getName(), effectedPokemon.species.translatedName)
         }
+    }
+
+    fun sendUpdate() {
+        actor.sendUpdate(BattleUpdateTeamPokemonPacket(effectedPokemon))
     }
 
     fun isSentOut() = actor.battle.activePokemon.any { it.battlePokemon == this }

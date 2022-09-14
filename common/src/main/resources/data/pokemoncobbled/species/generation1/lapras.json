@@ -34,6 +34,15 @@
         "monster",
         "water1"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:heart_of_the_sea",
+                "percentage": 25
+            }
+        ]
+    },
     "moves": [
         "1:growl",
         "1:watergun",
@@ -106,7 +115,7 @@
         "pokemoncobbled.species.lapras.desc2"
     ],
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.6,
     "hitbox": {
         "width": 1.0,
         "height": 1.0,
