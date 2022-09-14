@@ -62,7 +62,7 @@ class FormData(
     private val _dynamaxBlocked: Boolean? = null,
     @SerializedName("eggGroups")
     private val _eggGroups: Set<EggGroup>? = null,
-    @SerializedName("weight")
+    @SerializedName("height")
     private val _height: Float? = null,
     @SerializedName("weight")
     private val _weight: Float? = null,
