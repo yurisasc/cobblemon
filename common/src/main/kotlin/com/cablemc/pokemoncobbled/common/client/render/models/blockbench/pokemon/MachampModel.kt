@@ -10,7 +10,7 @@ import net.minecraft.util.math.Vec3d
 
 class MachampModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("machamp")
-    override val head = registerRelevantPart("head", rootPart.getChildOf("body","torso","head"))
+    override val head = getPart("head")
 
 
     override val portraitScale = 1.2F

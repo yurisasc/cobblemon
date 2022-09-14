@@ -10,7 +10,7 @@ import net.minecraft.util.math.Vec3d
 
 class MachokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("machoke")
-    override val head = registerRelevantPart("head", rootPart.getChildOf("body","torso","head"))
+    override val head = getPart("head")
 
     override val portraitScale = 1.2F
     override val portraitTranslation = Vec3d(0.1, 0.8, 0.0)
