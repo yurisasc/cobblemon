@@ -42,8 +42,10 @@ class MachopModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
+/*
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
     ) = if (state.isPosedIn(standing, walk)) bedrockStateful("machop", "faint") else null
+    */
 }

@@ -42,8 +42,10 @@ class MachokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
     }
-    override fun getFaintAnimation(
+
+    /*override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
     ) = if (state.isPosedIn(standing, walk)) bedrockStateful("machoke", "faint") else null
+     */
 }
