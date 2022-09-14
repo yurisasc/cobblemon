@@ -1,4 +1,4 @@
-package com.cablemc.pokemoncobbled.common.api.storage.adapter
+package com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle
 
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
@@ -16,11 +16,10 @@ import java.util.UUID
  * @since November 30th, 2021
  */
 open class NBTStoreAdapter(
-    override val rootFolder: String,
-    override val useNestedFolders: Boolean,
-    override val folderPerClass: Boolean
-) : OneToOneFileStoreAdapter<NbtCompound> {
-    override val fileExtension: String = "dat"
+    rootFolder: String,
+    useNestedFolders: Boolean,
+    folderPerClass: Boolean,
+) : OneToOneFileStoreAdapter<NbtCompound>(rootFolder, useNestedFolders, folderPerClass, "dat") {
     override fun <E : StorePosition, T : PokemonStore<E>> serialize(store: T) = store.saveToNBT(NbtCompound())
     override fun save(file: File, serialized: NbtCompound) = NbtIo.writeCompressed(serialized, file)
     override fun <E, T : PokemonStore<E>> load(file: File, storeClass: Class<out T>, uuid: UUID): T? {
