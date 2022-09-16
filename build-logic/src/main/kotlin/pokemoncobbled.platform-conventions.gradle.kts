@@ -14,6 +14,7 @@ val bundle: Configuration by configurations.creating {
 tasks {
 
     withType<Jar> {
+        archiveBaseName.set("PokemonCobbled-${project.name}")
         archiveClassifier.set("dev-slim")
     }
 

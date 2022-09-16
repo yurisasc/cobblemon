@@ -8,8 +8,6 @@ architectury {
 }
 
 loom {
-    accessWidenerPath.set(project(":common").file("src/main/resources/pokemoncobbled-common.accesswidener"))
-
     forge {
         convertAccessWideners.set(true)
         mixinConfig("mixins.pokemoncobbled-common.json")
@@ -21,16 +19,8 @@ repositories {
 }
 
 dependencies {
-    forge("net.minecraftforge:forge:${rootProject.property("mc_version")}-${rootProject.property("forge_version")}")
-    modApi("dev.architectury:architectury-forge:${rootProject.property("architectury_version")}")
-
-    // Kotlin
-    forgeRuntimeLibrary(libs.stdlib)
-    forgeRuntimeLibrary(libs.reflect)
-
-    forgeRuntimeLibrary(libs.jetbrainsAnnotations)
-    forgeRuntimeLibrary(libs.serializationCore)
-    forgeRuntimeLibrary(libs.serializationJson)
+    forge(libs.forge)
+    modApi(libs.architecturyForge)
 
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
@@ -44,22 +34,21 @@ dependencies {
         isTransitive = false
     }
     testImplementation(project(":common", configuration = "namedElements"))
-    // For Showdown
-    forgeRuntimeLibrary("com.caoccao.javet:javet:1.1.0") // Linux or Windows
-    forgeRuntimeLibrary("com.caoccao.javet:javet-macos:1.1.0") // Mac OS (x86_64 Only)
-    forgeRuntimeLibrary("com.eliotlash.molang:molang:18")
-    forgeRuntimeLibrary("com.eliotlash.mclib:mclib:18")
 
-    bundle(libs.stdlib)
-    bundle(libs.reflect)
-    bundle(libs.jetbrainsAnnotations)
-    bundle(libs.serializationCore)
-    bundle(libs.serializationJson)
-
-    bundle("com.caoccao.javet:javet:1.1.0") // Linux or Windows
-    bundle("com.caoccao.javet:javet-macos:1.1.0") // Mac OS (x86_64 Only)
-    bundle("com.eliotlash.molang:molang:18")
-    bundle("com.eliotlash.mclib:mclib:18")
+    listOf(
+        libs.stdlib,
+        libs.reflect,
+        libs.jetbrainsAnnotations,
+        libs.serializationCore,
+        libs.serializationJson,
+        libs.javet,
+        libs.javetMac,
+        libs.molang,
+        libs.mclib
+    ).forEach {
+        forgeRuntimeLibrary(it)
+        bundle(it)
+    }
 
     // Testing - It needs this!
 //    forgeRuntimeLibrary("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")

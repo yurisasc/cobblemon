@@ -6,4 +6,3 @@ plugins {
 
 group = "com.cablemc.pokemoncobbled"
 version = "${project.property("mod_version")}+${project.property("mc_version")}"
-//rootProject.archivesName.set("PokemonCobbled")

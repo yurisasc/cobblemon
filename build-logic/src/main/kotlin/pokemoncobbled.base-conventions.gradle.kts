@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val accessWidenerFile = "src/main/resources/pokemoncobbled-common.accesswidener"
+
 plugins {
     `java-library`
     id("org.cadixdev.licenser")
@@ -25,9 +27,10 @@ architectury {
     minecraft = project.property("mc_version").toString()
 }
 
-val loom = project.extensions.getByName<net.fabricmc.loom.api.LoomGradleExtensionAPI>("loom")
-loom.silentMojangMappingsLicense()
-loom.accessWidenerPath.set(project(":common").file("src/main/resources/pokemoncobbled-common.accesswidener"))
+loom {
+    silentMojangMappingsLicense()
+    accessWidenerPath.set(project(":common").file(ACCESS_WIDENER))
+}
 
 dependencies {
     minecraft("net.minecraft:minecraft:${rootProject.property("mc_version")}")

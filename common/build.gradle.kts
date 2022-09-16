@@ -6,10 +6,6 @@ architectury {
     common()
 }
 
-loom {
-    accessWidenerPath.set(file("src/main/resources/pokemoncobbled-common.accesswidener"))
-}
-
 repositories {
     maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
 }
@@ -18,23 +14,22 @@ dependencies {
     implementation(libs.stdlib)
     implementation(libs.reflect)
 
-    modImplementation("net.fabricmc:fabric-loader:${rootProject.property("fabric_loader_version")}")
-    modApi("dev.architectury:architectury:${rootProject.property("architectury_version")}")
-    modApi("com.eliotlash.molang:molang:18")
-    modApi("com.eliotlash.mclib:mclib:18")
+    modImplementation(libs.fabricLoader)
+    modApi(libs.architectury)
+    modApi(libs.molang)
+    modApi(libs.mclib)
 
     // For Showdown
-    modCompileOnly("com.caoccao.javet:javet:1.1.0") // Linux or Windows
-    modCompileOnly("com.caoccao.javet:javet-macos:1.1.0") // Mac OS (x86_64 Only)
+    modCompileOnly(libs.javet) // Linux or Windows
+    modCompileOnly(libs.javetMac) // Mac OS (x86_64 Only)
 
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.4.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.5.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.2")
-    testImplementation("org.mockito:mockito-core:3.3.3")
-    testImplementation("io.mockk:mockk:1.12.1")
+    testRuntimeOnly(libs.junitEngine)
+    testImplementation(libs.junitApi)
+    testImplementation(libs.junitParams)
+    testImplementation(libs.mockito)
+    testImplementation(libs.mockk)
 
     // For Showdown
 //    modCompileOnly 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
