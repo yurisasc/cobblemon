@@ -12,6 +12,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.MathHelper.ceil
 
 class BattleSwitchPokemonSelection(
     battleGUI: BattleGUI,
@@ -20,7 +21,7 @@ class BattleSwitchPokemonSelection(
     battleGUI,
     request,
     x = 12,
-    y = MinecraftClient.getInstance().window.scaledHeight - 150,
+    y = ceil((MinecraftClient.getInstance().window.scaledHeight / 2) - (((SWITCH_TILE_HEIGHT * 3) + (SWITCH_TILE_VERTICAL_SPACING * 2)) / 2)),
     width = 250,
     height = 100,
     battleLang("switch_pokemon")
@@ -33,7 +34,7 @@ class BattleSwitchPokemonSelection(
     }
 
     val tiles = mutableListOf<SwitchTile>()
-    val backButton = BattleBackButton(x.toFloat() + 2 * SWITCH_TILE_WIDTH + 2 * SWITCH_TILE_HORIZONTAL_SPACING, y.toFloat() )
+    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F )
 
     class SwitchTile(
         val selection: BattleSwitchPokemonSelection,
