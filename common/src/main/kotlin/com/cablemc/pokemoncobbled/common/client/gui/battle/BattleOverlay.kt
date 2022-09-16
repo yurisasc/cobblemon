@@ -95,7 +95,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
                 matrixStack = matrices,
                 text = battleLang("ui.actions_label", PartySendBinding.currentKey().localizedText),
                 x = MinecraftClient.getInstance().window.scaledWidth / 2,
-                y = MinecraftClient.getInstance().window.scaledHeight - 110,
+                y = (MinecraftClient.getInstance().window.scaledHeight / 2) - 25,
                 opacity = textOpacity,
                 centered = true
             )
