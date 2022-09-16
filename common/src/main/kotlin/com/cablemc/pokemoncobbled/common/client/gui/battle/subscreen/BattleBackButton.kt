@@ -6,20 +6,24 @@ import net.minecraft.client.util.math.MatrixStack
 
 class BattleBackButton(val x: Float, val y: Float) {
     companion object {
-        const val WIDTH = 24F
-        const val HEIGHT = WIDTH * 3/4F
+        const val WIDTH = 58
+        const val HEIGHT = 34
+        const val SCALE = 0.5F
     }
 
     fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             matrixStack = matrices,
-            texture = cobbledResource("ui/pc/pc_exit.png"),
-            x = x,
-            y = y,
+            texture = cobbledResource("ui/battle/battle_back.png"),
+            x = x * 2,
+            y = y * 2,
             height = HEIGHT,
-            width = WIDTH
+            width = WIDTH,
+            vOffset = if (isHovered(mouseX.toDouble(), mouseY.toDouble())) HEIGHT else 0,
+            textureHeight = HEIGHT * 2,
+            scale = SCALE
         )
     }
 
-    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x..(x + WIDTH)) && mouseY.toFloat() in (y..(y + HEIGHT))
+    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x..(x + (WIDTH * SCALE))) && mouseY.toFloat() in (y..(y + (HEIGHT * SCALE)))
 }
