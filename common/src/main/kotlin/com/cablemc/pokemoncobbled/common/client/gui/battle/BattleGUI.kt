@@ -97,7 +97,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
                 matrixStack = poseStack,
                 text = battleLang("ui.hide_label", PartySendBinding.currentKey().localizedText),
                 x = MinecraftClient.getInstance().window.scaledWidth / 2,
-                y = MinecraftClient.getInstance().window.scaledHeight - 110,
+                y = (MinecraftClient.getInstance().window.scaledHeight / 2) - 25,
                 opacity = 0.75F * opacity,
                 centered = true
             )
