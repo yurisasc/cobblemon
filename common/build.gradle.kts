@@ -1,3 +1,7 @@
+plugins {
+    id("pokemoncobbled.base-conventions")
+}
+
 architectury {
     common()
 }
@@ -11,8 +15,9 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation(kotlin("reflect"))
+    implementation(libs.stdlib)
+    implementation(libs.reflect)
+
     modImplementation("net.fabricmc:fabric-loader:${rootProject.property("fabric_loader_version")}")
     modApi("dev.architectury:architectury:${rootProject.property("architectury_version")}")
     modApi("com.eliotlash.molang:molang:18")

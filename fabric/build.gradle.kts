@@ -1,3 +1,7 @@
+plugins {
+    id("pokemoncobbled.platform-conventions")
+}
+
 architectury {
     platformSetupLoomIde()
     fabric()
@@ -44,12 +48,11 @@ dependencies {
     modApi("net.fabricmc:fabric-language-kotlin:${rootProject.property("fabric_kotlin")}")
 
     // For Kotlin
-    bundle(kotlin("stdlib-jdk8", version = "1.6.10"))
-    bundle(kotlin("reflect", version = "1.6.10"))
-    bundle(kotlin("stdlib", version = rootProject.property("kotlin_version").toString()))
-    bundle("org.jetbrains:annotations:${rootProject.property("annotations_version")}")
-    bundle("org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:${rootProject.property("serialization_version")}")
-    bundle("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:${rootProject.property("serialization_version")}")
+    bundle(libs.stdlib)
+    bundle(libs.reflect)
+    bundle(libs.jetbrainsAnnotations)
+    bundle(libs.serializationCore)
+    bundle(libs.serializationJson)
 
     // For Showdown
     bundle("com.caoccao.javet:javet:1.1.3") // Linux or Windows
