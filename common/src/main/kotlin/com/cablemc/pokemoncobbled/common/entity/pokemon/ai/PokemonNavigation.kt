@@ -21,7 +21,7 @@ import net.minecraft.world.World
 class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : MobNavigation(pokemonEntity, world) {
     val moving = pokemonEntity.behaviour.moving
 
-    override fun createPathNodeNavigator(range: Int): PathNodeNavigator? {
+    override fun createPathNodeNavigator(range: Int): PathNodeNavigator {
         this.nodeMaker = OmniPathNodeMaker()
         nodeMaker.setCanEnterOpenDoors(true)
         return PathNodeNavigator(nodeMaker, range)
@@ -29,9 +29,9 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
 
     override fun isAtValidPosition(): Boolean {
         return (this.entity.isOnGround && moving.walk.canWalk) ||
-                (!entity.isInLava && !entity.isSubmergedInWater && moving.fly.canFly) ||
+                (!entity.isInLava && !entity.isSubmergedIn(FluidTags.LAVA) && moving.fly.canFly) ||
                 (entity.isInLava && moving.swim.canSwimInLava) ||
-                (entity.isSubmergedInWater && moving.swim.canSwimInWater) ||
+                (entity.isSubmergedIn(FluidTags.WATER) && moving.swim.canSwimInWater) ||
                 this.entity.hasVehicle();
     }
 
@@ -40,6 +40,20 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
     }
 
     override fun getPos() = Vec3d(entity.x, getPathfindingY().toDouble(), entity.z)
+
+    override fun continueFollowingPath() {
+        val vec3d = this.pos
+        nodeReachProximity = (if (entity.width > 0.75f) entity.width / 2.0f else 0.75f - entity.width / 2.0f) + 0.05F
+        val vec3i = currentPath!!.currentNodePos
+        val d = Math.abs(entity.x - (vec3i.x.toDouble() + 0.5))
+        val e = Math.abs(entity.y - vec3i.y.toDouble())
+        val f = Math.abs(entity.z - (vec3i.z.toDouble() + 0.5))
+        val closeToNode = d < nodeReachProximity.toDouble() && f < this.nodeReachProximity.toDouble() && e < 1.0
+        if (closeToNode || entity.canJumpToNextPathNode(currentPath!!.currentNode.type) && shouldJumpToNextNode(vec3d)) {
+            currentPath!!.next()
+        }
+        checkTimeouts(vec3d)
+    }
 
     override fun tick() {
         super.tick()
@@ -63,10 +77,10 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
 
     override fun findPathTo(target: BlockPos, distance: Int): Path? {
         return this.findPathTo(ImmutableSet.of(target), 8, false, distance)?.also {
-//            try {
-//                var i = 0
-//                while (true) {
-//                    val node = it.getNode(i)
+            try {
+                var i = 0
+                while (true) {
+                    val node = it.getNode(i)
 //                    entity.world.spawnEntity(
 //                        ItemEntity(entity.world, node.blockPos.x.toDouble(), node.blockPos.y.toDouble(), node.blockPos.z.toDouble(), ItemStack(Items.PUFFERFISH))
 //                            .also {
@@ -78,10 +92,11 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
 //                            }
 //                    )
 //                    entity.world.setBlockState(node.blockPos, Blocks.GOLD_BLOCK.defaultState)
-//                    i++
-//                }
-//            } catch(e: Exception) {
-//            }
+                    i++
+                }
+            } catch(e: Exception) {
+            }
+//            entity.world.setBlockState(entity.blockPos, Blocks.DIAMOND_BLOCK.defaultState)
 //            entity.remove(Entity.RemovalReason.DISCARDED)
         }
     }

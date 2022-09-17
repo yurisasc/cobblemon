@@ -40,6 +40,7 @@ import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
+import com.cablemc.pokemoncobbled.common.util.toVec3d
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
@@ -52,6 +53,7 @@ import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.Goal
+import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
@@ -133,8 +135,6 @@ class PokemonEntity(
     }
 
     init {
-        moveControl = PokemonMoveControl(this)
-        navigation = PokemonNavigation(world, this)
         delegate.initialize(this)
         delegate.changePokemon(pokemon)
         calculateDimensions()
@@ -176,14 +176,21 @@ class PokemonEntity(
         const val BATTLE_LOCK = "battle"
     }
 
-    override fun canWalkOnFluid(state: FluidState) =
-        if (state.isIn(FluidTags.WATER)) {
+    override fun canWalkOnFluid(state: FluidState): Boolean {
+//        val node = navigation.currentPath?.currentNode
+//        val targetPos = node?.blockPos
+//        if (targetPos == null || world.getBlockState(targetPos.up()).isAir) {
+        return if (state.isIn(FluidTags.WATER)) {
             behaviour.moving.swim.canWalkOnWater
         } else if (state.isIn(FluidTags.LAVA)) {
             behaviour.moving.swim.canWalkOnLava
         } else {
             super.canWalkOnFluid(state)
         }
+//        }
+//
+//        return super.canWalkOnFluid(state)
+    }
 
     override fun tick() {
         super.tick()
@@ -260,11 +267,20 @@ class PokemonEntity(
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
         shiny.set(pokemon.shiny)
-        speed = 0.1F
     }
 
     override fun createSpawnPacket() = NetworkManager.createAddEntityPacket(this)
+
+    override fun getPathfindingPenalty(nodeType: PathNodeType): Float {
+        return if (nodeType == PathNodeType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
+    }
+
     public override fun initGoals() {
+        if (pokemon != null) {
+            moveControl = PokemonMoveControl(this)
+            navigation = PokemonNavigation(world, this)
+        }
+
         goalSelector.clear()
         goalSelector.add(0, object : Goal() {
             override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1

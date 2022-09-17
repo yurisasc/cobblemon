@@ -7,10 +7,12 @@ import com.cablemc.pokemoncobbled.common.util.math.geometry.toDegrees
 import com.cablemc.pokemoncobbled.common.util.math.geometry.toRadians
 import kotlin.math.abs
 import kotlin.math.min
+import kotlin.math.sqrt
 import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.tag.BlockTags
+import net.minecraft.tag.FluidTags
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -20,7 +22,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
         val behaviour = pokemonEntity.behaviour
         val mediumSpeed = if (pokemonEntity.getPoseType() in setOf(PoseType.FLY, PoseType.HOVER)) {
             behaviour.moving.fly.flySpeedHorizontal
-        } else if (pokemonEntity.getPoseType() in setOf(PoseType.FLOAT, PoseType.SWIM)) {
+        } else if (pokemonEntity.isSubmergedIn(FluidTags.WATER) || pokemonEntity.isSubmergedIn(FluidTags.LAVA)) {
             behaviour.moving.swim.swimSpeed
         } else {
             behaviour.moving.walk.walkSpeed
@@ -53,7 +55,6 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             entity.setSidewaysSpeed(sidewaysMovement)
             state = State.WAIT
         } else if (state == State.MOVE_TO) {
-            // TODO check for what type of node we are moving to
 //            state = State.WAIT
             val xDist = targetX - entity.x
             val zDist = targetZ - entity.z
@@ -66,25 +67,9 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
                 val movingAngle = MathHelper.atan2(zDist, xDist).toDegrees() - 90.0f
                 entity.yaw = movingAngle
             }
-//            val closeVertically = abs(yDist) < 0.001
-//
-//            if (closeHorizontally) {
-//                entity.movementSpeed = 0F
-//            } else {
-//                val movingAngle = MathHelper.atan2(zDist, xDist).toDegrees() - 90.0f
-//                entity.yaw = movingAngle
-//                val forwardSpeed = min(adjustedSpeed, sqrt(horizontalDistanceFromTarget).toFloat())
-//                entity.movementSpeed = forwardSpeed
-//            }
-//
-//            if (closeVertically) {
-//                entity.upwardSpeed = 0F
-//            }
-//
-//            if (closeVertically && closeHorizontally) {
-//                entity.forwardSpeed = 0F
-//                return
-//            }
+
+            val blockIn = entity.blockStateAtPos
+            val inFluid = blockIn.fluidState.isIn(FluidTags.WATER) || blockIn.fluidState.isIn(FluidTags.LAVA)
 //
 //
             var verticalHandled = false
@@ -92,39 +77,43 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
 //                val upVel = min(abs(baseSpeed * behaviour.moving.fly.flySpeedVertical).toDouble(), abs(yDist)).toFloat()
 //                entity.upwardSpeed = upVel * sign(yDist).toFloat()
                 verticalHandled = true
-            } else if (entity.isTouchingWater) {
+            } else if (inFluid) {
 //                val upVel = min(abs(baseSpeed * behaviour.moving.swim.swimSpeed * 4).toDouble(), abs(yDist)).toFloat()
 //                entity.upwardSpeed = upVel * sign(yDist).toFloat()
                 verticalHandled = true
             }
-//
+
             val blockPos = entity.blockPos
             val blockState = entity.world.getBlockState(blockPos)
             val voxelShape = blockState.getCollisionShape(entity.world, blockPos)
 
-            var debug = true
-            if (debug) {
+            if (pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING) || inFluid) {
                 entity.upwardSpeed = 0F
                 entity.movementSpeed = 0F
                 val refine: (Double) -> Double = { if (abs(it) < 0.05) 0.0 else it }
 
                 val fullDistance = Vec3d(
                     refine(xDist),
-                    if (entity.isTouchingWater || pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) refine(yDist + 0.05) else 0.0,
+                    if (inFluid || pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) refine(yDist + 0.05) else 0.0,
                     refine(zDist)
                 )
 
                 val direction = fullDistance.normalize()
+
                 val scale = min(adjustedSpeed.toDouble(), fullDistance.length())
 
-
-
                 entity.velocity = direction.multiply(scale)
+            } else {
+                val forwardSpeed = min(adjustedSpeed, sqrt(horizontalDistanceFromTarget).toFloat())
+                entity.movementSpeed = forwardSpeed
             }
 
             if (!verticalHandled) {
-                if (yDist > entity.stepHeight.toDouble() &&
-                    xDist * xDist + zDist * zDist < 1.0f.coerceAtLeast(entity.width).toDouble() ||
+                val tooBigToStep = yDist > entity.stepHeight.toDouble()
+                val closeEnoughToJump = sqrt(xDist * xDist + zDist * zDist) < 1.0f.coerceAtLeast(entity.width).toDouble() + 1
+                println("Too big to step: $tooBigToStep with yDist being $yDist. Close enough to jump: $closeEnoughToJump. Distance to jump: ${sqrt(xDist * xDist + zDist * zDist)}")
+                if (tooBigToStep &&
+                    closeEnoughToJump ||
                     !voxelShape.isEmpty && entity.y < voxelShape.getMax(Direction.Axis.Y) + blockPos.y.toDouble() &&
                     !blockState.isIn(BlockTags.DOORS) &&
                     !blockState.isIn(BlockTags.FENCES)

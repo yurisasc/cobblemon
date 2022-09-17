@@ -98,15 +98,17 @@ class OmniPathNodeMaker : PathNodeMaker() {
         return asTargetPathNode(super.getNode(MathHelper.floor(x), MathHelper.floor(y), MathHelper.floor(z)))
     }
 
-    override fun getSuccessors(successors: Array<PathNode?>, node: PathNode): Int {
+    override fun getSuccessors(successors: Array<PathNode>, node: PathNode): Int {
         var i = 0
         val map = Maps.newEnumMap<Direction, PathNode?>(Direction::class.java)
         val upperMap = Maps.newEnumMap<Direction, PathNode?>(Direction::class.java)
         val lowerMap = Maps.newEnumMap<Direction, PathNode?>(Direction::class.java)
 
+        val upIsOpen = cachedWorld.getBlockState(node.blockPos.up()).canPathfindThrough(cachedWorld, node.blockPos, NavigationType.AIR)
+
         // Non-diagonal surroundings in 3d space
         for (direction in Direction.values()) {
-            val pathNode = this.getNode(node.x + direction.offsetX, node.y + direction.offsetY, node.z + direction.offsetZ)
+            val pathNode = this.getNode(node.x + direction.offsetX, node.y + direction.offsetY, node.z + direction.offsetZ) ?: continue
             map[direction] = pathNode
             if (!hasNotVisited(pathNode)) {
                 continue
@@ -119,7 +121,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
             val direction2 = direction.rotateYClockwise()
             val x = node.x + direction.offsetX + direction2.offsetX
             val z = node.z + direction.offsetZ + direction2.offsetZ
-            val pathNode2 = this.getNode(x, node.y, z)
+            val pathNode2 = this.getNode(x, node.y, z) ?: continue
             if (isAccessibleDiagonal(pathNode2, map[direction], map[direction2])) {
                 successors[i++] = pathNode2
             }
@@ -127,8 +129,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
 
         // Upward non-diagonals
         for (direction in Direction.Type.HORIZONTAL.iterator()) {
-            val pathNode2 = getNode(node.x + direction.offsetX, node.y + 1, node.z + direction.offsetZ)
-            if (isAccessibleDiagonal(pathNode2, map[direction], map[Direction.UP])) {
+            val pathNode2 = getNode(node.x + direction.offsetX, node.y + 1, node.z + direction.offsetZ) ?: continue
+            if (upIsOpen && hasNotVisited(pathNode2)) {
                 successors[i++] = pathNode2
                 upperMap[direction] = pathNode2
             }
@@ -137,16 +139,20 @@ class OmniPathNodeMaker : PathNodeMaker() {
         // Upward diagonals
         for (direction in Direction.Type.HORIZONTAL.iterator()) {
             val direction2 = direction.rotateYClockwise()
-            val pathNode2 = getNode(node.x + direction.offsetX + direction2.offsetX, node.y + 1, node.z + direction.offsetZ + direction2.offsetZ)
+            val pathNode2 = getNode(node.x + direction.offsetX + direction2.offsetX, node.y + 1, node.z + direction.offsetZ + direction2.offsetZ) ?: continue
             if (isAccessibleDiagonal(pathNode2, upperMap[direction], upperMap[direction2])) {
                 successors[i++] = pathNode2
             }
         }
 
+        val connectingBlockPos = BlockPos.Mutable()
         // Downward non-diagonals
         for (direction in Direction.Type.HORIZONTAL.iterator()) {
-            val pathNode2 = getNode(node.x + direction.offsetX, node.y - 1, node.z + direction.offsetZ)
-            if (isAccessibleDiagonal(pathNode2, map[direction], map[Direction.DOWN])) {
+            connectingBlockPos.set(node.blockPos.add(direction.vector))
+            val blockState = cachedWorld.getBlockState(connectingBlockPos)
+            val traversibleByTangent = blockState.canPathfindThrough(cachedWorld, connectingBlockPos, NavigationType.AIR)
+            val pathNode2 = getNode(node.x + direction.offsetX, node.y - 1, node.z + direction.offsetZ) ?: continue
+            if (hasNotVisited(pathNode2) && traversibleByTangent) {
                 successors[i++] = pathNode2
                 lowerMap[direction] = pathNode2
             }
@@ -155,8 +161,8 @@ class OmniPathNodeMaker : PathNodeMaker() {
         // Downward diagonals
         for (direction in Direction.Type.HORIZONTAL.iterator()) {
             val direction2 = direction.rotateYClockwise()
-            val pathNode2 = getNode(node.x + direction.offsetX + direction2.offsetX, node.y - 1, node.z + direction.offsetZ + direction2.offsetZ)
-            if (isAccessibleDiagonal(pathNode2, upperMap[direction], upperMap[direction2])) {
+            val pathNode2 = getNode(node.x + direction.offsetX + direction2.offsetX, node.y - 1, node.z + direction.offsetZ + direction2.offsetZ) ?: continue
+            if (isAccessibleDiagonal(pathNode2, lowerMap[direction], lowerMap[direction2])) {
                 successors[i++] = pathNode2
             }
         }
@@ -174,7 +180,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
 
     fun isValidPathNodeType(pathNodeType: PathNodeType): Boolean {
         return when {
-            pathNodeType == PathNodeType.BREACH && canWalk() -> true
+            pathNodeType == PathNodeType.BREACH && (canWalk() || canFly()) -> true
             (pathNodeType == PathNodeType.WATER || pathNodeType == PathNodeType.WATER_BORDER) && canSwimUnderwater() -> true
             pathNodeType == PathNodeType.OPEN && canFly() -> true
             pathNodeType == PathNodeType.WALKABLE && canWalk() -> true
@@ -224,40 +230,37 @@ class OmniPathNodeMaker : PathNodeMaker() {
         canEnterOpenDoors: Boolean
     ): PathNodeType {
         val mutable = BlockPos.Mutable()
-        for (i in x until x + sizeX) {
-            for (j in y until y + sizeY) {
-                for (k in z until z + sizeZ) {
-                    mutable.set(i, j, k)
-                    val fluidState = world.getFluidState(mutable)
-                    val blockState = world.getBlockState(mutable)
-                    if (fluidState.isEmpty &&
-                        blockState.canPathfindThrough(world, mutable.down() as BlockPos, NavigationType.WATER) &&
-                        blockState.isAir
-                    ) {
-                        return PathNodeType.BREACH
-                    }
-                    if (fluidState.isIn(FluidTags.WATER)) {
-                        continue
-                    } else if (blockState.canPathfindThrough(world, mutable.down() as BlockPos, NavigationType.LAND)) {
-                        continue
-                    } else if (canSwimUnderlava() && fluidState.isIn(FluidTags.LAVA)) {
-                        continue
-                    }
-                    return PathNodeType.BLOCKED
-                }
+        for (j in y until y + sizeY) {
+            mutable.set(x, j, z)
+            val fluidState = world.getFluidState(mutable)
+            val blockState = world.getBlockState(mutable)
+            val airMovable = blockState.canPathfindThrough(world, mutable, NavigationType.AIR)
+            val below = cachedWorld.getBlockState(mutable.down())
+            val waterBelow = below.fluidState.isIn(FluidTags.WATER)
+            val lavaBelow = below.fluidState.isIn(FluidTags.LAVA)
+            if (((lavaBelow && canSwimUnderlava()) || waterBelow) && airMovable) {
+                return PathNodeType.BREACH
+            } else if (fluidState.isIn(FluidTags.WATER)) {
+                continue
+//                    } else if (blockState.canPathfindThrough(world, mutable.down() as BlockPos, NavigationType.LAND)) {
+            } else if (airMovable) {
+                continue
+            } else if (canSwimUnderlava() && fluidState.isIn(FluidTags.LAVA)) {
+                continue
             }
+            return PathNodeType.BLOCKED
         }
 
         val below = BlockPos(x, y - 1, z)
-        val blockState2 = world.getBlockState(mutable)
+        val blockState = world.getBlockState(mutable.set(x, y, z))
         val blockStateBelow = world.getBlockState(below)
-        val isWater = blockState2.fluidState.isIn(FluidTags.WATER)
-        val isLava = blockState2.fluidState.isIn(FluidTags.LAVA) // NavigationType.WATER is an explicit water check, lava needs more work
-        return if ((isWater && canSwimUnderwater()) || (isLava && canSwimUnderlava()) && blockState2.canPathfindThrough(world, mutable, NavigationType.WATER)) {
+        val isWater = blockState.fluidState.isIn(FluidTags.WATER)
+        val isLava = blockState.fluidState.isIn(FluidTags.LAVA) // NavigationType.WATER is an explicit water check, lava needs more work
+        return if ((isWater && canSwimUnderwater()) || (isLava && canSwimUnderlava())) {
             PathNodeType.WATER
-        } else if (canFly() && blockState2.canPathfindThrough(world, mutable, NavigationType.AIR) && blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
+        } else if (canFly() && blockState.canPathfindThrough(world, mutable, NavigationType.AIR) && blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
             PathNodeType.OPEN
-        } else if (canWalk() && blockState2.canPathfindThrough(world, mutable, NavigationType.LAND) && !blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
+        } else if (canWalk() && blockState.canPathfindThrough(world, mutable, NavigationType.LAND) && !blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
             PathNodeType.WALKABLE
         } else PathNodeType.BLOCKED
     }

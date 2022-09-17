@@ -19,7 +19,9 @@
     "behaviour": {
         "moving": {
             "swim": {
-                "canWalkOnWater": true
+                "canWalkOnWater": true,
+                "canSwim": true,
+                "canBreatheUnderwater": true
             }
         }
     },
