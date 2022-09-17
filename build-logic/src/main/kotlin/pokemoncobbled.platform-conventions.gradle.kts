@@ -1,6 +1,3 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import net.fabricmc.loom.task.RemapJarTask
-
 plugins {
     id("pokemoncobbled.base-conventions")
     id("com.github.johnrengelman.shadow")
@@ -13,19 +10,22 @@ val bundle: Configuration by configurations.creating {
 
 tasks {
 
-    withType<Jar> {
+    jar {
         archiveBaseName.set("PokemonCobbled-${project.name}")
         archiveClassifier.set("dev-slim")
     }
 
-    withType<ShadowJar> {
+    shadowJar {
         archiveClassifier.set("dev-shadow")
+        archiveBaseName.set("PokemonCobbled-${project.name}")
         configurations = listOf(bundle)
     }
 
-    withType<RemapJarTask> {
-        dependsOn("shadowJar")
-        inputFile.set(named<ShadowJar>("shadowJar").flatMap { it.archiveFile })
-        archiveClassifier.set(project.name)
+    remapJar {
+        dependsOn(shadowJar)
+        inputFile.set(shadowJar.flatMap { it.archiveFile })
+        archiveBaseName.set("PokemonCobbled-${project.name}")
+        archiveClassifier.set("${rootProject.version}-remap")
     }
+
 }

@@ -26,7 +26,7 @@ versions:
   architectury: 6.2.43
 
   # test
-  junit: 5.4.2
+  junit: 5.9.0
   mockito: 3.3.3
   mockk: 1.12.1
 
