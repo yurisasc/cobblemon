@@ -173,7 +173,7 @@ class ApricornTreeFeature(
         for (i in 1..nextInt(2,4)) {
             var direction: Direction? = null
 
-            while(direction == null || usedDirections.contains(direction)) {
+            while (direction == null || usedDirections.contains(direction)) {
                 when (random.nextInt(4)) {
                     0 -> direction = NORTH
                     1 -> direction = EAST

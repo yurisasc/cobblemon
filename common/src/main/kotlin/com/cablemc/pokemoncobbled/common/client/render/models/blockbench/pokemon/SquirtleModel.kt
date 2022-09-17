@@ -52,7 +52,6 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("squirtle", "ground_idle"),
                 bedrock("squirtle", "ground_walk")
             )
         )

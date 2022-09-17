@@ -170,16 +170,16 @@ class ShoulderedState() : ActivePokemonState() {
     }
 
     override fun recall() {
-        val player = getServer()?.playerManager?.getPlayer(playerUUID) ?: return
+        val player = playerUUID.getPlayer() ?: return
         val nbt = if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight
         if (this.isShoulderedPokemon(nbt)) {
             player.world.playSoundServer(player.pos, SoundEvents.BLOCK_CANDLE_FALL)
-            this.removeShoulderEffects(player)
             if (isLeftShoulder) {
                 player.shoulderEntityLeft = NbtCompound()
             } else {
                 player.shoulderEntityRight = NbtCompound()
             }
+            this.removeShoulderEffects(player)
         }
     }
 

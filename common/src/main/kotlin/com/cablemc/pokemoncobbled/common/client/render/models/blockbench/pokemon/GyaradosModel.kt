@@ -59,8 +59,8 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.WALK,
-            { !it.isSubmergedInWater },
+            poseName = "land",
+            poseTypes = setOf(PoseType.WALK, PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE, PoseType.FLOAT),
             idleAnimations = arrayOf(
                 WaveAnimation(
                     frame = this,

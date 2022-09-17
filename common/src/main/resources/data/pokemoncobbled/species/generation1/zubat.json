@@ -18,9 +18,10 @@
     "catchRate": 255,
     "maleRatio": 0.5,
     "shoulderMountable": true,
+    "shoulderEffects": ["slow_fall"],
     "forms": [],
     "baseExperienceYield": 49,
-    "experienceGroup": "medium",
+    "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
         "flying"

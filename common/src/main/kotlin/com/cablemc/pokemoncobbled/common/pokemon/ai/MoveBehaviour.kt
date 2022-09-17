@@ -15,6 +15,8 @@ package com.cablemc.pokemoncobbled.common.pokemon.ai
  * @since July 30th, 2022
  */
 class MoveBehaviour {
-    val canMove = true
+    val walk = WalkBehaviour()
+    val swim = SwimBehaviour()
+    val fly = FlyBehaviour()
     val canLook = true
 }
