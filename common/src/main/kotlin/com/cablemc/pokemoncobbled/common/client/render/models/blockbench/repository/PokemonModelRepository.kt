@@ -45,6 +45,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MachopModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MachokeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MachampModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
@@ -113,6 +116,9 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("electrode")] = { ElectrodeModel(it) }
         posers[cobbledResource("lapras")] = { LaprasModel(it) }
         posers[cobbledResource("ekans")] = { EkansModel(it) }
+        posers[cobbledResource("machop")] = { MachopModel(it) }
+        posers[cobbledResource("machoke")] = { MachokeModel(it) }
+        posers[cobbledResource("machamp")] = { MachampModel(it) }
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {

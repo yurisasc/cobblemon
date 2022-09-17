@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor

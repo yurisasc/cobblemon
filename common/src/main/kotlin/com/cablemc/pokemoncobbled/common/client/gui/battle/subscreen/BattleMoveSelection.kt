@@ -3,6 +3,8 @@ package com.cablemc.pokemoncobbled.common.client.gui.battle.subscreen
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
 import com.cablemc.pokemoncobbled.common.api.moves.Moves
 import com.cablemc.pokemoncobbled.common.api.text.bold
+import com.cablemc.pokemoncobbled.common.api.text.gold
+import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.battles.InBattleMove
 import com.cablemc.pokemoncobbled.common.battles.MoveActionResponse
@@ -15,6 +17,7 @@ import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.math.toRGB
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.util.math.MathHelper.floor
 
 class BattleMoveSelection(
     battleGUI: BattleGUI,
@@ -46,7 +49,7 @@ class BattleMoveSelection(
         MoveTile(this, inBattleMove, x, y)
     }
 
-    val backButton = BattleBackButton(x.toFloat() + MOVE_HORIZONTAL_SPACING + MOVE_WIDTH + MOVE_WIDTH + 3F, y + 3F)
+    val backButton = BattleBackButton(x - 3F, MinecraftClient.getInstance().window.scaledHeight - 22F)
 
     class MoveTile(
         val moveSelection: BattleMoveSelection,
@@ -120,10 +123,16 @@ class BattleMoveSelection(
                 shadow = true
             )
 
+            var movePPText = (move.pp.toString() + "/" + move.maxpp.toString()).text().bold()
+
+            if (move.pp <= floor(move.maxpp / 2F)) {
+                movePPText = if (move.pp == 0) movePPText.red() else movePPText.gold()
+            }
+
             drawScaledText(
                 matrixStack = matrices,
                 font = CobbledResources.DEFAULT_LARGE,
-                text = (move.pp.toString() + "/" + move.maxpp.toString()).text().bold(),
+                text = movePPText,
                 x = x + 75,
                 y = y + 14,
                 opacity = moveSelection.opacity,
@@ -151,9 +160,7 @@ class BattleMoveSelection(
             it.render(matrices, mouseX, mouseY, delta)
         }
 
-//        if (!backButton.isHovered(mouseX.toDouble(), mouseY.toDouble())) {
-            backButton.render(matrices, mouseX, mouseY, delta)
-//        }
+        backButton.render(matrices, mouseX, mouseY, delta)
     }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

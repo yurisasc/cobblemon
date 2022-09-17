@@ -3,8 +3,10 @@ package com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.adapters.RequirementAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.AreaRequirement
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.AttackDefenceRatioRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.BiomeRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.FriendshipRequirement
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.HeldItemRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.LevelRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.MoveSetRequirement
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.MoveTypeRequirement
@@ -36,8 +38,7 @@ object CobbledRequirementAdapter : RequirementAdapter {
         this.registerType(AreaRequirement.ADAPTER_VARIANT, AreaRequirement::class)
         this.registerType(BiomeRequirement.ADAPTER_VARIANT, BiomeRequirement::class)
         this.registerType(FriendshipRequirement.ADAPTER_VARIANT, FriendshipRequirement::class)
-        // ToDo Pending impl of held items
-        //this.registerType(HeldItemRequirement.ADAPTER_VARIANT, HeldItemRequirement::class)
+        this.registerType(HeldItemRequirement.ADAPTER_VARIANT, HeldItemRequirement::class)
         this.registerType(WorldRequirement.ADAPTER_VARIANT, WorldRequirement::class)
         this.registerType(MoveSetRequirement.ADAPTER_VARIANT, MoveSetRequirement::class)
         this.registerType(MoveTypeRequirement.ADAPTER_VARIANT, MoveTypeRequirement::class)
@@ -46,6 +47,7 @@ object CobbledRequirementAdapter : RequirementAdapter {
         this.registerType(TimeRangeRequirement.ADAPTER_VARIANT, TimeRangeRequirement::class)
         this.registerType(LevelRequirement.ADAPTER_VARIANT, LevelRequirement::class)
         this.registerType(WeatherRequirement.ADAPTER_VARIANT, WeatherRequirement::class)
+        this.registerType(AttackDefenceRatioRequirement.ADAPTER_VARIANT, AttackDefenceRatioRequirement::class)
     }
 
     override fun <T : EvolutionRequirement> registerType(id: String, type: KClass<T>) {
@@ -54,13 +56,13 @@ object CobbledRequirementAdapter : RequirementAdapter {
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): EvolutionRequirement {
         val variant = json.asJsonObject.get(VARIANT).asString.lowercase()
-        val type = this.types[variant] ?: throw IllegalArgumentException("Cannot resolve type for variant $variant")
+        val type = this.types[variant] ?: throw IllegalArgumentException("Cannot resolve evolution requirement type for variant $variant")
         return context.deserialize(json, type.java)
     }
 
     override fun serialize(src: EvolutionRequirement, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
         val json = context.serialize(src, src::class.java).asJsonObject
-        val variant = this.types.inverse()[src::class] ?: throw IllegalArgumentException("Cannot resolve variant for type ${src::class.qualifiedName}")
+        val variant = this.types.inverse()[src::class] ?: throw IllegalArgumentException("Cannot resolve evolution requirement for type ${src::class.qualifiedName}")
         json.addProperty(VARIANT, variant)
         return json
     }
