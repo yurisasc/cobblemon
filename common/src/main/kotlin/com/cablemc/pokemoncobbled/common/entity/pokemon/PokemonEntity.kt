@@ -18,11 +18,15 @@ import com.cablemc.pokemoncobbled.common.api.events.pokemon.ShoulderMountEvent
 import com.cablemc.pokemoncobbled.common.api.net.serializers.PoseTypeDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.api.reactive.ObservableSubscription
+import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.Poseable
+import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.PokemonMoveControl
+import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.PokemonNavigation
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonFollowOwnerGoal
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonLookAtEntityGoal
 import com.cablemc.pokemoncobbled.common.entity.pokemon.ai.goals.PokemonWanderAroundGoal
@@ -44,6 +48,7 @@ import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
+import com.cablemc.pokemoncobbled.common.util.toVec3d
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
@@ -54,7 +59,9 @@ import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
+import net.minecraft.entity.ai.control.MoveControl
 import net.minecraft.entity.ai.goal.Goal
+import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
@@ -62,11 +69,13 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.fluid.FluidState
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.tag.FluidTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
@@ -78,6 +87,10 @@ class PokemonEntity(
     pokemon: Pokemon = Pokemon(),
     type: EntityType<out PokemonEntity> = CobbledEntities.POKEMON_TYPE,
 ) : TameableShoulderEntity(type, world), EntitySpawnExtension, Poseable {
+    val removalObservable = SimpleObservable<RemovalReason?>()
+    /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
+    val subscriptions = mutableListOf<ObservableSubscription<*>>()
+
     val form: FormData
         get() = pokemon.form
     val behaviour: FormPokemonBehaviour
@@ -93,13 +106,15 @@ class PokemonEntity(
 
     var despawner: Despawner<PokemonEntity> = PokemonCobbled.bestSpawner.defaultPokemonDespawner
 
+    /** The player that caused this Pokémon to faint. */
+    var killer: ServerPlayerEntity? = null
+
     var ticksLived = 0
     val busyLocks = mutableListOf<Any>()
     val isBusy: Boolean
         get() = busyLocks.isNotEmpty()
 
     var drops: DropTable? = null
-
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val species = addEntityProperty(SPECIES, pokemon.species.resourceIdentifier.toString())
@@ -111,9 +126,6 @@ class PokemonEntity(
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
-
-    /** The player that caused this Pokémon to faint. */
-    var killer: ServerPlayerEntity? = null
 
     /**
      * 0 is do nothing,
@@ -135,15 +147,26 @@ class PokemonEntity(
         delegate.changePokemon(pokemon)
         calculateDimensions()
 
-        battleId
-            .subscribeIncludingCurrent {
-                if (it.isPresent) {
-                    busyLocks.add(BATTLE_LOCK)
+        subscriptions.add(
+            battleId
+                .subscribeIncludingCurrent {
+                    if (it.isPresent) {
+                        busyLocks.add(BATTLE_LOCK)
+                    } else {
+                        busyLocks.remove(BATTLE_LOCK)
+                    }
+                }
+        )
+
+        subscriptions.add(
+            poseType.subscribe {
+                if (it == PoseType.FLY || it == PoseType.HOVER) {
+                    setNoGravity(true)
                 } else {
-                    busyLocks.remove(BATTLE_LOCK)
+                    setNoGravity(false)
                 }
             }
-            .unsubscribeWhen { isRemoved }
+        )
     }
 
     companion object {
@@ -161,6 +184,22 @@ class PokemonEntity(
         const val BATTLE_LOCK = "battle"
     }
 
+    override fun canWalkOnFluid(state: FluidState): Boolean {
+//        val node = navigation.currentPath?.currentNode
+//        val targetPos = node?.blockPos
+//        if (targetPos == null || world.getBlockState(targetPos.up()).isAir) {
+        return if (state.isIn(FluidTags.WATER)) {
+            behaviour.moving.swim.canWalkOnWater
+        } else if (state.isIn(FluidTags.LAVA)) {
+            behaviour.moving.swim.canWalkOnLava
+        } else {
+            super.canWalkOnFluid(state)
+        }
+//        }
+//
+//        return super.canWalkOnFluid(state)
+    }
+
     override fun tick() {
         super.tick()
         // We will be handling idle logic ourselves thank you
@@ -173,11 +212,15 @@ class PokemonEntity(
         }
     }
 
+    fun setMoveControl(moveControl: MoveControl) {
+        this.moveControl = moveControl
+    }
+
     /**
      * Prevents water type Pokémon from taking drowning damage.
      */
     override fun canBreatheInWater(): Boolean {
-        return ElementalTypes.WATER in pokemon.types
+        return behaviour.moving.swim.canBreatheUnderwater
     }
 
     /**
@@ -232,11 +275,20 @@ class PokemonEntity(
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
         shiny.set(pokemon.shiny)
-        speed = 0.35F
     }
 
     override fun createSpawnPacket() = NetworkManager.createAddEntityPacket(this)
+
+    override fun getPathfindingPenalty(nodeType: PathNodeType): Float {
+        return if (nodeType == PathNodeType.OPEN) 2F else super.getPathfindingPenalty(nodeType)
+    }
+
     public override fun initGoals() {
+        if (pokemon != null) {
+            moveControl = PokemonMoveControl(this)
+            navigation = PokemonNavigation(world, this)
+        }
+
         goalSelector.clear()
         goalSelector.add(0, object : Goal() {
             override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1
@@ -244,9 +296,9 @@ class PokemonEntity(
         })
 
         goalSelector.add(2, SleepOnTrainerGoal(this))
-        goalSelector.add(3, PokemonFollowOwnerGoal(this, 0.6, 8F, 2F, false))
+        goalSelector.add(3, PokemonFollowOwnerGoal(this, 0.4, 8F, 2F, false))
         goalSelector.add(4, WildRestGoal(this))
-        goalSelector.add(5, PokemonWanderAroundGoal(this, 0.33))
+        goalSelector.add(5, PokemonWanderAroundGoal(this, 0.4))
         goalSelector.add(6, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
     }
 
@@ -339,10 +391,11 @@ class PokemonEntity(
 
     override fun getEyeHeight(pose: EntityPose): Float = this.pokemon.form.eyeHeight(this)
 
-    @Suppress("SAFE_CALL_WILL_CHANGE_NULLABILITY", "USELESS_ELVIS", "UNNECESSARY_SAFE_CALL")
     override fun getActiveEyeHeight(pose: EntityPose?, dimensions: EntityDimensions?): Float {
-        // This property will be null during Entity#<init>
-        return this.pokemon?.form?.eyeHeight(this) ?: super.getActiveEyeHeight(pose, dimensions)
+        if (this.pokemon == null) {
+            return super.getActiveEyeHeight(pose, dimensions)
+        }
+        return this.pokemon.form.eyeHeight(this)
     }
 
     fun setBehaviourFlag(flag: PokemonBehaviourFlag, on: Boolean) {
@@ -423,6 +476,8 @@ class PokemonEntity(
         if (stateEntity == this) {
             pokemon.state = InactivePokemonState()
         }
+        subscriptions.forEach(ObservableSubscription<*>::unsubscribe)
+        removalObservable.emit(reason)
     }
 
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
@@ -451,6 +506,6 @@ class PokemonEntity(
         (this as AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
     }
 
-    fun getIsSubmerged() = submergedInWater
+    fun getIsSubmerged() = isInLava || isSubmergedInWater
     override fun getPoseType(): PoseType = this.poseType.get()
 }

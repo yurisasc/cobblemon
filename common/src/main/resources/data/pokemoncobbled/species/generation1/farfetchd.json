@@ -41,7 +41,7 @@
         }
     ],
     "baseExperienceYield": 132,
-    "experienceGroup": "medium",
+    "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
         "flying",

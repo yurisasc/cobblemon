@@ -27,7 +27,7 @@
         }
     ],
     "baseExperienceYield": 198,
-    "experienceGroup": "medium",
+    "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
         "bug"

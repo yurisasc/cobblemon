@@ -10,10 +10,11 @@ package com.cablemc.pokemoncobbled.common.pokemon.effects
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.google.gson.JsonObject
+import java.util.UUID
 import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.server.network.ServerPlayerEntity
-import java.util.*
 
 /**
  * Effect that allows for slow falling after [slowAfter] blocks.
@@ -22,11 +23,11 @@ import java.util.*
  * @author Qu
  * @since 2022-01-29
  */
-class SlowFallEffect: ShoulderEffect {
+class SlowFallEffect : ShoulderEffect {
+    class SlowFallShoulderStatusEffect(val pokemonId: UUID) : StatusEffectInstance(StatusEffects.SLOW_FALLING, Int.MAX_VALUE) {
+    }
+
     companion object {
-        init {
-            //MinecraftForge.EVENT_BUS.register(this)
-        }
         private val SLOW_FALLING_ID = UUID.fromString("A5B6CF2A-2F7C-31EF-9022-7C3E7D5E6ABB")
         private val SLOW_FALLING = EntityAttributeModifier(
             SLOW_FALLING_ID,
@@ -34,9 +35,6 @@ class SlowFallEffect: ShoulderEffect {
             -0.07,
             EntityAttributeModifier.Operation.ADDITION
         ) // Add -0.07 to 0.08 so we get the vanilla default of 0.01
-
-        private const val SLOW_AFTER_PROPERTY = "slowAfter"
-        private val observeMap = mutableMapOf<ServerPlayerEntity, SlowFallEffect>()
 
 //        @SubscribeEvent
 //        fun onLivingUpdate(event: LivingEvent.LivingUpdateEvent) {
@@ -63,24 +61,24 @@ class SlowFallEffect: ShoulderEffect {
     /**
      * Amount of Blocks the [ServerPlayerEntity] needs to fall to trigger the [SlowFallEffect]
      */
-    private var slowAfter = 5
+//    private var slowAfter = 5
 
     override fun applyEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean) {
-        observeMap[player] = this
+        player.addStatusEffect(SlowFallShoulderStatusEffect(pokemon.uuid))
     }
 
     override fun removeEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean) {
-        observeMap.remove(player)
-        removeEffect(player)
+        player.statusEffects.filter { it is SlowFallShoulderStatusEffect && it.pokemonId == pokemon.uuid }
+            .forEach { (it as SlowFallShoulderStatusEffect) }
     }
 
     /**
      * Triggers if the [ServerPlayerEntity] is falling
      */
     fun onFall(player: ServerPlayerEntity) {
-        if (player.fallDistance >= slowAfter) {
-            addEffect(player)
-        }
+//        if (player.fallDistance >= slowAfter) {
+//            addEffect(player)
+//        }
     }
 
     /**
@@ -88,28 +86,19 @@ class SlowFallEffect: ShoulderEffect {
      */
     fun onFallEnd(player: ServerPlayerEntity) {
         player.fallDistance = 0F
-        removeEffect(player)
+//        removeEffect(player)
     }
 
-    private fun addEffect(player: ServerPlayerEntity) {
+//    private fun addEffect(player: ServerPlayerEntity) {
+//        player.addStatusEffect(StatusEffects.SLOW_FALLING)
 //        player.getAttribute(ForgeMod.ENTITY_GRAVITY.get())?.let {
 //            if (!it.hasModifier(SLOW_FALLING)) it.addTransientModifier(SLOW_FALLING)
 //        }
-    }
-
-    private fun removeEffect(player: ServerPlayerEntity) {
+//    }
+//
+//    private fun removeEffect(player: ServerPlayerEntity) {
 //        player.getAttribute(ForgeMod.ENTITY_GRAVITY.get())?.let {
 //            if (it.hasModifier(SLOW_FALLING)) it.removeModifier(SLOW_FALLING)
 //        }
-    }
-
-    override fun serialize(json: JsonObject): JsonObject {
-        json.addProperty(SLOW_AFTER_PROPERTY, slowAfter)
-        return json
-    }
-
-    override fun deserialize(json: JsonObject): ShoulderEffect {
-        slowAfter = json.get(SLOW_AFTER_PROPERTY).asInt
-        return this
-    }
+//    }
 }

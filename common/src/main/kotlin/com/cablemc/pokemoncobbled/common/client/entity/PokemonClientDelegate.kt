@@ -43,34 +43,34 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     private val minimumFallSpeed = -0.1F
     private val intensityVelocityCap = -0.5F
     override fun changePokemon(pokemon: Pokemon) {
-        entity.species.subscribeIncludingCurrent {
+        entity.subscriptions.add(entity.species.subscribeIncludingCurrent {
             currentPose = null
             entity.pokemon.species = PokemonSpecies.getByIdentifier(Identifier(it))!! // TODO exception handling
-        }
+        })
 
-        entity.deathEffectsStarted.subscribe {
+        entity.subscriptions.add(entity.deathEffectsStarted.subscribe {
             if (it) {
                 val model = (currentModel ?: return@subscribe) as PokemonPoseableModel
                 val animation = model.getFaintAnimation(entity, this) ?: return@subscribe
                 statefulAnimations.add(animation)
             }
-        }
+        })
 
-        entity.shiny.subscribeIncludingCurrent { entity.pokemon.shiny = it }
-        entity.phasingTargetId.subscribe {
+        entity.subscriptions.add(entity.shiny.subscribeIncludingCurrent { entity.pokemon.shiny = it })
+        entity.subscriptions.add(entity.phasingTargetId.subscribe {
             if (it != -1) {
                 setPhaseTarget(it)
             } else {
                 phaseTarget = null
             }
-        }
+        })
 
 //        pokemon.aspects = entity.aspects.get()
 //        entity.aspects.pipe(emitWhile { pokemon == entity.pokemon }).subscribe {
 //            pokemon.aspects = it
 //        }
 
-        entity.beamModeEmitter.subscribeIncludingCurrent {
+        entity.subscriptions.add(entity.beamModeEmitter.subscribeIncludingCurrent {
             if (it == 0.toByte()) {
                 // Do nothing
             } else if (it == 1.toByte()) {
@@ -92,7 +92,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
                     }
                 }
             }
-        }
+        })
     }
 
     override fun initialize(entity: PokemonEntity) {

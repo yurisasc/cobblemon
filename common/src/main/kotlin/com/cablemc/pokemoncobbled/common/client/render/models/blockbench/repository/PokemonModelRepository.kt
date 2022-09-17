@@ -24,6 +24,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DiglettModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EkansModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ElectrodeModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GloomModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GyaradosModel
@@ -122,6 +123,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("voltorb")] = { VoltorbModel(it) }
         posers[cobbledResource("electrode")] = { ElectrodeModel(it) }
         posers[cobbledResource("lapras")] = { LaprasModel(it) }
+        posers[cobbledResource("ekans")] = { EkansModel(it) }
         posers[cobbledResource("machop")] = { MachopModel(it) }
         posers[cobbledResource("machoke")] = { MachokeModel(it) }
         posers[cobbledResource("machamp")] = { MachampModel(it) }

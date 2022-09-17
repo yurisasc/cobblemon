@@ -33,7 +33,7 @@ internal object CobbledDataProvider : DataProvider {
     override fun register(registry: DataRegistry) {
         // Only send message once
         if (this.tailRegistry == null) {
-            LOGGER.info("Note: Pokémon Cobbled data registries are only loaded once as Pokémon species are not safe to reload.")
+            LOGGER.info("Note: Pokémon Cobbled data registries are only loaded once per server instance as Pokémon species are not safe to reload.")
         }
         ReloadListenerRegistry.register(registry.type, SimpleResourceReloader(registry))
         LOGGER.info("Registered the {} registry", registry.id.toString())
