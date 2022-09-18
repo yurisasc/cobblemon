@@ -13,13 +13,17 @@ import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
+import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
+import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getPlayer
+import com.cablemc.pokemoncobbled.common.util.isPokemonEntity
 import com.cablemc.pokemoncobbled.common.util.lang
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import java.util.UUID
 import kotlin.math.round
 import kotlin.random.Random
+import net.minecraft.nbt.NbtCompound
 
 /**
  * A [PartyStore] used for a single player. This uses the player's UUID as the store's UUID, and is declared as its own
@@ -106,5 +110,28 @@ open class PlayerPartyStore(
                 pokemon.evolutions.filterIsInstance<PassiveEvolution>().forEach { it.attemptEvolution(pokemon) }
             }
         }
+
+        // Shoulder validation code
+        if (player.shoulderEntityLeft.isPokemonEntity() && !validateShoulder(player.shoulderEntityLeft, true)) {
+            player.dropShoulderEntity(player.shoulderEntityLeft)
+        }
+        if (player.shoulderEntityRight.isPokemonEntity() && !validateShoulder(player.shoulderEntityRight, false)) {
+            player.dropShoulderEntity(player.shoulderEntityRight)
+        }
+
+        forEach {
+            val state = it.state
+            if (state is ShoulderedState && !state.isStillShouldered(player)) {
+                it.recall()
+            }
+        }
+    }
+
+    fun validateShoulder(shoulderEntity: NbtCompound, isLeft: Boolean): Boolean {
+        val pokemon = find { it.uuid == shoulderEntity.getCompound("Pokemon").getUuid(DataKeys.POKEMON_UUID) }
+        if (pokemon == null || (pokemon.state as? ShoulderedState)?.isLeftShoulder != isLeft) {
+            return false
+        }
+        return true
     }
 }
