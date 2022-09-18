@@ -27,14 +27,8 @@ abstract class CobbledAdapterParent<S> : CobbledAdapter<S> {
     }
 
     override fun <E : StorePosition, T : PokemonStore<E>> load(storeClass: Class<T>, uuid: UUID): T? {
-        val result = this.provide(storeClass, uuid)
-        if (result == null) {
-            for (child in this.children) {
-                child.load(storeClass, uuid).let { return@load it }
-            }
-        }
-
-        return null
+        return this.provide(storeClass, uuid)
+            ?: children.firstNotNullOfOrNull { it.load(storeClass, uuid) }
     }
 
     abstract fun <E : StorePosition, T : PokemonStore<E>> provide(storeClass: Class<T>, uuid: UUID): T?

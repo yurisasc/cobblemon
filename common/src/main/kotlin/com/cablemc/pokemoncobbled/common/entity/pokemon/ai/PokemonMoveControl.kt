@@ -119,7 +119,7 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
             if (!verticalHandled) {
                 val tooBigToStep = yDist > entity.stepHeight.toDouble()
                 val closeEnoughToJump = sqrt(xDist * xDist + zDist * zDist) < 1.0f.coerceAtLeast(entity.width).toDouble() + 1
-                println("Too big to step: $tooBigToStep with yDist being $yDist. Close enough to jump: $closeEnoughToJump. Distance to jump: ${sqrt(xDist * xDist + zDist * zDist)}")
+//                println("Too big to step: $tooBigToStep with yDist being $yDist. Close enough to jump: $closeEnoughToJump. Distance to jump: ${sqrt(xDist * xDist + zDist * zDist)}")
                 if (tooBigToStep &&
                     closeEnoughToJump ||
                     !voxelShape.isEmpty && entity.y < voxelShape.getMax(Direction.Axis.Y) + blockPos.y.toDouble() &&
