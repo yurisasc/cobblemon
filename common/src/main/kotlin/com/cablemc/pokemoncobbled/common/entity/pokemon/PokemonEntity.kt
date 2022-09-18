@@ -22,6 +22,7 @@ import com.cablemc.pokemoncobbled.common.api.reactive.ObservableSubscription
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.scheduling.afterOnMain
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
+import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes.FIRE
 import com.cablemc.pokemoncobbled.common.entity.EntityProperty
 import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.Poseable
@@ -48,7 +49,6 @@ import com.cablemc.pokemoncobbled.common.util.getBitForByte
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
 import com.cablemc.pokemoncobbled.common.util.setBitForByte
-import com.cablemc.pokemoncobbled.common.util.toVec3d
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
@@ -227,7 +227,7 @@ class PokemonEntity(
      * Prevents fire type Pokémon from taking fire damage.
      */
     override fun isFireImmune(): Boolean {
-        return ElementalTypes.FIRE in pokemon.types
+        return FIRE in pokemon.types || behaviour.moving.swim.canSwimInLava
     }
 
     /**
@@ -249,6 +249,15 @@ class PokemonEntity(
     override fun writeNbt(nbt: NbtCompound): NbtCompound {
         nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
         return super.writeNbt(nbt)
+    }
+
+    override fun isInvulnerableTo(damageSource: DamageSource): Boolean {
+        // If the entity is busy, it cannot be hurt.
+        if (busyLocks.isNotEmpty()) {
+            return true
+        }
+
+        return super.isInvulnerableTo(damageSource)
     }
 
     fun recallWithAnimation(): CompletableFuture<Pokemon> {
