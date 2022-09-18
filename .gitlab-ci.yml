@@ -32,9 +32,9 @@ deploy-job:
       - fabric/build/libs/*.jar
   script: 
     - echo "Collecting artifacts..."
-    - mv forge/build/libs/*-forge.jar ./
-    - mv fabric/build/libs/*-fabric.jar ./
-    - for f in *.jar; do mv "$f" "$(echo "$f" | sed s/+/b$CI_PIPELINE_IID+/)"; done
+    - mv forge/build/libs/*-remap.jar ./
+    - mv fabric/build/libs/*-remap.jar ./
+    - for f in *.jar; do mv "$f" "$(echo "$f" | sed s/+/b$CI_PIPELINE_IID+/ | sed s/-remap//)"; done
   artifacts:
     expire_in: 28 days
     paths:
