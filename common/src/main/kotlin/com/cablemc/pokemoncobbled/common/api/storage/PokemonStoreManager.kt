@@ -49,27 +49,22 @@ open class PokemonStoreManager {
 
     @Throws(NoPokemonStoreException::class)
     open fun getParty(playerID: UUID): PlayerPartyStore {
-        for (factory in factories) {
-            factory.getPlayerParty(playerID)?.run { return this }
-        }
-
-        throw NoPokemonStoreException("No factory was able to provide a party for $playerID - this should not be possible unless someone has removed the default provider!")
+        return factories.firstNotNullOfOrNull { it.getPlayerParty(playerID) }
+            ?: throw NoPokemonStoreException(
+                "No factory was able to provide a party for $playerID - this should not be possible unless someone has removed the default provider!"
+            )
     }
 
     @Throws(NoPokemonStoreException::class)
     open fun getPC(playerID: UUID): PCStore {
-        for (factory in factories) {
-            factory.getPC(playerID)?.run { return this }
-        }
-
-        throw NoPokemonStoreException("No factory was able to provide a PC for $playerID - this should not be possible unless someone has removed the default provider!")
+        return factories.firstNotNullOfOrNull { it.getPC(playerID) }
+            ?: throw NoPokemonStoreException(
+                "No factory was able to provide a PC for $playerID - this should not be possible unless someone has removed the default provider!"
+            )
     }
 
     open fun getPCForPlayer(player: ServerPlayerEntity, pcBlockEntity: PCBlockEntity): PCStore? {
-        for (factory in factories) {
-            factory.getPCForPlayer(player, pcBlockEntity)?.run { return this }
-        }
-        return null
+        return factories.firstNotNullOfOrNull { it.getPCForPlayer(player, pcBlockEntity) }
     }
 
     open fun getParties(playerID: UUID): Iterable<PartyStore> {

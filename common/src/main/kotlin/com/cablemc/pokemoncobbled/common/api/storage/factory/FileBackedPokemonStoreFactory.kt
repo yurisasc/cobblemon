@@ -52,7 +52,7 @@ open class FileBackedPokemonStoreFactory<S>(
     }
 
     protected fun <E : StorePosition, T : PokemonStore<E>> getStoreCache(storeClass: Class<T>): StoreCache<E, T> {
-        val cache = storeCaches.getOrPut(storeClass) {  StoreCache<E, T>() }
+        val cache = storeCaches.getOrPut(storeClass) { StoreCache<E, T>() }
         return cache as StoreCache<E, T>
     }
 
