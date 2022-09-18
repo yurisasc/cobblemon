@@ -193,4 +193,5 @@ class ShoulderedState() : ActivePokemonState() {
             .getCompound(DataKeys.POKEMON_STATE)
             .getUuid(DataKeys.POKEMON_STATE_ID) == this.stateId
 
+    fun isStillShouldered(player: ServerPlayerEntity) = isShoulderedPokemon(if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight)
 }

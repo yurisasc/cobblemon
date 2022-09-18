@@ -457,7 +457,7 @@ class PokemonEntity(
                     busyLocks.remove(lock)
                     if (!isBusy && isAlive) {
                         val isLeft = player.shoulderEntityLeft.isEmpty
-                        if (!isLeft || player.shoulderEntityRight.isEmpty) {
+                        if (isLeft || player.shoulderEntityRight.isEmpty) {
                             pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
                             this.mountOnto(player)
                             this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
