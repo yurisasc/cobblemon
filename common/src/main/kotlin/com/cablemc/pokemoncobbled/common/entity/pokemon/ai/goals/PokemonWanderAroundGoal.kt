@@ -20,7 +20,7 @@ import net.minecraft.util.math.Vec3d
  */
 class PokemonWanderAroundGoal(entity: PokemonEntity, speed: Double) : WanderAroundGoal(entity, speed) {
     fun canMove() = (mob as PokemonEntity).behaviour.moving.walk.canWalk
-    override fun canStart() = super.canStart() && canMove()
+    override fun canStart() = super.canStart() && canMove() && !(mob as PokemonEntity).isBusy
     override fun shouldContinue() = super.shouldContinue() && canMove()
 
     override fun getWanderTarget(): Vec3d? {
