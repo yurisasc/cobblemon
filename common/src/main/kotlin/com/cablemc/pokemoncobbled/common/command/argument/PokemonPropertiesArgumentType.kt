@@ -32,7 +32,10 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
     }
 
     override fun parse(reader: StringReader): PokemonProperties {
-        return PokemonProperties.parse(reader.readString())
+        val properties = reader.remaining
+        reader.cursor = reader.totalLength
+
+        return PokemonProperties.parse(properties)
     }
 
     override fun <S : Any> listSuggestions(
