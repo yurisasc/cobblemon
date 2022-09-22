@@ -65,6 +65,7 @@ object ShowdownInterpreter {
         updateInstructions["|-unboost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, false) }
         updateInstructions["|-boost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, true) }
         updateInstructions["|t:|"] = {_, _, _ -> }
+        updateInstructions["|pp_update|"] = this::handlePpUpdateInstruction
 
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
@@ -397,7 +398,7 @@ object ShowdownInterpreter {
 
         battle.dispatch {
             battle.sendToActors(BattleMakeChoicePacket())
-            battle.broadcastChatMessage("It is now turn ${message.split("|turn|")[1]}".aqua())
+            battle.broadcastChatMessage("It is now turn $turnNumber".aqua())
             battle.turn()
             GO
         }
@@ -500,6 +501,18 @@ object ShowdownInterpreter {
     private fun handleResistInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             battle.broadcastChatMessage(battleLang("resisted"))
+            GO
+        }
+    }
+
+    /**
+     * Format:
+     * |pp_update|<side_id>: <pokemon_uuid>|...<move_id>:<move_pp>
+     */
+    private fun handlePpUpdateInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        battle.dispatch {
+            val editMessaged = message.replace("|pp_update|", "")
+
             GO
         }
     }
