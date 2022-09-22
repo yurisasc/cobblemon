@@ -30,5 +30,6 @@ object CobbledCommands {
         CheckSpawnsCommand.register(dispatcher)
         GetNBT.register(dispatcher)
         OpenStarterScreenCommand.register(dispatcher)
+        SpawnAllPokemon.register(dispatcher)
     }
 }

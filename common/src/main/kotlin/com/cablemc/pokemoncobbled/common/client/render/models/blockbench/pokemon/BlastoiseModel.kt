@@ -24,7 +24,7 @@ import net.minecraft.util.math.Vec3d
 
 class BlastoiseModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, EaredFrame {
     override val rootPart = root.registerChildWithAllChildren("blastoise")
-    override val head = getPart("head_AI")
+    override val head = getPart("head_ai")
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
     override val rightLeg = getPart("leg_right")

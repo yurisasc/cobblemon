@@ -23,7 +23,7 @@ import net.minecraft.util.math.Vec3d
 
 class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame, BiWingedFrame {
     override val rootPart = root.registerChildWithAllChildren("charizard")
-    override val head = getPart("head_AI")
+    override val head = getPart("head_ai")
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
     override val rightLeg = getPart("leg_right")

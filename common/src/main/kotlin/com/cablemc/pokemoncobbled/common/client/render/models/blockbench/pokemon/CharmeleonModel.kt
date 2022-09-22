@@ -37,9 +37,8 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
+            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT),
             transformTicks = 10,
-            condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charmeleon", "ground_idle")
@@ -47,9 +46,9 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         )
 
         walk = registerPose(
-            poseType = PoseType.WALK,
+            poseName = "walk",
+            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
-            condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charmeleon", "ground_idle"),

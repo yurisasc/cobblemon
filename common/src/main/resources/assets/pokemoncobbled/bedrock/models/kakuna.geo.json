@@ -37,8 +37,8 @@
 					"parent": "head",
 					"pivot": [0, 12.25, -2.5],
 					"cubes": [
-						{"origin": [-3.5, 11.25, -3.5], "size": [2, 2, 2], "inflate": 0.01, "uv": [24, 0]},
-						{"origin": [1.5, 11.25, -3.5], "size": [2, 2, 2], "inflate": 0.01, "uv": [24, 0], "mirror": true}
+						{"origin": [-3.5, 11.25, -3.5], "size": [2, 2, 2], "inflate": 0.01, "uv": [24, 13]},
+						{"origin": [1.5, 11.25, -3.5], "size": [2, 2, 2], "inflate": 0.01, "uv": [24, 9], "mirror": true}
 					]
 				},
 				{

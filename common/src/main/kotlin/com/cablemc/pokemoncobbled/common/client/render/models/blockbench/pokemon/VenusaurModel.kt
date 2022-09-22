@@ -36,9 +36,8 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
+            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
-            condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("venusaur", "ground_idle")
@@ -46,9 +45,9 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
         )
 
         walk = registerPose(
-            poseType = PoseType.WALK,
+            poseName = "walk",
+            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
-            condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("venusaur", "ground_idle"),
