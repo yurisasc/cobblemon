@@ -32,7 +32,7 @@ class VileplumeModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("vileplume", "idle")
+                bedrock("0045_vileplume/vileplume", "idle")
             )
         )
 
@@ -41,7 +41,7 @@ class VileplumeModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("vileplume", "ground_walk2")
+                bedrock("0045_vileplume/vileplume", "ground_walk2")
             )
         )
     }
@@ -49,5 +49,5 @@ class VileplumeModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("vileplume", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0045_vileplume/vileplume", "faint") else null
 }

@@ -37,7 +37,7 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("butterfree", "air_idle")
+                bedrock("0012_butterfree/butterfree", "air_idle")
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -5F))
         )
@@ -48,7 +48,7 @@ class ButterfreeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("butterfree", "air_fly")
+                bedrock("0012_butterfree/butterfree", "air_fly")
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -5F))
         )

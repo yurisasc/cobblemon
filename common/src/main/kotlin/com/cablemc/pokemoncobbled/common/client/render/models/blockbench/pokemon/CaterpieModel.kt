@@ -35,7 +35,7 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("caterpie", "ground_idle")
+                bedrock("0010_caterpie/caterpie", "ground_idle")
             )
         )
 
@@ -45,7 +45,7 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("caterpie", "ground_walk")
+                bedrock("0010_caterpie/caterpie", "ground_walk")
             )
         )
     }
@@ -53,5 +53,5 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("caterpie", "faint")
+    ) = bedrockStateful("0010_caterpie/caterpie", "faint")
 }

@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:primeape",
-  "model": "pokemoncobbled:bedrock/models/primeape.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/primeape.png",
+  "model": "pokemoncobbled:bedrock/models/0057_primeape/primeape.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0057_primeape/primeape.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/primeape_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0057_primeape/primeape_shiny.png"
     }
   ]
 }

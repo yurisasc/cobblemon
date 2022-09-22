@@ -32,7 +32,7 @@ class OddishModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("oddish", "ground_idle")
+                bedrock("0043_oddish/oddish", "ground_idle")
             )
         )
 
@@ -41,7 +41,7 @@ class OddishModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("oddish", "ground_walk")
+                bedrock("0043_oddish/oddish", "ground_walk")
             )
         )
     }
@@ -49,5 +49,5 @@ class OddishModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("oddish", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0043_oddish/oddish", "faint") else null
 }

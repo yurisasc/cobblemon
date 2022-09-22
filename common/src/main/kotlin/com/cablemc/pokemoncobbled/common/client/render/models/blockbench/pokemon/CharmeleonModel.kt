@@ -41,7 +41,7 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("charmeleon", "ground_idle")
+                bedrock("0006_charmeleon/charmeleon", "ground_idle")
             )
         )
 
@@ -51,8 +51,8 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("charmeleon", "ground_idle"),
-                bedrock("charmeleon", "ground_walk")
+                bedrock("0006_charmeleon/charmeleon", "ground_idle"),
+                bedrock("0006_charmeleon/charmeleon", "ground_walk")
             )
         )
     }
@@ -60,5 +60,5 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("charmeleon", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0006_charmeleon/charmeleon", "faint") else null
 }

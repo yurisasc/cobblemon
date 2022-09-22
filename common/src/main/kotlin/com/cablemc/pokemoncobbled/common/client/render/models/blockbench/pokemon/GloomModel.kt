@@ -32,7 +32,7 @@ class GloomModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("gloom", "ground_idle")
+                bedrock("0044_gloom/gloom", "ground_idle")
             )
         )
 
@@ -41,7 +41,7 @@ class GloomModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("gloom", "ground_walk")
+                bedrock("0044_gloom/gloom", "ground_walk")
             )
         )
     }
@@ -49,5 +49,5 @@ class GloomModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("gloom", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0044_gloom/gloom", "faint") else null
 }

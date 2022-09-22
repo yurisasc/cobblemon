@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:caterpie",
-  "model": "pokemoncobbled:bedrock/models/caterpie.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/caterpie.png",
+  "model": "pokemoncobbled:bedrock/models/0010_caterpie/caterpie.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0010_caterpie/caterpie.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/caterpie_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0010_caterpie/caterpie_shiny.png"
     }
   ]
 }

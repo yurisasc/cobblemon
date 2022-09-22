@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:clefable",
-  "model": "pokemoncobbled:bedrock/models/clefable.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/clefable.png",
+  "model": "pokemoncobbled:bedrock/models/0036_clefable/clefable.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0036_clefable/clefable.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/clefable_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0036_clefable/clefable_shiny.png"
     }
   ]
 }

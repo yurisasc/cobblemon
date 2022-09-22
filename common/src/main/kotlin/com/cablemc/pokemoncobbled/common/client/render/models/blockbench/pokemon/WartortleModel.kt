@@ -50,7 +50,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("wartortle", "ground_idle")
+                bedrock("0007_wartortle/wartortle", "ground_idle")
             )
         )
 
@@ -59,7 +59,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = setOf(PoseType.FLOAT),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("wartortle", "water_idle")
+                bedrock("0007_wartortle/wartortle", "water_idle")
             )
         )
 
@@ -68,7 +68,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseTypes = setOf(PoseType.SWIM),
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("wartortle", "water_swim")
+                bedrock("0007_wartortle/wartortle", "water_swim")
             )
         )
 
@@ -76,7 +76,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             poseType = PoseType.WALK,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("wartortle", "ground_walk")
+                bedrock("0007_wartortle/wartortle", "ground_walk")
             )
         )
     }
@@ -84,5 +84,5 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isNotPosedIn(swim, swimIdle)) bedrockStateful("wartortle", "faint") else null
+    ) = if (state.isNotPosedIn(swim, swimIdle)) bedrockStateful("0007_wartortle/wartortle", "faint") else null
 }

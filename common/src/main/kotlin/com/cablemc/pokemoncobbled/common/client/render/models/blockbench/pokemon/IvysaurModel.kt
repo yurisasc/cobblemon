@@ -40,7 +40,7 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("ivysaur", "ground_idle")
+                bedrock("0002_ivysaur/ivysaur", "ground_idle")
             )
         )
 
@@ -50,7 +50,7 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("ivysaur", "ground_walk")
+                bedrock("0002_ivysaur/ivysaur", "ground_walk")
             )
         )
     }
@@ -58,5 +58,5 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("ivysaur", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0002_ivysaur/ivysaur", "faint") else null
 }

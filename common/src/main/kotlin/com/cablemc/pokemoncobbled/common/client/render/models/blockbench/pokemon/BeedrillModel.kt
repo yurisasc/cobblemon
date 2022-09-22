@@ -35,7 +35,7 @@ class BeedrillModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("beedrill", "air_idle")
+                bedrock("0015_beedrill/beedrill", "air_idle")
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -10F))
         )
@@ -46,7 +46,7 @@ class BeedrillModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BiWi
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("beedrill", "air_fly")
+                bedrock("0015_beedrill/beedrill", "air_fly")
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -5F))
         )

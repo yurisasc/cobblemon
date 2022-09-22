@@ -35,7 +35,7 @@ class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("weedle", "ground_idle2")
+                bedrock("0013_weedle/weedle", "ground_idle2")
             )
         )
 
@@ -45,7 +45,7 @@ class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("weedle", "ground_walk")
+                bedrock("0013_weedle/weedle", "ground_walk")
             )
         )
     }
@@ -53,5 +53,5 @@ class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("weedle", "faint")
+    ) = bedrockStateful("0013_weedle/weedle", "faint")
 }

@@ -49,7 +49,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("charizard", "ground_idle")
+                bedrock("0006_charizard/charizard", "ground_idle")
             )
         )
 
@@ -59,8 +59,8 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("charizard", "ground_idle"),
-                bedrock("charizard", "ground_walk")
+                bedrock("0006_charizard/charizard", "ground_idle"),
+                bedrock("0006_charizard/charizard", "ground_walk")
             )
         )
 
@@ -70,7 +70,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("charizard", "air_idle")
+                bedrock("0006_charizard/charizard", "air_idle")
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -2F))
         )
@@ -81,7 +81,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("charizard", "air_fly")
+                bedrock("0006_charizard/charizard", "air_fly")
             ),
             transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, 6F))
         )
@@ -90,5 +90,5 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("charizard", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0006_charizard/charizard", "faint") else null
 }

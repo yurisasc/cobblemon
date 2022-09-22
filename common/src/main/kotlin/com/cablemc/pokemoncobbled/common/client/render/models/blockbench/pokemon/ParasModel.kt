@@ -34,7 +34,7 @@ class ParasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = setOf(PoseType.NONE, PoseType.SHOULDER_LEFT, PoseType.SHOULDER_RIGHT, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("paras", "ground_idle"),
+                bedrock("0046_paras/paras", "ground_idle"),
                 singleBoneLook()
             )
         )
@@ -44,7 +44,7 @@ class ParasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("paras", "ground_walk"),
+                bedrock("0046_paras/paras", "ground_walk"),
                 singleBoneLook()
             )
         )
@@ -52,5 +52,5 @@ class ParasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("paras", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0046_paras/paras", "faint") else null
 }

@@ -27,18 +27,18 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "stand",
             poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.FLOAT),
-            idleAnimations = arrayOf(bedrock("diglett", "ground_idle"))
+            idleAnimations = arrayOf(bedrock("0050_diglett/diglett", "ground_idle"))
         )
 
         registerPose(
             poseName = "walk",
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
-            idleAnimations = arrayOf(bedrock("diglett", "ground_moving"))
+            idleAnimations = arrayOf(bedrock("0050_diglett/diglett", "ground_moving"))
         )
     }
 
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("diglett", "faint")
+    ) = bedrockStateful("0050_diglett/diglett", "faint")
 }

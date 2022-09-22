@@ -36,7 +36,7 @@ class ClefairyModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("clefairy", "ground_idle")
+                bedrock("0035_clefairy/clefairy", "ground_idle")
             )
         )
 
@@ -45,13 +45,13 @@ class ClefairyModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("clefairy", "ground_idle"),
-                bedrock("clefairy", "ground_walk")
+                bedrock("0035_clefairy/clefairy", "ground_idle"),
+                bedrock("0035_clefairy/clefairy", "ground_walk")
             )
         )
     }
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("clefairy", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0035_clefairy/clefairy", "faint") else null
 }

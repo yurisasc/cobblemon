@@ -9,8 +9,6 @@
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
@@ -41,13 +39,13 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "land",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.WALK),
-            idleAnimations = arrayOf(BedrockStatelessAnimation(this, BedrockAnimationRepository.getAnimation("magikarp.animation.json", "animation.magikarp.flop")))
+            idleAnimations = arrayOf(bedrock("0129_magikarp/magikarp","flop"))
         )
 
         registerPose(
             poseName = "swimming",
             poseTypes = setOf(PoseType.FLOAT, PoseType.SWIM),
-            idleAnimations = arrayOf(BedrockStatelessAnimation(this, BedrockAnimationRepository.getAnimation("magikarp.animation.json","animation.magikarp.fly")))
+            idleAnimations = arrayOf(bedrock("0129_magikarp/magikarp","fly"))
         )
 
         registerPose(

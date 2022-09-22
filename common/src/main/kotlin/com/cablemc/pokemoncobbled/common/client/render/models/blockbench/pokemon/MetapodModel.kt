@@ -31,7 +31,7 @@ class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             condition = { true },
             idleAnimations = arrayOf(
-                bedrock("metapod", "ground_idle")
+                bedrock("0011_metapod/metapod", "ground_idle")
             )
         )
     }
@@ -39,5 +39,5 @@ class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("metapod", "faint")
+    ) = bedrockStateful("0011_metapod/metapod", "faint")
 }

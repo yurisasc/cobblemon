@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:charmander",
-  "model": "pokemoncobbled:bedrock/models/charmander.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/charmander.png",
+  "model": "pokemoncobbled:bedrock/models/0004_charmander/charmander.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0004_charmander/charmander.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/charmander_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0004_charmander/charmander_shiny.png"
     }
   ]
 }

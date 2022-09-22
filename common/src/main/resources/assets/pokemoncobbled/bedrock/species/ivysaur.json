@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:ivysaur",
-  "model": "pokemoncobbled:bedrock/models/ivysaur.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/ivysaur.png",
+  "model": "pokemoncobbled:bedrock/models/0002_ivysaur/ivysaur.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0002_ivysaur/ivysaur.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/ivysaur_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0002_ivysaur/ivysaur_shiny.png"
     }
   ]
 }

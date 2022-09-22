@@ -36,7 +36,7 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("cleffa", "ground_idle")
+                bedrock("0173_cleffa/cleffa", "ground_idle")
             )
         )
 
@@ -47,7 +47,7 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.SHOULDER_LEFT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("cleffa", "ground_idle")
+                bedrock("0173_cleffa/cleffa", "ground_idle")
             ),
             transformedParts = arrayOf(
                 rootPart.asTransformed().addPosition(X_AXIS, shoulderDisplacement)
@@ -59,7 +59,7 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.SHOULDER_RIGHT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("cleffa", "ground_idle")
+                bedrock("0173_cleffa/cleffa", "ground_idle")
             ),
             transformedParts = arrayOf(
                 rootPart.asTransformed().addPosition(X_AXIS, -shoulderDisplacement)
@@ -71,13 +71,13 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("cleffa", "ground_idle"),
-                bedrock("cleffa", "ground_walk")
+                bedrock("0173_cleffa/cleffa", "ground_idle"),
+                bedrock("0173_cleffa/cleffa", "ground_walk")
             )
         )
     }
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("cleffa", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0173_cleffa/cleffa", "faint") else null
 }

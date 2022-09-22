@@ -34,7 +34,7 @@ class KakunaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             condition = { true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("kakuna", "ground_idle")
+                bedrock("0014_kakuna/kakuna", "ground_idle")
             )
         )
     }
@@ -42,5 +42,5 @@ class KakunaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = bedrockStateful("kakuna", "faint")
+    ) = bedrockStateful("0014_kakuna/kakuna", "faint")
 }

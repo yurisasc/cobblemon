@@ -30,7 +30,7 @@ class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 0,
             idleAnimations = arrayOf(
-                bedrock("electrode", "ground_idle")
+                bedrock("0101_electrode/electrode", "ground_idle")
             )
         )
 
@@ -40,7 +40,7 @@ class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 0,
             onTransitionedInto = { it?.animationSeconds = 0F },
             idleAnimations = arrayOf(
-                bedrock("electrode", "ground_walk")
+                bedrock("0101_electrode/electrode", "ground_walk")
             )
         )
     }
@@ -48,5 +48,5 @@ class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("electrode", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0101_electrode/electrode", "faint") else null
 }

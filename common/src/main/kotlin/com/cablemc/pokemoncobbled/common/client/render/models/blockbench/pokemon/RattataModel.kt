@@ -48,7 +48,7 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("rattata", "ground_idle")
+                bedrock("0019_rattata/rattata", "ground_idle")
             )
         )
 
@@ -58,7 +58,7 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("rattata", "ground_walk")
+                bedrock("0019_rattata/rattata", "ground_walk")
             )
         )
     }

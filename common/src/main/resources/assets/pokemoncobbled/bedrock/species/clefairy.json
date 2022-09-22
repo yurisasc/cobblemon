@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:clefairy",
-  "model": "pokemoncobbled:bedrock/models/clefairy.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/clefairy.png",
+  "model": "pokemoncobbled:bedrock/models/0035_clefairy/clefairy.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0035_clefairy/clefairy.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/clefairy_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0035_clefairy/clefairy_shiny.png"
     }
   ]
 }

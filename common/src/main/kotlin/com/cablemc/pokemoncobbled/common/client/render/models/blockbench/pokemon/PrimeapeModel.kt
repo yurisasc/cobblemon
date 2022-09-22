@@ -30,7 +30,7 @@ class PrimeapeModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("primeape", "ground_idle")
+                bedrock("0057_primeape/primeape", "ground_idle")
             )
         )
 
@@ -39,7 +39,7 @@ class PrimeapeModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("primeape", "ground_walk")
+                bedrock("0057_primeape/primeape", "ground_walk")
             )
         )
     }
@@ -47,5 +47,5 @@ class PrimeapeModel(root: ModelPart) : PokemonPoseableModel() {
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("primeape", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0057_primeape/primeape", "faint") else null
 }

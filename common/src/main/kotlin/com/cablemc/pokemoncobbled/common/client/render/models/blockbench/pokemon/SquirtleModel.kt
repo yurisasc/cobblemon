@@ -43,7 +43,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("squirtle", "ground_idle")
+                bedrock("0007_squirtle/squirtle", "ground_idle")
             )
         )
 
@@ -52,7 +52,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("squirtle", "ground_walk")
+                bedrock("0007_squirtle/squirtle", "ground_walk")
             )
         )
 
@@ -62,7 +62,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("squirtle", "water_idle")
+                bedrock("0007_squirtle/squirtle", "water_idle")
             )
         )
 
@@ -72,7 +72,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("squirtle", "water_swim")
+                bedrock("0007_squirtle/squirtle", "water_swim")
             )
         )
     }
@@ -80,5 +80,5 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("squirtle", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0007_squirtle/squirtle", "faint") else null
 }

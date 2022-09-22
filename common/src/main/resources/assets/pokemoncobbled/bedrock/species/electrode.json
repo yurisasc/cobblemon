@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:electrode",
-  "model": "pokemoncobbled:bedrock/models/electrode.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/electrode.png",
+  "model": "pokemoncobbled:bedrock/models/0101_electrode/electrode.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0101_electrode/electrode.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/electrode_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0101_electrode/electrode_shiny.png"
     }
   ]
 }

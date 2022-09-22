@@ -32,7 +32,7 @@ class ClefableModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("clefable", "ground_idle")
+                bedrock("0036_clefable/clefable", "ground_idle")
             )
         )
 
@@ -41,8 +41,8 @@ class ClefableModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("clefable", "ground_idle"),
-                bedrock("clefable", "ground_walk")
+                bedrock("0036_clefable/clefable", "ground_idle"),
+                bedrock("0036_clefable/clefable", "ground_walk")
             )
         )
     }

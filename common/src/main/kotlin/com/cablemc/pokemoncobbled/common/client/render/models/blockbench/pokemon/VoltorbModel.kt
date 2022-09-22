@@ -30,7 +30,7 @@ class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 0,
             idleAnimations = arrayOf(
-                bedrock("voltorb", "ground_idle")
+                bedrock("0100_voltorb/voltorb", "ground_idle")
             )
         )
 
@@ -40,7 +40,7 @@ class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
             onTransitionedInto = { it?.animationSeconds = 0F },
             transformTicks = 0,
             idleAnimations = arrayOf(
-                bedrock("voltorb", "ground_walk")
+                bedrock("0100_voltorb/voltorb", "ground_walk")
             )
         )
     }
@@ -48,5 +48,5 @@ class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("voltorb", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0100_voltorb/voltorb", "faint") else null
 }

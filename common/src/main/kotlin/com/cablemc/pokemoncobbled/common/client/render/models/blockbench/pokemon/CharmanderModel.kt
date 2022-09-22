@@ -76,7 +76,7 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             condition = { !it.isMoving.get() && !it.getBehaviourFlag(PokemonBehaviourFlag.SLEEPING)},
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("charmander", "ground_idle")
+                bedrock("0004_charmander/charmander", "ground_idle")
             )
         )
 
@@ -86,8 +86,8 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("charmander", "ground_idle"),
-                bedrock("charmander", "ground_walk")
+                bedrock("0004_charmander/charmander", "ground_idle"),
+                bedrock("0004_charmander/charmander", "ground_walk")
             )
         )
     }
@@ -95,5 +95,5 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("charmander", "faint") else null
+    ) = if (state.isNotPosedIn(sleep)) bedrockStateful("0004_charmander/charmander", "faint") else null
 }
