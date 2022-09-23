@@ -507,12 +507,26 @@ object ShowdownInterpreter {
 
     /**
      * Format:
-     * |pp_update|<side_id>: <pokemon_uuid>|...<move_id>:<move_pp>
+     * |pp_update|<side_id>: <pokemon_uuid>|...<move_id>: <move_pp>
      */
     private fun handlePpUpdateInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val editMessaged = message.replace("|pp_update|", "")
-
+            val data = editMessaged.split("|")
+            val actorAndPokemonData = data[0].split(": ")
+            val actorID = actorAndPokemonData[0]
+            val pokemonID = UUID.fromString(actorAndPokemonData[1])
+            val actor = battle.getActor(actorID) ?: return@dispatch GO
+            val pokemon = actor.pokemonList.firstOrNull { battlePokemon -> battlePokemon.effectedPokemon.uuid == pokemonID } ?: return@dispatch GO
+            val moveDatum = data[1].split(", ")
+            moveDatum.forEach { moveData ->
+                val moveIdAndPp = moveData.split(": ")
+                val moveId = moveIdAndPp[0]
+                val movePp = moveIdAndPp[1]
+                val move = pokemon.effectedPokemon.moveSet.firstOrNull { move -> move.name.equals(moveId, true) } ?: return@dispatch GO
+                move.currentPp = movePp.toInt()
+                LOGGER.info("Changed {}' {} {} pp to {}", actorID, pokemon.effectedPokemon.species.name, move.name, move.currentPp)
+            }
             GO
         }
     }

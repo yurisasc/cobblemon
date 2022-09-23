@@ -1,6 +1,7 @@
 package com.cablemc.pokemoncobbled.common.api.moves
 
 import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
+import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.util.DataKeys
@@ -11,15 +12,31 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
+import kotlin.properties.Delegates
 
 /**
  * Representing a Move based on some template and with current PP and the number of raised PP stages.
  */
 open class Move(
-    var currentPp: Int,
-    var raisedPpStages: Int = 0,
-    val template: MoveTemplate
+    val template: MoveTemplate,
+    currentPp: Int,
+    raisedPpStages: Int = 0
 ) {
+
+    val observable = SimpleObservable<Move>()
+
+    var currentPp: Int by Delegates.observable(currentPp) { _, oldValue, newValue ->
+        if (oldValue != newValue) {
+            observable.emit(this)
+        }
+    }
+
+    var raisedPpStages: Int by Delegates.observable(raisedPpStages) { _, oldValue, newValue ->
+        if (oldValue != newValue) {
+            observable.emit(this)
+        }
+    }
+
     val name: String
         get() = template.name
 
@@ -79,7 +96,7 @@ open class Move(
             val template = Moves.getByNameOrDummy(moveName)
             val currentPp = json.get(DataKeys.POKEMON_MOVESET_MOVEPP).asInt
             val raisedPpStages = json.get(DataKeys.POKEMON_MOVESET_RAISED_PP_STAGES)?.asInt ?: 0
-            return Move(currentPp, raisedPpStages, template)
+            return Move(template, currentPp, raisedPpStages)
         }
 
         fun loadFromBuffer(buffer: PacketByteBuf): Move {
