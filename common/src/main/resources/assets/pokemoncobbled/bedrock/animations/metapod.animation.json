@@ -22,6 +22,32 @@
 				}
 			}
 		},
+		"animation.metapod.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [
+						"5+math.sin(q.anim_time*90*1)*0.25",
+						0,
+						"math.clamp(math.sin(q.anim_time*90*2)*0.1,-0.8,0)+math.clamp(math.sin(q.anim_time*90*2)*0.5,0,0.8)+math.sin(q.anim_time*90*1)*0.1"
+					],
+					"position": [
+						0,
+						"(-math.clamp(math.sin(q.anim_time*90*1)*0.2,-0.1,0)-math.clamp(math.sin(q.anim_time*90*1)*0.2,0,0.1)-math.sin(q.anim_time*90*1)*0.2)*0.1",
+						-0.5
+					]
+				},
+				"body_segment": {
+					"rotation": ["-math.clamp(math.sin(q.anim_time*90*1)*0.5,-0.8,0)-math.clamp(math.sin(q.anim_time*90*1)*0.5,0,0.8)-math.sin(q.anim_time*90*1)*0.1", 0, 0]
+				},
+				"eyelid_right": {
+					"position": [-0.1, 0, 0]
+				},
+				"eyelid_left": {
+					"position": [0.1, 0, 0]
+				}
+			}
+		},
 		"animation.metapod.faint": {
 			"animation_length": 3,
 			"bones": {

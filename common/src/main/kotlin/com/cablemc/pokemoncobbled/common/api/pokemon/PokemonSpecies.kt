@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.api.pokemon
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
@@ -13,41 +21,33 @@ import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.moves.adapters.MoveTemplateAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.adapter.ShoulderEffectAdapter
+import com.cablemc.pokemoncobbled.common.api.pokemon.egg.EggGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroupAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
+import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
+import com.cablemc.pokemoncobbled.common.pokemon.FormData
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledEvolutionAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledPreEvolutionAdapter
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledRequirementAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.AbilityPoolAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.AbilityTemplateAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.BiomeLikeConditionAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.BlockLikeConditionAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.BoxAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.DropEntryAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.IdentifierAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.IntRangeAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.LazySetAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.LearnsetAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.NbtCompoundAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.TimeRangeAdapter
-import com.cablemc.pokemoncobbled.common.util.adapters.pokemonPropertiesShortAdapter
+import com.cablemc.pokemoncobbled.common.util.adapters.*
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.caoccao.javet.interop.V8Host
+import com.caoccao.javet.interop.V8Runtime
 import com.google.common.collect.HashBasedTable
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import kotlin.io.path.Path
-import kotlin.reflect.KProperty
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.nbt.NbtCompound
@@ -55,6 +55,9 @@ import net.minecraft.resource.ResourceType
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
+import java.io.File
+import kotlin.io.path.Path
+import kotlin.reflect.KProperty
 
 object PokemonSpecies : JsonDataRegistry<Species> {
 
@@ -86,6 +89,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(NbtCompound::class.java, NbtCompoundAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Biome::class.java).type, BiomeLikeConditionAdapter)
         .registerTypeAdapter(TypeToken.getParameterized(RegistryLikeCondition::class.java, Block::class.java).type, BlockLikeConditionAdapter)
+        .registerTypeAdapter(EggGroup::class.java, EggGroupAdapter)
         .disableHtmlEscaping()
         .enableComplexMapKeySerialization()
         .create()
@@ -97,6 +101,11 @@ object PokemonSpecies : JsonDataRegistry<Species> {
 
     private val speciesByIdentifier = hashMapOf<Identifier, Species>()
     private val speciesByDex = HashBasedTable.create<String, Int, Species>()
+    private const val DUMMY_SPECIES_KEY = "${PokemonCobbled.MODID}dummy"
+    private const val DUMMY_SPECIES_NAME = "${PokemonCobbled.MODID}:Dummy"
+    private const val DUMMY_ABILITY_DATA = "abilities: { 0: \"No Ability\", 1: \"No Ability\", H: \"No Ability\", S: \"No Ability\" }"
+    private const val DUMMY_SINGLES_TIER = "AG"
+    private const val DUMMY_DOUBLES_TIER = "DUber"
 
     val species: Collection<Species>
         get() = this.speciesByIdentifier.values
@@ -135,6 +144,10 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     val CLEFFA by SpeciesByNameDelegate
     val CLEFABLE by SpeciesByNameDelegate
     val CLEFAIRY by SpeciesByNameDelegate
+    val MACHOP by SpeciesByNameDelegate
+    val MACHOKE by SpeciesByNameDelegate
+    val MACHAMP by SpeciesByNameDelegate
+
 
     /**
      * Finds a species by the pathname of their [Identifier].
@@ -189,7 +202,216 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
             species.initialize()
         }
+        PokemonCobbled.showdownThread.showdownStarted.thenAccept { this.createShowdownData() }
         PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
         this.observable.emit(this)
     }
+
+    private fun createShowdownData() {
+        PokemonCobbled.LOGGER.info("Creating showdown data for species")
+        val pokedexDataHolder = StringBuilder()
+        val formatsDataHolder = StringBuilder()
+        this.createDummySpecies(pokedexDataHolder, formatsDataHolder)
+        this.species.forEach { species ->
+            try {
+                this.createShowdownRepresentation(pokedexDataHolder, species)
+                this.createTierRepresentation(formatsDataHolder, species)
+            } catch (e: Exception) {
+                PokemonCobbled.LOGGER.error(
+                    "Failed to create showdown representation for ${species.resourceIdentifier}, this Pokémon will not be loaded",
+                    e
+                )
+                this.speciesByIdentifier.remove(species.resourceIdentifier)
+                this.speciesByDex.remove(species.resourceIdentifier.namespace, species.nationalPokedexNumber)
+            }
+        }
+        V8Host.getNodeInstance().createV8Runtime<V8Runtime>().use { runtime ->
+            // Showdown loads mods by reading existing files as such we cannot dynamically add to the Pokédex, instead, we will overwrite the existing file and force a mod reload.
+            val pokedexFile = File("node_modules/pokemon-showdown/.data-dist/mods/cobbled/pokedex.js")
+            pokedexFile.bufferedWriter().use { writer ->
+                writer.write(
+                    """
+                        "use strict";
+                        Object.defineProperty(exports, "__esModule", {value: true});
+                        const Pokedex = {
+                            $pokedexDataHolder
+                        };
+                        exports.Pokedex = Pokedex;
+                    """.trimIndent()
+                )
+            }
+            val formatsDataFile = File("node_modules/pokemon-showdown/.data-dist/mods/cobbled/formats-data.js")
+            formatsDataFile.bufferedWriter().use { writer ->
+                writer.write(
+                    """
+                        "use strict";
+                        Object.defineProperty(exports, "__esModule", {value: true});
+                        const FormatsData = {
+                            $formatsDataHolder
+                        };
+                        exports.FormatsData = FormatsData;
+                    """.trimIndent()
+                )
+            }
+            val executor = runtime.getExecutor(
+                """
+                        const PokemonShowdown = require('pokemon-showdown');
+                        PokemonShowdown.Dex.modsLoaded = false;
+                        PokemonShowdown.Dex.includeMods();
+                    """.trimIndent()
+            )
+            executor.resourceName = "./node_modules"
+            executor.executeVoid()
+        }
+        PokemonCobbled.LOGGER.info("Finished creating showdown data for species")
+    }
+
+    private fun createDummySpecies(pokedexDataHolder: StringBuilder, formatsDataHolder: StringBuilder) {
+        pokedexDataHolder.append("""
+            $DUMMY_SPECIES_KEY: {
+                num: -1,
+                name: "$DUMMY_SPECIES_NAME",
+                types: ["${ElementalTypes.NORMAL.name}"],
+                gender: "N",
+                baseStats: { hp: 1, atk: 1, def: 1, spa: 1, spd: 1, spe: 1 },
+                $DUMMY_ABILITY_DATA,
+                heightm: 1,
+                weightkg: 1,
+                color: "White",
+                eggGroups: ["${EggGroup.UNDISCOVERED.showdownID}"],
+            },
+        """.trimIndent())
+        formatsDataHolder.append("""
+            $DUMMY_SPECIES_KEY: {
+		        tier: "$DUMMY_SINGLES_TIER",
+                doublesTier: "$DUMMY_DOUBLES_TIER",
+            },
+        """.trimIndent())
+    }
+
+    private fun createShowdownRepresentation(dataHolder: StringBuilder, species: Species) {
+        val showdownName = this.createShowdownName(species)
+        // ToDo types will need a refresh when we introduce custom typing support
+        /**
+         * THINGS TO NOTE:
+         *
+         * Abilities will be sent alongside other Pokémon level battle data, this is done due to showdown being limited to 4 ability slots
+         * Evolutions will affect battle mechanics however we do not to specifically say what the result will be, to adapt to the potential result being unknown from a property until it is created we will just assign a fake result.
+         *
+         */
+        dataHolder.append("""
+            ${this.createShowdownKey(species)}: {
+                num: ${species.nationalPokedexNumber},
+                name: "$showdownName",
+                ${this.generateTypeDetails(species)},
+                ${this.generateGenderDetails(species)},
+                ${this.generateBaseStatsDetails(species)},
+                $DUMMY_ABILITY_DATA,
+                heightm: ${species.height},
+                weightkg: ${species.weight},
+                ${this.generateEggGroupDetails(species)},
+        """.trimIndent())
+        species.preEvolution?.let { dataHolder.append("prevo: \"${createShowdownName(it.species, it.form)}\",") }
+        if (species.evolutions.isNotEmpty()) {
+            dataHolder.append("evos: [${species.evolutions.joinToString(", ") { "\"$DUMMY_SPECIES_NAME\"" }}],")
+        }
+        if (species.forms.isNotEmpty()) {
+            val otherForms = species.forms.joinToString(", ") { "\"${this.createShowdownName(species, it)}\"" }
+            dataHolder.append("""
+                otherFormes: [$otherForms],
+                formeOrder: ["$showdownName", $otherForms],
+            """.trimIndent())
+        }
+        if (species.dynamaxBlocked) {
+            dataHolder.append("cannotDynamax: true,")
+        }
+        dataHolder.append("},")
+        species.forms.forEach { form ->
+            this.createFormShowdownRepresentation(dataHolder, species, form)
+        }
+    }
+
+    private fun createTierRepresentation(dataHolder: StringBuilder, species: Species) {
+        dataHolder.append("""
+            ${this.createShowdownKey(species)}: {
+		        tier: "$DUMMY_SINGLES_TIER",
+                doublesTier: "$DUMMY_DOUBLES_TIER",
+            },
+        """.trimIndent())
+        species.forms.forEach { form ->
+            dataHolder.append("""
+                ${this.createShowdownKey(species, form)}: {
+                    tier: "$DUMMY_SINGLES_TIER",
+                    doublesTier: "$DUMMY_DOUBLES_TIER",
+            """.trimIndent())
+            if (form.gigantamaxMove != null) {
+                dataHolder.append("isNonstandard: \"Gigantamax\",")
+            }
+            dataHolder.append("},")
+        }
+    }
+
+    private fun createFormShowdownRepresentation(dataHolder: StringBuilder, species: Species, form: FormData) {
+        val showdownName = this.createShowdownName(species, form)
+        dataHolder.append("""
+            ${this.createShowdownKey(species, form)}: {
+                num: ${species.nationalPokedexNumber},
+                name: "$showdownName",
+                baseSpecies: "${this.createShowdownName(species)}",
+                forme: "${form.name}",
+                ${this.generateTypeDetails(species, form)},
+                ${this.generateGenderDetails(species, form)},
+                ${this.generateBaseStatsDetails(species, form)},
+                $DUMMY_ABILITY_DATA,
+                heightm: ${form.height},
+                weightkg: ${form.weight},
+                ${this.generateEggGroupDetails(species, form)},
+        """.trimIndent())
+        form.preEvolution?.let { dataHolder.append("prevo: \"${createShowdownName(it.species, it.form)}\",") }
+        if (form.evolutions.isNotEmpty()) {
+            dataHolder.append("evos: [${form.evolutions.joinToString(", ") { "\"$DUMMY_SPECIES_NAME\"" }}],")
+        }
+        if (form.dynamaxBlocked) {
+            dataHolder.append("cannotDynamax: true,")
+        }
+        if (form.gigantamaxMove != null) {
+            dataHolder.append("canGigantamax: \"${form.gigantamaxMove.name.replace("_", " ")}\",")
+        }
+        dataHolder.append("},")
+    }
+
+    // Converts a species into a showdown key resulting in '<namespace><path><form-name(if not base)>'
+    private fun createShowdownKey(species: Species, form: FormData? = null): String {
+        val baseSpeciesKey = species.resourceIdentifier.toString().lowercase().replaceFirst(":", "")
+        return "$baseSpeciesKey${if (form == null || form.name.equals(species.standardForm.name, true)) "" else form.name.replace("-", "").lowercase()}"
+    }
+
+    // Converts a species into a showdown name resulting in '<namespace>:<species_name>-<form-name(if not base)>'
+    private fun createShowdownName(species: Species, form: FormData? = null): String {
+        return "${species.resourceIdentifier.namespace}:${species.name}${if (form == null || form.name.equals(species.standardForm.name, true)) "" else "-${form.name}"}"
+    }
+
+    private fun generateTypeDetails(species: Species, form: FormData? = null): String {
+        val primaryType = form?.primaryType ?: species.primaryType
+        val secondaryType = form?.secondaryType ?: species.secondaryType
+        return "types: [\"${primaryType.name}\"${if (secondaryType != null) ", \"${secondaryType.name}\"" else ""}]"
+    }
+
+    private fun generateGenderDetails(species: Species, form: FormData? = null): String = when (val maleRatio = form?.maleRatio ?: species.maleRatio) {
+        1F -> "gender: \"F\""
+        0F -> "gender: \"M\""
+        -0.125F -> "gender: \"N\""
+        else -> "genderRatio: { M: ${maleRatio}, F: ${1F - maleRatio} }"
+    }
+
+    private fun generateBaseStatsDetails(species: Species, form: FormData? = null): String {
+        val baseStats = form?.baseStats ?: species.baseStats
+        return "baseStats: { hp: ${baseStats[Stats.HP]}, atk: ${baseStats[Stats.ATTACK]}, def: ${baseStats[Stats.DEFENCE]}, spa: ${baseStats[Stats.SPECIAL_ATTACK]}, spd: ${baseStats[Stats.SPECIAL_DEFENCE]}, spe: ${baseStats[Stats.SPEED]} }"
+    }
+
+    private fun generateEggGroupDetails(species: Species, form: FormData? = null): String {
+        val eggGroups = form?.eggGroups ?: species.eggGroups
+        return "eggGroups: [${eggGroups.joinToString(", ") { "\"${it.showdownID}\"" }}]"
+    }
+
 }

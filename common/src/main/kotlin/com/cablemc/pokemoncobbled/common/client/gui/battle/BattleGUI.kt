@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.client.gui.battle
 
 import com.cablemc.pokemoncobbled.common.battles.MoveActionResponse
@@ -97,7 +105,7 @@ class BattleGUI : Screen(battleLang("gui.title")) {
                 matrixStack = poseStack,
                 text = battleLang("ui.hide_label", PartySendBinding.currentKey().localizedText),
                 x = MinecraftClient.getInstance().window.scaledWidth / 2,
-                y = MinecraftClient.getInstance().window.scaledHeight - 110,
+                y = (MinecraftClient.getInstance().window.scaledHeight / 2) - 25,
                 opacity = 0.75F * opacity,
                 centered = true
             )

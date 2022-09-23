@@ -1,7 +1,16 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.entity.pokemon
 
 import com.cablemc.pokemoncobbled.common.CobbledSounds
 import com.cablemc.pokemoncobbled.common.api.entity.PokemonSideDelegate
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -9,6 +18,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.ActivePokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.util.playSoundServer
 import net.minecraft.entity.Entity
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
@@ -16,15 +26,34 @@ import net.minecraft.server.world.ServerWorld
 /** Handles purely server logic for a Pokémon */
 class PokemonServerDelegate : PokemonSideDelegate {
     lateinit var entity: PokemonEntity
+    var acknowledgedHPStat = -1
     override fun changePokemon(pokemon: Pokemon) {
         entity.initGoals()
+        updateMaxHealth()
+    }
+
+    fun updateMaxHealth() {
+        val currentHealthRatio = entity.health.toDouble() / entity.maxHealth
+        acknowledgedHPStat = entity.form.baseStats[Stats.HP]!!
+
+        val minStat = 50 // Metapod's base HP
+        val maxStat = 150 // Slaking's base HP
+        val baseStat = acknowledgedHPStat.coerceIn(minStat..maxStat)
+        val r = (baseStat - minStat) / (maxStat - minStat).toDouble()
+        val minPossibleHP = 10.0 // half of a player's HP
+        val maxPossibleHP = 100.0 // Iron Golem HP
+        val maxHealth = minPossibleHP + r * (maxPossibleHP - minPossibleHP)
+
+        entity.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)?.baseValue = maxHealth
+        entity.health = currentHealthRatio.toFloat() * maxHealth.toFloat()
     }
 
     override fun initialize(entity: PokemonEntity) {
         this.entity = entity
         with(entity) {
-            speed = 0.35F
+            speed = 0.1F
             entity.despawner.beginTracking(this)
+            subscriptions.add(behaviourFlags.subscribe { updatePoseType() })
         }
     }
 
@@ -46,8 +75,8 @@ class PokemonServerDelegate : PokemonSideDelegate {
             }
         }
 
-        if (entity.health.toInt() != entity.pokemon.currentHealth && entity.health > 0) {
-            entity.health = entity.pokemon.currentHealth.toFloat()
+        if (entity.form.baseStats[Stats.HP]!! != acknowledgedHPStat) {
+            updateMaxHealth()
         }
         if (entity.ownerUuid != entity.pokemon.getOwnerUUID()) {
             entity.ownerUuid = entity.pokemon.getOwnerUUID()
@@ -58,7 +87,8 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.aspects.get() != entity.pokemon.aspects) {
             entity.aspects.set(entity.pokemon.aspects)
         }
-        val isMoving = entity.velocity.length() > 0.1
+
+        val isMoving = !entity.navigation.isIdle
         if (isMoving && !entity.isMoving.get()) {
             entity.isMoving.set(true)
         } else if (!isMoving && entity.isMoving.get()) {

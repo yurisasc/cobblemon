@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.client.gui.battle.widgets
 
 import com.cablemc.pokemoncobbled.common.api.gui.blitk
@@ -47,10 +55,11 @@ class BattleMessagePane(
     val appropriateX: Int
         get() = client.window.scaledWidth - (FRAME_WIDTH + 12)
     val appropriateY: Int
-        get() = client.window.scaledHeight - 85
+        get() = client.window.scaledHeight - (30 + (if (expanded) FRAME_EXPANDED_HEIGHT else FRAME_HEIGHT))
 
     fun correctSize() {
-        updateSize(TEXT_BOX_WIDTH, TEXT_BOX_HEIGHT, appropriateY + 6, appropriateY + 6 + TEXT_BOX_HEIGHT)
+        val textBoxHeight = if (expanded) TEXT_BOX_HEIGHT * 2 else TEXT_BOX_HEIGHT
+        updateSize(TEXT_BOX_WIDTH, textBoxHeight, appropriateY + 6, appropriateY + 6 + textBoxHeight)
         setLeftPos(appropriateX)
     }
 
@@ -59,10 +68,14 @@ class BattleMessagePane(
         const val LINE_WIDTH = 142
         const val FRAME_WIDTH = 169
         const val FRAME_HEIGHT = 55
+        const val FRAME_EXPANDED_HEIGHT = 101
         const val TEXT_BOX_WIDTH = 153
         const val TEXT_BOX_HEIGHT = 46
+        const val EXPAND_TOGGLE_SIZE = 5
 
-        private val battleMessagePaneFrameResource = cobbledResource("ui/battle/battle_log_base.png")
+        private val battleMessagePaneFrameResource = cobbledResource("ui/battle/battle_log.png")
+        private val battleMessagePaneFrameExpandedResource = cobbledResource("ui/battle/battle_log_expanded.png")
+        private var expanded = false
     }
 
     override fun addEntry(entry: BattleMessageLine): Int {
@@ -89,16 +102,30 @@ class BattleMessagePane(
         correctSize()
         blitk(
             matrixStack = poseStack,
-            texture = battleMessagePaneFrameResource,
+            texture = if (expanded) battleMessagePaneFrameExpandedResource else battleMessagePaneFrameResource,
             x = left,
             y = appropriateY,
-            height = FRAME_HEIGHT,
+            height = if (expanded) FRAME_EXPANDED_HEIGHT else FRAME_HEIGHT,
             width = FRAME_WIDTH
         )
 
-        RenderSystem.enableScissor(scaleIt(left + 5), scaleIt(33), scaleIt(width), scaleIt(height))
+        val textBoxHeight = if (expanded) TEXT_BOX_HEIGHT * 2 else TEXT_BOX_HEIGHT
+        RenderSystem.enableScissor(
+            scaleIt(left + 5),
+            scaleIt(33),
+            scaleIt(width),
+            scaleIt(textBoxHeight)
+        )
         super.render(poseStack, mouseX, mouseY, partialTicks)
         RenderSystem.disableScissor()
+    }
+
+    override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
+        val toggleOffsetY = if (expanded) 92 else 46
+        if (mouseX > (left + 160) && mouseX < (left + 160 + EXPAND_TOGGLE_SIZE) && mouseY > (appropriateY + toggleOffsetY) && mouseY < (appropriateY + toggleOffsetY + EXPAND_TOGGLE_SIZE)) {
+            expanded = !expanded
+        }
+        return false
     }
 
     class BattleMessageLine(val pane: BattleMessagePane, val line: OrderedText) : Entry<BattleMessageLine>() {

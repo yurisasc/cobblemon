@@ -1,9 +1,19 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.pokemon
 
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityPool
 import com.cablemc.pokemoncobbled.common.api.drop.DropTable
+import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.Learnset
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
+import com.cablemc.pokemoncobbled.common.api.pokemon.egg.EggGroup
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroup
@@ -55,7 +65,20 @@ class FormData(
     private val swimmingEyeHeight: Float? = null,
     private val flyingEyeHeight: Float? = null,
     @SerializedName("labels")
-    private val _labels: Set<String>? = null
+    private val _labels: Set<String>? = null,
+    @SerializedName("cannotDynamax")
+    private val _dynamaxBlocked: Boolean? = null,
+    @SerializedName("eggGroups")
+    private val _eggGroups: Set<EggGroup>? = null,
+    @SerializedName("height")
+    private val _height: Float? = null,
+    @SerializedName("weight")
+    private val _weight: Float? = null,
+    /**
+     * The [MoveTemplate] of the signature attack of the G-Max form.
+     * This is always null on any form aside G-Max.
+     */
+    val gigantamaxMove: MoveTemplate? = null
 ) {
     val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
@@ -104,6 +127,20 @@ class FormData(
         get() = _preEvolution ?: species.preEvolution
 
     val behaviour = FormPokemonBehaviour()
+
+    val dynamaxBlocked: Boolean
+        get() = _dynamaxBlocked ?: species.dynamaxBlocked
+
+    val eggGroups: Set<EggGroup>
+        get() = _eggGroups ?: species.eggGroups
+
+    // In metric
+    val height: Float
+        get() = _height ?: species.height
+
+    // In metric
+    val weight: Float
+        get() = _weight ?: species.weight
 
     internal val labels: Set<String>
         get() = _labels ?: species.labels

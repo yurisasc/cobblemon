@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.command.argument
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
@@ -24,7 +32,10 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
     }
 
     override fun parse(reader: StringReader): PokemonProperties {
-        return PokemonProperties.parse(reader.readString())
+        val properties = reader.remaining
+        reader.cursor = reader.totalLength
+
+        return PokemonProperties.parse(properties)
     }
 
     override fun <S : Any> listSuggestions(

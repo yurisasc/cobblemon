@@ -1,8 +1,18 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.showdown
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
+import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
@@ -38,7 +48,9 @@ object BattleRegistry {
             val pk = pokemon.effectedPokemon
             val packedTeamBuilder = StringBuilder()
             // If no nickname, write species first and leave next blank
-            packedTeamBuilder.append("${pk.species.name}|")
+            // We convert the species + form here into our custom format
+            val species = "${pk.species.resourceIdentifier.namespace}:${pk.species.name}${if (pk.form.name.equals(pk.species.standardForm.name, true)) "" else "-${pk.form.name}"}"
+            packedTeamBuilder.append("$species|")
             // Species, left empty if no nickname
             packedTeamBuilder.append("|")
 
@@ -50,7 +62,7 @@ object BattleRegistry {
 
             // Held item, empty if non TODO: Replace with actual held item
             packedTeamBuilder.append("|")
-            // Ability
+            // Ability, our showdown has edits here to trust whatever we tell it, this was needed to support more than 4 abilities.
             packedTeamBuilder.append("${pk.ability.name.replace("_", "")}|")
             // Moves
             packedTeamBuilder.append(

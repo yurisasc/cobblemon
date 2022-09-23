@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.EarJoint
@@ -39,9 +47,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
-            transformTicks = 10,
-            condition = { !it.isMoving.get() && !it.isSubmergedInWater },
+            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("wartortle", "ground_idle")
@@ -50,9 +56,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         swimIdle = registerPose(
             poseName = "swim_idle",
-            poseTypes = setOf(PoseType.SWIM),
-            transformTicks = 10,
-            condition = { it.isSubmergedInWater && !it.isMoving.get()},
+            poseTypes = setOf(PoseType.FLOAT),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("wartortle", "water_idle")
@@ -62,8 +66,6 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         swim = registerPose(
             poseName = "swim",
             poseTypes = setOf(PoseType.SWIM),
-            transformTicks = 10,
-            condition = { it.isSubmergedInWater && it.isMoving.get()},
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("wartortle", "water_swim")
@@ -72,8 +74,6 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         walk = registerPose(
             poseType = PoseType.WALK,
-            transformTicks = 10,
-            condition = { it.isMoving.get() && !it.isSubmergedInWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("wartortle", "ground_walk")

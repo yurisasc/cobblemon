@@ -21,6 +21,26 @@
 				}
 			}
 		},
+		"animation.kakuna.sleep": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": [
+						"math.clamp(math.sin(q.anim_time*90*1)*1,-1,0)+math.clamp(math.sin(q.anim_time*90*1)*1,0,1)+math.sin(q.anim_time*90*1)*0.5",
+						0,
+						"math.clamp(math.sin(q.anim_time*90*2)*0.5,-1,0)+math.clamp(math.sin(q.anim_time*90*2)*0.5,0,1)+math.sin(q.anim_time*90*2)*0.1"
+					],
+					"position": [
+						0,
+						"(-math.clamp(math.sin(q.anim_time*90*1)*0.2,-0.1,0)-math.clamp(math.sin(q.anim_time*90*1)*0.2,0,0.1)-math.sin(q.anim_time*90*2)*0.2)*0.1",
+						0
+					]
+				},
+				"tail": {
+					"rotation": ["-math.clamp(math.sin(q.anim_time*90*2)*0.5,-0.8,0)-math.clamp(math.sin(q.anim_time*90*2)*0.5,0,0.8)-math.sin(q.anim_time*90*2)*0.5", 0, 0]
+				}
+			}
+		},
 		"animation.kakuna.faint": {
 			"animation_length": 3,
 			"bones": {
