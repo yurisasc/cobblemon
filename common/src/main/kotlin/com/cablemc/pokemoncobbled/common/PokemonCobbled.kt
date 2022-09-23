@@ -13,6 +13,7 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.TICK_POST
 import com.cablemc.pokemoncobbled.common.api.net.serializers.PoseTypeDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.StringSetDataSerializer
 import com.cablemc.pokemoncobbled.common.api.net.serializers.Vec3DataSerializer
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionValidator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokeball.catching.calculators.CobbledGen348CaptureCalculator
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
@@ -49,6 +50,7 @@ import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.config.starter.StarterConfig
 import com.cablemc.pokemoncobbled.common.data.CobbledDataProvider
 import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
+import com.cablemc.pokemoncobbled.common.permission.CobbledPermissionValidator
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
@@ -76,6 +78,7 @@ import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
+import kotlin.properties.Delegates
 
 object PokemonCobbled {
     const val MODID = "pokemoncobbled"
@@ -98,6 +101,7 @@ object PokemonCobbled {
     lateinit var playerData: PlayerDataStoreManager
     lateinit var starterConfig: StarterConfig
     val dataProvider: DataProvider = CobbledDataProvider
+    var permissionValidator: PermissionValidator by Delegates.observable(CobbledPermissionValidator().also { it.initiate() }) { _, _, newValue -> newValue.initiate() }
 
     fun preinitialize(implementation: PokemonCobbledModImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
