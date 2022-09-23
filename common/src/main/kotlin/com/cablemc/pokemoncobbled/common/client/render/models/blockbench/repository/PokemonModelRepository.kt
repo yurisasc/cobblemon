@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
@@ -16,6 +24,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DiglettModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EkansModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ElectrodeModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GloomModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GyaradosModel
@@ -44,6 +53,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MachopModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MachokeModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MachampModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
@@ -111,6 +123,10 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobbledResource("voltorb")] = { VoltorbModel(it) }
         posers[cobbledResource("electrode")] = { ElectrodeModel(it) }
         posers[cobbledResource("lapras")] = { LaprasModel(it) }
+        posers[cobbledResource("ekans")] = { EkansModel(it) }
+        posers[cobbledResource("machop")] = { MachopModel(it) }
+        posers[cobbledResource("machoke")] = { MachokeModel(it) }
+        posers[cobbledResource("machamp")] = { MachampModel(it) }
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {

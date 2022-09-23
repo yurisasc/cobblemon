@@ -1,0 +1,114 @@
+{
+  "name": "igglybuff",
+  "nationalPokedexNumber": 174,
+  "primaryType": "normal",
+  "secondaryType": "fairy",
+  "abilities": [
+    "cutecharm",
+    "competitive",
+    "h:friendguard"
+  ],
+  "baseStats": {
+    "hp": 90,
+    "attack": 30,
+    "defence": 15,
+    "special_attack": 40,
+    "special_defence": 20,
+    "speed": 15
+  },
+  "catchRate": 170,
+  "maleRatio": 0.25,
+  "shoulderMountable": false,
+  "forms": [],
+  "baseExperienceYield": 42,
+  "experienceGroup": "fast",
+  "eggCycles": 10,
+  "eggGroups": [
+    "no-eggs"
+  ],
+  "moves": [
+    "1:pound",
+    "1:sing",
+    "1:copycat",
+    "4:defensecurl",
+    "8:sweetkiss",
+    "12:disarmingvoice",
+    "16:disable",
+    "20:charm",
+    "egg:covet",
+    "egg:gravity",
+    "egg:healpulse",
+    "egg:lastresort",
+    "egg:perishsong",
+    "egg:present",
+    "egg:rollout",
+    "egg:wish",
+    "tm:attract",
+    "tm:bodyslam",
+    "tm:bounce",
+    "tm:dig",
+    "tm:drainingkiss",
+    "tm:endure",
+    "tm:facade",
+    "tm:faketears",
+    "tm:fireblast",
+    "tm:flamethrower",
+    "tm:fling",
+    "tm:grassknot",
+    "tm:helpinghand",
+    "tm:hypervoice",
+    "tm:icywind",
+    "tm:lightscreen",
+    "tm:megakick",
+    "tm:megapunch",
+    "tm:mistyterrain",
+    "tm:playrough",
+    "tm:protect",
+    "tm:psychic",
+    "tm:raindance",
+    "tm:reflect",
+    "tm:rest",
+    "tm:round",
+    "tm:safeguard",
+    "tm:screech",
+    "tm:shadowball",
+    "tm:sleeptalk",
+    "tm:snore",
+    "tm:solarbeam",
+    "tm:substitute",
+    "tm:sunnyday",
+    "tm:thunderwave",
+    "tm:uproar",
+    "tm:wildcharge",
+    "tm:workup"
+  ],
+  "labels": [
+    "baby",
+    "gen2"
+  ],
+  "pokedex": [
+    "pokemoncobbled.species.igglybuff.desc1",
+    "pokemoncobbled.species.igglybuff.desc2"
+  ],
+  "evolutions": [
+    {
+      "id": "igglybuff_jigglypuff",
+      "variant": "level_up",
+      "result": "jigglypuff",
+      "consumeHeldItem": false,
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "friendship",
+          "amount": 160
+        }
+      ]
+    }
+  ],
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.0,
+    "height": 1.0,
+    "fixed": false
+  }
+}

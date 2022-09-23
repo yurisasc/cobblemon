@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common
 
 import com.cablemc.pokemoncobbled.common.api.Priority
@@ -31,8 +39,10 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.AreaContextResolve
 import com.cablemc.pokemoncobbled.common.api.spawning.prospecting.SpawningProspector
 import com.cablemc.pokemoncobbled.common.api.starter.StarterHandler
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStoreManager
-import com.cablemc.pokemoncobbled.common.api.storage.adapter.JSONStoreAdapter
-import com.cablemc.pokemoncobbled.common.api.storage.adapter.NBTStoreAdapter
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.conversions.ReforgedConversion
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle.FileStoreAdapter
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle.JSONStoreAdapter
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle.NBTStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.factory.FileBackedPokemonStoreFactory
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.api.storage.pc.link.PCLinkManager
@@ -166,7 +176,8 @@ object PokemonCobbled {
 
         SERVER_STARTED.subscribe { server ->
             playerData = PlayerDataStoreManager().also { it.setup(server) }
-            val pokemonStoreRoot = server.getSavePath(WorldSavePath.PLAYERDATA).parent.resolve("pokemon").toFile()
+            val pokemonStoreRoot = server.getSavePath(WorldSavePath.ROOT).resolve("pokemon").toFile()
+
             storage.registerFactory(
                 priority = Priority.LOWEST,
                 factory = FileBackedPokemonStoreFactory(
@@ -174,7 +185,7 @@ object PokemonCobbled {
                         NBTStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
                     } else {
                         JSONStoreAdapter(pokemonStoreRoot.absolutePath, useNestedFolders = true, folderPerClass = true)
-                    },
+                    }.with(ReforgedConversion(server.getSavePath(WorldSavePath.ROOT))) as FileStoreAdapter<*>,
                     createIfMissing = true,
                     pcConstructor = { uuid -> PCStore(uuid).also { it.resize(config.defaultBoxCount) } }
                 )

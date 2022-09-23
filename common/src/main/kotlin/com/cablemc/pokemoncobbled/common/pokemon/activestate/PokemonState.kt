@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.pokemon.activestate
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
@@ -162,16 +170,16 @@ class ShoulderedState() : ActivePokemonState() {
     }
 
     override fun recall() {
-        val player = getServer()?.playerManager?.getPlayer(playerUUID) ?: return
+        val player = playerUUID.getPlayer() ?: return
         val nbt = if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight
         if (this.isShoulderedPokemon(nbt)) {
             player.world.playSoundServer(player.pos, SoundEvents.BLOCK_CANDLE_FALL)
-            this.removeShoulderEffects(player)
             if (isLeftShoulder) {
                 player.shoulderEntityLeft = NbtCompound()
             } else {
                 player.shoulderEntityRight = NbtCompound()
             }
+            this.removeShoulderEffects(player)
         }
     }
 
@@ -185,4 +193,5 @@ class ShoulderedState() : ActivePokemonState() {
             .getCompound(DataKeys.POKEMON_STATE)
             .getUuid(DataKeys.POKEMON_STATE_ID) == this.stateId
 
+    fun isStillShouldered(player: ServerPlayerEntity) = isShoulderedPokemon(if (isLeftShoulder) player.shoulderEntityLeft else player.shoulderEntityRight)
 }

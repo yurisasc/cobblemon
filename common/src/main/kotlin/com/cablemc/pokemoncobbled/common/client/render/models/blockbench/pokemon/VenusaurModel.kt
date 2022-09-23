@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
@@ -28,9 +36,8 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
+            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
-            condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("venusaur", "ground_idle")
@@ -38,9 +45,9 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
         )
 
         walk = registerPose(
-            poseType = PoseType.WALK,
+            poseName = "walk",
+            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
-            condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("venusaur", "ground_idle"),

@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.WaveAnimation
@@ -51,8 +59,8 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.WALK,
-            { !it.isSubmergedInWater },
+            poseName = "land",
+            poseTypes = setOf(PoseType.WALK, PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE, PoseType.FLOAT),
             idleAnimations = arrayOf(
                 WaveAnimation(
                     frame = this,

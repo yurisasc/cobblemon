@@ -1,107 +1,87 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.pokemon.effects
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import com.google.gson.JsonObject
-import net.minecraft.entity.attribute.EntityAttributeModifier
+import com.cablemc.pokemoncobbled.common.util.DataKeys.POKEMON_UUID
+import java.util.UUID
+import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.effect.StatusEffectInstance
+import net.minecraft.entity.effect.StatusEffects
+import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
-import java.util.*
 
 /**
- * Effect that allows for slow falling after [slowAfter] blocks.
+ * Effect that allows for slow falling.
  * The value for [slowAfter] can be set per Form in the Species JSON.
  *
  * @author Qu
  * @since 2022-01-29
  */
-class SlowFallEffect: ShoulderEffect {
-    companion object {
-        init {
-            //MinecraftForge.EVENT_BUS.register(this)
+class SlowFallEffect : ShoulderEffect {
+    /*
+     Long term we need to do this differently. There is a restriction in minecraft that for a StatusEffect, i.e. SLOW_FALLING,
+     only one status instance can exist. If someone puts pokemon on their shoulder for slow fall and then they take the potion,
+     they SHOULD have the effect even after they take their pokemon off the shoulder since the potion would still be in effect,
+     but it won't have even been added because of the uniqueness constraint. Unclear how best to solve this.
+     */
+    class SlowFallShoulderStatusEffect(val pokemonIds: MutableList<UUID>) : StatusEffectInstance(StatusEffects.SLOW_FALLING, 2) {
+        fun isShoulderedPokemon(shoulderEntity: NbtCompound): Boolean {
+            val pokemonNBT = shoulderEntity.getCompound("Pokemon")
+            return pokemonNBT.containsUuid(POKEMON_UUID) && pokemonNBT.getUuid(POKEMON_UUID) in pokemonIds
         }
-        private val SLOW_FALLING_ID = UUID.fromString("A5B6CF2A-2F7C-31EF-9022-7C3E7D5E6ABB")
-        private val SLOW_FALLING = EntityAttributeModifier(
-            SLOW_FALLING_ID,
-            "Slow falling acceleration reduction",
-            -0.07,
-            EntityAttributeModifier.Operation.ADDITION
-        ) // Add -0.07 to 0.08 so we get the vanilla default of 0.01
 
-        private const val SLOW_AFTER_PROPERTY = "slowAfter"
-        private val observeMap = mutableMapOf<ServerPlayerEntity, SlowFallEffect>()
+        override fun writeNbt(nbt: NbtCompound): NbtCompound {
+            super.writeNbt(nbt)
+            /*
+             * StatusEffectInstance isn't really made to be extended. If they have the status when they log out,
+             * it will be saved and loaded and any of our custom properties and subclassing doesn't mean shit.
+             *
+             * The way this effect works is that it's constantly checking if the Pokémon is where it should be. This
+             * can only happen if it is this subclass so we have the pokemonId variable. We must not allow Minecraft
+             * to load this back in. We can manually handle this shit, so the goal is to stop Minecraft from doing it
+             * for us.
+             *
+             * Putting the ID as some impossible number means that when reading from NBT statically, it doesn't find a
+             * match for the effect ID, so it doesn't bother. This is what we want because if the effect needs to
+             * continue (like the Pokemon is still on the shoulder) then we handle that in our login handler - no need
+             * for Minecraft to get in our way.
+             *
+             * - Hiro
+             */
+            nbt.putInt("Id", -999)
+            return nbt
+        }
 
-//        @SubscribeEvent
-//        fun onLivingUpdate(event: LivingEvent.LivingUpdateEvent) {
-//            if (event.entity !is ServerPlayerEntity) return
-//            val player = event.entity as ServerPlayerEntity
-//            if (player !in observeMap) return
-//
-//            if (!player.gameMode.isSurvival) return
-//
-//            if (player.fallDistance > 0) observeMap[player]?.onFall(player)
-//        }
-//
-//        @SubscribeEvent
-//        fun onFallEnd(event: LivingFallEvent) {
-//            if (event.entity !is ServerPlayerEntity) return
-//            val player = event.entity as ServerPlayerEntity
-//            if (player !in observeMap) return
-//
-//            event.damageMultiplier = 0.0F
-//            observeMap[player]?.onFallEnd(player)
-//        }
+        override fun update(entity: LivingEntity, overwriteCallback: Runnable?): Boolean {
+            entity as ServerPlayerEntity
+            if (isShoulderedPokemon(entity.shoulderEntityLeft) || isShoulderedPokemon(entity.shoulderEntityRight)) {
+                duration = 10
+            } else {
+                duration = 0
+            }
+            return super.update(entity, overwriteCallback)
+        }
     }
 
-    /**
-     * Amount of Blocks the [ServerPlayerEntity] needs to fall to trigger the [SlowFallEffect]
-     */
-    private var slowAfter = 5
-
     override fun applyEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean) {
-        observeMap[player] = this
+        val effect = player.statusEffects.filterIsInstance<SlowFallShoulderStatusEffect>().firstOrNull()
+        if (effect != null) {
+            effect.pokemonIds.add(pokemon.uuid)
+        } else {
+            player.addStatusEffect(SlowFallShoulderStatusEffect(mutableListOf(pokemon.uuid)))
+        }
     }
 
     override fun removeEffect(pokemon: Pokemon, player: ServerPlayerEntity, isLeft: Boolean) {
-        observeMap.remove(player)
-        removeEffect(player)
-    }
-
-    /**
-     * Triggers if the [ServerPlayerEntity] is falling
-     */
-    fun onFall(player: ServerPlayerEntity) {
-        if (player.fallDistance >= slowAfter) {
-            addEffect(player)
-        }
-    }
-
-    /**
-     * Triggers when the [ServerPlayerEntity] finished falling
-     */
-    fun onFallEnd(player: ServerPlayerEntity) {
-        player.fallDistance = 0F
-        removeEffect(player)
-    }
-
-    private fun addEffect(player: ServerPlayerEntity) {
-//        player.getAttribute(ForgeMod.ENTITY_GRAVITY.get())?.let {
-//            if (!it.hasModifier(SLOW_FALLING)) it.addTransientModifier(SLOW_FALLING)
-//        }
-    }
-
-    private fun removeEffect(player: ServerPlayerEntity) {
-//        player.getAttribute(ForgeMod.ENTITY_GRAVITY.get())?.let {
-//            if (it.hasModifier(SLOW_FALLING)) it.removeModifier(SLOW_FALLING)
-//        }
-    }
-
-    override fun serialize(json: JsonObject): JsonObject {
-        json.addProperty(SLOW_AFTER_PROPERTY, slowAfter)
-        return json
-    }
-
-    override fun deserialize(json: JsonObject): ShoulderEffect {
-        slowAfter = json.get(SLOW_AFTER_PROPERTY).asInt
-        return this
+        val effect = player.statusEffects.filterIsInstance<SlowFallShoulderStatusEffect>().firstOrNull()
+        effect?.pokemonIds?.remove(pokemon.uuid)
     }
 }

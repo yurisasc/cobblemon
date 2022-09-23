@@ -21,7 +21,7 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 173,
-    "experienceGroup": "medium",
+    "experienceGroup": "mediumfast",
     "eggCycles": 30,
     "eggGroups": [
         "water1",

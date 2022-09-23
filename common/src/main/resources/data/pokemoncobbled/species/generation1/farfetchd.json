@@ -41,7 +41,7 @@
         }
     ],
     "baseExperienceYield": 132,
-    "experienceGroup": "medium",
+    "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
         "flying",
@@ -130,11 +130,16 @@
     ],
     "evolutions": [
         {
-            "variant": "variant",
+            "variant": "level_up",
             "result": "sirfetchd",
             "consumeHeldItem": false,
             "learnableMoves": [],
-            "requirements": []
+            "requirements": [
+                {
+                    "variant": "level",
+                    "level": 1
+                }
+            ]
         }
     ],
     "baseScale": 1.0,

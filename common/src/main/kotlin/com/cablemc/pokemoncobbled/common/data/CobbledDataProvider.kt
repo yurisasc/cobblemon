@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.data
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
@@ -25,7 +33,7 @@ internal object CobbledDataProvider : DataProvider {
     override fun register(registry: DataRegistry) {
         // Only send message once
         if (this.tailRegistry == null) {
-            LOGGER.info("Note: Pokémon Cobbled data registries are only loaded once as Pokémon species are not safe to reload.")
+            LOGGER.info("Note: Pokémon Cobbled data registries are only loaded once per server instance as Pokémon species are not safe to reload.")
         }
         ReloadListenerRegistry.register(registry.type, SimpleResourceReloader(registry))
         LOGGER.info("Registered the {} registry", registry.id.toString())

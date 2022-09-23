@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
@@ -27,9 +35,8 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
+            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
             transformTicks = 10,
-            condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("bulbasaur", "ground_idle")
@@ -37,9 +44,9 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
         )
 
         walk = registerPose(
-            poseType = PoseType.WALK,
+            poseName = "walking",
+            poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
             transformTicks = 10,
-            condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("bulbasaur", "ground_walk")

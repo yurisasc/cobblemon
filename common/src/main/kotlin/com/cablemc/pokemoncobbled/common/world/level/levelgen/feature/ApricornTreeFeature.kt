@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.world.level.levelgen.feature
 
 import com.cablemc.pokemoncobbled.common.CobbledBlocks
@@ -165,7 +173,7 @@ class ApricornTreeFeature(
         for (i in 1..nextInt(2,4)) {
             var direction: Direction? = null
 
-            while(direction == null || usedDirections.contains(direction)) {
+            while (direction == null || usedDirections.contains(direction)) {
                 when (random.nextInt(4)) {
                     0 -> direction = NORTH
                     1 -> direction = EAST
