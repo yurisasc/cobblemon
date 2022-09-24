@@ -2,6 +2,7 @@ package com.cablemc.pokemoncobbled.fabric
 
 import com.cablemc.pokemoncobbled.common.*
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
+import com.cablemc.pokemoncobbled.common.permission.LuckPermsPermissionValidator
 import com.cablemc.pokemoncobbled.fabric.net.CobbledFabricNetworkDelegate
 import net.fabricmc.loader.api.FabricLoader
 
@@ -17,5 +18,8 @@ object PokemonCobbledFabric : PokemonCobbledModImplementation {
         PokemonCobbled.initialize()
         ServerPacketRegistrar.registerHandlers()
         CobbledNetwork.register()
+        if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
+            PokemonCobbled.permissionValidator = LuckPermsPermissionValidator()
+        }
     }
 }
