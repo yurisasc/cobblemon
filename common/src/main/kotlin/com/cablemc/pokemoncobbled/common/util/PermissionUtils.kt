@@ -13,11 +13,27 @@ fun CommandSource.hasPermission(permission: String) = PokemonCobbled.permissionV
 
 /**
  * Creates an [ArgumentBuilder.requirement] for a permission.
- * Keep in mind that if you require a more complex requirement you cannot use this extension as requirements are singular predicates and not a collection.
- * See [PermissionValidator] and [PokemonCobbled.permissionValidator].
+ * If you'd like to apply a requirement as well from a single function use [requiresWithPermission].
  *
  * @param T the type of the [ArgumentBuilder].
  * @param permission The literal permission for this command
+ * @param appendRequirement If the existing [ArgumentBuilder.requirement] should be appended to this permission as a single predicate. Defaults to true
  * @return the [ArgumentBuilder].
  */
-fun <T : ArgumentBuilder<ServerCommandSource, T>> ArgumentBuilder<ServerCommandSource, T>.permission(permission: String): T = requires { PokemonCobbled.permissionValidator.hasPermission(it, permission) }
+fun <T : ArgumentBuilder<ServerCommandSource, T>> ArgumentBuilder<ServerCommandSource, T>.permission(permission: String, appendRequirement: Boolean = true): T {
+    val permissionPredicate = { src: ServerCommandSource -> PokemonCobbled.permissionValidator.hasPermission(src, permission)  }
+    return if (appendRequirement) this.requires(this.requirement.and(permissionPredicate)) else this.requires(permissionPredicate)
+}
+
+/**
+ * Creates an [ArgumentBuilder.requirement] merged with a permission.
+ *
+ * @param T the type of the [ArgumentBuilder].
+ * @param permission The literal permission for this command
+ * @param predicate The requirement for the command.
+ * @return the [ArgumentBuilder].
+ */
+fun <T : ArgumentBuilder<ServerCommandSource, T>> ArgumentBuilder<ServerCommandSource, T>.requiresWithPermission(permission: String, predicate: (src: ServerCommandSource) -> Boolean): T {
+    this.requires(predicate)
+    return this.permission(permission)
+}
