@@ -9,7 +9,7 @@
 package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.permission.PermissionValidator
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.mojang.brigadier.builder.ArgumentBuilder
 import net.minecraft.command.CommandSource
 import net.minecraft.server.command.ServerCommandSource
@@ -45,3 +45,12 @@ fun <T : ArgumentBuilder<ServerCommandSource, T>> ArgumentBuilder<ServerCommandS
     this.requires(predicate)
     return this.permission(permission)
 }
+
+/**
+ * Appends a permission level check to the existing [ArgumentBuilder.requirement].
+ *
+ * @param T the type of the [ArgumentBuilder].
+ * @param level The [PermissionLevel] for this command.
+ * @return the [ArgumentBuilder].
+ */
+fun <T : ArgumentBuilder<ServerCommandSource, T>> ArgumentBuilder<ServerCommandSource, T>.permissionLevel(level: PermissionLevel): T = this.requires(this.requirement.and { it.hasPermissionLevel(level.numericalValue) })

@@ -9,10 +9,14 @@
 package com.cablemc.pokemoncobbled.common.command
 
 import com.cablemc.pokemoncobbled.common.api.moves.BenchedMove
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.command.argument.MoveArgumentType
 import com.cablemc.pokemoncobbled.common.command.argument.PartySlotArgumentType
 import com.cablemc.pokemoncobbled.common.util.commandLang
+import com.cablemc.pokemoncobbled.common.util.permission
+import com.cablemc.pokemoncobbled.common.util.permissionLevel
 import com.cablemc.pokemoncobbled.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -33,7 +37,8 @@ object TeachCommand {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal(NAME)
-            .requires { it.hasPermissionLevel(4)  }
+            .permission(CobbledPermissions.TEACH)
+            .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
             .then(CommandManager.argument(PLAYER, EntityArgumentType.player())
                 .then(CommandManager.argument(SLOT, PartySlotArgumentType.partySlot())
                     .then(CommandManager.argument(MOVE, MoveArgumentType.move())

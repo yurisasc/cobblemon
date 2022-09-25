@@ -8,9 +8,13 @@
 
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.CommandExperienceSource
 import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.util.party
+import com.cablemc.pokemoncobbled.common.util.permission
+import com.cablemc.pokemoncobbled.common.util.permissionLevel
 import com.cablemc.pokemoncobbled.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -25,9 +29,12 @@ object LevelUp {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("levelup")
-            .requires { it.hasPermissionLevel(4) }
+            .permission(CobbledPermissions.LEVEL_UP)
+            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
+                    .permission(CobbledPermissions.LEVEL_UP_OTHER)
+                    .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
                     .then(
                         CommandManager.argument("slot", IntegerArgumentType.integer(1, 99))
                             .executes { execute(it, it.player()) }

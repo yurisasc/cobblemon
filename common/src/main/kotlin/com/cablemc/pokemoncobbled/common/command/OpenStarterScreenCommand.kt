@@ -10,9 +10,13 @@ package com.cablemc.pokemoncobbled.common.command
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendPacket
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.net.messages.client.starter.OpenStarterUIPacket
 import com.cablemc.pokemoncobbled.common.util.lang
+import com.cablemc.pokemoncobbled.common.util.permission
+import com.cablemc.pokemoncobbled.common.util.permissionLevel
 import com.mojang.brigadier.Command.SINGLE_SUCCESS
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -26,7 +30,8 @@ object OpenStarterScreenCommand {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(
             literal("openstarterscreen")
-                .requires { it.hasPermissionLevel(4) }
+                .permission(CobbledPermissions.OPEN_STARTER_SCREEN)
+                .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
                 .then(
                     argument("player", EntityArgumentType.player())
                         .executes { execute(it,) }

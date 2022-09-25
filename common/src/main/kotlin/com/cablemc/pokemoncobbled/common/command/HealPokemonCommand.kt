@@ -8,9 +8,9 @@
 
 package com.cablemc.pokemoncobbled.common.command
 
-import com.cablemc.pokemoncobbled.common.util.commandLang
-import com.cablemc.pokemoncobbled.common.util.party
-import com.cablemc.pokemoncobbled.common.util.player
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
+import com.cablemc.pokemoncobbled.common.util.*
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -24,9 +24,12 @@ object HealPokemonCommand {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = dispatcher.register(literal("healpokemon")
-            .requires { it.hasPermissionLevel(4) }
+            .permission(CobbledPermissions.HEAL_POKEMON)
+            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
+                    .permission(CobbledPermissions.HEAL_POKEMON_OTHER)
+                    .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
                     .executes { execute(it) }
             ))
         dispatcher.register(literal("pokeheal").redirect(command))
