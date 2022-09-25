@@ -13,6 +13,7 @@ import com.cablemc.pokemoncobbled.common.client.net.starter.StarterUIPacketHandl
 import com.cablemc.pokemoncobbled.common.client.net.gui.SummaryUIPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.EvolutionUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.SingleUpdatePacketHandler
+import com.cablemc.pokemoncobbled.common.client.net.settings.ServerSettingsPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.RemoveClientPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.SwapClientPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.InitializePartyHandler
@@ -100,6 +101,9 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(BattleCaptureEndHandler)
         registerHandler(ChallengeNotificationHandler)
         registerHandler(BattleUpdateTeamPokemonHandler)
+
+        // Settings
+        registerHandler(ServerSettingsPacketHandler)
     }
 }
 
