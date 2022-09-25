@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:machoke",
-  "model": "pokemoncobbled:bedrock/models/machoke.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/machoke.png",
+  "model": "pokemoncobbled:bedrock/models/0067_machoke/machoke.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0067_machoke/machoke.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/machoke_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0067_machoke/machoke_shiny.png"
     }
   ]
 }

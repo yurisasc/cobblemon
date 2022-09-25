@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:wigglytuff",
+  "model": "pokemoncobbled:bedrock/models/0040_wigglytuff/wigglytuff.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0040_wigglytuff/wigglytuff.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0040_wigglytuff/wigglytuff_shiny.png"
+    }
+  ]
+}

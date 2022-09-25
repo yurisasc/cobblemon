@@ -1,0 +1,15 @@
+{
+  "poser": "pokemoncobbled:golbat",
+  "model": "pokemoncobbled:bedrock/models/0042_golbat/golbat_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0042_golbat/golbat.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0042_golbat/golbat_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:bedrock/models/0042_golbat/golbat_female.geo.json"
+    }
+  ]
+}

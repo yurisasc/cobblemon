@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:magneton",
+  "model": "pokemoncobbled:bedrock/models/0082_magneton/magneton.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0082_magneton/magneton.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0082_magneton/magneton_shiny.png"
+    }
+  ]
+}

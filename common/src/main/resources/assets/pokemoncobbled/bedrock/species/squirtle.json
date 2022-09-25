@@ -1,19 +1,19 @@
 {
   "poser": "pokemoncobbled:squirtle",
-  "model": "pokemoncobbled:bedrock/models/squirtle.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/squirtle.png",
+  "model": "pokemoncobbled:bedrock/models/0007_squirtle/squirtle.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0007_squirtle/squirtle.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/squirtle_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0007_squirtle/squirtle_shiny.png"
     },
     {
       "aspects": ["sunglasses"],
-      "texture": "pokemoncobbled:textures/pokemon/squirtle_sunglasses.png"
+      "texture": "pokemoncobbled:textures/pokemon/0007_squirtle/squirtle_sunglasses.png"
     },
     {
       "aspects": ["shiny", "sunglasses"],
-      "texture": "pokemoncobbled:textures/pokemon/squirtle_shiny_sunglasses.png"
+      "texture": "pokemoncobbled:textures/pokemon/0007_squirtle/squirtle_shiny_sunglasses.png"
     }
   ]
 }

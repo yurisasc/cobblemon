@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:machop",
-  "model": "pokemoncobbled:bedrock/models/machop.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/machop.png",
+  "model": "pokemoncobbled:bedrock/models/0066_machop/machop.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0066_machop/machop.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/machop_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0066_machop/machop_shiny.png"
     }
   ]
 }

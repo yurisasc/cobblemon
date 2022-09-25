@@ -1,19 +1,19 @@
 {
   "poser": "pokemoncobbled:blastoise",
-  "model": "pokemoncobbled:bedrock/models/blastoise.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/blastoise.png",
+  "model": "pokemoncobbled:bedrock/models/0009_blastoise/blastoise.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0009_blastoise/blastoise.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/blastoise_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0009_blastoise/blastoise_shiny.png"
     },
     {
       "aspects": ["sunglasses"],
-      "texture": "pokemoncobbled:textures/pokemon/blastoise_sunglasses.png"
+      "texture": "pokemoncobbled:textures/pokemon/0009_blastoise/blastoise_sunglasses.png"
     },
     {
       "aspects": ["shiny", "sunglasses"],
-      "texture": "pokemoncobbled:textures/pokemon/blastoise_shiny_sunglasses.png"
+      "texture": "pokemoncobbled:textures/pokemon/0009_blastoise/blastoise_shiny_sunglasses.png"
     }
   ]
 }

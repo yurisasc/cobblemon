@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:zapdos",
+  "model": "pokemoncobbled:bedrock/models/0145_zapdos/zapdos.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0145_zapdos/zapdos.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0145_zapdos/zapdos_shiny.png"
+    }
+  ]
+}

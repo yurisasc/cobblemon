@@ -1,15 +1,15 @@
 {
   "poser": "pokemoncobbled:butterfree",
-  "model": "pokemoncobbled:bedrock/models/butterfree_male.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/butterfree.png",
+  "model": "pokemoncobbled:bedrock/models/0012_butterfree/butterfree_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0012_butterfree/butterfree.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/butterfree_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0012_butterfree/butterfree_shiny.png"
     },
     {
       "aspects": ["female"],
-      "model": "pokemoncobbled:bedrock/models/butterfree_female.geo.json"
+      "model": "pokemoncobbled:bedrock/models/0012_butterfree/butterfree_female.geo.json"
     }
   ]
 }

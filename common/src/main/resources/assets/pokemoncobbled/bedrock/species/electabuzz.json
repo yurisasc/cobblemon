@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:electabuzz",
+  "model": "pokemoncobbled:bedrock/models/0125_electabuzz/electabuzz.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0125_electabuzz/electabuzz.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0125_electabuzz/electabuzz_shiny.png"
+    }
+  ]
+}

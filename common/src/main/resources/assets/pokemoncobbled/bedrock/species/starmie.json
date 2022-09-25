@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:starmie",
+  "model": "pokemoncobbled:bedrock/models/0121_starmie/starmie.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0121_starmie/starmie.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0121_starmie/starmie_shiny.png"
+    }
+  ]
+}

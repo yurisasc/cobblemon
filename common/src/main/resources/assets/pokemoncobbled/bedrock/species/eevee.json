@@ -1,15 +1,15 @@
 {
   "poser": "pokemoncobbled:eevee",
-  "model": "pokemoncobbled:bedrock/models/eevee_male.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/eevee.png",
+  "model": "pokemoncobbled:bedrock/models/0133_eevee/eevee_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0133_eevee/eevee.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/eevee_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0133_eevee/eevee_shiny.png"
     },
     {
       "aspects": ["female"],
-      "model": "pokemoncobbled:bedrock/models/eevee_female.geo.json"
+      "model": "pokemoncobbled:bedrock/models/0133_eevee/eevee_female.geo.json"
     }
   ]
 }

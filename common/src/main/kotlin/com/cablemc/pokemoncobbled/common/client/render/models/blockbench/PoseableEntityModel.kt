@@ -249,7 +249,7 @@ abstract class PoseableEntityModel<T : Entity>(
         file: String,
         animation: String,
         fileSuffix: String = ".animation.json",
-        animationPrefix: String = "animation.$file"
+        animationPrefix: String = "animation.${file.substringAfterLast("/")}"
     ) = BedrockStatelessAnimation<T>(
         this,
         BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation")
@@ -259,7 +259,7 @@ abstract class PoseableEntityModel<T : Entity>(
         file: String,
         animation: String,
         fileSuffix: String = ".animation.json",
-        animationPrefix: String = "animation.$file",
+        animationPrefix: String = "animation.${file.substringAfterLast("/")}",
         preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean = { _, _, _ -> true }
     ) = BedrockStatefulAnimation(
         BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation"),

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:articuno",
+  "model": "pokemoncobbled:bedrock/models/0144_articuno/articuno.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0144_articuno/articuno.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0144_articuno/articuno_shiny.png"
+    }
+  ]
+}

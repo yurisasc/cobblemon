@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:nidorina",
+  "model": "pokemoncobbled:bedrock/models/0030_nidorina/nidorina.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0030_nidorina/nidorina.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0030_nidorina/nidorina_shiny.png"
+    }
+  ]
+}

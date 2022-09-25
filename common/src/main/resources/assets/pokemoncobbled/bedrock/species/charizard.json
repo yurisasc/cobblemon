@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:charizard",
-  "model": "pokemoncobbled:bedrock/models/charizard.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/charizard.png",
+  "model": "pokemoncobbled:bedrock/models/0006_charizard/charizard.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0006_charizard/charizard.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/charizard_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0006_charizard/charizard_shiny.png"
     }
   ]
 }

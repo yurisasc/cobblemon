@@ -1,0 +1,15 @@
+{
+  "poser": "pokemoncobbled:scizor",
+  "model": "pokemoncobbled:bedrock/models/0212_scizor/scizor_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0212_scizor/scizor.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0212_scizor/scizor_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:bedrock/models/0212_scizor/scizor_female.geo.json"
+    }
+  ]
+}

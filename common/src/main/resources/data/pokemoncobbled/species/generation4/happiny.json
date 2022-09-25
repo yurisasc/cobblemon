@@ -1,106 +1,106 @@
 {
-  "name": "happiny",
-  "nationalPokedexNumber": 440,
-  "primaryType": "normal",
-  "abilities": [
-    "naturalcure",
-    "serenegrace",
-    "h:friendguard"
-  ],
-  "baseStats": {
-    "hp": 100,
-    "attack": 5,
-    "defence": 5,
-    "special_attack": 15,
-    "special_defence": 65,
-    "speed": 30
-  },
-  "catchRate": 130,
-  "maleRatio": 0.0,
-  "shoulderMountable": false,
-  "forms": [],
-  "baseExperienceYield": 110,
-  "experienceGroup": "fast",
-  "eggCycles": 40,
-  "eggGroups": [
-    "no-eggs"
-  ],
-  "moves": [
-    "1:pound",
-    "1:minimize",
-    "1:copycat",
-    "4:defensecurl",
-    "8:sweetkiss",
-    "12:disarmingvoice",
-    "16:covet",
-    "20:charm",
-    "egg:aromatherapy",
-    "egg:gravity",
-    "egg:present",
-    "egg:seismictoss",
-    "tm:attract",
-    "tm:drainpunch",
-    "tm:endure",
-    "tm:facade",
-    "tm:fireblast",
-    "tm:flamethrower",
-    "tm:fling",
-    "tm:grassknot",
-    "tm:hail",
-    "tm:helpinghand",
-    "tm:hypervoice",
-    "tm:icywind",
-    "tm:lightscreen",
-    "tm:metronome",
-    "tm:protect",
-    "tm:psychic",
-    "tm:raindance",
-    "tm:rest",
-    "tm:round",
-    "tm:safeguard",
-    "tm:shadowball",
-    "tm:sleeptalk",
-    "tm:snore",
-    "tm:solarbeam",
-    "tm:storedpower",
-    "tm:substitute",
-    "tm:sunnyday",
-    "tm:thunderwave",
-    "tm:uproar",
-    "tm:workup",
-    "tm:zenheadbutt"
-  ],
-  "labels": [
-    "baby",
-    "gen4"
-  ],
-  "pokedex": [
-    "pokemoncobbled.species.happiny.desc1",
-    "pokemoncobbled.species.happiny.desc2"
-  ],
-  "evolutions": [
-    {
-      "id": "happiny_chansey",
-      "variant": "level_up",
-      "result": "chansey",
-      "consumeHeldItem": false,
-      "learnableMoves": [],
-      "requirements": [
+    "name": "happiny",
+    "nationalPokedexNumber": 440,
+    "primaryType": "normal",
+    "abilities": [
+        "naturalcure",
+        "serenegrace",
+        "h:friendguard"
+    ],
+    "baseStats": {
+        "hp": 100,
+        "attack": 5,
+        "defence": 5,
+        "special_attack": 15,
+        "special_defence": 65,
+        "speed": 30
+    },
+    "catchRate": 130,
+    "maleRatio": 0.0,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 110,
+    "experienceGroup": "fast",
+    "eggCycles": 40,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:pound",
+        "1:minimize",
+        "1:copycat",
+        "4:defensecurl",
+        "8:sweetkiss",
+        "12:disarmingvoice",
+        "16:covet",
+        "20:charm",
+        "egg:aromatherapy",
+        "egg:gravity",
+        "egg:present",
+        "egg:seismictoss",
+        "tm:attract",
+        "tm:drainpunch",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:flamethrower",
+        "tm:fling",
+        "tm:grassknot",
+        "tm:hail",
+        "tm:helpinghand",
+        "tm:hypervoice",
+        "tm:icywind",
+        "tm:lightscreen",
+        "tm:metronome",
+        "tm:protect",
+        "tm:psychic",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:storedpower",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thunderwave",
+        "tm:uproar",
+        "tm:workup",
+        "tm:zenheadbutt"
+    ],
+    "labels": [
+        "baby",
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.happiny.desc1",
+        "pokemoncobbled.species.happiny.desc2"
+    ],
+    "evolutions": [
         {
-          "variant": "time_range",
-          "range": "day"
-        },
-        {
-          "variant": "held_item",
-          "item": "oval-stone"
+            "id": "happiny_chansey",
+            "variant": "level_up",
+            "result": "chansey",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "time_range",
+                    "range": "day"
+                },
+                {
+                    "variant": "held_item",
+                    "item": "oval-stone"
+                }
+            ]
         }
-      ]
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
     }
-  ],
-  "baseScale": 1.0,
-  "hitbox": {
-    "width": 1.0,
-    "height": 1.0,
-    "fixed": false
-  }
 }

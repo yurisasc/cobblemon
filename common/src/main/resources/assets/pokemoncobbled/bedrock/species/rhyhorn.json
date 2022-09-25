@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:rhyhorn",
+  "model": "pokemoncobbled:bedrock/models/0111_rhyhorn/rhyhorn.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0111_rhyhorn/rhyhorn.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0111_rhyhorn/rhyhorn_shiny.png"
+    }
+  ]
+}

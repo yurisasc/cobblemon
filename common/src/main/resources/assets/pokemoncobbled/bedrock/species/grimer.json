@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:grimer",
+  "model": "pokemoncobbled:bedrock/models/0088_grimer/grimer.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0088_grimer/grimer.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0088_grimer/grimer_shiny.png"
+    }
+  ]
+}

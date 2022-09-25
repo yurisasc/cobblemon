@@ -1,0 +1,15 @@
+{
+  "poser": "pokemoncobbled:scyther",
+  "model": "pokemoncobbled:bedrock/models/0123_scyther/scyther_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0123_scyther/scyther.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0123_scyther/scyther_shiny.png"
+    },
+    {
+      "aspects": ["shiny"],
+      "model": "pokemoncobbled:bedrock/models/0123_scyther/scyther_female.geo.json"
+    }
+  ]
+}

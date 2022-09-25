@@ -1,0 +1,90 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.ditto",
+				"texture_width": 32,
+				"texture_height": 32,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "ditto",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "body2",
+					"parent": "ditto",
+					"pivot": [0, 1, 0.5],
+					"cubes": [
+						{"origin": [-4, 3, -2], "size": [8, 2, 5], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "body",
+					"parent": "body2",
+					"pivot": [0, 8, 0.375],
+					"cubes": [
+						{"origin": [-3.5, 5, -1.5], "size": [7, 4, 3], "uv": [0, 7]},
+						{"origin": [-3.5, 5, 1], "size": [7, 2, 1], "inflate": -0.02, "uv": [5, 20]},
+						{"origin": [0.5, 9, -1], "size": [3, 1, 2], "uv": [22, 8]},
+						{"origin": [-3.5, 9, -1], "size": [3, 1, 2], "uv": [22, 8], "mirror": true}
+					]
+				},
+				{
+					"name": "eyes",
+					"parent": "body",
+					"pivot": [0, 7.75, -1.5],
+					"cubes": [
+						{"origin": [-2, 5.5, -1.5], "size": [4, 1, 0], "inflate": 0.02, "uv": [22, 0], "mirror": true},
+						{"origin": [1, 7, -1.5], "size": [1, 1, 0], "inflate": 0.02, "uv": [30, 23], "mirror": true},
+						{"origin": [-2, 7, -1.5], "size": [1, 1, 0], "inflate": 0.02, "uv": [30, 23]}
+					]
+				},
+				{
+					"name": "righteyelid",
+					"parent": "eyes",
+					"pivot": [0, 1, 0.5],
+					"cubes": [
+						{"origin": [-2.75, 7, -1.4], "size": [2, 1, 1], "inflate": 0.04, "uv": [26, 19]}
+					]
+				},
+				{
+					"name": "lefteyelid",
+					"parent": "eyes",
+					"pivot": [0, 1, 0.5],
+					"cubes": [
+						{"origin": [0.75, 7, -1.4], "size": [2, 1, 1], "inflate": 0.04, "uv": [26, 19], "mirror": true}
+					]
+				},
+				{
+					"name": "leftarm",
+					"parent": "body",
+					"pivot": [3.5, 6, 0],
+					"cubes": [
+						{"origin": [2.5, 5, -1], "size": [3, 3, 2], "uv": [0, 14]}
+					]
+				},
+				{
+					"name": "rightarm",
+					"parent": "body",
+					"pivot": [-3.5, 6, 0],
+					"cubes": [
+						{"origin": [-5.5, 5, -1], "size": [3, 3, 2], "uv": [10, 14]}
+					]
+				},
+				{
+					"name": "body3",
+					"parent": "ditto",
+					"pivot": [0, 1.5, 0.5],
+					"cubes": [
+						{"origin": [-5, 0, -2.5], "size": [10, 3, 6], "uv": [0, 23]}
+					]
+				}
+			]
+		}
+	]
+}

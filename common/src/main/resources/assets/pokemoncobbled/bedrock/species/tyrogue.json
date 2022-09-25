@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:tyrogue",
+  "model": "pokemoncobbled:bedrock/models/0236_tyrogue/tyrogue.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0236_tyrogue/tyrogue.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0236_tyrogue/tyrogue_shiny.png"
+    }
+  ]
+}

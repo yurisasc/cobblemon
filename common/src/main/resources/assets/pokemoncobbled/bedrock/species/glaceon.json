@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:glaceon",
+  "model": "pokemoncobbled:bedrock/models/0471_glaceon/glaceon.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0471_glaceon/glaceon.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0471_glaceon/glaceon_shiny.png"
+    }
+  ]
+}
