@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:koffing",
+  "model": "pokemoncobbled:bedrock/models/0109_koffing/koffing.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0109_koffing/koffing.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0109_koffing/koffing_shiny.png"
+    }
+  ]
+}

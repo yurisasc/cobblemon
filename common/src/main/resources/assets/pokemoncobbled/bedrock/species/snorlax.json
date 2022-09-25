@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:snorlax",
+  "model": "pokemoncobbled:bedrock/models/0143_snorlax/snorlax.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0143_snorlax/snorlax.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0143_snorlax/snorlax_shiny.png"
+    }
+  ]
+}

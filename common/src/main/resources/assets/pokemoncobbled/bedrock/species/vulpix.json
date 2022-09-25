@@ -1,0 +1,20 @@
+{
+  "poser": "pokemoncobbled:vulpix",
+  "model": "pokemoncobbled:bedrock/models/0037_vulpix/vulpix.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0037_vulpix/vulpix.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0037_vulpix/vulpix_shiny.png"
+    },
+    {
+      "aspects": ["alolan"],
+      "model": "pokemoncobbled:bedrock/models/0037_vulpix/vulpix_alolan.geo.json",
+      "texture": "pokemoncobbled:textures/pokemon/0037_vulpix/vulpix_alolan.png"
+    },
+    {
+      "aspects": ["alolan", "shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0037_vulpix/vulpix_alolan_shiny.png"
+    }
+  ]
+}

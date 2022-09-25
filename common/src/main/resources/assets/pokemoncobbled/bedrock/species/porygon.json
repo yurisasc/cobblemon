@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:porygon",
+  "model": "pokemoncobbled:bedrock/models/0137_porygon/porygon.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0137_porygon/porygon.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0137_porygon/porygon_shiny.png"
+    }
+  ]
+}

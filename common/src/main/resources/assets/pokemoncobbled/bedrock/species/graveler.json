@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:graveler",
+  "model": "pokemoncobbled:bedrock/models/0075_graveler/graveler.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0075_graveler/graveler.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0075_graveler/graveler_shiny.png"
+    }
+  ]
+}

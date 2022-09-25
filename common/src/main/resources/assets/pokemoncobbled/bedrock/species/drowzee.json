@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:drowzee",
+  "model": "pokemoncobbled:bedrock/models/0096_drowzee/drowzee.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0096_drowzee/drowzee.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0096_drowzee/drowzee_shiny.png"
+    }
+  ]
+}

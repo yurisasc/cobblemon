@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:onix",
+  "model": "pokemoncobbled:bedrock/models/0095_onix/onix.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0095_onix/onix.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0095_onix/onix_shiny.png"
+    }
+  ]
+}

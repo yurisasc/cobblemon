@@ -1,0 +1,95 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.koffing",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 3,
+				"visible_bounds_offset": [0, 0.5, 0]
+			},
+			"bones": [
+				{
+					"name": "koffing",
+					"pivot": [0, -3, 0]
+				},
+				{
+					"name": "body",
+					"parent": "koffing",
+					"pivot": [0, 5.5, 0],
+					"cubes": [
+						{"origin": [-4.5, 1, -4.5], "size": [9, 9, 9], "uv": [0, 0]},
+						{"origin": [-4.5, 1, -4.5], "size": [9, 9, 9], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "eyes",
+					"parent": "body",
+					"pivot": [0, 7.75, -4.55],
+					"cubes": [
+						{"origin": [-4, 7, -4.55], "size": [3, 2, 0], "inflate": 0.02, "pivot": [-2.5, 8, -4.55], "rotation": [0, 0, -2.5], "uv": [0, 2]},
+						{"origin": [1, 7, -4.55], "size": [3, 2, 0], "inflate": 0.02, "pivot": [2.5, 8, -4.55], "rotation": [0, 0, 2.5], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "mouth",
+					"parent": "body",
+					"pivot": [0, 5.25, -4.55],
+					"cubes": [
+						{"origin": [-3.5, 4.25, -4.55], "size": [7, 2, 0], "inflate": 0.02, "uv": [0, 18]}
+					]
+				},
+				{
+					"name": "smog",
+					"parent": "body",
+					"pivot": [7.5, -2.5, 0],
+					"cubes": [
+						{"origin": [-4.5, 2, 0], "size": [7, 8, 0], "uv": [50, 0]}
+					]
+				},
+				{
+					"name": "smog2",
+					"parent": "body",
+					"pivot": [-7.5, -2.5, 0],
+					"cubes": [
+						{"origin": [-2.5, 2, 0], "size": [7, 8, 0], "uv": [50, 0], "mirror": true}
+					]
+				},
+				{
+					"name": "smog4",
+					"parent": "body",
+					"pivot": [3, 6.25, 2.5],
+					"cubes": [
+						{"origin": [1.5, 4.75, 2.5], "size": [3, 3, 0], "uv": [58, 9], "mirror": true}
+					]
+				},
+				{
+					"name": "smog3",
+					"parent": "body",
+					"pivot": [-3, 6.25, 2.5],
+					"cubes": [
+						{"origin": [-4.5, 4.75, 2.5], "size": [3, 3, 0], "uv": [58, 9]}
+					]
+				},
+				{
+					"name": "smog5",
+					"parent": "body",
+					"pivot": [1.5, 3, -1],
+					"cubes": [
+						{"origin": [-1.5, 1, -1], "size": [6, 4, 0], "uv": [52, 14], "mirror": true}
+					]
+				},
+				{
+					"name": "smog6",
+					"parent": "body",
+					"pivot": [-1.5, 3, -1],
+					"cubes": [
+						{"origin": [-4.5, 1, -1], "size": [6, 4, 0], "uv": [52, 14]}
+					]
+				}
+			]
+		}
+	]
+}

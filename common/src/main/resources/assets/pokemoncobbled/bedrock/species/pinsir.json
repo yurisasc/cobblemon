@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:pinsir",
+  "model": "pokemoncobbled:bedrock/models/0127_pinsir/pinsir.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0127_pinsir/pinsir.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0127_pinsir/pinsir_shiny.png"
+    }
+  ]
+}

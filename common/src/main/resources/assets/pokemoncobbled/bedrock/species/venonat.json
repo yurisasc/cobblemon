@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:venonat",
+  "model": "pokemoncobbled:bedrock/models/0048_venonat/venonat.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0048_venonat/venonat.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0048_venonat/venonat_shiny.png"
+    }
+  ]
+}

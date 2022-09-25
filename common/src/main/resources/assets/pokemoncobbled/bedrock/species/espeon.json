@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:espeon",
+  "model": "pokemoncobbled:bedrock/models/0196_espeon/espeon.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0196_espeon/espeon.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0196_espeon/espeon_shiny.png"
+    }
+  ]
+}

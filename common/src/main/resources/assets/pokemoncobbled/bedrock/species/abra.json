@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:abra",
+  "model": "pokemoncobbled:bedrock/models/0063_abra/abra.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0063_abra/abra.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0063_abra/abra_shiny.png"
+    }
+  ]
+}

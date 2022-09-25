@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:magby",
+  "model": "pokemoncobbled:bedrock/models/0240_magby/magby.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0240_magby/magby.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0240_magby/magby_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:exeggcute",
+  "model": "pokemoncobbled:bedrock/models/0102_exeggcute/exeggcute.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0102_exeggcute/exeggcute.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0102_exeggcute/exeggcute_shiny.png"
+    }
+  ]
+}

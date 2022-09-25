@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:tentacruel",
+  "model": "pokemoncobbled:bedrock/models/0073_tentacruel/tentacruel.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0073_tentacruel/tentacruel.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0073_tentacruel/tentacruel_shiny.png"
+    }
+  ]
+}

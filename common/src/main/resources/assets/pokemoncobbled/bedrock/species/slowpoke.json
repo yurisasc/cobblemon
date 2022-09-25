@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:slowpoke",
+  "model": "pokemoncobbled:bedrock/models/0079_slowpoke/slowpoke.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0079_slowpoke/slowpoke.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0079_slowpoke/slowpoke_shiny.png"
+    }
+  ]
+}

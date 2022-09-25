@@ -1,0 +1,121 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.exeggcute",
+				"texture_width": 64,
+				"texture_height": 64,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 1.5,
+				"visible_bounds_offset": [0, 0.25, 0]
+			},
+			"bones": [
+				{
+					"name": "exeggcute",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "egg",
+					"parent": "exeggcute",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-3, 0, -3], "size": [6, 8, 6], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "eyes2",
+					"parent": "egg",
+					"pivot": [0, 5.85822, -3],
+					"cubes": [
+						{"origin": [0.75, 4.75, -3], "size": [2, 2, 0], "inflate": 0.02, "pivot": [1.25, 5.75, -3], "rotation": [0, 0, -12.5], "uv": [58, 0]},
+						{"origin": [-2.75, 4.75, -3], "size": [2, 2, 0], "inflate": 0.02, "pivot": [-1.25, 5.75, -3], "rotation": [0, 0, 12.5], "uv": [58, 0], "mirror": true}
+					]
+				},
+				{
+					"name": "egg2",
+					"parent": "exeggcute",
+					"pivot": [-4, 0, -7],
+					"cubes": [
+						{"origin": [-7, 0, -10], "size": [6, 7, 6], "uv": [18, 21]},
+						{"origin": [-6.75, 2.5, -10], "size": [2, 2, 0], "inflate": 0.02, "pivot": [-5.75, 3.5, -10], "rotation": [0, 0, 15], "uv": [60, 16]},
+						{"origin": [-3.25, 2.5, -10], "size": [2, 2, 0], "inflate": 0.02, "pivot": [-2.25, 3.5, -10], "rotation": [0, 0, -15], "uv": [60, 18], "mirror": true}
+					]
+				},
+				{
+					"name": "egg3",
+					"parent": "exeggcute",
+					"pivot": [4, 0, -7],
+					"cubes": [
+						{"origin": [1, 0, -10], "size": [6, 7, 6], "uv": [24, 0]}
+					]
+				},
+				{
+					"name": "eyes",
+					"parent": "egg3",
+					"pivot": [4, 3.85822, -10],
+					"cubes": [
+						{"origin": [1.25, 2.75, -10], "size": [2, 2, 0], "inflate": 0.02, "pivot": [2.75, 3.75, -10], "rotation": [0, 0, 12.5], "uv": [58, 0], "mirror": true},
+						{"origin": [4.75, 2.75, -10], "size": [2, 2, 0], "inflate": 0.02, "pivot": [5.25, 3.75, -10], "rotation": [0, 0, -12.5], "uv": [58, 0]}
+					]
+				},
+				{
+					"name": "egg4",
+					"parent": "exeggcute",
+					"pivot": [7, 0, 4],
+					"cubes": [
+						{"origin": [4, 0, 1], "size": [6, 7, 6], "uv": [0, 14]}
+					]
+				},
+				{
+					"name": "eyes3",
+					"parent": "egg4",
+					"pivot": [7, 4.10822, 1],
+					"cubes": [
+						{"origin": [7.75, 3, 1], "size": [2, 2, 0], "inflate": 0.02, "pivot": [8.25, 4, 1], "rotation": [0, 0, -12.5], "uv": [58, 0]},
+						{"origin": [4.25, 3, 1], "size": [2, 2, 0], "inflate": 0.02, "pivot": [5.75, 4, 1], "rotation": [0, 0, 12.5], "uv": [58, 0], "mirror": true}
+					]
+				},
+				{
+					"name": "egg5",
+					"parent": "exeggcute",
+					"pivot": [-8, 0, 1],
+					"cubes": [
+						{"origin": [-11, 0, -2], "size": [6, 7, 6], "uv": [0, 28]}
+					]
+				},
+				{
+					"name": "eyes4",
+					"parent": "egg5",
+					"pivot": [0, 4.5, -2],
+					"cubes": [
+						{"origin": [-7, 3.25, -2], "size": [2, 2, 0], "inflate": 0.02, "pivot": [-6, 4.25, -2], "rotation": [0, 0, 12.5], "uv": [0, 28], "mirror": true},
+						{"origin": [-11, 3.25, -2], "size": [2, 2, 0], "inflate": 0.02, "pivot": [-10, 4.25, -2], "rotation": [0, 0, -12.5], "uv": [0, 28]}
+					]
+				},
+				{
+					"name": "brokenegg",
+					"parent": "exeggcute",
+					"pivot": [-2, 0, 8],
+					"cubes": [
+						{"origin": [-4, 1, 6], "size": [4, 5, 4], "uv": [24, 34]},
+						{"origin": [1, 1, 5], "size": [0, 6, 6], "inflate": 0.02, "uv": [12, 35]},
+						{"origin": [-5, 0, 5], "size": [6, 1, 6], "uv": [18, 13]},
+						{"origin": [-5, 1, 11], "size": [6, 6, 0], "inflate": 0.02, "uv": [36, 13]},
+						{"origin": [-5, 1, 5], "size": [0, 6, 6], "inflate": 0.02, "uv": [0, 35]},
+						{"origin": [-5, 1, 5], "size": [6, 6, 0], "inflate": 0.02, "uv": [18, 0]}
+					]
+				},
+				{
+					"name": "eyes5",
+					"parent": "brokenegg",
+					"pivot": [-2, 3.5, 11],
+					"cubes": [
+						{"origin": [-1.5, 2.5, 11], "size": [2, 2, 0], "inflate": 0.04, "pivot": [-0.5, 3.5, 11], "rotation": [0, 0, -12.5], "uv": [60, 5], "mirror": true},
+						{"origin": [-4.5, 2.5, 11], "size": [2, 2, 0], "inflate": 0.04, "pivot": [-3.5, 3.5, 11], "rotation": [0, 0, 12.5], "uv": [60, 5]}
+					]
+				}
+			]
+		}
+	]
+}
