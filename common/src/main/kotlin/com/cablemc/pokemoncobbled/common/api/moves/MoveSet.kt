@@ -47,6 +47,7 @@ class MoveSet : Iterable<Move> {
             return
         }
         moves[pos] = move
+        move?.observable?.subscribe { this.update() }
         update()
     }
 
