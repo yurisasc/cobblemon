@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:ponyta",
+  "model": "pokemoncobbled:bedrock/models/0077_ponyta/ponyta.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0077_ponyta/ponyta.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0077_ponyta/ponyta_shiny.png"
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:charmeleon",
-  "model": "pokemoncobbled:bedrock/models/charmeleon.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/charmeleon.png",
+  "model": "pokemoncobbled:bedrock/models/0005_charmeleon/charmeleon.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0005_charmeleon/charmeleon.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/charmeleon_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0005_charmeleon/charmeleon_shiny.png"
     }
   ]
 }

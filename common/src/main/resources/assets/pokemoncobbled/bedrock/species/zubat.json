@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:zubat",
-  "model": "pokemoncobbled:bedrock/models/zubat.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/zubat_male.png",
+  "model": "pokemoncobbled:bedrock/models/0041_zubat/zubat.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0041_zubat/zubat_male.png",
   "variations": [
     {
       "aspects": ["female"],
-      "texture": "pokemoncobbled:textures/pokemon/zubat_female.png"
+      "texture": "pokemoncobbled:textures/pokemon/0041_zubat/zubat_female.png"
     }
   ]
 }

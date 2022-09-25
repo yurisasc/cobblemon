@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:seadra",
+  "model": "pokemoncobbled:bedrock/models/0117_seadra/seadra.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0117_seadra/seadra.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0117_seadra/seadra_shiny.png"
+    }
+  ]
+}

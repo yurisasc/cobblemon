@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:omanyte",
+  "model": "pokemoncobbled:bedrock/models/0138_omanyte/omanyte.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0138_omanyte/omanyte.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0138_omanyte/omanyte_shiny.png"
+    }
+  ]
+}

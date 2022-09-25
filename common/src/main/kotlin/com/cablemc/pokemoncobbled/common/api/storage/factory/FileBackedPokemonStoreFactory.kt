@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.api.storage.factory
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
@@ -6,7 +14,7 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.emitWhile
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
-import com.cablemc.pokemoncobbled.common.api.storage.adapter.FileStoreAdapter
+import com.cablemc.pokemoncobbled.common.api.storage.adapter.flatifle.FileStoreAdapter
 import com.cablemc.pokemoncobbled.common.api.storage.adapter.SerializedStore
 import com.cablemc.pokemoncobbled.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
@@ -44,7 +52,7 @@ open class FileBackedPokemonStoreFactory<S>(
     }
 
     protected fun <E : StorePosition, T : PokemonStore<E>> getStoreCache(storeClass: Class<T>): StoreCache<E, T> {
-        val cache = storeCaches.getOrPut(storeClass) {  StoreCache<E, T>() }
+        val cache = storeCaches.getOrPut(storeClass) { StoreCache<E, T>() }
         return cache as StoreCache<E, T>
     }
 

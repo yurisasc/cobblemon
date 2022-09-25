@@ -1,0 +1,128 @@
+{
+    "name": "munchlax",
+    "nationalPokedexNumber": 446,
+    "primaryType": "normal",
+    "abilities": [
+        "pickup",
+        "thickfat",
+        "h:gluttony"
+    ],
+    "baseStats": {
+        "hp": 135,
+        "attack": 85,
+        "defence": 40,
+        "special_attack": 40,
+        "special_defence": 85,
+        "speed": 5
+    },
+    "catchRate": 50,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 78,
+    "experienceGroup": "slow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:lick",
+        "4:defensecurl",
+        "8:recycle",
+        "12:covet",
+        "16:bite",
+        "20:stockpile",
+        "20:swallow",
+        "24:screech",
+        "28:bodyslam",
+        "32:fling",
+        "36:amnesia",
+        "40:metronome",
+        "44:flail",
+        "48:bellydrum",
+        "52:lastresort",
+        "egg:belch",
+        "egg:counter",
+        "egg:curse",
+        "egg:doubleedge",
+        "egg:fissure",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:brickbreak",
+        "tm:bulldoze",
+        "tm:charm",
+        "tm:earthquake",
+        "tm:encore",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firepunch",
+        "tm:flamethrower",
+        "tm:gunkshot",
+        "tm:hydropump",
+        "tm:hypervoice",
+        "tm:icebeam",
+        "tm:icepunch",
+        "tm:icywind",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:payday",
+        "tm:protect",
+        "tm:psychic",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:seedbomb",
+        "tm:selfdestruct",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:stompingtantrum",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:superpower",
+        "tm:surf",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderpunch",
+        "tm:uproar",
+        "tm:whirlpool",
+        "tm:workup",
+        "tm:zenheadbutt"
+    ],
+    "labels": [
+        "baby",
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.munchlax.desc1",
+        "pokemoncobbled.species.munchlax.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "munchlax_snorlax",
+            "variant": "level_up",
+            "result": "snorlax",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "friendship",
+                    "amount": 160
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

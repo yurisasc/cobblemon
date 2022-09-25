@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:kangaskhan",
+  "model": "pokemoncobbled:bedrock/models/0115_kangaskhan/kangaskhan.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0115_kangaskhan/kangaskhan.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0115_kangaskhan/kangaskhan_shiny.png"
+    }
+  ]
+}

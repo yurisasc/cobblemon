@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:beedrill",
-  "model": "pokemoncobbled:bedrock/models/beedrill.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/beedrill.png",
+  "model": "pokemoncobbled:bedrock/models/0015_beedrill/beedrill.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0015_beedrill/beedrill.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/beedrill_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0015_beedrill/beedrill_shiny.png"
     }
   ]
 }

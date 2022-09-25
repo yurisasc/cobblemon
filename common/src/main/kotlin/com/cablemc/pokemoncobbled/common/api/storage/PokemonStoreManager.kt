@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.api.storage
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork.sendPacket
@@ -41,27 +49,22 @@ open class PokemonStoreManager {
 
     @Throws(NoPokemonStoreException::class)
     open fun getParty(playerID: UUID): PlayerPartyStore {
-        for (factory in factories) {
-            factory.getPlayerParty(playerID)?.run { return this }
-        }
-
-        throw NoPokemonStoreException("No factory was able to provide a party for $playerID - this should not be possible unless someone has removed the default provider!")
+        return factories.firstNotNullOfOrNull { it.getPlayerParty(playerID) }
+            ?: throw NoPokemonStoreException(
+                "No factory was able to provide a party for $playerID - this should not be possible unless someone has removed the default provider!"
+            )
     }
 
     @Throws(NoPokemonStoreException::class)
     open fun getPC(playerID: UUID): PCStore {
-        for (factory in factories) {
-            factory.getPC(playerID)?.run { return this }
-        }
-
-        throw NoPokemonStoreException("No factory was able to provide a PC for $playerID - this should not be possible unless someone has removed the default provider!")
+        return factories.firstNotNullOfOrNull { it.getPC(playerID) }
+            ?: throw NoPokemonStoreException(
+                "No factory was able to provide a PC for $playerID - this should not be possible unless someone has removed the default provider!"
+            )
     }
 
     open fun getPCForPlayer(player: ServerPlayerEntity, pcBlockEntity: PCBlockEntity): PCStore? {
-        for (factory in factories) {
-            factory.getPCForPlayer(player, pcBlockEntity)?.run { return this }
-        }
-        return null
+        return factories.firstNotNullOfOrNull { it.getPCForPlayer(player, pcBlockEntity) }
     }
 
     open fun getParties(playerID: UUID): Iterable<PartyStore> {

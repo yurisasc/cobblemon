@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:poliwag",
+  "model": "pokemoncobbled:bedrock/models/0060_poliwag/poliwag.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0060_poliwag/poliwag.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0060_poliwag/poliwag_shiny.png"
+    }
+  ]
+}

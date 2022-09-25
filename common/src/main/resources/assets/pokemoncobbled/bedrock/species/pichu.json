@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:pichu",
+  "model": "pokemoncobbled:bedrock/models/0172_pichu/pichu.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0172_pichu/pichu.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0172_pichu/pichu_shiny.png"
+    }
+  ]
+}

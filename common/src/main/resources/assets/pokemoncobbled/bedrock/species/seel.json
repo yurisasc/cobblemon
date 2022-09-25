@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:seel",
+  "model": "pokemoncobbled:bedrock/models/0086_seel/seel.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0086_seel/seel.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0086_seel/seel_shiny.png"
+    }
+  ]
+}

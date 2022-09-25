@@ -1,0 +1,15 @@
+{
+  "poser": "pokemoncobbled:pikachu",
+  "model": "pokemoncobbled:bedrock/models/0025_pikachu/pikachu_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0025_pikachu/pikachu.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0025_pikachu/pikachu_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:bedrock/models/0025_pikachu/pikachu_female.geo.json"
+    }
+  ]
+}

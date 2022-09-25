@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:oddish",
-  "model": "pokemoncobbled:bedrock/models/oddish.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/oddish.png",
+  "model": "pokemoncobbled:bedrock/models/0043_oddish/oddish.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0043_oddish/oddish.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/oddish_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0043_oddish/oddish_shiny.png"
     }
   ]
 }

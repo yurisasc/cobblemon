@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:magnezone",
+  "model": "pokemoncobbled:bedrock/models/0462_magnezone/magnezone.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0462_magnezone/magnezone.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0462_magnezone/magnezone_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:gengar",
+  "model": "pokemoncobbled:bedrock/models/0094_gengar/gengar.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0094_gengar/gengar.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0094_gengar/gengar_shiny.png"
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 {
   "poser": "pokemoncobbled:pidgeot",
-  "model": "pokemoncobbled:bedrock/models/pidgeot.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/pidgeot.png",
+  "model": "pokemoncobbled:bedrock/models/0018_pidgeot/pidgeot.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0018_pidgeot/pidgeot.png",
   "variations": [
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/pidgeot_shiny.png"
+      "texture": "pokemoncobbled:textures/pokemon/0018_pidgeot/pidgeot_shiny.png"
     }
   ]
 }

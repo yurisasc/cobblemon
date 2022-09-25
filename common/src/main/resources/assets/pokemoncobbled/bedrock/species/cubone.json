@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:cubone",
+  "model": "pokemoncobbled:bedrock/models/0104_cubone/cubone.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0104_cubone/cubone.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0104_cubone/cubone_shiny.png"
+    }
+  ]
+}

@@ -1,15 +1,15 @@
 {
   "poser": "pokemoncobbled:gyarados",
-  "model": "pokemoncobbled:bedrock/models/gyarados_male.geo.json",
-  "texture": "pokemoncobbled:textures/pokemon/gyarados.png",
+  "model": "pokemoncobbled:bedrock/models/0130_gyarados/gyarados_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0130_gyarados/gyarados.png",
   "variations": [
     {
       "aspects": ["female"],
-      "model": "pokemoncobbled:bedrock/models/gyarados_female.geo.json"
+      "model": "pokemoncobbled:bedrock/models/0130_gyarados/gyarados_female.geo.json"
     },
     {
       "aspects": ["shiny"],
-      "texture": "pokemoncobbled:textures/pokemon/gyarados.png"
+      "texture": "pokemoncobbled:textures/pokemon/0130_gyarados/gyarados.png"
     }
   ]
 }

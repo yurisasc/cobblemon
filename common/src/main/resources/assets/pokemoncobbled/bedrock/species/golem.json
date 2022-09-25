@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:golem",
+  "model": "pokemoncobbled:bedrock/models/0076_golem/golem.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0076_golem/golem.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0076_golem/golem_shiny.png"
+    }
+  ]
+}

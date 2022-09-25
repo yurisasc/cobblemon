@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:staryu",
+  "model": "pokemoncobbled:bedrock/models/0120_staryu/staryu.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0120_staryu/staryu.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0120_staryu/staryu_shiny.png"
+    }
+  ]
+}

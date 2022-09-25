@@ -1,49 +1,23 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.repository
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BeedrillModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BellossomModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BlastoiseModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.BulbasaurModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ButterfreeModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CaterpieModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharizardModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmanderModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CharmeleonModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefableModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ClefairyModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.CleffaModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DiglettModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.DugtrioModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.EeveeModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ElectrodeModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GloomModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.GyaradosModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.IvysaurModel
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KakunaModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.KrabbyModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.LaprasModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MagikarpModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MankeyModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.MetapodModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.OddishModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ParasModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ParasectModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeotModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeottoModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PidgeyModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen1.*
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen2.*
+//import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen3.*
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen4.*
+//import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen5.*
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PrimeapeModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.RaticateModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.RattataModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.SquirtleModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VenusaurModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VileplumeModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.VoltorbModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WartortleModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.WeedleModel
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.ZubatModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen6.SylveonModel
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemoncobbled.common.client.render.pokemon.SpeciesAssetResolver
@@ -70,47 +44,187 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     }
 
     fun registerInBuiltPosers() {
-        posers[cobbledResource("bulbasaur")] = { BulbasaurModel(it) }
-        posers[cobbledResource("ivysaur")] = { IvysaurModel(it) }
-        posers[cobbledResource("venusaur")] = { VenusaurModel(it) }
-        posers[cobbledResource("charmander")] = { CharmanderModel(it) }
-        posers[cobbledResource("charmeleon")] = { CharmeleonModel(it) }
-        posers[cobbledResource("charizard")] = { CharizardModel(it) }
-        posers[cobbledResource("squirtle")] = { SquirtleModel(it) }
-        posers[cobbledResource("wartortle")] = { WartortleModel(it) }
-        posers[cobbledResource("blastoise")] = { BlastoiseModel(it) }
-        posers[cobbledResource("caterpie")] = { CaterpieModel(it) }
-        posers[cobbledResource("metapod")] = { MetapodModel(it) }
-        posers[cobbledResource("butterfree")] = { ButterfreeModel(it) }
-        posers[cobbledResource("weedle")] = { WeedleModel(it) }
-        posers[cobbledResource("kakuna")] = { KakunaModel(it) }
-        posers[cobbledResource("beedrill")] = { BeedrillModel(it) }
-        posers[cobbledResource("rattata")] = { RattataModel(it) }
-        posers[cobbledResource("raticate")] = { RaticateModel(it) }
-        posers[cobbledResource("eevee")] = { EeveeModel(it) }
-        posers[cobbledResource("magikarp")] = { MagikarpModel(it) }
-        posers[cobbledResource("gyarados")] = { GyaradosModel(it) }
-        posers[cobbledResource("pidgey")] = { PidgeyModel(it) }
-        posers[cobbledResource("pidgeotto")] = { PidgeottoModel(it) }
-        posers[cobbledResource("pidgeot")] = { PidgeotModel(it) }
-        posers[cobbledResource("diglett")] = { DiglettModel(it) }
-        posers[cobbledResource("dugtrio")] = { DugtrioModel(it) }
-        posers[cobbledResource("zubat")] = { ZubatModel(it) }
-        posers[cobbledResource("cleffa")] = { CleffaModel(it) }
-        posers[cobbledResource("clefable")] = { ClefableModel(it) }
-        posers[cobbledResource("clefairy")] = { ClefairyModel(it) }
-        posers[cobbledResource("krabby")] = { KrabbyModel(it) }
-        posers[cobbledResource("paras")] = { ParasModel(it) }
-        posers[cobbledResource("parasect")] = { ParasectModel(it) }
-        posers[cobbledResource("mankey")] = { MankeyModel(it) }
-        posers[cobbledResource("primeape")] = { PrimeapeModel(it) }
-        posers[cobbledResource("oddish")] = { OddishModel(it) }
-        posers[cobbledResource("gloom")] = { GloomModel(it) }
-        posers[cobbledResource("vileplume")] = { VileplumeModel(it) }
-        posers[cobbledResource("bellossom")] = { BellossomModel(it) }
-        posers[cobbledResource("voltorb")] = { VoltorbModel(it) }
-        posers[cobbledResource("electrode")] = { ElectrodeModel(it) }
-        posers[cobbledResource("lapras")] = { LaprasModel(it) }
+        inbuilt("bulbasaur") { BulbasaurModel(it) }
+        inbuilt("ivysaur") { IvysaurModel(it) }
+        inbuilt("venusaur") { VenusaurModel(it) }
+        inbuilt("charmander") { CharmanderModel(it) }
+        inbuilt("charmeleon") { CharmeleonModel(it) }
+        inbuilt("charizard") { CharizardModel(it) }
+        inbuilt("squirtle") { SquirtleModel(it) }
+        inbuilt("wartortle") { WartortleModel(it) }
+        inbuilt("blastoise") { BlastoiseModel(it) }
+        inbuilt("caterpie") { CaterpieModel(it) }
+        inbuilt("metapod") { MetapodModel(it) }
+        inbuilt("butterfree") { ButterfreeModel(it) }
+        inbuilt("weedle") { WeedleModel(it) }
+        inbuilt("kakuna") { KakunaModel(it) }
+        inbuilt("beedrill") { BeedrillModel(it) }
+        inbuilt("rattata") { RattataModel(it) }
+        inbuilt("raticate") { RaticateModel(it) }
+        inbuilt("eevee") { EeveeModel(it) }
+        inbuilt("magikarp") { MagikarpModel(it) }
+        inbuilt("gyarados") { GyaradosModel(it) }
+        inbuilt("pidgey") { PidgeyModel(it) }
+        inbuilt("pidgeotto") { PidgeottoModel(it) }
+        inbuilt("pidgeot") { PidgeotModel(it) }
+        inbuilt("diglett") { DiglettModel(it) }
+        inbuilt("dugtrio") { DugtrioModel(it) }
+        inbuilt("zubat") { ZubatModel(it) }
+        inbuilt("cleffa") { CleffaModel(it) }
+        inbuilt("clefable") { ClefableModel(it) }
+        inbuilt("clefairy") { ClefairyModel(it) }
+        inbuilt("krabby") { KrabbyModel(it) }
+        inbuilt("paras") { ParasModel(it) }
+        inbuilt("parasect") { ParasectModel(it) }
+        inbuilt("mankey") { MankeyModel(it) }
+        inbuilt("primeape") { PrimeapeModel(it) }
+        inbuilt("oddish") { OddishModel(it) }
+        inbuilt("gloom") { GloomModel(it) }
+        inbuilt("vileplume") { VileplumeModel(it) }
+        inbuilt("bellossom") { BellossomModel(it) }
+        inbuilt("voltorb") { VoltorbModel(it) }
+        inbuilt("electrode") { ElectrodeModel(it) }
+        inbuilt("lapras") { LaprasModel(it) }
+        inbuilt("ekans") { EkansModel(it) }
+        inbuilt("machop") { MachopModel(it) }
+        inbuilt("machoke") { MachokeModel(it) }
+        inbuilt("machamp") { MachampModel(it) }
+        inbuilt("abra") { AbraModel(it) }
+        inbuilt("aerodactyl") { AerodactylModel(it) }
+        inbuilt("alakazam") { AlakazamModel(it) }
+        inbuilt("arbok") { ArbokModel(it) }
+        inbuilt("arcanine") { ArcanineModel(it) }
+        inbuilt("articuno") { ArticunoModel(it) }
+        inbuilt("bellsprout") { BellsproutModel(it) }
+        inbuilt("chansey") { ChanseyModel(it) }
+        inbuilt("cloyster") { CloysterModel(it) }
+        inbuilt("cubone") { CuboneModel(it) }
+        inbuilt("dewgong") { DewgongModel(it) }
+        inbuilt("ditto") { DittoModel(it) }
+        inbuilt("dodrio") { DodrioModel(it) }
+        inbuilt("doduo") { DoduoModel(it) }
+        inbuilt("dragonair") { DragonairModel(it) }
+        inbuilt("dragonite") { DragoniteModel(it) }
+        inbuilt("dratini") { DratiniModel(it) }
+        inbuilt("drowzee") { DrowzeeModel(it) }
+        inbuilt("electabuzz") { ElectabuzzModel(it) }
+        inbuilt("exeggcute") { ExeggcuteModel(it) }
+        inbuilt("exeggutor") { ExeggutorModel(it) }
+        inbuilt("farfetchd") { FarfetchdModel(it) }
+        inbuilt("fearow") { FearowModel(it) }
+        inbuilt("flareon") { FlareonModel(it) }
+        inbuilt("gastly") { GastlyModel(it) }
+        inbuilt("gengar") { GengarModel(it) }
+        inbuilt("geodude") { GeodudeModel(it) }
+        inbuilt("golbat") { GolbatModel(it) }
+        inbuilt("goldeen") { GoldeenModel(it) }
+        inbuilt("golduck") { GolduckModel(it) }
+        inbuilt("golem") { GolemModel(it) }
+        inbuilt("graveler") { GravelerModel(it) }
+        inbuilt("grimer") { GrimerModel(it) }
+        inbuilt("growlithe") { GrowlitheModel(it) }
+        inbuilt("haunter") { HaunterModel(it) }
+        inbuilt("hitmonchan") { HitmonchanModel(it) }
+        inbuilt("hitmonlee") { HitmonleeModel(it) }
+        inbuilt("horsea") { HorseaModel(it) }
+        inbuilt("hypno") { HypnoModel(it) }
+        inbuilt("jigglypuff") { JigglypuffModel(it) }
+        inbuilt("jolteon") { JolteonModel(it) }
+        inbuilt("jynx") { JynxModel(it) }
+        inbuilt("kabuto") { KabutoModel(it) }
+        inbuilt("kabutops") { KabutopsModel(it) }
+        inbuilt("kadabra") { KadabraModel(it) }
+        inbuilt("kangaskhan") { KangaskhanModel(it) }
+        inbuilt("kingler") { KinglerModel(it) }
+        inbuilt("koffing") { KoffingModel(it) }
+        inbuilt("krabby") { KrabbyModel(it) }
+        inbuilt("lickitung") { LickitungModel(it) }
+        inbuilt("magmar") { MagmarModel(it) }
+        inbuilt("magnemite") { MagnemiteModel(it) }
+        inbuilt("magneton") { MagnetonModel(it) }
+        inbuilt("marowak") { MarowakModel(it) }
+        inbuilt("meowth") { MeowthModel(it) }
+        inbuilt("mew") { MewModel(it) }
+        inbuilt("mewtwo") { MewtwoModel(it) }
+        inbuilt("moltres") { MoltresModel(it) }
+        inbuilt("mrmime") { MrmimeModel(it) }
+        inbuilt("muk") { MukModel(it) }
+        inbuilt("nidoking") { NidokingModel(it) }
+        inbuilt("nidoqueen") { NidoqueenModel(it) }
+        inbuilt("nidoranf") { NidoranfModel(it) }
+        inbuilt("nidoranm") { NidoranmModel(it) }
+        inbuilt("nidorina") { NidorinaModel(it) }
+        inbuilt("nidorino") { NidorinoModel(it) }
+        inbuilt("ninetales") { NinetalesModel(it) }
+        inbuilt("omanyte") { OmanyteModel(it) }
+        inbuilt("omastar") { OmastarModel(it) }
+        inbuilt("onix") { OnixModel(it) }
+        inbuilt("persian") { PersianModel(it) }
+        inbuilt("pikachu") { PikachuModel(it) }
+        inbuilt("pinsir") { PinsirModel(it) }
+        inbuilt("poliwag") { PoliwagModel(it) }
+        inbuilt("poliwhirl") { PoliwhirlModel(it) }
+        inbuilt("poliwrath") { PoliwrathModel(it) }
+        inbuilt("ponyta") { PonytaModel(it) }
+        inbuilt("porygon") { PorygonModel(it) }
+        inbuilt("psyduck") { PsyduckModel(it) }
+        inbuilt("raichu") { RaichuModel(it) }
+        inbuilt("rapidash") { RapidashModel(it) }
+        inbuilt("rhydon") { RhydonModel(it) }
+        inbuilt("rhyhorn") { RhyhornModel(it) }
+        inbuilt("sandshrew") { SandshrewModel(it) }
+//        inbuilt("sandslash") { SandslashModel(it) } It is broken currently
+        inbuilt("scyther") { ScytherModel(it) }
+        inbuilt("seadra") { SeadraModel(it) }
+        inbuilt("seaking") { SeakingModel(it) }
+        inbuilt("seel") { SeelModel(it) }
+        inbuilt("shellder") { ShellderModel(it) }
+        inbuilt("slowbro") { SlowbroModel(it) }
+        inbuilt("slowpoke") { SlowpokeModel(it) }
+        inbuilt("snorlax") { SnorlaxModel(it) }
+        inbuilt("spearow") { SpearowModel(it) }
+        inbuilt("starmie") { StarmieModel(it) }
+        inbuilt("staryu") { StaryuModel(it) }
+        inbuilt("tangela") { TangelaModel(it) }
+        inbuilt("tauros") { TaurosModel(it) }
+        inbuilt("tentacool") { TentacoolModel(it) }
+        inbuilt("tentacruel") { TentacruelModel(it) }
+        inbuilt("vaporeon") { VaporeonModel(it) }
+        inbuilt("venomoth") { VenomothModel(it) }
+        inbuilt("venonat") { VenonatModel(it) }
+        inbuilt("victreebel") { VictreebelModel(it) }
+        inbuilt("vulpix") { VulpixModel(it) }
+        inbuilt("weepinbell") { WeepinbellModel(it) }
+        inbuilt("weezing") { WeezingModel(it) }
+        inbuilt("wigglytuff") { WigglytuffModel(it) }
+        inbuilt("zapdos") { ZapdosModel(it) }
+//        inbuilt("elekid") { ElekidModel(it) } Broken
+        inbuilt("igglybuff") { IgglybuffModel(it) }
+        inbuilt("magby") { MagbyModel(it) }
+        inbuilt("pichu") { PichuModel(it) }
+        inbuilt("smoochum") { SmoochumModel(it) }
+        inbuilt("tyrogue") { TyrogueModel(it) }
+        inbuilt("electivire") { ElectivireModel(it) }
+        inbuilt("glaceon") { GlaceonModel(it) }
+        inbuilt("happiny") { HappinyModel(it) }
+        inbuilt("leafeon") { LeafeonModel(it) }
+        inbuilt("lickilicky") { LickilickyModel(it) }
+        inbuilt("magmortar") { MagmortarModel(it) }
+        inbuilt("magnezone") { MagnezoneModel(it) }
+        inbuilt("mimejr") { MimejrModel(it) }
+        inbuilt("munchlax") { MunchlaxModel(it) }
+        inbuilt("porygon2") { Porygon2Model(it) }
+        inbuilt("porygonz") { PorygonzModel(it) }
+        inbuilt("rhyperior") { RhyperiorModel(it) }
+        inbuilt("scizor") { ScizorModel(it) }
+        inbuilt("tangrowth") { TangrowthModel(it) }
+        inbuilt("sylveon") { SylveonModel(it) }
+        inbuilt("umbreon") { UmbreonModel(it) }
+        inbuilt("espeon") { EspeonModel(it) }
+    }
+
+    fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
+        posers[cobbledResource(name)] = model
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {
@@ -157,7 +271,9 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
             if (poser != null) {
                 return poser
             }
-        } catch(_: IllegalStateException) { }
+        } catch(e: IllegalStateException) {
+//            e.printStackTrace()
+        }
         return this.renders[cobbledResource("substitute")]!!.getPoser(aspects)
     }
 

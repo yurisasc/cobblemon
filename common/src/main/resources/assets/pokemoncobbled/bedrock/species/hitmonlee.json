@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:hitmonlee",
+  "model": "pokemoncobbled:bedrock/models/0106_hitmonlee/hitmonlee.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0106_hitmonlee/hitmonlee.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0106_hitmonlee/hitmonlee_shiny.png"
+    }
+  ]
+}

@@ -41,7 +41,7 @@
         }
     ],
     "baseExperienceYield": 65,
-    "experienceGroup": "medium",
+    "experienceGroup": "mediumfast",
     "eggCycles": 35,
     "eggGroups": [
         "ground"

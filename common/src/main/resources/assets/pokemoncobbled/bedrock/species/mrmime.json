@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:mrmime",
+  "model": "pokemoncobbled:bedrock/models/0122_mrmime/mrmime.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0122_mrmime/mr_mime.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0122_mrmime/mr_mime_shiny.png"
+    }
+  ]
+}

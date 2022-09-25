@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.api.reactive
 
 import com.cablemc.pokemoncobbled.common.api.scheduling.taskBuilder
@@ -20,6 +28,7 @@ class ObservableSubscription<T>(
      * objects to be released.
      */
     fun unsubscribeWhen(checkInterval: Float = 5F, condition: () -> Boolean): ObservableSubscription<T> {
+        // Maybe there should just be 1 task that has a list of the conditions and observables to check, I dunno what's better - Hiro
         taskBuilder()
             .interval(checkInterval)
             .execute {

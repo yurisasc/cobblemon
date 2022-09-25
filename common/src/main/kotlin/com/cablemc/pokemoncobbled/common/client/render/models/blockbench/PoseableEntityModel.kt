@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemon Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.PoseTransitionAnimation
@@ -241,7 +249,7 @@ abstract class PoseableEntityModel<T : Entity>(
         file: String,
         animation: String,
         fileSuffix: String = ".animation.json",
-        animationPrefix: String = "animation.$file"
+        animationPrefix: String = "animation.${file.substringAfterLast("/")}"
     ) = BedrockStatelessAnimation<T>(
         this,
         BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation")
@@ -251,7 +259,7 @@ abstract class PoseableEntityModel<T : Entity>(
         file: String,
         animation: String,
         fileSuffix: String = ".animation.json",
-        animationPrefix: String = "animation.$file",
+        animationPrefix: String = "animation.${file.substringAfterLast("/")}",
         preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean = { _, _, _ -> true }
     ) = BedrockStatefulAnimation(
         BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation"),

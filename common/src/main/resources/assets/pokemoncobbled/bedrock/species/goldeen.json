@@ -1,0 +1,15 @@
+{
+  "poser": "pokemoncobbled:goldeen",
+  "model": "pokemoncobbled:bedrock/models/0118_goldeen/goldeen_male.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0118_goldeen/goldeen.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0118_goldeen/goldeen_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemoncobbled:bedrock/models/0118_goldeen/goldeen_female.geo.json"
+    }
+  ]
+}

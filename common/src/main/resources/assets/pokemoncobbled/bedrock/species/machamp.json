@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:machamp",
+  "model": "pokemoncobbled:bedrock/models/0068_machamp/machamp.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0068_machamp/machamp.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0068_machamp/machamp_shiny.png"
+    }
+  ]
+}
