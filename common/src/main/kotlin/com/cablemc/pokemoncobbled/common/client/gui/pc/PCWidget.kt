@@ -181,7 +181,7 @@ class PCWidget(
         }
         // Party -> PC
         else if (this.selectedPosition is PartyPosition && clickedPosition is PCPosition) {
-            if (PokemonCobbled.config.preventCompletePartyDeposit && this.party.filterNotNull().size == 1) {
+            if (PokemonCobbled.config.preventCompletePartyDeposit && this.party.filterNotNull().size == 1 && clickedPokemon == null) {
                 return
             }
             val packet = clickedPokemon?.let { SwapPCPartyPokemonPacket(selectedPokemon.uuid, this.selectedPosition as PartyPosition, clickedPokemon.uuid, clickedPosition) } ?:
