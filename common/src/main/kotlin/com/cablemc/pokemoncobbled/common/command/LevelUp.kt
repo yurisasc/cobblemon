@@ -29,7 +29,7 @@ object LevelUp {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("levelup")
-            .permission(CobbledPermissions.LEVEL_UP)
+            .permission(CobbledPermissions.LEVEL_UP_SELF)
             .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())

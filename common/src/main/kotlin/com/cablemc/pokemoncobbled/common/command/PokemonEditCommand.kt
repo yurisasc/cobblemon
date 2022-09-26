@@ -35,7 +35,7 @@ object PokemonEditCommand {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal(NAME)
-            .permission(CobbledPermissions.POKEMON_EDIT)
+            .permission(CobbledPermissions.POKEMON_EDIT_SELF)
             .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(CommandManager.argument(PLAYER, EntityArgumentType.player())
                 .permission(CobbledPermissions.POKEMON_EDIT_OTHER)

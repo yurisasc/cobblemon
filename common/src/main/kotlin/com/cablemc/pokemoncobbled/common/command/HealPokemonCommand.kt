@@ -24,7 +24,7 @@ object HealPokemonCommand {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = dispatcher.register(literal("healpokemon")
-            .permission(CobbledPermissions.HEAL_POKEMON)
+            .permission(CobbledPermissions.HEAL_POKEMON_SELF)
             .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
