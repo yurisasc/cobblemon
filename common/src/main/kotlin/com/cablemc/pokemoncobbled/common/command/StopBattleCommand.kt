@@ -8,7 +8,11 @@
 
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
+import com.cablemc.pokemoncobbled.common.util.permission
+import com.cablemc.pokemoncobbled.common.util.permissionLevel
 import com.cablemc.pokemoncobbled.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -22,7 +26,8 @@ object StopBattleCommand {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(CommandManager.literal("stopbattle")
-            .requires { it.hasPermissionLevel(4) }
+            .permission(CobbledPermissions.STOP_BATTLE)
+            .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
                     .executes { execute(it) }

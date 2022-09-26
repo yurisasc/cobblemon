@@ -9,9 +9,10 @@
 package com.cablemc.pokemoncobbled.common.command
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
-import com.cablemc.pokemoncobbled.common.util.commandLang
-import com.cablemc.pokemoncobbled.common.util.player
+import com.cablemc.pokemoncobbled.common.util.*
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -25,10 +26,11 @@ object GivePokemon {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = dispatcher.register(literal("givepokemon")
-            .requires { it.hasPermissionLevel(4) }
+            .permission(CobbledPermissions.GIVE_POKEMON)
+            .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
             .then(
                 CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
-                    .requires { it.player != null }
+                    .appendRequirement { it.player != null }
                     .executes { execute(it, it.source.playerOrThrow) }
             )
             .then(

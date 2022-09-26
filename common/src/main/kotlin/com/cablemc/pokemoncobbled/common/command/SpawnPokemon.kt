@@ -8,7 +8,11 @@
 
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonPropertiesArgumentType
+import com.cablemc.pokemoncobbled.common.util.permission
+import com.cablemc.pokemoncobbled.common.util.permissionLevel
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -21,7 +25,8 @@ object SpawnPokemon {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = dispatcher.register(literal("spawnpokemon")
-            .requires { it.hasPermissionLevel(4) }
+            .permission(CobbledPermissions.SPAWN_POKEMON)
+            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(
                 CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
                     .executes { execute(it) }
