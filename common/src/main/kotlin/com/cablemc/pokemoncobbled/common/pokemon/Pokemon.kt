@@ -78,7 +78,14 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionProxy
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
-import com.cablemc.pokemoncobbled.common.util.*
+import com.cablemc.pokemoncobbled.common.util.DataKeys
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.getServer
+import com.cablemc.pokemoncobbled.common.util.lang
+import com.cablemc.pokemoncobbled.common.util.playSoundServer
+import com.cablemc.pokemoncobbled.common.util.readSizedInt
+import com.cablemc.pokemoncobbled.common.util.setPositionSafely
+import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
@@ -162,8 +169,9 @@ open class Pokemon {
             if (value == field) {
                 return
             }
-            if(currentHealth <= 0 && value > 0) {
+            if (currentHealth <= 0 && value > 0) {
                 this.healTimer = PokemonCobbled.config.healTimer
+                entity?.health = 0F
             }
             field = min(hp, value)
             _currentHealth.emit(field)
