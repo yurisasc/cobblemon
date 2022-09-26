@@ -8,16 +8,14 @@
 
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen2
 
-import com.cablemc.pokemoncobbled.common.entity.PoseType
-import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ElekidModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class ElekidModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("elekid")
-    override val head = getPart("head")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -34,7 +32,6 @@ class ElekidModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
                 // bedrock("0239_elekid/elekid", "ground_idle")
             )
         )
@@ -44,7 +41,6 @@ class ElekidModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
                 // bedrock("0239_elekid/elekid", "ground_walk")
             )
         )
