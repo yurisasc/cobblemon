@@ -9,7 +9,6 @@
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
@@ -534,7 +533,6 @@ object ShowdownInterpreter {
                 val movePp = moveIdAndPp[1]
                 val move = pokemon.effectedPokemon.moveSet.firstOrNull { move -> move.name.equals(moveId, true) } ?: return@dispatch GO
                 move.currentPp = movePp.toInt()
-                LOGGER.info("Changed {}' {} {} pp to {}", actorID, pokemon.effectedPokemon.species.name, move.name, move.currentPp)
             }
             GO
         }
