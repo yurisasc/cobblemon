@@ -67,7 +67,12 @@ object ShowdownInterpreter {
         updateInstructions["|cant|"] = this::handleCantInstruction
         updateInstructions["|-supereffective|"] = this::handleSuperEffectiveInstruction
         updateInstructions["|-resisted|"] = this::handleResistInstruction
-        updateInstructions["|-crit"] = this::handleResistInstruction
+        updateInstructions["|-crit"] = this::handleCritInstruction
+        updateInstructions["|-weather|"] = this::handleWeatherInstruction
+        updateInstructions["|-mustrecharge|"] = this::handleRechargeInstructions
+        updateInstructions["|-fail|"] = this::handleFailInstruction
+        updateInstructions["|-start|"] = this::handleStartInstructions
+        updateInstructions["|-activate|"] = this::handleActivateInstructions
         updateInstructions["|-nothing"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
         }
@@ -533,6 +538,72 @@ object ShowdownInterpreter {
         }
     }
 
+    private fun handleWeatherInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+        battle.dispatch{
+            when(message){
+                "|-weather|RainDance" -> battle.broadcastChatMessage(battleLang("rain_dance"))
+                "|-weather|RainDance|[upkeep]" -> battle.broadcastChatMessage(battleLang("rain_dance_upkeep"))
+                "|-weather|Sandstorm" -> battle.broadcastChatMessage(battleLang("sandstorm"))
+                "|-weather|Sandstorm|[upkeep]" -> battle.broadcastChatMessage(battleLang("sandstorm_upkeep"))
+                "|-weather|SunnyDay" -> battle.broadcastChatMessage(battleLang("sunny_day_upkeep"))
+                "|-weather|SunnyDay|[upkeep]" -> battle.broadcastChatMessage(battleLang("sunny_day_upkeep"))
+                "|-weather|Hail" -> battle.broadcastChatMessage(battleLang("hail"))
+                "|-weather|Hail|[upkeep]" -> battle.broadcastChatMessage(battleLang("hail_upkeep"))
+                "|-weather|NoWeather" -> battle.broadcastChatMessage(battleLang("rain_dance_upkeep"))
+            }
+            GO
+        }
+    }
+
+    private fun handleFailInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+        battle.dispatch{
+            battle.broadcastChatMessage(battleLang("fail"))
+            GO
+        }
+    }
+
+    private fun handleRechargeInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+        val pnx = message.split("|-mustrecharge|")[1].substring(0, 3)
+        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+        battle.dispatch{
+            battle.broadcastChatMessage(battleLang("recharge", pokemon.battlePokemon?.getName() ?: ""))
+            GO
+        }
+
+    }
+
+    private fun handleStartInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+
+        val pnx = message.split("|-start|")[1].substring(0, 3)
+        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+
+        battle.dispatch{
+            if(message.contains("|confusion")){
+                battle.broadcastChatMessage(battleLang("confusion_start",pokemon.battlePokemon?.getName() ?: ""))
+            }
+            if(message.contains("|protect")){
+                battle.broadcastChatMessage(battleLang("protect_start",pokemon.battlePokemon?.getName() ?: ""))
+            }
+            GO
+        }
+
+
+    }
+
+    private fun handleActivateInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+        val pnx = message.split("|-activate|")[1].substring(0, 3)
+        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+
+        battle.dispatch{
+            if(message.contains("|confusion")){
+                battle.broadcastChatMessage(battleLang("confusion_activate"))
+            }
+            if(message.contains("|protect")){
+                battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon?.getName() ?: ""))
+            }
+            GO
+        }
+    }
 
     /**
      * Format:
