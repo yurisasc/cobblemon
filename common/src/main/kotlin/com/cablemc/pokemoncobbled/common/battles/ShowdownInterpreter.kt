@@ -435,10 +435,7 @@ object ShowdownInterpreter {
         val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         battle.dispatch {
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
-            pokemon.battlePokemon?.effectedPokemon?.let {
-                it.currentHealth = 0
-                it.entity?.health = 0F
-            }
+            pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             pokemon.battlePokemon?.sendUpdate()
             battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
             pokemon.battlePokemon = null

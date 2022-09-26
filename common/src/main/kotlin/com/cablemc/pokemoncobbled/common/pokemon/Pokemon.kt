@@ -171,6 +171,7 @@ open class Pokemon {
             }
             if (currentHealth <= 0 && value > 0) {
                 this.healTimer = PokemonCobbled.config.healTimer
+                entity?.health = 0F
             }
             field = min(hp, value)
             _currentHealth.emit(field)
