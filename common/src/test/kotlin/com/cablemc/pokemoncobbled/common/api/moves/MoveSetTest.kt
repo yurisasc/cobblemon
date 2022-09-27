@@ -16,8 +16,8 @@ internal class MoveSetTest {
     @Test
     fun `it should swap two moves properly`() {
         val moveset = MoveSet()
-        val move1 = Move(11, 2, mockk())
-        val move2 = Move(10, 4, mockk())
+        val move1 = Move( mockk(), 11, 2,)
+        val move2 = Move(mockk(), 10, 4)
         moveset.setMove(0, move1)
         moveset.setMove(1, move2)
         moveset.swapMove(0, 1)

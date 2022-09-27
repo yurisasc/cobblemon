@@ -8,8 +8,12 @@
 
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.command.argument.PokemonArgumentType
 import com.cablemc.pokemoncobbled.common.pokemon.FormData
+import com.cablemc.pokemoncobbled.common.util.permission
+import com.cablemc.pokemoncobbled.common.util.permissionLevel
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.FloatArgumentType
@@ -21,7 +25,8 @@ import net.minecraft.server.command.ServerCommandSource
 object ChangeScaleAndSize {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("changescaleandsize")
-            .requires { it.hasPermissionLevel(4) }
+            .permission(CobbledPermissions.CHANGE_SCALE_AND_SIZE)
+            .permissionLevel(PermissionLevel.ALL_COMMANDS)
             .then(
                 CommandManager.argument("pokemon", PokemonArgumentType.pokemon())
                     .then(

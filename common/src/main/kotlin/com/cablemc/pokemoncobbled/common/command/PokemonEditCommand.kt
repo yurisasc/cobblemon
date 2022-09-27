@@ -8,9 +8,13 @@
 
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.command.argument.PartySlotArgumentType
 import com.cablemc.pokemoncobbled.common.util.commandLang
+import com.cablemc.pokemoncobbled.common.util.permission
+import com.cablemc.pokemoncobbled.common.util.permissionLevel
 import com.cablemc.pokemoncobbled.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -31,8 +35,11 @@ object PokemonEditCommand {
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal(NAME)
-            .requires { it.hasPermissionLevel(4)  }
+            .permission(CobbledPermissions.POKEMON_EDIT_SELF)
+            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(CommandManager.argument(PLAYER, EntityArgumentType.player())
+                .permission(CobbledPermissions.POKEMON_EDIT_OTHER)
+                .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
                 .then(createCommonArguments { it.player() })
             )
             .then(createCommonArguments { it.source.playerOrThrow })

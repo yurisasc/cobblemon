@@ -8,8 +8,13 @@
 
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.api.text.suggest
 import com.cablemc.pokemoncobbled.common.api.text.text
+import com.cablemc.pokemoncobbled.common.util.permission
+import com.cablemc.pokemoncobbled.common.util.permissionLevel
+import com.cablemc.pokemoncobbled.common.util.requiresWithPermission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -22,8 +27,8 @@ import net.minecraft.util.Hand
 object GetNBT {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(CommandManager.literal("getnbt")
-            .requires { it.hasPermissionLevel(4) }
-            .requires { it.player != null}
+            .requiresWithPermission(CobbledPermissions.GET_NBT) { it.player != null }
+            .permissionLevel(PermissionLevel.ALL_COMMANDS)
             .executes { execute(it, it.source.playerOrThrow) })
     }
 

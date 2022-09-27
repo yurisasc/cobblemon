@@ -8,8 +8,12 @@
 
 package com.cablemc.pokemoncobbled.common.command
 
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.api.text.text
 import com.cablemc.pokemoncobbled.common.util.party
+import com.cablemc.pokemoncobbled.common.util.permission
+import com.cablemc.pokemoncobbled.common.util.permissionLevel
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -22,7 +26,8 @@ import net.minecraft.server.network.ServerPlayerEntity
 object TakePokemon {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("takepokemon")
-            .requires { it.hasPermissionLevel(4) }
+            .permission(CobbledPermissions.TAKE_POKEMON)
+            .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
                     .then(

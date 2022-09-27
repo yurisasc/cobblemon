@@ -9,7 +9,11 @@
 package com.cablemc.pokemoncobbled.common.command
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
+import com.cablemc.pokemoncobbled.common.api.permission.CobbledPermissions
+import com.cablemc.pokemoncobbled.common.api.permission.PermissionLevel
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemoncobbled.common.util.permissionLevel
+import com.cablemc.pokemoncobbled.common.util.requiresWithPermission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -22,8 +26,8 @@ object SpawnAllPokemon {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(
             CommandManager.literal("spawnallpokemon")
-                .requires { it.hasPermissionLevel(4) }
-                .requires { it.player != null }
+                .requiresWithPermission(CobbledPermissions.SPAWN_ALL_POKEMON) { it.player != null }
+                .permissionLevel(PermissionLevel.ALL_COMMANDS)
                 .then(
                     CommandManager.argument("min", IntegerArgumentType.integer(1))
                         .then(

@@ -9,7 +9,6 @@
 package com.cablemc.pokemoncobbled.common.battles
 
 import com.cablemc.pokemoncobbled.common.CobbledNetwork
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.PokemonCobbled.LOGGER
 import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
@@ -67,13 +66,19 @@ object ShowdownInterpreter {
         updateInstructions["|cant|"] = this::handleCantInstruction
         updateInstructions["|-supereffective|"] = this::handleSuperEffectiveInstruction
         updateInstructions["|-resisted|"] = this::handleResistInstruction
-        updateInstructions["|-crit"] = this::handleResistInstruction
+        updateInstructions["|-crit"] = this::handleCritInstruction
+        updateInstructions["|-weather|"] = this::handleWeatherInstruction
+        updateInstructions["|-mustrecharge|"] = this::handleRechargeInstructions
+        updateInstructions["|-fail|"] = this::handleFailInstruction
+        updateInstructions["|-start|"] = this::handleStartInstructions
+        updateInstructions["|-activate|"] = this::handleActivateInstructions
         updateInstructions["|-nothing"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
         }
         updateInstructions["|-unboost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, false) }
         updateInstructions["|-boost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, true) }
         updateInstructions["|t:|"] = {_, _, _ -> }
+        updateInstructions["|pp_update|"] = this::handlePpUpdateInstruction
 
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
@@ -406,7 +411,7 @@ object ShowdownInterpreter {
 
         battle.dispatch {
             battle.sendToActors(BattleMakeChoicePacket())
-            battle.broadcastChatMessage("It is now turn ${message.split("|turn|")[1]}".aqua())
+            battle.broadcastChatMessage("It is now turn $turnNumber".aqua())
             battle.turn()
             GO
         }
@@ -515,6 +520,31 @@ object ShowdownInterpreter {
 
     /**
      * Format:
+     * |pp_update|<side_id>: <pokemon_uuid>|...<move_id>: <move_pp>
+     */
+    private fun handlePpUpdateInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        battle.dispatch {
+            val editMessaged = message.replace("|pp_update|", "")
+            val data = editMessaged.split("|")
+            val actorAndPokemonData = data[0].split(": ")
+            val actorID = actorAndPokemonData[0]
+            val pokemonID = UUID.fromString(actorAndPokemonData[1])
+            val actor = battle.getActor(actorID) ?: return@dispatch GO
+            val pokemon = actor.pokemonList.firstOrNull { battlePokemon -> battlePokemon.effectedPokemon.uuid == pokemonID } ?: return@dispatch GO
+            val moveDatum = data[1].split(", ")
+            moveDatum.forEach { moveData ->
+                val moveIdAndPp = moveData.split(": ")
+                val moveId = moveIdAndPp[0]
+                val movePp = moveIdAndPp[1]
+                val move = pokemon.effectedPokemon.moveSet.firstOrNull { move -> move.name.equals(moveId, true) } ?: return@dispatch GO
+                move.currentPp = movePp.toInt()
+            }
+            GO
+        }
+    }
+
+    /**
+     * Format:
      * |-supereffective|p%a
      *
      * player % was weak against the attack.
@@ -533,6 +563,72 @@ object ShowdownInterpreter {
         }
     }
 
+    private fun handleWeatherInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+        battle.dispatch{
+            when(message){
+                "|-weather|RainDance" -> battle.broadcastChatMessage(battleLang("rain_dance"))
+                "|-weather|RainDance|[upkeep]" -> battle.broadcastChatMessage(battleLang("rain_dance_upkeep"))
+                "|-weather|Sandstorm" -> battle.broadcastChatMessage(battleLang("sandstorm"))
+                "|-weather|Sandstorm|[upkeep]" -> battle.broadcastChatMessage(battleLang("sandstorm_upkeep"))
+                "|-weather|SunnyDay" -> battle.broadcastChatMessage(battleLang("sunny_day_upkeep"))
+                "|-weather|SunnyDay|[upkeep]" -> battle.broadcastChatMessage(battleLang("sunny_day_upkeep"))
+                "|-weather|Hail" -> battle.broadcastChatMessage(battleLang("hail"))
+                "|-weather|Hail|[upkeep]" -> battle.broadcastChatMessage(battleLang("hail_upkeep"))
+                "|-weather|NoWeather" -> battle.broadcastChatMessage(battleLang("rain_dance_upkeep"))
+            }
+            GO
+        }
+    }
+
+    private fun handleFailInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+        battle.dispatch{
+            battle.broadcastChatMessage(battleLang("fail"))
+            GO
+        }
+    }
+
+    private fun handleRechargeInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+        val pnx = message.split("|-mustrecharge|")[1].substring(0, 3)
+        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+        battle.dispatch{
+            battle.broadcastChatMessage(battleLang("recharge", pokemon.battlePokemon?.getName() ?: ""))
+            GO
+        }
+
+    }
+
+    private fun handleStartInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+
+        val pnx = message.split("|-start|")[1].substring(0, 3)
+        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+
+        battle.dispatch{
+            if(message.contains("|confusion")){
+                battle.broadcastChatMessage(battleLang("confusion_start",pokemon.battlePokemon?.getName() ?: ""))
+            }
+            if(message.contains("|protect")){
+                battle.broadcastChatMessage(battleLang("protect_start",pokemon.battlePokemon?.getName() ?: ""))
+            }
+            GO
+        }
+
+
+    }
+
+    private fun handleActivateInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+        val pnx = message.split("|-activate|")[1].substring(0, 3)
+        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+
+        battle.dispatch{
+            if(message.contains("|confusion")){
+                battle.broadcastChatMessage(battleLang("confusion_activate"))
+            }
+            if(message.contains("|protect")){
+                battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon?.getName() ?: ""))
+            }
+            GO
+        }
+    }
 
     /**
      * Format:

@@ -18,6 +18,7 @@ import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
+import com.cablemc.pokemoncobbled.common.permission.LuckPermsPermissionValidator
 import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
@@ -66,6 +67,9 @@ class PokemonCobbledForge : PokemonCobbledModImplementation {
         PokemonCobbled.LOGGER.info("Initializing...")
         PokemonCobbled.initialize()
         CobbledNetwork.register()
+        if (ModList.get().isLoaded("luckperms")) {
+            PokemonCobbled.permissionValidator = LuckPermsPermissionValidator()
+        }
     }
 
     override fun isModInstalled(id: String) = ModList.get().isLoaded(id)

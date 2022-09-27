@@ -31,6 +31,8 @@ dependencies {
     testImplementation(libs.mockito)
     testImplementation(libs.mockk)
 
+    compileOnly("net.luckperms:api:${rootProject.property("luckperms_version")}")
+
     // For Showdown
 //    modCompileOnly 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
 //    modCompileOnly 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
