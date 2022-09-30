@@ -12,6 +12,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.Poseabl
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.quirk.ModelQuirk
 import com.cablemc.pokemoncobbled.common.entity.PoseType
 import net.minecraft.entity.Entity
 
@@ -25,7 +26,8 @@ class Pose<T : Entity, F : ModelFrame>(
     val onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
     val transformTicks: Int,
     val idleAnimations: Array<StatelessAnimation<T, out F>>,
-    val transformedParts: Array<TransformedModelPart>
+    val transformedParts: Array<TransformedModelPart>,
+    val quirks: Array<ModelQuirk<T, *>>
 ) {
     fun idleStateless(model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float = 0F, limbSwingAmount: Float = 0F, ageInTicks: Float = 0F, headYaw: Float = 0F, headPitch: Float = 0F) {
         idleAnimations.forEach { it.apply(null, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch) }
@@ -33,7 +35,8 @@ class Pose<T : Entity, F : ModelFrame>(
 
     fun idleStateful(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         idleAnimations.forEach { idleAnimation ->
-            if (state.statefulAnimations.none { it.preventsIdle(entity, state, idleAnimation) }) {
+            val allStatefuls = state.statefulAnimations + state.quirks.flatMap { it.value.animations }
+            if (allStatefuls.none { it.preventsIdle(entity, state, idleAnimation) }) {
                 idleAnimation.apply(entity, model, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
             }
         }

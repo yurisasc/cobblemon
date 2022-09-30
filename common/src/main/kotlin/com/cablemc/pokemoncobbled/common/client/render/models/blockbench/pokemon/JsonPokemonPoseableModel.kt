@@ -155,7 +155,8 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
                 condition = { true },
                 transformTicks =  transformTicks,
                 idleAnimations = idleAnimations,
-                transformedParts = transformedParts
+                transformedParts = transformedParts,
+                quirks = arrayOf()
             )
         }
     }

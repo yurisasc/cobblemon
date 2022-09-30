@@ -24,9 +24,15 @@ import net.minecraft.entity.Entity
  */
 open class BedrockStatefulAnimation<T : Entity>(
     val animation: BedrockAnimation,
-    val preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean
+    var preventsIdleCheck: (T?, PoseableEntityState<T>, StatelessAnimation<T, *>) -> Boolean
 ) : StatefulAnimation<T, ModelFrame> {
-    val startTime = System.currentTimeMillis()
+    fun setPreventsIdle(preventsIdle: Boolean): BedrockStatefulAnimation<T> {
+        this.preventsIdleCheck = { _, _, _ -> preventsIdle }
+        return this
+    }
+
+    var secondsPassed = 0F
+
     override fun preventsIdle(entity: T?, state: PoseableEntityState<T>, idleAnimation: StatelessAnimation<T, *>) = preventsIdleCheck(entity, state, idleAnimation)
     override fun run(
         entity: T?,
@@ -37,5 +43,8 @@ open class BedrockStatefulAnimation<T : Entity>(
         ageInTicks: Float,
         headYaw: Float,
         headPitch: Float
-    ) = animation.run(model, state, (System.currentTimeMillis() - startTime) / 1000F)
+    ): Boolean {
+        secondsPassed += state.deltaSeconds
+        return animation.run(model, state, secondsPassed)
+    }
 }
