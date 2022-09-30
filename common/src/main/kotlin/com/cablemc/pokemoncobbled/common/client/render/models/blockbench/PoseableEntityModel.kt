@@ -188,9 +188,7 @@ abstract class PoseableEntityModel<T : Entity>(
             val previousPose = pose
             val desirablePose = poses.values.firstOrNull { (entityPoseType == null || entityPoseType in it.poseTypes) && it.condition(entity) }
                 ?: Pose("none", setOf(PoseType.NONE), { true }, {},0, emptyArray(), emptyArray(), emptyArray())
-//                LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
-//                return@run
-//            }
+
             val desirablePoseType = desirablePose.poseTypes.first()
 
             // If this condition matches then it just no longer fits this pose
@@ -284,11 +282,13 @@ abstract class PoseableEntityModel<T : Entity>(
     fun quirk(
         name: String,
         secondsBetweenOccurrences: Pair<Float, Float> = 4F to 15F,
+        loopTimes: IntRange = 1..1,
         condition: (state: PoseableEntityState<T>) -> Boolean = { true },
         animation: () -> StatefulAnimation<T, *>
     ) = SimpleQuirk(
         name = name,
         secondsBetweenOccurrences = secondsBetweenOccurrences,
+        loopTimes = loopTimes,
         condition = condition,
         animations = { listOf(animation()) }
     )

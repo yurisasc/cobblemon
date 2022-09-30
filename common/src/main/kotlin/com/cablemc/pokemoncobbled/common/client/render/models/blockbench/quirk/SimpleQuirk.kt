@@ -10,6 +10,7 @@ class SimpleQuirk<T : Entity>(
     name: String,
     private val secondsBetweenOccurrences: Pair<Float, Float>,
     val condition: (state: PoseableEntityState<T>) -> Boolean ,
+    val loopTimes: IntRange = 1..1,
     val animations: (state: PoseableEntityState<T>) -> Iterable<StatefulAnimation<T, *>>
 ) : ModelQuirk<T, SimpleQuirkData<T>>(name) {
     override fun createData(): SimpleQuirkData<T> = SimpleQuirkData(name)
@@ -22,9 +23,17 @@ class SimpleQuirk<T : Entity>(
             return
         }
 
+        if (data.remainingLoops > 0) {
+            data.animations.addAll(animations(state))
+            data.remainingLoops--
+            return
+        }
+
+
         if (data.nextOccurrenceSeconds > 0F) {
             // Is it time?
             if (data.nextOccurrenceSeconds <= state.animationSeconds) {
+                data.remainingLoops = loopTimes.random()
                 data.animations.addAll(animations(state))
                 data.nextOccurrenceSeconds = -1F
             }

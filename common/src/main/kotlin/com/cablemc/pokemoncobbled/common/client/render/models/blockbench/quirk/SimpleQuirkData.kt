@@ -4,4 +4,5 @@ import net.minecraft.entity.Entity
 
 class SimpleQuirkData<T : Entity>(name: String) : QuirkData<T>(name) {
     var nextOccurrenceSeconds = -1F
+    var remainingLoops = 0
 }
