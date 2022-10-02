@@ -12,6 +12,9 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.additiv
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.quirk.ModelQuirk
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.quirk.QuirkData
+import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.Entity
 
 /**
@@ -26,17 +29,35 @@ abstract class PoseableEntityState<T : Entity> {
     var currentModel: PoseableEntityModel<T>? = null
     var currentPose: String? = null
     val statefulAnimations: MutableList<StatefulAnimation<T, *>> = mutableListOf()
+    val quirks = mutableMapOf<ModelQuirk<T, *>, QuirkData<T>>()
     val additives: MutableList<PosedAdditiveAnimation<T>> = mutableListOf()
     var animationSeconds = 0F
+    var deltaSeconds = 0F
     var timeLastRendered = System.currentTimeMillis()
+    var wasPaused = false
 
     fun isPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.any { it.poseName == currentPose }
     fun isNotPosedIn(vararg poses: Pose<T, in ModelFrame>) = poses.none { it.poseName == currentPose }
 
     fun preRender() {
         val now = System.currentTimeMillis()
-        animationSeconds += (now - timeLastRendered) / 1000F
+        var deltaMillis = now - timeLastRendered
+
+        if (wasPaused) {
+            deltaMillis = 0L
+        }
+
+        if (MinecraftClient.getInstance().isPaused) {
+            if (!wasPaused) {
+                wasPaused = true
+            }
+        } else if (wasPaused) {
+            wasPaused = false
+        }
+
         timeLastRendered = now
+        deltaSeconds = deltaMillis / 1000F
+        animationSeconds += deltaSeconds
     }
 
     fun getPose(): String? {

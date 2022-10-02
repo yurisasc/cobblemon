@@ -10,6 +10,7 @@ package com.cablemc.pokemoncobbled.common.client.render.models.blockbench
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.PoseTransitionAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.RotationFunctionStatelessAnimation
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatefulAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.animation.TranslationFunctionStatelessAnimation
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
@@ -18,6 +19,8 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.bedrock
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.Pose
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.quirk.ModelQuirk
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.quirk.SimpleQuirk
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.wavefunction.WaveFunction
 import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.entity.Poseable
@@ -71,9 +74,10 @@ abstract class PoseableEntityModel<T : Entity>(
         transformTicks: Int = 20,
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
-        transformedParts: Array<TransformedModelPart> = emptyArray()
+        transformedParts: Array<TransformedModelPart> = emptyArray(),
+        quirks: Array<ModelQuirk<T, *>> = emptyArray()
     ): Pose<T, F> {
-        return Pose(poseType.name, setOf(poseType), condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts).also {
+        return Pose(poseType.name, setOf(poseType), condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts, quirks).also {
             poses[poseType.name] = it
         }
     }
@@ -85,9 +89,10 @@ abstract class PoseableEntityModel<T : Entity>(
         transformTicks: Int = 20,
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
-        transformedParts: Array<TransformedModelPart> = emptyArray()
+        transformedParts: Array<TransformedModelPart> = emptyArray(),
+        quirks: Array<ModelQuirk<T, *>> = emptyArray()
     ): Pose<T, F> {
-        return Pose(poseName, poseTypes, condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts).also {
+        return Pose(poseName, poseTypes, condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts, quirks).also {
             poses[poseName] = it
         }
     }
@@ -148,6 +153,8 @@ abstract class PoseableEntityModel<T : Entity>(
     /** Puts the model back to its original location and rotations. */
     fun setDefault() = relevantParts.forEach { it.applyDefaults() }
 
+    val quirks = mutableListOf<ModelQuirk<T, *>>()
+
     /**
      * Sets up the angles and positions for the model knowing that there is no state. Is given a pose type to use,
      * and optionally things like limb swinging and head rotations.
@@ -180,10 +187,8 @@ abstract class PoseableEntityModel<T : Entity>(
         if (entity != null && (poseName == null || pose == null || !pose.condition(entity) || entityPoseType !in pose.poseTypes)) {
             val previousPose = pose
             val desirablePose = poses.values.firstOrNull { (entityPoseType == null || entityPoseType in it.poseTypes) && it.condition(entity) }
-                ?: Pose("none", setOf(PoseType.NONE), { true }, {},0, emptyArray(), emptyArray())
-//                LOGGER.error("Could not get any suitable pose for ${this::class.simpleName}!")
-//                return@run
-//            }
+                ?: Pose("none", setOf(PoseType.NONE), { true }, {}, 0, emptyArray(), emptyArray(), emptyArray())
+
             val desirablePoseType = desirablePose.poseTypes.first()
 
             // If this condition matches then it just no longer fits this pose
@@ -210,7 +215,15 @@ abstract class PoseableEntityModel<T : Entity>(
             poseName = poseName ?: poses.values.first().poseName
         }
 
+        val currentPose = getPose(poseName)
         applyPose(poseName)
+        if (currentPose != null) {
+            // Remove any quirk animations that don't exist in our current pose
+            state.quirks.keys.filterNot(currentPose.quirks::contains).forEach(state.quirks::remove)
+            // Tick all the quirks
+            currentPose.quirks.forEach { it.tick(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch) }
+        }
+
         state.statefulAnimations.removeIf { !it.run(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch) }
         state.currentPose?.let { getPose(it) }?.idleStateful(entity, this, state, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch)
         state.applyAdditives(entity, this, state)
@@ -264,5 +277,19 @@ abstract class PoseableEntityModel<T : Entity>(
     ) = BedrockStatefulAnimation(
         BedrockAnimationRepository.getAnimation(file + fileSuffix, "$animationPrefix.$animation"),
         preventsIdleCheck
+    )
+
+    fun quirk(
+        name: String,
+        secondsBetweenOccurrences: Pair<Float, Float> = 4F to 15F,
+        loopTimes: IntRange = 1..1,
+        condition: (state: PoseableEntityState<T>) -> Boolean = { true },
+        animation: () -> StatefulAnimation<T, *>
+    ) = SimpleQuirk(
+        name = name,
+        secondsBetweenOccurrences = secondsBetweenOccurrences,
+        loopTimes = loopTimes,
+        condition = condition,
+        animations = { listOf(animation()) }
     )
 }

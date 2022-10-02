@@ -11,6 +11,7 @@ package com.cablemc.pokemoncobbled.common.util.math
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
+import kotlin.random.Random
 
 infix fun Int.pow(power: Int): Int {
     return toDouble().pow(power.toDouble()).toInt()
@@ -37,3 +38,5 @@ fun IntRange.intersection(other: IntRange): IntRange {
 
     return intersectionStart..intersectionEnd
 }
+
+fun Pair<Float, Float>.random() = Random.nextFloat() * (second - first) + first
