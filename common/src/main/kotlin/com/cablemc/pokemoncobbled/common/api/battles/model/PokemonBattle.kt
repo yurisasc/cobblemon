@@ -27,6 +27,7 @@ import com.cablemc.pokemoncobbled.common.battles.dispatch.BattleDispatch
 import com.cablemc.pokemoncobbled.common.battles.dispatch.DispatchResult
 import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleEndPacket
+import com.cablemc.pokemoncobbled.common.pokemon.feature.BattleCriticalHitsFeature
 import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
@@ -52,6 +53,11 @@ open class PokemonBattle(
     init {
         side1.battle = this
         side2.battle = this
+        this.actors.forEach { actor ->
+            actor.pokemonList.forEach { battlePokemon ->
+                battlePokemon.effectedPokemon.getFeature<BattleCriticalHitsFeature>(BattleCriticalHitsFeature.ID)?.reset()
+            }
+        }
     }
 
     val sides: Iterable<BattleSide>

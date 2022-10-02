@@ -76,6 +76,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.activestate.InactivePokemonStat
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.PokemonState
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.SentOutState
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.CobbledEvolutionProxy
+import com.cablemc.pokemoncobbled.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatusContainer
 import com.cablemc.pokemoncobbled.common.util.DataKeys
@@ -117,7 +118,7 @@ open class Pokemon {
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             val previousFeatureKeys = features.map { it.name }.toSet()
             field = value
-            val newFeatureKeys = species.features + PokemonCobbled.config.globalFlagSpeciesFeatures
+            val newFeatureKeys = species.features + PokemonCobbled.config.globalFlagSpeciesFeatures + SpeciesFeature.globalFeatures().keys
             val addedFeatures = newFeatureKeys - previousFeatureKeys
             val removedFeatures = previousFeatureKeys - newFeatureKeys
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
@@ -180,6 +181,7 @@ open class Pokemon {
             if (this.isFainted()) {
                 decrementFriendship(1)
                 val faintTime = PokemonCobbled.config.defaultFaintTimer
+                this.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.reset()
                 POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
                     this.faintedTimer = it.faintedTimer
                 }
@@ -371,6 +373,7 @@ open class Pokemon {
         this.status = null
         this.faintedTimer = -1
         this.healTimer = -1
+        this.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.reset()
     }
 
     fun isFainted() = currentHealth <= 0
