@@ -1,0 +1,108 @@
+{
+    "name": "mareep",
+    "nationalPokedexNumber": 179,
+    "primaryType": "electric",
+    "abilities": [
+        "static",
+        "h:plus"
+    ],
+    "baseStats": {
+        "hp": 55,
+        "attack": 40,
+        "defence": 40,
+        "special_attack": 65,
+        "special_defence": 45,
+        "speed": 35
+    },
+    "catchRate": 235,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 56,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster",
+        "ground"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:growl",
+        "4:thunderwave",
+        "8:thundershock",
+        "11:cottonspore",
+        "15:charge",
+        "18:takedown",
+        "22:electroball",
+        "25:confuseray",
+        "29:powergem",
+        "32:discharge",
+        "36:cottonguard",
+        "39:signalbeam",
+        "43:lightscreen",
+        "46:thunder",
+        "egg:afteryou",
+        "egg:agility",
+        "egg:bodyslam",
+        "egg:eerieimpulse",
+        "egg:electricterrain",
+        "egg:flatter",
+        "egg:irontail",
+        "egg:odorsleuth",
+        "egg:sandattack",
+        "egg:screech",
+        "tm:attract",
+        "tm:chargebeam",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:echoedvoice",
+        "tm:facade",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:swagger",
+        "tm:thunderbolt",
+        "tm:toxic",
+        "tm:wildcharge",
+        "tutor:electroweb",
+        "tutor:healbell",
+        "tutor:magnetrise",
+        "tutor:shockwave",
+        "tutor:snore"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.mareep.desc1",
+        "pokemoncobbled.species.mareep.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "mareep_flaaffy",
+            "variant": "level_up",
+            "result": "flaaffy",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 15
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

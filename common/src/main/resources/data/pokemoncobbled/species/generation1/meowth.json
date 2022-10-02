@@ -72,16 +72,6 @@
     "eggGroups": [
         "ground"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:gold_nugget",
-                "quantityRange": "1-2",
-                "percentage": 66
-            }
-        ]
-    },
     "moves": [
         "1:growl",
         "1:fakeout",
@@ -147,6 +137,7 @@
     ],
     "evolutions": [
         {
+            "id": "meowth_persian",
             "variant": "level_up",
             "result": "persian",
             "consumeHeldItem": false,
@@ -154,11 +145,12 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 28
+                    "minLevel": 28
                 }
             ]
         },
         {
+            "id": "meowth_persian",
             "variant": "level_up",
             "result": "persian",
             "consumeHeldItem": false,
@@ -171,6 +163,7 @@
             ]
         },
         {
+            "id": "meowth_perrserker",
             "variant": "level_up",
             "result": "perrserker",
             "consumeHeldItem": false,
@@ -178,7 +171,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 28
+                    "minLevel": 28
                 }
             ]
         }

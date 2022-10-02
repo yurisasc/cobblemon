@@ -1,0 +1,121 @@
+{
+    "name": "decidueye",
+    "nationalPokedexNumber": 724,
+    "primaryType": "grass",
+    "secondaryType": "ghost",
+    "abilities": [
+        "overgrow",
+        "h:longreach"
+    ],
+    "baseStats": {
+        "hp": 78,
+        "attack": 107,
+        "defence": 75,
+        "special_attack": 100,
+        "special_defence": 100,
+        "speed": 70
+    },
+    "catchRate": 45,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "hisui",
+            "secondaryType": "fighting",
+            "baseStats": {
+                "hp": 88,
+                "attack": 112,
+                "defence": 80,
+                "special_attack": 95,
+                "special_defence": 95,
+                "speed": 60
+            },
+            "aspects": [
+                "hisui"
+            ]
+        }
+    ],
+    "baseExperienceYield": 265,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 15,
+    "eggGroups": [
+        "flying"
+    ],
+    "moves": [
+        "0:spiritshackle",
+        "1:tackle",
+        "1:growl",
+        "1:spite",
+        "1:astonish",
+        "1:uturn",
+        "1:leafstorm",
+        "1:phantomforce",
+        "1:leafage",
+        "9:peck",
+        "12:shadowsneak",
+        "15:razorleaf",
+        "20:synthesis",
+        "25:pluck",
+        "30:nastyplot",
+        "37:suckerpunch",
+        "44:leafblade",
+        "51:featherdance",
+        "58:bravebird",
+        "tm:acrobatics",
+        "tm:airslash",
+        "tm:attract",
+        "tm:batonpass",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:gigadrain",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hex",
+        "tm:hurricane",
+        "tm:hyperbeam",
+        "tm:imprison",
+        "tm:lightscreen",
+        "tm:lowsweep",
+        "tm:protect",
+        "tm:psychocut",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:seedbomb",
+        "tm:shadowball",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:solarblade",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:workup",
+        "tutor:dualwingbeat",
+        "tutor:frenzyplant",
+        "tutor:grasspledge",
+        "tutor:grassyglide",
+        "tutor:poltergeist",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.decidueye.desc1",
+        "pokemoncobbled.species.decidueye.desc2"
+    ],
+    "preEvolution": "dartrix",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -16,15 +16,6 @@
         "special_defence": 95,
         "speed": 60
     },
-    "behaviour": {
-        "moving": {
-            "swim": {
-                "canWalkOnWater": true,
-                "canSwim": true,
-                "canBreatheUnderwater": true
-            }
-        }
-    },
     "catchRate": 45,
     "maleRatio": 0.5,
     "shoulderMountable": false,
@@ -43,15 +34,6 @@
         "monster",
         "water1"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:heart_of_the_sea",
-                "percentage": 25
-            }
-        ]
-    },
     "moves": [
         "1:growl",
         "1:watergun",
@@ -124,7 +106,7 @@
         "pokemoncobbled.species.lapras.desc2"
     ],
     "evolutions": [],
-    "baseScale": 1.6,
+    "baseScale": 1.0,
     "hitbox": {
         "width": 1.0,
         "height": 1.0,

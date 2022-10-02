@@ -15,7 +15,7 @@
         "speed": 80
     },
     "catchRate": 45,
-    "maleRatio": 0.125,
+    "maleRatio": 0.875,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 142,
@@ -25,16 +25,6 @@
         "monster",
         "dragon"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:charcoal",
-                "quantityRange": "1-2",
-                "percentage": 66
-            }
-        ]
-    },
     "moves": [
         "1:scratch",
         "1:growl",
@@ -99,6 +89,7 @@
     "preEvolution": "charmander",
     "evolutions": [
         {
+            "id": "charmeleon_charizard",
             "variant": "level_up",
             "result": "charizard",
             "consumeHeldItem": false,
@@ -106,7 +97,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 36
+                    "minLevel": 36
                 }
             ]
         }

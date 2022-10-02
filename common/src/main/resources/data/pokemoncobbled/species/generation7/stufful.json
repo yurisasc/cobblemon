@@ -1,0 +1,106 @@
+{
+    "name": "stufful",
+    "nationalPokedexNumber": 759,
+    "primaryType": "normal",
+    "secondaryType": "fighting",
+    "abilities": [
+        "fluffy",
+        "klutz",
+        "h:cutecharm"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 75,
+        "defence": 50,
+        "special_attack": 45,
+        "special_defence": 50,
+        "speed": 50
+    },
+    "catchRate": 140,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 68,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:leer",
+        "4:babydolleyes",
+        "8:payback",
+        "12:brutalswing",
+        "16:endure",
+        "20:strength",
+        "24:takedown",
+        "28:flail",
+        "32:hammerarm",
+        "36:thrash",
+        "40:painsplit",
+        "44:doubleedge",
+        "48:superpower",
+        "egg:defensecurl",
+        "egg:forcepalm",
+        "egg:rollout",
+        "egg:stomp",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:charm",
+        "tm:earthquake",
+        "tm:facade",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:icepunch",
+        "tm:ironhead",
+        "tm:lowsweep",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:protect",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stompingtantrum",
+        "tm:substitute",
+        "tm:swordsdance",
+        "tm:taunt",
+        "tm:thunderpunch",
+        "tm:workup",
+        "tm:zenheadbutt",
+        "tutor:coaching"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.stufful.desc1",
+        "pokemoncobbled.species.stufful.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "stufful_bewear",
+            "variant": "level_up",
+            "result": "bewear",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 27
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

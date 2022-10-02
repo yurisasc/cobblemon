@@ -16,7 +16,7 @@
         "speed": 105
     },
     "catchRate": 100,
-    "maleRatio": 0.25,
+    "maleRatio": 0.75,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 140,
@@ -25,20 +25,6 @@
     "eggGroups": [
         "humanshape"
     ],
-    "drops": {
-        "amount": "2",
-        "entries": [
-            {
-                "item": "minecraft:ender_pearl",
-                "quantityRange": "1-2",
-                "percentage": 66
-            },
-            {
-                "item": "pokemoncobbled:link_cable",
-                "percentage": 5
-            }
-        ]
-    },
     "moves": [
         "0:confusion",
         "1:disable",
@@ -110,6 +96,7 @@
     "preEvolution": "abra",
     "evolutions": [
         {
+            "id": "kadabra_alakazam",
             "variant": "trade",
             "result": "alakazam",
             "consumeHeldItem": false,

@@ -25,14 +25,6 @@
     "eggGroups": [
         "water2"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:salmon"
-            }
-        ]
-    },
     "moves": [
         "1:tailwhip",
         "1:peck",
@@ -92,6 +84,7 @@
     ],
     "evolutions": [
         {
+            "id": "goldeen_seaking",
             "variant": "level_up",
             "result": "seaking",
             "consumeHeldItem": false,
@@ -99,7 +92,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 33
+                    "minLevel": 33
                 }
             ]
         }

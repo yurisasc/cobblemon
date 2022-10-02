@@ -17,7 +17,7 @@
         "speed": 20
     },
     "catchRate": 170,
-    "maleRatio": 0.75,
+    "maleRatio": 0.25,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 95,
@@ -110,9 +110,10 @@
     "preEvolution": "igglybuff",
     "evolutions": [
         {
+            "id": "jigglypuff_wigglytuff",
             "variant": "item_interact",
             "result": "wigglytuff",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "moon-stone"

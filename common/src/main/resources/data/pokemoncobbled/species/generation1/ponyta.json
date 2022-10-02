@@ -38,15 +38,6 @@
     "eggGroups": [
         "ground"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:leather",
-                "percentage": 50
-            }
-        ]
-    },
     "moves": [
         "1:tackle",
         "1:growl",
@@ -104,6 +95,7 @@
     ],
     "evolutions": [
         {
+            "id": "ponyta_rapidash",
             "variant": "level_up",
             "result": "rapidash",
             "consumeHeldItem": false,
@@ -111,7 +103,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 40
+                    "minLevel": 40
                 }
             ]
         }

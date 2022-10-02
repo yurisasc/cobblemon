@@ -18,8 +18,7 @@
     },
     "catchRate": 255,
     "maleRatio": 0.5,
-    "shoulderMountable": true,
-    "shoulderEffects": ["slow_fall"],
+    "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 50,
     "experienceGroup": "mediumslow",
@@ -27,18 +26,6 @@
     "eggGroups": [
         "flying"
     ],
-    "drops": {
-        "amount": "2",
-        "entries": [
-            {
-                "item": "minecraft:feather",
-                "percentage": 50
-            },
-            {
-                "item": "minecraft:chicken"
-            }
-        ]
-    },
     "moves": [
         "1:tackle",
         "5:sandattack",
@@ -95,6 +82,7 @@
     ],
     "evolutions": [
         {
+            "id": "pidgey_pidgeotto",
             "variant": "level_up",
             "result": "pidgeotto",
             "consumeHeldItem": false,
@@ -102,7 +90,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 18
+                    "minLevel": 18
                 }
             ]
         }

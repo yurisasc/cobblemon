@@ -16,7 +16,7 @@
         "speed": 90
     },
     "catchRate": 200,
-    "maleRatio": 0.25,
+    "maleRatio": 0.75,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 62,
@@ -25,15 +25,6 @@
     "eggGroups": [
         "humanshape"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:ender_pearl",
-                "percentage": 50
-            }
-        ]
-    },
     "moves": [
         "1:teleport",
         "egg:confusion",
@@ -98,6 +89,7 @@
     ],
     "evolutions": [
         {
+            "id": "abra_kadabra",
             "variant": "level_up",
             "result": "kadabra",
             "consumeHeldItem": false,
@@ -105,7 +97,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 16
+                    "minLevel": 16
                 }
             ]
         }

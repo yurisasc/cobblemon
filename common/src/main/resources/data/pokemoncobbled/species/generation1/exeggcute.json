@@ -25,16 +25,6 @@
     "eggGroups": [
         "plant"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:egg",
-                "quantityRange": "1-3",
-                "percentage": 75
-            }
-        ]
-    },
     "moves": [
         "1:absorb",
         "1:hypnosis",
@@ -92,9 +82,10 @@
     ],
     "evolutions": [
         {
+            "id": "exeggcute_exeggutor",
             "variant": "item_interact",
             "result": "exeggutor",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "leaf-stone"

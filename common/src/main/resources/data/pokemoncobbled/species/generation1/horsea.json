@@ -26,16 +26,6 @@
         "water1",
         "dragon"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:prismarine_crystals",
-                "percentage": 50
-            }
-        ]
-    },
-
     "moves": [
         "1:leer",
         "1:watergun",
@@ -94,6 +84,7 @@
     ],
     "evolutions": [
         {
+            "id": "horsea_seadra",
             "variant": "level_up",
             "result": "seadra",
             "consumeHeldItem": false,
@@ -101,7 +92,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 32
+                    "minLevel": 32
                 }
             ]
         }

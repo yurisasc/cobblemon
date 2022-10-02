@@ -26,15 +26,6 @@
         "water1",
         "ground"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:cod",
-                "percentage": 50
-            }
-        ]
-    },
     "moves": [
         "1:headbutt",
         "3:growl",
@@ -100,6 +91,7 @@
     ],
     "evolutions": [
         {
+            "id": "seel_dewgong",
             "variant": "level_up",
             "result": "dewgong",
             "consumeHeldItem": false,
@@ -107,7 +99,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 34
+                    "minLevel": 34
                 }
             ]
         }

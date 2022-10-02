@@ -1,0 +1,79 @@
+{
+    "name": "milcery",
+    "nationalPokedexNumber": 868,
+    "primaryType": "fairy",
+    "abilities": [
+        "sweetveil",
+        "h:aromaveil"
+    ],
+    "baseStats": {
+        "hp": 45,
+        "attack": 40,
+        "defence": 40,
+        "special_attack": 50,
+        "special_defence": 61,
+        "speed": 34
+    },
+    "catchRate": 200,
+    "maleRatio": 0.0,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 54,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "fairy",
+        "indeterminate"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:aromaticmist",
+        "5:sweetkiss",
+        "10:sweetscent",
+        "15:drainingkiss",
+        "20:aromatherapy",
+        "25:attract",
+        "30:acidarmor",
+        "35:dazzlinggleam",
+        "40:recover",
+        "45:mistyterrain",
+        "50:entrainment",
+        "egg:babydolleyes",
+        "egg:lastresort",
+        "tm:charm",
+        "tm:endure",
+        "tm:facade",
+        "tm:fling",
+        "tm:helpinghand",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:storedpower",
+        "tm:substitute"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.milcery.desc1",
+        "pokemoncobbled.species.milcery.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "milcery_alcremie",
+            "variant": "level_up",
+            "result": "alcremie",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": []
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

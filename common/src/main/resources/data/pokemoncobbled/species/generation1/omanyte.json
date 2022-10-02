@@ -17,7 +17,7 @@
         "speed": 35
     },
     "catchRate": 45,
-    "maleRatio": 0.125,
+    "maleRatio": 0.875,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 71,
@@ -92,6 +92,7 @@
     ],
     "evolutions": [
         {
+            "id": "omanyte_omastar",
             "variant": "level_up",
             "result": "omastar",
             "consumeHeldItem": false,
@@ -99,7 +100,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 40
+                    "minLevel": 40
                 }
             ]
         }

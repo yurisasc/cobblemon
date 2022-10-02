@@ -25,14 +25,6 @@
         "water2",
         "dragon"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:salmon"
-            }
-        ]
-    },
     "moves": [
         "1:splash",
         "15:tackle",
@@ -49,6 +41,7 @@
     ],
     "evolutions": [
         {
+            "id": "magikarp_gyarados",
             "variant": "level_up",
             "result": "gyarados",
             "consumeHeldItem": false,
@@ -56,7 +49,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 20
+                    "minLevel": 20
                 }
             ]
         }

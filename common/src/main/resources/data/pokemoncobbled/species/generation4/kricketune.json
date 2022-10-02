@@ -1,0 +1,93 @@
+{
+    "name": "kricketune",
+    "nationalPokedexNumber": 402,
+    "primaryType": "bug",
+    "abilities": [
+        "swarm",
+        "h:technician"
+    ],
+    "baseStats": {
+        "hp": 77,
+        "attack": 85,
+        "defence": 51,
+        "special_attack": 55,
+        "special_defence": 51,
+        "speed": 65
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 134,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 15,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "0:furycutter",
+        "1:growl",
+        "1:bide",
+        "14:absorb",
+        "18:sing",
+        "22:focusenergy",
+        "26:slash",
+        "30:xscissor",
+        "34:screech",
+        "36:fellstinger",
+        "38:taunt",
+        "42:nightslash",
+        "44:stickyweb",
+        "46:bugbuzz",
+        "50:perishsong",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:echoedvoice",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:infestation",
+        "tm:leechlife",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:toxic",
+        "tutor:bugbite",
+        "tutor:endeavor",
+        "tutor:healbell",
+        "tutor:hypervoice",
+        "tutor:knockoff",
+        "tutor:laserfocus",
+        "tutor:snore",
+        "tutor:throatchop",
+        "tutor:uproar"
+    ],
+    "labels": [
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.kricketune.desc1",
+        "pokemoncobbled.species.kricketune.desc2"
+    ],
+    "preEvolution": "kricketot",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

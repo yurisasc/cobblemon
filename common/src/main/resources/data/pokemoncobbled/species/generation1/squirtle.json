@@ -14,13 +14,6 @@
         "special_defence": 64,
         "speed": 43
     },
-    "behaviour": {
-        "moving": {
-            "swim": {
-                "canSwimInWater": true
-            }
-        }
-    },
     "catchRate": 45,
     "maleRatio": 0.875,
     "shoulderMountable": false,
@@ -32,15 +25,6 @@
         "monster",
         "water1"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:scute",
-                "percentage": 50
-            }
-        ]
-    },
     "moves": [
         "1:tackle",
         "1:tailwhip",
@@ -114,6 +98,7 @@
     ],
     "evolutions": [
         {
+            "id": "squirtle_wartortle",
             "variant": "level_up",
             "result": "wartortle",
             "consumeHeldItem": false,
@@ -121,7 +106,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 16
+                    "minLevel": 16
                 }
             ]
         }

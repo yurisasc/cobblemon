@@ -1,0 +1,123 @@
+{
+    "name": "houndour",
+    "nationalPokedexNumber": 228,
+    "primaryType": "dark",
+    "secondaryType": "fire",
+    "abilities": [
+        "earlybird",
+        "flashfire",
+        "h:unnerve"
+    ],
+    "baseStats": {
+        "hp": 45,
+        "attack": 60,
+        "defence": 30,
+        "special_attack": 80,
+        "special_defence": 50,
+        "speed": 65
+    },
+    "catchRate": 120,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 66,
+    "experienceGroup": "slow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:leer",
+        "1:ember",
+        "4:howl",
+        "8:smog",
+        "13:roar",
+        "16:bite",
+        "20:odorsleuth",
+        "25:beatup",
+        "28:firefang",
+        "32:feintattack",
+        "37:embargo",
+        "40:foulplay",
+        "44:flamethrower",
+        "49:crunch",
+        "52:nastyplot",
+        "56:inferno",
+        "egg:counter",
+        "egg:destinybond",
+        "egg:feint",
+        "egg:firespin",
+        "egg:punishment",
+        "egg:pursuit",
+        "egg:rage",
+        "egg:reversal",
+        "egg:spite",
+        "egg:suckerpunch",
+        "egg:thunderfang",
+        "tm:attract",
+        "tm:confide",
+        "tm:darkpulse",
+        "tm:doubleteam",
+        "tm:dreameater",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:flamecharge",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:overheat",
+        "tm:payback",
+        "tm:protect",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snarl",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:taunt",
+        "tm:thief",
+        "tm:torment",
+        "tm:toxic",
+        "tm:willowisp",
+        "tutor:heatwave",
+        "tutor:hypervoice",
+        "tutor:irontail",
+        "tutor:roleplay",
+        "tutor:snatch",
+        "tutor:snore",
+        "tutor:superfang",
+        "tutor:uproar"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.houndour.desc1",
+        "pokemoncobbled.species.houndour.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "houndour_houndoom",
+            "variant": "level_up",
+            "result": "houndoom",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 24
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

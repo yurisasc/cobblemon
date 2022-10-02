@@ -15,7 +15,7 @@
         "speed": 65
     },
     "catchRate": 190,
-    "maleRatio": 0.75,
+    "maleRatio": 0.25,
     "shoulderMountable": false,
     "forms": [
         {
@@ -36,15 +36,6 @@
     "eggGroups": [
         "ground"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:sweet_berries",
-                "quantityRange": "2-3"
-            }
-        ]
-    },
     "moves": [
         "1:tailwhip",
         "1:ember",
@@ -109,17 +100,19 @@
     ],
     "evolutions": [
         {
+            "id": "vulpix_ninetales",
             "variant": "item_interact",
             "result": "ninetales",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "fire-stone"
         },
         {
+            "id": "vulpix_ninetales",
             "variant": "item_interact",
             "result": "ninetales",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "ice-stone"

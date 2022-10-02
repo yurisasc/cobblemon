@@ -1,0 +1,84 @@
+{
+    "name": "cherrim",
+    "nationalPokedexNumber": 421,
+    "primaryType": "grass",
+    "abilities": [
+        "flowergift"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 60,
+        "defence": 70,
+        "special_attack": 87,
+        "special_defence": 78,
+        "speed": 85
+    },
+    "catchRate": 75,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 158,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "fairy",
+        "plant"
+    ],
+    "moves": [
+        "0:sunnyday",
+        "1:tackle",
+        "1:growth",
+        "1:morningsun",
+        "1:flowershield",
+        "1:leafage",
+        "15:helpinghand",
+        "20:magicalleaf",
+        "28:leechseed",
+        "34:takedown",
+        "41:petalblizzard",
+        "48:worryseed",
+        "55:solarbeam",
+        "62:petaldance",
+        "tm:attract",
+        "tm:bulletseed",
+        "tm:dazzlinggleam",
+        "tm:drainingkiss",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:gigadrain",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:grassyterrain",
+        "tm:hyperbeam",
+        "tm:playrough",
+        "tm:pollenpuff",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarblade",
+        "tm:substitute",
+        "tm:swordsdance",
+        "tm:weatherball",
+        "tutor:grassyglide"
+    ],
+    "labels": [
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.cherrim.desc1",
+        "pokemoncobbled.species.cherrim.desc2"
+    ],
+    "preEvolution": "cherubi",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

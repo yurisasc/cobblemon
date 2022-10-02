@@ -1,0 +1,108 @@
+{
+    "name": "gumshoos",
+    "nationalPokedexNumber": 735,
+    "primaryType": "normal",
+    "abilities": [
+        "stakeout",
+        "strongjaw",
+        "h:adaptability"
+    ],
+    "baseStats": {
+        "hp": 88,
+        "attack": 110,
+        "defence": 60,
+        "special_attack": 55,
+        "special_defence": 60,
+        "speed": 45
+    },
+    "catchRate": 127,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "totem",
+            "aspects": [
+                "totem"
+            ]
+        }
+    ],
+    "baseExperienceYield": 146,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:sandattack",
+        "1:tackle",
+        "1:leer",
+        "1:pursuit",
+        "13:odorsleuth",
+        "16:bide",
+        "19:bite",
+        "23:mudslap",
+        "27:superfang",
+        "31:takedown",
+        "35:scaryface",
+        "39:crunch",
+        "43:hyperfang",
+        "47:yawn",
+        "51:thrash",
+        "55:rest",
+        "tm:attract",
+        "tm:bulldoze",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:earthquake",
+        "tm:echoedvoice",
+        "tm:facade",
+        "tm:fling",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:payback",
+        "tm:protect",
+        "tm:return",
+        "tm:roar",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:swagger",
+        "tm:taunt",
+        "tm:thief",
+        "tm:torment",
+        "tm:toxic",
+        "tm:uturn",
+        "tm:workup",
+        "tutor:block",
+        "tutor:dualchop",
+        "tutor:endeavor",
+        "tutor:firepunch",
+        "tutor:icepunch",
+        "tutor:ironhead",
+        "tutor:irontail",
+        "tutor:lastresort",
+        "tutor:shockwave",
+        "tutor:snore",
+        "tutor:stompingtantrum",
+        "tutor:thunderpunch",
+        "tutor:uproar",
+        "tutor:zenheadbutt"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.gumshoos.desc1",
+        "pokemoncobbled.species.gumshoos.desc2"
+    ],
+    "preEvolution": "yungoos",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

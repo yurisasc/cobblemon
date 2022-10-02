@@ -1,0 +1,109 @@
+{
+    "name": "kyogre",
+    "nationalPokedexNumber": 382,
+    "primaryType": "water",
+    "abilities": [
+        "drizzle"
+    ],
+    "baseStats": {
+        "hp": 100,
+        "attack": 100,
+        "defence": 90,
+        "special_attack": 150,
+        "special_defence": 140,
+        "speed": 90
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "primal",
+            "abilities": [
+                "primordialsea"
+            ],
+            "baseStats": {
+                "hp": 100,
+                "attack": 150,
+                "defence": 90,
+                "special_attack": 180,
+                "special_defence": 160,
+                "speed": 90
+            },
+            "aspects": [
+                "primal"
+            ]
+        }
+    ],
+    "baseExperienceYield": 335,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:bodyslam",
+        "1:scaryface",
+        "1:ancientpower",
+        "1:waterpulse",
+        "9:aquatail",
+        "18:calmmind",
+        "27:muddywater",
+        "36:icebeam",
+        "45:sheercold",
+        "54:aquaring",
+        "63:originpulse",
+        "72:hydropump",
+        "81:doubleedge",
+        "90:waterspout",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:brickbreak",
+        "tm:brine",
+        "tm:bulldoze",
+        "tm:dive",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:heavyslam",
+        "tm:hyperbeam",
+        "tm:icywind",
+        "tm:ironhead",
+        "tm:liquidation",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:safeguard",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:uproar",
+        "tm:waterfall",
+        "tm:whirlpool"
+    ],
+    "labels": [
+        "legendary",
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.kyogre.desc1",
+        "pokemoncobbled.species.kyogre.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

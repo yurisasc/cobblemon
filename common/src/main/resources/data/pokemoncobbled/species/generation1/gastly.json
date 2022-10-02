@@ -97,6 +97,7 @@
     ],
     "evolutions": [
         {
+            "id": "gastly_haunter",
             "variant": "level_up",
             "result": "haunter",
             "consumeHeldItem": false,
@@ -104,7 +105,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 25
+                    "minLevel": 25
                 }
             ]
         }

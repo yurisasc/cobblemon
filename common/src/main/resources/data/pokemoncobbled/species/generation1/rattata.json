@@ -107,6 +107,7 @@
     ],
     "evolutions": [
         {
+            "id": "rattata_raticate",
             "variant": "level_up",
             "result": "raticate",
             "consumeHeldItem": false,
@@ -114,11 +115,12 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 20
+                    "minLevel": 20
                 }
             ]
         },
         {
+            "id": "rattata_raticate",
             "variant": "level_up",
             "result": "raticate",
             "consumeHeldItem": false,
@@ -130,7 +132,7 @@
                 },
                 {
                     "variant": "level",
-                    "level": 20
+                    "minLevel": 20
                 }
             ]
         }

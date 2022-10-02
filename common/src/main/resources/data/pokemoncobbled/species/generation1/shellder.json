@@ -79,9 +79,10 @@
     ],
     "evolutions": [
         {
+            "id": "shellder_cloyster",
             "variant": "item_interact",
             "result": "cloyster",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "water-stone"

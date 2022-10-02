@@ -1,0 +1,128 @@
+{
+    "name": "zorua",
+    "nationalPokedexNumber": 570,
+    "primaryType": "dark",
+    "abilities": [
+        "illusion"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 65,
+        "defence": 40,
+        "special_attack": 80,
+        "special_defence": 40,
+        "speed": 65
+    },
+    "catchRate": 75,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "hisui",
+            "primaryType": "normal",
+            "secondaryType": "ghost",
+            "baseStats": {
+                "hp": 35,
+                "attack": 60,
+                "defence": 40,
+                "special_attack": 85,
+                "special_defence": 40,
+                "speed": 70
+            },
+            "aspects": [
+                "hisui"
+            ]
+        }
+    ],
+    "baseExperienceYield": 66,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 25,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:scratch",
+        "1:leer",
+        "4:torment",
+        "8:honeclaws",
+        "12:furyswipes",
+        "16:scaryface",
+        "20:taunt",
+        "24:knockoff",
+        "28:faketears",
+        "32:agility",
+        "36:imprison",
+        "40:nightdaze",
+        "44:nastyplot",
+        "48:foulplay",
+        "egg:copycat",
+        "egg:counter",
+        "egg:detect",
+        "egg:extrasensory",
+        "egg:memento",
+        "egg:suckerpunch",
+        "tm:assurance",
+        "tm:attract",
+        "tm:bounce",
+        "tm:calmmind",
+        "tm:darkpulse",
+        "tm:dig",
+        "tm:endure",
+        "tm:facade",
+        "tm:fling",
+        "tm:grassknot",
+        "tm:hex",
+        "tm:hypervoice",
+        "tm:payback",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:round",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snarl",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:thief",
+        "tm:trick",
+        "tm:uproar",
+        "tm:uturn",
+        "tutor:burningjealousy",
+        "tutor:lashout",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.zorua.desc1",
+        "pokemoncobbled.species.zorua.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "zorua_zoroark",
+            "variant": "level_up",
+            "result": "zoroark",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 30
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

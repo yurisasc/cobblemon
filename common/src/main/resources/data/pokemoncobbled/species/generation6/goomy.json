@@ -1,0 +1,90 @@
+{
+    "name": "goomy",
+    "nationalPokedexNumber": 704,
+    "primaryType": "dragon",
+    "abilities": [
+        "sapsipper",
+        "hydration",
+        "h:gooey"
+    ],
+    "baseStats": {
+        "hp": 45,
+        "attack": 50,
+        "defence": 35,
+        "special_attack": 55,
+        "special_defence": 75,
+        "speed": 40
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 60,
+    "experienceGroup": "slow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "dragon"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:absorb",
+        "5:watergun",
+        "10:dragonbreath",
+        "15:protect",
+        "20:flail",
+        "25:waterpulse",
+        "30:raindance",
+        "35:dragonpulse",
+        "41:curse",
+        "45:bodyslam",
+        "50:muddywater",
+        "egg:counter",
+        "egg:lifedew",
+        "tm:attract",
+        "tm:endure",
+        "tm:facade",
+        "tm:irontail",
+        "tm:mudshot",
+        "tm:outrage",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thunderbolt",
+        "tutor:dracometeor",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.goomy.desc1",
+        "pokemoncobbled.species.goomy.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "goomy_sliggoo",
+            "variant": "level_up",
+            "result": "sliggoo",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 40
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

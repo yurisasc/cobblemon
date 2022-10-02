@@ -1,0 +1,108 @@
+{
+    "name": "cramorant",
+    "nationalPokedexNumber": 845,
+    "primaryType": "flying",
+    "secondaryType": "water",
+    "abilities": [
+        "gulpmissile"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 85,
+        "defence": 55,
+        "special_attack": 85,
+        "special_defence": 95,
+        "speed": 85
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "gulping",
+            "aspects": [
+                "gulping"
+            ]
+        },
+        {
+            "name": "gorging",
+            "aspects": [
+                "gorging"
+            ]
+        }
+    ],
+    "baseExperienceYield": 166,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water1",
+        "flying"
+    ],
+    "moves": [
+        "1:peck",
+        "1:stockpile",
+        "1:spitup",
+        "1:swallow",
+        "1:belch",
+        "7:watergun",
+        "14:furyattack",
+        "21:pluck",
+        "28:dive",
+        "35:drillpeck",
+        "42:amnesia",
+        "49:thrash",
+        "56:hydropump",
+        "egg:aerialace",
+        "egg:aquaring",
+        "egg:defog",
+        "egg:featherdance",
+        "egg:roost",
+        "tm:agility",
+        "tm:airslash",
+        "tm:assurance",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:bravebird",
+        "tm:endure",
+        "tm:facade",
+        "tm:fly",
+        "tm:gigaimpact",
+        "tm:hurricane",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:liquidation",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:reversal",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:superpower",
+        "tm:surf",
+        "tm:thief",
+        "tm:throatchop",
+        "tm:uproar",
+        "tm:weatherball",
+        "tm:whirlpool",
+        "tutor:dualwingbeat"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.cramorant.desc1",
+        "pokemoncobbled.species.cramorant.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

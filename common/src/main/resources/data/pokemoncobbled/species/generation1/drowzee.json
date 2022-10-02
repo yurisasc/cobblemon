@@ -109,6 +109,7 @@
     ],
     "evolutions": [
         {
+            "id": "drowzee_hypno",
             "variant": "level_up",
             "result": "hypno",
             "consumeHeldItem": false,
@@ -116,7 +117,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 26
+                    "minLevel": 26
                 }
             ]
         }

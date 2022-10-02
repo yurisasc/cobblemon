@@ -16,7 +16,7 @@
         "speed": 45
     },
     "catchRate": 90,
-    "maleRatio": 0.25,
+    "maleRatio": 0.75,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 142,
@@ -25,15 +25,6 @@
     "eggGroups": [
         "humanshape"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "pokemoncobbled:link_cable",
-                "percentage": 5
-            }
-        ]
-    },
     "moves": [
         "1:leer",
         "1:lowkick",
@@ -103,6 +94,7 @@
     "preEvolution": "machop",
     "evolutions": [
         {
+            "id": "machoke_machamp",
             "variant": "trade",
             "result": "machamp",
             "consumeHeldItem": false,

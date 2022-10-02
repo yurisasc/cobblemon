@@ -16,7 +16,7 @@
         "speed": 87
     },
     "catchRate": 45,
-    "maleRatio": 0.0,
+    "maleRatio": 1.0,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 159,

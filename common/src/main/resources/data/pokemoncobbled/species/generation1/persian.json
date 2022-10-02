@@ -46,15 +46,6 @@
     "eggGroups": [
         "ground"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:gold_ingot",
-                "percentage": 25
-            }
-        ]
-    },
     "moves": [
         "0:powergem",
         "1:scratch",

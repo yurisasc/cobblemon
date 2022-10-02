@@ -26,19 +26,6 @@
     "eggGroups": [
         "flying"
     ],
-    "drops": {
-        "amount": "2",
-        "entries": [
-            {
-                "item": "minecraft:feather",
-                "quantityRange": "1-2",
-                "percentage": 66
-            },
-            {
-                "item": "minecraft:chicken"
-            }
-        ]
-    },
     "moves": [
         "1:gust",
         "1:sandattack",
@@ -91,6 +78,7 @@
     "preEvolution": "pidgey",
     "evolutions": [
         {
+            "id": "pidgeotto_pidgeot",
             "variant": "level_up",
             "result": "pidgeot",
             "consumeHeldItem": false,
@@ -98,7 +86,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 36
+                    "minLevel": 36
                 }
             ]
         }
