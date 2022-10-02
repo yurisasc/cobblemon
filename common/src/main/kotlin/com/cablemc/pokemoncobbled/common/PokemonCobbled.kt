@@ -60,6 +60,7 @@ import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.config.starter.StarterConfig
 import com.cablemc.pokemoncobbled.common.data.CobbledDataProvider
 import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
+import com.cablemc.pokemoncobbled.common.net.messages.client.settings.ServerSettingsPacket
 import com.cablemc.pokemoncobbled.common.permission.CobbledPermissionValidator
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
@@ -137,6 +138,7 @@ object PokemonCobbled {
             storage.onPlayerLogin(it)
             playerData.get(it).sendToPlayer(it)
             starterHandler.handleJoin(it)
+            ServerSettingsPacket().sendToPlayer(it)
         }
         PLAYER_QUIT.subscribe { PCLinkManager.removeLink(it.uuid) }
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)

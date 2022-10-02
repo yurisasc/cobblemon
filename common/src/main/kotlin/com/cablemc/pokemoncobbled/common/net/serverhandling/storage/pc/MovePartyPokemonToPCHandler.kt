@@ -20,12 +20,13 @@ object MovePartyPokemonToPCHandler : ServerPacketHandler<MovePartyPokemonToPCPac
     override fun invokeOnServer(packet: MovePartyPokemonToPCPacket, ctx: NetworkContext, player: ServerPlayerEntity) {
         val party = PokemonCobbled.storage.getParty(player)
         val pc = PCLinkManager.getPC(player) ?: return run { ClosePCPacket().sendToPlayer(player) }
-
         val pokemon = party[packet.partyPosition] ?: return
         if (pokemon.uuid != packet.pokemonID) {
             return
         }
-
+        if (party.filterNotNull().size == 1 && PokemonCobbled.config.preventCompletePartyDeposit) {
+            return
+        }
         val pcPosition = packet.pcPosition?.takeIf { pc[it] == null } ?: pc.getFirstAvailablePosition() ?: return
         party.remove(packet.partyPosition)
         pc[pcPosition] = pokemon

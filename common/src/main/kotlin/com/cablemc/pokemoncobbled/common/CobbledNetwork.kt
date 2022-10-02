@@ -17,6 +17,7 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.settings.ServerSettingsPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.starter.OpenStarterUIPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.starter.SetClientPlayerDataPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.RemoveClientPokemonPacket
@@ -148,6 +149,9 @@ object CobbledNetwork {
         buildClientMessage<BattleApplyCaptureResponsePacket>()
         buildClientMessage<ChallengeNotificationPacket>()
         buildClientMessage<BattleUpdateTeamPokemonPacket>()
+
+        // Settings packets
+        buildClientMessage<ServerSettingsPacket>()
         /**
          * Server Packets
          */

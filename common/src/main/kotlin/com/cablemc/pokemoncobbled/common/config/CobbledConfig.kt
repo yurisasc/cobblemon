@@ -43,6 +43,9 @@ class CobbledConfig {
     @NodeCategory(Category.Storage)
     var storageFormat = "nbt"
 
+    @NodeCategory(Category.Storage)
+    var preventCompletePartyDeposit = true
+
     // TODO new types of constraint
 
     @NodeCategory(Category.Spawning)

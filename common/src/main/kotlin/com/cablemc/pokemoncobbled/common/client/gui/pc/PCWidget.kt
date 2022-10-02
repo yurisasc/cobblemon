@@ -14,6 +14,7 @@ import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
 import com.cablemc.pokemoncobbled.common.client.storage.ClientPC
 import com.cablemc.pokemoncobbled.common.client.storage.ClientParty
+import com.cablemc.pokemoncobbled.common.client.settings.ServerSettings
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.SwapPCPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.MovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.SwapPartyPokemonPacket
@@ -180,6 +181,9 @@ class PCWidget(
         }
         // Party -> PC
         else if (this.selectedPosition is PartyPosition && clickedPosition is PCPosition) {
+            if (ServerSettings.preventCompletePartyDeposit && this.party.filterNotNull().size == 1 && clickedPokemon == null) {
+                return
+            }
             val packet = clickedPokemon?.let { SwapPCPartyPokemonPacket(selectedPokemon.uuid, this.selectedPosition as PartyPosition, clickedPokemon.uuid, clickedPosition) } ?:
                 MovePartyPokemonToPCPacket(selectedPokemon.uuid, this.selectedPosition as PartyPosition, clickedPosition)
             packet.sendToServer()
