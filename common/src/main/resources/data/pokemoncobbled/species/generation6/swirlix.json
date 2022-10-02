@@ -1,0 +1,99 @@
+{
+    "name": "swirlix",
+    "nationalPokedexNumber": 684,
+    "primaryType": "fairy",
+    "abilities": [
+        "sweetveil",
+        "h:unburden"
+    ],
+    "baseStats": {
+        "hp": 62,
+        "attack": 48,
+        "defence": 66,
+        "special_attack": 59,
+        "special_defence": 57,
+        "speed": 49
+    },
+    "catchRate": 200,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 68,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "fairy"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:sweetscent",
+        "3:playnice",
+        "6:fairywind",
+        "9:aromatherapy",
+        "12:drainingkiss",
+        "15:faketears",
+        "18:round",
+        "21:stringshot",
+        "24:cottonspore",
+        "27:energyball",
+        "30:wish",
+        "33:playrough",
+        "36:cottonguard",
+        "39:endeavor",
+        "egg:afteryou",
+        "egg:copycat",
+        "egg:stickyweb",
+        "egg:yawn",
+        "tm:amnesia",
+        "tm:attract",
+        "tm:calmmind",
+        "tm:charm",
+        "tm:dazzlinggleam",
+        "tm:endure",
+        "tm:facade",
+        "tm:flamethrower",
+        "tm:helpinghand",
+        "tm:lightscreen",
+        "tm:protect",
+        "tm:psychic",
+        "tm:raindance",
+        "tm:rest",
+        "tm:safeguard",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:surf",
+        "tm:thief",
+        "tm:thunderbolt",
+        "tutor:mistyexplosion"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.swirlix.desc1",
+        "pokemoncobbled.species.swirlix.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "swirlix_slurpuff",
+            "variant": "trade",
+            "result": "slurpuff",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "held_item",
+                    "item": "whipped-dream"
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

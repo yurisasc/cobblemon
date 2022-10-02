@@ -25,15 +25,6 @@
     "eggGroups": [
         "water1"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "pokemoncobbled:kings_rock",
-                "percentage": 5
-            }
-        ]
-    },
     "moves": [
         "1:pound",
         "1:watergun",
@@ -89,14 +80,16 @@
     "preEvolution": "poliwag",
     "evolutions": [
         {
+            "id": "poliwhirl_poliwrath",
             "variant": "item_interact",
             "result": "poliwrath",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "water-stone"
         },
         {
+            "id": "poliwhirl_politoed",
             "variant": "trade",
             "result": "politoed",
             "consumeHeldItem": false,

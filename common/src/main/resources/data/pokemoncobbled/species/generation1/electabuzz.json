@@ -15,7 +15,7 @@
         "speed": 105
     },
     "catchRate": 45,
-    "maleRatio": 0.25,
+    "maleRatio": 0.75,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 172,
@@ -24,21 +24,6 @@
     "eggGroups": [
         "humanshape"
     ],
-    "drops": {
-        "amount": "2",
-        "entries": [
-            {
-                "item": "minecraft:redstone",
-                "quantityRange": "1-2",
-                "percentage": 66
-            },
-            {
-                "item": "pokemoncobbled:electirizer",
-                "quantityRange": "1",
-                "percentage": 5
-            }
-        ]
-    },
     "moves": [
         "1:leer",
         "1:thundershock",
@@ -96,6 +81,7 @@
     "preEvolution": "elekid",
     "evolutions": [
         {
+            "id": "electabuzz_electivire",
             "variant": "trade",
             "result": "electivire",
             "consumeHeldItem": false,

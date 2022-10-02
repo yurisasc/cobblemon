@@ -202,7 +202,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
             species.initialize()
         }
-        PokemonCobbled.showdownThread.showdownStarted.thenAccept { this.createShowdownData() }
+        createShowdownData()
         PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
         this.observable.emit(this)
     }
@@ -212,7 +212,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         val pokedexDataHolder = StringBuilder()
         val formatsDataHolder = StringBuilder()
         this.createDummySpecies(pokedexDataHolder, formatsDataHolder)
-        this.species.forEach { species ->
+        this.species.toList().forEach { species ->
             try {
                 this.createShowdownRepresentation(pokedexDataHolder, species)
                 this.createTierRepresentation(formatsDataHolder, species)

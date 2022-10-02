@@ -1,0 +1,93 @@
+{
+    "name": "beautifly",
+    "nationalPokedexNumber": 267,
+    "primaryType": "bug",
+    "secondaryType": "flying",
+    "abilities": [
+        "swarm",
+        "h:rivalry"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 70,
+        "defence": 50,
+        "special_attack": 100,
+        "special_defence": 50,
+        "speed": 65
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 178,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "0:gust",
+        "12:absorb",
+        "15:stunspore",
+        "17:morningsun",
+        "20:aircutter",
+        "22:megadrain",
+        "25:silverwind",
+        "27:attract",
+        "30:whirlwind",
+        "32:gigadrain",
+        "35:bugbuzz",
+        "37:rage",
+        "40:quiverdance",
+        "tm:acrobatics",
+        "tm:aerialace",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:energyball",
+        "tm:facade",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:infestation",
+        "tm:protect",
+        "tm:psychic",
+        "tm:rest",
+        "tm:return",
+        "tm:roost",
+        "tm:round",
+        "tm:safeguard",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:thief",
+        "tm:toxic",
+        "tm:uturn",
+        "tm:venoshock",
+        "tutor:bugbite",
+        "tutor:defog",
+        "tutor:electroweb",
+        "tutor:laserfocus",
+        "tutor:signalbeam",
+        "tutor:snore",
+        "tutor:tailwind"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.beautifly.desc1",
+        "pokemoncobbled.species.beautifly.desc2"
+    ],
+    "preEvolution": "silcoon",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

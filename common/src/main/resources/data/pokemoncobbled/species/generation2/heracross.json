@@ -1,0 +1,125 @@
+{
+    "name": "heracross",
+    "nationalPokedexNumber": 214,
+    "primaryType": "bug",
+    "secondaryType": "fighting",
+    "abilities": [
+        "swarm",
+        "guts",
+        "h:moxie"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 125,
+        "defence": 75,
+        "special_attack": 40,
+        "special_defence": 95,
+        "speed": 85
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "skilllink"
+            ],
+            "baseStats": {
+                "hp": 80,
+                "attack": 185,
+                "defence": 115,
+                "special_attack": 40,
+                "special_defence": 105,
+                "speed": 75
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 175,
+    "experienceGroup": "slow",
+    "eggCycles": 25,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:leer",
+        "5:furyattack",
+        "10:endure",
+        "15:aerialace",
+        "20:hornattack",
+        "25:counter",
+        "30:brickbreak",
+        "35:pinmissile",
+        "40:throatchop",
+        "45:thrash",
+        "50:swordsdance",
+        "55:megahorn",
+        "60:closecombat",
+        "egg:doubleedge",
+        "egg:feint",
+        "egg:flail",
+        "egg:harden",
+        "egg:nightslash",
+        "egg:seismictoss",
+        "egg:takedown",
+        "tm:assurance",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:brutalswing",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:bulletseed",
+        "tm:dig",
+        "tm:earthquake",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:gigaimpact",
+        "tm:helpinghand",
+        "tm:highhorsepower",
+        "tm:hyperbeam",
+        "tm:irondefense",
+        "tm:lowkick",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:reversal",
+        "tm:rockblast",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:smartstrike",
+        "tm:snore",
+        "tm:spikes",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thief",
+        "tm:venoshock",
+        "tm:workup",
+        "tutor:coaching"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.heracross.desc1",
+        "pokemoncobbled.species.heracross.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -1,0 +1,102 @@
+{
+    "name": "eternatus",
+    "nationalPokedexNumber": 890,
+    "primaryType": "poison",
+    "secondaryType": "dragon",
+    "abilities": [
+        "pressure"
+    ],
+    "baseStats": {
+        "hp": 140,
+        "attack": 85,
+        "defence": 95,
+        "special_attack": 145,
+        "special_defence": 95,
+        "speed": 130
+    },
+    "catchRate": 255,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "eternamax",
+            "baseStats": {
+                "hp": 255,
+                "attack": 115,
+                "defence": 250,
+                "special_attack": 125,
+                "special_defence": 250,
+                "speed": 130
+            },
+            "aspects": [
+                "eternamax"
+            ]
+        }
+    ],
+    "baseExperienceYield": 345,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:agility",
+        "1:confuseray",
+        "1:poisontail",
+        "1:dragontail",
+        "8:toxic",
+        "16:venoshock",
+        "24:dragondance",
+        "32:crosspoison",
+        "40:dragonpulse",
+        "48:flamethrower",
+        "56:dynamaxcannon",
+        "64:cosmicpower",
+        "72:recover",
+        "80:hyperbeam",
+        "88:eternabeam",
+        "tm:assurance",
+        "tm:brutalswing",
+        "tm:endure",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:fly",
+        "tm:gigaimpact",
+        "tm:lightscreen",
+        "tm:mysticalfire",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:reflect",
+        "tm:rest",
+        "tm:round",
+        "tm:scaryface",
+        "tm:screech",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:toxicspikes",
+        "tm:venomdrench",
+        "tutor:dracometeor",
+        "tutor:meteorbeam"
+    ],
+    "labels": [
+        "legendary",
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.eternatus.desc1",
+        "pokemoncobbled.species.eternatus.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

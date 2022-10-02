@@ -93,6 +93,7 @@
     ],
     "evolutions": [
         {
+            "id": "bellsprout_weepinbell",
             "variant": "level_up",
             "result": "weepinbell",
             "consumeHeldItem": false,
@@ -100,7 +101,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 21
+                    "minLevel": 21
                 }
             ]
         }

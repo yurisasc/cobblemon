@@ -81,9 +81,10 @@
     "preEvolution": "bellsprout",
     "evolutions": [
         {
+            "id": "weepinbell_victreebel",
             "variant": "item_interact",
             "result": "victreebel",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "leaf-stone"

@@ -1,0 +1,92 @@
+{
+    "name": "galvantula",
+    "nationalPokedexNumber": 596,
+    "primaryType": "bug",
+    "secondaryType": "electric",
+    "abilities": [
+        "compoundeyes",
+        "unnerve",
+        "h:swarm"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 77,
+        "defence": 60,
+        "special_attack": 97,
+        "special_defence": 60,
+        "speed": 108
+    },
+    "catchRate": 75,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 165,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "0:stickyweb",
+        "1:absorb",
+        "1:furycutter",
+        "1:bugbite",
+        "1:electroweb",
+        "12:stringshot",
+        "16:thunderwave",
+        "20:electroball",
+        "24:agility",
+        "28:suckerpunch",
+        "32:slash",
+        "39:discharge",
+        "44:screech",
+        "50:gastroacid",
+        "56:bugbuzz",
+        "tm:attract",
+        "tm:bounce",
+        "tm:crosspoison",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:gigadrain",
+        "tm:gigaimpact",
+        "tm:hyperbeam",
+        "tm:leechlife",
+        "tm:lightscreen",
+        "tm:pinmissile",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:speedswap",
+        "tm:substitute",
+        "tm:swift",
+        "tm:thief",
+        "tm:throatchop",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:voltswitch",
+        "tm:wildcharge",
+        "tm:xscissor",
+        "tutor:risingvoltage",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.galvantula.desc1",
+        "pokemoncobbled.species.galvantula.desc2"
+    ],
+    "preEvolution": "joltik",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

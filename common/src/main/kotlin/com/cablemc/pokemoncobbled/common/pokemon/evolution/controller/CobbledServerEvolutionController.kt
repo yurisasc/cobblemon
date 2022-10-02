@@ -8,11 +8,15 @@
 
 package com.cablemc.pokemoncobbled.common.pokemon.evolution.controller
 
+import com.cablemc.pokemoncobbled.common.CobbledItems
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
+import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.EvolutionController
 import com.cablemc.pokemoncobbled.common.client.PokemonCobbledClient
+import com.cablemc.pokemoncobbled.common.item.PokeBallItem
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
@@ -21,15 +25,19 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evol
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.util.ifClient
 import com.cablemc.pokemoncobbled.common.util.readSizedInt
+import com.cablemc.pokemoncobbled.common.util.removeAmountIf
 import com.cablemc.pokemoncobbled.common.util.toJsonArray
 import com.cablemc.pokemoncobbled.common.util.writeSizedInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
+import net.minecraft.item.Items
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.Identifier
 import java.util.*
 
 internal class CobbledServerEvolutionController(override val pokemon: Pokemon) : EvolutionController<Evolution> {
@@ -45,6 +53,20 @@ internal class CobbledServerEvolutionController(override val pokemon: Pokemon) :
             ifSucceeded = {
                 // Evolution will clear the pending stuff after if successful
                 evolution.forceEvolve(this.pokemon)
+
+                if(this.pokemon.species == PokemonSpecies.getByIdentifier(Identifier("pokemoncobbled", "ninjask"))) {
+                    val player = this.pokemon.getOwnerPlayer()
+                    if (player?.inventory?.containsAny { it.item is PokeBallItem } == true) {
+                        player.inventory.removeAmountIf(1) { it.item is PokeBallItem }
+
+                        val properties = PokemonProperties.parse(evolution.result.asString(" "), " ")
+                        properties.species = "shedinja"
+
+                        val product = this.pokemon.clone()
+                        properties.apply(product)
+                        this.pokemon.storeCoordinates.get()?.store?.add(product)
+                    }
+                }
             }
         )
     }

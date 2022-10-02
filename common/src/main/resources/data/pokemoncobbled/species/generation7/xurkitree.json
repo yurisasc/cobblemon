@@ -1,0 +1,85 @@
+{
+    "name": "xurkitree",
+    "nationalPokedexNumber": 796,
+    "primaryType": "electric",
+    "abilities": [
+        "beastboost"
+    ],
+    "baseStats": {
+        "hp": 83,
+        "attack": 89,
+        "defence": 71,
+        "special_attack": 173,
+        "special_defence": 71,
+        "speed": 83
+    },
+    "catchRate": 45,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 285,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:wrap",
+        "1:thundershock",
+        "5:charge",
+        "10:thunderwave",
+        "15:ingrain",
+        "20:spark",
+        "25:shockwave",
+        "30:hypnosis",
+        "35:eerieimpulse",
+        "40:thunderpunch",
+        "45:discharge",
+        "50:magnetrise",
+        "55:thunderbolt",
+        "60:electricterrain",
+        "65:powerwhip",
+        "70:zapcannon",
+        "tm:brutalswing",
+        "tm:calmmind",
+        "tm:dazzlinggleam",
+        "tm:electroball",
+        "tm:electroweb",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:fling",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hyperbeam",
+        "tm:lightscreen",
+        "tm:protect",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thunder",
+        "tm:voltswitch",
+        "tm:wildcharge",
+        "tutor:risingvoltage"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.xurkitree.desc1",
+        "pokemoncobbled.species.xurkitree.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

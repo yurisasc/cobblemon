@@ -1,0 +1,115 @@
+{
+    "name": "ledyba",
+    "nationalPokedexNumber": 165,
+    "primaryType": "bug",
+    "secondaryType": "flying",
+    "abilities": [
+        "swarm",
+        "earlybird",
+        "h:rattled"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 20,
+        "defence": 30,
+        "special_attack": 40,
+        "special_defence": 80,
+        "speed": 55
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 53,
+    "experienceGroup": "fast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "1:tackle",
+        "5:supersonic",
+        "8:swift",
+        "12:lightscreen",
+        "12:reflect",
+        "12:safeguard",
+        "15:machpunch",
+        "19:silverwind",
+        "22:cometpunch",
+        "26:batonpass",
+        "29:agility",
+        "33:bugbuzz",
+        "36:airslash",
+        "40:doubleedge",
+        "egg:bide",
+        "egg:bugbite",
+        "egg:counter",
+        "egg:dizzypunch",
+        "egg:drainpunch",
+        "egg:encore",
+        "egg:endure",
+        "egg:focuspunch",
+        "egg:knockoff",
+        "egg:psybeam",
+        "egg:screech",
+        "egg:tailwind",
+        "tm:acrobatics",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:facade",
+        "tm:fling",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:infestation",
+        "tm:protect",
+        "tm:rest",
+        "tm:return",
+        "tm:roost",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:thief",
+        "tm:toxic",
+        "tm:uturn",
+        "tutor:gigadrain",
+        "tutor:icepunch",
+        "tutor:snore",
+        "tutor:thunderpunch",
+        "tutor:uproar"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.ledyba.desc1",
+        "pokemoncobbled.species.ledyba.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "ledyba_ledian",
+            "variant": "level_up",
+            "result": "ledian",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 18
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -17,7 +17,7 @@
         "speed": 70
     },
     "catchRate": 60,
-    "maleRatio": -0.125,
+    "maleRatio": 1.125,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 163,
@@ -77,6 +77,7 @@
     "preEvolution": "magnemite",
     "evolutions": [
         {
+            "id": "magneton_magnezone",
             "variant": "level_up",
             "result": "magnezone",
             "consumeHeldItem": false,
@@ -89,6 +90,7 @@
             ]
         },
         {
+            "id": "magneton_magnezone",
             "variant": "level_up",
             "result": "magnezone",
             "consumeHeldItem": false,
@@ -101,6 +103,7 @@
             ]
         },
         {
+            "id": "magneton_magnezone",
             "variant": "level_up",
             "result": "magnezone",
             "consumeHeldItem": false,
@@ -113,6 +116,7 @@
             ]
         },
         {
+            "id": "magneton_magnezone",
             "variant": "level_up",
             "result": "magnezone",
             "consumeHeldItem": false,
@@ -120,9 +124,10 @@
             "requirements": []
         },
         {
+            "id": "magneton_magnezone",
             "variant": "item_interact",
             "result": "magnezone",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "thunder-stone"

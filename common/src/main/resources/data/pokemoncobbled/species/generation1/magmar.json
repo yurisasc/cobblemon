@@ -15,7 +15,7 @@
         "speed": 93
     },
     "catchRate": 45,
-    "maleRatio": 0.25,
+    "maleRatio": 0.75,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 173,
@@ -24,19 +24,6 @@
     "eggGroups": [
         "humanshape"
     ],
-    "drops": {
-        "amount": "2",
-        "entries": [
-            {
-                "item": "minecraft:blaze_powder",
-                "percentage": 10
-            },
-            {
-                "item": "pokemoncobbled:magmarizer",
-                "percentage": 5
-            }
-        ]
-    },
     "moves": [
         "1:leer",
         "1:ember",
@@ -97,6 +84,7 @@
     "preEvolution": "magby",
     "evolutions": [
         {
+            "id": "magmar_magmortar",
             "variant": "trade",
             "result": "magmortar",
             "consumeHeldItem": false,

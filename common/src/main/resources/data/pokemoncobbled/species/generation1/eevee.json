@@ -16,7 +16,7 @@
         "speed": 55
     },
     "catchRate": 45,
-    "maleRatio": 0.125,
+    "maleRatio": 0.875,
     "shoulderMountable": true,
     "forms": [
         {
@@ -104,30 +104,34 @@
     ],
     "evolutions": [
         {
+            "id": "eevee_vaporeon",
             "variant": "item_interact",
             "result": "vaporeon",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "water-stone"
         },
         {
+            "id": "eevee_jolteon",
             "variant": "item_interact",
             "result": "jolteon",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "thunder-stone"
         },
         {
+            "id": "eevee_flareon",
             "variant": "item_interact",
             "result": "flareon",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "fire-stone"
         },
         {
+            "id": "eevee_espeon",
             "variant": "level_up",
             "result": "espeon",
             "consumeHeldItem": false,
@@ -144,6 +148,7 @@
             ]
         },
         {
+            "id": "eevee_umbreon",
             "variant": "level_up",
             "result": "umbreon",
             "consumeHeldItem": false,
@@ -160,6 +165,7 @@
             ]
         },
         {
+            "id": "eevee_leafeon",
             "variant": "level_up",
             "result": "leafeon",
             "consumeHeldItem": false,
@@ -172,6 +178,7 @@
             ]
         },
         {
+            "id": "eevee_leafeon",
             "variant": "level_up",
             "result": "leafeon",
             "consumeHeldItem": false,
@@ -184,6 +191,7 @@
             ]
         },
         {
+            "id": "eevee_leafeon",
             "variant": "level_up",
             "result": "leafeon",
             "consumeHeldItem": false,
@@ -196,6 +204,7 @@
             ]
         },
         {
+            "id": "eevee_leafeon",
             "variant": "level_up",
             "result": "leafeon",
             "consumeHeldItem": false,
@@ -203,14 +212,16 @@
             "requirements": []
         },
         {
+            "id": "eevee_leafeon",
             "variant": "item_interact",
             "result": "leafeon",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "leaf-stone"
         },
         {
+            "id": "eevee_glaceon",
             "variant": "level_up",
             "result": "glaceon",
             "consumeHeldItem": false,
@@ -223,6 +234,7 @@
             ]
         },
         {
+            "id": "eevee_glaceon",
             "variant": "level_up",
             "result": "glaceon",
             "consumeHeldItem": false,
@@ -235,6 +247,7 @@
             ]
         },
         {
+            "id": "eevee_glaceon",
             "variant": "level_up",
             "result": "glaceon",
             "consumeHeldItem": false,
@@ -247,6 +260,7 @@
             ]
         },
         {
+            "id": "eevee_glaceon",
             "variant": "level_up",
             "result": "glaceon",
             "consumeHeldItem": false,
@@ -254,14 +268,16 @@
             "requirements": []
         },
         {
+            "id": "eevee_glaceon",
             "variant": "item_interact",
             "result": "glaceon",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "ice-stone"
         },
         {
+            "id": "eevee_sylveon",
             "variant": "level_up",
             "result": "sylveon",
             "consumeHeldItem": false,
@@ -274,6 +290,7 @@
             ]
         },
         {
+            "id": "eevee_sylveon",
             "variant": "level_up",
             "result": "sylveon",
             "consumeHeldItem": false,

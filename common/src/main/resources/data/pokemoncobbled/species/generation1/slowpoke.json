@@ -120,6 +120,7 @@
     ],
     "evolutions": [
         {
+            "id": "slowpoke_slowbro",
             "variant": "level_up",
             "result": "slowbro",
             "consumeHeldItem": false,
@@ -127,19 +128,21 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 37
+                    "minLevel": 37
                 }
             ]
         },
         {
+            "id": "slowpoke_slowbro",
             "variant": "item_interact",
             "result": "slowbro",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "galarica-cuff"
         },
         {
+            "id": "slowpoke_slowking",
             "variant": "trade",
             "result": "slowking",
             "consumeHeldItem": false,
@@ -152,9 +155,10 @@
             ]
         },
         {
+            "id": "slowpoke_slowking",
             "variant": "item_interact",
             "result": "slowking",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "galarica-wreath"

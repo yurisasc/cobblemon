@@ -1,0 +1,136 @@
+{
+    "name": "mawile",
+    "nationalPokedexNumber": 303,
+    "primaryType": "steel",
+    "secondaryType": "fairy",
+    "abilities": [
+        "hypercutter",
+        "intimidate",
+        "h:sheerforce"
+    ],
+    "baseStats": {
+        "hp": 50,
+        "attack": 85,
+        "defence": 85,
+        "special_attack": 55,
+        "special_defence": 55,
+        "speed": 50
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "hugepower"
+            ],
+            "baseStats": {
+                "hp": 50,
+                "attack": 105,
+                "defence": 125,
+                "special_attack": 55,
+                "special_defence": 95,
+                "speed": 50
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 133,
+    "experienceGroup": "fast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground",
+        "fairy"
+    ],
+    "moves": [
+        "1:growl",
+        "1:astonish",
+        "4:fairywind",
+        "8:batonpass",
+        "12:bite",
+        "16:stockpile",
+        "16:spitup",
+        "16:swallow",
+        "20:suckerpunch",
+        "24:irondefense",
+        "28:crunch",
+        "32:sweetscent",
+        "36:ironhead",
+        "40:taunt",
+        "44:faketears",
+        "48:playrough",
+        "egg:ancientpower",
+        "egg:poweruppunch",
+        "egg:seismictoss",
+        "egg:slam",
+        "egg:tickle",
+        "tm:assurance",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:darkpulse",
+        "tm:drainingkiss",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fireblast",
+        "tm:firefang",
+        "tm:flamethrower",
+        "tm:flashcannon",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:foulplay",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:guardswap",
+        "tm:helpinghand",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icefang",
+        "tm:icepunch",
+        "tm:icywind",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:mistyterrain",
+        "tm:payback",
+        "tm:protect",
+        "tm:psychicfangs",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:stealthrock",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swordsdance",
+        "tm:thunderfang",
+        "tm:thunderpunch",
+        "tutor:steelbeam"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.mawile.desc1",
+        "pokemoncobbled.species.mawile.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

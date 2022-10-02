@@ -65,16 +65,6 @@
         "monster",
         "water1"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "pokemoncobbled:kings_rock",
-                "percentage": 5
-            }
-        ]
-    },
-
     "moves": [
         "1:tackle",
         "1:growl",

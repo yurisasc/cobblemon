@@ -17,7 +17,7 @@
         "speed": 45
     },
     "catchRate": 190,
-    "maleRatio": -0.125,
+    "maleRatio": 1.125,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 65,
@@ -72,6 +72,7 @@
     ],
     "evolutions": [
         {
+            "id": "magnemite_magneton",
             "variant": "level_up",
             "result": "magneton",
             "consumeHeldItem": false,
@@ -79,7 +80,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 30
+                    "minLevel": 30
                 }
             ]
         }

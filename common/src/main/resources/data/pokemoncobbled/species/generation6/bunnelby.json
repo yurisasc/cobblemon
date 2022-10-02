@@ -1,0 +1,103 @@
+{
+    "name": "bunnelby",
+    "nationalPokedexNumber": 659,
+    "primaryType": "normal",
+    "abilities": [
+        "pickup",
+        "cheekpouch",
+        "h:hugepower"
+    ],
+    "baseStats": {
+        "hp": 38,
+        "attack": 36,
+        "defence": 38,
+        "special_attack": 32,
+        "special_defence": 36,
+        "speed": 57
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 47,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:leer",
+        "1:mudslap",
+        "3:tackle",
+        "6:laserfocus",
+        "9:quickattack",
+        "12:mudshot",
+        "15:flail",
+        "18:doublekick",
+        "21:bulldoze",
+        "24:dig",
+        "27:bounce",
+        "30:takedown",
+        "33:swordsdance",
+        "36:earthquake",
+        "39:superfang",
+        "egg:defensecurl",
+        "egg:rollout",
+        "tm:agility",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:bulkup",
+        "tm:endure",
+        "tm:facade",
+        "tm:fling",
+        "tm:grassknot",
+        "tm:ironhead",
+        "tm:irontail",
+        "tm:payback",
+        "tm:protect",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:spikes",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:surf",
+        "tm:thief",
+        "tm:uturn",
+        "tm:wildcharge",
+        "tm:workup"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.bunnelby.desc1",
+        "pokemoncobbled.species.bunnelby.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "bunnelby_diggersby",
+            "variant": "level_up",
+            "result": "diggersby",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 20
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

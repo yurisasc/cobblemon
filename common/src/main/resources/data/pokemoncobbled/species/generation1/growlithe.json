@@ -16,7 +16,7 @@
         "speed": 60
     },
     "catchRate": 190,
-    "maleRatio": 0.25,
+    "maleRatio": 0.75,
     "shoulderMountable": false,
     "forms": [
         {
@@ -41,15 +41,6 @@
     "eggGroups": [
         "ground"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:bone",
-                "percentage": 50
-            }
-        ]
-    },
     "moves": [
         "1:leer",
         "1:ember",
@@ -108,9 +99,10 @@
     ],
     "evolutions": [
         {
+            "id": "growlithe_arcanine",
             "variant": "item_interact",
             "result": "arcanine",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "fire-stone"

@@ -206,7 +206,7 @@ object PokemonCobbled {
         TICK_POST.subscribe { ServerTickHandler.onTick(it) }
 
         showdownThread.showdownStarted.thenAccept {
-            SERVER_STARTED.pipe(takeFirst()).subscribe {
+            PokemonSpecies.observable.pipe(takeFirst()).subscribe {
                 LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
                 BattleRegistry.startBattle(
                     BattleFormat.GEN_8_SINGLES,

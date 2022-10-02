@@ -24,15 +24,6 @@
     "eggGroups": [
         "bug"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:string",
-                "percentage": 50
-            }
-        ]
-    },
     "moves": [
         "1:tackle",
         "1:stringshot",
@@ -48,6 +39,7 @@
     ],
     "evolutions": [
         {
+            "id": "caterpie_metapod",
             "variant": "level_up",
             "result": "metapod",
             "consumeHeldItem": false,
@@ -55,7 +47,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 7
+                    "minLevel": 7
                 }
             ]
         }

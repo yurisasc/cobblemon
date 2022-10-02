@@ -1,0 +1,125 @@
+{
+    "name": "cacnea",
+    "nationalPokedexNumber": 331,
+    "primaryType": "grass",
+    "abilities": [
+        "sandveil",
+        "h:waterabsorb"
+    ],
+    "baseStats": {
+        "hp": 50,
+        "attack": 85,
+        "defence": 40,
+        "special_attack": 85,
+        "special_defence": 40,
+        "speed": 35
+    },
+    "catchRate": 190,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 67,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant",
+        "humanshape"
+    ],
+    "moves": [
+        "1:poisonsting",
+        "1:leer",
+        "4:absorb",
+        "7:growth",
+        "10:leechseed",
+        "13:sandattack",
+        "16:needlearm",
+        "19:feintattack",
+        "22:ingrain",
+        "26:payback",
+        "30:spikes",
+        "34:suckerpunch",
+        "38:pinmissile",
+        "42:energyball",
+        "46:cottonspore",
+        "50:sandstorm",
+        "54:destinybond",
+        "egg:acid",
+        "egg:belch",
+        "egg:block",
+        "egg:counter",
+        "egg:disable",
+        "egg:dynamicpunch",
+        "egg:fellstinger",
+        "egg:grasswhistle",
+        "egg:lowkick",
+        "egg:magicalleaf",
+        "egg:nastyplot",
+        "egg:poweruppunch",
+        "egg:rototiller",
+        "egg:seedbomb",
+        "egg:smellingsalts",
+        "egg:switcheroo",
+        "egg:teeterdance",
+        "egg:worryseed",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:confide",
+        "tm:darkpulse",
+        "tm:doubleteam",
+        "tm:facade",
+        "tm:fling",
+        "tm:frustration",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:naturepower",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:toxic",
+        "tm:venoshock",
+        "tutor:drainpunch",
+        "tutor:focuspunch",
+        "tutor:gigadrain",
+        "tutor:roleplay",
+        "tutor:snore",
+        "tutor:spite",
+        "tutor:synthesis",
+        "tutor:thunderpunch"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.cacnea.desc1",
+        "pokemoncobbled.species.cacnea.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "cacnea_cacturne",
+            "variant": "level_up",
+            "result": "cacturne",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 32
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

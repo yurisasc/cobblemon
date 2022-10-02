@@ -1,0 +1,110 @@
+{
+    "name": "lilligant",
+    "nationalPokedexNumber": 549,
+    "primaryType": "grass",
+    "abilities": [
+        "chlorophyll",
+        "owntempo",
+        "h:leafguard"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 60,
+        "defence": 75,
+        "special_attack": 110,
+        "special_defence": 75,
+        "speed": 90
+    },
+    "catchRate": 75,
+    "maleRatio": 0.0,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "hisui",
+            "secondaryType": "fighting",
+            "abilities": [
+                "chlorophyll",
+                "hustle",
+                "h:leafguard"
+            ],
+            "baseStats": {
+                "hp": 70,
+                "attack": 105,
+                "defence": 75,
+                "special_attack": 50,
+                "special_defence": 75,
+                "speed": 105
+            },
+            "aspects": [
+                "hisui"
+            ]
+        }
+    ],
+    "baseExperienceYield": 168,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant"
+    ],
+    "moves": [
+        "0:petaldance",
+        "1:absorb",
+        "1:megadrain",
+        "1:leechseed",
+        "1:growth",
+        "1:stunspore",
+        "1:sleeppowder",
+        "1:gigadrain",
+        "1:synthesis",
+        "1:sunnyday",
+        "1:helpinghand",
+        "1:teeterdance",
+        "1:aromatherapy",
+        "1:magicalleaf",
+        "1:energyball",
+        "1:leafstorm",
+        "1:quiverdance",
+        "1:entrainment",
+        "1:afteryou",
+        "1:petalblizzard",
+        "tm:attract",
+        "tm:charm",
+        "tm:encore",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:grassyterrain",
+        "tm:hyperbeam",
+        "tm:leafblade",
+        "tm:lightscreen",
+        "tm:pollenpuff",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:solarblade",
+        "tm:substitute",
+        "tm:swordsdance",
+        "tutor:grassyglide"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.lilligant.desc1",
+        "pokemoncobbled.species.lilligant.desc2"
+    ],
+    "preEvolution": "petilil",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

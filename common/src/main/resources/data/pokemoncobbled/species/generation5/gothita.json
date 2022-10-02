@@ -1,0 +1,115 @@
+{
+    "name": "gothita",
+    "nationalPokedexNumber": 574,
+    "primaryType": "psychic",
+    "abilities": [
+        "frisk",
+        "competitive",
+        "h:shadowtag"
+    ],
+    "baseStats": {
+        "hp": 45,
+        "attack": 30,
+        "defence": 50,
+        "special_attack": 55,
+        "special_defence": 65,
+        "speed": 45
+    },
+    "catchRate": 200,
+    "maleRatio": 0.25,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 58,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "humanshape"
+    ],
+    "moves": [
+        "1:pound",
+        "1:confusion",
+        "4:playnice",
+        "8:tickle",
+        "12:psybeam",
+        "16:charm",
+        "20:psyshock",
+        "24:hypnosis",
+        "28:faketears",
+        "33:psychup",
+        "36:psychic",
+        "40:flatter",
+        "44:futuresight",
+        "48:magicroom",
+        "egg:fakeout",
+        "egg:healpulse",
+        "egg:meanlook",
+        "egg:mirrorcoat",
+        "egg:torment",
+        "tm:allyswitch",
+        "tm:attract",
+        "tm:calmmind",
+        "tm:darkpulse",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:fling",
+        "tm:foulplay",
+        "tm:grassknot",
+        "tm:guardswap",
+        "tm:helpinghand",
+        "tm:lightscreen",
+        "tm:nastyplot",
+        "tm:payback",
+        "tm:protect",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:safeguard",
+        "tm:shadowball",
+        "tm:skillswap",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:storedpower",
+        "tm:substitute",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:trick",
+        "tm:trickroom",
+        "tm:uproar",
+        "tm:zenheadbutt",
+        "tutor:expandingforce"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.gothita.desc1",
+        "pokemoncobbled.species.gothita.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "gothita_gothorita",
+            "variant": "level_up",
+            "result": "gothorita",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 32
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

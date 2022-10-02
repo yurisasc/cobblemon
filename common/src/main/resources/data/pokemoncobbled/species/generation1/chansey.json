@@ -16,7 +16,7 @@
         "speed": 50
     },
     "catchRate": 30,
-    "maleRatio": 1.0,
+    "maleRatio": 0.0,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 395,
@@ -25,15 +25,6 @@
     "eggGroups": [
         "fairy"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:egg",
-                "percentage": 50
-            }
-        ]
-    },
     "moves": [
         "1:pound",
         "1:minimize",
@@ -127,6 +118,7 @@
     "preEvolution": "happiny",
     "evolutions": [
         {
+            "id": "chansey_blissey",
             "variant": "level_up",
             "result": "blissey",
             "consumeHeldItem": false,

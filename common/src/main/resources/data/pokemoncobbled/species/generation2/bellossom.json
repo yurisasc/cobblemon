@@ -16,7 +16,7 @@
     },
     "catchRate": 45,
     "maleRatio": 0.5,
-    "shoulderMountable": true,
+    "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 245,
     "experienceGroup": "mediumslow",
@@ -84,9 +84,9 @@
     ],
     "preEvolution": "gloom",
     "evolutions": [],
-    "baseScale": 0.65,
+    "baseScale": 1.0,
     "hitbox": {
-        "width": 0.8,
+        "width": 1.0,
         "height": 1.0,
         "fixed": false
     }

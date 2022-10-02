@@ -17,7 +17,7 @@
         "speed": 55
     },
     "catchRate": 45,
-    "maleRatio": 0.125,
+    "maleRatio": 0.875,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 71,
@@ -91,6 +91,7 @@
     ],
     "evolutions": [
         {
+            "id": "kabuto_kabutops",
             "variant": "level_up",
             "result": "kabutops",
             "consumeHeldItem": false,
@@ -98,7 +99,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 40
+                    "minLevel": 40
                 }
             ]
         }

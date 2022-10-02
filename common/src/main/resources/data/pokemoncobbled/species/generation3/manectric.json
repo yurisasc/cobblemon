@@ -1,0 +1,110 @@
+{
+    "name": "manectric",
+    "nationalPokedexNumber": 310,
+    "primaryType": "electric",
+    "abilities": [
+        "static",
+        "lightningrod",
+        "h:minus"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 75,
+        "defence": 60,
+        "special_attack": 105,
+        "special_defence": 60,
+        "speed": 105
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "intimidate"
+            ],
+            "baseStats": {
+                "hp": 70,
+                "attack": 75,
+                "defence": 80,
+                "special_attack": 135,
+                "special_defence": 80,
+                "speed": 135
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 166,
+    "experienceGroup": "slow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:leer",
+        "1:thunderwave",
+        "1:howl",
+        "1:firefang",
+        "12:quickattack",
+        "16:shockwave",
+        "20:bite",
+        "24:thunderfang",
+        "30:roar",
+        "36:discharge",
+        "42:charge",
+        "48:wildcharge",
+        "54:thunder",
+        "60:electricterrain",
+        "tm:agility",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:crunch",
+        "tm:eerieimpulse",
+        "tm:electroball",
+        "tm:endure",
+        "tm:facade",
+        "tm:flamethrower",
+        "tm:gigaimpact",
+        "tm:hyperbeam",
+        "tm:hypervoice",
+        "tm:icefang",
+        "tm:irontail",
+        "tm:lightscreen",
+        "tm:overheat",
+        "tm:protect",
+        "tm:psychicfangs",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:scaryface",
+        "tm:sleeptalk",
+        "tm:snarl",
+        "tm:snore",
+        "tm:substitute",
+        "tm:swift",
+        "tm:thief",
+        "tm:thunderbolt",
+        "tm:uproar",
+        "tm:voltswitch",
+        "tutor:risingvoltage"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.manectric.desc1",
+        "pokemoncobbled.species.manectric.desc2"
+    ],
+    "preEvolution": "electrike",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

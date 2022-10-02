@@ -81,6 +81,7 @@
     ],
     "evolutions": [
         {
+            "id": "venonat_venomoth",
             "variant": "level_up",
             "result": "venomoth",
             "consumeHeldItem": false,
@@ -88,7 +89,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 31
+                    "minLevel": 31
                 }
             ]
         }

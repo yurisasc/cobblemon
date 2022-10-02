@@ -80,7 +80,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "pokemoncobbled:leaf_stone"
+            "requiredContext": "leaf-stone"
         },
         {
             "id": "gloom_bellossom",
@@ -89,13 +89,13 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "pokemoncobbled:sun_stone"
+            "requiredContext": "sun-stone"
         }
     ],
     "baseScale": 1.0,
     "hitbox": {
-        "width": 0.75,
-        "height": 0.75,
+        "width": 1.0,
+        "height": 1.0,
         "fixed": false
     }
 }

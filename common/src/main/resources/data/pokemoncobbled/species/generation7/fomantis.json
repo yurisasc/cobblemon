@@ -1,0 +1,101 @@
+{
+    "name": "fomantis",
+    "nationalPokedexNumber": 753,
+    "primaryType": "grass",
+    "abilities": [
+        "leafguard",
+        "h:contrary"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 55,
+        "defence": 35,
+        "special_attack": 50,
+        "special_defence": 35,
+        "speed": 35
+    },
+    "catchRate": 190,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 50,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant"
+    ],
+    "moves": [
+        "1:furycutter",
+        "1:leafage",
+        "5:growth",
+        "10:ingrain",
+        "15:razorleaf",
+        "20:sweetscent",
+        "25:slash",
+        "30:xscissor",
+        "35:synthesis",
+        "40:leafblade",
+        "45:sunnyday",
+        "50:solarbeam",
+        "egg:aromatherapy",
+        "egg:defog",
+        "egg:worryseed",
+        "tm:attract",
+        "tm:bulletseed",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:gigadrain",
+        "tm:grassknot",
+        "tm:leafstorm",
+        "tm:leechlife",
+        "tm:magicalleaf",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:swordsdance",
+        "tm:weatherball",
+        "tutor:grassyglide"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.fomantis.desc1",
+        "pokemoncobbled.species.fomantis.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "fomantis_lurantis",
+            "variant": "level_up",
+            "result": "lurantis",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "time_range",
+                    "range": "day"
+                },
+                {
+                    "variant": "level",
+                    "minLevel": 34
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

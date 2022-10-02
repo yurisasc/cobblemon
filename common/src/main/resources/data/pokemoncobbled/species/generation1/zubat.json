@@ -18,7 +18,6 @@
     "catchRate": 255,
     "maleRatio": 0.5,
     "shoulderMountable": true,
-    "shoulderEffects": ["slow_fall"],
     "forms": [],
     "baseExperienceYield": 49,
     "experienceGroup": "mediumfast",
@@ -89,6 +88,7 @@
     ],
     "evolutions": [
         {
+            "id": "zubat_golbat",
             "variant": "level_up",
             "result": "golbat",
             "consumeHeldItem": false,
@@ -96,7 +96,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 22
+                    "minLevel": 22
                 }
             ]
         }

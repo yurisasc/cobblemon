@@ -1,0 +1,91 @@
+{
+    "name": "yveltal",
+    "nationalPokedexNumber": 717,
+    "primaryType": "dark",
+    "secondaryType": "flying",
+    "abilities": [
+        "darkaura"
+    ],
+    "baseStats": {
+        "hp": 126,
+        "attack": 131,
+        "defence": 95,
+        "special_attack": 131,
+        "special_defence": 98,
+        "speed": 99
+    },
+    "catchRate": 45,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 340,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:gust",
+        "1:doubleteam",
+        "5:taunt",
+        "10:snarl",
+        "15:disable",
+        "20:suckerpunch",
+        "25:tailwind",
+        "30:roost",
+        "35:airslash",
+        "40:darkpulse",
+        "45:psychic",
+        "50:oblivionwing",
+        "55:phantomforce",
+        "60:foulplay",
+        "65:dragonrush",
+        "70:hurricane",
+        "75:focusblast",
+        "80:skyattack",
+        "85:hyperbeam",
+        "tm:acrobatics",
+        "tm:bodyslam",
+        "tm:dragonclaw",
+        "tm:endure",
+        "tm:facade",
+        "tm:fly",
+        "tm:gigaimpact",
+        "tm:heatwave",
+        "tm:hypervoice",
+        "tm:payback",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:round",
+        "tm:shadowball",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:thief",
+        "tm:uturn",
+        "tm:zenheadbutt",
+        "tutor:dualwingbeat",
+        "tutor:lashout"
+    ],
+    "labels": [
+        "legendary",
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.yveltal.desc1",
+        "pokemoncobbled.species.yveltal.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

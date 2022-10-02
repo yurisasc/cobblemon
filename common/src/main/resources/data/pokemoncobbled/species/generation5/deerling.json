@@ -1,0 +1,112 @@
+{
+    "name": "deerling",
+    "nationalPokedexNumber": 585,
+    "primaryType": "normal",
+    "secondaryType": "grass",
+    "abilities": [
+        "chlorophyll",
+        "sapsipper",
+        "h:serenegrace"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 60,
+        "defence": 50,
+        "special_attack": 40,
+        "special_defence": 50,
+        "speed": 75
+    },
+    "catchRate": 190,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 67,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:camouflage",
+        "4:growl",
+        "7:sandattack",
+        "10:doublekick",
+        "13:leechseed",
+        "16:feintattack",
+        "20:takedown",
+        "24:jumpkick",
+        "28:aromatherapy",
+        "32:energyball",
+        "36:charm",
+        "41:naturepower",
+        "46:doubleedge",
+        "51:solarbeam",
+        "egg:agility",
+        "egg:batonpass",
+        "egg:faketears",
+        "egg:grasswhistle",
+        "egg:headbutt",
+        "egg:naturalgift",
+        "egg:odorsleuth",
+        "egg:sleeptalk",
+        "egg:synthesis",
+        "egg:worryseed",
+        "tm:attract",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:echoedvoice",
+        "tm:facade",
+        "tm:frustration",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:lightscreen",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:safeguard",
+        "tm:shadowball",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:thunderwave",
+        "tm:toxic",
+        "tm:wildcharge",
+        "tm:workup",
+        "tutor:bounce",
+        "tutor:gigadrain",
+        "tutor:lastresort",
+        "tutor:seedbomb",
+        "tutor:snore"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.deerling.desc1",
+        "pokemoncobbled.species.deerling.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "deerling_sawsbuck",
+            "variant": "level_up",
+            "result": "sawsbuck",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 34
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

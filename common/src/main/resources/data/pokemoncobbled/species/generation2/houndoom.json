@@ -1,0 +1,123 @@
+{
+    "name": "houndoom",
+    "nationalPokedexNumber": 229,
+    "primaryType": "dark",
+    "secondaryType": "fire",
+    "abilities": [
+        "earlybird",
+        "flashfire",
+        "h:unnerve"
+    ],
+    "baseStats": {
+        "hp": 75,
+        "attack": 90,
+        "defence": 50,
+        "special_attack": 110,
+        "special_defence": 80,
+        "speed": 95
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "solarpower"
+            ],
+            "baseStats": {
+                "hp": 75,
+                "attack": 90,
+                "defence": 90,
+                "special_attack": 140,
+                "special_defence": 90,
+                "speed": 115
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 175,
+    "experienceGroup": "slow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:leer",
+        "1:ember",
+        "1:smog",
+        "1:howl",
+        "1:nastyplot",
+        "1:thunderfang",
+        "1:inferno",
+        "13:roar",
+        "16:bite",
+        "20:odorsleuth",
+        "26:beatup",
+        "30:firefang",
+        "35:feintattack",
+        "41:embargo",
+        "45:foulplay",
+        "50:flamethrower",
+        "56:crunch",
+        "tm:attract",
+        "tm:confide",
+        "tm:darkpulse",
+        "tm:doubleteam",
+        "tm:dreameater",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:flamecharge",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:overheat",
+        "tm:payback",
+        "tm:protect",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snarl",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:taunt",
+        "tm:thief",
+        "tm:torment",
+        "tm:toxic",
+        "tm:willowisp",
+        "tutor:heatwave",
+        "tutor:hypervoice",
+        "tutor:irontail",
+        "tutor:laserfocus",
+        "tutor:roleplay",
+        "tutor:snatch",
+        "tutor:snore",
+        "tutor:spite",
+        "tutor:superfang",
+        "tutor:throatchop",
+        "tutor:uproar"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.houndoom.desc1",
+        "pokemoncobbled.species.houndoom.desc2"
+    ],
+    "preEvolution": "houndour",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

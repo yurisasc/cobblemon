@@ -1,0 +1,171 @@
+{
+    "name": "deoxysnormal",
+    "nationalPokedexNumber": 386,
+    "primaryType": "psychic",
+    "abilities": [
+        "pressure"
+    ],
+    "baseStats": {
+        "hp": 50,
+        "attack": 150,
+        "defence": 50,
+        "special_attack": 150,
+        "special_defence": 50,
+        "speed": 150
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "attack",
+            "baseStats": {
+                "hp": 50,
+                "attack": 180,
+                "defence": 20,
+                "special_attack": 180,
+                "special_defence": 20,
+                "speed": 150
+            },
+            "aspects": [
+                "attack"
+            ]
+        },
+        {
+            "name": "defense",
+            "baseStats": {
+                "hp": 50,
+                "attack": 70,
+                "defence": 160,
+                "special_attack": 70,
+                "special_defence": 160,
+                "speed": 90
+            },
+            "aspects": [
+                "defense"
+            ]
+        },
+        {
+            "name": "speed",
+            "baseStats": {
+                "hp": 50,
+                "attack": 95,
+                "defence": 90,
+                "special_attack": 95,
+                "special_defence": 90,
+                "speed": 180
+            },
+            "aspects": [
+                "speed"
+            ]
+        }
+    ],
+    "baseExperienceYield": 270,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:wrap",
+        "1:leer",
+        "7:nightshade",
+        "13:teleport",
+        "19:knockoff",
+        "25:pursuit",
+        "31:psychic",
+        "37:snatch",
+        "43:psychoshift",
+        "49:zenheadbutt",
+        "55:cosmicpower",
+        "61:recover",
+        "67:psychoboost",
+        "73:hyperbeam",
+        "tm:aerialace",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:calmmind",
+        "tm:chargebeam",
+        "tm:confide",
+        "tm:darkpulse",
+        "tm:doubleteam",
+        "tm:dreameater",
+        "tm:energyball",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:icebeam",
+        "tm:lightscreen",
+        "tm:lowsweep",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:psychup",
+        "tm:psyshock",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:return",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:safeguard",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:taunt",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:torment",
+        "tm:toxic",
+        "tm:trickroom",
+        "tutor:allyswitch",
+        "tutor:bind",
+        "tutor:drainpunch",
+        "tutor:firepunch",
+        "tutor:focuspunch",
+        "tutor:gravity",
+        "tutor:icepunch",
+        "tutor:icywind",
+        "tutor:laserfocus",
+        "tutor:lowkick",
+        "tutor:magiccoat",
+        "tutor:recycle",
+        "tutor:roleplay",
+        "tutor:shockwave",
+        "tutor:signalbeam",
+        "tutor:skillswap",
+        "tutor:snore",
+        "tutor:stealthrock",
+        "tutor:stompingtantrum",
+        "tutor:telekinesis",
+        "tutor:throatchop",
+        "tutor:thunderpunch",
+        "tutor:trick",
+        "tutor:waterpulse",
+        "tutor:wonderroom"
+    ],
+    "labels": [
+        "mythical",
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.deoxysnormal.desc1",
+        "pokemoncobbled.species.deoxysnormal.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

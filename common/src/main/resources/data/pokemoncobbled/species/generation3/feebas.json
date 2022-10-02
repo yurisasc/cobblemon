@@ -1,0 +1,112 @@
+{
+    "name": "feebas",
+    "nationalPokedexNumber": 349,
+    "primaryType": "water",
+    "abilities": [
+        "swiftswim",
+        "oblivious",
+        "h:adaptability"
+    ],
+    "baseStats": {
+        "hp": 20,
+        "attack": 15,
+        "defence": 20,
+        "special_attack": 10,
+        "special_defence": 55,
+        "speed": 80
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 40,
+    "experienceGroup": "slowthenveryfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water1",
+        "dragon"
+    ],
+    "moves": [
+        "1:splash",
+        "15:tackle",
+        "25:flail",
+        "egg:confuseray",
+        "egg:dragonbreath",
+        "egg:haze",
+        "egg:hypnosis",
+        "egg:mirrorcoat",
+        "egg:mist",
+        "egg:tickle",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:brine",
+        "tm:dive",
+        "tm:dragonpulse",
+        "tm:endure",
+        "tm:facade",
+        "tm:hail",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irontail",
+        "tm:lightscreen",
+        "tm:muddywater",
+        "tm:mudshot",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swift",
+        "tm:waterfall",
+        "tm:whirlpool",
+        "tutor:scaleshot"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.feebas.desc1",
+        "pokemoncobbled.species.feebas.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "feebas_milotic",
+            "variant": "level_up",
+            "result": "milotic",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": []
+        },
+        {
+            "id": "feebas_milotic",
+            "variant": "trade",
+            "result": "milotic",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "held_item",
+                    "item": "prism-scale"
+                }
+            ]
+        },
+        {
+            "id": "feebas_milotic",
+            "variant": "level_up",
+            "result": "milotic",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": []
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

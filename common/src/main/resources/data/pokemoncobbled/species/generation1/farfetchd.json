@@ -47,18 +47,6 @@
         "flying",
         "ground"
     ],
-    "drops": {
-        "amount": "2",
-        "entries": [
-            {
-                "item": "minecraft:feather",
-                "percentage": 50
-            },
-            {
-                "item": "minecraft:chicken"
-            }
-        ]
-    },
     "moves": [
         "1:sandattack",
         "1:peck",
@@ -130,16 +118,12 @@
     ],
     "evolutions": [
         {
+            "id": "farfetchd_sirfetchd",
             "variant": "level_up",
             "result": "sirfetchd",
             "consumeHeldItem": false,
             "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "level",
-                    "level": 1
-                }
-            ]
+            "requirements": []
         }
     ],
     "baseScale": 1.0,

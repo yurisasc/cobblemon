@@ -1,0 +1,69 @@
+{
+    "name": "combee",
+    "nationalPokedexNumber": 415,
+    "primaryType": "bug",
+    "secondaryType": "flying",
+    "abilities": [
+        "honeygather",
+        "h:hustle"
+    ],
+    "baseStats": {
+        "hp": 30,
+        "attack": 30,
+        "defence": 42,
+        "special_attack": 30,
+        "special_defence": 42,
+        "speed": 70
+    },
+    "catchRate": 120,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 49,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 15,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "1:gust",
+        "1:sweetscent",
+        "1:bugbite",
+        "1:strugglebug",
+        "tm:bugbuzz",
+        "tm:snore",
+        "tutor:dualwingbeat"
+    ],
+    "labels": [
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.combee.desc1",
+        "pokemoncobbled.species.combee.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "combee_vespiquen",
+            "variant": "level_up",
+            "result": "vespiquen",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 21
+                },
+                {
+                    "variant": "properties",
+                    "target": "female"
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

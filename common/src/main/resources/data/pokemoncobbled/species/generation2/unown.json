@@ -1,0 +1,42 @@
+{
+    "name": "unown",
+    "nationalPokedexNumber": 201,
+    "primaryType": "psychic",
+    "abilities": [
+        "levitate"
+    ],
+    "baseStats": {
+        "hp": 48,
+        "attack": 72,
+        "defence": 48,
+        "special_attack": 72,
+        "special_defence": 48,
+        "speed": 48
+    },
+    "catchRate": 225,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 118,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 40,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:hiddenpower"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.unown.desc1"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

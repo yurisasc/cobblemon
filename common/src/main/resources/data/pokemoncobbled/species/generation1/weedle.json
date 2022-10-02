@@ -25,15 +25,6 @@
     "eggGroups": [
         "bug"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:string",
-                "percentage": 50
-            }
-        ]
-    },
     "moves": [
         "1:poisonsting",
         "1:stringshot",
@@ -48,6 +39,7 @@
     ],
     "evolutions": [
         {
+            "id": "weedle_kakuna",
             "variant": "level_up",
             "result": "kakuna",
             "consumeHeldItem": false,
@@ -55,7 +47,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 7
+                    "minLevel": 7
                 }
             ]
         }

@@ -1,0 +1,101 @@
+{
+    "name": "appletun",
+    "nationalPokedexNumber": 842,
+    "primaryType": "grass",
+    "secondaryType": "dragon",
+    "abilities": [
+        "ripen",
+        "gluttony",
+        "h:thickfat"
+    ],
+    "baseStats": {
+        "hp": 110,
+        "attack": 85,
+        "defence": 80,
+        "special_attack": 100,
+        "special_defence": 80,
+        "speed": 30
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "gmax",
+            "aspects": [
+                "gmax"
+            ]
+        }
+    ],
+    "baseExperienceYield": 170,
+    "experienceGroup": "slowthenveryfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant",
+        "dragon"
+    ],
+    "moves": [
+        "0:headbutt",
+        "1:growth",
+        "1:withdraw",
+        "1:sweetscent",
+        "1:recycle",
+        "1:astonish",
+        "4:curse",
+        "8:stomp",
+        "12:leechseed",
+        "16:protect",
+        "20:bulletseed",
+        "24:recover",
+        "28:appleacid",
+        "32:bodyslam",
+        "36:irondefense",
+        "40:dragonpulse",
+        "44:energyball",
+        "tm:amnesia",
+        "tm:attract",
+        "tm:bodypress",
+        "tm:bulldoze",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigadrain",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:gyroball",
+        "tm:heavyslam",
+        "tm:highhorsepower",
+        "tm:hyperbeam",
+        "tm:lightscreen",
+        "tm:outrage",
+        "tm:payback",
+        "tm:reflect",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:superpower",
+        "tutor:dracometeor",
+        "tutor:grassyglide"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.appletun.desc1",
+        "pokemoncobbled.species.appletun.desc2"
+    ],
+    "preEvolution": "applin",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -16,7 +16,7 @@
         "speed": 35
     },
     "catchRate": 180,
-    "maleRatio": 0.25,
+    "maleRatio": 0.75,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 61,
@@ -97,6 +97,7 @@
     ],
     "evolutions": [
         {
+            "id": "machop_machoke",
             "variant": "level_up",
             "result": "machoke",
             "consumeHeldItem": false,
@@ -104,7 +105,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 28
+                    "minLevel": 28
                 }
             ]
         }

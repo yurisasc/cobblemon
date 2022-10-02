@@ -16,7 +16,7 @@
         "speed": 65
     },
     "catchRate": 120,
-    "maleRatio": 0.0,
+    "maleRatio": 1.0,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 128,
@@ -79,9 +79,10 @@
     "preEvolution": "nidoranm",
     "evolutions": [
         {
+            "id": "nidorino_nidoking",
             "variant": "item_interact",
             "result": "nidoking",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "moon-stone"

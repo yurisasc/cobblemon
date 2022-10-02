@@ -100,6 +100,7 @@
     ],
     "evolutions": [
         {
+            "id": "ekans_arbok",
             "variant": "level_up",
             "result": "arbok",
             "consumeHeldItem": false,
@@ -107,7 +108,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 22
+                    "minLevel": 22
                 }
             ]
         }

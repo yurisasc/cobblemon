@@ -142,6 +142,7 @@
     "preEvolution": "mimejr",
     "evolutions": [
         {
+            "id": "mrmime_mrrime",
             "variant": "level_up",
             "result": "mrrime",
             "consumeHeldItem": false,
@@ -149,7 +150,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 42
+                    "minLevel": 42
                 }
             ]
         }

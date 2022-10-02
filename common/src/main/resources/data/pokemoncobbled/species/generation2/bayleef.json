@@ -1,0 +1,101 @@
+{
+    "name": "bayleef",
+    "nationalPokedexNumber": 153,
+    "primaryType": "grass",
+    "abilities": [
+        "overgrow",
+        "h:leafguard"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 62,
+        "defence": 80,
+        "special_attack": 63,
+        "special_defence": 80,
+        "speed": 60
+    },
+    "catchRate": 45,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 142,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster",
+        "plant"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:growl",
+        "1:razorleaf",
+        "1:poisonpowder",
+        "12:synthesis",
+        "18:reflect",
+        "22:magicalleaf",
+        "26:naturalgift",
+        "32:sweetscent",
+        "36:lightscreen",
+        "40:bodyslam",
+        "46:safeguard",
+        "50:aromatherapy",
+        "54:solarbeam",
+        "tm:attract",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:echoedvoice",
+        "tm:energyball",
+        "tm:facade",
+        "tm:frustration",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:naturepower",
+        "tm:protect",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:toxic",
+        "tm:workup",
+        "tutor:gigadrain",
+        "tutor:grasspledge",
+        "tutor:irontail",
+        "tutor:laserfocus",
+        "tutor:magiccoat",
+        "tutor:seedbomb",
+        "tutor:snore",
+        "tutor:worryseed"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.bayleef.desc1"
+    ],
+    "preEvolution": "chikorita",
+    "evolutions": [
+        {
+            "id": "bayleef_meganium",
+            "variant": "level_up",
+            "result": "meganium",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 32
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}
