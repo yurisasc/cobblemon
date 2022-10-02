@@ -45,6 +45,8 @@ object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String, MutableList<String>) -> Unit>()
     private val sideUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, String) -> Unit>()
     private val splitUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, String, String) -> Unit>()
+    // Stores a reference to the previous move message in a battle so a minor action can refer back to it (Battle UUID : Move message)
+    private val lastMover = mutableMapOf<UUID, String>()
 
     init {
         updateInstructions["|player|"] = this::handlePlayerInstruction
@@ -451,6 +453,7 @@ object ShowdownInterpreter {
             battle.broadcastChatMessage(battleLang("win", winners).gold())
 
             battle.end()
+            this.lastMover.remove(battle.battleId)
             GO
         }
     }
@@ -459,7 +462,7 @@ object ShowdownInterpreter {
     private fun handleMoveInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val editMessaged = message.replace("|move|", "")
-
+            this.lastMover[battle.battleId] = message
             val userPNX = editMessaged.split("|")[0].split(":")[0].trim()
             val (_, userPokemon) = battle.getActorAndActiveSlotFromPNX(userPNX)
             val move = editMessaged.split("|")[1].split("|")[0]
@@ -559,6 +562,12 @@ object ShowdownInterpreter {
     private fun handleCritInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             battle.broadcastChatMessage(battleLang("crit"))
+            this.lastMover[battle.battleId]?.let { message ->
+                val editMessaged = message.replace("|move|", "")
+                val userPNX = editMessaged.split("|")[0].split(":")[0].trim()
+                val pokemon = battle.getActorAndActiveSlotFromPNX(userPNX).second.battlePokemon?.effectedPokemon ?: return@let
+                // ToDo crit metadata
+            }
             GO
         }
     }
