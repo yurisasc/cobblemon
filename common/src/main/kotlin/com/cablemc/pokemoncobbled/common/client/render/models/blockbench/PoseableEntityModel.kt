@@ -187,7 +187,7 @@ abstract class PoseableEntityModel<T : Entity>(
         if (entity != null && (poseName == null || pose == null || !pose.condition(entity) || entityPoseType !in pose.poseTypes)) {
             val previousPose = pose
             val desirablePose = poses.values.firstOrNull { (entityPoseType == null || entityPoseType in it.poseTypes) && it.condition(entity) }
-                ?: Pose("none", setOf(PoseType.NONE), { true }, {},0, emptyArray(), emptyArray(), emptyArray())
+                ?: Pose("none", setOf(PoseType.NONE), { true }, {}, 0, emptyArray(), emptyArray(), emptyArray())
 
             val desirablePoseType = desirablePose.poseTypes.first()
 
