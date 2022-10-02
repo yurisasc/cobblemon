@@ -13,6 +13,7 @@ import com.cablemc.pokemoncobbled.common.api.data.DataProvider
 import com.cablemc.pokemoncobbled.common.api.drop.CommandDropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.DropEntry
 import com.cablemc.pokemoncobbled.common.api.drop.ItemDropEntry
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_JOIN
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.PLAYER_QUIT
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents.SERVER_STARTED
@@ -61,37 +62,40 @@ import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.config.starter.StarterConfig
 import com.cablemc.pokemoncobbled.common.data.CobbledDataProvider
 import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
+import com.cablemc.pokemoncobbled.common.item.PokeBallItem
 import com.cablemc.pokemoncobbled.common.permission.CobbledPermissionValidator
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemoncobbled.common.pokemon.aspects.SHINY_ASPECT
-import com.cablemc.pokemoncobbled.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemoncobbled.common.pokemon.feature.BattleCriticalHitsFeature
+import com.cablemc.pokemoncobbled.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemoncobbled.common.pokemon.properties.UncatchableProperty
 import com.cablemc.pokemoncobbled.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemoncobbled.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cablemc.pokemoncobbled.common.registry.CompletableRegistry
 import com.cablemc.pokemoncobbled.common.starter.CobbledStarterHandler
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemoncobbled.common.util.getServer
 import com.cablemc.pokemoncobbled.common.util.ifDedicatedServer
+import com.cablemc.pokemoncobbled.common.util.removeAmountIf
 import com.cablemc.pokemoncobbled.common.world.CobbledGameRules
 import com.cablemc.pokemoncobbled.common.worldgen.CobbledWorldgen
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.UUID
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.memberProperties
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.util.*
 import kotlin.properties.Delegates
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 
 object PokemonCobbled {
     const val MODID = "pokemoncobbled"
@@ -207,6 +211,23 @@ object PokemonCobbled {
         }
         SERVER_STARTED.subscribe { bestSpawner.onServerStarted() }
         TICK_POST.subscribe { ServerTickHandler.onTick(it) }
+        CobbledEvents.EVOLUTION_COMPLETE.subscribe(Priority.LOWEST) { event ->
+            val pokemon = event.pokemon
+            val ninjaskIdentifier = cobbledResource("ninjask")
+            val shedinjaIdentifier = cobbledResource("shedinja")
+            // Ensure the config option is enabled and that the result was a ninjask and that shedinja exists
+            if (this.config.ninjaskCreatesShedinja && pokemon.species.resourceIdentifier == ninjaskIdentifier && PokemonSpecies.getByIdentifier(shedinjaIdentifier) != null) {
+                val player = pokemon.getOwnerPlayer()
+                if (player?.inventory?.containsAny { it.item is PokeBallItem } == true) {
+                    player.inventory.removeAmountIf(1) { it.item is PokeBallItem }
+                    val properties = event.evolution.result.copy()
+                    properties.species = ninjaskIdentifier.toString()
+                    val product = pokemon.clone()
+                    properties.apply(product)
+                    pokemon.storeCoordinates.get()?.store?.add(product)
+                }
+            }
+        }
 
         showdownThread.showdownStarted.thenAccept {
             PokemonSpecies.observable.pipe(takeFirst()).subscribe {

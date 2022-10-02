@@ -750,7 +750,6 @@ object ShowdownInterpreter {
                     activePokemon.battlePokemon?.effectedPokemon?.currentHealth = remainingHealth
                     if (difference > 0) {
                         activePokemon.battlePokemon?.effectedPokemon?.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.let { it.currentValue += difference }
-                        LOGGER.info("Added {} damage to pkm", difference)
                     }
                     activePokemon.battlePokemon?.sendUpdate()
                     GO
