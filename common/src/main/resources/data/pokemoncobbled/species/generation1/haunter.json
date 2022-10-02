@@ -24,15 +24,6 @@
     "eggGroups": [
         "indeterminate"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "pokemoncobbled:link_cable",
-                "percentage": 5
-            }
-        ]
-    },
     "moves": [
         "0:shadowpunch",
         "1:hypnosis",
@@ -102,6 +93,7 @@
     "preEvolution": "gastly",
     "evolutions": [
         {
+            "id": "haunter_gengar",
             "variant": "trade",
             "result": "gengar",
             "consumeHeldItem": false,

@@ -85,6 +85,7 @@
     "preEvolution": "zubat",
     "evolutions": [
         {
+            "id": "golbat_crobat",
             "variant": "level_up",
             "result": "crobat",
             "consumeHeldItem": false,

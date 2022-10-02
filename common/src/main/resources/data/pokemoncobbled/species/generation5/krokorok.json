@@ -1,0 +1,118 @@
+{
+    "name": "krokorok",
+    "nationalPokedexNumber": 552,
+    "primaryType": "ground",
+    "secondaryType": "dark",
+    "abilities": [
+        "intimidate",
+        "moxie",
+        "h:angerpoint"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 82,
+        "defence": 45,
+        "special_attack": 45,
+        "special_defence": 45,
+        "speed": 74
+    },
+    "catchRate": 90,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 123,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:sandattack",
+        "1:leer",
+        "1:honeclaws",
+        "1:powertrip",
+        "9:sandtomb",
+        "12:scaryface",
+        "15:bite",
+        "18:torment",
+        "21:dig",
+        "24:swagger",
+        "27:crunch",
+        "32:sandstorm",
+        "35:foulplay",
+        "42:earthquake",
+        "47:thrash",
+        "tm:assurance",
+        "tm:attract",
+        "tm:beatup",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bulldoze",
+        "tm:darkpulse",
+        "tm:earthpower",
+        "tm:endure",
+        "tm:facade",
+        "tm:firefang",
+        "tm:fling",
+        "tm:focusenergy",
+        "tm:grassknot",
+        "tm:irontail",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:payback",
+        "tm:protect",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snarl",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stompingtantrum",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunderfang",
+        "tm:uproar",
+        "tutor:lashout",
+        "tutor:scorchingsands",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.krokorok.desc1",
+        "pokemoncobbled.species.krokorok.desc2"
+    ],
+    "preEvolution": "sandile",
+    "evolutions": [
+        {
+            "id": "krokorok_krookodile",
+            "variant": "level_up",
+            "result": "krookodile",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 40
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

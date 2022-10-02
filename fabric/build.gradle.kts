@@ -59,10 +59,10 @@ tasks {
 
     processResources {
         dependsOn(copyAccessWidener)
-        inputs.property("version", project.version)
+        inputs.property("version", rootProject.version)
 
         filesMatching("fabric.mod.json") {
-            expand("version" to project.version)
+            expand("version" to rootProject.version)
         }
     }
 }

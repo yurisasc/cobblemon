@@ -14,16 +14,8 @@
         "special_defence": 50,
         "speed": 65
     },
-    "behaviour": {
-        "resting": {
-            "canSleep": true,
-            "willSleepOnBed": true,
-            "depth": "normal",
-            "light": "0-2"
-        }
-    },
     "catchRate": 45,
-    "maleRatio": 0.125,
+    "maleRatio": 0.875,
     "shoulderMountable": true,
     "forms": [],
     "baseExperienceYield": 62,
@@ -33,15 +25,6 @@
         "monster",
         "dragon"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:charcoal",
-                "percentage": 50
-            }
-        ]
-    },
     "moves": [
         "1:scratch",
         "1:growl",
@@ -113,6 +96,7 @@
     ],
     "evolutions": [
         {
+            "id": "charmander_charmeleon",
             "variant": "level_up",
             "result": "charmeleon",
             "consumeHeldItem": false,
@@ -120,7 +104,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 16
+                    "minLevel": 16
                 }
             ]
         }

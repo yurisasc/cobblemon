@@ -88,6 +88,7 @@
     ],
     "evolutions": [
         {
+            "id": "koffing_weezing",
             "variant": "level_up",
             "result": "weezing",
             "consumeHeldItem": false,
@@ -95,7 +96,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 35
+                    "minLevel": 35
                 }
             ]
         }

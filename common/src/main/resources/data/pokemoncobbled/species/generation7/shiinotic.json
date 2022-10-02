@@ -1,0 +1,87 @@
+{
+    "name": "shiinotic",
+    "nationalPokedexNumber": 756,
+    "primaryType": "grass",
+    "secondaryType": "fairy",
+    "abilities": [
+        "illuminate",
+        "effectspore",
+        "h:raindish"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 45,
+        "defence": 80,
+        "special_attack": 90,
+        "special_defence": 100,
+        "speed": 30
+    },
+    "catchRate": 75,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 142,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant"
+    ],
+    "moves": [
+        "1:absorb",
+        "1:confuseray",
+        "1:ingrain",
+        "1:astonish",
+        "12:megadrain",
+        "16:sleeppowder",
+        "20:moonlight",
+        "27:strengthsap",
+        "32:gigadrain",
+        "38:dazzlinggleam",
+        "44:spore",
+        "50:moonblast",
+        "56:dreameater",
+        "tm:amnesia",
+        "tm:attract",
+        "tm:drainingkiss",
+        "tm:drainpunch",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hyperbeam",
+        "tm:lightscreen",
+        "tm:magicroom",
+        "tm:pollenpuff",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thunderwave",
+        "tm:weatherball",
+        "tm:wonderroom"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.shiinotic.desc1",
+        "pokemoncobbled.species.shiinotic.desc2"
+    ],
+    "preEvolution": "morelull",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

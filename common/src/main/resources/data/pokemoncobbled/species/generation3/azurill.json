@@ -1,0 +1,107 @@
+{
+    "name": "azurill",
+    "nationalPokedexNumber": 298,
+    "primaryType": "normal",
+    "secondaryType": "fairy",
+    "abilities": [
+        "thickfat",
+        "hugepower",
+        "h:sapsipper"
+    ],
+    "baseStats": {
+        "hp": 50,
+        "attack": 20,
+        "defence": 40,
+        "special_attack": 20,
+        "special_defence": 40,
+        "speed": 20
+    },
+    "catchRate": 150,
+    "maleRatio": 0.25,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 38,
+    "experienceGroup": "fast",
+    "eggCycles": 10,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:tailwhip",
+        "1:watergun",
+        "1:splash",
+        "3:helpinghand",
+        "6:bubblebeam",
+        "9:charm",
+        "12:slam",
+        "15:bounce",
+        "egg:aquajet",
+        "egg:bellydrum",
+        "egg:copycat",
+        "egg:perishsong",
+        "egg:present",
+        "egg:sing",
+        "egg:soak",
+        "egg:supersonic",
+        "egg:tickle",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:brutalswing",
+        "tm:drainingkiss",
+        "tm:encore",
+        "tm:endure",
+        "tm:facade",
+        "tm:faketears",
+        "tm:hail",
+        "tm:hypervoice",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irontail",
+        "tm:lightscreen",
+        "tm:muddywater",
+        "tm:mudshot",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:uproar",
+        "tm:waterfall",
+        "tm:whirlpool",
+        "tm:workup"
+    ],
+    "labels": [
+        "baby",
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.azurill.desc1",
+        "pokemoncobbled.species.azurill.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "azurill_marill",
+            "variant": "level_up",
+            "result": "marill",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "friendship",
+                    "amount": 160
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

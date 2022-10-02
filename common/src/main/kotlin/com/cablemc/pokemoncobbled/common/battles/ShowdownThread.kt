@@ -24,6 +24,7 @@ import java.io.InputStreamReader
 import java.util.concurrent.CompletableFuture
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.Identifier
+import java.util.function.Consumer
 
 class ShowdownThread : Thread() {
 

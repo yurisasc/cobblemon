@@ -1,0 +1,84 @@
+{
+    "name": "amoonguss",
+    "nationalPokedexNumber": 591,
+    "primaryType": "grass",
+    "secondaryType": "poison",
+    "abilities": [
+        "effectspore",
+        "h:regenerator"
+    ],
+    "baseStats": {
+        "hp": 114,
+        "attack": 85,
+        "defence": 70,
+        "special_attack": 85,
+        "special_defence": 80,
+        "speed": 30
+    },
+    "catchRate": 75,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 162,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant"
+    ],
+    "moves": [
+        "1:absorb",
+        "1:growth",
+        "1:stunspore",
+        "1:astonish",
+        "12:megadrain",
+        "16:synthesis",
+        "20:clearsmog",
+        "24:sweetscent",
+        "28:gigadrain",
+        "32:ingrain",
+        "36:toxic",
+        "42:ragepowder",
+        "48:solarbeam",
+        "54:spore",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:foulplay",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:grassyterrain",
+        "tm:hex",
+        "tm:hyperbeam",
+        "tm:payback",
+        "tm:pollenpuff",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:stompingtantrum",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:venoshock"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.amoonguss.desc1",
+        "pokemoncobbled.species.amoonguss.desc2"
+    ],
+    "preEvolution": "foongus",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

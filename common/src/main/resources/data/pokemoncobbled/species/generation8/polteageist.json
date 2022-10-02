@@ -1,0 +1,88 @@
+{
+    "name": "polteageist",
+    "nationalPokedexNumber": 855,
+    "primaryType": "ghost",
+    "abilities": [
+        "weakarmor",
+        "h:cursedbody"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 65,
+        "defence": 65,
+        "special_attack": 134,
+        "special_defence": 114,
+        "speed": 70
+    },
+    "catchRate": 60,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 178,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "mineral",
+        "indeterminate"
+    ],
+    "moves": [
+        "0:teatime",
+        "1:megadrain",
+        "1:withdraw",
+        "1:astonish",
+        "1:aromaticmist",
+        "1:strengthsap",
+        "18:protect",
+        "24:suckerpunch",
+        "30:aromatherapy",
+        "36:gigadrain",
+        "42:nastyplot",
+        "48:shadowball",
+        "54:memento",
+        "60:shellsmash",
+        "66:curse",
+        "tm:allyswitch",
+        "tm:batonpass",
+        "tm:darkpulse",
+        "tm:endure",
+        "tm:facade",
+        "tm:foulplay",
+        "tm:gigaimpact",
+        "tm:hex",
+        "tm:hyperbeam",
+        "tm:imprison",
+        "tm:lightscreen",
+        "tm:metronome",
+        "tm:payback",
+        "tm:phantomforce",
+        "tm:psychic",
+        "tm:psyshock",
+        "tm:reflect",
+        "tm:rest",
+        "tm:round",
+        "tm:selfdestruct",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:storedpower",
+        "tm:substitute",
+        "tm:trick",
+        "tm:willowisp",
+        "tm:wonderroom",
+        "tutor:poltergeist"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.polteageist.desc1",
+        "pokemoncobbled.species.polteageist.desc2"
+    ],
+    "preEvolution": "sinistea",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

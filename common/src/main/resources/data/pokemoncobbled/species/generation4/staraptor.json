@@ -1,0 +1,89 @@
+{
+    "name": "staraptor",
+    "nationalPokedexNumber": 398,
+    "primaryType": "normal",
+    "secondaryType": "flying",
+    "abilities": [
+        "intimidate",
+        "h:reckless"
+    ],
+    "baseStats": {
+        "hp": 85,
+        "attack": 120,
+        "defence": 70,
+        "special_attack": 50,
+        "special_defence": 60,
+        "speed": 100
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 218,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 15,
+    "eggGroups": [
+        "flying"
+    ],
+    "moves": [
+        "0:closecombat",
+        "1:wingattack",
+        "1:tackle",
+        "1:growl",
+        "1:quickattack",
+        "13:doubleteam",
+        "18:endeavor",
+        "23:whirlwind",
+        "28:aerialace",
+        "33:takedown",
+        "41:agility",
+        "49:bravebird",
+        "57:finalgambit",
+        "tm:attract",
+        "tm:confide",
+        "tm:echoedvoice",
+        "tm:facade",
+        "tm:fly",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:roost",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:thief",
+        "tm:toxic",
+        "tm:uturn",
+        "tm:workup",
+        "tutor:defog",
+        "tutor:heatwave",
+        "tutor:laserfocus",
+        "tutor:skyattack",
+        "tutor:snore",
+        "tutor:tailwind",
+        "tutor:uproar"
+    ],
+    "labels": [
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.staraptor.desc1",
+        "pokemoncobbled.species.staraptor.desc2"
+    ],
+    "preEvolution": "staravia",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -1,0 +1,125 @@
+{
+    "name": "thundurusincarnate",
+    "nationalPokedexNumber": 642,
+    "primaryType": "electric",
+    "secondaryType": "flying",
+    "abilities": [
+        "prankster",
+        "h:defiant"
+    ],
+    "baseStats": {
+        "hp": 79,
+        "attack": 115,
+        "defence": 70,
+        "special_attack": 125,
+        "special_defence": 80,
+        "speed": 111
+    },
+    "catchRate": 3,
+    "maleRatio": 1.0,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "therian",
+            "abilities": [
+                "voltabsorb"
+            ],
+            "baseStats": {
+                "hp": 79,
+                "attack": 105,
+                "defence": 70,
+                "special_attack": 145,
+                "special_defence": 80,
+                "speed": 101
+            },
+            "aspects": [
+                "therian"
+            ]
+        }
+    ],
+    "baseExperienceYield": 290,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:thundershock",
+        "1:astonish",
+        "5:leer",
+        "10:swagger",
+        "15:bite",
+        "20:shockwave",
+        "25:agility",
+        "30:charge",
+        "35:voltswitch",
+        "40:crunch",
+        "45:discharge",
+        "50:uproar",
+        "55:hammerarm",
+        "60:raindance",
+        "65:thunder",
+        "70:thrash",
+        "tm:assurance",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bulkup",
+        "tm:darkpulse",
+        "tm:eerieimpulse",
+        "tm:electroball",
+        "tm:electroweb",
+        "tm:endure",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:fling",
+        "tm:fly",
+        "tm:focusblast",
+        "tm:foulplay",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hyperbeam",
+        "tm:irontail",
+        "tm:nastyplot",
+        "tm:payback",
+        "tm:protect",
+        "tm:psychic",
+        "tm:rest",
+        "tm:revenge",
+        "tm:round",
+        "tm:scaryface",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:smartstrike",
+        "tm:snore",
+        "tm:substitute",
+        "tm:superpower",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunderbolt",
+        "tm:thunderpunch",
+        "tm:thunderwave",
+        "tm:uturn",
+        "tm:weatherball",
+        "tm:wildcharge",
+        "tutor:lashout",
+        "tutor:risingvoltage"
+    ],
+    "labels": [
+        "legendary",
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.thundurusincarnate.desc1",
+        "pokemoncobbled.species.thundurusincarnate.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -78,6 +78,7 @@
     ],
     "evolutions": [
         {
+            "id": "poliwag_poliwhirl",
             "variant": "level_up",
             "result": "poliwhirl",
             "consumeHeldItem": false,
@@ -85,7 +86,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 25
+                    "minLevel": 25
                 }
             ]
         }

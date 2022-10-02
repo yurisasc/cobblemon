@@ -1,0 +1,85 @@
+{
+    "name": "regieleki",
+    "nationalPokedexNumber": 894,
+    "primaryType": "electric",
+    "abilities": [
+        "transistor"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 100,
+        "defence": 50,
+        "special_attack": 100,
+        "special_defence": 50,
+        "speed": 200
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 290,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:thundershock",
+        "1:rapidspin",
+        "6:electroweb",
+        "12:ancientpower",
+        "18:shockwave",
+        "24:thunderwave",
+        "30:extremespeed",
+        "36:thundercage",
+        "42:thunderbolt",
+        "48:magnetrise",
+        "54:thrash",
+        "60:lockon",
+        "66:zapcannon",
+        "72:hyperbeam",
+        "78:explosion",
+        "tm:acrobatics",
+        "tm:agility",
+        "tm:assurance",
+        "tm:bodyslam",
+        "tm:bounce",
+        "tm:eerieimpulse",
+        "tm:electricterrain",
+        "tm:electroball",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:lightscreen",
+        "tm:protect",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:round",
+        "tm:screech",
+        "tm:selfdestruct",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:swift",
+        "tm:thunder",
+        "tm:voltswitch",
+        "tm:wildcharge",
+        "tutor:risingvoltage"
+    ],
+    "labels": [
+        "legendary",
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.regieleki.desc1",
+        "pokemoncobbled.species.regieleki.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

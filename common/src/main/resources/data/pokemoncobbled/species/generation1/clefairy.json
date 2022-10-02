@@ -16,7 +16,7 @@
         "speed": 35
     },
     "catchRate": 150,
-    "maleRatio": 0.75,
+    "maleRatio": 0.25,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 113,
@@ -123,12 +123,13 @@
     "preEvolution": "cleffa",
     "evolutions": [
         {
+            "id": "clefairy_clefable",
             "variant": "item_interact",
             "result": "clefable",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "pokemoncobbled:moon_stone"
+            "requiredContext": "moon-stone"
         }
     ],
     "baseScale": 1.0,

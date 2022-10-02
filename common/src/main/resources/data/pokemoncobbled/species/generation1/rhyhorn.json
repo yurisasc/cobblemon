@@ -102,6 +102,7 @@
     ],
     "evolutions": [
         {
+            "id": "rhyhorn_rhydon",
             "variant": "level_up",
             "result": "rhydon",
             "consumeHeldItem": false,
@@ -109,7 +110,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 42
+                    "minLevel": 42
                 }
             ]
         }

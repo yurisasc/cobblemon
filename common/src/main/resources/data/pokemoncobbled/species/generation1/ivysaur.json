@@ -16,7 +16,7 @@
         "speed": 60
     },
     "catchRate": 45,
-    "maleRatio": 0.125,
+    "maleRatio": 0.875,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 142,
@@ -26,16 +26,6 @@
         "monster",
         "plant"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:melon_seeds",
-                "quantityRange": "1-2",
-                "percentage": 66
-            }
-        ]
-    },
     "moves": [
         "1:vinewhip",
         "1:tackle",
@@ -95,6 +85,7 @@
     "preEvolution": "bulbasaur",
     "evolutions": [
         {
+            "id": "ivysaur_venusaur",
             "variant": "level_up",
             "result": "venusaur",
             "consumeHeldItem": false,
@@ -102,7 +93,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 32
+                    "minLevel": 32
                 }
             ]
         }

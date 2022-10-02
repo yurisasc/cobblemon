@@ -111,6 +111,7 @@
     ],
     "evolutions": [
         {
+            "id": "sandshrew_sandslash",
             "variant": "level_up",
             "result": "sandslash",
             "consumeHeldItem": false,
@@ -118,14 +119,15 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 22
+                    "minLevel": 22
                 }
             ]
         },
         {
+            "id": "sandshrew_sandslash",
             "variant": "item_interact",
             "result": "sandslash",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "ice-stone"

@@ -1,0 +1,106 @@
+{
+    "name": "jangmoo",
+    "nationalPokedexNumber": 782,
+    "primaryType": "dragon",
+    "abilities": [
+        "bulletproof",
+        "soundproof",
+        "h:overcoat"
+    ],
+    "baseStats": {
+        "hp": 45,
+        "attack": 55,
+        "defence": 65,
+        "special_attack": 45,
+        "special_defence": 45,
+        "speed": 45
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 60,
+    "experienceGroup": "slow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "dragon"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:leer",
+        "4:protect",
+        "8:dragontail",
+        "12:scaryface",
+        "16:headbutt",
+        "20:workup",
+        "24:screech",
+        "28:irondefense",
+        "32:dragonclaw",
+        "36:nobleroar",
+        "40:dragondance",
+        "44:outrage",
+        "egg:counter",
+        "egg:dragonbreath",
+        "egg:focuspunch",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:dragonpulse",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:ironhead",
+        "tm:irontail",
+        "tm:lowkick",
+        "tm:payback",
+        "tm:rest",
+        "tm:reversal",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sandstorm",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:swordsdance",
+        "tm:taunt",
+        "tm:uproar",
+        "tm:xscissor",
+        "tutor:dracometeor",
+        "tutor:scaleshot"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.jangmoo.desc1",
+        "pokemoncobbled.species.jangmoo.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "jangmoo_hakamoo",
+            "variant": "level_up",
+            "result": "hakamoo",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 35
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

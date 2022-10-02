@@ -1,0 +1,95 @@
+{
+    "name": "klang",
+    "nationalPokedexNumber": 600,
+    "primaryType": "steel",
+    "abilities": [
+        "plus",
+        "minus",
+        "h:clearbody"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 80,
+        "defence": 95,
+        "special_attack": 70,
+        "special_defence": 85,
+        "speed": 50
+    },
+    "catchRate": 60,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 154,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "1:visegrip",
+        "1:bind",
+        "1:thundershock",
+        "1:charge",
+        "12:chargebeam",
+        "16:metalsound",
+        "20:autotomize",
+        "24:discharge",
+        "28:screech",
+        "32:geargrind",
+        "36:lockon",
+        "42:shiftgear",
+        "48:zapcannon",
+        "54:hyperbeam",
+        "tm:allyswitch",
+        "tm:assurance",
+        "tm:endure",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:irondefense",
+        "tm:powergem",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:uproar",
+        "tm:voltswitch",
+        "tm:wildcharge",
+        "tutor:risingvoltage",
+        "tutor:steelbeam",
+        "tutor:steelroller"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.klang.desc1",
+        "pokemoncobbled.species.klang.desc2"
+    ],
+    "preEvolution": "klink",
+    "evolutions": [
+        {
+            "id": "klang_klinklang",
+            "variant": "level_up",
+            "result": "klinklang",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 49
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

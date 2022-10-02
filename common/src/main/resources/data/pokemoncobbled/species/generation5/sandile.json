@@ -1,0 +1,110 @@
+{
+    "name": "sandile",
+    "nationalPokedexNumber": 551,
+    "primaryType": "ground",
+    "secondaryType": "dark",
+    "abilities": [
+        "intimidate",
+        "moxie",
+        "h:angerpoint"
+    ],
+    "baseStats": {
+        "hp": 50,
+        "attack": 72,
+        "defence": 35,
+        "special_attack": 35,
+        "special_defence": 35,
+        "speed": 65
+    },
+    "catchRate": 180,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 58,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:leer",
+        "1:powertrip",
+        "3:sandattack",
+        "6:honeclaws",
+        "9:sandtomb",
+        "12:scaryface",
+        "15:bite",
+        "18:torment",
+        "21:dig",
+        "24:swagger",
+        "27:crunch",
+        "30:sandstorm",
+        "33:foulplay",
+        "36:earthquake",
+        "39:thrash",
+        "egg:aquatail",
+        "egg:counter",
+        "egg:doubleedge",
+        "egg:spite",
+        "tm:assurance",
+        "tm:attract",
+        "tm:beatup",
+        "tm:bulldoze",
+        "tm:darkpulse",
+        "tm:earthpower",
+        "tm:endure",
+        "tm:facade",
+        "tm:firefang",
+        "tm:focusenergy",
+        "tm:irontail",
+        "tm:payback",
+        "tm:protect",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snarl",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunderfang",
+        "tm:uproar",
+        "tutor:lashout",
+        "tutor:scorchingsands",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.sandile.desc1",
+        "pokemoncobbled.species.sandile.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "sandile_krokorok",
+            "variant": "level_up",
+            "result": "krokorok",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 29
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

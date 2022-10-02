@@ -1,0 +1,86 @@
+{
+    "name": "shedinja",
+    "nationalPokedexNumber": 292,
+    "primaryType": "bug",
+    "secondaryType": "ghost",
+    "abilities": [
+        "wonderguard"
+    ],
+    "baseStats": {
+        "hp": 1,
+        "attack": 90,
+        "defence": 45,
+        "special_attack": 30,
+        "special_defence": 30,
+        "speed": 40
+    },
+    "catchRate": 45,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 83,
+    "experienceGroup": "slowthenveryfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "1:scratch",
+        "1:sandattack",
+        "1:dig",
+        "1:harden",
+        "1:mudslap",
+        "1:falseswipe",
+        "1:metalclaw",
+        "1:grudge",
+        "1:shadowclaw",
+        "15:confuseray",
+        "23:absorb",
+        "29:shadowsneak",
+        "36:furyswipes",
+        "43:mindreader",
+        "50:shadowball",
+        "57:spite",
+        "64:phantomforce",
+        "tm:agility",
+        "tm:allyswitch",
+        "tm:bugbuzz",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigadrain",
+        "tm:gigaimpact",
+        "tm:hex",
+        "tm:hyperbeam",
+        "tm:leechlife",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thief",
+        "tm:trick",
+        "tm:willowisp",
+        "tm:xscissor",
+        "tutor:poltergeist",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.shedinja.desc1",
+        "pokemoncobbled.species.shedinja.desc2"
+    ],
+    "preEvolution": "nincada",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

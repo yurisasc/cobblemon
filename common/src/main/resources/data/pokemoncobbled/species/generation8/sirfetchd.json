@@ -1,0 +1,89 @@
+{
+    "name": "sirfetchd",
+    "nationalPokedexNumber": 865,
+    "primaryType": "fighting",
+    "abilities": [
+        "steadfast",
+        "h:scrappy"
+    ],
+    "baseStats": {
+        "hp": 62,
+        "attack": 135,
+        "defence": 95,
+        "special_attack": 68,
+        "special_defence": 82,
+        "speed": 65
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 177,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "flying",
+        "ground"
+    ],
+    "moves": [
+        "0:irondefense",
+        "1:sandattack",
+        "1:leer",
+        "1:peck",
+        "1:furycutter",
+        "1:firstimpression",
+        "15:rocksmash",
+        "20:brutalswing",
+        "25:detect",
+        "30:knockoff",
+        "35:defog",
+        "40:brickbreak",
+        "45:swordsdance",
+        "50:slam",
+        "55:leafblade",
+        "60:finalgambit",
+        "65:bravebird",
+        "70:meteorassault",
+        "tm:assurance",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:closecombat",
+        "tm:endure",
+        "tm:facade",
+        "tm:focusenergy",
+        "tm:helpinghand",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarblade",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:superpower",
+        "tm:throatchop",
+        "tm:workup",
+        "tutor:coaching",
+        "tutor:dualwingbeat",
+        "tutor:grassyglide"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.sirfetchd.desc1",
+        "pokemoncobbled.species.sirfetchd.desc2"
+    ],
+    "preEvolution": "farfetchd",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

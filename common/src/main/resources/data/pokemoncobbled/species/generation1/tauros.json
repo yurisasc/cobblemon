@@ -16,7 +16,7 @@
         "speed": 110
     },
     "catchRate": 45,
-    "maleRatio": 0.0,
+    "maleRatio": 1.0,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 172,
@@ -25,19 +25,6 @@
     "eggGroups": [
         "ground"
     ],
-    "drops": {
-        "amount": "2",
-        "entries": [
-            {
-                "item": "minecraft:leather",
-                "quantityRange": "1-3"
-            },
-            {
-                "item": "minecraft:beef",
-                "quantityRange": "2-4"
-            }
-        ]
-    },
     "moves": [
         "1:tackle",
         "1:tailwhip",

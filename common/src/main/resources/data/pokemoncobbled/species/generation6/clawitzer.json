@@ -1,0 +1,91 @@
+{
+    "name": "clawitzer",
+    "nationalPokedexNumber": 693,
+    "primaryType": "water",
+    "abilities": [
+        "megalauncher"
+    ],
+    "baseStats": {
+        "hp": 71,
+        "attack": 73,
+        "defence": 88,
+        "special_attack": 120,
+        "special_defence": 89,
+        "speed": 59
+    },
+    "catchRate": 55,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 100,
+    "experienceGroup": "slow",
+    "eggCycles": 15,
+    "eggGroups": [
+        "water1",
+        "water3"
+    ],
+    "moves": [
+        "1:visegrip",
+        "1:watergun",
+        "1:splash",
+        "1:flail",
+        "1:darkpulse",
+        "1:dragonpulse",
+        "1:healpulse",
+        "15:aquajet",
+        "20:smackdown",
+        "25:honeclaws",
+        "30:waterpulse",
+        "35:swordsdance",
+        "42:aurasphere",
+        "49:bounce",
+        "56:muddywater",
+        "63:crabhammer",
+        "tm:attract",
+        "tm:dive",
+        "tm:endure",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:focusblast",
+        "tm:gigaimpact",
+        "tm:helpinghand",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irontail",
+        "tm:liquidation",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:round",
+        "tm:scald",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:uturn",
+        "tm:venoshock",
+        "tm:waterfall",
+        "tutor:flipturn",
+        "tutor:terrainpulse"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.clawitzer.desc1",
+        "pokemoncobbled.species.clawitzer.desc2"
+    ],
+    "preEvolution": "clauncher",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

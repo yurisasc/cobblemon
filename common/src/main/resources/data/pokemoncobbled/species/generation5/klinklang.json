@@ -1,0 +1,87 @@
+{
+    "name": "klinklang",
+    "nationalPokedexNumber": 601,
+    "primaryType": "steel",
+    "abilities": [
+        "plus",
+        "minus",
+        "h:clearbody"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 100,
+        "defence": 115,
+        "special_attack": 70,
+        "special_defence": 85,
+        "speed": 90
+    },
+    "catchRate": 30,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 260,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "1:visegrip",
+        "1:bind",
+        "1:thundershock",
+        "1:charge",
+        "1:magneticflux",
+        "1:gearup",
+        "12:chargebeam",
+        "16:metalsound",
+        "20:autotomize",
+        "24:discharge",
+        "28:screech",
+        "32:geargrind",
+        "36:lockon",
+        "42:shiftgear",
+        "48:zapcannon",
+        "56:hyperbeam",
+        "64:electricterrain",
+        "tm:allyswitch",
+        "tm:assurance",
+        "tm:endure",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:gigaimpact",
+        "tm:irondefense",
+        "tm:powergem",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:trickroom",
+        "tm:uproar",
+        "tm:voltswitch",
+        "tm:wildcharge",
+        "tutor:risingvoltage",
+        "tutor:steelbeam",
+        "tutor:steelroller"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.klinklang.desc1",
+        "pokemoncobbled.species.klinklang.desc2"
+    ],
+    "preEvolution": "klang",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

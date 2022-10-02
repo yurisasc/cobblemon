@@ -26,20 +26,6 @@
     "eggGroups": [
         "water3"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:glow_ink_sac",
-                "quantityRange": "1-3",
-                "percentage": 10
-            },
-            {
-                "item": "minecraft:ink_sac",
-                "quantityRange": "1-3"
-            }
-        ]
-    },
     "moves": [
         "1:poisonsting",
         "1:watergun",
@@ -105,6 +91,7 @@
     ],
     "evolutions": [
         {
+            "id": "tentacool_tentacruel",
             "variant": "level_up",
             "result": "tentacruel",
             "consumeHeldItem": false,
@@ -112,7 +99,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 30
+                    "minLevel": 30
                 }
             ]
         }

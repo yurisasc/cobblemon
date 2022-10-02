@@ -1,0 +1,101 @@
+{
+    "name": "steenee",
+    "nationalPokedexNumber": 762,
+    "primaryType": "grass",
+    "abilities": [
+        "leafguard",
+        "oblivious",
+        "h:sweetveil"
+    ],
+    "baseStats": {
+        "hp": 52,
+        "attack": 40,
+        "defence": 48,
+        "special_attack": 40,
+        "special_defence": 48,
+        "speed": 62
+    },
+    "catchRate": 120,
+    "maleRatio": 0.0,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 102,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant"
+    ],
+    "moves": [
+        "1:razorleaf",
+        "1:splash",
+        "1:flail",
+        "1:rapidspin",
+        "1:playnice",
+        "16:sweetscent",
+        "22:magicalleaf",
+        "28:stomp",
+        "34:teeterdance",
+        "40:aromaticmist",
+        "46:aromatherapy",
+        "52:leafstorm",
+        "tm:attract",
+        "tm:bounce",
+        "tm:charm",
+        "tm:dazzlinggleam",
+        "tm:drainingkiss",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:fling",
+        "tm:gigadrain",
+        "tm:grassknot",
+        "tm:helpinghand",
+        "tm:lightscreen",
+        "tm:lowsweep",
+        "tm:payback",
+        "tm:playrough",
+        "tm:protect",
+        "tm:reflect",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:zenheadbutt",
+        "tutor:grassyglide",
+        "tutor:tripleaxel"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.steenee.desc1",
+        "pokemoncobbled.species.steenee.desc2"
+    ],
+    "preEvolution": "bounsweet",
+    "evolutions": [
+        {
+            "id": "steenee_tsareena",
+            "variant": "level_up",
+            "result": "tsareena",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "has_move",
+                    "move": "stomp"
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

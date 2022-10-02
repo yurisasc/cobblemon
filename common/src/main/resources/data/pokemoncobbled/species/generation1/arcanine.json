@@ -16,7 +16,7 @@
         "speed": 95
     },
     "catchRate": 75,
-    "maleRatio": 0.25,
+    "maleRatio": 0.75,
     "shoulderMountable": false,
     "forms": [
         {

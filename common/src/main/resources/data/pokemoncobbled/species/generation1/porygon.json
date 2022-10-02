@@ -16,7 +16,7 @@
         "speed": 40
     },
     "catchRate": 45,
-    "maleRatio": -0.125,
+    "maleRatio": 1.125,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 79,
@@ -86,6 +86,7 @@
     ],
     "evolutions": [
         {
+            "id": "porygon_porygon2",
             "variant": "trade",
             "result": "porygon2",
             "consumeHeldItem": false,

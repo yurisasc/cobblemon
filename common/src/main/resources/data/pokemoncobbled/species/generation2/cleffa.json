@@ -17,7 +17,7 @@
     },
     "catchRate": 150,
     "maleRatio": 0.25,
-    "shoulderMountable": true,
+    "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 44,
     "experienceGroup": "fast",
@@ -94,6 +94,7 @@
     ],
     "evolutions": [
         {
+            "id": "cleffa_clefairy",
             "variant": "level_up",
             "result": "clefairy",
             "consumeHeldItem": false,
@@ -106,7 +107,7 @@
             ]
         }
     ],
-    "baseScale": 0.7,
+    "baseScale": 1.0,
     "hitbox": {
         "width": 1.0,
         "height": 1.0,

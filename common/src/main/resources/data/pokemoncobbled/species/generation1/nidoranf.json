@@ -16,7 +16,7 @@
         "speed": 41
     },
     "catchRate": 235,
-    "maleRatio": 1.0,
+    "maleRatio": 0.0,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 55,
@@ -84,6 +84,7 @@
     ],
     "evolutions": [
         {
+            "id": "nidoranf_nidorina",
             "variant": "level_up",
             "result": "nidorina",
             "consumeHeldItem": false,
@@ -91,7 +92,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 16
+                    "minLevel": 16
                 }
             ]
         }

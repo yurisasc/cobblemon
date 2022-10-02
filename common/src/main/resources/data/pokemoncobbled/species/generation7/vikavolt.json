@@ -1,0 +1,101 @@
+{
+    "name": "vikavolt",
+    "nationalPokedexNumber": 738,
+    "primaryType": "bug",
+    "secondaryType": "electric",
+    "abilities": [
+        "levitate"
+    ],
+    "baseStats": {
+        "hp": 77,
+        "attack": 70,
+        "defence": 90,
+        "special_attack": 145,
+        "special_defence": 75,
+        "speed": 43
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "totem",
+            "aspects": [
+                "totem"
+            ]
+        }
+    ],
+    "baseExperienceYield": 250,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "0:thunderbolt",
+        "1:visegrip",
+        "1:stringshot",
+        "1:dig",
+        "1:mudslap",
+        "1:crunch",
+        "1:charge",
+        "1:irondefense",
+        "1:xscissor",
+        "1:discharge",
+        "1:bugbite",
+        "15:bite",
+        "23:spark",
+        "29:stickyweb",
+        "36:bugbuzz",
+        "43:guillotine",
+        "50:fly",
+        "57:agility",
+        "64:zapcannon",
+        "tm:acrobatics",
+        "tm:airslash",
+        "tm:attract",
+        "tm:eerieimpulse",
+        "tm:electroball",
+        "tm:electroweb",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:gigaimpact",
+        "tm:hyperbeam",
+        "tm:lightscreen",
+        "tm:mudshot",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:screech",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:thunder",
+        "tm:thunderwave",
+        "tm:voltswitch",
+        "tm:wildcharge",
+        "tutor:dualwingbeat",
+        "tutor:risingvoltage",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.vikavolt.desc1",
+        "pokemoncobbled.species.vikavolt.desc2"
+    ],
+    "preEvolution": "charjabug",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

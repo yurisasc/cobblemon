@@ -1,0 +1,135 @@
+{
+    "name": "sableye",
+    "nationalPokedexNumber": 302,
+    "primaryType": "dark",
+    "secondaryType": "ghost",
+    "abilities": [
+        "keeneye",
+        "stall",
+        "h:prankster"
+    ],
+    "baseStats": {
+        "hp": 50,
+        "attack": 75,
+        "defence": 75,
+        "special_attack": 65,
+        "special_defence": 65,
+        "speed": 50
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "magicbounce"
+            ],
+            "baseStats": {
+                "hp": 50,
+                "attack": 85,
+                "defence": 125,
+                "special_attack": 85,
+                "special_defence": 115,
+                "speed": 20
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 133,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 25,
+    "eggGroups": [
+        "humanshape"
+    ],
+    "moves": [
+        "1:scratch",
+        "1:leer",
+        "3:astonish",
+        "6:confuseray",
+        "9:shadowsneak",
+        "12:fakeout",
+        "15:disable",
+        "18:detect",
+        "21:nightshade",
+        "24:furyswipes",
+        "27:knockoff",
+        "30:quash",
+        "33:shadowclaw",
+        "36:meanlook",
+        "39:powergem",
+        "42:zenheadbutt",
+        "45:shadowball",
+        "48:foulplay",
+        "egg:feint",
+        "egg:flatter",
+        "egg:metalburst",
+        "egg:recover",
+        "egg:suckerpunch",
+        "egg:torment",
+        "tm:allyswitch",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:calmmind",
+        "tm:darkpulse",
+        "tm:dazzlinggleam",
+        "tm:dig",
+        "tm:drainpunch",
+        "tm:encore",
+        "tm:endure",
+        "tm:facade",
+        "tm:firepunch",
+        "tm:fling",
+        "tm:gyroball",
+        "tm:helpinghand",
+        "tm:hex",
+        "tm:icepunch",
+        "tm:icywind",
+        "tm:imprison",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:metronome",
+        "tm:nastyplot",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:psychic",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snarl",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunderpunch",
+        "tm:trick",
+        "tm:willowisp",
+        "tm:wonderroom",
+        "tutor:lashout",
+        "tutor:poltergeist"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.sableye.desc1",
+        "pokemoncobbled.species.sableye.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

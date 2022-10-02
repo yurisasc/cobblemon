@@ -96,6 +96,7 @@
     ],
     "evolutions": [
         {
+            "id": "psyduck_golduck",
             "variant": "level_up",
             "result": "golduck",
             "consumeHeldItem": false,
@@ -103,7 +104,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 33
+                    "minLevel": 33
                 }
             ]
         }

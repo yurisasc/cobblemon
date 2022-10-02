@@ -25,15 +25,6 @@
         "water1",
         "dragon"
     ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:dragon_breath",
-                "percentage": 50
-            }
-        ]
-    },
     "moves": [
         "1:wrap",
         "1:leer",
@@ -98,6 +89,7 @@
     ],
     "evolutions": [
         {
+            "id": "dratini_dragonair",
             "variant": "level_up",
             "result": "dragonair",
             "consumeHeldItem": false,
@@ -105,7 +97,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 30
+                    "minLevel": 30
                 }
             ]
         }

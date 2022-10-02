@@ -1,0 +1,74 @@
+{
+    "name": "applin",
+    "nationalPokedexNumber": 840,
+    "primaryType": "grass",
+    "secondaryType": "dragon",
+    "abilities": [
+        "ripen",
+        "gluttony",
+        "h:bulletproof"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 40,
+        "defence": 80,
+        "special_attack": 40,
+        "special_defence": 40,
+        "speed": 20
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 52,
+    "experienceGroup": "slowthenveryfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant",
+        "dragon"
+    ],
+    "moves": [
+        "1:withdraw",
+        "1:astonish",
+        "egg:defensecurl",
+        "egg:recycle",
+        "egg:rollout",
+        "egg:suckerpunch",
+        "tm:attract",
+        "tutor:dracometeor",
+        "tutor:grassyglide"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.applin.desc1",
+        "pokemoncobbled.species.applin.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "applin_flapple",
+            "variant": "item_interact",
+            "result": "flapple",
+            "consumeHeldItem": true,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "tart-apple"
+        },
+        {
+            "id": "applin_appletun",
+            "variant": "item_interact",
+            "result": "appletun",
+            "consumeHeldItem": true,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "sweet-apple"
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

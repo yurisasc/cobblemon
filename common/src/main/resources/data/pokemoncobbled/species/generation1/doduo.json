@@ -26,18 +26,6 @@
     "eggGroups": [
         "flying"
     ],
-    "drops": {
-        "amount": "2",
-        "entries": [
-            {
-                "item": "minecraft:feather",
-                "percentage": 50
-            },
-            {
-                "item": "minecraft:chicken"
-            }
-        ]
-    },
     "moves": [
         "1:growl",
         "1:peck",
@@ -96,6 +84,7 @@
     ],
     "evolutions": [
         {
+            "id": "doduo_dodrio",
             "variant": "level_up",
             "result": "dodrio",
             "consumeHeldItem": false,
@@ -103,7 +92,7 @@
             "requirements": [
                 {
                     "variant": "level",
-                    "level": 31
+                    "minLevel": 31
                 }
             ]
         }

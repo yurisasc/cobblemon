@@ -1,0 +1,107 @@
+{
+    "name": "shayminland",
+    "nationalPokedexNumber": 492,
+    "primaryType": "grass",
+    "abilities": [
+        "naturalcure"
+    ],
+    "baseStats": {
+        "hp": 100,
+        "attack": 100,
+        "defence": 100,
+        "special_attack": 100,
+        "special_defence": 100,
+        "speed": 100
+    },
+    "catchRate": 45,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "sky",
+            "secondaryType": "flying",
+            "abilities": [
+                "serenegrace"
+            ],
+            "baseStats": {
+                "hp": 100,
+                "attack": 103,
+                "defence": 75,
+                "special_attack": 120,
+                "special_defence": 75,
+                "speed": 127
+            },
+            "aspects": [
+                "sky"
+            ]
+        }
+    ],
+    "baseExperienceYield": 270,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:growth",
+        "10:magicalleaf",
+        "19:leechseed",
+        "28:synthesis",
+        "37:sweetscent",
+        "46:naturalgift",
+        "55:worryseed",
+        "64:aromatherapy",
+        "73:energyball",
+        "82:sweetkiss",
+        "91:healingwish",
+        "100:seedflare",
+        "tm:confide",
+        "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:facade",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:naturepower",
+        "tm:protect",
+        "tm:psychic",
+        "tm:psychup",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:toxic",
+        "tutor:covet",
+        "tutor:earthpower",
+        "tutor:endeavor",
+        "tutor:gigadrain",
+        "tutor:laserfocus",
+        "tutor:lastresort",
+        "tutor:seedbomb",
+        "tutor:snore",
+        "tutor:zenheadbutt"
+    ],
+    "labels": [
+        "mythical",
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.shayminland.desc1",
+        "pokemoncobbled.species.shayminland.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

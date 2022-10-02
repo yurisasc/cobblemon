@@ -1,0 +1,104 @@
+{
+    "name": "kubfu",
+    "nationalPokedexNumber": 891,
+    "primaryType": "fighting",
+    "abilities": [
+        "innerfocus"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 90,
+        "defence": 60,
+        "special_attack": 53,
+        "special_defence": 50,
+        "speed": 72
+    },
+    "catchRate": 3,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 77,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:leer",
+        "1:rocksmash",
+        "4:endure",
+        "8:focusenergy",
+        "12:aerialace",
+        "16:scaryface",
+        "20:headbutt",
+        "24:brickbreak",
+        "28:detect",
+        "32:bulkup",
+        "36:ironhead",
+        "40:dynamicpunch",
+        "44:counter",
+        "48:closecombat",
+        "52:focuspunch",
+        "tm:acrobatics",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:dig",
+        "tm:facade",
+        "tm:firepunch",
+        "tm:helpinghand",
+        "tm:icepunch",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:protect",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:reversal",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:superpower",
+        "tm:thunderpunch",
+        "tm:uturn",
+        "tm:workup",
+        "tm:zenheadbutt",
+        "tutor:coaching"
+    ],
+    "labels": [
+        "legendary",
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.kubfu.desc1",
+        "pokemoncobbled.species.kubfu.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "kubfu_urshifu_single",
+            "variant": "item_interact",
+            "result": "urshifu",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "scroll-of-darkness"
+        },
+        {
+            "id": "kubfu_urshifu_rapid",
+            "variant": "item_interact",
+            "result": "urshifu",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "scroll-of-waters"
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

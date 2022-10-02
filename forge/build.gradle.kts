@@ -61,10 +61,10 @@ tasks {
         exclude("architectury-common.accessWidener")
     }
     processResources {
-        inputs.property("version", project.version)
+        inputs.property("version", rootProject.version)
 
         filesMatching("META-INF/mods.toml") {
-            expand("version" to project.version)
+            expand("version" to rootProject.version)
         }
     }
 }

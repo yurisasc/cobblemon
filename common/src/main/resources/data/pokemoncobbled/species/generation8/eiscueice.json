@@ -1,0 +1,101 @@
+{
+    "name": "eiscueice",
+    "nationalPokedexNumber": 875,
+    "primaryType": "ice",
+    "abilities": [
+        "iceface"
+    ],
+    "baseStats": {
+        "hp": 75,
+        "attack": 80,
+        "defence": 110,
+        "special_attack": 65,
+        "special_defence": 90,
+        "speed": 50
+    },
+    "catchRate": 60,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "noice",
+            "baseStats": {
+                "hp": 75,
+                "attack": 80,
+                "defence": 70,
+                "special_attack": 65,
+                "special_defence": 50,
+                "speed": 130
+            },
+            "aspects": [
+                "noice"
+            ]
+        }
+    ],
+    "baseExperienceYield": 165,
+    "experienceGroup": "slow",
+    "eggCycles": 25,
+    "eggGroups": [
+        "water1",
+        "ground"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:powdersnow",
+        "6:mist",
+        "12:weatherball",
+        "18:icywind",
+        "24:headbutt",
+        "30:amnesia",
+        "36:freezedry",
+        "42:hail",
+        "48:auroraveil",
+        "54:surf",
+        "60:blizzard",
+        "egg:aquaring",
+        "egg:bellydrum",
+        "egg:doubleedge",
+        "egg:headsmash",
+        "egg:iciclecrash",
+        "egg:soak",
+        "tm:agility",
+        "tm:attract",
+        "tm:avalanche",
+        "tm:brine",
+        "tm:dive",
+        "tm:endure",
+        "tm:facade",
+        "tm:hydropump",
+        "tm:icebeam",
+        "tm:icepunch",
+        "tm:iciclespear",
+        "tm:irondefense",
+        "tm:ironhead",
+        "tm:liquidation",
+        "tm:protect",
+        "tm:reflect",
+        "tm:rest",
+        "tm:reversal",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:waterfall",
+        "tm:whirlpool",
+        "tm:zenheadbutt"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.eiscueice.desc1",
+        "pokemoncobbled.species.eiscueice.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}
