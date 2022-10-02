@@ -56,6 +56,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
 import java.io.File
+import java.nio.file.Files
 import kotlin.io.path.Path
 import kotlin.reflect.KProperty
 
@@ -228,6 +229,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         V8Host.getNodeInstance().createV8Runtime<V8Runtime>().use { runtime ->
             // Showdown loads mods by reading existing files as such we cannot dynamically add to the Pokédex, instead, we will overwrite the existing file and force a mod reload.
             val pokedexFile = File("node_modules/pokemon-showdown/.data-dist/mods/cobbled/pokedex.js")
+            Files.createDirectories(pokedexFile.toPath().parent)
             pokedexFile.bufferedWriter().use { writer ->
                 writer.write(
                     """
