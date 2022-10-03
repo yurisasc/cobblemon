@@ -17,7 +17,7 @@ import net.minecraft.util.Identifier
  */
 open class Status(
     val name: Identifier,
-    val showdownName: String = ""
-) {
-
-}
+    val showdownName: String = "",
+    val applyMessage: String,
+    val removeMessage: String?
+)

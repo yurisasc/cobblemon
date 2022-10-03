@@ -14,6 +14,7 @@ import com.cablemc.pokemoncobbled.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
+import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
 import com.cablemc.pokemoncobbled.common.api.text.aqua
 import com.cablemc.pokemoncobbled.common.api.text.gold
 import com.cablemc.pokemoncobbled.common.api.text.plus
@@ -32,9 +33,11 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMakeCh
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleQueueRequestPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSetTeamPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemoncobbled.common.util.asTranslated
 import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
+import com.cablemc.pokemoncobbled.common.util.lang
 import com.cablemc.pokemoncobbled.common.util.swap
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
@@ -79,6 +82,9 @@ object ShowdownInterpreter {
         updateInstructions["|-boost|"] = { battle, line, remainingLines -> boostInstruction(battle, line, remainingLines, true) }
         updateInstructions["|t:|"] = {_, _, _ -> }
         updateInstructions["|pp_update|"] = this::handlePpUpdateInstruction
+        updateInstructions["|-immune"] = this::handleImmuneInstruction
+        updateInstructions["|-status|"] = this::handleStatusInstruction
+        updateInstructions["|-end|"] = this::handleEndInstruction
 
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
@@ -455,6 +461,31 @@ object ShowdownInterpreter {
         }
     }
 
+    fun handleStatusInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        val pnx = message.split("|-status|")[1].substring(0, 3)
+        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+        val editedMessage = message.replace("|-status|", "")
+        val statusLabel = editedMessage.split("|")[1]
+        val status = Statuses.getStatus(statusLabel)
+            ?: return LOGGER.error("Unrecognized status: $statusLabel")
+
+        battle.dispatchGo {
+            if (status is PersistentStatus) {
+                pokemon.battlePokemon?.effectedPokemon?.applyStatus(status)
+            }
+
+            battle.broadcastChatMessage(status.applyMessage.asTranslated(pokemon.battlePokemon?.getName() ?: "DEAD".text()))
+        }
+    }
+
+
+    private fun handleImmuneInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        val pnx = message.split("|-immune|")[1].substring(0, 3)
+        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+        val name = pokemon.battlePokemon?.getName() ?: "DEAD".text()
+        battle.dispatchGo { battle.broadcastChatMessage(battleLang("immune", name)) }
+    }
+
     // |move|p1a: Charizard|Tackle|p2a: Magikarp
     private fun handleMoveInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
@@ -486,6 +517,7 @@ object ShowdownInterpreter {
                     move
                 ))
             }
+
             GO
         }
     }
@@ -497,10 +529,16 @@ object ShowdownInterpreter {
             val pnx = editMessaged.split("|")[0].split(":")[0]
             val (actor, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             val action = editMessaged.split("|")[1]
-            val actionText = if (action == "flinch") "flinched" else action
+            val name = pokemon.battlePokemon?.getName() ?: "DEAD".text()
+            val actionText = when (action) {
+                Statuses.SLEEP.showdownName -> lang("status.sleep.is", name)
+                Statuses.PARALYSIS.showdownName -> lang("status.paralysis.is", name)
+                Statuses.FROZEN.showdownName -> lang("status.frozen.is", name)
+                "flinch" -> battleLang("flinched", name)
+                else -> action.text() // Way for us to find those we have not implemented
+            }
 
-            // TODO lang
-            battle.broadcastChatMessage((pokemon.battlePokemon?.getName() ?: "DEAD".text()) + " has $actionText".red())
+            battle.broadcastChatMessage(actionText.red())
             GO
         }
     }
@@ -583,7 +621,7 @@ object ShowdownInterpreter {
     private fun handleFailInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
         battle.dispatch{
             battle.broadcastChatMessage(battleLang("fail"))
-            GO
+            WaitDispatch(1.5F)
         }
     }
 
@@ -592,9 +630,8 @@ object ShowdownInterpreter {
         val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         battle.dispatch{
             battle.broadcastChatMessage(battleLang("recharge", pokemon.battlePokemon?.getName() ?: ""))
-            GO
+            WaitDispatch(2F)
         }
-
     }
 
     private fun handleStartInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
@@ -603,16 +640,14 @@ object ShowdownInterpreter {
         val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
 
         battle.dispatch{
-            if(message.contains("|confusion")){
+            if (message.contains("|confusion")){
                 battle.broadcastChatMessage(battleLang("confusion_start",pokemon.battlePokemon?.getName() ?: ""))
             }
-            if(message.contains("|protect")){
+            if (message.contains("|protect")){
                 battle.broadcastChatMessage(battleLang("protect_start",pokemon.battlePokemon?.getName() ?: ""))
             }
-            GO
+            WaitDispatch(2F)
         }
-
-
     }
 
     private fun handleActivateInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
@@ -620,13 +655,29 @@ object ShowdownInterpreter {
         val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
 
         battle.dispatch{
-            if(message.contains("|confusion")){
-                battle.broadcastChatMessage(battleLang("confusion_activate"))
-            }
-            if(message.contains("|protect")){
-                battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon?.getName() ?: ""))
+//            if ("|confusion" in message) { // Don't even say anything about it, it's too spammy
+//                battle.broadcastChatMessage(battleLang("confusion_continues_idk", pokemon.battlePokemon!!.getName()))
+//            }
+            if ("|protect" in message) {
+                battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon!!.getName()))
             }
             GO
+        }
+    }
+
+    private fun handleEndInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        val editedMessage = message.split("|-end|")[1]
+        val pnx = editedMessage.substring(0, 3)
+        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+        val fromWhat = editedMessage.split("|")[1]
+
+        battle.dispatch {
+            when (fromWhat) {
+                "confusion" -> battle.broadcastChatMessage(battleLang("confusion_snapped", pokemon.battlePokemon!!.getName()))
+                else -> battle.broadcastChatMessage(editedMessage.text())
+            }
+
+            WaitDispatch(1F)
         }
     }
 
@@ -730,6 +781,7 @@ object ShowdownInterpreter {
         val pnx = publicMessage.split("|")[2].split(":")[0]
         val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val newHealth = privateMessage.split("|")[3].split(" ")[0]
+        val cause = if ("[from]" in publicMessage) publicMessage.substringAfter("[from]").trim() else null
 
         battle.dispatch {
             val newHealthRatio: Float
@@ -750,6 +802,11 @@ object ShowdownInterpreter {
                 }
             }
             battle.sendUpdate(BattleHealthChangePacket(pnx, newHealthRatio))
+            if (cause != null) {
+                when (cause) {
+                    "confusion" -> battle.broadcastChatMessage(battleLang("confusion_activate", activePokemon.battlePokemon?.getName()!!))
+                }
+            }
             WaitDispatch(1F)
         }
     }

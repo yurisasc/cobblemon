@@ -8,8 +8,12 @@
 
 package com.cablemc.pokemoncobbled.common.api.pokemon.status
 
-import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.Paralysis
-import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.Poison
+import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.BurnStatus
+import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.FrozenStatus
+import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.ParalysisStatus
+import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.PoisonBadlyStatus
+import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.PoisonStatus
+import com.cablemc.pokemoncobbled.common.pokemon.status.statuses.SleepStatus
 import net.minecraft.util.Identifier
 
 /**
@@ -21,15 +25,18 @@ import net.minecraft.util.Identifier
 object Statuses {
     private val allStatuses = mutableListOf<Status>()
 
-    val POISON = registerStatus(Poison())
-    val PARALYSIS = registerStatus(Paralysis())
+    val POISON = registerStatus(PoisonStatus())
+    val POISON_BADLY = registerStatus(PoisonBadlyStatus())
+    val PARALYSIS = registerStatus(ParalysisStatus())
+    val SLEEP = registerStatus(SleepStatus())
+    val FROZEN = registerStatus(FrozenStatus())
+    val BURN = registerStatus(BurnStatus())
 
     fun <T: Status> registerStatus(status: T) : T {
         allStatuses.add(status)
         return status
     }
 
-    fun getStatus(name: Identifier): Status? {
-        return allStatuses.find { status -> status.name == name }
-    }
+    fun getStatus(name: Identifier) = allStatuses.find { status -> status.name == name }
+    fun getStatus(showdownName: String) = allStatuses.find { it.showdownName == showdownName }
 }

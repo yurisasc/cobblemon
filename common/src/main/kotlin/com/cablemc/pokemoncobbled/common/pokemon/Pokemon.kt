@@ -104,6 +104,7 @@ import net.minecraft.nbt.NbtString
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
@@ -143,6 +144,9 @@ open class Pokemon {
     // Need to happen before currentHealth init due to the calc
     var ivs = IVs.createRandomIVs()
     var evs = EVs.createEmpty()
+
+    val displayName: MutableText
+        get() = species.translatedName
 
     var level = 1
         set(value) {

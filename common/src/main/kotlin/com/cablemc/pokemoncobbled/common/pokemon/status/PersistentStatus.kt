@@ -11,8 +11,9 @@ package com.cablemc.pokemoncobbled.common.pokemon.status
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Status
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
-import net.minecraft.server.network.ServerPlayerEntity
+import com.cablemc.pokemoncobbled.common.util.asTranslated
 import kotlin.random.Random
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
 /**
@@ -22,14 +23,18 @@ import net.minecraft.util.Identifier
  */
 open class PersistentStatus(
     name: Identifier,
-    showdownName: String = "",
+    showdownName: String,
+    applyMessage: String,
+    removeMessage: String?,
     private val defaultDuration: IntRange = 0..0
-) : Status(name) {
+) : Status(name, showdownName, applyMessage, removeMessage) {
     /**
      * Called when a status duration is expired.
      */
     open fun onStatusExpire(player: ServerPlayerEntity, pokemon: Pokemon, random: Random) {
-
+        if (removeMessage != null) {
+            player.sendMessage(removeMessage.asTranslated(pokemon.displayName))
+        }
     }
 
     /**
