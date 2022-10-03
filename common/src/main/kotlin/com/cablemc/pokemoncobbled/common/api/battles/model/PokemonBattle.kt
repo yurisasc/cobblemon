@@ -32,9 +32,9 @@ import com.cablemc.pokemoncobbled.common.util.battleLang
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import net.minecraft.text.Text
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
+import net.minecraft.text.Text
 
 /**
  * Individual battle instance
@@ -213,6 +213,17 @@ open class PokemonBattle(
     fun dispatchGo(dispatcher: () -> Unit) {
         dispatch {
             dispatcher()
+            GO
+        }
+    }
+
+    fun dispatchInsert(dispatcher: () -> Iterable<BattleDispatch>) {
+        dispatch {
+            val newDispatches = dispatcher()
+            val previousDispatches = dispatches.toList()
+            dispatches.clear()
+            dispatches.addAll(newDispatches)
+            dispatches.addAll(previousDispatches)
             GO
         }
     }

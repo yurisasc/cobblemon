@@ -20,6 +20,7 @@ import com.cablemc.pokemoncobbled.common.api.text.gold
 import com.cablemc.pokemoncobbled.common.api.text.plus
 import com.cablemc.pokemoncobbled.common.api.text.red
 import com.cablemc.pokemoncobbled.common.api.text.text
+import com.cablemc.pokemoncobbled.common.battles.dispatch.BattleDispatch
 import com.cablemc.pokemoncobbled.common.battles.dispatch.DispatchResult
 import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
 import com.cablemc.pokemoncobbled.common.battles.dispatch.UntilDispatch
@@ -438,9 +439,9 @@ object ShowdownInterpreter {
      * The Pokémon POKEMON has fainted.
      */
     private fun handleFaintInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
-        val pnx = message.split("|faint|")[1].substring(0, 3)
-        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         battle.dispatch {
+            val pnx = message.split("|faint|")[1].substring(0, 3)
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             pokemon.battlePokemon?.sendUpdate()
@@ -463,14 +464,14 @@ object ShowdownInterpreter {
     }
 
     fun handleStatusInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
-        val pnx = message.split("|-status|")[1].substring(0, 3)
-        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-        val editedMessage = message.replace("|-status|", "")
-        val statusLabel = editedMessage.split("|")[1]
-        val status = Statuses.getStatus(statusLabel)
-            ?: return LOGGER.error("Unrecognized status: $statusLabel")
-
         battle.dispatchGo {
+            val pnx = message.split("|-status|")[1].substring(0, 3)
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val editedMessage = message.replace("|-status|", "")
+            val statusLabel = editedMessage.split("|")[1]
+            val status = Statuses.getStatus(statusLabel)
+                ?: return@dispatchGo LOGGER.error("Unrecognized status: $statusLabel")
+
             if (status is PersistentStatus) {
                 pokemon.battlePokemon?.effectedPokemon?.applyStatus(status)
             }
@@ -490,9 +491,11 @@ object ShowdownInterpreter {
         val pnx = message.split("|-immune|")[1].substring(0, 3)
         val from = if ("[from]" in message) message.substringAfter("[from]").trim() else null
 
-        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-        val name = pokemon.battlePokemon?.getName() ?: "DEAD".text()
-        battle.dispatchGo { battle.broadcastChatMessage(battleLang("immune", name)) }
+        battle.dispatchGo {
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val name = pokemon.battlePokemon?.getName() ?: "DEAD".text()
+            battle.broadcastChatMessage(battleLang("immune", name))
+        }
     }
 
     // |move|p1a: Charizard|Tackle|p2a: Magikarp
@@ -612,7 +615,7 @@ object ShowdownInterpreter {
 
     private fun handleWeatherInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
         battle.dispatch{
-            when(message){
+            when (message){
                 "|-weather|RainDance" -> battle.broadcastChatMessage(battleLang("rain_dance"))
                 "|-weather|RainDance|[upkeep]" -> battle.broadcastChatMessage(battleLang("rain_dance_upkeep"))
                 "|-weather|Sandstorm" -> battle.broadcastChatMessage(battleLang("sandstorm"))
@@ -635,20 +638,18 @@ object ShowdownInterpreter {
     }
 
     private fun handleRechargeInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
-        val pnx = message.split("|-mustrecharge|")[1].substring(0, 3)
-        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         battle.dispatch{
+            val pnx = message.split("|-mustrecharge|")[1].substring(0, 3)
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             battle.broadcastChatMessage(battleLang("recharge", pokemon.battlePokemon?.getName() ?: ""))
             WaitDispatch(2F)
         }
     }
 
     private fun handleStartInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
-
-        val pnx = message.split("|-start|")[1].substring(0, 3)
-        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-
-        battle.dispatch{
+        battle.dispatch {
+            val pnx = message.split("|-start|")[1].substring(0, 3)
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             if (message.contains("|confusion")){
                 battle.broadcastChatMessage(battleLang("confusion_start",pokemon.battlePokemon?.getName() ?: ""))
             }
@@ -660,10 +661,9 @@ object ShowdownInterpreter {
     }
 
     private fun handleActivateInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
-        val pnx = message.split("|-activate|")[1].substring(0, 3)
-        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-
         battle.dispatch{
+            val pnx = message.split("|-activate|")[1].substring(0, 3)
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
 //            if ("|confusion" in message) { // Don't even say anything about it, it's too spammy
 //                battle.broadcastChatMessage(battleLang("confusion_continues_idk", pokemon.battlePokemon!!.getName()))
 //            }
@@ -675,12 +675,12 @@ object ShowdownInterpreter {
     }
 
     private fun handleEndInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
-        val editedMessage = message.split("|-end|")[1]
-        val pnx = editedMessage.substring(0, 3)
-        val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-        val fromWhat = editedMessage.split("|")[1]
-
         battle.dispatch {
+            val editedMessage = message.split("|-end|")[1]
+            val pnx = editedMessage.substring(0, 3)
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val fromWhat = editedMessage.split("|")[1]
+
             when (fromWhat) {
                 "confusion" -> battle.broadcastChatMessage(battleLang("confusion_snapped", pokemon.battlePokemon!!.getName()))
                 else -> battle.broadcastChatMessage(editedMessage.text())
@@ -725,19 +725,11 @@ object ShowdownInterpreter {
 
     private fun handleSwitchInstruction(battle: PokemonBattle, battleActor: BattleActor, publicMessage: String, privateMessage: String) {
         val pnx = publicMessage.split("|")[2].split(":")[0]
-        val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-        val uuid = UUID.fromString(publicMessage.split("|")[2].split(":")[1].trim())
-        val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
-        val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
-        if (battle.started) {
-            battle.dispatch {
-                if (entity != null) {
-                    this.createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon)
-                } else {
-                    this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
-                }
-            }
-        } else {
+        if (!battle.started) {
+            val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val uuid = UUID.fromString(publicMessage.split("|")[2].split(":")[1].trim())
+            val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
+            val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
             activePokemon.battlePokemon = pokemon
             val pokemonEntity = pokemon.entity
             if (pokemonEntity == null && entity != null) {
@@ -746,6 +738,27 @@ object ShowdownInterpreter {
                     battleId = battle.battleId,
                     level = entity.world as ServerWorld,
                     position = entity.pos
+                )
+            }
+        } else {
+            battle.dispatchInsert {
+                val (actor, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+                val uuid = UUID.fromString(publicMessage.split("|")[2].split(":")[1].trim())
+                val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
+                val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
+
+                if (activePokemon.battlePokemon == pokemon) {
+                    return@dispatchInsert emptySet() // Already switched in, Showdown does this if the pokemon is going to die before it can switch
+                }
+
+                setOf(
+                    BattleDispatch {
+                        if (entity != null) {
+                            this.createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon)
+                        } else {
+                            this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
+                        }
+                    }
                 )
             }
         }
@@ -821,13 +834,21 @@ object ShowdownInterpreter {
     }
 
     fun handleDragInstruction(battle: PokemonBattle, actor: BattleActor, publicMessage: String, privateMessage: String) {
-        val pnx = publicMessage.split("|")[2].split(":")[0]
-        val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-        val uuid = UUID.fromString(publicMessage.split("|")[3].split(",")[1].trim())
-        val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
-        battle.broadcastChatMessage(battleLang("dragged_out", pokemon.getName()))
-        actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(pokemon))
-        activePokemon.battlePokemon = pokemon
-        battle.sendUpdate(BattleSwitchPokemonPacket(pnx, pokemon))
+        battle.dispatchGo {
+            val pnx = publicMessage.split("|")[2].split(":")[0]
+            val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val uuid = UUID.fromString(publicMessage.split("|")[3].split(",")[1].trim())
+            val pokemon = actor.pokemonList.find { it.uuid == uuid } ?: throw IllegalStateException("Unable to find ${actor.showdownId}'s Pokemon with UUID: $uuid")
+            battle.broadcastChatMessage(battleLang("dragged_out", pokemon.getName()))
+            val entity = if (actor is EntityBackedBattleActor<*>) actor.entity else null
+            battle.dispatch {
+                if (entity != null) {
+                    this.createEntitySwitch(battle, actor, entity, pnx, activePokemon, pokemon)
+                } else {
+                    this.createNonEntitySwitch(battle, actor, pnx, activePokemon, pokemon)
+                }
+            }
+        }
+
     }
 }
