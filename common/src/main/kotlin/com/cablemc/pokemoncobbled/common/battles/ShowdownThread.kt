@@ -24,7 +24,6 @@ import java.io.InputStreamReader
 import java.util.concurrent.CompletableFuture
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.Identifier
-import java.util.function.Consumer
 
 class ShowdownThread : Thread() {
 
@@ -113,8 +112,12 @@ class ShowdownThread : Thread() {
                 LOGGER.info("Showdown has been reconnected!")
             }
 
-            // Reads messages
-            showdown.read(ShowdownInterpreter::interpretMessage)
+            // Reads messages and don't destroy the connection if there is an error
+            try {
+                showdown.read(ShowdownInterpreter::interpretMessage)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
 
             // Read messages every half a second
             sleep(500)

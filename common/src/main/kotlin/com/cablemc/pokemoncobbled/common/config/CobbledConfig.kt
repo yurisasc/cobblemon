@@ -100,7 +100,11 @@ class CobbledConfig {
     @NodeCategory(Category.PassiveStatus)
     var passiveStatuses = mutableMapOf(
         Statuses.POISON.configEntry(),
-        Statuses.PARALYSIS.configEntry()
+        Statuses.POISON_BADLY.configEntry(),
+        Statuses.PARALYSIS.configEntry(),
+        Statuses.FROZEN.configEntry(),
+        Statuses.SLEEP.configEntry(),
+        Statuses.BURN.configEntry()
     )
 
     @NodeCategory(Category.Healing)
