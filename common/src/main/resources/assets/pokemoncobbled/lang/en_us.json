@@ -195,6 +195,7 @@
   "pokemoncobbled.battle.error.insufficient_pokemon.personal": "You have %1 usable Pokémon but you need %2.",
   "pokemoncobbled.battle.flinched": "%1$s flinched and couldn't move!",
   "pokemoncobbled.battle.immune": "But %1$s is immune!",
+  "pokemoncobbled.battle.missed": "But it missed.",
 
   "pokemoncobbled.experience.gained": "%1$s received %2$s experience.",
   "pokemoncobbled.experience.level_up": "%1$s is now level %2$s!",

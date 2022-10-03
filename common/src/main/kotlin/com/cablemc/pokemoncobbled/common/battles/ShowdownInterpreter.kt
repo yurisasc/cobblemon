@@ -85,6 +85,7 @@ object ShowdownInterpreter {
         updateInstructions["|-immune"] = this::handleImmuneInstruction
         updateInstructions["|-status|"] = this::handleStatusInstruction
         updateInstructions["|-end|"] = this::handleEndInstruction
+        updateInstructions["|-miss|"] = this::handleMissInstruction
 
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
@@ -478,9 +479,17 @@ object ShowdownInterpreter {
         }
     }
 
+    private fun handleMissInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        battle.dispatch {
+            battle.broadcastChatMessage(battleLang("missed"))
+            WaitDispatch(1.5F)
+        }
+    }
 
     private fun handleImmuneInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         val pnx = message.split("|-immune|")[1].substring(0, 3)
+        val from = if ("[from]" in message) message.substringAfter("[from]").trim() else null
+
         val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
         val name = pokemon.battlePokemon?.getName() ?: "DEAD".text()
         battle.dispatchGo { battle.broadcastChatMessage(battleLang("immune", name)) }

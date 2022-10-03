@@ -37,6 +37,11 @@ dependencies {
     modApi(libs.architecturyFabric)
 
     listOf(
+        libs.stdlib,
+        libs.reflect,
+        libs.jetbrainsAnnotations,
+        libs.serializationCore,
+        libs.serializationJson,
         libs.javet,
         libs.javetMac,
         libs.molang,
