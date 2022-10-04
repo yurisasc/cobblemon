@@ -13,6 +13,9 @@ import com.cablemc.pokemoncobbled.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import com.cablemc.pokemoncobbled.common.net.PacketHandler
 import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
+import com.cablemc.pokemoncobbled.common.net.messages.client.data.AbilityRegistrySyncPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.data.MovesRegistrySyncPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
@@ -26,18 +29,9 @@ import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.Initi
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.MoveClientPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.storage.party.SetPartyReferencePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.ClosePCPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.InitializePCPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.MoveClientPCPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.OpenPCPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCBoxPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.SetPCPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.storage.pc.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.ui.SummaryUIPacket
-import com.cablemc.pokemoncobbled.common.net.messages.server.BattleChallengePacket
-import com.cablemc.pokemoncobbled.common.net.messages.server.BenchMovePacket
-import com.cablemc.pokemoncobbled.common.net.messages.server.RequestMoveSwapPacket
-import com.cablemc.pokemoncobbled.common.net.messages.server.SelectStarterPacket
-import com.cablemc.pokemoncobbled.common.net.messages.server.SendOutPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.server.*
 import com.cablemc.pokemoncobbled.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.starter.RequestStarterScreenPacket
@@ -152,6 +146,12 @@ object CobbledNetwork {
 
         // Settings packets
         buildClientMessage<ServerSettingsPacket>()
+
+        // Data registries
+        buildClientMessage<AbilityRegistrySyncPacket>()
+        buildClientMessage<MovesRegistrySyncPacket>()
+        buildClientMessage<SpeciesRegistrySyncPacket>()
+
         /**
          * Server Packets
          */
