@@ -8,13 +8,10 @@
 
 package com.cablemc.pokemoncobbled.fabric
 
-import com.cablemc.pokemoncobbled.common.CobbledConfiguredFeatures
-import com.cablemc.pokemoncobbled.common.CobbledNetwork
-import com.cablemc.pokemoncobbled.common.CobbledPlacements
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.PokemonCobbledModImplementation
+import com.cablemc.pokemoncobbled.common.*
 import com.cablemc.pokemoncobbled.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemoncobbled.fabric.net.CobbledFabricNetworkDelegate
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.loader.api.FabricLoader
 
 object PokemonCobbledFabric : PokemonCobbledModImplementation {
@@ -31,6 +28,9 @@ object PokemonCobbledFabric : PokemonCobbledModImplementation {
         CobbledNetwork.register()
         if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
 //            PokemonCobbled.permissionValidator = LuckPermsPermissionValidator()
+        }
+        ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register { player, _ ->
+            PokemonCobbled.dataProvider.sync(player)
         }
     }
 }

@@ -9,24 +9,23 @@
 package com.cablemc.pokemoncobbled.common.client.net
 
 import com.cablemc.pokemoncobbled.common.client.net.battle.*
-import com.cablemc.pokemoncobbled.common.client.net.starter.StarterUIPacketHandler
+import com.cablemc.pokemoncobbled.common.client.net.data.DataRegistrySyncPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.gui.SummaryUIPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.EvolutionUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.pokemon.update.SingleUpdatePacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.settings.ServerSettingsPacketHandler
+import com.cablemc.pokemoncobbled.common.client.net.starter.StarterUIPacketHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.RemoveClientPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.SwapClientPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.InitializePartyHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.MoveClientPartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyPokemonHandler
 import com.cablemc.pokemoncobbled.common.client.net.storage.party.SetPartyReferenceHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.pc.ClosePCHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.pc.InitializePCHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.pc.MoveClientPCPokemonHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.pc.OpenPCHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.pc.SetPCBoxPokemonHandler
-import com.cablemc.pokemoncobbled.common.client.net.storage.pc.SetPCPokemonHandler
+import com.cablemc.pokemoncobbled.common.client.net.storage.pc.*
 import com.cablemc.pokemoncobbled.common.net.SidedPacketRegistrar
+import com.cablemc.pokemoncobbled.common.net.messages.client.data.AbilityRegistrySyncPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.data.MovesRegistrySyncPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cablemc.pokemoncobbled.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
@@ -104,6 +103,11 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
 
         // Settings
         registerHandler(ServerSettingsPacketHandler)
+
+        // Data registries
+        registerHandler<AbilityRegistrySyncPacket>(DataRegistrySyncPacketHandler())
+        registerHandler<MovesRegistrySyncPacket>(DataRegistrySyncPacketHandler())
+        registerHandler<SpeciesRegistrySyncPacket>(DataRegistrySyncPacketHandler())
     }
 }
 

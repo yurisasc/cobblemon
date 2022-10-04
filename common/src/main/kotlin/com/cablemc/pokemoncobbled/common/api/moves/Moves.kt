@@ -15,12 +15,14 @@ import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemoncobbled.common.api.reactive.SimpleObservable
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
+import com.cablemc.pokemoncobbled.common.net.messages.client.data.MovesRegistrySyncPacket
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import kotlin.io.path.Path
 import net.minecraft.resource.ResourceType
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
+import kotlin.io.path.Path
 
 /**
  * Registry for all known Moves
@@ -47,9 +49,14 @@ object Moves : JsonDataRegistry<MoveTemplate> {
         this.observable.emit(this)
     }
 
+    override fun sync(player: ServerPlayerEntity) {
+        MovesRegistrySyncPacket().sendToPlayer(player)
+    }
+
     fun getByName(name: String) = allMoves[name.lowercase()]
     fun getByNameOrDummy(name: String) = allMoves[name.lowercase()] ?: MoveTemplate.dummy(name.lowercase())
     fun getExceptional() = getByName("tackle") ?: allMoves.values.random()
     fun count() = allMoves.size
     fun names(): Collection<String> = this.allMoves.keys.toSet()
+    fun all() = this.allMoves.values.toList()
 }

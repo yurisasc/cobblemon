@@ -8,14 +8,14 @@
 
 package com.cablemc.pokemoncobbled.common.api.data
 
+import com.cablemc.pokemoncobbled.common.util.endsWith
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.io.File
-import kotlin.io.path.pathString
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
+import java.io.File
 import java.nio.file.Path
-import com.cablemc.pokemoncobbled.common.util.endsWith
+import kotlin.io.path.pathString
 
 /**
  * A [DataRegistry] that consumes JSON files.

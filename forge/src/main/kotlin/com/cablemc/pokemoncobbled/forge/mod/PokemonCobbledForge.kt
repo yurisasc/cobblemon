@@ -8,12 +8,8 @@
 
 package com.cablemc.pokemoncobbled.forge.mod
 
-import com.cablemc.pokemoncobbled.common.CobbledConfiguredFeatures
+import com.cablemc.pokemoncobbled.common.*
 import com.cablemc.pokemoncobbled.common.CobbledEntities.POKEMON_TYPE
-import com.cablemc.pokemoncobbled.common.CobbledNetwork
-import com.cablemc.pokemoncobbled.common.CobbledPlacements
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.PokemonCobbledModImplementation
 import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.filter
 import com.cablemc.pokemoncobbled.common.api.reactive.Observable.Companion.takeFirst
@@ -22,6 +18,7 @@ import com.cablemc.pokemoncobbled.forge.mod.net.CobbledForgeNetworkDelegate
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.common.ForgeMod
+import net.minecraftforge.event.OnDatapackSyncEvent
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
@@ -45,6 +42,7 @@ class PokemonCobbledForge : PokemonCobbledModImplementation {
 
             addListener(this@PokemonCobbledForge::initialize)
             addListener(this@PokemonCobbledForge::serverInit)
+            addListener(this@PokemonCobbledForge::onDataPackSync)
             CobbledNetwork.networkDelegate = CobbledForgeNetworkDelegate
             ServerPacketRegistrar.registerHandlers()
 
@@ -54,6 +52,7 @@ class PokemonCobbledForge : PokemonCobbledModImplementation {
                 CobbledConfiguredFeatures.register()
                 CobbledPlacements.register()
             }
+
 
             // TODO: Make listener for BiomeLoadingEvent to register feature to biomes
         }
@@ -69,6 +68,11 @@ class PokemonCobbledForge : PokemonCobbledModImplementation {
         if (ModList.get().isLoaded("luckperms")) {
 //            PokemonCobbled.permissionValidator = LuckPermsPermissionValidator()
         }
+    }
+
+    fun onDataPackSync(event: OnDatapackSyncEvent) {
+        val player = event.player ?: return
+        PokemonCobbled.dataProvider.sync(player)
     }
 
     override fun isModInstalled(id: String) = ModList.get().isLoaded(id)

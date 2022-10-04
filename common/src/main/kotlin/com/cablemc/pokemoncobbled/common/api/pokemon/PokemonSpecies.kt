@@ -34,6 +34,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.api.types.adapters.ElementalTypeAdapter
+import com.cablemc.pokemoncobbled.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cablemc.pokemoncobbled.common.pokemon.FormData
 import com.cablemc.pokemoncobbled.common.pokemon.Species
 import com.cablemc.pokemoncobbled.common.pokemon.adapters.StatAdapter
@@ -42,6 +43,7 @@ import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledPreEv
 import com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters.CobbledRequirementAdapter
 import com.cablemc.pokemoncobbled.common.util.adapters.*
 import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemoncobbled.common.util.ifServer
 import com.caoccao.javet.interop.V8Host
 import com.caoccao.javet.interop.V8Runtime
 import com.google.common.collect.HashBasedTable
@@ -52,6 +54,7 @@ import net.minecraft.block.Block
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.resource.ResourceType
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
@@ -203,9 +206,13 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
             species.initialize()
         }
-        createShowdownData()
+        ifServer { createShowdownData() }
         PokemonCobbled.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
         this.observable.emit(this)
+    }
+
+    override fun sync(player: ServerPlayerEntity) {
+        SpeciesRegistrySyncPacket().sendToPlayer(player)
     }
 
     private fun createShowdownData() {
