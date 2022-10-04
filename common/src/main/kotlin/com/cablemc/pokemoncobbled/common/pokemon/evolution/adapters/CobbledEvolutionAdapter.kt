@@ -36,6 +36,7 @@ object CobbledEvolutionAdapter : EvolutionAdapter {
         this.registerType(LevelUpEvolution.ADAPTER_VARIANT, LevelUpEvolution::class)
         this.registerType(TradeEvolution.ADAPTER_VARIANT, TradeEvolution::class)
         this.registerType(ItemInteractionEvolution.ADAPTER_VARIANT, ItemInteractionEvolution::class)
+        this.registerType(LevelUpEvolution.ALTERNATIVE_ADAPTER_VARIANT, LevelUpEvolution::class)
     }
 
     override fun <T : Evolution> registerType(id: String, type: KClass<T>) {
