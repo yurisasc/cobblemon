@@ -10,13 +10,26 @@ package com.cablemc.pokemoncobbled.common.net.messages.client.data
 
 import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
 import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
-import com.google.gson.reflect.TypeToken
-import net.minecraft.util.Identifier
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import net.minecraft.network.PacketByteBuf
 
-class AbilityRegistrySyncPacket : JsonDataRegistrySyncPacket<AbilityTemplate>(Abilities.gson, Abilities.all()) {
-    override fun synchronizeDecoded(entries: Map<Identifier, AbilityTemplate>) {
-        Abilities.reload(entries)
+class AbilityRegistrySyncPacket : DataRegistrySyncPacket<AbilityTemplate>(Abilities.all()) {
+    override fun encodeEntry(buffer: PacketByteBuf, entry: AbilityTemplate) {
+        buffer.writeString(entry.name)
+        buffer.writeText(entry.displayName)
+        buffer.writeText(entry.description)
     }
 
-    override fun type(): TypeToken<AbilityTemplate> = TypeToken.get(AbilityTemplate::class.java)
+    override fun decodeEntry(buffer: PacketByteBuf): AbilityTemplate? {
+        return AbilityTemplate(
+            name = buffer.readString(),
+            displayName = buffer.readText().copy(),
+            description= buffer.readText().copy()
+        )
+    }
+
+    override fun synchronizeDecoded(entries: Collection<AbilityTemplate>) {
+        Abilities.reload(entries.associateBy { cobbledResource(it.name.lowercase()) })
+    }
+
 }

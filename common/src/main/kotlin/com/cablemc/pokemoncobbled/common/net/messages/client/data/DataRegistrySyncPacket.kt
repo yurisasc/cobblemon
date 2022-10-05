@@ -10,31 +10,20 @@ package com.cablemc.pokemoncobbled.common.net.messages.client.data
 
 import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.util.Identifier
 
 abstract class DataRegistrySyncPacket<T>(private val registryEntries: Collection<T>) : NetworkPacket {
 
     constructor() : this(emptyList())
 
-    internal val entries = hashMapOf<Identifier, T>()
+    internal val entries = arrayListOf<T>()
 
     override fun encode(buffer: PacketByteBuf) {
-        buffer.writeInt(this.entries.size)
-        this.entries.forEach { (identifier, entry) ->
-            buffer.writeIdentifier(identifier)
-            this.encodeEntry(buffer, entry)
-        }
+        buffer.writeCollection(this.registryEntries, this::encodeEntry)
     }
 
     override fun decode(buffer: PacketByteBuf) {
         this.entries.clear()
-        repeat(buffer.readInt()) {
-            val identifier = buffer.readIdentifier()
-            val entry = this.decodeEntry(buffer)
-            if (entry != null) {
-                this.entries[identifier] = entry
-            }
-        }
+        this.entries += buffer.readList(this::decodeEntry).filterNotNull()
     }
 
     /**
@@ -50,7 +39,7 @@ abstract class DataRegistrySyncPacket<T>(private val registryEntries: Collection
      * Any errors that result in a null entry should be logged.
      *
      * @param buffer The [PacketByteBuf] being decoded from.
-     * @return The entry of type [T] if successfully decoded.
+     * @return The entry of type [T].
      */
     abstract fun decodeEntry(buffer: PacketByteBuf): T?
 
@@ -59,6 +48,6 @@ abstract class DataRegistrySyncPacket<T>(private val registryEntries: Collection
      *
      * @param entries The processed entries.
      */
-    abstract fun synchronizeDecoded(entries: Map<Identifier, T>)
+    abstract fun synchronizeDecoded(entries: Collection<T>)
 
 }

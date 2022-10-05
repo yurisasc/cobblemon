@@ -17,12 +17,14 @@ import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemoncobbled.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stat
+import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.types.ElementalType
 import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.pokemon.ai.PokemonBehaviour
 import com.cablemc.pokemoncobbled.common.util.lang
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
@@ -32,7 +34,7 @@ class Species {
         get() = lang("species.$name.name")
     var nationalPokedexNumber = 1
 
-    val baseStats = mapOf<Stat, Int>()
+    val baseStats = hashMapOf<Stat, Int>()
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
     val maleRatio: Float = 0.5F
     val catchRate = 45
@@ -41,9 +43,11 @@ class Species {
     var baseExperienceYield = 10
     var experienceGroup = ExperienceGroups.first()
     var hitbox = EntityDimensions(1F, 1F, false)
-    val primaryType = ElementalTypes.GRASS
+    var primaryType = ElementalTypes.GRASS
+        internal set
     // Technically incorrect for bulbasaur but Mr. Bossman said so
-    val secondaryType: ElementalType? = null
+    var secondaryType: ElementalType? = null
+        internal set
     val abilities = AbilityPool()
     val shoulderMountable: Boolean = false
     val shoulderEffects = mutableListOf<ShoulderEffect>()
@@ -57,11 +61,19 @@ class Species {
     val drops = DropTable()
     val eggCycles = 120
     val eggGroups = setOf<EggGroup>()
-    val dynamaxBlocked = false
-    // In decimeters
-    val height = 1F
-    // In hectogram
-    val weight = 1F
+    var dynamaxBlocked = false
+
+    /**
+     * The height in decimeters
+     */
+    var height = 1F
+        private set
+
+    /**
+     * The weight in hectograms
+     */
+    var weight = 1F
+        private set
 
     var forms = mutableListOf<FormData>()
 
@@ -78,6 +90,9 @@ class Species {
     lateinit var resourceIdentifier: Identifier
 
     fun initialize() {
+        Stats.mainStats.forEach { stat ->
+            this.baseStats.putIfAbsent(stat, 1)
+        }
         for (form in forms) {
             form.initialize(this)
         }
@@ -100,6 +115,40 @@ class Species {
         entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight
         entity.isFallFlying -> this.flyingEyeHeight
         else -> this.standingEyeHeight
+    }
+
+    internal fun encodeForClient(buffer: PacketByteBuf) {
+        buffer.writeIdentifier(this.resourceIdentifier)
+        buffer.writeString(this.name)
+        buffer.writeInt(this.nationalPokedexNumber)
+        buffer.writeMap(this.baseStats, { pb, stat -> pb.writeString(stat.id) }, { pb, value -> pb.writeInt(value) })
+        // Hitbox start
+        buffer.writeFloat(this.hitbox.width)
+        buffer.writeFloat(this.hitbox.height)
+        buffer.writeBoolean(this.hitbox.fixed)
+        // Hitbox end
+        // ToDo remake once we have custom typing support
+        buffer.writeString(this.primaryType.name)
+        buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeBoolean(this.dynamaxBlocked)
+        buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
+        buffer.writeCollection(this.forms) { pb, form -> form.encodeForClient(pb) }
+    }
+
+    internal fun decodeForClient(buffer: PacketByteBuf) {
+        this.apply {
+            name = buffer.readString()
+            nationalPokedexNumber = buffer.readInt()
+            baseStats.putAll(buffer.readMap({ Stats.getStat(it.readString(), true) }, { it.readInt() }))
+            hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
+            primaryType = ElementalTypes.getOrException(buffer.readString())
+            secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }
+            dynamaxBlocked = buffer.readBoolean()
+            pokedex.clear()
+            pokedex += buffer.readList { pb -> pb.readString() }
+            forms.clear()
+            forms += buffer.readList{ pb -> FormData().apply { decodeForClient(pb) } }.filterNotNull()
+        }
     }
 
     override fun toString() = name

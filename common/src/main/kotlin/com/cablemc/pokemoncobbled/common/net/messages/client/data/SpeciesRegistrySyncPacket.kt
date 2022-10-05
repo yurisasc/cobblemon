@@ -8,15 +8,36 @@
 
 package com.cablemc.pokemoncobbled.common.net.messages.client.data
 
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemoncobbled.common.pokemon.Species
-import com.google.gson.reflect.TypeToken
-import net.minecraft.util.Identifier
+import net.minecraft.network.PacketByteBuf
 
-class SpeciesRegistrySyncPacket : JsonDataRegistrySyncPacket<Species>(PokemonSpecies.gson, PokemonSpecies.species) {
-    override fun synchronizeDecoded(entries: Map<Identifier, Species>) {
-        PokemonSpecies.reload(entries)
+// We do not need to know every single attribute as a client, as such, we only sync the aspects that matter
+class SpeciesRegistrySyncPacket : DataRegistrySyncPacket<Species>(PokemonSpecies.species) {
+
+    override fun encodeEntry(buffer: PacketByteBuf, entry: Species) {
+        try {
+            entry.encodeForClient(buffer)
+        } catch (e: Exception) {
+            PokemonCobbled.LOGGER.error("Caught exception encoding the species {}", entry.resourceIdentifier, e)
+        }
     }
 
-    override fun type(): TypeToken<Species> = TypeToken.get(Species::class.java)
+    override fun decodeEntry(buffer: PacketByteBuf): Species? {
+        val identifier = buffer.readIdentifier()
+        val species = Species()
+        species.resourceIdentifier = identifier
+        return try {
+            species.decodeForClient(buffer)
+            species
+        } catch (e: Exception) {
+            PokemonCobbled.LOGGER.error("Caught exception decoding the species {}", identifier, e)
+            null
+        }
+    }
+
+    override fun synchronizeDecoded(entries: Collection<Species>) {
+        PokemonSpecies.reload(entries.associateBy { it.resourceIdentifier })
+    }
 }

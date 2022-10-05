@@ -10,7 +10,6 @@ package com.cablemc.pokemoncobbled.common.util
 
 import com.cablemc.pokemoncobbled.common.net.IntSize
 import io.netty.buffer.ByteBuf
-import net.minecraft.network.PacketByteBuf
 
 fun ByteBuf.writeConditional(condition: () -> Boolean, writer: () -> Unit) {
     writeConditional(condition(), writer)
@@ -51,21 +50,6 @@ fun ByteBuf.readSizedInt(size: IntSize): Int {
 fun ByteBuf.readTimes(size: IntSize = IntSize.U_BYTE, readEntry: () -> Unit) {
     val times = readSizedInt(size)
     repeat(times) { readEntry() }
-}
-
-fun PacketByteBuf.writeBigString(string: String) {
-    val maxSize = PacketByteBuf.DEFAULT_MAX_STRING_LENGTH
-    val chunks = string.chunked(maxSize.toInt())
-    this.writeInt(chunks.size)
-    chunks.forEach { this.writeString(it) }
-}
-
-fun PacketByteBuf.readBigString(): String {
-    val chunks = arrayListOf<String>()
-    repeat(this.readInt()) {
-        chunks.add(this.readString())
-    }
-    return chunks.joinToString("")
 }
 
 fun <K, V> ByteBuf.writeMapK(size: IntSize = IntSize.U_BYTE, map: Map<K, V>, entryWriter: (Map.Entry<K, V>) -> Unit) {

@@ -372,8 +372,8 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 ${this.generateGenderDetails(species, form)},
                 ${this.generateBaseStatsDetails(species, form)},
                 $DUMMY_ABILITY_DATA,
-                heightm: ${form.height},
-                weightkg: ${form.weight},
+                heightm: ${form.height * .1},
+                weightkg: ${form.weight * .1},
                 ${this.generateEggGroupDetails(species, form)},
         """.trimIndent())
         form.preEvolution?.let { dataHolder.append("prevo: \"${createShowdownName(it.species, it.form)}\",") }
