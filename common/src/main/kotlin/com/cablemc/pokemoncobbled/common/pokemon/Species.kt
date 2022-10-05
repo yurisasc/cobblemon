@@ -53,9 +53,9 @@ class Species {
     val shoulderEffects = mutableListOf<ShoulderEffect>()
     val moves = Learnset()
     val features = mutableSetOf<String>()
-    private val standingEyeHeight: Float? = null
-    private val swimmingEyeHeight: Float? = null
-    private val flyingEyeHeight: Float? = null
+    private var standingEyeHeight: Float? = null
+    private var swimmingEyeHeight: Float? = null
+    private var flyingEyeHeight: Float? = null
     val behaviour = PokemonBehaviour()
     val pokedex = mutableListOf<String>()
     val drops = DropTable()
@@ -130,6 +130,9 @@ class Species {
         // ToDo remake once we have custom typing support
         buffer.writeString(this.primaryType.name)
         buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeNullable(this.standingEyeHeight) { pb, value -> pb.writeFloat(value) }
+        buffer.writeNullable(this.swimmingEyeHeight) { pb, value -> pb.writeFloat(value) }
+        buffer.writeNullable(this.flyingEyeHeight) { pb, value -> pb.writeFloat(value) }
         buffer.writeBoolean(this.dynamaxBlocked)
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encodeForClient(pb) }
@@ -143,6 +146,9 @@ class Species {
             hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
             primaryType = ElementalTypes.getOrException(buffer.readString())
             secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }
+            standingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
+            swimmingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
+            flyingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
             dynamaxBlocked = buffer.readBoolean()
             pokedex.clear()
             pokedex += buffer.readList { pb -> pb.readString() }
