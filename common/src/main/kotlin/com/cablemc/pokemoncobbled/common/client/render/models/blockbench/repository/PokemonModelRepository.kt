@@ -132,6 +132,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen1.RhydonModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen1.RhyhornModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen1.SandshrewModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen1.SandslashModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen1.ScytherModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen1.SeadraModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen1.SeakingModel
@@ -173,6 +174,7 @@ import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen2.Porygon2Model
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen2.ScizorModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen2.SmoochumModel
+import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen2.SteelixModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen2.TyrogueModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen2.UmbreonModel
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen4.ElectivireModel
@@ -343,7 +345,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("rhydon") { RhydonModel(it) }
         inbuilt("rhyhorn") { RhyhornModel(it) }
         inbuilt("sandshrew") { SandshrewModel(it) }
-//        inbuilt("sandslash") { SandslashModel(it) } It is broken currently
+        inbuilt("sandslash") { SandslashModel(it) }
         inbuilt("scyther") { ScytherModel(it) }
         inbuilt("seadra") { SeadraModel(it) }
         inbuilt("seaking") { SeakingModel(it) }
@@ -355,6 +357,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("spearow") { SpearowModel(it) }
         inbuilt("starmie") { StarmieModel(it) }
         inbuilt("staryu") { StaryuModel(it) }
+        inbuilt("steelix") { SteelixModel(it) }
         inbuilt("tangela") { TangelaModel(it) }
         inbuilt("tauros") { TaurosModel(it) }
         inbuilt("tentacool") { TentacoolModel(it) }

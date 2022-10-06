@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen1
+package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -15,8 +15,8 @@ import com.cablemc.pokemoncobbled.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SandslashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
-    override val rootPart = root.registerChildWithAllChildren("sandslash")
+class SteelixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+    override val rootPart = root.registerChildWithAllChildren("steelix")
     override val head = getPart("head")
 
     override val portraitScale = 1.0F
@@ -35,7 +35,7 @@ class SandslashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("0028_sandslash/sandslash", "ground_idle")
+//                bedrock("0208_steelix/steelix", "ground_idle")
             )
         )
 
@@ -45,7 +45,7 @@ class SandslashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("0028_sandslash/sandslash", "ground_idle")
+//                bedrock("0208_steelix/steelix", "ground_idle")
             )
         )
     }
@@ -53,5 +53,5 @@ class SandslashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0028_sandslash/sandslash", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0208_steelix/steelix", "faint") else null
 }

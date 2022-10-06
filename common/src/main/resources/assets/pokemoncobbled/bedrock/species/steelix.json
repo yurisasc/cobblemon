@@ -1,0 +1,11 @@
+{
+  "poser": "pokemoncobbled:steelix",
+  "model": "pokemoncobbled:bedrock/models/0208_steelix/steelix.geo.json",
+  "texture": "pokemoncobbled:textures/pokemon/0208_steelix/steelix.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemoncobbled:textures/pokemon/0208_steelix/steelix_shiny.png"
+    }
+  ]
+}
