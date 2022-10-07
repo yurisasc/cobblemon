@@ -953,7 +953,7 @@ open class Pokemon {
     companion object {
         var FRIENDSHIP_RANGE = 0..255
 
-        val SHEDINJA = cobbledResource("shedinja")
+        internal val SHEDINJA = cobbledResource("shedinja")
 
     }
 
