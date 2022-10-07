@@ -92,7 +92,7 @@
             "requirements": [
                 {
                     "variant": "held_item",
-                    "item": "magmarizer"
+                    "item": "pokemoncobbled:magmarizer"
                 }
             ]
         }

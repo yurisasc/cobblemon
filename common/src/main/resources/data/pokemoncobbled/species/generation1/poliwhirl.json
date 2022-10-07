@@ -86,7 +86,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "water-stone"
+            "requiredContext": "pokemoncobbled:water_stone"
         },
         {
             "id": "poliwhirl_politoed",

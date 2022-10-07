@@ -126,7 +126,7 @@
                     "target": "male"
                 }
             ],
-            "requiredContext": "dawn-stone"
+            "requiredContext": "pokemoncobbled:dawn_stone"
         }
     ],
     "baseScale": 1.0,

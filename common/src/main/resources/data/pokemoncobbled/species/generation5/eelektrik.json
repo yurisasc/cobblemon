@@ -88,7 +88,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "thunder-stone"
+            "requiredContext": "pokemoncobbled:thunder_stone"
         }
     ],
     "baseScale": 1.0,

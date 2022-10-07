@@ -85,7 +85,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "water-stone"
+            "requiredContext": "pokemoncobbled:water_stone"
         }
     ],
     "baseScale": 1.0,

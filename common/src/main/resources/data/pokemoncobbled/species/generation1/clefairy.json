@@ -129,7 +129,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "moon-stone"
+            "requiredContext": "pokemoncobbled:moon_stone"
         }
     ],
     "baseScale": 1.0,

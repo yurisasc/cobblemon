@@ -53,7 +53,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "tart-apple"
+            "requiredContext": "pokemoncobbled:tart_apple"
         },
         {
             "id": "applin_appletun",
@@ -62,7 +62,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "sweet-apple"
+            "requiredContext": "pokemoncobbled:sweet_apple"
         }
     ],
     "baseScale": 1.0,

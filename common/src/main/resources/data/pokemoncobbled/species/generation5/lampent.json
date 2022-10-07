@@ -89,7 +89,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "dusk-stone"
+            "requiredContext": "pokemoncobbled:dusk_stone"
         }
     ],
     "baseScale": 1.0,

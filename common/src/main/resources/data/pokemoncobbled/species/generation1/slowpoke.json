@@ -139,7 +139,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "galarica-cuff"
+            "requiredContext": "pokemoncobbled:galarica_cuff"
         },
         {
             "id": "slowpoke_slowking",
@@ -161,7 +161,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "galarica-wreath"
+            "requiredContext": "pokemoncobbled:galarica_wreath"
         }
     ],
     "baseScale": 1.0,
