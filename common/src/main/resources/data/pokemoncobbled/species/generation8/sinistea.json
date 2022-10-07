@@ -77,7 +77,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "cracked-pot"
+            "requiredContext": "pokemoncobbled:cracked_pot"
         }
     ],
     "baseScale": 1.0,

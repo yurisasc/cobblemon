@@ -106,7 +106,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "fire-stone"
+            "requiredContext": "pokemoncobbled:fire_stone"
         },
         {
             "id": "vulpix_ninetales",
@@ -115,7 +115,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "ice-stone"
+            "requiredContext": "pokemoncobbled:ice_stone"
         }
     ],
     "baseScale": 1.0,

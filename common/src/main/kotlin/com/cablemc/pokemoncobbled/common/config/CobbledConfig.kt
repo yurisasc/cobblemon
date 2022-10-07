@@ -43,6 +43,9 @@ class CobbledConfig {
     @NodeCategory(Category.Storage)
     var storageFormat = "nbt"
 
+    @NodeCategory(Category.Storage)
+    var preventCompletePartyDeposit = true
+
     // TODO new types of constraint
 
     @NodeCategory(Category.Spawning)
@@ -97,7 +100,11 @@ class CobbledConfig {
     @NodeCategory(Category.PassiveStatus)
     var passiveStatuses = mutableMapOf(
         Statuses.POISON.configEntry(),
-        Statuses.PARALYSIS.configEntry()
+        Statuses.POISON_BADLY.configEntry(),
+        Statuses.PARALYSIS.configEntry(),
+        Statuses.FROZEN.configEntry(),
+        Statuses.SLEEP.configEntry(),
+        Statuses.BURN.configEntry()
     )
 
     @NodeCategory(Category.Healing)

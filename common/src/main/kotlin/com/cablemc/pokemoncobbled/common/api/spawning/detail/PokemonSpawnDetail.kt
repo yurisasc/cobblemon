@@ -16,6 +16,7 @@ import com.cablemc.pokemoncobbled.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemoncobbled.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemoncobbled.common.util.asIdentifierDefaultingNamespace
 import com.cablemc.pokemoncobbled.common.util.lang
+import com.google.gson.annotations.SerializedName
 import net.minecraft.text.MutableText
 
 /**
@@ -31,6 +32,7 @@ class PokemonSpawnDetail : SpawnDetail() {
 
     override val type: String = TYPE
     var pokemon = PokemonProperties()
+    @SerializedName("level", alternate = ["levelRange"])
     var levelRange: IntRange? = null
     val drops: DropTable? = null
     /* todo breadcrumbing, ai */

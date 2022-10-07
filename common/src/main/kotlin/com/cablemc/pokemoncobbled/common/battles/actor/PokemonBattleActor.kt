@@ -32,7 +32,8 @@ open class PokemonBattleActor(
     override fun getName() = pokemon.effectedPokemon.species.translatedName
     override fun getWorldAndPosition(): Pair<ServerWorld, Vec3d>? {
         val entity = this.entity ?: return null
-        return entity.world as ServerWorld to entity.pos
+        val world = entity.world as? ServerWorld ?: return null
+        return world to entity.pos
     }
 
     override fun sendUpdate(packet: NetworkPacket) {

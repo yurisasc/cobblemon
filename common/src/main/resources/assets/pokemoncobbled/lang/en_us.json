@@ -156,7 +156,7 @@
   "pokemoncobbled.battle.boost.severe": "%1$s's %2$s rose drastically.",
   "pokemoncobbled.battle.boost.cap.single": "%1$s's %2$s won't go any higher.",
   "pokemoncobbled.battle.boost.cap.multiple": "%1$s's stats won't go any higher.",
-  "pokemoncobbled.battle.fail": "It fails!",
+  "pokemoncobbled.battle.fail": "But it failed.",
   "pokemoncobbled.battle.recharge": "%1$s must recharge.",
   "pokemoncobbled.capture.broke_free": "The %1$s broke free!",
   "pokemoncobbled.capture.not_your_turn": "It's not your turn to act.",
@@ -183,6 +183,7 @@
 
   "pokemoncobbled.battle.confusion_start": "%1$s is confused!",
   "pokemoncobbled.battle.confusion_activate": "It hurt itself in confusion!",
+  "pokemoncobbled.battle.confusion_snapped": "%1$s snapped out of its confusion!",
   "pokemoncobbled.battle.protect_start": "%1$s starts protecting itself!",
   "pokemoncobbled.battle.protect_activate": "%1$s protected itself!",
 
@@ -192,7 +193,9 @@
   "pokemoncobbled.battle.error.no_pokemon": "You don't have any usable Pokémon!",
   "pokemoncobbled.battle.error.insufficient_pokemon": "%1$s has %2 Pokémon when %3 are required.",
   "pokemoncobbled.battle.error.insufficient_pokemon.personal": "You have %1 usable Pokémon but you need %2.",
-
+  "pokemoncobbled.battle.flinched": "%1$s flinched and couldn't move!",
+  "pokemoncobbled.battle.immune": "But %1$s is immune!",
+  "pokemoncobbled.battle.missed": "But it missed.",
 
   "pokemoncobbled.experience.gained": "%1$s received %2$s experience.",
   "pokemoncobbled.experience.level_up": "%1$s is now level %2$s!",
@@ -231,6 +234,20 @@
   "pokemoncobbled.move.category.physical": "Physical",
   "pokemoncobbled.move.category.special": "Special",
   "pokemoncobbled.move.category.status": "Status",
+
+  "pokemoncobbled.status.sleep.apply": "%1$s fell asleep!",
+  "pokemoncobbled.status.sleep.is": "%1$s is fast asleep.",
+  "pokemoncobbled.status.sleep.woke": "%1$s woke up!",
+  "pokemoncobbled.status.paralysis.apply": "%1$s was paralyzed!",
+  "pokemoncobbled.status.paralysis.is": "%1$s is paralyzed and cannot move",
+  "pokemoncobbled.status.poison.apply": "%1$s was poisoned!",
+  "pokemoncobbled.status.poisonbadly.apply": "%1$s was badly poisoned!",
+  "pokemoncobbled.status.poison.hurt": "%1$s was hurt by poison",
+  "pokemoncobbled.status.burn.apply": "%1$s was burned!",
+  "pokemoncobbled.status.burn.hurt": "%1$s was hurt by its burns!",
+  "pokemoncobbled.status.frozen.apply": "%1$s was frozen solid!",
+  "pokemoncobbled.status.frozen.thawed": "%1$s thawed out!",
+  "pokemoncobbled.status.frozen.is": "%1$s is frozen solid!",
 
   "pokemoncobbled.move.pound": "Pound",
   "pokemoncobbled.move.pound.desc": "MOVE DESCRIPTION",

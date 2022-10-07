@@ -108,7 +108,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "fire-stone"
+            "requiredContext": "pokemoncobbled:fire_stone"
         }
     ],
     "baseScale": 1.0,

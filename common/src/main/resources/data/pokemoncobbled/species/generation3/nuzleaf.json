@@ -109,7 +109,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "leaf-stone"
+            "requiredContext": "pokemoncobbled:leaf_stone"
         }
     ],
     "baseScale": 1.0,

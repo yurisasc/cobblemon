@@ -110,7 +110,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "water-stone"
+            "requiredContext": "pokemoncobbled:water_stone"
         },
         {
             "id": "eevee_jolteon",
@@ -119,7 +119,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "thunder-stone"
+            "requiredContext": "pokemoncobbled:thunder_stone"
         },
         {
             "id": "eevee_flareon",
@@ -128,7 +128,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "fire-stone"
+            "requiredContext": "pokemoncobbled:fire_stone"
         },
         {
             "id": "eevee_espeon",
@@ -166,106 +166,12 @@
         },
         {
             "id": "eevee_leafeon",
-            "variant": "level_up",
-            "result": "leafeon",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "biome",
-                    "biomeCondition": "eterna-forest"
-                }
-            ]
-        },
-        {
-            "id": "eevee_leafeon",
-            "variant": "level_up",
-            "result": "leafeon",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "biome",
-                    "biomeCondition": "pinwheel-forest"
-                }
-            ]
-        },
-        {
-            "id": "eevee_leafeon",
-            "variant": "level_up",
-            "result": "leafeon",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "biome",
-                    "biomeCondition": "kalos-route-20"
-                }
-            ]
-        },
-        {
-            "id": "eevee_leafeon",
-            "variant": "level_up",
-            "result": "leafeon",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": []
-        },
-        {
-            "id": "eevee_leafeon",
             "variant": "item_interact",
             "result": "leafeon",
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "leaf-stone"
-        },
-        {
-            "id": "eevee_glaceon",
-            "variant": "level_up",
-            "result": "glaceon",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "biome",
-                    "biomeCondition": "sinnoh-route-217"
-                }
-            ]
-        },
-        {
-            "id": "eevee_glaceon",
-            "variant": "level_up",
-            "result": "glaceon",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "biome",
-                    "biomeCondition": "twist-mountain"
-                }
-            ]
-        },
-        {
-            "id": "eevee_glaceon",
-            "variant": "level_up",
-            "result": "glaceon",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "biome",
-                    "biomeCondition": "frost-cavern"
-                }
-            ]
-        },
-        {
-            "id": "eevee_glaceon",
-            "variant": "level_up",
-            "result": "glaceon",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": []
+            "requiredContext": "pokemoncobbled:leaf_stone"
         },
         {
             "id": "eevee_glaceon",
@@ -274,20 +180,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "ice-stone"
-        },
-        {
-            "id": "eevee_sylveon",
-            "variant": "level_up",
-            "result": "sylveon",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "has_move_type",
-                    "type": "fairy"
-                }
-            ]
+            "requiredContext": "pokemoncobbled:ice_stone"
         },
         {
             "id": "eevee_sylveon",

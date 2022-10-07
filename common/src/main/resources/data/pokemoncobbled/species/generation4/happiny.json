@@ -92,7 +92,7 @@
                 },
                 {
                     "variant": "held_item",
-                    "item": "oval-stone"
+                    "item": "pokemoncobbled:oval_stone"
                 }
             ]
         }

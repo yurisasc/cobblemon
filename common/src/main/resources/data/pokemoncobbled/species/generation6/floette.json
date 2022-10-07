@@ -107,7 +107,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "shiny-stone"
+            "requiredContext": "pokemoncobbled:shiny_stone"
         }
     ],
     "baseScale": 1.0,

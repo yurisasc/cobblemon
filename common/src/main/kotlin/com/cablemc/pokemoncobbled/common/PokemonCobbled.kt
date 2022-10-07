@@ -62,6 +62,7 @@ import com.cablemc.pokemoncobbled.common.config.constraint.IntConstraint
 import com.cablemc.pokemoncobbled.common.config.starter.StarterConfig
 import com.cablemc.pokemoncobbled.common.data.CobbledDataProvider
 import com.cablemc.pokemoncobbled.common.events.ServerTickHandler
+import com.cablemc.pokemoncobbled.common.net.messages.client.settings.ServerSettingsPacket
 import com.cablemc.pokemoncobbled.common.item.PokeBallItem
 import com.cablemc.pokemoncobbled.common.permission.CobbledPermissionValidator
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
@@ -82,6 +83,13 @@ import com.cablemc.pokemoncobbled.common.world.CobbledGameRules
 import com.cablemc.pokemoncobbled.common.worldgen.CobbledWorldgen
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.util.UUID
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.util.WorldSavePath
@@ -144,6 +152,7 @@ object PokemonCobbled {
             storage.onPlayerLogin(it)
             playerData.get(it).sendToPlayer(it)
             starterHandler.handleJoin(it)
+            ServerSettingsPacket().sendToPlayer(it)
         }
         PLAYER_QUIT.subscribe { PCLinkManager.removeLink(it.uuid) }
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)

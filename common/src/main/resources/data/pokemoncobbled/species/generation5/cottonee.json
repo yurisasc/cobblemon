@@ -87,7 +87,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "sun-stone"
+            "requiredContext": "pokemoncobbled:sun_stone"
         }
     ],
     "baseScale": 1.0,

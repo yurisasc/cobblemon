@@ -93,7 +93,7 @@
             "requirements": [
                 {
                     "variant": "held_item",
-                    "item": "metal-coat"
+                    "item": "pokemoncobbled:metal_coat"
                 }
             ]
         }

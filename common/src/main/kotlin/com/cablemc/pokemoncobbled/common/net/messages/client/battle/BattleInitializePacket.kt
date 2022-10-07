@@ -157,7 +157,11 @@ class BattleInitializePacket() : NetworkPacket {
                 val uuid = buffer.readUuid()
                 val pokemonDisplayName = buffer.readText().copy()
                 val properties = PokemonProperties.parse(buffer.readString(), delimiter = " ")
-                val status = if (buffer.readBoolean()) PersistentStatus(Identifier(buffer.readString())) else null
+                val status = if (buffer.readBoolean()) {
+                    PersistentStatus(Identifier(buffer.readString()), "", "", null)
+                } else {
+                    null
+                }
                 val hpRatio = buffer.readFloat()
                 val statChanges = mutableMapOf<Stat, Int>()
                 buffer.readMapK(size = IntSize.U_BYTE, statChanges) {

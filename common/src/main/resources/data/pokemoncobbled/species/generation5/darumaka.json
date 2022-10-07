@@ -113,7 +113,7 @@
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "ice-stone"
+            "requiredContext": "pokemoncobbled:ice_stone"
         }
     ],
     "baseScale": 1.0,

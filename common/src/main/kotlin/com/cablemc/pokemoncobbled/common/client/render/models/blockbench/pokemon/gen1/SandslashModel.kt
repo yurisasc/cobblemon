@@ -8,10 +8,10 @@
 
 package com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.gen1
 
-import com.cablemc.pokemoncobbled.common.entity.PoseType
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemoncobbled.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cablemc.pokemoncobbled.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -34,8 +34,8 @@ class SandslashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0028_sandslash/sandslash", "ground_idle")
+                singleBoneLook(),
+                bedrock("0028_sandslash/sandslash", "ground_idle")
             )
         )
 
@@ -44,8 +44,8 @@ class SandslashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0028_sandslash/sandslash", "ground_walk")
+                singleBoneLook(),
+                bedrock("0028_sandslash/sandslash", "ground_idle")
             )
         )
     }

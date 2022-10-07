@@ -83,7 +83,7 @@
             "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "scroll-of-darkness"
+            "requiredContext": "pokemoncobbled:scroll_of_darkness"
         },
         {
             "id": "kubfu_urshifu_rapid",
@@ -92,7 +92,7 @@
             "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "scroll-of-waters"
+            "requiredContext": "pokemoncobbled:scroll_of_waters"
         }
     ],
     "baseScale": 1.0,
