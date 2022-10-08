@@ -656,7 +656,7 @@ open class Pokemon {
 
     fun getOwnerUUID() : UUID? {
         storeCoordinates.get().let {
-            if (isPlayerOwned()) return it!!.store.uuid;
+            if (isPlayerOwned()) return it!!.store.uuid
         }
         return null
     }

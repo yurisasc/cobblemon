@@ -12,9 +12,9 @@ import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
 import com.cablemc.pokemoncobbled.common.api.storage.party.PartyPosition
 import com.cablemc.pokemoncobbled.common.api.storage.pc.PCPosition
 import com.cablemc.pokemoncobbled.common.client.gui.summary.widgets.SoundlessWidget
+import com.cablemc.pokemoncobbled.common.client.settings.ServerSettings
 import com.cablemc.pokemoncobbled.common.client.storage.ClientPC
 import com.cablemc.pokemoncobbled.common.client.storage.ClientParty
-import com.cablemc.pokemoncobbled.common.client.settings.ServerSettings
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.SwapPCPartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.MovePartyPokemonPacket
 import com.cablemc.pokemoncobbled.common.net.messages.server.storage.party.SwapPartyPokemonPacket
@@ -44,7 +44,7 @@ class PCWidget(
             }
             // If value is less than zero, wrap around to end.
             else if (value < 0) {
-                pc.boxes.size - 1;
+                pc.boxes.size - 1
             }
             // Else it's greater than max, wrap around to start.
             else {
@@ -75,7 +75,7 @@ class PCWidget(
 
     private fun setupMemberWidgets() {
         this.resetWidgets()
-        var index = 0;
+        var index = 0
 
         // Box members
         for (row in 1..5) {
