@@ -26,6 +26,15 @@
         "water1",
         "dragon"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:prismarine_crystals",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:leer",
         "1:watergun",

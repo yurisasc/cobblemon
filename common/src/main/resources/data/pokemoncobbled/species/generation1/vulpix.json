@@ -36,6 +36,15 @@
     "eggGroups": [
         "ground"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:sweet_berries",
+                "quantityRange": "2-3"
+            }
+        ]
+    },
     "moves": [
         "1:tailwhip",
         "1:ember",

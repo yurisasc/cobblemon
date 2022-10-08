@@ -43,6 +43,15 @@
         "monster",
         "water1"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:heart_of_the_sea",
+                "percentage": 25
+            }
+        ]
+    },
     "moves": [
         "1:growl",
         "1:watergun",
