@@ -23,6 +23,22 @@
     "eggGroups": [
         "bug"
     ],
+    "behaviour": {
+        "moving": {
+            "canMove": false,
+            "canLook": false
+        }
+    },
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:string",
+                "quantityRange": "1-2",
+                "percentage": 66
+            }
+        ]
+    },
     "moves": [
         "0:harden",
         "tm:electroweb",

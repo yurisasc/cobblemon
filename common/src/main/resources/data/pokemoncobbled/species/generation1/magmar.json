@@ -24,6 +24,19 @@
     "eggGroups": [
         "humanshape"
     ],
+    "drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:blaze_powder",
+                "percentage": 10
+            },
+            {
+                "item": "pokemoncobbled:magmarizer",
+                "percentage": 5
+            }
+        ]
+    },
     "moves": [
         "1:leer",
         "1:ember",
