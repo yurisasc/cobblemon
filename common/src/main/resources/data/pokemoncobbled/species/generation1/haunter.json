@@ -24,6 +24,15 @@
     "eggGroups": [
         "indeterminate"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "pokemoncobbled:link_cable",
+                "percentage": 5
+            }
+        ]
+    },
     "moves": [
         "0:shadowpunch",
         "1:hypnosis",

@@ -39,6 +39,20 @@
     "eggGroups": [
         "mineral"
     ],
+    "drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:coal",
+                "quantityRange": "1-2",
+                "percentage": 66
+            },
+            {
+                "item": "pokemoncobbled:link_cable",
+                "percentage": 5
+            }
+        ]
+    },
     "moves": [
         "1:tackle",
         "1:defensecurl",

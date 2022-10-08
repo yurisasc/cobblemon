@@ -25,6 +25,14 @@
     "eggGroups": [
         "water2"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:salmon"
+            }
+        ]
+    },
     "moves": [
         "1:tailwhip",
         "1:peck",

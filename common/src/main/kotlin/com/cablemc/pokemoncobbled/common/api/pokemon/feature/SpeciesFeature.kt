@@ -29,21 +29,31 @@ interface SpeciesFeature {
     val name: String
     companion object {
         private val speciesFeatures = HashBiMap.create<String, () -> SpeciesFeature>()
-        fun <T : SpeciesFeature> register(name: String, clazz: Class<T>) {
+        private val globalSpeciesFeatures = HashBiMap.create<String, () -> SpeciesFeature>()
+        fun <T : SpeciesFeature> register(name: String, clazz: Class<T>, global: Boolean = false) {
             try {
                 clazz.getDeclaredConstructor().newInstance()
             } catch (e: Exception) {
                 throw IllegalArgumentException("The given species feature class for $name cannot be constructed with a default constructor. You need a default constructor to use species features.")
             }
-            speciesFeatures[name] = { clazz.getDeclaredConstructor().newInstance() }
+            val instanceJob = { clazz.getDeclaredConstructor().newInstance() }
+            speciesFeatures[name] = instanceJob
+            if (global) {
+                globalSpeciesFeatures[name] = instanceJob
+            }
         }
         fun <T : SpeciesFeature> register(name: String, instantiator: () -> T) {
             speciesFeatures[name] = instantiator
+        }
+        fun <T : SpeciesFeature> registerGlobalFeature(name: String, instantiator: () -> T) {
+            this.register(name, instantiator)
+            globalSpeciesFeatures[name] = instantiator
         }
         fun unregister(name: String) {
             speciesFeatures.remove(name)
         }
         fun get(name: String) = speciesFeatures[name]
+        fun globalFeatures() = this.globalSpeciesFeatures.toMap()
     }
 
     fun saveToNBT(pokemonNBT: NbtCompound): NbtCompound

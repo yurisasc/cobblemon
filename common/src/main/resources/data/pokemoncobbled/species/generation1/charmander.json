@@ -33,6 +33,15 @@
         "monster",
         "dragon"
     ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:charcoal",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:scratch",
         "1:growl",

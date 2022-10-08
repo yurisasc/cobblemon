@@ -10,19 +10,7 @@ package com.cablemc.pokemoncobbled.common.pokemon.evolution.adapters
 
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.adapters.RequirementAdapter
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.AreaRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.AttackDefenceRatioRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.BiomeRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.FriendshipRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.HeldItemRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.LevelRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.MoveSetRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.MoveTypeRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.PartyMemberRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.PokemonPropertiesRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.TimeRangeRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.WeatherRequirement
-import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.WorldRequirement
+import com.cablemc.pokemoncobbled.common.pokemon.evolution.requirements.*
 import com.google.common.collect.HashBiMap
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
@@ -56,6 +44,8 @@ object CobbledRequirementAdapter : RequirementAdapter {
         this.registerType(LevelRequirement.ADAPTER_VARIANT, LevelRequirement::class)
         this.registerType(WeatherRequirement.ADAPTER_VARIANT, WeatherRequirement::class)
         this.registerType(AttackDefenceRatioRequirement.ADAPTER_VARIANT, AttackDefenceRatioRequirement::class)
+        this.registerType(BattleCriticalHitsRequirement.ADAPTER_VARIANT, BattleCriticalHitsRequirement::class)
+        this.registerType(DamageTakenRequirement.ADAPTER_VARIANT, DamageTakenRequirement::class)
     }
 
     override fun <T : EvolutionRequirement> registerType(id: String, type: KClass<T>) {
