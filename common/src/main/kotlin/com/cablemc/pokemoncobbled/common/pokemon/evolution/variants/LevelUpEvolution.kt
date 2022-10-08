@@ -51,5 +51,7 @@ open class LevelUpEvolution(
 
     companion object {
         const val ADAPTER_VARIANT = "level_up"
+        // Just for user convenience sake as we may have passive evolutions not backed by level ups
+        const val ALTERNATIVE_ADAPTER_VARIANT = "passive"
     }
 }

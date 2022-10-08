@@ -400,9 +400,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     }
 
     private fun generateGenderDetails(species: Species, form: FormData? = null): String = when (val maleRatio = form?.maleRatio ?: species.maleRatio) {
-        1F -> "gender: \"F\""
-        0F -> "gender: \"M\""
-        -0.125F -> "gender: \"N\""
+        0F -> "gender: \"F\""
+        1F -> "gender: \"M\""
+        -1F, 1.125F -> "gender: \"N\""
         else -> "genderRatio: { M: ${maleRatio}, F: ${1F - maleRatio} }"
     }
 

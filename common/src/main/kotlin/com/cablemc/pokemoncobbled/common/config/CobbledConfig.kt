@@ -133,4 +133,8 @@ class CobbledConfig {
 
     @NodeCategory(Category.Pokemon)
     var flagSpeciesFeatures = mutableListOf("sunglasses")
+
+    @NodeCategory(Category.Pokemon)
+    var ninjaskCreatesShedinja = true
+
 }

@@ -15,40 +15,26 @@ import com.cablemc.pokemoncobbled.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemoncobbled.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cablemc.pokemoncobbled.common.api.pokemon.stats.Stats
 import com.cablemc.pokemoncobbled.common.api.pokemon.status.Statuses
-import com.cablemc.pokemoncobbled.common.api.text.aqua
-import com.cablemc.pokemoncobbled.common.api.text.gold
-import com.cablemc.pokemoncobbled.common.api.text.plus
-import com.cablemc.pokemoncobbled.common.api.text.red
-import com.cablemc.pokemoncobbled.common.api.text.text
-import com.cablemc.pokemoncobbled.common.battles.dispatch.BattleDispatch
-import com.cablemc.pokemoncobbled.common.battles.dispatch.DispatchResult
-import com.cablemc.pokemoncobbled.common.battles.dispatch.GO
-import com.cablemc.pokemoncobbled.common.battles.dispatch.UntilDispatch
-import com.cablemc.pokemoncobbled.common.battles.dispatch.WaitDispatch
+import com.cablemc.pokemoncobbled.common.api.text.*
+import com.cablemc.pokemoncobbled.common.battles.dispatch.*
 import com.cablemc.pokemoncobbled.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemoncobbled.common.battles.runner.ShowdownConnection
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleFaintPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleHealthChangePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleInitializePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleMakeChoicePacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleQueueRequestPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSetTeamPokemonPacket
-import com.cablemc.pokemoncobbled.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cablemc.pokemoncobbled.common.net.messages.client.battle.*
+import com.cablemc.pokemoncobbled.common.pokemon.feature.BattleCriticalHitsFeature
+import com.cablemc.pokemoncobbled.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemoncobbled.common.pokemon.status.PersistentStatus
-import com.cablemc.pokemoncobbled.common.util.asTranslated
-import com.cablemc.pokemoncobbled.common.util.battleLang
-import com.cablemc.pokemoncobbled.common.util.getPlayer
-import com.cablemc.pokemoncobbled.common.util.lang
-import com.cablemc.pokemoncobbled.common.util.swap
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
+import com.cablemc.pokemoncobbled.common.util.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
+import java.util.*
+import java.util.concurrent.CompletableFuture
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String, MutableList<String>) -> Unit>()
     private val sideUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, String) -> Unit>()
     private val splitUpdateInstructions = mutableMapOf<String, (PokemonBattle, BattleActor, String, String) -> Unit>()
+    // Stores a reference to the previous move message in a battle so a minor action can refer back to it (Battle UUID : Move message)
+    private val lastMover = mutableMapOf<UUID, String>()
 
     init {
         updateInstructions["|player|"] = this::handlePlayerInstruction
@@ -459,6 +445,7 @@ object ShowdownInterpreter {
             battle.broadcastChatMessage(battleLang("win", winners).gold())
 
             battle.end()
+            this.lastMover.remove(battle.battleId)
             GO
         }
     }
@@ -502,7 +489,7 @@ object ShowdownInterpreter {
     private fun handleMoveInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val editMessaged = message.replace("|move|", "")
-
+            this.lastMover[battle.battleId] = message
             val userPNX = editMessaged.split("|")[0].split(":")[0].trim()
             val (_, userPokemon) = battle.getActorAndActiveSlotFromPNX(userPNX)
             val move = editMessaged.split("|")[1].split("|")[0]
@@ -609,6 +596,12 @@ object ShowdownInterpreter {
     private fun handleCritInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             battle.broadcastChatMessage(battleLang("crit"))
+            this.lastMover[battle.battleId]?.let { message ->
+                val editMessaged = message.replace("|move|", "")
+                val userPNX = editMessaged.split("|")[0].split(":")[0].trim()
+                val pokemon = battle.getActorAndActiveSlotFromPNX(userPNX).second.battlePokemon?.effectedPokemon ?: return@let
+                pokemon.getFeature<BattleCriticalHitsFeature>(BattleCriticalHitsFeature.ID)?.let { it.currentValue++ }
+            }
             GO
         }
     }
@@ -815,10 +808,15 @@ object ShowdownInterpreter {
                     GO
                 }
             } else {
+                val maxHealth = newHealth.split("/")[1].toInt()
                 val remainingHealth = newHealth.split("/")[0].toInt()
-                newHealthRatio = remainingHealth.toFloat() / newHealth.split("/")[1].toInt()
+                val difference = maxHealth - remainingHealth
+                newHealthRatio = remainingHealth.toFloat() / maxHealth
                 battle.dispatch {
                     activePokemon.battlePokemon?.effectedPokemon?.currentHealth = remainingHealth
+                    if (difference > 0) {
+                        activePokemon.battlePokemon?.effectedPokemon?.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.let { it.currentValue += difference }
+                    }
                     activePokemon.battlePokemon?.sendUpdate()
                     GO
                 }

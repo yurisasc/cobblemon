@@ -8,6 +8,8 @@
 
 package com.cablemc.pokemoncobbled.common.api.pokemon.evolution
 
+import com.cablemc.pokemoncobbled.common.api.events.CobbledEvents
+import com.cablemc.pokemoncobbled.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
 import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.requirement.EvolutionRequirement
@@ -90,6 +92,7 @@ interface Evolution : EvolutionLike {
             .forEach { evolution ->
                 evolution.attemptEvolution(pokemon)
             }
+        CobbledEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
     }
 
 }
