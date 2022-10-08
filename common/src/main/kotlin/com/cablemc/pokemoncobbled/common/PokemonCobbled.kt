@@ -97,14 +97,6 @@ import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.*
-import kotlin.properties.Delegates
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.memberProperties
 
 object PokemonCobbled {
     const val MODID = "pokemoncobbled"
