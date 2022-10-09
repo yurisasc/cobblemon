@@ -9,8 +9,8 @@
 package com.cablemc.pokemoncobbled.common.api.storage.party
 
 import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.api.pokemon.evolution.PassiveEvolution
+import com.cablemc.pokemoncobbled.common.api.storage.pc.PCStore
 import com.cablemc.pokemoncobbled.common.battles.BattleRegistry
 import com.cablemc.pokemoncobbled.common.pokemon.Pokemon
 import com.cablemc.pokemoncobbled.common.pokemon.activestate.ShoulderedState
@@ -18,12 +18,12 @@ import com.cablemc.pokemoncobbled.common.util.DataKeys
 import com.cablemc.pokemoncobbled.common.util.getPlayer
 import com.cablemc.pokemoncobbled.common.util.isPokemonEntity
 import com.cablemc.pokemoncobbled.common.util.lang
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
 import java.util.UUID
 import kotlin.math.round
 import kotlin.random.Random
 import net.minecraft.nbt.NbtCompound
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.text.Text
 
 /**
  * A [PartyStore] used for a single player. This uses the player's UUID as the store's UUID, and is declared as its own
@@ -88,7 +88,7 @@ open class PlayerPartyStore(
                 else if (pokemon.currentHealth < pokemon.hp) {
                     pokemon.healTimer -= 1
                     if (pokemon.healTimer <= -1) {
-                        pokemon.healTimer = PokemonCobbled.config.healTimer;
+                        pokemon.healTimer = PokemonCobbled.config.healTimer
                         val healAmount = 1.0.coerceAtLeast(pokemon.hp.toDouble() * PokemonCobbled.config.healPercent)
                         pokemon.currentHealth = pokemon.currentHealth + round(healAmount).toInt();
                     }

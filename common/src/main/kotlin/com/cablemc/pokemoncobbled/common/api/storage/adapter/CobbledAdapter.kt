@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cablemc.pokemoncobbled.common.api.storage.adapter;
+package com.cablemc.pokemoncobbled.common.api.storage.adapter
 
 import com.cablemc.pokemoncobbled.common.api.storage.PokemonStore
 import com.cablemc.pokemoncobbled.common.api.storage.StorePosition
