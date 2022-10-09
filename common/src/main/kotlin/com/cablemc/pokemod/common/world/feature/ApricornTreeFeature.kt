@@ -8,11 +8,11 @@
 
 package com.cablemc.pokemod.common.world.feature
 
+import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.PokemodBlocks
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemod.common.util.pokemodResource
 import com.cablemc.pokemod.common.util.randomNoCopy
-import com.cablemc.pokemoncobbled.common.world.level.block.ApricornBlock
+import com.cablemc.pokemod.common.world.block.ApricornBlock
 import com.google.common.collect.Lists
 import com.mojang.serialization.Codec
 import kotlin.random.Random.Default.nextInt
@@ -41,9 +41,9 @@ import net.minecraft.world.gen.feature.util.FeatureContext
 class ApricornTreeFeature(
     codec: Codec<SingleStateFeatureConfig>
 ) : Feature<SingleStateFeatureConfig>(codec) {
-    val apricornSparseBiomeTag = TagKey.of(Registry.BIOME_KEY, cobbledResource("has_feature/apricorns_sparse"))
-    val apricornNormalBiomeTag = TagKey.of(Registry.BIOME_KEY, cobbledResource("has_feature/apricorns_normal"))
-    val apricornDenseBiomeTag = TagKey.of(Registry.BIOME_KEY, cobbledResource("has_feature/apricorns_dense"))
+    val apricornSparseBiomeTag = TagKey.of(Registry.BIOME_KEY, pokemodResource("has_feature/apricorns_sparse"))
+    val apricornNormalBiomeTag = TagKey.of(Registry.BIOME_KEY, pokemodResource("has_feature/apricorns_normal"))
+    val apricornDenseBiomeTag = TagKey.of(Registry.BIOME_KEY, pokemodResource("has_feature/apricorns_dense"))
 
     override fun generate(context: FeatureContext<SingleStateFeatureConfig>) : Boolean {
         val worldGenLevel: StructureWorldAccess = context.world
@@ -62,7 +62,7 @@ class ApricornTreeFeature(
                 return false
             }
 
-            if (random.nextFloat() > multiplier * PokemonCobbled.config.baseApricornTreeGenerationChance) {
+            if (random.nextFloat() > multiplier * Pokemod.config.baseApricornTreeGenerationChance) {
                 return false
             }
         }
