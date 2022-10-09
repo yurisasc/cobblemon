@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:weedle",
+  "model": "pokemod:bedrock/models/0013_weedle/weedle.geo.json",
+  "texture": "pokemod:textures/pokemon/0013_weedle/weedle.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0013_weedle/weedle_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:bulbasaur",
+  "model": "pokemod:bedrock/models/0001_bulbasaur/bulbasaur.geo.json",
+  "texture": "pokemod:textures/pokemon/0001_bulbasaur/bulbasaur.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0001_bulbasaur/bulbasaur_shiny.png"
+    }
+  ]
+}

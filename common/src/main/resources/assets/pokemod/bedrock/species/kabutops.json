@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:kabutops",
+  "model": "pokemod:bedrock/models/0141_kabutops/kabutops.geo.json",
+  "texture": "pokemod:textures/pokemon/0141_kabutops/kabutops.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0141_kabutops/kabutops_shiny.png"
+    }
+  ]
+}

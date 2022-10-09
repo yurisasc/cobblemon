@@ -1,0 +1,115 @@
+{
+    "name": "pawniard",
+    "nationalPokedexNumber": 624,
+    "primaryType": "dark",
+    "secondaryType": "steel",
+    "abilities": [
+        "defiant",
+        "innerfocus",
+        "h:pressure"
+    ],
+    "baseStats": {
+        "hp": 45,
+        "attack": 85,
+        "defence": 70,
+        "special_attack": 40,
+        "special_defence": 40,
+        "speed": 60
+    },
+    "catchRate": 120,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 68,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "humanshape"
+    ],
+    "moves": [
+        "1:scratch",
+        "1:leer",
+        "5:furycutter",
+        "10:metalclaw",
+        "15:torment",
+        "20:scaryface",
+        "25:assurance",
+        "30:metalsound",
+        "35:slash",
+        "40:nightslash",
+        "45:irondefense",
+        "50:laserfocus",
+        "55:ironhead",
+        "60:swordsdance",
+        "65:guillotine",
+        "egg:headbutt",
+        "egg:meanlook",
+        "egg:quickguard",
+        "egg:suckerpunch",
+        "tm:attract",
+        "tm:beatup",
+        "tm:brickbreak",
+        "tm:darkpulse",
+        "tm:dig",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:foulplay",
+        "tm:grassknot",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:psychocut",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:screech",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snarl",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:substitute",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunderwave",
+        "tm:xscissor",
+        "tutor:lashout",
+        "tutor:steelbeam"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemod.species.pawniard.desc1",
+        "pokemod.species.pawniard.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "pawniard_bisharp",
+            "variant": "level_up",
+            "result": "bisharp",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 52
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

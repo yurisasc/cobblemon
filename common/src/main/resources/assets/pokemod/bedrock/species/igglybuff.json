@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:igglybuff",
+  "model": "pokemod:bedrock/models/0174_igglybuff/igglybuff.geo.json",
+  "texture": "pokemod:textures/pokemon/0174_igglybuff/igglybuff.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0174_igglybuff/igglybuff_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:poliwrath",
+  "model": "pokemod:bedrock/models/0062_poliwrath/poliwrath.geo.json",
+  "texture": "pokemod:textures/pokemon/0062_poliwrath/poliwrath.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0062_poliwrath/poliwrath_shiny.png"
+    }
+  ]
+}

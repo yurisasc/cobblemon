@@ -1,0 +1,110 @@
+{
+    "name": "roselia",
+    "nationalPokedexNumber": 315,
+    "primaryType": "grass",
+    "secondaryType": "poison",
+    "abilities": [
+        "naturalcure",
+        "poisonpoint",
+        "h:leafguard"
+    ],
+    "baseStats": {
+        "hp": 50,
+        "attack": 60,
+        "defence": 45,
+        "special_attack": 100,
+        "special_defence": 80,
+        "speed": 65
+    },
+    "catchRate": 150,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 140,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "fairy",
+        "plant"
+    ],
+    "moves": [
+        "0:poisonsting",
+        "1:absorb",
+        "1:growth",
+        "1:stunspore",
+        "1:worryseed",
+        "5:megadrain",
+        "10:leechseed",
+        "15:magicalleaf",
+        "20:toxicspikes",
+        "25:sweetscent",
+        "30:gigadrain",
+        "35:synthesis",
+        "40:toxic",
+        "45:petalblizzard",
+        "50:aromatherapy",
+        "55:ingrain",
+        "60:petaldance",
+        "egg:cottonspore",
+        "egg:extrasensory",
+        "egg:lifedew",
+        "egg:razorleaf",
+        "egg:sleeppowder",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:bulletseed",
+        "tm:dazzlinggleam",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:grassknot",
+        "tm:leafstorm",
+        "tm:pinmissile",
+        "tm:poisonjab",
+        "tm:powerwhip",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:seedbomb",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:spikes",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:uproar",
+        "tm:venoshock",
+        "tm:weatherball",
+        "tutor:grassyglide"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.roselia.desc1",
+        "pokemod.species.roselia.desc2"
+    ],
+    "preEvolution": "budew",
+    "evolutions": [
+        {
+            "id": "roselia_roserade",
+            "variant": "item_interact",
+            "result": "roserade",
+            "consumeHeldItem": true,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "pokemod:shiny_stone"
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

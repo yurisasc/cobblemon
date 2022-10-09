@@ -1,0 +1,119 @@
+{
+    "name": "floette",
+    "nationalPokedexNumber": 670,
+    "primaryType": "fairy",
+    "abilities": [
+        "flowerveil",
+        "h:symbiosis"
+    ],
+    "baseStats": {
+        "hp": 54,
+        "attack": 45,
+        "defence": 47,
+        "special_attack": 75,
+        "special_defence": 98,
+        "speed": 52
+    },
+    "catchRate": 120,
+    "maleRatio": 0.0,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "eternal",
+            "baseStats": {
+                "hp": 74,
+                "attack": 65,
+                "defence": 67,
+                "special_attack": 125,
+                "special_defence": 128,
+                "speed": 92
+            },
+            "aspects": [
+                "eternal"
+            ]
+        }
+    ],
+    "baseExperienceYield": 130,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "fairy"
+    ],
+    "moves": [
+        "1:vinewhip",
+        "1:tackle",
+        "1:fairywind",
+        "10:luckychant",
+        "15:razorleaf",
+        "20:wish",
+        "25:magicalleaf",
+        "27:grassyterrain",
+        "33:petalblizzard",
+        "38:aromatherapy",
+        "43:mistyterrain",
+        "46:moonblast",
+        "51:petaldance",
+        "58:solarbeam",
+        "tm:attract",
+        "tm:calmmind",
+        "tm:confide",
+        "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:echoedvoice",
+        "tm:energyball",
+        "tm:facade",
+        "tm:frustration",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:naturepower",
+        "tm:protect",
+        "tm:psychic",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:toxic",
+        "tutor:afteryou",
+        "tutor:allyswitch",
+        "tutor:covet",
+        "tutor:endeavor",
+        "tutor:gigadrain",
+        "tutor:healbell",
+        "tutor:helpinghand",
+        "tutor:magiccoat",
+        "tutor:seedbomb",
+        "tutor:snore",
+        "tutor:synthesis",
+        "tutor:worryseed"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemod.species.floette.desc1",
+        "pokemod.species.floette.desc2"
+    ],
+    "preEvolution": "flabebe",
+    "evolutions": [
+        {
+            "id": "floette_florges",
+            "variant": "item_interact",
+            "result": "florges",
+            "consumeHeldItem": true,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "pokemod:shiny_stone"
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

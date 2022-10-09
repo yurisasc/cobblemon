@@ -1,0 +1,110 @@
+{
+    "name": "wailmer",
+    "nationalPokedexNumber": 320,
+    "primaryType": "water",
+    "abilities": [
+        "waterveil",
+        "oblivious",
+        "h:pressure"
+    ],
+    "baseStats": {
+        "hp": 130,
+        "attack": 70,
+        "defence": 35,
+        "special_attack": 70,
+        "special_defence": 35,
+        "speed": 60
+    },
+    "catchRate": 125,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 80,
+    "experienceGroup": "fastthenveryslow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "ground",
+        "water2"
+    ],
+    "moves": [
+        "1:splash",
+        "3:growl",
+        "6:astonish",
+        "12:watergun",
+        "15:mist",
+        "18:waterpulse",
+        "21:heavyslam",
+        "24:brine",
+        "27:whirlpool",
+        "30:dive",
+        "33:bounce",
+        "36:bodyslam",
+        "39:rest",
+        "42:amnesia",
+        "45:hydropump",
+        "48:waterspout",
+        "egg:aquaring",
+        "egg:curse",
+        "egg:defensecurl",
+        "egg:doubleedge",
+        "egg:fissure",
+        "egg:rollout",
+        "egg:soak",
+        "egg:thrash",
+        "egg:tickle",
+        "tm:attract",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:bodypress",
+        "tm:bulldoze",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:hail",
+        "tm:hypervoice",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scald",
+        "tm:selfdestruct",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:waterfall",
+        "tm:weatherball",
+        "tm:zenheadbutt",
+        "tutor:steelroller"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.wailmer.desc1",
+        "pokemod.species.wailmer.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "wailmer_wailord",
+            "variant": "level_up",
+            "result": "wailord",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 40
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

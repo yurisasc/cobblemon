@@ -1,0 +1,25 @@
+{
+    "id": "0048-venonat",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "venonat",
+            "pokemon": "venonat",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "13-30",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_spooky",
+                    "#pokemod:is_swamp"
+                ],
+                "timeRange": "night"
+            }
+        }
+    ]
+}

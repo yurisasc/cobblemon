@@ -1,0 +1,90 @@
+{
+    "name": "carbink",
+    "nationalPokedexNumber": 703,
+    "primaryType": "rock",
+    "secondaryType": "fairy",
+    "abilities": [
+        "clearbody",
+        "h:sturdy"
+    ],
+    "baseStats": {
+        "hp": 50,
+        "attack": 50,
+        "defence": 150,
+        "special_attack": 50,
+        "special_defence": 150,
+        "speed": 50
+    },
+    "catchRate": 60,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 100,
+    "experienceGroup": "slow",
+    "eggCycles": 25,
+    "eggGroups": [
+        "fairy",
+        "mineral"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:harden",
+        "5:guardsplit",
+        "10:smackdown",
+        "15:flail",
+        "20:ancientpower",
+        "25:rockpolish",
+        "30:lightscreen",
+        "35:rockslide",
+        "40:skillswap",
+        "45:powergem",
+        "50:stealthrock",
+        "55:moonblast",
+        "60:stoneedge",
+        "tm:allyswitch",
+        "tm:bodypress",
+        "tm:calmmind",
+        "tm:charm",
+        "tm:dazzlinggleam",
+        "tm:earthpower",
+        "tm:endure",
+        "tm:facade",
+        "tm:guardswap",
+        "tm:gyroball",
+        "tm:hail",
+        "tm:irondefense",
+        "tm:protect",
+        "tm:psychic",
+        "tm:reflect",
+        "tm:rest",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sandstorm",
+        "tm:sandtomb",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stompingtantrum",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:trickroom",
+        "tm:wonderroom",
+        "tutor:meteorbeam",
+        "tutor:mistyexplosion",
+        "tutor:terrainpulse"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemod.species.carbink.desc1",
+        "pokemod.species.carbink.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

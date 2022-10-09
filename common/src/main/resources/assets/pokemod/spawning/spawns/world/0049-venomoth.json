@@ -1,0 +1,26 @@
+{
+    "id": "0049-venomoth",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "venomoth",
+            "pokemon": "venomoth",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "31-45",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_spooky",
+                    "#pokemod:is_swamp"
+                ],
+                "timeRange": "night",
+                "isRaining": false
+            }
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:espeon",
+  "model": "pokemod:bedrock/models/0196_espeon/espeon.geo.json",
+  "texture": "pokemod:textures/pokemon/0196_espeon/espeon.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0196_espeon/espeon_shiny.png"
+    }
+  ]
+}

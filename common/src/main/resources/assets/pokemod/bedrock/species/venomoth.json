@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:venomoth",
+  "model": "pokemod:bedrock/models/0049_venomoth/venomoth.geo.json",
+  "texture": "pokemod:textures/pokemon/0049_venomoth/venomoth.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0049_venomoth/venomoth_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:jolteon",
+  "model": "pokemod:bedrock/models/0135_jolteon/jolteon.geo.json",
+  "texture": "pokemod:textures/pokemon/0135_jolteon/jolteon.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0135_jolteon/jolteon_shiny.png"
+    }
+  ]
+}

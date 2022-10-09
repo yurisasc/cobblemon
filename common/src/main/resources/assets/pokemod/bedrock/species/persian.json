@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:persian",
+  "model": "pokemod:bedrock/models/0053_persian/persian.geo.json",
+  "texture": "pokemod:textures/pokemon/0053_persian/persian.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0053_persian/persian_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+    "id": "0012-butterfree",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "butterfree",
+            "pokemon": "butterfree",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "10-39",
+            "weight": 2.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_jungle",
+                    "#pokemod:is_plains"
+                ],
+                "timeRange": "day",
+                "isRaining": false
+            }
+        }
+    ]
+}

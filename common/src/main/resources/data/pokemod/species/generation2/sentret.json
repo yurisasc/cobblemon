@@ -1,0 +1,128 @@
+{
+    "name": "sentret",
+    "nationalPokedexNumber": 161,
+    "primaryType": "normal",
+    "abilities": [
+        "runaway",
+        "keeneye",
+        "h:frisk"
+    ],
+    "baseStats": {
+        "hp": 35,
+        "attack": 46,
+        "defence": 34,
+        "special_attack": 35,
+        "special_defence": 45,
+        "speed": 20
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 43,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:scratch",
+        "1:foresight",
+        "4:defensecurl",
+        "7:quickattack",
+        "13:furyswipes",
+        "16:helpinghand",
+        "19:followme",
+        "25:slam",
+        "28:rest",
+        "31:suckerpunch",
+        "36:amnesia",
+        "39:batonpass",
+        "42:mefirst",
+        "47:hypervoice",
+        "egg:assist",
+        "egg:babydolleyes",
+        "egg:captivate",
+        "egg:charm",
+        "egg:covet",
+        "egg:doubleedge",
+        "egg:focusenergy",
+        "egg:irontail",
+        "egg:lastresort",
+        "egg:naturalgift",
+        "egg:pursuit",
+        "egg:reversal",
+        "egg:slash",
+        "egg:trick",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:chargebeam",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:echoedvoice",
+        "tm:facade",
+        "tm:flamethrower",
+        "tm:fling",
+        "tm:frustration",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:icebeam",
+        "tm:protect",
+        "tm:raindance",
+        "tm:return",
+        "tm:round",
+        "tm:shadowball",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:surf",
+        "tm:swagger",
+        "tm:thief",
+        "tm:thunderbolt",
+        "tm:toxic",
+        "tm:uturn",
+        "tm:workup",
+        "tutor:aquatail",
+        "tutor:firepunch",
+        "tutor:focuspunch",
+        "tutor:icepunch",
+        "tutor:knockoff",
+        "tutor:shockwave",
+        "tutor:snore",
+        "tutor:superfang",
+        "tutor:thunderpunch",
+        "tutor:uproar",
+        "tutor:waterpulse"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemod.species.sentret.desc1",
+        "pokemod.species.sentret.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "sentret_furret",
+            "variant": "level_up",
+            "result": "furret",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 15
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

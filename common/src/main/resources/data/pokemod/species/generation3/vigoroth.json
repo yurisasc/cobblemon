@@ -1,0 +1,117 @@
+{
+    "name": "vigoroth",
+    "nationalPokedexNumber": 288,
+    "primaryType": "normal",
+    "abilities": [
+        "vitalspirit"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 80,
+        "defence": 80,
+        "special_attack": 55,
+        "special_defence": 55,
+        "speed": 90
+    },
+    "catchRate": 120,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 154,
+    "experienceGroup": "slow",
+    "eggCycles": 15,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:scratch",
+        "1:focusenergy",
+        "1:reversal",
+        "1:encore",
+        "1:uproar",
+        "14:furyswipes",
+        "17:endure",
+        "23:slash",
+        "27:chipaway",
+        "33:counter",
+        "37:focuspunch",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:brickbreak",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:earthquake",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:flamethrower",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:icebeam",
+        "tm:lowsweep",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:roar",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:shadowball",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:taunt",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:toxic",
+        "tm:workup",
+        "tutor:afteryou",
+        "tutor:covet",
+        "tutor:firepunch",
+        "tutor:gunkshot",
+        "tutor:icepunch",
+        "tutor:icywind",
+        "tutor:lowkick",
+        "tutor:shockwave",
+        "tutor:snore",
+        "tutor:thunderpunch",
+        "tutor:waterpulse"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.vigoroth.desc1",
+        "pokemod.species.vigoroth.desc2"
+    ],
+    "preEvolution": "slakoth",
+    "evolutions": [
+        {
+            "id": "vigoroth_slaking",
+            "variant": "level_up",
+            "result": "slaking",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 36
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

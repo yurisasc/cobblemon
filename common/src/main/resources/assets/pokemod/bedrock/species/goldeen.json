@@ -1,0 +1,15 @@
+{
+  "poser": "pokemod:goldeen",
+  "model": "pokemod:bedrock/models/0118_goldeen/goldeen_male.geo.json",
+  "texture": "pokemod:textures/pokemon/0118_goldeen/goldeen.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0118_goldeen/goldeen_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemod:bedrock/models/0118_goldeen/goldeen_female.geo.json"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:poliwag",
+  "model": "pokemod:bedrock/models/0060_poliwag/poliwag.geo.json",
+  "texture": "pokemod:textures/pokemon/0060_poliwag/poliwag.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0060_poliwag/poliwag_shiny.png"
+    }
+  ]
+}

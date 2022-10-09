@@ -1,0 +1,15 @@
+{
+  "poser": "pokemod:alakazam",
+  "model": "pokemod:bedrock/models/0065_alakazam/alakazam_male.geo.json",
+  "texture": "pokemod:textures/pokemon/0065_alakazam/alakazam.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0065_alakazam/alakazam_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemod:bedrock/models/0065_alakazam/alakazam_female.geo.json"
+    }
+  ]
+}

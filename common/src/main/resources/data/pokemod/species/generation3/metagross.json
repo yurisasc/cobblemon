@@ -1,0 +1,121 @@
+{
+    "name": "metagross",
+    "nationalPokedexNumber": 376,
+    "primaryType": "steel",
+    "secondaryType": "psychic",
+    "abilities": [
+        "clearbody",
+        "h:lightmetal"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 135,
+        "defence": 130,
+        "special_attack": 95,
+        "special_defence": 90,
+        "speed": 70
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "toughclaws"
+            ],
+            "baseStats": {
+                "hp": 80,
+                "attack": 145,
+                "defence": 150,
+                "special_attack": 105,
+                "special_defence": 110,
+                "speed": 110
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 300,
+    "experienceGroup": "slow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "0:hammerarm",
+        "1:tackle",
+        "1:confusion",
+        "1:metalclaw",
+        "1:bulletpunch",
+        "6:zenheadbutt",
+        "12:magnetrise",
+        "16:flashcannon",
+        "26:takedown",
+        "34:psychic",
+        "42:scaryface",
+        "52:meteormash",
+        "62:irondefense",
+        "72:agility",
+        "82:hyperbeam",
+        "tm:allyswitch",
+        "tm:bodypress",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bulldoze",
+        "tm:cosmicpower",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:gyroball",
+        "tm:icepunch",
+        "tm:icywind",
+        "tm:ironhead",
+        "tm:lightscreen",
+        "tm:protect",
+        "tm:psychocut",
+        "tm:psyshock",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:selfdestruct",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stompingtantrum",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:thunderpunch",
+        "tm:trick",
+        "tutor:expandingforce",
+        "tutor:meteorbeam",
+        "tutor:steelbeam",
+        "tutor:steelroller"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.metagross.desc1",
+        "pokemod.species.metagross.desc2"
+    ],
+    "preEvolution": "metang",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

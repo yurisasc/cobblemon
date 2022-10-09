@@ -1,0 +1,20 @@
+{
+  "poser": "pokemod:vulpix",
+  "model": "pokemod:bedrock/models/0037_vulpix/vulpix.geo.json",
+  "texture": "pokemod:textures/pokemon/0037_vulpix/vulpix.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0037_vulpix/vulpix_shiny.png"
+    },
+    {
+      "aspects": ["alolan"],
+      "model": "pokemod:bedrock/models/0037_vulpix/vulpix_alolan.geo.json",
+      "texture": "pokemod:textures/pokemon/0037_vulpix/vulpix_alolan.png"
+    },
+    {
+      "aspects": ["alolan", "shiny"],
+      "texture": "pokemod:textures/pokemon/0037_vulpix/vulpix_alolan_shiny.png"
+    }
+  ]
+}

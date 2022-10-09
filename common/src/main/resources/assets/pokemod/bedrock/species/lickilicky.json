@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:lickilicky",
+  "model": "pokemod:bedrock/models/0463_lickilicky/lickilicky.geo.json",
+  "texture": "pokemod:textures/pokemon/0463_lickilicky/lickilicky.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0463_lickilicky/lickilicky_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+    "id": "0093-haunter",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "haunter",
+            "pokemon": "haunter",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "25-40",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_spooky"
+                ],
+                "timeRange": "night"
+            }
+        }
+    ]
+}

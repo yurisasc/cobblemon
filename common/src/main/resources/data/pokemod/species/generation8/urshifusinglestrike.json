@@ -1,0 +1,134 @@
+{
+    "name": "urshifusinglestrike",
+    "nationalPokedexNumber": 892,
+    "primaryType": "fighting",
+    "secondaryType": "dark",
+    "abilities": [
+        "unseenfist"
+    ],
+    "baseStats": {
+        "hp": 100,
+        "attack": 130,
+        "defence": 100,
+        "special_attack": 63,
+        "special_defence": 60,
+        "speed": 97
+    },
+    "catchRate": 3,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "rapid-strike",
+            "secondaryType": "water",
+            "aspects": [
+                "rapid-strike"
+            ]
+        },
+        {
+            "name": "single-strike-gmax",
+            "aspects": [
+                "single-strike-gmax"
+            ]
+        },
+        {
+            "name": "rapid-strike-gmax",
+            "secondaryType": "water",
+            "aspects": [
+                "rapid-strike-gmax"
+            ]
+        }
+    ],
+    "baseExperienceYield": 275,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "0:wickedblow",
+        "1:leer",
+        "1:focusenergy",
+        "1:endure",
+        "1:rocksmash",
+        "1:suckerpunch",
+        "12:aerialace",
+        "16:scaryface",
+        "20:headbutt",
+        "24:brickbreak",
+        "28:detect",
+        "32:bulkup",
+        "36:ironhead",
+        "40:dynamicpunch",
+        "44:counter",
+        "48:closecombat",
+        "52:focuspunch",
+        "tm:acrobatics",
+        "tm:assurance",
+        "tm:attract",
+        "tm:aurasphere",
+        "tm:beatup",
+        "tm:bodypress",
+        "tm:bodyslam",
+        "tm:crunch",
+        "tm:darkestlariat",
+        "tm:darkpulse",
+        "tm:dig",
+        "tm:drainpunch",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:firepunch",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:foulplay",
+        "tm:gigaimpact",
+        "tm:helpinghand",
+        "tm:icepunch",
+        "tm:irondefense",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:reversal",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snarl",
+        "tm:snore",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:superpower",
+        "tm:swift",
+        "tm:taunt",
+        "tm:throatchop",
+        "tm:thunderpunch",
+        "tm:uturn",
+        "tm:workup",
+        "tm:zenheadbutt",
+        "tutor:coaching",
+        "tutor:lashout"
+    ],
+    "labels": [
+        "legendary",
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemod.species.urshifusinglestrike.desc1",
+        "pokemod.species.urshifusinglestrike.desc2"
+    ],
+    "preEvolution": "kubfu",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

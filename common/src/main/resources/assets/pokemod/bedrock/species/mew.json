@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:mew",
+  "model": "pokemod:bedrock/models/0151_mew/mew.geo.json",
+  "texture": "pokemod:textures/pokemon/0151_mew/mew.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0151_mew/mew_shiny.png"
+    }
+  ]
+}

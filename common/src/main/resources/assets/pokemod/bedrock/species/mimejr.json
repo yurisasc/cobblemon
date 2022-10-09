@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:mimejr",
+  "model": "pokemod:bedrock/models/0439_mimejr/mime_jr.geo.json",
+  "texture": "pokemod:textures/pokemon/0439_mimejr/mime_jr.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0439_mimejr/mime_jr_shiny.png"
+    }
+  ]
+}

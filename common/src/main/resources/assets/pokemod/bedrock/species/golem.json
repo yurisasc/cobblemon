@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:golem",
+  "model": "pokemod:bedrock/models/0076_golem/golem.geo.json",
+  "texture": "pokemod:textures/pokemon/0076_golem/golem.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0076_golem/golem_shiny.png"
+    }
+  ]
+}

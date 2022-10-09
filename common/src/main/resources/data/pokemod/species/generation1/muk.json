@@ -1,0 +1,129 @@
+{
+    "name": "muk",
+    "nationalPokedexNumber": 89,
+    "primaryType": "poison",
+    "abilities": [
+        "stench",
+        "stickyhold",
+        "h:poisontouch"
+    ],
+    "baseStats": {
+        "hp": 105,
+        "attack": 105,
+        "defence": 75,
+        "special_attack": 65,
+        "special_defence": 100,
+        "speed": 50
+    },
+    "catchRate": 75,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "alola",
+            "secondaryType": "dark",
+            "abilities": [
+                "poisontouch",
+                "gluttony",
+                "h:powerofalchemy"
+            ],
+            "aspects": [
+                "alola"
+            ]
+        }
+    ],
+    "baseExperienceYield": 175,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "indeterminate"
+    ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:slime_ball",
+                "quantityRange": "1-2",
+                "percentage": 66
+            }
+        ]
+    },
+    "moves": [
+        "0:venomdrench",
+        "1:pound",
+        "1:harden",
+        "1:poisongas",
+        "1:mudslap",
+        "12:disable",
+        "15:sludge",
+        "18:mudbomb",
+        "21:minimize",
+        "26:fling",
+        "29:sludgebomb",
+        "32:sludgewave",
+        "37:screech",
+        "40:gunkshot",
+        "46:acidarmor",
+        "52:belch",
+        "57:memento",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:confide",
+        "tm:darkpulse",
+        "tm:doubleteam",
+        "tm:explosion",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:flamethrower",
+        "tm:focusblast",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:infestation",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:torment",
+        "tm:toxic",
+        "tm:venoshock",
+        "tutor:block",
+        "tutor:firepunch",
+        "tutor:focuspunch",
+        "tutor:gigadrain",
+        "tutor:icepunch",
+        "tutor:painsplit",
+        "tutor:shockwave",
+        "tutor:snore",
+        "tutor:thunderpunch"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.muk.desc1"
+    ],
+    "preEvolution": "grimer",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

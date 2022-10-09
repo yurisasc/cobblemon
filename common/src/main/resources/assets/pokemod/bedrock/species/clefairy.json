@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:clefairy",
+  "model": "pokemod:bedrock/models/0035_clefairy/clefairy.geo.json",
+  "texture": "pokemod:textures/pokemon/0035_clefairy/clefairy.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0035_clefairy/clefairy_shiny.png"
+    }
+  ]
+}

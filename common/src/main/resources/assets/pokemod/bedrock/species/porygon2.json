@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:porygon2",
+  "model": "pokemod:bedrock/models/0233_porygon2/porygon2.geo.json",
+  "texture": "pokemod:textures/pokemon/0233_porygon2/porygon2.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0233_porygon2/porygon2_shiny.png"
+    }
+  ]
+}

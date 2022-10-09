@@ -1,0 +1,24 @@
+{
+    "id": "0020-raticate",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "raticate",
+            "pokemon": "raticate",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "20-41",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_grassland"
+                ],
+                "timeRange": "night"
+            }
+        }
+    ]
+}

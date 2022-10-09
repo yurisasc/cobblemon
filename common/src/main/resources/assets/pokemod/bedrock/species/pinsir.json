@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:pinsir",
+  "model": "pokemod:bedrock/models/0127_pinsir/pinsir.geo.json",
+  "texture": "pokemod:textures/pokemon/0127_pinsir/pinsir.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0127_pinsir/pinsir_shiny.png"
+    }
+  ]
+}

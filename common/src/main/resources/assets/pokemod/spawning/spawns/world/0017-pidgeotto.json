@@ -1,0 +1,25 @@
+{
+    "id": "0017-pidgeotto",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "pidgeotto",
+            "pokemon": "pidgeotto",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "18-35",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_temperate"
+                ],
+                "timeRange": "day",
+                "isRaining": false
+            }
+        }
+    ]
+}

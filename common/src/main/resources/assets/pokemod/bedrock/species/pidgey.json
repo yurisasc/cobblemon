@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:pidgey",
+  "model": "pokemod:bedrock/models/0016_pidgey/pidgey.geo.json",
+  "texture": "pokemod:textures/pokemon/0016_pidgey/pidgey.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0016_pidgey/pidgey_shiny.png"
+    }
+  ]
+}

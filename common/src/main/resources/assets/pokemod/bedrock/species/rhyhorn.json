@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:rhyhorn",
+  "model": "pokemod:bedrock/models/0111_rhyhorn/rhyhorn.geo.json",
+  "texture": "pokemod:textures/pokemon/0111_rhyhorn/rhyhorn.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0111_rhyhorn/rhyhorn_shiny.png"
+    }
+  ]
+}

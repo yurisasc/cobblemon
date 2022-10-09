@@ -1,0 +1,44 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"1": "pokemod:blocks/apricorn_stage_0",
+		"particle": "pokemod:blocks/apricorn_stage_0"
+	},
+	"elements": [
+		{
+			"from": [6, 7, 12],
+			"to": [10, 11, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [4, 4, 8, 8], "texture": "#1"},
+				"east": {"uv": [0, 4, 4, 8], "texture": "#1"},
+				"south": {"uv": [12, 4, 16, 8], "texture": "#1"},
+				"west": {"uv": [8, 4, 12, 8], "texture": "#1"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#1"},
+				"down": {"uv": [12, 0, 8, 4], "texture": "#1"}
+			}
+		},
+		{
+			"from": [8, 11, 13],
+			"to": [8, 13, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [3, 8, 3, 10], "texture": "#1"},
+				"east": {"uv": [0, 8, 3, 10], "texture": "#1"},
+				"south": {"uv": [6, 8, 6, 10], "texture": "#1"},
+				"west": {"uv": [3, 8, 6, 10], "texture": "#1"},
+				"up": {"uv": [3, 8, 3, 5], "texture": "#1"},
+				"down": {"uv": [3, 5, 3, 8], "texture": "#1"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "apricorn_stage_2",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [0, 1]
+		}
+	]
+}

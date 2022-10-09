@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:magnemite",
+  "model": "pokemod:bedrock/models/0081_magnemite/magnemite.geo.json",
+  "texture": "pokemod:textures/pokemon/0081_magnemite/magnemite.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0081_magnemite/magnemite_shiny.png"
+    }
+  ]
+}

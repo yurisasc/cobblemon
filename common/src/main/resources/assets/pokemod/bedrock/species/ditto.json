@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:ditto",
+  "model": "pokemod:bedrock/models/0132_ditto/ditto.geo.json",
+  "texture": "pokemod:textures/pokemon/0132_ditto/ditto.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0132_ditto/ditto_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+    "name": "lairon",
+    "nationalPokedexNumber": 305,
+    "primaryType": "steel",
+    "secondaryType": "rock",
+    "abilities": [
+        "sturdy",
+        "rockhead",
+        "h:heavymetal"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 90,
+        "defence": 140,
+        "special_attack": 50,
+        "special_defence": 50,
+        "speed": 40
+    },
+    "catchRate": 90,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 151,
+    "experienceGroup": "slow",
+    "eggCycles": 35,
+    "eggGroups": [
+        "monster"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:harden",
+        "1:metalclaw",
+        "1:rocktomb",
+        "12:roar",
+        "16:headbutt",
+        "20:protect",
+        "24:rockslide",
+        "28:ironhead",
+        "35:metalsound",
+        "40:takedown",
+        "46:autotomize",
+        "52:irontail",
+        "58:irondefense",
+        "64:heavyslam",
+        "70:doubleedge",
+        "76:metalburst",
+        "tm:attract",
+        "tm:bodypress",
+        "tm:bodyslam",
+        "tm:bulldoze",
+        "tm:dig",
+        "tm:earthpower",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:raindance",
+        "tm:rest",
+        "tm:reversal",
+        "tm:rockblast",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:sandtomb",
+        "tm:screech",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stompingtantrum",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:superpower",
+        "tm:uproar",
+        "tutor:steelbeam",
+        "tutor:steelroller"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.lairon.desc1",
+        "pokemod.species.lairon.desc2"
+    ],
+    "preEvolution": "aron",
+    "evolutions": [
+        {
+            "id": "lairon_aggron",
+            "variant": "level_up",
+            "result": "aggron",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 42
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

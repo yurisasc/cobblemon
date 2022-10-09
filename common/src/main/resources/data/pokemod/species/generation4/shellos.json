@@ -1,0 +1,103 @@
+{
+    "name": "shellos",
+    "nationalPokedexNumber": 422,
+    "primaryType": "water",
+    "abilities": [
+        "stickyhold",
+        "stormdrain",
+        "h:sandforce"
+    ],
+    "baseStats": {
+        "hp": 76,
+        "attack": 48,
+        "defence": 48,
+        "special_attack": 57,
+        "special_defence": 62,
+        "speed": 34
+    },
+    "catchRate": 190,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 65,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water1",
+        "indeterminate"
+    ],
+    "moves": [
+        "1:watergun",
+        "1:mudslap",
+        "5:harden",
+        "10:recover",
+        "15:waterpulse",
+        "20:ancientpower",
+        "25:bodyslam",
+        "31:muddywater",
+        "35:earthpower",
+        "40:raindance",
+        "45:memento",
+        "egg:acidarmor",
+        "egg:clearsmog",
+        "egg:counter",
+        "egg:curse",
+        "egg:mirrorcoat",
+        "egg:mist",
+        "egg:sludge",
+        "egg:spitup",
+        "egg:stockpile",
+        "egg:swallow",
+        "egg:yawn",
+        "tm:amnesia",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:brine",
+        "tm:dive",
+        "tm:endure",
+        "tm:facade",
+        "tm:hail",
+        "tm:hydropump",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:mudshot",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:whirlpool",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemod.species.shellos.desc1",
+        "pokemod.species.shellos.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "shellos_gastrodon",
+            "variant": "level_up",
+            "result": "gastrodon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 30
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

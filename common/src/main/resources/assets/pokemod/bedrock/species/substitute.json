@@ -1,0 +1,5 @@
+{
+  "poser": "pokemod:substitute",
+  "model": "pokemod:bedrock/models/substitute.geo.json",
+  "texture": "pokemod:textures/pokemon/substitute.png"
+}

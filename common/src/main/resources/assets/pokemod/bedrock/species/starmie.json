@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:starmie",
+  "model": "pokemod:bedrock/models/0121_starmie/starmie.geo.json",
+  "texture": "pokemod:textures/pokemon/0121_starmie/starmie.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0121_starmie/starmie_shiny.png"
+    }
+  ]
+}

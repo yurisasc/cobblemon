@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:clefable",
+  "model": "pokemod:bedrock/models/0036_clefable/clefable.geo.json",
+  "texture": "pokemod:textures/pokemon/0036_clefable/clefable.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0036_clefable/clefable_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "poser": "pokemod:pikachu",
+  "model": "pokemod:bedrock/models/0025_pikachu/pikachu_male.geo.json",
+  "texture": "pokemod:textures/pokemon/0025_pikachu/pikachu.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0025_pikachu/pikachu_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemod:bedrock/models/0025_pikachu/pikachu_female.geo.json"
+    }
+  ]
+}

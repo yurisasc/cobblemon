@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:umbreon",
+  "model": "pokemod:bedrock/models/0197_umbreon/umbreon.geo.json",
+  "texture": "pokemod:textures/pokemon/0197_umbreon/umbreon.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0197_umbreon/umbreon_shiny.png"
+    }
+  ]
+}

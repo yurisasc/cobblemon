@@ -1,0 +1,105 @@
+{
+    "name": "espurr",
+    "nationalPokedexNumber": 677,
+    "primaryType": "psychic",
+    "abilities": [
+        "keeneye",
+        "infiltrator",
+        "h:owntempo"
+    ],
+    "baseStats": {
+        "hp": 62,
+        "attack": 48,
+        "defence": 54,
+        "special_attack": 63,
+        "special_defence": 60,
+        "speed": 68
+    },
+    "catchRate": 190,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 71,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:scratch",
+        "1:leer",
+        "3:fakeout",
+        "6:disarmingvoice",
+        "9:confusion",
+        "18:covet",
+        "21:psybeam",
+        "30:lightscreen",
+        "30:reflect",
+        "33:psyshock",
+        "egg:tickle",
+        "egg:yawn",
+        "tm:allyswitch",
+        "tm:attract",
+        "tm:calmmind",
+        "tm:darkpulse",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:faketears",
+        "tm:helpinghand",
+        "tm:irontail",
+        "tm:magicroom",
+        "tm:nastyplot",
+        "tm:payback",
+        "tm:payday",
+        "tm:playrough",
+        "tm:protect",
+        "tm:psychic",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:skillswap",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:trick",
+        "tm:trickroom",
+        "tm:wonderroom",
+        "tm:workup",
+        "tm:zenheadbutt",
+        "tutor:expandingforce"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemod.species.espurr.desc1",
+        "pokemod.species.espurr.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "espurr_meowstic",
+            "variant": "level_up",
+            "result": "meowstic",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 25
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

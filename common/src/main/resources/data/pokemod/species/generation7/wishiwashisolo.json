@@ -1,0 +1,99 @@
+{
+    "name": "wishiwashisolo",
+    "nationalPokedexNumber": 746,
+    "primaryType": "water",
+    "abilities": [
+        "schooling"
+    ],
+    "baseStats": {
+        "hp": 45,
+        "attack": 20,
+        "defence": 20,
+        "special_attack": 25,
+        "special_defence": 25,
+        "speed": 40
+    },
+    "catchRate": 60,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "school",
+            "baseStats": {
+                "hp": 45,
+                "attack": 140,
+                "defence": 130,
+                "special_attack": 140,
+                "special_defence": 135,
+                "speed": 30
+            },
+            "aspects": [
+                "school"
+            ]
+        }
+    ],
+    "baseExperienceYield": 61,
+    "experienceGroup": "fast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "water2"
+    ],
+    "moves": [
+        "1:growl",
+        "1:watergun",
+        "4:helpinghand",
+        "8:beatup",
+        "12:brine",
+        "16:tearfullook",
+        "20:dive",
+        "24:soak",
+        "28:uproar",
+        "32:aquatail",
+        "36:aquaring",
+        "40:endeavor",
+        "44:hydropump",
+        "48:doubleedge",
+        "egg:mist",
+        "egg:takedown",
+        "egg:waterpulse",
+        "tm:attract",
+        "tm:bulldoze",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:hail",
+        "tm:icebeam",
+        "tm:irontail",
+        "tm:liquidation",
+        "tm:muddywater",
+        "tm:mudshot",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:uturn",
+        "tm:waterfall",
+        "tm:whirlpool",
+        "tutor:flipturn",
+        "tutor:scaleshot"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemod.species.wishiwashisolo.desc1",
+        "pokemod.species.wishiwashisolo.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

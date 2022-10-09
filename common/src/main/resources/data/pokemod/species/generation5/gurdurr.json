@@ -1,0 +1,104 @@
+{
+    "name": "gurdurr",
+    "nationalPokedexNumber": 533,
+    "primaryType": "fighting",
+    "abilities": [
+        "guts",
+        "sheerforce",
+        "h:ironfist"
+    ],
+    "baseStats": {
+        "hp": 85,
+        "attack": 105,
+        "defence": 85,
+        "special_attack": 40,
+        "special_defence": 50,
+        "speed": 40
+    },
+    "catchRate": 90,
+    "maleRatio": 0.75,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 142,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "humanshape"
+    ],
+    "moves": [
+        "1:pound",
+        "1:leer",
+        "1:lowkick",
+        "1:rockthrow",
+        "12:focusenergy",
+        "16:bulkup",
+        "20:rockslide",
+        "24:slam",
+        "30:scaryface",
+        "36:dynamicpunch",
+        "42:hammerarm",
+        "48:stoneedge",
+        "54:superpower",
+        "60:focuspunch",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:closecombat",
+        "tm:dig",
+        "tm:drainpunch",
+        "tm:endure",
+        "tm:facade",
+        "tm:firepunch",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:grassknot",
+        "tm:helpinghand",
+        "tm:highhorsepower",
+        "tm:icepunch",
+        "tm:lowsweep",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:reversal",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:taunt",
+        "tm:thunderpunch",
+        "tm:workup",
+        "tutor:coaching"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemod.species.gurdurr.desc1",
+        "pokemod.species.gurdurr.desc2"
+    ],
+    "preEvolution": "timburr",
+    "evolutions": [
+        {
+            "id": "gurdurr_conkeldurr",
+            "variant": "trade",
+            "result": "conkeldurr",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": []
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

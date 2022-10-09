@@ -1,0 +1,107 @@
+{
+    "name": "kingler",
+    "nationalPokedexNumber": 99,
+    "primaryType": "water",
+    "abilities": [
+        "hypercutter",
+        "shellarmor",
+        "h:sheerforce"
+    ],
+    "baseStats": {
+        "hp": 55,
+        "attack": 130,
+        "defence": 115,
+        "special_attack": 50,
+        "special_defence": 50,
+        "speed": 75
+    },
+    "catchRate": 60,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "gmax",
+            "aspects": [
+                "gmax"
+            ]
+        }
+    ],
+    "baseExperienceYield": 166,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water3"
+    ],
+    "moves": [
+        "1:leer",
+        "1:watergun",
+        "1:harden",
+        "1:metalclaw",
+        "1:hammerarm",
+        "1:wideguard",
+        "12:mudshot",
+        "16:protect",
+        "20:bubblebeam",
+        "24:stomp",
+        "31:flail",
+        "36:razorshell",
+        "42:slam",
+        "48:swordsdance",
+        "54:crabhammer",
+        "60:guillotine",
+        "tm:agility",
+        "tm:allyswitch",
+        "tm:amnesia",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brine",
+        "tm:brutalswing",
+        "tm:dig",
+        "tm:dive",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:highhorsepower",
+        "tm:hydropump",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irondefense",
+        "tm:liquidation",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stompingtantrum",
+        "tm:substitute",
+        "tm:superpower",
+        "tm:surf",
+        "tm:thief",
+        "tm:whirlpool",
+        "tm:xscissor"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.kingler.desc1",
+        "pokemod.species.kingler.desc2"
+    ],
+    "preEvolution": "krabby",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

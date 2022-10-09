@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:ponyta",
+  "model": "pokemod:bedrock/models/0077_ponyta/ponyta.geo.json",
+  "texture": "pokemod:textures/pokemon/0077_ponyta/ponyta.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0077_ponyta/ponyta_shiny.png"
+    }
+  ]
+}

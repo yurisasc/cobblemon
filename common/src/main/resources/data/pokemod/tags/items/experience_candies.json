@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokemod:rare_candy",
+    "pokemod:exp_candy_xs",
+    "pokemod:exp_candy_s",
+    "pokemod:exp_candy_m",
+    "pokemod:exp_candy_l",
+    "pokemod:exp_candy_xl"
+  ]
+}

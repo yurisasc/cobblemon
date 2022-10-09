@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:is_badlands",
+	"#pokemod:is_desert",
+    {
+      "id": "#byg:is_sandy",
+      "required": false
+    }
+  ]
+}
