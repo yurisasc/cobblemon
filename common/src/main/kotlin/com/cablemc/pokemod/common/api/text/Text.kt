@@ -168,12 +168,12 @@ fun MutableText.suggest(command: String) = also { it.style = it.style.withClickE
 
 fun MutableText.add(other: Text): MutableText {
     this.append(other)
-    return this;
+    return this
 }
 
 fun MutableText.add(string: String): MutableText {
     this.add(text(string))
-    return this;
+    return this
 }
 
 operator fun MutableText.plus(component: Text) = this.add(component)

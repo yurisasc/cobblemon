@@ -88,7 +88,7 @@ open class PlayerPartyStore(
                 else if (pokemon.currentHealth < pokemon.hp) {
                     pokemon.healTimer -= 1
                     if (pokemon.healTimer <= -1) {
-                        pokemon.healTimer = Pokemod.config.healTimer;
+                        pokemon.healTimer = Pokemod.config.healTimer
                         val healAmount = 1.0.coerceAtLeast(pokemon.hp.toDouble() * Pokemod.config.healPercent)
                         pokemon.currentHealth = pokemon.currentHealth + round(healAmount).toInt();
                     }

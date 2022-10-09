@@ -24,7 +24,7 @@ class PersistentStatusContainer(
     var secondsLeft: Int = 0
 ) {
     fun isExpired(): Boolean {
-        return this.secondsLeft <= 0;
+        return this.secondsLeft <= 0
     }
 
     fun tickTimer() {

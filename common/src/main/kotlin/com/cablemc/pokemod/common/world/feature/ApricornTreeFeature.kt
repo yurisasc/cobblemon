@@ -9,7 +9,10 @@
 package com.cablemc.pokemod.common.world.feature
 
 import com.cablemc.pokemod.common.PokemodBlocks
+import com.cablemc.pokemoncobbled.common.PokemonCobbled
+import com.cablemc.pokemoncobbled.common.util.cobbledResource
 import com.cablemc.pokemod.common.util.randomNoCopy
+import com.cablemc.pokemoncobbled.common.world.level.block.ApricornBlock
 import com.google.common.collect.Lists
 import com.mojang.serialization.Codec
 import kotlin.random.Random.Default.nextInt
@@ -18,6 +21,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.LeavesBlock
 import net.minecraft.tag.BlockTags
+import net.minecraft.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Direction.EAST
@@ -26,6 +30,7 @@ import net.minecraft.util.math.Direction.SOUTH
 import net.minecraft.util.math.Direction.UP
 import net.minecraft.util.math.Direction.WEST
 import net.minecraft.util.math.random.Random
+import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.TestableWorld
 import net.minecraft.world.gen.feature.Feature
@@ -36,18 +41,38 @@ import net.minecraft.world.gen.feature.util.FeatureContext
 class ApricornTreeFeature(
     codec: Codec<SingleStateFeatureConfig>
 ) : Feature<SingleStateFeatureConfig>(codec) {
+    val apricornSparseBiomeTag = TagKey.of(Registry.BIOME_KEY, cobbledResource("has_feature/apricorns_sparse"))
+    val apricornNormalBiomeTag = TagKey.of(Registry.BIOME_KEY, cobbledResource("has_feature/apricorns_normal"))
+    val apricornDenseBiomeTag = TagKey.of(Registry.BIOME_KEY, cobbledResource("has_feature/apricorns_dense"))
 
     override fun generate(context: FeatureContext<SingleStateFeatureConfig>) : Boolean {
         val worldGenLevel: StructureWorldAccess = context.world
-        val random: Random = context.random
-        val origin: BlockPos = context.origin
+        val random = context.random
+        val origin = context.origin
+
+        if (context.feature.isPresent) {
+            val biome = worldGenLevel.getBiome(origin)
+            val multiplier = if (biome.isIn(apricornDenseBiomeTag)) {
+                10F
+            } else if (biome.isIn(apricornNormalBiomeTag)) {
+                1.0F
+            } else if (biome.isIn(apricornSparseBiomeTag)) {
+                0.1F
+            } else {
+                return false
+            }
+
+            if (random.nextFloat() > multiplier * PokemonCobbled.config.baseApricornTreeGenerationChance) {
+                return false
+            }
+        }
 
         if (!worldGenLevel.getBlockState(origin.down()).isIn(BlockTags.DIRT)) {
             return false
         }
 
         // Create trunk
-        val logState = PokemodBlocks.APRICORN_LOG.get().defaultState;
+        val logState = PokemodBlocks.APRICORN_LOG.get().defaultState
         for (y in 0..4) {
             try {
                 val logPos = origin.offset(UP, y)
@@ -140,11 +165,17 @@ class ApricornTreeFeature(
         }
 
         if (allApricornSpots.isNotEmpty()) {
-            allApricornSpots.filter { it.isNotEmpty() }
-                .randomNoCopy(allApricornSpots.size.coerceAtMost(5))
+            allApricornSpots.filter(List<*>::isNotEmpty)
+                .randomNoCopy(allApricornSpots.size.coerceAtMost(8))
                 .map { it.random() }
                 .forEach {
-                    setBlockIfClear(worldGenLevel, it.second, context.config.state.with(HorizontalFacingBlock.FACING, it.first))
+                    setBlockIfClear(
+                        worldGenLevel,
+                        it.second,
+                        context.config.state
+                            .with(HorizontalFacingBlock.FACING, it.first)
+                            .with(ApricornBlock.AGE, if (context.feature.isPresent) ApricornBlock.MAX_AGE else 0)
+                    )
                 }
         }
         return true;

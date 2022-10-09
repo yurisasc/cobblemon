@@ -128,6 +128,9 @@ class PokemodConfig {
     @NodeCategory(Category.Healing)
     var healTimer = 60
 
+    @NodeCategory(Category.Spawning)
+    var baseApricornTreeGenerationChance = 0.1F
+
     @NodeCategory(Category.Pokemon)
     var globalFlagSpeciesFeatures = mutableListOf<String>()
 

@@ -9,4 +9,5 @@
 package com.cablemc.pokemod.common.item
 
 import net.minecraft.item.ItemGroup
+
 class ApricornItem : PokemodItem(Settings().group(ItemGroup.MISC))

@@ -35,6 +35,7 @@ class ApricornBlock(properties: Settings, val itemSupplier: Supplier<ApricornIte
 
     companion object {
         val AGE = Properties.AGE_2
+        const val MAX_AGE = 2
         val EAST_AABB = arrayOf(
             Block.createCuboidShape(12.0, 7.0, 6.0, 16.0, 11.0, 10.0),
             Block.createCuboidShape(11.0, 6.0, 5.5, 16.0, 11.0, 10.5),
@@ -64,7 +65,7 @@ class ApricornBlock(properties: Settings, val itemSupplier: Supplier<ApricornIte
     @Deprecated("Deprecated in Java")
     override fun onUse(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, interactionHand: Hand, blockHitResult: BlockHitResult): ActionResult {
         val age = blockState.get(AGE)
-        val fullyGrown = age == 2
+        val fullyGrown = age == MAX_AGE
         return if (!fullyGrown && player.getStackInHand(interactionHand).isOf(Items.BONE_MEAL)) {
             ActionResult.PASS
         } else if (fullyGrown) {

@@ -116,11 +116,11 @@ object PokemodClient {
 
     fun registerColors() {
         ColorHandlerRegistry.registerBlockColors(BlockColorProvider { blockState, blockAndTintGetter, blockPos, i ->
-            return@BlockColorProvider 0x71c219;
+            return@BlockColorProvider 0x71c219
         }, com.cablemc.pokemod.common.PokemodBlocks.APRICORN_LEAVES.get())
 
         ColorHandlerRegistry.registerItemColors(ItemColorProvider { itemStack, i ->
-            return@ItemColorProvider 0x71c219;
+            return@ItemColorProvider 0x71c219
         }, PokemodItems.APRICORN_LEAVES.get())
     }
 
