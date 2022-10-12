@@ -1,0 +1,95 @@
+{
+    "name": "typenull",
+    "nationalPokedexNumber": 772,
+    "primaryType": "normal",
+    "abilities": [
+        "battlearmor"
+    ],
+    "baseStats": {
+        "hp": 95,
+        "attack": 95,
+        "defence": 95,
+        "special_attack": 95,
+        "special_defence": 95,
+        "speed": 59
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 107,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:imprison",
+        "5:aerialace",
+        "10:scaryface",
+        "15:doublehit",
+        "20:metalsound",
+        "25:crushclaw",
+        "30:airslash",
+        "35:triattack",
+        "40:xscissor",
+        "45:ironhead",
+        "50:takedown",
+        "55:doubleedge",
+        "tm:dragonclaw",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:hyperbeam",
+        "tm:icywind",
+        "tm:irondefense",
+        "tm:payback",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:thunderwave",
+        "tm:uturn",
+        "tm:workup",
+        "tutor:terrainpulse"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemod.species.typenull.desc1",
+        "pokemod.species.typenull.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "typenull_silvally",
+            "variant": "level_up",
+            "result": "silvally",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "friendship",
+                    "amount": 160
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

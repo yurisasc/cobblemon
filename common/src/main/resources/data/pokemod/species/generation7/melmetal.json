@@ -1,0 +1,96 @@
+{
+    "name": "melmetal",
+    "nationalPokedexNumber": 809,
+    "primaryType": "steel",
+    "abilities": [
+        "ironfist"
+    ],
+    "baseStats": {
+        "hp": 135,
+        "attack": 143,
+        "defence": 143,
+        "special_attack": 80,
+        "special_defence": 65,
+        "speed": 34
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "gmax",
+            "aspects": [
+                "gmax"
+            ]
+        }
+    ],
+    "baseExperienceYield": 300,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "0:thunderpunch",
+        "1:headbutt",
+        "1:tailwhip",
+        "1:thundershock",
+        "1:harden",
+        "24:thunderwave",
+        "32:acidarmor",
+        "40:flashcannon",
+        "48:megapunch",
+        "56:protect",
+        "64:discharge",
+        "72:dynamicpunch",
+        "80:superpower",
+        "88:doubleironbash",
+        "96:hyperbeam",
+        "tm:bodypress",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:darkestlariat",
+        "tm:earthquake",
+        "tm:electricterrain",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:gyroball",
+        "tm:heavyslam",
+        "tm:highhorsepower",
+        "tm:icebeam",
+        "tm:icepunch",
+        "tm:irondefense",
+        "tm:ironhead",
+        "tm:megakick",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:selfdestruct",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tutor:steelbeam",
+        "tutor:steelroller"
+    ],
+    "labels": [
+        "mythical",
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemod.species.melmetal.desc1",
+        "pokemod.species.melmetal.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

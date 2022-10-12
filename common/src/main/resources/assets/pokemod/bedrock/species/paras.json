@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:paras",
+  "model": "pokemod:bedrock/models/0046_paras/paras.geo.json",
+  "texture": "pokemod:textures/pokemon/0046_paras/paras.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0046_paras/paras_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+    "name": "meltan",
+    "nationalPokedexNumber": 808,
+    "primaryType": "steel",
+    "abilities": [
+        "magnetpull"
+    ],
+    "baseStats": {
+        "hp": 46,
+        "attack": 65,
+        "defence": 65,
+        "special_attack": 55,
+        "special_defence": 35,
+        "speed": 34
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 150,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:thundershock",
+        "1:harden",
+        "8:tailwhip",
+        "16:headbutt",
+        "24:thunderwave",
+        "32:acidarmor",
+        "40:flashcannon",
+        "tm:endure",
+        "tm:facade",
+        "tm:gyroball",
+        "tm:irondefense",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:thunderbolt",
+        "tutor:steelbeam"
+    ],
+    "labels": [
+        "mythical",
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemod.species.meltan.desc1",
+        "pokemod.species.meltan.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

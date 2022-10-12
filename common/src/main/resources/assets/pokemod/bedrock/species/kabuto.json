@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:kabuto",
+  "model": "pokemod:bedrock/models/0140_kabuto/kabuto.geo.json",
+  "texture": "pokemod:textures/pokemon/0140_kabuto/kabuto.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0140_kabuto/kabuto_shiny.png"
+    }
+  ]
+}

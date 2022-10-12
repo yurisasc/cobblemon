@@ -1,0 +1,21 @@
+{
+  "capture_succeeded": {
+    "subtitle": "pokemod.subtitle.capture_succeeded",
+    "sounds": [ "pokemod:pokeball/capture_succeeded" ]
+  },
+  "shake": {
+    "sounds": [ "pokemod:pokeball/shake" ]
+  },
+  "capture_started": {
+    "sounds": [ "pokemod:pokeball/capture_started" ]
+  },
+  "recall": {
+    "sounds": [ "pokemod:pokeball/recall" ]
+  },
+  "send_out": {
+    "sounds": [ "pokemod:pokeball/send_out" ]
+  },
+  "hit": {
+    "sounds": [ "pokemod:pokeball/hit" ]
+  }
+}

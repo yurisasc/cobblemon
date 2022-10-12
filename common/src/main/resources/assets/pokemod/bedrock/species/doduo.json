@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:doduo",
+  "model": "pokemod:bedrock/models/0084_doduo/doduo.geo.json",
+  "texture": "pokemod:textures/pokemon/0084_doduo/doduo_m.png",
+  "variations": [
+    {
+      "aspects": ["female"],
+      "texture": "pokemod:textures/pokemon/0084_doduo/doduo_f.png"
+    }
+  ]
+}

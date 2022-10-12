@@ -1,0 +1,113 @@
+{
+    "name": "mudkip",
+    "nationalPokedexNumber": 258,
+    "primaryType": "water",
+    "abilities": [
+        "torrent",
+        "h:damp"
+    ],
+    "baseStats": {
+        "hp": 50,
+        "attack": 70,
+        "defence": 50,
+        "special_attack": 50,
+        "special_defence": 50,
+        "speed": 40
+    },
+    "catchRate": 45,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 62,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster",
+        "water1"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:growl",
+        "3:watergun",
+        "6:rocksmash",
+        "9:rockthrow",
+        "12:protect",
+        "15:supersonic",
+        "18:waterpulse",
+        "21:rockslide",
+        "24:takedown",
+        "27:amnesia",
+        "30:surf",
+        "33:screech",
+        "36:endeavor",
+        "39:hydropump",
+        "egg:ancientpower",
+        "egg:bite",
+        "egg:counter",
+        "egg:curse",
+        "egg:doubleedge",
+        "egg:mirrorcoat",
+        "egg:mudslap",
+        "egg:sludge",
+        "egg:stomp",
+        "egg:wideguard",
+        "egg:yawn",
+        "tm:attract",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:dig",
+        "tm:dive",
+        "tm:earthpower",
+        "tm:endure",
+        "tm:facade",
+        "tm:hail",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irontail",
+        "tm:lowkick",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:sludgewave",
+        "tm:snore",
+        "tm:substitute",
+        "tm:superpower",
+        "tm:uproar",
+        "tm:waterfall",
+        "tm:whirlpool",
+        "tm:workup",
+        "tutor:waterpledge"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.mudkip.desc1",
+        "pokemod.species.mudkip.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "mudkip_marshtomp",
+            "variant": "level_up",
+            "result": "marshtomp",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 16
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

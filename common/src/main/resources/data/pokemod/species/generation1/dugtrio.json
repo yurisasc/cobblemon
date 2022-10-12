@@ -1,0 +1,124 @@
+{
+    "name": "dugtrio",
+    "nationalPokedexNumber": 51,
+    "primaryType": "ground",
+    "abilities": [
+        "sandveil",
+        "arenatrap",
+        "h:sandforce"
+    ],
+    "baseStats": {
+        "hp": 35,
+        "attack": 100,
+        "defence": 50,
+        "special_attack": 50,
+        "special_defence": 70,
+        "speed": 120
+    },
+    "catchRate": 50,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "alola",
+            "secondaryType": "steel",
+            "abilities": [
+                "sandveil",
+                "tanglinghair",
+                "h:sandforce"
+            ],
+            "baseStats": {
+                "hp": 35,
+                "attack": 100,
+                "defence": 60,
+                "special_attack": 50,
+                "special_defence": 70,
+                "speed": 110
+            },
+            "aspects": [
+                "alola"
+            ]
+        }
+    ],
+    "baseExperienceYield": 149,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:potato",
+                "quantityRange": "1-2",
+                "percentage": 66
+            }
+        ]
+    },
+    "moves": [
+        "0:sandtomb",
+        "1:scratch",
+        "1:sandattack",
+        "1:growl",
+        "1:triattack",
+        "1:astonish",
+        "1:nightslash",
+        "12:mudslap",
+        "16:bulldoze",
+        "20:suckerpunch",
+        "24:slash",
+        "30:sandstorm",
+        "36:dig",
+        "42:earthpower",
+        "48:earthquake",
+        "54:fissure",
+        "tm:agility",
+        "tm:allyswitch",
+        "tm:assurance",
+        "tm:attract",
+        "tm:beatup",
+        "tm:bodyslam",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:highhorsepower",
+        "tm:hyperbeam",
+        "tm:protect",
+        "tm:rest",
+        "tm:reversal",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:screech",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stompingtantrum",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thief",
+        "tm:uproar",
+        "tm:workup",
+        "tutor:scorchingsands"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.dugtrio.desc1",
+        "pokemod.species.dugtrio.desc2"
+    ],
+    "preEvolution": "diglett",
+    "evolutions": [],
+    "baseScale": 0.9,
+    "hitbox": {
+        "width": 0.8,
+        "height": 0.9,
+        "fixed": false
+    }
+}

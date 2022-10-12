@@ -1,0 +1,104 @@
+{
+    "name": "aegislashshield",
+    "nationalPokedexNumber": 681,
+    "primaryType": "steel",
+    "secondaryType": "ghost",
+    "abilities": [
+        "stancechange"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 50,
+        "defence": 140,
+        "special_attack": 50,
+        "special_defence": 140,
+        "speed": 60
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "blade",
+            "baseStats": {
+                "hp": 60,
+                "attack": 140,
+                "defence": 50,
+                "special_attack": 140,
+                "special_defence": 50,
+                "speed": 60
+            },
+            "aspects": [
+                "blade"
+            ]
+        }
+    ],
+    "baseExperienceYield": 250,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "0:kingsshield",
+        "1:swordsdance",
+        "1:tackle",
+        "1:slash",
+        "1:furycutter",
+        "1:metalsound",
+        "1:aerialace",
+        "1:irondefense",
+        "1:powertrick",
+        "1:nightslash",
+        "1:shadowsneak",
+        "1:ironhead",
+        "1:headsmash",
+        "1:autotomize",
+        "1:retaliate",
+        "1:sacredsword",
+        "tm:airslash",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:closecombat",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:flashcannon",
+        "tm:gigaimpact",
+        "tm:gyroball",
+        "tm:hyperbeam",
+        "tm:protect",
+        "tm:psychocut",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:reversal",
+        "tm:rockslide",
+        "tm:round",
+        "tm:screech",
+        "tm:shadowball",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarblade",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tutor:steelbeam"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemod.species.aegislashshield.desc1",
+        "pokemod.species.aegislashshield.desc2"
+    ],
+    "preEvolution": "doublade",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -1,0 +1,159 @@
+{
+    "name": "darmanitanstandard",
+    "nationalPokedexNumber": 555,
+    "primaryType": "fire",
+    "abilities": [
+        "sheerforce",
+        "h:zenmode"
+    ],
+    "baseStats": {
+        "hp": 105,
+        "attack": 140,
+        "defence": 55,
+        "special_attack": 30,
+        "special_defence": 55,
+        "speed": 95
+    },
+    "catchRate": 60,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "zen",
+            "secondaryType": "psychic",
+            "baseStats": {
+                "hp": 105,
+                "attack": 30,
+                "defence": 105,
+                "special_attack": 140,
+                "special_defence": 105,
+                "speed": 55
+            },
+            "aspects": [
+                "zen"
+            ]
+        },
+        {
+            "name": "galar-standard",
+            "primaryType": "ice",
+            "abilities": [
+                "gorillatactics",
+                "h:zenmode"
+            ],
+            "aspects": [
+                "galar-standard"
+            ]
+        },
+        {
+            "name": "galar-zen",
+            "primaryType": "ice",
+            "secondaryType": "fire",
+            "abilities": [
+                "gorillatactics",
+                "h:zenmode"
+            ],
+            "baseStats": {
+                "hp": 105,
+                "attack": 160,
+                "defence": 55,
+                "special_attack": 30,
+                "special_defence": 55,
+                "speed": 135
+            },
+            "aspects": [
+                "galar-zen"
+            ]
+        }
+    ],
+    "baseExperienceYield": 168,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "0:hammerarm",
+        "1:tackle",
+        "1:bite",
+        "1:ember",
+        "1:taunt",
+        "12:incinerate",
+        "16:workup",
+        "20:firefang",
+        "24:headbutt",
+        "28:firepunch",
+        "32:uproar",
+        "38:bellydrum",
+        "44:flareblitz",
+        "50:thrash",
+        "56:superpower",
+        "tm:attract",
+        "tm:bodypress",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:dig",
+        "tm:earthquake",
+        "tm:encore",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firespin",
+        "tm:flamethrower",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:focusenergy",
+        "tm:futuresight",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:guardswap",
+        "tm:gyroball",
+        "tm:heatwave",
+        "tm:hyperbeam",
+        "tm:irondefense",
+        "tm:ironhead",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:mysticalfire",
+        "tm:overheat",
+        "tm:payback",
+        "tm:powerswap",
+        "tm:protect",
+        "tm:psychic",
+        "tm:rest",
+        "tm:reversal",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thief",
+        "tm:trick",
+        "tm:uturn",
+        "tm:willowisp",
+        "tm:zenheadbutt",
+        "tutor:burningjealousy",
+        "tutor:expandingforce",
+        "tutor:lashout"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemod.species.darmanitanstandard.desc1",
+        "pokemod.species.darmanitanstandard.desc2"
+    ],
+    "preEvolution": "darumaka",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

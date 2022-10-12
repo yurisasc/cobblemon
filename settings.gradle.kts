@@ -1,4 +1,4 @@
-rootProject.name = "pokemoncobbled"
+rootProject.name = "pokemod"
 
 pluginManagement {
     repositories {

@@ -1,0 +1,116 @@
+{
+    "name": "pidgey",
+    "nationalPokedexNumber": 16,
+    "primaryType": "normal",
+    "secondaryType": "flying",
+    "abilities": [
+        "keeneye",
+        "tangledfeet",
+        "h:bigpecks"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 45,
+        "defence": 40,
+        "special_attack": 35,
+        "special_defence": 35,
+        "speed": 56
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 50,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 15,
+    "eggGroups": [
+        "flying"
+    ],
+    "drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:feather",
+                "percentage": 50
+            },
+            {
+                "item": "minecraft:chicken"
+            }
+        ]
+    },
+    "moves": [
+        "1:tackle",
+        "5:sandattack",
+        "9:gust",
+        "13:quickattack",
+        "17:whirlwind",
+        "21:twister",
+        "25:featherdance",
+        "29:agility",
+        "33:wingattack",
+        "37:roost",
+        "41:tailwind",
+        "45:mirrormove",
+        "49:airslash",
+        "53:hurricane",
+        "egg:aircutter",
+        "egg:bravebird",
+        "egg:defog",
+        "egg:feintattack",
+        "egg:foresight",
+        "egg:pursuit",
+        "egg:steelwing",
+        "egg:uproar",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:facade",
+        "tm:fly",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:thief",
+        "tm:toxic",
+        "tm:uturn",
+        "tm:workup",
+        "tutor:heatwave",
+        "tutor:skyattack",
+        "tutor:snore"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.pidgey.desc1"
+    ],
+    "evolutions": [
+        {
+            "id": "pidgey_pidgeotto",
+            "variant": "level_up",
+            "result": "pidgeotto",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 18
+                }
+            ]
+        }
+    ],
+    "baseScale": 1,
+    "hitbox": {
+        "width": 0.5,
+        "height": 0.8,
+        "fixed": false
+    }
+}

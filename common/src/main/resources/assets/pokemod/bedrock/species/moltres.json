@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:moltres",
+  "model": "pokemod:bedrock/models/0146_moltres/moltres.geo.json",
+  "texture": "pokemod:textures/pokemon/0146_moltres/moltres.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0146_moltres/moltres_shiny.png"
+    }
+  ]
+}

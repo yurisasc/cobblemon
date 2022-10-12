@@ -1,0 +1,122 @@
+{
+    "name": "typhlosion",
+    "nationalPokedexNumber": 157,
+    "primaryType": "fire",
+    "abilities": [
+        "blaze",
+        "h:flashfire"
+    ],
+    "baseStats": {
+        "hp": 78,
+        "attack": 84,
+        "defence": 78,
+        "special_attack": 109,
+        "special_defence": 85,
+        "speed": 100
+    },
+    "catchRate": 45,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "hisui",
+            "secondaryType": "ghost",
+            "baseStats": {
+                "hp": 73,
+                "attack": 84,
+                "defence": 78,
+                "special_attack": 119,
+                "special_defence": 85,
+                "speed": 95
+            },
+            "aspects": [
+                "hisui"
+            ]
+        }
+    ],
+    "baseExperienceYield": 240,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:doubleedge",
+        "1:leer",
+        "1:ember",
+        "1:smokescreen",
+        "1:eruption",
+        "1:gyroball",
+        "13:quickattack",
+        "20:flamewheel",
+        "24:defensecurl",
+        "31:swift",
+        "35:flamecharge",
+        "43:lavaplume",
+        "48:flamethrower",
+        "56:inferno",
+        "61:rollout",
+        "74:burnup",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:bulldoze",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:earthquake",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:naturepower",
+        "tm:overheat",
+        "tm:protect",
+        "tm:rest",
+        "tm:return",
+        "tm:roar",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:toxic",
+        "tm:wildcharge",
+        "tm:willowisp",
+        "tm:workup",
+        "tutor:blastburn",
+        "tutor:covet",
+        "tutor:firepledge",
+        "tutor:firepunch",
+        "tutor:focuspunch",
+        "tutor:heatwave",
+        "tutor:laserfocus",
+        "tutor:lowkick",
+        "tutor:snore",
+        "tutor:stompingtantrum",
+        "tutor:throatchop",
+        "tutor:thunderpunch"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemod.species.typhlosion.desc1"
+    ],
+    "preEvolution": "quilava",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

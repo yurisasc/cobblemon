@@ -1,0 +1,24 @@
+{
+    "id": "0066-machop",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "machop",
+            "pokemon": "machop",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "12-27",
+            "weight": 4.2,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_crag"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}

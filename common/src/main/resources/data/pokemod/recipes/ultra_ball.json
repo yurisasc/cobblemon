@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "byb",
+        "ggg",
+        "www"
+    ],
+    "key": {
+        "y": {
+            "item": "pokemod:yellow_apricorn"
+        },
+        "b": {
+            "item": "pokemod:black_apricorn"
+        },
+        "g": {
+            "item": "minecraft:gold_ingot"
+        },
+        "w": {
+            "item": "pokemod:white_apricorn"
+        }
+    },
+    "result":
+    {
+        "item": "pokemod:ultra_ball",
+        "count": 6
+    }
+}

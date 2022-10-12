@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cross",
+    "textures": {
+      "cross": "pokemod:blocks/pink_apricorn_sapling"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "rrr",
+        "ccc",
+        "www"
+    ],
+    "key": {
+        "r": {
+            "item": "pokemod:red_apricorn"
+        },
+        "c": {
+            "item": "minecraft:copper_ingot"
+        },
+        "w": {
+            "item": "pokemod:white_apricorn"
+        }
+    },
+    "result":
+    {
+        "item": "pokemod:poke_ball",
+        "count": 6
+    }
+}

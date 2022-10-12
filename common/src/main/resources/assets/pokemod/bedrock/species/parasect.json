@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:parasect",
+  "model": "pokemod:bedrock/models/0047_parasect/parasect.geo.json",
+  "texture": "pokemod:textures/pokemon/0047_parasect/parasect.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0047_parasect/parasect_shiny.png"
+    }
+  ]
+}

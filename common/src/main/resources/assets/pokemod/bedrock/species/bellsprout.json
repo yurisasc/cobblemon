@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:bellsprout",
+  "model": "pokemod:bedrock/models/0069_bellsprout/bellsprout.geo.json",
+  "texture": "pokemod:textures/pokemon/0069_bellsprout/bellsprout.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0069_bellsprout/bellsprout_shiny.png"
+    }
+  ]
+}

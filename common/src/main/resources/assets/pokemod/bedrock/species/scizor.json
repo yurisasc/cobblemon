@@ -1,0 +1,15 @@
+{
+  "poser": "pokemod:scizor",
+  "model": "pokemod:bedrock/models/0212_scizor/scizor_male.geo.json",
+  "texture": "pokemod:textures/pokemon/0212_scizor/scizor.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0212_scizor/scizor_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemod:bedrock/models/0212_scizor/scizor_female.geo.json"
+    }
+  ]
+}

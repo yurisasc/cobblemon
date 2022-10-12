@@ -1,0 +1,87 @@
+{
+    "name": "falinks",
+    "nationalPokedexNumber": 870,
+    "primaryType": "fighting",
+    "abilities": [
+        "battlearmor",
+        "h:defiant"
+    ],
+    "baseStats": {
+        "hp": 65,
+        "attack": 100,
+        "defence": 100,
+        "special_attack": 70,
+        "special_defence": 60,
+        "speed": 75
+    },
+    "catchRate": 45,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 165,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 25,
+    "eggGroups": [
+        "fairy",
+        "mineral"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:protect",
+        "5:rocksmash",
+        "10:focusenergy",
+        "15:headbutt",
+        "20:bulkup",
+        "25:endure",
+        "30:reversal",
+        "35:firstimpression",
+        "40:noretreat",
+        "45:irondefense",
+        "50:closecombat",
+        "55:megahorn",
+        "60:counter",
+        "tm:agility",
+        "tm:assurance",
+        "tm:beatup",
+        "tm:brickbreak",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:focusblast",
+        "tm:gigaimpact",
+        "tm:helpinghand",
+        "tm:hyperbeam",
+        "tm:ironhead",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:screech",
+        "tm:sleeptalk",
+        "tm:smartstrike",
+        "tm:snore",
+        "tm:substitute",
+        "tm:superpower",
+        "tm:swordsdance",
+        "tm:throatchop",
+        "tm:zenheadbutt",
+        "tutor:coaching"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemod.species.falinks.desc1",
+        "pokemod.species.falinks.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

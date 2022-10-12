@@ -1,0 +1,124 @@
+{
+    "name": "palkia",
+    "nationalPokedexNumber": 484,
+    "primaryType": "water",
+    "secondaryType": "dragon",
+    "abilities": [
+        "pressure",
+        "h:telepathy"
+    ],
+    "baseStats": {
+        "hp": 90,
+        "attack": 120,
+        "defence": 100,
+        "special_attack": 150,
+        "special_defence": 120,
+        "speed": 100
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "origin",
+            "baseStats": {
+                "hp": 90,
+                "attack": 100,
+                "defence": 100,
+                "special_attack": 150,
+                "special_defence": 120,
+                "speed": 120
+            },
+            "aspects": [
+                "origin"
+            ]
+        }
+    ],
+    "baseExperienceYield": 340,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:scaryface",
+        "1:waterpulse",
+        "8:dragonbreath",
+        "16:ancientpower",
+        "24:slash",
+        "32:aquaring",
+        "40:dragonclaw",
+        "48:aurasphere",
+        "56:powergem",
+        "64:aquatail",
+        "72:earthpower",
+        "80:spacialrend",
+        "88:hydropump",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:bodypress",
+        "tm:bodyslam",
+        "tm:breakingswipe",
+        "tm:brickbreak",
+        "tm:brine",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:dive",
+        "tm:dragonpulse",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:flamethrower",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:heavyslam",
+        "tm:hyperbeam",
+        "tm:hypervoice",
+        "tm:icebeam",
+        "tm:liquidation",
+        "tm:outrage",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sandstorm",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stompingtantrum",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:surf",
+        "tm:swift",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:trickroom",
+        "tm:whirlpool",
+        "tutor:dracometeor",
+        "tutor:dualwingbeat",
+        "tutor:scaleshot"
+    ],
+    "labels": [
+        "legendary",
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemod.species.palkia.desc1",
+        "pokemod.species.palkia.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

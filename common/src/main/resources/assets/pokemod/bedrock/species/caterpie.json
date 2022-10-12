@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:caterpie",
+  "model": "pokemod:bedrock/models/0010_caterpie/caterpie.geo.json",
+  "texture": "pokemod:textures/pokemon/0010_caterpie/caterpie.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0010_caterpie/caterpie_shiny.png"
+    }
+  ]
+}

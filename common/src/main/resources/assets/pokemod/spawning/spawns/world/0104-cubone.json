@@ -1,0 +1,23 @@
+{
+    "id": "0104-cubone",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "cubone",
+            "pokemon": "cubone",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "8-27",
+            "weight": 1.4,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_sandy"
+                ]
+            }
+        }
+    ]
+}

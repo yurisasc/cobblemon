@@ -1,0 +1,118 @@
+{
+    "name": "scizor",
+    "nationalPokedexNumber": 212,
+    "primaryType": "bug",
+    "secondaryType": "steel",
+    "abilities": [
+        "swarm",
+        "technician",
+        "h:lightmetal"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 130,
+        "defence": 100,
+        "special_attack": 55,
+        "special_defence": 80,
+        "speed": 65
+    },
+    "catchRate": 25,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "technician"
+            ],
+            "baseStats": {
+                "hp": 70,
+                "attack": 150,
+                "defence": 140,
+                "special_attack": 65,
+                "special_defence": 100,
+                "speed": 75
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 175,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 25,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "0:bulletpunch",
+        "1:wingattack",
+        "1:leer",
+        "1:agility",
+        "1:quickattack",
+        "1:falseswipe",
+        "1:furycutter",
+        "1:airslash",
+        "12:metalclaw",
+        "16:doubleteam",
+        "20:doublehit",
+        "24:slash",
+        "28:focusenergy",
+        "32:irondefense",
+        "36:ironhead",
+        "40:xscissor",
+        "44:laserfocus",
+        "48:swordsdance",
+        "tm:acrobatics",
+        "tm:assurance",
+        "tm:attract",
+        "tm:batonpass",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bugbuzz",
+        "tm:crosspoison",
+        "tm:endure",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:fling",
+        "tm:gigaimpact",
+        "tm:hyperbeam",
+        "tm:lightscreen",
+        "tm:protect",
+        "tm:psychocut",
+        "tm:raindance",
+        "tm:rest",
+        "tm:reversal",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sandstorm",
+        "tm:sandtomb",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:superpower",
+        "tm:swift",
+        "tm:thief",
+        "tm:uturn",
+        "tm:venoshock",
+        "tutor:dualwingbeat",
+        "tutor:steelbeam"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemod.species.scizor.desc1",
+        "pokemod.species.scizor.desc2"
+    ],
+    "preEvolution": "scyther",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

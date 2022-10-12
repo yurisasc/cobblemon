@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:growlithe",
+  "model": "pokemod:bedrock/models/0058_growlithe/growlithe.geo.json",
+  "texture": "pokemod:textures/pokemon/0058_growlithe/growlithe.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0058_growlithe/growlithe_shiny.png"
+    }
+  ]
+}

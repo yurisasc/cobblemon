@@ -1,0 +1,91 @@
+{
+    "name": "gorebyss",
+    "nationalPokedexNumber": 368,
+    "primaryType": "water",
+    "abilities": [
+        "swiftswim",
+        "h:hydration"
+    ],
+    "baseStats": {
+        "hp": 55,
+        "attack": 84,
+        "defence": 105,
+        "special_attack": 114,
+        "special_defence": 75,
+        "speed": 52
+    },
+    "catchRate": 60,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 170,
+    "experienceGroup": "slowthenveryfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water1"
+    ],
+    "moves": [
+        "1:confusion",
+        "1:whirlpool",
+        "5:watersport",
+        "9:agility",
+        "11:drainingkiss",
+        "14:waterpulse",
+        "16:amnesia",
+        "19:aquaring",
+        "23:captivate",
+        "26:dive",
+        "29:batonpass",
+        "34:psychic",
+        "39:aquatail",
+        "45:coil",
+        "50:hydropump",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:facade",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:infestation",
+        "tm:protect",
+        "tm:psychup",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:safeguard",
+        "tm:scald",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swagger",
+        "tm:toxic",
+        "tm:waterfall",
+        "tutor:bind",
+        "tutor:bounce",
+        "tutor:icywind",
+        "tutor:signalbeam",
+        "tutor:snore"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.gorebyss.desc1",
+        "pokemod.species.gorebyss.desc2"
+    ],
+    "preEvolution": "clamperl",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

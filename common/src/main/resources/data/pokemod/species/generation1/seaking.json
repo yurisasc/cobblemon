@@ -1,0 +1,98 @@
+{
+    "name": "seaking",
+    "nationalPokedexNumber": 119,
+    "primaryType": "water",
+    "abilities": [
+        "swiftswim",
+        "waterveil",
+        "h:lightningrod"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 92,
+        "defence": 65,
+        "special_attack": 65,
+        "special_defence": 80,
+        "speed": 68
+    },
+    "catchRate": 60,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 158,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water2"
+    ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:salmon"
+            }
+        ]
+    },
+    "moves": [
+        "1:tailwhip",
+        "1:supersonic",
+        "1:peck",
+        "1:waterpulse",
+        "15:hornattack",
+        "20:agility",
+        "25:aquaring",
+        "30:flail",
+        "37:waterfall",
+        "44:soak",
+        "51:megahorn",
+        "58:horndrill",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:bounce",
+        "tm:dive",
+        "tm:drillrun",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:hydropump",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:muddywater",
+        "tm:mudshot",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:smartstrike",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:throatchop",
+        "tm:whirlpool",
+        "tutor:flipturn",
+        "tutor:scaleshot"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.seaking.desc1",
+        "pokemod.species.seaking.desc2"
+    ],
+    "preEvolution": "goldeen",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

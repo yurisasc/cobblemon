@@ -1,0 +1,28 @@
+{
+    "id": "0053-persian",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "persian",
+            "pokemon": "persian",
+            "presets": [
+                "urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "28-44",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_temperate"
+                ],
+                "timeRange": "night",
+                "isRaining": false
+            }
+        }
+    ]
+}

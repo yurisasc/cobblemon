@@ -1,0 +1,132 @@
+{
+    "name": "latios",
+    "nationalPokedexNumber": 381,
+    "primaryType": "dragon",
+    "secondaryType": "psychic",
+    "abilities": [
+        "levitate"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 90,
+        "defence": 80,
+        "special_attack": 130,
+        "special_defence": 110,
+        "speed": 110
+    },
+    "catchRate": 3,
+    "maleRatio": 1.0,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "baseStats": {
+                "hp": 80,
+                "attack": 130,
+                "defence": 100,
+                "special_attack": 160,
+                "special_defence": 120,
+                "speed": 110
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 300,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:dragondance",
+        "1:storedpower",
+        "5:helpinghand",
+        "10:recover",
+        "15:confusion",
+        "20:tailwind",
+        "25:dragonbreath",
+        "30:allyswitch",
+        "35:lusterpurge",
+        "40:zenheadbutt",
+        "45:dragonpulse",
+        "50:healpulse",
+        "55:simplebeam",
+        "60:psychic",
+        "65:powersplit",
+        "70:memento",
+        "75:psychoshift",
+        "tm:agility",
+        "tm:airslash",
+        "tm:attract",
+        "tm:aurasphere",
+        "tm:batonpass",
+        "tm:bodyslam",
+        "tm:breakingswipe",
+        "tm:bulldoze",
+        "tm:calmmind",
+        "tm:dive",
+        "tm:dragonclaw",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:fly",
+        "tm:futuresight",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:lightscreen",
+        "tm:mysticalfire",
+        "tm:outrage",
+        "tm:protect",
+        "tm:psychocut",
+        "tm:psyshock",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sandstorm",
+        "tm:shadowball",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:surf",
+        "tm:swift",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:triattack",
+        "tm:trick",
+        "tm:waterfall",
+        "tm:whirlpool",
+        "tm:wonderroom",
+        "tutor:dracometeor",
+        "tutor:dualwingbeat",
+        "tutor:scaleshot"
+    ],
+    "labels": [
+        "legendary",
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.latios.desc1",
+        "pokemod.species.latios.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

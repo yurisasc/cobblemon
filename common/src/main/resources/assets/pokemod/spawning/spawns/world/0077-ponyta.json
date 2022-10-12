@@ -1,0 +1,25 @@
+{
+    "id": "0077-ponyta",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "ponyta",
+            "pokemon": "ponyta",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "15-39",
+            "weight": 4.2,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_grassland"
+                ],
+                "timeRange": "day",
+                "isRaining": false
+            }
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:magby",
+  "model": "pokemod:bedrock/models/0240_magby/magby.geo.json",
+  "texture": "pokemod:textures/pokemon/0240_magby/magby.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0240_magby/magby_shiny.png"
+    }
+  ]
+}

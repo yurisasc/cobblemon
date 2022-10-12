@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:steelix",
+  "model": "pokemod:bedrock/models/0208_steelix/steelix.geo.json",
+  "texture": "pokemod:textures/pokemon/0208_steelix/steelix.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0208_steelix/steelix_shiny.png"
+    }
+  ]
+}

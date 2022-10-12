@@ -1,0 +1,23 @@
+{
+    "id": "0089-muk",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "muk",
+            "pokemon": "muk",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "38-50",
+            "weight": 0.6,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_swamp"
+                ]
+            }
+        }
+    ]
+}

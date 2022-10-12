@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:fearow",
+  "model": "pokemod:bedrock/models/0022_fearow/fearow.geo.json",
+  "texture": "pokemod:textures/pokemon/0022_fearow/fearow.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0022_fearow/fearow_shiny.png"
+    }
+  ]
+}

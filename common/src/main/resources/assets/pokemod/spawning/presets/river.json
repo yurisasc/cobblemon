@@ -1,0 +1,9 @@
+{
+  "name": "river",
+  "condition": {
+    "biomes": [ "#minecraft:is_river" ]
+  },
+  "anticondition": {
+    "biomes": [ "#pokemod:is_snowy" ]
+  }
+}

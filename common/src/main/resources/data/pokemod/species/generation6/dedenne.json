@@ -1,0 +1,93 @@
+{
+    "name": "dedenne",
+    "nationalPokedexNumber": 702,
+    "primaryType": "electric",
+    "secondaryType": "fairy",
+    "abilities": [
+        "cheekpouch",
+        "pickup",
+        "h:plus"
+    ],
+    "baseStats": {
+        "hp": 67,
+        "attack": 58,
+        "defence": 57,
+        "special_attack": 81,
+        "special_defence": 67,
+        "speed": 101
+    },
+    "catchRate": 180,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 151,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground",
+        "fairy"
+    ],
+    "moves": [
+        "1:tailwhip",
+        "1:nuzzle",
+        "5:tackle",
+        "10:charge",
+        "15:thundershock",
+        "20:charm",
+        "25:paraboliccharge",
+        "30:voltswitch",
+        "35:rest",
+        "35:snore",
+        "40:discharge",
+        "45:playrough",
+        "50:superfang",
+        "55:entrainment",
+        "60:thunder",
+        "egg:covet",
+        "egg:magnetrise",
+        "egg:tearfullook",
+        "tm:allyswitch",
+        "tm:attract",
+        "tm:dazzlinggleam",
+        "tm:dig",
+        "tm:eerieimpulse",
+        "tm:electricterrain",
+        "tm:electroball",
+        "tm:electroweb",
+        "tm:endure",
+        "tm:facade",
+        "tm:fling",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:helpinghand",
+        "tm:irontail",
+        "tm:protect",
+        "tm:raindance",
+        "tm:retaliate",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thief",
+        "tm:thunderbolt",
+        "tm:thunderpunch",
+        "tm:thunderwave",
+        "tm:uturn",
+        "tm:wildcharge",
+        "tutor:risingvoltage"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemod.species.dedenne.desc1",
+        "pokemod.species.dedenne.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

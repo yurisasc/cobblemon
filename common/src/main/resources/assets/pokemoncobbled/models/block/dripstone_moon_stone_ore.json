@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "pokemoncobbled:blocks/dripstone_moon_stone_ore"
-  }
-}

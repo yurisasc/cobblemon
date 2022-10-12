@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:electrode",
+  "model": "pokemod:bedrock/models/0101_electrode/electrode.geo.json",
+  "texture": "pokemod:textures/pokemon/0101_electrode/electrode.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0101_electrode/electrode_shiny.png"
+    }
+  ]
+}

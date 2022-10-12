@@ -1,0 +1,118 @@
+{
+    "name": "bidoof",
+    "nationalPokedexNumber": 399,
+    "primaryType": "normal",
+    "abilities": [
+        "simple",
+        "unaware",
+        "h:moody"
+    ],
+    "baseStats": {
+        "hp": 59,
+        "attack": 45,
+        "defence": 40,
+        "special_attack": 35,
+        "special_defence": 40,
+        "speed": 31
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 50,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "water1",
+        "ground"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:growl",
+        "5:defensecurl",
+        "9:rollout",
+        "13:headbutt",
+        "17:hyperfang",
+        "21:yawn",
+        "25:crunch",
+        "29:takedown",
+        "33:superfang",
+        "37:swordsdance",
+        "41:amnesia",
+        "45:superpower",
+        "49:curse",
+        "egg:aquatail",
+        "egg:doubleedge",
+        "egg:endure",
+        "egg:furyswipes",
+        "egg:mudsport",
+        "egg:odorsleuth",
+        "egg:quickattack",
+        "egg:rockclimb",
+        "egg:skullbash",
+        "egg:sleeptalk",
+        "egg:watersport",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:chargebeam",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:echoedvoice",
+        "tm:facade",
+        "tm:frustration",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:icebeam",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:shadowball",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:toxic",
+        "tm:workup",
+        "tutor:covet",
+        "tutor:icywind",
+        "tutor:irontail",
+        "tutor:lastresort",
+        "tutor:shockwave",
+        "tutor:snore",
+        "tutor:stealthrock"
+    ],
+    "labels": [
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemod.species.bidoof.desc1",
+        "pokemod.species.bidoof.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "bidoof_bibarel",
+            "variant": "level_up",
+            "result": "bibarel",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 15
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

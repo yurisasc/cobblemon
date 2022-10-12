@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:omastar",
+  "model": "pokemod:bedrock/models/0139_omastar/omastar.geo.json",
+  "texture": "pokemod:textures/pokemon/0139_omastar/omastar.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0139_omastar/omastar_shiny.png"
+    }
+  ]
+}

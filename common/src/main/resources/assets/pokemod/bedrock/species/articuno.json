@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:articuno",
+  "model": "pokemod:bedrock/models/0144_articuno/articuno.geo.json",
+  "texture": "pokemod:textures/pokemon/0144_articuno/articuno.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0144_articuno/articuno_shiny.png"
+    }
+  ]
+}

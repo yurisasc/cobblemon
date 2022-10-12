@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "pokemod:block/apricorn_slab"
+    },
+    "type=double": {
+      "model": "pokemod:block/apricorn_planks"
+    },
+    "type=top": {
+      "model": "pokemod:block/apricorn_slab_top"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:sandslash",
+  "model": "pokemod:bedrock/models/0028_sandslash/sandslash.geo.json",
+  "texture": "pokemod:textures/pokemon/0028_sandslash/sandslash.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0028_sandslash/sandslash_shiny.png"
+    }
+  ]
+}

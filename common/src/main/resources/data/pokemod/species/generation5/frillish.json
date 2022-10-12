@@ -1,0 +1,110 @@
+{
+    "name": "frillish",
+    "nationalPokedexNumber": 592,
+    "primaryType": "water",
+    "secondaryType": "ghost",
+    "abilities": [
+        "waterabsorb",
+        "cursedbody",
+        "h:damp"
+    ],
+    "baseStats": {
+        "hp": 55,
+        "attack": 40,
+        "defence": 50,
+        "special_attack": 65,
+        "special_defence": 85,
+        "speed": 40
+    },
+    "catchRate": 190,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 67,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "indeterminate"
+    ],
+    "moves": [
+        "1:watergun",
+        "1:absorb",
+        "4:poisonsting",
+        "8:nightshade",
+        "12:waterpulse",
+        "16:raindance",
+        "20:hex",
+        "24:brine",
+        "28:recover",
+        "32:shadowball",
+        "36:whirlpool",
+        "41:hydropump",
+        "44:destinybond",
+        "48:waterspout",
+        "egg:acidarmor",
+        "egg:bubblebeam",
+        "egg:confuseray",
+        "egg:mist",
+        "egg:painsplit",
+        "egg:strengthsap",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:darkpulse",
+        "tm:dazzlinggleam",
+        "tm:dive",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:gigadrain",
+        "tm:hail",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:imprison",
+        "tm:protect",
+        "tm:psychic",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:taunt",
+        "tm:trick",
+        "tm:trickroom",
+        "tm:waterfall",
+        "tm:willowisp",
+        "tutor:poltergeist"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemod.species.frillish.desc1",
+        "pokemod.species.frillish.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "frillish_jellicent",
+            "variant": "level_up",
+            "result": "jellicent",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 40
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

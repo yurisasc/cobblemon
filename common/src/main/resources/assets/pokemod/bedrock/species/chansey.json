@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:chansey",
+  "model": "pokemod:bedrock/models/0113_chansey/chansey.geo.json",
+  "texture": "pokemod:textures/pokemon/0113_chansey/chansey.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0113_chansey/chansey_shiny.png"
+    }
+  ]
+}

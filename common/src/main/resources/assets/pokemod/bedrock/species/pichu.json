@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:pichu",
+  "model": "pokemod:bedrock/models/0172_pichu/pichu.geo.json",
+  "texture": "pokemod:textures/pokemon/0172_pichu/pichu.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0172_pichu/pichu_shiny.png"
+    }
+  ]
+}

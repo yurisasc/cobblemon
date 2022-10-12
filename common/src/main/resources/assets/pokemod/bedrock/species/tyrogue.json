@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:tyrogue",
+  "model": "pokemod:bedrock/models/0236_tyrogue/tyrogue.geo.json",
+  "texture": "pokemod:textures/pokemon/0236_tyrogue/tyrogue.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0236_tyrogue/tyrogue_shiny.png"
+    }
+  ]
+}

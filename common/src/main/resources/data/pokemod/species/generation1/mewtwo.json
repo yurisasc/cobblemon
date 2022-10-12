@@ -1,0 +1,171 @@
+{
+    "name": "mewtwo",
+    "nationalPokedexNumber": 150,
+    "primaryType": "psychic",
+    "abilities": [
+        "pressure",
+        "h:unnerve"
+    ],
+    "baseStats": {
+        "hp": 106,
+        "attack": 110,
+        "defence": 90,
+        "special_attack": 154,
+        "special_defence": 90,
+        "speed": 130
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega-x",
+            "secondaryType": "fighting",
+            "abilities": [
+                "steadfast"
+            ],
+            "baseStats": {
+                "hp": 106,
+                "attack": 190,
+                "defence": 100,
+                "special_attack": 154,
+                "special_defence": 100,
+                "speed": 130
+            },
+            "aspects": [
+                "mega-x"
+            ]
+        },
+        {
+            "name": "mega-y",
+            "abilities": [
+                "insomnia"
+            ],
+            "baseStats": {
+                "hp": 106,
+                "attack": 150,
+                "defence": 70,
+                "special_attack": 194,
+                "special_defence": 120,
+                "speed": 140
+            },
+            "aspects": [
+                "mega-y"
+            ]
+        }
+    ],
+    "baseExperienceYield": 340,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:disable",
+        "1:confusion",
+        "1:swift",
+        "1:laserfocus",
+        "1:lifedew",
+        "8:ancientpower",
+        "16:psychocut",
+        "24:safeguard",
+        "32:amnesia",
+        "40:aurasphere",
+        "48:psychic",
+        "56:powerswap",
+        "56:guardswap",
+        "64:mist",
+        "72:psystrike",
+        "80:recover",
+        "88:futuresight",
+        "tm:agility",
+        "tm:allyswitch",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:calmmind",
+        "tm:dive",
+        "tm:drainpunch",
+        "tm:earthquake",
+        "tm:electroball",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firepunch",
+        "tm:flamethrower",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:foulplay",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hail",
+        "tm:hurricane",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icepunch",
+        "tm:icywind",
+        "tm:irontail",
+        "tm:lightscreen",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:magicroom",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:metronome",
+        "tm:nastyplot",
+        "tm:payday",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:psychicterrain",
+        "tm:psyshock",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:selfdestruct",
+        "tm:shadowball",
+        "tm:skillswap",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:speedswap",
+        "tm:stoneedge",
+        "tm:storedpower",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:taunt",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderpunch",
+        "tm:thunderwave",
+        "tm:triattack",
+        "tm:trick",
+        "tm:trickroom",
+        "tm:willowisp",
+        "tm:wonderroom",
+        "tm:zenheadbutt",
+        "tutor:expandingforce"
+    ],
+    "labels": [
+        "legendary",
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.mewtwo.desc1"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "pokemoncobbled",
+  "id": "pokemod",
   "version": "${version}",
 
   "name": "Pokémon Cobbled",
@@ -9,27 +9,27 @@
     "Me!"
   ],
   "contact": {
-    "homepage": "https://pokemoncobbled.com",
-    "sources": "https://gitlab.com/cable-mc/pokemon-cobbled"
+    "homepage": "https://gitlab.com/cable-mc/pokemod-cobbled",
+    "sources": "https://gitlab.com/cable-mc/pokemod-cobbled"
   },
 
   "license": "MPL-2.0",
-  "icon": "assets/pokemoncobbled/icon.png",
+  "icon": "assets/pokemod/icon_cobbled.png",
 
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.cablemc.pokemoncobbled.fabric.FabricBootstrap"
+      "com.cablemc.pokemod.fabric.FabricBootstrap"
     ],
     "client": [
-      "com.cablemc.pokemoncobbled.fabric.client.FabricClientBootstrap"
+      "com.cablemc.pokemod.fabric.client.FabricClientBootstrap"
     ]
   },
   "mixins": [
-    "mixins.pokemoncobbled-common.json",
-    "mixins.pokemoncobbled-fabric.json"
+    "mixins.pokemod-common.json",
+    "mixins.pokemod-fabric.json"
   ],
-  "accessWidener": "pokemoncobbled-common.accesswidener",
+  "accessWidener": "pokemod-common.accesswidener",
   "depends": {
     "fabricloader": ">=0.13.3",
     "fabric": "*",
