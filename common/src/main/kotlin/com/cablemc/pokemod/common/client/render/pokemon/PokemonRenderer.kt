@@ -227,7 +227,7 @@ class PokemonRenderer(
         val k = (g * 255.0f).toInt() shl 24
         var label = entity.pokemon.species.translatedName
         if (ServerSettings.displayEntityLevelLabel && entity.labelLevel() > 0) {
-            val levelLabel = lang("ui.lv", entity.labelLevel())
+            val levelLabel = lang("label.lv", entity.labelLevel())
             label = label.add(" ").append(levelLabel)
         }
         var h = (-textRenderer.getWidth(label) / 2).toFloat()
