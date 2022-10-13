@@ -140,4 +140,7 @@ class PokemodConfig {
     @NodeCategory(Category.Pokemon)
     var ninjaskCreatesShedinja = true
 
+    @NodeCategory(Category.Pokemon)
+    var displayEntityLevelLabel = true
+
 }

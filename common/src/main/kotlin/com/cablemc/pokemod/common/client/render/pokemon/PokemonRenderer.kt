@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common.client.render.pokemon
 
+import com.cablemc.pokemod.common.api.text.add
 import com.cablemc.pokemod.common.client.entity.PokemonClientDelegate
 import com.cablemc.pokemod.common.client.entity.PokemonClientDelegate.Companion.BEAM_EXTEND_TIME
 import com.cablemc.pokemod.common.client.entity.PokemonClientDelegate.Companion.BEAM_SHRINK_TIME
@@ -18,13 +19,12 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.Pokemo
 import com.cablemc.pokemod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cablemc.pokemod.common.client.render.renderBeaconBeam
+import com.cablemc.pokemod.common.client.settings.ServerSettings
 import com.cablemc.pokemod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.util.isLookingAt
 import com.cablemc.pokemod.common.util.lang
 import com.cablemc.pokemod.common.util.math.geometry.toRadians
-import kotlin.math.min
-import kotlin.math.tan
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.RenderLayer
@@ -40,6 +40,8 @@ import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 import net.minecraft.util.math.Vector4f
+import kotlin.math.min
+import kotlin.math.tan
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
@@ -223,7 +225,11 @@ class PokemonRenderer(
         val matrix4f = poseStack.peek().positionMatrix
         val g = mc.options.getTextBackgroundOpacity(0.25f)
         val k = (g * 255.0f).toInt() shl 24
-        val label = entity.pokemon.species.translatedName
+        var label = entity.pokemon.species.translatedName
+        if (ServerSettings.displayEntityLevelLabel && entity.labelLevel() > 0) {
+            val levelLabel = lang("ui.lv", entity.labelLevel())
+            label = label.add(" ").append(levelLabel)
+        }
         var h = (-textRenderer.getWidth(label) / 2).toFloat()
         val y = 0F
         val seeThrough = true
