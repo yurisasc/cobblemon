@@ -27,11 +27,7 @@ import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.Poseable
 import com.cablemc.pokemod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cablemc.pokemod.common.entity.pokemon.ai.PokemonNavigation
-import com.cablemc.pokemod.common.entity.pokemon.ai.goals.PokemonFollowOwnerGoal
-import com.cablemc.pokemod.common.entity.pokemon.ai.goals.PokemonLookAtEntityGoal
-import com.cablemc.pokemod.common.entity.pokemon.ai.goals.PokemonWanderAroundGoal
-import com.cablemc.pokemod.common.entity.pokemon.ai.goals.SleepOnTrainerGoal
-import com.cablemc.pokemod.common.entity.pokemon.ai.goals.WildRestGoal
+import com.cablemc.pokemod.common.entity.pokemon.ai.goals.*
 import com.cablemc.pokemod.common.item.interactive.PokemonInteractiveItem
 import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.net.serverhandling.storage.SEND_OUT_DURATION
@@ -42,17 +38,9 @@ import com.cablemc.pokemod.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemod.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemod.common.pokemon.ai.FormPokemonBehaviour
 import com.cablemc.pokemod.common.pokemon.evolution.variants.ItemInteractionEvolution
-import com.cablemc.pokemod.common.util.DataKeys
-import com.cablemc.pokemod.common.util.getBitForByte
-import com.cablemc.pokemod.common.util.playSoundServer
-import com.cablemc.pokemod.common.util.readSizedInt
-import com.cablemc.pokemod.common.util.setBitForByte
-import com.cablemc.pokemod.common.util.writeSizedInt
+import com.cablemc.pokemod.common.util.*
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
-import java.util.EnumSet
-import java.util.Optional
-import java.util.concurrent.CompletableFuture
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -79,6 +67,8 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
+import java.util.*
+import java.util.concurrent.CompletableFuture
 
 class PokemonEntity(
     world: World,
@@ -124,6 +114,7 @@ class PokemonEntity(
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
+    private val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
 
     /**
      * 0 is do nothing,
@@ -178,6 +169,7 @@ class PokemonEntity(
         private val ASPECTS = DataTracker.registerData(PokemonEntity::class.java, StringSetDataSerializer)
         private val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
         private val POSE_TYPE = DataTracker.registerData(PokemonEntity::class.java, PoseTypeDataSerializer)
+        private val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         const val BATTLE_LOCK = "battle"
     }
@@ -282,6 +274,7 @@ class PokemonEntity(
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
         shiny.set(pokemon.shiny)
+        labelLevel.set(pokemon.level)
     }
 
     override fun createSpawnPacket() = NetworkManager.createAddEntityPacket(this)
@@ -352,7 +345,8 @@ class PokemonEntity(
         buffer.writeByte(beamModeEmitter.get().toInt())
         buffer.writeBoolean(pokemon.shiny)
         buffer.writeSizedInt(IntSize.U_BYTE, pokemon.aspects.size)
-        pokemon.aspects.forEach(buffer::writeString)
+        buffer.writeCollection(pokemon.aspects, PacketByteBuf::writeString)
+        buffer.writeInt(if (Pokemod.config.displayEntityLevelLabel) this.labelLevel.get() else -1)
     }
 
     override fun canTakeDamage() = super.canTakeDamage() && !isBusy
@@ -378,11 +372,8 @@ class PokemonEntity(
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
             shiny.set(buffer.readBoolean())
-            val aspects = mutableSetOf<String>()
-            repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
-                aspects.add(buffer.readString())
-            }
-            this.aspects.set(aspects)
+            this.aspects.set(buffer.readList(PacketByteBuf::readString).toSet())
+            labelLevel.set(buffer.readInt())
         }
     }
 
@@ -421,6 +412,15 @@ class PokemonEntity(
         }
 
         return true
+    }
+
+    /**
+     * The level this entity should display.
+     *
+     * @return The level that should be displayed, if equal or lesser than 0 the level is not intended to be displayed.
+     */
+    fun labelLevel(): Int {
+        return this.labelLevel.get()
     }
 
     private fun attemptItemInteraction(player: PlayerEntity, stack: ItemStack): Boolean {

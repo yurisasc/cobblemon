@@ -17,6 +17,7 @@ object ServerSettingsPacketHandler : ClientPacketHandler<ServerSettingsPacket> {
 
     override fun invokeOnClient(packet: ServerSettingsPacket, ctx: PokemodNetwork.NetworkContext) {
         ServerSettings.preventCompletePartyDeposit = packet.preventCompletePartyDeposit
+        ServerSettings.displayEntityLevelLabel = packet.displayEntityLevelLabel
     }
 
 }
