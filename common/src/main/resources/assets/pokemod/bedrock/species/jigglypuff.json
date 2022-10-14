@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:jigglypuff",
+  "model": "pokemod:bedrock/models/0039_jigglypuff/jigglypuff.geo.json",
+  "texture": "pokemod:textures/pokemon/0039_jigglypuff/jigglypuff.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0039_jigglypuff/jigglypuff_shiny.png"
+    }
+  ]
+}

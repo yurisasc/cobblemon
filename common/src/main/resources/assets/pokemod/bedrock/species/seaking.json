@@ -1,0 +1,15 @@
+{
+  "poser": "pokemod:seaking",
+  "model": "pokemod:bedrock/models/0119_seaking/seaking_male.geo.json",
+  "texture": "pokemod:textures/pokemon/0119_seaking/seaking.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0119_seaking/seaking_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemod:bedrock/models/0119_seaking/seaking_female.geo.json"
+    }
+  ]
+}

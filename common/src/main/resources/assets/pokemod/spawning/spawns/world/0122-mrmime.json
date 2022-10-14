@@ -1,0 +1,33 @@
+{
+    "id": "0122-mrmime",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "mrmime",
+            "pokemon": "mrmime",
+            "presets": [
+                "urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "12-46",
+            "weight": 2.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_arid",
+                    "#pokemod:is_taiga",
+                    "#pokemod:is_temperate"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_snowy"
+                ]
+            }
+        }
+    ]
+}

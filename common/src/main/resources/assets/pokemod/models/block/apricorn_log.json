@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "pokemod:blocks/apricorn_log_top",
+    "side": "pokemod:blocks/apricorn_log"
+  }
+}

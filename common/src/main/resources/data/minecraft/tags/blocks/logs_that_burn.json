@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "pokemoncobbled:apricorn_log",
-    "pokemoncobbled:stripped_apricorn_log",
-    "pokemoncobbled:apricorn_wood",
-    "pokemoncobbled:stripped_apricorn_wood"
+    "pokemod:apricorn_log",
+    "pokemod:stripped_apricorn_log",
+    "pokemod:apricorn_wood",
+    "pokemod:stripped_apricorn_wood"
   ]
 }

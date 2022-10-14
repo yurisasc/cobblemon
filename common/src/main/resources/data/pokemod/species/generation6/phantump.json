@@ -1,0 +1,110 @@
+{
+    "name": "phantump",
+    "nationalPokedexNumber": 708,
+    "primaryType": "ghost",
+    "secondaryType": "grass",
+    "abilities": [
+        "naturalcure",
+        "frisk",
+        "h:harvest"
+    ],
+    "baseStats": {
+        "hp": 43,
+        "attack": 70,
+        "defence": 48,
+        "special_attack": 50,
+        "special_defence": 60,
+        "speed": 38
+    },
+    "catchRate": 120,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 62,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant",
+        "indeterminate"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:astonish",
+        "4:branchpoke",
+        "8:leechseed",
+        "12:confuseray",
+        "16:willowisp",
+        "20:hex",
+        "24:growth",
+        "28:hornleech",
+        "32:curse",
+        "36:phantomforce",
+        "40:ingrain",
+        "44:woodhammer",
+        "48:destinybond",
+        "52:forestscurse",
+        "egg:disable",
+        "egg:grudge",
+        "egg:suckerpunch",
+        "tm:allyswitch",
+        "tm:attract",
+        "tm:bulldoze",
+        "tm:darkpulse",
+        "tm:dig",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:foulplay",
+        "tm:gigadrain",
+        "tm:grassknot",
+        "tm:imprison",
+        "tm:magicalleaf",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:psychic",
+        "tm:reflect",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:round",
+        "tm:safeguard",
+        "tm:seedbomb",
+        "tm:shadowball",
+        "tm:shadowclaw",
+        "tm:skillswap",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:thief",
+        "tm:trick",
+        "tm:trickroom",
+        "tm:venomdrench",
+        "tutor:grassyglide",
+        "tutor:poltergeist",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemod.species.phantump.desc1",
+        "pokemod.species.phantump.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "phantump_trevenant",
+            "variant": "trade",
+            "result": "trevenant",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": []
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

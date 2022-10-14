@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:diglett",
+  "model": "pokemod:bedrock/models/0050_diglett/diglett.geo.json",
+  "texture": "pokemod:textures/pokemon/0050_diglett/diglett.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0050_diglett/diglett_shiny.png"
+    }
+  ]
+}

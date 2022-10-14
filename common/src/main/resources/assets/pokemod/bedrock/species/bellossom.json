@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:bellossom",
+  "model": "pokemod:bedrock/models/0182_bellossom/bellossom.geo.json",
+  "texture": "pokemod:textures/pokemon/0182_bellossom/bellossom.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0182_bellossom/bellossom_shiny.png"
+    }
+  ]
+}

@@ -1,7 +1,0 @@
-{
-	"parent": "pokemoncobbled:block/apricorn",
-	"textures": {
-		"0": "pokemoncobbled:blocks/yellow_apricorn",
-		"particle": "pokemoncobbled:blocks/yellow_apricorn"
-	}
-}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:rhydon",
+  "model": "pokemod:bedrock/models/0112_rhydon/rhydon.geo.json",
+  "texture": "pokemod:textures/pokemon/0112_rhydon/rhydon.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0112_rhydon/rhydon_shiny.png"
+    }
+  ]
+}

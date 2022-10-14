@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:dragonair",
+  "model": "pokemod:bedrock/models/0148_dragonair/dragonair.geo.json",
+  "texture": "pokemod:textures/pokemon/0148_dragonair/dragonair.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0148_dragonair/dragonair_shiny.png"
+    }
+  ]
+}

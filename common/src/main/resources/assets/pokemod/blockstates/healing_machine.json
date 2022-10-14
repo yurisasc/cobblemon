@@ -1,0 +1,19 @@
+{
+    "variants": {
+      "facing=east": {
+        "model": "pokemod:block/healing_machine",
+        "y": 270
+      },
+      "facing=north": {
+        "model": "pokemod:block/healing_machine",
+        "y": 180
+      },
+      "facing=south": {
+        "model": "pokemod:block/healing_machine"
+      },
+      "facing=west": {
+        "model": "pokemod:block/healing_machine",
+        "y": 90
+      }
+    }
+}

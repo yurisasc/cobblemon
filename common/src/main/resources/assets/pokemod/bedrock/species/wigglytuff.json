@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:wigglytuff",
+  "model": "pokemod:bedrock/models/0040_wigglytuff/wigglytuff.geo.json",
+  "texture": "pokemod:textures/pokemon/0040_wigglytuff/wigglytuff.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0040_wigglytuff/wigglytuff_shiny.png"
+    }
+  ]
+}

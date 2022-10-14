@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:porygonz",
+  "model": "pokemod:bedrock/models/0474_porygonz/porygonz.geo.json",
+  "texture": "pokemod:textures/pokemon/0474_porygonz/porygonz.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0474_porygonz/porygonz_shiny.png"
+    }
+  ]
+}

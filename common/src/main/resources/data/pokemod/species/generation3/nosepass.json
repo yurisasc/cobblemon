@@ -1,0 +1,151 @@
+{
+    "name": "nosepass",
+    "nationalPokedexNumber": 299,
+    "primaryType": "rock",
+    "abilities": [
+        "sturdy",
+        "magnetpull",
+        "h:sandforce"
+    ],
+    "baseStats": {
+        "hp": 30,
+        "attack": 45,
+        "defence": 135,
+        "special_attack": 45,
+        "special_defence": 90,
+        "speed": 30
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 75,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "1:tackle",
+        "4:harden",
+        "7:block",
+        "10:rockthrow",
+        "13:thunderwave",
+        "16:rest",
+        "19:spark",
+        "22:rockslide",
+        "25:powergem",
+        "28:rockblast",
+        "31:discharge",
+        "34:sandstorm",
+        "37:earthpower",
+        "40:stoneedge",
+        "43:zapcannon",
+        "43:lockon",
+        "egg:doubleedge",
+        "egg:endure",
+        "egg:magnitude",
+        "egg:rollout",
+        "egg:stealthrock",
+        "egg:wideguard",
+        "tm:attract",
+        "tm:bulldoze",
+        "tm:confide",
+        "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:earthquake",
+        "tm:explosion",
+        "tm:facade",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:protect",
+        "tm:return",
+        "tm:rockpolish",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:smackdown",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:taunt",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:torment",
+        "tm:toxic",
+        "tm:voltswitch",
+        "tutor:firepunch",
+        "tutor:gravity",
+        "tutor:icepunch",
+        "tutor:irondefense",
+        "tutor:magiccoat",
+        "tutor:magnetrise",
+        "tutor:painsplit",
+        "tutor:shockwave",
+        "tutor:snore",
+        "tutor:stompingtantrum",
+        "tutor:thunderpunch"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.nosepass.desc1",
+        "pokemod.species.nosepass.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "nosepass_probopass",
+            "variant": "level_up",
+            "result": "probopass",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "biome",
+                    "biomeCondition": "mt-coronet"
+                }
+            ]
+        },
+        {
+            "id": "nosepass_probopass",
+            "variant": "level_up",
+            "result": "probopass",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "biome",
+                    "biomeCondition": "chargestone-cave"
+                }
+            ]
+        },
+        {
+            "id": "nosepass_probopass",
+            "variant": "level_up",
+            "result": "probopass",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "biome",
+                    "biomeCondition": "kalos-route-13"
+                }
+            ]
+        },
+        {
+            "id": "nosepass_probopass",
+            "variant": "level_up",
+            "result": "probopass",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": []
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

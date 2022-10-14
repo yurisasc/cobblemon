@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:zubat",
+  "model": "pokemod:bedrock/models/0041_zubat/zubat.geo.json",
+  "texture": "pokemod:textures/pokemon/0041_zubat/zubat_male.png",
+  "variations": [
+    {
+      "aspects": ["female"],
+      "texture": "pokemod:textures/pokemon/0041_zubat/zubat_female.png"
+    }
+  ]
+}

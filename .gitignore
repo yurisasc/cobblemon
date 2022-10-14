@@ -6,7 +6,7 @@ bin
 .classpath
 .project
 /.architectury-transformer/
-common/src/main/resources/assets/pokemoncobbled/showdown
+common/src/main/resources/assets/pokemod/showdown
 # idea
 out
 *.ipr
@@ -28,4 +28,4 @@ forge*changelog.txt
 /logs/
 .vscode/launch.json
 .vscode
-common/src/main/resources/assets/pokemoncobbled/showdown
+common/src/main/resources/assets/pokemod/showdown

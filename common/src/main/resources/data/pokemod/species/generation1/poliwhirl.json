@@ -1,0 +1,120 @@
+{
+    "name": "poliwhirl",
+    "nationalPokedexNumber": 61,
+    "primaryType": "water",
+    "abilities": [
+        "waterabsorb",
+        "damp",
+        "h:swiftswim"
+    ],
+    "baseStats": {
+        "hp": 65,
+        "attack": 65,
+        "defence": 65,
+        "special_attack": 50,
+        "special_defence": 50,
+        "speed": 90
+    },
+    "catchRate": 120,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 135,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water1"
+    ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "pokemod:kings_rock",
+                "percentage": 5
+            }
+        ]
+    },
+    "moves": [
+        "1:pound",
+        "1:watergun",
+        "1:hypnosis",
+        "1:mudshot",
+        "18:bubblebeam",
+        "24:raindance",
+        "32:bodyslam",
+        "40:earthpower",
+        "48:hydropump",
+        "56:bellydrum",
+        "66:doubleedge",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:brickbreak",
+        "tm:bulldoze",
+        "tm:dig",
+        "tm:dive",
+        "tm:earthquake",
+        "tm:encore",
+        "tm:endure",
+        "tm:facade",
+        "tm:fling",
+        "tm:hail",
+        "tm:helpinghand",
+        "tm:icebeam",
+        "tm:icepunch",
+        "tm:icywind",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:metronome",
+        "tm:muddywater",
+        "tm:protect",
+        "tm:psychic",
+        "tm:rest",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:thief",
+        "tm:waterfall",
+        "tm:whirlpool"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.poliwhirl.desc1",
+        "pokemod.species.poliwhirl.desc2"
+    ],
+    "preEvolution": "poliwag",
+    "evolutions": [
+        {
+            "id": "poliwhirl_poliwrath",
+            "variant": "item_interact",
+            "result": "poliwrath",
+            "consumeHeldItem": true,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "pokemod:water_stone"
+        },
+        {
+            "id": "poliwhirl_politoed",
+            "variant": "trade",
+            "result": "politoed",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "held_item",
+                    "item": "kings-rock"
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

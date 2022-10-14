@@ -1,0 +1,116 @@
+{
+    "name": "dragonair",
+    "nationalPokedexNumber": 148,
+    "primaryType": "dragon",
+    "abilities": [
+        "shedskin",
+        "h:marvelscale"
+    ],
+    "baseStats": {
+        "hp": 61,
+        "attack": 84,
+        "defence": 65,
+        "special_attack": 70,
+        "special_defence": 70,
+        "speed": 70
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 147,
+    "experienceGroup": "slow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "water1",
+        "dragon"
+    ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:dragon_breath",
+                "quantityRange": "1-2",
+                "percentage": 66
+            }
+        ]
+    },
+    "moves": [
+        "1:wrap",
+        "1:leer",
+        "1:thunderwave",
+        "1:twister",
+        "15:dragontail",
+        "20:agility",
+        "25:slam",
+        "33:aquatail",
+        "39:dragonrush",
+        "46:safeguard",
+        "53:raindance",
+        "60:dragondance",
+        "67:outrage",
+        "74:hyperbeam",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:breakingswipe",
+        "tm:brutalswing",
+        "tm:dragonpulse",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firespin",
+        "tm:flamethrower",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:hydropump",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irontail",
+        "tm:lightscreen",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:surf",
+        "tm:swift",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:waterfall",
+        "tm:whirlpool",
+        "tutor:dracometeor",
+        "tutor:scaleshot"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.dragonair.desc1",
+        "pokemod.species.dragonair.desc2"
+    ],
+    "preEvolution": "dratini",
+    "evolutions": [
+        {
+            "id": "dragonair_dragonite",
+            "variant": "level_up",
+            "result": "dragonite",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 55
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:beedrill",
+  "model": "pokemod:bedrock/models/0015_beedrill/beedrill.geo.json",
+  "texture": "pokemod:textures/pokemon/0015_beedrill/beedrill.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0015_beedrill/beedrill_shiny.png"
+    }
+  ]
+}

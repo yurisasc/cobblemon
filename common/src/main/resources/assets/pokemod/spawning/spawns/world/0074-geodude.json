@@ -1,0 +1,35 @@
+{
+    "id": "0074-geodude",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "geodude",
+            "pokemon": "geodude",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "10-24",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_mountain"
+                ]
+            }
+        },
+        {
+            "id": "geodude",
+            "pokemon": "geodude",
+            "presets": [
+                "underground"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "10-24",
+            "weight": 7.0
+        }
+    ]
+}

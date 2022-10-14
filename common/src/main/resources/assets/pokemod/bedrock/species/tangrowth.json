@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:tangrowth",
+  "model": "pokemod:bedrock/models/0465_tangrowth/tangrowth.geo.json",
+  "texture": "pokemod:textures/pokemon/0465_tangrowth/tangrowth.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0465_tangrowth/tangrowth_shiny.png"
+    }
+  ]
+}

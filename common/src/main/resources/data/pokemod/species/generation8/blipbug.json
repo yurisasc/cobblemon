@@ -1,0 +1,63 @@
+{
+    "name": "blipbug",
+    "nationalPokedexNumber": 824,
+    "primaryType": "bug",
+    "abilities": [
+        "swarm",
+        "compoundeyes",
+        "h:telepathy"
+    ],
+    "baseStats": {
+        "hp": 25,
+        "attack": 20,
+        "defence": 20,
+        "special_attack": 25,
+        "special_defence": 45,
+        "speed": 45
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 36,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "1:strugglebug",
+        "egg:infestation",
+        "egg:recover",
+        "egg:stickyweb",
+        "egg:supersonic"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemod.species.blipbug.desc1",
+        "pokemod.species.blipbug.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "blipbug_dottler",
+            "variant": "level_up",
+            "result": "dottler",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 10
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

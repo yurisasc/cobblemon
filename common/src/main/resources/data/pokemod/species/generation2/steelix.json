@@ -1,0 +1,129 @@
+{
+    "name": "steelix",
+    "nationalPokedexNumber": 208,
+    "primaryType": "steel",
+    "secondaryType": "ground",
+    "abilities": [
+        "rockhead",
+        "sturdy",
+        "h:sheerforce"
+    ],
+    "baseStats": {
+        "hp": 75,
+        "attack": 85,
+        "defence": 200,
+        "special_attack": 55,
+        "special_defence": 65,
+        "speed": 30
+    },
+    "catchRate": 25,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "sandforce"
+            ],
+            "baseStats": {
+                "hp": 75,
+                "attack": 125,
+                "defence": 230,
+                "special_attack": 55,
+                "special_defence": 95,
+                "speed": 30
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 179,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 25,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "1:bind",
+        "1:tackle",
+        "1:rockthrow",
+        "1:harden",
+        "1:crunch",
+        "1:rockpolish",
+        "1:thunderfang",
+        "1:icefang",
+        "1:firefang",
+        "4:smackdown",
+        "8:autotomize",
+        "12:dragonbreath",
+        "16:curse",
+        "20:rockslide",
+        "24:screech",
+        "28:sandtomb",
+        "32:stealthrock",
+        "36:slam",
+        "40:sandstorm",
+        "44:dig",
+        "48:irontail",
+        "52:stoneedge",
+        "56:doubleedge",
+        "60:magnetrise",
+        "tm:attract",
+        "tm:bodypress",
+        "tm:bodyslam",
+        "tm:breakingswipe",
+        "tm:brutalswing",
+        "tm:bulldoze",
+        "tm:darkpulse",
+        "tm:dragondance",
+        "tm:dragonpulse",
+        "tm:drillrun",
+        "tm:earthpower",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:gigaimpact",
+        "tm:gyroball",
+        "tm:heavyslam",
+        "tm:highhorsepower",
+        "tm:hyperbeam",
+        "tm:irondefense",
+        "tm:ironhead",
+        "tm:payback",
+        "tm:protect",
+        "tm:psychicfangs",
+        "tm:rest",
+        "tm:rockblast",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scaryface",
+        "tm:selfdestruct",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stompingtantrum",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:taunt",
+        "tutor:meteorbeam",
+        "tutor:scorchingsands",
+        "tutor:steelbeam",
+        "tutor:steelroller"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemod.species.steelix.desc1",
+        "pokemod.species.steelix.desc2"
+    ],
+    "preEvolution": "onix",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

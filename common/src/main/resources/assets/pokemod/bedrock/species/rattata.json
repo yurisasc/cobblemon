@@ -1,0 +1,15 @@
+{
+  "poser": "pokemod:rattata",
+  "model": "pokemod:bedrock/models/0019_rattata/rattata_male.geo.json",
+  "texture": "pokemod:textures/pokemon/0019_rattata/rattata.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0019_rattata/rattata_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemod:bedrock/models/0019_rattata/rattata_female.geo.json"
+    }
+  ]
+}

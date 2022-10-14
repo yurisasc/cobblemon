@@ -1,0 +1,91 @@
+{
+    "name": "pheromosa",
+    "nationalPokedexNumber": 795,
+    "primaryType": "bug",
+    "secondaryType": "fighting",
+    "abilities": [
+        "beastboost"
+    ],
+    "baseStats": {
+        "hp": 71,
+        "attack": 137,
+        "defence": 37,
+        "special_attack": 137,
+        "special_defence": 37,
+        "speed": 151
+    },
+    "catchRate": 45,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 285,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:rapidspin",
+        "1:feint",
+        "5:leer",
+        "10:quickguard",
+        "15:bugbite",
+        "20:lowkick",
+        "25:doublekick",
+        "30:triplekick",
+        "35:stomp",
+        "40:agility",
+        "45:lunge",
+        "50:bounce",
+        "55:speedswap",
+        "60:bugbuzz",
+        "65:quiverdance",
+        "70:highjumpkick",
+        "tm:assurance",
+        "tm:blizzard",
+        "tm:brickbreak",
+        "tm:closecombat",
+        "tm:drillrun",
+        "tm:electroweb",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:foulplay",
+        "tm:gigaimpact",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:lowsweep",
+        "tm:outrage",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:swift",
+        "tm:taunt",
+        "tm:throatchop",
+        "tm:uturn",
+        "tutor:coaching",
+        "tutor:skittersmack",
+        "tutor:tripleaxel"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemod.species.pheromosa.desc1",
+        "pokemod.species.pheromosa.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -1,0 +1,93 @@
+{
+    "name": "mandibuzz",
+    "nationalPokedexNumber": 630,
+    "primaryType": "dark",
+    "secondaryType": "flying",
+    "abilities": [
+        "bigpecks",
+        "overcoat",
+        "h:weakarmor"
+    ],
+    "baseStats": {
+        "hp": 110,
+        "attack": 65,
+        "defence": 105,
+        "special_attack": 55,
+        "special_defence": 95,
+        "speed": 80
+    },
+    "catchRate": 60,
+    "maleRatio": 0.0,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 179,
+    "experienceGroup": "slow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "flying"
+    ],
+    "moves": [
+        "0:bonerush",
+        "1:gust",
+        "1:leer",
+        "1:toxic",
+        "1:skyattack",
+        "1:flatter",
+        "1:pluck",
+        "18:tailwind",
+        "24:knockoff",
+        "30:irondefense",
+        "36:whirlwind",
+        "42:airslash",
+        "48:darkpulse",
+        "57:nastyplot",
+        "64:defog",
+        "72:attract",
+        "80:bravebird",
+        "tm:assurance",
+        "tm:endure",
+        "tm:facade",
+        "tm:faketears",
+        "tm:fly",
+        "tm:foulplay",
+        "tm:gigaimpact",
+        "tm:heatwave",
+        "tm:hyperbeam",
+        "tm:payback",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scaryface",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:snarl",
+        "tm:snore",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:taunt",
+        "tm:thief",
+        "tm:uturn",
+        "tutor:dualwingbeat",
+        "tutor:lashout"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemod.species.mandibuzz.desc1",
+        "pokemod.species.mandibuzz.desc2"
+    ],
+    "preEvolution": "vullaby",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

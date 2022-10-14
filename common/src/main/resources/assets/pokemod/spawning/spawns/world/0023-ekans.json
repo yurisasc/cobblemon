@@ -1,0 +1,23 @@
+{
+    "id": "0023-ekans",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "ekans",
+            "pokemon": "ekans",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "9-21",
+            "weight": 4.2,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_arid"
+                ]
+            }
+        }
+    ]
+}

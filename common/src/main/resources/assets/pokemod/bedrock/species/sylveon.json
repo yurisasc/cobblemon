@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:sylveon",
+  "model": "pokemod:bedrock/models/0700_sylveon/sylveon.geo.json",
+  "texture": "pokemod:textures/pokemon/0700_sylveon/sylveon.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0700_sylveon/sylveon_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+    "name": "weezing",
+    "nationalPokedexNumber": 110,
+    "primaryType": "poison",
+    "abilities": [
+        "levitate",
+        "neutralizinggas",
+        "h:stench"
+    ],
+    "baseStats": {
+        "hp": 65,
+        "attack": 90,
+        "defence": 120,
+        "special_attack": 85,
+        "special_defence": 70,
+        "speed": 60
+    },
+    "catchRate": 60,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "galar",
+            "secondaryType": "fairy",
+            "abilities": [
+                "levitate",
+                "neutralizinggas",
+                "h:mistysurge"
+            ],
+            "aspects": [
+                "galar"
+            ]
+        }
+    ],
+    "baseExperienceYield": 172,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "indeterminate"
+    ],
+    "moves": [
+        "0:doublehit",
+        "1:tackle",
+        "1:smokescreen",
+        "1:smog",
+        "1:poisongas",
+        "1:heatwave",
+        "12:clearsmog",
+        "16:assurance",
+        "20:sludge",
+        "24:haze",
+        "28:selfdestruct",
+        "32:sludgebomb",
+        "38:toxic",
+        "44:belch",
+        "50:explosion",
+        "56:memento",
+        "62:destinybond",
+        "tm:attract",
+        "tm:darkpulse",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:flamethrower",
+        "tm:gigaimpact",
+        "tm:gyroball",
+        "tm:hyperbeam",
+        "tm:payback",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:screech",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgewave",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:toxicspikes",
+        "tm:uproar",
+        "tm:venomdrench",
+        "tm:venoshock",
+        "tm:willowisp",
+        "tutor:corrosivegas"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.weezing.desc1",
+        "pokemod.species.weezing.desc2"
+    ],
+    "preEvolution": "koffing",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

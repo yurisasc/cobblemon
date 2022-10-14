@@ -1,0 +1,117 @@
+{
+    "name": "salamence",
+    "nationalPokedexNumber": 373,
+    "primaryType": "dragon",
+    "secondaryType": "flying",
+    "abilities": [
+        "intimidate",
+        "h:moxie"
+    ],
+    "baseStats": {
+        "hp": 95,
+        "attack": 135,
+        "defence": 80,
+        "special_attack": 110,
+        "special_defence": 80,
+        "speed": 100
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "aerilate"
+            ],
+            "baseStats": {
+                "hp": 95,
+                "attack": 145,
+                "defence": 130,
+                "special_attack": 120,
+                "special_defence": 90,
+                "speed": 120
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 300,
+    "experienceGroup": "slow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "dragon"
+    ],
+    "moves": [
+        "0:fly",
+        "1:leer",
+        "1:bite",
+        "1:ember",
+        "1:protect",
+        "1:dragonbreath",
+        "1:dragontail",
+        "15:headbutt",
+        "20:scaryface",
+        "25:crunch",
+        "33:dragonclaw",
+        "39:zenheadbutt",
+        "46:focusenergy",
+        "55:flamethrower",
+        "64:outrage",
+        "73:doubleedge",
+        "tm:airslash",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:breakingswipe",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bulldoze",
+        "tm:dragondance",
+        "tm:dragonpulse",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firefang",
+        "tm:gigaimpact",
+        "tm:heatwave",
+        "tm:hurricane",
+        "tm:hydropump",
+        "tm:hyperbeam",
+        "tm:hypervoice",
+        "tm:irondefense",
+        "tm:irontail",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:steelwing",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:thunderfang",
+        "tutor:dracometeor",
+        "tutor:dualwingbeat"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.salamence.desc1",
+        "pokemod.species.salamence.desc2"
+    ],
+    "preEvolution": "shelgon",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

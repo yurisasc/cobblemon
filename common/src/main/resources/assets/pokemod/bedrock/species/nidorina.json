@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:nidorina",
+  "model": "pokemod:bedrock/models/0030_nidorina/nidorina.geo.json",
+  "texture": "pokemod:textures/pokemon/0030_nidorina/nidorina.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0030_nidorina/nidorina_shiny.png"
+    }
+  ]
+}

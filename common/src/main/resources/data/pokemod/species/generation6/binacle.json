@@ -1,0 +1,121 @@
+{
+    "name": "binacle",
+    "nationalPokedexNumber": 688,
+    "primaryType": "rock",
+    "secondaryType": "water",
+    "abilities": [
+        "toughclaws",
+        "sniper",
+        "h:pickpocket"
+    ],
+    "baseStats": {
+        "hp": 42,
+        "attack": 52,
+        "defence": 67,
+        "special_attack": 39,
+        "special_defence": 56,
+        "speed": 50
+    },
+    "catchRate": 120,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 61,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water3"
+    ],
+    "moves": [
+        "1:scratch",
+        "1:mudslap",
+        "4:withdraw",
+        "8:watergun",
+        "12:furycutter",
+        "16:furyswipes",
+        "20:ancientpower",
+        "24:rockpolish",
+        "28:slash",
+        "32:honeclaws",
+        "36:razorshell",
+        "40:shellsmash",
+        "44:crosschop",
+        "egg:nightslash",
+        "egg:sandattack",
+        "egg:switcheroo",
+        "tm:assurance",
+        "tm:attract",
+        "tm:beatup",
+        "tm:blizzard",
+        "tm:brickbreak",
+        "tm:bulldoze",
+        "tm:dig",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:grassknot",
+        "tm:helpinghand",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irondefense",
+        "tm:liquidation",
+        "tm:mudshot",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockblast",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sandstorm",
+        "tm:scald",
+        "tm:screech",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swordsdance",
+        "tm:taunt",
+        "tm:thief",
+        "tm:uproar",
+        "tm:xscissor"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemod.species.binacle.desc1",
+        "pokemod.species.binacle.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "binacle_barbaracle",
+            "variant": "level_up",
+            "result": "barbaracle",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 39
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

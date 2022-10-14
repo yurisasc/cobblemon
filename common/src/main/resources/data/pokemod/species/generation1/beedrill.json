@@ -1,0 +1,116 @@
+{
+    "name": "beedrill",
+    "nationalPokedexNumber": 15,
+    "primaryType": "bug",
+    "secondaryType": "poison",
+    "abilities": [
+        "swarm",
+        "h:sniper"
+    ],
+    "baseStats": {
+        "hp": 65,
+        "attack": 90,
+        "defence": 40,
+        "special_attack": 45,
+        "special_defence": 80,
+        "speed": 75
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "adaptability"
+            ],
+            "baseStats": {
+                "hp": 65,
+                "attack": 150,
+                "defence": 40,
+                "special_attack": 15,
+                "special_defence": 80,
+                "speed": 145
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 178,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "0:twineedle",
+        "1:furyattack",
+        "14:rage",
+        "17:pursuit",
+        "20:focusenergy",
+        "23:venoshock",
+        "26:assurance",
+        "29:toxicspikes",
+        "32:pinmissile",
+        "35:poisonjab",
+        "38:agility",
+        "41:endeavor",
+        "44:fellstinger",
+        "tm:acrobatics",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:infestation",
+        "tm:payback",
+        "tm:protect",
+        "tm:rest",
+        "tm:return",
+        "tm:roost",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:thief",
+        "tm:toxic",
+        "tm:uturn",
+        "tm:xscissor",
+        "tutor:bugbite",
+        "tutor:defog",
+        "tutor:drillrun",
+        "tutor:electroweb",
+        "tutor:gigadrain",
+        "tutor:knockoff",
+        "tutor:laserfocus",
+        "tutor:snore",
+        "tutor:tailwind",
+        "tutor:throatchop"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.beedrill.desc1"
+    ],
+    "preEvolution": "kakuna",
+    "evolutions": [],
+    "baseScale": 0.8,
+    "hitbox": {
+        "width": 0.6,
+        "height": 0.8,
+        "fixed": false
+    }
+}

@@ -1,0 +1,127 @@
+{
+    "name": "riolu",
+    "nationalPokedexNumber": 447,
+    "primaryType": "fighting",
+    "abilities": [
+        "steadfast",
+        "innerfocus",
+        "h:prankster"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 70,
+        "defence": 40,
+        "special_attack": 35,
+        "special_defence": 40,
+        "speed": 60
+    },
+    "catchRate": 75,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 57,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 25,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:quickattack",
+        "1:endure",
+        "4:feint",
+        "8:metalclaw",
+        "12:counter",
+        "16:workup",
+        "20:rocksmash",
+        "24:nastyplot",
+        "28:screech",
+        "32:quickguard",
+        "36:forcepalm",
+        "40:swordsdance",
+        "44:helpinghand",
+        "48:copycat",
+        "52:finalgambit",
+        "56:reversal",
+        "egg:bite",
+        "egg:bulletpunch",
+        "egg:circlethrow",
+        "egg:crosschop",
+        "egg:detect",
+        "egg:highjumpkick",
+        "egg:howl",
+        "egg:mindreader",
+        "egg:vacuumwave",
+        "tm:agility",
+        "tm:attract",
+        "tm:blazekick",
+        "tm:brickbreak",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:crunch",
+        "tm:dig",
+        "tm:drainpunch",
+        "tm:earthquake",
+        "tm:facade",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:icepunch",
+        "tm:irondefense",
+        "tm:irontail",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:megakick",
+        "tm:megapunch",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:thunderpunch",
+        "tm:zenheadbutt",
+        "tutor:coaching"
+    ],
+    "labels": [
+        "baby",
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemod.species.riolu.desc1",
+        "pokemod.species.riolu.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "riolu_lucario",
+            "variant": "level_up",
+            "result": "lucario",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "friendship",
+                    "amount": 160
+                },
+                {
+                    "variant": "time_range",
+                    "range": "day"
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

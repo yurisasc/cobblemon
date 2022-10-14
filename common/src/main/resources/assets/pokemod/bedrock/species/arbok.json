@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:arbok",
+  "model": "pokemod:bedrock/models/0024_arbok/arbok.geo.json",
+  "texture": "pokemod:textures/pokemon/0024_arbok/arbok.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0024_arbok/arbok_shiny.png"
+    }
+  ]
+}

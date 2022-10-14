@@ -1,0 +1,79 @@
+{
+    "name": "regidrago",
+    "nationalPokedexNumber": 895,
+    "primaryType": "dragon",
+    "abilities": [
+        "dragonsmaw"
+    ],
+    "baseStats": {
+        "hp": 200,
+        "attack": 100,
+        "defence": 50,
+        "special_attack": 100,
+        "special_defence": 50,
+        "speed": 80
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 290,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:visegrip",
+        "1:twister",
+        "6:bite",
+        "12:ancientpower",
+        "18:dragonbreath",
+        "24:focusenergy",
+        "30:crunch",
+        "36:dragonclaw",
+        "42:hammerarm",
+        "48:dragondance",
+        "54:thrash",
+        "60:laserfocus",
+        "66:dragonenergy",
+        "72:hyperbeam",
+        "78:explosion",
+        "tm:bodyslam",
+        "tm:breakingswipe",
+        "tm:dragonpulse",
+        "tm:endure",
+        "tm:facade",
+        "tm:firefang",
+        "tm:gigaimpact",
+        "tm:lightscreen",
+        "tm:outrage",
+        "tm:protect",
+        "tm:reflect",
+        "tm:rest",
+        "tm:reversal",
+        "tm:round",
+        "tm:selfdestruct",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:thunderfang",
+        "tutor:dracometeor",
+        "tutor:scaleshot"
+    ],
+    "labels": [
+        "legendary",
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemod.species.regidrago.desc1",
+        "pokemod.species.regidrago.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

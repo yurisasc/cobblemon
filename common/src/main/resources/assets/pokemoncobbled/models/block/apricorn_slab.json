@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "pokemoncobbled:blocks/apricorn_planks",
-    "top": "pokemoncobbled:blocks/apricorn_planks",
-    "side": "pokemoncobbled:blocks/apricorn_planks"
-  }
-}

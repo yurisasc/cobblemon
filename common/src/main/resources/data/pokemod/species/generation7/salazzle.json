@@ -1,0 +1,113 @@
+{
+    "name": "salazzle",
+    "nationalPokedexNumber": 758,
+    "primaryType": "poison",
+    "secondaryType": "fire",
+    "abilities": [
+        "corrosion",
+        "h:oblivious"
+    ],
+    "baseStats": {
+        "hp": 68,
+        "attack": 64,
+        "defence": 60,
+        "special_attack": 111,
+        "special_defence": 60,
+        "speed": 117
+    },
+    "catchRate": 45,
+    "maleRatio": 0.0,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "totem",
+            "aspects": [
+                "totem"
+            ]
+        }
+    ],
+    "baseExperienceYield": 168,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster",
+        "dragon"
+    ],
+    "moves": [
+        "0:firelash",
+        "1:pound",
+        "1:scratch",
+        "1:disable",
+        "1:ember",
+        "1:smog",
+        "1:poisongas",
+        "1:swagger",
+        "1:encore",
+        "1:torment",
+        "1:knockoff",
+        "1:endeavor",
+        "15:poisonfang",
+        "20:sweetscent",
+        "25:nastyplot",
+        "30:incinerate",
+        "37:venoshock",
+        "44:dragonpulse",
+        "51:venomdrench",
+        "58:flamethrower",
+        "65:toxic",
+        "tm:acrobatics",
+        "tm:attract",
+        "tm:beatup",
+        "tm:breakingswipe",
+        "tm:crosspoison",
+        "tm:dragonclaw",
+        "tm:dragondance",
+        "tm:endure",
+        "tm:facade",
+        "tm:faketears",
+        "tm:fireblast",
+        "tm:flareblitz",
+        "tm:fling",
+        "tm:foulplay",
+        "tm:gunkshot",
+        "tm:heatwave",
+        "tm:helpinghand",
+        "tm:irontail",
+        "tm:leechlife",
+        "tm:overheat",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:snore",
+        "tm:substitute",
+        "tm:swift",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunderwave",
+        "tm:willowisp",
+        "tutor:corrosivegas",
+        "tutor:scaleshot",
+        "tutor:skittersmack"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemod.species.salazzle.desc1",
+        "pokemod.species.salazzle.desc2"
+    ],
+    "preEvolution": "salandit",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

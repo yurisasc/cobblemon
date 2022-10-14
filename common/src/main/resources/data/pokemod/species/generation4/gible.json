@@ -1,0 +1,106 @@
+{
+    "name": "gible",
+    "nationalPokedexNumber": 443,
+    "primaryType": "dragon",
+    "secondaryType": "ground",
+    "abilities": [
+        "sandveil",
+        "h:roughskin"
+    ],
+    "baseStats": {
+        "hp": 58,
+        "attack": 70,
+        "defence": 45,
+        "special_attack": 40,
+        "special_defence": 45,
+        "speed": 42
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 60,
+    "experienceGroup": "slow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "monster",
+        "dragon"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:sandtomb",
+        "6:sandattack",
+        "12:dragonbreath",
+        "18:bulldoze",
+        "25:bite",
+        "30:slash",
+        "36:dragonclaw",
+        "42:dig",
+        "48:sandstorm",
+        "54:takedown",
+        "60:dragonrush",
+        "egg:doubleedge",
+        "egg:metalclaw",
+        "egg:thrash",
+        "egg:twister",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:dragonpulse",
+        "tm:earthpower",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:flamethrower",
+        "tm:ironhead",
+        "tm:irontail",
+        "tm:mudshot",
+        "tm:outrage",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scaryface",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tutor:dracometeor",
+        "tutor:scaleshot",
+        "tutor:scorchingsands"
+    ],
+    "labels": [
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemod.species.gible.desc1",
+        "pokemod.species.gible.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "gible_gabite",
+            "variant": "level_up",
+            "result": "gabite",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 24
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

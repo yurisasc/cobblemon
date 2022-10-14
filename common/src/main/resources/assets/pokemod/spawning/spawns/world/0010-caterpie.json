@@ -1,0 +1,29 @@
+{
+    "id": "0010-caterpie",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "caterpie",
+            "pokemon": "caterpie",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "2-6",
+            "weight": 7.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#minecraft:is_forest",
+                    "#minecraft:is_jungle"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_cold"
+                ]
+            }
+        }
+    ]
+}

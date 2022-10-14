@@ -1,0 +1,93 @@
+{
+    "name": "magnezone",
+    "nationalPokedexNumber": 462,
+    "primaryType": "electric",
+    "secondaryType": "steel",
+    "abilities": [
+        "magnetpull",
+        "sturdy",
+        "h:analytic"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 70,
+        "defence": 115,
+        "special_attack": 130,
+        "special_defence": 90,
+        "speed": 60
+    },
+    "catchRate": 30,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 268,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:supersonic",
+        "1:thundershock",
+        "1:thunderwave",
+        "1:triattack",
+        "1:mirrorcoat",
+        "1:magneticflux",
+        "1:electricterrain",
+        "12:electroball",
+        "16:gyroball",
+        "20:spark",
+        "24:screech",
+        "28:magnetrise",
+        "34:flashcannon",
+        "40:discharge",
+        "46:metalsound",
+        "52:lightscreen",
+        "58:lockon",
+        "64:zapcannon",
+        "tm:allyswitch",
+        "tm:bodypress",
+        "tm:electroweb",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:heavyslam",
+        "tm:hyperbeam",
+        "tm:irondefense",
+        "tm:ironhead",
+        "tm:protect",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:round",
+        "tm:selfdestruct",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:voltswitch",
+        "tm:wildcharge",
+        "tutor:risingvoltage",
+        "tutor:steelbeam",
+        "tutor:steelroller"
+    ],
+    "labels": [
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemod.species.magnezone.desc1",
+        "pokemod.species.magnezone.desc2"
+    ],
+    "preEvolution": "magneton",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

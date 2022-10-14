@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:hitmonlee",
+  "model": "pokemod:bedrock/models/0106_hitmonlee/hitmonlee.geo.json",
+  "texture": "pokemod:textures/pokemon/0106_hitmonlee/hitmonlee.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0106_hitmonlee/hitmonlee_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+    "id": "0078-rapidash",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "rapidash",
+            "pokemon": "rapidash",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "40-50",
+            "weight": 1.8,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_grassland"
+                ],
+                "timeRange": "day",
+                "isRaining": false
+            }
+        }
+    ]
+}

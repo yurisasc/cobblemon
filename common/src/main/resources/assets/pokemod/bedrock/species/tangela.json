@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:tangela",
+  "model": "pokemod:bedrock/models/0114_tangela/tangela.geo.json",
+  "texture": "pokemod:textures/pokemon/0114_tangela/tangela.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0114_tangela/tangela_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:omanyte",
+  "model": "pokemod:bedrock/models/0138_omanyte/omanyte.geo.json",
+  "texture": "pokemod:textures/pokemon/0138_omanyte/omanyte.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0138_omanyte/omanyte_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:spearow",
+  "model": "pokemod:bedrock/models/0021_spearow/spearow.geo.json",
+  "texture": "pokemod:textures/pokemon/0021_spearow/spearow.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0021_spearow/spearow_shiny.png"
+    }
+  ]
+}

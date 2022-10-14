@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:kangaskhan",
+  "model": "pokemod:bedrock/models/0115_kangaskhan/kangaskhan.geo.json",
+  "texture": "pokemod:textures/pokemon/0115_kangaskhan/kangaskhan.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0115_kangaskhan/kangaskhan_shiny.png"
+    }
+  ]
+}

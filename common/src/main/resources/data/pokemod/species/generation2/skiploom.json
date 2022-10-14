@@ -1,0 +1,107 @@
+{
+    "name": "skiploom",
+    "nationalPokedexNumber": 188,
+    "primaryType": "grass",
+    "secondaryType": "flying",
+    "abilities": [
+        "chlorophyll",
+        "leafguard",
+        "h:infiltrator"
+    ],
+    "baseStats": {
+        "hp": 55,
+        "attack": 45,
+        "defence": 50,
+        "special_attack": 45,
+        "special_defence": 65,
+        "speed": 80
+    },
+    "catchRate": 120,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 119,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "fairy",
+        "plant"
+    ],
+    "moves": [
+        "1:tailwhip",
+        "1:absorb",
+        "1:splash",
+        "1:synthesis",
+        "8:tackle",
+        "10:fairywind",
+        "12:poisonpowder",
+        "14:stunspore",
+        "16:sleeppowder",
+        "20:bulletseed",
+        "24:leechseed",
+        "28:megadrain",
+        "32:acrobatics",
+        "36:ragepowder",
+        "40:cottonspore",
+        "44:uturn",
+        "48:worryseed",
+        "52:gigadrain",
+        "56:bounce",
+        "60:memento",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:confide",
+        "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:energyball",
+        "tm:facade",
+        "tm:frustration",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:infestation",
+        "tm:protect",
+        "tm:psychup",
+        "tm:reflect",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:toxic",
+        "tutor:helpinghand",
+        "tutor:seedbomb",
+        "tutor:snore"
+    ],
+    "labels": [
+        "gen2"
+    ],
+    "pokedex": [
+        "pokemod.species.skiploom.desc1"
+    ],
+    "preEvolution": "hoppip",
+    "evolutions": [
+        {
+            "id": "skiploom_jumpluff",
+            "variant": "level_up",
+            "result": "jumpluff",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 27
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

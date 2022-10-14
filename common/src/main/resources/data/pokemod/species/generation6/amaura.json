@@ -1,0 +1,118 @@
+{
+    "name": "amaura",
+    "nationalPokedexNumber": 698,
+    "primaryType": "rock",
+    "secondaryType": "ice",
+    "abilities": [
+        "refrigerate",
+        "h:snowwarning"
+    ],
+    "baseStats": {
+        "hp": 77,
+        "attack": 59,
+        "defence": 50,
+        "special_attack": 67,
+        "special_defence": 63,
+        "speed": 46
+    },
+    "catchRate": 45,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 72,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 30,
+    "eggGroups": [
+        "monster"
+    ],
+    "moves": [
+        "1:growl",
+        "1:powdersnow",
+        "4:encore",
+        "8:ancientpower",
+        "12:icywind",
+        "16:round",
+        "20:mist",
+        "24:aurorabeam",
+        "28:thunderwave",
+        "32:naturepower",
+        "36:freezedry",
+        "40:icebeam",
+        "44:lightscreen",
+        "48:hail",
+        "52:blizzard",
+        "56:hyperbeam",
+        "egg:auroraveil",
+        "egg:discharge",
+        "egg:haze",
+        "egg:mirrorcoat",
+        "egg:rockthrow",
+        "egg:takedown",
+        "tm:attract",
+        "tm:avalanche",
+        "tm:bodyslam",
+        "tm:bulldoze",
+        "tm:calmmind",
+        "tm:darkpulse",
+        "tm:earthpower",
+        "tm:endure",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:hypervoice",
+        "tm:irondefense",
+        "tm:ironhead",
+        "tm:irontail",
+        "tm:mudshot",
+        "tm:outrage",
+        "tm:protect",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:rockblast",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:safeguard",
+        "tm:sandstorm",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:thunderbolt",
+        "tm:weatherball",
+        "tm:zenheadbutt",
+        "tutor:meteorbeam"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemod.species.amaura.desc1",
+        "pokemod.species.amaura.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "amaura_aurorus",
+            "variant": "level_up",
+            "result": "aurorus",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "time_range",
+                    "range": "night"
+                },
+                {
+                    "variant": "level",
+                    "minLevel": 39
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

@@ -1,0 +1,23 @@
+{
+    "id": "0110-weezing",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "weezing",
+            "pokemon": "weezing",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "35-49",
+            "weight": 0.6,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_swamp"
+                ]
+            }
+        }
+    ]
+}

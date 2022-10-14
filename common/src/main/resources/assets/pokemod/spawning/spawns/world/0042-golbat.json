@@ -1,0 +1,47 @@
+{
+    "id": "0042-golbat",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "golbat",
+            "pokemon": "golbat",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "22-45",
+            "weight": 3.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_crag",
+                    "#minecraft:is_forest",
+                    "#pokemod:is_grassland",
+                    "#minecraft:is_jungle",
+                    "#pokemod:is_spooky",
+                    "#pokemod:is_swamp"
+                ],
+                "timeRange": "night",
+                "isRaining": false
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_snowy"
+                ]
+            }
+        },
+        {
+            "id": "golbat",
+            "pokemon": "golbat",
+            "presets": [
+                "underground"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "22-45",
+            "weight": 3.0
+        }
+    ]
+}

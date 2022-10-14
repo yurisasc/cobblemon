@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:aerodactyl",
+  "model": "pokemod:bedrock/models/0142_aerodactyl/aerodactyl.geo.json",
+  "texture": "pokemod:textures/pokemon/0142_aerodactyl/aerodactyl.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0142_aerodactyl/aerodactyl_shiny.png"
+    }
+  ]
+}

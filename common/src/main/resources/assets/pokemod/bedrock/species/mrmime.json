@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:mrmime",
+  "model": "pokemod:bedrock/models/0122_mrmime/mrmime.geo.json",
+  "texture": "pokemod:textures/pokemon/0122_mrmime/mr_mime.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0122_mrmime/mr_mime_shiny.png"
+    }
+  ]
+}

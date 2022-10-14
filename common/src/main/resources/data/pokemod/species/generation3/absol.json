@@ -1,0 +1,135 @@
+{
+    "name": "absol",
+    "nationalPokedexNumber": 359,
+    "primaryType": "dark",
+    "abilities": [
+        "pressure",
+        "superluck",
+        "h:justified"
+    ],
+    "baseStats": {
+        "hp": 65,
+        "attack": 130,
+        "defence": 60,
+        "special_attack": 75,
+        "special_defence": 60,
+        "speed": 75
+    },
+    "catchRate": 30,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "magicbounce"
+            ],
+            "baseStats": {
+                "hp": 65,
+                "attack": 150,
+                "defence": 60,
+                "special_attack": 115,
+                "special_defence": 60,
+                "speed": 115
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 163,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 25,
+    "eggGroups": [
+        "ground"
+    ],
+    "moves": [
+        "1:leer",
+        "1:quickattack",
+        "5:doubleteam",
+        "10:knockoff",
+        "15:detect",
+        "20:taunt",
+        "25:slash",
+        "30:nightslash",
+        "35:focusenergy",
+        "40:suckerpunch",
+        "45:swordsdance",
+        "50:futuresight",
+        "55:perishsong",
+        "egg:bite",
+        "egg:curse",
+        "egg:doubleedge",
+        "egg:feint",
+        "egg:magiccoat",
+        "egg:meanlook",
+        "tm:airslash",
+        "tm:assurance",
+        "tm:attract",
+        "tm:batonpass",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:bounce",
+        "tm:brutalswing",
+        "tm:calmmind",
+        "tm:closecombat",
+        "tm:darkpulse",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fireblast",
+        "tm:flamethrower",
+        "tm:foulplay",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:hex",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irontail",
+        "tm:megahorn",
+        "tm:payback",
+        "tm:playrough",
+        "tm:protect",
+        "tm:psychocut",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:shadowball",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snarl",
+        "tm:snore",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:superpower",
+        "tm:swift",
+        "tm:thief",
+        "tm:throatchop",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:willowisp",
+        "tm:xscissor",
+        "tm:zenheadbutt"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.absol.desc1",
+        "pokemod.species.absol.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

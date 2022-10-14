@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:gengar",
+  "model": "pokemod:bedrock/models/0094_gengar/gengar.geo.json",
+  "texture": "pokemod:textures/pokemon/0094_gengar/gengar.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0094_gengar/gengar_shiny.png"
+    }
+  ]
+}

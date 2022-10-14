@@ -1,0 +1,82 @@
+{
+    "name": "cryogonal",
+    "nationalPokedexNumber": 615,
+    "primaryType": "ice",
+    "abilities": [
+        "levitate"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 50,
+        "defence": 50,
+        "special_attack": 95,
+        "special_defence": 135,
+        "speed": 105
+    },
+    "catchRate": 25,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 180,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 25,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "1:bind",
+        "1:iceshard",
+        "4:confuseray",
+        "8:rapidspin",
+        "12:laserfocus",
+        "16:icywind",
+        "20:mist",
+        "20:haze",
+        "24:ancientpower",
+        "28:aurorabeam",
+        "32:slash",
+        "32:nightslash",
+        "36:freezedry",
+        "40:lightscreen",
+        "40:reflect",
+        "44:recover",
+        "48:icebeam",
+        "52:acidarmor",
+        "56:solarbeam",
+        "60:sheercold",
+        "tm:acrobatics",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:endure",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:hail",
+        "tm:hyperbeam",
+        "tm:iciclespear",
+        "tm:irondefense",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:selfdestruct",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tutor:tripleaxel"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemod.species.cryogonal.desc1",
+        "pokemod.species.cryogonal.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

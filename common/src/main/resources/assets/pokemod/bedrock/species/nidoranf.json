@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:nidoranf",
+  "model": "pokemod:bedrock/models/0029_nidoranf/nidoranf.geo.json",
+  "texture": "pokemod:textures/pokemon/0029_nidoranf/nidoranf.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0029_nidoranf/nidoranf_shiny.png"
+    }
+  ]
+}

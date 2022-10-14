@@ -1,0 +1,22 @@
+{
+    "id": "0027-sandshrew",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "sandshrew",
+            "pokemon": "sandshrew",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "6-21",
+            "weight": 7.0,
+            "condition": {
+                "biomes": [
+                    "#pokemod:is_sandy"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:grimer",
+  "model": "pokemod:bedrock/models/0088_grimer/grimer.geo.json",
+  "texture": "pokemod:textures/pokemon/0088_grimer/grimer.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0088_grimer/grimer_shiny.png"
+    }
+  ]
+}

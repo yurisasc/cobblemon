@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "com.cablemc.pokemod.common.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "minVersion": "0.8",
+  "client": [
+    "EntityRenderDispatcherMixin",
+    "KeyBindingMixin",
+    "KeyboardHandlerMixin"
+  ],
+  "mixins": [
+    "ArgumentTypesMixin",
+    "PlayerMixin",
+    "accessor.AccessorEntity"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,16 +1,16 @@
 {
     "replace": false,
     "values": [
-      "pokemoncobbled:dawn_stone_ore",
-      "pokemoncobbled:dusk_stone_ore",
-      "pokemoncobbled:fire_stone_ore",
-      "pokemoncobbled:ice_stone_ore",
-      "pokemoncobbled:leaf_stone_ore",
-      "pokemoncobbled:moon_stone_ore",
-      "pokemoncobbled:shiny_stone_ore",
-      "pokemoncobbled:sun_stone_ore",
-      "pokemoncobbled:thunder_stone_ore",
-      "pokemoncobbled:water_stone_ore",
-      "pokemoncobbled:dripstone_moon_stone_ore"
+      "pokemod:dawn_stone_ore",
+      "pokemod:dusk_stone_ore",
+      "pokemod:fire_stone_ore",
+      "pokemod:ice_stone_ore",
+      "pokemod:leaf_stone_ore",
+      "pokemod:moon_stone_ore",
+      "pokemod:shiny_stone_ore",
+      "pokemod:sun_stone_ore",
+      "pokemod:thunder_stone_ore",
+      "pokemod:water_stone_ore",
+      "pokemod:dripstone_moon_stone_ore"
     ]
 }
