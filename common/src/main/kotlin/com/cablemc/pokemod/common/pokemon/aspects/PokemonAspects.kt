@@ -21,7 +21,7 @@ val SHINY_ASPECT = object : SingleConditionalAspectProvider {
 }
 
 val GENDER_ASPECT = object : AspectProvider {
-    fun getFacetsForGender(gender: Gender) = setOf(
+    fun getAspectsForGender(gender: Gender) = setOf(
         when (gender) {
             Gender.MALE -> "male"
             Gender.FEMALE -> "female"
@@ -29,6 +29,6 @@ val GENDER_ASPECT = object : AspectProvider {
         }
     )
 
-    override fun provide(pokemon: Pokemon) = getFacetsForGender(pokemon.gender)
-    override fun provide(properties: PokemonProperties) = properties.gender?.let { getFacetsForGender(it) } ?: emptySet()
+    override fun provide(pokemon: Pokemon) = getAspectsForGender(pokemon.gender)
+    override fun provide(properties: PokemonProperties) = properties.gender?.let { getAspectsForGender(it) } ?: emptySet()
 }

@@ -59,7 +59,8 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.WALK,
+            poseName = "normal",
+            poseTypes = setOf(PoseType.STAND, PoseType.WALK),
             condition = { true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -108,7 +109,8 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         registerPose<PokemonPoseableModel>(
-            poseType = PoseType.PORTRAIT,
+            poseName = "portrait",
+            poseTypes = setOf(PoseType.PROFILE, PoseType.PORTRAIT),
             transformedParts = arrayOf(
                 body.withRotationDegrees(-35F, 0F, 0F),
                 head.withRotationDegrees(32.5F, 0.75F, 0F),
