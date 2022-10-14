@@ -24,7 +24,7 @@ open class EnumSpeciesFeatureCustomPropertyType<T : Enum<T>>(val name: String) :
     override fun fromString(value: String?): EnumSpeciesFeature<T>? {
         value ?: return null
         val feature = SpeciesFeature.get(name)?.invoke() as? EnumSpeciesFeature<T> ?: return null
-        val enumValue = feature.values.find { it.name.equals(value, ignoreCase = true) } ?: return null
+        val enumValue = feature.getValues().find { it.name.equals(value, ignoreCase = true) } ?: return null
         feature.enumValue = enumValue
         return feature
     }
