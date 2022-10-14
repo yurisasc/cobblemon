@@ -9,6 +9,7 @@
 package com.cablemc.pokemod.common.pokemon
 
 import com.cablemc.pokemod.common.api.abilities.AbilityPool
+import com.cablemc.pokemod.common.api.data.ClientDataSynchronizer
 import com.cablemc.pokemod.common.api.drop.DropTable
 import com.cablemc.pokemod.common.api.pokemon.Learnset
 import com.cablemc.pokemod.common.api.pokemon.effect.ShoulderEffect
@@ -17,18 +18,18 @@ import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
+import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.types.ElementalType
 import com.cablemc.pokemod.common.api.types.ElementalTypes
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.ai.PokemonBehaviour
 import com.cablemc.pokemod.common.util.lang
-import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
-class Species {
+class Species : ClientDataSynchronizer<Species> {
     var name: String = "bulbasaur"
     val translatedName: MutableText
         get() = lang("species.$name.name")
@@ -117,7 +118,7 @@ class Species {
         else -> this.standingEyeHeight
     }
 
-    internal fun encodeForClient(buffer: PacketByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(this.resourceIdentifier)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
@@ -138,7 +139,7 @@ class Species {
         buffer.writeCollection(this.forms) { pb, form -> form.encodeForClient(pb) }
     }
 
-    internal fun decodeForClient(buffer: PacketByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         this.apply {
             name = buffer.readString()
             nationalPokedexNumber = buffer.readInt()
@@ -155,6 +156,14 @@ class Species {
             forms.clear()
             forms += buffer.readList{ pb -> FormData().apply { decodeForClient(pb) } }.filterNotNull()
         }
+    }
+
+    override fun shouldSynchronize(other: Species): Boolean {
+        if (other.resourceIdentifier != other.resourceIdentifier)
+            return false
+        return other.name != this.name
+                || other.nationalPokedexNumber != this.nationalPokedexNumber
+                || other.baseStats
     }
 
     override fun toString() = name

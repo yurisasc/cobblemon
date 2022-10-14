@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cablemc.pokemoncobbled.common.net.messages.client.data
+package com.cablemc.pokemod.common.net.messages.client.data
 
-import com.cablemc.pokemoncobbled.common.api.abilities.Abilities
-import com.cablemc.pokemoncobbled.common.api.abilities.AbilityTemplate
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemod.common.api.abilities.Abilities
+import com.cablemc.pokemod.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.network.PacketByteBuf
 
 class AbilityRegistrySyncPacket : DataRegistrySyncPacket<AbilityTemplate>(Abilities.all()) {
@@ -29,7 +29,7 @@ class AbilityRegistrySyncPacket : DataRegistrySyncPacket<AbilityTemplate>(Abilit
     }
 
     override fun synchronizeDecoded(entries: Collection<AbilityTemplate>) {
-        Abilities.reload(entries.associateBy { cobbledResource(it.name.lowercase()) })
+        Abilities.reload(entries.associateBy { pokemodResource(it.name.lowercase()) })
     }
 
 }

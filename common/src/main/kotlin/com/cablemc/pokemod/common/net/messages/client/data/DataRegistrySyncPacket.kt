@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cablemc.pokemoncobbled.common.net.messages.client.data
+package com.cablemc.pokemod.common.net.messages.client.data
 
-import com.cablemc.pokemoncobbled.common.api.net.NetworkPacket
+import com.cablemc.pokemod.common.api.net.NetworkPacket
 import net.minecraft.network.PacketByteBuf
 
 abstract class DataRegistrySyncPacket<T>(private val registryEntries: Collection<T>) : NetworkPacket {

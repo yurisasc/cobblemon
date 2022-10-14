@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cablemc.pokemoncobbled.common.net.messages.client.data
+package com.cablemc.pokemod.common.net.messages.client.data
 
-import com.cablemc.pokemoncobbled.common.api.moves.MoveTemplate
-import com.cablemc.pokemoncobbled.common.api.moves.Moves
-import com.cablemc.pokemoncobbled.common.api.moves.categories.DamageCategories
-import com.cablemc.pokemoncobbled.common.api.types.ElementalTypes
-import com.cablemc.pokemoncobbled.common.battles.MoveTarget
-import com.cablemc.pokemoncobbled.common.util.cobbledResource
+import com.cablemc.pokemod.common.api.moves.MoveTemplate
+import com.cablemc.pokemod.common.api.moves.Moves
+import com.cablemc.pokemod.common.api.moves.categories.DamageCategories
+import com.cablemc.pokemod.common.api.types.ElementalTypes
+import com.cablemc.pokemod.common.battles.MoveTarget
+import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.network.PacketByteBuf
 
 class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate>(Moves.all()) {
@@ -47,7 +47,7 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate>(Moves.all()
     }
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {
-        Moves.reload(entries.associateBy { cobbledResource(it.name) })
+        Moves.reload(entries.associateBy { pokemodResource(it.name) })
     }
 
 }

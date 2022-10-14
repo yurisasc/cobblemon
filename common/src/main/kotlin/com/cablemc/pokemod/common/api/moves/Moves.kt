@@ -15,10 +15,10 @@ import com.cablemc.pokemod.common.api.moves.categories.DamageCategory
 import com.cablemc.pokemod.common.api.reactive.SimpleObservable
 import com.cablemc.pokemod.common.api.types.ElementalType
 import com.cablemc.pokemod.common.api.types.adapters.ElementalTypeAdapter
+import com.cablemc.pokemod.common.net.messages.client.data.MovesRegistrySyncPacket
 import com.cablemc.pokemod.common.util.pokemodResource
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import kotlin.io.path.Path
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier

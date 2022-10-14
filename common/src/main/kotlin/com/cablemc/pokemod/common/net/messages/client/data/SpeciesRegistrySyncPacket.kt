@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cablemc.pokemoncobbled.common.net.messages.client.data
+package com.cablemc.pokemod.common.net.messages.client.data
 
-import com.cablemc.pokemoncobbled.common.PokemonCobbled
-import com.cablemc.pokemoncobbled.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemoncobbled.common.pokemon.Species
+import com.cablemc.pokemod.common.Pokemod
+import com.cablemc.pokemod.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemod.common.pokemon.Species
 import net.minecraft.network.PacketByteBuf
 
 // We do not need to know every single attribute as a client, as such, we only sync the aspects that matter
@@ -18,9 +18,9 @@ class SpeciesRegistrySyncPacket : DataRegistrySyncPacket<Species>(PokemonSpecies
 
     override fun encodeEntry(buffer: PacketByteBuf, entry: Species) {
         try {
-            entry.encodeForClient(buffer)
+            entry.encode(buffer)
         } catch (e: Exception) {
-            PokemonCobbled.LOGGER.error("Caught exception encoding the species {}", entry.resourceIdentifier, e)
+            Pokemod.LOGGER.error("Caught exception encoding the species {}", entry.resourceIdentifier, e)
         }
     }
 
@@ -29,10 +29,10 @@ class SpeciesRegistrySyncPacket : DataRegistrySyncPacket<Species>(PokemonSpecies
         val species = Species()
         species.resourceIdentifier = identifier
         return try {
-            species.decodeForClient(buffer)
+            species.decode(buffer)
             species
         } catch (e: Exception) {
-            PokemonCobbled.LOGGER.error("Caught exception decoding the species {}", identifier, e)
+            Pokemod.LOGGER.error("Caught exception decoding the species {}", identifier, e)
             null
         }
     }
