@@ -22,13 +22,17 @@ class ServerSettingsPacket internal constructor() : NetworkPacket {
 
     var preventCompletePartyDeposit = false
         private set
+    var displayEntityLevelLabel = false
+        private set
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeBoolean(Pokemod.config.preventCompletePartyDeposit)
+        buffer.writeBoolean(Pokemod.config.displayEntityLevelLabel)
     }
 
     override fun decode(buffer: PacketByteBuf) {
         this.preventCompletePartyDeposit = buffer.readBoolean()
+        this.displayEntityLevelLabel = buffer.readBoolean()
     }
 
 }

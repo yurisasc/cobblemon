@@ -15,7 +15,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokemoncobbled:green_apricorn_seed"
+          "name": "pokemod:green_apricorn_seed"
         }
       ],
       "rolls": 1.0

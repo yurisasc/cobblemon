@@ -22,5 +22,6 @@ import com.cablemc.pokemod.common.net.messages.client.settings.ServerSettingsPac
 object ServerSettings {
 
     var preventCompletePartyDeposit = Pokemod.config.preventCompletePartyDeposit
+    var displayEntityLevelLabel = Pokemod.config.displayEntityLevelLabel
 
 }

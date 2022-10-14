@@ -95,6 +95,8 @@
   "pokemod.ui.evolve": "Evolve",
   "pokemod.ui.evolve_offer": "Evolve into which Pokémon?",
 
+  "pokemod.label.lv": "Lv. %1$s",
+
   "pokemod.challenge_label": "Press %1$s to battle.",
   "pokemod.challenge.sender": "You challenged %1$s to a battle!",
   "pokemod.challenge.receiver": "%1$s has challenged you to battle! Press %2$s while looking at them to battle.",
