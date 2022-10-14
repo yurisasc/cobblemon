@@ -136,7 +136,7 @@ class Species : ClientDataSynchronizer<Species> {
         buffer.writeNullable(this.flyingEyeHeight) { pb, value -> pb.writeFloat(value) }
         buffer.writeBoolean(this.dynamaxBlocked)
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
-        buffer.writeCollection(this.forms) { pb, form -> form.encodeForClient(pb) }
+        buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -154,7 +154,7 @@ class Species : ClientDataSynchronizer<Species> {
             pokedex.clear()
             pokedex += buffer.readList { pb -> pb.readString() }
             forms.clear()
-            forms += buffer.readList{ pb -> FormData().apply { decodeForClient(pb) } }.filterNotNull()
+            forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
         }
     }
 
@@ -163,7 +163,16 @@ class Species : ClientDataSynchronizer<Species> {
             return false
         return other.name != this.name
                 || other.nationalPokedexNumber != this.nationalPokedexNumber
-                || other.baseStats
+                || other.baseStats != this.baseStats
+                || other.hitbox != this.hitbox
+                || other.primaryType != this.primaryType
+                || other.secondaryType != this.secondaryType
+                || other.standingEyeHeight != this.standingEyeHeight
+                || other.swimmingEyeHeight != this.swimmingEyeHeight
+                || other.flyingEyeHeight != this.flyingEyeHeight
+                || other.dynamaxBlocked != this.dynamaxBlocked
+                || other.pokedex != this.pokedex
+                || other.forms != this.forms
     }
 
     override fun toString() = name

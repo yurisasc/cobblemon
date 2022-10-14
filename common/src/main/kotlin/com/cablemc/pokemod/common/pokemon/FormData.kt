@@ -11,6 +11,8 @@ package com.cablemc.pokemod.common.pokemon
 import com.cablemc.pokemod.common.api.abilities.AbilityPool
 import com.cablemc.pokemod.common.api.drop.DropTable
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
+import com.cablemc.pokemod.common.api.net.Decodable
+import com.cablemc.pokemod.common.api.net.Encodable
 import com.cablemc.pokemod.common.api.pokemon.Learnset
 import com.cablemc.pokemod.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemod.common.api.pokemon.egg.EggGroup
@@ -81,7 +83,7 @@ class FormData(
      * This is always null on any form aside G-Max.
      */
     val gigantamaxMove: MoveTemplate? = null
-) {
+) : Decodable, Encodable {
     @SerializedName("name")
     var name: String = name
         private set
@@ -188,7 +190,7 @@ class FormData(
                 && other.name.equals(this.name, true)
     }
 
-    internal fun encodeForClient(buffer: PacketByteBuf) {
+    override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(this.name)
         buffer.writeNullable(this._baseStats) { pb1, map -> pb1.writeMap(map, { pb2, stat -> pb2.writeString(stat.id) }, { pb, value -> pb.writeInt(value) }) }
         buffer.writeNullable(this._hitbox) { pb, hitbox ->
@@ -207,7 +209,7 @@ class FormData(
         buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
     }
 
-    internal fun decodeForClient(buffer: PacketByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
         this.name = buffer.readString()
         this._baseStats = buffer.readNullable { pb -> pb.readMap({ Stats.getStat(it.readString(), true) }, { it.readInt() }) }
         this._hitbox = buffer.readNullable { pb ->
