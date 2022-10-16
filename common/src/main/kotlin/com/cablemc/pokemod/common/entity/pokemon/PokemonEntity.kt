@@ -29,7 +29,6 @@ import com.cablemc.pokemod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cablemc.pokemod.common.entity.pokemon.ai.PokemonNavigation
 import com.cablemc.pokemod.common.entity.pokemon.ai.goals.*
 import com.cablemc.pokemod.common.item.interactive.PokemonInteractiveItem
-import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cablemc.pokemod.common.pokemon.FormData
 import com.cablemc.pokemod.common.pokemon.Pokemon
@@ -41,6 +40,8 @@ import com.cablemc.pokemod.common.pokemon.evolution.variants.ItemInteractionEvol
 import com.cablemc.pokemod.common.util.*
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
+import java.util.*
+import java.util.concurrent.CompletableFuture
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -67,8 +68,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
-import java.util.*
-import java.util.concurrent.CompletableFuture
 
 class PokemonEntity(
     world: World,
@@ -337,18 +336,6 @@ class PokemonEntity(
         return pokemon.form.hitbox.scaled(scale)
     }
 
-    override fun saveAdditionalSpawnData(buffer: PacketByteBuf) {
-        buffer.writeFloat(pokemon.scaleModifier)
-        buffer.writeIdentifier(pokemon.species.resourceIdentifier)
-        buffer.writeString(pokemon.form.name)
-        buffer.writeInt(phasingTargetId.get())
-        buffer.writeByte(beamModeEmitter.get().toInt())
-        buffer.writeBoolean(pokemon.shiny)
-        buffer.writeSizedInt(IntSize.U_BYTE, pokemon.aspects.size)
-        buffer.writeCollection(pokemon.aspects, PacketByteBuf::writeString)
-        buffer.writeInt(if (Pokemod.config.displayEntityLevelLabel) this.labelLevel.get() else -1)
-    }
-
     override fun canTakeDamage() = super.canTakeDamage() && !isBusy
     override fun damage(source: DamageSource?, amount: Float): Boolean {
         return if (super.damage(source, amount)) {
@@ -359,6 +346,17 @@ class PokemonEntity(
             }
             true
         } else false
+    }
+
+    override fun saveAdditionalSpawnData(buffer: PacketByteBuf) {
+        buffer.writeFloat(pokemon.scaleModifier)
+        buffer.writeIdentifier(pokemon.species.resourceIdentifier)
+        buffer.writeString(pokemon.form.name)
+        buffer.writeInt(phasingTargetId.get())
+        buffer.writeByte(beamModeEmitter.get().toInt())
+        buffer.writeBoolean(pokemon.shiny)
+        buffer.writeCollection(pokemon.aspects, PacketByteBuf::writeString)
+        buffer.writeInt(if (Pokemod.config.displayEntityLevelLabel) this.labelLevel.get() else -1)
     }
 
     override fun loadAdditionalSpawnData(buffer: PacketByteBuf) {
