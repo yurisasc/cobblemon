@@ -15,6 +15,7 @@
         "special_defence": 54,
         "speed": 55
     },
+    "features": ["snake-pattern"],
     "catchRate": 255,
     "maleRatio": 0.5,
     "shoulderMountable": false,
