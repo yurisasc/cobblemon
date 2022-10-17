@@ -37,10 +37,14 @@ import com.cablemc.pokemod.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemod.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemod.common.pokemon.ai.FormPokemonBehaviour
 import com.cablemc.pokemod.common.pokemon.evolution.variants.ItemInteractionEvolution
-import com.cablemc.pokemod.common.util.*
+import com.cablemc.pokemod.common.util.DataKeys
+import com.cablemc.pokemod.common.util.getBitForByte
+import com.cablemc.pokemod.common.util.playSoundServer
+import com.cablemc.pokemod.common.util.setBitForByte
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
-import java.util.*
+import java.util.EnumSet
+import java.util.Optional
 import java.util.concurrent.CompletableFuture
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
