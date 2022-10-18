@@ -56,7 +56,7 @@
 					"name": "head",
 					"parent": "neck",
 					"pivot": [0, -2, -35.75],
-					"rotation": [85, 0, 0]
+					"rotation": [175, 0, 0]
 				},
 				{
 					"name": "head_correction",
@@ -73,7 +73,7 @@
 					"name": "head_angle",
 					"parent": "head_ai",
 					"pivot": [0, -2, -35.75],
-					"rotation": [15, 0, 0],
+					"rotation": [-80, 0, 0],
 					"cubes": [
 						{"origin": [-2.5, -4, -36], "size": [5, 2, 5], "inflate": 0.02, "uv": [40, 7]},
 						{"origin": [-3, -9, -36], "size": [6, 5, 3], "uv": [0, 0]},
