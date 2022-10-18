@@ -71,7 +71,7 @@ abstract class PoseableEntityModel<T : Entity>(
     fun <F : ModelFrame> registerPose(
         poseType: PoseType,
         condition: (T) -> Boolean = { true },
-        transformTicks: Int = 20,
+        transformTicks: Int = 10,
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray(),
@@ -86,13 +86,28 @@ abstract class PoseableEntityModel<T : Entity>(
         poseName: String,
         poseTypes: Set<PoseType>,
         condition: (T) -> Boolean = { true },
-        transformTicks: Int = 20,
+        transformTicks: Int = 10,
         onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
         idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
         transformedParts: Array<TransformedModelPart> = emptyArray(),
         quirks: Array<ModelQuirk<T, *>> = emptyArray()
     ): Pose<T, F> {
         return Pose(poseName, poseTypes, condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts, quirks).also {
+            poses[poseName] = it
+        }
+    }
+
+    fun <F : ModelFrame> registerPose(
+        poseName: String,
+        poseType: PoseType,
+        condition: (T) -> Boolean = { true },
+        transformTicks: Int = 10,
+        onTransitionedInto: (PoseableEntityState<T>?) -> Unit = {},
+        idleAnimations: Array<StatelessAnimation<T, out F>> = emptyArray(),
+        transformedParts: Array<TransformedModelPart> = emptyArray(),
+        quirks: Array<ModelQuirk<T, *>> = emptyArray()
+    ): Pose<T, F> {
+        return Pose(poseName, setOf(poseType), condition, onTransitionedInto, transformTicks, idleAnimations, transformedParts, quirks).also {
             poses[poseName] = it
         }
     }

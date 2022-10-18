@@ -19,6 +19,7 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.Pokemo
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
@@ -49,7 +50,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND),
+            poseTypes = UI_POSES + PoseType.STAND,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0008_wartortle/wartortle", "ground_idle")

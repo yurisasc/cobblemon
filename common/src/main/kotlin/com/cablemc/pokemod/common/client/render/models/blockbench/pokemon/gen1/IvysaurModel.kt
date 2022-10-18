@@ -13,7 +13,9 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFr
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -37,9 +39,8 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
+            poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
-            condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0002_ivysaur/ivysaur", "ground_idle")
@@ -47,9 +48,9 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         )
 
         walk = registerPose(
-            poseType = PoseType.WALK,
+            poseName = "walking",
+            poseTypes = MOVING_POSES,
             transformTicks = 10,
-            condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0002_ivysaur/ivysaur", "ground_walk")

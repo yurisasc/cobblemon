@@ -8,14 +8,21 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class TangelaModel(root: ModelPart) : PokemonPoseableModel() {
+class TangelaModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("tangela")
+
+    override val leftLeg = getPart("leftfoot")
+    override val rightLeg = getPart("rightfoot")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -29,7 +36,7 @@ class TangelaModel(root: ModelPart) : PokemonPoseableModel() {
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
+            poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 // bedrock("0114_tangela/tangela", "ground_idle")
@@ -38,9 +45,10 @@ class TangelaModel(root: ModelPart) : PokemonPoseableModel() {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
+            poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
+                BipedWalkAnimation(this, periodMultiplier = 0.4F)
                 // bedrock("0114_tangela/tangela", "ground_walk")
             )
         )

@@ -10,7 +10,9 @@ package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cablemc.pokemod.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -27,13 +29,13 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     override fun registerPoses() {
         registerPose(
             poseName = "stand",
-            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.FLOAT),
+            poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(bedrock("0050_diglett/diglett", "ground_idle"))
         )
 
         registerPose(
             poseName = "walk",
-            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
+            poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(bedrock("0050_diglett/diglett", "ground_moving"))
         )
     }

@@ -15,6 +15,7 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFr
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -49,7 +50,7 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
+            poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),

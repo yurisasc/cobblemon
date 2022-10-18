@@ -10,26 +10,21 @@ package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cablemc.pokemod.common.client.render.models.blockbench.animation.StatelessAnimation
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.ModelFrame
-import com.cablemc.pokemod.common.client.render.models.blockbench.getChildOf
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemod.common.client.render.models.blockbench.withRotation
 import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STANDING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
-    override val rootPart: ModelPart = registerRelevantPart("magikarp", root.getChild("magikarp"))
-    val body: ModelPart = registerRelevantPart("body", rootPart.getChildOf("body"))
-    val leftMustache: ModelPart = registerRelevantPart("leftmustache", rootPart.getChildOf("body", "mustache_left"))
-    val leftMustacheTip: ModelPart = registerRelevantPart("leftmustachetip", rootPart.getChildOf("body", "mustache_left", "mustache_left_tip"))
-    val leftFlipper: ModelPart = registerRelevantPart("leftlfipper", rootPart.getChildOf("body", "flipper_left"))
-    val rightMustache: ModelPart = registerRelevantPart("rightmustache", rootPart.getChildOf("body", "mustache_right"))
-    val rightMustacheTip: ModelPart = registerRelevantPart("rightmustachetip", rootPart.getChildOf("body", "mustache_right", "mustache_right_tip"))
-    val rightFlipper: ModelPart = registerRelevantPart("rightlfipper", rootPart.getChildOf("body", "flipper_right"))
-    val tail: ModelPart = registerRelevantPart("tail", rootPart.getChildOf("body", "tail"))
+    override val rootPart = root.registerChildWithAllChildren("magikarp")
+    val leftMustache = getPart("leftmustache")
+    val rightMustache = getPart("rightmustache")
 
     override val portraitScale = 1.65F
     override val portraitTranslation = Vec3d(0.12, -0.45, 0.0)
@@ -39,13 +34,13 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     override fun registerPoses() {
         registerPose(
             poseName = "land",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.WALK),
+            poseTypes = STANDING_POSES + PoseType.PROFILE,
             idleAnimations = arrayOf(bedrock("0129_magikarp/magikarp","flop"))
         )
 
         registerPose(
             poseName = "swimming",
-            poseTypes = setOf(PoseType.FLOAT, PoseType.SWIM),
+            poseTypes = SWIMMING_POSES,
             idleAnimations = arrayOf(bedrock("0129_magikarp/magikarp","fly"))
         )
 

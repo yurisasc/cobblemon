@@ -8,6 +8,8 @@
 
 package com.cablemc.pokemod.common.entity
 
+import java.util.EnumSet
+
 /**
  * The type of a pose. Used for normalizing pose swapping for all models.
  *
@@ -31,5 +33,16 @@ enum class PoseType {
     /** A pose for rendering in the party overlay and in minor spaces like the battle tiles. */
     PORTRAIT,
     /** A simple type for non-living entities or errant cases. */
-    NONE
+    NONE;
+
+    companion object {
+        val ALL_POSES = EnumSet.allOf(PoseType::class.java)
+        val FLYING_POSES = EnumSet.of(FLY, HOVER)
+        val SWIMMING_POSES = EnumSet.of(SWIM, FLOAT)
+        val STANDING_POSES = EnumSet.of(STAND, WALK)
+        val SHOULDER_POSES = EnumSet.of(SHOULDER_LEFT, SHOULDER_RIGHT)
+        val UI_POSES = EnumSet.of(PROFILE, PORTRAIT)
+        val MOVING_POSES = EnumSet.of(WALK, SWIM, FLY)
+        val STATIONARY_POSES = EnumSet.of(STAND, FLOAT, HOVER)
+    }
 }

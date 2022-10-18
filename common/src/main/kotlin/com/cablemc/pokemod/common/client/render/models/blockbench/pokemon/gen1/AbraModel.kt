@@ -12,7 +12,9 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.PoseableEntity
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -33,7 +35,7 @@ class AbraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
+            poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -43,7 +45,7 @@ class AbraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
+            poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),

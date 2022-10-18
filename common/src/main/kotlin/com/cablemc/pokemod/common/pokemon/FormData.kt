@@ -19,6 +19,7 @@ import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
 import com.cablemc.pokemod.common.api.types.ElementalType
+import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.ai.FormPokemonBehaviour
 import com.google.gson.annotations.SerializedName
@@ -154,8 +155,8 @@ class FormData(
     }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
-        entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight ?: this.standingEyeHeight
-        entity.isFallFlying -> this.flyingEyeHeight ?: this.standingEyeHeight
+        entity.getPoseType() in PoseType.SWIMMING_POSES -> this.swimmingEyeHeight ?: this.standingEyeHeight
+        entity.getPoseType() in PoseType.FLYING_POSES -> this.flyingEyeHeight ?: this.standingEyeHeight
         else -> this.standingEyeHeight
     }
 

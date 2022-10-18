@@ -18,6 +18,9 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.Pokemo
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -46,7 +49,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
+            poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -56,7 +59,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
+            poseTypes = MOVING_POSES - PoseType.FLY,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -67,7 +70,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         flyIdle = registerPose(
             poseName = "hover",
-            poseTypes = setOf(PoseType.HOVER),
+            poseType = PoseType.HOVER,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -78,7 +81,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         fly = registerPose(
             poseName = "fly",
-            poseTypes = setOf(PoseType.FLY),
+            poseType = PoseType.FLY,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),

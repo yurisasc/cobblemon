@@ -12,6 +12,7 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFr
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -35,8 +36,7 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun registerPoses() {
         landIdle = registerPose(
             poseName = "land_idle",
-            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PROFILE, PoseType.PORTRAIT),
-            transformTicks = 10,
+            poseTypes = UI_POSES + PoseType.STAND,
             condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -47,7 +47,6 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         landMove = registerPose(
             poseName = "land_move",
             poseTypes = setOf(PoseType.WALK),
-            transformTicks = 10,
             condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -58,7 +57,6 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         surfaceIdle = registerPose(
             poseName = "surface_idle",
             poseTypes = setOf(PoseType.STAND),
-            transformTicks = 10,
             condition = { it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -69,7 +67,6 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         surfaceMove = registerPose(
             poseName = "surface_move",
             poseTypes = setOf(PoseType.WALK),
-            transformTicks = 10,
             condition = { it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -80,7 +77,6 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         underwaterIdle = registerPose(
             poseName = "underwater_idle",
             poseTypes = setOf(PoseType.FLOAT),
-            transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0131_lapras/lapras", "underwater_idle")
@@ -90,7 +86,6 @@ class LaprasModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         underwaterMove = registerPose(
             poseName = "underwater_move",
             poseTypes = setOf(PoseType.SWIM),
-            transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0131_lapras/lapras", "underwater_swim")
