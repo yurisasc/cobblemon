@@ -22,7 +22,6 @@ import com.cablemc.pokemod.common.api.types.ElementalTypes
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.ai.PokemonBehaviour
 import com.cablemc.pokemod.common.util.lang
-import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
@@ -98,8 +97,8 @@ class Species {
     }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
-        entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight
-        entity.isFallFlying -> this.flyingEyeHeight
+        entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight ?: standingEyeHeight
+        entity.isFallFlying -> this.flyingEyeHeight ?: standingEyeHeight
         else -> this.standingEyeHeight
     }
 

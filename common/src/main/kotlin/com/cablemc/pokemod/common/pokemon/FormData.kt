@@ -60,7 +60,6 @@ class FormData(
     @SerializedName("pokedex")
     private val _pokedex: MutableList<String>? = null,
     private val _preEvolution: PreEvolution? = null,
-    private val eyeHeight: Float? = null,
     private val standingEyeHeight: Float? = null,
     private val swimmingEyeHeight: Float? = null,
     private val flyingEyeHeight: Float? = null,
@@ -155,8 +154,8 @@ class FormData(
     }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
-        entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight
-        entity.isFallFlying -> this.flyingEyeHeight
+        entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight ?: this.standingEyeHeight
+        entity.isFallFlying -> this.flyingEyeHeight ?: this.standingEyeHeight
         else -> this.standingEyeHeight
     }
 
@@ -175,4 +174,7 @@ class FormData(
                 && other.name.equals(this.name, true)
     }
 
+    override fun hashCode(): Int {
+        return this.species.name.hashCode() and this.name.hashCode()
+    }
 }
