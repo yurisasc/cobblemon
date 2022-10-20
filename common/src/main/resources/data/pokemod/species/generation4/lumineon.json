@@ -1,0 +1,88 @@
+{
+    "name": "lumineon",
+    "nationalPokedexNumber": 457,
+    "primaryType": "water",
+    "abilities": [
+        "swiftswim",
+        "stormdrain",
+        "h:waterveil"
+    ],
+    "baseStats": {
+        "hp": 69,
+        "attack": 69,
+        "defence": 76,
+        "special_attack": 69,
+        "special_defence": 86,
+        "speed": 91
+    },
+    "catchRate": 75,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 161,
+    "experienceGroup": "slowthenveryfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water2"
+    ],
+    "moves": [
+        "1:pound",
+        "1:gust",
+        "1:watergun",
+        "1:attract",
+        "1:soak",
+        "13:raindance",
+        "22:waterpulse",
+        "26:captivate",
+        "29:safeguard",
+        "35:aquaring",
+        "42:whirlpool",
+        "48:uturn",
+        "53:bounce",
+        "59:silverwind",
+        "tm:blizzard",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:facade",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:payback",
+        "tm:protect",
+        "tm:psychup",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swagger",
+        "tm:toxic",
+        "tm:waterfall",
+        "tutor:aquatail",
+        "tutor:defog",
+        "tutor:icywind",
+        "tutor:signalbeam",
+        "tutor:snore",
+        "tutor:tailwind"
+    ],
+    "labels": [
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemod.species.lumineon.desc1",
+        "pokemod.species.lumineon.desc2"
+    ],
+    "preEvolution": "finneon",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

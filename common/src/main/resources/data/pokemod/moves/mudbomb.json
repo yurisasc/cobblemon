@@ -1,0 +1,16 @@
+{
+  "name": "mudbomb",
+  "type": "Ground",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 65,
+  "accuracy": 85,
+  "pp": 10,
+  "priority": 0,
+  "effectChance": 30,
+  "flags": {
+    "bullet": 1,
+    "protect": 1,
+    "mirror": 1
+  }
+}

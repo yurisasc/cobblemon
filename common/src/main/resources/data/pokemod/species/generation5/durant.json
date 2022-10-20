@@ -1,0 +1,93 @@
+{
+    "name": "durant",
+    "nationalPokedexNumber": 632,
+    "primaryType": "bug",
+    "secondaryType": "steel",
+    "abilities": [
+        "swarm",
+        "hustle",
+        "h:truant"
+    ],
+    "baseStats": {
+        "hp": 58,
+        "attack": 109,
+        "defence": 112,
+        "special_attack": 48,
+        "special_defence": 48,
+        "speed": 109
+    },
+    "catchRate": 90,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 169,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "1:sandattack",
+        "1:furycutter",
+        "4:visegrip",
+        "8:metalclaw",
+        "12:beatup",
+        "16:bugbite",
+        "20:bite",
+        "24:agility",
+        "28:dig",
+        "32:xscissor",
+        "36:crunch",
+        "40:metalsound",
+        "44:ironhead",
+        "48:entrainment",
+        "52:irondefense",
+        "56:guillotine",
+        "egg:firstimpression",
+        "egg:flail",
+        "egg:infestation",
+        "egg:metalburst",
+        "egg:strugglebug",
+        "tm:attract",
+        "tm:batonpass",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:gigaimpact",
+        "tm:helpinghand",
+        "tm:protect",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:screech",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stompingtantrum",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:superpower",
+        "tm:thunderfang",
+        "tm:thunderwave",
+        "tutor:skittersmack",
+        "tutor:steelbeam"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemod.species.durant.desc1",
+        "pokemod.species.durant.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

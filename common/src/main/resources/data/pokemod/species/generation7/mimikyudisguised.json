@@ -1,0 +1,121 @@
+{
+    "name": "mimikyudisguised",
+    "nationalPokedexNumber": 778,
+    "primaryType": "ghost",
+    "secondaryType": "fairy",
+    "abilities": [
+        "disguise"
+    ],
+    "baseStats": {
+        "hp": 55,
+        "attack": 90,
+        "defence": 80,
+        "special_attack": 50,
+        "special_defence": 105,
+        "speed": 96
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "busted",
+            "aspects": [
+                "busted"
+            ]
+        },
+        {
+            "name": "totem-disguised",
+            "aspects": [
+                "totem-disguised"
+            ]
+        },
+        {
+            "name": "totem-busted",
+            "aspects": [
+                "totem-busted"
+            ]
+        }
+    ],
+    "baseExperienceYield": 167,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "indeterminate"
+    ],
+    "moves": [
+        "1:scratch",
+        "1:splash",
+        "1:astonish",
+        "1:copycat",
+        "1:woodhammer",
+        "6:shadowsneak",
+        "12:doubleteam",
+        "18:babydolleyes",
+        "24:mimic",
+        "30:honeclaws",
+        "36:slash",
+        "42:shadowclaw",
+        "48:charm",
+        "54:playrough",
+        "60:painsplit",
+        "egg:curse",
+        "egg:destinybond",
+        "egg:grudge",
+        "tm:attract",
+        "tm:beatup",
+        "tm:bulkup",
+        "tm:darkpulse",
+        "tm:dazzlinggleam",
+        "tm:drainingkiss",
+        "tm:drainpunch",
+        "tm:endure",
+        "tm:facade",
+        "tm:fling",
+        "tm:gigadrain",
+        "tm:gigaimpact",
+        "tm:hex",
+        "tm:hyperbeam",
+        "tm:leechlife",
+        "tm:lightscreen",
+        "tm:magicroom",
+        "tm:payback",
+        "tm:phantomforce",
+        "tm:protect",
+        "tm:psychic",
+        "tm:rest",
+        "tm:round",
+        "tm:safeguard",
+        "tm:screech",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:swordsdance",
+        "tm:taunt",
+        "tm:thief",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:trick",
+        "tm:trickroom",
+        "tm:willowisp",
+        "tm:workup",
+        "tm:xscissor",
+        "tutor:burningjealousy"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "pokemod.species.mimikyudisguised.desc1",
+        "pokemod.species.mimikyudisguised.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

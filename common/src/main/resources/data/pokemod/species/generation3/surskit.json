@@ -1,0 +1,110 @@
+{
+    "name": "surskit",
+    "nationalPokedexNumber": 283,
+    "primaryType": "bug",
+    "secondaryType": "water",
+    "abilities": [
+        "swiftswim",
+        "h:raindish"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 30,
+        "defence": 32,
+        "special_attack": 50,
+        "special_defence": 52,
+        "speed": 65
+    },
+    "catchRate": 200,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 54,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "water1",
+        "bug"
+    ],
+    "moves": [
+        "1:bubble",
+        "6:quickattack",
+        "9:sweetscent",
+        "14:watersport",
+        "17:bubblebeam",
+        "22:agility",
+        "25:mist",
+        "25:haze",
+        "30:aquajet",
+        "35:batonpass",
+        "38:stickyweb",
+        "egg:bugbite",
+        "egg:endure",
+        "egg:fellstinger",
+        "egg:foresight",
+        "egg:hydropump",
+        "egg:lunge",
+        "egg:mindreader",
+        "egg:mudshot",
+        "egg:powersplit",
+        "egg:psybeam",
+        "egg:signalbeam",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:facade",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:icebeam",
+        "tm:infestation",
+        "tm:protect",
+        "tm:psychup",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:scald",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:thief",
+        "tm:toxic",
+        "tutor:gigadrain",
+        "tutor:icywind",
+        "tutor:liquidation",
+        "tutor:snore",
+        "tutor:waterpulse"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.surskit.desc1",
+        "pokemod.species.surskit.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "surskit_masquerain",
+            "variant": "level_up",
+            "result": "masquerain",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 22
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

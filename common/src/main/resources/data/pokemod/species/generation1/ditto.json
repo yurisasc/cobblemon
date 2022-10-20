@@ -1,0 +1,44 @@
+{
+    "name": "ditto",
+    "nationalPokedexNumber": 132,
+    "primaryType": "normal",
+    "abilities": [
+        "limber",
+        "h:imposter"
+    ],
+    "baseStats": {
+        "hp": 48,
+        "attack": 48,
+        "defence": 48,
+        "special_attack": 48,
+        "special_defence": 48,
+        "speed": 48
+    },
+    "catchRate": 35,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 101,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ditto"
+    ],
+    "moves": [
+        "1:transform"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.ditto.desc1",
+        "pokemod.species.ditto.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

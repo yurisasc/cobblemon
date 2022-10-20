@@ -1,0 +1,90 @@
+{
+    "name": "victreebel",
+    "nationalPokedexNumber": 71,
+    "primaryType": "grass",
+    "secondaryType": "poison",
+    "abilities": [
+        "chlorophyll",
+        "h:gluttony"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 105,
+        "defence": 65,
+        "special_attack": 100,
+        "special_defence": 70,
+        "speed": 70
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 221,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant"
+    ],
+    "moves": [
+        "0:leaftornado",
+        "1:vinewhip",
+        "1:razorleaf",
+        "1:sleeppowder",
+        "1:sweetscent",
+        "1:stockpile",
+        "1:spitup",
+        "1:swallow",
+        "32:leafstorm",
+        "44:leafblade",
+        "tm:attract",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:energyball",
+        "tm:facade",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:infestation",
+        "tm:naturepower",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:reflect",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:thief",
+        "tm:toxic",
+        "tm:venoshock",
+        "tutor:bind",
+        "tutor:gastroacid",
+        "tutor:gigadrain",
+        "tutor:knockoff",
+        "tutor:seedbomb",
+        "tutor:snore",
+        "tutor:synthesis",
+        "tutor:worryseed"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.victreebel.desc1"
+    ],
+    "preEvolution": "weepinbell",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

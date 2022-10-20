@@ -1,0 +1,115 @@
+{
+    "name": "cinderace",
+    "nationalPokedexNumber": 815,
+    "primaryType": "fire",
+    "abilities": [
+        "blaze",
+        "h:libero"
+    ],
+    "baseStats": {
+        "hp": 80,
+        "attack": 116,
+        "defence": 75,
+        "special_attack": 65,
+        "special_defence": 75,
+        "speed": 119
+    },
+    "catchRate": 45,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "gmax",
+            "aspects": [
+                "gmax"
+            ]
+        }
+    ],
+    "baseExperienceYield": 265,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground",
+        "humanshape"
+    ],
+    "moves": [
+        "0:pyroball",
+        "1:tackle",
+        "1:growl",
+        "1:ember",
+        "1:quickattack",
+        "1:feint",
+        "12:doublekick",
+        "19:flamecharge",
+        "24:agility",
+        "30:headbutt",
+        "38:counter",
+        "46:bounce",
+        "54:doubleedge",
+        "62:courtchange",
+        "tm:acrobatics",
+        "tm:allyswitch",
+        "tm:assurance",
+        "tm:attract",
+        "tm:batonpass",
+        "tm:blazekick",
+        "tm:bulkup",
+        "tm:electroball",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firefang",
+        "tm:firepunch",
+        "tm:firespin",
+        "tm:flamethrower",
+        "tm:flareblitz",
+        "tm:focusblast",
+        "tm:focusenergy",
+        "tm:gigaimpact",
+        "tm:gunkshot",
+        "tm:heatwave",
+        "tm:helpinghand",
+        "tm:hyperbeam",
+        "tm:ironhead",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:megakick",
+        "tm:mudshot",
+        "tm:overheat",
+        "tm:protect",
+        "tm:rest",
+        "tm:revenge",
+        "tm:reversal",
+        "tm:round",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:snarl",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:taunt",
+        "tm:uturn",
+        "tm:workup",
+        "tm:zenheadbutt",
+        "tutor:blastburn",
+        "tutor:coaching",
+        "tutor:firepledge",
+        "tutor:scorchingsands"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemod.species.cinderace.desc1",
+        "pokemod.species.cinderace.desc2"
+    ],
+    "preEvolution": "raboot",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

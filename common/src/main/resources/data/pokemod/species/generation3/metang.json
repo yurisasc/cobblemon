@@ -1,0 +1,112 @@
+{
+    "name": "metang",
+    "nationalPokedexNumber": 375,
+    "primaryType": "steel",
+    "secondaryType": "psychic",
+    "abilities": [
+        "clearbody",
+        "h:lightmetal"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 75,
+        "defence": 100,
+        "special_attack": 55,
+        "special_defence": 80,
+        "speed": 50
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 147,
+    "experienceGroup": "slow",
+    "eggCycles": 40,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "0:confusion",
+        "0:metalclaw",
+        "1:tackle",
+        "1:bulletpunch",
+        "6:zenheadbutt",
+        "12:magnetrise",
+        "18:flashcannon",
+        "26:takedown",
+        "34:psychic",
+        "42:scaryface",
+        "50:meteormash",
+        "58:irondefense",
+        "66:agility",
+        "74:hyperbeam",
+        "tm:allyswitch",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:bulldoze",
+        "tm:cosmicpower",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:grassknot",
+        "tm:gyroball",
+        "tm:icepunch",
+        "tm:icywind",
+        "tm:ironhead",
+        "tm:lightscreen",
+        "tm:protect",
+        "tm:psychocut",
+        "tm:psyshock",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:selfdestruct",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:thunderpunch",
+        "tm:trick",
+        "tutor:expandingforce",
+        "tutor:meteorbeam",
+        "tutor:steelbeam",
+        "tutor:steelroller"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.metang.desc1",
+        "pokemod.species.metang.desc2"
+    ],
+    "preEvolution": "beldum",
+    "evolutions": [
+        {
+            "id": "metang_metagross",
+            "variant": "level_up",
+            "result": "metagross",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 45
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

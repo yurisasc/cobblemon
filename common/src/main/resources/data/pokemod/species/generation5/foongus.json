@@ -1,0 +1,96 @@
+{
+    "name": "foongus",
+    "nationalPokedexNumber": 590,
+    "primaryType": "grass",
+    "secondaryType": "poison",
+    "abilities": [
+        "effectspore",
+        "h:regenerator"
+    ],
+    "baseStats": {
+        "hp": 69,
+        "attack": 55,
+        "defence": 45,
+        "special_attack": 55,
+        "special_defence": 55,
+        "speed": 15
+    },
+    "catchRate": 190,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 59,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "plant"
+    ],
+    "moves": [
+        "1:absorb",
+        "1:astonish",
+        "4:growth",
+        "8:stunspore",
+        "12:megadrain",
+        "16:synthesis",
+        "20:clearsmog",
+        "24:sweetscent",
+        "28:gigadrain",
+        "32:ingrain",
+        "36:toxic",
+        "40:ragepowder",
+        "44:solarbeam",
+        "48:spore",
+        "egg:defensecurl",
+        "egg:poisonpowder",
+        "egg:rollout",
+        "egg:worryseed",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:foulplay",
+        "tm:grassknot",
+        "tm:payback",
+        "tm:pollenpuff",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:venoshock"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemod.species.foongus.desc1",
+        "pokemod.species.foongus.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "foongus_amoonguss",
+            "variant": "level_up",
+            "result": "amoonguss",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 39
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

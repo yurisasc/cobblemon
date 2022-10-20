@@ -1,0 +1,15 @@
+{
+  "name": "nightdaze",
+  "type": "Dark",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 85,
+  "accuracy": 95,
+  "pp": 10,
+  "priority": 0,
+  "effectChance": 40,
+  "flags": {
+    "protect": 1,
+    "mirror": 1
+  }
+}

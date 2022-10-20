@@ -1,0 +1,105 @@
+{
+    "name": "articuno",
+    "nationalPokedexNumber": 144,
+    "primaryType": "ice",
+    "secondaryType": "flying",
+    "abilities": [
+        "pressure",
+        "h:snowcloak"
+    ],
+    "baseStats": {
+        "hp": 90,
+        "attack": 85,
+        "defence": 100,
+        "special_attack": 95,
+        "special_defence": 125,
+        "speed": 85
+    },
+    "catchRate": 3,
+    "maleRatio": 1.125,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "galar",
+            "primaryType": "psychic",
+            "abilities": [
+                "competitive"
+            ],
+            "baseStats": {
+                "hp": 90,
+                "attack": 85,
+                "defence": 85,
+                "special_attack": 125,
+                "special_defence": 100,
+                "speed": 95
+            },
+            "aspects": [
+                "galar"
+            ]
+        }
+    ],
+    "baseExperienceYield": 290,
+    "experienceGroup": "slow",
+    "eggCycles": 80,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:gust",
+        "1:mist",
+        "5:powdersnow",
+        "10:reflect",
+        "15:iceshard",
+        "20:agility",
+        "25:ancientpower",
+        "30:tailwind",
+        "35:freezedry",
+        "40:roost",
+        "45:icebeam",
+        "50:hail",
+        "55:hurricane",
+        "60:mindreader",
+        "65:blizzard",
+        "70:sheercold",
+        "tm:airslash",
+        "tm:avalanche",
+        "tm:bravebird",
+        "tm:endure",
+        "tm:facade",
+        "tm:fly",
+        "tm:gigaimpact",
+        "tm:hyperbeam",
+        "tm:iciclespear",
+        "tm:icywind",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:round",
+        "tm:sandstorm",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:uturn",
+        "tm:weatherball",
+        "tutor:dualwingbeat",
+        "tutor:tripleaxel"
+    ],
+    "labels": [
+        "legendary",
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.articuno.desc1",
+        "pokemod.species.articuno.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

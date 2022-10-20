@@ -1,0 +1,89 @@
+{
+    "name": "talonflame",
+    "nationalPokedexNumber": 663,
+    "primaryType": "fire",
+    "secondaryType": "flying",
+    "abilities": [
+        "flamebody",
+        "h:galewings"
+    ],
+    "baseStats": {
+        "hp": 78,
+        "attack": 81,
+        "defence": 71,
+        "special_attack": 74,
+        "special_defence": 69,
+        "speed": 126
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 175,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 15,
+    "eggGroups": [
+        "flying"
+    ],
+    "moves": [
+        "1:growl",
+        "1:ember",
+        "1:peck",
+        "1:quickattack",
+        "1:feint",
+        "1:flareblitz",
+        "1:flamecharge",
+        "15:flail",
+        "22:acrobatics",
+        "29:agility",
+        "38:aerialace",
+        "47:tailwind",
+        "56:steelwing",
+        "65:roost",
+        "74:fly",
+        "83:bravebird",
+        "tm:attract",
+        "tm:bulkup",
+        "tm:endure",
+        "tm:facade",
+        "tm:fireblast",
+        "tm:firespin",
+        "tm:flamethrower",
+        "tm:gigaimpact",
+        "tm:heatwave",
+        "tm:hurricane",
+        "tm:hyperbeam",
+        "tm:overheat",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:taunt",
+        "tm:thief",
+        "tm:uturn",
+        "tm:willowisp",
+        "tm:workup",
+        "tutor:dualwingbeat"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemod.species.talonflame.desc1",
+        "pokemod.species.talonflame.desc2"
+    ],
+    "preEvolution": "fletchinder",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

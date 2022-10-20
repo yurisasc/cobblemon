@@ -1,0 +1,121 @@
+{
+    "name": "sharpedo",
+    "nationalPokedexNumber": 319,
+    "primaryType": "water",
+    "secondaryType": "dark",
+    "abilities": [
+        "roughskin",
+        "h:speedboost"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 120,
+        "defence": 40,
+        "special_attack": 95,
+        "special_defence": 40,
+        "speed": 95
+    },
+    "catchRate": 60,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "mega",
+            "abilities": [
+                "strongjaw"
+            ],
+            "baseStats": {
+                "hp": 70,
+                "attack": 140,
+                "defence": 70,
+                "special_attack": 110,
+                "special_defence": 65,
+                "speed": 105
+            },
+            "aspects": [
+                "mega"
+            ]
+        }
+    ],
+    "baseExperienceYield": 161,
+    "experienceGroup": "slow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water2"
+    ],
+    "moves": [
+        "0:slash",
+        "1:leer",
+        "1:focusenergy",
+        "1:poisonfang",
+        "1:nightslash",
+        "1:aquajet",
+        "12:scaryface",
+        "16:bite",
+        "20:icefang",
+        "24:screech",
+        "28:swagger",
+        "34:crunch",
+        "40:agility",
+        "46:liquidation",
+        "52:takedown",
+        "tm:assurance",
+        "tm:attract",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:bounce",
+        "tm:brine",
+        "tm:bulldoze",
+        "tm:closecombat",
+        "tm:darkpulse",
+        "tm:dive",
+        "tm:earthquake",
+        "tm:endure",
+        "tm:facade",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:hydropump",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:payback",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:psychicfangs",
+        "tm:raindance",
+        "tm:rest",
+        "tm:retaliate",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:snarl",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swift",
+        "tm:taunt",
+        "tm:thief",
+        "tm:uproar",
+        "tm:waterfall",
+        "tm:whirlpool",
+        "tm:zenheadbutt",
+        "tutor:flipturn",
+        "tutor:scaleshot"
+    ],
+    "labels": [
+        "gen3"
+    ],
+    "pokedex": [
+        "pokemod.species.sharpedo.desc1",
+        "pokemod.species.sharpedo.desc2"
+    ],
+    "preEvolution": "carvanha",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

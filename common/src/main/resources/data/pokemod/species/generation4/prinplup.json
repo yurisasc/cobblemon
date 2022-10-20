@@ -1,0 +1,111 @@
+{
+    "name": "prinplup",
+    "nationalPokedexNumber": 394,
+    "primaryType": "water",
+    "abilities": [
+        "torrent",
+        "h:defiant"
+    ],
+    "baseStats": {
+        "hp": 64,
+        "attack": 66,
+        "defence": 68,
+        "special_attack": 81,
+        "special_defence": 76,
+        "speed": 50
+    },
+    "catchRate": 45,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 142,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water1",
+        "ground"
+    ],
+    "moves": [
+        "0:metalclaw",
+        "1:tackle",
+        "1:growl",
+        "1:bubble",
+        "11:watersport",
+        "15:peck",
+        "19:bubblebeam",
+        "24:bide",
+        "28:furyattack",
+        "33:brine",
+        "37:whirlpool",
+        "42:mist",
+        "46:drillpeck",
+        "50:hydropump",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:brickbreak",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:echoedvoice",
+        "tm:facade",
+        "tm:fling",
+        "tm:frustration",
+        "tm:grassknot",
+        "tm:hail",
+        "tm:hiddenpower",
+        "tm:icebeam",
+        "tm:protect",
+        "tm:quash",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scald",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swagger",
+        "tm:toxic",
+        "tm:waterfall",
+        "tm:workup",
+        "tutor:covet",
+        "tutor:defog",
+        "tutor:icywind",
+        "tutor:signalbeam",
+        "tutor:snore",
+        "tutor:stealthrock",
+        "tutor:waterpledge",
+        "tutor:waterpulse"
+    ],
+    "labels": [
+        "gen4"
+    ],
+    "pokedex": [
+        "pokemod.species.prinplup.desc1",
+        "pokemod.species.prinplup.desc2"
+    ],
+    "preEvolution": "piplup",
+    "evolutions": [
+        {
+            "id": "prinplup_empoleon",
+            "variant": "level_up",
+            "result": "empoleon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 36
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

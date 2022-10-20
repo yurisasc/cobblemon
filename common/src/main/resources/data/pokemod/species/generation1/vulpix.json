@@ -1,0 +1,136 @@
+{
+    "name": "vulpix",
+    "nationalPokedexNumber": 37,
+    "primaryType": "fire",
+    "abilities": [
+        "flashfire",
+        "h:drought"
+    ],
+    "baseStats": {
+        "hp": 38,
+        "attack": 41,
+        "defence": 40,
+        "special_attack": 50,
+        "special_defence": 65,
+        "speed": 65
+    },
+    "catchRate": 190,
+    "maleRatio": 0.25,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "alola",
+            "primaryType": "ice",
+            "abilities": [
+                "snowcloak",
+                "h:snowwarning"
+            ],
+            "aspects": [
+                "alola"
+            ]
+        }
+    ],
+    "baseExperienceYield": 60,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "ground"
+    ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:sweet_berries",
+                "quantityRange": "2-3"
+            }
+        ]
+    },
+    "moves": [
+        "1:tailwhip",
+        "1:ember",
+        "4:disable",
+        "8:quickattack",
+        "12:spite",
+        "16:incinerate",
+        "20:confuseray",
+        "24:willowisp",
+        "28:extrasensory",
+        "32:flamethrower",
+        "36:imprison",
+        "40:firespin",
+        "44:safeguard",
+        "48:inferno",
+        "52:grudge",
+        "56:fireblast",
+        "egg:babydolleyes",
+        "egg:flail",
+        "egg:flamecharge",
+        "egg:howl",
+        "egg:hypnosis",
+        "egg:memento",
+        "egg:roar",
+        "tm:agility",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:darkpulse",
+        "tm:dig",
+        "tm:encore",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:flareblitz",
+        "tm:foulplay",
+        "tm:heatwave",
+        "tm:hex",
+        "tm:irontail",
+        "tm:mysticalfire",
+        "tm:overheat",
+        "tm:payback",
+        "tm:powerswap",
+        "tm:protect",
+        "tm:rest",
+        "tm:round",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swift",
+        "tm:tailslap",
+        "tm:weatherball",
+        "tm:zenheadbutt",
+        "tutor:burningjealousy"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "pokemod.species.vulpix.desc1",
+        "pokemod.species.vulpix.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "vulpix_ninetales",
+            "variant": "item_interact",
+            "result": "ninetales",
+            "consumeHeldItem": true,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "pokemod:fire_stone"
+        },
+        {
+            "id": "vulpix_ninetales",
+            "variant": "item_interact",
+            "result": "ninetales",
+            "consumeHeldItem": true,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "pokemod:ice_stone"
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

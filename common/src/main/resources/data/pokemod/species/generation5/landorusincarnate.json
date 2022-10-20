@@ -1,0 +1,113 @@
+{
+    "name": "landorusincarnate",
+    "nationalPokedexNumber": 645,
+    "primaryType": "ground",
+    "secondaryType": "flying",
+    "abilities": [
+        "sandforce",
+        "h:sheerforce"
+    ],
+    "baseStats": {
+        "hp": 89,
+        "attack": 125,
+        "defence": 90,
+        "special_attack": 115,
+        "special_defence": 80,
+        "speed": 101
+    },
+    "catchRate": 3,
+    "maleRatio": 1.0,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "therian",
+            "abilities": [
+                "intimidate"
+            ],
+            "baseStats": {
+                "hp": 89,
+                "attack": 145,
+                "defence": 90,
+                "special_attack": 105,
+                "special_defence": 80,
+                "speed": 91
+            },
+            "aspects": [
+                "therian"
+            ]
+        }
+    ],
+    "baseExperienceYield": 300,
+    "experienceGroup": "slow",
+    "eggCycles": 120,
+    "eggGroups": [
+        "no-eggs"
+    ],
+    "moves": [
+        "1:rockthrow",
+        "1:sandtomb",
+        "5:leer",
+        "10:block",
+        "15:bulldoze",
+        "20:rocktomb",
+        "25:swordsdance",
+        "30:imprison",
+        "35:rockslide",
+        "40:earthpower",
+        "45:extrasensory",
+        "50:stoneedge",
+        "55:hammerarm",
+        "60:sandstorm",
+        "65:earthquake",
+        "70:outrage",
+        "75:fissure",
+        "tm:attract",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bulkup",
+        "tm:calmmind",
+        "tm:dig",
+        "tm:endure",
+        "tm:facade",
+        "tm:fling",
+        "tm:fly",
+        "tm:focusblast",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hyperbeam",
+        "tm:irontail",
+        "tm:mudshot",
+        "tm:payback",
+        "tm:protect",
+        "tm:psychic",
+        "tm:rest",
+        "tm:round",
+        "tm:scaryface",
+        "tm:selfdestruct",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:sludgewave",
+        "tm:snore",
+        "tm:stealthrock",
+        "tm:substitute",
+        "tm:superpower",
+        "tm:uturn",
+        "tm:weatherball"
+    ],
+    "labels": [
+        "legendary",
+        "gen5"
+    ],
+    "pokedex": [
+        "pokemod.species.landorusincarnate.desc1",
+        "pokemod.species.landorusincarnate.desc2"
+    ],
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}

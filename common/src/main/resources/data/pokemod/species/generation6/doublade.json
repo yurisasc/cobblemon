@@ -1,0 +1,92 @@
+{
+    "name": "doublade",
+    "nationalPokedexNumber": 680,
+    "primaryType": "steel",
+    "secondaryType": "ghost",
+    "abilities": [
+        "noguard"
+    ],
+    "baseStats": {
+        "hp": 59,
+        "attack": 110,
+        "defence": 150,
+        "special_attack": 45,
+        "special_defence": 49,
+        "speed": 35
+    },
+    "catchRate": 90,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 157,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "mineral"
+    ],
+    "moves": [
+        "1:tackle",
+        "1:furycutter",
+        "1:shadowsneak",
+        "1:autotomize",
+        "12:aerialace",
+        "16:metalsound",
+        "20:slash",
+        "24:nightslash",
+        "28:retaliate",
+        "32:irondefense",
+        "38:ironhead",
+        "44:powertrick",
+        "50:swordsdance",
+        "56:sacredsword",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:closecombat",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:flashcannon",
+        "tm:gyroball",
+        "tm:protect",
+        "tm:psychocut",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:reversal",
+        "tm:rockslide",
+        "tm:round",
+        "tm:screech",
+        "tm:shadowclaw",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:solarblade",
+        "tm:substitute",
+        "tutor:steelbeam"
+    ],
+    "labels": [
+        "gen6"
+    ],
+    "pokedex": [
+        "pokemod.species.doublade.desc1",
+        "pokemod.species.doublade.desc2"
+    ],
+    "preEvolution": "honedge",
+    "evolutions": [
+        {
+            "id": "doublade_aegislash",
+            "variant": "item_interact",
+            "result": "aegislash",
+            "consumeHeldItem": true,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "pokemod:dusk_stone"
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    }
+}
