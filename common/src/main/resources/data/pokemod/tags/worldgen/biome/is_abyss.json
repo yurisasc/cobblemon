@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:is_deep_ocean"
+    "minecraft:deep_dark",
+    "terralith:crystal_caves",
+    "terralith:deep_caves",
+    "terralith:frostfire_caves",
+    "terralith:mantle_caves",
+    "terralith:tuff_caves"
   ]
 }
