@@ -9,6 +9,7 @@
 package com.cablemc.pokemod.common.pokemon
 
 import com.cablemc.pokemod.common.api.abilities.AbilityPool
+import com.cablemc.pokemod.common.api.data.ClientDataSynchronizer
 import com.cablemc.pokemod.common.api.drop.DropTable
 import com.cablemc.pokemod.common.api.pokemon.Learnset
 import com.cablemc.pokemod.common.api.pokemon.effect.ShoulderEffect
@@ -17,6 +18,7 @@ import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
+import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.types.ElementalType
 import com.cablemc.pokemod.common.api.types.ElementalTypes
 import com.cablemc.pokemod.common.entity.PoseType.Companion.FLYING_POSES
@@ -25,16 +27,17 @@ import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.ai.PokemonBehaviour
 import com.cablemc.pokemod.common.util.lang
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
-class Species {
+class Species : ClientDataSynchronizer<Species> {
     var name: String = "bulbasaur"
     val translatedName: MutableText
         get() = lang("species.$name.name")
     var nationalPokedexNumber = 1
 
-    val baseStats = mapOf<Stat, Int>()
+    val baseStats = hashMapOf<Stat, Int>()
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
     val maleRatio: Float = 0.5F
     val catchRate = 45
@@ -43,27 +46,37 @@ class Species {
     var baseExperienceYield = 10
     var experienceGroup = ExperienceGroups.first()
     var hitbox = EntityDimensions(1F, 1F, false)
-    val primaryType = ElementalTypes.GRASS
+    var primaryType = ElementalTypes.GRASS
+        internal set
     // Technically incorrect for bulbasaur but Mr. Bossman said so
-    val secondaryType: ElementalType? = null
+    var secondaryType: ElementalType? = null
+        internal set
     val abilities = AbilityPool()
     val shoulderMountable: Boolean = false
     val shoulderEffects = mutableListOf<ShoulderEffect>()
     val moves = Learnset()
     val features = mutableSetOf<String>()
-    private val standingEyeHeight: Float? = null
-    private val swimmingEyeHeight: Float? = null
-    private val flyingEyeHeight: Float? = null
+    private var standingEyeHeight: Float? = null
+    private var swimmingEyeHeight: Float? = null
+    private var flyingEyeHeight: Float? = null
     val behaviour = PokemonBehaviour()
     val pokedex = mutableListOf<String>()
     val drops = DropTable()
     val eggCycles = 120
     val eggGroups = setOf<EggGroup>()
-    val dynamaxBlocked = false
-    // In metric
-    val height = 1F
-    // In metric
-    val weight = 1F
+    var dynamaxBlocked = false
+
+    /**
+     * The height in decimeters
+     */
+    var height = 1F
+        private set
+
+    /**
+     * The weight in hectograms
+     */
+    var weight = 1F
+        private set
 
     var forms = mutableListOf<FormData>()
 
@@ -80,6 +93,9 @@ class Species {
     lateinit var resourceIdentifier: Identifier
 
     fun initialize() {
+        Stats.mainStats.forEach { stat ->
+            this.baseStats.putIfAbsent(stat, 1)
+        }
         for (form in forms) {
             form.initialize(this)
         }
@@ -102,6 +118,63 @@ class Species {
         entity.getPoseType() in SWIMMING_POSES -> this.swimmingEyeHeight ?: standingEyeHeight
         entity.getPoseType() in FLYING_POSES -> this.flyingEyeHeight ?: standingEyeHeight
         else -> this.standingEyeHeight
+    }
+
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeIdentifier(this.resourceIdentifier)
+        buffer.writeString(this.name)
+        buffer.writeInt(this.nationalPokedexNumber)
+        buffer.writeMap(this.baseStats, { pb, stat -> pb.writeString(stat.id) }, { pb, value -> pb.writeInt(value) })
+        // Hitbox start
+        buffer.writeFloat(this.hitbox.width)
+        buffer.writeFloat(this.hitbox.height)
+        buffer.writeBoolean(this.hitbox.fixed)
+        // Hitbox end
+        // ToDo remake once we have custom typing support
+        buffer.writeString(this.primaryType.name)
+        buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeNullable(this.standingEyeHeight) { pb, value -> pb.writeFloat(value) }
+        buffer.writeNullable(this.swimmingEyeHeight) { pb, value -> pb.writeFloat(value) }
+        buffer.writeNullable(this.flyingEyeHeight) { pb, value -> pb.writeFloat(value) }
+        buffer.writeBoolean(this.dynamaxBlocked)
+        buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
+        buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
+    }
+
+    override fun decode(buffer: PacketByteBuf) {
+        this.apply {
+            name = buffer.readString()
+            nationalPokedexNumber = buffer.readInt()
+            baseStats.putAll(buffer.readMap({ Stats.getStat(it.readString(), true) }, { it.readInt() }))
+            hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
+            primaryType = ElementalTypes.getOrException(buffer.readString())
+            secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }
+            standingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
+            swimmingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
+            flyingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
+            dynamaxBlocked = buffer.readBoolean()
+            pokedex.clear()
+            pokedex += buffer.readList { pb -> pb.readString() }
+            forms.clear()
+            forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
+        }
+    }
+
+    override fun shouldSynchronize(other: Species): Boolean {
+        if (other.resourceIdentifier != other.resourceIdentifier)
+            return false
+        return other.name != this.name
+                || other.nationalPokedexNumber != this.nationalPokedexNumber
+                || other.baseStats != this.baseStats
+                || other.hitbox != this.hitbox
+                || other.primaryType != this.primaryType
+                || other.secondaryType != this.secondaryType
+                || other.standingEyeHeight != this.standingEyeHeight
+                || other.swimmingEyeHeight != this.swimmingEyeHeight
+                || other.flyingEyeHeight != this.flyingEyeHeight
+                || other.dynamaxBlocked != this.dynamaxBlocked
+                || other.pokedex != this.pokedex
+                || other.forms != this.forms
     }
 
     override fun toString() = name

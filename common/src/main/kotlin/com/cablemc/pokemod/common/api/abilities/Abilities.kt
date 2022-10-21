@@ -11,20 +11,18 @@ package com.cablemc.pokemod.common.api.abilities
 import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.api.data.JsonDataRegistry
 import com.cablemc.pokemod.common.api.reactive.SimpleObservable
+import com.cablemc.pokemod.common.net.messages.client.data.AbilityRegistrySyncPacket
 import com.cablemc.pokemod.common.pokemon.abilities.HiddenAbility
 import com.cablemc.pokemod.common.util.asTranslated
 import com.cablemc.pokemod.common.util.pokemodResource
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
+import com.google.gson.*
 import com.google.gson.reflect.TypeToken
-import java.lang.reflect.Type
-import kotlin.io.path.Path
 import net.minecraft.resource.ResourceType
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
+import java.lang.reflect.Type
+import kotlin.io.path.Path
 
 /**
  * Registry for all known Abilities
@@ -66,12 +64,17 @@ object Abilities : JsonDataRegistry<AbilityTemplate> {
         this.observable.emit(this)
     }
 
+    override fun sync(player: ServerPlayerEntity) {
+        AbilityRegistrySyncPacket().sendToPlayer(player)
+    }
+
     fun register(ability: AbilityTemplate): AbilityTemplate {
         abilityMap[ability.name.lowercase()] = ability
         allAbilities.add(ability)
         return ability
     }
 
+    fun all() = allAbilities.toList()
     fun first() = allAbilities.first()
     fun get(name: String) = abilityMap[name.lowercase()]
     fun getOrException(name: String) = get(name)!!

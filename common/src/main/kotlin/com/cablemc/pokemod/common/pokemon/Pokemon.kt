@@ -116,6 +116,9 @@ open class Pokemon {
     var uuid = UUID.randomUUID()
     var species = PokemonSpecies.random()
         set(value) {
+            if (PokemonSpecies.getByIdentifier(value.resourceIdentifier) == null) {
+                throw IllegalArgumentException("Cannot set a species that isn't registered")
+            }
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             val previousFeatureKeys = features.map { it.name }.toSet()
             field = value

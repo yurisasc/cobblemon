@@ -8,12 +8,8 @@
 
 package com.cablemc.pokemod.forge.mod
 
-import com.cablemc.pokemod.common.Pokemod
-import com.cablemc.pokemod.common.PokemodConfiguredFeatures
+import com.cablemc.pokemod.common.*
 import com.cablemc.pokemod.common.PokemodEntities.POKEMON_TYPE
-import com.cablemc.pokemod.common.PokemodImplementation
-import com.cablemc.pokemod.common.PokemodNetwork
-import com.cablemc.pokemod.common.PokemodPlacements
 import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.reactive.Observable.Companion.filter
 import com.cablemc.pokemod.common.api.reactive.Observable.Companion.takeFirst
@@ -22,11 +18,14 @@ import com.cablemc.pokemod.forge.mod.net.PokemodForgeNetworkDelegate
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.common.ForgeMod
+import net.minecraftforge.event.OnDatapackSyncEvent
+import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
+import java.util.*
 
 @Mod(Pokemod.MODID)
 class PokemodForge : PokemodImplementation {
@@ -45,6 +44,9 @@ class PokemodForge : PokemodImplementation {
 
             addListener(this@PokemodForge::initialize)
             addListener(this@PokemodForge::serverInit)
+            addListener(this@PokemodForge::onDataPackSync)
+            addListener(this@PokemodForge::onLogin)
+            addListener(this@PokemodForge::onLogout)
             PokemodNetwork.networkDelegate = PokemodForgeNetworkDelegate
             ServerPacketRegistrar.registerHandlers()
 
@@ -69,6 +71,23 @@ class PokemodForge : PokemodImplementation {
         if (ModList.get().isLoaded("luckperms")) {
 //            PokemonCobbled.permissionValidator = LuckPermsPermissionValidator()
         }
+    }
+
+    private val hasBeenSynced = hashSetOf<UUID>()
+
+    fun onDataPackSync(event: OnDatapackSyncEvent) {
+        val player = event.player ?: return
+        if (player.uuid !in this.hasBeenSynced) {
+            Pokemod.dataProvider.sync(player)
+        }
+    }
+
+    fun onLogin(event: PlayerEvent.PlayerLoggedInEvent) {
+        this.hasBeenSynced.add(event.entity.uuid)
+    }
+
+    fun onLogout(event: PlayerEvent.PlayerLoggedOutEvent) {
+        this.hasBeenSynced.remove(event.entity.uuid)
     }
 
     override fun isModInstalled(id: String) = ModList.get().isLoaded(id)

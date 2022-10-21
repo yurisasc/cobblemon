@@ -34,26 +34,15 @@ import com.cablemc.pokemod.common.api.spawning.condition.TimeRange
 import com.cablemc.pokemod.common.api.types.ElementalType
 import com.cablemc.pokemod.common.api.types.ElementalTypes
 import com.cablemc.pokemod.common.api.types.adapters.ElementalTypeAdapter
+import com.cablemc.pokemod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cablemc.pokemod.common.pokemon.FormData
 import com.cablemc.pokemod.common.pokemon.Species
 import com.cablemc.pokemod.common.pokemon.adapters.StatAdapter
 import com.cablemc.pokemod.common.pokemon.evolution.adapters.CobbledEvolutionAdapter
 import com.cablemc.pokemod.common.pokemon.evolution.adapters.CobbledPreEvolutionAdapter
 import com.cablemc.pokemod.common.pokemon.evolution.adapters.CobbledRequirementAdapter
-import com.cablemc.pokemod.common.util.adapters.AbilityPoolAdapter
-import com.cablemc.pokemod.common.util.adapters.AbilityTemplateAdapter
-import com.cablemc.pokemod.common.util.adapters.BiomeLikeConditionAdapter
-import com.cablemc.pokemod.common.util.adapters.BlockLikeConditionAdapter
-import com.cablemc.pokemod.common.util.adapters.BoxAdapter
-import com.cablemc.pokemod.common.util.adapters.DropEntryAdapter
-import com.cablemc.pokemod.common.util.adapters.EggGroupAdapter
-import com.cablemc.pokemod.common.util.adapters.IdentifierAdapter
-import com.cablemc.pokemod.common.util.adapters.IntRangeAdapter
-import com.cablemc.pokemod.common.util.adapters.LazySetAdapter
-import com.cablemc.pokemod.common.util.adapters.LearnsetAdapter
-import com.cablemc.pokemod.common.util.adapters.NbtCompoundAdapter
-import com.cablemc.pokemod.common.util.adapters.TimeRangeAdapter
-import com.cablemc.pokemod.common.util.adapters.pokemonPropertiesShortAdapter
+import com.cablemc.pokemod.common.util.adapters.*
+import com.cablemc.pokemod.common.util.ifServer
 import com.cablemc.pokemod.common.util.pokemodResource
 import com.caoccao.javet.interop.V8Host
 import com.caoccao.javet.interop.V8Runtime
@@ -61,17 +50,18 @@ import com.google.common.collect.HashBasedTable
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import java.io.File
-import java.nio.file.Files
-import kotlin.io.path.Path
-import kotlin.reflect.KProperty
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.resource.ResourceType
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
+import java.io.File
+import java.nio.file.Files
+import kotlin.io.path.Path
+import kotlin.reflect.KProperty
 
 object PokemonSpecies : JsonDataRegistry<Species> {
 
@@ -216,9 +206,13 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
             species.initialize()
         }
-        createShowdownData()
+        ifServer { createShowdownData() }
         Pokemod.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
         this.observable.emit(this)
+    }
+
+    override fun sync(player: ServerPlayerEntity) {
+        SpeciesRegistrySyncPacket().sendToPlayer(player)
     }
 
     private fun createShowdownData() {
@@ -378,8 +372,8 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 ${this.generateGenderDetails(species, form)},
                 ${this.generateBaseStatsDetails(species, form)},
                 $DUMMY_ABILITY_DATA,
-                heightm: ${form.height},
-                weightkg: ${form.weight},
+                heightm: ${form.height * .1},
+                weightkg: ${form.weight * .1},
                 ${this.generateEggGroupDetails(species, form)},
         """.trimIndent())
         form.preEvolution?.let { dataHolder.append("prevo: \"${createShowdownName(it.species, it.form)}\",") }
