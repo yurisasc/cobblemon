@@ -1,0 +1,26 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:mushroom_fields",
+    {
+      "id": "byg:lush_stacks",
+      "required": false
+    },
+	{
+      "id": "terralith:alpha_islands",
+      "required": false
+    },
+	{
+      "id": "terralith:alpha_islands_winter",
+      "required": false
+    },
+	{
+      "id": "terralith:mirage_isles",
+      "required": false
+    },
+	{
+      "id": "terralith:warped_mesa",
+      "required": false
+    }
+  ]
+}
