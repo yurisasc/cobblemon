@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:is_badlands",
+    "terralith:ashen_savanna",
+    "terralith:warped_mesa",
+    "terralith:white_mesa"
+  ]
+}

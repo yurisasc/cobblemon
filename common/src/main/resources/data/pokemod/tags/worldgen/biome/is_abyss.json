@@ -1,6 +1,26 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:is_deep_ocean"
+    "minecraft:deep_dark",
+	  {
+      "id": "terralith:crystal_caves",
+      "required": false
+    },
+	  {
+      "id": "terralith:deep_caves",
+      "required": false
+    },
+	  {
+      "id": "terralith:frostfire_caves",
+      "required": false
+    },
+	  {
+      "id": "terralith:mantle_caves",
+      "required": false
+    },
+	  {
+      "id": "terralith:tuff_caves",
+      "required": false
+    }
   ]
 }
