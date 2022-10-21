@@ -1,7 +1,7 @@
 {
   "name": "river",
   "condition": {
-    "biomes": [ "#minecraft:is_river" ]
+    "biomes": [ "#pokemod:is_river" ]
   },
   "anticondition": {
     "biomes": [ "#pokemod:is_freezing" ]
