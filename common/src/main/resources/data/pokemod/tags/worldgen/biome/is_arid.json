@@ -3,6 +3,9 @@
   "values": [
     "#pokemod:is_savanna",
     "#pokemod:is_sandy",
-    "terralith:red_oasis"
+	  {
+      "id": "terralith:red_oasis",
+      "required": false
+    }
   ]
 }
