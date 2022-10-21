@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:is_river",
+    "#pokemod:is_river",
 	  "#pokemod:is_swamp",
 	  {
       "id": "terralith:ice_marsh",
