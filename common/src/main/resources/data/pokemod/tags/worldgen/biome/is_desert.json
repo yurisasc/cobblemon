@@ -5,6 +5,34 @@
     {
       "id": "#byg:is_desert",
       "required": false
+    },
+	  {
+      "id": "terralith:ancient_sands",
+      "required": false
+    },
+	  {
+      "id": "terralith:desert_canyon",
+      "required": false
+    },
+	  {
+      "id": "terralith:desert_caves",
+      "required": false
+    },
+	  {
+      "id": "terralith:desert_oasis",
+      "required": false
+    },
+	  {
+      "id": "terralith:desert_spires",
+      "required": false
+    },
+	  {
+      "id": "terralith:lush_desert",
+      "required": false
+    },
+	  {
+      "id": "terralith:sandstone_valley",
+      "required": false
     }
   ]
 }
