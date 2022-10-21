@@ -22,6 +22,10 @@
       "required": false
     },
 	  {
+      "id": "terralith:skylands_winter",
+      "required": false
+    },
+	  {
       "id": "terralith:snowy_badlands",
       "required": false
     }

@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "swamp"
+    "#pokemod:is_swamp"
   ]
 }

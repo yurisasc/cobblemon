@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "taiga",
-    "old_growth_pine_taiga",
-    "old_growth_spruce_taiga"
+    "#pokemod:is_swamp"
   ]
 }

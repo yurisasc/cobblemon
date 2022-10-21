@@ -1,8 +1,7 @@
 {
   "replace": false,
   "values": [
-    "savanna",
-    "savanna_plateau",
-    "windswept_savanna"
+    "#pokemod:is_dripstone",
+	"#pokemod:is_grassland"
   ]
 }

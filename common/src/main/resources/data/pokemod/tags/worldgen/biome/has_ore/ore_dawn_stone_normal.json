@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#is_mountain"
+    "#pokemod:is_peak",
+	"#pokemod:is_sky"
   ]
 }
