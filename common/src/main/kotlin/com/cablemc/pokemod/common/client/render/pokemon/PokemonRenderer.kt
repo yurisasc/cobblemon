@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -25,6 +25,8 @@ import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.util.isLookingAt
 import com.cablemc.pokemod.common.util.lang
 import com.cablemc.pokemod.common.util.math.geometry.toRadians
+import kotlin.math.min
+import kotlin.math.tan
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.RenderLayer
@@ -40,8 +42,6 @@ import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 import net.minecraft.util.math.Vector4f
-import kotlin.math.min
-import kotlin.math.tan
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context

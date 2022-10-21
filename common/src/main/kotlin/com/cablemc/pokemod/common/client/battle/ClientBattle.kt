@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.battles.BattleFormat
 import com.cablemc.pokemod.common.net.messages.server.battle.BattleSelectActionsPacket
 import java.util.UUID
-
 class ClientBattle(
     val battleId: UUID,
     val battleFormat: BattleFormat

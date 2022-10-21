@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:dartrix",
+  "model": "pokemod:bedrock/models/0723_dartrix/dartrix.geo.json",
+  "texture": "pokemod:textures/pokemon/0723_dartrix/dartrix.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0723_dartrix/dartrix_shiny.png"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,6 @@ import java.util.concurrent.CompletableFuture
 import net.minecraft.command.CommandSource
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-
 class MoveArgumentType: ArgumentType<MoveTemplate> {
 
     override fun parse(reader: StringReader): MoveTemplate = Moves.getByName(reader.readString()) ?: throw SimpleCommandExceptionType(INVALID_MOVE).createWithContext(reader)

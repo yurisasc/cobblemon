@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:torchic",
+  "model": "pokemod:bedrock/models/0255_torchic/torchic.geo.json",
+  "texture": "pokemod:textures/pokemon/0255_torchic/torchic.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0255_torchic/torchic_shiny.png"
+    }
+  ]
+}

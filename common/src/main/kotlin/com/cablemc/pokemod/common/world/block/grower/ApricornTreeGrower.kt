@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.world.block.grower
 
 import net.minecraft.block.sapling.SaplingGenerator
 import net.minecraft.util.math.random.Random
-
 class ApricornTreeGrower(private val color: String) : SaplingGenerator() {
     override fun getTreeFeature(random: Random, bl: Boolean) = when (color) {
             "black" -> com.cablemc.pokemod.common.PokemodConfiguredFeatures.BLACK_APRICORN_TREE

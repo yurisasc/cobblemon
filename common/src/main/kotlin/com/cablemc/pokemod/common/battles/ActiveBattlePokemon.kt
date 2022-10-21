@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemod.common.battles.pokemon.BattlePokemon
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Vec3d
-
 class ActiveBattlePokemon(val actor: BattleActor, var battlePokemon: BattlePokemon? = null): Targetable {
     val battle = actor.battle
     fun getSide() = actor.getSide()

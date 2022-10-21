@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:dwebble",
+  "model": "pokemod:bedrock/models/0557_dwebble/dwebble.geo.json",
+  "texture": "pokemod:textures/pokemon/0557_dwebble/dwebble.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0557_dwebble/dwebble_shiny.png"
+    }
+  ]
+}

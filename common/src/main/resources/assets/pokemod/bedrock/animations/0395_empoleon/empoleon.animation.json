@@ -1,0 +1,16 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.empoleon.ground_idle": {
+			"loop": true,
+			"bones": {
+				"wing_right1": {
+					"rotation": [0, 0, -60]
+				},
+				"wing_left1": {
+					"rotation": [0, 0, 60]
+				}
+			}
+		}
+	}
+}

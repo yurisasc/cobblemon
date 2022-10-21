@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.api.pokemon.status.Statuses
 import com.cablemc.pokemod.common.config.constraint.IntConstraint
 import com.cablemc.pokemod.common.util.adapters.IntRangeAdapter
 import com.google.gson.GsonBuilder
-
 class PokemodConfig {
     companion object {
         val GSON = GsonBuilder()

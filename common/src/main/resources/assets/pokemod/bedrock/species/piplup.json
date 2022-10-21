@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:piplup",
+  "model": "pokemod:bedrock/models/0393_piplup/piplup.geo.json",
+  "texture": "pokemod:textures/pokemon/0393_piplup/piplup.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0393_piplup/piplup_shiny.png"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.net.messages.server.pokemon.update.evolution
 
 import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemod.common.pokemon.Pokemon
-
 class AcceptEvolutionPacket() : EvolutionDisplayUpdatePacket() {
 
     constructor(pokemon: Pokemon, evolution: EvolutionDisplay): this() {

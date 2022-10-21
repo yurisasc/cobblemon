@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.pokemon.effects
 import com.cablemc.pokemod.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import net.minecraft.server.network.ServerPlayerEntity
-
 class LightSourceEffect: ShoulderEffect {
     private var test = "AAA"
 

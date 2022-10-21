@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,7 +14,6 @@ import com.cablemc.pokemod.common.api.battles.model.ai.BattleAI
 import com.cablemc.pokemod.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemod.common.util.asTranslated
 import java.util.UUID
-
 class TrainerBattleActor(
     val trainerName: String,
     uuid: UUID,

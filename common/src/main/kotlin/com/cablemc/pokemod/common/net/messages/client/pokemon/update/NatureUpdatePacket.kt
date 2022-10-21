@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.Pokemod.LOGGER
 import com.cablemc.pokemod.common.api.pokemon.Natures
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.util.pokemodResource
-
 class NatureUpdatePacket(
     private var mintNature : Boolean = false
 ) : StringUpdatePacket() {

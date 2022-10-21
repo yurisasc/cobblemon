@@ -1,0 +1,22 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.crustle.ground_idle": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"rotation": [-30, 0, 0]
+				},
+				"hand2": {
+					"rotation": [55, 0, 0]
+				},
+				"rightarm": {
+					"rotation": [-30, 0, 0]
+				},
+				"hand": {
+					"rotation": [55, 0, 0]
+				}
+			}
+		}
+	}
+}

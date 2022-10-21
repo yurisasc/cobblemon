@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,7 +17,6 @@ import com.cablemc.pokemod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemod.common.entity.pokeball.EmptyPokeBallEntity.CaptureState
 import com.cablemc.pokemod.common.entity.pokeball.EmptyPokeBallEntity.CaptureState.HIT
 import com.cablemc.pokemod.common.entity.pokeball.EmptyPokeBallEntity.CaptureState.SHAKE
-
 class EmptyPokeBallClientDelegate : PoseableEntityState<EmptyPokeBallEntity>(), EntitySideDelegate<EmptyPokeBallEntity> {
     override fun initialize(entity: EmptyPokeBallEntity) {
         entity.captureState.subscribe {

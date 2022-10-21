@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.animation.Stat
 import com.cablemc.pokemod.common.util.math.random
 import kotlin.random.Random
 import net.minecraft.entity.Entity
-
 class SimpleQuirk<T : Entity>(
     name: String,
     private val secondsBetweenOccurrences: Pair<Float, Float>,

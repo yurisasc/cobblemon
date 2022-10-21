@@ -1,0 +1,37 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.dartrix.ground_idle": {
+			"loop": true,
+			"bones": {
+				"wing_right1": {
+					"rotation": [90, 20, -87.5]
+				},
+				"feather_right2": {
+					"rotation": [0, 0, -2.5]
+				},
+				"feather_right3": {
+					"rotation": [0, 0, -15]
+				},
+				"feather_right4": {
+					"rotation": [0, 0, -20]
+				},
+				"wing_left1": {
+					"rotation": [90, -20, 87.5]
+				},
+				"feather_left1": {
+					"rotation": [0, 0, 0]
+				},
+				"feather_left2": {
+					"rotation": [0, 0, 2.5]
+				},
+				"feather_left3": {
+					"rotation": [0, 0, 15]
+				},
+				"feather_left4": {
+					"rotation": [0, 0, 20]
+				}
+			}
+		}
+	}
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.battles.model.actor.ActorType
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import java.util.UUID
 import net.minecraft.text.MutableText
-
 class ClientBattleActor(
     /** The showdown pIndexing, p0, p2, etc*/
     val showdownId: String,

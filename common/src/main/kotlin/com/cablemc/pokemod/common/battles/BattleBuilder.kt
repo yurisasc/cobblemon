@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -138,7 +138,6 @@ abstract class BattleStartResult {
         return this
     }
 }
-
 class SuccessfulBattleStart(
     val battle: PokemonBattle
 ) : BattleStartResult() {
@@ -169,7 +168,6 @@ interface BattleStartError {
 enum class CommonBattleStartError : BattleStartError {
 
 }
-
 class InsufficientPokemonError(
     val player: ServerPlayerEntity,
     val requiredCount: Int,
@@ -205,7 +203,6 @@ class AlreadyInBattleError(
         }
     }
 }
-
 class BusyError(
     val targetName: MutableText
 ): BattleStartError {

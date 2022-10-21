@@ -1,0 +1,102 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.rayquaza.ground_idle": {
+			"loop": true,
+			"bones": {
+				"rayquaza": {
+					"rotation": [-75, 0, 0]
+				},
+				"neck": {
+					"rotation": [30, 0, 0],
+					"position": [5, 0, 0]
+				},
+				"neck_end": {
+					"rotation": [30, 0, 0]
+				},
+				"head": {
+					"rotation": [30, 0, 0]
+				},
+				"jaw": {
+					"rotation": [20, 0, 0]
+				},
+				"body": {
+					"rotation": [0, 0, 0],
+					"position": [5, 0, 0]
+				},
+				"arm_right1": {
+					"rotation": [75, 45, 0]
+				},
+				"arm_right3": {
+					"rotation": [0, -75, 0]
+				},
+				"hand_right": {
+					"rotation": [0, 0, 30]
+				},
+				"finger_left1": {
+					"rotation": [0, 0, -15]
+				},
+				"finger_left2": {
+					"rotation": [0, 0, -25]
+				},
+				"finger_left3": {
+					"rotation": [0, 0, -20]
+				},
+				"arm_left1": {
+					"rotation": [75, -45, 0]
+				},
+				"arm_left3": {
+					"rotation": [0, 75, 0]
+				},
+				"hand_left": {
+					"rotation": [0, 0, -30]
+				},
+				"finger_right1": {
+					"rotation": [0, 0, 15]
+				},
+				"finger_right2": {
+					"rotation": [0, 0, 25]
+				},
+				"finger_right3": {
+					"rotation": [0, 0, 20]
+				},
+				"tail1": {
+					"rotation": [-30, -5, 20]
+				},
+				"tail2": {
+					"rotation": [-30, -15, 20]
+				},
+				"tail3": {
+					"rotation": [-15, -30, 15]
+				},
+				"tail4": {
+					"rotation": [-5, -40, 5]
+				},
+				"tail5": {
+					"rotation": [-5, -30, 5]
+				},
+				"tail6": {
+					"rotation": [5, -40, -5]
+				},
+				"tail7": {
+					"rotation": [0, -30, 0]
+				},
+				"tail8": {
+					"rotation": [5, -30, 0]
+				},
+				"tail9": {
+					"rotation": [5, -30, 0]
+				},
+				"tail10": {
+					"rotation": [5, -15, 0]
+				},
+				"tail11": {
+					"rotation": [5, -15, 0]
+				},
+				"tail_end1": {
+					"rotation": [5, -15, 0]
+				}
+			}
+		}
+	}
+}

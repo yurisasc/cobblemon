@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:slowking",
+  "model": "pokemod:bedrock/models/0199_slowking/slowking.geo.json",
+  "texture": "pokemod:textures/pokemon/0199_slowking/slowking.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0199_slowking/slowking_shiny.png"
+    }
+  ]
+}

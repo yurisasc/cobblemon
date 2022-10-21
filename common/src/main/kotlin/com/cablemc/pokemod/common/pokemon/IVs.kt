@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.pokemon
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.util.randomNoCopy
 import kotlin.random.Random
-
 class IVs : PokemonStats() {
     override val acceptableRange = 0..MAX_VALUE
     // TODO: Hyper training

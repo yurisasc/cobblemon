@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.net.messages.client.ui
 import com.cablemc.pokemod.common.api.net.NetworkPacket
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import net.minecraft.network.PacketByteBuf
-
 class SummaryUIPacket internal constructor(): NetworkPacket {
     constructor(vararg pokemon: Pokemon, editable: Boolean = true) : this() {
         pokemonArray.addAll(pokemon)

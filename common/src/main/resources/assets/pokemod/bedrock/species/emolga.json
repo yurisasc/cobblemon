@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:emolga",
+  "model": "pokemod:bedrock/models/0587_emolga/emolga.geo.json",
+  "texture": "pokemod:textures/pokemon/0587_emolga/emolga.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0587_emolga/emolga_shiny.png"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:sizzlipede",
+  "model": "pokemod:bedrock/models/0850_sizzlipede/sizzlipede.geo.json",
+  "texture": "pokemod:textures/pokemon/0850_sizzlipede/sizzlipede.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0850_sizzlipede/sizzlipede_shiny.png"
+    }
+  ]
+}

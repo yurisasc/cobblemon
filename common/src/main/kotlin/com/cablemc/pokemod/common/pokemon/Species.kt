@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -27,7 +27,6 @@ import com.cablemc.pokemod.common.util.lang
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
-
 class Species {
     var name: String = "bulbasaur"
     val translatedName: MutableText

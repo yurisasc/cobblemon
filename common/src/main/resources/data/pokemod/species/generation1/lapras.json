@@ -20,7 +20,7 @@
         "moving": {
             "swim": {
                 "canWalkOnWater": true,
-                "canSwim": true,
+                "canSwimInWater": true,
                 "canBreatheUnderwater": true
             }
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -30,7 +30,6 @@ enum class SnakePattern {
 }
 
 const val SNAKE_PATTERN = "snake-pattern"
-
 class SnakePatternFeature : EnumSpeciesFeature<SnakePattern>() {
     override val name: String = SNAKE_PATTERN
     override fun getValues() = SnakePattern.ALL_VALUES

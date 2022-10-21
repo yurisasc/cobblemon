@@ -1,0 +1,15 @@
+{
+  "poser": "pokemod:bibarel",
+  "model": "pokemod:bedrock/models/0400_bibarel/bibarel_male.geo.json",
+  "texture": "pokemod:textures/pokemon/0400_bibarel/bibarel.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0400_bibarel/bibarel_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemod:bedrock/models/0400_bibarel/bibarel_female.geo.json"
+    }
+  ]
+}

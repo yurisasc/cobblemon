@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,6 @@ import com.cablemc.pokemod.common.battles.ai.RandomBattleAI
 import com.cablemc.pokemod.common.battles.pokemon.BattlePokemon
 import java.util.UUID
 import net.minecraft.text.MutableText
-
 class MultiPokemonBattleActor(
     pokemonList: List<BattlePokemon>,
     artificialDecider: BattleAI = RandomBattleAI(),

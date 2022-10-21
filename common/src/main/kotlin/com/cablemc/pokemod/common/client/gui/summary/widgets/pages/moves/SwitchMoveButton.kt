@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -16,7 +16,6 @@ import com.cablemc.pokemod.common.util.lang
 import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.util.math.MatrixStack
-
 class SwitchMoveButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,

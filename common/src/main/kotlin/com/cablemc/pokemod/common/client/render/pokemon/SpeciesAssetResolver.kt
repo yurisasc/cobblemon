@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -149,7 +149,6 @@ class ModelAssetVariation {
     val texture: Identifier? = null
     val layers: List<ModelLayer>? = null
 }
-
 class ModelLayer {
     val name: String = ""
     val scale: Vec3f = Vec3f(1F, 1F, 1F)

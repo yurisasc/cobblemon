@@ -1,5 +1,5 @@
 {
-    "name": "basculinredstriped",
+    "name": "basculin",
     "nationalPokedexNumber": 550,
     "primaryType": "water",
     "abilities": [
@@ -18,30 +18,6 @@
     "catchRate": 25,
     "maleRatio": 0.5,
     "shoulderMountable": false,
-    "forms": [
-        {
-            "name": "blue-striped",
-            "abilities": [
-                "rockhead",
-                "adaptability",
-                "h:moldbreaker"
-            ],
-            "aspects": [
-                "blue-striped"
-            ]
-        },
-        {
-            "name": "white-striped",
-            "abilities": [
-                "rattled",
-                "adaptability",
-                "h:moldbreaker"
-            ],
-            "aspects": [
-                "white-striped"
-            ]
-        }
-    ],
     "baseExperienceYield": 161,
     "experienceGroup": "mediumfast",
     "eggCycles": 40,

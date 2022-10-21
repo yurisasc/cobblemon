@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:blaziken",
+  "model": "pokemod:bedrock/models/0257_blaziken/blaziken.geo.json",
+  "texture": "pokemod:textures/pokemon/0257_blaziken/blaziken.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0257_blaziken/blaziken_shiny.png"
+    }
+  ]
+}

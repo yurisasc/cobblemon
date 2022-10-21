@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,8 +8,6 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.repository
 
-//import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen3.*
-//import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen5.*
 import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -165,31 +163,79 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1.W
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1.ZapdosModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1.ZubatModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.BellossomModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.BlisseyModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.CleffaModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.ElekidModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.EspeonModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.IgglybuffModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.KingdraModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.MagbyModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.PichuModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.PiloswineModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.PolitoedModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.Porygon2Model
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.QuagsireModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.ScizorModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.SlowkingModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.SmoochumModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.SteelixModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.SwinubModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.TyrogueModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.UmbreonModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.WooperModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.YanmaModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen3.BlazikenModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen3.CombuskenModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen3.MarshtompModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen3.MinunModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen3.MudkipModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen3.PlusleModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen3.RayquazaModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen3.SwampertModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen3.TorchicModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.BibarelModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.BidoofModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.BunearyModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.ElectivireModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.EmpoleonModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.GlaceonModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.HappinyModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.LeafeonModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.LickilickyModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.LopunnyModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.MagmortarModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.MagnezoneModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.MamoswineModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.MimejrModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.MunchlaxModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.PachirisuModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.PiplupModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.PorygonzModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.PrinplupModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.RhyperiorModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.TangrowthModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4.YanmegaModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen5.BasculinModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen5.CrustleModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen5.DwebbleModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen5.EmolgaModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen5.MaractusModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen6.SylveonModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.BounsweetModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.DartrixModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.DecidueyeModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.IncineroarModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.LittenModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.MimikyuModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.NaganadelModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.PoipoleModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.RowletModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.SteeneeModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.TorracatModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7.TsareenaModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen8.CentiskorchModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen8.KleavorModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen8.SizzlipedeModel
 import com.cablemc.pokemod.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemod.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemod.common.client.render.pokemon.SpeciesAssetResolver
@@ -337,6 +383,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("poliwag") { PoliwagModel(it) }
         inbuilt("poliwhirl") { PoliwhirlModel(it) }
         inbuilt("poliwrath") { PoliwrathModel(it) }
+        inbuilt("politoed") { PolitoedModel(it) }
         inbuilt("ponyta") { PonytaModel(it) }
         inbuilt("porygon") { PorygonModel(it) }
         inbuilt("psyduck") { PsyduckModel(it) }
@@ -394,6 +441,54 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("sylveon") { SylveonModel(it) }
         inbuilt("umbreon") { UmbreonModel(it) }
         inbuilt("espeon") { EspeonModel(it) }
+
+        inbuilt("blissey") { BlisseyModel(it) }
+        inbuilt("kingdra") { KingdraModel(it) }
+        inbuilt("piloswine") { PiloswineModel(it) }
+        inbuilt("quagsire") { QuagsireModel(it) }
+        inbuilt("slowking") { SlowkingModel(it) }
+        inbuilt("swinub") { SwinubModel(it) }
+        inbuilt("wooper") { WooperModel(it) }
+        inbuilt("yanma") { YanmaModel(it) }
+        inbuilt("blaziken") { BlazikenModel(it) }
+        inbuilt("combusken") { CombuskenModel(it) }
+        inbuilt("marshtomp") { MarshtompModel(it) }
+        inbuilt("minun") { MinunModel(it) }
+        inbuilt("mudkip") { MudkipModel(it) }
+        inbuilt("plusle") { PlusleModel(it) }
+        inbuilt("rayquaza") { RayquazaModel(it) }
+        inbuilt("swampert") { SwampertModel(it) }
+        inbuilt("torchic") { TorchicModel(it) }
+        inbuilt("bibarel") { BibarelModel(it) }
+        inbuilt("bidoof") { BidoofModel(it) }
+        inbuilt("buneary") { BunearyModel(it) }
+        inbuilt("empoleon") { EmpoleonModel(it) }
+        inbuilt("lopunny") { LopunnyModel(it) }
+        inbuilt("mamoswine") { MamoswineModel(it) }
+        inbuilt("pachirisu") { PachirisuModel(it) }
+        inbuilt("piplup") { PiplupModel(it) }
+        inbuilt("prinplup") { PrinplupModel(it) }
+        inbuilt("yanmega") { YanmegaModel(it) }
+        inbuilt("basculin") { BasculinModel(it) }
+        inbuilt("crustle") { CrustleModel(it) }
+        inbuilt("dwebble") { DwebbleModel(it) }
+        inbuilt("emolga") { EmolgaModel(it) }
+        inbuilt("maractus") { MaractusModel(it) }
+        inbuilt("bounsweet") { BounsweetModel(it) }
+        inbuilt("dartrix") { DartrixModel(it) }
+        inbuilt("decidueye") { DecidueyeModel(it) }
+        inbuilt("incineroar") { IncineroarModel(it) }
+        inbuilt("litten") { LittenModel(it) }
+        inbuilt("mimikyu") { MimikyuModel(it) }
+        inbuilt("naganadel") { NaganadelModel(it) }
+        inbuilt("poipole") { PoipoleModel(it) }
+        inbuilt("rowlet") { RowletModel(it) }
+        inbuilt("steenee") { SteeneeModel(it) }
+        inbuilt("torracat") { TorracatModel(it) }
+        inbuilt("tsareena") { TsareenaModel(it) }
+        inbuilt("centiskorch") { CentiskorchModel(it) }
+        inbuilt("sizzlipede") { SizzlipedeModel(it) }
+        inbuilt("kleavor") { KleavorModel(it) }
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
@@ -437,6 +532,8 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         registerSpeciesAssetResolvers(resourceManager)
         initializeModelLayers()
     }
+
+    var brokenOnes = mutableListOf<Species>()
 
     fun getPoser(species: Species, aspects: Set<String>): PokemonPoseableModel {
         try {

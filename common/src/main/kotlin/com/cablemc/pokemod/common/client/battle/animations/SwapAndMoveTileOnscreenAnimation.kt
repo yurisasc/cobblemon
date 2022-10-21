@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.client.battle.animations
 
 import com.cablemc.pokemod.common.client.battle.ActiveClientBattlePokemon
 import com.cablemc.pokemod.common.client.battle.ClientBattlePokemon
-
 class SwapAndMoveTileOnscreenAnimation(val battlePokemon: ClientBattlePokemon, val duration: Float = 0.75F) : TileAnimation {
     var passedSeconds = 0F
     override fun shouldHoldUntilNextAnimation() = false

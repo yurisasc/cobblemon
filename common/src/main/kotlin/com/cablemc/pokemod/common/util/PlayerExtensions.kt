@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -32,7 +32,6 @@ fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
 }
 
 // TODO Player extension for queueing next login?
-
 class TraceResult(
     val location: Vec3d,
     val blockPos: BlockPos,
@@ -54,7 +53,6 @@ fun Entity.isLookingAt(other: Entity, maxDistance: Float = 10F, stepDistance: Fl
     }
     return false
 }
-
 class EntityTraceResult<T : Entity>(
     val location: Vec3d,
     val entities: Iterable<T>

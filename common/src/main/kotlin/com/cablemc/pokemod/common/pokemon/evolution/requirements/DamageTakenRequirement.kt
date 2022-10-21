@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.pokemon.evolution.requirements
 import com.cablemc.pokemod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.pokemon.feature.DamageTakenFeature
-
 class DamageTakenRequirement : EvolutionRequirement {
     companion object {
         const val ADAPTER_VARIANT = DamageTakenFeature.ID

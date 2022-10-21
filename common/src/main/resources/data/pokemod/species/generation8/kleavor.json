@@ -1,0 +1,70 @@
+{
+    "name": "kleavor",
+    "nationalPokedexNumber": 900,
+    "primaryType": "bug",
+    "secondaryType": "rock",
+    "abilities": [
+        "swarm",
+        "sheerforce",
+        "h:steadfast"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 135,
+        "defence": 95,
+        "special_attack": 45,
+        "special_defence": 70,
+        "speed": 85
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": true,
+    "baseExperienceYield": 245,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [
+        "1:quickattack",
+        "6:silverwind",
+        "11:aerialace",
+        "14:doublehit",
+        "14:stealthrock",
+        "18:airslash",
+        "25:swordsdance",
+        "29:stoneaxe",
+        "34:xscissor",
+        "43:closecombat",
+        "tutor:falseswipe",
+        "tutor:rocksmash",
+        "tutor:aerialace",
+        "tutor:stealthrock",
+        "tutor:swift",
+        "tutor:ominouswind",
+        "tutor:focusenergy",
+        "tutor:calmmind",
+        "tutor:rest",
+        "tutor:psychocut",
+        "tutor:xscissor",
+        "tutor:rockslide",
+        "tutor:gigaimpact",
+        "tutor:stoneedge",
+        "tutor:hyperbeam"
+    ],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "pokemoncobbled.species.kleavor.desc1",
+        "pokemoncobbled.species.kleavor.desc2"
+    ],
+    "preEvolution": "scyther",
+    "evolutions": [],
+    "baseScale": 0.65,
+    "hitbox": {
+        "width": 0.8,
+        "height": 1.0,
+        "fixed": false
+    }
+}

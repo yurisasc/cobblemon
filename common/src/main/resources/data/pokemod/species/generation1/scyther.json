@@ -101,14 +101,18 @@
             "id": "scyther_scizor",
             "variant": "trade",
             "result": "scizor",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
             "requirements": [
                 {
                     "variant": "held_item",
                     "item": "pokemod:metal_coat"
                 }
             ]
+        },
+        {
+            "id": "scyther_kleavor",
+            "variant": "item_interact",
+            "result": "kleavor",
+            "requiredContext": "pokemod:black_augurite"
         }
     ],
     "baseScale": 1.0,

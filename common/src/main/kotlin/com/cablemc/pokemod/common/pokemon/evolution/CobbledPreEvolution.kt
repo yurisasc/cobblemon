@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemod.common.pokemon.FormData
 import com.cablemc.pokemod.common.pokemon.Species
 import net.minecraft.util.Identifier
-
 class CobbledPreEvolution(
     private val speciesName: Identifier,
     private val formName: String? = null,

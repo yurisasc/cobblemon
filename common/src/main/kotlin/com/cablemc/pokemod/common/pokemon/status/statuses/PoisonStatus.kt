@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,7 +15,6 @@ import kotlin.math.max
 import kotlin.math.round
 import kotlin.random.Random
 import net.minecraft.server.network.ServerPlayerEntity
-
 class PoisonStatus : PersistentStatus(
     name = pokemodResource("poison"),
     showdownName = "psn",
