@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:frozen_river",
+    "minecraft:jagged_peaks",
+    "minecraft:snowy_beach",
+    "minecraft:snowy_plains",
+    "minecraft:snowy_slopes",
+    "#pokemod:is_frozen",
+    "#pokemod:is_glacial",
+    "#pokemod:is_snowy",
+    {
+      "id": "byg:cardinal_tundra",
+      "required": false
+    },
+	{
+      "id": "terralith:emerald_peaks",
+      "required": false
+    },
+	  {
+      "id": "terralith:scarlet_mountains",
+      "required": false
+    },
+	  {
+      "id": "terralith:snowy_badlands",
+      "required": false
+    }
+  ]
+}
