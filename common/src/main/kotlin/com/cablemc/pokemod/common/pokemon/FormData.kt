@@ -22,6 +22,7 @@ import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.types.ElementalType
+import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.api.types.ElementalTypes
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.ai.FormPokemonBehaviour
@@ -64,7 +65,6 @@ class FormData(
     @SerializedName("pokedex")
     private var _pokedex: MutableList<String>? = null,
     private val _preEvolution: PreEvolution? = null,
-    private val eyeHeight: Float? = null,
     private var standingEyeHeight: Float? = null,
     private var swimmingEyeHeight: Float? = null,
     private var flyingEyeHeight: Float? = null,
@@ -167,8 +167,8 @@ class FormData(
     }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
-        entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight
-        entity.isFallFlying -> this.flyingEyeHeight
+        entity.getPoseType() in PoseType.SWIMMING_POSES -> this.swimmingEyeHeight ?: this.standingEyeHeight
+        entity.getPoseType() in PoseType.FLYING_POSES -> this.flyingEyeHeight ?: this.standingEyeHeight
         else -> this.standingEyeHeight
     }
 
@@ -188,6 +188,10 @@ class FormData(
         return other is FormData
                 && other.species.name.equals(this.species.name, true)
                 && other.name.equals(this.name, true)
+    }
+
+    override fun hashCode(): Int {
+        return this.species.name.hashCode() and this.name.hashCode()
     }
 
     override fun encode(buffer: PacketByteBuf) {
@@ -225,5 +229,4 @@ class FormData(
         this._dynamaxBlocked = buffer.readNullable { pb -> pb.readBoolean() }
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
     }
-
 }

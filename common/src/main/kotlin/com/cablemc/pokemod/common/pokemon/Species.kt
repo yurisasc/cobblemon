@@ -21,6 +21,8 @@ import com.cablemc.pokemod.common.api.pokemon.stats.Stat
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.types.ElementalType
 import com.cablemc.pokemod.common.api.types.ElementalTypes
+import com.cablemc.pokemod.common.entity.PoseType.Companion.FLYING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.ai.PokemonBehaviour
 import com.cablemc.pokemod.common.util.lang
@@ -113,8 +115,8 @@ class Species : ClientDataSynchronizer<Species> {
     }
 
     private fun resolveEyeHeight(entity: PokemonEntity): Float? = when {
-        entity.isSwimming || entity.isSubmergedInWater -> this.swimmingEyeHeight
-        entity.isFallFlying -> this.flyingEyeHeight
+        entity.getPoseType() in SWIMMING_POSES -> this.swimmingEyeHeight ?: standingEyeHeight
+        entity.getPoseType() in FLYING_POSES -> this.flyingEyeHeight ?: standingEyeHeight
         else -> this.standingEyeHeight
     }
 

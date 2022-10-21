@@ -11,7 +11,7 @@ package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 import com.cablemc.pokemod.common.client.render.models.blockbench.PoseableEntityState
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.ALL_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -29,12 +29,8 @@ class MetapodModel(root: ModelPart) : PokemonPoseableModel() {
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT),
-            transformTicks = 10,
-            condition = { true },
-            idleAnimations = arrayOf(
-                bedrock("0011_metapod/metapod", "ground_idle")
-            )
+            poseTypes = ALL_POSES,
+            idleAnimations = arrayOf(bedrock("0011_metapod/metapod", "ground_idle"))
         )
     }
 

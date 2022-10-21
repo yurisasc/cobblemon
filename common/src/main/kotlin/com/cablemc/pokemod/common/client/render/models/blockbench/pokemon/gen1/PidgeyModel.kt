@@ -16,7 +16,10 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.Pokemo
 import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.sineFunction
-import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.SHOULDER_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -39,15 +42,15 @@ class PidgeyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override fun registerPoses() {
         registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PORTRAIT, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT),
+            poseTypes = STATIONARY_POSES + SHOULDER_POSES + UI_POSES,
             transformTicks = 0,
             idleAnimations = arrayOf(
                 singleBoneLook(),
             )
         )
         registerPose(
-            poseType = PoseType.WALK,
-            condition = { it.isMoving.get() },
+            poseName = "walking",
+            poseTypes = MOVING_POSES,
             transformTicks = 5,
             idleAnimations = arrayOf(
                 singleBoneLook(),

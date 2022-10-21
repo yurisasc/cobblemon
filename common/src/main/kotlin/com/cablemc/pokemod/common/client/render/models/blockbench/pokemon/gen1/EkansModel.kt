@@ -18,6 +18,9 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pose.Transform
 import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemod.common.client.render.models.blockbench.withRotationDegrees
 import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.client.model.Dilation
 import net.minecraft.client.model.ModelData
@@ -59,7 +62,8 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override fun registerPoses() {
         registerPose(
-            poseType = PoseType.WALK,
+            poseName = "normal",
+            poseTypes = STATIONARY_POSES + MOVING_POSES,
             condition = { true },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -108,7 +112,8 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         registerPose<PokemonPoseableModel>(
-            poseType = PoseType.PORTRAIT,
+            poseName = "portrait",
+            poseTypes = UI_POSES,
             transformedParts = arrayOf(
                 body.withRotationDegrees(-35F, 0F, 0F),
                 head.withRotationDegrees(32.5F, 0.75F, 0F),

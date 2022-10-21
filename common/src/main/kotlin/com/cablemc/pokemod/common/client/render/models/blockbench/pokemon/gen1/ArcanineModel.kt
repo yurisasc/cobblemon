@@ -8,16 +8,25 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("arcanine")
     override val head = getPart("head")
+
+    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreRightLeg = getPart("leg_front_right1")
+    override val hindLeftLeg = getPart("leg_back_left")
+    override val hindRightLeg = getPart("leg_back_right1")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -31,7 +40,7 @@ class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
+            poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
@@ -41,10 +50,11 @@ class ArcanineModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
+            poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
+                singleBoneLook(),
+                QuadrupedWalkAnimation(this, periodMultiplier = 0.75F, amplitudeMultiplier = 1F)
                 // bedrock("0059_arcanine/arcanine", "ground_walk")
             )
         )

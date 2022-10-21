@@ -34,7 +34,8 @@ interface SpeciesFeature {
             try {
                 clazz.getDeclaredConstructor().newInstance()
             } catch (e: Exception) {
-                throw IllegalArgumentException("The given species feature class for $name cannot be constructed with a default constructor. You need a default constructor to use species features.")
+                e.printStackTrace()
+                throw IllegalArgumentException("The given species feature class for $name could not be constructed with a default constructor call. You need a default constructor to use species features.", e)
             }
             val instanceJob = { clazz.getDeclaredConstructor().newInstance() }
             speciesFeatures[name] = instanceJob

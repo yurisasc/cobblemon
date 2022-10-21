@@ -30,6 +30,7 @@ import com.cablemc.pokemod.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceCalculator
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroups
 import com.cablemc.pokemod.common.api.pokemon.experience.StandardExperienceCalculator
+import com.cablemc.pokemod.common.api.pokemon.feature.EnumSpeciesFeature
 import com.cablemc.pokemod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cablemc.pokemod.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemod.common.api.properties.CustomPokemonProperty
@@ -68,8 +69,11 @@ import com.cablemc.pokemod.common.permission.LaxPermissionValidator
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemod.common.pokemon.aspects.SHINY_ASPECT
+import com.cablemc.pokemod.common.pokemon.aspects.SnakePatternAspect
 import com.cablemc.pokemod.common.pokemon.feature.BattleCriticalHitsFeature
 import com.cablemc.pokemod.common.pokemon.feature.DamageTakenFeature
+import com.cablemc.pokemod.common.pokemon.feature.SNAKE_PATTERN
+import com.cablemc.pokemod.common.pokemon.feature.SnakePatternFeature
 import com.cablemc.pokemod.common.pokemon.properties.UncatchableProperty
 import com.cablemc.pokemod.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemod.common.pokemon.properties.tags.PokemonFlagProperty
@@ -167,11 +171,13 @@ object Pokemod {
 
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()
+        SnakePatternAspect.register()
 
         config.flagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
         config.globalFlagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
         SpeciesFeature.registerGlobalFeature(DamageTakenFeature.ID) { DamageTakenFeature() }
         SpeciesFeature.registerGlobalFeature(BattleCriticalHitsFeature.ID) { BattleCriticalHitsFeature() }
+        EnumSpeciesFeature.registerWithProperty(SNAKE_PATTERN, SnakePatternFeature::class.java)
 
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)

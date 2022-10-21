@@ -17,7 +17,10 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pose.Transform
 import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemod.common.client.render.models.blockbench.withPosition
 import com.cablemc.pokemod.common.client.render.models.blockbench.withRotation
-import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.FLYING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STANDING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.SWIMMING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -61,7 +64,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun registerPoses() {
         registerPose(
             poseName = "land",
-            poseTypes = setOf(PoseType.WALK, PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE, PoseType.FLOAT),
+            poseTypes = STANDING_POSES + UI_POSES,
             idleAnimations = arrayOf(
                 WaveAnimation(
                     frame = this,
@@ -98,8 +101,8 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             )
         )
         registerPose(
-            poseType = PoseType.SWIM,
-            { it.isSubmergedInWater },
+            poseName = "swim",
+            poseTypes = SWIMMING_POSES + FLYING_POSES,
             transformedParts = arrayOf(
                 head.withRotation(X_AXIS, -70F.toRadians())
             ),

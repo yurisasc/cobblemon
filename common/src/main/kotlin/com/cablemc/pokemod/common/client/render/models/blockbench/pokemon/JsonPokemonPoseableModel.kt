@@ -33,6 +33,14 @@ import java.lang.reflect.Type
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
+/**
+ * The goal of this is to allow a PokemonPoseableModel to be constructed from a JSON instead of being
+ * created via a class. By being loadable from JSON, the full flow of a new Pokémon can be accomplished
+ * from a resource + data pack.
+ *
+ * @author Hiroku
+ * @since August 7th, 2022
+ */
 class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     companion object {
         val gson = GsonBuilder()
@@ -44,8 +52,6 @@ class JsonPokemonPoseableModel(override val rootPart: ModelPart) : PokemonPoseab
             .registerTypeAdapter(Pose::class.java, PoseAdapter)
             .registerTypeAdapter(JsonPokemonPoseableModel::class.java, JsonPokemonPoseableModelAdapter)
             .create()
-
-//        fun load()
     }
 
     override fun registerPoses() {}

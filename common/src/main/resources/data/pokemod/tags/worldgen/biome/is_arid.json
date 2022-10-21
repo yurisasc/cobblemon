@@ -1,7 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:is_savanna",
-    "#pokemod:is_sandy"
+    "#pokemod:is_savanna",
+    "#pokemod:is_sandy",
+    "terralith:red_oasis"
   ]
 }

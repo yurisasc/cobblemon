@@ -15,6 +15,8 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFr
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -41,7 +43,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PROFILE, PoseType.PORTRAIT),
+            poseTypes = UI_POSES + STATIONARY_POSES - PoseType.FLOAT,
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -60,7 +62,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
         swimIdle = registerPose(
             poseName = "swim_idle",
-            poseTypes = setOf(PoseType.FLOAT),
+            poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -70,7 +72,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
 
         swim = registerPose(
             poseName = "swim",
-            poseTypes = setOf(PoseType.SWIM),
+            poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),

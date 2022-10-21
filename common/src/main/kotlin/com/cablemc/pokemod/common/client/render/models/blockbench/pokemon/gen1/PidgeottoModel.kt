@@ -16,7 +16,9 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.Pokemo
 import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.sineFunction
-import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -38,13 +40,13 @@ class PidgeottoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override fun registerPoses() {
         registerPose(
             poseName = "stand",
-            poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.FLOAT, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.SHOULDER_LEFT, PoseType.SHOULDER_RIGHT),
+            poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 0,
             idleAnimations = arrayOf(singleBoneLook())
         )
         registerPose(
             poseName = "walk",
-            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
+            poseTypes = MOVING_POSES,
             transformTicks = 5,
             idleAnimations = arrayOf(
                 singleBoneLook(),

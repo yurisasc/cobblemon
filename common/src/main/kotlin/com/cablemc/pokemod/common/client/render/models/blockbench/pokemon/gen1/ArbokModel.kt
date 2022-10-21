@@ -8,16 +8,25 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.PoseableEntityState
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.WaveAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.WaveSegment
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart
+import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.sineFunction
 import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
+import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("arbok")
-    override val head = getPart("head")
+    override val head = getPart("head_ai")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -27,31 +36,78 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var summary: PokemonPose
+
+    val tail = getPart("tail")
+    val tail2 = getPart("tail2")
+    val tail3 = getPart("tail3")
+    val tail4 = getPart("tail4")
+    val tail5 = getPart("tail5")
+    val tailWaveSegment = WaveSegment(modelPart = tail, length = 11F)
+    val tail2WaveSegment = WaveSegment(modelPart = tail2, length = 11F)
+    val tail3WaveSegment = WaveSegment(modelPart = tail3, length = 11F)
+    val tail4WaveSegment = WaveSegment(modelPart = tail4, length = 11F)
+    val tail5WaveSegment = WaveSegment(modelPart = tail5, length = 11F)
 
     override fun registerPoses() {
+        // TODO tongue_flick
+
+        val wave = WaveAnimation<PokemonEntity>(
+            frame = this,
+            waveFunction = sineFunction(
+                period = 10F,
+                amplitude = 0.5F
+            ),
+            basedOnLimbSwing = true,
+            oscillationsScalar = 8F,
+            head = tail,
+            rotationAxis = TransformedModelPart.Y_AXIS,
+            motionAxis = TransformedModelPart.X_AXIS,
+            headLength = 0.1F,
+            segments = arrayOf(
+                tailWaveSegment,
+                tail2WaveSegment,
+                tail3WaveSegment,
+                tail4WaveSegment,
+                tail5WaveSegment
+            )
+        )
+
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.PORTRAIT, PoseType.STAND, PoseType.FLOAT),
+            poseTypes = STATIONARY_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0024_arbok/arbok", "ground_idle")
+                singleBoneLook(),
+                bedrock("0024_arbok/arbok", "ground_idle"),
+                wave
             )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = setOf(PoseType.WALK, PoseType.SWIM),
+            poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0024_arbok/arbok", "ground_walk")
+                singleBoneLook(),
+                bedrock("0024_arbok/arbok", "ground_walk"),
+                wave
+            )
+        )
+
+        summary = registerPose(
+            poseName = "summary",
+            poseTypes = UI_POSES,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0024_arbok/arbok", "summary_idle")
             )
         )
     }
 
-//    override fun getFaintAnimation(
-//        pokemonEntity: PokemonEntity,
-//        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0024_arbok/arbok", "faint") else null
+    override fun getFaintAnimation(
+        pokemonEntity: PokemonEntity,
+        state: PoseableEntityState<PokemonEntity>
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0024_arbok/arbok", "faint") else null
 }
