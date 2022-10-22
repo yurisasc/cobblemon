@@ -26,6 +26,17 @@
         "water1",
         "dragon"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+				"canBreatheUnderwater": true
+			},
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "0:hurricane",
         "1:firepunch",

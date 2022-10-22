@@ -16,15 +16,6 @@
         "special_defence": 95,
         "speed": 60
     },
-    "behaviour": {
-        "moving": {
-            "swim": {
-                "canWalkOnWater": true,
-                "canSwim": true,
-                "canBreatheUnderwater": true
-            }
-        }
-    },
     "catchRate": 45,
     "maleRatio": 0.5,
     "shoulderMountable": false,
@@ -43,6 +34,15 @@
         "monster",
         "water1"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+                "canBreatheUnderwater": true,
+                "canWalkOnWater": true
+            }
+        }
+    },
     "drops": {
         "amount": "1",
         "entries": [

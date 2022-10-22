@@ -48,6 +48,14 @@
     "eggGroups": [
         "water2"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+				"canBreatheUnderwater": true
+            }
+        }
+    },
     "moves": [
         "1:tailwhip",
         "1:watergun",

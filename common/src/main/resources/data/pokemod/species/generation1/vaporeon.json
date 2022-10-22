@@ -24,6 +24,14 @@
     "eggGroups": [
         "ground"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+				"canBreatheUnderwater": true
+            }
+        }
+    },
     "moves": [
         "0:watergun",
         "1:tackle",

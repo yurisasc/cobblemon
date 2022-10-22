@@ -43,6 +43,16 @@
     "eggGroups": [
         "bug"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canWalkOnWater": true
+            },
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "0:twineedle",
         "1:furyattack",

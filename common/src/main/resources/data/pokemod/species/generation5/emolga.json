@@ -25,6 +25,13 @@
     "eggGroups": [
         "ground"
     ],
+	"behaviour": {
+        "moving": {
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "1:tailwhip",
         "1:nuzzle",

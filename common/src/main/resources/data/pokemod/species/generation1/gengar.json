@@ -48,6 +48,16 @@
     "eggGroups": [
         "indeterminate"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canWalkOnWater": true
+            },
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "1:hypnosis",
         "1:confuseray",

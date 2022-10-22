@@ -27,6 +27,14 @@
         "water1",
         "water3"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+				"canBreatheUnderwater": true
+            }
+        }
+    },
     "moves": [
         "0:crunch",
         "1:bind",

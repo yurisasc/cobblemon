@@ -26,6 +26,14 @@
         "water1",
         "ground"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+				"canBreatheUnderwater": true
+            }
+        }
+    },
     "moves": [
         "1:scratch",
         "1:tailwhip",

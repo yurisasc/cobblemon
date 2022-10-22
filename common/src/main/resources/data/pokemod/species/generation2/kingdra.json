@@ -27,6 +27,14 @@
         "water1",
         "dragon"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+				"canBreatheUnderwater": true
+            }
+        }
+    },
     "moves": [
         "1:leer",
         "1:watergun",

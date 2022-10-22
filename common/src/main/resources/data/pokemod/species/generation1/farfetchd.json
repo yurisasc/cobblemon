@@ -47,6 +47,13 @@
         "flying",
         "ground"
     ],
+	"behaviour": {
+        "moving": {
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "drops": {
         "amount": "2",
         "entries": [
