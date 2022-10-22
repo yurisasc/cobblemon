@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "venonat",
+            "id": "venonat-1",
             "pokemon": "venonat",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "13-30",
-            "weight": 7.0,
+            "weight": 5.4,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

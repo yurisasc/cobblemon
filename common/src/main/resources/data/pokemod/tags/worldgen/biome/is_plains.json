@@ -7,19 +7,19 @@
       "id": "#byg:is_plain",
       "required": false
     },
-		{
+	{
       "id": "terralith:blooming_plateau",
       "required": false
     },
-		{
+	{
       "id": "terralith:highlands",
       "required": false
     },
-		{
+	{
       "id": "terralith:steppe",
       "required": false
     },
-		{
+	{
       "id": "terralith:valley_clearing",
       "required": false
     }

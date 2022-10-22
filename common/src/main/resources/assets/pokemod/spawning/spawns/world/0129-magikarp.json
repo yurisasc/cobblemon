@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "magikarp",
+            "id": "magikarp-1",
             "pokemon": "magikarp",
             "presets": [
                 "freshwater",
@@ -14,14 +14,14 @@
             "type": "pokemon",
             "context": "submerged",
             "bucket": "common",
-            "level": "2-19",
+            "level": "1-20",
             "weight": 10.0,
             "condition": {
                 "canSeeSky": true
             }
         },
         {
-            "id": "magikarp",
+            "id": "magikarp-2",
             "pokemon": "magikarp",
             "presets": [
                 "underwater"
@@ -29,7 +29,7 @@
             "type": "pokemon",
             "context": "submerged",
             "bucket": "common",
-            "level": "2-19",
+            "level": "1-20",
             "weight": 10.0,
             "condition": {
                 "canSeeSky": true,

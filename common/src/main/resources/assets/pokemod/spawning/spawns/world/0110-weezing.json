@@ -5,17 +5,31 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "weezing",
+            "id": "weezing-1",
             "pokemon": "weezing",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "35-49",
-            "weight": 0.6,
+            "weight": 0.2,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#pokemod:is_swamp"
+                ]
+            }
+        },
+        {
+            "id": "weezing-2",
+            "pokemon": "weezing",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "35-49",
+            "weight": 0.2,
+            "condition": {
+                "biomes": [
+                    "#minecraft:is_nether"
                 ]
             }
         }

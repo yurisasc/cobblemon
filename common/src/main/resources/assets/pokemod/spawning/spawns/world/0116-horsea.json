@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "horsea",
+            "id": "horsea-1",
             "pokemon": "horsea",
             "presets": [
                 "underwater"
@@ -14,7 +14,7 @@
             "context": "submerged",
             "bucket": "uncommon",
             "level": "10-29",
-            "weight": 7.0,
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

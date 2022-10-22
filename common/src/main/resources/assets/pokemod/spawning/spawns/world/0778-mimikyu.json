@@ -1,0 +1,22 @@
+{
+    "id": "0778-mimikyu",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "mimikyu-1",
+            "pokemon": "mimikyu",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "rare",
+            "level": "12-48",
+            "weight": 4.0,
+            "condition": {
+                "biomes": [
+                    "#pokemod:is_spooky"
+                ]
+            }
+        }
+    ]
+}

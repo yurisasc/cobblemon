@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "golduck",
+            "id": "golduck-1",
             "pokemon": "golduck",
             "presets": [
                 "freshwater"
@@ -14,13 +14,13 @@
             "context": "grounded",
             "bucket": "common",
             "level": "33-50",
-            "weight": 1.8,
+            "weight": 0.6,
             "condition": {
                 "canSeeSky": true
             }
         },
         {
-            "id": "golduck",
+            "id": "golduck-2",
             "pokemon": "golduck",
             "presets": [
                 "freshwater",
@@ -30,7 +30,7 @@
             "context": "submerged",
             "bucket": "common",
             "level": "33-50",
-            "weight": 1.8,
+            "weight": 0.6,
             "condition": {
                 "canSeeSky": true
             }

@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "vulpix",
+            "id": "vulpix-1",
             "pokemon": "vulpix",
             "type": "pokemon",
             "context": "grounded",
@@ -15,14 +15,30 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_forest"
+                    "#pokemod:is_forest"
                 ],
                 "timeRange": "twilight"
             },
             "anticondition": {
                 "biomes": [
-                    "#pokemod:is_snowy"
+                    "#pokemod:is_freezing"
                 ]
+            }
+        },
+		{
+            "id": "vulpix-alolan-1",
+            "pokemon": "vulpix alolan",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "16-30",
+            "weight": 6.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_snowy"
+                ],
+                "timeRange": "twilight"
             }
         }
     ]

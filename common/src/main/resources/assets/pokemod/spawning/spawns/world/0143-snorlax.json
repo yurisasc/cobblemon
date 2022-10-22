@@ -5,18 +5,18 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "snorlax",
+            "id": "snorlax-1",
             "pokemon": "snorlax",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
             "level": "20-54",
-            "weight": 10.0,
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_forest",
-                    "#pokemod:is_mountain"
+                    "#pokemod:is_forest",
+                    "#pokemod:is_hills"
                 ]
             }
         }

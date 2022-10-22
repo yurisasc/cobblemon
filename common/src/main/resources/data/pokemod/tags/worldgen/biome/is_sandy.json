@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "#pokemod:is_badlands",
-	  "#pokemod:is_desert",
+	"#pokemod:is_desert",
     {
       "id": "#byg:is_sandy",
       "required": false

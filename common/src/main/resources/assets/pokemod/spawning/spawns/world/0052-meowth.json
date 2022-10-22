@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "meowth",
+            "id": "meowth-1",
             "pokemon": "meowth",
             "presets": [
                 "urban"
@@ -13,8 +13,8 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "12-27",
-            "weight": 7.0,
+            "level": "12-29",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -22,6 +22,11 @@
                 ],
                 "timeRange": "night",
                 "isRaining": false
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_spooky"
+                ]
             }
         }
     ]

@@ -5,21 +5,21 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "zubat",
+            "id": "zubat-1",
             "pokemon": "zubat",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "5-21",
-            "weight": 7.0,
+            "level": "5-24",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_crag",
-                    "#minecraft:is_forest",
+                    "#pokemod:is_forest",
                     "#pokemod:is_grassland",
-                    "#minecraft:is_jungle",
-                    "#pokemod:is_spooky",
+                    "#pokemod:is_hills",
+                    "#pokemod:is_jungle",
+                    "#pokemod:is_sky",
                     "#pokemod:is_swamp"
                 ],
                 "timeRange": "night",
@@ -27,12 +27,12 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#pokemod:is_snowy"
+                    "#pokemod:is_freezing"
                 ]
             }
         },
         {
-            "id": "zubat",
+            "id": "zubat-2",
             "pokemon": "zubat",
             "presets": [
                 "underground"
@@ -40,8 +40,35 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "5-21",
-            "weight": 7.0
+            "level": "5-24",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_abyss"
+                ]
+            }
+        },
+        {
+            "id": "zubat-3",
+            "pokemon": "zubat",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "5-24",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_spooky"
+                ],
+                "isRaining": false
+            }
         }
     ]
 }

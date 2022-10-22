@@ -5,20 +5,34 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "charmander",
+            "id": "charmander-1",
             "pokemon": "charmander",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "5-15",
-            "weight": 7.0,
+            "level": "5-31",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_crag"
+                    "#pokemod:is_hills",
+                    "#pokemod:is_volcanic"
                 ],
-                "timeRange": "day",
                 "isRaining": false
+            }
+        },
+        {
+            "id": "charmander-2",
+            "pokemon": "charmander",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "5-31",
+            "weight": 9.0,
+            "condition": {
+                "biomes": [
+                    "minecraft:basalt_deltas"
+                ]
             }
         }
     ]

@@ -5,22 +5,22 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "dewgong",
+            "id": "dewgong-1",
             "pokemon": "dewgong",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "34-47",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
-				"biomes": [
+                "canSeeSky": true,
+                "biomes": [
                     "#pokemod:is_frozen"
-                ],
-                "canSeeSky": true
+                ]
             }
         },
         {
-            "id": "dewgong",
+            "id": "dewgong-2",
             "pokemon": "dewgong",
             "presets": [
                 "underwater"
@@ -29,12 +29,12 @@
             "context": "submerged",
             "bucket": "common",
             "level": "34-47",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
-				"biomes": [
+                "canSeeSky": true,
+                "biomes": [
                     "#pokemod:is_frozen"
-                ],
-                "canSeeSky": true
+                ]
             }
         }
     ]

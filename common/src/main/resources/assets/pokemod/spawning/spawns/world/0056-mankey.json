@@ -5,17 +5,18 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "mankey",
+            "id": "mankey-1",
             "pokemon": "mankey",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "12-27",
-            "weight": 4.2,
+            "level": "12-30",
+            "weight": 5.4,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_crag"
+                    "#pokemod:is_hills",
+                    "#pokemod:is_jungle"
                 ],
                 "timeRange": "day"
             }

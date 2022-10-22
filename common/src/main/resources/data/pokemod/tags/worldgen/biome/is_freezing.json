@@ -17,15 +17,15 @@
       "id": "terralith:emerald_peaks",
       "required": false
     },
-	  {
+	{
       "id": "terralith:scarlet_mountains",
       "required": false
     },
-	  {
+	{
       "id": "terralith:skylands_winter",
       "required": false
     },
-	  {
+	{
       "id": "terralith:snowy_badlands",
       "required": false
     }

@@ -5,22 +5,22 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "seel",
+            "id": "seel-1",
             "pokemon": "seel",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "11-33",
-            "weight": 7.0,
+            "weight": 9.0,
             "condition": {
-				"biomes": [
+                "canSeeSky": true,
+                "biomes": [
                     "#pokemod:is_frozen"
-                ],
-                "canSeeSky": true
+                ]
             }
         },
         {
-            "id": "seel",
+            "id": "seel-2",
             "pokemon": "seel",
             "presets": [
                 "underwater"
@@ -29,12 +29,12 @@
             "context": "submerged",
             "bucket": "common",
             "level": "11-33",
-            "weight": 7.0,
+            "weight": 9.0,
             "condition": {
-				"biomes": [
+                "canSeeSky": true,
+                "biomes": [
                     "#pokemod:is_frozen"
-                ],
-                "canSeeSky": true
+                ]
             }
         }
     ]

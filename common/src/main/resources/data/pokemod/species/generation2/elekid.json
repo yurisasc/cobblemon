@@ -24,6 +24,20 @@
     "eggGroups": [
         "no-eggs"
     ],
+	"drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:redstone",
+                "percentage": 50
+            },
+            {
+                "item": "pokemod:electirizer",
+                "quantityRange": "1",
+                "percentage": 5
+            }
+        ]
+    },
     "moves": [
         "1:leer",
         "1:quickattack",

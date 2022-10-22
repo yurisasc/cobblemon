@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "magneton",
+            "id": "magneton-1",
             "pokemon": "magneton",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "30-46",
-            "weight": 0.6,
+            "weight": 0.2,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

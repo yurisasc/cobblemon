@@ -5,19 +5,18 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "ivysaur",
+            "id": "ivysaur-1",
             "pokemon": "ivysaur",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "16-31",
-            "weight": 3.0,
+            "level": "16-40",
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_jungle"
-                ],
-                "timeRange": "day"
+                    "#pokemod:is_jungle"
+                ]
             }
         }
     ]

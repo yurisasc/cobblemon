@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "ponyta",
+            "id": "ponyta-1",
             "pokemon": "ponyta",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
-            "level": "15-39",
-            "weight": 4.2,
+            "level": "20-41",
+            "weight": 5.4,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -19,6 +19,20 @@
                 ],
                 "timeRange": "day",
                 "isRaining": false
+            }
+        },
+        {
+            "id": "ponyta-2",
+            "pokemon": "ponyta",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "20-41",
+            "weight": 5.4,
+            "condition": {
+                "biomes": [
+                    "minecraft:nether_wastes"
+                ]
             }
         }
     ]

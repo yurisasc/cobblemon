@@ -5,21 +5,17 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "kadabra",
+            "id": "kadabra-1",
             "pokemon": "kadabra",
-            "presets": [
-                "urban"
-            ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
+            "bucket": "rare",
             "level": "16-40",
-            "weight": 0.6,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_arid",
-                    "#minecraft:is_forest",
+                    "#pokemod:is_hills",
                     "#pokemod:is_temperate"
                 ],
                 "timeRange": "night"

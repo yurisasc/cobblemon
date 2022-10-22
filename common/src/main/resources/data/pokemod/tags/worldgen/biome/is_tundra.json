@@ -7,23 +7,23 @@
       "id": "byg:cardinal_tundra",
       "required": false
     },
-		{
+	{
       "id": "terralith:cold_shrubland",
       "required": false
     },
-		{
+	{
       "id": "terralith:gravel_desert",
       "required": false
     },
-		{
+	{
       "id": "terralith:rocky_shrubland",
       "required": false
     },
-		{
+	{
       "id": "terralith:snowy_badlands",
       "required": false
     },
-		{
+	{
       "id": "terralith:yellowstone",
       "required": false
     }

@@ -7,7 +7,7 @@
       "id": "#byg:is_swamp",
       "required": false
     },
-		{
+	{
       "id": "terralith:orchid_swamp",
       "required": false
     }

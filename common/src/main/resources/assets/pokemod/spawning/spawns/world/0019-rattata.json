@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "rattata",
+            "id": "rattata-1",
             "pokemon": "rattata",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-19",
-            "weight": 7.0,
+            "level": "4-25",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

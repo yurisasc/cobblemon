@@ -5,20 +5,26 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "pidgey",
+            "id": "pidgey-1",
             "pokemon": "pidgey",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "5-17",
-            "weight": 7.0,
+            "level": "5-25",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_temperate"
+                    "#pokemod:is_temperate",
+                    "#pokemod:is_sky"
                 ],
                 "timeRange": "day",
                 "isRaining": false
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_spooky"
+                ]
             }
         }
     ]

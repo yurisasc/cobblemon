@@ -5,17 +5,17 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "doduo",
+            "id": "doduo-1",
             "pokemon": "doduo",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "8-30",
-            "weight": 7.0,
+            "level": "8-31",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_savanna"
+                    "#pokemod:is_savanna"
                 ],
                 "timeRange": "day"
             }

@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "dragonair",
+            "id": "dragonair-1",
             "pokemon": "dragonair",
             "presets": [
                 "underwater",
@@ -15,7 +15,13 @@
             "context": "submerged",
             "bucket": "rare",
             "level": "30-42",
-            "weight": 3.0
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_overworld"
+                ]
+            }
         }
     ]
 }

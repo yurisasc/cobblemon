@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "dugtrio",
+            "id": "dugtrio-1",
             "pokemon": "dugtrio",
             "presets": [
                 "underground"
@@ -14,7 +14,18 @@
             "context": "grounded",
             "bucket": "common",
             "level": "26-42",
-            "weight": 3.0
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_abyss"
+                ]
+            }
         }
     ]
 }

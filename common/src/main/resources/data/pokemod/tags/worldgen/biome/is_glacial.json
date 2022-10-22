@@ -2,20 +2,20 @@
   "replace": false,
   "values": [
     "minecraft:frozen_peaks",
-	  "minecraft:ice_spikes",
+	"minecraft:ice_spikes",
     {
       "id": "#byg:is_icy",
       "required": false
     },
-	  {
+	{
       "id": "terralith:frostfire_caves",
       "required": false
     },
-	  {
+	{
       "id": "terralith:frozen_cliff",
       "required": false
     },
-	  {
+	{
       "id": "terralith:glacial_chasm",
       "required": false
     }

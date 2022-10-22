@@ -24,6 +24,18 @@
     "eggGroups": [
         "ground"
     ],
+	"drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:feather",
+                "percentage": 50
+            },
+            {
+                "item": "minecraft:chicken"
+            }
+        ]
+    },
     "moves": [
         "1:scratch",
         "1:growl",

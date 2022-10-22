@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "goldeen",
+            "id": "goldeen-1",
             "pokemon": "goldeen",
             "presets": [
                 "river",
@@ -15,7 +15,7 @@
             "context": "submerged",
             "bucket": "common",
             "level": "10-32",
-            "weight": 7.0,
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true
             }

@@ -5,7 +5,28 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "scyther",
+            "id": "scyther-1",
+            "pokemon": "scyther",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "20-50",
+            "weight": 10.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_forest"
+                ],
+                "timeRange": "day"
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_spooky"
+                ]
+            }
+        },
+        {
+            "id": "scyther-2",
             "pokemon": "scyther",
             "type": "pokemon",
             "context": "grounded",
@@ -15,7 +36,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_jungle"
+                    "#pokemod:is_jungle"
                 ],
                 "timeRange": "day"
             }

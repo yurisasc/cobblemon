@@ -3,15 +3,15 @@
   "values": [
     "#minecraft:is_beach",
     "minecraft:stony_shore",
-	  {
+	{
       "id": "terralith:basalt_cliffs",
       "required": false
     },
-	  {
+	{
       "id": "terralith:granite_cliffs",
       "required": false
     },
-	  {
+	{
       "id": "terralith:white_cliffs",
       "required": false
     }

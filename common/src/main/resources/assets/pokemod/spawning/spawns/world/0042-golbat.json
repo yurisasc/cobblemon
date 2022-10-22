@@ -5,21 +5,21 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "golbat",
+            "id": "golbat-1",
             "pokemon": "golbat",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "22-45",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_crag",
-                    "#minecraft:is_forest",
+                    "#pokemod:is_forest",
                     "#pokemod:is_grassland",
-                    "#minecraft:is_jungle",
-                    "#pokemod:is_spooky",
+                    "#pokemod:is_hills",
+                    "#pokemod:is_jungle",
+                    "#pokemod:is_sky",
                     "#pokemod:is_swamp"
                 ],
                 "timeRange": "night",
@@ -27,12 +27,12 @@
             },
             "anticondition": {
                 "biomes": [
-                    "#pokemod:is_snowy"
+                    "#pokemod:is_freezing"
                 ]
             }
         },
         {
-            "id": "golbat",
+            "id": "golbat-2",
             "pokemon": "golbat",
             "presets": [
                 "underground"
@@ -41,7 +41,34 @@
             "context": "grounded",
             "bucket": "common",
             "level": "22-45",
-            "weight": 3.0
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_abyss"
+                ]
+            }
+        },
+        {
+            "id": "golbat-3",
+            "pokemon": "golbat",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "22-45",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_spooky"
+                ],
+                "isRaining": false
+            }
         }
     ]
 }

@@ -25,6 +25,19 @@
         "water1",
         "ground"
     ],
+	"drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:feather",
+                "quantityRange": "1-2",
+                "percentage": 66
+            },
+            {
+                "item": "minecraft:chicken"
+            }
+        ]
+    },
     "moves": [
         "0:metalclaw",
         "1:tackle",

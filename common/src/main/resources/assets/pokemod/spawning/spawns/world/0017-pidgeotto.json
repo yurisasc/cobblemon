@@ -5,20 +5,26 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "pidgeotto",
+            "id": "pidgeotto-1",
             "pokemon": "pidgeotto",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "18-35",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_temperate"
+                    "#pokemod:is_temperate",
+                    "#pokemod:is_sky"
                 ],
                 "timeRange": "day",
                 "isRaining": false
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_spooky"
+                ]
             }
         }
     ]

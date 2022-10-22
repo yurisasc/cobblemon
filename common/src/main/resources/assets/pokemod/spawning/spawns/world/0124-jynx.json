@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "jynx",
+            "id": "jynx-1",
             "pokemon": "jynx",
             "presets": [
                 "urban"
@@ -14,11 +14,12 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "30-45",
-            "weight": 0.6,
+            "weight": 0.2,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_snowy"
+                    "#pokemod:is_snowy",
+                    "#pokemod:is_tundra"
                 ]
             }
         }

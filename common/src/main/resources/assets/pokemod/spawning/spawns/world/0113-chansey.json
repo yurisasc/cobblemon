@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "chansey",
+            "id": "chansey-1",
             "pokemon": "chansey",
             "presets": [
                 "urban"
@@ -14,11 +14,11 @@
             "context": "grounded",
             "bucket": "rare",
             "level": "4-45",
-            "weight": 10.0,
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_overworld"
+                    "#pokemod:is_overworld"
                 ],
                 "timeRange": "day"
             }

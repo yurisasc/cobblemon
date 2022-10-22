@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "tauros",
+            "id": "tauros-1",
             "pokemon": "tauros",
             "type": "pokemon",
             "context": "grounded",

@@ -5,19 +5,18 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "bulbasaur",
+            "id": "bulbasaur-1",
             "pokemon": "bulbasaur",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "5-15",
-            "weight": 7.0,
+            "level": "5-32",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_jungle"
-                ],
-                "timeRange": "day"
+                    "#pokemod:is_jungle"
+                ]
             }
         }
     ]

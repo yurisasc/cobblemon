@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "dratini",
+            "id": "dratini-1",
             "pokemon": "dratini",
             "presets": [
                 "underwater",
@@ -14,8 +14,14 @@
             "type": "pokemon",
             "context": "submerged",
             "bucket": "rare",
-            "level": "5-29",
-            "weight": 7.0
+            "level": "15-30",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_overworld"
+                ]
+            }
         }
     ]
 }

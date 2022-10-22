@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "slowpoke",
+            "id": "slowpoke-1",
             "pokemon": "slowpoke",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "12-31",
-            "weight": 4.2,
+            "weight": 5.4,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

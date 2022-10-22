@@ -26,6 +26,15 @@
     "eggGroups": [
         "ground"
     ],
+	"drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:brown_wool",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:tackle",
         "1:mudslap",

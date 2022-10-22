@@ -5,23 +5,23 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "weedle",
+            "id": "weedle-1",
             "pokemon": "weedle",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "2-6",
-            "weight": 7.0,
+            "level": "2-19",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_forest",
-                    "#minecraft:is_jungle"
+                    "#pokemod:is_forest",
+                    "#pokemod:is_jungle"
                 ]
             },
             "anticondition": {
                 "biomes": [
-                    "#pokemod:is_cold"
+                    "#pokemod:is_freezing"
                 ]
             }
         }
