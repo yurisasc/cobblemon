@@ -8,7 +8,11 @@
 
 package com.cablemc.pokemod.fabric
 
-import com.cablemc.pokemod.common.*
+import com.cablemc.pokemod.common.Pokemod
+import com.cablemc.pokemod.common.PokemodConfiguredFeatures
+import com.cablemc.pokemod.common.PokemodImplementation
+import com.cablemc.pokemod.common.PokemodNetwork
+import com.cablemc.pokemod.common.PokemodPlacements
 import com.cablemc.pokemod.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemod.fabric.net.PokemodFabricNetworkDelegate
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents

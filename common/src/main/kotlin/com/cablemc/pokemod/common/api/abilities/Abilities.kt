@@ -15,14 +15,18 @@ import com.cablemc.pokemod.common.net.messages.client.data.AbilityRegistrySyncPa
 import com.cablemc.pokemod.common.pokemon.abilities.HiddenAbility
 import com.cablemc.pokemod.common.util.asTranslated
 import com.cablemc.pokemod.common.util.pokemodResource
-import com.google.gson.*
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
+import kotlin.io.path.Path
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
-import java.lang.reflect.Type
-import kotlin.io.path.Path
 
 /**
  * Registry for all known Abilities

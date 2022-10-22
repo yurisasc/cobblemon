@@ -22,8 +22,8 @@ import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.types.ElementalType
-import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.api.types.ElementalTypes
+import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.ai.FormPokemonBehaviour
 import com.google.gson.annotations.SerializedName

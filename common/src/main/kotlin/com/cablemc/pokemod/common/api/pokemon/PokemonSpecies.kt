@@ -41,7 +41,20 @@ import com.cablemc.pokemod.common.pokemon.adapters.StatAdapter
 import com.cablemc.pokemod.common.pokemon.evolution.adapters.CobbledEvolutionAdapter
 import com.cablemc.pokemod.common.pokemon.evolution.adapters.CobbledPreEvolutionAdapter
 import com.cablemc.pokemod.common.pokemon.evolution.adapters.CobbledRequirementAdapter
-import com.cablemc.pokemod.common.util.adapters.*
+import com.cablemc.pokemod.common.util.adapters.AbilityPoolAdapter
+import com.cablemc.pokemod.common.util.adapters.AbilityTemplateAdapter
+import com.cablemc.pokemod.common.util.adapters.BiomeLikeConditionAdapter
+import com.cablemc.pokemod.common.util.adapters.BlockLikeConditionAdapter
+import com.cablemc.pokemod.common.util.adapters.BoxAdapter
+import com.cablemc.pokemod.common.util.adapters.DropEntryAdapter
+import com.cablemc.pokemod.common.util.adapters.EggGroupAdapter
+import com.cablemc.pokemod.common.util.adapters.IdentifierAdapter
+import com.cablemc.pokemod.common.util.adapters.IntRangeAdapter
+import com.cablemc.pokemod.common.util.adapters.LazySetAdapter
+import com.cablemc.pokemod.common.util.adapters.LearnsetAdapter
+import com.cablemc.pokemod.common.util.adapters.NbtCompoundAdapter
+import com.cablemc.pokemod.common.util.adapters.TimeRangeAdapter
+import com.cablemc.pokemod.common.util.adapters.pokemonPropertiesShortAdapter
 import com.cablemc.pokemod.common.util.ifServer
 import com.cablemc.pokemod.common.util.pokemodResource
 import com.caoccao.javet.interop.V8Host
@@ -50,6 +63,10 @@ import com.google.common.collect.HashBasedTable
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import java.io.File
+import java.nio.file.Files
+import kotlin.io.path.Path
+import kotlin.reflect.KProperty
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.nbt.NbtCompound
@@ -58,10 +75,6 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.world.biome.Biome
-import java.io.File
-import java.nio.file.Files
-import kotlin.io.path.Path
-import kotlin.reflect.KProperty
 
 object PokemonSpecies : JsonDataRegistry<Species> {
 
