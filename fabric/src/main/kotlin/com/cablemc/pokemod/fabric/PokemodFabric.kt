@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,7 +8,11 @@
 
 package com.cablemc.pokemod.fabric
 
-import com.cablemc.pokemod.common.*
+import com.cablemc.pokemod.common.Pokemod
+import com.cablemc.pokemod.common.PokemodConfiguredFeatures
+import com.cablemc.pokemod.common.PokemodImplementation
+import com.cablemc.pokemod.common.PokemodNetwork
+import com.cablemc.pokemod.common.PokemodPlacements
 import com.cablemc.pokemod.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemod.fabric.net.PokemodFabricNetworkDelegate
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
