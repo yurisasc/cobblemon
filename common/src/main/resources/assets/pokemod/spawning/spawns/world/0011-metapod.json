@@ -5,23 +5,55 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "metapod",
+            "id": "metapod-1",
             "pokemon": "metapod",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "7-9",
-            "weight": 3.0,
+            "level": "7-20",
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_forest",
-                    "#minecraft:is_jungle"
+                    "#pokemod:is_forest"
                 ]
             },
             "anticondition": {
                 "biomes": [
-                    "#pokemod:is_cold"
+                    "#pokemod:is_spooky"
+                ]
+            }
+        },
+        {
+            "id": "metapod-2",
+            "pokemon": "metapod",
+            "presets": [
+                "foliage"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "7-20",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_plains"
+                ]
+            }
+        },
+		{
+            "id": "metapod-valencian-1",
+            "pokemon": "metapod valencia",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "7-20",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_jungle"
                 ]
             }
         }

@@ -11,6 +11,8 @@ package com.cablemc.pokemod.common.pokemon
 import com.cablemc.pokemod.common.api.abilities.AbilityPool
 import com.cablemc.pokemod.common.api.drop.DropTable
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
+import com.cablemc.pokemod.common.api.net.Decodable
+import com.cablemc.pokemod.common.api.net.Encodable
 import com.cablemc.pokemod.common.api.pokemon.Learnset
 import com.cablemc.pokemod.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemod.common.api.pokemon.egg.EggGroup
@@ -18,17 +20,20 @@ import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
+import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.types.ElementalType
 import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.api.types.ElementalTypes
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.ai.FormPokemonBehaviour
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
+import net.minecraft.network.PacketByteBuf
+
 class FormData(
-    @SerializedName("name")
-    val name: String = "normal",
+    name: String = "normal",
     @SerializedName("baseStats")
-    private val _baseStats: Map<Stat, Int>? = null,
+    private var _baseStats: MutableMap<Stat, Int>? = null,
     @SerializedName("maleRatio")
     private val _maleRatio: Float? = null,
     @SerializedName("baseScale")
@@ -42,9 +47,9 @@ class FormData(
     @SerializedName("baseExperienceYield")
     private var _baseExperienceYield: Int? = null,
     @SerializedName("primaryType")
-    private val _primaryType: ElementalType? = null,
+    private var _primaryType: ElementalType? = null,
     @SerializedName("secondaryType")
-    private val _secondaryType: ElementalType? = null,
+    private var _secondaryType: ElementalType? = null,
     @SerializedName("shoulderMountable")
     private val _shoulderMountable: Boolean? = null,
     @SerializedName("shoulderEffects")
@@ -58,27 +63,31 @@ class FormData(
     @SerializedName("drops")
     private val _drops: DropTable? = null,
     @SerializedName("pokedex")
-    private val _pokedex: MutableList<String>? = null,
+    private var _pokedex: MutableList<String>? = null,
     private val _preEvolution: PreEvolution? = null,
-    private val standingEyeHeight: Float? = null,
-    private val swimmingEyeHeight: Float? = null,
-    private val flyingEyeHeight: Float? = null,
+    private var standingEyeHeight: Float? = null,
+    private var swimmingEyeHeight: Float? = null,
+    private var flyingEyeHeight: Float? = null,
     @SerializedName("labels")
     private val _labels: Set<String>? = null,
     @SerializedName("cannotDynamax")
-    private val _dynamaxBlocked: Boolean? = null,
+    private var _dynamaxBlocked: Boolean? = null,
     @SerializedName("eggGroups")
     private val _eggGroups: Set<EggGroup>? = null,
     @SerializedName("height")
-    private val _height: Float? = null,
+    private var _height: Float? = null,
     @SerializedName("weight")
-    private val _weight: Float? = null,
+    private var _weight: Float? = null,
     /**
      * The [MoveTemplate] of the signature attack of the G-Max form.
      * This is always null on any form aside G-Max.
      */
     val gigantamaxMove: MoveTemplate? = null
-) {
+) : Decodable, Encodable {
+    @SerializedName("name")
+    var name: String = name
+        private set
+
     val baseStats: Map<Stat, Int>
         get() = _baseStats ?: species.baseStats
 
@@ -133,11 +142,15 @@ class FormData(
     val eggGroups: Set<EggGroup>
         get() = _eggGroups ?: species.eggGroups
 
-    // In metric
+    /**
+     * The height in decimeters
+     */
     val height: Float
         get() = _height ?: species.height
 
-    // In metric
+    /**
+     * The weight in hectograms
+     */
     val weight: Float
         get() = _weight ?: species.weight
 
@@ -163,6 +176,9 @@ class FormData(
     lateinit var species: Species
 
     fun initialize(species: Species): FormData {
+        Stats.mainStats.forEach { stat ->
+            this._baseStats?.putIfAbsent(stat, 1)
+        }
         this.species = species
         this.behaviour.parent = species.behaviour
         return this
@@ -176,5 +192,41 @@ class FormData(
 
     override fun hashCode(): Int {
         return this.species.name.hashCode() and this.name.hashCode()
+    }
+
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeString(this.name)
+        buffer.writeNullable(this._baseStats) { pb1, map -> pb1.writeMap(map, { pb2, stat -> pb2.writeString(stat.id) }, { pb, value -> pb.writeInt(value) }) }
+        buffer.writeNullable(this._hitbox) { pb, hitbox ->
+            pb.writeFloat(hitbox.width)
+            pb.writeFloat(hitbox.height)
+            pb.writeBoolean(hitbox.fixed)
+        }
+        buffer.writeNullable(this._primaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeNullable(this._secondaryType) { pb, type -> pb.writeString(type.name) }
+        buffer.writeNullable(this.standingEyeHeight) { pb, standingEyeHeight -> pb.writeFloat(standingEyeHeight) }
+        buffer.writeNullable(this.swimmingEyeHeight) { pb, swimmingEyeHeight -> pb.writeFloat(swimmingEyeHeight) }
+        buffer.writeNullable(this.flyingEyeHeight) { pb, flyingEyeHeight -> pb.writeFloat(flyingEyeHeight) }
+        buffer.writeNullable(this._height) { pb, height -> pb.writeFloat(height) }
+        buffer.writeNullable(this._weight) { pb, weight -> pb.writeFloat(weight) }
+        buffer.writeNullable(this._dynamaxBlocked) { pb, dynamaxBlocked -> pb.writeBoolean(dynamaxBlocked) }
+        buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
+    }
+
+    override fun decode(buffer: PacketByteBuf) {
+        this.name = buffer.readString()
+        this._baseStats = buffer.readNullable { pb -> pb.readMap({ Stats.getStat(it.readString(), true) }, { it.readInt() }) }
+        this._hitbox = buffer.readNullable { pb ->
+            EntityDimensions(pb.readFloat(), pb.readFloat(), pb.readBoolean())
+        }
+        this._primaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
+        this._secondaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
+        this.standingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
+        this.swimmingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
+        this.flyingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
+        this._height = buffer.readNullable { pb -> pb.readFloat() }
+        this._weight = buffer.readNullable { pb -> pb.readFloat() }
+        this._dynamaxBlocked = buffer.readNullable { pb -> pb.readBoolean() }
+        this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
     }
 }

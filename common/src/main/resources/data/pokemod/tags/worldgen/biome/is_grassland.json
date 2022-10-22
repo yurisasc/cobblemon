@@ -1,7 +1,11 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:is_savanna",
-	"#pokemod:is_plains"
+    "#pokemod:is_plains",
+    "#pokemod:is_savanna",
+	{
+      "id": "terralith:brushland",
+      "required": false
+    }
   ]
 }

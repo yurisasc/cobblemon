@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "shellder",
+            "id": "shellder-1",
             "pokemon": "shellder",
             "presets": [
                 "underwater"
@@ -13,13 +13,13 @@
             "type": "pokemon",
             "context": "seafloor",
             "bucket": "common",
-            "level": "8-30",
+            "level": "12-30",
             "weight": 10.0,
             "condition": {
-				"biomes": [
+                "canSeeSky": true,
+                "biomes": [
                     "#minecraft:is_ocean"
-                ],
-                "canSeeSky": true
+                ]
             }
         }
     ]

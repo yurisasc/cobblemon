@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#is_jungle"
+    "#pokemod:is_forest",
+	"#pokemod:is_jungle",
+	"#pokemod:is_lush"
   ]
 }

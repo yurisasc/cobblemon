@@ -5,17 +5,17 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "machoke",
+            "id": "machoke-1",
             "pokemon": "machoke",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "28-40",
-            "weight": 1.8,
+            "weight": 0.6,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_crag"
+                    "#pokemod:is_hills"
                 ],
                 "timeRange": "day"
             }

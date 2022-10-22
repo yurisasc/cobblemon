@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:is_jungle",
+    {
+      "id": "terralith:underground_jungle",
+      "required": false
+    }
+  ]
+}

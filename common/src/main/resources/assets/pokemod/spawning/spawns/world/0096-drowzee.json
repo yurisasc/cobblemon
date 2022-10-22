@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "drowzee",
+            "id": "drowzee-1",
             "pokemon": "drowzee",
             "presets": [
                 "urban"
@@ -13,13 +13,13 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "9-25",
-            "weight": 4.2,
+            "level": "9-33",
+            "weight": 5.4,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_jungle",
-                    "#minecraft:is_savanna"
+                    "#pokemod:is_jungle",
+                    "#pokemod:is_savanna"
                 ],
                 "timeRange": "night"
             }

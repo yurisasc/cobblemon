@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "raticate",
+            "id": "raticate-1",
             "pokemon": "raticate",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "20-41",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

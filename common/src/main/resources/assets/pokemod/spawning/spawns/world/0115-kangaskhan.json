@@ -5,17 +5,17 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "kangaskhan",
+            "id": "kangaskhan-1",
             "pokemon": "kangaskhan",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "rare",
-            "level": "20-49",
+            "level": "24-49",
             "weight": 10.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_savanna"
+                    "#pokemod:is_savanna"
                 ],
                 "timeRange": "day"
             }

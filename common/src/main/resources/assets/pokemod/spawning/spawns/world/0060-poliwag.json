@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "poliwag",
+            "id": "poliwag-1",
             "pokemon": "poliwag",
             "presets": [
                 "freshwater"
@@ -13,22 +13,18 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "6-24",
-            "weight": 7.0,
+            "level": "6-30",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
+                "isRaining": true,
 				"neededNearbyBlocks": [
                     "minecraft:lily_pad"
-                ]
-            },
-            "anticondition": {
-                "biomes": [
-                    "#pokemod:is_snowy"
                 ]
             }
         },
         {
-            "id": "poliwag",
+            "id": "poliwag-2",
             "pokemon": "poliwag",
             "presets": [
                 "freshwater",
@@ -37,8 +33,8 @@
             "type": "pokemon",
             "context": "submerged",
             "bucket": "common",
-            "level": "6-24",
-            "weight": 7.0,
+            "level": "6-30",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
 				"neededNearbyBlocks": [

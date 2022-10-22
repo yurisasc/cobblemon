@@ -24,6 +24,19 @@
     "eggGroups": [
         "no-eggs"
     ],
+	"drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:blaze_powder",
+                "percentage": 5
+            },
+            {
+                "item": "pokemod:magmarizer",
+                "percentage": 5
+            }
+        ]
+    },
     "moves": [
         "1:leer",
         "1:smog",

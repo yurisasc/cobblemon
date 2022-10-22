@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "graveler",
+            "id": "graveler-1",
             "pokemon": "graveler",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "25-39",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -20,7 +20,7 @@
             }
         },
         {
-            "id": "graveler",
+            "id": "graveler-2",
             "pokemon": "graveler",
             "presets": [
                 "underground"
@@ -29,7 +29,18 @@
             "context": "grounded",
             "bucket": "common",
             "level": "25-39",
-            "weight": 3.0
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_abyss"
+                ]
+            }
         }
     ]
 }

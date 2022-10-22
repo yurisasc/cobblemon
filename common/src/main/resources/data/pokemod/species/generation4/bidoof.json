@@ -26,6 +26,15 @@
         "water1",
         "ground"
     ],
+	"drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:stick",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:tackle",
         "1:growl",

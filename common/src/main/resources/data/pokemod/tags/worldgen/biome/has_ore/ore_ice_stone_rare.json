@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "snowy_slopes",
-    "jagged_peaks",
-    "frozen_peaks"
+    "#pokemod:is_freezing"
   ]
 }

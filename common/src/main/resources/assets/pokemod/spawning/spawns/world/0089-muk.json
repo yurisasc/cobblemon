@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "muk",
+            "id": "muk-1",
             "pokemon": "muk",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "38-50",
-            "weight": 0.6,
+            "weight": 0.2,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

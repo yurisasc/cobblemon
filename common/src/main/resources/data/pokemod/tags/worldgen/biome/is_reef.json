@@ -1,6 +1,10 @@
 {
   "replace": false,
   "values": [
-    "minecraft:warm_ocean"
+    "minecraft:warm_ocean",
+	{
+      "id": "terralith:lush_stacks",
+      "required": false
+    }
   ]
 }

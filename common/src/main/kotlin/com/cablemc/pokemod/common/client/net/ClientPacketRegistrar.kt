@@ -8,21 +8,10 @@
 
 package com.cablemc.pokemod.common.client.net
 
-import com.cablemc.pokemod.common.client.net.battle.BattleApplyCaptureResponseHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleCaptureEndHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleCaptureShakeHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleCaptureStartHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleEndHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleFaintHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleHealthChangeHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleInitializeHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleMakeChoiceHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleMessageHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleQueueRequestHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleSetTeamPokemonHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleSwitchPokemonHandler
-import com.cablemc.pokemod.common.client.net.battle.BattleUpdateTeamPokemonHandler
-import com.cablemc.pokemod.common.client.net.battle.ChallengeNotificationHandler
+import com.cablemc.pokemod.common.api.abilities.AbilityTemplate
+import com.cablemc.pokemod.common.api.moves.MoveTemplate
+import com.cablemc.pokemod.common.client.net.battle.*
+import com.cablemc.pokemod.common.client.net.data.DataRegistrySyncPacketHandler
 import com.cablemc.pokemod.common.client.net.gui.SummaryUIPacketHandler
 import com.cablemc.pokemod.common.client.net.pokemon.update.EvolutionUpdatePacketHandler
 import com.cablemc.pokemod.common.client.net.pokemon.update.SingleUpdatePacketHandler
@@ -34,30 +23,16 @@ import com.cablemc.pokemod.common.client.net.storage.party.InitializePartyHandle
 import com.cablemc.pokemod.common.client.net.storage.party.MoveClientPartyPokemonHandler
 import com.cablemc.pokemod.common.client.net.storage.party.SetPartyPokemonHandler
 import com.cablemc.pokemod.common.client.net.storage.party.SetPartyReferenceHandler
-import com.cablemc.pokemod.common.client.net.storage.pc.ClosePCHandler
-import com.cablemc.pokemod.common.client.net.storage.pc.InitializePCHandler
-import com.cablemc.pokemod.common.client.net.storage.pc.MoveClientPCPokemonHandler
-import com.cablemc.pokemod.common.client.net.storage.pc.OpenPCHandler
-import com.cablemc.pokemod.common.client.net.storage.pc.SetPCBoxPokemonHandler
-import com.cablemc.pokemod.common.client.net.storage.pc.SetPCPokemonHandler
+import com.cablemc.pokemod.common.client.net.storage.pc.*
 import com.cablemc.pokemod.common.net.SidedPacketRegistrar
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.GenderUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.StatusUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.data.AbilityRegistrySyncPacket
+import com.cablemc.pokemod.common.net.messages.client.data.MovesRegistrySyncPacket
+import com.cablemc.pokemod.common.net.messages.client.data.SpeciesRegistrySyncPacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
+import com.cablemc.pokemod.common.pokemon.Species
 
 /**
  * Registers packet handlers that the client will need. This is separated from the server ones
@@ -131,6 +106,12 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
 
         // Settings
         registerHandler(ServerSettingsPacketHandler)
+
+
+        // Data registries
+        registerHandler(DataRegistrySyncPacketHandler<AbilityTemplate, AbilityRegistrySyncPacket>())
+        registerHandler(DataRegistrySyncPacketHandler<MoveTemplate, MovesRegistrySyncPacket>())
+        registerHandler(DataRegistrySyncPacketHandler<Species, SpeciesRegistrySyncPacket>())
     }
 }
 

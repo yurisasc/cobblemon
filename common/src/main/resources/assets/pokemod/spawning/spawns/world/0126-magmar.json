@@ -5,17 +5,17 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "magmar",
+            "id": "magmar-1",
             "pokemon": "magmar",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "30-49",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_crag"
+                    "#pokemod:is_hills"
                 ],
                 "isRaining": false,
 				"neededNearbyBlocks": [
@@ -24,17 +24,34 @@
             }
         },
         {
-            "id": "magmar",
+            "id": "magmar-2",
+            "pokemon": "magmar",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "30-49",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_volcanic"
+                ],
+                "isRaining": false
+            }
+        },
+        {
+            "id": "magmar-3",
             "pokemon": "magmar",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
             "level": "30-49",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
-                "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_nether"
+                    "minecraft:basalt_deltas",
+                    "minecraft:crimson_forest",
+                    "minecraft:nether_wastes"
                 ]
             }
         }

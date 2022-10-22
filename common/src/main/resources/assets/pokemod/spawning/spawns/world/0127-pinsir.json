@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "pinsir",
+            "id": "pinsir-1",
             "pokemon": "pinsir",
             "type": "pokemon",
             "context": "grounded",
@@ -15,7 +15,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_jungle"
+                    "#pokemod:is_jungle"
                 ],
                 "timeRange": "day"
             }

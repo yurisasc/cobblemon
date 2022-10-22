@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "mushroom_fields"
+    "#pokemod:is_dripstone",
+	"minecraft:mushroom_fields"
   ]
 }

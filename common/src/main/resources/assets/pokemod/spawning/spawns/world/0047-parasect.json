@@ -5,29 +5,48 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "parasect",
+            "id": "parasect-1",
             "pokemon": "parasect",
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "24-40",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "minecraft:lush_caves"
+                    "#pokemod:is_lush"
                 ]
             }
         },
         {
-            "id": "parasect",
+            "id": "parasect-2",
             "pokemon": "parasect",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "24-40",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
+				"canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_mushroom"
+                ]
+            }
+        },
+        {
+            "id": "parasect-3",
+            "pokemon": "parasect",
+			"presets": [
+                "underground"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "24-40",
+            "weight": 1.0,
+            "condition": {
+				"canSeeSky": false,
                 "biomes": [
                     "#pokemod:is_mushroom"
                 ]

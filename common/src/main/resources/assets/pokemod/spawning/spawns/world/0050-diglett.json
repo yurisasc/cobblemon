@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "diglett",
+            "id": "diglett-1",
             "pokemon": "diglett",
             "presets": [
                 "underground"
@@ -13,8 +13,19 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "8-25",
-            "weight": 7.0
+            "level": "8-26",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_abyss"
+                ]
+            }
         }
     ]
 }

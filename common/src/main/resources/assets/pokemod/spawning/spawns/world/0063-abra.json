@@ -5,21 +5,17 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "abra",
+            "id": "abra-1",
             "pokemon": "abra",
-            "presets": [
-                "urban"
-            ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "uncommon",
-            "level": "5-15",
-            "weight": 1.4,
+            "bucket": "rare",
+            "level": "5-31",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_arid",
-                    "#minecraft:is_forest",
+                    "#pokemod:is_hills",
                     "#pokemod:is_temperate"
                 ],
                 "timeRange": "night"

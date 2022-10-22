@@ -31,6 +31,10 @@
             {
                 "item": "minecraft:egg",
                 "percentage": 50
+            },
+			{
+                "item": "pokemod:oval_stone",
+                "percentage": 25
             }
         ]
     },

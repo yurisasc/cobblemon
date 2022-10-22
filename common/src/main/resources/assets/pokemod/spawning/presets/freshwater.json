@@ -4,6 +4,6 @@
     "biomes": [ "#pokemod:is_freshwater" ]
   },
   "anticondition": {
-    "biomes": [ "#pokemod:is_snowy" ]
+    "biomes": [ "#pokemod:is_freezing" ]
   }
 }

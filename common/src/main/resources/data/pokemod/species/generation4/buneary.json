@@ -26,6 +26,15 @@
         "ground",
         "humanshape"
     ],
+	"drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:carrot",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:pound",
         "1:splash",

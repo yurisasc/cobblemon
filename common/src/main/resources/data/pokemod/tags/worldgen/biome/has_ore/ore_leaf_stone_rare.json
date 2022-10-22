@@ -1,8 +1,6 @@
 {
   "replace": false,
   "values": [
-    "forest",
-    "birch_forest",
-    "old_growth_birch_forest"
+	"#pokemod:is_swamp"
   ]
 }

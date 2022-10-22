@@ -1,9 +1,8 @@
 {
   "replace": false,
   "values": [
-    "snowy_plains",
-    "ice_spikes",
-    "snowy_taiga",
-    "grove"
+    "#pokemod:is_glacial",
+	"#pokemod:is_snowy",
+	"#pokemod:is_tundra"
   ]
 }

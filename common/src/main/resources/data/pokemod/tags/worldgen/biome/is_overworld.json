@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "#pokemod:is_deep",
+	"#pokemod:is_arid",
+	"#pokemod:is_cave",
+	"#pokemod:is_coast",
+	"#pokemod:is_cold",
+	"#pokemod:is_floral",
+	"#pokemod:is_forest",
+	"#pokemod:is_freshwater",
+	"#pokemod:is_grassland",
+	"#pokemod:is_highlands",
+	"#pokemod:is_island",
+	"#pokemod:is_jungle",
+	"#pokemod:is_magical",
+	"#pokemod:is_mountain",
+	"#pokemod:is_mushroom",
+	"#minecraft:is_ocean",
+	"#pokemod:is_overworld",
+	"#pokemod:is_sky",
+	"#pokemod:is_spooky",
+	"#pokemod:is_temperate",
+	"#pokemod:is_thermal",
+	"#pokemod:is_volcanic"
+  ]
+}

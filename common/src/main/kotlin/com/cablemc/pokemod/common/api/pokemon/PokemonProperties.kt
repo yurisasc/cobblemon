@@ -172,7 +172,7 @@ open class PokemonProperties {
         }
     }
 
-    var originalString: String? = null
+    var originalString: String = ""
 
     var species: String? = null
     var shiny: Boolean? = null
@@ -317,7 +317,7 @@ open class PokemonProperties {
     }
 
     fun loadFromJSON(json: JsonObject): PokemonProperties {
-        originalString = json.get(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT)?.asString
+        originalString = json.get(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT)?.asString ?: ""
         level = json.get(DataKeys.POKEMON_LEVEL)?.asInt
         shiny = json.get(DataKeys.POKEMON_SHINY)?.asBoolean
         gender = json.get(DataKeys.POKEMON_GENDER)?.asString?.let { Gender.valueOf(it) }

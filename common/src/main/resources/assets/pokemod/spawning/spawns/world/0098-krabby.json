@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "krabby",
+            "id": "krabby-1",
             "pokemon": "krabby",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-27",
-            "weight": 7.0,
+            "level": "4-32",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

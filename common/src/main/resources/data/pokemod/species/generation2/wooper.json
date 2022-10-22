@@ -27,6 +27,15 @@
         "water1",
         "ground"
     ],
+	"drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:clay_ball",
+                "percentage": 50
+            }
+        ]
+    },
     "moves": [
         "1:tailwhip",
         "1:watergun",

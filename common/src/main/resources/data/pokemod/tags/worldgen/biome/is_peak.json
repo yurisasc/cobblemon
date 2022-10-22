@@ -6,7 +6,19 @@
 	"minecraft:snowy_slopes",
     "minecraft:stony_peaks",
     {
-      "id": "#byg:is_peak",
+      "id": "terralith:emerald_peaks",
+      "required": false
+    },
+	{
+      "id": "terralith:rocky_mountains",
+      "required": false
+    },
+	{
+      "id": "terralith:scarlet_mountains",
+      "required": false
+    },
+	{
+      "id": "terralith:windswept_spires",
       "required": false
     }
   ]

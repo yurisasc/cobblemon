@@ -5,19 +5,75 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "gastly",
+            "id": "gastly-1",
+            "pokemon": "gastly",
+            "presets": [
+                "underground"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "8-31",
+            "weight": 5.4,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_abyss"
+                ]
+            }
+        },
+        {
+            "id": "gastly-2",
+            "pokemon": "gastly",
+            "presets": [
+                "underground"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "8-31",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_overworld"
+                ],
+				"maxLight": 0
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_abyss"
+                ]
+            }
+        },
+        {
+            "id": "gastly-3",
             "pokemon": "gastly",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "8-24",
-            "weight": 7.0,
+            "level": "8-31",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
                     "#pokemod:is_spooky"
                 ],
-                "timeRange": "night"
+				"maxLight": 0
+            }
+        },
+        {
+            "id": "gastly-4",
+            "pokemon": "gastly",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "8-31",
+            "weight": 9.0,
+            "condition": {
+                "biomes": [
+                    "#minecraft:is_nether"
+                ]
             }
         }
     ]

@@ -5,20 +5,20 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "electrode",
+            "id": "electrode-1",
             "pokemon": "electrode",
             "presets": [
                 "urban"
             ],
             "type": "pokemon",
             "context": "grounded",
-            "bucket": "common",
+            "bucket": "uncommon",
             "level": "30-49",
-            "weight": 0.6,
+            "weight": 0.2,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_overworld"
+                    "#pokemod:is_overworld"
                 ]
             }
         }

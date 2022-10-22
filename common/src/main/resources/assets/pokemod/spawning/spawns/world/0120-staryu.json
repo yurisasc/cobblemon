@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "staryu",
+            "id": "staryu-1",
             "pokemon": "staryu",
             "type": "pokemon",
             "context": "grounded",
@@ -21,7 +21,7 @@
             }
         },
         {
-            "id": "staryu",
+            "id": "staryu-2",
             "pokemon": "staryu",
             "presets": [
                 "underwater"

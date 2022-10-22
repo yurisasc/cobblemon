@@ -1,9 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#is_hill",
-    "windswept_savanna",
-    "meadow",
-    "stony_peaks"
+    "#pokemod:is_highlands",
+	"#pokemod:is_hills"
   ]
 }

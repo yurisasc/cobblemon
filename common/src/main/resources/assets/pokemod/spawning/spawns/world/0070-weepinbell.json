@@ -5,17 +5,17 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "weepinbell",
+            "id": "weepinbell-1",
             "pokemon": "weepinbell",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "21-39",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_jungle"
+                    "#pokemod:is_jungle"
                 ]
             }
         }

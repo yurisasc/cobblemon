@@ -1,8 +1,11 @@
 {
   "replace": false,
   "values": [
-    "#pokemod:is_savanna",
     "#pokemod:is_sandy",
-    "terralith:red_oasis"
+    "#pokemod:is_savanna",
+	{
+      "id": "terralith:red_oasis",
+      "required": false
+    }
   ]
 }

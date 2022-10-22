@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "geodude",
+            "id": "geodude-1",
             "pokemon": "geodude",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "10-24",
-            "weight": 7.0,
+            "level": "10-30",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -20,7 +20,7 @@
             }
         },
         {
-            "id": "geodude",
+            "id": "geodude-2",
             "pokemon": "geodude",
             "presets": [
                 "underground"
@@ -28,8 +28,19 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "10-24",
-            "weight": 7.0
+            "level": "10-30",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_abyss"
+                ]
+            }
         }
     ]
 }

@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "onix",
+            "id": "onix-1",
             "pokemon": "onix",
             "presets": [
                 "underground"
@@ -14,7 +14,18 @@
             "context": "grounded",
             "bucket": "rare",
             "level": "20-38",
-            "weight": 10.0
+            "weight": 10.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#pokemod:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_abyss"
+                ]
+            }
         }
     ]
 }

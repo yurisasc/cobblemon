@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "terralith:caldera",
+      "required": false
+    },
+	{
+      "id": "terralith:thermal_caves",
+      "required": false
+    },
+	{
+      "id": "terralith:yellowstone",
+      "required": false
+    }
+  ]
+}

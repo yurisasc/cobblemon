@@ -1,14 +1,22 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:is_hill",
 	"#minecraft:is_mountain",
+    "#pokemod:is_hills",
     {
-      "id": "#byg:is_peak",
+      "id": "terralith:stony_spires",
       "required": false
     },
 	{
-      "id": "#byg:is_slope",
+      "id": "terralith:volcanic_peaks",
+      "required": false
+    },
+	{
+      "id": "terralith:windswept_spires",
+      "required": false
+    },
+	{
+      "id": "terralith:yosemite_cliffs",
       "required": false
     }
   ]

@@ -1,7 +1,8 @@
 {
   "replace": false,
   "values": [
-    "sunflower_plains",
-    "flower_forest"
+    "#pokemod:is_floral",
+	"#pokemod:is_magical",
+	"#pokemod:is_sky"
   ]
 }

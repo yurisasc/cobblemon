@@ -1,0 +1,23 @@
+{
+    "id": "0556-maractus",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "maractus-1",
+            "pokemon": "maractus",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "8-46",
+            "weight": 10.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_sandy"
+                ]
+            }
+        }
+    ]
+}

@@ -120,7 +120,7 @@
         {
             "id": "vulpix_ninetales",
             "variant": "item_interact",
-            "result": "ninetales",
+            "result": "ninetales alolan",
             "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [],

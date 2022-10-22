@@ -5,17 +5,49 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "gloom",
+            "id": "gloom-1",
             "pokemon": "gloom",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "21-39",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_jungle"
+                    "#pokemod:is_jungle"
+                ],
+                "timeRange": "night"
+            }
+        },
+		{
+            "id": "gloom-2",
+            "pokemon": "gloom",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "21-39",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_temperate"
+                ],
+                "timeRange": "night"
+            }
+        },
+		{
+            "id": "gloom-valencian-1",
+            "pokemon": "gloom valencia",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "21-39",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_savanna"
                 ],
                 "timeRange": "night"
             }

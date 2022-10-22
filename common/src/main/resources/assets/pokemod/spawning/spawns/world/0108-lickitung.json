@@ -5,13 +5,13 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "lickitung",
+            "id": "lickitung-1",
             "pokemon": "lickitung",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
             "level": "18-32",
-            "weight": 1.4,
+            "weight": 1.8,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

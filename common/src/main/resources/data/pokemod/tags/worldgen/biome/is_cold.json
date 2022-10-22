@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
+    "#pokemod:is_freezing",
+    "#pokemod:is_frigid",
+    "#pokemod:is_peak",
+    "#pokemod:is_taiga",
+    "#pokemod:is_tundra",
     {
       "id": "#byg:is_cold",
       "required": false

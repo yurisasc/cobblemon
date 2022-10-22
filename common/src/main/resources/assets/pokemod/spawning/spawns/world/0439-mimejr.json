@@ -1,0 +1,33 @@
+{
+    "id": "0439-mimejr",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "mimejr-1",
+            "pokemon": "mimejr",
+            "presets": [
+                "urban"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "12-31",
+            "weight": 0.2,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_arid",
+                    "#pokemod:is_taiga",
+                    "#pokemod:is_temperate"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_freezing"
+                ]
+            }
+        }
+    ]
+}

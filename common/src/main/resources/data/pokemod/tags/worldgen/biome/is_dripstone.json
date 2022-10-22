@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:dripstone_caves",
+    {
+      "id": "terralith:fractured_savanna",
+      "required": false
+    },
+	{
+      "id": "terralith:stony_spires",
+      "required": false
+    }
+  ]
+}

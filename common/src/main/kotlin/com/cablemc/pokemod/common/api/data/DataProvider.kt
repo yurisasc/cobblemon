@@ -8,6 +8,9 @@
 
 package com.cablemc.pokemod.common.api.data
 
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.Identifier
+
 /**
  * Provides a general listener for resource and data pack updates notifying the [DataRegistry] listening.
  *
@@ -23,5 +26,21 @@ interface DataProvider {
      * @param registry The [DataRegistry] being registered.
      */
     fun register(registry: DataRegistry)
+
+    /**
+     * Attempts to find a [DataRegistry] with the given [Identifier].
+     * See [DataRegistry.id].
+     *
+     * @param registryIdentifier The [Identifier]
+     * @return The [DataRegistry] if existing.
+     */
+    fun fromIdentifier(registryIdentifier: Identifier): DataRegistry?
+
+    /**
+     * Syncs all of [DataRegistry]s in this provider to a player when requested from the server.
+     *
+     * @param player The [ServerPlayerEntity] being synchronized to the server.
+     */
+    fun sync(player: ServerPlayerEntity)
 
 }

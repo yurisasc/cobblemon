@@ -25,6 +25,15 @@
     "eggGroups": [
         "no-eggs"
     ],
+	"drops": {
+        "amount": "1",
+        "entries": [
+			{
+                "item": "pokemod:oval_stone",
+                "percentage": 25
+            }
+        ]
+    },
     "moves": [
         "1:pound",
         "1:minimize",

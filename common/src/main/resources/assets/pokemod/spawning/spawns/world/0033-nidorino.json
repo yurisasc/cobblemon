@@ -5,17 +5,17 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "nidorino",
+            "id": "nidorino-1",
             "pokemon": "nidorino",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
             "level": "16-36",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_savanna"
+                    "#pokemod:is_savanna"
                 ],
                 "timeRange": "day"
             }

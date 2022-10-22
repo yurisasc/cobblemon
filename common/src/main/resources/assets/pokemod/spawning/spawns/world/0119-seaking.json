@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "seaking",
+            "id": "seaking-1",
             "pokemon": "seaking",
             "presets": [
                 "river",
@@ -15,7 +15,7 @@
             "context": "submerged",
             "bucket": "common",
             "level": "33-45",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true
             }

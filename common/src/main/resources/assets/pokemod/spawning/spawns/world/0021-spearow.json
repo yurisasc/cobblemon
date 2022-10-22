@@ -5,18 +5,19 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "spearow",
+            "id": "spearow-1",
             "pokemon": "spearow",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-19",
-            "weight": 7.0,
+            "level": "4-26",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_badlands",
-                    "#minecraft:is_savanna"
+                    "#pokemod:is_badlands",
+                    "#pokemod:is_savanna",
+                    "#pokemod:is_sky"
                 ],
                 "timeRange": "day",
                 "isRaining": false

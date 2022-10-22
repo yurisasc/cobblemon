@@ -5,17 +5,49 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "oddish",
+            "id": "oddish-1",
             "pokemon": "oddish",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "4-20",
-            "weight": 7.0,
+            "level": "4-32",
+            "weight": 9.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_jungle"
+                    "#pokemod:is_jungle"
+                ],
+                "timeRange": "night"
+            }
+        },
+		{
+            "id": "oddish-2",
+            "pokemon": "oddish",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "4-32",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_temperate"
+                ],
+                "timeRange": "night"
+            }
+        },
+		{
+            "id": "oddish-valencian-1",
+            "pokemon": "oddish valencia",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "4-32",
+            "weight": 9.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#pokemod:is_savanna"
                 ],
                 "timeRange": "night"
             }

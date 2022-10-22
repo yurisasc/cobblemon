@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "plains",
-    "sunflower_plains"
+    "#pokemod:is_sandy"
   ]
 }

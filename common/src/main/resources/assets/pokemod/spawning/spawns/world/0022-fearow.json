@@ -5,18 +5,19 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "fearow",
+            "id": "fearow-1",
             "pokemon": "fearow",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
             "level": "20-44",
-            "weight": 3.0,
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_badlands",
-                    "#minecraft:is_savanna"
+                    "#pokemod:is_badlands",
+                    "#pokemod:is_savanna",
+                    "#pokemod:is_sky"
                 ],
                 "timeRange": "day",
                 "isRaining": false

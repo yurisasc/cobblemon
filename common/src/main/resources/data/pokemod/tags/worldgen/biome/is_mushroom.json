@@ -1,10 +1,14 @@
 {
   "replace": false,
   "values": [
-    "minecraft:mushroom_fields",
     "minecraft:dark_forest",
+    "minecraft:mushroom_fields",
     {
-      "id": "#byg:is_mushroom",
+      "id": "terralith:fungal_caves",
+      "required": false
+    },
+	{
+      "id": "terralith:mirage_isles",
       "required": false
     }
   ]

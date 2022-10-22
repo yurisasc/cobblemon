@@ -5,23 +5,23 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "kakuna",
+            "id": "kakuna-1",
             "pokemon": "kakuna",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "7-9",
-            "weight": 3.0,
+            "level": "7-20",
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_forest",
-                    "#minecraft:is_jungle"
+                    "#pokemod:is_forest",
+                    "#pokemod:is_jungle"
                 ]
             },
             "anticondition": {
                 "biomes": [
-                    "#pokemod:is_cold"
+                    "#pokemod:is_freezing"
                 ]
             }
         }

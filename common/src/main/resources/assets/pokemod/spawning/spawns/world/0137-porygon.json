@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "porygon",
+            "id": "porygon-1",
             "pokemon": "porygon",
             "presets": [
                 "urban"
@@ -18,7 +18,7 @@
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_overworld"
+                    "#pokemod:is_overworld"
                 ]
             }
         }

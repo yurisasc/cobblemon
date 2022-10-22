@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "dark_forest"
+    "#pokemod:is_spooky",
+	"#pokemod:is_taiga"
   ]
 }

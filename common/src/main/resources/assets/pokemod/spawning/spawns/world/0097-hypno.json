@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "hypno",
+            "id": "hypno-1",
             "pokemon": "hypno",
             "presets": [
                 "urban"
@@ -14,12 +14,12 @@
             "context": "grounded",
             "bucket": "common",
             "level": "26-48",
-            "weight": 1.8,
+            "weight": 0.6,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#minecraft:is_jungle",
-                    "#minecraft:is_savanna"
+                    "#pokemod:is_jungle",
+                    "#pokemod:is_savanna"
                 ],
                 "timeRange": "night"
             }

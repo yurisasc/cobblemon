@@ -5,20 +5,34 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "charmeleon",
+            "id": "charmeleon-1",
             "pokemon": "charmeleon",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "ultra-rare",
-            "level": "16-35",
-            "weight": 3.0,
+            "level": "16-40",
+            "weight": 1.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
-                    "#pokemod:is_crag"
+                    "#pokemod:is_hills",
+                    "#pokemod:is_volcanic"
                 ],
-                "timeRange": "day",
                 "isRaining": false
+            }
+        },
+        {
+            "id": "charmeleon-2",
+            "pokemon": "charmeleon",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "ultra-rare",
+            "level": "16-40",
+            "weight": 1.0,
+            "condition": {
+                "biomes": [
+                    "minecraft:basalt_deltas"
+                ]
             }
         }
     ]

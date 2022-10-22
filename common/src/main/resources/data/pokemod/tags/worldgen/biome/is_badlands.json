@@ -2,8 +2,17 @@
   "replace": false,
   "values": [
     "#minecraft:is_badlands",
-    "terralith:ashen_savanna",
-    "terralith:warped_mesa",
-    "terralith:white_mesa"
+	{
+      "id": "terralith:ashen_savanna",
+      "required": false
+    },
+	{
+      "id": "terralith:warped_mesa",
+      "required": false
+    },
+	{
+      "id": "terralith:white_mesa",
+      "required": false
+    }
   ]
 }

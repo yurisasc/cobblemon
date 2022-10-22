@@ -11,6 +11,7 @@ package com.cablemc.pokemod.common.api.data
 import com.cablemc.pokemod.common.api.reactive.SimpleObservable
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
 /**
@@ -42,5 +43,12 @@ interface DataRegistry {
      * @param manager The newly updated [ResourceManager]
      */
     fun reload(manager: ResourceManager)
+
+    /**
+     * Syncs this registry to a player when requested by the server.
+     *
+     * @param player The [ServerPlayerEntity] being synchronized to the server.
+     */
+    fun sync(player: ServerPlayerEntity)
 
 }

@@ -5,7 +5,7 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "gyarados",
+            "id": "gyarados-1",
             "pokemon": "gyarados",
             "presets": [
                 "freshwater",
@@ -21,7 +21,7 @@
             }
         },
         {
-            "id": "gyarados",
+            "id": "gyarados-2",
             "pokemon": "gyarados",
             "presets": [
                 "underwater"
