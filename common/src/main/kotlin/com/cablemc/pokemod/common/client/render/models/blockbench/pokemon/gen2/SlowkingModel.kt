@@ -1,5 +1,7 @@
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -9,7 +11,7 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("slowking")
     override val head = getPart("head")
 
@@ -18,6 +20,9 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+
+    override val leftLeg = getPart("leftleg")
+    override val rightLeg = getPart("rightleg")
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
@@ -37,7 +42,8 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("0199_slowking/slowking", "ground_idle")
+                bedrock("0199_slowking/slowking", "ground_idle"),
+                BipedWalkAnimation(this, periodMultiplier = 0.72F, amplitudeMultiplier = 1F)
                 //bedrock("0199_slowking/slowking", "ground_walk")
             )
         )
