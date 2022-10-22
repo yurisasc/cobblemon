@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -19,10 +19,10 @@ import com.cablemc.pokemod.common.net.messages.client.data.MovesRegistrySyncPack
 import com.cablemc.pokemod.common.util.pokemodResource
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import kotlin.io.path.Path
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
-import kotlin.io.path.Path
 
 /**
  * Registry for all known Moves

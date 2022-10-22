@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -11,8 +11,8 @@ package com.cablemc.pokemod.common.api.spawning.context
 import com.cablemc.pokemod.common.api.spawning.SpawnCause
 import com.cablemc.pokemod.common.api.spawning.WorldSlice
 import com.cablemc.pokemod.common.api.spawning.influence.SpawningInfluence
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -36,5 +36,5 @@ open class AreaSpawningContext(
     val nearbyBlocks: List<BlockState>,
     val slice: WorldSlice
 ) : SpawningContext() {
-    val nearbyBlockTypes: List<Identifier> by lazy { nearbyBlocks.mapNotNull { blockRegistry.getKey(it.block).orElse(null)?.value }.distinct() }
+    val nearbyBlockTypes: List<Block> by lazy { nearbyBlocks.mapNotNull { it.block }.distinct() }
 }

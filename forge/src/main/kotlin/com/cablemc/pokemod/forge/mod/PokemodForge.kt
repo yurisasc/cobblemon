@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -17,6 +17,7 @@ import com.cablemc.pokemod.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemod.forge.mod.net.PokemodForgeNetworkDelegate
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
+import java.util.*
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.event.OnDatapackSyncEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
@@ -25,7 +26,6 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
-import java.util.*
 
 @Mod(Pokemod.MODID)
 class PokemodForge : PokemodImplementation {

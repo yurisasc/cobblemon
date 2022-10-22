@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Pokemon Cobbled Contributors
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,10 +8,11 @@
 
 package com.cablemc.pokemod.common.api.spawning.condition
 
+import com.cablemc.pokemod.common.api.conditional.RegistryLikeCondition
 import com.cablemc.pokemod.common.api.spawning.context.AreaSpawningContext
 import com.cablemc.pokemod.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemod.common.util.Merger
-import net.minecraft.util.Identifier
+import net.minecraft.block.Block
 
 /**
  * Base type for a spawning condition that applies to some kind of [AreaSpawningContext]. This
@@ -25,7 +26,7 @@ abstract class AreaTypeSpawningCondition<T : AreaSpawningContext> : SpawningCond
     var maxWidth: Int? = null
     var minHeight: Int? = null
     var maxHeight: Int? = null
-    var neededNearbyBlocks: MutableList<Identifier>? = null
+    var neededNearbyBlocks: MutableList<RegistryLikeCondition<Block>>? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
         if (!super.fits(ctx, detail)) {
@@ -38,7 +39,7 @@ abstract class AreaTypeSpawningCondition<T : AreaSpawningContext> : SpawningCond
             return false
         } else if (maxHeight != null && ctx.height > maxHeight!!) {
             return false
-        } else if (neededNearbyBlocks != null && neededNearbyBlocks!!.none { it in ctx.nearbyBlockTypes }) {
+        } else if (neededNearbyBlocks != null && neededNearbyBlocks!!.none { cond -> ctx.nearbyBlockTypes.any { cond.fits(it, ctx.blockRegistry) } }) {
             return false
         } else {
             return true
