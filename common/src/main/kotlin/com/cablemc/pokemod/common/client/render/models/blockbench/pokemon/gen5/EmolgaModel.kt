@@ -8,6 +8,10 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen5
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BimanualFrame
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -17,9 +21,14 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class EmolgaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class EmolgaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("emolga")
     override val head = getPart("head")
+
+    override val leftArm = getPart("leftarm")
+    override val rightArm = getPart("rightarm")
+    override val leftLeg = getPart("leftfoot")
+    override val rightLeg = getPart("rightfoot")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -45,7 +54,9 @@ class EmolgaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("0587_emolga/emolga", "ground_idle")
+                bedrock("0587_emolga/emolga", "ground_idle"),
+                BipedWalkAnimation(this, periodMultiplier = 1F, amplitudeMultiplier = 0.7F),
+                BimanualSwingAnimation(this, swingPeriodMultiplier = 1F, amplitudeMultiplier = 0.7F)
                 //bedrock("0587_emolga/emolga", "ground_walk")
             )
         )
