@@ -65,28 +65,31 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
     }
 
     companion object {
-        
+
         val LAYER_LOCATION = EntityModelLayer(pokemodResource("pokeball"), "main")
         fun createBodyLayer(): TexturedModelData {
             val meshdefinition = ModelData()
             val partdefinition = meshdefinition.root
-            val root = partdefinition.addChild(
-                "root",
-                ModelPartBuilder.create(),
-                ModelTransform.of(0.0f, 0.0f, 0.0f, PI, 0F, 0F)
-            )
+
+            val root = partdefinition.addChild("root", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 24.0f, 0.0f))
+
             val pokeball = root.addChild(
                 "pokeball",
-                ModelPartBuilder.create().uv(0, 0)
-                    .cuboid(-4.0f, -4.0f, -4.0f, 8.0f, 4.0f, 8.0f, Dilation.NONE),
-                ModelTransform.of(0.0f, 0.0f, 0.0f, 0F, 0F, 0F)
+                ModelPartBuilder.create().uv(0, 1)
+                    .cuboid(-4.0f, -4.0f, -4.0f, 8.0f, 3.0f, 8.0f, Dilation(0.0f))
+                    .uv(8, 24).cuboid(-3.0f, -2.0f, -3.0f, 6.0f, 2.0f, 6.0f, Dilation(0.0f)),
+                ModelTransform.pivot(0.0f, 0.0f, 0.0f)
             )
+
             val pokeball_lid = pokeball.addChild(
                 "pokeball_lid",
                 ModelPartBuilder.create().uv(0, 12)
-                    .cuboid(-4.0f, -4.0f, -8.0f, 8.0f, 4.0f, 8.0f, Dilation.NONE),
+                    .cuboid(-4.0f, -4.0f, -8.0f, 8.0f, 4.0f, 8.0f, Dilation(0.0f))
+                    .uv(8, 24).cuboid(-3.0f, -5.0f, -7.0f, 6.0f, 2.0f, 6.0f, Dilation(0.0f))
+                    .uv(0, 26).cuboid(-2.0f, -2.5f, -8.01f, 4.0f, 4.0f, 0.0f, Dilation(0.0f)),
                 ModelTransform.pivot(0.0f, -4.0f, 4.0f)
             )
+
             return TexturedModelData.of(meshdefinition, 32, 32)
         }
     }
