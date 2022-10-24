@@ -17,7 +17,7 @@
 	"#pokemod:is_mountain",
 	"#pokemod:is_mushroom",
 	"#minecraft:is_ocean",
-	"#pokemod:is_overworld",
+	"#minecraft:is_overworld",
 	"#pokemod:is_sky",
 	"#pokemod:is_spooky",
 	"#pokemod:is_temperate",
