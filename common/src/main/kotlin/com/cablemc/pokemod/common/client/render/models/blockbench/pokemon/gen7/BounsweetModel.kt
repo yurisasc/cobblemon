@@ -8,6 +8,8 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
@@ -16,8 +18,11 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class BounsweetModel(root: ModelPart) : PokemonPoseableModel() {
+class BounsweetModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("bounsweet")
+
+    override val leftLeg = getPart("left_foot")
+    override val rightLeg = getPart("right_foot")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -41,6 +46,7 @@ class BounsweetModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
+                BipedWalkAnimation(this, periodMultiplier = 1F, amplitudeMultiplier = 0.5F)
                 //bedrock("0761_bounsweet/bounsweet", "ground_walk")
             )
         )
