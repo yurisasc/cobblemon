@@ -8,6 +8,10 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BimanualFrame
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -17,9 +21,14 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("decidueye")
     override val head = getPart("head")
+
+    override val leftArm = getPart("wing_bottom_left1")
+    override val rightArm = getPart("wing_bottom_right1")
+    override val leftLeg = getPart("leg_left1")
+    override val rightLeg = getPart("leg_right1")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -44,7 +53,9 @@ class DecidueyeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook()
+                singleBoneLook(),
+                BimanualSwingAnimation(this),
+                BipedWalkAnimation(this)
                 //bedrock("0724_decidueye/decidueye", "ground_walk")
             )
         )

@@ -8,6 +8,10 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen7
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BimanualSwingAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BimanualFrame
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -17,9 +21,14 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class IncineroarModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class IncineroarModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("incineroar")
     override val head = getPart("head")
+
+    override val leftArm = getPart("arm_left1")
+    override val rightArm = getPart("arm_right1")
+    override val leftLeg = getPart("leg_left1")
+    override val rightLeg = getPart("leg_right1")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -45,7 +54,9 @@ class IncineroarModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("0727_incineroar/incineroar", "ground_idle")
+                bedrock("0727_incineroar/incineroar", "ground_idle"),
+                BipedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F),
+                BimanualSwingAnimation(this, swingPeriodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
                 //bedrock("0727_incineroar/incineroar", "ground_walk")
             )
         )
