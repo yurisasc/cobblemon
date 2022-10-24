@@ -8,6 +8,8 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen4
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -17,9 +19,12 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class PachirisuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class PachirisuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("pachirisu")
     override val head = getPart("head")
+
+    override val leftLeg = getPart("leftfoot")
+    override val rightLeg = getPart("rightfoot")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -44,7 +49,8 @@ class PachirisuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook()
+                singleBoneLook(),
+                BipedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.7F)
                 //bedrock("0417_pachirisu/pachirisu", "ground_walk")
             )
         )
