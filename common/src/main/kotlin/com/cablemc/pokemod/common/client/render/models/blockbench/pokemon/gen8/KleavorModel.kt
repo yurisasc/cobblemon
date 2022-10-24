@@ -8,6 +8,8 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen8
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -15,9 +17,12 @@ import com.cablemc.pokemod.common.entity.PoseType
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class KleavorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class KleavorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("kleavor")
     override val head = getPart("head")
+
+    override val leftLeg = getPart("leftleg")
+    override val rightLeg = getPart("rightleg")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -43,7 +48,8 @@ class KleavorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = PoseType.MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("0900_kleavor/kleavor", "ground_idle")
+                bedrock("0900_kleavor/kleavor", "ground_idle"),
+                BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F)
                 //bedrock("0900_kleavor/kleavor", "ground_walk")
             )
         )
