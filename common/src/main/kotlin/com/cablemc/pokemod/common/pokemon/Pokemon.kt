@@ -709,8 +709,6 @@ open class Pokemon {
         }
     }
 
-    // TODO a check function for gender to make sure a changed species hasn't broken the gender of the pokemon, and fix
-
     fun initialize(): Pokemon {
         // TODO some other initializations to do with form n shit\
         checkGender()

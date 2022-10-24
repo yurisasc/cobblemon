@@ -19,6 +19,10 @@ package com.cablemc.pokemod.common.api
 open class PrioritizedList<T> : Iterable<T> {
     protected val priorityMap = mutableMapOf<Priority, MutableList<T>>()
     protected val ordered = mutableListOf<T>()
+
+    val mapping: Map<Priority, List<T>>
+        get() = priorityMap.toMap()
+
     private fun reorder() {
         ordered.clear()
         Priority.values().forEach {

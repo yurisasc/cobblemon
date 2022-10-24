@@ -14,6 +14,7 @@ import com.cablemc.pokemod.common.PokemodImplementation
 import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.PokemodPlacements
 import com.cablemc.pokemod.common.net.serverhandling.ServerPacketRegistrar
+import com.cablemc.pokemod.common.util.getServer
 import com.cablemc.pokemod.fabric.net.PokemodFabricNetworkDelegate
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.loader.api.FabricLoader
@@ -34,7 +35,7 @@ object PokemodFabric : PokemodImplementation {
 //            PokemonCobbled.permissionValidator = LuckPermsPermissionValidator()
         }
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register { player, isLogin ->
-            if (isLogin) {
+            if (isLogin && getServer()?.isSingleplayer == false) {
                 Pokemod.dataProvider.sync(player)
             }
         }
