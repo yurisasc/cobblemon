@@ -44,6 +44,13 @@
     "eggGroups": [
         "flying"
     ],
+	"behaviour": {
+        "moving": {
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "1:gust",
         "1:sandattack",

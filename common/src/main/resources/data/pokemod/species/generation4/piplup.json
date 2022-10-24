@@ -25,6 +25,14 @@
         "water1",
         "ground"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+				"canBreatheUnderwater": true
+            }
+        }
+    },
 	"drops": {
         "amount": "2",
         "entries": [

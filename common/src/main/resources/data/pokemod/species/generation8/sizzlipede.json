@@ -26,6 +26,14 @@
     "eggGroups": [
         "bug"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInLava": true,
+				"canBreatheUnderlava": true
+            }
+        }
+    },
     "moves": [
         "1:ember",
         "1:smokescreen",

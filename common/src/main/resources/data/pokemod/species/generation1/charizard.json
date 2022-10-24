@@ -15,14 +15,6 @@
         "special_defence": 85,
         "speed": 100
     },
-    "behaviour": {
-        "moving": {
-            "fly": {
-                "canFly": true,
-                "flySpeedHorizontal": 0.6
-            }
-        }
-    },
     "catchRate": 45,
     "maleRatio": 0.875,
     "shoulderMountable": false,
@@ -76,6 +68,14 @@
         "monster",
         "dragon"
     ],
+    "behaviour": {
+        "moving": {
+            "fly": {
+                "canFly": true,
+                "flySpeedHorizontal": 0.6
+            }
+        }
+    },
     "moves": [
         "0:airslash",
         "1:scratch",

@@ -23,6 +23,16 @@
     "eggGroups": [
         "no-eggs"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canWalkOnWater": true
+            },
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "1:pound",
         "1:reflecttype",

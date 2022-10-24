@@ -60,6 +60,13 @@
     "eggGroups": [
         "no-eggs"
     ],
+	"behaviour": {
+        "moving": {
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "1:disable",
         "1:confusion",

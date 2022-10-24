@@ -44,6 +44,13 @@
     "eggGroups": [
         "bug"
     ],
+	"behaviour": {
+        "moving": {
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "0:bulletpunch",
         "1:wingattack",

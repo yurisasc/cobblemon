@@ -26,6 +26,16 @@
     "eggGroups": [
         "mineral"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canWalkOnWater": true
+            },
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "1:tackle",
         "1:supersonic",

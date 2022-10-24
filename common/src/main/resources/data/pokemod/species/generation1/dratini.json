@@ -25,6 +25,14 @@
         "water1",
         "dragon"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+				"canBreatheUnderwater": true
+            }
+        }
+    },
     "drops": {
         "amount": "1",
         "entries": [

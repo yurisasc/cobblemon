@@ -38,6 +38,16 @@
     "eggGroups": [
         "indeterminate"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canWalkOnWater": true
+            },
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "0:doublehit",
         "1:tackle",

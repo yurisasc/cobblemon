@@ -26,6 +26,16 @@
     "eggGroups": [
         "bug"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canWalkOnWater": true
+            },
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "0:gust",
         "1:tackle",

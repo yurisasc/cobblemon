@@ -25,6 +25,16 @@
     "eggGroups": [
         "flying"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canWalkOnWater": true
+            },
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
     "moves": [
         "1:supersonic",
         "1:absorb",

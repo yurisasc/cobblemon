@@ -38,6 +38,13 @@
     "eggGroups": [
         "indeterminate"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canWalkOnWater": true
+            }
+        }
+    },
     "drops": {
         "amount": "1",
         "entries": [
