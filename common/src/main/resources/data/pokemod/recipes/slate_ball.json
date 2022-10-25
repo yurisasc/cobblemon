@@ -10,13 +10,13 @@
             "item": "pokemod:black_apricorn"
         },
         "l": {
-            "item": "pokemod:yellow_apricorn"
+            "item": "pokemod:black_apricorn"
         },
         "c": {
-            "item": "minecraft:gold_ingot"
+            "item": "minecraft:copper_ingot"
         },
         "r": {
-            "item": "pokemod:yellow_apricorn"
+            "item": "pokemod:black_apricorn"
         },
         "b": {
             "item": "pokemod:black_apricorn"
@@ -24,7 +24,7 @@
     },
     "result":
     {
-        "item": "pokemod:ultra_ball",
+        "item": "pokemod:slate_ball",
         "count": 4
     }
 }
