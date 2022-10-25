@@ -41,7 +41,7 @@ object PokemodItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val VERDANT_BALL = queue("verdant_ball") { PokeBallItem(PokeBalls.VERDANT_BALL) }
     val SPORT_BALL = queue("sport_ball") { PokeBallItem(PokeBalls.SPORT_BALL) }
     val SLATE_BALL = queue("slate_ball") { PokeBallItem(PokeBalls.SLATE_BALL) }
-    val ROSE_BALL = queue("rose_ball") { PokeBallItem(PokeBalls.ROSE_BALL) }
+    val ROSEATE_BALL = queue("roseate_ball") { PokeBallItem(PokeBalls.ROSEATE_BALL) }
     val AZURE_BALL = queue("azure_ball") { PokeBallItem(PokeBalls.AZURE_BALL) }
     val CITRINE_BALL = queue("citrine_ball") { PokeBallItem(PokeBalls.CITRINE_BALL) }
     val MASTER_BALL = queue("master_ball") { PokeBallItem(PokeBalls.MASTER_BALL) }
@@ -154,7 +154,7 @@ object PokemodItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
         ballMap[PokeBalls.VERDANT_BALL] = VERDANT_BALL
         ballMap[PokeBalls.SPORT_BALL] = SPORT_BALL
         ballMap[PokeBalls.SLATE_BALL] = SLATE_BALL
-        ballMap[PokeBalls.ROSE_BALL] = ROSE_BALL
+        ballMap[PokeBalls.ROSEATE_BALL] = ROSEATE_BALL
         ballMap[PokeBalls.AZURE_BALL] = AZURE_BALL
         ballMap[PokeBalls.CITRINE_BALL] = CITRINE_BALL
         ballMap[PokeBalls.GREAT_BALL] = GREAT_BALL

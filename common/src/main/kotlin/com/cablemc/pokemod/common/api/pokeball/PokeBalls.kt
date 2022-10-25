@@ -26,7 +26,7 @@ object PokeBalls {
     val VERDANT_BALL = registerPokeBall(PokeBall(pokemodResource("verdant_ball")))
     val SPORT_BALL = registerPokeBall(PokeBall(pokemodResource("sport_ball")))
     val SLATE_BALL = registerPokeBall(PokeBall(pokemodResource("slate_ball")))
-    val ROSE_BALL = registerPokeBall(PokeBall(pokemodResource("rose_ball")))
+    val ROSEATE_BALL = registerPokeBall(PokeBall(pokemodResource("roseate_ball")))
     val AZURE_BALL = registerPokeBall(PokeBall(pokemodResource("azure_ball")))
     val CITRINE_BALL = registerPokeBall(PokeBall(pokemodResource("citrine_ball")))
     val GREAT_BALL = registerPokeBall(PokeBall(pokemodResource("great_ball"), listOf(MultiplierModifier(1.5f, null))))

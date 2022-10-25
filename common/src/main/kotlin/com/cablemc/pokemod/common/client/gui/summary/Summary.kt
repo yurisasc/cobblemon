@@ -173,7 +173,8 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
         modelWidget = ModelWidget(
             pX = x + 183, pY = y + 24,
             pWidth = 102, pHeight = 100,
-            pokemon = currentPokemon.asRenderablePokemon()
+            pokemon = currentPokemon.asRenderablePokemon(),
+            baseScale = 2F
         )
         addDrawableChild(
             modelWidget

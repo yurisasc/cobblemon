@@ -236,16 +236,16 @@ object Pokemod {
             }
         }
 
-        showdownThread.showdownStarted.thenAccept {
-            PokemonSpecies.observable.pipe(takeFirst()).subscribe {
-                LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
-                BattleRegistry.startBattle(
-                    BattleFormat.GEN_8_SINGLES,
-                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
-                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
-                ).apply { mute = true }
-            }
-        }
+//        showdownThread.showdownStarted.thenAccept {
+//            PokemonSpecies.observable.pipe(takeFirst()).subscribe {
+//                LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
+//                BattleRegistry.startBattle(
+//                    BattleFormat.GEN_8_SINGLES,
+//                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
+//                    BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))
+//                ).apply { mute = true }
+//            }
+//        }
     }
 
     fun getLevel(dimension: RegistryKey<World>): World? {
