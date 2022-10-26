@@ -14,6 +14,7 @@ import com.cablemc.pokemod.common.api.data.DataProvider
 import com.cablemc.pokemod.common.api.data.DataRegistry
 import com.cablemc.pokemod.common.api.moves.Moves
 import com.cablemc.pokemod.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemod.common.util.getServer
 import dev.architectury.registry.ReloadListenerRegistry
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
@@ -46,7 +47,9 @@ internal object CobbledDataProvider : DataProvider {
     override fun fromIdentifier(registryIdentifier: Identifier): DataRegistry? = this.registries[registryIdentifier]
 
     override fun sync(player: ServerPlayerEntity) {
-        this.registries.values.forEach { registry -> registry.sync(player) }
+        if (getServer()?.isSingleplayer == false) {
+            this.registries.values.forEach { registry -> registry.sync(player) }
+        }
     }
 
     private class SimpleResourceReloader(private val registry: DataRegistry) : SynchronousResourceReloader {

@@ -38,6 +38,7 @@ interface DataProvider {
 
     /**
      * Syncs all of [DataRegistry]s in this provider to a player when requested from the server.
+     * This should not be invoked in a single player game instance, the default implementation already makes this check.
      *
      * @param player The [ServerPlayerEntity] being synchronized to the server.
      */
