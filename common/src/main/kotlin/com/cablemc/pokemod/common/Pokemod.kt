@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common
 
+import com.cablemc.pokemod.common.advancement.PokemodCriteria
 import com.cablemc.pokemod.common.api.Priority
 import com.cablemc.pokemod.common.api.data.DataProvider
 import com.cablemc.pokemod.common.api.drop.CommandDropEntry
@@ -87,20 +88,20 @@ import com.cablemc.pokemod.common.world.PokemodGameRules
 import com.cablemc.pokemod.common.world.generation.PokemodWorldGeneration
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.UUID
-import kotlin.properties.Delegates
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.memberProperties
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.util.*
+import kotlin.properties.Delegates
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 
 object Pokemod {
     const val MODID = "pokemod"
@@ -135,6 +136,7 @@ object Pokemod {
         this.loadConfig()
         this.implementation = implementation
 
+        PokemodCriteria // Init the fields and register the criteria
         PokemodEntities.register()
         PokemodBlocks.register()
         PokemodBlockEntities.register()
