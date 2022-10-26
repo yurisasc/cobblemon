@@ -37,7 +37,7 @@ open class EvolutionOreGenerationBase(
 ) {
 
     val configuredFeature = ConfiguredFeatures.register(
-        name,
+        pokemodResource(name).toString(),
         Feature.ORE,
         OreFeatureConfig(
             ruleTest,
@@ -49,7 +49,7 @@ open class EvolutionOreGenerationBase(
 
     val placedFeature = if (useBiomeTagFilter)
         PlacedFeatures.register(
-            name,
+            pokemodResource(name).toString(),
             configuredFeature,
             CountPlacementModifier.of(amountPerChunk),
             IsBiomeTagFilter(tagKey),
@@ -57,7 +57,7 @@ open class EvolutionOreGenerationBase(
         )
     else
         PlacedFeatures.register(
-            name,
+            pokemodResource(name).toString(),
             configuredFeature,
             CountPlacementModifier.of(amountPerChunk),
             *additionalModifiers
