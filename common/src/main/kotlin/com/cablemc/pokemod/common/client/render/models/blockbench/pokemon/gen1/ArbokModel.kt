@@ -27,8 +27,8 @@ class ArbokModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("arbok")
     override val head = getPart("head_ai")
 
-    override val portraitScale = 1.2F
-    override val portraitTranslation = Vec3d(-0.1, 0.85, 0.0)
+    override val portraitScale = 1.3F
+    override val portraitTranslation = Vec3d(-0.3, 0.95, 0.0)
 
     override val profileScale = 0.75F
     override val profileTranslation = Vec3d(-0.1, 0.6, 0.0)
