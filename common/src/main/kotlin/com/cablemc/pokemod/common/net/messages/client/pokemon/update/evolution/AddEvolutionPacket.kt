@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution
 
 import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemod.common.pokemon.Pokemon
-
 class AddEvolutionPacket() : EvolutionUpdatePacket() {
 
     constructor(pokemon: Pokemon, evolution: Evolution): this() {

@@ -24,7 +24,6 @@ import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.util.math.MatrixStack
-
 class BattleGUI : Screen(battleLang("gui.title")) {
     companion object {
         const val OPTION_VERTICAL_SPACING = 3

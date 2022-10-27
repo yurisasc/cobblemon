@@ -26,7 +26,6 @@ import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.MathHelper.floor
-
 class BattleMoveSelection(
     battleGUI: BattleGUI,
     request: SingleActionRequest,

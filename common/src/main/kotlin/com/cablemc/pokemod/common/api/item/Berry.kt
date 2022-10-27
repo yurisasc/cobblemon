@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.common.api.item
 
 import net.minecraft.util.Identifier
-
 class Berry(
     val name: Identifier,
     val spicy: Int,

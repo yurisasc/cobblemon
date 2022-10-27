@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemod.common.pokemon.activestate.PokemonState
 import net.minecraft.network.PacketByteBuf
-
 class PokemonStateUpdatePacket(): SingleUpdatePacket<PokemonState>(InactivePokemonState()) {
     constructor(pokemon: Pokemon, state: PokemonState): this() {
         setTarget(pokemon)

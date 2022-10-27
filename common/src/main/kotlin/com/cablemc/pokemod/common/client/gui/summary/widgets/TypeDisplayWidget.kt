@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.common.client.gui.summary.widgets
 
 import com.cablemc.pokemod.common.util.pokemodResource
-
 class TypeDisplayWidget {
 
     companion object {

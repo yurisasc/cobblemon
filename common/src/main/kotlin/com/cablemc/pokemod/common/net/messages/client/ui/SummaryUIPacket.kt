@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.net.messages.client.ui
 import com.cablemc.pokemod.common.api.net.NetworkPacket
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import net.minecraft.network.PacketByteBuf
-
 class SummaryUIPacket internal constructor(): NetworkPacket {
     constructor(vararg pokemon: Pokemon, editable: Boolean = true) : this() {
         pokemonArray.addAll(pokemon)

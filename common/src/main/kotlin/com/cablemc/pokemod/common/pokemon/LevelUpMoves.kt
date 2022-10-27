@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.common.pokemon
 
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
-
 class LevelUpMoves : HashMap<Int, MutableList<MoveTemplate>>() {
     fun getLevelUpMovesUpTo(level: Int) = entries.filter { it.key <= level }.sortedBy { it.key }.flatMap { it.value }.toSet()
 }

@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.pokemon.status.statuses
 
 import com.cablemc.pokemod.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemod.common.util.pokemodResource
-
 class SleepStatus : PersistentStatus(
     name = pokemodResource("sleep"),
     showdownName = "slp",

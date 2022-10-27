@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:marshtomp",
+  "model": "pokemod:bedrock/models/0259_marshtomp/marshtomp.geo.json",
+  "texture": "pokemod:textures/pokemon/0259_marshtomp/marshtomp.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0259_marshtomp/marshtomp_shiny.png"
+    }
+  ]
+}

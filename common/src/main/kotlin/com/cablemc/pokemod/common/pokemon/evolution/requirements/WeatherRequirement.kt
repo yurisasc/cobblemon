@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.pokemon.evolution.requirements
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.pokemon.evolution.requirements.template.EntityQueryRequirement
 import net.minecraft.entity.LivingEntity
-
 class WeatherRequirement : EntityQueryRequirement {
     companion object {
         const val ADAPTER_VARIANT = "weather"

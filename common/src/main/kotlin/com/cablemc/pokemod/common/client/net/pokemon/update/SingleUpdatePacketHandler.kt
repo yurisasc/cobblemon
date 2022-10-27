@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.client.PokemodClient
 import com.cablemc.pokemod.common.client.net.ClientPacketHandler
 import com.cablemc.pokemod.common.net.messages.client.PokemonUpdatePacket
-
 class SingleUpdatePacketHandler<T : PokemonUpdatePacket> : ClientPacketHandler<T> {
     override fun invokeOnClient(packet: T, ctx: PokemodNetwork.NetworkContext) {
         val pokemon = PokemodClient.storage.locatePokemon(packet.storeID, packet.pokemonID)

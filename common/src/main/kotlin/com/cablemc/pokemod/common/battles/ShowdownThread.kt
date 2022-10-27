@@ -24,7 +24,6 @@ import java.io.InputStreamReader
 import java.util.concurrent.CompletableFuture
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.Identifier
-
 class ShowdownThread : Thread() {
 
     var showdownStarted = CompletableFuture<Unit>()

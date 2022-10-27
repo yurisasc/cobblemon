@@ -17,7 +17,6 @@ import com.cablemc.pokemod.common.util.pokemodResource
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-
 class InfoWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,

@@ -14,7 +14,6 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.addRotation
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BiWingedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.WaveFunction
 import net.minecraft.entity.Entity
-
 class WingFlapIdleAnimation<T : Entity>(
     frame: BiWingedFrame,
     val flapFunction: WaveFunction,

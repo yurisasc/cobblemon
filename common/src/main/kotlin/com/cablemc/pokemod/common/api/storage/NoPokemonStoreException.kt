@@ -7,5 +7,4 @@
  */
 
 package com.cablemc.pokemod.common.api.storage
-
 class NoPokemonStoreException(message: String) : Exception(message)

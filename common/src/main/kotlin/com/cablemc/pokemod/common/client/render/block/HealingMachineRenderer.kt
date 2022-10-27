@@ -24,7 +24,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Vec3f
-
 class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Context): BlockEntityRenderer<T> {
     companion object {
         private val offsets = listOf(

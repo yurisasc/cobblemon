@@ -15,7 +15,6 @@ import kotlin.math.max
 import kotlin.math.round
 import kotlin.random.Random
 import net.minecraft.server.network.ServerPlayerEntity
-
 class PoisonStatus : PersistentStatus(
     name = pokemodResource("poison"),
     showdownName = "psn",

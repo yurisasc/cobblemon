@@ -14,7 +14,6 @@ import java.security.InvalidParameterException
 import kotlin.math.roundToInt
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-
 class PartyWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,

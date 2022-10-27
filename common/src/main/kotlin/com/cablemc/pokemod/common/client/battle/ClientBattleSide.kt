@@ -7,7 +7,6 @@
  */
 
 package com.cablemc.pokemod.common.client.battle
-
 class ClientBattleSide {
     lateinit var battle: ClientBattle
     val actors = mutableListOf<ClientBattleActor>()

@@ -14,7 +14,6 @@ import com.cablemc.pokemod.common.util.writeSizedInt
 import java.lang.Integer.max
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-
 class ShowdownActionRequest(
     var wait: Boolean = false,
     var active: MutableList<ShowdownMoveset>? = null,
@@ -169,7 +168,6 @@ data class SwitchActionResponse(var newPokemonId: UUID) : ShowdownActionResponse
         return "switch ${activeBattlePokemon.actor.pokemonList.indexOfFirst { it.uuid == newPokemonId } + 1}"
     }
 }
-
 class DefaultActionResponse: ShowdownActionResponse(ShowdownActionResponseType.DEFAULT) {
     override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean) = true
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "default"
@@ -179,7 +177,6 @@ object PassActionResponse : ShowdownActionResponse(ShowdownActionResponseType.PA
     override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean) = true
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "pass"
 }
-
 class BallActionResponse() : ShowdownActionResponse(ShowdownActionResponseType.BALL) {
     override fun isValid(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?, forceSwitch: Boolean): Boolean {
         if (forceSwitch) {
@@ -193,7 +190,6 @@ class BallActionResponse() : ShowdownActionResponse(ShowdownActionResponseType.B
 
     override fun toShowdownString(activeBattlePokemon: ActiveBattlePokemon, showdownMoveSet: ShowdownMoveset?) = "pass"
 }
-
 class ShowdownMoveset {
     lateinit var moves: List<InBattleMove>
     var trapped = false
@@ -214,7 +210,6 @@ class ShowdownMoveset {
         return this
     }
 }
-
 class ShowdownSide {
     lateinit var name: UUID
     lateinit var id: String
@@ -236,7 +231,6 @@ class ShowdownSide {
         return this
     }
 }
-
 class ShowdownPokemon {
     lateinit var ident: String
     lateinit var details: String

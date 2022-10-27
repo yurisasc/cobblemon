@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.common.api.reactive
 
 import com.cablemc.pokemod.common.api.scheduling.taskBuilder
-
 class ObservableSubscription<T>(
     private val observable: Observable<T>,
     private val handler: (T) -> Unit

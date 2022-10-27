@@ -21,7 +21,6 @@ import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.MathHelper.ceil
-
 class BattleSwitchPokemonSelection(
     battleGUI: BattleGUI,
     request: SingleActionRequest

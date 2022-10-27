@@ -19,7 +19,6 @@ import java.nio.file.Path
 import java.util.UUID
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.WorldSavePath
-
 class JsonPlayerData: PlayerDataFileStoreAdapter {
 
     companion object {

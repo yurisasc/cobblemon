@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.common.client.battle.animations
 
 import com.cablemc.pokemod.common.client.battle.ActiveClientBattlePokemon
-
 class MoveTileOffscreenAnimation(val duration: Float = 0.75F) : TileAnimation {
     var passedSeconds = 0F
     override fun shouldHoldUntilNextAnimation() = true

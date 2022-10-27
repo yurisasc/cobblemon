@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.client.gui.battle.subscreen
 import com.cablemc.pokemod.common.api.gui.blitk
 import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.client.util.math.MatrixStack
-
 class BattleBackButton(val x: Float, val y: Float) {
     companion object {
         const val WIDTH = 58

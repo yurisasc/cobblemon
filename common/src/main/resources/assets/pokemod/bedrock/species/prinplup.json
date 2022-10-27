@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:prinplup",
+  "model": "pokemod:bedrock/models/0394_prinplup/prinplup.geo.json",
+  "texture": "pokemod:textures/pokemon/0394_prinplup/prinplup.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0394_prinplup/prinplup_shiny.png"
+    }
+  ]
+}

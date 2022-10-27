@@ -7,7 +7,6 @@
  */
 
 package com.cablemc.pokemod.common.pokemon.ai
-
 class FlyBehaviour {
     val canFly = false
     val flySpeedHorizontal = 0.3F

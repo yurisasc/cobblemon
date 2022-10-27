@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.client.battle.animations
 
 import com.cablemc.pokemod.common.client.battle.ActiveClientBattlePokemon
 import com.cablemc.pokemod.common.client.battle.ClientBattlePokemon
-
 class SwapAndMoveTileOnscreenAnimation(val battlePokemon: ClientBattlePokemon, val duration: Float = 0.75F) : TileAnimation {
     var passedSeconds = 0F
     override fun shouldHoldUntilNextAnimation() = false

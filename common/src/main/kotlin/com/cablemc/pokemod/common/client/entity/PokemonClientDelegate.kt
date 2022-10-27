@@ -21,7 +21,6 @@ import java.lang.Float.min
 import kotlin.math.abs
 import net.minecraft.entity.Entity
 import net.minecraft.util.Identifier
-
 class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideDelegate {
     companion object {
         const val BEAM_SHRINK_TIME = 0.8F

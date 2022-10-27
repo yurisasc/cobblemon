@@ -1,0 +1,22 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.prinplup.ground_idle": {
+			"loop": true,
+			"bones": {
+				"wing_right1": {
+					"rotation": [0, 0, -70]
+				},
+				"wing_right2": {
+					"rotation": [0, 0, 5]
+				},
+				"wing_left1": {
+					"rotation": [0, 0, 70]
+				},
+				"wing_left2": {
+					"rotation": [0, 0, -5]
+				}
+			}
+		}
+	}
+}

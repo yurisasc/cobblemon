@@ -53,7 +53,6 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
-
 class EmptyPokeBallEntity(
     var pokeBall: PokeBall,
     world: World,

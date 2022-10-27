@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.pokemon.evolution.requirement.EvolutionReq
 import com.cablemc.pokemod.common.api.types.ElementalType
 import com.cablemc.pokemod.common.api.types.ElementalTypes
 import com.cablemc.pokemod.common.pokemon.Pokemon
-
 class MoveTypeRequirement : EvolutionRequirement {
     val type: ElementalType = ElementalTypes.NORMAL
     override fun check(pokemon: Pokemon) = pokemon.moveSet.getMoves().any { move -> move.type == type }

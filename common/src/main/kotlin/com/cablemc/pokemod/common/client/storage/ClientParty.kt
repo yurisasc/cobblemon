@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.client.storage
 import com.cablemc.pokemod.common.api.storage.party.PartyPosition
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import java.util.UUID
-
 class ClientParty(uuid: UUID, slots: Int) : ClientStorage<PartyPosition>(uuid), Iterable<Pokemon?> {
     val slots = MutableList<Pokemon?>(slots) { null }
 

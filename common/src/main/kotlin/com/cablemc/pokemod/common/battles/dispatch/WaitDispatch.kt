@@ -7,7 +7,6 @@
  */
 
 package com.cablemc.pokemod.common.battles.dispatch
-
 class WaitDispatch(delaySeconds: Float) : DispatchResult {
     val readyTime = System.currentTimeMillis() + (delaySeconds * 1000).toInt()
     override fun canProceed() = System.currentTimeMillis() >= readyTime

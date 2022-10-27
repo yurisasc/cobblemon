@@ -18,7 +18,6 @@ import com.cablemc.pokemod.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemod.common.util.asIdentifierDefaultingNamespace
 import java.util.UUID
 import net.minecraft.text.MutableText
-
 class ClientBattlePokemon(
     val uuid: UUID,
     var displayName: MutableText,

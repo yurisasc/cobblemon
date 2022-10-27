@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.battles.ShowdownActionRequest
 import com.cablemc.pokemod.common.battles.ShowdownActionResponse
 import com.cablemc.pokemod.common.battles.ShowdownMoveset
 import com.cablemc.pokemod.common.battles.ShowdownSide
-
 class SingleActionRequest(
     val activePokemon: ActiveClientBattlePokemon,
     val side: ShowdownSide?,

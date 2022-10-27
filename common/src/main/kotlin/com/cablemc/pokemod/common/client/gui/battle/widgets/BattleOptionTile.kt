@@ -21,7 +21,6 @@ import net.minecraft.client.gui.screen.narration.NarrationPart
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
-
 class BattleOptionTile(
     val battleGUI: BattleGUI,
     val x: Int,

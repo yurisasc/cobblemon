@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.common.net.messages.client.pokemon.update
 
 import com.cablemc.pokemod.common.pokemon.Pokemon
-
 class ShinyUpdatePacket() : BooleanUpdatePacket() {
     constructor(pokemon: Pokemon, value: Boolean): this() {
         this.setTarget(pokemon)

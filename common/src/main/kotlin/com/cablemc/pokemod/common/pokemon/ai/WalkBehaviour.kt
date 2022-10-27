@@ -7,7 +7,6 @@
  */
 
 package com.cablemc.pokemod.common.pokemon.ai
-
 class WalkBehaviour {
     val canWalk = true
     val walkSpeed = 0.35F

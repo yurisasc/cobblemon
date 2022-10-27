@@ -9,5 +9,4 @@
 package com.cablemc.pokemod.common.item.evo
 
 import com.cablemc.pokemod.common.api.item.EvolutionStoneItem
-
 class DawnStone : EvolutionStoneItem()

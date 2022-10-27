@@ -25,7 +25,6 @@ import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
-
 class FabricClientBootstrap: ClientModInitializer, PokemodClientImplementation {
     override fun onInitializeClient() {
         ArchitecturyClient.init()

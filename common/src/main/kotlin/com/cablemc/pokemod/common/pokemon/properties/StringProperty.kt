@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.pokemon.properties
 
 import com.cablemc.pokemod.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemod.common.pokemon.Pokemon
-
 class StringProperty(
     val key: String,
     val value: String,

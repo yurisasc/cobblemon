@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.pokemon.evolution.requirements
 
 import com.cablemc.pokemod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemod.common.pokemon.Pokemon
-
 class HeldItemRequirement : EvolutionRequirement {
 
     // ToDo Pending impl of held items, this is here because stat scrapper already accounts for this to exist

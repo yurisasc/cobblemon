@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.gui.blitk
 import com.cablemc.pokemod.common.api.text.text
 import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.client.util.math.MatrixStack
-
 class PokeNavFillerButton(
     posX: Int, posY: Int,
     pX: Int, pY: Int,

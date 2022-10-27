@@ -59,7 +59,6 @@ sealed class PokemonState {
     }
     open fun readFromBuffer(buffer: PacketByteBuf): PokemonState = this
 }
-
 class InactivePokemonState : PokemonState() {
     override fun writeToNBT(nbt: NbtCompound) = null
 }
@@ -68,7 +67,6 @@ sealed class ActivePokemonState : PokemonState() {
     abstract val entity: PokemonEntity?
     abstract fun recall()
 }
-
 class SentOutState() : ActivePokemonState() {
     private var entityId: Int = -1
     private var dimension = World.OVERWORLD
@@ -102,7 +100,6 @@ class SentOutState() : ActivePokemonState() {
         entity?.discard()
     }
 }
-
 class ShoulderedState() : ActivePokemonState() {
     var isLeftShoulder = false
     lateinit var playerUUID: UUID

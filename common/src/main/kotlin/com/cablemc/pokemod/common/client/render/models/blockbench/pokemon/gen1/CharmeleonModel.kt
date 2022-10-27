@@ -19,7 +19,6 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-
 class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("charmeleon")
     override val head = getPart("head")

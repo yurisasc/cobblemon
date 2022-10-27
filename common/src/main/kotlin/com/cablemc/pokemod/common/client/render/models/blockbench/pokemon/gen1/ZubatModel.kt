@@ -27,7 +27,6 @@ import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.Vec3d
-
 class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, EaredFrame {
     override val rootPart = registerRelevantPart("zubat", root.getChild("zubat"))
 

@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:centiskorch",
+  "model": "pokemod:bedrock/models/0851_centiskorch/centiskorch.geo.json",
+  "texture": "pokemod:textures/pokemon/0851_centiskorch/centiskorch.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0851_centiskorch/centiskorch_shiny.png"
+    }
+  ]
+}

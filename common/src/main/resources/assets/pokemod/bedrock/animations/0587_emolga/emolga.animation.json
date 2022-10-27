@@ -1,0 +1,22 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.emolga.ground_idle": {
+			"loop": true,
+			"bones": {
+				"tail": {
+					"rotation": [15, 0, 0]
+				},
+				"tail2": {
+					"rotation": [20, 0, 0]
+				},
+				"rightarm": {
+					"rotation": [7.5, 0, -45]
+				},
+				"leftarm": {
+					"rotation": [7.5, 0, 45]
+				}
+			}
+		}
+	}
+}

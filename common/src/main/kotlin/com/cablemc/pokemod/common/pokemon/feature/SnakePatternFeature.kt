@@ -30,7 +30,6 @@ enum class SnakePattern {
 }
 
 const val SNAKE_PATTERN = "snake-pattern"
-
 class SnakePatternFeature : EnumSpeciesFeature<SnakePattern>() {
     override val name: String = SNAKE_PATTERN
     override fun getValues() = SnakePattern.ALL_VALUES

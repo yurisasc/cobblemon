@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.net.messages.server
 
 import com.cablemc.pokemod.common.api.net.NetworkPacket
 import net.minecraft.network.PacketByteBuf
-
 class RequestMoveSwapPacket(): NetworkPacket {
 
     var move1 = -1

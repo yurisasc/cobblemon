@@ -22,7 +22,6 @@ import com.cablemc.pokemod.common.entity.pokemon.PokemonBehaviourFlag
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-
 class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("charmander")
     override val head = getPart("head")

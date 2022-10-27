@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.util.readSizedInt
 import com.cablemc.pokemod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
-
 class AspectsUpdatePacket() : SingleUpdatePacket<Set<String>>(emptySet()) {
     constructor(pokemon: Pokemon, aspects: Set<String>): this() {
         setTarget(pokemon)

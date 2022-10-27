@@ -34,7 +34,6 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
-
 class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
     companion object {
         val NORTH_AABB = Block.createCuboidShape(1.5, 0.0, 0.0, 14.5, 12.0, 16.0)

@@ -15,7 +15,6 @@ import java.io.OutputStreamWriter
 import java.net.InetAddress
 import java.net.Socket
 import java.nio.charset.Charset
-
 class StandardShowdownConnection(host: InetAddress, port: Int): ShowdownConnection {
 
     private lateinit var socket: Socket

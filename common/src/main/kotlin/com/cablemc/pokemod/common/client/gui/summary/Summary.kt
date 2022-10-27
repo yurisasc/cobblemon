@@ -29,7 +29,6 @@ import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-
 class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summary.title")) {
 
     companion object {

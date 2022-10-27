@@ -17,7 +17,6 @@ import com.cablemc.pokemod.common.entity.pokeball.EmptyPokeBallEntity
 import com.cablemc.pokemod.common.entity.pokeball.EmptyPokeBallEntity.CaptureState
 import com.cablemc.pokemod.common.entity.pokeball.EmptyPokeBallEntity.CaptureState.HIT
 import com.cablemc.pokemod.common.entity.pokeball.EmptyPokeBallEntity.CaptureState.SHAKE
-
 class EmptyPokeBallClientDelegate : PoseableEntityState<EmptyPokeBallEntity>(), EntitySideDelegate<EmptyPokeBallEntity> {
     override fun initialize(entity: EmptyPokeBallEntity) {
         entity.captureState.subscribe {

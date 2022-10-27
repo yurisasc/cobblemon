@@ -9,5 +9,4 @@
 package com.cablemc.pokemod.common.exception
 
 import com.cablemc.pokemod.common.api.battles.model.actor.BattleActor
-
 class IllegalActionChoiceException(val actor: BattleActor, message: String) : IllegalArgumentException(message)

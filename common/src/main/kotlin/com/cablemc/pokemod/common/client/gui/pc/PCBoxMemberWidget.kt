@@ -19,7 +19,6 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
-
 class PCBoxMemberWidget(
     x: Int, y: Int,
     private val pcGui: PCGui,

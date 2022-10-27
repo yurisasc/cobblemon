@@ -26,5 +26,4 @@ class ElementalType(
     val hue: Int,
     val textureXMultiplier: Int,
     val resourceLocation: Identifier = Identifier(Pokemod.MODID, "ui/types.png")
-) {
-}
+)

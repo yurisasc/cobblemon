@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.world.block.grower
 
 import net.minecraft.block.sapling.SaplingGenerator
 import net.minecraft.util.math.random.Random
-
 class ApricornTreeGrower(private val color: String) : SaplingGenerator() {
     override fun getTreeFeature(random: Random, bl: Boolean) = when (color) {
             "black" -> com.cablemc.pokemod.common.PokemodConfiguredFeatures.BLACK_APRICORN_TREE

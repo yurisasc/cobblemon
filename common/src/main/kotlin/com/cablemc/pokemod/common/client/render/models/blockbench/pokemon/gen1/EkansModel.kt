@@ -30,7 +30,6 @@ import net.minecraft.client.model.ModelTransform
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.util.math.Vec3d
-
 class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     override val rootPart = registerRelevantPart("ekans", root.getChild("ekans"))

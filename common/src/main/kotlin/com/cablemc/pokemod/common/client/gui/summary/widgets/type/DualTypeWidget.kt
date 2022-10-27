@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.client.gui.summary.widgets.type
 import com.cablemc.pokemod.common.api.types.ElementalType
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-
 class DualTypeWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,

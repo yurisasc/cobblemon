@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.net.messages.client.pokemon.update
 
 import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.pokemon.Pokemon
-
 class ExperienceUpdatePacket() : IntUpdatePacket() {
     constructor(pokemon: Pokemon, value: Int): this() {
         this.setTarget(pokemon)

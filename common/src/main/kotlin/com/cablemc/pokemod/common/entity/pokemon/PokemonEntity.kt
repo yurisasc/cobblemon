@@ -72,7 +72,6 @@ import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
-
 class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),

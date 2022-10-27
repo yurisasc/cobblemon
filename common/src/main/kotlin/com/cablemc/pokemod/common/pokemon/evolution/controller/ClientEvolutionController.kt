@@ -19,7 +19,6 @@ import com.google.gson.JsonElement
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.network.PacketByteBuf
-
 class ClientEvolutionController(override val pokemon: Pokemon) : EvolutionController<EvolutionDisplay> {
 
     private val evolutions = hashSetOf<EvolutionDisplay>()

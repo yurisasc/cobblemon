@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.Pokemod
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import net.minecraft.client.model.*
-
 class TexturedModel {
     @SerializedName("format_version")
     val formatVersion: String = "0"
@@ -152,12 +151,10 @@ class TexturedModel {
         }
     }
 }
-
 class ModelGeometry {
     lateinit var description: ModelDataDescription
     val bones: List<ModelBone>? = null
 }
-
 class ModelDataDescription(
     val identifier: String,
     @SerializedName("texture_width")
@@ -171,7 +168,6 @@ class ModelDataDescription(
     @SerializedName("visible_bounds_offset")
     val visibleBoundsOffset: List<Float>
 ) { }
-
 class ModelBone {
     val name: String = ""
     val parent: String? = null
@@ -179,7 +175,6 @@ class ModelBone {
     val rotation: List<Float>? = null
     val cubes: List<Cube>? = null
 }
-
 class Cube {
     val origin: List<Float>? = null
     val size: List<Float>? = null

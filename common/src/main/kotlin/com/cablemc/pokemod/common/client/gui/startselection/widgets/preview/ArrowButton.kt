@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Identifier
-
 class ArrowButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,

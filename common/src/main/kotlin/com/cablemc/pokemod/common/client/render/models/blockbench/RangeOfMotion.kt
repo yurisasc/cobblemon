@@ -7,5 +7,4 @@
  */
 
 package com.cablemc.pokemod.common.client.render.models.blockbench
-
 class RangeOfMotion(var low: Float, var high: Float)

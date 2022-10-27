@@ -1,5 +1,5 @@
 {
-    "name": "mimikyudisguised",
+    "name": "mimikyu",
     "nationalPokedexNumber": 778,
     "primaryType": "ghost",
     "secondaryType": "fairy",
@@ -17,26 +17,6 @@
     "catchRate": 45,
     "maleRatio": 0.5,
     "shoulderMountable": false,
-    "forms": [
-        {
-            "name": "busted",
-            "aspects": [
-                "busted"
-            ]
-        },
-        {
-            "name": "totem-disguised",
-            "aspects": [
-                "totem-disguised"
-            ]
-        },
-        {
-            "name": "totem-busted",
-            "aspects": [
-                "totem-busted"
-            ]
-        }
-    ],
     "baseExperienceYield": 167,
     "experienceGroup": "mediumfast",
     "eggCycles": 20,

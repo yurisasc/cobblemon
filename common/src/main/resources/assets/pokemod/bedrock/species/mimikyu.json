@@ -1,0 +1,15 @@
+{
+  "poser": "pokemod:mimikyu",
+  "model": "pokemod:bedrock/models/0778_mimikyu/mimikyu_male.geo.json",
+  "texture": "pokemod:textures/pokemon/0778_mimikyu/mimikyu.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0778_mimikyu/mimikyu_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "pokemod:bedrock/models/0778_mimikyu/mimikyu_female.geo.json"
+    }
+  ]
+}

@@ -24,48 +24,48 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-
 class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("gyarados")
-    val spine = getPart("neck")
-    val spineFinal = getPart("spine_final")
-    val spine3 = getPart("spine3")
-    val spine2 = getPart("spine2")
-    val spine1 = getPart("spine")
-//    val bodyJoint = registerRelevantPart("bodyJoint", spine1.getChild("bodyjoint"))
-    val body = getPart("body")
-    val tail = getPart("tail")
-    val tail2 = getPart("tail2")
-    val tail3 = getPart("tail3")
-    val tail4 = getPart("tail4")
-    val tail5 = getPart("tail5")
-    val tail6 = getPart("tail6")
-    val tail7 = getPart("tail_end")
+
+    val seg1 = getPart("segment1")
+    val seg2 = getPart("segment2")
+    val seg3 = getPart("segment3")
+    val seg4 = getPart("segment4")
+    val seg5 = getPart("segment5")
+    val seg6 = getPart("segment6")
+    val seg7 = getPart("segment7")
+    val seg8 = getPart("segment8")
+    val seg9 = getPart("segment9")
+    val seg10 = getPart("segment10")
+    val seg11 = getPart("segment11")
+    val seg12 = getPart("segment12")
+
     override val head = getPart("head")
 
-    val spineFinalWaveSegment = WaveSegment(modelPart = spineFinal, length = 6F)
-    val spine3WaveSegment = WaveSegment(modelPart = spine3, length = 6F)
-    val spineWaveSegment = WaveSegment(modelPart = spine1, length = 8F)
-    val spine2WaveSegment = WaveSegment(modelPart = spine2, length = 7F)
-    val bodyWaveSegment = WaveSegment(modelPart = body, length = 9F)
-    val tailWaveSegment = WaveSegment(modelPart = tail, length = 7F)
-    val tail2WaveSegment = WaveSegment(modelPart = tail2, length = 7F)
-    val tail3WaveSegment = WaveSegment(modelPart = tail3, length = 6F)
-    val tail4WaveSegment = WaveSegment(modelPart = tail4, length = 4F)
-    val tail5WaveSegment = WaveSegment(modelPart = tail5, length = 4F)
-    val tail6WaveSegment = WaveSegment(modelPart = tail6, length = 4F)
-    val tail7WaveSegment = WaveSegment(modelPart = tail7, length = 15F)
+    val wseg1 = WaveSegment(seg1, 7F)
+    val wseg2 = WaveSegment(seg2, 5F)
+    val wseg3 = WaveSegment(seg3, 6F)
+    val wseg4 = WaveSegment(seg4, 6F)
+    val wseg5 = WaveSegment(seg5, 6F)
+    val wseg6 = WaveSegment(seg6, 6F)
+    val wseg7 = WaveSegment(seg7, 6F)
+    val wseg8 = WaveSegment(seg8, 6F)
+    val wseg9 = WaveSegment(seg9, 6F)
+    val wseg10 = WaveSegment(seg10, 5F)
+    val wseg11 = WaveSegment(seg11, 5F)
+    val wseg12 = WaveSegment(seg12, 4F)
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(-1.8, 1.4, 0.0)
-    override val profileScale = 0.4F
-    override val profileTranslation = Vec3d(0.0, 0.5, 0.0)
+    override val portraitScale = 1.6F
+    override val portraitTranslation = Vec3d(-0.8, 0.6, 0.0)
+    override val profileScale = 0.7F
+    override val profileTranslation = Vec3d(-0.1, 0.7, 0.0)
 
     override fun registerPoses() {
         registerPose(
             poseName = "land",
             poseTypes = STANDING_POSES + UI_POSES,
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 WaveAnimation(
                     frame = this,
                     waveFunction = sineFunction(
@@ -74,39 +74,37 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                     ),
                     basedOnLimbSwing = true,
                     oscillationsScalar = 8F,
-                    head = spine,
+                    head = seg5,
                     rotationAxis = Y_AXIS,
                     motionAxis = X_AXIS,
                     headLength = 0.1F,
                     segments = arrayOf(
-                        bodyWaveSegment,
-                        tailWaveSegment,
-                        tail2WaveSegment,
-                        tail3WaveSegment,
-                        tail4WaveSegment,
-                        tail5WaveSegment,
-                        tail6WaveSegment,
-                        tail7WaveSegment
+                        wseg6,
+                        wseg7,
+                        wseg8,
+                        wseg9,
+                        wseg10,
+                        wseg11,
+                        wseg12
                     )
                 )
             ),
             transformedParts = arrayOf(
-                rootPart.withPosition(0F, -2F, 16F),
-                spineFinal.withRotation(X_AXIS, (-60F).toRadians()),
-                spine3.withRotation(X_AXIS, (-12.5F).toRadians()),
-                spine2.withRotation(X_AXIS, (-10F).toRadians()),
-                spine.withRotation(X_AXIS, 7.5F.toRadians()),
-                body.withRotation(X_AXIS, 75F.toRadians()).withPosition(Y_AXIS, 2F),
-                head.withRotation(X_AXIS, (-62.5F).toRadians())
+                rootPart.withPosition(0F, 5F, 10F),
+                seg1.withRotation(X_AXIS, (-60F).toRadians()),
+                seg2.withRotation(X_AXIS, (-12.5F).toRadians()),
+                seg3.withRotation(X_AXIS, (-10F).toRadians()),
+                seg4.withRotation(X_AXIS, 7.5F.toRadians()),
+                seg5.withRotation(X_AXIS, 75F.toRadians()).withPosition(Y_AXIS, 2F)
+//                head.withRotation(X_AXIS, (-62.5F).toRadians())
             )
         )
         registerPose(
             poseName = "swim",
             poseTypes = SWIMMING_POSES + FLYING_POSES,
-            transformedParts = arrayOf(
-                head.withRotation(X_AXIS, -70F.toRadians())
-            ),
+//            transformedParts = arrayOf(head.withRotation(X_AXIS, -70F.toRadians())),
             idleAnimations = arrayOf(
+                singleBoneLook(),
                 WaveAnimation(
                     frame = this,
                     waveFunction = sineFunction(
@@ -120,18 +118,18 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
                     headLength = 4F,
                     moveHead = true,
                     segments = arrayOf(
-                        spineFinalWaveSegment,
-                        spine3WaveSegment,
-                        spine2WaveSegment,
-                        spineWaveSegment,
-                        bodyWaveSegment,
-                        tailWaveSegment,
-                        tail2WaveSegment,
-                        tail3WaveSegment,
-                        tail4WaveSegment,
-                        tail5WaveSegment,
-                        tail6WaveSegment,
-                        tail7WaveSegment
+                        wseg1,
+                        wseg2,
+                        wseg3,
+                        wseg4,
+                        wseg5,
+                        wseg6,
+                        wseg7,
+                        wseg8,
+                        wseg9,
+                        wseg10,
+                        wseg11,
+                        wseg12
                     )
                 )
             )

@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.config.starter.RenderableStarterCategory
 import com.cablemc.pokemod.common.config.starter.StarterCategory
 import com.cablemc.pokemod.common.pokemon.RenderablePokemon
 import net.minecraft.network.PacketByteBuf
-
 class OpenStarterUIPacket internal constructor() : NetworkPacket {
 
     constructor(categories: List<StarterCategory>) : this() {

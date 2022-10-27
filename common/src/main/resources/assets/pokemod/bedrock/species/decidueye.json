@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:decidueye",
+  "model": "pokemod:bedrock/models/0724_decidueye/decidueye.geo.json",
+  "texture": "pokemod:textures/pokemon/0724_decidueye/decidueye.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0724_decidueye/decidueye_shiny.png"
+    }
+  ]
+}

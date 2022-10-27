@@ -1,0 +1,22 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.dwebble.ground_idle": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"rotation": [0, 45, -30]
+				},
+				"lefthand": {
+					"rotation": [0, 45, 45]
+				},
+				"rightarm": {
+					"rotation": [0, -45, 30]
+				},
+				"righthand": {
+					"rotation": [0, -45, -45]
+				}
+			}
+		}
+	}
+}

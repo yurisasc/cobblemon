@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.api.pokeball.catching.modifiers
 import com.cablemc.pokemod.common.api.pokeball.catching.CatchRateModifier
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import net.minecraft.entity.LivingEntity
-
 class GuaranteedModifier : CatchRateModifier {
     override fun modifyCatchRate(currentCatchRate: Float, thrower: LivingEntity, pokemon: Pokemon, host: Pokemon?): Float {
         return 255.0f // Catch rates should check the CatchRateModifier#isGuaranteed call

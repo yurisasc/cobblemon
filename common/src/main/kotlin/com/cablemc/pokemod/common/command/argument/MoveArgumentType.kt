@@ -20,7 +20,6 @@ import java.util.concurrent.CompletableFuture
 import net.minecraft.command.CommandSource
 import net.minecraft.text.MutableText
 import net.minecraft.text.Text
-
 class MoveArgumentType: ArgumentType<MoveTemplate> {
 
     override fun parse(reader: StringReader): MoveTemplate = Moves.getByName(reader.readString()) ?: throw SimpleCommandExceptionType(INVALID_MOVE).createWithContext(reader)

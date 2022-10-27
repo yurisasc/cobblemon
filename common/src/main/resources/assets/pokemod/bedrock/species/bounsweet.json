@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:bounsweet",
+  "model": "pokemod:bedrock/models/0761_bounsweet/bounsweet.geo.json",
+  "texture": "pokemod:textures/pokemon/0761_bounsweet/bounsweet.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0761_bounsweet/bounsweet_shiny.png"
+    }
+  ]
+}

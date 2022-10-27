@@ -37,7 +37,6 @@ import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig
 import net.minecraft.world.gen.feature.TreeFeature
 import net.minecraft.world.gen.feature.util.FeatureContext
-
 class ApricornTreeFeature(
     codec: Codec<SingleStateFeatureConfig>
 ) : Feature<SingleStateFeatureConfig>(codec) {

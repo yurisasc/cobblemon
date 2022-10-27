@@ -18,7 +18,6 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement
 import net.minecraft.nbt.NbtList
 import net.minecraft.network.PacketByteBuf
-
 class MoveSet : Iterable<Move> {
     val observable = SimpleObservable<MoveSet>()
     private var emit = true

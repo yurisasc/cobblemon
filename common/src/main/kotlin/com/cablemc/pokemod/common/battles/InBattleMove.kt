@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.util.readSizedInt
 import com.cablemc.pokemod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
-
 class InBattleMove {
     lateinit var id: String
     lateinit var move: String

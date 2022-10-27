@@ -24,7 +24,6 @@ import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
-
 class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("eevee")
     val body = getPart("body")

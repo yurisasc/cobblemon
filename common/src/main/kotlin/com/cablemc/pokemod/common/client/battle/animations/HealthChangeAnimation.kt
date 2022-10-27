@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.common.client.battle.animations
 
 import com.cablemc.pokemod.common.client.battle.ActiveClientBattlePokemon
-
 class HealthChangeAnimation(val newHealthRatio: Float, val duration: Float = 1F) : TileAnimation {
     var passedSeconds = 0F
     var initialHealth = -1F

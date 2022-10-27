@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.net.messages.server
 import com.cablemc.pokemod.common.api.net.NetworkPacket
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-
 class BattleChallengePacket() : NetworkPacket {
     var targetedEntityId: Int = -1
     lateinit var selectedPokemonId: UUID

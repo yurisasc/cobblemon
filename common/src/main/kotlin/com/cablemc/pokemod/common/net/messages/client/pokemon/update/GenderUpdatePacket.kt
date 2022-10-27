@@ -14,7 +14,6 @@ import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.util.readSizedInt
 import com.cablemc.pokemod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
-
 class GenderUpdatePacket() : SingleUpdatePacket<Gender>(Gender.GENDERLESS) {
     constructor(pokemon: Pokemon, gender: Gender): this() {
         setTarget(pokemon)

@@ -7,7 +7,6 @@
  */
 
 package com.cablemc.pokemod.common.pokemon.ai
-
 class SwimBehaviour {
     val canSwimInWater = true
     val canSwimInLava = true

@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.storage.pc.PCPosition
 import com.cablemc.pokemod.common.api.storage.pc.POKEMON_PER_BOX
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import java.util.UUID
-
 class ClientPC(uuid: UUID, boxCount: Int) : ClientStorage<PCPosition>(uuid) {
     val boxes = MutableList(boxCount) { ClientBox() }
     override fun findByUUID(uuid: UUID): Pokemon? {

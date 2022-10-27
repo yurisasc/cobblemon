@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.pokemon
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.util.randomNoCopy
 import kotlin.random.Random
-
 class IVs : PokemonStats() {
     override val acceptableRange = 0..MAX_VALUE
     // TODO: Hyper training

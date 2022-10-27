@@ -23,7 +23,6 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
-
 class PartyMemberWidget(
     x: Int, y: Int,
     private val pcGui: PCGui,

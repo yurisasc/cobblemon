@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.api.pokemon.status.Statuses
 import com.cablemc.pokemod.common.config.constraint.IntConstraint
 import com.cablemc.pokemod.common.util.adapters.IntRangeAdapter
 import com.google.gson.GsonBuilder
-
 class PokemodConfig {
     companion object {
         val GSON = GsonBuilder()

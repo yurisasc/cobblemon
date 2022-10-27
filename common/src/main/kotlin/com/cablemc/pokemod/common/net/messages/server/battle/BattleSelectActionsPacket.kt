@@ -15,7 +15,6 @@ import com.cablemc.pokemod.common.util.readSizedInt
 import com.cablemc.pokemod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
-
 class BattleSelectActionsPacket() : NetworkPacket {
     lateinit var battleId: UUID
     lateinit var showdownActionResponses: List<ShowdownActionResponse>

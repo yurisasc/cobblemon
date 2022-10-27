@@ -16,7 +16,6 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-
 class PikachuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("pikachu")
     override val head = getPart("head")

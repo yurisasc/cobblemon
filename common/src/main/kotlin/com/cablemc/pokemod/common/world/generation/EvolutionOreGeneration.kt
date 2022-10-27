@@ -64,7 +64,6 @@ open class EvolutionOreGenerationBase(
         )
 
 }
-
 class DeepslateOreGeneration(
     blockState: BlockState,
     name: String,

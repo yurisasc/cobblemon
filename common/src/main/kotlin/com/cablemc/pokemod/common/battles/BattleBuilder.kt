@@ -138,7 +138,6 @@ abstract class BattleStartResult {
         return this
     }
 }
-
 class SuccessfulBattleStart(
     val battle: PokemonBattle
 ) : BattleStartResult() {
@@ -169,7 +168,6 @@ interface BattleStartError {
 enum class CommonBattleStartError : BattleStartError {
 
 }
-
 class InsufficientPokemonError(
     val player: ServerPlayerEntity,
     val requiredCount: Int,
@@ -205,7 +203,6 @@ class AlreadyInBattleError(
         }
     }
 }
-
 class BusyError(
     val targetName: MutableText
 ): BattleStartError {

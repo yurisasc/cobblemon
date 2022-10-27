@@ -22,7 +22,6 @@ import net.minecraft.server.network.ServerPlayerEntity
 abstract class PreparedFabricMessage<T : NetworkPacket>(protected val registeredMessage: RegisteredMessage<T>) : PokemodNetwork.PreparedMessage<T> {
     override fun registerMessage() {}
 }
-
 class PreparedClientBoundFabricMessage<T : NetworkPacket>(registeredMessage: RegisteredMessage<T>) : PreparedFabricMessage<T>(registeredMessage) {
     override fun registerHandler(handler: PacketHandler<T>) {
         ClientPlayNetworking.registerGlobalReceiver(
@@ -34,7 +33,6 @@ class PreparedClientBoundFabricMessage<T : NetworkPacket>(registeredMessage: Reg
         }
     }
 }
-
 class PreparedServerBoundFabricMessage<T : NetworkPacket>(registeredMessage: RegisteredMessage<T>) : PreparedFabricMessage<T>(registeredMessage) {
     override fun registerHandler(handler: PacketHandler<T>) {
         ServerPlayNetworking.registerGlobalReceiver(
@@ -46,10 +44,8 @@ class PreparedServerBoundFabricMessage<T : NetworkPacket>(registeredMessage: Reg
         }
     }
 }
-
 class FabricServerNetworkContext(override val player: ServerPlayerEntity) : PokemodNetwork.NetworkContext
 class FabricClientNetworkContext(override val player: ServerPlayerEntity? = null) : PokemodNetwork.NetworkContext
-
 class RegisteredMessage<T : NetworkPacket>(
     val packetClass: Class<T>
 ) {

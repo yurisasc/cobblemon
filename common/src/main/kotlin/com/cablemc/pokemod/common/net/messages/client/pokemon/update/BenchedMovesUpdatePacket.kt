@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.net.messages.client.pokemon.update
 import com.cablemc.pokemod.common.api.moves.BenchedMoves
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import net.minecraft.network.PacketByteBuf
-
 class BenchedMovesUpdatePacket() : SingleUpdatePacket<BenchedMoves>(BenchedMoves()) {
     constructor(pokemon: Pokemon, value: BenchedMoves) : this() {
         setTarget(pokemon)

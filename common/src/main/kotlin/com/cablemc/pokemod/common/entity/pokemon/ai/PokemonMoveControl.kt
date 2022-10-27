@@ -24,7 +24,6 @@ import net.minecraft.tag.FluidTags
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
-
 class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemonEntity) {
     override fun tick() {
         val behaviour = pokemonEntity.behaviour

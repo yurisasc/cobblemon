@@ -24,7 +24,6 @@ import net.minecraft.client.model.ModelTransform
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.util.math.MathHelper.PI
-
 class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(), PokeBallFrame {
     override val rootPart = registerRelevantPart("root", root.getChild("root"))
     override val subRoot = registerRelevantPart("pokeball", rootPart.getChild("pokeball"))

@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.item.Flavor
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathHelper.floor
-
 class Nature(
     val name: Identifier,
     val increasedStat: Stat?,

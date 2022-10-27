@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.client.PokemodClient
 import com.cablemc.pokemod.common.client.net.ClientPacketHandler
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.EvolutionUpdatePacket
-
 class EvolutionUpdatePacketHandler<T : EvolutionUpdatePacket> : ClientPacketHandler<T> {
 
     override fun invokeOnClient(packet: T, ctx: PokemodNetwork.NetworkContext) {

@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.config.Category
 import com.cablemc.pokemod.common.config.NodeCategory
 import com.cablemc.pokemod.common.util.adapters.pokemonPropertiesShortAdapter
 import com.google.gson.GsonBuilder
-
 class StarterConfig {
     companion object {
         val GSON = GsonBuilder()

@@ -20,7 +20,6 @@ import net.minecraftforge.network.NetworkEvent
 import net.minecraftforge.network.NetworkRegistry
 import net.minecraftforge.network.PacketDistributor
 import net.minecraftforge.network.simple.SimpleChannel
-
 class PreparedForgeMessage<T : NetworkPacket>(private val messageBuilder: SimpleChannel.MessageBuilder<T>) : PokemodNetwork.PreparedMessage<T> {
     override fun registerMessage() {
         messageBuilder.add()
@@ -33,7 +32,6 @@ class PreparedForgeMessage<T : NetworkPacket>(private val messageBuilder: Simple
         })
     }
 }
-
 class ForgeNetworkContext(val ctx: NetworkEvent.Context) : PokemodNetwork.NetworkContext {
     override val player = ctx.sender
 }

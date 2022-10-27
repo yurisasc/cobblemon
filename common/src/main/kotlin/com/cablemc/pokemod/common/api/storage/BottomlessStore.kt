@@ -16,7 +16,6 @@ import com.google.gson.JsonObject
 import java.util.UUID
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
-
 class BottomlessPosition(val currentIndex: Int) : StorePosition
 
 /**

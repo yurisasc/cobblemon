@@ -7,7 +7,6 @@
  */
 
 package com.cablemc.pokemod.common.api.spawning.preset
-
 class BasicSpawnDetailPreset : SpawnDetailPreset() {
     companion object {
         const val NAME = "basic"

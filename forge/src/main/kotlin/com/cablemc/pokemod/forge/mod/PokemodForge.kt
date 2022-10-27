@@ -19,6 +19,7 @@ import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
 import java.util.*
 import net.minecraftforge.common.ForgeMod
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.OnDatapackSyncEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.fml.ModList
@@ -44,9 +45,6 @@ class PokemodForge : PokemodImplementation {
 
             addListener(this@PokemodForge::initialize)
             addListener(this@PokemodForge::serverInit)
-            addListener(this@PokemodForge::onDataPackSync)
-            addListener(this@PokemodForge::onLogin)
-            addListener(this@PokemodForge::onLogout)
             PokemodNetwork.networkDelegate = PokemodForgeNetworkDelegate
             ServerPacketRegistrar.registerHandlers()
 
@@ -58,6 +56,11 @@ class PokemodForge : PokemodImplementation {
             }
 
             // TODO: Make listener for BiomeLoadingEvent to register feature to biomes
+        }
+        with(MinecraftForge.EVENT_BUS) {
+            addListener(this@PokemodForge::onDataPackSync)
+            addListener(this@PokemodForge::onLogin)
+            addListener(this@PokemodForge::onLogout)
         }
     }
 

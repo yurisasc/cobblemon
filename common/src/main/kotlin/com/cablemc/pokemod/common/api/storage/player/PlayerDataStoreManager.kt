@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.scheduling.ScheduledTask
 import com.cablemc.pokemod.common.api.storage.player.adapter.JsonPlayerData
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.server.MinecraftServer
-
 class PlayerDataStoreManager {
 
     private val jpd = JsonPlayerData()

@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.battles.BattleFormat
 import com.cablemc.pokemod.common.net.messages.server.battle.BattleSelectActionsPacket
 import java.util.UUID
-
 class ClientBattle(
     val battleId: UUID,
     val battleFormat: BattleFormat

@@ -72,7 +72,6 @@ data class BedrockBoneTimeline (
     val position: BedrockBoneValue,
     val rotation: BedrockBoneValue
 )
-
 class MolangBoneValue(
     val x: MolangExpression,
     val y: MolangExpression,
@@ -90,7 +89,6 @@ class MolangBoneValue(
     }
 
 }
-
 class BedrockKeyFrameBoneValue : HashMap<Double, BedrockAnimationKeyFrame>(), BedrockBoneValue {
     fun SortedMap<Double, BedrockAnimationKeyFrame>.getAtIndex(index: Int?): BedrockAnimationKeyFrame? {
         if (index == null) return null

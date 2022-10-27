@@ -149,7 +149,6 @@ class ModelAssetVariation {
     val texture: Identifier? = null
     val layers: List<ModelLayer>? = null
 }
-
 class ModelLayer {
     val name: String = ""
     val scale: Vec3f = Vec3f(1F, 1F, 1F)

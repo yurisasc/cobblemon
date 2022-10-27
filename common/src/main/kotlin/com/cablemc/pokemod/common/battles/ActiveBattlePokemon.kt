@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemod.common.battles.pokemon.BattlePokemon
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.util.math.Vec3d
-
 class ActiveBattlePokemon(val actor: BattleActor, var battlePokemon: BattlePokemon? = null): Targetable {
     val battle = actor.battle
     fun getSide() = actor.getSide()

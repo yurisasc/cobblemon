@@ -16,7 +16,6 @@ import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-
 class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("caterpie")
     override val head = getPart("head")

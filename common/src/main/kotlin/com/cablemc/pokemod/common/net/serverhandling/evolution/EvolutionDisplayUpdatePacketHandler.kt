@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.net.PacketHandler
 import com.cablemc.pokemod.common.net.messages.server.pokemon.update.evolution.EvolutionDisplayUpdatePacket
 import com.cablemc.pokemod.common.util.party
 import com.cablemc.pokemod.common.util.runOnServer
-
 class EvolutionDisplayUpdatePacketHandler<T : EvolutionDisplayUpdatePacket> : PacketHandler<T> {
 
     override fun invoke(packet: T, ctx: PokemodNetwork.NetworkContext) {

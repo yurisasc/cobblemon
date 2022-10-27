@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.Pokemod.LOGGER
 import com.cablemc.pokemod.common.api.pokemon.Natures
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.util.pokemodResource
-
 class NatureUpdatePacket(
     private var mintNature : Boolean = false
 ) : StringUpdatePacket() {

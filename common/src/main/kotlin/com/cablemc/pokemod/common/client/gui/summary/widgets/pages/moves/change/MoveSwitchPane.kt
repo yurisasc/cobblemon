@@ -25,7 +25,6 @@ import java.text.DecimalFormat
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget
 import net.minecraft.client.util.math.MatrixStack
-
 class MoveSwitchPane(
     val movesWidget: MovesWidget,
     var replacedMove: Move

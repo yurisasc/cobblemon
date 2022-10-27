@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.battles.model.actor.ActorType
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import java.util.UUID
 import net.minecraft.text.MutableText
-
 class ClientBattleActor(
     /** The showdown pIndexing, p0, p2, etc*/
     val showdownId: String,

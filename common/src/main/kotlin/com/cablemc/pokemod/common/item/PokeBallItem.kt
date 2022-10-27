@@ -20,7 +20,6 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Hand
 import net.minecraft.util.TypedActionResult
 import net.minecraft.world.World
-
 class PokeBallItem(
     val pokeBall : PokeBall
 ) : PokemodItem(Settings().group(POKE_BALL_GROUP)) {

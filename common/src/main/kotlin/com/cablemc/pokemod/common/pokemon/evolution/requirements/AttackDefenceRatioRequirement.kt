@@ -10,7 +10,6 @@ package com.cablemc.pokemod.common.pokemon.evolution.requirements
 
 import com.cablemc.pokemod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemod.common.pokemon.Pokemon
-
 class AttackDefenceRatioRequirement : EvolutionRequirement {
     companion object {
         const val ADAPTER_VARIANT = "attack_defence_ratio"

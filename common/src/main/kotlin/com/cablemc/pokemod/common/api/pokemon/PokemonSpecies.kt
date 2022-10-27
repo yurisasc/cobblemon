@@ -219,7 +219,8 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
             species.initialize()
         }
-        ifServer { createShowdownData() }
+
+        createShowdownData()
         Pokemod.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
         this.observable.emit(this)
     }

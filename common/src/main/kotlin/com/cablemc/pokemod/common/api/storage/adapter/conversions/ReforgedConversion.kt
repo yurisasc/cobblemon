@@ -30,7 +30,6 @@ import net.minecraft.nbt.NbtIo
 import net.minecraft.util.Identifier
 
 const val REFORGED_POKEMON_PER_BOX = 30
-
 class ReforgedConversion(val base: Path) : PokemodConverter<NbtCompound> {
 
     override fun root(): Path {

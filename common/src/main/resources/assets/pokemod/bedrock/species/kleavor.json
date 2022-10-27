@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:kleavor",
+  "model": "pokemod:bedrock/models/0900_kleavor/kleavor.geo.json",
+  "texture": "pokemod:textures/pokemon/0900_kleavor/kleavor.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0900_kleavor/kleavor_shiny.png"
+    }
+  ]
+}

@@ -20,11 +20,10 @@ import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-
 class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("magikarp")
-    val leftMustache = getPart("leftmustache")
-    val rightMustache = getPart("rightmustache")
+    val leftMustache = getPart("mustache_left")
+    val rightMustache = getPart("mustache_right")
 
     override val portraitScale = 1.65F
     override val portraitTranslation = Vec3d(0.12, -0.45, 0.0)

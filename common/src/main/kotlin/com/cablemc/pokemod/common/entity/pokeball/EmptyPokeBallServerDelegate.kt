@@ -9,6 +9,5 @@
 package com.cablemc.pokemod.common.entity.pokeball
 
 import com.cablemc.pokemod.common.api.entity.EntitySideDelegate
-
 class EmptyPokeBallServerDelegate : EntitySideDelegate<EmptyPokeBallEntity> {
 }

@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemod.common.pokemon.FormData
 import com.cablemc.pokemod.common.pokemon.Species
 import net.minecraft.util.Identifier
-
 class CobbledPreEvolution(
     private val speciesName: Identifier,
     private val formName: String? = null,

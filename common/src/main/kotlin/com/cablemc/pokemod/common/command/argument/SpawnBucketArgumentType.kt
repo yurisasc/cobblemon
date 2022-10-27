@@ -19,7 +19,6 @@ import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import java.util.concurrent.CompletableFuture
 import net.minecraft.command.CommandSource
-
 class SpawnBucketArgumentType: ArgumentType<SpawnBucket> {
 
     companion object {

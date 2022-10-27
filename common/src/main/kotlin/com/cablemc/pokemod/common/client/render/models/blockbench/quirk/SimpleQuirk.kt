@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.animation.Stat
 import com.cablemc.pokemod.common.util.math.random
 import kotlin.random.Random
 import net.minecraft.entity.Entity
-
 class SimpleQuirk<T : Entity>(
     name: String,
     private val secondsBetweenOccurrences: Pair<Float, Float>,

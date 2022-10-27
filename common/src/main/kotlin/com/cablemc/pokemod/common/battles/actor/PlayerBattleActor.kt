@@ -21,7 +21,6 @@ import com.cablemc.pokemod.common.util.getPlayer
 import java.util.UUID
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
-
 class PlayerBattleActor(
     uuid: UUID,
     pokemonList: List<BattlePokemon>

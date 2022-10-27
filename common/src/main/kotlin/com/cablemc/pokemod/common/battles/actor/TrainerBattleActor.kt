@@ -14,7 +14,6 @@ import com.cablemc.pokemod.common.api.battles.model.ai.BattleAI
 import com.cablemc.pokemod.common.battles.pokemon.BattlePokemon
 import com.cablemc.pokemod.common.util.asTranslated
 import java.util.UUID
-
 class TrainerBattleActor(
     val trainerName: String,
     uuid: UUID,

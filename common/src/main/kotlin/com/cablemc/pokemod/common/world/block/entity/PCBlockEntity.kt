@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.PokemodBlockEntities
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.util.math.BlockPos
-
 class PCBlockEntity(
     blockPos: BlockPos,
     blockState: BlockState

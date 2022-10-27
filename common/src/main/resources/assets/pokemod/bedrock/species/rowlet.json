@@ -1,0 +1,11 @@
+{
+  "poser": "pokemod:rowlet",
+  "model": "pokemod:bedrock/models/0722_rowlet/rowlet.geo.json",
+  "texture": "pokemod:textures/pokemon/0722_rowlet/rowlet.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "pokemod:textures/pokemon/0722_rowlet/rowlet_shiny.png"
+    }
+  ]
+}

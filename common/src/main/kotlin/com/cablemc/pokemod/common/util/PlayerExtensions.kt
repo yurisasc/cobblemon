@@ -32,7 +32,6 @@ fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
 }
 
 // TODO Player extension for queueing next login?
-
 class TraceResult(
     val location: Vec3d,
     val blockPos: BlockPos,
@@ -54,7 +53,6 @@ fun Entity.isLookingAt(other: Entity, maxDistance: Float = 10F, stepDistance: Fl
     }
     return false
 }
-
 class EntityTraceResult<T : Entity>(
     val location: Vec3d,
     val entities: Iterable<T>

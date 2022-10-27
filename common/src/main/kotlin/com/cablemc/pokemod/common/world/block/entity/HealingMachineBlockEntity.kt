@@ -27,7 +27,6 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-
 class HealingMachineBlockEntity(
     blockPos: BlockPos,
     blockState: BlockState

@@ -24,13 +24,15 @@ import com.cablemc.pokemod.common.api.types.ElementalTypes
 import com.cablemc.pokemod.common.entity.PoseType.Companion.FLYING_POSES
 import com.cablemc.pokemod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.pokemon.ai.PokemonBehaviour
 import com.cablemc.pokemod.common.util.lang
+import com.cablemc.pokemod.common.util.readSizedInt
+import com.cablemc.pokemod.common.util.writeSizedInt
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
-
 class Species : ClientDataSynchronizer<Species> {
     var name: String = "bulbasaur"
     val translatedName: MutableText
@@ -48,7 +50,6 @@ class Species : ClientDataSynchronizer<Species> {
     var hitbox = EntityDimensions(1F, 1F, false)
     var primaryType = ElementalTypes.GRASS
         internal set
-    // Technically incorrect for bulbasaur but Mr. Bossman said so
     var secondaryType: ElementalType? = null
         internal set
     val abilities = AbilityPool()
@@ -124,7 +125,7 @@ class Species : ClientDataSynchronizer<Species> {
         buffer.writeIdentifier(this.resourceIdentifier)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
-        buffer.writeMap(this.baseStats, { pb, stat -> pb.writeString(stat.id) }, { pb, value -> pb.writeInt(value) })
+        buffer.writeMap(this.baseStats, { pb, stat -> pb.writeString(stat.id) }, { pb, value -> pb.writeSizedInt(IntSize.U_SHORT, value) })
         // Hitbox start
         buffer.writeFloat(this.hitbox.width)
         buffer.writeFloat(this.hitbox.height)
@@ -133,10 +134,6 @@ class Species : ClientDataSynchronizer<Species> {
         // ToDo remake once we have custom typing support
         buffer.writeString(this.primaryType.name)
         buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
-        buffer.writeNullable(this.standingEyeHeight) { pb, value -> pb.writeFloat(value) }
-        buffer.writeNullable(this.swimmingEyeHeight) { pb, value -> pb.writeFloat(value) }
-        buffer.writeNullable(this.flyingEyeHeight) { pb, value -> pb.writeFloat(value) }
-        buffer.writeBoolean(this.dynamaxBlocked)
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
     }
@@ -145,14 +142,10 @@ class Species : ClientDataSynchronizer<Species> {
         this.apply {
             name = buffer.readString()
             nationalPokedexNumber = buffer.readInt()
-            baseStats.putAll(buffer.readMap({ Stats.getStat(it.readString(), true) }, { it.readInt() }))
+            baseStats.putAll(buffer.readMap({ Stats.getStat(it.readString(), true) }, { it.readSizedInt(IntSize.U_SHORT) }))
             hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
             primaryType = ElementalTypes.getOrException(buffer.readString())
             secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }
-            standingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
-            swimmingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
-            flyingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
-            dynamaxBlocked = buffer.readBoolean()
             pokedex.clear()
             pokedex += buffer.readList { pb -> pb.readString() }
             forms.clear()
@@ -161,7 +154,7 @@ class Species : ClientDataSynchronizer<Species> {
     }
 
     override fun shouldSynchronize(other: Species): Boolean {
-        if (other.resourceIdentifier != other.resourceIdentifier)
+        if (other.resourceIdentifier.toString() != other.resourceIdentifier.toString())
             return false
         return other.name != this.name
                 || other.nationalPokedexNumber != this.nationalPokedexNumber

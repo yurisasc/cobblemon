@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution
 
 import com.cablemc.pokemod.common.pokemon.Pokemon
-
 class ClearEvolutionsPacket() : EvolutionUpdatePacket() {
 
     constructor(pokemon: Pokemon): this() {

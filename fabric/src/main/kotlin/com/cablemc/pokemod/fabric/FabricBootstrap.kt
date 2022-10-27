@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.fabric
 
 import net.fabricmc.api.ModInitializer
-
 class FabricBootstrap : ModInitializer {
     override fun onInitialize() {
         PokemodFabric.initialize()

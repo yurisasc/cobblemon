@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.net.messages.client.pokemon.update
 import com.cablemc.pokemod.common.api.moves.MoveSet
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import net.minecraft.network.PacketByteBuf
-
 class MoveSetUpdatePacket internal constructor(): SingleUpdatePacket<MoveSet>(MoveSet()) {
 
     constructor(

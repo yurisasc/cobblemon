@@ -7,7 +7,6 @@
  */
 
 package com.cablemc.pokemod.common.util.collections
-
 class ImmutableArray<T>(private vararg val values: T) {
 
     operator fun get(index: Int) = values[index]

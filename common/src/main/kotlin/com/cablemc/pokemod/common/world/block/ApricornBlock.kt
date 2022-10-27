@@ -30,7 +30,6 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
-
 class ApricornBlock(properties: Settings, val itemSupplier: Supplier<ApricornItem>) : HorizontalFacingBlock(properties), Fertilizable {
 
     companion object {

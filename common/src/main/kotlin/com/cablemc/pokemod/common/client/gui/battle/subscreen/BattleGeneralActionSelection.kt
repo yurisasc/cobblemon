@@ -20,7 +20,6 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
-
 class BattleGeneralActionSelection(
     battleGUI: BattleGUI,
     request: SingleActionRequest

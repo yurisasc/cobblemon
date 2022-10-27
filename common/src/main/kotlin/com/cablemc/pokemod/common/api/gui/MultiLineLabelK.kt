@@ -15,7 +15,6 @@ import net.minecraft.text.StringVisitable
 import net.minecraft.text.Style
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-
 class MultiLineLabelK(
     private val comps: List<TextWithWidth>,
     private val font: Identifier? = null

@@ -16,7 +16,6 @@ import com.cablemc.pokemod.common.battles.Targetable
 import com.cablemc.pokemod.common.client.battle.animations.TileAnimation
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.client.MinecraftClient
-
 class ActiveClientBattlePokemon(val actor: ClientBattleActor, var battlePokemon: ClientBattlePokemon?) : Targetable {
     var animations = ConcurrentLinkedQueue<TileAnimation>()
     var xDisplacement = 0F

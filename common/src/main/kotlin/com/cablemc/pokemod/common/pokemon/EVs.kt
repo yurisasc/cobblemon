@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.common.pokemon
 
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
-
 class EVs : PokemonStats() {
     override val acceptableRange = 0..MAX_STAT_VALUE
     // TODO: Force caps on total value

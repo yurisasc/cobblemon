@@ -97,7 +97,6 @@ class WaveAnimation<T : Entity>(
         }
     }
 }
-
 class WaveSegment(
     val modelPart: ModelPart,
     val length: Float

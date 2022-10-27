@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.net.messages.client.pokemon.update
 import com.cablemc.pokemod.common.api.pokeball.PokeBalls
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import net.minecraft.util.Identifier
-
 class CaughtBallUpdatePacket() : StringUpdatePacket() {
     constructor(pokemon: Pokemon, value: String): this() {
         this.setTarget(pokemon)

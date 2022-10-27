@@ -25,7 +25,10 @@ import com.cablemc.pokemod.common.api.types.ElementalType
 import com.cablemc.pokemod.common.api.types.ElementalTypes
 import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
+import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.pokemon.ai.FormPokemonBehaviour
+import com.cablemc.pokemod.common.util.readSizedInt
+import com.cablemc.pokemod.common.util.writeSizedInt
 import com.google.gson.annotations.SerializedName
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
@@ -196,7 +199,7 @@ class FormData(
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(this.name)
-        buffer.writeNullable(this._baseStats) { pb1, map -> pb1.writeMap(map, { pb2, stat -> pb2.writeString(stat.id) }, { pb, value -> pb.writeInt(value) }) }
+        buffer.writeNullable(this._baseStats) { pb1, map -> pb1.writeMap(map, { pb2, stat -> pb2.writeString(stat.id) }, { pb, value -> pb.writeSizedInt(IntSize.U_SHORT, value) }) }
         buffer.writeNullable(this._hitbox) { pb, hitbox ->
             pb.writeFloat(hitbox.width)
             pb.writeFloat(hitbox.height)
@@ -204,29 +207,21 @@ class FormData(
         }
         buffer.writeNullable(this._primaryType) { pb, type -> pb.writeString(type.name) }
         buffer.writeNullable(this._secondaryType) { pb, type -> pb.writeString(type.name) }
-        buffer.writeNullable(this.standingEyeHeight) { pb, standingEyeHeight -> pb.writeFloat(standingEyeHeight) }
-        buffer.writeNullable(this.swimmingEyeHeight) { pb, swimmingEyeHeight -> pb.writeFloat(swimmingEyeHeight) }
-        buffer.writeNullable(this.flyingEyeHeight) { pb, flyingEyeHeight -> pb.writeFloat(flyingEyeHeight) }
         buffer.writeNullable(this._height) { pb, height -> pb.writeFloat(height) }
         buffer.writeNullable(this._weight) { pb, weight -> pb.writeFloat(weight) }
-        buffer.writeNullable(this._dynamaxBlocked) { pb, dynamaxBlocked -> pb.writeBoolean(dynamaxBlocked) }
         buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
     }
 
     override fun decode(buffer: PacketByteBuf) {
         this.name = buffer.readString()
-        this._baseStats = buffer.readNullable { pb -> pb.readMap({ Stats.getStat(it.readString(), true) }, { it.readInt() }) }
+        this._baseStats = buffer.readNullable { pb -> pb.readMap({ Stats.getStat(it.readString(), true) }, { it.readSizedInt(IntSize.U_SHORT) }) }
         this._hitbox = buffer.readNullable { pb ->
             EntityDimensions(pb.readFloat(), pb.readFloat(), pb.readBoolean())
         }
         this._primaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
         this._secondaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
-        this.standingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
-        this.swimmingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
-        this.flyingEyeHeight = buffer.readNullable { pb -> pb.readFloat() }
         this._height = buffer.readNullable { pb -> pb.readFloat() }
         this._weight = buffer.readNullable { pb -> pb.readFloat() }
-        this._dynamaxBlocked = buffer.readNullable { pb -> pb.readBoolean() }
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
     }
 }

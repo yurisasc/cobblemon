@@ -16,7 +16,6 @@ import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-
 class SelectionButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,

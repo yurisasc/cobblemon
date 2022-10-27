@@ -73,7 +73,7 @@ object PokemodClient {
     }
 
     fun initialize(implementation: PokemodClientImplementation) {
-        LOGGER.info("Initializing Pokémon Cobbled client")
+        LOGGER.info("Initializing Pokémod Cobbled client")
         this.implementation = implementation
 
         CLIENT_PLAYER_JOIN.register { onLogin() }
@@ -87,24 +87,6 @@ object PokemodClient {
 
         ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() })
 
-//        ReloadListenerRegistry.register(ResourceType.CLIENT_RESOURCES, object : ResourceReloader {
-//            override fun getName() = "cobbled"
-//            override fun reload(
-//                synchronizer: ResourceReloader.Synchronizer?,
-//                manager: ResourceManager,
-//                prepareProfiler: Profiler?,
-//                applyProfiler: Profiler?,
-//                prepareExecutor: Executor?,
-//                applyExecutor: Executor?
-//            ): CompletableFuture<Void> {
-//                return CompletableFuture.supplyAsync {
-//                    reloadCodedAssets(manager)
-//                    null
-//                }
-////                return CompletableFuture.completedFuture(null)
-//            }
-//        })
-
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()
 
@@ -117,7 +99,7 @@ object PokemodClient {
     fun registerColors() {
         ColorHandlerRegistry.registerBlockColors(BlockColorProvider { blockState, blockAndTintGetter, blockPos, i ->
             return@BlockColorProvider 0x71c219
-        }, com.cablemc.pokemod.common.PokemodBlocks.APRICORN_LEAVES.get())
+        }, PokemodBlocks.APRICORN_LEAVES.get())
 
         ColorHandlerRegistry.registerItemColors(ItemColorProvider { itemStack, i ->
             return@ItemColorProvider 0x71c219

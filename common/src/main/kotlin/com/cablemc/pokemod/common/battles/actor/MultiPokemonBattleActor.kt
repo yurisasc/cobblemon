@@ -16,7 +16,6 @@ import com.cablemc.pokemod.common.battles.ai.RandomBattleAI
 import com.cablemc.pokemod.common.battles.pokemon.BattlePokemon
 import java.util.UUID
 import net.minecraft.text.MutableText
-
 class MultiPokemonBattleActor(
     pokemonList: List<BattlePokemon>,
     artificialDecider: BattleAI = RandomBattleAI(),

@@ -18,7 +18,6 @@ import java.math.RoundingMode
 import java.text.DecimalFormat
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-
 class MoveInfoWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,

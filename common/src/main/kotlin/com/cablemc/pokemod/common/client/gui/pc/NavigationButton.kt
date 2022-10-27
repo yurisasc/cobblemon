@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.gui.blitk
 import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.client.gui.widget.TexturedButtonWidget
 import net.minecraft.client.util.math.MatrixStack
-
 class NavigationButton(
     pX: Int, pY: Int,
     val pWidth: Int, val pHeight: Int,

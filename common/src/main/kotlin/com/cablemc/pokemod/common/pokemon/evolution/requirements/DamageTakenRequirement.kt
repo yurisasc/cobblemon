@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.pokemon.evolution.requirements
 import com.cablemc.pokemod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.pokemon.feature.DamageTakenFeature
-
 class DamageTakenRequirement : EvolutionRequirement {
     companion object {
         const val ADAPTER_VARIANT = DamageTakenFeature.ID

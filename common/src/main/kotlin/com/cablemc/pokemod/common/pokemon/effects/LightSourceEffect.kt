@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.pokemon.effects
 import com.cablemc.pokemod.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import net.minecraft.server.network.ServerPlayerEntity
-
 class LightSourceEffect: ShoulderEffect {
     private var test = "AAA"
 
