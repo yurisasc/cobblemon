@@ -13,6 +13,7 @@ import com.cablemc.pokemod.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemod.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemod.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemod.common.api.properties.CustomPokemonPropertyType
+import com.cablemc.pokemod.common.pokemon.properties.PropertiesCompletionProvider
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -24,6 +25,7 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
 
     companion object {
         val EXAMPLES: List<String> = listOf("eevee")
+        private val ASSIGNER = "="
 
         fun properties() = PokemonPropertiesArgumentType()
 
@@ -50,17 +52,15 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
         /**
          * We already have a property defined and a potential value, let's try to suggest values based on provided [CustomPokemonPropertyType.examples]
          */
-        if (currentSection.contains("=")) {
-            val propertyKey = currentSection.substringBefore("=")
-            val currentValue = currentSection.substringAfter("=")
-            val property = CustomPokemonProperty.properties.firstOrNull { property -> property.keys.any { key -> key.equals(propertyKey, true) } } ?: return Suggestions.empty()
-            return this.suggestPropertyValue(builder, property, currentValue)
+        if (currentSection.contains(ASSIGNER)) {
+            val propertyKey = currentSection.substringBefore(ASSIGNER)
+            val currentValue = currentSection.substringAfter(ASSIGNER)
+            return PropertiesCompletionProvider.suggestValues(propertyKey, currentValue, builder)
         }
         // We will always assume a species identifier has the priority as the first command argument as that's the most traditional approach as such lets provide property keys for the suggestion
         else if (sections.size >= 2) {
-            this.collectPropertyKeys().forEach { key ->
-
-            }
+            val usedKeys = sections.filter { it.contains("=") }.map { it.substringBefore("=") }.toSet()
+            return PropertiesCompletionProvider.suggestKeys(currentSection, usedKeys, builder)
         }
         return this.suggestSpeciesAndPropertyKeys(builder)
     }
@@ -70,16 +70,6 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
     private fun collectSpeciesIdentifiers() = PokemonSpecies.species.map { if (it.resourceIdentifier.namespace == Pokemod.MODID) it.resourceIdentifier.path else it.resourceIdentifier.toString() }
 
     private fun collectPropertyKeys() = CustomPokemonProperty.properties.mapNotNull { it.keys.firstOrNull()?.lowercase() }
-
-    private fun suggestPropertyValue(builder: SuggestionsBuilder, property: CustomPokemonPropertyType<*>, currentValue: String): CompletableFuture<Suggestions> {
-        property.examples().forEach { example ->
-            val substring = example.substringAfter(currentValue)
-            if (substring.isNotBlank()) {
-                builder.suggest(substring)
-            }
-        }
-        return builder.buildFuture()
-    }
 
     override fun getExamples() = EXAMPLES
 }

@@ -11,6 +11,8 @@ package com.cablemc.pokemod.common.api.properties
 import com.cablemc.pokemod.common.api.properties.CustomPokemonProperty.Companion.register
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.Pokemon
+import com.cablemc.pokemod.common.pokemon.properties.PropertiesCompletionProvider
+import com.cablemc.pokemod.common.util.getServer
 
 /**
  * A custom property that can be parsed from a string and applied/matched against
@@ -27,6 +29,7 @@ interface CustomPokemonProperty {
 
         fun <T: CustomPokemonProperty> register(propertyType: CustomPokemonPropertyType<T>) {
             properties.add(propertyType)
+            this.triggerSyncAttempt()
         }
 
         fun <T : CustomPokemonProperty> register(name: String, needsLabel: Boolean = true, fromString: (String?) -> T?, examples: () -> Collection<String>) {
@@ -42,6 +45,16 @@ interface CustomPokemonProperty {
                     override fun examples() = examples.invoke()
                 }
             )
+            this.triggerSyncAttempt()
+        }
+
+        // We do this every time a new property is registered if the server is running in order to synchronize all players with the new property for tab completion purposes
+        private fun triggerSyncAttempt() {
+            val server = getServer() ?: return
+            if (!server.isSingleplayer) {
+                PropertiesCompletionProvider.reload()
+                server.playerManager.playerList.forEach { player -> PropertiesCompletionProvider.sync(player) }
+            }
         }
     }
 
