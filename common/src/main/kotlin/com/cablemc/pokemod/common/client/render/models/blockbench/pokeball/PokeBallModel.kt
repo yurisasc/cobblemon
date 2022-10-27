@@ -47,18 +47,18 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
                     function = { t -> t * PI / 10 }, // 1 rotation per second = 2pi per 20 ticks = 2pi / 20 = pi / 10 per tick
                     axis = Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks }
-                ),
-                rootPart.translation(
-                    function = { t ->
-                        if (t > 4) {
-                            0F
-                        } else {
-                            -(4F - t) * 2F
-                        }
-                    },
-                    axis = Y_AXIS,
-                    timeVariable = { _, _, ageInTicks -> ageInTicks }
                 )
+//                rootPart.translation(
+//                    function = { t ->
+//                        if (t > 4) {
+//                            0F
+//                        } else {
+//                            -(4F - t) * 2F
+//                        }
+//                    },
+//                    axis = Y_AXIS,
+//                    timeVariable = { _, _, ageInTicks -> ageInTicks }
+//                )
             )
         )
     }
@@ -70,20 +70,25 @@ class PokeBallModel(root: ModelPart) : PoseableEntityModel<EmptyPokeBallEntity>(
             val meshdefinition = ModelData()
             val partdefinition = meshdefinition.root
 
-            val root = partdefinition.addChild("root", ModelPartBuilder.create(), ModelTransform.pivot(0.0f, 24.0f, 0.0f))
+            val root = partdefinition.addChild(
+                "root",
+                ModelPartBuilder.create(),
+                ModelTransform.of(0.0f, 0.0f, 0.0f, PI, 0F, 0F)
+            )
 
+            // new value = pivotY - offsetY - sizeY
             val pokeball = root.addChild(
                 "pokeball",
-                ModelPartBuilder.create().uv(0, 1)
-                    .cuboid(-4.0f, -4.0f, -4.0f, 8.0f, 3.0f, 8.0f, Dilation(0.0f))
+                ModelPartBuilder.create()
+                    .uv(0, 1).cuboid(-4.0f, -4.0f, -4.0f, 8.0f, 3.0f, 8.0f, Dilation(0.0f))
                     .uv(8, 24).cuboid(-3.0f, -2.0f, -3.0f, 6.0f, 2.0f, 6.0f, Dilation(0.0f)),
                 ModelTransform.pivot(0.0f, 0.0f, 0.0f)
             )
 
             val pokeball_lid = pokeball.addChild(
                 "pokeball_lid",
-                ModelPartBuilder.create().uv(0, 12)
-                    .cuboid(-4.0f, -4.0f, -8.0f, 8.0f, 4.0f, 8.0f, Dilation(0.0f))
+                ModelPartBuilder.create()
+                    .uv(0, 12).cuboid(-4.0f, -4.0f, -8.0f, 8.0f, 4.0f, 8.0f, Dilation(0.0f))
                     .uv(8, 24).cuboid(-3.0f, -5.0f, -7.0f, 6.0f, 2.0f, 6.0f, Dilation(0.0f))
                     .uv(0, 26).cuboid(-2.0f, -2.5f, -8.01f, 4.0f, 4.0f, 0.0f, Dilation(0.0f)),
                 ModelTransform.pivot(0.0f, -4.0f, 4.0f)
