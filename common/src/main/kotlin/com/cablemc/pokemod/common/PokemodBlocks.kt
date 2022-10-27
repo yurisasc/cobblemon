@@ -18,26 +18,12 @@ import com.cablemc.pokemod.common.world.block.ApricornSaplingBlock
 import com.cablemc.pokemod.common.world.block.HealingMachineBlock
 import com.cablemc.pokemod.common.world.block.PCBlock
 import dev.architectury.registry.registries.RegistrySupplier
-import java.util.function.Supplier
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.DoorBlock
-import net.minecraft.block.FenceBlock
-import net.minecraft.block.FenceGateBlock
-import net.minecraft.block.LeavesBlock
-import net.minecraft.block.MapColor
-import net.minecraft.block.Material
-import net.minecraft.block.PillarBlock
-import net.minecraft.block.PressurePlateBlock
-import net.minecraft.block.SlabBlock
-import net.minecraft.block.StairsBlock
-import net.minecraft.block.TrapdoorBlock
-import net.minecraft.block.WoodenButtonBlock
+import net.minecraft.block.*
 import net.minecraft.entity.EntityType
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.math.Direction
 import net.minecraft.util.registry.Registry
+import java.util.function.Supplier
 
 object PokemodBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     /**
@@ -76,25 +62,25 @@ object PokemodBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
      */
 
     val APRICORN_LOG = queue("apricorn_log") {
-        PokemodBlocks.log(
+        log(
             MapColor.DIRT_BROWN,
             MapColor.BROWN
         )
     }
     val STRIPPED_APRICORN_LOG = queue("stripped_apricorn_log") {
-        PokemodBlocks.log(
+        log(
             MapColor.DIRT_BROWN,
             MapColor.DIRT_BROWN
         )
     }
     val APRICORN_WOOD = queue("apricorn_wood") {
-        PokemodBlocks.log(
+        log(
             MapColor.DIRT_BROWN,
             MapColor.DIRT_BROWN
         )
     }
     val STRIPPED_APRICORN_WOOD = queue("stripped_apricorn_wood") {
-        PokemodBlocks.log(
+        log(
             MapColor.DIRT_BROWN,
             MapColor.DIRT_BROWN
         )
