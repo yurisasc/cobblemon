@@ -20,4 +20,5 @@ object PokemonFlagProperty : CustomPokemonPropertyType<StringProperty> {
 
     override fun fromString(value: String?) = if (value == null) null else StringProperty(KEY, value, { _, _ -> }, { pokemon, underlyingValue -> pokemon.hasLabels(underlyingValue) })
 
+    override fun examples() = emptySet<String>()
 }

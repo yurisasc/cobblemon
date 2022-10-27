@@ -32,4 +32,6 @@ open class FlagSpeciesFeatureCustomPropertyType(val name: String) : CustomPokemo
         feature.enabled = enabled
         return feature
     }
+
+    override fun examples() = setOf("true", "false")
 }

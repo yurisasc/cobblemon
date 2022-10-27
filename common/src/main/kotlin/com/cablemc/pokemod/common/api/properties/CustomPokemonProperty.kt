@@ -29,16 +29,17 @@ interface CustomPokemonProperty {
             properties.add(propertyType)
         }
 
-        fun <T : CustomPokemonProperty> register(name: String, needsLabel: Boolean = true, fromString: (String?) -> T?) {
-            register(listOf(name), needsLabel, fromString)
+        fun <T : CustomPokemonProperty> register(name: String, needsLabel: Boolean = true, fromString: (String?) -> T?, examples: () -> Collection<String>) {
+            register(listOf(name), needsLabel, fromString, examples)
         }
 
-        fun <T : CustomPokemonProperty> register(aliases: Iterable<String>, needsLabel: Boolean = true, fromString: (String?) -> T?) {
+        fun <T : CustomPokemonProperty> register(aliases: Iterable<String>, needsLabel: Boolean = true, fromString: (String?) -> T?, examples: () -> Collection<String>) {
             properties.add(
                 object : CustomPokemonPropertyType<T> {
                     override val keys = aliases
                     override val needsKey = needsLabel
                     override fun fromString(value: String?) = fromString(value)
+                    override fun examples() = examples.invoke()
                 }
             )
         }

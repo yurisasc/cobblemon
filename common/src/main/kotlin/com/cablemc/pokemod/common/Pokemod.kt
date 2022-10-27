@@ -74,6 +74,8 @@ import com.cablemc.pokemod.common.pokemon.feature.BattleCriticalHitsFeature
 import com.cablemc.pokemod.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemod.common.pokemon.feature.SNAKE_PATTERN
 import com.cablemc.pokemod.common.pokemon.feature.SnakePatternFeature
+import com.cablemc.pokemod.common.pokemon.properties.PokemonLevelProperty
+import com.cablemc.pokemod.common.pokemon.properties.ShinyProperty
 import com.cablemc.pokemod.common.pokemon.properties.UncatchableProperty
 import com.cablemc.pokemod.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemod.common.pokemon.properties.tags.PokemonFlagProperty
@@ -87,20 +89,20 @@ import com.cablemc.pokemod.common.world.PokemodGameRules
 import com.cablemc.pokemod.common.world.generation.PokemodWorldGeneration
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.UUID
-import kotlin.properties.Delegates
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.memberProperties
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.util.*
+import kotlin.properties.Delegates
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 
 object Pokemod {
     const val MODID = "pokemod"
@@ -182,6 +184,8 @@ object Pokemod {
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)
         CustomPokemonProperty.register(PokemonFlagProperty)
+        CustomPokemonProperty.register(PokemonLevelProperty)
+        CustomPokemonProperty.register(ShinyProperty)
 
         CommandRegistrationEvent.EVENT.register(PokemodCommands::register)
 

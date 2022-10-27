@@ -25,4 +25,13 @@ interface CustomPokemonPropertyType<T : CustomPokemonProperty> {
     val needsKey: Boolean
     /** Tries parsing a new instance of this generic type based off a nullable string. */
     fun fromString(value: String?):  T?
+
+    /**
+     * Returns a list of literal examples of the values this property will accept.
+     * This may not contain every possible value, the intent is for tab completion when using a PokemonProperty argument in a command.
+     *
+     * @return A list of literal examples.
+     */
+    fun examples(): Collection<String>
+
 }

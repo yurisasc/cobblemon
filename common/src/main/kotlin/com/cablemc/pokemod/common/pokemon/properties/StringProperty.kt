@@ -24,5 +24,4 @@ class StringProperty(
     override fun matches(pokemon: Pokemon) = this.matcher.invoke(pokemon, this.value)
 
     override fun asString() = "${this.key}=${this.value}"
-
 }

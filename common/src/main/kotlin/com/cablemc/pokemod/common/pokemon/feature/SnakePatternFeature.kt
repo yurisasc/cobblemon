@@ -9,7 +9,7 @@
 package com.cablemc.pokemod.common.pokemon.feature
 
 import com.cablemc.pokemod.common.api.pokemon.feature.EnumSpeciesFeature
-import java.util.EnumSet
+import java.util.*
 
 /**
  * A pattern on a snake Pokémon, typically Arbok.
