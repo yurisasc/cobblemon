@@ -8,12 +8,17 @@
 
 package com.cablemc.pokemod.common.pokemon.evolution.variants
 
+import com.cablemc.pokemod.common.api.conditional.RegistryLikeCondition
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
 import com.cablemc.pokemod.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemod.common.api.pokemon.evolution.ContextEvolution
 import com.cablemc.pokemod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemod.common.pokemon.Pokemon
+import com.cablemc.pokemod.common.registry.ItemIdentifierCondition
+import net.minecraft.item.Item
 import net.minecraft.util.Identifier
+import net.minecraft.util.registry.Registry
+import net.minecraft.world.World
 
 /**
  * Represents a [ContextEvolution] with [Identifier] context.
@@ -26,24 +31,24 @@ import net.minecraft.util.Identifier
 open class ItemInteractionEvolution(
     override val id: String,
     override val result: PokemonProperties,
-    override val requiredContext: Identifier,
+    override val requiredContext: RegistryLikeCondition<Item>,
     override var optional: Boolean,
     override var consumeHeldItem: Boolean,
     override val requirements: MutableSet<EvolutionRequirement>,
     override val learnableMoves: MutableSet<MoveTemplate>
-) : ContextEvolution<Identifier, Identifier> {
+) : ContextEvolution<ItemInteractionEvolution.ItemInteractionContext, RegistryLikeCondition<Item>> {
     constructor(): this(
         id = "id",
         result = PokemonProperties(),
-        requiredContext = Identifier("minecraft", "fish"),
+        requiredContext = ItemIdentifierCondition(Identifier("minecraft", "fish")),
         optional = true,
         consumeHeldItem = true,
         requirements = mutableSetOf(),
         learnableMoves = mutableSetOf()
     )
 
-    override fun testContext(pokemon: Pokemon, context: Identifier): Boolean {
-        return context == this.requiredContext
+    override fun testContext(pokemon: Pokemon, context: ItemInteractionContext): Boolean {
+        return this.requiredContext.fits(context.item, context.world.registryManager.get(Registry.ITEM_KEY))
     }
 
     override fun equals(other: Any?) = other is ItemInteractionEvolution && other.id.equals(this.id, true)
@@ -53,6 +58,11 @@ open class ItemInteractionEvolution(
         result = 31 * result + ADAPTER_VARIANT.hashCode()
         return result
     }
+
+    data class ItemInteractionContext(
+        val item: Item,
+        val world: World
+    )
 
     companion object {
         const val ADAPTER_VARIANT = "item_interact"

@@ -37,8 +37,7 @@ interface ContextEvolution<RC, TC> : Evolution {
      */
     fun attemptEvolution(pokemon: Pokemon, context: RC): Boolean {
         if (this.testContext(pokemon, context) && super.test(pokemon)) {
-            super.evolve(pokemon)
-            return true
+            return super.evolve(pokemon)
         }
         return false
     }

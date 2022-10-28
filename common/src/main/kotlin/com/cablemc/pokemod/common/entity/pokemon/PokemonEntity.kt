@@ -65,7 +65,6 @@ import net.minecraft.tag.FluidTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import java.util.*
 import java.util.concurrent.CompletableFuture
@@ -425,15 +424,12 @@ class PokemonEntity(
         if (player !is ServerPlayerEntity || stack.isEmpty) {
             return false
         }
-
-        val itemRegistry = player.getWorld().registryManager.get(Registry.ITEM_KEY)
-        val item = itemRegistry.getKey(stack.item).orElse(null).value
-
         if (pokemon.getOwnerPlayer() == player) {
+            val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
             pokemon.evolutions
                 .filterIsInstance<ItemInteractionEvolution>()
                 .forEach { evolution ->
-                    if (evolution.attemptEvolution(pokemon, item)) {
+                    if (evolution.attemptEvolution(pokemon, context)) {
                         if (!player.isCreative && evolution.consumeHeldItem) {
                             stack.decrement(1)
                         }
