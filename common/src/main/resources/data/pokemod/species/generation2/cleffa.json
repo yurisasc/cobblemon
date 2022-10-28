@@ -17,7 +17,7 @@
     },
     "catchRate": 150,
     "maleRatio": 0.25,
-    "shoulderMountable": false,
+    "shoulderMountable": true,
     "forms": [],
     "baseExperienceYield": 44,
     "experienceGroup": "fast",
@@ -107,10 +107,10 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.7,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.7,
+        "height": 0.6,
         "fixed": false
     }
 }

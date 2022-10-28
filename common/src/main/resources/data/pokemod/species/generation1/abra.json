@@ -15,6 +15,16 @@
         "special_defence": 55,
         "speed": 90
     },
+    "behaviour": {
+        "moving": {
+            "walk": {
+                "canWalk": false
+            },
+            "fly": {
+                "canFly": true
+            }
+        }
+    },
     "catchRate": 200,
     "maleRatio": 0.75,
     "shoulderMountable": false,
@@ -111,7 +121,7 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.7,
     "hitbox": {
         "width": 1.0,
         "height": 1.0,

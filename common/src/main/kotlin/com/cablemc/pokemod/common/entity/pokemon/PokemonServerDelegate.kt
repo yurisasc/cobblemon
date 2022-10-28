@@ -65,6 +65,10 @@ class PokemonServerDelegate : PokemonSideDelegate {
             }
         }
 
+        if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
+            entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
+        }
+
         if (entity.ticksLived % 20 == 0) {
             val activeBattlePokemon = entity.battleId.get().orElse(null)?.let { BattleRegistry.getBattle(it) }
                 ?.activePokemon

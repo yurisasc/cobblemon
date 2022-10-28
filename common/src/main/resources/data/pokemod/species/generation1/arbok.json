@@ -102,10 +102,10 @@
     ],
     "preEvolution": "ekans",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 0.75,
     "hitbox": {
         "width": 1.0,
-        "height": 1.0,
+        "height": 1.8,
         "fixed": false
     }
 }

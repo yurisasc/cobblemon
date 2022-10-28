@@ -59,7 +59,7 @@ object DataKeys {
     const val STORE_BACKUP = "BackupStore"
 
     /* Form stuff */
-    const val ALOLAN = "Alolan"
+    const val ALOLAN = "Alola"
     const val CRYSTAL = "Crystal"
     /* ---------- */
 
