@@ -37,15 +37,9 @@ import com.cablemc.pokemod.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemod.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemod.common.pokemon.ai.FormPokemonBehaviour
 import com.cablemc.pokemod.common.pokemon.evolution.variants.ItemInteractionEvolution
-import com.cablemc.pokemod.common.util.DataKeys
-import com.cablemc.pokemod.common.util.getBitForByte
-import com.cablemc.pokemod.common.util.playSoundServer
-import com.cablemc.pokemod.common.util.setBitForByte
+import com.cablemc.pokemod.common.util.*
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
-import java.util.EnumSet
-import java.util.Optional
-import java.util.concurrent.CompletableFuture
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -66,12 +60,15 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
+import java.util.*
+import java.util.concurrent.CompletableFuture
 class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
@@ -440,6 +437,11 @@ class PokemonEntity(
                         if (!player.isCreative && evolution.consumeHeldItem) {
                             stack.decrement(1)
                         }
+                        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, volume = 1F, pitch = 1F)
+                        // Only hint the evolution if it isn't instantly starting
+                        if (evolution.optional) {
+                            player.sendMessage("pokemod.ui.evolve.hint".asTranslated(pokemon.displayName))
+                        }
                         return true
                     }
                 }
@@ -447,6 +449,7 @@ class PokemonEntity(
 
         (stack.item as? PokemonInteractiveItem)?.let {
             if (it.onInteraction(player, this, stack)) {
+                this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, volume = 1F, pitch = 1F)
                 return true
             }
         }

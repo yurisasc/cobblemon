@@ -29,8 +29,7 @@ interface PassiveEvolution : Evolution {
      */
     fun attemptEvolution(pokemon: Pokemon): Boolean {
         if (super.test(pokemon)) {
-            super.evolve(pokemon)
-            return true
+            return super.evolve(pokemon)
         }
         return false
     }

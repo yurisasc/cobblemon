@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.api.moves.MoveTemplate
 import com.cablemc.pokemod.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemod.common.api.pokemon.evolution.ContextEvolution
 import com.cablemc.pokemod.common.api.pokemon.evolution.requirement.EvolutionRequirement
-import com.cablemc.pokemod.common.item.interactive.EvolutionItem
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import net.minecraft.util.Identifier
 
