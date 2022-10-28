@@ -9,7 +9,6 @@
 package com.cablemc.pokemod.common.world.block
 
 import com.cablemc.pokemod.common.item.ApricornItem
-import java.util.function.Supplier
 import net.minecraft.block.*
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
@@ -30,6 +29,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
+import java.util.function.Supplier
 class ApricornBlock(properties: Settings, val itemSupplier: Supplier<ApricornItem>) : HorizontalFacingBlock(properties), Fertilizable {
 
     companion object {

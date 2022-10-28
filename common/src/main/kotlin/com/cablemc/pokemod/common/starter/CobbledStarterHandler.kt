@@ -9,6 +9,7 @@
 package com.cablemc.pokemod.common.starter
 
 import com.cablemc.pokemod.common.Pokemod
+import com.cablemc.pokemod.common.advancement.PokemodCriteria
 import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.events.starter.StarterChosenEvent
 import com.cablemc.pokemod.common.api.starter.StarterHandler
@@ -61,7 +62,7 @@ open class CobbledStarterHandler : StarterHandler {
                     playerData.starterUUID = it.uuid
                 }
             )
-
+            PokemodCriteria.PICK_STARTER.trigger(player, pokemon)
             Pokemod.playerData.saveSingle(playerData)
             playerData.sendToPlayer(player)
         }
