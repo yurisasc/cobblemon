@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "pokemod:black_apricorn",
+    "pokemod:blue_apricorn",
+    "pokemod:green_apricorn",
+    "pokemod:pink_apricorn",
+    "pokemod:red_apricorn",
+    "pokemod:white_apricorn",
+    "pokemod:yellow_apricorn"
+  ]
+}

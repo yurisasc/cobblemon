@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokemod:red_apricorn"
+    },
+    "title": {
+      "translate": "advancements.pokemod.harvest_apricorn"
+    },
+    "description": {
+      "translate": "advancements.pokemod.harvest_apricorn.description"
+    }
+  },
+  "parent": "pokemod:root",
+  "criteria": {
+    "check_inv": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "pokemod:apricorns"
+          }
+        ]
+      }
+    }
+  }
+}
