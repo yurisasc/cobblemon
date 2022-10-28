@@ -31,8 +31,8 @@ class PoipoleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 1.6F
+    override val portraitTranslation = Vec3d(0.05, .35, 0.0)
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
