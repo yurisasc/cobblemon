@@ -20,12 +20,16 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "gmax",
             "aspects": [
                 "gmax"
             ]
         }
     ],
+    "features": ["valencian"],
     "baseExperienceYield": 198,
     "experienceGroup": "mediumfast",
     "eggCycles": 15,

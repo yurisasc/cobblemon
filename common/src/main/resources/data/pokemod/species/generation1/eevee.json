@@ -20,6 +20,9 @@
     "shoulderMountable": true,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "starter",
             "baseStats": {
                 "hp": 65,

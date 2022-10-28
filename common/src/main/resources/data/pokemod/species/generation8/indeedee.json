@@ -1,5 +1,5 @@
 {
-    "name": "indeedeemale",
+    "name": "indeedee",
     "nationalPokedexNumber": 876,
     "primaryType": "psychic",
     "secondaryType": "normal",
@@ -20,6 +20,9 @@
     "maleRatio": 1.0,
     "shoulderMountable": false,
     "forms": [
+        {
+            "name": "male"
+        },
         {
             "name": "female",
             "abilities": [

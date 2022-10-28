@@ -1,5 +1,5 @@
 {
-    "name": "urshifusinglestrike",
+    "name": "urshifu",
     "nationalPokedexNumber": 892,
     "primaryType": "fighting",
     "secondaryType": "dark",
@@ -18,6 +18,9 @@
     "maleRatio": 0.875,
     "shoulderMountable": false,
     "forms": [
+        {
+            "name": "single-strike"
+        },
         {
             "name": "rapid-strike",
             "secondaryType": "water",

@@ -18,7 +18,7 @@
     "catchRate": 255,
     "maleRatio": 0.5,
     "shoulderMountable": false,
-    "forms": [],
+    "features": ["valencian"],
     "baseExperienceYield": 64,
     "experienceGroup": "mediumslow",
     "eggCycles": 20,

@@ -1,5 +1,5 @@
 {
-    "name": "morpekofullbelly",
+    "name": "morpeko",
     "nationalPokedexNumber": 877,
     "primaryType": "electric",
     "secondaryType": "dark",
@@ -17,14 +17,6 @@
     "catchRate": 180,
     "maleRatio": 0.5,
     "shoulderMountable": false,
-    "forms": [
-        {
-            "name": "hangry",
-            "aspects": [
-                "hangry"
-            ]
-        }
-    ],
     "baseExperienceYield": 153,
     "experienceGroup": "mediumfast",
     "eggCycles": 10,

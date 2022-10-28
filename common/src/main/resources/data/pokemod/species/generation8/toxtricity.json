@@ -1,5 +1,5 @@
 {
-    "name": "toxtricityamped",
+    "name": "toxtricity",
     "nationalPokedexNumber": 849,
     "primaryType": "electric",
     "secondaryType": "poison",
@@ -20,6 +20,9 @@
     "maleRatio": 0.5,
     "shoulderMountable": false,
     "forms": [
+        {
+            "name": "amped"
+        },
         {
             "name": "low-key",
             "abilities": [
