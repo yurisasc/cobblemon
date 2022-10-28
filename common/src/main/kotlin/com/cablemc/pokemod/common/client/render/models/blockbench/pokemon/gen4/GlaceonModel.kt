@@ -20,8 +20,8 @@ class GlaceonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("glaceon")
     override val head = getPart("head")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 1.5F
+    override val portraitTranslation = Vec3d(-.25, 0.25, 0.0)
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
