@@ -33,4 +33,5 @@ object UncatchableProperty : CustomPokemonPropertyType<FlagProperty> {
     fun uncatchable() = FlagProperty(keys.first(), false)
 
     fun isCatchable(pokemon: Pokemon) = pokemon.customProperties.none { it is FlagProperty && it.key in keys }
+    override fun examples() = setOf("yes", "no")
 }

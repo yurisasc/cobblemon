@@ -14,6 +14,7 @@ import com.cablemc.pokemod.common.api.data.DataProvider
 import com.cablemc.pokemod.common.api.data.DataRegistry
 import com.cablemc.pokemod.common.api.moves.Moves
 import com.cablemc.pokemod.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemod.common.pokemon.properties.PropertiesCompletionProvider
 import com.cablemc.pokemod.common.util.getServer
 import dev.architectury.registry.ReloadListenerRegistry
 import net.minecraft.resource.ResourceManager
@@ -31,6 +32,7 @@ internal object CobbledDataProvider : DataProvider {
         this.register(Moves)
         this.register(Abilities)
         this.register(PokemonSpecies)
+        this.register(PropertiesCompletionProvider)
     }
 
     override fun register(registry: DataRegistry) {

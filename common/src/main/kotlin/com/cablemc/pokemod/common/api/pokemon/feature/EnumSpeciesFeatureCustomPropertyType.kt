@@ -28,4 +28,9 @@ open class EnumSpeciesFeatureCustomPropertyType<T : Enum<T>>(val name: String) :
         feature.enumValue = enumValue
         return feature
     }
+
+    override fun examples(): Collection<String> {
+        val feature = SpeciesFeature.get(name)?.invoke() as? EnumSpeciesFeature<T> ?: return emptySet()
+        return feature.getValues().map { it.name.lowercase() }
+    }
 }
