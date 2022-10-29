@@ -820,9 +820,9 @@ open class Pokemon {
         if (result.oldLevel != result.newLevel) {
             player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
             when (getFriendshipSpan()) {
-                1 -> this.friendship += 5
-                2 -> this.friendship += 4
-                3 -> this.friendship += 3
+                1 -> this.incrementFriendship(5)
+                2 -> this.incrementFriendship(4)
+                3 -> this.incrementFriendship(3)
             }
             result.newMoves.forEach {
                 player.sendMessage(lang("experience.learned_move", species.translatedName, it.displayName))
