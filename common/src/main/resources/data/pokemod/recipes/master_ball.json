@@ -7,24 +7,24 @@
     ],
     "key": {
         "t": {
-            "item": "pokemod:black_apricorn"
+            "item": "minecraft:shulker_shell"
         },
         "l": {
-            "item": "pokemod:yellow_apricorn"
+            "item": "minecraft:netherite_ingot"
         },
         "c": {
-            "item": "minecraft:gold_ingot"
+            "item": "minecraft:nether_star"
         },
         "r": {
-            "item": "pokemod:yellow_apricorn"
+            "item": "minecraft:netherite_ingot"
         },
         "b": {
-            "item": "pokemod:black_apricorn"
+            "item": "minecraft:shulker_shell"
         }
     },
     "result":
     {
-        "item": "pokemod:ultra_ball",
+        "item": "pokemod:master_ball",
         "count": 4
     }
 }
