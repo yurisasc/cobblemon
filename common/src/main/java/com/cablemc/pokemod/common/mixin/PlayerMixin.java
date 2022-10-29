@@ -19,6 +19,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -71,9 +72,10 @@ public abstract class PlayerMixin extends LivingEntity {
     @Inject(
         method = "dropShoulderEntities",
         at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/entity/player/PlayerEntity;dropShoulderEntity(Lnet/minecraft/nbt/NbtCompound;)V",
-            ordinal = 0
+            value = "JUMP",
+            opcode = Opcodes.IFGE,
+            ordinal = 0,
+            shift = At.Shift.AFTER
         ),
         cancellable = true
     )
