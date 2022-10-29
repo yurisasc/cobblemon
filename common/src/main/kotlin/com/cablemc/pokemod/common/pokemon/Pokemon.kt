@@ -806,7 +806,7 @@ open class Pokemon {
         val result = addExperience(source, xp)
         if (result.oldLevel != result.newLevel) {
             player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
-            this.incrementFriendship(FriendshipMutationCalculator.GENERATION_8_LEVEL_UP.calculate(this))
+            this.incrementFriendship(FriendshipMutationCalculator.SWORD_AND_SHIELD_LEVEL_UP.calculate(this))
             result.newMoves.forEach {
                 player.sendMessage(lang("experience.learned_move", species.translatedName, it.displayName))
             }
