@@ -29,7 +29,7 @@ class PokemodConfig {
 
     @NodeCategory(Category.Pokemon)
     @IntConstraint(min = 0, max = 1000)
-    var maxPokemonFriendship = 100
+    var maxPokemonFriendship = 255
 
     @NodeCategory(Category.Pokemon)
     var announceDropItems = true

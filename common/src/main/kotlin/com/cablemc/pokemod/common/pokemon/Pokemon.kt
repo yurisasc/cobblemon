@@ -77,6 +77,7 @@ import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import kotlin.math.absoluteValue
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -655,14 +656,16 @@ open class Pokemon {
      * This has some restrictions on mutation, the value must never be outside the bounds of 0 to [PokemodConfig.maxPokemonFriendship].
      * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
      *
-     * @param value The value to set.
+     * @param value The value to set, this value will forcefully be absolute.
+     * @param coerceSafe Forcefully coerce the maximum possible value. Default is true.
      * @return True if mutation was successful
      */
-    fun setFriendship(value: Int): Boolean {
-        if (!this.isClient && !this.isPossibleFriendship(value)) {
+    fun setFriendship(value: Int, coerceSafe: Boolean = true): Boolean {
+        val sanitizedAmount = if (coerceSafe) value.absoluteValue.coerceAtMost(Pokemod.config.maxPokemonFriendship) else value.absoluteValue
+        if (!this.isClient && !this.isPossibleFriendship(sanitizedAmount)) {
             return false
         }
-        this.friendship = value
+        this.friendship = sanitizedAmount
         return true
     }
 
@@ -671,11 +674,13 @@ open class Pokemon {
      * This has some restrictions on mutation, the value must never be outside the bounds of 0 to [PokemodConfig.maxPokemonFriendship].
      * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
      *
-     * @param amount The amount to increment
+     * @param amount The amount to increment, this value will forcefully be absolute.
+     * @param coerceSafe Forcefully coerce the maximum possible value. Default is true.
      * @return True if mutation was successful
      */
-    fun incrementFriendship(amount : Int): Boolean {
-        val newValue = this.friendship + amount
+    fun incrementFriendship(amount : Int, coerceSafe: Boolean = true): Boolean {
+        val sanitizedAmount = if (coerceSafe) amount.absoluteValue.coerceAtMost(Pokemod.config.maxPokemonFriendship - this.friendship) else amount.absoluteValue
+        val newValue = this.friendship + sanitizedAmount
         if (this.isPossibleFriendship(newValue)) {
             this.friendship = newValue
         }
@@ -687,11 +692,13 @@ open class Pokemon {
      * This has some restrictions on mutation, the value must never be outside the bounds of 0 to [PokemodConfig.maxPokemonFriendship].
      * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
      *
-     * @param amount The amount to decrement.
+     * @param amount The amount to decrement, this value will forcefully be absolute.
+     * @param coerceSafe Forcefully coerce the maximum possible value. Default is true.
      * @return True if mutation was successful
      */
-    fun decrementFriendship(amount : Int): Boolean {
-        val newValue = this.friendship - amount
+    fun decrementFriendship(amount : Int, coerceSafe: Boolean = true): Boolean {
+        val sanitizedAmount = if (coerceSafe) amount.absoluteValue.coerceAtMost(this.friendship) else amount.absoluteValue
+        val newValue = this.friendship - sanitizedAmount
         if (this.isPossibleFriendship(newValue)) {
             this.friendship = newValue
         }
@@ -806,7 +813,13 @@ open class Pokemon {
         val result = addExperience(source, xp)
         if (result.oldLevel != result.newLevel) {
             player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
-            this.incrementFriendship(LEVEL_UP_FRIENDSHIP_CALCULATOR.calculate(this))
+            val repeats = result.newLevel - result.oldLevel
+            // Someone can technically trigger a "delevel"
+            if (repeats >= 1) {
+                repeat(repeats) {
+                    this.incrementFriendship(LEVEL_UP_FRIENDSHIP_CALCULATOR.calculate(this))
+                }
+            }
             result.newMoves.forEach {
                 player.sendMessage(lang("experience.learned_move", species.translatedName, it.displayName))
             }
@@ -949,6 +962,9 @@ open class Pokemon {
 
     companion object {
 
+        /**
+         * The [FriendshipMutationCalculator] used when a Pokémon levels up.
+         */
         var LEVEL_UP_FRIENDSHIP_CALCULATOR = FriendshipMutationCalculator.SWORD_AND_SHIELD_LEVEL_UP
         internal val SHEDINJA = pokemodResource("shedinja")
 
