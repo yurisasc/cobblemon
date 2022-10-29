@@ -92,7 +92,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
             this.pokemon.notify(AddEvolutionPacket(this.pokemon, element))
             return true
         }
-        return true
+        return false
     }
 
     override fun addAll(elements: Collection<Evolution>): Boolean {

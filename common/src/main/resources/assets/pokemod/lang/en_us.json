@@ -94,6 +94,7 @@
 
   "pokemod.ui.evolve": "Evolve",
   "pokemod.ui.evolve_offer": "Evolve into which Pokémon?",
+  "pokemod.ui.evolve.hint": "%1$s seems ready to evolve!",
 
   "pokemod.label.lv": "Lv. %1$s",
 
