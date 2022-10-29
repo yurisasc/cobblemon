@@ -14,7 +14,6 @@ import com.cablemc.pokemod.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemod.common.api.reactive.SimpleObservable
 import com.cablemc.pokemod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cablemc.pokemod.common.pokemon.Gender
-import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.util.pokemodResource
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
@@ -108,7 +107,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("level", "lvl", "l"), setOf("1", "${Pokemod.config.maxPokemonLevel}") )
         this.inject(setOf("shiny", "s"), setOf("yes", "no"))
         this.inject(setOf("gender"), Gender.values().map { it.name.lowercase() })
-        this.inject(setOf("friendship"), setOf("0", "1", Pokemon.FRIENDSHIP_RANGE.max().toString()))
+        this.inject(setOf("friendship"), setOf("0", Pokemod.config.maxPokemonLevel.toString()))
     }
 
     private fun addCustom() {

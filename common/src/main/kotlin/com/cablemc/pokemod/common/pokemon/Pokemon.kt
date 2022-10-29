@@ -40,6 +40,7 @@ import com.cablemc.pokemod.common.api.scheduling.afterOnMain
 import com.cablemc.pokemod.common.api.storage.StoreCoordinates
 import com.cablemc.pokemod.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemod.common.api.types.ElementalType
+import com.cablemc.pokemod.common.config.PokemodConfig
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.net.messages.client.PokemonUpdatePacket
@@ -186,11 +187,16 @@ open class Pokemon {
         }
 
     /**
-     *
-     * @throws IllegalArgumentException when the friendship value is not within the [FRIENDSHIP_RANGE]
+     * The friendship amount on this Pokémon.
+     * Use [setFriendship], [incrementFriendship] and [decrementFriendship] for safe mutation with return feedback.
+     * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
      */
     var friendship = 0
-        set(value) {
+        private set(value) {
+            // Don't check on client, that way we don't need to actually sync the config value it doesn't affect anything
+            if (!this.isClient && !this.isPossibleFriendship(value)) {
+                return
+            }
             FRIENDSHIP_UPDATED.post(FriendshipUpdatedEvent(this, value)) {
                 field = it.newFriendship
                 _friendship.emit(it.newFriendship)
@@ -643,22 +649,75 @@ open class Pokemon {
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
     fun isWild() = storeCoordinates.get() == null
 
-    fun setFriendship (amount : Int) : Boolean {
-        if (amount in FRIENDSHIP_RANGE) friendship = amount
-        return friendship == amount
+    /**
+     * Set the [friendship] to the given value.
+     * This has some restrictions on mutation, the value must never be outside the bounds of 0 to [PokemodConfig.maxPokemonFriendship].
+     * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
+     *
+     * @param value The value to set.
+     * @return True if mutation was successful
+     */
+    fun setFriendship(value: Int): Boolean {
+        if (!this.isClient && !this.isPossibleFriendship(value)) {
+            return false
+        }
+        this.friendship = value
+        return true
     }
 
-    fun incrementFriendship(amount : Int) : Boolean {
-        val value = friendship + amount
-        if (value in FRIENDSHIP_RANGE) friendship = value
-        return friendship == value
+    /**
+     * Increment the [friendship] with by the given amount.
+     * This has some restrictions on mutation, the value must never be outside the bounds of 0 to [PokemodConfig.maxPokemonFriendship].
+     * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
+     *
+     * @param amount The amount to increment
+     * @return True if mutation was successful
+     */
+    fun incrementFriendship(amount : Int): Boolean {
+        val newValue = this.friendship + amount
+        if (this.isPossibleFriendship(newValue)) {
+            this.friendship = newValue
+        }
+        return this.friendship == newValue
     }
 
-    fun decrementFriendship (amount : Int) : Boolean {
-        val value = friendship - amount
-        if (value in FRIENDSHIP_RANGE) friendship = value
-        return friendship == value
+    /**
+     * Decrement the [friendship] with by the given amount.
+     * This has some restrictions on mutation, the value must never be outside the bounds of 0 to [PokemodConfig.maxPokemonFriendship].
+     * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
+     *
+     * @param amount The amount to decrement.
+     * @return True if mutation was successful
+     */
+    fun decrementFriendship(amount : Int): Boolean {
+        val newValue = this.friendship - amount
+        if (this.isPossibleFriendship(newValue)) {
+            this.friendship = newValue
+        }
+        return this.friendship == newValue
     }
+
+    /**
+     * Resolves the amount of friendship that would be gained/lost.
+     * The amount gained/lost can vary depending on current friendship
+     * Refer to https://bulbapedia.bulbagarden.net/wiki/Friendship#Generation_VII
+     *
+     * @return The amount of friendship to mutate.
+     */
+    fun getFriendshipSpan(): Int = when {
+        this.friendship <= 99 -> 1
+        this.friendship <= 199 -> 2
+        this.friendship <= 255 -> 3
+        else -> 0
+    }
+
+    /**
+     * Checks if the given value is withing the legal bounds for friendship.
+     *
+     * @param value The value being queried
+     * @return If the value is within legal bounds.
+     */
+    fun isPossibleFriendship(value: Int) = value >= 0 && value <= Pokemod.config.maxPokemonFriendship
 
     val allAccessibleMoves: Set<MoveTemplate>
         get() = form.moves.getLevelUpMovesUpTo(level) + benchedMoves.map { it.moveTemplate }
@@ -761,9 +820,9 @@ open class Pokemon {
         if (result.oldLevel != result.newLevel) {
             player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
             when (getFriendshipSpan()) {
-                1 -> incrementFriendship(5)
-                2 -> incrementFriendship(4)
-                3 -> incrementFriendship(3)
+                1 -> this.friendship += 5
+                2 -> this.friendship += 4
+                3 -> this.friendship += 3
             }
             result.newMoves.forEach {
                 player.sendMessage(lang("experience.learned_move", species.translatedName, it.displayName))
@@ -905,26 +964,7 @@ open class Pokemon {
     private val _aspects = registerObservable(SimpleObservable<Set<String>>()) { AspectsUpdatePacket(this, it) }
     private val _gender = registerObservable(SimpleObservable<Gender>()) { GenderUpdatePacket(this, it) }
 
-    fun getFriendshipSpan(): Int{
-        /*
-            Used to figure out how much friendship should be gained/lost.
-            The amount gained/lost can vary depending on current friendship
-            Refer to https://bulbapedia.bulbagarden.net/wiki/Friendship#Generation_VII
-         */
-        if(friendship in 0..99){
-            return 1
-        }
-        else if(friendship in 100..199){
-            return 2
-        }
-        else if(friendship in 200..255){
-            return 3
-        }
-        return 0
-    }
-
     companion object {
-        var FRIENDSHIP_RANGE = 0..255
 
         internal val SHEDINJA = pokemodResource("shedinja")
 

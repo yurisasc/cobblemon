@@ -72,7 +72,7 @@ open class PokemonProperties {
             props.level = parseIntProperty(keyPairs, listOf("level", "lvl", "l"))
             props.shiny = parseBooleanProperty(keyPairs, listOf("shiny", "s"))
             props.species = parseSpeciesIdentifier(keyPairs)
-            props.friendship = parseIntProperty(keyPairs, listOf("friendship"))?.coerceIn(Pokemon.FRIENDSHIP_RANGE)
+            props.friendship = parseIntProperty(keyPairs, listOf("friendship"))?.coerceIn(0, Pokemod.config.maxPokemonFriendship)
             props.updateAspects()
             return props
         }
