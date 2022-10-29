@@ -136,6 +136,7 @@
   "pokemod.command.pokemonedit": "Edited %2$s's %1$s.",
   "pokemod.command.teach": "%2$s's %1$s learnt %3$s.",
   "pokemod.command.healpokemon.heal": "Fully healed %1$s's party.",
+  "pokemod.command.friendship": " %1$s has %2$s friendship.",
 
   "advancements.pokemod.root": "Pokemod",
   "advancements.pokemod.root.description": "Started your adventure by picking a starter Pokémon",
