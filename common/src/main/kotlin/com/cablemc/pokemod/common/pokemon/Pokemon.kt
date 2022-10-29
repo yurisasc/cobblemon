@@ -28,6 +28,7 @@ import com.cablemc.pokemod.common.api.pokemon.evolution.*
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceSource
 import com.cablemc.pokemod.common.api.pokemon.feature.SpeciesFeature
+import com.cablemc.pokemod.common.api.pokemon.friendship.FriendshipMutationCalculator
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.pokemon.status.Statuses
@@ -698,20 +699,6 @@ open class Pokemon {
     }
 
     /**
-     * Resolves the amount of friendship that would be gained/lost.
-     * The amount gained/lost can vary depending on current friendship
-     * Refer to https://bulbapedia.bulbagarden.net/wiki/Friendship#Generation_VII
-     *
-     * @return The amount of friendship to mutate.
-     */
-    fun getFriendshipSpan(): Int = when {
-        this.friendship <= 99 -> 1
-        this.friendship <= 199 -> 2
-        this.friendship <= 255 -> 3
-        else -> 0
-    }
-
-    /**
      * Checks if the given value is withing the legal bounds for friendship.
      *
      * @param value The value being queried
@@ -819,11 +806,7 @@ open class Pokemon {
         val result = addExperience(source, xp)
         if (result.oldLevel != result.newLevel) {
             player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
-            when (getFriendshipSpan()) {
-                1 -> this.incrementFriendship(5)
-                2 -> this.incrementFriendship(4)
-                3 -> this.incrementFriendship(3)
-            }
+            this.incrementFriendship(FriendshipMutationCalculator.GENERATION_8_LEVEL_UP.calculate(this))
             result.newMoves.forEach {
                 player.sendMessage(lang("experience.learned_move", species.translatedName, it.displayName))
             }
