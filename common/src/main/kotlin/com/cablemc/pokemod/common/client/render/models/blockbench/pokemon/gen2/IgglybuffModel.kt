@@ -18,8 +18,8 @@ import net.minecraft.util.math.Vec3d
 class IgglybuffModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("igglybuff")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 2.25F
+    override val portraitTranslation = Vec3d(0.15, -1.5, 0.0)
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
