@@ -69,13 +69,13 @@ interface Evolution : EvolutionLike {
      *
      * @param pokemon The [Pokemon] being evolved.
      */
-    fun evolve(pokemon: Pokemon) {
+    fun evolve(pokemon: Pokemon): Boolean {
         if (this.optional) {
             // All the networking is handled under the hood, see EvolutionController.
-            pokemon.evolutionProxy.server().add(this)
-            return
+            return pokemon.evolutionProxy.server().add(this)
         }
         this.forceEvolve(pokemon)
+        return true
     }
 
     /**
