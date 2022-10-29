@@ -29,13 +29,11 @@ import com.cablemc.pokemod.common.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemod.common.client.starter.ClientPlayerData
 import com.cablemc.pokemod.common.client.storage.ClientStorageManager
 import com.cablemc.pokemod.common.data.CobbledDataProvider
-import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry
 import dev.architectury.registry.client.rendering.RenderTypeRegistry
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.render.RenderLayer
@@ -85,8 +83,6 @@ object PokemodClient {
 
         ClientPacketRegistrar.registerHandlers()
         PokemodKeybinds.register()
-
-        ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() })
 
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()
