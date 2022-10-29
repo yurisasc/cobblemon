@@ -23,10 +23,10 @@ import com.cablemc.pokemod.common.util.readMapK
 import com.cablemc.pokemod.common.util.readSizedInt
 import com.cablemc.pokemod.common.util.writeMapK
 import com.cablemc.pokemod.common.util.writeSizedInt
-import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
+import java.util.*
 
 /**
  * Initializes the client's understanding of a battle. This can be for a participant or for a spectator.
@@ -145,7 +145,8 @@ class BattleInitializePacket() : NetworkPacket {
                         PokemonPropertyExtractor.SPECIES,
                         PokemonPropertyExtractor.LEVEL,
                         PokemonPropertyExtractor.GENDER,
-                        PokemonPropertyExtractor.ASPECTS
+                        PokemonPropertyExtractor.ASPECTS,
+                        PokemonPropertyExtractor.FRIENDSHIP
                     ),
                     status = status?.status,
                     hpRatio = battlePokemon.health / battlePokemon.maxHealth.toFloat(),

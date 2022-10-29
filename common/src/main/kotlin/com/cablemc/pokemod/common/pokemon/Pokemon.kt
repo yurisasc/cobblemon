@@ -16,27 +16,15 @@ import com.cablemc.pokemod.common.api.abilities.Ability
 import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.events.PokemodEvents.FRIENDSHIP_UPDATED
 import com.cablemc.pokemod.common.api.events.PokemodEvents.POKEMON_FAINTED
-import com.cablemc.pokemod.common.api.events.pokemon.ExperienceGainedPostEvent
-import com.cablemc.pokemod.common.api.events.pokemon.ExperienceGainedPreEvent
-import com.cablemc.pokemod.common.api.events.pokemon.FriendshipUpdatedEvent
-import com.cablemc.pokemod.common.api.events.pokemon.LevelUpEvent
-import com.cablemc.pokemod.common.api.events.pokemon.PokemonFaintedEvent
-import com.cablemc.pokemod.common.api.moves.BenchedMove
-import com.cablemc.pokemod.common.api.moves.BenchedMoves
-import com.cablemc.pokemod.common.api.moves.MoveSet
-import com.cablemc.pokemod.common.api.moves.MoveTemplate
-import com.cablemc.pokemod.common.api.moves.Moves
+import com.cablemc.pokemod.common.api.events.pokemon.*
+import com.cablemc.pokemod.common.api.moves.*
 import com.cablemc.pokemod.common.api.pokeball.PokeBalls
 import com.cablemc.pokemod.common.api.pokemon.Natures
 import com.cablemc.pokemod.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemod.common.api.pokemon.PokemonPropertyExtractor
 import com.cablemc.pokemod.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemod.common.api.pokemon.aspect.AspectProvider
-import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
-import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionController
-import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionDisplay
-import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionProxy
-import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
+import com.cablemc.pokemod.common.api.pokemon.evolution.*
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceSource
 import com.cablemc.pokemod.common.api.pokemon.feature.SpeciesFeature
@@ -55,20 +43,7 @@ import com.cablemc.pokemod.common.api.types.ElementalType
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.GenderUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.StatusUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cablemc.pokemod.common.pokeball.PokeBall
 import com.cablemc.pokemod.common.pokemon.activestate.ActivePokemonState
@@ -79,23 +54,10 @@ import com.cablemc.pokemod.common.pokemon.evolution.CobbledEvolutionProxy
 import com.cablemc.pokemod.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemod.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemod.common.pokemon.status.PersistentStatusContainer
-import com.cablemc.pokemod.common.util.DataKeys
-import com.cablemc.pokemod.common.util.getServer
-import com.cablemc.pokemod.common.util.lang
-import com.cablemc.pokemod.common.util.playSoundServer
-import com.cablemc.pokemod.common.util.pokemodResource
-import com.cablemc.pokemod.common.util.readSizedInt
-import com.cablemc.pokemod.common.util.setPositionSafely
-import com.cablemc.pokemod.common.util.writeSizedInt
+import com.cablemc.pokemod.common.util.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import kotlin.math.min
-import kotlin.math.roundToInt
-import kotlin.random.Random
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
@@ -111,6 +73,11 @@ import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
+import java.util.*
+import java.util.concurrent.CompletableFuture
+import kotlin.math.min
+import kotlin.math.roundToInt
+import kotlin.random.Random
 
 open class Pokemon {
     var uuid = UUID.randomUUID()
@@ -217,6 +184,11 @@ open class Pokemon {
             field = value
             _experience.emit(value)
         }
+
+    /**
+     *
+     * @throws IllegalArgumentException when the friendship value is not within the [FRIENDSHIP_RANGE]
+     */
     var friendship = 0
         set(value) {
             FRIENDSHIP_UPDATED.post(FriendshipUpdatedEvent(this, value)) {
