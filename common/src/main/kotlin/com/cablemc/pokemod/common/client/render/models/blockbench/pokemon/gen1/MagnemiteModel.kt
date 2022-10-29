@@ -33,7 +33,7 @@ class MagnemiteModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0081_magnemite/magnemite", "ground_idle")
+                //bedrock("0081_magnemite/magnemite", "ground_idle")
             )
         )
 
@@ -42,7 +42,7 @@ class MagnemiteModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0081_magnemite/magnemite", "ground_walk")
+                //bedrock("0081_magnemite/magnemite", "ground_walk")
             )
         )
     }

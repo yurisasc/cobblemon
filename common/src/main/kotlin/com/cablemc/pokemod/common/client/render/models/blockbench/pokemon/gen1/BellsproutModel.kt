@@ -35,8 +35,8 @@ class BellsproutModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0069_bellsprout/bellsprout", "ground_idle")
+                singleBoneLook(),
+                bedrock("0069_bellsprout/bellsprout", "ground_idle")
             )
         )
 
@@ -45,8 +45,9 @@ class BellsproutModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0069_bellsprout/bellsprout", "ground_walk")
+                singleBoneLook(),
+                bedrock("0069_bellsprout/bellsprout", "ground_idle")
+                //bedrock("0069_bellsprout/bellsprout", "ground_walk")
             )
         )
     }

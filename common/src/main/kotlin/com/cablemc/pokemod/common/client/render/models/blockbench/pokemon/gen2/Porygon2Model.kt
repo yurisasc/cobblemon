@@ -36,7 +36,7 @@ class Porygon2Model(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0233_porygon2/porygon2", "ground_idle")
+                //bedrock("0233_porygon2/porygon2", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class Porygon2Model(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0233_porygon2/porygon2", "ground_walk")
+                //bedrock("0233_porygon2/porygon2", "ground_walk")
             )
         )
     }

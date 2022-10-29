@@ -11,7 +11,7 @@
 				}
 			}
 		},
-		"animation.diglett.ground_moving": {
+		"animation.diglett.ground_walk": {
 			"loop": true,
 			"bones": {
 				"body": {

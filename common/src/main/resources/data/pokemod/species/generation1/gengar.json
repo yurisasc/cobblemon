@@ -53,11 +53,11 @@
     ],
 	"behaviour": {
         "moving": {
-            "swim": {
-                "canWalkOnWater": true
-            },
 			"fly": {
                 "canFly": true
+            },
+            "walk": {
+                "canWalk": false
             }
         }
     },
@@ -144,10 +144,10 @@
     ],
     "preEvolution": "haunter",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.3,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.8,
+        "height": 1,
         "fixed": false
     }
 }

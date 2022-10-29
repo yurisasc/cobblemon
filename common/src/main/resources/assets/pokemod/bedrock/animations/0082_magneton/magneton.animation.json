@@ -1,0 +1,37 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.magneton.ground_idle": {
+			"loop": true,
+			"bones": {
+				"magneton": {
+					"position": [0, 1.3, 0]
+				},
+				"leftmagnet": {
+					"rotation": [0, -22.5, -45]
+				},
+				"rightmagnet": {
+					"rotation": [0, 22.5, 45]
+				},
+				"body3": {
+					"rotation": [22.5, 22.5, 0]
+				},
+				"leftmagnet3": {
+					"rotation": [0, -22.5, 0]
+				},
+				"rightmagnet3": {
+					"rotation": [20.94102, 40.78947, 30.36119]
+				},
+				"body2": {
+					"rotation": [22.5, -22.5, 0]
+				},
+				"leftmagnet2": {
+					"rotation": [0, 22.5, 0]
+				},
+				"rightmagnet2": {
+					"rotation": [20.94102, -40.78947, -30.36119]
+				}
+			}
+		}
+	}
+}

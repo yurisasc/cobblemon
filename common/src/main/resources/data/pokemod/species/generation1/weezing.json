@@ -18,7 +18,11 @@
     "catchRate": 60,
     "maleRatio": 0.5,
     "shoulderMountable": false,
+    "features": ["galarian"],
     "forms": [
+        {
+            "name": "normal"
+        },
         {
             "name": "galar",
             "secondaryType": "fairy",
@@ -40,11 +44,11 @@
     ],
 	"behaviour": {
         "moving": {
-            "swim": {
-                "canWalkOnWater": true
-            },
 			"fly": {
                 "canFly": true
+            },
+            "walk": {
+                "canWalk": false
             }
         }
     },

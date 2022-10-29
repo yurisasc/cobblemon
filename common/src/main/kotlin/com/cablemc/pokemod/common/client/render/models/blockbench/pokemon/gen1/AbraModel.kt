@@ -49,7 +49,7 @@ class AbraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0063_abra/abra", "ground_idle")
-                // bedrock("0063_abra/abra", "ground_walk")
+                //bedrock("0063_abra/abra", "ground_walk")
             )
         )
     }

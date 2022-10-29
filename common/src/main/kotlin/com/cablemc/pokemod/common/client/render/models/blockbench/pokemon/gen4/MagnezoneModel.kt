@@ -33,7 +33,7 @@ class MagnezoneModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0462_magnezone/magnezone", "ground_idle")
+                //bedrock("0462_magnezone/magnezone", "ground_idle")
             )
         )
 
@@ -42,7 +42,7 @@ class MagnezoneModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0462_magnezone/magnezone", "ground_walk")
+                //bedrock("0462_magnezone/magnezone", "ground_walk")
             )
         )
     }

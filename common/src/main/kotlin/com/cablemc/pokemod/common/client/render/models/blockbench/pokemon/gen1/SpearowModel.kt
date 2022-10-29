@@ -11,11 +11,11 @@ package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class SpearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("spearow")
     override val head = getPart("head")
@@ -28,25 +28,43 @@ class SpearowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var fly: PokemonPose
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
+            poseTypes = UI_POSES + PoseType.WALK,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0021_spearow/spearow", "ground_idle")
+                //bedrock("0021_spearow/spearow", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
-            transformTicks = 10,
+            poseType = PoseType.WALK,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0021_spearow/spearow", "ground_walk")
+                //bedrock("0021_spearow/spearow", "ground_walk")
+            )
+        )
+
+        hover = registerPose(
+            poseName = "hover",
+            poseType = PoseType.HOVER,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0021_spearow/spearow", "air_idle")
+            )
+        )
+
+        fly = registerPose(
+            poseName = "fly",
+            poseType = PoseType.FLY,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0021_spearow/spearow", "air_fly")
             )
         )
     }

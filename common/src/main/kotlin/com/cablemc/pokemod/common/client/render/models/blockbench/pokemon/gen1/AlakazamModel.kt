@@ -35,8 +35,8 @@ class AlakazamModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0065_alakazam/alakazam", "ground_idle")
+                singleBoneLook() ,
+                bedrock("0065_alakazam/alakazam", "ground_idle")
             )
         )
 
@@ -45,8 +45,9 @@ class AlakazamModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0065_alakazam/alakazam", "ground_walk")
+                singleBoneLook(),
+                bedrock("0065_alakazam/alakazam", "ground_idle")
+                //bedrock("0065_alakazam/alakazam", "ground_walk")
             )
         )
     }

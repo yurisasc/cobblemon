@@ -12,22 +12,15 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.asTransformed
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.X_AXIS
 import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
-import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.sineFunction
-import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
-import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
 class KingdraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("kingdra")
     override val head = getPart("head")
-
-    val fin = getPart("fin")
-    val tail = getPart("tail")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -37,29 +30,56 @@ class KingdraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var swim: PokemonPose
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
+            poseTypes = UI_POSES + PoseType.STAND,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                fin.rotation(sineFunction(amplitude = 15F.toRadians(), period = 1.5F), Y_AXIS) { state, _, _ -> state?.animationSeconds }
-                //bedrock("0230_kingdra/kingdra", "ground_idle")
+                bedrock("0230_kingdra/kingdra", "ground_idle")
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -4F))
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(Y_AXIS, -4.0)
+            )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
+            poseType = PoseType.WALK,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                fin.rotation(sineFunction(amplitude = 15F.toRadians(), period = 0.5F), Y_AXIS) { state, _, _ -> state?.animationSeconds },
-                tail.rotation(sineFunction(amplitude = 10F.toRadians(), period = 0.5F), X_AXIS) { state, _, _ -> state?.animationSeconds },
-                //bedrock("0230_kingdra/kingdra", "ground_walk")
+                bedrock("0230_kingdra/kingdra", "ground_walk")
             ),
-            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, -4F))
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(Y_AXIS, -4.0)
+            )
+        )
+
+        float = registerPose(
+            poseName = "float",
+            poseType = PoseType.FLOAT,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0230_kingdra/kingdra", "water_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(Y_AXIS, -4.0)
+            )
+        )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseType = PoseType.SWIM,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0230_kingdra/kingdra", "water_swim")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(Y_AXIS, -4.0)
+            )
         )
     }
 

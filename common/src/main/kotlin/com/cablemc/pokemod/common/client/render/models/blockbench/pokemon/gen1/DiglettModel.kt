@@ -35,7 +35,7 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(bedrock("0050_diglett/diglett", "ground_moving"))
+            idleAnimations = arrayOf(bedrock("0050_diglett/diglett", "ground_walk"))
         )
     }
 

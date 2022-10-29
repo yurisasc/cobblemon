@@ -39,7 +39,7 @@ class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
 //                singleBoneLook()
-                // bedrock("0085_dodrio/dodrio", "ground_idle")
+                bedrock("0085_dodrio/dodrio", "ground_idle")
             )
         )
 
@@ -48,9 +48,10 @@ class DodrioModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 0.9F)
+                BipedWalkAnimation(this, periodMultiplier = 0.9F),
+                bedrock("0085_dodrio/dodrio", "ground_idle")
 //                singleBoneLook()
-                // bedrock("0085_dodrio/dodrio", "ground_walk")
+                //bedrock("0085_dodrio/dodrio", "ground_walk")
             )
         )
     }

@@ -36,7 +36,7 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0142_aerodactyl/aerodactyl", "ground_idle")
+                //bedrock("0142_aerodactyl/aerodactyl", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0142_aerodactyl/aerodactyl", "ground_walk")
+                //bedrock("0142_aerodactyl/aerodactyl", "ground_walk")
             )
         )
     }

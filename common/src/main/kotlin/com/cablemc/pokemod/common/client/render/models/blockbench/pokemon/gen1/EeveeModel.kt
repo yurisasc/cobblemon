@@ -57,7 +57,7 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("0133_eevee/eevee", "ground_run")
+                bedrock("0133_eevee/eevee", "ground_walk")
             )
         )
 

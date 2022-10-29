@@ -36,7 +36,7 @@ class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0212_scizor/scizor", "ground_idle")
+                //bedrock("0212_scizor/scizor", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class ScizorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0212_scizor/scizor", "ground_walk")
+                //bedrock("0212_scizor/scizor", "ground_walk")
             )
         )
     }

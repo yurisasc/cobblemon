@@ -27,11 +27,11 @@
     ],
 	"behaviour": {
         "moving": {
-            "swim": {
-                "canWalkOnWater": true
-            },
 			"fly": {
                 "canFly": true
+            },
+            "walk": {
+                "canWalk": false
             }
         }
     },
@@ -111,6 +111,7 @@
             ]
         }
     ],
+    "features": ["galarian"],
     "baseScale": 1.0,
     "hitbox": {
         "width": 1.0,

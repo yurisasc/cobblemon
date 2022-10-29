@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Pokemod Cobbled Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2
 
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
@@ -24,7 +32,7 @@ class CrobatModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("crobat/crobat", "ground_idle")
+                //bedrock("crobat/crobat", "ground_idle")
             )
         )
 
@@ -33,7 +41,7 @@ class CrobatModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = PoseType.MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("crobat/crobat", "ground_walk")
+                //bedrock("crobat/crobat", "ground_walk")
             )
         )
     }

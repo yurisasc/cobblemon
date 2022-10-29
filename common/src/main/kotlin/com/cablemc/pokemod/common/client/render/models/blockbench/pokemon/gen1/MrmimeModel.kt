@@ -36,7 +36,7 @@ class MrmimeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0122_mrmime/mrmime", "ground_idle")
+                //bedrock("0122_mrmime/mrmime", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class MrmimeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0122_mrmime/mrmime", "ground_walk")
+                //bedrock("0122_mrmime/mrmime", "ground_walk")
             )
         )
     }

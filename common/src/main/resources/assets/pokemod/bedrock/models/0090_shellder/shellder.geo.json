@@ -81,7 +81,7 @@
 				{
 					"name": "tongue2",
 					"parent": "tongue",
-					"pivot": [0, 3.5, -5.75],
+					"pivot": [0, 4, -5.75],
 					"cubes": [
 						{"origin": [-1.5, 3, -7.75], "size": [3, 1, 2], "uv": [23, 5]}
 					]

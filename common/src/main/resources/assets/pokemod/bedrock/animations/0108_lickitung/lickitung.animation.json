@@ -1,0 +1,25 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.lickitung.ground_idle": {
+			"animation_length": 1.5,
+			"bones": {
+				"lickytongue": {
+					"rotation": [5, 0, 0]
+				},
+				"lickytongue2": {
+					"rotation": [45, 0, 0]
+				},
+				"lickytongue3": {
+					"rotation": [30, 0, 0]
+				},
+				"leftarm": {
+					"rotation": [0, 0, 45]
+				},
+				"rightarm": {
+					"rotation": [0, 0, -45]
+				}
+			}
+		}
+	}
+}

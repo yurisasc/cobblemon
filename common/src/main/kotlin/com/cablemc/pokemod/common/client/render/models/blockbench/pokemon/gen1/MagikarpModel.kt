@@ -22,8 +22,8 @@ import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("magikarp")
-    val leftMustache = getPart("mustache_left")
-    val rightMustache = getPart("mustache_right")
+    val leftMustache = getPart("whisker_left")
+    val rightMustache = getPart("whisker_right")
 
     override val portraitScale = 1.65F
     override val portraitTranslation = Vec3d(0.12, -0.45, 0.0)
@@ -37,10 +37,10 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
             idleAnimations = arrayOf(bedrock("0129_magikarp/magikarp","flop"))
         )
 
-        registerPose(
+        registerPose<PokemonPoseableModel>(
             poseName = "swimming",
             poseTypes = SWIMMING_POSES,
-            idleAnimations = arrayOf(bedrock("0129_magikarp/magikarp","fly"))
+            idleAnimations = arrayOf()
         )
 
         registerPose(

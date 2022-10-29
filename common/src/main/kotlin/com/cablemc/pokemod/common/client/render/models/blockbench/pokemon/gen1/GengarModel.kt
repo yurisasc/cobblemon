@@ -31,18 +31,17 @@ class GengarModel(root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0094_gengar/gengar", "ground_idle")
+                bedrock("0094_gengar/gengar", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0094_gengar/gengar", "ground_walk")
+                bedrock("0094_gengar/gengar", "ground_idle")
+                //bedrock("0094_gengar/gengar", "ground_walk")
             )
         )
     }

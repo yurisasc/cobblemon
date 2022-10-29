@@ -33,6 +33,9 @@
             },
 			"fly": {
                 "canFly": true
+            },
+            "walk": {
+                "canWalk": false
             }
         }
     },
@@ -95,10 +98,10 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.9,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.9,
+        "height": 0.6,
         "fixed": false
     }
 }

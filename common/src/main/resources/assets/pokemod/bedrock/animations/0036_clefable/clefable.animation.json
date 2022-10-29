@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.cleffa.ground_idle": {
+		"animation.clefable.ground_idle": {
 			"loop": true,
 			"animation_length": 9.35,
 			"bones": {
@@ -40,7 +40,7 @@
 				}
 			}
 		},
-		"animation.cleffa.ground_walk": {
+		"animation.clefable.ground_walk": {
 			"loop": true,
 			"bones": {
 				"arm_right": {
@@ -96,7 +96,7 @@
 				}
 			}
 		},
-		"animation.cleffa.physical_attack": {
+		"animation.clefable.physical_attack": {
 			"loop": true,
 			"animation_length": 2,
 			"bones": {
@@ -363,7 +363,7 @@
 				}
 			}
 		},
-		"animation.cleffa.faint": {
+		"animation.clefable.faint": {
 			"loop": true,
 			"animation_length": 3,
 			"bones": {
@@ -657,7 +657,7 @@
 				}
 			}
 		},
-		"animation.cleffa.special_attack": {
+		"animation.clefable.special_attack": {
 			"loop": true,
 			"animation_length": 3,
 			"bones": {

@@ -34,7 +34,7 @@ class DittoModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             idleAnimations = arrayOf(
 //                singleBoneLook()
-                // bedrock("0132_ditto/ditto", "ground_idle")
+                //bedrock("0132_ditto/ditto", "ground_idle")
             )
         )
 
@@ -44,7 +44,7 @@ class DittoModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             idleAnimations = arrayOf(
 //                singleBoneLook()
-                // bedrock("0132_ditto/ditto", "ground_walk")
+                //bedrock("0132_ditto/ditto", "ground_walk")
             )
         )
     }

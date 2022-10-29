@@ -33,7 +33,7 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0113_chansey/chansey", "ground_idle")
+                bedrock("0113_chansey/chansey", "ground_idle")
             )
         )
 
@@ -42,7 +42,8 @@ class ChanseyModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0113_chansey/chansey", "ground_walk")
+                bedrock("0113_chansey/chansey", "ground_idle")
+                //bedrock("0113_chansey/chansey", "ground_walk")
             )
         )
     }

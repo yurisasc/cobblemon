@@ -94,7 +94,7 @@
 				{
 					"name": "arm_right",
 					"parent": "body",
-					"pivot": [-5, 17.75, -2],
+					"pivot": [-5, 15.75, -2],
 					"cubes": [
 						{"origin": [-8.5, 13.25, -4.5], "size": [4, 5, 5], "uv": [17, 60]}
 					]
@@ -121,7 +121,7 @@
 				{
 					"name": "arm_left",
 					"parent": "body",
-					"pivot": [5, 17.75, -2],
+					"pivot": [5, 15.75, -2],
 					"cubes": [
 						{"origin": [4.5, 13.25, -4.5], "size": [4, 5, 5], "uv": [17, 60], "mirror": true}
 					]

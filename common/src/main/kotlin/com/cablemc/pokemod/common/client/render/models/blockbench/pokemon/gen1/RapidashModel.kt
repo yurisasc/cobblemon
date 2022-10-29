@@ -43,7 +43,7 @@ class RapidashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0078_rapidash/rapidash", "ground_idle")
+                //bedrock("0078_rapidash/rapidash", "ground_idle")
             )
         )
 
@@ -54,7 +54,7 @@ class RapidashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 QuadrupedWalkAnimation(this)
-                // bedrock("0078_rapidash/rapidash", "ground_walk")
+                //bedrock("0078_rapidash/rapidash", "ground_walk")
             )
         )
     }

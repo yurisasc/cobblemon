@@ -31,18 +31,17 @@ class HaunterModel(root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0093_haunter/haunter", "ground_idle")
+                bedrock("0093_haunter/haunter", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0093_haunter/haunter", "ground_walk")
+                bedrock("0093_haunter/haunter", "ground_idle")
+                //bedrock("0093_haunter/haunter", "ground_walk")
             )
         )
     }
