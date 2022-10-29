@@ -9,7 +9,7 @@
 package com.cablemc.pokemod.common.world.block
 
 import com.cablemc.pokemod.common.PokemodBlockTags
-import com.cablemc.pokemod.common.item.ApricornItem
+import com.cablemc.pokemod.common.api.apricorn.Apricorn
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.CocoaBlock
@@ -28,9 +28,8 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldView
 import net.minecraft.world.event.GameEvent
-import java.util.function.Supplier
 
-class ApricornBlock(settings: Settings, private val itemSupplier: Supplier<ApricornItem>) : CocoaBlock(settings) {
+class ApricornBlock(settings: Settings, private val apricorn: Apricorn) : CocoaBlock(settings) {
 
     // Do not remove this, we need to overwrite the cocoa beans properties
     init {
@@ -48,7 +47,7 @@ class ApricornBlock(settings: Settings, private val itemSupplier: Supplier<Apric
     @Deprecated("Deprecated in Java")
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         if (state.get(AGE) == MAX_AGE) {
-            dropStack(world, pos, ItemStack(this.itemSupplier.get()))
+            dropStack(world, pos, ItemStack(this.apricorn.item()))
             // Don't use default as we want to keep the facing
             val resetState = state.with(AGE, MIN_AGE)
             world.setBlockState(pos, resetState, 2)
@@ -59,7 +58,7 @@ class ApricornBlock(settings: Settings, private val itemSupplier: Supplier<Apric
     }
 
     // We need to point back to the actual apricorn item, see SweetBerryBushBlock for example
-    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = ItemStack(this.itemSupplier.get())
+    override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = ItemStack(this.apricorn.item())
 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {

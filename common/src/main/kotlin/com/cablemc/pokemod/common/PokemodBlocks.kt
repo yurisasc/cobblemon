@@ -8,10 +8,10 @@
 
 package com.cablemc.pokemod.common
 
+import com.cablemc.pokemod.common.api.apricorn.Apricorn
 import com.cablemc.pokemod.common.api.blocks.EvolutionStoneOre
 import com.cablemc.pokemod.common.api.blocks.EvolutionStoneOre.Companion.DEEPSLATE_PROPERTIES
 import com.cablemc.pokemod.common.api.blocks.EvolutionStoneOre.Companion.NORMAL_PROPERTIES
-import com.cablemc.pokemod.common.item.ApricornItem
 import com.cablemc.pokemod.common.registry.CompletableRegistry
 import com.cablemc.pokemod.common.world.block.ApricornBlock
 import com.cablemc.pokemod.common.world.block.ApricornSaplingBlock
@@ -23,7 +23,6 @@ import net.minecraft.entity.EntityType
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.math.Direction
 import net.minecraft.util.registry.Registry
-import java.util.function.Supplier
 
 object PokemodBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     /**
@@ -110,19 +109,19 @@ object PokemodBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     val WHITE_APRICORN_SAPLING = queue("white_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, "white") }
     val YELLOW_APRICORN_SAPLING = queue("yellow_apricorn_sapling") { ApricornSaplingBlock(PLANT_PROPERTIES, "yellow") }
 
-    val BLACK_APRICORN = registerApricornBlock("black_apricorn") { com.cablemc.pokemod.common.PokemodItems.BLACK_APRICORN.get() }
-    val BLUE_APRICORN = registerApricornBlock("blue_apricorn") { com.cablemc.pokemod.common.PokemodItems.BLUE_APRICORN.get() }
-    val GREEN_APRICORN = registerApricornBlock("green_apricorn") { com.cablemc.pokemod.common.PokemodItems.GREEN_APRICORN.get() }
-    val PINK_APRICORN = registerApricornBlock("pink_apricorn") { com.cablemc.pokemod.common.PokemodItems.PINK_APRICORN.get() }
-    val RED_APRICORN = registerApricornBlock("red_apricorn") { com.cablemc.pokemod.common.PokemodItems.RED_APRICORN.get() }
-    val WHITE_APRICORN = registerApricornBlock("white_apricorn") { com.cablemc.pokemod.common.PokemodItems.WHITE_APRICORN.get() }
-    val YELLOW_APRICORN = registerApricornBlock("yellow_apricorn") { com.cablemc.pokemod.common.PokemodItems.YELLOW_APRICORN.get() }
+    val BLACK_APRICORN = registerApricornBlock("black_apricorn", Apricorn.BLACK)
+    val BLUE_APRICORN = registerApricornBlock("blue_apricorn", Apricorn.BLUE)
+    val GREEN_APRICORN = registerApricornBlock("green_apricorn", Apricorn.GREEN)
+    val PINK_APRICORN = registerApricornBlock("pink_apricorn", Apricorn.PINK)
+    val RED_APRICORN = registerApricornBlock("red_apricorn", Apricorn.RED)
+    val WHITE_APRICORN = registerApricornBlock("white_apricorn", Apricorn.WHITE)
+    val YELLOW_APRICORN = registerApricornBlock("yellow_apricorn", Apricorn.YELLOW)
 
     val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque()) }
     val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque()) }
 
-    private fun registerApricornBlock(id: String, apricornSupplier: Supplier<ApricornItem>): RegistrySupplier<ApricornBlock> {
-        return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricornSupplier) }
+    private fun registerApricornBlock(id: String, apricorn: Apricorn): RegistrySupplier<ApricornBlock> {
+        return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn) }
     }
 
     /**
