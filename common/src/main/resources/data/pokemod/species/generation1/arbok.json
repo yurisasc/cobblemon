@@ -15,7 +15,7 @@
         "special_defence": 79,
         "speed": 80
     },
-    "standingEyeHeight": 2,
+    "standingEyeHeight": 1,
     "features": ["snake-pattern"],
     "catchRate": 90,
     "maleRatio": 0.5,
