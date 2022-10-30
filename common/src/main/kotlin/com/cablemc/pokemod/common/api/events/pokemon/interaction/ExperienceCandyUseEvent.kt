@@ -9,13 +9,15 @@
 package com.cablemc.pokemod.common.api.events.pokemon.interaction
 
 import com.cablemc.pokemod.common.api.events.Cancelable
+import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.item.interactive.CandyItem
+import com.cablemc.pokemod.common.pokemon.AddExperienceResult
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * The base of the [CandyItem] related events.
- * For the generic experience gain event see ToDo(Link Experience event here)
+ * For the generic experience gain event see [PokemodEvents.EXPERIENCE_GAINED_EVENT_PRE] and [PokemodEvents.EXPERIENCE_GAINED_EVENT_POST]
  *
  * @author Licious
  * @since May 5th, 2022
@@ -41,7 +43,6 @@ interface ExperienceCandyUseEvent {
      * Fired when a player attempts to use an experience candy on a Pokémon.
      * Canceling this event will prevent the consumption of the item and the experience yield.
      * For the event that is fired after all the calculations took place see [ExperienceCandyUseEvent.Post].
-     * For the generic experience gain event see ToDo(Link Experience event here)
      *
      * @property baseExperienceYield The default amount of experience the [pokemon] would earn.
      * @property experienceYield The current amount of experience the [pokemon] will earn.
@@ -55,17 +56,34 @@ interface ExperienceCandyUseEvent {
     ) : ExperienceCandyUseEvent, Cancelable()
 
     /**
-     * Fired after a player used an experience candy on a Pokémon.
-     * This event is posted before the experience is given and the item is consumed.
-     * For the event that is fired before all the calculations took place see [ExperienceCandyUseEvent.Pre].
+     * Fired after a player used an experience candy on Pokémon and the experience yield was processed.
      *
-     * @property experienceYield The amount of experience the [pokemon] earned.
+     * @property experienceResult The resulting [AddExperienceResult] of the interaction.
      */
     class Post(
         override val player: ServerPlayerEntity,
         override val pokemon: Pokemon,
         override val item: CandyItem,
-        val experienceYield: Int
-    ) : ExperienceCandyUseEvent
+        val experienceResult: AddExperienceResult
+    ) : ExperienceCandyUseEvent {
+
+        /**
+         * Checks if the candy use resulted in any experience gain.
+         * This will nearly always be true unless the Pokémon is at level cap.
+         * This does not confirm the candy was consumed as the player may be in creative mode for that use [wasCandyConsumed].
+         *
+         * @return If any experience was gained from the candy.
+         */
+        fun wasExperienceGiven() = this.experienceResult.experienceAdded > 0
+
+        /**
+         * Checks if the candy use resulted in any experience gain and if it was consumed.
+         * This will nearly always be true unless the Pokémon is at level cap and/or the player is in creative mode.
+         * If you just want to know if the candy yielded experience use [wasExperienceGiven].
+         *
+         * @return If any experience was gained from the candy and if it was consumed.
+         */
+        fun wasCandyConsumed() = this.experienceResult.experienceAdded > 0 && !player.isCreative
+    }
 
 }

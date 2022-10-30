@@ -38,11 +38,16 @@ class CandyItem(
             event = ExperienceCandyUseEvent.Pre(player, pokemon, this, experience, experience),
             ifSucceeded = { preEvent ->
                 val finalExperience = preEvent.experienceYield
-                PokemodEvents.EXPERIENCE_CANDY_USE_POST.post(ExperienceCandyUseEvent.Post(player, pokemon, this, finalExperience))
                 val source = CandyExperienceSource(player, stack)
-                pokemon.addExperienceWithPlayer(player, source, finalExperience)
-                this.consumeItem(player, stack)
-                return true
+                val result = pokemon.addExperienceWithPlayer(player, source, finalExperience)
+                // We do this just so we can post the event once the item has been consumed if needed instead of repeating the even post
+                var returnValue = false
+                if (result.experienceAdded > 0) {
+                    this.consumeItem(player, stack)
+                    returnValue = true
+                }
+                PokemodEvents.EXPERIENCE_CANDY_USE_POST.post(ExperienceCandyUseEvent.Post(player, pokemon, this, result))
+                return returnValue
             }
         )
         return false
