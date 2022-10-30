@@ -16,6 +16,7 @@ interface PokemodImplementation {
 }
 
 interface NetworkDelegate {
+
     fun sendPacketToPlayer(player: ServerPlayerEntity, packet: NetworkPacket)
     fun sendPacketToServer(packet: NetworkPacket)
     fun <T : NetworkPacket> buildMessage(

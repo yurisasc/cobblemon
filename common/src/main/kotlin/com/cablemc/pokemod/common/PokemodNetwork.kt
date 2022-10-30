@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common
 
+import com.cablemc.pokemod.common.Pokemod.LOGGER
 import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemod.common.api.net.NetworkPacket
@@ -44,6 +45,7 @@ import com.cablemc.pokemod.common.net.messages.server.storage.pc.MovePCPokemonTo
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.SwapPCPokemonPacket
 import com.cablemc.pokemod.common.util.getServer
+import java.util.concurrent.CompletableFuture
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
@@ -56,6 +58,15 @@ import net.minecraft.server.network.ServerPlayerEntity
  */
 object PokemodNetwork {
     const val PROTOCOL_VERSION = "1"
+
+    var clientHandlersRegistered = CompletableFuture<Unit>()
+    var serverHandlersRegistered = CompletableFuture<Unit>()
+
+    init {
+        clientHandlersRegistered.runAfterBoth(serverHandlersRegistered) {
+            register()
+        }
+    }
 
     lateinit var networkDelegate: NetworkDelegate
 
@@ -186,12 +197,18 @@ object PokemodNetwork {
 
         // Battle packets
         buildServerMessage<BattleSelectActionsPacket>()
+
+        println("Registered $clientMessagesRegistered client messages")
+        println("Registered $serverMessagesRegistered server messages")
     }
 
     private inline fun <reified P : NetworkPacket> buildClientMessage() =
-        buildMessage<P>(toServer = false)
+        buildMessage<P>(toServer = false).also { clientMessagesRegistered++ }
     private inline fun <reified P : NetworkPacket> buildServerMessage() =
-        buildMessage<P>(toServer = true)
+        buildMessage<P>(toServer = true).also { serverMessagesRegistered++ }
+
+    var serverMessagesRegistered = 0
+    var clientMessagesRegistered = 0
 
     private inline fun <reified P : NetworkPacket> buildMessage(toServer: Boolean) {
         val message = networkDelegate.buildMessage(P::class.java, toServer)

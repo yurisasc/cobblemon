@@ -31,18 +31,17 @@ class VenonatModel(root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0048_venonat/venonat", "ground_idle")
+                bedrock("0048_venonat/venonat", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0048_venonat/venonat", "ground_walk")
+                bedrock("0048_venonat/venonat", "ground_idle")
+                //bedrock("0048_venonat/venonat", "ground_walk")
             )
         )
     }

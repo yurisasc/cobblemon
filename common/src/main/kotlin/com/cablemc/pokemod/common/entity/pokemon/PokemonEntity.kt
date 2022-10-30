@@ -112,7 +112,7 @@ class PokemonEntity(
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
-    private val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
+    internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
 
     /**
      * 0 is do nothing,

@@ -36,7 +36,7 @@ class NidoranfModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0029_nidoranf/nidoranf", "ground_idle")
+                //bedrock("0029_nidoranf/nidoranf", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class NidoranfModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0029_nidoranf/nidoranf", "ground_walk")
+                //bedrock("0029_nidoranf/nidoranf", "ground_walk")
             )
         )
     }

@@ -28,11 +28,11 @@
     ],
 	"behaviour": {
         "moving": {
-            "swim": {
-                "canWalkOnWater": true
-            },
 			"fly": {
                 "canFly": true
+            },
+            "walk": {
+                "canWalk": false
             }
         }
     },
@@ -88,53 +88,6 @@
     "evolutions": [
         {
             "id": "magneton_magnezone",
-            "variant": "level_up",
-            "result": "magnezone",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "biome",
-                    "biomeCondition": "mt-coronet"
-                }
-            ]
-        },
-        {
-            "id": "magneton_magnezone",
-            "variant": "level_up",
-            "result": "magnezone",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "biome",
-                    "biomeCondition": "chargestone-cave"
-                }
-            ]
-        },
-        {
-            "id": "magneton_magnezone",
-            "variant": "level_up",
-            "result": "magnezone",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "biome",
-                    "biomeCondition": "kalos-route-13"
-                }
-            ]
-        },
-        {
-            "id": "magneton_magnezone",
-            "variant": "level_up",
-            "result": "magnezone",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": []
-        },
-        {
-            "id": "magneton_magnezone",
             "variant": "item_interact",
             "result": "magnezone",
             "consumeHeldItem": true,
@@ -143,10 +96,10 @@
             "requiredContext": "pokemod:thunder_stone"
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.9,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width":  1,
+        "height": 1.2,
         "fixed": false
     }
 }

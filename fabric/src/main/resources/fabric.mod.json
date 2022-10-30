@@ -22,7 +22,7 @@
       "com.cablemc.pokemod.fabric.FabricBootstrap"
     ],
     "client": [
-      "com.cablemc.pokemod.fabric.client.FabricClientBootstrap"
+      "com.cablemc.pokemod.fabric.client.PokemodFabricClient"
     ]
   },
   "mixins": [

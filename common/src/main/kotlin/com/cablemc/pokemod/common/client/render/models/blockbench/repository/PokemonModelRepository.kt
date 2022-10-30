@@ -167,6 +167,7 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.B
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.CleffaModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.ElekidModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.EspeonModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.HitmontopModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.IgglybuffModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.KingdraModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen2.MagbyModel
@@ -424,6 +425,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("pichu") { PichuModel(it) }
         inbuilt("smoochum") { SmoochumModel(it) }
         inbuilt("tyrogue") { TyrogueModel(it) }
+        inbuilt("hitmontop") { HitmontopModel(it) }
         inbuilt("electivire") { ElectivireModel(it) }
         inbuilt("glaceon") { GlaceonModel(it) }
         inbuilt("happiny") { HappinyModel(it) }

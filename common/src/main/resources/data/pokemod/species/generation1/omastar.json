@@ -96,10 +96,10 @@
     ],
     "preEvolution": "omanyte",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.4,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.65,
+        "height": 0.7,
         "fixed": false
     }
 }

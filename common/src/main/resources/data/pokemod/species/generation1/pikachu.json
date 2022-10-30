@@ -19,82 +19,7 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "rock-star",
-            "aspects": [
-                "rock-star"
-            ]
-        },
-        {
-            "name": "belle",
-            "aspects": [
-                "belle"
-            ]
-        },
-        {
-            "name": "pop-star",
-            "aspects": [
-                "pop-star"
-            ]
-        },
-        {
-            "name": "phd",
-            "aspects": [
-                "phd"
-            ]
-        },
-        {
-            "name": "libre",
-            "aspects": [
-                "libre"
-            ]
-        },
-        {
-            "name": "cosplay",
-            "aspects": [
-                "cosplay"
-            ]
-        },
-        {
-            "name": "original-cap",
-            "aspects": [
-                "original-cap"
-            ]
-        },
-        {
-            "name": "hoenn-cap",
-            "aspects": [
-                "hoenn-cap"
-            ]
-        },
-        {
-            "name": "sinnoh-cap",
-            "aspects": [
-                "sinnoh-cap"
-            ]
-        },
-        {
-            "name": "unova-cap",
-            "aspects": [
-                "unova-cap"
-            ]
-        },
-        {
-            "name": "kalos-cap",
-            "aspects": [
-                "kalos-cap"
-            ]
-        },
-        {
-            "name": "alola-cap",
-            "aspects": [
-                "alola-cap"
-            ]
-        },
-        {
-            "name": "partner-cap",
-            "aspects": [
-                "partner-cap"
-            ]
+            "name": "normal"
         },
         {
             "name": "starter",
@@ -108,12 +33,6 @@
             },
             "aspects": [
                 "starter"
-            ]
-        },
-        {
-            "name": "world-cap",
-            "aspects": [
-                "world-cap"
             ]
         },
         {
@@ -206,9 +125,9 @@
             "requiredContext": "pokemod:thunder_stone"
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.5,
     "hitbox": {
-        "width": 1.0,
+        "width": 0.75,
         "height": 1.0,
         "fixed": false
     }

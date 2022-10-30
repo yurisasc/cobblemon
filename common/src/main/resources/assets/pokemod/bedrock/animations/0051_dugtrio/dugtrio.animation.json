@@ -18,7 +18,7 @@
 				}
 			}
 		},
-		"animation.dugtrio.ground_moving": {
+		"animation.dugtrio.ground_walk": {
 			"loop": true,
 			"bones": {
 				"body2": {

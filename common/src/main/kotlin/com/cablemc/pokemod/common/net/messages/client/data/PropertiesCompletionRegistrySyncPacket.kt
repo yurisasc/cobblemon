@@ -12,6 +12,8 @@ import com.cablemc.pokemod.common.pokemon.properties.PropertiesCompletionProvide
 import net.minecraft.network.PacketByteBuf
 
 internal class PropertiesCompletionRegistrySyncPacket(suggestions: Collection<PropertiesCompletionProvider.SuggestionHolder>) : DataRegistrySyncPacket<PropertiesCompletionProvider.SuggestionHolder>(suggestions) {
+    constructor(): this(emptyList())
+
     override fun encodeEntry(buffer: PacketByteBuf, entry: PropertiesCompletionProvider.SuggestionHolder) {
         buffer.writeCollection(entry.keys) { pb, value -> pb.writeString(value) }
         buffer.writeCollection(entry.suggestions) { pb, value -> pb.writeString(value) }

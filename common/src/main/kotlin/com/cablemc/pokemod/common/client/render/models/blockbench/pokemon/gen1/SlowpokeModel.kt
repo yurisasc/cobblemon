@@ -11,11 +11,11 @@ package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("slowpoke")
     override val head = getPart("head")
@@ -28,25 +28,44 @@ class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var swim: PokemonPose
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
+            poseTypes = UI_POSES + PoseType.STAND,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0079_slowpoke/slowpoke", "ground_idle")
+                singleBoneLook(),
+                bedrock("0079_slowpoke/slowpoke", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
-            transformTicks = 10,
+            poseType = PoseType.WALK,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0079_slowpoke/slowpoke", "ground_walk")
+                singleBoneLook(),
+                bedrock("0079_slowbro/slowpoke", "ground_idle")
+                //bedrock("0079_slowpoke/slowpoke", "ground_walk")
+            )
+        )
+
+        float = registerPose(
+            poseName = "float",
+            poseType = PoseType.FLOAT,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0079_slowpoke/slowpoke", "water_idle")
+            )
+        )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseType = PoseType.SWIM,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0079_slowpoke/slowpoke", "water_swim")
             )
         )
     }

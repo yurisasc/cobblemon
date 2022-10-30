@@ -33,7 +33,7 @@ class JigglypuffModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0039_jigglypuff/jigglypuff", "ground_idle")
+                bedrock("0039_jigglypuff/jigglypuff", "ground_idle")
             )
         )
 
@@ -42,7 +42,7 @@ class JigglypuffModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0039_jigglypuff/jigglypuff", "ground_walk")
+                bedrock("0039_jigglypuff/jigglypuff", "ground_walk")
             )
         )
     }

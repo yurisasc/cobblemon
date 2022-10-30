@@ -39,7 +39,7 @@ class DoduoModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
 //                singleBoneLook()
-                // bedrock("0084_doduo/doduo", "ground_idle")
+                //bedrock("0084_doduo/doduo", "ground_idle")
             )
         )
 
@@ -50,7 +50,7 @@ class DoduoModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
             idleAnimations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 0.8F)
 //                singleBoneLook()
-                // bedrock("0084_doduo/doduo", "ground_walk")
+                //bedrock("0084_doduo/doduo", "ground_walk")
             )
         )
     }

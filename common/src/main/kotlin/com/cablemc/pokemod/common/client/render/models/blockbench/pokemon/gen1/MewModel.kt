@@ -36,7 +36,7 @@ class MewModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0151_mew/mew", "ground_idle")
+                //bedrock("0151_mew/mew", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class MewModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0151_mew/mew", "ground_walk")
+                //bedrock("0151_mew/mew", "ground_walk")
             )
         )
     }

@@ -29,6 +29,9 @@
         "moving": {
 			"fly": {
                 "canFly": true
+            },
+            "walk": {
+                "canWalk": false
             }
         }
     },
@@ -102,10 +105,10 @@
     ],
     "preEvolution": "spearow",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 2.0,
     "hitbox": {
         "width": 1.0,
-        "height": 1.0,
+        "height": 0.7,
         "fixed": false
     }
 }

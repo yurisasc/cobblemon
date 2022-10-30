@@ -10,6 +10,14 @@
     {
       "aspects": ["female"],
       "model": "pokemod:bedrock/models/0012_butterfree/butterfree_female.geo.json"
+    },
+    {
+      "aspects": ["valencian"],
+      "texture": "pokemod:textures/pokemon/0012_butterfree/butterfree_valencian.png"
+    },
+    {
+      "aspects": ["valencian", "shiny"],
+      "texture": "pokemod:textures/pokemon/0012_butterfree/butterfree_valencian_shiny.png"
     }
   ]
 }

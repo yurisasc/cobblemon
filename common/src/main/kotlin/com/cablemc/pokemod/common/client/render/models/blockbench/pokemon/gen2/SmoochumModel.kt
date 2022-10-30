@@ -36,7 +36,7 @@ class SmoochumModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0238_smoochum/smoochum", "ground_idle")
+                //bedrock("0238_smoochum/smoochum", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class SmoochumModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0238_smoochum/smoochum", "ground_walk")
+                //bedrock("0238_smoochum/smoochum", "ground_walk")
             )
         )
     }

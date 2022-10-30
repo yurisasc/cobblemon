@@ -33,7 +33,7 @@ class StaryuModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0120_staryu/staryu", "ground_idle")
+                //bedrock("0120_staryu/staryu", "ground_idle")
             )
         )
 
@@ -42,7 +42,7 @@ class StaryuModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0120_staryu/staryu", "ground_walk")
+                //bedrock("0120_staryu/staryu", "ground_walk")
             )
         )
     }

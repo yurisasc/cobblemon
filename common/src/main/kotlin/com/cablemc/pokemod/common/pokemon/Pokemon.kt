@@ -77,10 +77,10 @@ import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
 import java.util.*
 import java.util.concurrent.CompletableFuture
-import kotlin.math.absoluteValue
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
+import kotlin.math.absoluteValue
 
 open class Pokemon {
     var uuid = UUID.randomUUID()
@@ -127,7 +127,9 @@ open class Pokemon {
             if (value < 1) {
                 throw IllegalArgumentException("Level cannot be negative")
             }
-
+            if (value > Pokemod.config.maxPokemonLevel) {
+                throw IllegalArgumentException("Cannot set level above the configured maxiumum of ${Pokemod.config.maxPokemonLevel}")
+            }
             val hpRatio = (currentHealth / hp.toFloat()).coerceIn(0F, 1F)
             /*
              * When people set the level programmatically the experience value will become incorrect.
@@ -803,14 +805,17 @@ open class Pokemon {
     fun setExperienceAndUpdateLevel(xp: Int) {
         experience = xp
         val newLevel = experienceGroup.getLevel(xp)
-        if (newLevel != level) {
+        if (newLevel != level && newLevel <= Pokemod.config.maxPokemonLevel) {
             level = newLevel
         }
     }
 
-    fun addExperienceWithPlayer(player: ServerPlayerEntity, source: ExperienceSource, xp: Int) {
-        player.sendMessage(lang("experience.gained", species.translatedName, xp))
+    fun addExperienceWithPlayer(player: ServerPlayerEntity, source: ExperienceSource, xp: Int): AddExperienceResult {
         val result = addExperience(source, xp)
+        if (result.experienceAdded <= 0) {
+            return result
+        }
+        player.sendMessage(lang("experience.gained", species.translatedName, xp))
         if (result.oldLevel != result.newLevel) {
             player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
             val repeats = result.newLevel - result.oldLevel
@@ -824,6 +829,7 @@ open class Pokemon {
                 player.sendMessage(lang("experience.learned_move", species.translatedName, it.displayName))
             }
         }
+        return result
     }
 
     fun <T : SpeciesFeature> getFeature(name: String) = features.find { it.name == name } as? T
@@ -840,10 +846,9 @@ open class Pokemon {
     }
 
     fun addExperience(source: ExperienceSource, xp: Int): AddExperienceResult {
-        if (xp < 0) {
-            return AddExperienceResult(level, level, emptySet()) // no negatives!
+        if (xp < 0 || !this.canLevelUpFurther()) {
+            return AddExperienceResult(level, level, emptySet(), 0) // no negatives!
         }
-
         val oldLevel = level
         val previousLevelUpMoves = form.moves.getLevelUpMovesUpTo(oldLevel)
         var appliedXP = xp
@@ -851,7 +856,7 @@ open class Pokemon {
             event = ExperienceGainedPreEvent(this, source, appliedXP),
             ifSucceeded = { appliedXP = it.experience},
             ifCanceled = {
-                return AddExperienceResult(level, level, emptySet())
+                return AddExperienceResult(level, level, emptySet(), appliedXP)
             }
         )
 
@@ -874,13 +879,15 @@ open class Pokemon {
         }
 
         PokemodEvents.EXPERIENCE_GAINED_EVENT_POST.post(
-            ExperienceGainedPostEvent(this, source, xp, oldLevel, newLevel, differences),
-            then = { return AddExperienceResult(oldLevel, newLevel, it.learnedMoves) }
+            ExperienceGainedPostEvent(this, source, appliedXP, oldLevel, newLevel, differences),
+            then = { return AddExperienceResult(oldLevel, newLevel, it.learnedMoves, appliedXP) }
         )
 
         // This probably will never run, Kotlin just doesn't realize the inline function always runs the `then` block
-        return AddExperienceResult(oldLevel, newLevel, differences)
+        return AddExperienceResult(oldLevel, newLevel, differences, appliedXP)
     }
+
+    fun canLevelUpFurther() = this.level < Pokemod.config.maxPokemonLevel
 
     fun levelUp(source: ExperienceSource) = addExperience(source, getExperienceToNextLevel())
 

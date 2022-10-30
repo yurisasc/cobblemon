@@ -66,6 +66,7 @@ import com.cablemc.pokemod.common.data.CobbledDataProvider
 import com.cablemc.pokemod.common.events.ServerTickHandler
 import com.cablemc.pokemod.common.item.PokeBallItem
 import com.cablemc.pokemod.common.net.messages.client.settings.ServerSettingsPacket
+import com.cablemc.pokemod.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemod.common.permission.LaxPermissionValidator
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.pokemon.aspects.GENDER_ASPECT
@@ -80,6 +81,7 @@ import com.cablemc.pokemod.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cablemc.pokemod.common.registry.CompletableRegistry
 import com.cablemc.pokemod.common.starter.CobbledStarterHandler
+import com.cablemc.pokemod.common.util.DataKeys
 import com.cablemc.pokemod.common.util.getServer
 import com.cablemc.pokemod.common.util.ifDedicatedServer
 import com.cablemc.pokemod.common.util.pokemodResource
@@ -141,8 +143,8 @@ object Pokemod {
         PokemodBlocks.register()
         PokemodBlockEntities.register()
         PokemodItems.register()
+        ServerPacketRegistrar.registerHandlers()
         PokemodSounds.register()
-        PokemodNetwork.register()
         PokemodFeatures.register()
         PokemodGameRules.register()
 
@@ -177,6 +179,10 @@ object Pokemod {
 
         config.flagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
         config.globalFlagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.ALOLAN)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.GALARIAN)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.HISUIAN)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.VALENCIAN)
         SpeciesFeature.registerGlobalFeature(DamageTakenFeature.ID) { DamageTakenFeature() }
         SpeciesFeature.registerGlobalFeature(BattleCriticalHitsFeature.ID) { BattleCriticalHitsFeature() }
         EnumSpeciesFeature.registerWithProperty(SNAKE_PATTERN, SnakePatternFeature::class.java)

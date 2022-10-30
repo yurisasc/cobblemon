@@ -10,6 +10,7 @@ package com.cablemc.pokemod.common.entity.pokemon.ai.goals
 
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.entity.ai.goal.WanderAroundGoal
+import net.minecraft.tag.FluidTags
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -19,7 +20,7 @@ import net.minecraft.util.math.Vec3d
  * @since July 30th, 2022
  */
 class PokemonWanderAroundGoal(entity: PokemonEntity, speed: Double) : WanderAroundGoal(entity, speed) {
-    fun canMove() = (mob as PokemonEntity).behaviour.moving.walk.canWalk
+    fun canMove() = (mob as PokemonEntity).behaviour.moving.let { it.walk.canWalk || it.fly.canFly || (it.swim.canSwimInWater && mob.isSubmergedIn(FluidTags.WATER)) }
     override fun canStart() = super.canStart() && canMove() && !(mob as PokemonEntity).isBusy
     override fun shouldContinue() = super.shouldContinue() && canMove() && !(mob as PokemonEntity).isBusy
 

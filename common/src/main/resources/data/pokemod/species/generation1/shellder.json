@@ -96,10 +96,10 @@
             "requiredContext": "pokemod:water_stone"
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 1.1,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.5,
+        "height": 0.6,
         "fixed": false
     }
 }

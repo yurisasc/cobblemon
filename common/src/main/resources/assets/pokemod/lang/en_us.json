@@ -201,7 +201,7 @@
   "pokemod.battle.sunny_day_upkeep": "The sunlight is strong.",
   "pokemod.battle.hail": "It started to hail!",
   "pokemod.battle.hail_upkeep": "The hail is crashing down.",
-  "pokemod.battle.hail_buffeted": "%1$s was buffeted by the sandstorm.",
+  "pokemod.battle.hail_buffeted": "%1$s was buffeted by hail.",
   "pokemod.battle.no_weather": "The weather clears up.",
 
   "pokemod.battle.confusion_start": "%1$s is confused!",

@@ -65,6 +65,10 @@ class PokemonServerDelegate : PokemonSideDelegate {
             }
         }
 
+        if (!entity.behaviour.moving.walk.canWalk && entity.behaviour.moving.fly.canFly && !entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)) {
+            entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
+        }
+
         if (entity.ticksLived % 20 == 0) {
             val activeBattlePokemon = entity.battleId.get().orElse(null)?.let { BattleRegistry.getBattle(it) }
                 ?.activePokemon
@@ -87,7 +91,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.aspects.get() != entity.pokemon.aspects) {
             entity.aspects.set(entity.pokemon.aspects)
         }
-
+        if (entity.labelLevel.get() != entity.pokemon.level) {
+            entity.labelLevel.set(entity.pokemon.level)
+        }
         val isMoving = !entity.navigation.isIdle
         if (isMoving && !entity.isMoving.get()) {
             entity.isMoving.set(true)
