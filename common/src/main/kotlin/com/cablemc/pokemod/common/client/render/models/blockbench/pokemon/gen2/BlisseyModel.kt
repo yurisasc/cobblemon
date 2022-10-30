@@ -21,8 +21,8 @@ import net.minecraft.util.math.Vec3d
 class BlisseyModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("blissey")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 1.35F
+    override val portraitTranslation = Vec3d(0.025, 0.25, 0.0)
 
     override val leftLeg = getPart("leftfoot")
     override val rightLeg = getPart("rightfoot")
