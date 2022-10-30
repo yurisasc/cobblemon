@@ -25,6 +25,7 @@ fun interface PokemonPropertyExtractor {
         val ASPECTS = PokemonPropertyExtractor { pokemon, properties -> properties.aspects = pokemon.aspects }
         val LEVEL = PokemonPropertyExtractor { pokemon, properties -> properties.level = pokemon.level }
         val GENDER = PokemonPropertyExtractor { pokemon, properties -> properties.gender = pokemon.gender }
+        val FRIENDSHIP = PokemonPropertyExtractor { pokemon, properties -> properties.friendship = pokemon.friendship }
     }
 
     operator fun invoke(pokemon: Pokemon, properties: PokemonProperties)

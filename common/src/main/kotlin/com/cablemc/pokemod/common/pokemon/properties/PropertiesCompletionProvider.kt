@@ -107,6 +107,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("level", "lvl", "l"), setOf("1", "${Pokemod.config.maxPokemonLevel}") )
         this.inject(setOf("shiny", "s"), setOf("yes", "no"))
         this.inject(setOf("gender"), Gender.values().map { it.name.lowercase() })
+        this.inject(setOf("friendship"), setOf("0", Pokemod.config.maxPokemonLevel.toString()))
     }
 
     private fun addCustom() {
