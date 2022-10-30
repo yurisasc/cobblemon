@@ -24,8 +24,6 @@ object PokemodFabric : PokemodImplementation {
         PokemodPlacements.register()
 
         Pokemod.initialize()
-        ServerPacketRegistrar.registerHandlers()
-        PokemodNetwork.register()
         if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
 //            PokemonCobbled.permissionValidator = LuckPermsPermissionValidator()
         }

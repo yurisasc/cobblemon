@@ -17,7 +17,6 @@ import com.cablemc.pokemod.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemod.common.client.battle.ClientBattle
 import com.cablemc.pokemod.common.client.gui.PartyOverlay
 import com.cablemc.pokemod.common.client.gui.battle.BattleOverlay
-import com.cablemc.pokemod.common.client.keybind.PokemodKeybinds
 import com.cablemc.pokemod.common.client.net.ClientPacketRegistrar
 import com.cablemc.pokemod.common.client.render.block.HealingMachineRenderer
 import com.cablemc.pokemod.common.client.render.layer.PokemonOnShoulderRenderer
@@ -82,7 +81,6 @@ object PokemodClient {
         battleOverlay = BattleOverlay()
 
         ClientPacketRegistrar.registerHandlers()
-        PokemodKeybinds.register()
 
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()

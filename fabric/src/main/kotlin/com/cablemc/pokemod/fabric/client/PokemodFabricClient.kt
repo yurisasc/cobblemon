@@ -13,10 +13,12 @@ import com.cablemc.pokemod.common.PokemodEntities
 import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.client.PokemodClient
 import com.cablemc.pokemod.common.client.PokemodClient.reloadCodedAssets
+import com.cablemc.pokemod.common.client.keybind.PokemodKeybinds
 import com.cablemc.pokemod.common.util.pokemodResource
 import dev.architectury.init.fabric.ArchitecturyClient
 import java.util.function.Supplier
 import net.fabricmc.api.ClientModInitializer
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -25,12 +27,12 @@ import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.model.EntityModelLayer
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
-class FabricClientBootstrap: ClientModInitializer, PokemodClientImplementation {
+class PokemodFabricClient: ClientModInitializer, PokemodClientImplementation {
     override fun onInitializeClient() {
         ArchitecturyClient.init()
 
         PokemodClient.initialize(this)
-        PokemodNetwork.register()
+        PokemodKeybinds.keybinds.forEach(KeyBindingHelper::registerKeyBinding)
 
         EntityRendererRegistry.register(PokemodEntities.POKEMON_TYPE) { PokemodClient.registerPokemonRenderer(it) }
         EntityRendererRegistry.register(PokemodEntities.EMPTY_POKEBALL_TYPE) { PokemodClient.registerPokeBallRenderer(it) }

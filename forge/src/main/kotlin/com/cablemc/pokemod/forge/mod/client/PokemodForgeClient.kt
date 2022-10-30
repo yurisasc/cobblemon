@@ -14,6 +14,7 @@ import com.cablemc.pokemod.common.PokemodEntities.EMPTY_POKEBALL_TYPE
 import com.cablemc.pokemod.common.PokemodEntities.POKEMON_TYPE
 import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.client.PokemodClient
+import com.cablemc.pokemod.common.client.keybind.PokemodKeybinds
 import java.util.function.Supplier
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.TexturedModelData
@@ -24,6 +25,7 @@ import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent
 import net.minecraftforge.client.event.RenderGuiOverlayEvent
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
 import net.minecraftforge.common.MinecraftForge
@@ -52,7 +54,6 @@ object PokemodForgeClient : PokemodClientImplementation {
             PokemodClient.initialize(this)
             EntityRenderers.register(POKEMON_TYPE) { PokemodClient.registerPokemonRenderer(it) }
             EntityRenderers.register(EMPTY_POKEBALL_TYPE) { PokemodClient.registerPokeBallRenderer(it) }
-            PokemodNetwork.register()
         }
     }
 
@@ -65,5 +66,10 @@ object PokemodForgeClient : PokemodClientImplementation {
         if (event.overlay.id == VanillaGuiOverlay.CHAT_PANEL.id()) {
             PokemodClient.beforeChatRender(event.poseStack, event.partialTick)
         }
+    }
+
+    @SubscribeEvent
+    fun onKeybindRegister(event: RegisterKeyMappingsEvent) {
+        PokemodKeybinds.keybinds.forEach(event::register)
     }
 }
