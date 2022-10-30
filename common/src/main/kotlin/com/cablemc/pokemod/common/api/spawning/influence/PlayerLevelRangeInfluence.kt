@@ -70,8 +70,27 @@ open class PlayerLevelRangeInfluence(
     }
 
     override fun affectAction(action: SpawnAction<*>) {
-        if (action is PokemonSpawnAction && action.detail is PokemonSpawnDetail && action.props.level == null) {
-            action.props.level = getPlayerLevelRange().intersection(action.detail.getDerivedLevelRange()).random()
+        if (action is PokemonSpawnAction && action.props.level == null) {
+            val playerLevelRange = getPlayerLevelRange()
+            val derivedLevelRange = action.detail.getDerivedLevelRange()
+            var trySpawnIntersection = playerLevelRange.intersection(derivedLevelRange)
+            if(trySpawnIntersection.isEmpty()){
+                val defaultLevelVariance = 7
+                var tryMinimumLevel = derivedLevelRange.start
+                var tryMaximumLevel = derivedLevelRange.endInclusive
+                if(tryMaximumLevel<=tryMinimumLevel){
+                    tryMaximumLevel = tryMinimumLevel + defaultLevelVariance
+                }
+                if(tryMaximumLevel-tryMinimumLevel>defaultLevelVariance){
+                    if(Math.abs(tryMinimumLevel-playerLevelRange.endInclusive)<Math.abs(tryMaximumLevel-playerLevelRange.start)){
+                        tryMinimumLevel = Math.max(1,tryMaximumLevel - defaultLevelVariance)
+                    }else{
+                        tryMaximumLevel = Math.min(100,tryMinimumLevel + defaultLevelVariance)
+                    }
+                }
+                trySpawnIntersection = tryMinimumLevel..tryMaximumLevel
+            }
+            action.props.level = trySpawnIntersection.random()
         }
     }
 }
