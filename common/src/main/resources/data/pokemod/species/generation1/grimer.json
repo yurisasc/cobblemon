@@ -20,6 +20,24 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal",
+            "evolutions": [
+                {
+                    "id": "grimer_muk",
+                    "variant": "level_up",
+                    "result": "muk",
+                    "consumeHeldItem": false,
+                    "learnableMoves": [],
+                    "requirements": [
+                        {
+                            "variant": "level",
+                            "minLevel": 38
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "alola",
             "secondaryType": "dark",
             "abilities": [
@@ -29,6 +47,21 @@
             ],
             "aspects": [
                 "alola"
+            ],
+            "evolutions": [
+                {
+                    "id": "grimer_muk_alolan",
+                    "variant": "level_up",
+                    "result": "muk alolan",
+                    "consumeHeldItem": false,
+                    "learnableMoves": [],
+                    "requirements": [
+                        {
+                            "variant": "level",
+                            "minLevel": 38
+                        }
+                    ]
+                }
             ]
         }
     ],
@@ -128,21 +161,6 @@
     ],
     "pokedex": [
         "pokemod.species.grimer.desc1"
-    ],
-    "evolutions": [
-        {
-            "id": "grimer_muk",
-            "variant": "level_up",
-            "result": "muk",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "level",
-                    "minLevel": 38
-                }
-            ]
-        }
     ],
     "baseScale": 1.0,
     "hitbox": {

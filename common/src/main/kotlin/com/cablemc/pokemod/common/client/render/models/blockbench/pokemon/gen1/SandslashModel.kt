@@ -46,7 +46,7 @@ class SandslashModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("0028_sandslash/sandslash", "ground_idle")
+                bedrock("0028_sandslash/sandslash", "ground_walk")
             )
         )
     }

@@ -20,5 +20,6 @@ import com.cablemc.pokemod.common.api.moves.MoveTemplate
 data class AddExperienceResult(
     val oldLevel: Int,
     val newLevel: Int,
-    val newMoves: Set<MoveTemplate>
+    val newMoves: Set<MoveTemplate>,
+    val experienceAdded: Int
 )

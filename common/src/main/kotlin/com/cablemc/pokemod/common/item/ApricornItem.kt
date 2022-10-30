@@ -8,5 +8,20 @@
 
 package com.cablemc.pokemod.common.item
 
+import com.cablemc.pokemod.common.world.block.ApricornBlock
+import net.minecraft.block.BlockState
+import net.minecraft.block.ComposterBlock
+import net.minecraft.item.AliasedBlockItem
 import net.minecraft.item.ItemGroup
-class ApricornItem : PokemodItem(Settings().group(ItemGroup.MISC))
+import net.minecraft.item.ItemPlacementContext
+
+class ApricornItem(block: ApricornBlock) : AliasedBlockItem(block, Settings().group(ItemGroup.MISC)) {
+
+    init {
+        // 65% to raise composter level
+        ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE[this] = .65F
+    }
+
+    override fun canPlace(context: ItemPlacementContext, state: BlockState) = context.player?.isCreative != false && super.canPlace(context, state)
+
+}

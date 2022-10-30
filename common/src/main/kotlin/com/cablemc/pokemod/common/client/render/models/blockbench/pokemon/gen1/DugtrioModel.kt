@@ -35,7 +35,7 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            idleAnimations = arrayOf(bedrock("0051_dugtrio/dugtrio", "ground_moving"))
+            idleAnimations = arrayOf(bedrock("0051_dugtrio/dugtrio", "ground_walk"))
         )
     }
 

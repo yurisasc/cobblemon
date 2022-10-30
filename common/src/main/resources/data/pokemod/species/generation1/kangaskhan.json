@@ -128,10 +128,10 @@
         "pokemod.species.kangaskhan.desc2"
     ],
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 0.9,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 1,
+        "height": 1.9,
         "fixed": false
     }
 }

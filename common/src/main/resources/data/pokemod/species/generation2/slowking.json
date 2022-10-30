@@ -21,6 +21,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "galar",
             "primaryType": "poison",
             "abilities": [
@@ -149,10 +152,10 @@
     ],
     "preEvolution": "slowpoke",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.3,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.8,
+        "height": 1.4,
         "fixed": false
     }
 }

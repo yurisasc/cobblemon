@@ -36,7 +36,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0149_dragonite/dragonite", "ground_idle")
+                //bedrock("0149_dragonite/dragonite", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0149_dragonite/dragonite", "ground_walk")
+                //bedrock("0149_dragonite/dragonite", "ground_walk")
             )
         )
     }

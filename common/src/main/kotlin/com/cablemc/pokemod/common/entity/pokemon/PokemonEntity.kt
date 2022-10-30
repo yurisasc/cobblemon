@@ -37,15 +37,9 @@ import com.cablemc.pokemod.common.pokemon.activestate.InactivePokemonState
 import com.cablemc.pokemod.common.pokemon.activestate.ShoulderedState
 import com.cablemc.pokemod.common.pokemon.ai.FormPokemonBehaviour
 import com.cablemc.pokemod.common.pokemon.evolution.variants.ItemInteractionEvolution
-import com.cablemc.pokemod.common.util.DataKeys
-import com.cablemc.pokemod.common.util.getBitForByte
-import com.cablemc.pokemod.common.util.playSoundServer
-import com.cablemc.pokemod.common.util.setBitForByte
+import com.cablemc.pokemod.common.util.*
 import dev.architectury.extensions.network.EntitySpawnExtension
 import dev.architectury.networking.NetworkManager
-import java.util.EnumSet
-import java.util.Optional
-import java.util.concurrent.CompletableFuture
 import net.minecraft.block.BlockState
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
@@ -66,12 +60,14 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
+import java.util.*
+import java.util.concurrent.CompletableFuture
 class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
@@ -116,7 +112,7 @@ class PokemonEntity(
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
-    private val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
+    internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
 
     /**
      * 0 is do nothing,
@@ -428,17 +424,19 @@ class PokemonEntity(
         if (player !is ServerPlayerEntity || stack.isEmpty) {
             return false
         }
-
-        val itemRegistry = player.getWorld().registryManager.get(Registry.ITEM_KEY)
-        val item = itemRegistry.getKey(stack.item).orElse(null).value
-
         if (pokemon.getOwnerPlayer() == player) {
+            val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
             pokemon.evolutions
                 .filterIsInstance<ItemInteractionEvolution>()
                 .forEach { evolution ->
-                    if (evolution.attemptEvolution(pokemon, item)) {
+                    if (evolution.attemptEvolution(pokemon, context)) {
                         if (!player.isCreative && evolution.consumeHeldItem) {
                             stack.decrement(1)
+                        }
+                        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, volume = 1F, pitch = 1F)
+                        // Only hint the evolution if it isn't instantly starting
+                        if (evolution.optional) {
+                            player.sendMessage("pokemod.ui.evolve.hint".asTranslated(pokemon.displayName))
                         }
                         return true
                     }
@@ -447,6 +445,7 @@ class PokemonEntity(
 
         (stack.item as? PokemonInteractiveItem)?.let {
             if (it.onInteraction(player, this, stack)) {
+                this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, volume = 1F, pitch = 1F)
                 return true
             }
         }

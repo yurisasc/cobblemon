@@ -33,7 +33,7 @@ class HappinyModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0440_happiny/happiny", "ground_idle")
+                //bedrock("0440_happiny/happiny", "ground_idle")
             )
         )
 
@@ -42,7 +42,7 @@ class HappinyModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0440_happiny/happiny", "ground_walk")
+                //bedrock("0440_happiny/happiny", "ground_walk")
             )
         )
     }

@@ -43,7 +43,7 @@ class VulpixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0037_vulpix/vulpix", "ground_idle")
+                //bedrock("0037_vulpix/vulpix", "ground_idle")
             )
         )
 
@@ -54,7 +54,7 @@ class VulpixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.5F)
-                // bedrock("0037_vulpix/vulpix", "ground_walk")
+                //bedrock("0037_vulpix/vulpix", "ground_walk")
             )
         )
     }

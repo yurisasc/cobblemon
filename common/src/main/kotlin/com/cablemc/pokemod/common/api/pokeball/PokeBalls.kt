@@ -23,6 +23,12 @@ object PokeBalls {
     private val allPokeBalls = mutableListOf<PokeBall>()
 
     val POKE_BALL = registerPokeBall(PokeBall(pokemodResource("poke_ball")))
+    val VERDANT_BALL = registerPokeBall(PokeBall(pokemodResource("verdant_ball")))
+    val SPORT_BALL = registerPokeBall(PokeBall(pokemodResource("sport_ball")))
+    val SLATE_BALL = registerPokeBall(PokeBall(pokemodResource("slate_ball")))
+    val ROSEATE_BALL = registerPokeBall(PokeBall(pokemodResource("roseate_ball")))
+    val AZURE_BALL = registerPokeBall(PokeBall(pokemodResource("azure_ball")))
+    val CITRINE_BALL = registerPokeBall(PokeBall(pokemodResource("citrine_ball")))
     val GREAT_BALL = registerPokeBall(PokeBall(pokemodResource("great_ball"), listOf(MultiplierModifier(1.5f, null))))
     val ULTRA_BALL = registerPokeBall(PokeBall(pokemodResource("ultra_ball"), listOf(MultiplierModifier(2.0f, null))))
     val MASTER_BALL = registerPokeBall(PokeBall(pokemodResource("master_ball"), listOf(GuaranteedModifier())))

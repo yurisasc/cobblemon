@@ -191,7 +191,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
             pathNodeType == PathNodeType.BREACH && (canWalk() || canFly()) -> true
             (pathNodeType == PathNodeType.WATER || pathNodeType == PathNodeType.WATER_BORDER) && canSwimUnderwater() -> true
             pathNodeType == PathNodeType.OPEN && canFly() -> true
-            pathNodeType == PathNodeType.WALKABLE && canWalk() -> true
+            pathNodeType == PathNodeType.WALKABLE && (canWalk() || canFly()) -> true
             else -> false
         }
     }
@@ -268,7 +268,7 @@ class OmniPathNodeMaker : PathNodeMaker() {
             PathNodeType.WATER
         } else if (canFly() && blockState.canPathfindThrough(world, mutable, NavigationType.AIR) && blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
             PathNodeType.OPEN
-        } else if (canWalk() && blockState.canPathfindThrough(world, mutable, NavigationType.LAND) && !blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
+        } else if ((canWalk() || canFly()) && blockState.canPathfindThrough(world, mutable, NavigationType.LAND) && !blockStateBelow.canPathfindThrough(world, below, NavigationType.AIR)) {
             PathNodeType.WALKABLE
         } else PathNodeType.BLOCKED
     }

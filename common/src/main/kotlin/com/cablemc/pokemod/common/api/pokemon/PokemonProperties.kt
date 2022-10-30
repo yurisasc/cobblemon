@@ -69,7 +69,7 @@ open class PokemonProperties {
                 }
             }.toMutableList()
             props.gender = Gender.values().toList().parsePropertyOfCollection(keyPairs, listOf("gender"), labelsOptional = true) { it.name.lowercase() }
-            props.level = parseIntProperty(keyPairs, listOf("level", "lvl", "l"))
+            props.level = parseIntProperty(keyPairs, listOf("level", "lvl", "l"))?.coerceIn(1, Pokemod.config.maxPokemonLevel)
             props.shiny = parseBooleanProperty(keyPairs, listOf("shiny", "s"))
             props.species = parseSpeciesIdentifier(keyPairs)
             props.updateAspects()
@@ -83,11 +83,10 @@ open class PokemonProperties {
         private fun parseIntProperty(keyPairs: MutableList<Pair<String, String?>>, labels: Iterable<String>): Int? {
             val matchingKeyPair = getMatchedKeyPair(keyPairs, labels) ?: return null
             val value = matchingKeyPair.second
-            if (value == null || !value.isInt()) {
-                return null
+            return if (value == null || !value.isInt()) {
+                null
             } else {
-
-                return value.toInt()
+                value.toInt()
             }
         }
 
@@ -134,8 +133,7 @@ open class PokemonProperties {
         private fun parseBooleanProperty(keyPairs: MutableList<Pair<String, String?>>, labels: Iterable<String>): Boolean? {
             val matchingKeyPair = getMatchedKeyPair(keyPairs, labels) ?: return null
             keyPairs.remove(matchingKeyPair)
-            val value = matchingKeyPair.second?.lowercase()
-            return when (value) {
+            return when (matchingKeyPair.second?.lowercase()) {
                 null -> true
                 "true", "yes" -> true
                 "false", "no" -> false

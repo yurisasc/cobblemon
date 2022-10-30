@@ -80,6 +80,7 @@ import com.cablemc.pokemod.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cablemc.pokemod.common.registry.CompletableRegistry
 import com.cablemc.pokemod.common.starter.CobbledStarterHandler
+import com.cablemc.pokemod.common.util.DataKeys
 import com.cablemc.pokemod.common.util.getServer
 import com.cablemc.pokemod.common.util.ifDedicatedServer
 import com.cablemc.pokemod.common.util.pokemodResource
@@ -177,6 +178,10 @@ object Pokemod {
 
         config.flagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
         config.globalFlagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.ALOLAN)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.GALARIAN)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.HISUIAN)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.VALENCIAN)
         SpeciesFeature.registerGlobalFeature(DamageTakenFeature.ID) { DamageTakenFeature() }
         SpeciesFeature.registerGlobalFeature(BattleCriticalHitsFeature.ID) { BattleCriticalHitsFeature() }
         EnumSpeciesFeature.registerWithProperty(SNAKE_PATTERN, SnakePatternFeature::class.java)

@@ -94,10 +94,10 @@
     ],
     "preEvolution": "seadra",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 0.95,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.85,
+        "height": 2.2,
         "fixed": false
     }
 }

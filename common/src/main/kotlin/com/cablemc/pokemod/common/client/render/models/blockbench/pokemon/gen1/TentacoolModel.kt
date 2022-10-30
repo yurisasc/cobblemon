@@ -10,11 +10,11 @@ package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("tentacool")
 
@@ -26,23 +26,40 @@ class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var swim: PokemonPose
+    lateinit var float: PokemonPose
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
+            poseTypes = UI_POSES + PoseType.STAND,
             idleAnimations = arrayOf(
-                // bedrock("0072_tentacool/tentacool", "ground_idle")
+                bedrock("0072_tentacool/tentacool", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
-            transformTicks = 10,
+            poseType = PoseType.WALK,
             idleAnimations = arrayOf(
-                // bedrock("0072_tentacool/tentacool", "ground_walk")
+                bedrock("0072_tentacool/tentacool", "ground_idle")
+                //bedrock("0072_tentacool/tentacool", "ground_walk")
+            )
+        )
+
+        float = registerPose(
+            poseName = "float",
+            poseType = PoseType.FLOAT,
+            idleAnimations = arrayOf(
+                bedrock("0072_tentacool/tentacool", "water_idle")
+            )
+        )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseType = PoseType.SWIM,
+            idleAnimations = arrayOf(
+                bedrock("0072_tentacool/tentacool", "water_swim")
             )
         )
     }

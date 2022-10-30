@@ -31,18 +31,17 @@ class KrabbyModel(root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0098_krabby/krabby", "ground_idle")
+                bedrock("0098_krabby/krabby", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0098_krabby/krabby", "ground_walk")
+                bedrock("0098_krabby/krabby", "ground_idle")
+                //bedrock("0098_krabby/krabby", "ground_walk")
             )
         )
     }

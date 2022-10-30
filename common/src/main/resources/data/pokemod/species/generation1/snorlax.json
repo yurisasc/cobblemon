@@ -20,6 +20,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "gmax",
             "aspects": [
                 "gmax"
@@ -141,10 +144,10 @@
     ],
     "preEvolution": "munchlax",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 2,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 1.2,
+        "height": 1.7,
         "fixed": false
     }
 }

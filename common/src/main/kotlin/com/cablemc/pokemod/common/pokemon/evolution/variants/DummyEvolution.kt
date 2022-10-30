@@ -26,6 +26,6 @@ internal class DummyEvolution : Evolution {
 
     override fun test(pokemon: Pokemon) = false
 
-    override fun evolve(pokemon: Pokemon) {}
+    override fun evolve(pokemon: Pokemon) = false
 
 }

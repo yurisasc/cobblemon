@@ -36,7 +36,7 @@ class ElectabuzzModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0125_electabuzz/electabuzz", "ground_idle")
+                //bedrock("0125_electabuzz/electabuzz", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class ElectabuzzModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0125_electabuzz/electabuzz", "ground_walk")
+                //bedrock("0125_electabuzz/electabuzz", "ground_walk")
             )
         )
     }

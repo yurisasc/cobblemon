@@ -36,7 +36,7 @@ class KabutopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0141_kabutops/kabutops", "ground_idle")
+                //bedrock("0141_kabutops/kabutops", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class KabutopsModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0141_kabutops/kabutops", "ground_walk")
+                //bedrock("0141_kabutops/kabutops", "ground_walk")
             )
         )
     }

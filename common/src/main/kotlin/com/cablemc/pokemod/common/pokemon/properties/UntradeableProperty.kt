@@ -30,4 +30,5 @@ object UntradeableProperty : CustomPokemonPropertyType<FlagProperty> {
 
     fun tradeable() = FlagProperty(keys.first(), true)
     fun untradeable() = FlagProperty(keys.first(), false)
+    override fun examples() = setOf("yes", "no")
 }

@@ -36,7 +36,7 @@ class MagmarModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0126_magmar/magmar", "ground_idle")
+                //bedrock("0126_magmar/magmar", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class MagmarModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0126_magmar/magmar", "ground_walk")
+                //bedrock("0126_magmar/magmar", "ground_walk")
             )
         )
     }

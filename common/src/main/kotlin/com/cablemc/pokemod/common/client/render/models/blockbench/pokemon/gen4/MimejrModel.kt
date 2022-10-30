@@ -36,7 +36,7 @@ class MimejrModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0439_mimejr/mimejr", "ground_idle")
+                //bedrock("0439_mimejr/mimejr", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class MimejrModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0439_mimejr/mimejr", "ground_walk")
+                //bedrock("0439_mimejr/mimejr", "ground_walk")
             )
         )
     }

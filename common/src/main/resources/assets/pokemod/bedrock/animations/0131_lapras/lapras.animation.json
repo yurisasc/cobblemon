@@ -455,7 +455,7 @@
 					"position": [
 						0,
 						"math.clamp(-math.sin(q.anim_time*90*2+45)*0.5,-50,0)+math.clamp(-math.sin(q.anim_time*90*2+45)*0.5,0,5)",
-						"math.clamp(math.sin(q.anim_time*90*2)*1,0,5)+math.clamp(math.sin(q.anim_time*90*2)*2,-3,0)"
+						"math.clamp(math.sin(q.anim_time*90*2)*2,0,5)+math.clamp(math.sin(q.anim_time*90*2)*2,-3,0)"
 					]
 				},
 				"neck": {
@@ -474,7 +474,7 @@
 					"rotation": [
 						"math.clamp(math.sin(q.anim_time*90*1+180)*8,0,10)-math.clamp(math.sin(q.anim_time*90*1+180)*8,-10,0)+math.clamp(math.sin(q.anim_time*90*2+180)*4,-10,0)",
 						"10-math.clamp(math.sin(q.anim_time*90*2+45+180)*10,10,20)+math.clamp(math.sin(q.anim_time*90*1)*15,0,20)+math.clamp(math.sin(q.anim_time*90*1+180)*15,0,20)",
-						"+math.clamp(math.sin(q.anim_time*90*2-10+180)*40,0,200)-math.clamp(math.sin(q.anim_time*90*2+20)*40,-10,40)+math.clamp(math.sin(q.anim_time*90*2+180)*35,-40,0)"
+						"math.clamp(math.sin(q.anim_time*90*2-10+180)*40,0,200)-math.clamp(math.sin(q.anim_time*90*2+20)*40,-10,40)+math.clamp(math.sin(q.anim_time*90*2+180)*35,-40,0)"
 					]
 				},
 				"flipper_back_left1": {
