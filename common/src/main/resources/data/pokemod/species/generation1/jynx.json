@@ -107,10 +107,10 @@
     ],
     "preEvolution": "smoochum",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.15,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.9,
+        "height": 1.1,
         "fixed": false
     }
 }

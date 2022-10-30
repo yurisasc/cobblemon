@@ -19,6 +19,7 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pose.Transform
 import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
 import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.sineFunction
+import com.cablemc.pokemod.common.client.render.models.blockbench.wavefunction.triangleFunction
 import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.PoseType.Companion.ALL_POSES
 import com.cablemc.pokemod.common.entity.PoseType.Companion.SHOULDER_POSES
@@ -28,13 +29,13 @@ import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.Vec3d
 
 class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, EaredFrame {
-    override val rootPart = registerRelevantPart("zubat", root.getChild("zubat"))
+    override val rootPart = root.registerChildWithAllChildren("zubat")
 
-    override val leftWing = rootPart.getChildOf("body", "leftwing")
-    override val rightWing = rootPart.getChildOf("body", "rightwing")
+    override val leftWing = getPart("leftwing")
+    override val rightWing = getPart("rightwing")
 
-    private val leftEar = registerRelevantPart("leftear", rootPart.getChildOf("body", "leftear"))
-    private val rightEar = registerRelevantPart("rightear", rootPart.getChildOf("body", "rightear"))
+    private val leftEar = getPart("leftear")
+    private val rightEar = getPart("rightear")
     override val leftEarJoint = EarJoint(leftEar, Z_AXIS, RangeOfMotion(70F.toRadians(), 40F.toRadians()))
     override val rightEarJoint = EarJoint(rightEar, Z_AXIS, RangeOfMotion((-70F).toRadians(), (-40F).toRadians()))
 

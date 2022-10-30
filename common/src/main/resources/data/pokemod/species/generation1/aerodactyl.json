@@ -121,10 +121,10 @@
         "pokemod.species.aerodactyl.desc2"
     ],
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.6,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 1,
+        "height": 1,
         "fixed": false
     }
 }

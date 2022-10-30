@@ -49,7 +49,7 @@ class PoliwrathModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "swim",
             poseType = PoseType.SWIM,
             idleAnimations = arrayOf(
-                bedrock("0062_poliwrath/poliwhirl", "water_swim")
+                bedrock("0062_poliwrath/poliwrath", "water_swim")
             )
         )
     }

@@ -21,6 +21,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "mime-galar",
             "primaryType": "ice",
             "secondaryType": "psychic",
@@ -28,6 +31,21 @@
                 "vitalspirit",
                 "screencleaner",
                 "h:icebody"
+            ],
+            "evolutions": [
+                {
+                    "id": "mrmime_mrrime",
+                    "variant": "level_up",
+                    "result": "mrrime",
+                    "consumeHeldItem": false,
+                    "learnableMoves": [],
+                    "requirements": [
+                        {
+                            "variant": "level",
+                            "minLevel": 42
+                        }
+                    ]
+                }
             ],
             "baseStats": {
                 "hp": 50,
@@ -140,25 +158,10 @@
         "pokemod.species.mrmime.desc2"
     ],
     "preEvolution": "mimejr",
-    "evolutions": [
-        {
-            "id": "mrmime_mrrime",
-            "variant": "level_up",
-            "result": "mrrime",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "level",
-                    "minLevel": 42
-                }
-            ]
-        }
-    ],
-    "baseScale": 1.0,
+    "baseScale": 0.8,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.7,
+        "height": 1.8,
         "fixed": false
     }
 }

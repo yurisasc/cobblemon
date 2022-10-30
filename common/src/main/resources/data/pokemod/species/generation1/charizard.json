@@ -161,7 +161,7 @@
     ],
     "preEvolution": "charmeleon",
     "evolutions": [],
-    "baseScale": 1.65,
+    "baseScale": 1.35,
     "hitbox": {
         "width": 0.7,
         "height": 2,

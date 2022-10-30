@@ -8,9 +8,11 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.asTransformed
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
@@ -38,6 +40,9 @@ class SeadraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0117_seadra/seadra", "ground_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(Y_AXIS, -4)
             )
         )
 
@@ -47,6 +52,9 @@ class SeadraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0117_seadra/seadra", "ground_walk")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(Y_AXIS, -4)
             )
         )
 
@@ -56,6 +64,9 @@ class SeadraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0117_seadra/seadra", "water_idle")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(Y_AXIS, -4)
             )
         )
 
@@ -65,6 +76,9 @@ class SeadraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0117_seadra/seadra", "water_swim")
+            ),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(Y_AXIS, -4)
             )
         )
     }

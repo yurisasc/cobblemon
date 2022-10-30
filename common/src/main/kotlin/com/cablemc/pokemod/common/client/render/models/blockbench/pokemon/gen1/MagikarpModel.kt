@@ -9,6 +9,7 @@
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cablemc.pokemod.common.client.render.models.blockbench.animation.StatelessAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.asTransformed
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.ModelFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
@@ -34,7 +35,12 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "land",
             poseTypes = STANDING_POSES + PoseType.PROFILE,
-            idleAnimations = arrayOf(bedrock("0129_magikarp/magikarp","flop"))
+            idleAnimations = arrayOf(bedrock("0129_magikarp/magikarp","flop")),
+            transformedParts = arrayOf(
+                rootPart.asTransformed().addPosition(Y_AXIS, 6),
+                leftMustache.withRotation(Y_AXIS, (-75F).toRadians()),
+                rightMustache.withRotation(Y_AXIS, 75F.toRadians())
+            )
         )
 
         registerPose<PokemonPoseableModel>(
