@@ -117,7 +117,6 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(DataRegistrySyncPacketHandler<Species, SpeciesRegistrySyncPacket>())
         registerHandler(DataRegistrySyncPacketHandler<PropertiesCompletionProvider.SuggestionHolder, PropertiesCompletionRegistrySyncPacket>())
 
-        println("Registered $handlersRegistered client handlers")
         PokemodNetwork.clientHandlersRegistered.complete(Unit)
     }
 }

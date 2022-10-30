@@ -240,8 +240,10 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen8.S
 import com.cablemc.pokemod.common.client.render.pokemon.ModelLayer
 import com.cablemc.pokemod.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cablemc.pokemod.common.client.render.pokemon.SpeciesAssetResolver
+import com.cablemc.pokemod.common.client.util.exists
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.Species
+import com.cablemc.pokemod.common.pokemon.aspects.SHINY_ASPECT
 import com.cablemc.pokemod.common.util.endsWith
 import com.cablemc.pokemod.common.util.pokemodResource
 import java.io.File
@@ -263,234 +265,234 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     }
 
     fun registerInBuiltPosers() {
-        inbuilt("bulbasaur") { BulbasaurModel(it) }
-        inbuilt("ivysaur") { IvysaurModel(it) }
-        inbuilt("venusaur") { VenusaurModel(it) }
-        inbuilt("charmander") { CharmanderModel(it) }
-        inbuilt("charmeleon") { CharmeleonModel(it) }
-        inbuilt("charizard") { CharizardModel(it) }
-        inbuilt("squirtle") { SquirtleModel(it) }
-        inbuilt("wartortle") { WartortleModel(it) }
-        inbuilt("blastoise") { BlastoiseModel(it) }
-        inbuilt("caterpie") { CaterpieModel(it) }
-        inbuilt("metapod") { MetapodModel(it) }
-        inbuilt("butterfree") { ButterfreeModel(it) }
-        inbuilt("weedle") { WeedleModel(it) }
-        inbuilt("kakuna") { KakunaModel(it) }
-        inbuilt("beedrill") { BeedrillModel(it) }
-        inbuilt("rattata") { RattataModel(it) }
-        inbuilt("raticate") { RaticateModel(it) }
-        inbuilt("eevee") { EeveeModel(it) }
-        inbuilt("magikarp") { MagikarpModel(it) }
-        inbuilt("gyarados") { GyaradosModel(it) }
-        inbuilt("pidgey") { PidgeyModel(it) }
-        inbuilt("pidgeotto") { PidgeottoModel(it) }
-        inbuilt("pidgeot") { PidgeotModel(it) }
-        inbuilt("diglett") { DiglettModel(it) }
-        inbuilt("dugtrio") { DugtrioModel(it) }
-        inbuilt("zubat") { ZubatModel(it) }
-        inbuilt("cleffa") { CleffaModel(it) }
-        inbuilt("clefable") { ClefableModel(it) }
-        inbuilt("clefairy") { ClefairyModel(it) }
-        inbuilt("krabby") { KrabbyModel(it) }
-        inbuilt("paras") { ParasModel(it) }
-        inbuilt("parasect") { ParasectModel(it) }
-        inbuilt("mankey") { MankeyModel(it) }
-        inbuilt("primeape") { PrimeapeModel(it) }
-        inbuilt("oddish") { OddishModel(it) }
-        inbuilt("gloom") { GloomModel(it) }
-        inbuilt("vileplume") { VileplumeModel(it) }
-        inbuilt("bellossom") { BellossomModel(it) }
-        inbuilt("voltorb") { VoltorbModel(it) }
-        inbuilt("electrode") { ElectrodeModel(it) }
-        inbuilt("lapras") { LaprasModel(it) }
-        inbuilt("ekans") { EkansModel(it) }
-        inbuilt("machop") { MachopModel(it) }
-        inbuilt("machoke") { MachokeModel(it) }
-        inbuilt("machamp") { MachampModel(it) }
-        inbuilt("abra") { AbraModel(it) }
-        inbuilt("aerodactyl") { AerodactylModel(it) }
-        inbuilt("alakazam") { AlakazamModel(it) }
-        inbuilt("arbok") { ArbokModel(it) }
-        inbuilt("arcanine") { ArcanineModel(it) }
-        inbuilt("articuno") { ArticunoModel(it) }
-        inbuilt("bellsprout") { BellsproutModel(it) }
-        inbuilt("chansey") { ChanseyModel(it) }
-        inbuilt("cloyster") { CloysterModel(it) }
-        inbuilt("cubone") { CuboneModel(it) }
-        inbuilt("dewgong") { DewgongModel(it) }
-        inbuilt("ditto") { DittoModel(it) }
-        inbuilt("dodrio") { DodrioModel(it) }
-        inbuilt("doduo") { DoduoModel(it) }
-        inbuilt("dragonair") { DragonairModel(it) }
-        inbuilt("dragonite") { DragoniteModel(it) }
-        inbuilt("dratini") { DratiniModel(it) }
-        inbuilt("drowzee") { DrowzeeModel(it) }
-        inbuilt("electabuzz") { ElectabuzzModel(it) }
-        inbuilt("exeggcute") { ExeggcuteModel(it) }
-        inbuilt("exeggutor") { ExeggutorModel(it) }
-        inbuilt("farfetchd") { FarfetchdModel(it) }
-        inbuilt("fearow") { FearowModel(it) }
-        inbuilt("flareon") { FlareonModel(it) }
-        inbuilt("gastly") { GastlyModel(it) }
-        inbuilt("gengar") { GengarModel(it) }
-        inbuilt("geodude") { GeodudeModel(it) }
-        inbuilt("golbat") { GolbatModel(it) }
-        inbuilt("goldeen") { GoldeenModel(it) }
-        inbuilt("golduck") { GolduckModel(it) }
-        inbuilt("golem") { GolemModel(it) }
-        inbuilt("graveler") { GravelerModel(it) }
-        inbuilt("grimer") { GrimerModel(it) }
-        inbuilt("growlithe") { GrowlitheModel(it) }
-        inbuilt("haunter") { HaunterModel(it) }
-        inbuilt("hitmonchan") { HitmonchanModel(it) }
-        inbuilt("hitmonlee") { HitmonleeModel(it) }
-        inbuilt("horsea") { HorseaModel(it) }
-        inbuilt("hypno") { HypnoModel(it) }
-        inbuilt("jigglypuff") { JigglypuffModel(it) }
-        inbuilt("jolteon") { JolteonModel(it) }
-        inbuilt("jynx") { JynxModel(it) }
-        inbuilt("kabuto") { KabutoModel(it) }
-        inbuilt("kabutops") { KabutopsModel(it) }
-        inbuilt("kadabra") { KadabraModel(it) }
-        inbuilt("kangaskhan") { KangaskhanModel(it) }
-        inbuilt("kingler") { KinglerModel(it) }
-        inbuilt("koffing") { KoffingModel(it) }
-        inbuilt("krabby") { KrabbyModel(it) }
-        inbuilt("lickitung") { LickitungModel(it) }
-        inbuilt("magmar") { MagmarModel(it) }
-        inbuilt("magnemite") { MagnemiteModel(it) }
-        inbuilt("magneton") { MagnetonModel(it) }
-        inbuilt("marowak") { MarowakModel(it) }
-        inbuilt("meowth") { MeowthModel(it) }
-        inbuilt("mew") { MewModel(it) }
-        inbuilt("mewtwo") { MewtwoModel(it) }
-        inbuilt("moltres") { MoltresModel(it) }
-        inbuilt("mrmime") { MrmimeModel(it) }
-        inbuilt("muk") { MukModel(it) }
-        inbuilt("nidoking") { NidokingModel(it) }
-        inbuilt("nidoqueen") { NidoqueenModel(it) }
-        inbuilt("nidoranf") { NidoranfModel(it) }
-        inbuilt("nidoranm") { NidoranmModel(it) }
-        inbuilt("nidorina") { NidorinaModel(it) }
-        inbuilt("nidorino") { NidorinoModel(it) }
-        inbuilt("ninetales") { NinetalesModel(it) }
-        inbuilt("omanyte") { OmanyteModel(it) }
-        inbuilt("omastar") { OmastarModel(it) }
-        inbuilt("onix") { OnixModel(it) }
-        inbuilt("persian") { PersianModel(it) }
-        inbuilt("pikachu") { PikachuModel(it) }
-        inbuilt("pinsir") { PinsirModel(it) }
-        inbuilt("poliwag") { PoliwagModel(it) }
-        inbuilt("poliwhirl") { PoliwhirlModel(it) }
-        inbuilt("poliwrath") { PoliwrathModel(it) }
-        inbuilt("politoed") { PolitoedModel(it) }
-        inbuilt("ponyta") { PonytaModel(it) }
-        inbuilt("porygon") { PorygonModel(it) }
-        inbuilt("psyduck") { PsyduckModel(it) }
-        inbuilt("raichu") { RaichuModel(it) }
-        inbuilt("rapidash") { RapidashModel(it) }
-        inbuilt("rhydon") { RhydonModel(it) }
-        inbuilt("rhyhorn") { RhyhornModel(it) }
-        inbuilt("sandshrew") { SandshrewModel(it) }
-        inbuilt("sandslash") { SandslashModel(it) }
-        inbuilt("scyther") { ScytherModel(it) }
-        inbuilt("seadra") { SeadraModel(it) }
-        inbuilt("seaking") { SeakingModel(it) }
-        inbuilt("seel") { SeelModel(it) }
-        inbuilt("shellder") { ShellderModel(it) }
-        inbuilt("slowbro") { SlowbroModel(it) }
-        inbuilt("slowpoke") { SlowpokeModel(it) }
-        inbuilt("snorlax") { SnorlaxModel(it) }
-        inbuilt("spearow") { SpearowModel(it) }
-        inbuilt("starmie") { StarmieModel(it) }
-        inbuilt("staryu") { StaryuModel(it) }
-        inbuilt("steelix") { SteelixModel(it) }
-        inbuilt("tangela") { TangelaModel(it) }
-        inbuilt("tauros") { TaurosModel(it) }
-        inbuilt("tentacool") { TentacoolModel(it) }
-        inbuilt("tentacruel") { TentacruelModel(it) }
-        inbuilt("vaporeon") { VaporeonModel(it) }
-        inbuilt("venomoth") { VenomothModel(it) }
-        inbuilt("venonat") { VenonatModel(it) }
-        inbuilt("victreebel") { VictreebelModel(it) }
-        inbuilt("vulpix") { VulpixModel(it) }
-        inbuilt("weepinbell") { WeepinbellModel(it) }
-        inbuilt("weezing") { WeezingModel(it) }
-        inbuilt("wigglytuff") { WigglytuffModel(it) }
-        inbuilt("zapdos") { ZapdosModel(it) }
-        inbuilt("elekid") { ElekidModel(it) }
-        inbuilt("igglybuff") { IgglybuffModel(it) }
-        inbuilt("magby") { MagbyModel(it) }
-        inbuilt("pichu") { PichuModel(it) }
-        inbuilt("smoochum") { SmoochumModel(it) }
-        inbuilt("tyrogue") { TyrogueModel(it) }
-        inbuilt("hitmontop") { HitmontopModel(it) }
-        inbuilt("electivire") { ElectivireModel(it) }
-        inbuilt("glaceon") { GlaceonModel(it) }
-        inbuilt("happiny") { HappinyModel(it) }
-        inbuilt("leafeon") { LeafeonModel(it) }
-        inbuilt("lickilicky") { LickilickyModel(it) }
-        inbuilt("magmortar") { MagmortarModel(it) }
-        inbuilt("magnezone") { MagnezoneModel(it) }
-        inbuilt("mimejr") { MimejrModel(it) }
-        inbuilt("munchlax") { MunchlaxModel(it) }
-        inbuilt("porygon2") { Porygon2Model(it) }
-        inbuilt("porygonz") { PorygonzModel(it) }
-        inbuilt("rhyperior") { RhyperiorModel(it) }
-        inbuilt("scizor") { ScizorModel(it) }
-        inbuilt("tangrowth") { TangrowthModel(it) }
-        inbuilt("sylveon") { SylveonModel(it) }
-        inbuilt("umbreon") { UmbreonModel(it) }
-        inbuilt("espeon") { EspeonModel(it) }
+        inbuilt("bulbasaur", ::BulbasaurModel)
+        inbuilt("ivysaur", ::IvysaurModel)
+        inbuilt("venusaur", ::VenusaurModel)
+        inbuilt("charmander", ::CharmanderModel)
+        inbuilt("charmeleon", ::CharmeleonModel)
+        inbuilt("charizard", ::CharizardModel)
+        inbuilt("squirtle", ::SquirtleModel)
+        inbuilt("wartortle", ::WartortleModel)
+        inbuilt("blastoise", ::BlastoiseModel)
+        inbuilt("caterpie", ::CaterpieModel)
+        inbuilt("metapod", ::MetapodModel)
+        inbuilt("butterfree", ::ButterfreeModel)
+        inbuilt("weedle", ::WeedleModel)
+        inbuilt("kakuna", ::KakunaModel)
+        inbuilt("beedrill", ::BeedrillModel)
+        inbuilt("rattata", ::RattataModel)
+        inbuilt("raticate", ::RaticateModel)
+        inbuilt("eevee", ::EeveeModel)
+        inbuilt("magikarp", ::MagikarpModel)
+        inbuilt("gyarados", ::GyaradosModel)
+        inbuilt("pidgey", ::PidgeyModel)
+        inbuilt("pidgeotto", ::PidgeottoModel)
+        inbuilt("pidgeot", ::PidgeotModel)
+        inbuilt("diglett", ::DiglettModel)
+        inbuilt("dugtrio", ::DugtrioModel)
+        inbuilt("zubat", ::ZubatModel)
+        inbuilt("cleffa", ::CleffaModel)
+        inbuilt("clefable", ::ClefableModel)
+        inbuilt("clefairy", ::ClefairyModel)
+        inbuilt("krabby", ::KrabbyModel)
+        inbuilt("paras", ::ParasModel)
+        inbuilt("parasect", ::ParasectModel)
+        inbuilt("mankey", ::MankeyModel)
+        inbuilt("primeape", ::PrimeapeModel)
+        inbuilt("oddish", ::OddishModel)
+        inbuilt("gloom", ::GloomModel)
+        inbuilt("vileplume", ::VileplumeModel)
+        inbuilt("bellossom", ::BellossomModel)
+        inbuilt("voltorb", ::VoltorbModel)
+        inbuilt("electrode", ::ElectrodeModel)
+        inbuilt("lapras", ::LaprasModel)
+        inbuilt("ekans", ::EkansModel)
+        inbuilt("machop", ::MachopModel)
+        inbuilt("machoke", ::MachokeModel)
+        inbuilt("machamp", ::MachampModel)
+        inbuilt("abra", ::AbraModel)
+        inbuilt("aerodactyl", ::AerodactylModel)
+        inbuilt("alakazam", ::AlakazamModel)
+        inbuilt("arbok", ::ArbokModel)
+        inbuilt("arcanine", ::ArcanineModel)
+        inbuilt("articuno", ::ArticunoModel)
+        inbuilt("bellsprout", ::BellsproutModel)
+        inbuilt("chansey", ::ChanseyModel)
+        inbuilt("cloyster", ::CloysterModel)
+        inbuilt("cubone", ::CuboneModel)
+        inbuilt("dewgong", ::DewgongModel)
+        inbuilt("ditto", ::DittoModel)
+        inbuilt("dodrio", ::DodrioModel)
+        inbuilt("doduo", ::DoduoModel)
+        inbuilt("dragonair", ::DragonairModel)
+        inbuilt("dragonite", ::DragoniteModel)
+        inbuilt("dratini", ::DratiniModel)
+        inbuilt("drowzee", ::DrowzeeModel)
+        inbuilt("electabuzz", ::ElectabuzzModel)
+        inbuilt("exeggcute", ::ExeggcuteModel)
+        inbuilt("exeggutor", ::ExeggutorModel)
+        inbuilt("farfetchd", ::FarfetchdModel)
+        inbuilt("fearow", ::FearowModel)
+        inbuilt("flareon", ::FlareonModel)
+        inbuilt("gastly", ::GastlyModel)
+        inbuilt("gengar", ::GengarModel)
+        inbuilt("geodude", ::GeodudeModel)
+        inbuilt("golbat", ::GolbatModel)
+        inbuilt("goldeen", ::GoldeenModel)
+        inbuilt("golduck", ::GolduckModel)
+        inbuilt("golem", ::GolemModel)
+        inbuilt("graveler", ::GravelerModel)
+        inbuilt("grimer", ::GrimerModel)
+        inbuilt("growlithe", ::GrowlitheModel)
+        inbuilt("haunter", ::HaunterModel)
+        inbuilt("hitmonchan", ::HitmonchanModel)
+        inbuilt("hitmonlee", ::HitmonleeModel)
+        inbuilt("horsea", ::HorseaModel)
+        inbuilt("hypno", ::HypnoModel)
+        inbuilt("jigglypuff", ::JigglypuffModel)
+        inbuilt("jolteon", ::JolteonModel)
+        inbuilt("jynx", ::JynxModel)
+        inbuilt("kabuto", ::KabutoModel)
+        inbuilt("kabutops", ::KabutopsModel)
+        inbuilt("kadabra", ::KadabraModel)
+        inbuilt("kangaskhan", ::KangaskhanModel)
+        inbuilt("kingler", ::KinglerModel)
+        inbuilt("koffing", ::KoffingModel)
+        inbuilt("krabby", ::KrabbyModel)
+        inbuilt("lickitung", ::LickitungModel)
+        inbuilt("magmar", ::MagmarModel)
+        inbuilt("magnemite", ::MagnemiteModel)
+        inbuilt("magneton", ::MagnetonModel)
+        inbuilt("marowak", ::MarowakModel)
+        inbuilt("meowth", ::MeowthModel)
+        inbuilt("mew", ::MewModel)
+        inbuilt("mewtwo", ::MewtwoModel)
+        inbuilt("moltres", ::MoltresModel)
+        inbuilt("mrmime", ::MrmimeModel)
+        inbuilt("muk", ::MukModel)
+        inbuilt("nidoking", ::NidokingModel)
+        inbuilt("nidoqueen", ::NidoqueenModel)
+        inbuilt("nidoranf", ::NidoranfModel)
+        inbuilt("nidoranm", ::NidoranmModel)
+        inbuilt("nidorina", ::NidorinaModel)
+        inbuilt("nidorino", ::NidorinoModel)
+        inbuilt("ninetales", ::NinetalesModel)
+        inbuilt("omanyte", ::OmanyteModel)
+        inbuilt("omastar", ::OmastarModel)
+        inbuilt("onix", ::OnixModel)
+        inbuilt("persian", ::PersianModel)
+        inbuilt("pikachu", ::PikachuModel)
+        inbuilt("pinsir", ::PinsirModel)
+        inbuilt("poliwag", ::PoliwagModel)
+        inbuilt("poliwhirl", ::PoliwhirlModel)
+        inbuilt("poliwrath", ::PoliwrathModel)
+        inbuilt("politoed", ::PolitoedModel)
+        inbuilt("ponyta", ::PonytaModel)
+        inbuilt("porygon", ::PorygonModel)
+        inbuilt("psyduck", ::PsyduckModel)
+        inbuilt("raichu", ::RaichuModel)
+        inbuilt("rapidash", ::RapidashModel)
+        inbuilt("rhydon", ::RhydonModel)
+        inbuilt("rhyhorn", ::RhyhornModel)
+        inbuilt("sandshrew", ::SandshrewModel)
+        inbuilt("sandslash", ::SandslashModel)
+        inbuilt("scyther", ::ScytherModel)
+        inbuilt("seadra", ::SeadraModel)
+        inbuilt("seaking", ::SeakingModel)
+        inbuilt("seel", ::SeelModel)
+        inbuilt("shellder", ::ShellderModel)
+        inbuilt("slowbro", ::SlowbroModel)
+        inbuilt("slowpoke", ::SlowpokeModel)
+        inbuilt("snorlax", ::SnorlaxModel)
+        inbuilt("spearow", ::SpearowModel)
+        inbuilt("starmie", ::StarmieModel)
+        inbuilt("staryu", ::StaryuModel)
+        inbuilt("steelix", ::SteelixModel)
+        inbuilt("tangela", ::TangelaModel)
+        inbuilt("tauros", ::TaurosModel)
+        inbuilt("tentacool", ::TentacoolModel)
+        inbuilt("tentacruel", ::TentacruelModel)
+        inbuilt("vaporeon", ::VaporeonModel)
+        inbuilt("venomoth", ::VenomothModel)
+        inbuilt("venonat", ::VenonatModel)
+        inbuilt("victreebel", ::VictreebelModel)
+        inbuilt("vulpix", ::VulpixModel)
+        inbuilt("weepinbell", ::WeepinbellModel)
+        inbuilt("weezing", ::WeezingModel)
+        inbuilt("wigglytuff", ::WigglytuffModel)
+        inbuilt("zapdos", ::ZapdosModel)
+        inbuilt("elekid", ::ElekidModel)
+        inbuilt("igglybuff", ::IgglybuffModel)
+        inbuilt("magby", ::MagbyModel)
+        inbuilt("pichu", ::PichuModel)
+        inbuilt("smoochum", ::SmoochumModel)
+        inbuilt("tyrogue", ::TyrogueModel)
+        inbuilt("hitmontop", ::HitmontopModel)
+        inbuilt("electivire", ::ElectivireModel)
+        inbuilt("glaceon", ::GlaceonModel)
+        inbuilt("happiny", ::HappinyModel)
+        inbuilt("leafeon", ::LeafeonModel)
+        inbuilt("lickilicky", ::LickilickyModel)
+        inbuilt("magmortar", ::MagmortarModel)
+        inbuilt("magnezone", ::MagnezoneModel)
+        inbuilt("mimejr", ::MimejrModel)
+        inbuilt("munchlax", ::MunchlaxModel)
+        inbuilt("porygon2", ::Porygon2Model)
+        inbuilt("porygonz", ::PorygonzModel)
+        inbuilt("rhyperior", ::RhyperiorModel)
+        inbuilt("scizor", ::ScizorModel)
+        inbuilt("tangrowth", ::TangrowthModel)
+        inbuilt("sylveon", ::SylveonModel)
+        inbuilt("umbreon", ::UmbreonModel)
+        inbuilt("espeon", ::EspeonModel)
 
-        inbuilt("blissey") { BlisseyModel(it) }
-        inbuilt("kingdra") { KingdraModel(it) }
-        inbuilt("piloswine") { PiloswineModel(it) }
-        inbuilt("quagsire") { QuagsireModel(it) }
-        inbuilt("slowking") { SlowkingModel(it) }
-        inbuilt("swinub") { SwinubModel(it) }
-        inbuilt("wooper") { WooperModel(it) }
-        inbuilt("yanma") { YanmaModel(it) }
-        inbuilt("blaziken") { BlazikenModel(it) }
-        inbuilt("combusken") { CombuskenModel(it) }
-        inbuilt("marshtomp") { MarshtompModel(it) }
-        inbuilt("minun") { MinunModel(it) }
-        inbuilt("mudkip") { MudkipModel(it) }
-        inbuilt("plusle") { PlusleModel(it) }
-        inbuilt("rayquaza") { RayquazaModel(it) }
-        inbuilt("swampert") { SwampertModel(it) }
-        inbuilt("torchic") { TorchicModel(it) }
-        inbuilt("bibarel") { BibarelModel(it) }
-        inbuilt("bidoof") { BidoofModel(it) }
-        inbuilt("buneary") { BunearyModel(it) }
-        inbuilt("empoleon") { EmpoleonModel(it) }
-        inbuilt("lopunny") { LopunnyModel(it) }
-        inbuilt("mamoswine") { MamoswineModel(it) }
-        inbuilt("pachirisu") { PachirisuModel(it) }
-        inbuilt("piplup") { PiplupModel(it) }
-        inbuilt("prinplup") { PrinplupModel(it) }
-        inbuilt("yanmega") { YanmegaModel(it) }
-        inbuilt("basculin") { BasculinModel(it) }
-        inbuilt("crustle") { CrustleModel(it) }
-        inbuilt("dwebble") { DwebbleModel(it) }
-        inbuilt("emolga") { EmolgaModel(it) }
-        inbuilt("maractus") { MaractusModel(it) }
-        inbuilt("bounsweet") { BounsweetModel(it) }
-        inbuilt("dartrix") { DartrixModel(it) }
-        inbuilt("decidueye") { DecidueyeModel(it) }
-        inbuilt("incineroar") { IncineroarModel(it) }
-        inbuilt("litten") { LittenModel(it) }
-        inbuilt("mimikyu") { MimikyuModel(it) }
-        inbuilt("naganadel") { NaganadelModel(it) }
-        inbuilt("poipole") { PoipoleModel(it) }
-        inbuilt("rowlet") { RowletModel(it) }
-        inbuilt("steenee") { SteeneeModel(it) }
-        inbuilt("torracat") { TorracatModel(it) }
-        inbuilt("tsareena") { TsareenaModel(it) }
-        inbuilt("centiskorch") { CentiskorchModel(it) }
-        inbuilt("sizzlipede") { SizzlipedeModel(it) }
-        inbuilt("kleavor") { KleavorModel(it) }
+        inbuilt("blissey", ::BlisseyModel)
+        inbuilt("kingdra", ::KingdraModel)
+        inbuilt("piloswine", ::PiloswineModel)
+        inbuilt("quagsire", ::QuagsireModel)
+        inbuilt("slowking", ::SlowkingModel)
+        inbuilt("swinub", ::SwinubModel)
+        inbuilt("wooper", ::WooperModel)
+        inbuilt("yanma", ::YanmaModel)
+        inbuilt("blaziken", ::BlazikenModel)
+        inbuilt("combusken", ::CombuskenModel)
+        inbuilt("marshtomp", ::MarshtompModel)
+        inbuilt("minun", ::MinunModel)
+        inbuilt("mudkip", ::MudkipModel)
+        inbuilt("plusle", ::PlusleModel)
+        inbuilt("rayquaza", ::RayquazaModel)
+        inbuilt("swampert", ::SwampertModel)
+        inbuilt("torchic", ::TorchicModel)
+        inbuilt("bibarel", ::BibarelModel)
+        inbuilt("bidoof", ::BidoofModel)
+        inbuilt("buneary", ::BunearyModel)
+        inbuilt("empoleon", ::EmpoleonModel)
+        inbuilt("lopunny", ::LopunnyModel)
+        inbuilt("mamoswine", ::MamoswineModel)
+        inbuilt("pachirisu", ::PachirisuModel)
+        inbuilt("piplup", ::PiplupModel)
+        inbuilt("prinplup", ::PrinplupModel)
+        inbuilt("yanmega", ::YanmegaModel)
+        inbuilt("basculin", ::BasculinModel)
+        inbuilt("crustle", ::CrustleModel)
+        inbuilt("dwebble", ::DwebbleModel)
+        inbuilt("emolga", ::EmolgaModel)
+        inbuilt("maractus", ::MaractusModel)
+        inbuilt("bounsweet", ::BounsweetModel)
+        inbuilt("dartrix", ::DartrixModel)
+        inbuilt("decidueye", ::DecidueyeModel)
+        inbuilt("incineroar", ::IncineroarModel)
+        inbuilt("litten", ::LittenModel)
+        inbuilt("mimikyu", ::MimikyuModel)
+        inbuilt("naganadel", ::NaganadelModel)
+        inbuilt("poipole", ::PoipoleModel)
+        inbuilt("rowlet", ::RowletModel)
+        inbuilt("steenee", ::SteeneeModel)
+        inbuilt("torracat", ::TorracatModel)
+        inbuilt("tsareena", ::TsareenaModel)
+        inbuilt("centiskorch", ::CentiskorchModel)
+        inbuilt("sizzlipede", ::SizzlipedeModel)
+        inbuilt("kleavor", ::KleavorModel)
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
@@ -553,7 +555,12 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         try {
             val texture = this.renders[species.resourceIdentifier]?.getTexture(aspects)
             if (texture != null) {
-                return texture
+                if (texture.exists()) {
+                    return texture
+                } else if (SHINY_ASPECT.aspect in aspects) {
+                    // If the shiny texture doesn't exist, try parsing again but without the shiny - it doesn't seem to be implemented.
+                    return getTexture(species, aspects - SHINY_ASPECT.aspect)
+                }
             }
         } catch(_: IllegalStateException) { }
         return this.renders[pokemodResource("substitute")]!!.getTexture(aspects)

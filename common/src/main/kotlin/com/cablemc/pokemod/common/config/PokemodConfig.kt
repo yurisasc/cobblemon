@@ -142,4 +142,6 @@ class PokemodConfig {
     @NodeCategory(Category.Pokemon)
     var displayEntityLevelLabel = true
 
+    @NodeCategory(Category.Spawning)
+    var shinyRate = 8192F
 }

@@ -65,10 +65,7 @@ object PokemodForgeNetworkDelegate : NetworkDelegate {
                 if (toServer) NetworkDirection.PLAY_TO_SERVER else NetworkDirection.PLAY_TO_CLIENT
             )
                 .encoder { packet, buffer -> packet.encode(buffer) }
-                .decoder { buffer ->
-                    println("We're unpacking a message: ${packetClass.simpleName} and it is toServer = $toServer")
-                    packetClass.getDeclaredConstructor().newInstance().also { it.decode(buffer) } .also { println("Succeeded") }
-                }
+                .decoder { buffer -> packetClass.getDeclaredConstructor().newInstance().also { it.decode(buffer) } }
         )
     }
 }

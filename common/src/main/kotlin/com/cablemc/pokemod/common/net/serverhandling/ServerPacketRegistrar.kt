@@ -61,7 +61,6 @@ object ServerPacketRegistrar : SidedPacketRegistrar() {
 
         registerHandler(RequestStarterScreenHandler)
 
-        println("Registered $handlersRegistered server packet handlers")
         PokemodNetwork.serverHandlersRegistered.complete(Unit)
     }
 }

@@ -36,10 +36,7 @@ abstract class SidedPacketRegistrar {
         event.messageBuilder.registerHandler(handler)
     }
 
-    var handlersRegistered = 0
-
     protected inline fun <reified T : NetworkPacket> registerHandler(handler: PacketHandler<T>) {
-        handlersRegistered++
         PokemodEvents.MESSAGE_BUILT
             .pipe(filter { it.clazz == T::class.java })
             .subscribe { register(it as MessageBuiltEvent<T>, handler) }
