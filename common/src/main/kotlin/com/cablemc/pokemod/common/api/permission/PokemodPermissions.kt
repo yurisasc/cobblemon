@@ -46,4 +46,6 @@ object PokemodPermissions {
 
     const val TEACH = "${COMMAND_PREFIX}teach"
 
+    const val FRIENDSHIP = "${COMMAND_PREFIX}friendship"
+
 }

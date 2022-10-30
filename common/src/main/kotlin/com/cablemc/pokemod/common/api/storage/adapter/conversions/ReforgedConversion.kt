@@ -97,7 +97,7 @@ class ReforgedConversion(val base: Path) : PokemodConverter<NbtCompound> {
                         this.find(nbt, "palette", NbtCompound::getString)?.equals("shiny") ?: false
         result.level = nbt.getInt("Level")
         result.addExperience(SidemodExperienceSource("Reforged"), nbt.getInt("EXP"))
-        result.friendship = nbt.getInt("Friendship")
+        result.setFriendship(nbt.getInt("Friendship"))
         result.ability = (result.form.abilities.find { it.template.name == nbt.getString("Ability") } ?: result.form.abilities.first())
             .template.create()
         result.nature = Natures.getNature(Identifier(ReforgedNatures.values()[nbt.getInt("Nature")].name.lowercase())) ?: Natures.getRandomNature()

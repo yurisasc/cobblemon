@@ -18,12 +18,12 @@ import com.cablemc.pokemod.common.util.DataKeys
 import com.cablemc.pokemod.common.util.getPlayer
 import com.cablemc.pokemod.common.util.isPokemonEntity
 import com.cablemc.pokemod.common.util.lang
-import java.util.UUID
-import kotlin.math.round
-import kotlin.random.Random
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
+import java.util.*
+import kotlin.math.round
+import kotlin.random.Random
 
 /**
  * A [PartyStore] used for a single player. This uses the player's UUID as the store's UUID, and is declared as its own
@@ -37,6 +37,9 @@ open class PlayerPartyStore(
     /** The UUID of the player this store is for. */
     val playerUUID: UUID
 ) : PartyStore(playerUUID) {
+
+    private var secondsSinceFriendshipUpdate = 0
+
     override fun initialize() {
         super.initialize()
         observerUUIDs.add(playerUUID)
@@ -108,6 +111,17 @@ open class PlayerPartyStore(
 
                 // Passive evolutions
                 pokemon.evolutions.filterIsInstance<PassiveEvolution>().forEach { it.attemptEvolution(pokemon) }
+            }
+            // Friendship
+            // ToDo expand this down the line just a very basic implementation for the first releases
+            if (++this.secondsSinceFriendshipUpdate == 60) {
+                this.secondsSinceFriendshipUpdate = 0
+                this.forEach { pokemon ->
+                    if (pokemon.friendship < 160) {
+                        val amount = if (pokemon.entity != null) 3 else 1
+                        pokemon.incrementFriendship(amount)
+                    }
+                }
             }
         }
 
