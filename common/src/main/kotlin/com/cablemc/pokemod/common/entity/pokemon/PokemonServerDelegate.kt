@@ -87,7 +87,9 @@ class PokemonServerDelegate : PokemonSideDelegate {
         if (entity.aspects.get() != entity.pokemon.aspects) {
             entity.aspects.set(entity.pokemon.aspects)
         }
-
+        if (entity.labelLevel.get() != entity.pokemon.level) {
+            entity.labelLevel.set(entity.pokemon.level)
+        }
         val isMoving = !entity.navigation.isIdle
         if (isMoving && !entity.isMoving.get()) {
             entity.isMoving.set(true)

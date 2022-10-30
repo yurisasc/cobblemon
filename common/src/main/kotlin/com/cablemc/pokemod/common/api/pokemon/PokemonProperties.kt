@@ -69,7 +69,7 @@ open class PokemonProperties {
                 }
             }.toMutableList()
             props.gender = Gender.values().toList().parsePropertyOfCollection(keyPairs, listOf("gender"), labelsOptional = true) { it.name.lowercase() }
-            props.level = parseIntProperty(keyPairs, listOf("level", "lvl", "l"))
+            props.level = parseIntProperty(keyPairs, listOf("level", "lvl", "l"))?.coerceIn(1, Pokemod.config.maxPokemonLevel)
             props.shiny = parseBooleanProperty(keyPairs, listOf("shiny", "s"))
             props.species = parseSpeciesIdentifier(keyPairs)
             props.updateAspects()
