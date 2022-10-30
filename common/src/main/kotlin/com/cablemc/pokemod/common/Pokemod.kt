@@ -196,6 +196,7 @@ object Pokemod {
         ifDedicatedServer {
             isDedicatedServer = true
             TICK_POST.subscribe { ScheduledTaskTracker.update() }
+            PokemodNetwork.clientHandlersRegistered.complete(Unit)
         }
 
         PokemodBlocks.completed.thenAccept {
