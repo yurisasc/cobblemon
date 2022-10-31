@@ -322,7 +322,7 @@ open class Pokemon {
                 (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4)) * level / 100 + level + 10
             }
         } else {
-            nature.modifyStat(stat, (2 * (form.baseStats[stat] ?: 1) * ivs.getOrOne(stat) + evs.getOrOne(stat) / 4) / 100 * level + 5)
+            nature.modifyStat(stat, (2 * (form.baseStats[stat] ?: 1) + ivs.getOrOne(stat) + evs.getOrOne(stat) / 4) / 100 * level + 5)
         }
     }
 
