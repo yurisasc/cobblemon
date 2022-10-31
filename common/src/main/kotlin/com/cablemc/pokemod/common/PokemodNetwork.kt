@@ -74,10 +74,12 @@ import com.cablemc.pokemod.common.net.messages.server.pokemon.update.evolution.A
 import com.cablemc.pokemod.common.net.messages.server.starter.RequestStarterScreenPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.SwapPCPartyPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.party.MovePartyPokemonPacket
+import com.cablemc.pokemod.common.net.messages.server.storage.party.ReleasePartyPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.MovePCPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.MovePCPokemonToPartyPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
+import com.cablemc.pokemod.common.net.messages.server.storage.pc.ReleasePCPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.SwapPCPokemonPacket
 import com.cablemc.pokemod.common.util.getServer
 import java.util.concurrent.CompletableFuture
@@ -217,6 +219,8 @@ object PokemodNetwork {
 
         buildServerMessage<MovePCPokemonToPartyPacket>()
         buildServerMessage<MovePartyPokemonToPCPacket>()
+        buildServerMessage<ReleasePartyPokemonPacket>()
+        buildServerMessage<ReleasePCPokemonPacket>()
 
         // Starter packets
         buildServerMessage<SelectStarterPacket>()

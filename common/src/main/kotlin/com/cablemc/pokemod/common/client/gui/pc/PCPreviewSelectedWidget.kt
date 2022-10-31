@@ -21,6 +21,7 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
+
 class PCPreviewSelectedWidget(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
@@ -47,15 +48,7 @@ class PCPreviewSelectedWidget(
     }
 
     private fun renderPKM(poseStack: MatrixStack) {
-        if (parent.selectedPosition == null) {
-            return
-        }
-
-        val pokemon = when (parent.selectedPosition) {
-            is PCPosition -> pc.get(parent.selectedPosition as PCPosition)
-            is PartyPosition -> party.get(parent.selectedPosition as PartyPosition)
-            else -> null
-        } ?: return
+        val pokemon = parent.getSelectedPokemon() ?: return
 
         poseStack.push()
 

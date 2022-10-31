@@ -20,10 +20,12 @@ import com.cablemc.pokemod.common.net.serverhandling.storage.RequestMoveSwapHand
 import com.cablemc.pokemod.common.net.serverhandling.storage.SendOutPokemonHandler
 import com.cablemc.pokemod.common.net.serverhandling.storage.SwapPCPartyPokemonHandler
 import com.cablemc.pokemod.common.net.serverhandling.storage.party.MovePartyPokemonHandler
+import com.cablemc.pokemod.common.net.serverhandling.storage.party.ReleasePCPokemonHandler
 import com.cablemc.pokemod.common.net.serverhandling.storage.party.SwapPartyPokemonHandler
 import com.cablemc.pokemod.common.net.serverhandling.storage.pc.MovePCPokemonHandler
 import com.cablemc.pokemod.common.net.serverhandling.storage.pc.MovePCPokemonToPartyHandler
 import com.cablemc.pokemod.common.net.serverhandling.storage.pc.MovePartyPokemonToPCHandler
+import com.cablemc.pokemod.common.net.serverhandling.storage.pc.ReleasePartyPokemonHandler
 import com.cablemc.pokemod.common.net.serverhandling.storage.pc.SwapPCPokemonHandler
 
 /**
@@ -51,10 +53,12 @@ object ServerPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(SwapPCPokemonHandler)
         registerHandler(MovePCPokemonToPartyHandler)
         registerHandler(MovePartyPokemonToPCHandler)
+        registerHandler(ReleasePCPokemonHandler)
 
         // Party actions
         registerHandler(MovePartyPokemonHandler)
         registerHandler(SwapPartyPokemonHandler)
+        registerHandler(ReleasePartyPokemonHandler)
 
         // PC and Party actions :)
         registerHandler(SwapPCPartyPokemonHandler)
