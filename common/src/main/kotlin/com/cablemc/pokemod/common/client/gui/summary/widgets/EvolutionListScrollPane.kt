@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cablemc.pokemod.common.client.gui.summary.widgets.pages.info.evolution
+package com.cablemc.pokemod.common.client.gui.summary.widgets
 
 import com.cablemc.pokemod.common.api.gui.ColourLibrary
 import com.cablemc.pokemod.common.api.gui.blitk
@@ -14,7 +14,6 @@ import com.cablemc.pokemod.common.api.gui.drawPortraitPokemon
 import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionDisplay
 import com.cablemc.pokemod.common.api.types.ElementalType
 import com.cablemc.pokemod.common.client.gui.summary.SummaryButton
-import com.cablemc.pokemod.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemod.common.client.gui.summary.widgets.common.ModelSectionScrollPane
 import com.cablemc.pokemod.common.client.render.drawScaledText
 import com.cablemc.pokemod.common.pokemon.Pokemon
@@ -82,8 +81,7 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
             buttonHeight = BUTTON_HEIGHT,
             resource = BUTTON_RESOURCE,
             clickAction = { this.acceptAndClose() },
-            text = lang("ui.evolve"),
-            buttonScale = BUTTON_SCALE
+            text = lang("ui.evolve")
         )
 
         fun scaleIt(value: Number) = (MinecraftClient.getInstance().window.scaleFactor * value.toFloat()).toInt()
