@@ -1,11 +1,10 @@
 {
   "poser": "pokemod:vileplume",
-  "model": "pokemod:bedrock/models/0045_vileplume/vileplume_male.geo.json",
+  "model": "pokemod:bedrock/models/0045_vileplume/vileplume.geo.json",
   "texture": "pokemod:textures/pokemon/0045_vileplume/vileplume_male.png",
   "variations": [
     {
       "aspects": ["female"],
-      "model": "pokemod:bedrock/models/0045_vileplume/vileplume_female.geo.json",
       "texture": "pokemod:textures/pokemon/0045_vileplume/vileplume_female.png"
     },
     {
@@ -15,6 +14,14 @@
     {
       "aspects": ["shiny", "female"],
       "texture": "pokemod:textures/pokemon/0045_vileplume/vileplume_female_shiny.png"
+    },
+    {
+      "aspects": ["valencian"],
+      "texture": "pokemod:textures/pokemon/0045_vileplume/vileplume_valencian.png"
+    },
+    {
+      "aspects": ["valencian", "shiny"],
+      "texture": "pokemod:textures/pokemon/0045_vileplume/vileplume_valencian_shiny.png"
     }
   ]
 }

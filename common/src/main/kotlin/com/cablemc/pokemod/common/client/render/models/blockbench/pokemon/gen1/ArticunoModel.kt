@@ -36,7 +36,7 @@ class ArticunoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0144_articuno/articuno", "ground_idle")
+                //bedrock("0144_articuno/articuno", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class ArticunoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0144_articuno/articuno", "ground_walk")
+                //bedrock("0144_articuno/articuno", "ground_walk")
             )
         )
     }

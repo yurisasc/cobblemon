@@ -31,18 +31,17 @@ class KinglerModel(root: ModelPart) : PokemonPoseableModel() {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0099_kingler/kingler", "ground_idle")
+                bedrock("0099_kingler/kingler", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0099_kingler/kingler", "ground_walk")
+                bedrock("0099_kingler/kingler", "ground_idle")
+                //bedrock("0099_kingler/kingler", "ground_walk")
             )
         )
     }

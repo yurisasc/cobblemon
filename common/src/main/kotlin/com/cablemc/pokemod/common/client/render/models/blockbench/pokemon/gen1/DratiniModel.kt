@@ -27,26 +27,14 @@ class DratiniModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
+            poseTypes = STATIONARY_POSES + MOVING_POSES + UI_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0147_dratini/dratini", "ground_idle")
-            )
-        )
-
-        walk = registerPose(
-            poseName = "walk",
-            poseTypes = MOVING_POSES,
-            transformTicks = 10,
-            idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0147_dratini/dratini", "ground_walk")
+                singleBoneLook(),
+                bedrock("0147_dratini/dratini", "ground_idle")
             )
         )
     }

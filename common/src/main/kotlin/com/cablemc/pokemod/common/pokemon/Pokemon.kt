@@ -16,30 +16,19 @@ import com.cablemc.pokemod.common.api.abilities.Ability
 import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.events.PokemodEvents.FRIENDSHIP_UPDATED
 import com.cablemc.pokemod.common.api.events.PokemodEvents.POKEMON_FAINTED
-import com.cablemc.pokemod.common.api.events.pokemon.ExperienceGainedPostEvent
-import com.cablemc.pokemod.common.api.events.pokemon.ExperienceGainedPreEvent
-import com.cablemc.pokemod.common.api.events.pokemon.FriendshipUpdatedEvent
-import com.cablemc.pokemod.common.api.events.pokemon.LevelUpEvent
-import com.cablemc.pokemod.common.api.events.pokemon.PokemonFaintedEvent
-import com.cablemc.pokemod.common.api.moves.BenchedMove
-import com.cablemc.pokemod.common.api.moves.BenchedMoves
-import com.cablemc.pokemod.common.api.moves.MoveSet
-import com.cablemc.pokemod.common.api.moves.MoveTemplate
-import com.cablemc.pokemod.common.api.moves.Moves
+import com.cablemc.pokemod.common.api.events.pokemon.*
+import com.cablemc.pokemod.common.api.moves.*
 import com.cablemc.pokemod.common.api.pokeball.PokeBalls
 import com.cablemc.pokemod.common.api.pokemon.Natures
 import com.cablemc.pokemod.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemod.common.api.pokemon.PokemonPropertyExtractor
 import com.cablemc.pokemod.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemod.common.api.pokemon.aspect.AspectProvider
-import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
-import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionController
-import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionDisplay
-import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionProxy
-import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
+import com.cablemc.pokemod.common.api.pokemon.evolution.*
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceSource
 import com.cablemc.pokemod.common.api.pokemon.feature.SpeciesFeature
+import com.cablemc.pokemod.common.api.pokemon.friendship.FriendshipMutationCalculator
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.pokemon.status.Statuses
@@ -52,23 +41,11 @@ import com.cablemc.pokemod.common.api.scheduling.afterOnMain
 import com.cablemc.pokemod.common.api.storage.StoreCoordinates
 import com.cablemc.pokemod.common.api.storage.party.PlayerPartyStore
 import com.cablemc.pokemod.common.api.types.ElementalType
+import com.cablemc.pokemod.common.config.PokemodConfig
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.net.messages.client.PokemonUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.GenderUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.LevelUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.StatusUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.*
 import com.cablemc.pokemod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cablemc.pokemod.common.pokeball.PokeBall
 import com.cablemc.pokemod.common.pokemon.activestate.ActivePokemonState
@@ -79,23 +56,10 @@ import com.cablemc.pokemod.common.pokemon.evolution.CobbledEvolutionProxy
 import com.cablemc.pokemod.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemod.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemod.common.pokemon.status.PersistentStatusContainer
-import com.cablemc.pokemod.common.util.DataKeys
-import com.cablemc.pokemod.common.util.getServer
-import com.cablemc.pokemod.common.util.lang
-import com.cablemc.pokemod.common.util.playSoundServer
-import com.cablemc.pokemod.common.util.pokemodResource
-import com.cablemc.pokemod.common.util.readSizedInt
-import com.cablemc.pokemod.common.util.setPositionSafely
-import com.cablemc.pokemod.common.util.writeSizedInt
+import com.cablemc.pokemod.common.util.*
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
-import java.util.Optional
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import kotlin.math.min
-import kotlin.math.roundToInt
-import kotlin.random.Random
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
@@ -111,6 +75,12 @@ import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
+import java.util.*
+import java.util.concurrent.CompletableFuture
+import kotlin.math.min
+import kotlin.math.roundToInt
+import kotlin.random.Random
+import kotlin.math.absoluteValue
 
 open class Pokemon {
     var uuid = UUID.randomUUID()
@@ -157,7 +127,9 @@ open class Pokemon {
             if (value < 1) {
                 throw IllegalArgumentException("Level cannot be negative")
             }
-
+            if (value > Pokemod.config.maxPokemonLevel) {
+                throw IllegalArgumentException("Cannot set level above the configured maxiumum of ${Pokemod.config.maxPokemonLevel}")
+            }
             val hpRatio = (currentHealth / hp.toFloat()).coerceIn(0F, 1F)
             /*
              * When people set the level programmatically the experience value will become incorrect.
@@ -217,8 +189,18 @@ open class Pokemon {
             field = value
             _experience.emit(value)
         }
+
+    /**
+     * The friendship amount on this Pokémon.
+     * Use [setFriendship], [incrementFriendship] and [decrementFriendship] for safe mutation with return feedback.
+     * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
+     */
     var friendship = 0
-        set(value) {
+        private set(value) {
+            // Don't check on client, that way we don't need to actually sync the config value it doesn't affect anything
+            if (!this.isClient && !this.isPossibleFriendship(value)) {
+                return
+            }
             FRIENDSHIP_UPDATED.post(FriendshipUpdatedEvent(this, value)) {
                 field = it.newFriendship
                 _friendship.emit(it.newFriendship)
@@ -463,7 +445,7 @@ open class Pokemon {
         form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm
         experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE)
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
-        friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt()
+        friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt().coerceIn(0, if (this.isClient) Int.MAX_VALUE else Pokemod.config.maxPokemonLevel)
         gender = Gender.valueOf(nbt.getString(DataKeys.POKEMON_GENDER).takeIf { it.isNotBlank() } ?: Gender.MALE.name)
         currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
         ivs.loadFromNBT(nbt.getCompound(DataKeys.POKEMON_IVS))
@@ -539,7 +521,7 @@ open class Pokemon {
         form = species.forms.find { it.name == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
-        friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt
+        friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt.coerceIn(0, if (this.isClient) Int.MAX_VALUE else Pokemod.config.maxPokemonLevel)
         currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
         gender = Gender.valueOf(json.get(DataKeys.POKEMON_GENDER)?.asString ?: "male")
         ivs.loadFromJSON(json.getAsJsonObject(DataKeys.POKEMON_IVS))
@@ -671,22 +653,67 @@ open class Pokemon {
     fun isPlayerOwned() = storeCoordinates.get()?.let { it.store is PlayerPartyStore /* || it.store is PCStore */ } == true
     fun isWild() = storeCoordinates.get() == null
 
-    fun setFriendship (amount : Int) : Boolean {
-        if (amount in FRIENDSHIP_RANGE) friendship = amount
-        return friendship == amount
+    /**
+     * Set the [friendship] to the given value.
+     * This has some restrictions on mutation, the value must never be outside the bounds of 0 to [PokemodConfig.maxPokemonFriendship].
+     * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
+     *
+     * @param value The value to set, this value will forcefully be absolute.
+     * @param coerceSafe Forcefully coerce the maximum possible value. Default is true.
+     * @return True if mutation was successful
+     */
+    fun setFriendship(value: Int, coerceSafe: Boolean = true): Boolean {
+        val sanitizedAmount = if (coerceSafe) value.absoluteValue.coerceAtMost(Pokemod.config.maxPokemonFriendship) else value.absoluteValue
+        if (!this.isClient && !this.isPossibleFriendship(sanitizedAmount)) {
+            return false
+        }
+        this.friendship = sanitizedAmount
+        return true
     }
 
-    fun incrementFriendship(amount : Int) : Boolean {
-        val value = friendship + amount
-        if (value in FRIENDSHIP_RANGE) friendship = value
-        return friendship == value
+    /**
+     * Increment the [friendship] with by the given amount.
+     * This has some restrictions on mutation, the value must never be outside the bounds of 0 to [PokemodConfig.maxPokemonFriendship].
+     * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
+     *
+     * @param amount The amount to increment, this value will forcefully be absolute.
+     * @param coerceSafe Forcefully coerce the maximum possible value. Default is true.
+     * @return True if mutation was successful
+     */
+    fun incrementFriendship(amount : Int, coerceSafe: Boolean = true): Boolean {
+        val sanitizedAmount = if (coerceSafe) amount.absoluteValue.coerceAtMost(Pokemod.config.maxPokemonFriendship - this.friendship) else amount.absoluteValue
+        val newValue = this.friendship + sanitizedAmount
+        if (this.isPossibleFriendship(newValue)) {
+            this.friendship = newValue
+        }
+        return this.friendship == newValue
     }
 
-    fun decrementFriendship (amount : Int) : Boolean {
-        val value = friendship - amount
-        if (value in FRIENDSHIP_RANGE) friendship = value
-        return friendship == value
+    /**
+     * Decrement the [friendship] with by the given amount.
+     * This has some restrictions on mutation, the value must never be outside the bounds of 0 to [PokemodConfig.maxPokemonFriendship].
+     * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
+     *
+     * @param amount The amount to decrement, this value will forcefully be absolute.
+     * @param coerceSafe Forcefully coerce the maximum possible value. Default is true.
+     * @return True if mutation was successful
+     */
+    fun decrementFriendship(amount : Int, coerceSafe: Boolean = true): Boolean {
+        val sanitizedAmount = if (coerceSafe) amount.absoluteValue.coerceAtMost(this.friendship) else amount.absoluteValue
+        val newValue = this.friendship - sanitizedAmount
+        if (this.isPossibleFriendship(newValue)) {
+            this.friendship = newValue
+        }
+        return this.friendship == newValue
     }
+
+    /**
+     * Checks if the given value is withing the legal bounds for friendship.
+     *
+     * @param value The value being queried
+     * @return If the value is within legal bounds.
+     */
+    fun isPossibleFriendship(value: Int) = value >= 0 && value <= Pokemod.config.maxPokemonFriendship
 
     val allAccessibleMoves: Set<MoveTemplate>
         get() = form.moves.getLevelUpMovesUpTo(level) + benchedMoves.map { it.moveTemplate }
@@ -778,25 +805,31 @@ open class Pokemon {
     fun setExperienceAndUpdateLevel(xp: Int) {
         experience = xp
         val newLevel = experienceGroup.getLevel(xp)
-        if (newLevel != level) {
+        if (newLevel != level && newLevel <= Pokemod.config.maxPokemonLevel) {
             level = newLevel
         }
     }
 
-    fun addExperienceWithPlayer(player: ServerPlayerEntity, source: ExperienceSource, xp: Int) {
-        player.sendMessage(lang("experience.gained", species.translatedName, xp))
+    fun addExperienceWithPlayer(player: ServerPlayerEntity, source: ExperienceSource, xp: Int): AddExperienceResult {
         val result = addExperience(source, xp)
+        if (result.experienceAdded <= 0) {
+            return result
+        }
+        player.sendMessage(lang("experience.gained", species.translatedName, xp))
         if (result.oldLevel != result.newLevel) {
             player.sendMessage(lang("experience.level_up", species.translatedName, result.newLevel))
-            when (getFriendshipSpan()) {
-                1 -> incrementFriendship(5)
-                2 -> incrementFriendship(4)
-                3 -> incrementFriendship(3)
+            val repeats = result.newLevel - result.oldLevel
+            // Someone can technically trigger a "delevel"
+            if (repeats >= 1) {
+                repeat(repeats) {
+                    this.incrementFriendship(LEVEL_UP_FRIENDSHIP_CALCULATOR.calculate(this))
+                }
             }
             result.newMoves.forEach {
                 player.sendMessage(lang("experience.learned_move", species.translatedName, it.displayName))
             }
         }
+        return result
     }
 
     fun <T : SpeciesFeature> getFeature(name: String) = features.find { it.name == name } as? T
@@ -813,10 +846,9 @@ open class Pokemon {
     }
 
     fun addExperience(source: ExperienceSource, xp: Int): AddExperienceResult {
-        if (xp < 0) {
-            return AddExperienceResult(level, level, emptySet()) // no negatives!
+        if (xp < 0 || !this.canLevelUpFurther()) {
+            return AddExperienceResult(level, level, emptySet(), 0) // no negatives!
         }
-
         val oldLevel = level
         val previousLevelUpMoves = form.moves.getLevelUpMovesUpTo(oldLevel)
         var appliedXP = xp
@@ -824,7 +856,7 @@ open class Pokemon {
             event = ExperienceGainedPreEvent(this, source, appliedXP),
             ifSucceeded = { appliedXP = it.experience},
             ifCanceled = {
-                return AddExperienceResult(level, level, emptySet())
+                return AddExperienceResult(level, level, emptySet(), appliedXP)
             }
         )
 
@@ -847,13 +879,15 @@ open class Pokemon {
         }
 
         PokemodEvents.EXPERIENCE_GAINED_EVENT_POST.post(
-            ExperienceGainedPostEvent(this, source, xp, oldLevel, newLevel, differences),
-            then = { return AddExperienceResult(oldLevel, newLevel, it.learnedMoves) }
+            ExperienceGainedPostEvent(this, source, appliedXP, oldLevel, newLevel, differences),
+            then = { return AddExperienceResult(oldLevel, newLevel, it.learnedMoves, appliedXP) }
         )
 
         // This probably will never run, Kotlin just doesn't realize the inline function always runs the `then` block
-        return AddExperienceResult(oldLevel, newLevel, differences)
+        return AddExperienceResult(oldLevel, newLevel, differences, appliedXP)
     }
+
+    fun canLevelUpFurther() = this.level < Pokemod.config.maxPokemonLevel
 
     fun levelUp(source: ExperienceSource) = addExperience(source, getExperienceToNextLevel())
 
@@ -933,27 +967,12 @@ open class Pokemon {
     private val _aspects = registerObservable(SimpleObservable<Set<String>>()) { AspectsUpdatePacket(this, it) }
     private val _gender = registerObservable(SimpleObservable<Gender>()) { GenderUpdatePacket(this, it) }
 
-    fun getFriendshipSpan(): Int{
-        /*
-            Used to figure out how much friendship should be gained/lost.
-            The amount gained/lost can vary depending on current friendship
-            Refer to https://bulbapedia.bulbagarden.net/wiki/Friendship#Generation_VII
-         */
-        if(friendship in 0..99){
-            return 1
-        }
-        else if(friendship in 100..199){
-            return 2
-        }
-        else if(friendship in 200..255){
-            return 3
-        }
-        return 0
-    }
-
     companion object {
-        var FRIENDSHIP_RANGE = 0..255
 
+        /**
+         * The [FriendshipMutationCalculator] used when a Pokémon levels up.
+         */
+        var LEVEL_UP_FRIENDSHIP_CALCULATOR = FriendshipMutationCalculator.SWORD_AND_SHIELD_LEVEL_UP
         internal val SHEDINJA = pokemodResource("shedinja")
 
     }

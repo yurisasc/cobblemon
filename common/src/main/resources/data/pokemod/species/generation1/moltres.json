@@ -20,6 +20,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "galar",
             "primaryType": "dark",
             "abilities": [
@@ -34,7 +37,7 @@
                 "speed": 90
             },
             "aspects": [
-                "galar"
+                "galarian"
             ]
         }
     ],
@@ -106,10 +109,10 @@
         "pokemod.species.moltres.desc2"
     ],
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.6,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.8,
+        "height": 1.7,
         "fixed": false
     }
 }

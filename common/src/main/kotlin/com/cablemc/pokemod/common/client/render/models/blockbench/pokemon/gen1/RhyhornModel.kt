@@ -43,7 +43,7 @@ class RhyhornModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0111_rhyhorn/rhyhorn", "ground_idle")
+                //bedrock("0111_rhyhorn/rhyhorn", "ground_idle")
             )
         )
 
@@ -54,7 +54,7 @@ class RhyhornModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 QuadrupedWalkAnimation(this)
-                // bedrock("0111_rhyhorn/rhyhorn", "ground_walk")
+                //bedrock("0111_rhyhorn/rhyhorn", "ground_walk")
             )
         )
     }

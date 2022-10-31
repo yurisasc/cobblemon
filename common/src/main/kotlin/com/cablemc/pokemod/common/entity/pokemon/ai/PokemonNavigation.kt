@@ -35,7 +35,7 @@ class PokemonNavigation(val world: World, val pokemonEntity: PokemonEntity) : Mo
     }
 
     override fun isAtValidPosition(): Boolean {
-        return (this.entity.isOnGround && moving.walk.canWalk) ||
+        return (this.entity.isOnGround && (moving.walk.canWalk || moving.fly.canFly)) ||
                 (!entity.isInLava && !entity.isSubmergedIn(FluidTags.LAVA) && moving.fly.canFly) ||
                 (entity.isInLava && moving.swim.canSwimInLava) ||
                 (entity.isSubmergedIn(FluidTags.WATER) && moving.swim.canSwimInWater) ||

@@ -59,8 +59,11 @@ object DataKeys {
     const val STORE_BACKUP = "BackupStore"
 
     /* Form stuff */
-    const val ALOLAN = "Alolan"
-    const val CRYSTAL = "Crystal"
+    const val ALOLAN = "alolan"
+    const val GALARIAN = "galarian"
+    const val HISUIAN = "hisuian"
+    const val VALENCIAN = "valencian"
+    const val CRYSTAL = "crystal"
     /* ---------- */
 
     /* Battle keys */

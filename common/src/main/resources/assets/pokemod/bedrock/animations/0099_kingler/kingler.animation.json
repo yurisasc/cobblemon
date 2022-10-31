@@ -1,0 +1,37 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.kingler.ground_idle": {
+			"loop": true,
+			"bones": {
+				"leftleg2": {
+					"rotation": [22.5, -22.5, 0]
+				},
+				"rightleg2": {
+					"rotation": [22.5, 15, 0]
+				},
+				"rightarm": {
+					"rotation": [0, -22.5, 0]
+				},
+				"rightforarm": {
+					"rotation": [-136.35707, -12.27659, 102.56853]
+				},
+				"bottomclawright": {
+					"rotation": [0, 0, -22.5]
+				},
+				"leftarm": {
+					"rotation": [0, 22.5, 0]
+				},
+				"leftforarm": {
+					"rotation": [-132.73421, 47.09957, -106.32495]
+				},
+				"clawleft": {
+					"rotation": [0, 0, 0]
+				},
+				"bottomclawleft": {
+					"rotation": [0, 0, 45]
+				}
+			}
+		}
+	}
+}

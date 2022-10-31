@@ -35,8 +35,8 @@ class CuboneModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0104_cubone/cubone", "ground_idle")
+                singleBoneLook(),
+                bedrock("0104_cubone/cubone", "ground_idle")
             )
         )
 
@@ -45,8 +45,9 @@ class CuboneModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0104_cubone/cubone", "ground_walk")
+                singleBoneLook(),
+                bedrock("0104_cubone/cubone", "ground_idle")
+                //bedrock("0104_cubone/cubone", "ground_walk")
             )
         )
     }

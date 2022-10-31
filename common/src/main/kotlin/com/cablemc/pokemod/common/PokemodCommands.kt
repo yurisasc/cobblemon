@@ -8,21 +8,7 @@
 
 package com.cablemc.pokemod.common
 
-import com.cablemc.pokemod.common.command.ChangeScaleAndSize
-import com.cablemc.pokemod.common.command.CheckSpawnsCommand
-import com.cablemc.pokemod.common.command.ClickTextCommand
-import com.cablemc.pokemod.common.command.GetNBT
-import com.cablemc.pokemod.common.command.GivePokemon
-import com.cablemc.pokemod.common.command.HealPokemonCommand
-import com.cablemc.pokemod.common.command.LevelUp
-import com.cablemc.pokemod.common.command.OpenStarterScreenCommand
-import com.cablemc.pokemod.common.command.PokemonEditCommand
-import com.cablemc.pokemod.common.command.SpawnAllPokemon
-import com.cablemc.pokemod.common.command.SpawnPokemon
-import com.cablemc.pokemod.common.command.StopBattleCommand
-import com.cablemc.pokemod.common.command.TakePokemon
-import com.cablemc.pokemod.common.command.TeachCommand
-import com.cablemc.pokemod.common.command.TestCommand
+import com.cablemc.pokemod.common.command.*
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandRegistryAccess
 import net.minecraft.server.command.CommandManager
@@ -45,5 +31,6 @@ object PokemodCommands {
         GetNBT.register(dispatcher)
         OpenStarterScreenCommand.register(dispatcher)
         SpawnAllPokemon.register(dispatcher)
+        FriendshipCommand.register(dispatcher)
     }
 }

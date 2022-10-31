@@ -37,7 +37,7 @@ class MunchlaxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0446_munchlax/munchlax", "ground_idle")
+                //bedrock("0446_munchlax/munchlax", "ground_idle")
             )
         )
 
@@ -47,7 +47,7 @@ class MunchlaxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0446_munchlax/munchlax", "ground_walk")
+                //bedrock("0446_munchlax/munchlax", "ground_walk")
             )
         )
     }

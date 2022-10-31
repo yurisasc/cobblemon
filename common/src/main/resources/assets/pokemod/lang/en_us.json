@@ -1,5 +1,11 @@
 {
   "item.pokemod.poke_ball": "Poké Ball",
+  "item.pokemod.verdant_ball": "Verdant Ball",
+  "item.pokemod.sport_ball": "Sport Ball",
+  "item.pokemod.slate_ball": "Slate Ball",
+  "item.pokemod.roseate_ball": "Roseate Ball",
+  "item.pokemod.azure_ball": "Azure Ball",
+  "item.pokemod.citrine_ball": "Citrine Ball",
   "item.pokemod.great_ball": "Great Ball",
   "item.pokemod.ultra_ball": "Ultra Ball",
   "item.pokemod.master_ball": "Master Ball",
@@ -94,6 +100,7 @@
 
   "pokemod.ui.evolve": "Evolve",
   "pokemod.ui.evolve_offer": "Evolve into which Pokémon?",
+  "pokemod.ui.evolve.hint": "%1$s seems ready to evolve!",
 
   "pokemod.label.lv": "Lv. %1$s",
 
@@ -129,6 +136,20 @@
   "pokemod.command.pokemonedit": "Edited %2$s's %1$s.",
   "pokemod.command.teach": "%2$s's %1$s learnt %3$s.",
   "pokemod.command.healpokemon.heal": "Fully healed %1$s's party.",
+  "pokemod.command.friendship": " %1$s has %2$s friendship.",
+
+  "advancements.pokemod.root": "Pokemod",
+  "advancements.pokemod.root.description": "Started your adventure by picking a starter Pokémon",
+  "advancements.pokemod.harvest_apricorn": "Your first Apricorn",
+  "advancements.pokemod.harvest_apricorn.description": "Harvest an Apricorn by right clicking it when fully grown",
+  "advancements.pokemod.harvest_apricorn_seed": "Apricorn on the go",
+  "advancements.pokemod.harvest_apricorn_seed.description": "Obtain an Apricorn seed, these are sometimes found by breaking an Apricorn",
+  "advancements.pokemod.bone_meal_apricorn": "Apri-Fertilizer",
+  "advancements.pokemod.bone_meal_apricorn.description": "Don't have time to wait? Quickly grow Apricorns using bone meal",
+  "advancements.pokemod.plant_apricorn": "Apricorn Relocation",
+  "advancements.pokemod.plant_apricorn.description": "Plant your newly acquired seed back home to grow your very own Apricorn tree",
+  "advancements.pokemod.rainbow_apricorns": "The Apri-Rainbow!",
+  "advancements.pokemod.rainbow_apricorns.description": "Have one of each Apricorn variant in your inventory",
 
   "pokemod.battle.damage_dealt": "%1$s took %2$s damage!",
   "pokemod.battle.used_move": "%1$s used %2$s!",
@@ -180,7 +201,7 @@
   "pokemod.battle.sunny_day_upkeep": "The sunlight is strong.",
   "pokemod.battle.hail": "It started to hail!",
   "pokemod.battle.hail_upkeep": "The hail is crashing down.",
-  "pokemod.battle.hail_buffeted": "%1$s was buffeted by the sandstorm.",
+  "pokemod.battle.hail_buffeted": "%1$s was buffeted by hail.",
   "pokemod.battle.no_weather": "The weather clears up.",
 
   "pokemod.battle.confusion_start": "%1$s is confused!",

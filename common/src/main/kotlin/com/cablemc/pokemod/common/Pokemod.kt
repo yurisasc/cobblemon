@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common
 
+import com.cablemc.pokemod.common.advancement.PokemodCriteria
 import com.cablemc.pokemod.common.api.Priority
 import com.cablemc.pokemod.common.api.data.DataProvider
 import com.cablemc.pokemod.common.api.drop.CommandDropEntry
@@ -65,6 +66,7 @@ import com.cablemc.pokemod.common.data.CobbledDataProvider
 import com.cablemc.pokemod.common.events.ServerTickHandler
 import com.cablemc.pokemod.common.item.PokeBallItem
 import com.cablemc.pokemod.common.net.messages.client.settings.ServerSettingsPacket
+import com.cablemc.pokemod.common.net.serverhandling.ServerPacketRegistrar
 import com.cablemc.pokemod.common.permission.LaxPermissionValidator
 import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.pokemon.aspects.GENDER_ASPECT
@@ -79,6 +81,7 @@ import com.cablemc.pokemod.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cablemc.pokemod.common.registry.CompletableRegistry
 import com.cablemc.pokemod.common.starter.CobbledStarterHandler
+import com.cablemc.pokemod.common.util.DataKeys
 import com.cablemc.pokemod.common.util.getServer
 import com.cablemc.pokemod.common.util.ifDedicatedServer
 import com.cablemc.pokemod.common.util.pokemodResource
@@ -87,20 +90,20 @@ import com.cablemc.pokemod.common.world.PokemodGameRules
 import com.cablemc.pokemod.common.world.generation.PokemodWorldGeneration
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.UUID
-import kotlin.properties.Delegates
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.memberProperties
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.util.*
+import kotlin.properties.Delegates
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 
 object Pokemod {
     const val MODID = "pokemod"
@@ -135,12 +138,13 @@ object Pokemod {
         this.loadConfig()
         this.implementation = implementation
 
+        PokemodCriteria // Init the fields and register the criteria
         PokemodEntities.register()
         PokemodBlocks.register()
         PokemodBlockEntities.register()
         PokemodItems.register()
+        ServerPacketRegistrar.registerHandlers()
         PokemodSounds.register()
-        PokemodNetwork.register()
         PokemodFeatures.register()
         PokemodGameRules.register()
 
@@ -175,6 +179,10 @@ object Pokemod {
 
         config.flagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
         config.globalFlagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.ALOLAN)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.GALARIAN)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.HISUIAN)
+        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.VALENCIAN)
         SpeciesFeature.registerGlobalFeature(DamageTakenFeature.ID) { DamageTakenFeature() }
         SpeciesFeature.registerGlobalFeature(BattleCriticalHitsFeature.ID) { BattleCriticalHitsFeature() }
         EnumSpeciesFeature.registerWithProperty(SNAKE_PATTERN, SnakePatternFeature::class.java)
@@ -188,6 +196,7 @@ object Pokemod {
         ifDedicatedServer {
             isDedicatedServer = true
             TICK_POST.subscribe { ScheduledTaskTracker.update() }
+            PokemodNetwork.clientHandlersRegistered.complete(Unit)
         }
 
         PokemodBlocks.completed.thenAccept {

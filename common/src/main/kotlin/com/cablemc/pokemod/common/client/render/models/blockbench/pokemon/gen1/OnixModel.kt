@@ -28,25 +28,31 @@ class OnixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
-
+    lateinit var ui: PokemonPose
     override fun registerPoses() {
+        ui = registerPose(
+            poseName = "ui",
+            poseTypes = UI_POSES,
+            idleAnimations = arrayOf(
+                bedrock("0095_onix/onix", "summary_idle")
+            )
+        )
+
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
+            poseTypes = STATIONARY_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0095_onix/onix", "ground_idle")
+                singleBoneLook(),
+                bedrock("0095_onix/onix", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0095_onix/onix", "ground_walk")
+                singleBoneLook(),
+                bedrock("0095_onix/onix", "ground_walk")
             )
         )
     }

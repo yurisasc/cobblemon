@@ -28,8 +28,8 @@ class BibarelModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     override val foreLeftLeg = getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 1.3F
+    override val portraitTranslation = Vec3d(-.4, -.05, 0.0)
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)

@@ -1,0 +1,30 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " t ",
+        "lcr",
+        " b "
+    ],
+    "key": {
+        "t": {
+            "item": "pokemod:black_apricorn"
+        },
+        "l": {
+            "item": "pokemod:black_apricorn"
+        },
+        "c": {
+            "item": "minecraft:copper_ingot"
+        },
+        "r": {
+            "item": "pokemod:black_apricorn"
+        },
+        "b": {
+            "item": "pokemod:black_apricorn"
+        }
+    },
+    "result":
+    {
+        "item": "pokemod:slate_ball",
+        "count": 4
+    }
+}

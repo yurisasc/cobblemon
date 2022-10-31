@@ -1,0 +1,30 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " t ",
+        "lcr",
+        " b "
+    ],
+    "key": {
+        "t": {
+            "item": "pokemod:pink_apricorn"
+        },
+        "l": {
+            "item": "pokemod:pink_apricorn"
+        },
+        "c": {
+            "item": "minecraft:copper_ingot"
+        },
+        "r": {
+            "item": "pokemod:pink_apricorn"
+        },
+        "b": {
+            "item": "pokemod:pink_apricorn"
+        }
+    },
+    "result":
+    {
+        "item": "pokemod:roseate_ball",
+        "count": 4
+    }
+}

@@ -44,7 +44,7 @@ class VileplumeModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                bedrock("0045_vileplume/vileplume", "ground_walk2")
+                bedrock("0045_vileplume/vileplume", "ground_walk")
             )
         )
     }

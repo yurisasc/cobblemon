@@ -29,6 +29,7 @@ import com.cablemc.pokemod.common.net.messages.client.battle.BattleUpdateTeamPok
 import com.cablemc.pokemod.common.net.messages.client.battle.ChallengeNotificationPacket
 import com.cablemc.pokemod.common.net.messages.client.data.AbilityRegistrySyncPacket
 import com.cablemc.pokemod.common.net.messages.client.data.MovesRegistrySyncPacket
+import com.cablemc.pokemod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cablemc.pokemod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
@@ -79,6 +80,7 @@ import com.cablemc.pokemod.common.net.messages.server.storage.pc.MovePCPokemonTo
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.SwapPCPokemonPacket
 import com.cablemc.pokemod.common.util.getServer
+import java.util.concurrent.CompletableFuture
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
@@ -91,6 +93,15 @@ import net.minecraft.server.network.ServerPlayerEntity
  */
 object PokemodNetwork {
     const val PROTOCOL_VERSION = "1"
+
+    var clientHandlersRegistered = CompletableFuture<Unit>()
+    var serverHandlersRegistered = CompletableFuture<Unit>()
+
+    init {
+        clientHandlersRegistered.runAfterBoth(serverHandlersRegistered) {
+            register()
+        }
+    }
 
     lateinit var networkDelegate: NetworkDelegate
 
@@ -187,6 +198,7 @@ object PokemodNetwork {
         buildClientMessage<AbilityRegistrySyncPacket>()
         buildClientMessage<MovesRegistrySyncPacket>()
         buildClientMessage<SpeciesRegistrySyncPacket>()
+        buildClientMessage<PropertiesCompletionRegistrySyncPacket>()
 
         /**
          * Server Packets

@@ -20,12 +20,45 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal",
+            "evolutions": [
+                {
+                    "id": "meowth_persian",
+                    "variant": "level_up",
+                    "result": "persian",
+                    "consumeHeldItem": false,
+                    "learnableMoves": [],
+                    "requirements": [
+                        {
+                            "variant": "level",
+                            "minLevel": 28
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "alola",
             "primaryType": "dark",
             "abilities": [
                 "pickup",
                 "technician",
                 "h:rattled"
+            ],
+            "evolutions": [
+                {
+                    "id": "meowth_persian_alola",
+                    "variant": "level_up",
+                    "result": "persian alola",
+                    "consumeHeldItem": false,
+                    "learnableMoves": [],
+                    "requirements": [
+                        {
+                            "variant": "friendship",
+                            "amount": 160
+                        }
+                    ]
+                }
             ],
             "baseStats": {
                 "hp": 40,
@@ -55,6 +88,21 @@
                 "special_defence": 40,
                 "speed": 40
             },
+            "evolutions": [
+                {
+                    "id": "meowth_perrserker",
+                    "variant": "level_up",
+                    "result": "perrserker",
+                    "consumeHeldItem": false,
+                    "learnableMoves": [],
+                    "requirements": [
+                        {
+                            "variant": "level",
+                            "minLevel": 28
+                        }
+                    ]
+                }
+            ],
             "aspects": [
                 "galar"
             ]
@@ -144,47 +192,6 @@
     "pokedex": [
         "pokemod.species.meowth.desc1",
         "pokemod.species.meowth.desc2"
-    ],
-    "evolutions": [
-        {
-            "id": "meowth_persian",
-            "variant": "level_up",
-            "result": "persian",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "level",
-                    "minLevel": 28
-                }
-            ]
-        },
-        {
-            "id": "meowth_persian",
-            "variant": "level_up",
-            "result": "persian",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "friendship",
-                    "amount": 160
-                }
-            ]
-        },
-        {
-            "id": "meowth_perrserker",
-            "variant": "level_up",
-            "result": "perrserker",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "level",
-                    "minLevel": 28
-                }
-            ]
-        }
     ],
     "baseScale": 1.0,
     "hitbox": {

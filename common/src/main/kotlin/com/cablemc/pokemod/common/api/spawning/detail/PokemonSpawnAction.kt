@@ -8,9 +8,11 @@
 
 package com.cablemc.pokemod.common.api.spawning.detail
 
+import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemod.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
+import kotlin.random.Random
 
 /**
  * A [SpawnAction] that will spawn a single [PokemonEntity].
@@ -27,6 +29,10 @@ class PokemonSpawnAction(
     override fun createEntity(): PokemonEntity {
         if (props.level == null) {
             props.level = detail.getDerivedLevelRange().random()
+        }
+        if (props.shiny == null) {
+            // If the config value is at least 1, then do 1/x and use that as the shiny chance
+            props.shiny = Pokemod.config.shinyRate.takeIf { it >= 1 }?.let { Random.Default.nextFloat() < 1 / it }
         }
 
         val entity = props.createEntity(ctx.world)

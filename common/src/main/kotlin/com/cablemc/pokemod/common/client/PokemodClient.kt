@@ -17,7 +17,6 @@ import com.cablemc.pokemod.common.api.scheduling.ScheduledTaskTracker
 import com.cablemc.pokemod.common.client.battle.ClientBattle
 import com.cablemc.pokemod.common.client.gui.PartyOverlay
 import com.cablemc.pokemod.common.client.gui.battle.BattleOverlay
-import com.cablemc.pokemod.common.client.keybind.PokemodKeybinds
 import com.cablemc.pokemod.common.client.net.ClientPacketRegistrar
 import com.cablemc.pokemod.common.client.render.block.HealingMachineRenderer
 import com.cablemc.pokemod.common.client.render.layer.PokemonOnShoulderRenderer
@@ -29,7 +28,6 @@ import com.cablemc.pokemod.common.client.render.pokemon.PokemonRenderer
 import com.cablemc.pokemod.common.client.starter.ClientPlayerData
 import com.cablemc.pokemod.common.client.storage.ClientStorageManager
 import com.cablemc.pokemod.common.data.CobbledDataProvider
-import dev.architectury.event.events.client.ClientGuiEvent
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
@@ -83,9 +81,6 @@ object PokemodClient {
         battleOverlay = BattleOverlay()
 
         ClientPacketRegistrar.registerHandlers()
-        PokemodKeybinds.register()
-
-        ClientGuiEvent.RENDER_HUD.register(ClientGuiEvent.RenderHud { _, _ -> ScheduledTaskTracker.update() })
 
         LOGGER.info("Initializing PokéBall models")
         PokeBallModelRepository.init()

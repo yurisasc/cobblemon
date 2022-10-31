@@ -91,10 +91,10 @@
     ],
     "preEvolution": "tangela",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.55,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.8,
+        "height": 1.25,
         "fixed": false
     }
 }

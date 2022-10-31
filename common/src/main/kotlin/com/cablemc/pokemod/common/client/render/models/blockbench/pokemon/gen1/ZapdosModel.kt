@@ -36,7 +36,7 @@ class ZapdosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0145_zapdos/zapdos", "ground_idle")
+                //bedrock("0145_zapdos/zapdos", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class ZapdosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0145_zapdos/zapdos", "ground_walk")
+                //bedrock("0145_zapdos/zapdos", "ground_walk")
             )
         )
     }

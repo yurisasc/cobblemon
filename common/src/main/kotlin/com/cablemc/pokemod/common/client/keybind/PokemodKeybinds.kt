@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.client.keybind.keybinds.HidePartyBinding
 import com.cablemc.pokemod.common.client.keybind.keybinds.PartySendBinding
 import com.cablemc.pokemod.common.client.keybind.keybinds.PokeNavigatorBinding
 import com.cablemc.pokemod.common.client.keybind.keybinds.UpShiftPartyBinding
-import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 
 /**
  * Main registry for Keybinds
@@ -23,28 +22,13 @@ import dev.architectury.registry.client.keymappings.KeyMappingRegistry
  */
 object PokemodKeybinds {
 
-    private val keybinds = mutableListOf<PokemodKeyBinding>()
-    fun register() {
-        registerKeybind(HidePartyBinding)
-        registerKeybind(PokeNavigatorBinding)
-        registerKeybind(DownShiftPartyBinding)
-        registerKeybind(PartySendBinding)
-        registerKeybind(UpShiftPartyBinding)
+    val keybinds = listOf(
+        HidePartyBinding,
+        PokeNavigatorBinding,
+        DownShiftPartyBinding,
+        PartySendBinding,
+        UpShiftPartyBinding
+    )
 
-        keybinds.forEach { KeyMappingRegistry.register(it) }
-    }
-
-    fun onAnyKey(key: Int, scanCode: Int, action: Int, modifiers: Int) {
-        keybinds.toMutableList().forEach {
-            it.onKeyInput()
-        }
-    }
-
-    fun getAllKeybinds() = keybinds
-
-    private fun registerKeybind(keybind: PokemodKeyBinding): PokemodKeyBinding {
-        return keybind.also {
-            keybinds.add(it)
-        }
-    }
+    fun onAnyKey(key: Int, scanCode: Int, action: Int, modifiers: Int) = keybinds.forEach(PokemodKeyBinding::onKeyInput)
 }

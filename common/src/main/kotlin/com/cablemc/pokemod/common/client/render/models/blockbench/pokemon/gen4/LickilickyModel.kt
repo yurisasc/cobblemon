@@ -36,7 +36,7 @@ class LickilickyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0463_lickilicky/lickilicky", "ground_idle")
+                //bedrock("0463_lickilicky/lickilicky", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class LickilickyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0463_lickilicky/lickilicky", "ground_walk")
+                //bedrock("0463_lickilicky/lickilicky", "ground_walk")
             )
         )
     }

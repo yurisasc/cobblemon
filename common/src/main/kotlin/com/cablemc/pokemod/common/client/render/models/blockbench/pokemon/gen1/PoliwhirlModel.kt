@@ -10,11 +10,11 @@ package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class PoliwhirlModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("poliwhirl")
 
@@ -25,24 +25,31 @@ class PoliwhirlModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     lateinit var standing: PokemonPose
-    lateinit var walk: PokemonPose
+    lateinit var float: PokemonPose
+    lateinit var swim: PokemonPose
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
+            poseTypes = PoseType.STANDING_POSES + UI_POSES,
             idleAnimations = arrayOf(
-                // bedrock("0061_poliwhirl/poliwhirl", "ground_idle")
+                bedrock("0061_poliwhirl/poliwhirl", "ground_idle")
             )
         )
 
-        walk = registerPose(
-            poseName = "walk",
-            poseTypes = MOVING_POSES,
-            transformTicks = 10,
+        float = registerPose(
+            poseName = "float",
+            poseType = PoseType.FLOAT,
             idleAnimations = arrayOf(
-                // bedrock("0061_poliwhirl/poliwhirl", "ground_walk")
+                bedrock("0061_poliwhirl/poliwhirl", "water_idle")
+            )
+        )
+
+        swim = registerPose(
+            poseName = "swim",
+            poseType = PoseType.SWIM,
+            idleAnimations = arrayOf(
+                bedrock("0061_poliwhirl/poliwhirl", "water_swim")
             )
         )
     }

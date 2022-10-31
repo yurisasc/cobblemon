@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokemod:green_apricorn_seed"
+    },
+    "title": {
+      "translate": "advancements.pokemod.harvest_apricorn_seed"
+    },
+    "description": {
+      "translate": "advancements.pokemod.harvest_apricorn_seed.description"
+    }
+  },
+  "parent": "pokemod:root",
+  "criteria": {
+    "check_inv": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "pokemod:apricorn_seeds"
+          }
+        ]
+      }
+    }
+  }
+}

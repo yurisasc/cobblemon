@@ -115,10 +115,10 @@
     ],
     "preEvolution": "chansey",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.1,
     "hitbox": {
         "width": 1.0,
-        "height": 1.0,
+        "height": 1.2,
         "fixed": false
     }
 }

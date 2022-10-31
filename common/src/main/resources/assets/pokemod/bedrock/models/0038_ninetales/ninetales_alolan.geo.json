@@ -6,7 +6,7 @@
 				"identifier": "geometry.ninetales_alolan",
 				"texture_width": 128,
 				"texture_height": 128,
-				"visible_bounds_width": 10,
+				"visible_bounds_width": 8,
 				"visible_bounds_height": 3.5,
 				"visible_bounds_offset": [0, 1.25, 0]
 			},
@@ -120,7 +120,7 @@
 				{
 					"name": "head_tail1",
 					"parent": "head",
-					"pivot": [0, 28, -4.75],
+					"pivot": [0, 29, -4.75],
 					"cubes": [
 						{"origin": [-2.5, 25.5, -4.75], "size": [5, 5, 6], "uv": [92, 35]}
 					]

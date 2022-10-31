@@ -36,7 +36,7 @@ class JynxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0124_jynx/jynx", "ground_idle")
+                //bedrock("0124_jynx/jynx", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class JynxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0124_jynx/jynx", "ground_walk")
+                //bedrock("0124_jynx/jynx", "ground_walk")
             )
         )
     }

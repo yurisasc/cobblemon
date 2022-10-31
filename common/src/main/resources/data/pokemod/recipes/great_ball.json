@@ -1,27 +1,30 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "brb",
-        "iii",
-        "www"
+        " t ",
+        "lcr",
+        " b "
     ],
     "key": {
-        "b": {
+        "t": {
             "item": "pokemod:blue_apricorn"
+        },
+        "l": {
+            "item": "pokemod:red_apricorn"
+        },
+        "c": {
+            "item": "minecraft:iron_ingot"
         },
         "r": {
             "item": "pokemod:red_apricorn"
         },
-        "i": {
-            "item": "minecraft:iron_ingot"
-        },
-        "w": {
-            "item": "pokemod:white_apricorn"
+        "b": {
+            "item": "pokemod:blue_apricorn"
         }
     },
     "result":
     {
         "item": "pokemod:great_ball",
-        "count": 6
+        "count": 4
     }
 }

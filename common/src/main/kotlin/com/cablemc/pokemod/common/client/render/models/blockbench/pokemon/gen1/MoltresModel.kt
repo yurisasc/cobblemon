@@ -36,7 +36,7 @@ class MoltresModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0146_moltres/moltres", "ground_idle")
+                //bedrock("0146_moltres/moltres", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class MoltresModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0146_moltres/moltres", "ground_walk")
+                //bedrock("0146_moltres/moltres", "ground_walk")
             )
         )
     }

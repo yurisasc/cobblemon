@@ -36,7 +36,7 @@ class ElectivireModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0466_electivire/electivire", "ground_idle")
+                //bedrock("0466_electivire/electivire", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class ElectivireModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0466_electivire/electivire", "ground_walk")
+                //bedrock("0466_electivire/electivire", "ground_walk")
             )
         )
     }

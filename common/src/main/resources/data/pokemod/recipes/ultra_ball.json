@@ -1,27 +1,30 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "byb",
-        "ggg",
-        "www"
+        " t ",
+        "lcr",
+        " b "
     ],
     "key": {
-        "y": {
+        "t": {
+            "item": "pokemod:black_apricorn"
+        },
+        "l": {
+            "item": "pokemod:yellow_apricorn"
+        },
+        "c": {
+            "item": "minecraft:gold_ingot"
+        },
+        "r": {
             "item": "pokemod:yellow_apricorn"
         },
         "b": {
             "item": "pokemod:black_apricorn"
-        },
-        "g": {
-            "item": "minecraft:gold_ingot"
-        },
-        "w": {
-            "item": "pokemod:white_apricorn"
         }
     },
     "result":
     {
         "item": "pokemod:ultra_ball",
-        "count": 6
+        "count": 4
     }
 }

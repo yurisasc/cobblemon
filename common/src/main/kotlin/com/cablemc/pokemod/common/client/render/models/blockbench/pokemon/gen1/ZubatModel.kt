@@ -27,14 +27,15 @@ import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.Vec3d
+
 class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, EaredFrame {
-    override val rootPart = registerRelevantPart("zubat", root.getChild("zubat"))
+    override val rootPart = root.registerChildWithAllChildren("zubat")
 
-    override val leftWing = rootPart.getChildOf("body", "leftwing")
-    override val rightWing = rootPart.getChildOf("body", "rightwing")
+    override val leftWing = getPart("leftwing")
+    override val rightWing = getPart("rightwing")
 
-    private val leftEar = registerRelevantPart("leftear", rootPart.getChildOf("body", "leftear"))
-    private val rightEar = registerRelevantPart("rightear", rootPart.getChildOf("body", "rightear"))
+    private val leftEar = getPart("leftear")
+    private val rightEar = getPart("rightear")
     override val leftEarJoint = EarJoint(leftEar, Z_AXIS, RangeOfMotion(70F.toRadians(), 40F.toRadians()))
     override val rightEarJoint = EarJoint(rightEar, Z_AXIS, RangeOfMotion((-70F).toRadians(), (-40F).toRadians()))
 
@@ -45,38 +46,18 @@ class ZubatModel(root: ModelPart) : PokemonPoseableModel(), BiWingedFrame, Eared
 
     override fun registerPoses() {
         registerPose(
-            poseName = "fly",
-            poseTypes = ALL_POSES - SHOULDER_POSES,
+            poseName = "hover",
+            poseTypes = ALL_POSES - SHOULDER_POSES - PoseType.FLY,
             idleAnimations = arrayOf(
-                rootPart.translation(
-                    function = sineFunction(
-                        amplitude = 2.5F,
-                        period = 1F
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = Y_AXIS
-                ),
-                rootPart.translation(
-                    function = sineFunction(
-                        amplitude = 2.5F,
-                        period = 2F
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = X_AXIS
-                ),
-                wingFlap(
-                    flapFunction = triangleFunction(
-                        amplitude = PI / 3,
-                        period = 0.3F
-                    ),
-                    timeVariable = { state, _, _ -> state?.animationSeconds },
-                    axis = Z_AXIS
-                )
-            ),
-            transformedParts = arrayOf(
-                rootPart.asTransformed().addRotation(X_AXIS, PI / 9),
-                leftWing.asTransformed().addRotation(X_AXIS, PI / 3),
-                rightWing.asTransformed().addRotation(X_AXIS, PI / 3)
+                bedrock("0041_zubat/zubat", "ground_idle")
+            )
+        )
+
+        registerPose(
+            poseName = "fly",
+            poseType = PoseType.FLY,
+            idleAnimations = arrayOf(
+                bedrock("0041_zubat/zubat", "ground_walk")
             )
         )
 

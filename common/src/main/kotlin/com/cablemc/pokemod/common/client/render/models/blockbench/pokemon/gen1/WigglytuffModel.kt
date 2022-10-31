@@ -18,8 +18,8 @@ import net.minecraft.util.math.Vec3d
 class WigglytuffModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("wigglytuff")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 1.5F
+    override val portraitTranslation = Vec3d(0.15, 0.08, 0.0)
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -33,7 +33,7 @@ class WigglytuffModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0040_wigglytuff/wigglytuff", "ground_idle")
+                bedrock("0040_wigglytuff/wigglytuff", "ground_idle")
             )
         )
 
@@ -42,7 +42,7 @@ class WigglytuffModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0040_wigglytuff/wigglytuff", "ground_walk")
+                bedrock("0040_wigglytuff/wigglytuff", "ground_walk")
             )
         )
     }

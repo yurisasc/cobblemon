@@ -20,8 +20,8 @@ class KadabraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("kadabra")
     override val head = getPart("head")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 1.5F
+    override val portraitTranslation = Vec3d(-0.1, 0.6, 0.0)
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -33,20 +33,19 @@ class KadabraModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0064_kadabra/kadabra", "ground_idle")
+                singleBoneLook(),
+                bedrock("0064_kadabra/kadabra", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0064_kadabra/kadabra", "ground_walk")
+                singleBoneLook(),
+                bedrock("0064_kadabra/kadabra", "ground_idle")
+                //bedrock("0064_kadabra/kadabra", "ground_walk")
             )
         )
     }

@@ -18,7 +18,9 @@ import com.cablemc.pokemod.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.command.CommandSource
 import net.minecraft.command.argument.EntityArgumentType
+import net.minecraft.entity.Entity
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.CommandManager.literal
 import net.minecraft.server.command.ServerCommandSource
@@ -30,22 +32,26 @@ object HealPokemonCommand {
         val command = dispatcher.register(literal("healpokemon")
             .permission(PokemodPermissions.HEAL_POKEMON_SELF)
             .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+            .executes { execute(it.source, it.source.playerOrThrow) }
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
                     .permission(PokemodPermissions.HEAL_POKEMON_OTHER)
                     .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
-                    .executes { execute(it) }
+                    .executes { execute(it.source, it.player("player")) }
             ))
-        dispatcher.register(literal("pokeheal").redirect(command))
+        dispatcher.register(literal("pokeheal")
+            .redirect(command)
+            .executes(command.command)
+            .permission(PokemodPermissions.HEAL_POKEMON_SELF)
+            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
+        )
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>) : Int {
-        val entity = context.source.entity
-        val player = context.player("player") ?: (if (entity is ServerPlayerEntity) entity else return 0)
-        if (!player.world.isClient) {
-            val party = player.party()
+    private fun execute(source: ServerCommandSource, target: ServerPlayerEntity) : Int {
+        if (!target.world.isClient) {
+            val party = target.party()
             party.heal()
-            context.source.sendFeedback(commandLang("healpokemon.heal", player.name), true)
+            source.sendFeedback(commandLang("healpokemon.heal", target.name), true)
         }
         return Command.SINGLE_SUCCESS
     }

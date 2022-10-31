@@ -15,7 +15,7 @@
         "special_defence": 79,
         "speed": 80
     },
-    "standingEyeHeight": 2,
+    "standingEyeHeight": 1,
     "features": ["snake-pattern"],
     "catchRate": 90,
     "maleRatio": 0.5,
@@ -102,10 +102,10 @@
     ],
     "preEvolution": "ekans",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 0.75,
     "hitbox": {
         "width": 1.0,
-        "height": 1.0,
+        "height": 1.8,
         "fixed": false
     }
 }

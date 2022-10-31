@@ -1,0 +1,37 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.hypno.ground_idle": {
+			"loop": true,
+			"bones": {
+				"leftarm": {
+					"rotation": [0, 0, 8]
+				},
+				"leftforearm": {
+					"rotation": [-90, 45, -98]
+				},
+				"lefthand": {
+					"rotation": [0, 0, 45]
+				},
+				"spinyclockthing": {
+					"rotation": [0, -90, 0]
+				},
+				"rightarm": {
+					"rotation": [0, 10, -42.5]
+				},
+				"rightforearm": {
+					"rotation": [-11.5242, -82.8588, 23.8368]
+				},
+				"righthand": {
+					"rotation": [-22.5, 0, 0]
+				},
+				"leftleg": {
+					"rotation": [0, -10, 0]
+				},
+				"rightleg": {
+					"rotation": [0, 10, 0]
+				}
+			}
+		}
+	}
+}

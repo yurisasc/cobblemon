@@ -33,20 +33,19 @@ class ScytherModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0123_scyther/scyther", "ground_idle")
+                singleBoneLook(),
+                bedrock("0123_scyther/scyther", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0123_scyther/scyther", "ground_walk")
+                singleBoneLook(),
+                bedrock("0123_scyther/scyther", "ground_idle")
+                //bedrock("0123_scyther/scyther", "ground_walk")
             )
         )
     }

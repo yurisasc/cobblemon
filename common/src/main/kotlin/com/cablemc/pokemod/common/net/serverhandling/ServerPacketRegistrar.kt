@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common.net.serverhandling
 
+import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.net.SidedPacketRegistrar
 import com.cablemc.pokemod.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cablemc.pokemod.common.net.serverhandling.battle.BattleSelectActionsHandler
@@ -59,5 +60,7 @@ object ServerPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(SwapPCPartyPokemonHandler)
 
         registerHandler(RequestStarterScreenHandler)
+
+        PokemodNetwork.serverHandlersRegistered.complete(Unit)
     }
 }

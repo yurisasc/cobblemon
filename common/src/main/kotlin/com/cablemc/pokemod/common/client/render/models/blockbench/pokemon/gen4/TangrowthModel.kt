@@ -33,7 +33,7 @@ class TangrowthModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0465_tangrowth/tangrowth", "ground_idle")
+                //bedrock("0465_tangrowth/tangrowth", "ground_idle")
             )
         )
 
@@ -42,7 +42,7 @@ class TangrowthModel(root: ModelPart) : PokemonPoseableModel() {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                // bedrock("0465_tangrowth/tangrowth", "ground_walk")
+                //bedrock("0465_tangrowth/tangrowth", "ground_walk")
             )
         )
     }

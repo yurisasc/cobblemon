@@ -11,17 +11,21 @@ package com.cablemc.pokemod.common.command.argument
 import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemod.common.api.pokemon.PokemonSpecies
+import com.cablemc.pokemod.common.api.properties.CustomPokemonProperty
+import com.cablemc.pokemod.common.api.properties.CustomPokemonPropertyType
+import com.cablemc.pokemod.common.pokemon.properties.PropertiesCompletionProvider
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import java.util.concurrent.CompletableFuture
 import net.minecraft.command.CommandSource
+import java.util.concurrent.CompletableFuture
 class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
 
     companion object {
         val EXAMPLES: List<String> = listOf("eevee")
+        private val ASSIGNER = "="
 
         fun properties() = PokemonPropertiesArgumentType()
 
@@ -37,13 +41,35 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
         return PokemonProperties.parse(properties)
     }
 
-    override fun <S : Any> listSuggestions(
+    override fun <S : Any?> listSuggestions(
         context: CommandContext<S>,
         builder: SuggestionsBuilder
     ): CompletableFuture<Suggestions> {
-        // Just a neat shortcut for our own Pokémon since that will be the most common setup no need to overcomplicate
-        return CommandSource.suggestMatching(PokemonSpecies.species.map { if (it.resourceIdentifier.namespace == Pokemod.MODID) it.resourceIdentifier.path else it.resourceIdentifier.toString() }, builder)
+        val sections = builder.remainingLowerCase.split(" ")
+        if (sections.isEmpty())
+            return this.suggestSpeciesAndPropertyKeys(builder)
+        val currentSection = sections.last()
+        /**
+         * We already have a property defined and a potential value, let's try to suggest values based on provided [CustomPokemonPropertyType.examples]
+         */
+        if (currentSection.contains(ASSIGNER)) {
+            val propertyKey = currentSection.substringBefore(ASSIGNER)
+            val currentValue = currentSection.substringAfter(ASSIGNER)
+            return PropertiesCompletionProvider.suggestValues(propertyKey, currentValue, builder)
+        }
+        // We will always assume a species identifier has the priority as the first command argument as that's the most traditional approach as such lets provide property keys for the suggestion
+        else if (sections.size >= 2) {
+            val usedKeys = sections.filter { it.contains("=") }.map { it.substringBefore("=") }.toSet()
+            return PropertiesCompletionProvider.suggestKeys(currentSection, usedKeys, builder)
+        }
+        return this.suggestSpeciesAndPropertyKeys(builder)
     }
+
+    private fun suggestSpeciesAndPropertyKeys(builder: SuggestionsBuilder) = CommandSource.suggestMatching(this.collectSpeciesIdentifiers() + this.collectPropertyKeys(), builder)
+
+    private fun collectSpeciesIdentifiers() = PokemonSpecies.species.map { if (it.resourceIdentifier.namespace == Pokemod.MODID) it.resourceIdentifier.path else it.resourceIdentifier.toString() }
+
+    private fun collectPropertyKeys() = CustomPokemonProperty.properties.mapNotNull { it.keys.firstOrNull()?.lowercase() }
 
     override fun getExamples() = EXAMPLES
 }

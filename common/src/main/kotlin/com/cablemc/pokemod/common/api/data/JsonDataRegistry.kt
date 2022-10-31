@@ -13,6 +13,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.nio.file.Path
+import java.util.concurrent.ExecutionException
 import kotlin.io.path.pathString
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
@@ -50,7 +51,11 @@ interface JsonDataRegistry<T> : DataRegistry {
             resource.inputStream.use { stream ->
                 stream.bufferedReader().use { reader ->
                     val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                    data[resolvedIdentifier] = this.gson.fromJson(reader, this.typeToken.type)
+                    try {
+                        data[resolvedIdentifier] = this.gson.fromJson(reader, this.typeToken.type)
+                    } catch (exception: Exception) {
+                        throw ExecutionException("Error loading JSON for data: $identifier", exception)
+                    }
                 }
             }
         }

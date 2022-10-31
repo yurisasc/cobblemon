@@ -127,10 +127,10 @@
             "requiredContext": "pokemod:ice_stone"
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.7,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.8,
+        "height": 0.9,
         "fixed": false
     }
 }
