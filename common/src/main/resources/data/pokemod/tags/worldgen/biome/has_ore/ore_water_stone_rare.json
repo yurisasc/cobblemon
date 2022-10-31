@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#pokemod:is_jungle",
+	"#pokemod:is_thermal"
+  ]
+}
