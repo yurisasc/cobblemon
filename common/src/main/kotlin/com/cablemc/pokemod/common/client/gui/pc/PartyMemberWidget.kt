@@ -10,6 +10,7 @@ package com.cablemc.pokemod.common.client.gui.pc
 
 import com.cablemc.pokemod.common.api.gui.blitk
 import com.cablemc.pokemod.common.api.storage.party.PartyPosition
+import com.cablemc.pokemod.common.client.PokemodResources
 import com.cablemc.pokemod.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemod.common.client.storage.ClientPC
 import com.cablemc.pokemod.common.client.storage.ClientParty
@@ -18,13 +19,16 @@ import com.cablemc.pokemod.common.util.scaleIt
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
+
 class PartyMemberWidget(
     x: Int, y: Int,
+    private val parent: PCWidget,
     private val pcGui: PCGui,
     private val pc: ClientPC,
     private val party: ClientParty,
@@ -38,12 +42,15 @@ class PartyMemberWidget(
         private const val PC_BOX_DIMENSION = 32
 
         // Portrait
-        private const val PORTRAIT_DIMENSIONS = 27
+        private const val PORTRAIT_DIMENSIONS = 29
 
         // Slot Textures
         val slotOneResource = pokemodResource("ui/pc/pc_party_1.png")
         val slotTwoThroughFiveResource = pokemodResource("ui/pc/pc_party_2-5.png")
         val slotSixResource = pokemodResource("ui/pc/pc_party_6.png")
+    }
+
+    override fun playDownSound(soundManager: SoundManager) {
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -61,7 +68,7 @@ class PartyMemberWidget(
         val pokemon = party.get(position)
         if (pokemon != null) {
             val pokemonX = this.x - 3
-            val pokemonY = this.y - 4
+            val pokemonY = this.y - 1
 
             val minecraft = MinecraftClient.getInstance()
             RenderSystem.enableScissor(
@@ -70,6 +77,7 @@ class PartyMemberWidget(
                 this.scaleIt(PORTRAIT_DIMENSIONS),
                 this.scaleIt(PORTRAIT_DIMENSIONS)
             )
+            matrices.push()
             matrices.translate(pokemonX + (PORTRAIT_DIMENSIONS / 2.0) + 4, pokemonY + 4.0, 0.0)
             matrices.scale(2.5F, 2.5F, 1F)
             drawProfilePokemon(
@@ -80,6 +88,18 @@ class PartyMemberWidget(
                 scale = 6F
             )
             RenderSystem.disableScissor()
+            matrices.pop()
+
+            if (position == parent.selectedPosition) {
+                blitk(
+                    matrixStack = matrices,
+                    texture = PCWidget.selectedResource,
+                    x = x,
+                    y = y + 1,
+                    height = PORTRAIT_DIMENSIONS,
+                    width = PORTRAIT_DIMENSIONS
+                )
+            }
         }
 
         matrices.pop()

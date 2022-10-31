@@ -10,6 +10,8 @@ package com.cablemc.pokemod.common.client.gui.pc
 
 import com.cablemc.pokemod.common.api.gui.ColourLibrary
 import com.cablemc.pokemod.common.api.gui.blitk
+import com.cablemc.pokemod.common.api.storage.party.PartyPosition
+import com.cablemc.pokemod.common.api.storage.pc.PCPosition
 import com.cablemc.pokemod.common.client.PokemodResources
 import com.cablemc.pokemod.common.client.render.drawScaledText
 import com.cablemc.pokemod.common.client.storage.ClientPC

@@ -12,7 +12,6 @@ import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.PokemodClientImplementation
 import com.cablemc.pokemod.common.PokemodEntities.EMPTY_POKEBALL_TYPE
 import com.cablemc.pokemod.common.PokemodEntities.POKEMON_TYPE
-import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.client.PokemodClient
 import com.cablemc.pokemod.common.client.keybind.PokemodKeybinds
 import java.util.function.Supplier
