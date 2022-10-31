@@ -18,6 +18,8 @@ import com.cablemc.pokemod.common.api.spawning.context.calculators.SpawningConte
 import com.cablemc.pokemod.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemod.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemod.common.api.spawning.prospecting.SpawningProspector
+import com.cablemc.pokemod.common.util.squeezeWithinBounds
+import net.minecraft.util.math.BlockPos
 
 /**
  * A type of [TickingSpawner] that operates within some area. When this spawner type
@@ -44,9 +46,10 @@ abstract class AreaSpawner(
 
     override fun run(cause: SpawnCause): Pair<SpawningContext, SpawnDetail>? {
         val area = getArea(cause)
-        if (area != null) {
+        val constrainedArea = if (area != null) constrainArea(area) else null
+        if (constrainedArea != null) {
             //val prospectStart = System.currentTimeMillis()
-            val slice = prospector.prospect(this, area)
+            val slice = prospector.prospect(this, constrainedArea)
             //val prospectEnd = System.currentTimeMillis()
             val contexts = resolver.resolve(this, contextCalculators, slice)
             //val resolveEnd = System.currentTimeMillis()
@@ -58,5 +61,25 @@ abstract class AreaSpawner(
         }
 
         return null
+    }
+
+    private fun constrainArea(area: SpawningArea): SpawningArea? {
+        val basePos = BlockPos(area.baseX, area.baseY, area.baseZ)
+        val min = area.world.squeezeWithinBounds(basePos)
+        val max = area.world.squeezeWithinBounds(basePos.add(area.length, area.height, area.width))
+        return if (area.world.canSetBlock(min) && area.world.canSetBlock(max) && min.y != max.y) {
+            return SpawningArea(
+                cause = area.cause,
+                world = area.world,
+                baseX = min.x,
+                baseY = min.y,
+                baseZ = min.z,
+                length = area.length,
+                height = max.y - min.y,
+                width = area.width
+            )
+        } else {
+            null
+        }
     }
 }
