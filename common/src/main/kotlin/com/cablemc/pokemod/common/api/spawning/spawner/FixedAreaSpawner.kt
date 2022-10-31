@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.api.spawning.spawner
 import com.cablemc.pokemod.common.api.spawning.SpawnCause
 import com.cablemc.pokemod.common.api.spawning.SpawnerManager
 import com.cablemc.pokemod.common.api.spawning.detail.SpawnPool
-import com.cablemc.pokemod.common.util.squeezeWithinBounds
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -33,22 +32,17 @@ open class FixedAreaSpawner(
     val verticalRadius: Int
 ) : AreaSpawner(name, spawns, manager) {
     override fun getArea(cause: SpawnCause): SpawningArea? {
-        val min = world.squeezeWithinBounds(position.add(-horizontalRadius, -verticalRadius, -horizontalRadius))
-        val max = world.squeezeWithinBounds(position.add(horizontalRadius, verticalRadius, horizontalRadius))
+        val basePos = position.add(-horizontalRadius, -verticalRadius, -horizontalRadius)
 
-        return if (world.canSetBlock(min) && world.canSetBlock(max)) {
-            SpawningArea(
-                cause = cause,
-                world = world,
-                baseX = min.x,
-                baseY = min.y,
-                baseZ = min.z,
-                length = horizontalRadius * 2 + 1,
-                height = verticalRadius * 2 + 1,
-                width = horizontalRadius * 2 + 1
-            )
-        } else {
-            null
-        }
+        return SpawningArea(
+            cause = cause,
+            world = world,
+            baseX = basePos.x,
+            baseY = basePos.y,
+            baseZ = basePos.z,
+            length = horizontalRadius * 2 + 1,
+            height = verticalRadius * 2 + 1,
+            width = horizontalRadius * 2 + 1
+        )
     }
 }
