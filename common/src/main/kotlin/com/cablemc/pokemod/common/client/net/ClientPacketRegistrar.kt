@@ -63,6 +63,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<BenchedMovesUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<GenderUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<AspectsUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<AbilityUpdatePacket>(SingleUpdatePacketHandler())
 
         // Party storage
         registerHandler(InitializePartyHandler)

@@ -16,15 +16,27 @@ import com.cablemc.pokemod.common.api.abilities.Ability
 import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.events.PokemodEvents.FRIENDSHIP_UPDATED
 import com.cablemc.pokemod.common.api.events.PokemodEvents.POKEMON_FAINTED
-import com.cablemc.pokemod.common.api.events.pokemon.*
-import com.cablemc.pokemod.common.api.moves.*
+import com.cablemc.pokemod.common.api.events.pokemon.ExperienceGainedPostEvent
+import com.cablemc.pokemod.common.api.events.pokemon.ExperienceGainedPreEvent
+import com.cablemc.pokemod.common.api.events.pokemon.FriendshipUpdatedEvent
+import com.cablemc.pokemod.common.api.events.pokemon.LevelUpEvent
+import com.cablemc.pokemod.common.api.events.pokemon.PokemonFaintedEvent
+import com.cablemc.pokemod.common.api.moves.BenchedMove
+import com.cablemc.pokemod.common.api.moves.BenchedMoves
+import com.cablemc.pokemod.common.api.moves.MoveSet
+import com.cablemc.pokemod.common.api.moves.MoveTemplate
+import com.cablemc.pokemod.common.api.moves.Moves
 import com.cablemc.pokemod.common.api.pokeball.PokeBalls
 import com.cablemc.pokemod.common.api.pokemon.Natures
 import com.cablemc.pokemod.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemod.common.api.pokemon.PokemonPropertyExtractor
 import com.cablemc.pokemod.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemod.common.api.pokemon.aspect.AspectProvider
-import com.cablemc.pokemod.common.api.pokemon.evolution.*
+import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionController
+import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionDisplay
+import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionProxy
+import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceSource
 import com.cablemc.pokemod.common.api.pokemon.feature.SpeciesFeature
@@ -56,10 +68,24 @@ import com.cablemc.pokemod.common.pokemon.evolution.CobbledEvolutionProxy
 import com.cablemc.pokemod.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemod.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemod.common.pokemon.status.PersistentStatusContainer
-import com.cablemc.pokemod.common.util.*
+import com.cablemc.pokemod.common.util.DataKeys
+import com.cablemc.pokemod.common.util.getServer
+import com.cablemc.pokemod.common.util.lang
+import com.cablemc.pokemod.common.util.playSoundServer
+import com.cablemc.pokemod.common.util.pokemodResource
+import com.cablemc.pokemod.common.util.readSizedInt
+import com.cablemc.pokemod.common.util.setPositionSafely
+import com.cablemc.pokemod.common.util.writeSizedInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import java.util.Optional
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
+import kotlin.math.absoluteValue
+import kotlin.math.min
+import kotlin.math.roundToInt
+import kotlin.random.Random
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
@@ -75,12 +101,6 @@ import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.math.min
-import kotlin.math.roundToInt
-import kotlin.random.Random
-import kotlin.math.absoluteValue
 
 open class Pokemon {
     var uuid = UUID.randomUUID()
@@ -98,6 +118,7 @@ open class Pokemon {
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
             features.removeAll { it.name in removedFeatures }
             this.evolutionProxy.current().clear()
+            // if it used to have a legit ability but does not anymore, figure out what the new one should be
             updateAspects()
             updateForm()
             updateHP(quotient)
@@ -265,6 +286,12 @@ open class Pokemon {
     val benchedMoves = BenchedMoves()
 
     var ability: Ability = Abilities.first().create()
+        set(value) {
+            if (field != value) {
+                _ability.emit(value)
+            }
+            field = value
+        }
 
     val hp: Int
         get() = getStat(Stats.HP)
@@ -737,12 +764,8 @@ open class Pokemon {
     }
 
     fun initialize(): Pokemon {
-        // TODO some other initializations to do with form n shit\
         checkGender()
-        // shiny = randomize, probably
         initializeMoveset()
-
-        ability = form.abilities.select(species, aspects)
         return this
     }
 
@@ -966,6 +989,7 @@ open class Pokemon {
     private val _evs = registerObservable(evs.observable) // TODO needs a packet
     private val _aspects = registerObservable(SimpleObservable<Set<String>>()) { AspectsUpdatePacket(this, it) }
     private val _gender = registerObservable(SimpleObservable<Gender>()) { GenderUpdatePacket(this, it) }
+    private val _ability = registerObservable(SimpleObservable<Ability>()) { AbilityUpdatePacket(this, it.template) }
 
     companion object {
 

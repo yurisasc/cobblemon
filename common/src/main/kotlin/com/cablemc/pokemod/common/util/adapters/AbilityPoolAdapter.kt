@@ -27,7 +27,7 @@ object AbilityPoolAdapter : JsonDeserializer<AbilityPool> {
     override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): AbilityPool {
         val pool = AbilityPool()
         json.asJsonArray.forEach { element ->
-            val potentialAbility = PotentialAbility.interpreters.firstNotNullOfOrNull { it(element) }
+            val potentialAbility = PotentialAbility.types.firstNotNullOfOrNull { it.parseFromJSON(element) }
                 ?: throw IllegalStateException("Failed to interpret ability: $json")
             pool.add(potentialAbility.priority, potentialAbility)
         }

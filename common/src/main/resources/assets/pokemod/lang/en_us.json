@@ -67,7 +67,7 @@
   "pokemod.ui.stats.stat": "Stat",
   "pokemod.ui.stats.ivs": "IVs",
   "pokemod.ui.stats.evs": "EVs",
-  "pokemod.ui.stats.friendship": "Friendship: ",
+  "pokemod.ui.stats.friendship": "Friendship:",
   "pokemod.ui.info": "Info",
   "pokemod.ui.info.species": "Species:",
   "pokemod.ui.info.nature":  "Nature:",

@@ -11,9 +11,25 @@ package com.cablemc.pokemod.common.pokemon.abilities
 import com.cablemc.pokemod.common.api.Priority
 import com.cablemc.pokemod.common.api.abilities.Abilities
 import com.cablemc.pokemod.common.api.abilities.AbilityTemplate
-import com.cablemc.pokemod.common.api.abilities.CommonAbility
 import com.cablemc.pokemod.common.api.abilities.PotentialAbility
+import com.cablemc.pokemod.common.api.abilities.PotentialAbilityType
 import com.google.gson.JsonElement
+
+object HiddenAbilityType : PotentialAbilityType<HiddenAbility> {
+    override fun parseFromJSON(element: JsonElement): HiddenAbility? {
+        val str = if (element.isJsonPrimitive) element.asString else null
+        return if (str?.startsWith("h:") == true) {
+            val ability = Abilities.get(str.substringAfter("h:"))
+            if (ability != null) {
+                HiddenAbility(ability)
+            } else {
+                null
+            }
+        } else {
+            null
+        }
+    }
+}
 
 /**
  * Crappy Pokémon feature
@@ -23,20 +39,6 @@ import com.google.gson.JsonElement
  */
 class HiddenAbility(override val template: AbilityTemplate) : PotentialAbility {
     override val priority: Priority = Priority.LOW
+    override val type = HiddenAbilityType
     override fun isSatisfiedBy(aspects: Set<String>) = false // TODO actually implement hidden abilities ig? Chance in config or aspect check?
-    companion object {
-        val interpreter: (JsonElement) -> PotentialAbility? = {
-            val str = if (it.isJsonPrimitive) it.asString else null
-            if (str?.startsWith("h:") == true) {
-                val ability = Abilities.get(str.substringAfter("h:"))
-                if (ability != null) {
-                    HiddenAbility(ability)
-                } else {
-                    null
-                }
-            } else {
-               null
-            }
-        }
-    }
 }

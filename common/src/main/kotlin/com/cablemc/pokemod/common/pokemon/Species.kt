@@ -102,7 +102,7 @@ class Species : ClientDataSynchronizer<Species> {
         }
     }
 
-    fun create(level: Int = 5) = Pokemon().apply {
+    fun create(level: Int = 10) = Pokemon().apply {
         species = this@Species
         this.level = level
         initialize()

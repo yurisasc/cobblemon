@@ -31,6 +31,7 @@ import com.cablemc.pokemod.common.net.messages.client.data.AbilityRegistrySyncPa
 import com.cablemc.pokemod.common.net.messages.client.data.MovesRegistrySyncPacket
 import com.cablemc.pokemod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cablemc.pokemod.common.net.messages.client.data.SpeciesRegistrySyncPacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.AbilityUpdatePacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
@@ -143,6 +144,7 @@ object PokemodNetwork {
         buildClientMessage<BenchedMovesUpdatePacket>()
         buildClientMessage<GenderUpdatePacket>()
         buildClientMessage<AspectsUpdatePacket>()
+        buildClientMessage<AbilityUpdatePacket>()
         // Evolution start
         buildClientMessage<AddEvolutionPacket>()
         buildClientMessage<ClearEvolutionsPacket>()
