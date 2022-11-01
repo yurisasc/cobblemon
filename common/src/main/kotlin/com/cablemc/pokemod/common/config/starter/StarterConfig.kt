@@ -34,9 +34,9 @@ class StarterConfig {
             name = "Kanto",
             displayName = "pokemod.starterselection.category.kanto",
             pokemon = mutableListOf(
-                PokemonProperties.parse("Bulbasaur level=5"),
-                PokemonProperties.parse("Charmander level=5"),
-                PokemonProperties.parse("Squirtle level=5"),
+                PokemonProperties.parse("Bulbasaur level=10"),
+                PokemonProperties.parse("Charmander level=10"),
+                PokemonProperties.parse("Squirtle level=10"),
             )
         )//,
 //            StarterCategory(
