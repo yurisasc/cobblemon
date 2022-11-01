@@ -30,7 +30,7 @@ class HiddenAbility(override val template: AbilityTemplate) : PotentialAbility {
             if (str?.startsWith("h:") == true) {
                 val ability = Abilities.get(str.substringAfter("h:"))
                 if (ability != null) {
-                    CommonAbility(ability)
+                    HiddenAbility(ability)
                 } else {
                     null
                 }
