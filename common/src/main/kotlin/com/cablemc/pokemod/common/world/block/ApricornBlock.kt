@@ -8,7 +8,7 @@
 
 package com.cablemc.pokemod.common.world.block
 
-import com.cablemc.pokemod.common.PokemodBlockTags
+import com.cablemc.pokemod.common.tags.PokemodBlockTags
 import com.cablemc.pokemod.common.api.apricorn.Apricorn
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState

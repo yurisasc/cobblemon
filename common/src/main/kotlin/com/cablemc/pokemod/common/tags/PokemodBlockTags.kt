@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cablemc.pokemod.common
+package com.cablemc.pokemod.common.tags
 
 import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.tag.TagKey
@@ -22,7 +22,7 @@ object PokemodBlockTags {
 
     val APRICORN_LEAVES = createTag("apricorn_leaves")
     val APRICORNS = createTag("apricorns")
-    val DRIP_STONE_REPLACEABLES = createTag("drip_stone_replaceables")
+    val DRIPSTONE_REPLACEABLES = createTag("dripstone_replaceables")
     val FENCE_GATES = createTag("fence_gates")
     val FENCES = createTag("fences")
     val LEAVES = createTag("leaves")
@@ -37,6 +37,7 @@ object PokemodBlockTags {
     val WOODEN_PRESSURE_PLATES = createTag("wooden_pressure_plates")
     val WOODEN_SLABS = createTag("wooden_slabs")
     val WOODEN_STAIRS = createTag("wooden_stairs")
+    val DRIPSTONE_GROWABLE = createTag("dripstone_growable")
 
     private fun createTag(name: String) = TagKey.of(Registry.BLOCK_KEY, pokemodResource(name))
 

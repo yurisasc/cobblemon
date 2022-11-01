@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cablemc.pokemod.common
+package com.cablemc.pokemod.common.tags
 
 import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.tag.TagKey
@@ -49,6 +49,29 @@ object PokemodBiomeTags {
     val IS_TUNDRA = create("is_tundra")
     val IS_UNDERGROUND = create("is_underground")
     val IS_VOID = create("is_void")
+
+    // Has Ore tags
+    val HAS_DAWN_STONE_ORE = create("has_ore/ore_dawn_stone_normal")
+    val HAS_DAWN_STONE_ORE_RARE = create("has_ore/ore_dawn_stone_rare")
+    val HAS_DUSK_STONE_ORE = create("has_ore/ore_dusk_stone_normal")
+    val HAS_DUSK_STONE_ORE_RARE = create("has_ore/ore_dusk_stone_rare")
+    val HAS_FIRE_STONE_ORE = create("has_ore/ore_fire_stone_normal")
+    val HAS_FIRE_STONE_ORE_RARE = create("has_ore/ore_fire_stone_rare")
+    val HAS_ICE_STONE_ORE = create("has_ore/ore_ice_stone_normal")
+    val HAS_ICE_STONE_ORE_RARE = create("has_ore/ore_ice_stone_rare")
+    val HAS_LEAF_STONE_ORE = create("has_ore/ore_leaf_stone_normal")
+    val HAS_LEAF_STONE_ORE_RARE = create("has_ore/ore_leaf_stone_rare")
+    val HAS_MOON_STONE_ORE = create("has_ore/ore_moon_stone_normal")
+    val HAS_MOON_STONE_ORE_RARE = create("has_ore/ore_moon_stone_rare")
+    val HAS_MOON_STONE_ORE_DRIPSTONE = create("has_ore/ore_moon_stone_dripstone")
+    val HAS_SHINY_STONE_ORE = create("has_ore/ore_shiny_stone_normal")
+    val HAS_SHINY_STONE_ORE_RARE = create("has_ore/ore_shiny_stone_rare")
+    val HAS_SUN_STONE_ORE = create("has_ore/ore_sun_stone_normal")
+    val HAS_SUN_STONE_ORE_RARE = create("has_ore/ore_sun_stone_rare")
+    val HAS_THUNDER_STONE_ORE = create("has_ore/ore_thunder_stone_normal")
+    val HAS_THUNDER_STONE_ORE_RARE = create("has_ore/ore_thunder_stone_rare")
+    val HAS_WATER_STONE_ORE = create("has_ore/ore_water_stone_normal")
+    val HAS_WATER_STONE_ORE_RARE = create("has_ore/ore_water_stone_rare")
 
     private fun create(path: String) = TagKey.of(Registry.BIOME_KEY, pokemodResource(path))
 }
