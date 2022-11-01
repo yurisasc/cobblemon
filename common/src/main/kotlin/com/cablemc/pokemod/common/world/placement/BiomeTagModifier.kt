@@ -29,19 +29,19 @@ import net.minecraft.world.gen.placementmodifier.PlacementModifierType
  * @author Hiroku
  * @since March 25th, 2022
  */
-class IsBiomeTagFilter(private val tag: TagKey<Biome>) : AbstractConditionalPlacementModifier() {
-    override fun getType(): PlacementModifierType<*> = PokemodPlacementTypes.IS_BIOME_TAG_FILTER
+class BiomeTagModifier(private val tag: TagKey<Biome>) : AbstractConditionalPlacementModifier() {
+    override fun getType(): PlacementModifierType<*> = PokemodPlacementTypes.BIOME_TAG_FILTER
     override fun shouldPlace(ctx: FeaturePlacementContext, r: Random, pos: BlockPos) = ctx.world.getBiome(pos).isIn(tag)
 
     companion object {
-        val CODEC: Codec<IsBiomeTagFilter> = RecordCodecBuilder.create { builder ->
+        val CODEC: Codec<BiomeTagModifier> = RecordCodecBuilder.create { builder ->
             builder
                 .group(
-                    TagKey.codec(Registry.BIOME_KEY)
-                        .fieldOf("valid_biome")
+                    TagKey.unprefixedCodec(Registry.BIOME_KEY)
+                        .fieldOf("tag")
                         .forGetter { it.tag }
                 )
-                .apply(builder) { IsBiomeTagFilter(it) }
+                .apply(builder) { BiomeTagModifier(it) }
         }
     }
 }

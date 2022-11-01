@@ -87,7 +87,8 @@ import com.cablemc.pokemod.common.util.ifDedicatedServer
 import com.cablemc.pokemod.common.util.pokemodResource
 import com.cablemc.pokemod.common.util.removeAmountIf
 import com.cablemc.pokemod.common.world.PokemodGameRules
-import com.cablemc.pokemod.common.world.generation.PokemodWorldGeneration
+import com.cablemc.pokemod.common.world.feature.PokemodOrePlacedFeatures
+import com.cablemc.pokemod.common.world.placement.PokemodPlacementTypes
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
 import net.minecraft.client.MinecraftClient
@@ -168,7 +169,8 @@ object Pokemod {
             LOGGER.info("All registries loaded.")
         }
 
-        PokemodWorldGeneration.register()
+        PokemodPlacementTypes.register()
+        PokemodOrePlacedFeatures.register()
 
         // Start up the data provider.
         CobbledDataProvider.registerDefaults()

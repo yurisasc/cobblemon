@@ -12,6 +12,7 @@
   "mixins": [
     "ArgumentTypesMixin",
     "PlayerMixin",
+    "PointedDripstoneBlockMixin",
     "accessor.AccessorEntity"
   ],
   "injectors": {

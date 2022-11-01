@@ -15,13 +15,13 @@ import net.minecraft.world.gen.placementmodifier.PlacementModifier
 import net.minecraft.world.gen.placementmodifier.PlacementModifierType
 
 object PokemodPlacementTypes {
-    lateinit var IS_BIOME_TAG_FILTER: PlacementModifierType<IsBiomeTagFilter>
+    lateinit var BIOME_TAG_FILTER: PlacementModifierType<BiomeTagModifier>
 
     private fun <P : PlacementModifier> registerType(id: String, codec: Codec<P>): PlacementModifierType<P> {
         return Registry.register(Registry.PLACEMENT_MODIFIER_TYPE, pokemodResource(id), PlacementModifierType { codec })
     }
 
     fun register() {
-        IS_BIOME_TAG_FILTER = registerType("is_biome_tag_filter", IsBiomeTagFilter.CODEC)
+        BIOME_TAG_FILTER = registerType("biome_tag_filter", BiomeTagModifier.CODEC)
     }
 }
