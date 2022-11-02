@@ -15,6 +15,7 @@ import com.cablemc.pokemod.common.util.randomNoCopy
 import com.cablemc.pokemod.common.world.block.ApricornBlock
 import com.google.common.collect.Lists
 import com.mojang.serialization.Codec
+import kotlin.random.Random.Default.nextInt
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
@@ -28,11 +29,12 @@ import net.minecraft.util.math.random.Random
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.TestableWorld
+import net.minecraft.world.chunk.ChunkStatus
 import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig
 import net.minecraft.world.gen.feature.TreeFeature
 import net.minecraft.world.gen.feature.util.FeatureContext
-import kotlin.random.Random.Default.nextInt
+
 class ApricornTreeFeature(
     codec: Codec<SingleStateFeatureConfig>
 ) : Feature<SingleStateFeatureConfig>(codec) {
@@ -45,7 +47,9 @@ class ApricornTreeFeature(
         val random = context.random
         val origin = context.origin
 
-        if (context.feature.isPresent) {
+        val isGenerating = worldGenLevel.getChunk(origin).status != ChunkStatus.FULL
+
+        if (isGenerating) {
             val biome = worldGenLevel.getBiome(origin)
             val multiplier = if (biome.isIn(apricornDenseBiomeTag)) {
                 10F
@@ -169,7 +173,7 @@ class ApricornTreeFeature(
                         it.second,
                         context.config.state
                             .with(HorizontalFacingBlock.FACING, it.first)
-                            .with(ApricornBlock.AGE, if (context.feature.isPresent) ApricornBlock.MAX_AGE else 0)
+                            .with(ApricornBlock.AGE, if (isGenerating) ApricornBlock.MAX_AGE else 0)
                     )
                 }
         }
