@@ -122,5 +122,6 @@
         "speed": 3
     },
     "height": 28,
-    "weight": 1100
+    "weight": 1100,
+    "dynamaxBlocked": true
 }

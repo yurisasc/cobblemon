@@ -78,7 +78,7 @@ class FormData(
     private var flyingEyeHeight: Float? = null,
     @SerializedName("labels")
     private val _labels: Set<String>? = null,
-    @SerializedName("cannotDynamax")
+    @SerializedName("dynamaxBlocked")
     private var _dynamaxBlocked: Boolean? = null,
     @SerializedName("eggGroups")
     private val _eggGroups: Set<EggGroup>? = null,

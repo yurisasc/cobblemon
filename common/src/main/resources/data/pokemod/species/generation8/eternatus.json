@@ -116,5 +116,6 @@
         "hp": 3
     },
     "height": 200,
-    "weight": 9500
+    "weight": 9500,
+    "dynamaxBlocked": true
 }
