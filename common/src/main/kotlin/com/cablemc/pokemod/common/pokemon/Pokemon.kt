@@ -23,6 +23,7 @@ import com.cablemc.pokemod.common.api.events.pokemon.LevelUpEvent
 import com.cablemc.pokemod.common.api.events.pokemon.PokemonFaintedEvent
 import com.cablemc.pokemod.common.api.moves.BenchedMove
 import com.cablemc.pokemod.common.api.moves.BenchedMoves
+import com.cablemc.pokemod.common.api.moves.Move
 import com.cablemc.pokemod.common.api.moves.MoveSet
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
 import com.cablemc.pokemod.common.api.moves.Moves
