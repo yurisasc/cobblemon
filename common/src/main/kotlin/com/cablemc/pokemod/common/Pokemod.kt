@@ -79,6 +79,7 @@ import com.cablemc.pokemod.common.pokemon.feature.BattleCriticalHitsFeature
 import com.cablemc.pokemod.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemod.common.pokemon.feature.SNAKE_PATTERN
 import com.cablemc.pokemod.common.pokemon.feature.SnakePatternFeature
+import com.cablemc.pokemod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cablemc.pokemod.common.pokemon.properties.UncatchableProperty
 import com.cablemc.pokemod.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemod.common.pokemon.properties.tags.PokemonFlagProperty
@@ -207,6 +208,7 @@ object Pokemod {
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)
         CustomPokemonProperty.register(PokemonFlagProperty)
+        CustomPokemonProperty.register(HiddenAbilityPropertyType)
 
         CommandRegistrationEvent.EVENT.register(PokemodCommands::register)
 

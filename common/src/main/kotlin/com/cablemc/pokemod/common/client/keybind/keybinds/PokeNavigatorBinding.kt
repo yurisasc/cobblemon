@@ -30,7 +30,7 @@ object PokeNavigatorBinding : PokemodKeyBinding(
         val startersLocked = PokemodClient.clientPlayerData.starterLocked
         if (!starterSelected && !havePokemon) {
             if (startersLocked) {
-                MinecraftClient.getInstance().player?.sendMessage(lang("ui.starterscreen.cannotchoose").red(), false)
+                MinecraftClient.getInstance().player?.sendMessage(lang("ui.starter.cannotchoose").red(), false)
             } else {
                 RequestStarterScreenPacket().sendToServer()
             }

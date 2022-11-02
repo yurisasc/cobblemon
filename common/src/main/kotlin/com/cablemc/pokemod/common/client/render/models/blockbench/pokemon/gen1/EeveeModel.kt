@@ -18,6 +18,7 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.Pokemo
 import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Z_AXIS
 import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
@@ -45,7 +46,7 @@ class EeveeModel(root: ModelPart) : PokemonPoseableModel(), EaredFrame, HeadedFr
     override fun registerPoses() {
         stand = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES,
+            poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0133_eevee/eevee", "ground_idle")

@@ -286,7 +286,7 @@ open class PokemonProperties {
     }
 
     fun create(): Pokemon {
-        return Pokemon().also { apply(it) }.also { it.initialize() }
+        return Pokemon().also { apply(it) }.also { if (it.moveSet.none { it != null }) it.initializeMoveset() }
     }
 
     fun createEntity(world: World): PokemonEntity {
@@ -295,7 +295,7 @@ open class PokemonProperties {
 
     fun saveToNBT(): NbtCompound {
         val nbt = NbtCompound()
-        originalString?.let { nbt.putString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT, it) }
+        originalString.let { nbt.putString(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT, it) }
         level?.let { nbt.putInt(DataKeys.POKEMON_LEVEL, it) }
         shiny?.let { nbt.putBoolean(DataKeys.POKEMON_SHINY, it) }
         gender?.let { nbt.putString(DataKeys.POKEMON_GENDER, it.name) }
@@ -325,7 +325,7 @@ open class PokemonProperties {
 
     fun saveToJSON(): JsonObject {
         val json = JsonObject()
-        originalString?.let { json.addProperty(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT, it) }
+        originalString.let { json.addProperty(DataKeys.POKEMON_PROPERTIES_ORIGINAL_TEXT, it) }
         level?.let { json.addProperty(DataKeys.POKEMON_LEVEL, it) }
         shiny?.let { json.addProperty(DataKeys.POKEMON_SHINY, it) }
         gender?.let { json.addProperty(DataKeys.POKEMON_GENDER, it.name) }
