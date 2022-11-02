@@ -22,8 +22,8 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 15,
     "eggGroups": [
-        "water1",
-        "ground"
+        "water_1",
+        "field"
     ],
     "moves": [
         "1:pound",
@@ -36,9 +36,11 @@
         "20:sing",
         "25:bubblebeam",
         "30:encore",
+        "33:doubleslap",
         "35:mistyterrain",
         "40:hypervoice",
         "45:moonblast",
+        "46:captivate",
         "50:hydropump",
         "tm:acrobatics",
         "tm:amnesia",
@@ -46,32 +48,48 @@
         "tm:blizzard",
         "tm:brine",
         "tm:charm",
+        "tm:confide",
         "tm:dive",
+        "tm:doubleteam",
         "tm:drainingkiss",
+        "tm:echoedvoice",
+        "tm:encore",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:hail",
         "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:hydropump",
+        "tm:hypervoice",
         "tm:icebeam",
+        "tm:icywind",
         "tm:irontail",
+        "tm:mistyterrain",
         "tm:playrough",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scald",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
+        "tm:toxic",
         "tm:uproar",
         "tm:waterfall",
         "tm:whirlpool",
         "tm:wonderroom",
         "tm:workup",
+        "tutor:aquatail",
+        "tutor:covet",
         "tutor:flipturn",
         "tutor:tripleaxel",
-        "tutor:waterpledge"
+        "tutor:waterpledge",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen7"
@@ -101,5 +119,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 6,
+    "weight": 175
 }

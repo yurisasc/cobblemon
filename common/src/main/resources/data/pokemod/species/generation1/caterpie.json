@@ -25,7 +25,9 @@
     "catchRate": 255,
     "maleRatio": 0.5,
     "shoulderMountable": false,
-    "features": ["valencian"],
+    "features": [
+        "valencian"
+    ],
     "baseExperienceYield": 39,
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
@@ -45,7 +47,8 @@
         "1:tackle",
         "1:stringshot",
         "9:bugbite",
-        "tm:electroweb"
+        "tm:electroweb",
+        "tutor:snore"
     ],
     "labels": [
         "gen1"
@@ -74,5 +77,12 @@
         "width": 0.6,
         "height": 0.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 3,
+    "weight": 29,
+    "forms": []
 }

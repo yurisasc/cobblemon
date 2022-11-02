@@ -23,7 +23,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "1:smog",
@@ -44,6 +44,7 @@
         "50:earthpower",
         "egg:acidarmor",
         "egg:curse",
+        "egg:earthpower",
         "egg:guardswap",
         "egg:heatwave",
         "egg:inferno",
@@ -54,23 +55,30 @@
         "egg:stockpile",
         "egg:swallow",
         "tm:attract",
+        "tm:captivate",
         "tm:confide",
         "tm:doubleteam",
+        "tm:endure",
         "tm:facade",
         "tm:fireblast",
         "tm:flamecharge",
+        "tm:flamethrower",
         "tm:frustration",
         "tm:hiddenpower",
         "tm:infestation",
         "tm:lightscreen",
+        "tm:naturalgift",
         "tm:naturepower",
         "tm:overheat",
         "tm:protect",
         "tm:reflect",
         "tm:rest",
         "tm:return",
+        "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:sunnyday",
@@ -78,8 +86,15 @@
         "tm:toxic",
         "tm:willowisp",
         "tutor:afteryou",
+        "tutor:defensecurl",
+        "tutor:doubleedge",
+        "tutor:earthpower",
+        "tutor:heatwave",
         "tutor:irondefense",
+        "tutor:mimic",
+        "tutor:mudslap",
         "tutor:painsplit",
+        "tutor:selfdestruct",
         "tutor:snore"
     ],
     "labels": [
@@ -109,5 +124,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 7,
+    "weight": 350
 }

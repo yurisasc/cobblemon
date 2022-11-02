@@ -22,7 +22,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:scratch",
@@ -48,33 +48,48 @@
         "egg:wish",
         "tm:attract",
         "tm:confide",
+        "tm:cut",
         "tm:doubleteam",
         "tm:dreameater",
         "tm:echoedvoice",
         "tm:embargo",
         "tm:facade",
+        "tm:fireblast",
+        "tm:flamecharge",
+        "tm:flamethrower",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
+        "tm:incinerate",
+        "tm:lightscreen",
         "tm:overheat",
+        "tm:poweruppunch",
         "tm:protect",
+        "tm:psychic",
         "tm:psychup",
+        "tm:psyshock",
         "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:solarbeam",
         "tm:substitute",
+        "tm:sunnyday",
         "tm:swagger",
         "tm:thief",
         "tm:toxic",
+        "tm:willowisp",
         "tm:workup",
         "tutor:covet",
         "tutor:firepledge",
         "tutor:foulplay",
+        "tutor:heatwave",
         "tutor:irontail",
+        "tutor:magiccoat",
+        "tutor:magicroom",
         "tutor:snore"
     ],
     "labels": [
@@ -104,5 +119,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 4,
+    "weight": 94
 }

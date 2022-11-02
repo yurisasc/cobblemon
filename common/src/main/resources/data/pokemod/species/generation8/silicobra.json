@@ -23,7 +23,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground",
+        "field",
         "dragon"
     ],
     "moves": [
@@ -45,6 +45,9 @@
         "egg:mudslap",
         "egg:poisontail",
         "tm:attract",
+        "tm:brutalswing",
+        "tm:bulldoze",
+        "tm:dig",
         "tm:drillrun",
         "tm:earthpower",
         "tm:earthquake",
@@ -54,6 +57,8 @@
         "tm:protect",
         "tm:rest",
         "tm:round",
+        "tm:sandstorm",
+        "tm:sandtomb",
         "tm:screech",
         "tm:sleeptalk",
         "tm:snore",
@@ -89,5 +94,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 22,
+    "weight": 76
 }

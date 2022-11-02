@@ -14,14 +14,14 @@
         "speed": 200
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 290,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:thundershock",
@@ -47,9 +47,11 @@
         "tm:eerieimpulse",
         "tm:electricterrain",
         "tm:electroball",
+        "tm:electroweb",
         "tm:endure",
         "tm:facade",
         "tm:gigaimpact",
+        "tm:hyperbeam",
         "tm:lightscreen",
         "tm:protect",
         "tm:raindance",
@@ -63,13 +65,15 @@
         "tm:substitute",
         "tm:swift",
         "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderwave",
         "tm:voltswitch",
         "tm:wildcharge",
         "tutor:risingvoltage"
     ],
     "labels": [
-        "legendary",
-        "gen8"
+        "gen8",
+        "legendary"
     ],
     "pokedex": [
         "pokemod.species.regieleki.desc1",
@@ -81,5 +85,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 35,
+    "evYield": {
+        "speed": 3
+    },
+    "height": 12,
+    "weight": 1450
 }

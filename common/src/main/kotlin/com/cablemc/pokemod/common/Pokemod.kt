@@ -34,6 +34,8 @@ import com.cablemc.pokemod.common.api.pokemon.experience.StandardExperienceCalcu
 import com.cablemc.pokemod.common.api.pokemon.feature.EnumSpeciesFeature
 import com.cablemc.pokemod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cablemc.pokemod.common.api.pokemon.feature.SpeciesFeature
+import com.cablemc.pokemod.common.api.pokemon.stats.EvCalculator
+import com.cablemc.pokemod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cablemc.pokemod.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemod.common.api.reactive.Observable.Companion.takeFirst
 import com.cablemc.pokemod.common.api.scheduling.ScheduledTaskTracker
@@ -72,6 +74,7 @@ import com.cablemc.pokemod.common.pokemon.Pokemon
 import com.cablemc.pokemod.common.pokemon.aspects.GENDER_ASPECT
 import com.cablemc.pokemod.common.pokemon.aspects.SHINY_ASPECT
 import com.cablemc.pokemod.common.pokemon.aspects.SnakePatternAspect
+import com.cablemc.pokemod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cablemc.pokemod.common.pokemon.feature.BattleCriticalHitsFeature
 import com.cablemc.pokemod.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemod.common.pokemon.feature.SNAKE_PATTERN
@@ -82,17 +85,17 @@ import com.cablemc.pokemod.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cablemc.pokemod.common.registry.CompletableRegistry
 import com.cablemc.pokemod.common.starter.CobbledStarterHandler
-import com.cablemc.pokemod.common.util.DataKeys
-import com.cablemc.pokemod.common.util.getServer
-import com.cablemc.pokemod.common.util.ifDedicatedServer
-import com.cablemc.pokemod.common.util.pokemodResource
-import com.cablemc.pokemod.common.util.removeAmountIf
+import com.cablemc.pokemod.common.util.*
 import com.cablemc.pokemod.common.world.PokemodGameRules
-import com.cablemc.pokemod.common.world.generation.PokemodWorldGeneration
+import dev.architectury.event.EventResult
+import com.cablemc.pokemod.common.world.feature.PokemodOrePlacedFeatures
+import com.cablemc.pokemod.common.world.placement.PokemodPlacementTypes
 import dev.architectury.event.events.common.CommandRegistrationEvent
+import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
@@ -116,6 +119,7 @@ object Pokemod {
     lateinit var showdown: ShowdownConnection
     var captureCalculator: CaptureCalculator = CobbledGen348CaptureCalculator
     var experienceCalculator: ExperienceCalculator = StandardExperienceCalculator
+    var evYieldCalculator: EvCalculator = Generation8EvCalculator
     var starterHandler: StarterHandler = CobbledStarterHandler()
     var isDedicatedServer = false
     var showdownThread = ShowdownThread()
@@ -157,6 +161,18 @@ object Pokemod {
             ServerSettingsPacket().sendToPlayer(it)
         }
         PLAYER_QUIT.subscribe { PCLinkManager.removeLink(it.uuid) }
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(InteractionEvent.RightClickBlock { pl, _, pos, _ ->
+            val player = pl as? ServerPlayerEntity ?: return@RightClickBlock EventResult.pass()
+            val block = player.world.getBlockState(pos).block
+            player.party().forEach { pokemon ->
+                pokemon.evolutions
+                    .filterIsInstance<BlockClickEvolution>()
+                    .forEach { evolution ->
+                        evolution.attemptEvolution(pokemon, BlockClickEvolution.BlockInteractionContext(block, player.world))
+                    }
+            }
+            return@RightClickBlock EventResult.pass()
+        })
         TrackedDataHandlerRegistry.register(Vec3DataSerializer)
         TrackedDataHandlerRegistry.register(StringSetDataSerializer)
         TrackedDataHandlerRegistry.register(PoseTypeDataSerializer)
@@ -169,7 +185,8 @@ object Pokemod {
             LOGGER.info("All registries loaded.")
         }
 
-        PokemodWorldGeneration.register()
+        PokemodPlacementTypes.register()
+        PokemodOrePlacedFeatures.register()
 
         // Start up the data provider.
         CobbledDataProvider.registerDefaults()

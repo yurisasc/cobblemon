@@ -1,64 +1,51 @@
 {
-    "name": "zigzagoon",
-    "nationalPokedexNumber": 263,
-    "primaryType": "normal",
-    "abilities": [
-        "pickup",
-        "gluttony",
-        "h:quickfeet"
-    ],
-    "baseStats": {
-        "hp": 38,
-        "attack": 30,
-        "defence": 41,
-        "special_attack": 30,
-        "special_defence": 41,
-        "speed": 60
-    },
-    "catchRate": 255,
-    "maleRatio": 0.5,
-    "shoulderMountable": false,
-    "forms": [
-        {
-            "name": "galar",
-            "primaryType": "dark",
-            "secondaryType": "normal",
-            "aspects": [
-                "galar"
-            ]
-        }
-    ],
-    "baseExperienceYield": 56,
-    "experienceGroup": "mediumfast",
-    "eggCycles": 15,
-    "eggGroups": [
-        "ground"
-    ],
-    "moves": [
+  "name": "zigzagoon",
+  "nationalPokedexNumber": 263,
+  "primaryType": "normal",
+  "abilities": ["pickup", "gluttony", "h:quickfeet"],
+  "baseStats": {
+    "hp": 38,
+    "attack": 30,
+    "defence": 41,
+    "special_attack": 30,
+    "special_defence": 41,
+    "speed": 60
+  },
+  "catchRate": 255,
+  "maleRatio": 0.5,
+  "shoulderMountable": false,
+  "forms": [
+    {
+      "name": "galar",
+      "primaryType": "dark",
+      "secondaryType": "normal",
+      "moves": [
         "1:tackle",
-        "1:growl",
+        "1:leer",
         "3:sandattack",
-        "6:tailwhip",
-        "9:covet",
+        "6:lick",
+        "9:snarl",
         "12:headbutt",
         "15:babydolleyes",
         "18:pinmissile",
         "21:rest",
         "24:takedown",
-        "27:fling",
-        "30:flail",
-        "33:bellydrum",
+        "27:scaryface",
+        "30:counter",
+        "33:taunt",
         "36:doubleedge",
-        "egg:extremespeed",
-        "egg:simplebeam",
-        "egg:tickle",
+        "egg:knockoff",
+        "egg:partingshot",
+        "egg:quickguard",
+        "tm:assurance",
         "tm:attract",
         "tm:blizzard",
         "tm:bodyslam",
-        "tm:charm",
         "tm:dig",
         "tm:endure",
         "tm:facade",
+        "tm:faketears",
+        "tm:fling",
         "tm:grassknot",
         "tm:gunkshot",
         "tm:helpinghand",
@@ -67,53 +54,176 @@
         "tm:icywind",
         "tm:irontail",
         "tm:mudshot",
+        "tm:payback",
+        "tm:pinmissile",
         "tm:protect",
         "tm:raindance",
+        "tm:rest",
         "tm:retaliate",
         "tm:round",
+        "tm:scaryface",
+        "tm:screech",
         "tm:seedbomb",
         "tm:shadowball",
         "tm:sleeptalk",
+        "tm:snarl",
         "tm:snore",
         "tm:substitute",
         "tm:sunnyday",
         "tm:surf",
         "tm:swift",
-        "tm:tailslap",
+        "tm:taunt",
         "tm:thief",
         "tm:thunder",
         "tm:thunderbolt",
         "tm:thunderwave",
         "tm:trick",
         "tm:whirlpool",
-        "tm:workup"
-    ],
-    "labels": [
-        "gen3"
-    ],
-    "pokedex": [
-        "pokemod.species.zigzagoon.desc1",
-        "pokemod.species.zigzagoon.desc2"
-    ],
-    "evolutions": [
+        "tm:workup",
+        "tutor:lashout"
+      ],
+      "pokedex": [
+        "pokemod.form.zigzagoon-galar.desc1",
+        "pokemod.form.zigzagoon-galar.desc2"
+      ],
+      "labels": ["gen3", "galar_regional", "regional"],
+      "evolutions": [
         {
-            "id": "zigzagoon_linoone",
-            "variant": "level_up",
-            "result": "linoone",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "level",
-                    "minLevel": 20
-                }
-            ]
+          "id": "zigzagoon_linoone_galar",
+          "variant": "level_up",
+          "result": "linoone form=galar",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 20
+            }
+          ]
         }
-    ],
-    "baseScale": 1.0,
-    "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
-        "fixed": false
+      ]
     }
+  ],
+  "baseExperienceYield": 56,
+  "experienceGroup": "mediumfast",
+  "eggCycles": 15,
+  "eggGroups": ["field"],
+  "moves": [
+    "1:tackle",
+    "1:growl",
+    "3:sandattack",
+    "6:tailwhip",
+    "9:covet",
+    "12:headbutt",
+    "13:odorsleuth",
+    "15:babydolleyes",
+    "17:mudsport",
+    "18:pinmissile",
+    "21:rest",
+    "24:takedown",
+    "25:bestow",
+    "27:fling",
+    "30:flail",
+    "33:bellydrum",
+    "36:doubleedge",
+    "egg:extremespeed",
+    "egg:mudslap",
+    "egg:pursuit",
+    "egg:rockclimb",
+    "egg:simplebeam",
+    "egg:tickle",
+    "tm:attract",
+    "tm:blizzard",
+    "tm:bodyslam",
+    "tm:captivate",
+    "tm:chargebeam",
+    "tm:charm",
+    "tm:confide",
+    "tm:cut",
+    "tm:dig",
+    "tm:doubleteam",
+    "tm:echoedvoice",
+    "tm:endure",
+    "tm:facade",
+    "tm:fling",
+    "tm:frustration",
+    "tm:grassknot",
+    "tm:gunkshot",
+    "tm:helpinghand",
+    "tm:hiddenpower",
+    "tm:honeclaws",
+    "tm:hypervoice",
+    "tm:icebeam",
+    "tm:icywind",
+    "tm:irontail",
+    "tm:mudshot",
+    "tm:naturalgift",
+    "tm:pinmissile",
+    "tm:protect",
+    "tm:raindance",
+    "tm:rest",
+    "tm:retaliate",
+    "tm:return",
+    "tm:rocksmash",
+    "tm:round",
+    "tm:secretpower",
+    "tm:seedbomb",
+    "tm:shadowball",
+    "tm:sleeptalk",
+    "tm:snore",
+    "tm:substitute",
+    "tm:sunnyday",
+    "tm:surf",
+    "tm:swagger",
+    "tm:swift",
+    "tm:tailslap",
+    "tm:thief",
+    "tm:thunder",
+    "tm:thunderbolt",
+    "tm:thunderwave",
+    "tm:toxic",
+    "tm:trick",
+    "tm:whirlpool",
+    "tm:workup",
+    "tutor:defensecurl",
+    "tutor:furycutter",
+    "tutor:lastresort",
+    "tutor:mimic",
+    "tutor:rollout",
+    "tutor:shockwave",
+    "tutor:superfang",
+    "tutor:waterpulse"
+  ],
+  "labels": ["gen3", "hoenn_regional", "regional"],
+  "pokedex": [
+    "pokemod.species.zigzagoon.desc1",
+    "pokemod.species.zigzagoon.desc2"
+  ],
+  "evolutions": [
+    {
+      "id": "zigzagoon_linoone",
+      "variant": "level_up",
+      "result": "linoone",
+      "consumeHeldItem": false,
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 20
+        }
+      ]
+    }
+  ],
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.0,
+    "height": 1.0,
+    "fixed": false
+  },
+  "baseFriendship": 50,
+  "evYield": {
+    "speed": 1
+  },
+  "height": 4,
+  "weight": 175
 }

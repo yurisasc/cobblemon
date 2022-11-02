@@ -26,9 +26,9 @@
     "eggGroups": [
         "flying"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
-			"fly": {
+            "fly": {
                 "canFly": true
             }
         }
@@ -50,50 +50,75 @@
         "1:gust",
         "1:sandattack",
         "1:tackle",
-        "13:quickattack",
-        "17:whirlwind",
+        "1:quickattack",
+        "3:sandattack",
+        "5:gust",
+        "9:quickattack",
+        "11:mirrormove",
+        "15:wingattack",
+        "17:roost",
         "22:twister",
+        "25:whirlwind",
         "27:featherdance",
-        "32:agility",
-        "37:wingattack",
-        "42:roost",
+        "31:agility",
+        "39:airslash",
+        "45:razorwind",
         "47:tailwind",
-        "52:mirrormove",
-        "57:airslash",
         "62:hurricane",
         "tm:aerialace",
         "tm:attract",
+        "tm:bide",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
+        "tm:detect",
         "tm:doubleteam",
+        "tm:endure",
         "tm:facade",
         "tm:fly",
         "tm:frustration",
+        "tm:headbutt",
         "tm:hiddenpower",
+        "tm:naturalgift",
+        "tm:pluck",
         "tm:protect",
+        "tm:rage",
         "tm:raindance",
+        "tm:reflect",
         "tm:rest",
         "tm:return",
+        "tm:roost",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:steelwing",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
+        "tm:takedown",
         "tm:thief",
         "tm:toxic",
         "tm:uturn",
         "tm:workup",
+        "tutor:aircutter",
         "tutor:defog",
+        "tutor:doubleedge",
         "tutor:heatwave",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:ominouswind",
         "tutor:skyattack",
         "tutor:snore",
+        "tutor:swift",
+        "tutor:tailwind",
         "tutor:uproar"
     ],
     "labels": [
         "gen1"
     ],
     "pokedex": [
-        "pokemod.species.pidgeotto.desc1"
+        "pokemod.species.pidgeotto.desc1",
+        "pokemod.species.pidgeotto.desc2"
     ],
     "preEvolution": "pidgey",
     "evolutions": [
@@ -116,5 +141,11 @@
         "width": 0.6,
         "height": 0.9,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 11,
+    "weight": 300
 }

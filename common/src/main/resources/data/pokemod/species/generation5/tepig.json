@@ -22,7 +22,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -58,17 +58,25 @@
         "tm:echoedvoice",
         "tm:facade",
         "tm:fireblast",
+        "tm:flamecharge",
+        "tm:flamethrower",
         "tm:frustration",
         "tm:grassknot",
         "tm:gyroball",
         "tm:hiddenpower",
+        "tm:incinerate",
         "tm:overheat",
         "tm:protect",
         "tm:rest",
         "tm:return",
+        "tm:roar",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
+        "tm:secretpower",
+        "tm:sleeptalk",
         "tm:solarbeam",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
@@ -77,12 +85,15 @@
         "tm:wildcharge",
         "tm:willowisp",
         "tm:workup",
+        "tutor:covet",
+        "tutor:endeavor",
         "tutor:firepledge",
         "tutor:heatwave",
         "tutor:helpinghand",
         "tutor:irontail",
         "tutor:snore",
         "tutor:stompingtantrum",
+        "tutor:superpower",
         "tutor:zenheadbutt"
     ],
     "labels": [
@@ -112,5 +123,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 5,
+    "weight": 99
 }

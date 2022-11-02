@@ -24,7 +24,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "1:ember",
@@ -41,39 +41,64 @@
         "1:imprison",
         "1:astonish",
         "1:overheat",
+        "1:flameburst",
         "1:hex",
         "1:inferno",
         "tm:allyswitch",
         "tm:attract",
         "tm:calmmind",
+        "tm:confide",
         "tm:darkpulse",
+        "tm:doubleteam",
+        "tm:dreameater",
+        "tm:embargo",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:fireblast",
+        "tm:firespin",
+        "tm:flamecharge",
         "tm:flamethrower",
+        "tm:flash",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:heatwave",
+        "tm:hex",
+        "tm:hiddenpower",
         "tm:hyperbeam",
+        "tm:imprison",
+        "tm:incinerate",
         "tm:mysticalfire",
+        "tm:overheat",
         "tm:payback",
         "tm:protect",
         "tm:psychic",
+        "tm:psychup",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
+        "tm:shadowball",
         "tm:sleeptalk",
         "tm:snore",
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:taunt",
         "tm:thief",
+        "tm:toxic",
         "tm:trick",
         "tm:trickroom",
+        "tm:willowisp",
         "tutor:burningjealousy",
+        "tutor:laserfocus",
         "tutor:poltergeist",
-        "tutor:skittersmack"
+        "tutor:shockwave",
+        "tutor:skittersmack",
+        "tutor:spite",
+        "tutor:telekinesis"
     ],
     "labels": [
         "gen5"
@@ -89,5 +114,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 3
+    },
+    "height": 10,
+    "weight": 343
 }

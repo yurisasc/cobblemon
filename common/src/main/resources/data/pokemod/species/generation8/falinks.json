@@ -15,7 +15,7 @@
         "speed": 75
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 165,
@@ -44,18 +44,26 @@
         "tm:assurance",
         "tm:beatup",
         "tm:brickbreak",
+        "tm:bulkup",
+        "tm:closecombat",
+        "tm:endure",
         "tm:facade",
         "tm:falseswipe",
         "tm:focusblast",
+        "tm:focusenergy",
         "tm:gigaimpact",
         "tm:helpinghand",
         "tm:hyperbeam",
+        "tm:irondefense",
         "tm:ironhead",
+        "tm:megahorn",
         "tm:payback",
         "tm:poisonjab",
+        "tm:protect",
         "tm:rest",
         "tm:retaliate",
         "tm:revenge",
+        "tm:reversal",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
@@ -83,5 +91,12 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2,
+        "special_defence": 1
+    },
+    "height": 30,
+    "weight": 620
 }

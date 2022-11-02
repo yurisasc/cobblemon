@@ -15,7 +15,7 @@
         "speed": 48
     },
     "catchRate": 35,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 101,
@@ -40,5 +40,11 @@
         "width": 0.6,
         "height": 0.7,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 3,
+    "weight": 40
 }

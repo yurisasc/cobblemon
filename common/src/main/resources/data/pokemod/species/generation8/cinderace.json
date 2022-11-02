@@ -19,21 +19,26 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.cinderace-gmax.desc1",
+                "pokemod.form.cinderace-gmax.desc2"
+            ],
+            "height": 270,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 265,
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground",
-        "humanshape"
+        "field",
+        "human_like"
     ],
     "moves": [
         "0:pyroball",
@@ -42,6 +47,7 @@
         "1:ember",
         "1:quickattack",
         "1:feint",
+        "1:pyroball",
         "12:doublekick",
         "19:flamecharge",
         "24:agility",
@@ -51,11 +57,13 @@
         "54:doubleedge",
         "62:courtchange",
         "tm:acrobatics",
+        "tm:agility",
         "tm:allyswitch",
         "tm:assurance",
         "tm:attract",
         "tm:batonpass",
         "tm:blazekick",
+        "tm:bounce",
         "tm:bulkup",
         "tm:electroball",
         "tm:endure",
@@ -114,5 +122,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 3
+    },
+    "height": 14,
+    "weight": 330
 }

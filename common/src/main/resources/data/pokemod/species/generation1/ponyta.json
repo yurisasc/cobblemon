@@ -1,126 +1,211 @@
 {
-    "name": "ponyta",
-    "nationalPokedexNumber": 77,
-    "primaryType": "fire",
-    "abilities": [
-        "runaway",
-        "flashfire",
-        "h:flamebody"
-    ],
-    "baseStats": {
-        "hp": 50,
-        "attack": 85,
-        "defence": 55,
-        "special_attack": 65,
-        "special_defence": 65,
-        "speed": 90
-    },
-    "catchRate": 190,
-    "maleRatio": 0.5,
-    "shoulderMountable": false,
-    "forms": [
-        {
-            "name": "galar",
-            "primaryType": "psychic",
-            "abilities": [
-                "runaway",
-                "pastelveil",
-                "h:anticipation"
-            ],
-            "aspects": [
-                "galar"
-            ]
-        }
-    ],
-    "baseExperienceYield": 82,
-    "experienceGroup": "mediumfast",
-    "eggCycles": 20,
-    "eggGroups": [
-        "ground"
-    ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:leather",
-                "percentage": 50
-            }
-        ]
-    },
-    "moves": [
+  "name": "ponyta",
+  "nationalPokedexNumber": 77,
+  "primaryType": "fire",
+  "abilities": ["runaway", "flashfire", "h:flamebody"],
+  "baseStats": {
+    "hp": 50,
+    "attack": 85,
+    "defence": 55,
+    "special_attack": 65,
+    "special_defence": 65,
+    "speed": 90
+  },
+  "catchRate": 190,
+  "maleRatio": 0.5,
+  "shoulderMountable": false,
+  "forms": [
+    {
+      "name": "galar",
+      "primaryType": "psychic",
+      "abilities": ["runaway", "pastelveil", "h:anticipation"],
+      "moves": [
         "1:tackle",
         "1:growl",
         "5:tailwhip",
-        "10:ember",
-        "15:flamecharge",
+        "10:confusion",
+        "15:fairywind",
         "20:agility",
-        "25:flamewheel",
+        "25:psybeam",
         "30:stomp",
-        "35:firespin",
+        "35:healpulse",
         "41:takedown",
-        "45:inferno",
-        "50:fireblast",
-        "55:flareblitz",
+        "45:dazzlinggleam",
+        "50:psychic",
+        "55:healingwish",
         "egg:doubleedge",
         "egg:doublekick",
         "egg:horndrill",
         "egg:hypnosis",
         "egg:morningsun",
         "egg:thrash",
+        "tm:agility",
         "tm:allyswitch",
         "tm:attract",
         "tm:bodyslam",
         "tm:bounce",
+        "tm:calmmind",
         "tm:charm",
+        "tm:dazzlinggleam",
         "tm:endure",
         "tm:facade",
-        "tm:flamethrower",
-        "tm:heatwave",
+        "tm:futuresight",
         "tm:highhorsepower",
+        "tm:imprison",
         "tm:irontail",
         "tm:lowkick",
         "tm:mysticalfire",
-        "tm:overheat",
         "tm:playrough",
         "tm:protect",
+        "tm:psychic",
         "tm:rest",
         "tm:round",
         "tm:sleeptalk",
         "tm:snore",
-        "tm:solarbeam",
-        "tm:solarblade",
+        "tm:storedpower",
         "tm:substitute",
-        "tm:sunnyday",
         "tm:swift",
         "tm:wildcharge",
-        "tm:willowisp"
-    ],
-    "labels": [
-        "gen1"
-    ],
-    "pokedex": [
-        "pokemod.species.ponyta.desc1",
-        "pokemod.species.ponyta.desc2"
-    ],
-    "evolutions": [
+        "tm:zenheadbutt",
+        "tutor:expandingforce"
+      ],
+      "pokedex": [
+        "pokemod.form.ponyta-galar.desc1",
+        "pokemod.form.ponyta-galar.desc2"
+      ],
+      "height": 8,
+      "weight": 240,
+      "labels": ["gen1", "galar_regional", "regional"],
+      "evolutions": [
         {
-            "id": "ponyta_rapidash",
-            "variant": "level_up",
-            "result": "rapidash",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "level",
-                    "minLevel": 40
-                }
-            ]
+          "id": "ponyta_rapidash_galar",
+          "variant": "level_up",
+          "result": "rapidash form=galar",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "level",
+              "minLevel": 40
+            }
+          ]
         }
-    ],
-    "baseScale": 1.4,
-    "hitbox": {
-        "width": 0.7,
-        "height": 1,
-        "fixed": false
+      ]
     }
+  ],
+  "baseExperienceYield": 82,
+  "experienceGroup": "mediumfast",
+  "eggCycles": 20,
+  "eggGroups": ["field"],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:leather",
+        "percentage": 50
+      }
+    ]
+  },
+  "moves": [
+    "1:tackle",
+    "1:growl",
+    "5:tailwhip",
+    "10:ember",
+    "10:quickattack",
+    "15:flamecharge",
+    "20:agility",
+    "25:flamewheel",
+    "30:stomp",
+    "35:firespin",
+    "41:takedown",
+    "45:inferno",
+    "50:fireblast",
+    "55:flareblitz",
+    "egg:captivate",
+    "egg:doubleedge",
+    "egg:doublekick",
+    "egg:horndrill",
+    "egg:hypnosis",
+    "egg:morningsun",
+    "egg:thrash",
+    "tm:agility",
+    "tm:allyswitch",
+    "tm:attract",
+    "tm:bide",
+    "tm:bodyslam",
+    "tm:bounce",
+    "tm:charm",
+    "tm:confide",
+    "tm:curse",
+    "tm:doubleteam",
+    "tm:echoedvoice",
+    "tm:endure",
+    "tm:facade",
+    "tm:fireblast",
+    "tm:firespin",
+    "tm:flamethrower",
+    "tm:flareblitz",
+    "tm:frustration",
+    "tm:headbutt",
+    "tm:heatwave",
+    "tm:hiddenpower",
+    "tm:highhorsepower",
+    "tm:incinerate",
+    "tm:irontail",
+    "tm:lowkick",
+    "tm:mysticalfire",
+    "tm:naturalgift",
+    "tm:overheat",
+    "tm:playrough",
+    "tm:protect",
+    "tm:rage",
+    "tm:reflect",
+    "tm:rest",
+    "tm:return",
+    "tm:round",
+    "tm:secretpower",
+    "tm:skullbash",
+    "tm:sleeptalk",
+    "tm:snore",
+    "tm:solarbeam",
+    "tm:solarblade",
+    "tm:strength",
+    "tm:substitute",
+    "tm:sunnyday",
+    "tm:swagger",
+    "tm:swift",
+    "tm:toxic",
+    "tm:wildcharge",
+    "tm:willowisp",
+    "tutor:mimic"
+  ],
+  "labels": ["gen1", "kanto_regional", "regional"],
+  "pokedex": ["pokemod.species.ponyta.desc1", "pokemod.species.ponyta.desc2"],
+  "evolutions": [
+    {
+      "id": "ponyta_rapidash",
+      "variant": "level_up",
+      "result": "rapidash",
+      "consumeHeldItem": false,
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 40
+        }
+      ]
+    }
+  ],
+  "baseScale": 1.4,
+  "hitbox": {
+    "width": 0.7,
+    "height": 1,
+    "fixed": false
+  },
+  "baseFriendship": 50,
+  "evYield": {
+    "speed": 1
+  },
+  "height": 10,
+  "weight": 300
 }

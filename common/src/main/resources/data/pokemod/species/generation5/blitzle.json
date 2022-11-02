@@ -23,7 +23,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:quickattack",
@@ -47,6 +47,7 @@
         "egg:rage",
         "egg:sandattack",
         "egg:screech",
+        "egg:shockwave",
         "egg:snatch",
         "egg:takedown",
         "tm:attract",
@@ -54,6 +55,8 @@
         "tm:confide",
         "tm:doubleteam",
         "tm:facade",
+        "tm:flamecharge",
+        "tm:flash",
         "tm:frustration",
         "tm:hiddenpower",
         "tm:lightscreen",
@@ -62,17 +65,22 @@
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:swagger",
         "tm:thunder",
         "tm:thunderbolt",
+        "tm:thunderwave",
         "tm:toxic",
         "tm:voltswitch",
+        "tm:wildcharge",
         "tutor:bounce",
         "tutor:lowkick",
         "tutor:magnetrise",
+        "tutor:shockwave",
         "tutor:signalbeam",
+        "tutor:snatch",
         "tutor:snore"
     ],
     "labels": [
@@ -102,5 +110,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 8,
+    "weight": 298
 }

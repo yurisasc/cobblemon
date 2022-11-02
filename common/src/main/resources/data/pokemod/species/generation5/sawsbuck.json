@@ -24,7 +24,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "0:hornleech",
@@ -33,6 +33,9 @@
         "1:growl",
         "1:megahorn",
         "1:camouflage",
+        "1:hornleech",
+        "4:growl",
+        "7:sandattack",
         "10:doublekick",
         "13:leechseed",
         "16:feintattack",
@@ -46,23 +49,31 @@
         "60:solarbeam",
         "tm:attract",
         "tm:confide",
+        "tm:cut",
         "tm:doubleteam",
         "tm:echoedvoice",
+        "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:gigaimpact",
         "tm:grassknot",
         "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:lightscreen",
+        "tm:naturepower",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:retaliate",
         "tm:return",
+        "tm:rocksmash",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
+        "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
@@ -94,5 +105,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 19,
+    "weight": 925
 }

@@ -23,7 +23,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -43,27 +43,41 @@
         "80:wildcharge",
         "tm:agility",
         "tm:attract",
+        "tm:captivate",
+        "tm:chargebeam",
+        "tm:confide",
+        "tm:crunch",
+        "tm:doubleteam",
         "tm:eerieimpulse",
+        "tm:electricterrain",
         "tm:electroball",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
         "tm:firefang",
+        "tm:flash",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:icefang",
         "tm:irontail",
         "tm:lightscreen",
+        "tm:naturalgift",
         "tm:playrough",
         "tm:protect",
         "tm:psychicfangs",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:scaryface",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snarl",
         "tm:snore",
+        "tm:strength",
         "tm:substitute",
         "tm:superpower",
         "tm:swift",
@@ -72,7 +86,18 @@
         "tm:thunder",
         "tm:thunderbolt",
         "tm:thunderfang",
-        "tutor:risingvoltage"
+        "tm:thunderwave",
+        "tm:toxic",
+        "tm:voltswitch",
+        "tm:wildcharge",
+        "tutor:furycutter",
+        "tutor:headbutt",
+        "tutor:laserfocus",
+        "tutor:magnetrise",
+        "tutor:mudslap",
+        "tutor:risingvoltage",
+        "tutor:shockwave",
+        "tutor:signalbeam"
     ],
     "labels": [
         "gen4"
@@ -88,5 +113,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 3
+    },
+    "height": 14,
+    "weight": 420
 }

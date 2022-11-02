@@ -16,7 +16,7 @@
         "speed": 40
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 79,
@@ -25,9 +25,9 @@
     "eggGroups": [
         "mineral"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
-			"fly": {
+            "fly": {
                 "canFly": true
             },
             "walk": {
@@ -38,11 +38,14 @@
     "moves": [
         "1:tackle",
         "1:conversion",
+        "4:sharpen",
         "5:recycle",
         "10:magnetrise",
         "15:thundershock",
+        "18:barrier",
         "20:psybeam",
         "25:conversion2",
+        "29:signalbeam",
         "30:agility",
         "35:recover",
         "40:discharge",
@@ -50,42 +53,76 @@
         "50:magiccoat",
         "55:lockon",
         "60:zapcannon",
+        "tm:aerialace",
+        "tm:agility",
         "tm:allyswitch",
+        "tm:bide",
         "tm:blizzard",
+        "tm:chargebeam",
+        "tm:confide",
+        "tm:curse",
+        "tm:doubleteam",
+        "tm:dreameater",
         "tm:eerieimpulse",
         "tm:electroweb",
         "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:foulplay",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:guardswap",
+        "tm:headbutt",
+        "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:icywind",
         "tm:irontail",
+        "tm:naturalgift",
         "tm:powerswap",
         "tm:protect",
         "tm:psychic",
+        "tm:psychup",
         "tm:psyshock",
+        "tm:psywave",
+        "tm:rage",
         "tm:raindance",
+        "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowball",
+        "tm:skullbash",
         "tm:sleeptalk",
         "tm:snore",
         "tm:solarbeam",
         "tm:speedswap",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swift",
+        "tm:takedown",
+        "tm:teleport",
         "tm:thief",
         "tm:thunder",
         "tm:thunderbolt",
         "tm:thunderwave",
+        "tm:toxic",
+        "tm:triattack",
         "tm:trick",
         "tm:trickroom",
         "tm:wonderroom",
-        "tm:zenheadbutt"
+        "tm:zenheadbutt",
+        "tutor:doubleedge",
+        "tutor:gravity",
+        "tutor:lastresort",
+        "tutor:mimic",
+        "tutor:nightmare",
+        "tutor:painsplit",
+        "tutor:shockwave",
+        "tutor:signalbeam",
+        "tutor:telekinesis"
     ],
     "labels": [
         "gen1"
@@ -99,14 +136,15 @@
             "id": "porygon_porygon2",
             "variant": "trade",
             "result": "porygon2",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [
                 {
                     "variant": "held_item",
-                    "item": "up-grade"
+                    "item": "pokemod:up_grade"
                 }
-            ]
+            ],
+            "requiredContext": null
         }
     ],
     "baseScale": 0.9,
@@ -114,5 +152,11 @@
         "width": 0.9,
         "height": 0.9,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 8,
+    "weight": 365
 }

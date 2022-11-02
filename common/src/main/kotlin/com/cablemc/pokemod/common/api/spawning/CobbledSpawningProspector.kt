@@ -17,6 +17,7 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.Material
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
+import net.minecraft.util.math.ChunkSectionPos
 import net.minecraft.util.math.Vec3d
 
 /**
@@ -73,6 +74,10 @@ object CobbledSpawningProspector : SpawningProspector {
         val yRange = (baseY until baseY + height).reversed()
         for (x in area.baseX until area.baseX + area.length) {
             for (z in area.baseZ until area.baseZ + area.width) {
+                if(!world.isChunkLoaded(ChunkSectionPos.getSectionCoord(x), ChunkSectionPos.getSectionCoord(z))) {
+                    continue
+                }
+
                 var canSeeSky = true
                 for (y in yRange) {
                     val state = world.getBlockState(pos.set(x, y, z))

@@ -24,12 +24,13 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:absorb",
         "1:astonish",
         "4:confuseray",
+        "8:flash",
         "8:ingrain",
         "12:megadrain",
         "16:sleeppowder",
@@ -40,22 +41,31 @@
         "36:spore",
         "40:moonblast",
         "44:dreameater",
+        "46:spotlight",
         "egg:growth",
         "egg:leechseed",
         "egg:poisonpowder",
         "egg:stunspore",
         "tm:amnesia",
         "tm:attract",
+        "tm:confide",
+        "tm:dazzlinggleam",
+        "tm:doubleteam",
         "tm:drainingkiss",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:frustration",
+        "tm:gigadrain",
         "tm:grassknot",
+        "tm:hiddenpower",
         "tm:lightscreen",
         "tm:magicroom",
+        "tm:naturepower",
         "tm:pollenpuff",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
         "tm:seedbomb",
@@ -65,8 +75,16 @@
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:thunderwave",
-        "tm:wonderroom"
+        "tm:toxic",
+        "tm:wonderroom",
+        "tutor:afteryou",
+        "tutor:magiccoat",
+        "tutor:recycle",
+        "tutor:signalbeam",
+        "tutor:synthesis",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen7"
@@ -95,5 +113,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 2,
+    "weight": 15
 }

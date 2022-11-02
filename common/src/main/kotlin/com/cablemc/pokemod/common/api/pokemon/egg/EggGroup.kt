@@ -13,25 +13,24 @@ package com.cablemc.pokemod.common.api.pokemon.egg
  *
  * See the [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Egg_Group) article for more information.
  *
- * @property pokeApiID used for deserialization of egg groups from the PokeAPI data format.
  * @property showdownID used for data synchronization with Showdown data format.
  */
-enum class EggGroup(internal val pokeApiID: String, internal val showdownID: String) {
+enum class EggGroup(internal val showdownID: String) {
 
-    MONSTER("monster", "Monster"),
-    WATER_1("water1", "Water 1"),
-    BUG("bug", "Bug"),
-    FLYING("flying", "Flying"),
-    FIELD("ground", "Field"),
-    FAIRY("fairy", "Fairy"),
-    GRASS("plant", "Grass"),
-    HUMAN_LIKE("humanshape", "Human-Like"),
-    WATER_3("water3", "Water 3"),
-    MINERAL("mineral", "Mineral"),
-    AMORPHOUS("indeterminate", "Amorphous"),
-    WATER_2("water2", "Water 2"),
-    DITTO("ditto", "Ditto"),
-    DRAGON("dragon", "Dragon"),
-    UNDISCOVERED("no-eggs", "Undiscovered")
+    MONSTER("Monster"),
+    WATER_1("Water 1"),
+    BUG("Bug"),
+    FLYING("Flying"),
+    FIELD("Field"),
+    FAIRY("Fairy"),
+    GRASS("Grass"),
+    HUMAN_LIKE("Human-Like"),
+    WATER_3("Water 3"),
+    MINERAL("Mineral"),
+    AMORPHOUS("Amorphous"),
+    WATER_2("Water 2"),
+    DITTO("Ditto"),
+    DRAGON("Dragon"),
+    UNDISCOVERED("Undiscovered")
 
 }

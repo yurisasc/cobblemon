@@ -32,6 +32,7 @@
         "6:acidspray",
         "9:amnesia",
         "12:clearsmog",
+        "14:doubleslap",
         "15:toxicspikes",
         "18:sludge",
         "21:stockpile",
@@ -46,32 +47,46 @@
         "egg:autotomize",
         "egg:curse",
         "egg:haze",
+        "egg:mudsport",
         "egg:rollout",
         "egg:sandattack",
+        "tm:amnesia",
         "tm:attract",
+        "tm:confide",
         "tm:darkpulse",
+        "tm:doubleteam",
         "tm:drainpunch",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:gigadrain",
+        "tm:gunkshot",
+        "tm:hiddenpower",
+        "tm:infestation",
         "tm:payback",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:rockblast",
         "tm:round",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:selfdestruct",
         "tm:sleeptalk",
+        "tm:sludgebomb",
         "tm:sludgewave",
         "tm:snore",
         "tm:spikes",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:thief",
+        "tm:toxicspikes",
         "tm:venomdrench",
         "tm:venoshock",
-        "tutor:corrosivegas"
+        "tutor:corrosivegas",
+        "tutor:spite"
     ],
     "labels": [
         "gen5"
@@ -100,5 +115,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 310
 }

@@ -23,7 +23,7 @@
     "experienceGroup": "slow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -31,6 +31,7 @@
         "4:leer",
         "8:howl",
         "12:quickattack",
+        "16:odorsleuth",
         "16:shockwave",
         "20:bite",
         "24:thunderfang",
@@ -40,37 +41,60 @@
         "40:wildcharge",
         "44:thunder",
         "egg:curse",
+        "egg:flameburst",
         "egg:headbutt",
         "egg:spark",
         "egg:switcheroo",
         "tm:agility",
         "tm:attract",
         "tm:bodyslam",
+        "tm:captivate",
+        "tm:chargebeam",
+        "tm:confide",
         "tm:crunch",
+        "tm:doubleteam",
         "tm:eerieimpulse",
         "tm:electroball",
         "tm:endure",
         "tm:facade",
         "tm:firefang",
         "tm:flamethrower",
+        "tm:flash",
+        "tm:frustration",
+        "tm:hiddenpower",
         "tm:icefang",
         "tm:irontail",
         "tm:lightscreen",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychicfangs",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snarl",
         "tm:snore",
+        "tm:strength",
         "tm:substitute",
+        "tm:swagger",
         "tm:swift",
         "tm:thief",
+        "tm:thunder",
         "tm:thunderbolt",
+        "tm:thunderfang",
+        "tm:thunderwave",
+        "tm:toxic",
         "tm:uproar",
         "tm:voltswitch",
-        "tutor:risingvoltage"
+        "tm:wildcharge",
+        "tutor:doubleedge",
+        "tutor:magnetrise",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:risingvoltage",
+        "tutor:signalbeam"
     ],
     "labels": [
         "gen3"
@@ -99,5 +123,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 152
 }

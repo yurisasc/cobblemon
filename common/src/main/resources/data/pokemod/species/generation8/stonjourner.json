@@ -42,6 +42,7 @@
         "tm:assurance",
         "tm:attract",
         "tm:bodypress",
+        "tm:bodyslam",
         "tm:brutalswing",
         "tm:bulldoze",
         "tm:earthpower",
@@ -50,12 +51,16 @@
         "tm:facade",
         "tm:gigaimpact",
         "tm:heatcrash",
+        "tm:heavyslam",
         "tm:hyperbeam",
         "tm:imprison",
         "tm:irondefense",
+        "tm:megakick",
         "tm:protect",
         "tm:rest",
         "tm:rockblast",
+        "tm:rockslide",
+        "tm:rocktomb",
         "tm:round",
         "tm:safeguard",
         "tm:sandstorm",
@@ -63,7 +68,9 @@
         "tm:selfdestruct",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:stealthrock",
         "tm:stompingtantrum",
+        "tm:stoneedge",
         "tm:substitute",
         "tm:superpower",
         "tm:wonderroom",
@@ -82,5 +89,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 2
+    },
+    "height": 25,
+    "weight": 5200
 }

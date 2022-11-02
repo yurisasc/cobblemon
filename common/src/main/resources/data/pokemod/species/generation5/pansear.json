@@ -22,7 +22,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:scratch",
@@ -54,24 +54,33 @@
         "egg:roleplay",
         "egg:sleeptalk",
         "egg:tickle",
+        "tm:acrobatics",
         "tm:attract",
         "tm:confide",
+        "tm:cut",
+        "tm:dig",
         "tm:doubleteam",
         "tm:facade",
+        "tm:fireblast",
         "tm:flamecharge",
         "tm:flamethrower",
+        "tm:fling",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
+        "tm:honeclaws",
         "tm:lowsweep",
         "tm:overheat",
         "tm:payback",
         "tm:protect",
         "tm:rest",
         "tm:return",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowclaw",
+        "tm:sleeptalk",
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
@@ -82,14 +91,20 @@
         "tm:toxic",
         "tm:willowisp",
         "tm:workup",
+        "tutor:covet",
         "tutor:endeavor",
         "tutor:firepledge",
+        "tutor:firepunch",
         "tutor:focuspunch",
         "tutor:gastroacid",
         "tutor:gunkshot",
+        "tutor:heatwave",
         "tutor:helpinghand",
         "tutor:irontail",
         "tutor:knockoff",
+        "tutor:lowkick",
+        "tutor:recycle",
+        "tutor:roleplay",
         "tutor:snore",
         "tutor:uproar"
     ],
@@ -105,7 +120,7 @@
             "id": "pansear_simisear",
             "variant": "item_interact",
             "result": "simisear",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:fire_stone"
@@ -116,5 +131,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 110
 }

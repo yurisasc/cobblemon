@@ -24,8 +24,8 @@
     "experienceGroup": "slow",
     "eggCycles": 20,
     "eggGroups": [
-        "humanshape",
-        "indeterminate"
+        "human_like",
+        "amorphous"
     ],
     "moves": [
         "1:growl",
@@ -34,6 +34,7 @@
         "1:disarmingvoice",
         "9:hypnosis",
         "12:drainingkiss",
+        "14:luckychant",
         "15:teleport",
         "18:psybeam",
         "23:lifedew",
@@ -46,14 +47,25 @@
         "tm:allyswitch",
         "tm:attract",
         "tm:bodyslam",
+        "tm:calmmind",
+        "tm:captivate",
+        "tm:chargebeam",
+        "tm:charm",
+        "tm:confide",
         "tm:dazzlinggleam",
+        "tm:drainingkiss",
+        "tm:echoedvoice",
         "tm:encore",
         "tm:endure",
         "tm:facade",
         "tm:firepunch",
+        "tm:flash",
         "tm:fling",
+        "tm:frustration",
+        "tm:futuresight",
         "tm:grassknot",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:hypervoice",
         "tm:icepunch",
         "tm:icywind",
@@ -64,13 +76,18 @@
         "tm:megakick",
         "tm:megapunch",
         "tm:mistyterrain",
+        "tm:naturalgift",
         "tm:protect",
+        "tm:psychic",
+        "tm:psychup",
         "tm:psyshock",
         "tm:raindance",
         "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:skillswap",
         "tm:sleeptalk",
@@ -78,18 +95,34 @@
         "tm:storedpower",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swift",
         "tm:taunt",
         "tm:thief",
         "tm:thunderbolt",
         "tm:thunderpunch",
         "tm:thunderwave",
+        "tm:torment",
+        "tm:toxic",
         "tm:trick",
         "tm:trickroom",
         "tm:willowisp",
         "tm:wonderroom",
         "tm:zenheadbutt",
+        "tutor:defensecurl",
+        "tutor:doubleedge",
         "tutor:expandingforce",
+        "tutor:headbutt",
+        "tutor:magiccoat",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:nightmare",
+        "tutor:painsplit",
+        "tutor:recycle",
+        "tutor:shockwave",
+        "tutor:signalbeam",
+        "tutor:snatch",
+        "tutor:telekinesis",
         "tutor:tripleaxel"
     ],
     "labels": [
@@ -118,12 +151,12 @@
             "id": "kirlia_gallade",
             "variant": "item_interact",
             "result": "gallade",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [
                 {
                     "variant": "properties",
-                    "target": "male"
+                    "target": "gender=male"
                 }
             ],
             "requiredContext": "pokemod:dawn_stone"
@@ -134,5 +167,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 35,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 8,
+    "weight": 202
 }

@@ -13,15 +13,13 @@ import com.cablemc.pokemod.common.api.spawning.SpawnCause
 import com.cablemc.pokemod.common.api.spawning.SpawnerManager
 import com.cablemc.pokemod.common.api.spawning.detail.SpawnPool
 import com.cablemc.pokemod.common.util.getPlayer
-import java.util.UUID
+import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.util.math.MathHelper.*
+import net.minecraft.util.math.random.Random
+import java.util.*
 import kotlin.math.atan
 import kotlin.math.cos
 import kotlin.math.sin
-import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.math.MathHelper.PI
-import net.minecraft.util.math.MathHelper.ceil
-import net.minecraft.util.math.MathHelper.nextBetween
-import net.minecraft.util.math.random.Random
 
 /**
  * A spawner that works around a single player. It will do basic tracking of a player's speed

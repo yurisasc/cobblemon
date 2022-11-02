@@ -41,10 +41,11 @@ import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceSource
 import com.cablemc.pokemod.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemod.common.api.pokemon.friendship.FriendshipMutationCalculator
+import com.cablemc.pokemod.common.api.pokemon.moves.LearnsetQuery
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.pokemon.status.Statuses
-import com.cablemc.pokemod.common.api.pokemon.tags.PokemodPokemonLabels
+import com.cablemc.pokemod.common.api.pokemon.labels.PokemodPokemonLabels
 import com.cablemc.pokemod.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemod.common.api.reactive.Observable
 import com.cablemc.pokemod.common.api.reactive.SettableObservable
@@ -127,11 +128,14 @@ open class Pokemon {
 
     var form = species.standardForm
         set(value) {
+            val old = field
             field = value
+            this.sanitizeFormChangeMoves(old)
             // Evo proxy is already cleared on species update but the form may be changed by itself, this is fine and no unnecessary packets will be sent out
             this.evolutionProxy.current().clear()
             // Species updates already update HP but just a form change may require it
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
+            findAndLearnFormChangeMoves()
             updateHP(quotient)
             _form.emit(value)
         }
@@ -216,7 +220,7 @@ open class Pokemon {
      * Use [setFriendship], [incrementFriendship] and [decrementFriendship] for safe mutation with return feedback.
      * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
      */
-    var friendship = 0
+    var friendship = this.form.baseFriendship
         private set(value) {
             // Don't check on client, that way we don't need to actually sync the config value it doesn't affect anything
             if (!this.isClient && !this.isPossibleFriendship(value)) {
@@ -349,7 +353,7 @@ open class Pokemon {
                 (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4)) * level / 100 + level + 10
             }
         } else {
-            nature.modifyStat(stat, (2 * (form.baseStats[stat] ?: 1) + ivs.getOrOne(stat) + evs.getOrOne(stat) / 4) / 100 * level + 5)
+            nature.modifyStat(stat, (2 * (form.baseStats[stat] ?: 1) + ivs.getOrDefault(stat) + evs.getOrDefault(stat) / 4) / 100 * level + 5)
         }
     }
 
@@ -970,6 +974,38 @@ open class Pokemon {
     fun getAllObservables() = observables.asIterable()
     /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
     fun getChangeObservable(): Observable<Pokemon> = anyChangeObservable
+
+    private fun findAndLearnFormChangeMoves() {
+        this.form.moves.formChangeMoves.forEach { move ->
+            if (this.benchedMoves.none { it.moveTemplate == move }) {
+                this.benchedMoves.add(BenchedMove(move, 0))
+            }
+        }
+    }
+
+    private fun sanitizeFormChangeMoves(old: FormData) {
+        for (i in 0 until MoveSet.MOVE_COUNT) {
+            val move = this.moveSet[i]
+            if (move != null && LearnsetQuery.FORM_CHANGE.canLearn(move.template, old.moves) && !LearnsetQuery.ANY.canLearn(move.template, this.form.moves)) {
+                this.moveSet.setMove(i, null)
+            }
+        }
+        val benchedIterator = this.benchedMoves.iterator()
+        while (benchedIterator.hasNext()) {
+            val benchedMove = benchedIterator.next()
+            if (LearnsetQuery.FORM_CHANGE.canLearn(benchedMove.moveTemplate, old.moves) && !LearnsetQuery.ANY.canLearn(benchedMove.moveTemplate, this.form.moves)) {
+                benchedIterator.remove()
+            }
+        }
+        if (this.moveSet.filterNotNull().isEmpty()) {
+            val benchedMove = this.benchedMoves.firstOrNull()
+            if (benchedMove != null) {
+                this.moveSet.setMove(0, Move(benchedMove.moveTemplate, benchedMove.ppRaisedStages))
+                return
+            }
+            this.initializeMoveset()
+        }
+    }
 
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }

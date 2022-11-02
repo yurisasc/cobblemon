@@ -34,6 +34,10 @@ object ChallengeHandler : PacketHandler<BattleChallengePacket> {
 
             when (targetedEntity) {
                 is PokemonEntity -> {
+                    /*
+                    if (targetedEntity.isOwner(player))
+                        return@runOnServer
+                     */
                     BattleBuilder.pve(player, targetedEntity, leadingPokemon).ifErrored { it.sendTo(player) { it.red() } }
                 }
                 is ServerPlayerEntity -> {

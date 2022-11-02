@@ -16,7 +16,7 @@
         "speed": 30
     },
     "catchRate": 130,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 60,
@@ -37,30 +37,50 @@
         "28:screech",
         "32:geargrind",
         "36:lockon",
+        "36:mirrorshot",
         "40:shiftgear",
         "44:zapcannon",
         "48:hyperbeam",
         "tm:assurance",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:endure",
         "tm:facade",
         "tm:flashcannon",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
         "tm:irondefense",
         "tm:powergem",
         "tm:protect",
         "tm:rest",
+        "tm:return",
+        "tm:rockpolish",
+        "tm:rocksmash",
         "tm:round",
         "tm:sandstorm",
+        "tm:screech",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
+        "tm:swagger",
         "tm:thunderbolt",
         "tm:thunderwave",
+        "tm:toxic",
         "tm:uproar",
         "tm:voltswitch",
         "tm:wildcharge",
+        "tutor:gravity",
+        "tutor:magiccoat",
+        "tutor:magnetrise",
+        "tutor:recycle",
         "tutor:risingvoltage",
+        "tutor:shockwave",
+        "tutor:signalbeam",
         "tutor:steelbeam",
-        "tutor:steelroller"
+        "tutor:steelroller",
+        "tutor:telekinesis"
     ],
     "labels": [
         "gen5"
@@ -89,5 +109,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 3,
+    "weight": 210
 }

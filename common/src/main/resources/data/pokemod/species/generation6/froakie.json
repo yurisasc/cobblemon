@@ -22,7 +22,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "water1"
+        "water_1"
     ],
     "moves": [
         "1:pound",
@@ -51,8 +51,13 @@
         "tm:attract",
         "tm:blizzard",
         "tm:confide",
+        "tm:cut",
+        "tm:dig",
+        "tm:dive",
+        "tm:doubleteam",
         "tm:echoedvoice",
         "tm:facade",
+        "tm:fling",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
@@ -62,9 +67,15 @@
         "tm:rest",
         "tm:return",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
+        "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
+        "tm:smackdown",
+        "tm:strength",
+        "tm:substitute",
         "tm:surf",
         "tm:swagger",
         "tm:taunt",
@@ -73,12 +84,14 @@
         "tm:uturn",
         "tm:waterfall",
         "tm:workup",
+        "tutor:bounce",
         "tutor:icywind",
         "tutor:roleplay",
         "tutor:snatch",
         "tutor:snore",
         "tutor:spite",
-        "tutor:waterpledge"
+        "tutor:waterpledge",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen6"
@@ -107,5 +120,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 3,
+    "weight": 70
 }

@@ -15,22 +15,24 @@
         "speed": 43
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 285,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:bite",
+        "1:dragonrage",
         "1:dragontail",
         "5:stockpile",
         "5:swallow",
         "10:knockoff",
         "15:stomp",
+        "19:steamroller",
         "20:stompingtantrum",
         "25:wideguard",
         "30:crunch",
@@ -41,13 +43,17 @@
         "55:dragonrush",
         "60:belch",
         "65:thrash",
+        "67:wringout",
         "70:gigaimpact",
         "tm:amnesia",
         "tm:bodypress",
+        "tm:bodyslam",
         "tm:brickbreak",
         "tm:brutalswing",
         "tm:bulldoze",
+        "tm:crunch",
         "tm:darkpulse",
+        "tm:doubleteam",
         "tm:dragonclaw",
         "tm:dragonpulse",
         "tm:drainpunch",
@@ -57,9 +63,13 @@
         "tm:fireblast",
         "tm:flamethrower",
         "tm:fling",
+        "tm:frustration",
+        "tm:gigaimpact",
         "tm:gyroball",
         "tm:heatcrash",
         "tm:heatwave",
+        "tm:heavyslam",
+        "tm:hiddenpower",
         "tm:highhorsepower",
         "tm:hyperbeam",
         "tm:irondefense",
@@ -72,6 +82,7 @@
         "tm:poisonjab",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
@@ -79,18 +90,26 @@
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:sludgewave",
+        "tm:smackdown",
         "tm:snarl",
         "tm:snore",
+        "tm:stompingtantrum",
         "tm:stoneedge",
         "tm:substitute",
         "tm:thief",
+        "tm:toxic",
         "tutor:corrosivegas",
         "tutor:dracometeor",
+        "tutor:dualchop",
         "tutor:lashout",
+        "tutor:lastresort",
+        "tutor:magnetrise",
+        "tutor:shockwave",
         "tutor:steelroller"
     ],
     "labels": [
-        "gen7"
+        "gen7",
+        "ultra_beast"
     ],
     "pokedex": [
         "pokemod.species.guzzlord.desc1",
@@ -102,5 +121,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "hp": 3
+    },
+    "height": 55,
+    "weight": 8880
 }

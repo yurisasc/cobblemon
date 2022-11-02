@@ -24,14 +24,16 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "0:bind",
+        "1:bind",
         "1:tackle",
         "1:leer",
         "1:payback",
         "1:babydolleyes",
+        "5:bide",
         "12:brutalswing",
         "16:endure",
         "20:strength",
@@ -42,22 +44,29 @@
         "48:painsplit",
         "54:doubleedge",
         "60:superpower",
+        "tm:aerialace",
         "tm:attract",
         "tm:bodypress",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:brutalswing",
         "tm:bulkup",
         "tm:bulldoze",
         "tm:charm",
         "tm:closecombat",
+        "tm:confide",
         "tm:darkestlariat",
+        "tm:doubleteam",
         "tm:dragonclaw",
         "tm:drainpunch",
         "tm:earthquake",
+        "tm:endure",
         "tm:facade",
         "tm:fling",
         "tm:focusblast",
+        "tm:frustration",
         "tm:gigaimpact",
+        "tm:hiddenpower",
         "tm:highhorsepower",
         "tm:hyperbeam",
         "tm:icepunch",
@@ -66,10 +75,13 @@
         "tm:lowsweep",
         "tm:megakick",
         "tm:megapunch",
+        "tm:payback",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:revenge",
         "tm:reversal",
+        "tm:roar",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
@@ -78,12 +90,18 @@
         "tm:snore",
         "tm:stompingtantrum",
         "tm:substitute",
+        "tm:superpower",
+        "tm:swagger",
         "tm:swordsdance",
         "tm:taunt",
         "tm:thunderpunch",
+        "tm:toxic",
         "tm:workup",
         "tm:zenheadbutt",
-        "tutor:coaching"
+        "tutor:coaching",
+        "tutor:dualchop",
+        "tutor:focuspunch",
+        "tutor:roleplay"
     ],
     "labels": [
         "gen7"
@@ -99,5 +117,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 21,
+    "weight": 1350
 }

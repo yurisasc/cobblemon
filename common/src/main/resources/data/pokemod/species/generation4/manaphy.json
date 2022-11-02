@@ -14,14 +14,14 @@
         "speed": 100
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 270,
     "experienceGroup": "slow",
     "eggCycles": 10,
     "eggGroups": [
-        "water1",
+        "water_1",
         "fairy"
     ],
     "moves": [
@@ -39,12 +39,15 @@
         "69:raindance",
         "76:heartswap",
         "tm:blizzard",
+        "tm:brine",
         "tm:calmmind",
         "tm:confide",
         "tm:dazzlinggleam",
         "tm:doubleteam",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:fling",
         "tm:frustration",
         "tm:gigaimpact",
@@ -54,15 +57,18 @@
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:lightscreen",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychic",
         "tm:psychup",
+        "tm:raindance",
         "tm:reflect",
         "tm:rest",
         "tm:return",
         "tm:round",
         "tm:safeguard",
         "tm:scald",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:substitute",
@@ -71,6 +77,7 @@
         "tm:toxic",
         "tm:uturn",
         "tm:waterfall",
+        "tutor:ancientpower",
         "tutor:bounce",
         "tutor:covet",
         "tutor:healbell",
@@ -79,14 +86,17 @@
         "tutor:knockoff",
         "tutor:lastresort",
         "tutor:liquidation",
+        "tutor:mudslap",
         "tutor:signalbeam",
         "tutor:skillswap",
         "tutor:snore",
-        "tutor:uproar"
+        "tutor:swift",
+        "tutor:uproar",
+        "tutor:waterpulse"
     ],
     "labels": [
-        "mythical",
-        "gen4"
+        "gen4",
+        "mythical"
     ],
     "pokedex": [
         "pokemod.species.manaphy.desc1",
@@ -98,5 +108,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "hp": 3
+    },
+    "height": 3,
+    "weight": 14
 }

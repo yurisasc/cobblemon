@@ -23,7 +23,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:peck",
@@ -36,6 +36,7 @@
         "12:leechseed",
         "16:suckerpunch",
         "20:pinmissile",
+        "22:needlearm",
         "24:gigadrain",
         "28:sweetscent",
         "32:synthesis",
@@ -46,37 +47,54 @@
         "52:acupressure",
         "56:petaldance",
         "60:cottonguard",
+        "egg:grasswhistle",
         "egg:woodhammer",
         "egg:worryseed",
+        "tm:aerialace",
         "tm:assurance",
         "tm:attract",
         "tm:bounce",
         "tm:bulletseed",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:drainpunch",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:frustration",
+        "tm:gigadrain",
         "tm:grassknot",
         "tm:grassyterrain",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:hypervoice",
         "tm:leafstorm",
+        "tm:naturepower",
+        "tm:pinmissile",
         "tm:poisonjab",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
         "tm:screech",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:solarbeam",
         "tm:spikes",
         "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
         "tm:throatchop",
+        "tm:toxic",
         "tm:uproar",
         "tm:weatherball",
-        "tutor:grassyglide"
+        "tutor:endeavor",
+        "tutor:grassyglide",
+        "tutor:knockoff"
     ],
     "labels": [
         "gen5"
@@ -91,5 +109,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 10,
+    "weight": 280
 }

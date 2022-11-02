@@ -9,9 +9,6 @@
 package com.cablemc.pokemod.common
 
 import com.cablemc.pokemod.common.api.apricorn.Apricorn
-import com.cablemc.pokemod.common.api.blocks.EvolutionStoneOre
-import com.cablemc.pokemod.common.api.blocks.EvolutionStoneOre.Companion.DEEPSLATE_PROPERTIES
-import com.cablemc.pokemod.common.api.blocks.EvolutionStoneOre.Companion.NORMAL_PROPERTIES
 import com.cablemc.pokemod.common.registry.CompletableRegistry
 import com.cablemc.pokemod.common.world.block.ApricornBlock
 import com.cablemc.pokemod.common.world.block.ApricornSaplingBlock
@@ -22,6 +19,7 @@ import net.minecraft.block.*
 import net.minecraft.entity.EntityType
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.Registry
 
 object PokemodBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
@@ -29,32 +27,32 @@ object PokemodBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
      * Evolution Ores
      */
 
-    val DAWN_STONE_ORE = queue("dawn_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
-    val DUSK_STONE_ORE = queue("dusk_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
-    val FIRE_STONE_ORE = queue("fire_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
-    val ICE_STONE_ORE = queue("ice_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
-    val LEAF_STONE_ORE = queue("leaf_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
-    val MOON_STONE_ORE = queue("moon_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
-    val DRIPSTONE_MOON_STONE_ORE = queue("dripstone_moon_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
-    val SHINY_STONE_ORE = queue("shiny_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
-    val SUN_STONE_ORE = queue("sun_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
-    val THUNDER_STONE_ORE = queue("thunder_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
-    val WATER_STONE_ORE = queue("water_stone_ore") { EvolutionStoneOre(NORMAL_PROPERTIES) }
+    val DAWN_STONE_ORE = this.evolutionStoneOre("dawn_stone_ore")
+    val DUSK_STONE_ORE = this.evolutionStoneOre("dusk_stone_ore")
+    val FIRE_STONE_ORE = this.evolutionStoneOre("fire_stone_ore")
+    val ICE_STONE_ORE = this.evolutionStoneOre("ice_stone_ore")
+    val LEAF_STONE_ORE = this.evolutionStoneOre("leaf_stone_ore")
+    val MOON_STONE_ORE = this.evolutionStoneOre("moon_stone_ore")
+    val DRIPSTONE_MOON_STONE_ORE = this.evolutionStoneOre("dripstone_moon_stone_ore")
+    val SHINY_STONE_ORE = this.evolutionStoneOre("shiny_stone_ore")
+    val SUN_STONE_ORE = this.evolutionStoneOre("sun_stone_ore")
+    val THUNDER_STONE_ORE = this.evolutionStoneOre("thunder_stone_ore")
+    val WATER_STONE_ORE = this.evolutionStoneOre("water_stone_ore")
 
     /**
      * Deepslate separator
      */
 
-    val DEEPSLATE_DAWN_STONE_ORE = queue("deepslate_dawn_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
-    val DEEPSLATE_DUSK_STONE_ORE = queue("deepslate_dusk_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
-    val DEEPSLATE_FIRE_STONE_ORE = queue("deepslate_fire_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
-    val DEEPSLATE_ICE_STONE_ORE = queue("deepslate_ice_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
-    val DEEPSLATE_LEAF_STONE_ORE = queue("deepslate_leaf_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
-    val DEEPSLATE_MOON_STONE_ORE = queue("deepslate_moon_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
-    val DEEPSLATE_SHINY_STONE_ORE = queue("deepslate_shiny_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
-    val DEEPSLATE_SUN_STONE_ORE = queue("deepslate_sun_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
-    val DEEPSLATE_THUNDER_STONE_ORE = queue("deepslate_thunder_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
-    val DEEPSLATE_WATER_STONE_ORE = queue("deepslate_water_stone_ore") { EvolutionStoneOre(DEEPSLATE_PROPERTIES) }
+    val DEEPSLATE_DAWN_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_dawn_stone_ore")
+    val DEEPSLATE_DUSK_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_dusk_stone_ore")
+    val DEEPSLATE_FIRE_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_fire_stone_ore")
+    val DEEPSLATE_ICE_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_ice_stone_ore")
+    val DEEPSLATE_LEAF_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_leaf_stone_ore")
+    val DEEPSLATE_MOON_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_moon_stone_ore")
+    val DEEPSLATE_SHINY_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_shiny_stone_ore")
+    val DEEPSLATE_SUN_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_sun_stone_ore")
+    val DEEPSLATE_THUNDER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_thunder_stone_ore")
+    val DEEPSLATE_WATER_STONE_ORE = this.deepslateEvolutionStoneOre("deepslate_water_stone_ore")
 
     /**
      * Apricorns
@@ -133,6 +131,10 @@ object PokemodBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
             if (arg3.get(PillarBlock.AXIS) === Direction.Axis.Y) arg else arg2
         }.strength(2.0f).sounds(BlockSoundGroup.WOOD))
     }
+
+    private fun evolutionStoneOre(name: String) = this.queue(name) { OreBlock(AbstractBlock.Settings.copy(Blocks.IRON_ORE), UniformIntProvider.create(1, 2)) }
+
+    private fun deepslateEvolutionStoneOre(name: String) = this.queue(name) { OreBlock(AbstractBlock.Settings.copy(Blocks.DEEPSLATE_IRON_ORE), UniformIntProvider.create(1, 2)) }
 
     /**
      * Helper method for creating leaves

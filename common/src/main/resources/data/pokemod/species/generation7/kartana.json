@@ -15,14 +15,14 @@
         "speed": 109
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 285,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:furycutter",
@@ -44,13 +44,20 @@
         "tm:airslash",
         "tm:brickbreak",
         "tm:calmmind",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:endure",
+        "tm:falseswipe",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:gigaimpact",
+        "tm:hiddenpower",
         "tm:irondefense",
+        "tm:leafblade",
         "tm:protect",
         "tm:psychocut",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:screech",
         "tm:sleeptalk",
@@ -58,11 +65,18 @@
         "tm:snore",
         "tm:solarblade",
         "tm:substitute",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:toxic",
         "tm:xscissor",
-        "tutor:steelbeam"
+        "tutor:knockoff",
+        "tutor:lastresort",
+        "tutor:steelbeam",
+        "tutor:tailwind"
     ],
     "labels": [
-        "gen7"
+        "gen7",
+        "ultra_beast"
     ],
     "pokedex": [
         "pokemod.species.kartana.desc1",
@@ -74,5 +88,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "attack": 3
+    },
+    "height": 3,
+    "weight": 1
 }

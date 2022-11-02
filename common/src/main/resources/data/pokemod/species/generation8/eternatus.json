@@ -15,7 +15,7 @@
         "speed": 130
     },
     "catchRate": 255,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [
         {
@@ -28,16 +28,20 @@
                 "special_defence": 250,
                 "speed": 130
             },
-            "aspects": [
-                "eternamax"
-            ]
+            "baseExperienceYield": 563,
+            "pokedex": [
+                "pokemod.form.eternatus-eternamax.desc1",
+                "pokemod.form.eternatus-eternamax.desc2"
+            ],
+            "height": 1000,
+            "weight": 0
         }
     ],
     "baseExperienceYield": 345,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:agility",
@@ -55,13 +59,20 @@
         "72:recover",
         "80:hyperbeam",
         "88:eternabeam",
+        "tm:agility",
         "tm:assurance",
         "tm:brutalswing",
+        "tm:cosmicpower",
+        "tm:crosspoison",
+        "tm:dragondance",
+        "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
+        "tm:flamethrower",
         "tm:flashcannon",
         "tm:fly",
         "tm:gigaimpact",
+        "tm:hyperbeam",
         "tm:lightscreen",
         "tm:mysticalfire",
         "tm:payback",
@@ -81,12 +92,13 @@
         "tm:substitute",
         "tm:toxicspikes",
         "tm:venomdrench",
+        "tm:venoshock",
         "tutor:dracometeor",
         "tutor:meteorbeam"
     ],
     "labels": [
-        "legendary",
-        "gen8"
+        "gen8",
+        "legendary"
     ],
     "pokedex": [
         "pokemod.species.eternatus.desc1",
@@ -98,5 +110,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "hp": 3
+    },
+    "height": 200,
+    "weight": 9500
 }

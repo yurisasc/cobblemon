@@ -22,7 +22,7 @@
     "experienceGroup": "slow",
     "eggCycles": 20,
     "eggGroups": [
-        "water2"
+        "water_2"
     ],
     "moves": [
         "1:peck",
@@ -39,16 +39,20 @@
         "egg:nightslash",
         "egg:slash",
         "egg:thrash",
+        "tm:agility",
         "tm:assurance",
         "tm:attract",
         "tm:bounce",
         "tm:brickbreak",
         "tm:closecombat",
+        "tm:crunch",
+        "tm:dive",
         "tm:drillrun",
         "tm:endure",
         "tm:facade",
         "tm:focusenergy",
         "tm:icefang",
+        "tm:liquidation",
         "tm:poisonjab",
         "tm:protect",
         "tm:psychicfangs",
@@ -92,5 +96,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 5,
+    "weight": 10
 }

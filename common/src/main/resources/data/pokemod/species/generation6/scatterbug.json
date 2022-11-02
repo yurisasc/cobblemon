@@ -31,7 +31,9 @@
         "6:stunspore",
         "15:bugbite",
         "egg:poisonpowder",
-        "egg:ragepowder"
+        "egg:ragepowder",
+        "egg:stunspore",
+        "tutor:bugbite"
     ],
     "labels": [
         "gen6"
@@ -60,5 +62,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 3,
+    "weight": 25
 }

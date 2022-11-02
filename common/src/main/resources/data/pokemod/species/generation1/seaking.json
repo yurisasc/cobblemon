@@ -23,13 +23,13 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water2"
+        "water_2"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
@@ -44,9 +44,15 @@
     "moves": [
         "1:tailwhip",
         "1:supersonic",
+        "1:psybeam",
         "1:peck",
+        "1:quickattack",
+        "1:skullbash",
+        "1:watersport",
         "1:waterpulse",
+        "10:quickattack",
         "15:hornattack",
+        "20:furyattack",
         "20:agility",
         "25:aquaring",
         "30:flail",
@@ -54,39 +60,66 @@
         "44:soak",
         "51:megahorn",
         "58:horndrill",
+        "tm:agility",
         "tm:attract",
+        "tm:bide",
         "tm:blizzard",
         "tm:bodyslam",
         "tm:bounce",
+        "tm:bubblebeam",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
         "tm:dive",
+        "tm:doubleteam",
         "tm:drillrun",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:hail",
+        "tm:headbutt",
+        "tm:hiddenpower",
         "tm:hydropump",
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:icywind",
+        "tm:megahorn",
         "tm:muddywater",
         "tm:mudshot",
+        "tm:naturalgift",
         "tm:poisonjab",
         "tm:protect",
+        "tm:rage",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:smartstrike",
         "tm:snore",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
         "tm:swift",
         "tm:swordsdance",
+        "tm:takedown",
         "tm:throatchop",
+        "tm:toxic",
+        "tm:waterfall",
+        "tm:watergun",
         "tm:whirlpool",
+        "tutor:aquatail",
+        "tutor:doubleedge",
         "tutor:flipturn",
-        "tutor:scaleshot"
+        "tutor:furycutter",
+        "tutor:knockoff",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:scaleshot",
+        "tutor:signalbeam"
     ],
     "labels": [
         "gen1"
@@ -102,5 +135,11 @@
         "width": 0.6,
         "height": 0.7,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 13,
+    "weight": 390
 }

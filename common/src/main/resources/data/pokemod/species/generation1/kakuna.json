@@ -42,15 +42,18 @@
     },
     "moves": [
         "0:harden",
+        "1:harden",
         "tutor:bugbite",
         "tutor:electroweb",
-        "tutor:irondefense"
+        "tutor:irondefense",
+        "tutor:stringshot"
     ],
     "labels": [
         "gen1"
     ],
     "pokedex": [
-        "pokemod.species.kakuna.desc1"
+        "pokemod.species.kakuna.desc1",
+        "pokemod.species.kakuna.desc2"
     ],
     "preEvolution": "weedle",
     "evolutions": [
@@ -73,5 +76,11 @@
         "width": 0.6,
         "height": 0.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "defence": 2
+    },
+    "height": 6,
+    "weight": 100
 }

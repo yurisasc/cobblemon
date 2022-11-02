@@ -14,14 +14,14 @@
         "speed": 80
     },
     "catchRate": 30,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 216,
     "experienceGroup": "slow",
     "eggCycles": 40,
     "eggGroups": [
-        "water1",
+        "water_1",
         "fairy"
     ],
     "moves": [
@@ -37,9 +37,11 @@
         "61:dive",
         "69:raindance",
         "tm:blizzard",
+        "tm:brine",
         "tm:confide",
         "tm:dazzlinggleam",
         "tm:doubleteam",
+        "tm:endure",
         "tm:facade",
         "tm:fling",
         "tm:frustration",
@@ -47,13 +49,16 @@
         "tm:hail",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychup",
+        "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:round",
         "tm:safeguard",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:surf",
@@ -61,6 +66,7 @@
         "tm:toxic",
         "tm:uturn",
         "tm:waterfall",
+        "tutor:ancientpower",
         "tutor:bounce",
         "tutor:covet",
         "tutor:healbell",
@@ -69,13 +75,16 @@
         "tutor:knockoff",
         "tutor:lastresort",
         "tutor:liquidation",
+        "tutor:mudslap",
         "tutor:signalbeam",
         "tutor:snore",
-        "tutor:uproar"
+        "tutor:swift",
+        "tutor:uproar",
+        "tutor:waterpulse"
     ],
     "labels": [
-        "mythical",
-        "gen4"
+        "gen4",
+        "mythical"
     ],
     "pokedex": [
         "pokemod.species.phione.desc1",
@@ -87,5 +96,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 4,
+    "weight": 31
 }

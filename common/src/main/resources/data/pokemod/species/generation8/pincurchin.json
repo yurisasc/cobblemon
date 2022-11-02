@@ -22,8 +22,8 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
-        "indeterminate"
+        "water_1",
+        "amorphous"
     ],
     "moves": [
         "1:peck",
@@ -45,6 +45,7 @@
         "tm:assurance",
         "tm:attract",
         "tm:brine",
+        "tm:electricterrain",
         "tm:endure",
         "tm:facade",
         "tm:hex",
@@ -53,6 +54,7 @@
         "tm:muddywater",
         "tm:payback",
         "tm:pinmissile",
+        "tm:poisonjab",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
@@ -87,5 +89,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 3,
+    "weight": 10
 }

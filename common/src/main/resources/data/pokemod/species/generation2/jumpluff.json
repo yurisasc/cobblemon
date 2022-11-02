@@ -25,13 +25,15 @@
     "eggCycles": 20,
     "eggGroups": [
         "fairy",
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:tailwhip",
         "1:absorb",
         "1:splash",
         "1:synthesis",
+        "4:synthesis",
+        "6:tailwhip",
         "8:tackle",
         "10:fairywind",
         "12:poisonpowder",
@@ -48,41 +50,60 @@
         "59:gigadrain",
         "64:bounce",
         "69:memento",
+        "tm:acrobatics",
         "tm:aerialace",
         "tm:attract",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
         "tm:dazzlinggleam",
         "tm:doubleteam",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:gigaimpact",
         "tm:grassknot",
         "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:infestation",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychup",
         "tm:reflect",
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:secretpower",
+        "tm:silverwind",
         "tm:sleeptalk",
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
+        "tm:sweetscent",
         "tm:swordsdance",
         "tm:toxic",
+        "tm:uturn",
+        "tutor:bounce",
+        "tutor:defensecurl",
+        "tutor:doubleedge",
+        "tutor:gigadrain",
+        "tutor:headbutt",
         "tutor:helpinghand",
+        "tutor:mimic",
         "tutor:seedbomb",
-        "tutor:snore"
+        "tutor:snore",
+        "tutor:synthesis",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen2"
     ],
     "pokedex": [
-        "pokemod.species.jumpluff.desc1"
+        "pokemod.species.jumpluff.desc1",
+        "pokemod.species.jumpluff.desc2"
     ],
     "preEvolution": "skiploom",
     "evolutions": [],
@@ -91,5 +112,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 3
+    },
+    "height": 8,
+    "weight": 30
 }

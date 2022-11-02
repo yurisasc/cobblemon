@@ -1,97 +1,136 @@
 {
-    "name": "bergmite",
-    "nationalPokedexNumber": 712,
-    "primaryType": "ice",
-    "abilities": [
-        "owntempo",
-        "icebody",
-        "h:sturdy"
-    ],
-    "baseStats": {
-        "hp": 55,
-        "attack": 69,
-        "defence": 85,
-        "special_attack": 32,
-        "special_defence": 35,
-        "speed": 28
-    },
-    "catchRate": 190,
-    "maleRatio": 0.5,
-    "shoulderMountable": false,
-    "forms": [],
-    "baseExperienceYield": 61,
-    "experienceGroup": "mediumfast",
-    "eggCycles": 20,
-    "eggGroups": [
-        "monster",
-        "mineral"
-    ],
-    "moves": [
-        "1:harden",
-        "1:rapidspin",
-        "3:tackle",
-        "6:powdersnow",
-        "9:curse",
-        "12:icywind",
-        "15:protect",
-        "18:avalanche",
-        "21:bite",
-        "24:icefang",
-        "27:irondefense",
-        "30:recover",
-        "33:crunch",
-        "36:takedown",
-        "39:blizzard",
-        "42:doubleedge",
-        "egg:auroraveil",
-        "egg:mirrorcoat",
-        "egg:mist",
-        "tm:attract",
-        "tm:endure",
-        "tm:facade",
-        "tm:flashcannon",
-        "tm:gyroball",
-        "tm:hail",
-        "tm:icebeam",
-        "tm:iciclespear",
-        "tm:raindance",
-        "tm:rest",
-        "tm:rockslide",
-        "tm:rocktomb",
-        "tm:round",
-        "tm:safeguard",
-        "tm:sleeptalk",
-        "tm:snore",
-        "tm:stoneedge",
-        "tm:substitute",
-        "tm:surf"
-    ],
-    "labels": [
-        "gen6"
-    ],
-    "pokedex": [
-        "pokemod.species.bergmite.desc1",
-        "pokemod.species.bergmite.desc2"
-    ],
-    "evolutions": [
+  "name": "bergmite",
+  "nationalPokedexNumber": 712,
+  "primaryType": "ice",
+  "abilities": ["owntempo", "icebody", "h:sturdy"],
+  "baseStats": {
+    "hp": 55,
+    "attack": 69,
+    "defence": 85,
+    "special_attack": 32,
+    "special_defence": 35,
+    "speed": 28
+  },
+  "catchRate": 190,
+  "maleRatio": 0.5,
+  "shoulderMountable": false,
+  "forms": [],
+  "baseExperienceYield": 61,
+  "experienceGroup": "mediumfast",
+  "eggCycles": 20,
+  "eggGroups": ["monster", "mineral"],
+  "moves": [
+    "1:harden",
+    "1:rapidspin",
+    "3:tackle",
+    "6:powdersnow",
+    "9:curse",
+    "12:icywind",
+    "15:protect",
+    "18:avalanche",
+    "20:sharpen",
+    "21:bite",
+    "24:icefang",
+    "27:irondefense",
+    "30:recover",
+    "30:iceball",
+    "33:crunch",
+    "36:takedown",
+    "39:blizzard",
+    "42:doubleedge",
+    "egg:auroraveil",
+    "egg:barrier",
+    "egg:mirrorcoat",
+    "egg:mist",
+    "tm:attract",
+    "tm:avalanche",
+    "tm:blizzard",
+    "tm:confide",
+    "tm:crunch",
+    "tm:doubleteam",
+    "tm:endure",
+    "tm:facade",
+    "tm:flash",
+    "tm:flashcannon",
+    "tm:frostbreath",
+    "tm:frustration",
+    "tm:gyroball",
+    "tm:hail",
+    "tm:hiddenpower",
+    "tm:icebeam",
+    "tm:icefang",
+    "tm:iciclespear",
+    "tm:icywind",
+    "tm:irondefense",
+    "tm:protect",
+    "tm:raindance",
+    "tm:rest",
+    "tm:return",
+    "tm:rockpolish",
+    "tm:rockslide",
+    "tm:rocksmash",
+    "tm:rocktomb",
+    "tm:round",
+    "tm:safeguard",
+    "tm:secretpower",
+    "tm:sleeptalk",
+    "tm:snore",
+    "tm:stoneedge",
+    "tm:strength",
+    "tm:substitute",
+    "tm:surf",
+    "tm:swagger",
+    "tm:toxic",
+    "tutor:afteryou",
+    "tutor:waterpulse"
+  ],
+  "labels": ["gen6"],
+  "pokedex": [
+    "pokemod.species.bergmite.desc1",
+    "pokemod.species.bergmite.desc2"
+  ],
+  "evolutions": [
+    {
+      "id": "bergmite_avalugg_hisui",
+      "variant": "level_up",
+      "result": "avalugg form=hisui",
+      "consumeHeldItem": false,
+      "learnableMoves": [],
+      "requirements": [
         {
-            "id": "bergmite_avalugg",
-            "variant": "level_up",
-            "result": "avalugg",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "level",
-                    "minLevel": 37
-                }
-            ]
+          "variant": "level",
+          "minLevel": 37
+        },
+        {
+          "variant": "biome",
+          "biome": "#pokemod:is_highlands"
         }
-    ],
-    "baseScale": 1.0,
-    "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
-        "fixed": false
+      ]
+    },
+    {
+      "id": "bergmite_avalugg",
+      "variant": "level_up",
+      "result": "avalugg",
+      "consumeHeldItem": false,
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 37
+        }
+      ]
     }
+  ],
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.0,
+    "height": 1.0,
+    "fixed": false
+  },
+  "baseFriendship": 50,
+  "evYield": {
+    "defence": 1
+  },
+  "height": 10,
+  "weight": 995
 }

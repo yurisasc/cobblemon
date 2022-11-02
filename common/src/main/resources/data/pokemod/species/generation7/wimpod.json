@@ -23,7 +23,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "bug",
-        "water3"
+        "water_3"
     ],
     "moves": [
         "1:sandattack",
@@ -37,14 +37,19 @@
         "tm:assurance",
         "tm:attract",
         "tm:bugbuzz",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:hail",
+        "tm:hiddenpower",
         "tm:leechlife",
         "tm:mudshot",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scald",
         "tm:screech",
@@ -53,8 +58,10 @@
         "tm:spikes",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
         "tm:swift",
         "tm:taunt",
+        "tm:toxic",
         "tm:waterfall",
         "tutor:skittersmack"
     ],
@@ -85,5 +92,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 5,
+    "weight": 120
 }

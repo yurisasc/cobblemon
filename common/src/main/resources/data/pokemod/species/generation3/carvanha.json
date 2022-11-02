@@ -23,11 +23,12 @@
     "experienceGroup": "slow",
     "eggCycles": 20,
     "eggGroups": [
-        "water2"
+        "water_2"
     ],
     "moves": [
         "1:leer",
         "1:aquajet",
+        "4:rage",
         "4:poisonfang",
         "8:focusenergy",
         "12:scaryface",
@@ -44,27 +45,42 @@
         "egg:doubleedge",
         "egg:thrash",
         "egg:waterpulse",
+        "tm:agility",
         "tm:assurance",
         "tm:attract",
         "tm:blizzard",
         "tm:bounce",
         "tm:brine",
+        "tm:captivate",
+        "tm:confide",
+        "tm:crunch",
         "tm:darkpulse",
         "tm:dive",
+        "tm:doubleteam",
         "tm:endure",
         "tm:facade",
+        "tm:focusenergy",
+        "tm:frustration",
         "tm:hail",
+        "tm:hiddenpower",
         "tm:hydropump",
         "tm:icebeam",
+        "tm:icefang",
         "tm:icywind",
+        "tm:liquidation",
+        "tm:naturalgift",
         "tm:payback",
         "tm:protect",
         "tm:psychicfangs",
         "tm:raindance",
         "tm:rest",
         "tm:retaliate",
+        "tm:return",
         "tm:round",
         "tm:scald",
+        "tm:scaryface",
+        "tm:screech",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snarl",
         "tm:snore",
@@ -73,12 +89,19 @@
         "tm:swift",
         "tm:taunt",
         "tm:thief",
+        "tm:torment",
+        "tm:toxic",
         "tm:uproar",
         "tm:waterfall",
         "tm:whirlpool",
         "tm:zenheadbutt",
         "tutor:flipturn",
-        "tutor:scaleshot"
+        "tutor:furycutter",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:scaleshot",
+        "tutor:spite",
+        "tutor:superfang"
     ],
     "labels": [
         "gen3"
@@ -107,5 +130,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 35,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 8,
+    "weight": 208
 }

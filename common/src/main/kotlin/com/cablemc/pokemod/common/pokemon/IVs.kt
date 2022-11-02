@@ -13,6 +13,7 @@ import com.cablemc.pokemod.common.util.randomNoCopy
 import kotlin.random.Random
 class IVs : PokemonStats() {
     override val acceptableRange = 0..MAX_VALUE
+    override val defaultValue = 0
     // TODO: Hyper training
 
     companion object {

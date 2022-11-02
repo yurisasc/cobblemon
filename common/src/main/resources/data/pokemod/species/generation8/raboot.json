@@ -22,8 +22,8 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground",
-        "humanshape"
+        "field",
+        "human_like"
     ],
     "moves": [
         "1:tackle",
@@ -38,11 +38,13 @@
         "42:bounce",
         "48:doubleedge",
         "tm:acrobatics",
+        "tm:agility",
         "tm:allyswitch",
         "tm:assurance",
         "tm:attract",
         "tm:batonpass",
         "tm:blazekick",
+        "tm:bounce",
         "tm:bulkup",
         "tm:electroball",
         "tm:endure",
@@ -101,5 +103,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 6,
+    "weight": 90
 }

@@ -21,13 +21,18 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.corviknight-gmax.desc1",
+                "pokemod.form.corviknight-gmax.desc2"
+            ],
+            "height": 140,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 248,
@@ -40,6 +45,7 @@
         "0:steelwing",
         "1:leer",
         "1:peck",
+        "1:steelwing",
         "1:metalsound",
         "1:irondefense",
         "1:honeclaws",
@@ -57,6 +63,7 @@
         "tm:attract",
         "tm:bodypress",
         "tm:bodyslam",
+        "tm:bravebird",
         "tm:bulkup",
         "tm:endure",
         "tm:facade",
@@ -68,6 +75,7 @@
         "tm:heavyslam",
         "tm:hurricane",
         "tm:hyperbeam",
+        "tm:irondefense",
         "tm:ironhead",
         "tm:lightscreen",
         "tm:nastyplot",
@@ -79,11 +87,14 @@
         "tm:revenge",
         "tm:reversal",
         "tm:round",
+        "tm:scaryface",
         "tm:screech",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:steelwing",
         "tm:substitute",
         "tm:swift",
+        "tm:taunt",
         "tm:thief",
         "tm:uturn",
         "tm:workup",
@@ -104,5 +115,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 3
+    },
+    "height": 22,
+    "weight": 750
 }
