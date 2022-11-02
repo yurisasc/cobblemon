@@ -434,10 +434,6 @@ class PokemonEntity(
                             stack.decrement(1)
                         }
                         this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, volume = 1F, pitch = 1F)
-                        // Only hint the evolution if it isn't instantly starting
-                        if (evolution.optional) {
-                            player.sendMessage("pokemod.ui.evolve.hint".asTranslated(pokemon.displayName))
-                        }
                         return true
                     }
                 }
