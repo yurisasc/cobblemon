@@ -9,32 +9,21 @@
 package com.cablemc.pokemod.common.pokemon.evolution.adapters
 
 import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
-import com.cablemc.pokemod.common.pokemon.evolution.CobbledPreEvolution
-import com.cablemc.pokemod.common.util.asIdentifierDefaultingNamespace
-import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
-import com.google.gson.JsonElement
-import com.google.gson.JsonObject
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
+import com.cablemc.pokemod.common.pokemon.evolution.PokemodLazyPreEvolution
+import com.google.gson.*
 import java.lang.reflect.Type
 
 object CobbledPreEvolutionAdapter : JsonDeserializer<PreEvolution>, JsonSerializer<PreEvolution> {
 
-    private const val SPECIES = "species"
-    private const val FORM = "form"
-
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): PreEvolution {
-        if (json.isJsonPrimitive) {
-            return CobbledPreEvolution(json.asString.asIdentifierDefaultingNamespace())
-        }
-        val jObject = json.asJsonObject
-        return CobbledPreEvolution(jObject.get(SPECIES).asString.asIdentifierDefaultingNamespace(), jObject.get(FORM).asString)
+        return PokemodLazyPreEvolution(json.asString)
     }
 
-    override fun serialize(src: PreEvolution, typeOfSrc: Type, context: JsonSerializationContext) = JsonObject().apply {
-        addProperty(SPECIES, src.species.name)
-        addProperty(FORM, src.form.name)
+    override fun serialize(src: PreEvolution, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
+        if (src.form == src.species.standardForm) {
+            return JsonPrimitive(src.species.resourceIdentifier.toString())
+        }
+        return JsonPrimitive("${src.species.resourceIdentifier} form=${src.form.name}")
     }
 
 }

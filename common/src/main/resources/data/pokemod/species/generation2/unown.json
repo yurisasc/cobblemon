@@ -14,23 +14,25 @@
         "speed": 48
     },
     "catchRate": 225,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 118,
     "experienceGroup": "mediumfast",
     "eggCycles": 40,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
-        "1:hiddenpower"
+        "1:hiddenpower",
+        "tm:hiddenpower"
     ],
     "labels": [
         "gen2"
     ],
     "pokedex": [
-        "pokemod.species.unown.desc1"
+        "pokemod.species.unown.desc1",
+        "pokemod.species.unown.desc2"
     ],
     "evolutions": [],
     "baseScale": 1.0,
@@ -38,5 +40,12 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1,
+        "special_attack": 1
+    },
+    "height": 5,
+    "weight": 50
 }

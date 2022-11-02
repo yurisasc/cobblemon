@@ -14,14 +14,14 @@
         "speed": 30
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 290,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:tackle",
@@ -39,6 +39,7 @@
         "66:doubleedge",
         "72:swordsdance",
         "tm:assurance",
+        "tm:avalanche",
         "tm:blizzard",
         "tm:bodypress",
         "tm:bodyslam",
@@ -55,6 +56,7 @@
         "tm:icebeam",
         "tm:iciclespear",
         "tm:icywind",
+        "tm:irondefense",
         "tm:megahorn",
         "tm:mudshot",
         "tm:outrage",
@@ -70,13 +72,15 @@
         "tm:stompingtantrum",
         "tm:substitute",
         "tm:superpower",
+        "tm:swordsdance",
+        "tm:taunt",
         "tm:throatchop",
         "tm:uproar",
         "tutor:lashout"
     ],
     "labels": [
-        "legendary",
-        "gen8"
+        "gen8",
+        "legendary"
     ],
     "pokedex": [
         "pokemod.species.glastrier.desc1",
@@ -88,5 +92,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 35,
+    "evYield": {
+        "attack": 3
+    },
+    "height": 22,
+    "weight": 8000
 }

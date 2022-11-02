@@ -15,14 +15,14 @@
         "speed": 61
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 285,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:tackle",
@@ -46,21 +46,32 @@
         "tm:bodyslam",
         "tm:brutalswing",
         "tm:bulldoze",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:earthquake",
         "tm:endure",
         "tm:energyball",
+        "tm:explosion",
         "tm:facade",
         "tm:fireblast",
+        "tm:flamecharge",
         "tm:flamethrower",
+        "tm:flashcannon",
         "tm:fly",
+        "tm:frustration",
+        "tm:gigadrain",
         "tm:gigaimpact",
         "tm:grassknot",
         "tm:gyroball",
+        "tm:heavyslam",
+        "tm:hiddenpower",
         "tm:hyperbeam",
+        "tm:irondefense",
         "tm:ironhead",
         "tm:megahorn",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:rockslide",
         "tm:round",
         "tm:seedbomb",
@@ -73,13 +84,20 @@
         "tm:stoneedge",
         "tm:substitute",
         "tm:superpower",
+        "tm:swagger",
+        "tm:toxic",
         "tm:zenheadbutt",
+        "tutor:block",
+        "tutor:gravity",
+        "tutor:magnetrise",
         "tutor:meteorbeam",
+        "tutor:shockwave",
         "tutor:steelbeam",
         "tutor:steelroller"
     ],
     "labels": [
-        "gen7"
+        "gen7",
+        "ultra_beast"
     ],
     "pokedex": [
         "pokemod.species.celesteela.desc1",
@@ -91,5 +109,13 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "attack": 1,
+        "defence": 1,
+        "special_attack": 1
+    },
+    "height": 92,
+    "weight": 9999
 }

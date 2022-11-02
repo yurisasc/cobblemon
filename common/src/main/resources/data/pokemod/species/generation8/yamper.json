@@ -22,7 +22,7 @@
     "experienceGroup": "fast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -42,12 +42,15 @@
         "egg:howl",
         "egg:sandattack",
         "tm:attract",
+        "tm:charm",
+        "tm:crunch",
         "tm:dig",
         "tm:electroball",
         "tm:endure",
         "tm:facade",
         "tm:firefang",
         "tm:helpinghand",
+        "tm:playrough",
         "tm:protect",
         "tm:rest",
         "tm:round",
@@ -62,6 +65,7 @@
         "tm:thunderwave",
         "tm:uproar",
         "tm:voltswitch",
+        "tm:wildcharge",
         "tutor:risingvoltage"
     ],
     "labels": [
@@ -91,5 +95,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 3,
+    "weight": 135
 }

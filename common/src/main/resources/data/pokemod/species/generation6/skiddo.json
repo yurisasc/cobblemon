@@ -22,7 +22,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -43,10 +43,14 @@
         "50:milkdrink",
         "egg:defensecurl",
         "egg:grassyterrain",
+        "egg:milkdrink",
         "egg:rollout",
         "tm:attract",
         "tm:brickbreak",
+        "tm:bulkup",
+        "tm:bulldoze",
         "tm:confide",
+        "tm:dig",
         "tm:doubleteam",
         "tm:energyball",
         "tm:facade",
@@ -58,12 +62,16 @@
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:retaliate",
         "tm:return",
         "tm:roar",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:solarbeam",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:surf",
@@ -73,7 +81,10 @@
         "tm:workup",
         "tutor:gigadrain",
         "tutor:irontail",
+        "tutor:seedbomb",
         "tutor:snore",
+        "tutor:synthesis",
+        "tutor:worryseed",
         "tutor:zenheadbutt"
     ],
     "labels": [
@@ -103,5 +114,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 9,
+    "weight": 310
 }

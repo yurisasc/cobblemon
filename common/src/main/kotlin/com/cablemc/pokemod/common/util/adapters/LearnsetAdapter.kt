@@ -9,7 +9,7 @@
 package com.cablemc.pokemod.common.util.adapters
 
 import com.cablemc.pokemod.common.Pokemod.LOGGER
-import com.cablemc.pokemod.common.api.pokemon.Learnset
+import com.cablemc.pokemod.common.api.pokemon.moves.Learnset
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement

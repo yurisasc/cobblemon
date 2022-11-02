@@ -15,7 +15,7 @@
         "speed": 70
     },
     "catchRate": 60,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 178,
@@ -23,7 +23,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "mineral",
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "0:teatime",
@@ -32,6 +32,7 @@
         "1:astonish",
         "1:aromaticmist",
         "1:strengthsap",
+        "1:teatime",
         "18:protect",
         "24:suckerpunch",
         "30:aromatherapy",
@@ -47,20 +48,24 @@
         "tm:endure",
         "tm:facade",
         "tm:foulplay",
+        "tm:gigadrain",
         "tm:gigaimpact",
         "tm:hex",
         "tm:hyperbeam",
         "tm:imprison",
         "tm:lightscreen",
         "tm:metronome",
+        "tm:nastyplot",
         "tm:payback",
         "tm:phantomforce",
+        "tm:protect",
         "tm:psychic",
         "tm:psyshock",
         "tm:reflect",
         "tm:rest",
         "tm:round",
         "tm:selfdestruct",
+        "tm:shadowball",
         "tm:sleeptalk",
         "tm:snore",
         "tm:storedpower",
@@ -84,5 +89,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 2,
+    "weight": 4
 }

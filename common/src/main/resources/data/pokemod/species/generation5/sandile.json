@@ -24,10 +24,11 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:leer",
+        "1:rage",
         "1:powertrip",
         "3:sandattack",
         "6:honeclaws",
@@ -35,7 +36,9 @@
         "12:scaryface",
         "15:bite",
         "18:torment",
+        "19:mudslap",
         "21:dig",
+        "22:embargo",
         "24:swagger",
         "27:crunch",
         "30:sandstorm",
@@ -45,25 +48,46 @@
         "egg:aquatail",
         "egg:counter",
         "egg:doubleedge",
+        "egg:meanlook",
+        "egg:mefirst",
+        "egg:pursuit",
+        "egg:rockclimb",
         "egg:spite",
         "tm:assurance",
         "tm:attract",
         "tm:beatup",
         "tm:bulldoze",
+        "tm:confide",
+        "tm:crunch",
+        "tm:cut",
         "tm:darkpulse",
+        "tm:dig",
+        "tm:doubleteam",
         "tm:earthpower",
+        "tm:earthquake",
+        "tm:embargo",
         "tm:endure",
         "tm:facade",
         "tm:firefang",
         "tm:focusenergy",
+        "tm:foulplay",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:incinerate",
         "tm:irontail",
         "tm:payback",
         "tm:protect",
         "tm:rest",
         "tm:retaliate",
+        "tm:return",
+        "tm:roar",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
+        "tm:sandstorm",
+        "tm:sandtomb",
+        "tm:scaryface",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:snarl",
@@ -74,10 +98,12 @@
         "tm:taunt",
         "tm:thief",
         "tm:thunderfang",
+        "tm:toxic",
         "tm:uproar",
         "tutor:lashout",
         "tutor:scorchingsands",
-        "tutor:skittersmack"
+        "tutor:skittersmack",
+        "tutor:snatch"
     ],
     "labels": [
         "gen5"
@@ -106,5 +132,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 7,
+    "weight": 152
 }

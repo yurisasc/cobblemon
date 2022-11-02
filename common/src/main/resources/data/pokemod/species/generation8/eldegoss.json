@@ -23,11 +23,12 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "0:cottonspore",
         "1:sing",
+        "1:cottonspore",
         "1:rapidspin",
         "1:sweetscent",
         "1:leafage",
@@ -51,11 +52,14 @@
         "tm:grassyterrain",
         "tm:helpinghand",
         "tm:hyperbeam",
+        "tm:hypervoice",
+        "tm:leafstorm",
         "tm:lightscreen",
         "tm:magicalleaf",
         "tm:pollenpuff",
         "tm:protect",
         "tm:rest",
+        "tm:round",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:snore",
@@ -79,5 +83,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 2
+    },
+    "height": 5,
+    "weight": 25
 }

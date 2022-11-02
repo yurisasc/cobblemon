@@ -14,22 +14,22 @@
         "speed": 37
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 40,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:teleport",
         "1:splash"
     ],
     "labels": [
-        "legendary",
-        "gen7"
+        "gen7",
+        "legendary"
     ],
     "pokedex": [
         "pokemod.species.cosmog.desc1",
@@ -55,5 +55,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 2,
+    "weight": 1
 }

@@ -59,5 +59,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 4,
+    "weight": 80
 }

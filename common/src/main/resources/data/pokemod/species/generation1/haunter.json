@@ -1,4 +1,4 @@
-    {
+{
     "name": "haunter",
     "nationalPokedexNumber": 93,
     "primaryType": "ghost",
@@ -22,11 +22,11 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "indeterminate"
+        "amorphous"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
-			"fly": {
+            "fly": {
                 "canFly": true
             },
             "walk": {
@@ -48,10 +48,14 @@
         "1:hypnosis",
         "1:confuseray",
         "1:lick",
+        "1:smog",
         "1:meanlook",
+        "1:shadowpunch",
+        "7:poisongas",
         "12:payback",
         "16:spite",
         "20:curse",
+        "21:toxic",
         "24:hex",
         "30:nightshade",
         "36:suckerpunch",
@@ -59,27 +63,49 @@
         "48:shadowball",
         "54:destinybond",
         "60:dreameater",
+        "61:nightmare",
         "tm:allyswitch",
         "tm:attract",
+        "tm:bide",
+        "tm:captivate",
+        "tm:confide",
+        "tm:darkpulse",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:embargo",
         "tm:encore",
         "tm:endure",
         "tm:energyball",
+        "tm:explosion",
         "tm:facade",
         "tm:firepunch",
         "tm:fling",
         "tm:foulplay",
+        "tm:frustration",
         "tm:gigadrain",
+        "tm:headbutt",
+        "tm:hex",
+        "tm:hiddenpower",
         "tm:icepunch",
         "tm:icywind",
+        "tm:infestation",
+        "tm:megadrain",
+        "tm:naturalgift",
+        "tm:payback",
         "tm:poisonjab",
         "tm:protect",
         "tm:psychic",
+        "tm:psychup",
+        "tm:psywave",
+        "tm:rage",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scaryface",
+        "tm:secretpower",
         "tm:selfdestruct",
+        "tm:shadowball",
         "tm:shadowclaw",
         "tm:skillswap",
         "tm:sleeptalk",
@@ -88,19 +114,30 @@
         "tm:snore",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:taunt",
         "tm:thief",
+        "tm:thunder",
         "tm:thunderbolt",
         "tm:thunderpunch",
+        "tm:torment",
+        "tm:toxic",
         "tm:trick",
         "tm:trickroom",
         "tm:uproar",
         "tm:venoshock",
         "tm:willowisp",
         "tm:wonderroom",
+        "tm:zapcannon",
         "tutor:corrosivegas",
+        "tutor:knockoff",
+        "tutor:mimic",
+        "tutor:ominouswind",
+        "tutor:painsplit",
         "tutor:poltergeist",
-        "tutor:skittersmack"
+        "tutor:skittersmack",
+        "tutor:snatch",
+        "tutor:telekinesis"
     ],
     "labels": [
         "gen1"
@@ -117,7 +154,8 @@
             "result": "gengar",
             "consumeHeldItem": false,
             "learnableMoves": [],
-            "requirements": []
+            "requirements": [],
+            "requiredContext": null
         }
     ],
     "baseScale": 1.3,
@@ -125,5 +163,11 @@
         "width": 0.8,
         "height": 0.9,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 16,
+    "weight": 1
 }

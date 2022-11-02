@@ -14,14 +14,14 @@
         "speed": 80
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 290,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:visegrip",
@@ -41,11 +41,16 @@
         "78:explosion",
         "tm:bodyslam",
         "tm:breakingswipe",
+        "tm:crunch",
+        "tm:dragonclaw",
+        "tm:dragondance",
         "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
         "tm:firefang",
+        "tm:focusenergy",
         "tm:gigaimpact",
+        "tm:hyperbeam",
         "tm:lightscreen",
         "tm:outrage",
         "tm:protect",
@@ -62,8 +67,8 @@
         "tutor:scaleshot"
     ],
     "labels": [
-        "legendary",
-        "gen8"
+        "gen8",
+        "legendary"
     ],
     "pokedex": [
         "pokemod.species.regidrago.desc1",
@@ -75,5 +80,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 35,
+    "evYield": {
+        "hp": 3
+    },
+    "height": 21,
+    "weight": 2000
 }

@@ -25,7 +25,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "fairy",
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:absorb",
@@ -56,40 +56,62 @@
         "egg:encore",
         "egg:endure",
         "egg:grassyterrain",
+        "egg:growl",
         "egg:helpinghand",
+        "egg:payday",
         "egg:seedbomb",
         "egg:strengthsap",
+        "egg:worryseed",
+        "tm:acrobatics",
         "tm:aerialace",
         "tm:attract",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
         "tm:dazzlinggleam",
         "tm:doubleteam",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
         "tm:infestation",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychup",
         "tm:reflect",
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:secretpower",
+        "tm:silverwind",
         "tm:sleeptalk",
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
+        "tm:sweetscent",
         "tm:swordsdance",
         "tm:toxic",
-        "tutor:snore"
+        "tm:uturn",
+        "tutor:bounce",
+        "tutor:defensecurl",
+        "tutor:gigadrain",
+        "tutor:headbutt",
+        "tutor:helpinghand",
+        "tutor:mimic",
+        "tutor:seedbomb",
+        "tutor:snore",
+        "tutor:synthesis",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen2"
     ],
     "pokedex": [
-        "pokemod.species.hoppip.desc1"
+        "pokemod.species.hoppip.desc1",
+        "pokemod.species.hoppip.desc2"
     ],
     "evolutions": [
         {
@@ -111,5 +133,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 4,
+    "weight": 5
 }

@@ -23,7 +23,7 @@
     "experienceGroup": "fast",
     "eggCycles": 15,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tailwhip",
@@ -42,22 +42,28 @@
         "egg:quickguard",
         "egg:torment",
         "tm:agility",
+        "tm:assurance",
         "tm:attract",
         "tm:batonpass",
+        "tm:beatup",
         "tm:dig",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
+        "tm:foulplay",
         "tm:mudshot",
+        "tm:nastyplot",
         "tm:playrough",
         "tm:protect",
         "tm:rest",
         "tm:round",
         "tm:screech",
         "tm:sleeptalk",
+        "tm:snarl",
         "tm:snore",
         "tm:substitute",
         "tm:swift",
+        "tm:tailslap",
         "tm:taunt",
         "tm:thief",
         "tutor:lashout"
@@ -89,5 +95,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 6,
+    "weight": 89
 }

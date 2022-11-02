@@ -26,12 +26,12 @@
     "eggGroups": [
         "bug"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canWalkOnWater": true
             },
-			"fly": {
+            "fly": {
                 "canFly": true
             }
         }
@@ -45,6 +45,8 @@
         "1:airslash",
         "1:bugbuzz",
         "1:bugbite",
+        "6:quickattack",
+        "11:doubleteam",
         "14:sonicboom",
         "17:detect",
         "22:supersonic",
@@ -55,16 +57,23 @@
         "43:slash",
         "46:screech",
         "49:uturn",
+        "54:airslash",
+        "57:bugbuzz",
         "tm:aerialace",
         "tm:attract",
+        "tm:captivate",
         "tm:confide",
+        "tm:doubleteam",
         "tm:dreameater",
+        "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:gigaimpact",
         "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:leechlife",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychic",
         "tm:psychup",
@@ -72,21 +81,33 @@
         "tm:return",
         "tm:roost",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowball",
+        "tm:silverwind",
         "tm:sleeptalk",
         "tm:solarbeam",
         "tm:steelwing",
+        "tm:strugglebug",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
         "tm:thief",
         "tm:toxic",
+        "tm:uturn",
+        "tutor:aircutter",
+        "tutor:bugbite",
         "tutor:defog",
         "tutor:gigadrain",
+        "tutor:headbutt",
         "tutor:laserfocus",
+        "tutor:mudslap",
+        "tutor:ominouswind",
         "tutor:signalbeam",
         "tutor:snore",
-        "tutor:tailwind"
+        "tutor:stringshot",
+        "tutor:swift",
+        "tutor:tailwind",
+        "tutor:uproar"
     ],
     "labels": [
         "gen4"
@@ -102,5 +123,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 19,
+    "weight": 515
 }

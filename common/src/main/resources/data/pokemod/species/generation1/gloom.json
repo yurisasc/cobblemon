@@ -18,12 +18,14 @@
     "catchRate": 120,
     "maleRatio": 0.5,
     "shoulderMountable": false,
-    "features": ["valencian"],
+    "features": [
+        "valencian"
+    ],
     "baseExperienceYield": 138,
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:acid",
@@ -33,26 +35,48 @@
         "12:megadrain",
         "14:poisonpowder",
         "16:stunspore",
+        "18:razorleaf",
         "18:sleeppowder",
         "20:gigadrain",
+        "24:luckychant",
         "26:toxic",
         "32:moonblast",
         "38:grassyterrain",
         "44:moonlight",
+        "44:naturalgift",
+        "49:petalblizzard",
         "50:petaldance",
         "tm:attract",
+        "tm:bide",
         "tm:bulletseed",
+        "tm:captivate",
         "tm:charm",
+        "tm:confide",
+        "tm:curse",
+        "tm:cut",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
         "tm:drainpunch",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:fling",
+        "tm:frustration",
+        "tm:gigadrain",
         "tm:grassknot",
+        "tm:grassyterrain",
+        "tm:headbutt",
+        "tm:hiddenpower",
+        "tm:infestation",
+        "tm:naturepower",
         "tm:protect",
+        "tm:rage",
+        "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:sludgebomb",
@@ -60,9 +84,17 @@
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swordsdance",
+        "tm:takedown",
         "tm:venoshock",
-        "tutor:grassyglide"
+        "tutor:afteryou",
+        "tutor:doubleedge",
+        "tutor:gastroacid",
+        "tutor:grassyglide",
+        "tutor:mimic",
+        "tutor:synthesis",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen1"
@@ -77,7 +109,7 @@
             "id": "gloom_vileplume",
             "variant": "item_interact",
             "result": "vileplume",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:leaf_stone"
@@ -86,7 +118,7 @@
             "id": "gloom_bellossom",
             "variant": "item_interact",
             "result": "bellossom",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:sun_stone"
@@ -97,5 +129,12 @@
         "width": 0.7,
         "height": 0.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 8,
+    "weight": 86,
+    "forms": []
 }

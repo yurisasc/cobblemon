@@ -23,17 +23,17 @@
     "eggCycles": 20,
     "eggGroups": [
         "monster",
-        "water1"
+        "water_1"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
-	"drops": {
+    "drops": {
         "amount": "1",
         "entries": [
             {
@@ -49,8 +49,11 @@
         "6:rocksmash",
         "9:rockthrow",
         "12:protect",
+        "12:foresight",
         "15:supersonic",
+        "17:bide",
         "18:waterpulse",
+        "20:mudsport",
         "21:rockslide",
         "24:takedown",
         "27:amnesia",
@@ -59,44 +62,71 @@
         "36:endeavor",
         "39:hydropump",
         "egg:ancientpower",
+        "egg:barrier",
         "egg:bite",
         "egg:counter",
         "egg:curse",
         "egg:doubleedge",
+        "egg:iceball",
         "egg:mirrorcoat",
+        "egg:mudbomb",
         "egg:mudslap",
+        "egg:refresh",
         "egg:sludge",
         "egg:stomp",
         "egg:wideguard",
         "egg:yawn",
+        "tm:amnesia",
         "tm:attract",
         "tm:avalanche",
         "tm:blizzard",
         "tm:bodyslam",
+        "tm:captivate",
+        "tm:confide",
         "tm:dig",
         "tm:dive",
+        "tm:doubleteam",
         "tm:earthpower",
+        "tm:echoedvoice",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:hail",
+        "tm:hiddenpower",
+        "tm:hydropump",
         "tm:icebeam",
         "tm:icywind",
         "tm:irontail",
         "tm:lowkick",
+        "tm:naturalgift",
+        "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
+        "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
         "tm:scald",
+        "tm:screech",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:sludgewave",
         "tm:snore",
+        "tm:strength",
         "tm:substitute",
         "tm:superpower",
+        "tm:surf",
+        "tm:swagger",
+        "tm:toxic",
         "tm:uproar",
         "tm:waterfall",
         "tm:whirlpool",
         "tm:workup",
+        "tutor:aquatail",
+        "tutor:defensecurl",
+        "tutor:headbutt",
+        "tutor:mimic",
+        "tutor:rollout",
         "tutor:waterpledge"
     ],
     "labels": [
@@ -126,5 +156,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 4,
+    "weight": 76
 }

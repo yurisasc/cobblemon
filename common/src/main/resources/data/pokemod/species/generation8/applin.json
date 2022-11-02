@@ -21,10 +21,10 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 52,
-    "experienceGroup": "slowthenveryfast",
+    "experienceGroup": "erratic",
     "eggCycles": 20,
     "eggGroups": [
-        "plant",
+        "grass",
         "dragon"
     ],
     "moves": [
@@ -50,7 +50,7 @@
             "id": "applin_flapple",
             "variant": "item_interact",
             "result": "flapple",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:tart_apple"
@@ -59,7 +59,7 @@
             "id": "applin_appletun",
             "variant": "item_interact",
             "result": "appletun",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:sweet_apple"
@@ -70,5 +70,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 2,
+    "weight": 5
 }

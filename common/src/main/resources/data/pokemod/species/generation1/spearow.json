@@ -25,9 +25,9 @@
     "eggGroups": [
         "flying"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
-			"fly": {
+            "fly": {
                 "canFly": true
             }
         }
@@ -45,18 +45,18 @@
         ]
     },
     "moves": [
-        "1:growl",
         "1:peck",
-        "4:leer",
+        "3:growl",
+        "8:leer",
         "8:pursuit",
-        "11:furyattack",
+        "11:focusenergy",
         "15:aerialace",
-        "18:mirrormove",
+        "16:furyattack",
+        "19:mirrormove",
         "22:assurance",
-        "25:agility",
-        "29:focusenergy",
-        "32:roost",
-        "36:drillpeck",
+        "24:roost",
+        "27:agility",
+        "32:drillpeck",
         "egg:astonish",
         "egg:featherdance",
         "egg:feintattack",
@@ -65,42 +65,66 @@
         "egg:scaryface",
         "egg:skyattack",
         "egg:steelwing",
-        "egg:triattack",
         "egg:uproar",
         "egg:whirlwind",
+        "tm:aerialace",
         "tm:attract",
+        "tm:bide",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
+        "tm:detect",
         "tm:doubleteam",
+        "tm:drillrun",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:facade",
         "tm:falseswipe",
         "tm:fly",
         "tm:frustration",
+        "tm:headbutt",
         "tm:hiddenpower",
+        "tm:naturalgift",
+        "tm:pluck",
         "tm:protect",
+        "tm:rage",
         "tm:raindance",
         "tm:rest",
         "tm:return",
+        "tm:roost",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
+        "tm:steelwing",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
+        "tm:takedown",
         "tm:thief",
         "tm:toxic",
+        "tm:triattack",
         "tm:uturn",
         "tm:workup",
+        "tutor:aircutter",
         "tutor:defog",
-        "tutor:drillrun",
+        "tutor:doubleedge",
         "tutor:heatwave",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:ominouswind",
+        "tutor:skyattack",
         "tutor:snore",
-        "tutor:tailwind"
+        "tutor:swift",
+        "tutor:tailwind",
+        "tutor:twister",
+        "tutor:uproar"
     ],
     "labels": [
         "gen1"
     ],
     "pokedex": [
-        "pokemod.species.spearow.desc1"
+        "pokemod.species.spearow.desc1",
+        "pokemod.species.spearow.desc2"
     ],
     "evolutions": [
         {
@@ -122,5 +146,11 @@
         "width": 0.65,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 3,
+    "weight": 20
 }

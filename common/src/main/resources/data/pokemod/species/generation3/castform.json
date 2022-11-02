@@ -20,22 +20,25 @@
         {
             "name": "sunny",
             "primaryType": "fire",
-            "aspects": [
-                "sunny"
+            "pokedex": [
+                "pokemod.form.castform-sunny.desc1",
+                "pokemod.form.castform-sunny.desc2"
             ]
         },
         {
             "name": "rainy",
             "primaryType": "water",
-            "aspects": [
-                "rainy"
+            "pokedex": [
+                "pokemod.form.castform-rainy.desc1",
+                "pokemod.form.castform-rainy.desc2"
             ]
         },
         {
             "name": "snowy",
             "primaryType": "ice",
-            "aspects": [
-                "snowy"
+            "pokedex": [
+                "pokemod.form.castform-snowy.desc1",
+                "pokemod.form.castform-snowy.desc2"
             ]
         }
     ],
@@ -44,7 +47,7 @@
     "eggCycles": 25,
     "eggGroups": [
         "fairy",
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "1:tackle",
@@ -71,25 +74,38 @@
         "egg:ominouswind",
         "egg:reflecttype",
         "tm:attract",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:captivate",
         "tm:confide",
         "tm:doubleteam",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:fireblast",
         "tm:flamethrower",
+        "tm:flash",
         "tm:frustration",
+        "tm:hail",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:incinerate",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychup",
+        "tm:raindance",
         "tm:rest",
+        "tm:retaliate",
         "tm:return",
         "tm:round",
         "tm:sandstorm",
         "tm:scald",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:solarbeam",
         "tm:substitute",
+        "tm:sunnyday",
         "tm:swagger",
         "tm:thief",
         "tm:thunder",
@@ -97,11 +113,16 @@
         "tm:thunderwave",
         "tm:toxic",
         "tm:workup",
+        "tutor:bodyslam",
+        "tutor:defensecurl",
         "tutor:defog",
+        "tutor:doubleedge",
         "tutor:icywind",
         "tutor:lastresort",
+        "tutor:mimic",
         "tutor:shockwave",
         "tutor:snore",
+        "tutor:swift",
         "tutor:tailwind",
         "tutor:waterpulse"
     ],
@@ -118,5 +139,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 3,
+    "weight": 8
 }

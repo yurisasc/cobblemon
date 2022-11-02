@@ -23,12 +23,13 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 15,
     "eggGroups": [
-        "ground",
-        "plant"
+        "field",
+        "grass"
     ],
     "moves": [
         "1:tackle",
         "1:harden",
+        "1:bide",
         "3:absorb",
         "6:astonish",
         "9:growth",
@@ -44,6 +45,7 @@
         "egg:leechseed",
         "egg:nightslash",
         "egg:quickattack",
+        "egg:razorwind",
         "egg:takedown",
         "egg:worryseed",
         "tm:amnesia",
@@ -51,21 +53,32 @@
         "tm:beatup",
         "tm:bodyslam",
         "tm:bulletseed",
+        "tm:captivate",
+        "tm:confide",
         "tm:dig",
+        "tm:doubleteam",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:falseswipe",
+        "tm:flash",
         "tm:foulplay",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:grassknot",
         "tm:grassyterrain",
+        "tm:hiddenpower",
         "tm:nastyplot",
+        "tm:naturalgift",
+        "tm:payback",
         "tm:powerswap",
         "tm:protect",
         "tm:rest",
         "tm:retaliate",
+        "tm:return",
+        "tm:rocksmash",
         "tm:round",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:selfdestruct",
         "tm:shadowball",
@@ -73,8 +86,16 @@
         "tm:snore",
         "tm:solarbeam",
         "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
         "tm:swordsdance",
-        "tutor:grassyglide"
+        "tm:toxic",
+        "tutor:defensecurl",
+        "tutor:doubleedge",
+        "tutor:grassyglide",
+        "tutor:headbutt",
+        "tutor:mimic",
+        "tutor:spite"
     ],
     "labels": [
         "gen3"
@@ -103,5 +124,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 5,
+    "weight": 40
 }

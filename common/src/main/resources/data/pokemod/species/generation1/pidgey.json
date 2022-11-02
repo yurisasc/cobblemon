@@ -26,9 +26,9 @@
     "eggGroups": [
         "flying"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
-			"fly": {
+            "fly": {
                 "canFly": true
             }
         }
@@ -47,18 +47,19 @@
     },
     "moves": [
         "1:tackle",
-        "5:sandattack",
-        "9:gust",
-        "13:quickattack",
-        "17:whirlwind",
+        "3:sandattack",
+        "5:gust",
+        "9:mirrormove",
+        "11:quickattack",
+        "15:wingattack",
+        "17:roost",
+        "21:whirlwind",
         "21:twister",
+        "23:agility",
         "25:featherdance",
-        "29:agility",
-        "33:wingattack",
-        "37:roost",
+        "27:airslash",
+        "29:razorwind",
         "41:tailwind",
-        "45:mirrormove",
-        "49:airslash",
         "53:hurricane",
         "egg:aircutter",
         "egg:bravebird",
@@ -70,34 +71,57 @@
         "egg:uproar",
         "tm:aerialace",
         "tm:attract",
+        "tm:bide",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
+        "tm:detect",
         "tm:doubleteam",
+        "tm:endure",
         "tm:facade",
         "tm:fly",
         "tm:frustration",
+        "tm:headbutt",
         "tm:hiddenpower",
+        "tm:naturalgift",
+        "tm:pluck",
         "tm:protect",
+        "tm:rage",
         "tm:raindance",
+        "tm:reflect",
         "tm:rest",
         "tm:return",
+        "tm:roost",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
+        "tm:steelwing",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
+        "tm:takedown",
         "tm:thief",
         "tm:toxic",
         "tm:uturn",
         "tm:workup",
+        "tutor:defog",
+        "tutor:doubleedge",
         "tutor:heatwave",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:ominouswind",
         "tutor:skyattack",
-        "tutor:snore"
+        "tutor:snore",
+        "tutor:swift",
+        "tutor:tailwind",
+        "tutor:uproar"
     ],
     "labels": [
         "gen1"
     ],
     "pokedex": [
-        "pokemod.species.pidgey.desc1"
+        "pokemod.species.pidgey.desc1",
+        "pokemod.species.pidgey.desc2"
     ],
     "evolutions": [
         {
@@ -119,5 +143,11 @@
         "width": 0.5,
         "height": 0.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 3,
+    "weight": 18
 }

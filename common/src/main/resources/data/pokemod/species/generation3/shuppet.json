@@ -23,7 +23,7 @@
     "experienceGroup": "fast",
     "eggCycles": 25,
     "eggGroups": [
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "1:knockoff",
@@ -50,18 +50,25 @@
         "egg:gunkshot",
         "egg:imprison",
         "egg:ominouswind",
+        "egg:phantomforce",
         "egg:pursuit",
+        "egg:shadowsneak",
         "tm:attract",
         "tm:calmmind",
+        "tm:captivate",
         "tm:chargebeam",
         "tm:confide",
         "tm:darkpulse",
         "tm:dazzlinggleam",
         "tm:doubleteam",
         "tm:dreameater",
+        "tm:embargo",
+        "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:hiddenpower",
+        "tm:naturalgift",
         "tm:payback",
         "tm:protect",
         "tm:psychic",
@@ -70,6 +77,8 @@
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:secretpower",
+        "tm:shadowball",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:sunnyday",
@@ -82,17 +91,28 @@
         "tm:torment",
         "tm:toxic",
         "tm:trickroom",
+        "tm:willowisp",
         "tutor:allyswitch",
+        "tutor:bodyslam",
+        "tutor:doubleedge",
         "tutor:foulplay",
+        "tutor:gunkshot",
+        "tutor:headbutt",
         "tutor:icywind",
+        "tutor:knockoff",
         "tutor:magiccoat",
         "tutor:magicroom",
+        "tutor:mimic",
+        "tutor:nightmare",
         "tutor:painsplit",
         "tutor:roleplay",
         "tutor:shockwave",
         "tutor:skillswap",
+        "tutor:snatch",
         "tutor:snore",
-        "tutor:telekinesis"
+        "tutor:spite",
+        "tutor:telekinesis",
+        "tutor:trick"
     ],
     "labels": [
         "gen3"
@@ -121,5 +141,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 35,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 6,
+    "weight": 23
 }

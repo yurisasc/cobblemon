@@ -49,10 +49,12 @@
         "tm:attract",
         "tm:calmmind",
         "tm:confide",
+        "tm:cut",
         "tm:doubleteam",
         "tm:dreameater",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
@@ -64,12 +66,14 @@
         "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
         "tm:toxic",
+        "tutor:bugbite",
         "tutor:electroweb",
         "tutor:gigadrain",
         "tutor:irondefense",
@@ -107,5 +111,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 3,
+    "weight": 25
 }

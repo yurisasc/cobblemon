@@ -15,7 +15,7 @@
         "speed": 60
     },
     "catchRate": 30,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "baseExperienceYield": 154,
     "experienceGroup": "mediumslow",
@@ -48,6 +48,7 @@
         "tm:dazzlinggleam",
         "tm:doubleteam",
         "tm:earthquake",
+        "tm:explosion",
         "tm:facade",
         "tm:frustration",
         "tm:gigaimpact",
@@ -80,6 +81,7 @@
         "tutor:lastresort",
         "tutor:magnetrise",
         "tutor:snore",
+        "tutor:stealthrock",
         "tutor:telekinesis",
         "tutor:zenheadbutt"
     ],
@@ -96,5 +98,203 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "defence": 1,
+        "special_defence": 1
+    },
+    "height": 3,
+    "weight": 400,
+    "forms": [
+        {
+            "name": "orange-meteor",
+            "pokedex": [
+                "pokemod.form.minior-orange-meteor.desc1",
+                "pokemod.form.minior-orange-meteor.desc2"
+            ]
+        },
+        {
+            "name": "yellow-meteor",
+            "pokedex": [
+                "pokemod.form.minior-yellow-meteor.desc1",
+                "pokemod.form.minior-yellow-meteor.desc2"
+            ]
+        },
+        {
+            "name": "green-meteor",
+            "pokedex": [
+                "pokemod.form.minior-green-meteor.desc1",
+                "pokemod.form.minior-green-meteor.desc2"
+            ]
+        },
+        {
+            "name": "blue-meteor",
+            "pokedex": [
+                "pokemod.form.minior-blue-meteor.desc1",
+                "pokemod.form.minior-blue-meteor.desc2"
+            ]
+        },
+        {
+            "name": "indigo-meteor",
+            "pokedex": [
+                "pokemod.form.minior-indigo-meteor.desc1",
+                "pokemod.form.minior-indigo-meteor.desc2"
+            ]
+        },
+        {
+            "name": "violet-meteor",
+            "pokedex": [
+                "pokemod.form.minior-violet-meteor.desc1",
+                "pokemod.form.minior-violet-meteor.desc2"
+            ]
+        },
+        {
+            "name": "red",
+            "baseStats": {
+                "hp": 60,
+                "attack": 100,
+                "defence": 60,
+                "special_attack": 100,
+                "special_defence": 60,
+                "speed": 120
+            },
+            "baseExperienceYield": 175,
+            "evYield": {
+                "attack": 1,
+                "special_attack": 1
+            },
+            "pokedex": [
+                "pokemod.form.minior-red.desc1",
+                "pokemod.form.minior-red.desc2"
+            ],
+            "weight": 3
+        },
+        {
+            "name": "orange",
+            "baseStats": {
+                "hp": 60,
+                "attack": 100,
+                "defence": 60,
+                "special_attack": 100,
+                "special_defence": 60,
+                "speed": 120
+            },
+            "baseExperienceYield": 175,
+            "evYield": {
+                "attack": 1,
+                "special_attack": 1
+            },
+            "pokedex": [
+                "pokemod.form.minior-orange.desc1",
+                "pokemod.form.minior-orange.desc2"
+            ],
+            "weight": 3
+        },
+        {
+            "name": "yellow",
+            "baseStats": {
+                "hp": 60,
+                "attack": 100,
+                "defence": 60,
+                "special_attack": 100,
+                "special_defence": 60,
+                "speed": 120
+            },
+            "baseExperienceYield": 175,
+            "evYield": {
+                "attack": 1,
+                "special_attack": 1
+            },
+            "pokedex": [
+                "pokemod.form.minior-yellow.desc1",
+                "pokemod.form.minior-yellow.desc2"
+            ],
+            "weight": 3
+        },
+        {
+            "name": "green",
+            "baseStats": {
+                "hp": 60,
+                "attack": 100,
+                "defence": 60,
+                "special_attack": 100,
+                "special_defence": 60,
+                "speed": 120
+            },
+            "baseExperienceYield": 175,
+            "evYield": {
+                "attack": 1,
+                "special_attack": 1
+            },
+            "pokedex": [
+                "pokemod.form.minior-green.desc1",
+                "pokemod.form.minior-green.desc2"
+            ],
+            "weight": 3
+        },
+        {
+            "name": "blue",
+            "baseStats": {
+                "hp": 60,
+                "attack": 100,
+                "defence": 60,
+                "special_attack": 100,
+                "special_defence": 60,
+                "speed": 120
+            },
+            "baseExperienceYield": 175,
+            "evYield": {
+                "attack": 1,
+                "special_attack": 1
+            },
+            "pokedex": [
+                "pokemod.form.minior-blue.desc1",
+                "pokemod.form.minior-blue.desc2"
+            ],
+            "weight": 3
+        },
+        {
+            "name": "indigo",
+            "baseStats": {
+                "hp": 60,
+                "attack": 100,
+                "defence": 60,
+                "special_attack": 100,
+                "special_defence": 60,
+                "speed": 120
+            },
+            "baseExperienceYield": 175,
+            "evYield": {
+                "attack": 1,
+                "special_attack": 1
+            },
+            "pokedex": [
+                "pokemod.form.minior-indigo.desc1",
+                "pokemod.form.minior-indigo.desc2"
+            ],
+            "weight": 3
+        },
+        {
+            "name": "violet",
+            "baseStats": {
+                "hp": 60,
+                "attack": 100,
+                "defence": 60,
+                "special_attack": 100,
+                "special_defence": 60,
+                "speed": 120
+            },
+            "baseExperienceYield": 175,
+            "evYield": {
+                "attack": 1,
+                "special_attack": 1
+            },
+            "pokedex": [
+                "pokemod.form.minior-violet.desc1",
+                "pokemod.form.minior-violet.desc2"
+            ],
+            "weight": 3
+        }
+    ]
 }

@@ -51,6 +51,7 @@
         "tm:echoedvoice",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
@@ -62,7 +63,9 @@
         "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
+        "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
@@ -107,5 +110,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 1,
+    "weight": 1
 }

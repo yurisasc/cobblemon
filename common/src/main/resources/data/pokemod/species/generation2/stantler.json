@@ -23,7 +23,7 @@
     "experienceGroup": "slow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -41,28 +41,37 @@
         "43:jumpkick",
         "49:imprison",
         "50:captivate",
+        "55:mefirst",
         "egg:bite",
         "egg:disable",
         "egg:doublekick",
         "egg:extrasensory",
+        "egg:mefirst",
         "egg:megahorn",
         "egg:mudsport",
         "egg:rage",
         "egg:spite",
         "egg:thrash",
+        "egg:zenheadbutt",
         "tm:attract",
         "tm:bulldoze",
+        "tm:calmmind",
         "tm:chargebeam",
         "tm:confide",
+        "tm:curse",
+        "tm:detect",
         "tm:doubleteam",
         "tm:dreameater",
         "tm:earthquake",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:gigaimpact",
         "tm:hiddenpower",
         "tm:lightscreen",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychic",
         "tm:psychup",
@@ -70,9 +79,11 @@
         "tm:raindance",
         "tm:reflect",
         "tm:rest",
+        "tm:retaliate",
         "tm:return",
         "tm:roar",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:solarbeam",
@@ -87,23 +98,35 @@
         "tm:trickroom",
         "tm:wildcharge",
         "tm:workup",
+        "tutor:bodyslam",
         "tutor:bounce",
+        "tutor:doubleedge",
         "tutor:gravity",
+        "tutor:headbutt",
         "tutor:irontail",
         "tutor:lastresort",
         "tutor:magicroom",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:nightmare",
+        "tutor:roleplay",
         "tutor:shockwave",
         "tutor:signalbeam",
         "tutor:skillswap",
         "tutor:snore",
+        "tutor:spite",
+        "tutor:suckerpunch",
+        "tutor:swift",
         "tutor:throatchop",
-        "tutor:uproar"
+        "tutor:uproar",
+        "tutor:zenheadbutt"
     ],
     "labels": [
         "gen2"
     ],
     "pokedex": [
-        "pokemod.species.stantler.desc1"
+        "pokemod.species.stantler.desc1",
+        "pokemod.species.stantler.desc2"
     ],
     "evolutions": [],
     "baseScale": 1.0,
@@ -111,5 +134,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 14,
+    "weight": 712
 }

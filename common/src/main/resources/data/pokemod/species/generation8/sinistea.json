@@ -15,7 +15,7 @@
         "speed": 50
     },
     "catchRate": 120,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 62,
@@ -23,7 +23,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "mineral",
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "1:withdraw",
@@ -44,15 +44,19 @@
         "tm:endure",
         "tm:facade",
         "tm:foulplay",
+        "tm:gigadrain",
         "tm:hex",
         "tm:imprison",
         "tm:metronome",
+        "tm:nastyplot",
         "tm:payback",
         "tm:phantomforce",
+        "tm:protect",
         "tm:psychic",
         "tm:psyshock",
         "tm:rest",
         "tm:round",
+        "tm:shadowball",
         "tm:sleeptalk",
         "tm:snore",
         "tm:storedpower",
@@ -74,7 +78,7 @@
             "id": "sinistea_polteageist",
             "variant": "item_interact",
             "result": "polteageist",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:cracked_pot"
@@ -85,5 +89,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 1,
+    "weight": 2
 }

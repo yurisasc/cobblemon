@@ -20,10 +20,10 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 66,
-    "experienceGroup": "slowthenveryfast",
+    "experienceGroup": "erratic",
     "eggCycles": 20,
     "eggGroups": [
-        "water2"
+        "water_2"
     ],
     "moves": [
         "1:pound",
@@ -52,32 +52,49 @@
         "egg:splash",
         "egg:sweetkiss",
         "egg:tickle",
+        "tm:attract",
         "tm:blizzard",
         "tm:confide",
+        "tm:dive",
         "tm:doubleteam",
+        "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:hail",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:naturalgift",
         "tm:naturepower",
         "tm:payback",
         "tm:protect",
         "tm:psychup",
+        "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:safeguard",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:surf",
         "tm:swagger",
         "tm:toxic",
+        "tm:uturn",
         "tm:waterfall",
+        "tutor:aircutter",
+        "tutor:aquatail",
+        "tutor:bounce",
         "tutor:defog",
         "tutor:icywind",
+        "tutor:ominouswind",
+        "tutor:signalbeam",
         "tutor:snore",
-        "tutor:tailwind"
+        "tutor:swift",
+        "tutor:tailwind",
+        "tutor:twister",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen4"
@@ -106,5 +123,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 4,
+    "weight": 70
 }

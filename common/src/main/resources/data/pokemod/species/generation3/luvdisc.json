@@ -22,7 +22,7 @@
     "experienceGroup": "fast",
     "eggCycles": 20,
     "eggGroups": [
-        "water2"
+        "water_2"
     ],
     "moves": [
         "1:tackle",
@@ -43,38 +43,51 @@
         "46:hydropump",
         "49:safeguard",
         "egg:aquajet",
+        "egg:aquaring",
         "egg:brine",
+        "egg:captivate",
         "egg:entrainment",
         "egg:healpulse",
         "egg:mudsport",
         "egg:splash",
         "egg:supersonic",
         "egg:watersport",
+        "tm:attract",
         "tm:blizzard",
         "tm:confide",
+        "tm:dive",
         "tm:doubleteam",
+        "tm:endure",
         "tm:facade",
         "tm:frustration",
         "tm:hail",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychup",
         "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:safeguard",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:surf",
         "tm:swagger",
         "tm:toxic",
         "tm:waterfall",
+        "tm:whirlpool",
         "tutor:bounce",
+        "tutor:doubleedge",
         "tutor:icywind",
         "tutor:liquidation",
-        "tutor:snore"
+        "tutor:mimic",
+        "tutor:snore",
+        "tutor:swift",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen3"
@@ -89,5 +102,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 87
 }

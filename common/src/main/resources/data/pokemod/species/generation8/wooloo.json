@@ -23,7 +23,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -46,9 +46,11 @@
         "tm:electroball",
         "tm:endure",
         "tm:facade",
+        "tm:guardswap",
         "tm:payback",
         "tm:protect",
         "tm:rest",
+        "tm:reversal",
         "tm:round",
         "tm:sleeptalk",
         "tm:snore",
@@ -84,5 +86,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 6,
+    "weight": 60
 }

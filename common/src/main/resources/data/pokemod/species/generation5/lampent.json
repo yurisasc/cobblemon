@@ -24,7 +24,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "1:ember",
@@ -34,6 +34,7 @@
         "12:confuseray",
         "16:hex",
         "20:willowisp",
+        "20:flameburst",
         "24:firespin",
         "28:nightshade",
         "32:curse",
@@ -46,32 +47,55 @@
         "tm:allyswitch",
         "tm:attract",
         "tm:calmmind",
+        "tm:confide",
         "tm:darkpulse",
+        "tm:doubleteam",
+        "tm:dreameater",
+        "tm:embargo",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:fireblast",
+        "tm:firespin",
+        "tm:flamecharge",
         "tm:flamethrower",
+        "tm:flash",
+        "tm:frustration",
         "tm:heatwave",
+        "tm:hex",
+        "tm:hiddenpower",
+        "tm:imprison",
+        "tm:incinerate",
         "tm:mysticalfire",
+        "tm:overheat",
         "tm:payback",
         "tm:protect",
         "tm:psychic",
+        "tm:psychup",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
+        "tm:shadowball",
         "tm:sleeptalk",
         "tm:snore",
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:taunt",
         "tm:thief",
+        "tm:toxic",
         "tm:trick",
         "tm:trickroom",
+        "tm:willowisp",
         "tutor:burningjealousy",
         "tutor:poltergeist",
-        "tutor:skittersmack"
+        "tutor:shockwave",
+        "tutor:skittersmack",
+        "tutor:spite",
+        "tutor:telekinesis"
     ],
     "labels": [
         "gen5"
@@ -86,7 +110,7 @@
             "id": "lampent_chandelure",
             "variant": "item_interact",
             "result": "chandelure",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:dusk_stone"
@@ -97,5 +121,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 6,
+    "weight": 130
 }

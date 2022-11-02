@@ -20,7 +20,7 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 70,
-    "experienceGroup": "slowthenveryfast",
+    "experienceGroup": "erratic",
     "eggCycles": 30,
     "eggGroups": [
         "monster"
@@ -54,7 +54,9 @@
         "tm:attract",
         "tm:blizzard",
         "tm:bulldoze",
+        "tm:captivate",
         "tm:confide",
+        "tm:dig",
         "tm:doubleteam",
         "tm:earthquake",
         "tm:facade",
@@ -64,29 +66,41 @@
         "tm:frustration",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:incinerate",
+        "tm:naturalgift",
+        "tm:protect",
         "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:roar",
         "tm:rockpolish",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
         "tm:sandstorm",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:smackdown",
         "tm:stoneedge",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
+        "tm:taunt",
         "tm:thunder",
         "tm:thunderbolt",
         "tm:torment",
         "tm:toxic",
         "tutor:earthpower",
+        "tutor:irondefense",
+        "tutor:ironhead",
         "tutor:irontail",
         "tutor:magnetrise",
+        "tutor:mudslap",
         "tutor:shockwave",
-        "tutor:snore"
+        "tutor:snore",
+        "tutor:stealthrock"
     ],
     "labels": [
         "gen4"
@@ -115,5 +129,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 5,
+    "weight": 570
 }

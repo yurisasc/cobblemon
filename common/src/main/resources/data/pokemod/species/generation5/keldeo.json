@@ -1,5 +1,5 @@
 {
-    "name": "keldeoordinary",
+    "name": "keldeo",
     "nationalPokedexNumber": 647,
     "primaryType": "water",
     "secondaryType": "fighting",
@@ -15,21 +15,17 @@
         "speed": 108
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
-    "forms": [
-        {
-            "name": "resolute",
-            "aspects": [
-                "resolute"
-            ]
-        }
-    ],
     "baseExperienceYield": 290,
+    "baseFriendship": 35,
+    "evYield": {
+        "special_attack": 3
+    },
     "experienceGroup": "slow",
     "eggCycles": 80,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:leer",
@@ -47,17 +43,26 @@
         "56:swordsdance",
         "63:hydropump",
         "70:closecombat",
+        "tm:aerialace",
         "tm:airslash",
         "tm:aurasphere",
         "tm:bounce",
         "tm:brickbreak",
         "tm:calmmind",
+        "tm:closecombat",
+        "tm:confide",
+        "tm:cut",
+        "tm:doubleteam",
         "tm:endure",
         "tm:facade",
         "tm:falseswipe",
         "tm:focusblast",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:hail",
+        "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:hydropump",
         "tm:hyperbeam",
         "tm:icywind",
         "tm:liquidation",
@@ -66,41 +71,61 @@
         "tm:muddywater",
         "tm:poisonjab",
         "tm:protect",
+        "tm:psychup",
         "tm:raindance",
         "tm:reflect",
         "tm:rest",
+        "tm:retaliate",
+        "tm:return",
         "tm:revenge",
         "tm:reversal",
+        "tm:roar",
+        "tm:rocksmash",
         "tm:round",
         "tm:safeguard",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:smartstrike",
         "tm:snore",
         "tm:stoneedge",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:superpower",
         "tm:surf",
+        "tm:swagger",
         "tm:swift",
+        "tm:swordsdance",
         "tm:taunt",
+        "tm:toxic",
+        "tm:workup",
         "tm:xscissor",
         "tutor:coaching",
-        "tutor:flipturn"
+        "tutor:covet",
+        "tutor:endeavor",
+        "tutor:flipturn",
+        "tutor:lastresort",
+        "tutor:waterpulse"
     ],
     "labels": [
-        "mythical",
-        "gen5"
+        "gen5",
+        "mythical"
     ],
     "pokedex": [
-        "pokemod.species.keldeoordinary.desc1",
-        "pokemod.species.keldeoordinary.desc2"
+        "pokemod.species.keldeo.desc1",
+        "pokemod.species.keldeo.desc2"
     ],
+    "height": 14,
+    "weight": 485,
     "evolutions": [],
-    "baseScale": 1.0,
-    "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
-        "fixed": false
-    }
+    "forms": [
+        {
+            "name": "resolute",
+            "pokedex": [
+                "pokemod.form.keldeo-resolute.desc1",
+                "pokemod.form.keldeo-resolute.desc2"
+            ]
+        }
+    ]
 }

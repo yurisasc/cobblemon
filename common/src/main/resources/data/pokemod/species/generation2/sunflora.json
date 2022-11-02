@@ -23,7 +23,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:pound",
@@ -46,10 +46,15 @@
         "43:leafstorm",
         "50:petalblizzard",
         "tm:attract",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
+        "tm:cut",
         "tm:doubleteam",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:gigaimpact",
         "tm:grassknot",
@@ -62,26 +67,34 @@
         "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:sludgebomb",
+        "tm:solarbeam",
         "tm:substitute",
+        "tm:sunnyday",
         "tm:swagger",
+        "tm:sweetscent",
         "tm:swordsdance",
         "tm:toxic",
         "tutor:afteryou",
         "tutor:earthpower",
         "tutor:endeavor",
+        "tutor:gigadrain",
         "tutor:helpinghand",
+        "tutor:mimic",
         "tutor:seedbomb",
         "tutor:snore",
         "tutor:synthesis",
-        "tutor:uproar"
+        "tutor:uproar",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen2"
     ],
     "pokedex": [
-        "pokemod.species.sunflora.desc1"
+        "pokemod.species.sunflora.desc1",
+        "pokemod.species.sunflora.desc2"
     ],
     "preEvolution": "sunkern",
     "evolutions": [],
@@ -90,5 +103,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 8,
+    "weight": 85
 }

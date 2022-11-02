@@ -24,7 +24,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -32,6 +32,8 @@
         "1:ember",
         "1:hyperbeam",
         "1:workup",
+        "5:ember",
+        "8:workup",
         "11:headbutt",
         "15:nobleroar",
         "20:takedown",
@@ -47,23 +49,32 @@
         "tm:bulldoze",
         "tm:confide",
         "tm:darkpulse",
+        "tm:dig",
         "tm:doubleteam",
+        "tm:echoedvoice",
         "tm:facade",
         "tm:fireblast",
         "tm:flamecharge",
+        "tm:flamethrower",
         "tm:frustration",
         "tm:gigaimpact",
         "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:overheat",
         "tm:payback",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:retaliate",
         "tm:return",
         "tm:roar",
+        "tm:rocksmash",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snarl",
         "tm:solarbeam",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
@@ -72,9 +83,12 @@
         "tm:toxic",
         "tm:wildcharge",
         "tm:willowisp",
+        "tm:workup",
         "tutor:bounce",
+        "tutor:endeavor",
         "tutor:heatwave",
         "tutor:helpinghand",
+        "tutor:hypervoice",
         "tutor:irontail",
         "tutor:snatch",
         "tutor:snore"
@@ -93,5 +107,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 15,
+    "weight": 815
 }

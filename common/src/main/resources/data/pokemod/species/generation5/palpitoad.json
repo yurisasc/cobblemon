@@ -24,12 +24,13 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "water1"
+        "water_1"
     ],
     "moves": [
         "1:growl",
         "1:supersonic",
         "1:acid",
+        "1:bubble",
         "1:echoedvoice",
         "12:mudshot",
         "16:round",
@@ -44,16 +45,30 @@
         "tm:attract",
         "tm:bounce",
         "tm:bulldoze",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:earthpower",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:hail",
+        "tm:hiddenpower",
+        "tm:hydropump",
+        "tm:hypervoice",
         "tm:icywind",
+        "tm:infestation",
+        "tm:muddywater",
+        "tm:mudshot",
         "tm:powerwhip",
         "tm:protect",
+        "tm:raindance",
         "tm:rest",
+        "tm:return",
+        "tm:rocksmash",
+        "tm:round",
         "tm:scald",
         "tm:screech",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:sludgewave",
@@ -61,8 +76,16 @@
         "tm:stealthrock",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
+        "tm:toxic",
+        "tm:uproar",
         "tm:venomdrench",
-        "tm:weatherball"
+        "tm:weatherball",
+        "tutor:afteryou",
+        "tutor:endeavor",
+        "tutor:focuspunch",
+        "tutor:gastroacid",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen5"
@@ -92,5 +115,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 2
+    },
+    "height": 8,
+    "weight": 170
 }

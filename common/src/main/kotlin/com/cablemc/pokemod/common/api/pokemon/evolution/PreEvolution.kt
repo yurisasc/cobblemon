@@ -10,7 +10,7 @@ package com.cablemc.pokemod.common.api.pokemon.evolution
 
 import com.cablemc.pokemod.common.pokemon.FormData
 import com.cablemc.pokemod.common.pokemon.Species
-import com.cablemc.pokemod.common.pokemon.evolution.CobbledPreEvolution
+import com.cablemc.pokemod.common.pokemon.evolution.PokemodPreEvolution
 
 /**
  * Represents the previous stage in the evolutionary line of a given Pokémon.
@@ -27,7 +27,7 @@ interface PreEvolution {
 
     companion object {
 
-        fun of(species: Species, form: FormData = species.standardForm): PreEvolution = CobbledPreEvolution(species.resourceIdentifier, form.name)
+        fun of(species: Species, form: FormData = species.standardForm): PreEvolution = PokemodPreEvolution(species, form)
 
     }
 

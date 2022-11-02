@@ -20,14 +20,16 @@
     "forms": [
         {
             "name": "gulping",
-            "aspects": [
-                "gulping"
+            "pokedex": [
+                "pokemod.form.cramorant-gulping.desc1",
+                "pokemod.form.cramorant-gulping.desc2"
             ]
         },
         {
             "name": "gorging",
-            "aspects": [
-                "gorging"
+            "pokedex": [
+                "pokemod.form.cramorant-gorging.desc1",
+                "pokemod.form.cramorant-gorging.desc2"
             ]
         }
     ],
@@ -35,7 +37,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
+        "water_1",
         "flying"
     ],
     "moves": [
@@ -59,15 +61,18 @@
         "egg:roost",
         "tm:agility",
         "tm:airslash",
+        "tm:amnesia",
         "tm:assurance",
         "tm:attract",
         "tm:blizzard",
         "tm:bravebird",
+        "tm:dive",
         "tm:endure",
         "tm:facade",
         "tm:fly",
         "tm:gigaimpact",
         "tm:hurricane",
+        "tm:hydropump",
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:icywind",
@@ -104,5 +109,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 2
+    },
+    "height": 8,
+    "weight": 180
 }

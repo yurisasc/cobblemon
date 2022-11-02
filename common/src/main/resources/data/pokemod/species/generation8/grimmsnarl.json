@@ -21,13 +21,18 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.grimmsnarl-gmax.desc1",
+                "pokemod.form.grimmsnarl-gmax.desc2"
+            ],
+            "height": 320,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 255,
@@ -35,7 +40,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "fairy",
-        "humanshape"
+        "human_like"
     ],
     "moves": [
         "0:spiritbreak",
@@ -45,6 +50,7 @@
         "1:bulkup",
         "1:confide",
         "1:poweruppunch",
+        "1:spiritbreak",
         "1:falsesurrender",
         "12:faketears",
         "16:assurance",
@@ -56,20 +62,25 @@
         "48:playrough",
         "56:foulplay",
         "64:hammerarm",
+        "tm:assurance",
         "tm:attract",
         "tm:bodypress",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:bulkup",
         "tm:crunch",
         "tm:darkestlariat",
+        "tm:darkpulse",
         "tm:dazzlinggleam",
         "tm:drainingkiss",
         "tm:drainpunch",
         "tm:endure",
         "tm:facade",
+        "tm:faketears",
         "tm:firepunch",
         "tm:focusblast",
         "tm:focusenergy",
+        "tm:foulplay",
         "tm:gigaimpact",
         "tm:hyperbeam",
         "tm:icepunch",
@@ -80,6 +91,8 @@
         "tm:megakick",
         "tm:megapunch",
         "tm:metronome",
+        "tm:nastyplot",
+        "tm:playrough",
         "tm:powerswap",
         "tm:powerwhip",
         "tm:protect",
@@ -120,5 +133,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 3
+    },
+    "height": 15,
+    "weight": 610
 }

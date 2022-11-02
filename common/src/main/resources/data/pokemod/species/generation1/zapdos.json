@@ -1,118 +1,214 @@
 {
-    "name": "zapdos",
-    "nationalPokedexNumber": 145,
-    "primaryType": "electric",
-    "secondaryType": "flying",
-    "abilities": [
-        "pressure",
-        "h:static"
-    ],
-    "baseStats": {
+  "name": "zapdos",
+  "nationalPokedexNumber": 145,
+  "primaryType": "electric",
+  "secondaryType": "flying",
+  "abilities": ["pressure", "h:static"],
+  "baseStats": {
+    "hp": 90,
+    "attack": 90,
+    "defence": 85,
+    "special_attack": 125,
+    "special_defence": 90,
+    "speed": 100
+  },
+  "catchRate": 3,
+  "maleRatio": -1,
+  "shoulderMountable": false,
+  "forms": [
+    {
+      "name": "galar",
+      "primaryType": "fighting",
+      "abilities": ["defiant"],
+      "baseStats": {
         "hp": 90,
-        "attack": 90,
-        "defence": 85,
-        "special_attack": 125,
+        "attack": 125,
+        "defence": 90,
+        "special_attack": 85,
         "special_defence": 90,
         "speed": 100
-    },
-    "catchRate": 3,
-    "maleRatio": 1.125,
-    "shoulderMountable": false,
-    "forms": [
-        {
-            "name": "normal"
-        },
-        {
-            "name": "galar",
-            "primaryType": "fighting",
-            "abilities": [
-                "defiant"
-            ],
-            "baseStats": {
-                "hp": 90,
-                "attack": 125,
-                "defence": 90,
-                "special_attack": 85,
-                "special_defence": 90,
-                "speed": 100
-            },
-            "aspects": [
-                "galarian"
-            ]
-        }
-    ],
-    "baseExperienceYield": 290,
-    "experienceGroup": "slow",
-    "eggCycles": 80,
-    "eggGroups": [
-        "no-eggs"
-    ],
-	"behaviour": {
-        "moving": {
-			"fly": {
-                "canFly": true
-            }
-        }
-    },
-    "moves": [
+      },
+      "evYield": {
+        "attack": 3
+      },
+      "moves": [
         "1:peck",
-        "1:thunderwave",
-        "5:thundershock",
+        "1:focusenergy",
+        "5:rocksmash",
         "10:lightscreen",
         "15:pluck",
         "20:agility",
         "25:ancientpower",
-        "30:charge",
+        "30:brickbreak",
         "35:drillpeck",
-        "40:roost",
-        "45:discharge",
-        "50:raindance",
-        "55:thunder",
+        "40:quickguard",
+        "45:thunderouskick",
+        "50:bulkup",
+        "55:counter",
         "60:detect",
-        "65:magneticflux",
-        "70:zapcannon",
-        "tm:batonpass",
+        "65:closecombat",
+        "70:reversal",
+        "tm:acrobatics",
+        "tm:agility",
+        "tm:assurance",
+        "tm:blazekick",
+        "tm:bounce",
         "tm:bravebird",
-        "tm:eerieimpulse",
+        "tm:brickbreak",
+        "tm:bulkup",
+        "tm:closecombat",
         "tm:endure",
         "tm:facade",
         "tm:fly",
+        "tm:focusenergy",
         "tm:gigaimpact",
-        "tm:hail",
-        "tm:heatwave",
         "tm:hurricane",
         "tm:hyperbeam",
+        "tm:lightscreen",
+        "tm:lowkick",
+        "tm:lowsweep",
+        "tm:megakick",
+        "tm:payback",
         "tm:protect",
         "tm:rest",
+        "tm:retaliate",
+        "tm:revenge",
+        "tm:reversal",
         "tm:round",
-        "tm:sandstorm",
+        "tm:scaryface",
+        "tm:screech",
         "tm:sleeptalk",
         "tm:snore",
         "tm:steelwing",
+        "tm:stompingtantrum",
         "tm:substitute",
-        "tm:sunnyday",
+        "tm:superpower",
         "tm:swift",
-        "tm:thunderbolt",
+        "tm:taunt",
+        "tm:throatchop",
         "tm:uturn",
-        "tm:voltswitch",
-        "tm:weatherball",
-        "tm:wildcharge",
-        "tutor:dualwingbeat",
-        "tutor:risingvoltage"
-    ],
-    "labels": [
-        "legendary",
-        "gen1"
-    ],
-    "pokedex": [
-        "pokemod.species.zapdos.desc1",
-        "pokemod.species.zapdos.desc2"
-    ],
-    "evolutions": [],
-    "baseScale": 1.5,
-    "hitbox": {
-        "width": 1,
-        "height": 1.7,
-        "fixed": false
+        "tutor:coaching",
+        "tutor:dualwingbeat"
+      ],
+      "pokedex": [
+        "pokemod.form.zapdos-galar.desc1",
+        "pokemod.form.zapdos-galar.desc2"
+      ],
+      "weight": 582,
+      "labels": ["gen1", "legendary", "galar_regional", "regional"]
     }
+  ],
+  "baseExperienceYield": 290,
+  "experienceGroup": "slow",
+  "eggCycles": 80,
+  "eggGroups": ["undiscovered"],
+  "behaviour": {
+    "moving": {
+      "fly": {
+        "canFly": true
+      }
+    }
+  },
+  "moves": [
+    "1:peck",
+    "1:thunderwave",
+    "5:thundershock",
+    "10:lightscreen",
+    "15:pluck",
+    "16:leer",
+    "20:agility",
+    "25:ancientpower",
+    "30:charge",
+    "35:drillpeck",
+    "40:roost",
+    "45:discharge",
+    "50:raindance",
+    "55:thunder",
+    "60:detect",
+    "65:magneticflux",
+    "70:zapcannon",
+    "72:skyattack",
+    "tm:aerialace",
+    "tm:agility",
+    "tm:batonpass",
+    "tm:bide",
+    "tm:bravebird",
+    "tm:chargebeam",
+    "tm:confide",
+    "tm:curse",
+    "tm:doubleteam",
+    "tm:eerieimpulse",
+    "tm:endure",
+    "tm:facade",
+    "tm:flash",
+    "tm:fly",
+    "tm:frustration",
+    "tm:gigaimpact",
+    "tm:hail",
+    "tm:headbutt",
+    "tm:heatwave",
+    "tm:hiddenpower",
+    "tm:hurricane",
+    "tm:hyperbeam",
+    "tm:lightscreen",
+    "tm:naturalgift",
+    "tm:protect",
+    "tm:rage",
+    "tm:raindance",
+    "tm:razorwind",
+    "tm:reflect",
+    "tm:rest",
+    "tm:return",
+    "tm:roar",
+    "tm:rocksmash",
+    "tm:round",
+    "tm:sandstorm",
+    "tm:secretpower",
+    "tm:skydrop",
+    "tm:sleeptalk",
+    "tm:snore",
+    "tm:steelwing",
+    "tm:substitute",
+    "tm:sunnyday",
+    "tm:swagger",
+    "tm:swift",
+    "tm:takedown",
+    "tm:thunder",
+    "tm:thunderbolt",
+    "tm:thunderwave",
+    "tm:toxic",
+    "tm:uturn",
+    "tm:voltswitch",
+    "tm:weatherball",
+    "tm:whirlwind",
+    "tm:wildcharge",
+    "tutor:aircutter",
+    "tutor:defog",
+    "tutor:doubleedge",
+    "tutor:dualwingbeat",
+    "tutor:laserfocus",
+    "tutor:mimic",
+    "tutor:mudslap",
+    "tutor:ominouswind",
+    "tutor:risingvoltage",
+    "tutor:shockwave",
+    "tutor:signalbeam",
+    "tutor:tailwind",
+    "tutor:twister"
+  ],
+  "labels": ["gen1", "legendary", "kanto_regional", "regional"],
+  "pokedex": ["pokemod.species.zapdos.desc1", "pokemod.species.zapdos.desc2"],
+  "evolutions": [],
+  "baseScale": 1.5,
+  "hitbox": {
+    "width": 1,
+    "height": 1.7,
+    "fixed": false
+  },
+  "baseFriendship": 35,
+  "evYield": {
+    "special_attack": 3
+  },
+  "height": 16,
+  "weight": 526
 }

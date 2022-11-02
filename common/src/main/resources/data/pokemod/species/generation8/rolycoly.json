@@ -44,11 +44,13 @@
         "tm:endure",
         "tm:facade",
         "tm:gyroball",
+        "tm:heatcrash",
         "tm:irondefense",
         "tm:ironhead",
         "tm:protect",
         "tm:reflect",
         "tm:rest",
+        "tm:rockblast",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
@@ -58,6 +60,7 @@
         "tm:sleeptalk",
         "tm:snore",
         "tm:spikes",
+        "tm:stealthrock",
         "tm:stoneedge",
         "tm:substitute",
         "tm:willowisp",
@@ -90,5 +93,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 3,
+    "weight": 120
 }

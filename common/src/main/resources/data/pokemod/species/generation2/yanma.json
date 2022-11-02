@@ -26,12 +26,12 @@
     "eggGroups": [
         "bug"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canWalkOnWater": true
             },
-			"fly": {
+            "fly": {
                 "canFly": true
             }
         }
@@ -57,6 +57,7 @@
         "egg:feint",
         "egg:feintattack",
         "egg:leechlife",
+        "egg:pursuit",
         "egg:reversal",
         "egg:secretpower",
         "egg:signalbeam",
@@ -64,11 +65,17 @@
         "egg:whirlwind",
         "tm:aerialace",
         "tm:attract",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
+        "tm:doubleteam",
         "tm:dreameater",
+        "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:hiddenpower",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychic",
         "tm:rest",
@@ -84,11 +91,20 @@
         "tm:swagger",
         "tm:thief",
         "tm:toxic",
+        "tm:uturn",
+        "tutor:aircutter",
         "tutor:bugbite",
         "tutor:defog",
         "tutor:gigadrain",
+        "tutor:headbutt",
+        "tutor:mimic",
+        "tutor:ominouswind",
+        "tutor:signalbeam",
         "tutor:snore",
-        "tutor:tailwind"
+        "tutor:stringshot",
+        "tutor:swift",
+        "tutor:tailwind",
+        "tutor:uproar"
     ],
     "labels": [
         "gen2"
@@ -117,5 +133,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 12,
+    "weight": 380
 }

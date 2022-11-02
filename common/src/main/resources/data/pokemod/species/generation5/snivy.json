@@ -22,8 +22,8 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground",
-        "plant"
+        "field",
+        "grass"
     ],
     "moves": [
         "1:tackle",
@@ -56,9 +56,11 @@
         "tm:attract",
         "tm:calmmind",
         "tm:confide",
+        "tm:cut",
         "tm:doubleteam",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
@@ -70,6 +72,7 @@
         "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:solarbeam",
         "tm:substitute",
@@ -83,7 +86,10 @@
         "tutor:aquatail",
         "tutor:bind",
         "tutor:defog",
+        "tutor:gastroacid",
+        "tutor:gigadrain",
         "tutor:grasspledge",
+        "tutor:irontail",
         "tutor:knockoff",
         "tutor:seedbomb",
         "tutor:snatch",
@@ -118,5 +124,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 81
 }

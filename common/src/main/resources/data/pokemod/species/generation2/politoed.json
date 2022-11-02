@@ -23,19 +23,20 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "water1"
+        "water_1"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
     "moves": [
         "0:bounce",
         "1:pound",
+        "1:doubleslap",
         "1:bodyslam",
         "1:doubleedge",
         "1:watergun",
@@ -47,24 +48,38 @@
         "1:swagger",
         "1:raindance",
         "1:hypervoice",
+        "1:bounce",
         "1:mudshot",
         "1:earthpower",
         "tm:attract",
         "tm:blizzard",
+        "tm:bodyslam",
+        "tm:bounce",
         "tm:brickbreak",
         "tm:bulldoze",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
+        "tm:detect",
         "tm:dig",
         "tm:dive",
+        "tm:doubleteam",
+        "tm:earthpower",
         "tm:earthquake",
+        "tm:echoedvoice",
         "tm:encore",
         "tm:endure",
         "tm:facade",
         "tm:fling",
         "tm:focusblast",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:hail",
         "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:hydropump",
         "tm:hyperbeam",
+        "tm:hypervoice",
         "tm:icebeam",
         "tm:icepunch",
         "tm:icywind",
@@ -73,22 +88,41 @@
         "tm:megapunch",
         "tm:metronome",
         "tm:muddywater",
+        "tm:mudshot",
+        "tm:naturalgift",
         "tm:payback",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:psychic",
+        "tm:raindance",
         "tm:rest",
+        "tm:return",
+        "tm:rocksmash",
         "tm:round",
         "tm:scald",
         "tm:screech",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:strength",
         "tm:substitute",
         "tm:surf",
         "tm:thief",
+        "tm:toxic",
         "tm:uproar",
         "tm:waterfall",
         "tm:weatherball",
-        "tm:whirlpool"
+        "tm:whirlpool",
+        "tutor:counter",
+        "tutor:defensecurl",
+        "tutor:dynamicpunch",
+        "tutor:endeavor",
+        "tutor:focuspunch",
+        "tutor:headbutt",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:seismictoss",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen2"
@@ -104,5 +138,11 @@
         "width": 0.55,
         "height": 1,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 3
+    },
+    "height": 11,
+    "weight": 339
 }
