@@ -12,10 +12,13 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.PoseableEntity
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
-import com.cablemc.pokemod.common.entity.PoseType
+import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("caterpie")
     override val head = getPart("head")
@@ -31,9 +34,7 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = setOf(PoseType.NONE, PoseType.PROFILE),
-            transformTicks = 10,
-            condition = { !it.isMoving.get() },
+            poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0010_caterpie/caterpie", "ground_idle")
@@ -41,9 +42,8 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         )
 
         walk = registerPose(
-            poseType = PoseType.WALK,
-            transformTicks = 10,
-            condition = { it.isMoving.get() },
+            poseName = "walking",
+            poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0010_caterpie/caterpie", "ground_walk")
