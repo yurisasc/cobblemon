@@ -16,7 +16,7 @@
         "speed": 30
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 60,
@@ -27,9 +27,11 @@
     ],
     "moves": [
         "1:tackle",
+        "1:takedown",
         "tm:irondefense",
         "tm:ironhead",
         "tm:zenheadbutt",
+        "tutor:headbutt",
         "tutor:steelbeam"
     ],
     "labels": [
@@ -59,5 +61,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 35,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 6,
+    "weight": 952
 }

@@ -23,7 +23,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:absorb",
@@ -46,48 +46,68 @@
         "egg:curse",
         "egg:encore",
         "egg:endure",
+        "egg:grasswhistle",
         "egg:grassyterrain",
         "egg:helpinghand",
+        "egg:ingrain",
+        "egg:leechseed",
         "egg:morningsun",
+        "egg:naturalgift",
         "egg:naturepower",
         "egg:sweetscent",
         "tm:attract",
+        "tm:bulletseed",
+        "tm:captivate",
         "tm:confide",
+        "tm:cut",
         "tm:doubleteam",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
         "tm:lightscreen",
+        "tm:naturepower",
         "tm:protect",
         "tm:rest",
         "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:sludgebomb",
+        "tm:solarbeam",
         "tm:substitute",
+        "tm:sunnyday",
         "tm:swagger",
         "tm:swordsdance",
         "tm:toxic",
         "tutor:afteryou",
         "tutor:earthpower",
+        "tutor:endeavor",
+        "tutor:gigadrain",
+        "tutor:helpinghand",
+        "tutor:mimic",
+        "tutor:seedbomb",
         "tutor:snore",
-        "tutor:uproar"
+        "tutor:synthesis",
+        "tutor:uproar",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen2"
     ],
     "pokedex": [
-        "pokemod.species.sunkern.desc1"
+        "pokemod.species.sunkern.desc1",
+        "pokemod.species.sunkern.desc2"
     ],
     "evolutions": [
         {
             "id": "sunkern_sunflora",
             "variant": "item_interact",
             "result": "sunflora",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:sun_stone"
@@ -98,5 +118,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 3,
+    "weight": 18
 }

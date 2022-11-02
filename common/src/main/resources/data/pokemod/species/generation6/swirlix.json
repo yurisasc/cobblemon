@@ -41,6 +41,7 @@
         "36:cottonguard",
         "39:endeavor",
         "egg:afteryou",
+        "egg:bellydrum",
         "egg:copycat",
         "egg:stickyweb",
         "egg:yawn",
@@ -48,24 +49,44 @@
         "tm:attract",
         "tm:calmmind",
         "tm:charm",
+        "tm:confide",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:drainingkiss",
+        "tm:dreameater",
         "tm:endure",
+        "tm:energyball",
         "tm:facade",
+        "tm:faketears",
         "tm:flamethrower",
+        "tm:flash",
+        "tm:frustration",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:lightscreen",
+        "tm:playrough",
         "tm:protect",
         "tm:psychic",
+        "tm:psychup",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
+        "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
         "tm:sunnyday",
         "tm:surf",
+        "tm:swagger",
         "tm:thief",
         "tm:thunderbolt",
+        "tm:toxic",
+        "tutor:covet",
+        "tutor:gastroacid",
+        "tutor:healbell",
+        "tutor:magiccoat",
         "tutor:mistyexplosion"
     ],
     "labels": [
@@ -80,14 +101,15 @@
             "id": "swirlix_slurpuff",
             "variant": "trade",
             "result": "slurpuff",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [
                 {
                     "variant": "held_item",
-                    "item": "whipped-dream"
+                    "item": "pokemod:whipped_dream"
                 }
-            ]
+            ],
+            "requiredContext": null
         }
     ],
     "baseScale": 1.0,
@@ -95,5 +117,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 4,
+    "weight": 35
 }

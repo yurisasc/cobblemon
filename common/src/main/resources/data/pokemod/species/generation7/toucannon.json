@@ -33,6 +33,10 @@
         "1:rocksmash",
         "1:rockblast",
         "1:echoedvoice",
+        "1:beakblast",
+        "3:growl",
+        "7:echoedvoice",
+        "9:rocksmash",
         "13:supersonic",
         "16:pluck",
         "21:roost",
@@ -47,6 +51,7 @@
         "tm:brickbreak",
         "tm:confide",
         "tm:doubleteam",
+        "tm:echoedvoice",
         "tm:flamecharge",
         "tm:flashcannon",
         "tm:fly",
@@ -56,6 +61,7 @@
         "tm:protect",
         "tm:rest",
         "tm:return",
+        "tm:roost",
         "tm:round",
         "tm:sleeptalk",
         "tm:smackdown",
@@ -71,6 +77,7 @@
         "tutor:defog",
         "tutor:gunkshot",
         "tutor:heatwave",
+        "tutor:hypervoice",
         "tutor:knockoff",
         "tutor:seedbomb",
         "tutor:skyattack",
@@ -92,5 +99,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 3
+    },
+    "height": 11,
+    "weight": 260
 }

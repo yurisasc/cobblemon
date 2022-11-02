@@ -11,7 +11,7 @@ package com.cablemc.pokemod.common.pokemon
 import com.cablemc.pokemod.common.api.abilities.AbilityPool
 import com.cablemc.pokemod.common.api.data.ClientDataSynchronizer
 import com.cablemc.pokemod.common.api.drop.DropTable
-import com.cablemc.pokemod.common.api.pokemon.Learnset
+import com.cablemc.pokemod.common.api.pokemon.moves.Learnset
 import com.cablemc.pokemod.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemod.common.api.pokemon.egg.EggGroup
 import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
@@ -46,6 +46,8 @@ class Species : ClientDataSynchronizer<Species> {
     // Only modifiable for debugging sizes
     var baseScale = 1F
     var baseExperienceYield = 10
+    var baseFriendship = 0
+    val evYield = hashMapOf<Stat, Int>()
     var experienceGroup = ExperienceGroups.first()
     var hitbox = EntityDimensions(1F, 1F, false)
     var primaryType = ElementalTypes.GRASS
@@ -65,6 +67,7 @@ class Species : ClientDataSynchronizer<Species> {
     val drops = DropTable()
     val eggCycles = 120
     val eggGroups = setOf<EggGroup>()
+    // ToDo add this to the 3 guys
     var dynamaxBlocked = false
 
     /**
@@ -100,6 +103,16 @@ class Species : ClientDataSynchronizer<Species> {
         for (form in forms) {
             form.initialize(this)
         }
+    }
+
+    /**
+     * Initialize properties that relied on all species and forms to be loaded.
+     *
+     */
+    internal fun initializePostLoads() {
+        // These properties are lazy
+        this.preEvolution?.species
+        this.preEvolution?.form
     }
 
     fun create(level: Int = 5) = Pokemon().apply {

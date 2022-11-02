@@ -22,8 +22,8 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
-        "ground"
+        "water_1",
+        "field"
     ],
     "moves": [
         "1:growl",
@@ -32,6 +32,9 @@
         "1:crunch",
         "1:watersport",
         "1:icefang",
+        "4:growl",
+        "7:watersport",
+        "11:quickattack",
         "15:watergun",
         "18:pursuit",
         "21:swift",
@@ -45,10 +48,15 @@
         "tm:attract",
         "tm:blizzard",
         "tm:brickbreak",
+        "tm:brine",
         "tm:bulkup",
+        "tm:captivate",
         "tm:confide",
+        "tm:dig",
+        "tm:dive",
         "tm:doubleteam",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:facade",
         "tm:focusblast",
         "tm:frustration",
@@ -57,16 +65,21 @@
         "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:icebeam",
+        "tm:naturalgift",
         "tm:payback",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:roar",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
+        "tm:strength",
         "tm:substitute",
         "tm:surf",
         "tm:swagger",
@@ -74,13 +87,16 @@
         "tm:torment",
         "tm:toxic",
         "tm:waterfall",
+        "tutor:aquatail",
         "tutor:focuspunch",
+        "tutor:headbutt",
         "tutor:helpinghand",
         "tutor:icepunch",
         "tutor:icywind",
         "tutor:irontail",
         "tutor:liquidation",
         "tutor:lowkick",
+        "tutor:mudslap",
         "tutor:snore",
         "tutor:waterpulse"
     ],
@@ -98,5 +114,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 11,
+    "weight": 335
 }

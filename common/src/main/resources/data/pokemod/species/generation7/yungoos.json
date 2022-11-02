@@ -23,7 +23,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -57,6 +57,7 @@
         "tm:hiddenpower",
         "tm:payback",
         "tm:protect",
+        "tm:rest",
         "tm:return",
         "tm:rocktomb",
         "tm:round",
@@ -72,9 +73,11 @@
         "tm:workup",
         "tutor:endeavor",
         "tutor:irontail",
+        "tutor:lastresort",
         "tutor:shockwave",
         "tutor:snore",
         "tutor:stompingtantrum",
+        "tutor:superfang",
         "tutor:uproar"
     ],
     "labels": [
@@ -108,5 +111,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 4,
+    "weight": 60
 }

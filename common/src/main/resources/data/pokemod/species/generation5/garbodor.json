@@ -20,13 +20,18 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen5",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.garbodor-gmax.desc1",
+                "pokemod.form.garbodor-gmax.desc2"
+            ],
+            "height": 210,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 166,
@@ -44,6 +49,7 @@
         "1:acidspray",
         "9:amnesia",
         "12:clearsmog",
+        "14:doubleslap",
         "15:toxicspikes",
         "18:sludge",
         "21:stockpile",
@@ -55,41 +61,57 @@
         "39:painsplit",
         "43:gunkshot",
         "48:explosion",
+        "tm:amnesia",
         "tm:attract",
         "tm:bodypress",
+        "tm:bodyslam",
+        "tm:confide",
         "tm:crosspoison",
         "tm:darkpulse",
+        "tm:doubleteam",
         "tm:drainpunch",
         "tm:endure",
         "tm:facade",
         "tm:fling",
         "tm:focusblast",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:gigaimpact",
+        "tm:gunkshot",
+        "tm:hiddenpower",
         "tm:hyperbeam",
+        "tm:infestation",
         "tm:payback",
         "tm:protect",
         "tm:psychic",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:rockblast",
+        "tm:rockpolish",
         "tm:round",
         "tm:screech",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:selfdestruct",
         "tm:sleeptalk",
+        "tm:sludgebomb",
         "tm:sludgewave",
+        "tm:smackdown",
         "tm:snore",
         "tm:solarbeam",
         "tm:spikes",
         "tm:stompingtantrum",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:thief",
         "tm:thunderbolt",
+        "tm:toxicspikes",
         "tm:venomdrench",
         "tm:venoshock",
-        "tutor:corrosivegas"
+        "tutor:corrosivegas",
+        "tutor:spite"
     ],
     "labels": [
         "gen5"
@@ -105,5 +127,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 19,
+    "weight": 1073
 }

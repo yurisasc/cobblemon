@@ -21,24 +21,30 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.appletun-gmax.desc1",
+                "pokemod.form.appletun-gmax.desc2"
+            ],
+            "height": 240,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 170,
-    "experienceGroup": "slowthenveryfast",
+    "experienceGroup": "erratic",
     "eggCycles": 20,
     "eggGroups": [
-        "plant",
+        "grass",
         "dragon"
     ],
     "moves": [
         "0:headbutt",
+        "1:headbutt",
         "1:growth",
         "1:withdraw",
         "1:sweetscent",
@@ -58,9 +64,13 @@
         "tm:amnesia",
         "tm:attract",
         "tm:bodypress",
+        "tm:bodyslam",
         "tm:bulldoze",
+        "tm:bulletseed",
+        "tm:dragonpulse",
         "tm:earthquake",
         "tm:endure",
+        "tm:energyball",
         "tm:facade",
         "tm:gigadrain",
         "tm:gigaimpact",
@@ -69,9 +79,11 @@
         "tm:heavyslam",
         "tm:highhorsepower",
         "tm:hyperbeam",
+        "tm:irondefense",
         "tm:lightscreen",
         "tm:outrage",
         "tm:payback",
+        "tm:protect",
         "tm:reflect",
         "tm:rest",
         "tm:round",
@@ -100,5 +112,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 2
+    },
+    "height": 4,
+    "weight": 130
 }

@@ -32,7 +32,14 @@
         "1:strugglebug",
         "tm:bugbuzz",
         "tm:snore",
-        "tutor:dualwingbeat"
+        "tutor:aircutter",
+        "tutor:dualwingbeat",
+        "tutor:endeavor",
+        "tutor:mudslap",
+        "tutor:ominouswind",
+        "tutor:stringshot",
+        "tutor:swift",
+        "tutor:tailwind"
     ],
     "labels": [
         "gen4"
@@ -55,7 +62,7 @@
                 },
                 {
                     "variant": "properties",
-                    "target": "female"
+                    "target": "gender=female"
                 }
             ]
         }
@@ -65,5 +72,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 3,
+    "weight": 55
 }

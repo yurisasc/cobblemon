@@ -23,7 +23,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:splash",
@@ -38,23 +38,32 @@
         "36:aromatherapy",
         "egg:acupressure",
         "egg:endeavor",
+        "egg:feint",
+        "egg:grasswhistle",
         "egg:synthesis",
         "tm:attract",
         "tm:bounce",
         "tm:charm",
+        "tm:confide",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
         "tm:drainingkiss",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:grassknot",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:lightscreen",
+        "tm:magicalleaf",
+        "tm:naturepower",
         "tm:playrough",
         "tm:protect",
         "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
         "tm:seedbomb",
@@ -63,8 +72,12 @@
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
+        "tm:toxic",
         "tm:zenheadbutt",
-        "tutor:grassyglide"
+        "tutor:covet",
+        "tutor:grassyglide",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen7"
@@ -93,5 +106,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 3,
+    "weight": 32
 }

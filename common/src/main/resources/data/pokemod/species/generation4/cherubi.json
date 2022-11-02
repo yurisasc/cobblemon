@@ -22,7 +22,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "fairy",
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:tackle",
@@ -34,13 +34,16 @@
         "26:leechseed",
         "30:takedown",
         "35:petalblizzard",
+        "40:luckychant",
         "40:worryseed",
         "45:solarbeam",
         "egg:aromatherapy",
         "egg:defensecurl",
         "egg:flowershield",
+        "egg:grasswhistle",
         "egg:healingwish",
         "egg:healpulse",
+        "egg:naturalgift",
         "egg:naturepower",
         "egg:razorleaf",
         "egg:rollout",
@@ -48,27 +51,41 @@
         "egg:tickle",
         "tm:attract",
         "tm:bulletseed",
+        "tm:captivate",
+        "tm:confide",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
         "tm:drainingkiss",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:grassknot",
         "tm:grassyterrain",
+        "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:magicalleaf",
         "tm:pollenpuff",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swordsdance",
+        "tm:toxic",
         "tm:weatherball",
-        "tutor:grassyglide"
+        "tutor:grassyglide",
+        "tutor:synthesis"
     ],
     "labels": [
         "gen4"
@@ -97,5 +114,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 4,
+    "weight": 33
 }

@@ -23,7 +23,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -32,6 +32,9 @@
         "1:armthrust",
         "1:odorsleuth",
         "1:hammerarm",
+        "3:tailwhip",
+        "7:ember",
+        "9:odorsleuth",
         "13:defensecurl",
         "15:flamecharge",
         "20:smog",
@@ -53,6 +56,8 @@
         "tm:echoedvoice",
         "tm:facade",
         "tm:fireblast",
+        "tm:flamecharge",
+        "tm:flamethrower",
         "tm:fling",
         "tm:focusblast",
         "tm:frustration",
@@ -61,20 +66,26 @@
         "tm:gyroball",
         "tm:hiddenpower",
         "tm:hyperbeam",
+        "tm:incinerate",
         "tm:lowsweep",
         "tm:overheat",
         "tm:poisonjab",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:rest",
         "tm:return",
+        "tm:roar",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:smackdown",
         "tm:solarbeam",
         "tm:stoneedge",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
@@ -115,5 +126,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 3
+    },
+    "height": 16,
+    "weight": 1500
 }

@@ -19,10 +19,10 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 170,
-    "experienceGroup": "slowthenveryfast",
+    "experienceGroup": "erratic",
     "eggCycles": 20,
     "eggGroups": [
-        "water1"
+        "water_1"
     ],
     "moves": [
         "1:bite",
@@ -42,8 +42,10 @@
         "50:hydropump",
         "tm:attract",
         "tm:blizzard",
+        "tm:captivate",
         "tm:confide",
         "tm:doubleteam",
+        "tm:endure",
         "tm:facade",
         "tm:frustration",
         "tm:gigaimpact",
@@ -52,6 +54,7 @@
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:infestation",
+        "tm:naturalgift",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
@@ -59,18 +62,26 @@
         "tm:rocktomb",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:surf",
         "tm:swagger",
         "tm:toxic",
         "tm:waterfall",
+        "tutor:aquatail",
         "tutor:bind",
+        "tutor:bodyslam",
         "tutor:bounce",
+        "tutor:doubleedge",
         "tutor:icywind",
+        "tutor:mimic",
+        "tutor:mudslap",
         "tutor:snatch",
         "tutor:snore",
-        "tutor:superfang"
+        "tutor:superfang",
+        "tutor:swift",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen3"
@@ -86,5 +97,12 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1,
+        "defence": 1
+    },
+    "height": 17,
+    "weight": 270
 }

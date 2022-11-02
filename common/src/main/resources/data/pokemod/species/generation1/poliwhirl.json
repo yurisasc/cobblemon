@@ -23,13 +23,13 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "water1"
+        "water_1"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
@@ -46,27 +46,47 @@
         "1:pound",
         "1:watergun",
         "1:hypnosis",
+        "1:bubble",
         "1:mudshot",
+        "1:watersport",
+        "16:doubleslap",
         "18:bubblebeam",
         "24:raindance",
+        "30:lowkick",
         "32:bodyslam",
         "40:earthpower",
+        "41:amnesia",
+        "43:wakeupslap",
         "48:hydropump",
+        "53:mudbomb",
         "56:bellydrum",
         "66:doubleedge",
         "tm:attract",
+        "tm:bide",
         "tm:blizzard",
+        "tm:bodyslam",
         "tm:brickbreak",
         "tm:bulldoze",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
+        "tm:detect",
         "tm:dig",
         "tm:dive",
+        "tm:doubleteam",
+        "tm:earthpower",
         "tm:earthquake",
         "tm:encore",
         "tm:endure",
         "tm:facade",
+        "tm:fissure",
         "tm:fling",
+        "tm:frustration",
         "tm:hail",
+        "tm:headbutt",
         "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:hydropump",
         "tm:icebeam",
         "tm:icepunch",
         "tm:icywind",
@@ -74,18 +94,41 @@
         "tm:megapunch",
         "tm:metronome",
         "tm:muddywater",
+        "tm:mudshot",
+        "tm:naturalgift",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:psychic",
+        "tm:psywave",
+        "tm:rage",
+        "tm:raindance",
         "tm:rest",
+        "tm:return",
+        "tm:rocksmash",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
+        "tm:seismictoss",
+        "tm:skullbash",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:strength",
+        "tm:submission",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
+        "tm:takedown",
         "tm:thief",
+        "tm:toxic",
         "tm:waterfall",
-        "tm:whirlpool"
+        "tm:whirlpool",
+        "tutor:counter",
+        "tutor:defensecurl",
+        "tutor:endeavor",
+        "tutor:focuspunch",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen1"
@@ -100,7 +143,7 @@
             "id": "poliwhirl_poliwrath",
             "variant": "item_interact",
             "result": "poliwrath",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:water_stone"
@@ -109,14 +152,15 @@
             "id": "poliwhirl_politoed",
             "variant": "trade",
             "result": "politoed",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [
                 {
                     "variant": "held_item",
-                    "item": "kings-rock"
+                    "item": "pokemod:kings_rock"
                 }
-            ]
+            ],
+            "requiredContext": null
         }
     ],
     "baseScale": 0.7,
@@ -124,5 +168,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 10,
+    "weight": 200
 }

@@ -23,9 +23,11 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
+        "0:doubleslap",
+        "1:doubleslap",
         "1:razorleaf",
         "1:splash",
         "1:flail",
@@ -35,28 +37,37 @@
         "22:magicalleaf",
         "28:stomp",
         "34:teeterdance",
+        "37:captivate",
         "40:aromaticmist",
         "46:aromatherapy",
         "52:leafstorm",
         "tm:attract",
         "tm:bounce",
         "tm:charm",
+        "tm:confide",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
         "tm:drainingkiss",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:fling",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:grassknot",
         "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:leafstorm",
         "tm:lightscreen",
         "tm:lowsweep",
+        "tm:magicalleaf",
+        "tm:naturepower",
         "tm:payback",
         "tm:playrough",
         "tm:protect",
         "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
         "tm:seedbomb",
@@ -65,9 +76,16 @@
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
+        "tm:toxic",
         "tm:zenheadbutt",
+        "tutor:covet",
+        "tutor:endeavor",
         "tutor:grassyglide",
-        "tutor:tripleaxel"
+        "tutor:knockoff",
+        "tutor:synthesis",
+        "tutor:tripleaxel",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen7"
@@ -97,5 +115,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 7,
+    "weight": 82
 }

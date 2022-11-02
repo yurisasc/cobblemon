@@ -23,7 +23,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water3"
+        "water_3"
     ],
     "moves": [
         "1:bubble",
@@ -57,6 +57,7 @@
         "tm:frostbreath",
         "tm:frustration",
         "tm:hiddenpower",
+        "tm:payback",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
@@ -75,10 +76,13 @@
         "tm:workup",
         "tutor:drainpunch",
         "tutor:dualchop",
+        "tutor:endeavor",
         "tutor:focuspunch",
         "tutor:icepunch",
+        "tutor:irondefense",
         "tutor:ironhead",
         "tutor:snore",
+        "tutor:superpower",
         "tutor:thunderpunch",
         "tutor:zenheadbutt"
     ],
@@ -92,16 +96,12 @@
     "evolutions": [
         {
             "id": "crabrawler_crabominable",
-            "variant": "level_up",
+            "variant": "item_interact",
             "result": "crabominable",
             "consumeHeldItem": false,
             "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "biome",
-                    "biomeCondition": "mount-lanakila"
-                }
-            ]
+            "requirements": [],
+            "requiredContext": "pokemod:ice_stone"
         }
     ],
     "baseScale": 1.0,
@@ -109,5 +109,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 6,
+    "weight": 70
 }

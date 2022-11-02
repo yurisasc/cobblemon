@@ -14,14 +14,14 @@
         "speed": 143
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 300,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:scratch",
@@ -43,6 +43,8 @@
         "88:plasmafists",
         "96:closecombat",
         "tm:acrobatics",
+        "tm:aerialace",
+        "tm:agility",
         "tm:assurance",
         "tm:aurasphere",
         "tm:blazekick",
@@ -51,7 +53,11 @@
         "tm:brutalswing",
         "tm:bulkup",
         "tm:calmmind",
+        "tm:closecombat",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:drainpunch",
+        "tm:echoedvoice",
         "tm:electricterrain",
         "tm:electroball",
         "tm:electroweb",
@@ -61,9 +67,11 @@
         "tm:firepunch",
         "tm:fling",
         "tm:focusblast",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:grassknot",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:irontail",
         "tm:lowkick",
@@ -75,11 +83,13 @@
         "tm:playrough",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:revenge",
         "tm:reversal",
         "tm:round",
         "tm:scaryface",
         "tm:sleeptalk",
+        "tm:snarl",
         "tm:snore",
         "tm:substitute",
         "tm:superpower",
@@ -88,14 +98,25 @@
         "tm:throatchop",
         "tm:thunder",
         "tm:thunderbolt",
+        "tm:thunderpunch",
         "tm:thunderwave",
+        "tm:toxic",
+        "tm:voltswitch",
+        "tm:wildcharge",
         "tm:workup",
         "tutor:coaching",
-        "tutor:risingvoltage"
+        "tutor:dualchop",
+        "tutor:endeavor",
+        "tutor:focuspunch",
+        "tutor:knockoff",
+        "tutor:laserfocus",
+        "tutor:risingvoltage",
+        "tutor:shockwave",
+        "tutor:snatch"
     ],
     "labels": [
-        "mythical",
-        "gen7"
+        "gen7",
+        "mythical"
     ],
     "pokedex": [
         "pokemod.species.zeraora.desc1",
@@ -107,5 +128,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "speed": 3
+    },
+    "height": 15,
+    "weight": 445
 }

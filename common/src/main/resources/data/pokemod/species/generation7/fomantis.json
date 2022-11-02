@@ -22,7 +22,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:furycutter",
@@ -42,29 +42,44 @@
         "egg:worryseed",
         "tm:attract",
         "tm:bulletseed",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:falseswipe",
         "tm:fling",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:leafblade",
         "tm:leafstorm",
         "tm:leechlife",
         "tm:magicalleaf",
+        "tm:naturepower",
         "tm:payback",
         "tm:poisonjab",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:solarbeam",
         "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
         "tm:swordsdance",
+        "tm:toxic",
         "tm:weatherball",
-        "tutor:grassyglide"
+        "tm:xscissor",
+        "tutor:bugbite",
+        "tutor:dualchop",
+        "tutor:grassyglide",
+        "tutor:signalbeam"
     ],
     "labels": [
         "gen7"
@@ -97,5 +112,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 3,
+    "weight": 15
 }

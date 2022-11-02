@@ -14,14 +14,14 @@
         "speed": 34
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 150,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:thundershock",
@@ -33,6 +33,7 @@
         "40:flashcannon",
         "tm:endure",
         "tm:facade",
+        "tm:flashcannon",
         "tm:gyroball",
         "tm:irondefense",
         "tm:protect",
@@ -42,11 +43,13 @@
         "tm:snore",
         "tm:substitute",
         "tm:thunderbolt",
+        "tm:thunderwave",
+        "tm:toxic",
         "tutor:steelbeam"
     ],
     "labels": [
-        "mythical",
-        "gen7"
+        "gen7",
+        "mythical"
     ],
     "pokedex": [
         "pokemod.species.meltan.desc1",
@@ -58,5 +61,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 2,
+    "weight": 80
 }

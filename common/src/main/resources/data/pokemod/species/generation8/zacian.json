@@ -14,7 +14,7 @@
         "speed": 138
     },
     "catchRate": 10,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [
         {
@@ -28,16 +28,19 @@
                 "special_defence": 115,
                 "speed": 148
             },
-            "aspects": [
-                "crowned"
-            ]
+            "baseExperienceYield": 360,
+            "pokedex": [
+                "pokemod.form.zacian-crowned.desc1",
+                "pokemod.form.zacian-crowned.desc2"
+            ],
+            "weight": 3550
         }
     ],
     "baseExperienceYield": 335,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:bite",
@@ -59,6 +62,8 @@
         "tm:assurance",
         "tm:brickbreak",
         "tm:brutalswing",
+        "tm:closecombat",
+        "tm:crunch",
         "tm:dig",
         "tm:endure",
         "tm:facade",
@@ -66,11 +71,13 @@
         "tm:firefang",
         "tm:focusblast",
         "tm:focusenergy",
+        "tm:gigaimpact",
         "tm:helpinghand",
         "tm:hyperbeam",
         "tm:hypervoice",
         "tm:icefang",
         "tm:imprison",
+        "tm:ironhead",
         "tm:irontail",
         "tm:playrough",
         "tm:protect",
@@ -88,6 +95,7 @@
         "tm:solarblade",
         "tm:substitute",
         "tm:swift",
+        "tm:swordsdance",
         "tm:tailslap",
         "tm:thunderfang",
         "tm:wildcharge",
@@ -95,8 +103,8 @@
         "tutor:steelbeam"
     ],
     "labels": [
-        "legendary",
-        "gen8"
+        "gen8",
+        "legendary"
     ],
     "pokedex": [
         "pokemod.species.zacian.desc1",
@@ -108,5 +116,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "speed": 3
+    },
+    "height": 28,
+    "weight": 1100
 }

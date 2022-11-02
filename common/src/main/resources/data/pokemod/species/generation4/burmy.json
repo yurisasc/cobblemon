@@ -29,8 +29,12 @@
         "10:tackle",
         "15:bugbite",
         "20:hiddenpower",
+        "tm:hiddenpower",
+        "tm:protect",
+        "tutor:bugbite",
         "tutor:electroweb",
-        "tutor:snore"
+        "tutor:snore",
+        "tutor:stringshot"
     ],
     "labels": [
         "gen4"
@@ -53,7 +57,7 @@
                 },
                 {
                     "variant": "properties",
-                    "target": "female"
+                    "target": "gender=female"
                 }
             ]
         },
@@ -70,7 +74,7 @@
                 },
                 {
                     "variant": "properties",
-                    "target": "male"
+                    "target": "gender=male"
                 }
             ]
         }
@@ -80,5 +84,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 2,
+    "weight": 34
 }

@@ -21,7 +21,7 @@
     "experienceGroup": "slow",
     "eggCycles": 25,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:bind",
@@ -51,10 +51,15 @@
         "egg:synthesis",
         "egg:worryseed",
         "tm:attract",
+        "tm:bulletseed",
+        "tm:captivate",
         "tm:confide",
+        "tm:cut",
         "tm:doubleteam",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:fling",
         "tm:frustration",
         "tm:gigaimpact",
@@ -62,12 +67,14 @@
         "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:infestation",
+        "tm:naturalgift",
         "tm:naturepower",
         "tm:payback",
         "tm:protect",
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:solarbeam",
@@ -77,13 +84,19 @@
         "tm:swordsdance",
         "tm:thief",
         "tm:toxic",
+        "tutor:bind",
         "tutor:bugbite",
         "tutor:defog",
+        "tutor:furycutter",
         "tutor:gastroacid",
+        "tutor:gigadrain",
         "tutor:knockoff",
+        "tutor:mudslap",
         "tutor:seedbomb",
         "tutor:snore",
-        "tutor:throatchop"
+        "tutor:synthesis",
+        "tutor:throatchop",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen4"
@@ -98,5 +111,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 14,
+    "weight": 270
 }

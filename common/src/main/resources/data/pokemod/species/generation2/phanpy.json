@@ -22,7 +22,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -51,9 +51,12 @@
         "egg:mudslap",
         "egg:playrough",
         "egg:snore",
+        "egg:watergun",
         "tm:attract",
         "tm:bulldoze",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
         "tm:doubleteam",
         "tm:earthquake",
         "tm:echoedvoice",
@@ -65,20 +68,28 @@
         "tm:return",
         "tm:roar",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
         "tm:sandstorm",
+        "tm:secretpower",
         "tm:sleeptalk",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
         "tm:toxic",
         "tutor:earthpower",
+        "tutor:endeavor",
         "tutor:gunkshot",
+        "tutor:headbutt",
         "tutor:hypervoice",
         "tutor:irontail",
         "tutor:knockoff",
+        "tutor:lastresort",
+        "tutor:mimic",
         "tutor:seedbomb",
+        "tutor:snore",
         "tutor:stealthrock",
         "tutor:superpower"
     ],
@@ -109,5 +120,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 5,
+    "weight": 335
 }

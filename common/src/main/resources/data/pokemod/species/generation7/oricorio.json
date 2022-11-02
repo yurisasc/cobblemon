@@ -1,5 +1,5 @@
 {
-    "name": "oricoriobaile",
+    "name": "oricorio",
     "nationalPokedexNumber": 741,
     "primaryType": "fire",
     "secondaryType": "flying",
@@ -17,30 +17,11 @@
     "catchRate": 45,
     "maleRatio": 0.25,
     "shoulderMountable": false,
-    "forms": [
-        {
-            "name": "pom-pom",
-            "primaryType": "electric",
-            "aspects": [
-                "pom-pom"
-            ]
-        },
-        {
-            "name": "pau",
-            "primaryType": "psychic",
-            "aspects": [
-                "pau"
-            ]
-        },
-        {
-            "name": "sensu",
-            "primaryType": "ghost",
-            "aspects": [
-                "sensu"
-            ]
-        }
-    ],
     "baseExperienceYield": 167,
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 2
+    },
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
@@ -63,6 +44,7 @@
         "43:mirrormove",
         "46:agility",
         "50:hurricane",
+        "egg:captivate",
         "egg:pluck",
         "egg:safeguard",
         "egg:tailwind",
@@ -81,7 +63,9 @@
         "tm:quash",
         "tm:rest",
         "tm:return",
+        "tm:roost",
         "tm:round",
+        "tm:safeguard",
         "tm:sandstorm",
         "tm:sleeptalk",
         "tm:steelwing",
@@ -94,23 +78,47 @@
         "tm:workup",
         "tutor:covet",
         "tutor:defog",
+        "tutor:helpinghand",
         "tutor:icywind",
         "tutor:roleplay",
         "tutor:skyattack",
-        "tutor:snore"
+        "tutor:snore",
+        "tutor:tailwind"
     ],
     "labels": [
         "gen7"
     ],
     "pokedex": [
-        "pokemod.species.oricoriobaile.desc1",
-        "pokemod.species.oricoriobaile.desc2"
+        "pokemod.species.oricorio.desc1",
+        "pokemod.species.oricorio.desc2"
     ],
+    "height": 6,
+    "weight": 34,
     "evolutions": [],
-    "baseScale": 1.0,
-    "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
-        "fixed": false
-    }
+    "forms": [
+        {
+            "name": "pom-pom",
+            "primaryType": "electric",
+            "pokedex": [
+                "pokemod.form.oricorio-pom-pom.desc1",
+                "pokemod.form.oricorio-pom-pom.desc2"
+            ]
+        },
+        {
+            "name": "pau",
+            "primaryType": "psychic",
+            "pokedex": [
+                "pokemod.form.oricorio-pau.desc1",
+                "pokemod.form.oricorio-pau.desc2"
+            ]
+        },
+        {
+            "name": "sensu",
+            "primaryType": "ghost",
+            "pokedex": [
+                "pokemod.form.oricorio-sensu.desc1",
+                "pokemod.form.oricorio-sensu.desc2"
+            ]
+        }
+    ]
 }

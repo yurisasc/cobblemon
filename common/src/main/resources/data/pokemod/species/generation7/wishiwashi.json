@@ -1,5 +1,5 @@
 {
-    "name": "wishiwashisolo",
+    "name": "wishiwashi",
     "nationalPokedexNumber": 746,
     "primaryType": "water",
     "abilities": [
@@ -16,33 +16,22 @@
     "catchRate": 60,
     "maleRatio": 0.5,
     "shoulderMountable": false,
-    "forms": [
-        {
-            "name": "school",
-            "baseStats": {
-                "hp": 45,
-                "attack": 140,
-                "defence": 130,
-                "special_attack": 140,
-                "special_defence": 135,
-                "speed": 30
-            },
-            "aspects": [
-                "school"
-            ]
-        }
-    ],
     "baseExperienceYield": 61,
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 1
+    },
     "experienceGroup": "fast",
     "eggCycles": 15,
     "eggGroups": [
-        "water2"
+        "water_2"
     ],
     "moves": [
         "1:growl",
         "1:watergun",
         "4:helpinghand",
         "8:beatup",
+        "9:feintattack",
         "12:brine",
         "16:tearfullook",
         "20:dive",
@@ -56,12 +45,22 @@
         "egg:mist",
         "egg:takedown",
         "egg:waterpulse",
+        "egg:watersport",
         "tm:attract",
+        "tm:beatup",
+        "tm:brine",
         "tm:bulldoze",
+        "tm:confide",
+        "tm:dive",
+        "tm:doubleteam",
         "tm:earthquake",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:hail",
+        "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:hydropump",
         "tm:icebeam",
         "tm:irontail",
         "tm:liquidation",
@@ -70,15 +69,20 @@
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scald",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
+        "tm:toxic",
+        "tm:uproar",
         "tm:uturn",
         "tm:waterfall",
         "tm:whirlpool",
+        "tutor:covet",
         "tutor:flipturn",
         "tutor:scaleshot"
     ],
@@ -86,14 +90,30 @@
         "gen7"
     ],
     "pokedex": [
-        "pokemod.species.wishiwashisolo.desc1",
-        "pokemod.species.wishiwashisolo.desc2"
+        "pokemod.species.wishiwashi.desc1",
+        "pokemod.species.wishiwashi.desc2"
     ],
+    "height": 2,
+    "weight": 3,
     "evolutions": [],
-    "baseScale": 1.0,
-    "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
-        "fixed": false
-    }
+    "forms": [
+        {
+            "name": "school",
+            "baseStats": {
+                "hp": 45,
+                "attack": 140,
+                "defence": 130,
+                "special_attack": 140,
+                "special_defence": 135,
+                "speed": 30
+            },
+            "baseExperienceYield": 217,
+            "pokedex": [
+                "pokemod.form.wishiwashi-school.desc1",
+                "pokemod.form.wishiwashi-school.desc2"
+            ],
+            "height": 82,
+            "weight": 786
+        }
+    ]
 }

@@ -23,7 +23,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "monster",
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:tackle",
@@ -41,6 +41,8 @@
         "42:aromatherapy",
         "45:solarbeam",
         "egg:ancientpower",
+        "egg:aromatherapy",
+        "egg:bodyslam",
         "egg:counter",
         "egg:flail",
         "egg:grasswhistle",
@@ -54,31 +56,50 @@
         "egg:vinewhip",
         "egg:wringout",
         "tm:attract",
+        "tm:bulletseed",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
+        "tm:cut",
+        "tm:detect",
         "tm:doubleteam",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
+        "tm:lightscreen",
+        "tm:naturepower",
         "tm:protect",
+        "tm:reflect",
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
+        "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
         "tm:swordsdance",
         "tm:toxic",
         "tm:workup",
+        "tutor:doubleedge",
+        "tutor:furycutter",
         "tutor:gigadrain",
         "tutor:grasspledge",
+        "tutor:headbutt",
         "tutor:irontail",
         "tutor:magiccoat",
+        "tutor:mimic",
+        "tutor:mudslap",
         "tutor:seedbomb",
         "tutor:snore",
+        "tutor:synthesis",
         "tutor:worryseed"
     ],
     "labels": [
@@ -108,5 +129,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 9,
+    "weight": 64
 }

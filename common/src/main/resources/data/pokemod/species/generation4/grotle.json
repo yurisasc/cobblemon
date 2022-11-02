@@ -23,12 +23,14 @@
     "eggCycles": 20,
     "eggGroups": [
         "monster",
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:tackle",
         "1:absorb",
         "1:withdraw",
+        "5:withdraw",
+        "9:absorb",
         "13:razorleaf",
         "17:curse",
         "22:bite",
@@ -39,23 +41,33 @@
         "47:gigadrain",
         "52:leafstorm",
         "tm:attract",
+        "tm:bulletseed",
+        "tm:captivate",
         "tm:confide",
+        "tm:cut",
         "tm:doubleteam",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
         "tm:lightscreen",
+        "tm:naturalgift",
         "tm:naturepower",
         "tm:protect",
         "tm:reflect",
         "tm:rest",
         "tm:return",
+        "tm:rockclimb",
+        "tm:rocksmash",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:solarbeam",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
@@ -63,12 +75,16 @@
         "tm:toxic",
         "tm:workup",
         "tutor:earthpower",
+        "tutor:gigadrain",
         "tutor:grasspledge",
+        "tutor:headbutt",
         "tutor:irontail",
+        "tutor:mudslap",
         "tutor:seedbomb",
         "tutor:snore",
         "tutor:stealthrock",
         "tutor:superpower",
+        "tutor:synthesis",
         "tutor:worryseed"
     ],
     "labels": [
@@ -99,5 +115,12 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1,
+        "defence": 1
+    },
+    "height": 11,
+    "weight": 970
 }

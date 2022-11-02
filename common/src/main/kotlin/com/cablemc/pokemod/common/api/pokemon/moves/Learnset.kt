@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cablemc.pokemod.common.api.pokemon
+package com.cablemc.pokemod.common.api.pokemon.moves
 
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
 import com.cablemc.pokemod.common.api.moves.Moves
@@ -38,6 +38,7 @@ open class Learnset {
         val tmInterpreter = Interpreter.parseFromPrefixIntoList("tm") { it.tmMoves }
         val eggInterpreter = Interpreter.parseFromPrefixIntoList("egg") { it.eggMoves }
         val tutorInterpreter = Interpreter.parseFromPrefixIntoList("tutor") { it.tutorMoves }
+        val formChangeInterpreter = Interpreter.parseFromPrefixIntoList("form_change") { it.formChangeMoves }
         val levelUpInterpreter = Interpreter { element, learnset ->
             val str = element.takeIf { it.isJsonPrimitive }?.asString ?: return@Interpreter false
             val splits = str.split(":")
@@ -63,7 +64,8 @@ open class Learnset {
             tmInterpreter,
             eggInterpreter,
             tutorInterpreter,
-            levelUpInterpreter
+            levelUpInterpreter,
+            formChangeInterpreter
         )
     }
 
@@ -71,6 +73,7 @@ open class Learnset {
     val eggMoves = mutableListOf<MoveTemplate>()
     val tutorMoves = mutableListOf<MoveTemplate>()
     val tmMoves = mutableListOf<MoveTemplate>()
+    val formChangeMoves = mutableListOf<MoveTemplate>()
 
     fun getLevelUpMovesUpTo(level: Int) = levelUpMoves
         .entries

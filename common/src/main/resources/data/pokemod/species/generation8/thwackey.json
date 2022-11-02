@@ -22,14 +22,15 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground",
-        "plant"
+        "field",
+        "grass"
     ],
     "moves": [
         "0:doublehit",
         "1:scratch",
         "1:growl",
         "1:taunt",
+        "1:doublehit",
         "1:branchpoke",
         "12:razorleaf",
         "19:screech",
@@ -57,6 +58,7 @@
         "tm:protect",
         "tm:rest",
         "tm:round",
+        "tm:screech",
         "tm:sleeptalk",
         "tm:snore",
         "tm:solarbeam",
@@ -65,6 +67,8 @@
         "tm:sunnyday",
         "tm:swift",
         "tm:swordsdance",
+        "tm:taunt",
+        "tm:uproar",
         "tm:uturn",
         "tm:workup",
         "tutor:grasspledge",
@@ -98,5 +102,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 7,
+    "weight": 140
 }

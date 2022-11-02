@@ -24,9 +24,9 @@
     "experienceGroup": "slow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
-	"drops": {
+    "drops": {
         "amount": "1",
         "entries": [
             {
@@ -38,9 +38,12 @@
     "moves": [
         "1:tackle",
         "1:mudslap",
+        "1:odorsleuth",
         "5:powdersnow",
+        "5:mudsport",
         "10:flail",
         "15:iceshard",
+        "18:mudbomb",
         "20:mist",
         "25:endure",
         "30:icywind",
@@ -55,33 +58,56 @@
         "egg:fissure",
         "egg:freezedry",
         "egg:iciclecrash",
+        "tm:amnesia",
         "tm:attract",
         "tm:avalanche",
+        "tm:blizzard",
         "tm:bodyslam",
         "tm:bulldoze",
+        "tm:captivate",
+        "tm:confide",
+        "tm:detect",
         "tm:dig",
+        "tm:doubleteam",
         "tm:earthpower",
+        "tm:earthquake",
+        "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:hail",
+        "tm:hiddenpower",
         "tm:icebeam",
         "tm:iciclespear",
+        "tm:icywind",
         "tm:lightscreen",
         "tm:mudshot",
+        "tm:naturalgift",
         "tm:protect",
         "tm:raindance",
         "tm:reflect",
         "tm:rest",
+        "tm:return",
+        "tm:roar",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
         "tm:sandstorm",
         "tm:sandtomb",
         "tm:scaryface",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
         "tm:stealthrock",
+        "tm:strength",
         "tm:substitute",
-        "tm:superpower"
+        "tm:superpower",
+        "tm:swagger",
+        "tm:toxic",
+        "tutor:defensecurl",
+        "tutor:endeavor",
+        "tutor:headbutt",
+        "tutor:mimic"
     ],
     "labels": [
         "gen2"
@@ -110,5 +136,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 4,
+    "weight": 65
 }

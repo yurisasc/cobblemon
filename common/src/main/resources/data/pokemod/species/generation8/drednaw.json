@@ -21,13 +21,18 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.drednaw-gmax.desc1",
+                "pokemod.form.drednaw-gmax.desc2"
+            ],
+            "height": 240,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 170,
@@ -35,7 +40,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "monster",
-        "water1"
+        "water_1"
     ],
     "moves": [
         "0:rocktomb",
@@ -44,6 +49,7 @@
         "1:watergun",
         "1:protect",
         "1:crunch",
+        "1:rocktomb",
         "1:rockpolish",
         "1:razorshell",
         "21:headbutt",
@@ -56,7 +62,9 @@
         "tm:attract",
         "tm:blizzard",
         "tm:bodypress",
+        "tm:bodyslam",
         "tm:bulldoze",
+        "tm:crunch",
         "tm:dig",
         "tm:dive",
         "tm:earthpower",
@@ -72,16 +80,20 @@
         "tm:icefang",
         "tm:irondefense",
         "tm:irontail",
+        "tm:liquidation",
         "tm:megahorn",
         "tm:muddywater",
         "tm:mudshot",
         "tm:payback",
         "tm:poisonjab",
+        "tm:protect",
         "tm:raindance",
+        "tm:razorshell",
         "tm:rest",
         "tm:revenge",
         "tm:rockblast",
         "tm:rockslide",
+        "tm:rocktomb",
         "tm:round",
         "tm:sandstorm",
         "tm:sandtomb",
@@ -118,5 +130,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 10,
+    "weight": 1155
 }

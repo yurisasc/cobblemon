@@ -24,7 +24,7 @@ object EggGroupAdapter : JsonDeserializer<EggGroup>, JsonSerializer<EggGroup> {
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): EggGroup {
         val rawID = json.asString
-        return this.eggGroups.firstOrNull { eggGroup -> eggGroup.pokeApiID.equals(rawID, true) }
+        return this.eggGroups.firstOrNull { eggGroup -> eggGroup.name.equals(rawID, true) }
             ?: throw IllegalStateException("Failed to resolve egg group from: $rawID")
     }
 

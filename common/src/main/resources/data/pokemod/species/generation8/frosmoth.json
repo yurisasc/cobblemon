@@ -28,6 +28,7 @@
     "moves": [
         "0:icywind",
         "1:powdersnow",
+        "1:icywind",
         "1:attract",
         "1:helpinghand",
         "1:strugglebug",
@@ -46,17 +47,23 @@
         "52:quiverdance",
         "tm:acrobatics",
         "tm:airslash",
+        "tm:attract",
         "tm:avalanche",
+        "tm:blizzard",
+        "tm:bugbuzz",
         "tm:calmmind",
         "tm:dazzlinggleam",
         "tm:endure",
         "tm:facade",
         "tm:gigadrain",
         "tm:gigaimpact",
+        "tm:hail",
+        "tm:helpinghand",
         "tm:hurricane",
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:iciclespear",
+        "tm:icywind",
         "tm:imprison",
         "tm:leechlife",
         "tm:lightscreen",
@@ -89,5 +96,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 13,
+    "weight": 420
 }

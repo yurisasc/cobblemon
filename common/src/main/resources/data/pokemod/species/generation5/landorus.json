@@ -1,5 +1,5 @@
 {
-    "name": "landorusincarnate",
+    "name": "landorus",
     "nationalPokedexNumber": 645,
     "primaryType": "ground",
     "secondaryType": "flying",
@@ -18,35 +18,21 @@
     "catchRate": 3,
     "maleRatio": 1.0,
     "shoulderMountable": false,
-    "forms": [
-        {
-            "name": "therian",
-            "abilities": [
-                "intimidate"
-            ],
-            "baseStats": {
-                "hp": 89,
-                "attack": 145,
-                "defence": 90,
-                "special_attack": 105,
-                "special_defence": 80,
-                "speed": 91
-            },
-            "aspects": [
-                "therian"
-            ]
-        }
-    ],
     "baseExperienceYield": 300,
+    "baseFriendship": 90,
+    "evYield": {
+        "special_attack": 3
+    },
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:rockthrow",
         "1:sandtomb",
         "5:leer",
+        "7:punishment",
         "10:block",
         "15:bulldoze",
         "20:rocktomb",
@@ -66,48 +52,96 @@
         "tm:brickbreak",
         "tm:brutalswing",
         "tm:bulkup",
+        "tm:bulldoze",
         "tm:calmmind",
+        "tm:confide",
         "tm:dig",
+        "tm:doubleteam",
+        "tm:earthpower",
+        "tm:earthquake",
         "tm:endure",
+        "tm:explosion",
         "tm:facade",
         "tm:fling",
         "tm:fly",
         "tm:focusblast",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:grassknot",
+        "tm:hiddenpower",
         "tm:hyperbeam",
+        "tm:imprison",
         "tm:irontail",
         "tm:mudshot",
+        "tm:outrage",
         "tm:payback",
         "tm:protect",
         "tm:psychic",
         "tm:rest",
+        "tm:return",
+        "tm:rockpolish",
+        "tm:rockslide",
+        "tm:rocksmash",
+        "tm:rocktomb",
         "tm:round",
+        "tm:sandstorm",
+        "tm:sandtomb",
         "tm:scaryface",
+        "tm:secretpower",
         "tm:selfdestruct",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:sludgewave",
+        "tm:smackdown",
         "tm:snore",
         "tm:stealthrock",
+        "tm:stoneedge",
+        "tm:strength",
         "tm:substitute",
         "tm:superpower",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:toxic",
         "tm:uturn",
-        "tm:weatherball"
+        "tm:weatherball",
+        "tutor:defog",
+        "tutor:gravity",
+        "tutor:knockoff",
+        "tutor:roleplay"
     ],
     "labels": [
-        "legendary",
-        "gen5"
+        "gen5",
+        "legendary"
     ],
     "pokedex": [
-        "pokemod.species.landorusincarnate.desc1",
-        "pokemod.species.landorusincarnate.desc2"
+        "pokemod.species.landorus.desc1",
+        "pokemod.species.landorus.desc2"
     ],
+    "height": 15,
+    "weight": 680,
     "evolutions": [],
-    "baseScale": 1.0,
-    "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
-        "fixed": false
-    }
+    "forms": [
+        {
+            "name": "therian",
+            "abilities": [
+                "intimidate"
+            ],
+            "baseStats": {
+                "hp": 89,
+                "attack": 145,
+                "defence": 90,
+                "special_attack": 105,
+                "special_defence": 80,
+                "speed": 91
+            },
+            "evYield": {
+                "attack": 3
+            },
+            "pokedex": [
+                "pokemod.form.landorus-therian.desc1",
+                "pokemod.form.landorus-therian.desc2"
+            ],
+            "height": 13
+        }
+    ]
 }

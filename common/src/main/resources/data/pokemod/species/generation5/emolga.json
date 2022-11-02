@@ -23,11 +23,11 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
-			"fly": {
+            "fly": {
                 "canFly": true
             }
         }
@@ -38,6 +38,7 @@
         "5:doubleteam",
         "10:quickattack",
         "15:thundershock",
+        "16:pursuit",
         "20:charge",
         "25:acrobatics",
         "30:spark",
@@ -49,40 +50,61 @@
         "egg:astonish",
         "egg:covet",
         "egg:defog",
+        "egg:iondeluge",
         "egg:roost",
         "egg:shockwave",
         "egg:tickle",
+        "tm:acrobatics",
+        "tm:aerialace",
+        "tm:agility",
         "tm:airslash",
         "tm:attract",
         "tm:batonpass",
+        "tm:chargebeam",
         "tm:charm",
+        "tm:confide",
+        "tm:cut",
         "tm:eerieimpulse",
         "tm:electroball",
         "tm:electroweb",
+        "tm:encore",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:fling",
+        "tm:frustration",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:irontail",
+        "tm:lightscreen",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
         "tm:solarbeam",
         "tm:speedswap",
         "tm:substitute",
+        "tm:swagger",
         "tm:swift",
         "tm:taunt",
         "tm:thunder",
         "tm:thunderbolt",
         "tm:thunderwave",
+        "tm:toxic",
         "tm:uturn",
+        "tm:voltswitch",
         "tm:wildcharge",
         "tutor:dualwingbeat",
-        "tutor:risingvoltage"
+        "tutor:knockoff",
+        "tutor:lastresort",
+        "tutor:risingvoltage",
+        "tutor:signalbeam",
+        "tutor:tailwind"
     ],
     "labels": [
         "gen5"
@@ -97,5 +119,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 4,
+    "weight": 50
 }

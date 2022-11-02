@@ -27,6 +27,8 @@
     "moves": [
         "0:protect",
         "1:harden",
+        "1:protect",
+        "tm:protect",
         "tutor:bugbite",
         "tutor:electroweb",
         "tutor:irondefense"
@@ -59,5 +61,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "defence": 2
+    },
+    "height": 3,
+    "weight": 84
 }

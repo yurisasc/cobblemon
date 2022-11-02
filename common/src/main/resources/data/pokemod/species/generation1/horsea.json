@@ -23,14 +23,14 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
+        "water_1",
         "dragon"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
@@ -46,6 +46,7 @@
     "moves": [
         "1:leer",
         "1:watergun",
+        "1:bubble",
         "5:smokescreen",
         "10:twister",
         "15:focusenergy",
@@ -60,37 +61,65 @@
         "egg:aurorabeam",
         "egg:clearsmog",
         "egg:disable",
+        "egg:dragonrage",
         "egg:flail",
         "egg:octazooka",
+        "egg:razorwind",
+        "egg:signalbeam",
         "egg:splash",
         "egg:waterpulse",
+        "tm:agility",
         "tm:attract",
+        "tm:bide",
         "tm:blizzard",
         "tm:bounce",
         "tm:brine",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
         "tm:dive",
+        "tm:doubleteam",
+        "tm:dragondance",
+        "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
         "tm:flashcannon",
+        "tm:focusenergy",
+        "tm:frustration",
         "tm:hail",
+        "tm:headbutt",
+        "tm:hiddenpower",
+        "tm:hydropump",
         "tm:icebeam",
         "tm:icywind",
         "tm:liquidation",
         "tm:muddywater",
+        "tm:naturalgift",
         "tm:outrage",
         "tm:protect",
+        "tm:rage",
+        "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
+        "tm:skullbash",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
         "tm:swift",
+        "tm:takedown",
+        "tm:toxic",
         "tm:waterfall",
         "tm:whirlpool",
+        "tutor:doubleedge",
         "tutor:flipturn",
-        "tutor:scaleshot"
+        "tutor:mimic",
+        "tutor:scaleshot",
+        "tutor:signalbeam"
     ],
     "labels": [
         "gen1"
@@ -119,5 +148,11 @@
         "width": 0.5,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 4,
+    "weight": 80
 }

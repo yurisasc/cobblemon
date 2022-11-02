@@ -1,121 +1,167 @@
 {
-    "name": "voltorb",
-    "nationalPokedexNumber": 100,
-    "primaryType": "electric",
-    "abilities": [
-        "soundproof",
-        "static",
-        "h:aftermath"
-    ],
-    "baseStats": {
-        "hp": 40,
-        "attack": 30,
-        "defence": 50,
-        "special_attack": 55,
-        "special_defence": 55,
-        "speed": 100
-    },
-    "catchRate": 190,
-    "maleRatio": 1.125,
-    "shoulderMountable": false,
-    "forms": [
+  "name": "voltorb",
+  "nationalPokedexNumber": 100,
+  "primaryType": "electric",
+  "abilities": ["soundproof", "static", "h:aftermath"],
+  "baseStats": {
+    "hp": 40,
+    "attack": 30,
+    "defence": 50,
+    "special_attack": 55,
+    "special_defence": 55,
+    "speed": 100
+  },
+  "catchRate": 190,
+  "maleRatio": -1,
+  "shoulderMountable": false,
+  "forms": [
+    {
+      "name": "hisui",
+      "secondaryType": "grass",
+      "moves": [
+        "1:thundershock",
+        "5:tackle",
+        "9:thunderwave",
+        "15:spark",
+        "21:energyball",
+        "29:thunderbolt",
+        "37:thunder",
+        "47:selfdestruct",
+        "tutor:chargebeam",
+        "tutor:energyball",
+        "tutor:iceball",
+        "tutor:magicalleaf",
+        "tutor:rest",
+        "tutor:swift",
+        "tutor:thunderbolt",
+        "tutor:wildcharge"
+      ],
+      "pokedex": [
+        "pokemod.form.voltorb-hisui.desc1",
+        "pokemod.form.voltorb-hisui.desc2"
+      ],
+      "weight": 130,
+      "labels": ["gen1", "hisui_regional", "regional"],
+      "evolutions": [
         {
-            "name": "normal"
-        },
-        {
-            "name": "hisui",
-            "secondaryType": "grass",
-            "aspects": [
-                "hisui"
-            ]
+          "id": "voltorb_electrode_hisui",
+          "variant": "item_interact",
+          "result": "electrode form=hisui",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [],
+          "requiredContext": "pokemod:leaf_stone"
         }
-    ],
-    "baseExperienceYield": 66,
-    "experienceGroup": "mediumfast",
-    "eggCycles": 20,
-    "eggGroups": [
-        "mineral"
-    ],
-    "drops": {
-        "amount": "1",
-        "entries": [
-            {
-                "item": "minecraft:gunpowder",
-                "percentage": 50
-            }
-        ]
-    },
-    "moves": [
-        "1:tackle",
-        "1:charge",
-        "4:sonicboom",
-        "6:eerieimpulse",
-        "9:spark",
-        "11:rollout",
-        "13:screech",
-        "16:chargebeam",
-        "20:swift",
-        "22:electroball",
-        "26:selfdestruct",
-        "29:lightscreen",
-        "34:magnetrise",
-        "37:discharge",
-        "41:explosion",
-        "46:gyroball",
-        "48:mirrorcoat",
-        "tm:confide",
-        "tm:doubleteam",
-        "tm:facade",
-        "tm:frustration",
-        "tm:hiddenpower",
-        "tm:protect",
-        "tm:raindance",
-        "tm:rest",
-        "tm:return",
-        "tm:round",
-        "tm:sleeptalk",
-        "tm:substitute",
-        "tm:swagger",
-        "tm:taunt",
-        "tm:thief",
-        "tm:thunder",
-        "tm:thunderbolt",
-        "tm:thunderwave",
-        "tm:torment",
-        "tm:toxic",
-        "tm:voltswitch",
-        "tm:wildcharge",
-        "tutor:foulplay",
-        "tutor:magiccoat",
-        "tutor:shockwave",
-        "tutor:signalbeam",
-        "tutor:snore"
-    ],
-    "labels": [
-        "gen1"
-    ],
-    "pokedex": [
-        "pokemod.species.voltorb.desc1"
-    ],
-    "evolutions": [
-        {
-            "id": "voltorb_electrode",
-            "variant": "level_up",
-            "result": "electrode",
-            "consumeHeldItem": false,
-            "learnableMoves": [],
-            "requirements": [
-                {
-                    "variant": "level",
-                    "minLevel": 30
-                }
-            ]
-        }
-    ],
-    "baseScale": 1.0,
-    "hitbox": {
-        "width": 0.6,
-        "height": 0.7,
-        "fixed": false
+      ]
     }
+  ],
+  "baseExperienceYield": 66,
+  "experienceGroup": "mediumfast",
+  "eggCycles": 20,
+  "eggGroups": ["mineral"],
+  "drops": {
+    "amount": "1",
+    "entries": [
+      {
+        "item": "minecraft:gunpowder",
+        "percentage": 50
+      }
+    ]
+  },
+  "moves": [
+    "1:tackle",
+    "1:charge",
+    "3:lightscreen",
+    "6:sonicboom",
+    "6:eerieimpulse",
+    "9:thundershock",
+    "9:spark",
+    "11:rollout",
+    "14:swift",
+    "16:chargebeam",
+    "19:selfdestruct",
+    "22:electroball",
+    "24:screech",
+    "31:thunderbolt",
+    "34:magnetrise",
+    "37:discharge",
+    "38:mirrorcoat",
+    "45:explosion",
+    "46:gyroball",
+    "tm:bide",
+    "tm:chargebeam",
+    "tm:confide",
+    "tm:curse",
+    "tm:doubleteam",
+    "tm:endure",
+    "tm:facade",
+    "tm:flash",
+    "tm:foulplay",
+    "tm:frustration",
+    "tm:gyroball",
+    "tm:headbutt",
+    "tm:hiddenpower",
+    "tm:lightscreen",
+    "tm:naturalgift",
+    "tm:protect",
+    "tm:rage",
+    "tm:raindance",
+    "tm:reflect",
+    "tm:rest",
+    "tm:return",
+    "tm:round",
+    "tm:secretpower",
+    "tm:selfdestruct",
+    "tm:sleeptalk",
+    "tm:substitute",
+    "tm:swagger",
+    "tm:takedown",
+    "tm:taunt",
+    "tm:teleport",
+    "tm:thief",
+    "tm:thunder",
+    "tm:thunderbolt",
+    "tm:thunderwave",
+    "tm:torment",
+    "tm:toxic",
+    "tm:voltswitch",
+    "tm:wildcharge",
+    "tm:zapcannon",
+    "tutor:magiccoat",
+    "tutor:magnetrise",
+    "tutor:mimic",
+    "tutor:shockwave",
+    "tutor:signalbeam",
+    "tutor:snore",
+    "tutor:suckerpunch"
+  ],
+  "labels": ["gen1", "kanto_regional", "regional"],
+  "pokedex": ["pokemod.species.voltorb.desc1", "pokemod.species.voltorb.desc2"],
+  "evolutions": [
+    {
+      "id": "voltorb_electrode",
+      "variant": "level_up",
+      "result": "electrode",
+      "consumeHeldItem": false,
+      "learnableMoves": [],
+      "requirements": [
+        {
+          "variant": "level",
+          "minLevel": 30
+        }
+      ]
+    }
+  ],
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 0.6,
+    "height": 0.7,
+    "fixed": false
+  },
+  "baseFriendship": 70,
+  "evYield": {
+    "speed": 1
+  },
+  "height": 5,
+  "weight": 104
 }

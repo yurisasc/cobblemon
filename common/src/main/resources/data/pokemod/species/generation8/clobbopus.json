@@ -22,8 +22,8 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 25,
     "eggGroups": [
-        "water1",
-        "humanshape"
+        "water_1",
+        "human_like"
     ],
     "moves": [
         "1:leer",
@@ -45,7 +45,9 @@
         "egg:suckerpunch",
         "tm:attract",
         "tm:bodyslam",
+        "tm:brickbreak",
         "tm:brine",
+        "tm:bulkup",
         "tm:closecombat",
         "tm:dive",
         "tm:endure",
@@ -61,10 +63,13 @@
         "tm:rest",
         "tm:retaliate",
         "tm:revenge",
+        "tm:reversal",
         "tm:round",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
+        "tm:superpower",
+        "tm:taunt",
         "tm:waterfall",
         "tm:workup",
         "tutor:coaching"
@@ -96,5 +101,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 6,
+    "weight": 40
 }

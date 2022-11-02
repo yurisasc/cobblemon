@@ -24,7 +24,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
+        "water_1",
         "flying"
     ],
     "moves": [
@@ -52,8 +52,10 @@
         "egg:mirrormove",
         "egg:mudsport",
         "egg:steelwing",
+        "tm:aerialace",
         "tm:attract",
         "tm:confide",
+        "tm:dive",
         "tm:doubleteam",
         "tm:facade",
         "tm:fly",
@@ -61,21 +63,29 @@
         "tm:hail",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:pluck",
         "tm:protect",
+        "tm:raindance",
         "tm:rest",
         "tm:return",
+        "tm:roost",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
+        "tm:steelwing",
         "tm:substitute",
         "tm:surf",
         "tm:swagger",
         "tm:toxic",
+        "tutor:defog",
         "tutor:endeavor",
         "tutor:icywind",
         "tutor:liquidation",
         "tutor:snore",
-        "tutor:uproar"
+        "tutor:tailwind",
+        "tutor:uproar",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen5"
@@ -104,5 +114,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 5,
+    "weight": 55
 }

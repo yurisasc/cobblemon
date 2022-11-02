@@ -23,7 +23,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "fairy",
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "1:tackle",
@@ -40,11 +40,15 @@
         "50:entrainment",
         "egg:babydolleyes",
         "egg:lastresort",
+        "tm:attract",
         "tm:charm",
+        "tm:dazzlinggleam",
+        "tm:drainingkiss",
         "tm:endure",
         "tm:facade",
         "tm:fling",
         "tm:helpinghand",
+        "tm:mistyterrain",
         "tm:protect",
         "tm:rest",
         "tm:round",
@@ -63,7 +67,7 @@
     "evolutions": [
         {
             "id": "milcery_alcremie",
-            "variant": "level_up",
+            "variant": "passive",
             "result": "alcremie",
             "consumeHeldItem": false,
             "learnableMoves": [],
@@ -75,5 +79,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 2,
+    "weight": 3
 }

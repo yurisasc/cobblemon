@@ -21,7 +21,7 @@
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:leer",
@@ -42,11 +42,17 @@
         "tm:acrobatics",
         "tm:attract",
         "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:bulkup",
+        "tm:closecombat",
         "tm:dig",
+        "tm:endure",
         "tm:facade",
         "tm:firepunch",
+        "tm:focusenergy",
         "tm:helpinghand",
         "tm:icepunch",
+        "tm:ironhead",
         "tm:lowkick",
         "tm:lowsweep",
         "tm:megakick",
@@ -57,6 +63,7 @@
         "tm:revenge",
         "tm:reversal",
         "tm:round",
+        "tm:scaryface",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
@@ -68,8 +75,8 @@
         "tutor:coaching"
     ],
     "labels": [
-        "legendary",
-        "gen8"
+        "gen8",
+        "legendary"
     ],
     "pokedex": [
         "pokemod.species.kubfu.desc1",
@@ -77,22 +84,22 @@
     ],
     "evolutions": [
         {
-            "id": "kubfu_urshifu_single",
-            "variant": "item_interact",
+            "id": "kubfu_urshifu",
+            "variant": "block_click",
             "result": "urshifu",
             "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "pokemod:scroll_of_darkness"
+            "block": "pokemod:scroll_of_darkness"
         },
         {
-            "id": "kubfu_urshifu_rapid",
-            "variant": "item_interact",
+            "id": "kubfu_urshifu",
+            "variant": "block_click",
             "result": "urshifu",
             "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
-            "requiredContext": "pokemod:scroll_of_waters"
+            "block": "pokemod:scroll_of_waters"
         }
     ],
     "baseScale": 1.0,
@@ -100,5 +107,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 6,
+    "weight": 120
 }

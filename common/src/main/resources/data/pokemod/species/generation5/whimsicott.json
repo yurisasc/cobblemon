@@ -25,7 +25,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "fairy",
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:gust",
@@ -52,35 +52,57 @@
         "1:moonblast",
         "tm:attract",
         "tm:beatup",
+        "tm:charm",
+        "tm:confide",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:dreameater",
         "tm:encore",
         "tm:endure",
+        "tm:energyball",
         "tm:facade",
         "tm:faketears",
+        "tm:flash",
         "tm:fling",
+        "tm:frustration",
+        "tm:gigadrain",
         "tm:gigaimpact",
         "tm:grassknot",
         "tm:grassyterrain",
+        "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:hurricane",
         "tm:hyperbeam",
         "tm:lightscreen",
         "tm:mistyterrain",
+        "tm:naturepower",
         "tm:playrough",
         "tm:protect",
         "tm:psychic",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:solarbeam",
         "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
         "tm:swift",
         "tm:taunt",
         "tm:thief",
+        "tm:toxic",
         "tm:trickroom",
         "tm:uturn",
-        "tutor:grassyglide"
+        "tutor:covet",
+        "tutor:defog",
+        "tutor:grassyglide",
+        "tutor:knockoff",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen5"
@@ -96,5 +118,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 7,
+    "weight": 66
 }

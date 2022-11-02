@@ -24,15 +24,18 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
+        "water_1",
         "dragon"
     ],
     "moves": [
         "1:tackle",
         "1:smokescreen",
         "5:acid",
+        "5:feintattack",
         "10:watergun",
+        "12:bubble",
         "15:tailwhip",
+        "19:camouflage",
         "20:doubleteam",
         "25:poisontail",
         "30:waterpulse",
@@ -47,11 +50,16 @@
         "egg:twister",
         "tm:attract",
         "tm:bounce",
+        "tm:confide",
         "tm:dive",
+        "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:gunkshot",
         "tm:hail",
+        "tm:hiddenpower",
+        "tm:hydropump",
         "tm:icywind",
         "tm:irontail",
         "tm:outrage",
@@ -59,21 +67,26 @@
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
+        "tm:sludgebomb",
         "tm:sludgewave",
         "tm:snore",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
         "tm:thunderbolt",
         "tm:toxicspikes",
         "tm:venomdrench",
         "tm:venoshock",
         "tm:waterfall",
         "tutor:flipturn",
-        "tutor:scaleshot"
+        "tutor:scaleshot",
+        "tutor:shockwave"
     ],
     "labels": [
         "gen6"
@@ -102,5 +115,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 5,
+    "weight": 73
 }

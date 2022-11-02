@@ -17,14 +17,14 @@
         "speed": 55
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 177,
     "experienceGroup": "slow",
     "eggCycles": 35,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:thundershock",
@@ -40,6 +40,8 @@
         "63:boltbeak",
         "70:iciclecrash",
         "77:blizzard",
+        "tm:avalanche",
+        "tm:blizzard",
         "tm:bodyslam",
         "tm:bulldoze",
         "tm:electroball",
@@ -95,5 +97,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 23,
+    "weight": 1500
 }

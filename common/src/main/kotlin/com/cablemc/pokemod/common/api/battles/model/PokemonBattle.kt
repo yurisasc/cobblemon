@@ -176,6 +176,9 @@ open class PokemonBattle(
                     if (experience > 0) {
                         actor.awardExperience(pokemon, experience)
                     }
+                    Pokemod.evYieldCalculator.calculate(pokemon).forEach { (stat, amount) ->
+                        pokemon.originalPokemon.evs.add(stat, amount)
+                    }
                 }
             }
         }

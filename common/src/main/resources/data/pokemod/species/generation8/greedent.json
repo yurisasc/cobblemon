@@ -22,13 +22,14 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "0:covet",
         "1:tackle",
         "1:tailwhip",
         "1:bite",
+        "1:covet",
         "1:stuffcheeks",
         "15:stockpile",
         "15:spitup",
@@ -43,7 +44,9 @@
         "tm:assurance",
         "tm:attract",
         "tm:bodypress",
+        "tm:bodyslam",
         "tm:brutalswing",
+        "tm:bulletseed",
         "tm:crunch",
         "tm:dig",
         "tm:earthquake",
@@ -61,6 +64,7 @@
         "tm:payback",
         "tm:protect",
         "tm:psychicfangs",
+        "tm:rest",
         "tm:round",
         "tm:seedbomb",
         "tm:sleeptalk",
@@ -89,5 +93,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 2
+    },
+    "height": 6,
+    "weight": 60
 }

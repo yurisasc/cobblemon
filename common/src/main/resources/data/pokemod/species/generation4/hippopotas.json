@@ -22,7 +22,7 @@
     "experienceGroup": "slow",
     "eggCycles": 30,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:sandattack",
@@ -49,27 +49,48 @@
         "tm:attract",
         "tm:bodyslam",
         "tm:bulldoze",
+        "tm:captivate",
+        "tm:confide",
+        "tm:crunch",
+        "tm:dig",
+        "tm:doubleteam",
         "tm:earthpower",
+        "tm:earthquake",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
+        "tm:hiddenpower",
         "tm:highhorsepower",
         "tm:irontail",
         "tm:muddywater",
         "tm:mudshot",
+        "tm:naturalgift",
         "tm:protect",
+        "tm:rest",
+        "tm:return",
         "tm:revenge",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
+        "tm:sandstorm",
+        "tm:sandtomb",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
         "tm:stealthrock",
         "tm:stompingtantrum",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:superpower",
+        "tm:swagger",
+        "tm:toxic",
         "tm:weatherball",
-        "tutor:scorchingsands"
+        "tutor:headbutt",
+        "tutor:mudslap",
+        "tutor:scorchingsands",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen4"
@@ -98,5 +119,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 8,
+    "weight": 495
 }

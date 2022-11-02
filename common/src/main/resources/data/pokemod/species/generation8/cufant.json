@@ -22,7 +22,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 25,
     "eggGroups": [
-        "ground",
+        "field",
         "mineral"
     ],
     "moves": [
@@ -52,12 +52,18 @@
         "tm:bodyslam",
         "tm:brickbreak",
         "tm:brutalswing",
+        "tm:bulldoze",
+        "tm:dig",
         "tm:earthpower",
         "tm:endure",
         "tm:facade",
         "tm:fling",
+        "tm:highhorsepower",
+        "tm:irondefense",
+        "tm:ironhead",
         "tm:megakick",
         "tm:mudshot",
+        "tm:playrough",
         "tm:powerwhip",
         "tm:protect",
         "tm:rest",
@@ -71,6 +77,7 @@
         "tm:stealthrock",
         "tm:stompingtantrum",
         "tm:substitute",
+        "tm:superpower",
         "tm:workup",
         "tm:zenheadbutt",
         "tutor:steelbeam",
@@ -103,5 +110,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 12,
+    "weight": 1000
 }

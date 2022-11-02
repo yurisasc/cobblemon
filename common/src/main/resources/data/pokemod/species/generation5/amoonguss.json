@@ -23,15 +23,18 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:absorb",
         "1:growth",
         "1:stunspore",
+        "1:bide",
         "1:astonish",
         "12:megadrain",
+        "12:bide",
         "16:synthesis",
+        "20:feintattack",
         "20:clearsmog",
         "24:sweetscent",
         "28:gigadrain",
@@ -42,29 +45,43 @@
         "54:spore",
         "tm:attract",
         "tm:bodyslam",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:foulplay",
+        "tm:frustration",
+        "tm:gigadrain",
         "tm:gigaimpact",
         "tm:grassknot",
         "tm:grassyterrain",
         "tm:hex",
+        "tm:hiddenpower",
         "tm:hyperbeam",
+        "tm:naturepower",
         "tm:payback",
         "tm:pollenpuff",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:snore",
+        "tm:solarbeam",
         "tm:stompingtantrum",
         "tm:substitute",
         "tm:sunnyday",
-        "tm:venoshock"
+        "tm:swagger",
+        "tm:venoshock",
+        "tutor:afteryou",
+        "tutor:gastroacid",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen5"
@@ -80,5 +97,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 2
+    },
+    "height": 6,
+    "weight": 105
 }

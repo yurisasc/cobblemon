@@ -20,10 +20,10 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 161,
-    "experienceGroup": "slowthenveryfast",
+    "experienceGroup": "erratic",
     "eggCycles": 20,
     "eggGroups": [
-        "water2"
+        "water_2"
     ],
     "moves": [
         "1:pound",
@@ -31,7 +31,10 @@
         "1:watergun",
         "1:attract",
         "1:soak",
+        "6:watergun",
+        "10:attract",
         "13:raindance",
+        "17:gust",
         "22:waterpulse",
         "26:captivate",
         "29:safeguard",
@@ -40,35 +43,52 @@
         "48:uturn",
         "53:bounce",
         "59:silverwind",
+        "66:soak",
+        "tm:attract",
         "tm:blizzard",
+        "tm:brine",
         "tm:confide",
+        "tm:dive",
         "tm:doubleteam",
+        "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:gigaimpact",
         "tm:hail",
         "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:icebeam",
+        "tm:naturalgift",
         "tm:payback",
         "tm:protect",
         "tm:psychup",
+        "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:safeguard",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:surf",
         "tm:swagger",
         "tm:toxic",
+        "tm:uturn",
         "tm:waterfall",
+        "tutor:aircutter",
         "tutor:aquatail",
+        "tutor:bounce",
         "tutor:defog",
         "tutor:icywind",
+        "tutor:ominouswind",
         "tutor:signalbeam",
         "tutor:snore",
-        "tutor:tailwind"
+        "tutor:swift",
+        "tutor:tailwind",
+        "tutor:twister",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen4"
@@ -84,5 +104,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 12,
+    "weight": 240
 }

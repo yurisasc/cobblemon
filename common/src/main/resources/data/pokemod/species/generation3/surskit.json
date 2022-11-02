@@ -23,7 +23,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
-        "water1",
+        "water_1",
         "bug"
     ],
     "moves": [
@@ -38,6 +38,7 @@
         "30:aquajet",
         "35:batonpass",
         "38:stickyweb",
+        "egg:aquajet",
         "egg:bugbite",
         "egg:endure",
         "egg:fellstinger",
@@ -51,13 +52,16 @@
         "egg:signalbeam",
         "tm:attract",
         "tm:blizzard",
+        "tm:captivate",
         "tm:confide",
         "tm:doubleteam",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:hiddenpower",
         "tm:icebeam",
         "tm:infestation",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychup",
         "tm:raindance",
@@ -65,18 +69,27 @@
         "tm:return",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:solarbeam",
+        "tm:strugglebug",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
         "tm:thief",
         "tm:toxic",
+        "tutor:bugbite",
+        "tutor:doubleedge",
         "tutor:gigadrain",
         "tutor:icywind",
         "tutor:liquidation",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:signalbeam",
         "tutor:snore",
+        "tutor:stringshot",
+        "tutor:swift",
         "tutor:waterpulse"
     ],
     "labels": [
@@ -106,5 +119,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 5,
+    "weight": 17
 }

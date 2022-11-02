@@ -21,7 +21,7 @@
     "experienceGroup": "fast",
     "eggCycles": 25,
     "eggGroups": [
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "1:wrap",
@@ -30,6 +30,9 @@
         "1:astonish",
         "1:healingwish",
         "1:synchronoise",
+        "4:growl",
+        "7:astonish",
+        "10:confusion",
         "13:yawn",
         "16:psywave",
         "19:takedown",
@@ -39,6 +42,8 @@
         "37:safeguard",
         "42:doubleedge",
         "47:healpulse",
+        "52:synchronoise",
+        "57:healingwish",
         "egg:cosmicpower",
         "egg:craftyshield",
         "egg:curse",
@@ -52,18 +57,22 @@
         "egg:wish",
         "tm:attract",
         "tm:calmmind",
+        "tm:captivate",
         "tm:chargebeam",
         "tm:confide",
         "tm:dazzlinggleam",
         "tm:doubleteam",
         "tm:dreameater",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
         "tm:lightscreen",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychic",
         "tm:psychup",
@@ -73,6 +82,8 @@
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:safeguard",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:substitute",
@@ -85,8 +96,10 @@
         "tm:trickroom",
         "tutor:allyswitch",
         "tutor:bind",
+        "tutor:defensecurl",
         "tutor:defog",
         "tutor:gravity",
+        "tutor:healbell",
         "tutor:helpinghand",
         "tutor:hypervoice",
         "tutor:icywind",
@@ -94,13 +107,18 @@
         "tutor:laserfocus",
         "tutor:lastresort",
         "tutor:magiccoat",
+        "tutor:mimic",
+        "tutor:nightmare",
         "tutor:recycle",
+        "tutor:rollout",
         "tutor:shockwave",
         "tutor:signalbeam",
+        "tutor:skillswap",
         "tutor:snatch",
         "tutor:snore",
         "tutor:telekinesis",
         "tutor:trick",
+        "tutor:uproar",
         "tutor:zenheadbutt"
     ],
     "labels": [
@@ -117,5 +135,12 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 1,
+        "special_defence": 1
+    },
+    "height": 6,
+    "weight": 10
 }

@@ -43,8 +43,10 @@
         "egg:quash",
         "tm:attract",
         "tm:batonpass",
+        "tm:calmmind",
         "tm:charm",
         "tm:darkpulse",
+        "tm:dazzlinggleam",
         "tm:drainingkiss",
         "tm:endure",
         "tm:facade",
@@ -56,6 +58,7 @@
         "tm:mysticalfire",
         "tm:playrough",
         "tm:protect",
+        "tm:psychic",
         "tm:psyshock",
         "tm:rest",
         "tm:round",
@@ -95,5 +98,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 4,
+    "weight": 34
 }

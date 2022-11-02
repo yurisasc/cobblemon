@@ -24,7 +24,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
-        "water2"
+        "water_2"
     ],
     "moves": [
         "1:watergun",
@@ -83,6 +83,7 @@
         "tm:waterfall",
         "tutor:afteryou",
         "tutor:allyswitch",
+        "tutor:aquatail",
         "tutor:irontail",
         "tutor:liquidation",
         "tutor:magiccoat",
@@ -93,6 +94,7 @@
         "tutor:snore",
         "tutor:telekinesis",
         "tutor:uproar",
+        "tutor:waterpulse",
         "tutor:wonderroom"
     ],
     "labels": [
@@ -108,5 +110,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 9,
+    "weight": 190
 }

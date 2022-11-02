@@ -15,20 +15,22 @@
         "speed": 103
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 285,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:pound",
         "1:wrap",
+        "1:constrict",
         "5:acid",
         "10:tickle",
+        "13:psywave",
         "15:acidspray",
         "20:clearsmog",
         "25:guardsplit",
@@ -45,21 +47,30 @@
         "tm:allyswitch",
         "tm:bodyslam",
         "tm:brutalswing",
+        "tm:chargebeam",
+        "tm:confide",
         "tm:crosspoison",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:echoedvoice",
         "tm:endure",
         "tm:facade",
         "tm:foulplay",
+        "tm:frustration",
         "tm:grassknot",
         "tm:gunkshot",
         "tm:hex",
+        "tm:hiddenpower",
         "tm:ironhead",
         "tm:lightscreen",
         "tm:poisonjab",
+        "tm:powergem",
         "tm:protect",
         "tm:psychic",
         "tm:psyshock",
+        "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
@@ -69,17 +80,33 @@
         "tm:sludgebomb",
         "tm:sludgewave",
         "tm:snore",
+        "tm:stealthrock",
         "tm:substitute",
+        "tm:swagger",
         "tm:thunder",
         "tm:thunderbolt",
         "tm:thunderwave",
+        "tm:toxic",
+        "tm:toxicspikes",
         "tm:trickroom",
+        "tm:venomdrench",
+        "tm:venoshock",
+        "tm:wonderroom",
         "tm:zenheadbutt",
+        "tutor:bind",
         "tutor:corrosivegas",
-        "tutor:meteorbeam"
+        "tutor:knockoff",
+        "tutor:magiccoat",
+        "tutor:meteorbeam",
+        "tutor:painsplit",
+        "tutor:roleplay",
+        "tutor:spite",
+        "tutor:telekinesis",
+        "tutor:worryseed"
     ],
     "labels": [
-        "gen7"
+        "gen7",
+        "ultra_beast"
     ],
     "pokedex": [
         "pokemod.species.nihilego.desc1",
@@ -91,5 +118,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "special_defence": 3
+    },
+    "height": 12,
+    "weight": 555
 }

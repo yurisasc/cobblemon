@@ -21,22 +21,28 @@
     "forms": [
         {
             "name": "totem",
-            "aspects": [
-                "totem"
-            ]
+            "pokedex": [
+                "pokemod.form.gumshoos-totem.desc1",
+                "pokemod.form.gumshoos-totem.desc2"
+            ],
+            "height": 14,
+            "weight": 600
         }
     ],
     "baseExperienceYield": 146,
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:sandattack",
         "1:tackle",
         "1:leer",
         "1:pursuit",
+        "3:leer",
+        "7:pursuit",
+        "10:sandattack",
         "13:odorsleuth",
         "16:bide",
         "19:bite",
@@ -61,6 +67,7 @@
         "tm:hiddenpower",
         "tm:payback",
         "tm:protect",
+        "tm:rest",
         "tm:return",
         "tm:roar",
         "tm:rocktomb",
@@ -86,6 +93,7 @@
         "tutor:shockwave",
         "tutor:snore",
         "tutor:stompingtantrum",
+        "tutor:superfang",
         "tutor:thunderpunch",
         "tutor:uproar",
         "tutor:zenheadbutt"
@@ -104,5 +112,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 7,
+    "weight": 142
 }
