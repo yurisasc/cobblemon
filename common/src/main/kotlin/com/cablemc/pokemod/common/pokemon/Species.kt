@@ -67,7 +67,6 @@ class Species : ClientDataSynchronizer<Species> {
     val drops = DropTable()
     val eggCycles = 120
     val eggGroups = setOf<EggGroup>()
-    // ToDo add this to the 3 guys
     var dynamaxBlocked = false
 
     /**
