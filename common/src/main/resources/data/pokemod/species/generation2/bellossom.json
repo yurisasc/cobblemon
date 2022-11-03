@@ -16,7 +16,7 @@
     },
     "catchRate": 45,
     "maleRatio": 0.5,
-    "shoulderMountable": false,
+    "shoulderMountable": true,
     "features": [
         "valencian"
     ],

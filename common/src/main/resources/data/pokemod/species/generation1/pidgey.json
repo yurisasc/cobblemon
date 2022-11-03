@@ -18,7 +18,7 @@
     },
     "catchRate": 255,
     "maleRatio": 0.5,
-    "shoulderMountable": false,
+    "shoulderMountable": true,
     "forms": [],
     "baseExperienceYield": 50,
     "experienceGroup": "mediumslow",
