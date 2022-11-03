@@ -8,7 +8,6 @@
             "id": "lapras-1",
             "pokemon": "lapras",
 			"presets": [
-                "freshwater",
                 "underwater"
             ],
             "type": "pokemon",

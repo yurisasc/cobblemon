@@ -401,6 +401,14 @@ open class Pokemon {
         this.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.reset()
     }
 
+    /**
+     * Check if this Pokémon can be healed.
+     * This verifies if HP is not maxed, any status is present or any move is not full PP.
+     *
+     * @return If this Pokémon can be healed.
+     */
+    fun canBeHealed() = this.hp != this.currentHealth || this.status != null || this.moveSet.any { move -> move.currentPp != move.maxPp }
+
     fun isFainted() = currentHealth <= 0
 
     private fun updateHP(quotient: Float) {

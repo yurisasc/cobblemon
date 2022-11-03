@@ -12,6 +12,7 @@ import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.reactive.Observable.Companion.filter
 import com.cablemc.pokemod.common.api.reactive.Observable.Companion.takeFirst
+import com.cablemc.pokemod.common.battles.BattleRegistry
 import java.util.UUID
 import net.minecraft.block.BlockState
 import net.minecraft.entity.Entity
@@ -30,6 +31,8 @@ fun UUID.getPlayer() = getServer()?.playerManager?.getPlayer(this)
 fun ServerPlayerEntity.onLogout(handler: () -> Unit) {
     PokemodEvents.PLAYER_QUIT.pipe(filter { it.uuid == uuid }, takeFirst()).subscribe { handler() }
 }
+
+fun ServerPlayerEntity.isInBattle() = BattleRegistry.getBattleByParticipatingPlayer(this) != null
 
 // TODO Player extension for queueing next login?
 class TraceResult(
