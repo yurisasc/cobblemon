@@ -19,6 +19,7 @@ import com.cablemc.pokemod.common.util.getServer
 import dev.architectury.registry.ReloadListenerRegistry
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
+import net.minecraft.server.integrated.IntegratedServer
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
@@ -49,7 +50,7 @@ internal object CobbledDataProvider : DataProvider {
     override fun fromIdentifier(registryIdentifier: Identifier): DataRegistry? = this.registries[registryIdentifier]
 
     override fun sync(player: ServerPlayerEntity) {
-        if (getServer()?.isSingleplayer == false) {
+        if (!player.networkHandler.connection.isLocal) {
             this.registries.values.forEach { registry -> registry.sync(player) }
         }
     }

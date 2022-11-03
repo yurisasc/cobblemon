@@ -44,6 +44,8 @@ object Abilities : JsonDataRegistry<AbilityTemplate> {
         .registerTypeAdapter(MutableText::class.java, MutableTextAdapter)
         .create()
 
+    val DUMMY = AbilityTemplate(name = "dummy")
+
     private val allAbilities = mutableListOf<AbilityTemplate>()
     private val abilityMap = mutableMapOf<String, AbilityTemplate>()
 
