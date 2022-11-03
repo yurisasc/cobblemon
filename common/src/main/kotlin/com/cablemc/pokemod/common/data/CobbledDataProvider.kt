@@ -50,8 +50,7 @@ internal object CobbledDataProvider : DataProvider {
     override fun fromIdentifier(registryIdentifier: Identifier): DataRegistry? = this.registries[registryIdentifier]
 
     override fun sync(player: ServerPlayerEntity) {
-        val server = getServer() ?: return
-        if (server !is IntegratedServer || server.localPlayerUuid != player.uuid) {
+        if (!player.networkHandler.connection.isLocal) {
             this.registries.values.forEach { registry -> registry.sync(player) }
         }
     }

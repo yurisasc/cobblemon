@@ -124,7 +124,7 @@ open class Pokemon {
             updateAspects()
             updateForm()
             updateHP(quotient)
-            if (ability.template == Abilities.DUMMY) {
+            if (ability.template == Abilities.DUMMY && !isClient) {
                 ability = form.abilities.select(value, aspects)
             }
             _species.emit(value)
