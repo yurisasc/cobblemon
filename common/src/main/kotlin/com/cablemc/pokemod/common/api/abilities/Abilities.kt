@@ -12,7 +12,7 @@ import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.api.data.JsonDataRegistry
 import com.cablemc.pokemod.common.api.reactive.SimpleObservable
 import com.cablemc.pokemod.common.net.messages.client.data.AbilityRegistrySyncPacket
-import com.cablemc.pokemod.common.pokemon.abilities.HiddenAbility
+import com.cablemc.pokemod.common.pokemon.abilities.HiddenAbilityType
 import com.cablemc.pokemod.common.util.asTranslated
 import com.cablemc.pokemod.common.util.pokemodResource
 import com.google.gson.Gson
@@ -52,9 +52,9 @@ object Abilities : JsonDataRegistry<AbilityTemplate> {
     }
 
     override fun reload(data: Map<Identifier, AbilityTemplate>) {
-        PotentialAbility.interpreters.clear()
-        PotentialAbility.interpreters.add(CommonAbility.interpreter)
-        PotentialAbility.interpreters.add(HiddenAbility.interpreter)
+        PotentialAbility.types.clear()
+        PotentialAbility.types.add(CommonAbilityType)
+        PotentialAbility.types.add(HiddenAbilityType)
 
         allAbilities.clear()
         abilityMap.clear()

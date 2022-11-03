@@ -22,9 +22,9 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 25,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
-	"drops": {
+    "drops": {
         "amount": "2",
         "entries": [
             {
@@ -53,36 +53,75 @@
         "40:thunderbolt",
         "44:lightscreen",
         "48:thunder",
+        "egg:barrier",
         "egg:crosschop",
         "egg:dynamicpunch",
         "egg:feint",
         "egg:focuspunch",
         "egg:hammerarm",
+        "egg:karatechop",
+        "egg:meditate",
+        "egg:rollingkick",
         "tm:attract",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:captivate",
+        "tm:chargebeam",
+        "tm:confide",
+        "tm:curse",
+        "tm:detect",
+        "tm:doubleteam",
         "tm:electroball",
         "tm:electroweb",
         "tm:endure",
         "tm:facade",
         "tm:firepunch",
+        "tm:flash",
         "tm:fling",
+        "tm:frustration",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:icepunch",
+        "tm:lightscreen",
+        "tm:lowkick",
         "tm:megakick",
         "tm:megapunch",
+        "tm:naturalgift",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:psychic",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
+        "tm:rocksmash",
         "tm:round",
+        "tm:screech",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
+        "tm:swagger",
+        "tm:swift",
         "tm:thief",
+        "tm:thunder",
+        "tm:thunderbolt",
+        "tm:thunderpunch",
+        "tm:thunderwave",
+        "tm:toxic",
         "tm:uproar",
         "tm:voltswitch",
-        "tm:wildcharge"
+        "tm:wildcharge",
+        "tm:zapcannon",
+        "tutor:counter",
+        "tutor:covet",
+        "tutor:doubleedge",
+        "tutor:dualchop",
+        "tutor:headbutt",
+        "tutor:magnetrise",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:seismictoss",
+        "tutor:signalbeam"
     ],
     "labels": [
         "baby",
@@ -107,10 +146,16 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 1,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.6,
+        "height": 0.7,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 235
 }

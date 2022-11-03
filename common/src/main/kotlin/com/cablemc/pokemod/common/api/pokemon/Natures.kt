@@ -11,6 +11,7 @@ package com.cablemc.pokemod.common.api.pokemon
 import com.cablemc.pokemod.common.api.item.Flavor
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.pokemon.Nature
+import com.cablemc.pokemod.common.util.lang
 import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.util.Identifier
 
@@ -25,127 +26,127 @@ object Natures {
     private val allNatures = mutableListOf<Nature>()
 
     val HARDY = registerNature(
-        Nature(pokemodResource("hardy"),
+        Nature(pokemodResource("hardy"), lang("nature.hardy"),
         null, null, null, null)
     )
 
     val LONELY = registerNature(
-        Nature(pokemodResource("lonely"),
+        Nature(pokemodResource("lonely"), lang("nature.lonely"),
         Stats.ATTACK, Stats.DEFENCE, Flavor.SPICY, Flavor.SOUR)
     )
 
     val BRAVE = registerNature(
-        Nature(pokemodResource("brave"),
+        Nature(pokemodResource("brave"), lang("nature.brave"),
         Stats.ATTACK, Stats.SPEED, Flavor.SPICY, Flavor.SWEET)
     )
 
     val ADAMANT = registerNature(
-        Nature(pokemodResource("adamant"),
+        Nature(pokemodResource("adamant"), lang("nature.adamant"),
         Stats.ATTACK, Stats.SPECIAL_ATTACK, Flavor.SPICY, Flavor.DRY)
     )
 
     val NAUGHTY = registerNature(
-        Nature(pokemodResource("naughty"),
+        Nature(pokemodResource("naughty"), lang("nature.naughty"),
         Stats.ATTACK, Stats.SPECIAL_DEFENCE, Flavor.SPICY, Flavor.BITTER)
     )
 
     val BOLD = registerNature(
-        Nature(pokemodResource("bold"),
+        Nature(pokemodResource("bold"), lang("nature.bold"),
         Stats.DEFENCE, Stats.ATTACK, Flavor.SOUR, Flavor.SPICY)
     )
 
     val DOCILE = registerNature(
-        Nature(pokemodResource("docile"),
+        Nature(pokemodResource("docile"), lang("nature.docile"),
         null, null, null, null)
     )
 
     val RELAXED = registerNature(
-        Nature(pokemodResource("relaxed"),
+        Nature(pokemodResource("relaxed"), lang("nature.relaxed"),
         Stats.DEFENCE, Stats.SPEED, Flavor.SOUR, Flavor.SWEET)
     )
 
     val IMPISH = registerNature(
-        Nature(pokemodResource("impish"),
+        Nature(pokemodResource("impish"), lang("nature.impish"),
         Stats.DEFENCE, Stats.SPECIAL_ATTACK, Flavor.SOUR, Flavor.DRY)
     )
 
     val LAX = registerNature(
-        Nature(pokemodResource("lax"),
+        Nature(pokemodResource("lax"), lang("nature.lax"),
         Stats.DEFENCE, Stats.SPECIAL_DEFENCE, Flavor.SOUR, Flavor.BITTER)
     )
 
     val TIMID = registerNature(
-        Nature(pokemodResource("timid"),
+        Nature(pokemodResource("timid"), lang("nature.timid"),
         Stats.SPEED, Stats.ATTACK, Flavor.SWEET, Flavor.SPICY)
     )
 
     val HASTY = registerNature(
-        Nature(pokemodResource("hasty"),
+        Nature(pokemodResource("hasty"), lang("nature.hasty"),
         Stats.SPEED, Stats.DEFENCE, Flavor.SWEET, Flavor.SOUR)
     )
 
     val SERIOUS = registerNature(
-        Nature(pokemodResource("serious"),
+        Nature(pokemodResource("serious"), lang("nature.serious"),
         null, null, null, null)
     )
 
     val JOLLY = registerNature(
-        Nature(pokemodResource("jolly"),
+        Nature(pokemodResource("jolly"), lang("nature.jolly"),
         Stats.SPEED, Stats.SPECIAL_ATTACK, Flavor.SWEET, Flavor.DRY)
     )
 
     val NAIVE = registerNature(
-        Nature(pokemodResource("naive"),
+        Nature(pokemodResource("naive"), lang("nature.naive"),
         Stats.SPEED, Stats.SPECIAL_DEFENCE, Flavor.SWEET, Flavor.BITTER)
     )
 
     val MODEST = registerNature(
-        Nature(pokemodResource("modest"),
+        Nature(pokemodResource("modest"), lang("nature.modest"),
         Stats.SPECIAL_ATTACK, Stats.ATTACK, null, null)
     )
 
     val MILD = registerNature(
-        Nature(pokemodResource("mild"),
+        Nature(pokemodResource("mild"), lang("nature.mild"),
         Stats.SPECIAL_ATTACK, Stats.DEFENCE, Flavor.DRY, Flavor.SOUR)
     )
 
     val QUIET = registerNature(
-        Nature(pokemodResource("quiet"),
+        Nature(pokemodResource("quiet"), lang("nature.quiet"),
         Stats.SPECIAL_ATTACK, Stats.SPEED, Flavor.DRY, Flavor.SWEET)
     )
 
     val BASHFUL = registerNature(
-        Nature(pokemodResource("bashful"),
+        Nature(pokemodResource("bashful"), lang("nature.bashful"),
         null, null, null, null)
     )
 
     val RASH = registerNature(
-        Nature(pokemodResource("rash"),
+        Nature(pokemodResource("rash"), lang("nature.rash"),
         Stats.SPECIAL_ATTACK, Stats.SPECIAL_DEFENCE, Flavor.DRY, Flavor.BITTER)
     )
 
     val CALM = registerNature(
-        Nature(pokemodResource("calm"),
+        Nature(pokemodResource("calm"), lang("nature.calm"),
         Stats.SPECIAL_DEFENCE, Stats.ATTACK, Flavor.BITTER, Flavor.SPICY)
     )
 
     val GENTLE = registerNature(
-        Nature(pokemodResource("gentle"),
+        Nature(pokemodResource("gentle"), lang("nature.gentle"),
         Stats.SPECIAL_DEFENCE, Stats.DEFENCE, Flavor.BITTER, Flavor.SOUR)
     )
 
     val SASSY = registerNature(
-        Nature(pokemodResource("sassy"),
+        Nature(pokemodResource("sassy"), lang("nature.sassy"),
         Stats.SPECIAL_DEFENCE, Stats.SPEED, Flavor.BITTER, Flavor.SWEET)
     )
 
     val CAREFUL = registerNature(
-        Nature(pokemodResource("careful"),
+        Nature(pokemodResource("careful"), lang("nature.careful"),
         Stats.SPECIAL_DEFENCE, Stats.SPECIAL_ATTACK, Flavor.BITTER, Flavor.DRY)
     )
 
     val QUIRKY = registerNature(
-        Nature(pokemodResource("quirky"),
+        Nature(pokemodResource("quirky"), lang("nature.quirky"),
         null, null, null, null)
     )
 

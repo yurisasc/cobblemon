@@ -24,14 +24,14 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
+        "water_1",
         "dragon"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
@@ -39,6 +39,7 @@
         "1:leer",
         "1:watergun",
         "1:smokescreen",
+        "1:bubble",
         "1:twister",
         "1:whirlpool",
         "1:yawn",
@@ -51,39 +52,63 @@
         "51:hydropump",
         "58:dragondance",
         "65:raindance",
+        "tm:agility",
         "tm:attract",
         "tm:blizzard",
         "tm:bodyslam",
         "tm:bounce",
         "tm:breakingswipe",
         "tm:brine",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
         "tm:dive",
+        "tm:doubleteam",
+        "tm:dragondance",
+        "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
         "tm:flashcannon",
+        "tm:focusenergy",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:hail",
+        "tm:hiddenpower",
         "tm:hurricane",
+        "tm:hydropump",
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:icywind",
         "tm:ironhead",
         "tm:liquidation",
         "tm:muddywater",
+        "tm:naturalgift",
         "tm:outrage",
         "tm:protect",
+        "tm:quash",
+        "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
         "tm:swift",
+        "tm:toxic",
         "tm:waterfall",
+        "tm:whirlpool",
+        "tutor:doubleedge",
         "tutor:dracometeor",
         "tutor:flipturn",
-        "tutor:scaleshot"
+        "tutor:headbutt",
+        "tutor:mimic",
+        "tutor:scaleshot",
+        "tutor:signalbeam",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen2"
@@ -94,10 +119,18 @@
     ],
     "preEvolution": "seadra",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 0.95,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.85,
+        "height": 2.2,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1,
+        "special_attack": 1,
+        "special_defence": 1
+    },
+    "height": 18,
+    "weight": 1520
 }

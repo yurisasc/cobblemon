@@ -38,25 +38,38 @@
         "egg:harden",
         "tm:acrobatics",
         "tm:attract",
+        "tm:chargebeam",
+        "tm:confide",
+        "tm:crunch",
+        "tm:dig",
+        "tm:doubleteam",
         "tm:electroweb",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
+        "tm:hiddenpower",
         "tm:lightscreen",
         "tm:mudshot",
         "tm:poisonjab",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:screech",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
+        "tm:swagger",
         "tm:thunderbolt",
         "tm:thunderwave",
+        "tm:toxic",
         "tm:voltswitch",
         "tm:wildcharge",
+        "tm:xscissor",
+        "tutor:magnetrise",
         "tutor:risingvoltage",
+        "tutor:shockwave",
         "tutor:skittersmack"
     ],
     "labels": [
@@ -86,5 +99,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 4,
+    "weight": 44
 }

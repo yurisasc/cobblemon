@@ -31,8 +31,11 @@
         "1:poisongas",
         "5:smog",
         "10:ember",
+        "13:dragonrage",
         "15:poisonfang",
         "20:sweetscent",
+        "21:doubleslap",
+        "24:flameburst",
         "25:nastyplot",
         "30:incinerate",
         "35:venoshock",
@@ -43,26 +46,37 @@
         "60:endeavor",
         "egg:belch",
         "egg:fakeout",
+        "egg:knockoff",
         "egg:mudslap",
         "egg:sandattack",
+        "egg:snatch",
         "tm:attract",
         "tm:beatup",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:dragonclaw",
+        "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
         "tm:fireblast",
+        "tm:flamecharge",
+        "tm:flamethrower",
         "tm:fling",
         "tm:foulplay",
+        "tm:frustration",
         "tm:gunkshot",
         "tm:heatwave",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:irontail",
         "tm:leechlife",
+        "tm:nastyplot",
         "tm:overheat",
         "tm:payback",
         "tm:poisonjab",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:shadowclaw",
         "tm:sleeptalk",
@@ -70,13 +84,20 @@
         "tm:sludgewave",
         "tm:snore",
         "tm:substitute",
+        "tm:swagger",
         "tm:swift",
         "tm:taunt",
         "tm:thief",
         "tm:thunderwave",
+        "tm:torment",
+        "tm:venomdrench",
+        "tm:venoshock",
         "tm:willowisp",
+        "tutor:covet",
+        "tutor:knockoff",
         "tutor:scaleshot",
-        "tutor:skittersmack"
+        "tutor:skittersmack",
+        "tutor:snatch"
     ],
     "labels": [
         "gen7"
@@ -99,7 +120,7 @@
                 },
                 {
                     "variant": "properties",
-                    "target": "female"
+                    "target": "gender=female"
                 }
             ]
         }
@@ -109,5 +130,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 48
 }

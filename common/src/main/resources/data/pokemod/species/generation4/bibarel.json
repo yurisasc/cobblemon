@@ -24,18 +24,18 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
-        "water1",
-        "ground"
+        "water_1",
+        "field"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
-	"drops": {
+    "drops": {
         "amount": "1",
         "entries": [
             {
@@ -49,6 +49,7 @@
         "0:watergun",
         "1:tackle",
         "1:growl",
+        "1:watergun",
         "1:aquajet",
         "1:rototiller",
         "5:defensecurl",
@@ -66,10 +67,15 @@
         "tm:attract",
         "tm:blizzard",
         "tm:bulldoze",
+        "tm:captivate",
         "tm:chargebeam",
         "tm:confide",
+        "tm:cut",
+        "tm:dig",
+        "tm:dive",
         "tm:doubleteam",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:facade",
         "tm:fling",
         "tm:frustration",
@@ -78,18 +84,26 @@
         "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:icebeam",
+        "tm:naturalgift",
+        "tm:pluck",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:retaliate",
         "tm:return",
+        "tm:rockclimb",
+        "tm:rocksmash",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:surf",
         "tm:swagger",
+        "tm:swordsdance",
         "tm:taunt",
         "tm:thief",
         "tm:thunder",
@@ -97,18 +111,24 @@
         "tm:thunderwave",
         "tm:toxic",
         "tm:waterfall",
+        "tm:whirlpool",
         "tm:workup",
         "tutor:aquatail",
         "tutor:covet",
         "tutor:focuspunch",
+        "tutor:furycutter",
         "tutor:icywind",
         "tutor:irontail",
         "tutor:lastresort",
         "tutor:liquidation",
+        "tutor:mudslap",
         "tutor:shockwave",
         "tutor:snore",
         "tutor:stealthrock",
         "tutor:stompingtantrum",
+        "tutor:superfang",
+        "tutor:superpower",
+        "tutor:swift",
         "tutor:waterpulse"
     ],
     "labels": [
@@ -125,5 +145,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 10,
+    "weight": 315
 }

@@ -23,10 +23,19 @@
     "experienceGroup": "fast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
-        "1:sketch"
+        "1:sketch",
+        "11:sketch",
+        "21:sketch",
+        "31:sketch",
+        "41:sketch",
+        "51:sketch",
+        "61:sketch",
+        "71:sketch",
+        "81:sketch",
+        "91:sketch"
     ],
     "labels": [
         "gen2"
@@ -41,5 +50,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 12,
+    "weight": 580
 }

@@ -14,6 +14,7 @@ import com.cablemc.pokemod.common.api.reactive.Observable.Companion.emitWhile
 import com.cablemc.pokemod.common.api.reactive.ObservableSubscription
 import com.cablemc.pokemod.common.client.PokemodClient
 import com.cablemc.pokemod.common.client.gui.pokenav.PokeNav
+import com.cablemc.pokemod.common.client.gui.summary.widgets.EvolutionListScrollPane
 import com.cablemc.pokemod.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemod.common.client.gui.summary.widgets.PartyWidget
 import com.cablemc.pokemod.common.client.gui.summary.widgets.pages.SummarySwitchButton
@@ -22,6 +23,7 @@ import com.cablemc.pokemod.common.client.gui.summary.widgets.pages.moves.MovesWi
 import com.cablemc.pokemod.common.client.gui.summary.widgets.pages.stats.StatWidget
 import com.cablemc.pokemod.common.client.storage.ClientParty
 import com.cablemc.pokemod.common.pokemon.Pokemon
+import com.cablemc.pokemod.common.util.lang
 import com.cablemc.pokemod.common.util.pokemodResource
 import java.security.InvalidParameterException
 import net.minecraft.client.MinecraftClient
@@ -103,6 +105,8 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
 
     var currentPageIndex = MOVES
 
+    lateinit var evolutionListWidget: EvolutionListScrollPane
+
     /**
      * Initializes the Summary Screen
      */
@@ -119,6 +123,22 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
             summary = this
         )
         currentPageIndex = MOVES
+
+
+
+        addDrawableChild(
+            SummaryButton(
+                buttonX = x + 212F,
+                buttonY = y + 172F,
+                buttonWidth = SummaryButton.BUTTON_WIDTH * 1.5,
+                buttonHeight = SummaryButton.BUTTON_HEIGHT * 1.5,
+                clickAction = { this.evolutionListWidget.render = true },
+                text = lang("ui.evolve"),
+                renderRequirement = { this.currentPokemon.evolutionProxy.client().isNotEmpty() },
+                clickRequirement = { this.currentPokemon.evolutionProxy.client().isNotEmpty() && !this.evolutionListWidget.render }
+            )
+        )
+
 
         // Add Buttons to change Pages - START
         addDrawableChild(
@@ -168,6 +188,7 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
             )
         )
 
+        evolutionListWidget = EvolutionListScrollPane(this.currentPokemon)
         // Add Model Preview
         modelWidget = ModelWidget(
             pX = x + 183, pY = y + 24,
@@ -181,6 +202,8 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
 
         // Add CurrentPage
         addDrawableChild(currentPage)
+
+        addDrawableChild(evolutionListWidget)
     }
 
     /**
@@ -193,6 +216,9 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
         moveSetSubscription?.unsubscribe()
         listenToMoveSet()
         switchTo(currentPageIndex)
+        remove(evolutionListWidget)
+        evolutionListWidget = EvolutionListScrollPane(this.currentPokemon)
+        addDrawableChild(evolutionListWidget)
         modelWidget.pokemon = currentPokemon.asRenderablePokemon()
     }
 
@@ -238,6 +264,7 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
             }
             STATS -> {
                 currentPage = StatWidget(
+                    pokemon = this.currentPokemon,
                     pX = (width - BASE_WIDTH) / 2, pY = (height - BASE_HEIGHT) / 2,
                     pWidth = BASE_WIDTH, pHeight =  BASE_HEIGHT
                 )

@@ -52,5 +52,5 @@ class ClefableModel(root: ModelPart) : PokemonPoseableModel() {
     override fun getFaintAnimation(
         pokemonEntity: PokemonEntity,
         state: PoseableEntityState<PokemonEntity>
-    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("clefable", "faint") else null
+    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0036_clefable/clefable", "faint") else null
 }

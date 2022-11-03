@@ -10,22 +10,18 @@ package com.cablemc.pokemod.common.api.spawning.influence
 
 import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.Pokemod.config
-import com.cablemc.pokemod.common.api.spawning.context.SpawningContext
 import com.cablemc.pokemod.common.api.spawning.detail.PokemonSpawnAction
-import com.cablemc.pokemod.common.api.spawning.detail.PokemonSpawnDetail
 import com.cablemc.pokemod.common.api.spawning.detail.SpawnAction
-import com.cablemc.pokemod.common.api.spawning.detail.SpawnDetail
 import com.cablemc.pokemod.common.util.math.intersection
-import com.cablemc.pokemod.common.util.math.intersects
 import kotlin.math.max
 import kotlin.math.min
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
- * A [SpawningInfluence] that restricts spawns around a player to be within their level range.
- * This will flat out prevent Pokémon spawns that can't be within the level range, and then for
- * those that can be, it will also adjust the possible level range to be the intersection of the
- * acceptable level range and the player's level range.
+ * A [SpawningInfluence] that tends spawns around a player to be within their level range.
+ * It will adjust the possible level range to be the intersection of the acceptable level range
+ * and the player's level range. For situations where there is no intersection, the bottom or
+ * top half of the Pokémon's range is used.
  *
  * @author Hiroku
  * @since February 14th, 2022
@@ -58,20 +54,20 @@ open class PlayerLevelRangeInfluence(
         }
     }
 
-    override fun affectSpawnable(detail: SpawnDetail, ctx: SpawningContext): Boolean {
-        return if (detail !is PokemonSpawnDetail) {
-            true
-        } else {
-            val playerRange = getPlayerLevelRange()
-            val spawnRange = detail.getDerivedLevelRange()
-
-            playerRange.intersects(spawnRange)
-        }
-    }
-
     override fun affectAction(action: SpawnAction<*>) {
-        if (action is PokemonSpawnAction && action.detail is PokemonSpawnDetail && action.props.level == null) {
-            action.props.level = getPlayerLevelRange().intersection(action.detail.getDerivedLevelRange()).random()
+        if (action is PokemonSpawnAction && action.props.level == null) {
+            val playerLevelRange = getPlayerLevelRange()
+            val derivedLevelRange = action.detail.getDerivedLevelRange()
+            var spawnLevelRange = playerLevelRange.intersection(derivedLevelRange)
+            val pokemonRangeWidth = derivedLevelRange.last - derivedLevelRange.first
+            if (spawnLevelRange.isEmpty()){
+                spawnLevelRange = if (derivedLevelRange.first > playerLevelRange.last) {
+                    derivedLevelRange.first..(derivedLevelRange.first + pokemonRangeWidth / 4F).toInt()
+                } else {
+                    (derivedLevelRange.first + 3 * pokemonRangeWidth / 4F).toInt()..derivedLevelRange.last
+                }
+            }
+            action.props.level = spawnLevelRange.random()
         }
     }
 }

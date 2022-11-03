@@ -23,14 +23,14 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
+        "water_1",
         "dragon"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
@@ -50,9 +50,12 @@
     },
     "moves": [
         "1:leer",
+        "1:disable",
         "1:watergun",
         "1:smokescreen",
+        "1:bubble",
         "1:twister",
+        "1:clearsmog",
         "15:focusenergy",
         "20:dragonbreath",
         "25:bubblebeam",
@@ -62,35 +65,61 @@
         "51:hydropump",
         "58:dragondance",
         "65:raindance",
+        "tm:agility",
         "tm:attract",
+        "tm:bide",
         "tm:blizzard",
         "tm:bounce",
         "tm:brine",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
         "tm:dive",
+        "tm:doubleteam",
+        "tm:dragondance",
+        "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
         "tm:flashcannon",
+        "tm:focusenergy",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:hail",
+        "tm:headbutt",
+        "tm:hiddenpower",
+        "tm:hydropump",
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:icywind",
         "tm:liquidation",
         "tm:muddywater",
+        "tm:naturalgift",
         "tm:outrage",
         "tm:protect",
+        "tm:rage",
+        "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
+        "tm:skullbash",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
         "tm:swift",
+        "tm:takedown",
+        "tm:toxic",
         "tm:waterfall",
         "tm:whirlpool",
+        "tutor:doubleedge",
         "tutor:flipturn",
-        "tutor:scaleshot"
+        "tutor:mimic",
+        "tutor:scaleshot",
+        "tutor:signalbeam",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen1"
@@ -105,20 +134,28 @@
             "id": "seadra_kingdra",
             "variant": "trade",
             "result": "kingdra",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [
                 {
                     "variant": "held_item",
-                    "item": "dragon-scale"
+                    "item": "pokemod:dragon_scale"
                 }
-            ]
+            ],
+            "requiredContext": null
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.85,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.7,
+        "height": 1.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 1,
+        "special_attack": 1
+    },
+    "height": 12,
+    "weight": 250
 }

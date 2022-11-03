@@ -22,9 +22,17 @@
     "forms": [
         {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.coalossal-gmax.desc1",
+                "pokemod.form.coalossal-gmax.desc2"
+            ],
+            "height": 420,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 255,
@@ -40,6 +48,7 @@
         "1:rapidspin",
         "1:smackdown",
         "1:flamecharge",
+        "1:tarshot",
         "15:rockpolish",
         "20:ancientpower",
         "27:incinerate",
@@ -63,6 +72,7 @@
         "tm:flareblitz",
         "tm:gigaimpact",
         "tm:gyroball",
+        "tm:heatcrash",
         "tm:heatwave",
         "tm:heavyslam",
         "tm:highhorsepower",
@@ -75,6 +85,7 @@
         "tm:protect",
         "tm:reflect",
         "tm:rest",
+        "tm:rockblast",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
@@ -86,6 +97,7 @@
         "tm:snore",
         "tm:solarbeam",
         "tm:spikes",
+        "tm:stealthrock",
         "tm:stoneedge",
         "tm:substitute",
         "tm:willowisp",
@@ -106,5 +118,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 3
+    },
+    "height": 28,
+    "weight": 3105
 }

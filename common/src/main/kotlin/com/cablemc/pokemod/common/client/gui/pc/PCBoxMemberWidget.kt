@@ -8,19 +8,23 @@
 
 package com.cablemc.pokemod.common.client.gui.pc
 
+import com.cablemc.pokemod.common.api.gui.blitk
 import com.cablemc.pokemod.common.api.storage.pc.PCPosition
+import com.cablemc.pokemod.common.client.PokemodResources
 import com.cablemc.pokemod.common.client.gui.drawProfilePokemon
 import com.cablemc.pokemod.common.client.storage.ClientPC
 import com.cablemc.pokemod.common.util.scaleIt
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 class PCBoxMemberWidget(
     x: Int, y: Int,
+    private val parent: PCWidget,
     private val pcGui: PCGui,
     private val pc: ClientPC,
     val position: PCPosition,
@@ -35,6 +39,11 @@ class PCBoxMemberWidget(
         private const val PORTRAIT_DIMENSIONS = 27
     }
 
+    var playingDownSound = false
+
+    override fun playDownSound(soundManager: SoundManager) {
+    }
+
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         val pokemon = pc.get(position) ?: return
         matrices.push()
@@ -47,6 +56,7 @@ class PCBoxMemberWidget(
         )
         matrices.translate(this.x + (PORTRAIT_DIMENSIONS / 2.0) + 4, this.y + 4.0, 0.0)
         matrices.scale(2.5F, 2.5F, 1F)
+
         drawProfilePokemon(
             renderablePokemon = pokemon.asRenderablePokemon(),
             matrixStack = matrices,
@@ -56,6 +66,17 @@ class PCBoxMemberWidget(
         )
         RenderSystem.disableScissor()
         matrices.pop()
+
+        if (position == parent.selectedPosition) {
+            blitk(
+                matrixStack = matrices,
+                texture = PCWidget.selectedResource,
+                x = x,
+                y = y,
+                height = PC_BOX_DIMENSION,
+                width = PC_BOX_DIMENSION
+            )
+        }
     }
 
 }

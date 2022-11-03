@@ -30,6 +30,7 @@
         "1:sandattack",
         "1:tackle",
         "1:harden",
+        "1:powergem",
         "1:stealthrock",
         "12:mudslap",
         "16:smackdown",
@@ -43,21 +44,42 @@
         "tm:attract",
         "tm:bodypress",
         "tm:bulldoze",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:earthpower",
         "tm:earthquake",
         "tm:endure",
         "tm:facade",
         "tm:flashcannon",
+        "tm:frustration",
         "tm:heavyslam",
+        "tm:hiddenpower",
+        "tm:irondefense",
+        "tm:naturepower",
+        "tm:powergem",
         "tm:protect",
         "tm:rest",
+        "tm:return",
+        "tm:rockblast",
+        "tm:rockpolish",
+        "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
+        "tm:sandstorm",
         "tm:sandtomb",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:stealthrock",
         "tm:stompingtantrum",
+        "tm:stoneedge",
+        "tm:strength",
         "tm:substitute",
+        "tm:swagger",
+        "tm:toxic",
+        "tutor:block",
+        "tutor:gravity",
         "tutor:meteorbeam"
     ],
     "labels": [
@@ -75,7 +97,8 @@
             "result": "gigalith",
             "consumeHeldItem": false,
             "learnableMoves": [],
-            "requirements": []
+            "requirements": [],
+            "requiredContext": null
         }
     ],
     "baseScale": 1.0,
@@ -83,5 +106,12 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1,
+        "defence": 1
+    },
+    "height": 9,
+    "weight": 1020
 }

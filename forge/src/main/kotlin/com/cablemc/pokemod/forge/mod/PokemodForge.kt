@@ -46,7 +46,6 @@ class PokemodForge : PokemodImplementation {
             addListener(this@PokemodForge::initialize)
             addListener(this@PokemodForge::serverInit)
             PokemodNetwork.networkDelegate = PokemodForgeNetworkDelegate
-            ServerPacketRegistrar.registerHandlers()
 
             Pokemod.preinitialize(this@PokemodForge)
 
@@ -70,7 +69,6 @@ class PokemodForge : PokemodImplementation {
     fun initialize(event: FMLCommonSetupEvent) {
         Pokemod.LOGGER.info("Initializing...")
         Pokemod.initialize()
-        PokemodNetwork.register()
         if (ModList.get().isLoaded("luckperms")) {
 //            PokemonCobbled.permissionValidator = LuckPermsPermissionValidator()
         }

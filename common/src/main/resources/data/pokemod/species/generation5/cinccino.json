@@ -23,7 +23,7 @@
     "experienceGroup": "fast",
     "eggCycles": 15,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:pound",
@@ -43,18 +43,27 @@
         "1:tailslap",
         "1:babydolleyes",
         "tm:attract",
+        "tm:bulletseed",
         "tm:calmmind",
+        "tm:charm",
+        "tm:confide",
         "tm:dazzlinggleam",
         "tm:dig",
+        "tm:doubleteam",
+        "tm:encore",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
         "tm:fling",
         "tm:focusblast",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:grassknot",
         "tm:gunkshot",
+        "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:hyperbeam",
+        "tm:hypervoice",
         "tm:irontail",
         "tm:lightscreen",
         "tm:playrough",
@@ -62,20 +71,32 @@
         "tm:raindance",
         "tm:rest",
         "tm:retaliate",
+        "tm:return",
+        "tm:rockblast",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
+        "tm:swift",
+        "tm:tailslap",
         "tm:thief",
         "tm:thunder",
         "tm:thunderbolt",
         "tm:thunderwave",
+        "tm:toxic",
         "tm:uproar",
         "tm:uturn",
         "tm:workup",
+        "tutor:aquatail",
+        "tutor:covet",
+        "tutor:knockoff",
+        "tutor:laserfocus",
+        "tutor:shockwave",
         "tutor:tripleaxel"
     ],
     "labels": [
@@ -92,5 +113,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 5,
+    "weight": 75
 }

@@ -24,18 +24,18 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
-        "ground"
+        "water_1",
+        "field"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
-	"drops": {
+    "drops": {
         "amount": "1",
         "entries": [
             {
@@ -49,62 +49,98 @@
         "1:tailwhip",
         "1:watergun",
         "1:raindance",
+        "1:mudsport",
         "1:mudshot",
+        "5:mudsport",
         "12:mist",
         "12:haze",
         "16:slam",
+        "19:mudbomb",
         "23:yawn",
         "28:aquatail",
         "34:muddywater",
         "40:amnesia",
         "46:toxic",
         "52:earthquake",
+        "tm:amnesia",
         "tm:attract",
         "tm:blizzard",
         "tm:bodyslam",
         "tm:brickbreak",
         "tm:bulldoze",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
         "tm:dig",
         "tm:dive",
+        "tm:doubleteam",
         "tm:earthpower",
+        "tm:earthquake",
         "tm:eerieimpulse",
         "tm:encore",
         "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:fling",
         "tm:focusblast",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:guardswap",
         "tm:hail",
+        "tm:hiddenpower",
         "tm:highhorsepower",
         "tm:hydropump",
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:icepunch",
         "tm:icywind",
+        "tm:infestation",
         "tm:irontail",
         "tm:liquidation",
         "tm:megakick",
         "tm:megapunch",
+        "tm:muddywater",
+        "tm:mudshot",
+        "tm:naturalgift",
+        "tm:poweruppunch",
         "tm:protect",
+        "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
         "tm:safeguard",
         "tm:sandstorm",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:sludgewave",
         "tm:snore",
         "tm:stompingtantrum",
         "tm:stoneedge",
+        "tm:strength",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
         "tm:thief",
         "tm:waterfall",
-        "tm:whirlpool"
+        "tm:whirlpool",
+        "tutor:afteryou",
+        "tutor:ancientpower",
+        "tutor:counter",
+        "tutor:defensecurl",
+        "tutor:doubleedge",
+        "tutor:dynamicpunch",
+        "tutor:focuspunch",
+        "tutor:headbutt",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:rollout",
+        "tutor:seismictoss",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen2"
@@ -120,5 +156,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 2
+    },
+    "height": 14,
+    "weight": 750
 }

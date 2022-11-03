@@ -16,54 +16,36 @@
         "special_defence": 70,
         "speed": 85
     },
-    "catchRate": 45,
+    "catchRate": 115,
     "maleRatio": 0.5,
-    "shoulderMountable": true,
-    "baseExperienceYield": 245,
+    "shoulderMountable": false,
+    "baseExperienceYield": null,
     "experienceGroup": "mediumfast",
-    "eggCycles": 20,
+    "eggCycles": null,
     "eggGroups": [
         "bug"
     ],
-    "moves": [
-        "1:quickattack",
-        "6:silverwind",
-        "11:aerialace",
-        "14:doublehit",
-        "14:stealthrock",
-        "18:airslash",
-        "25:swordsdance",
-        "34:xscissor",
-        "43:closecombat",
-        "tutor:falseswipe",
-        "tutor:rocksmash",
-        "tutor:aerialace",
-        "tutor:stealthrock",
-        "tutor:swift",
-        "tutor:ominouswind",
-        "tutor:focusenergy",
-        "tutor:calmmind",
-        "tutor:rest",
-        "tutor:psychocut",
-        "tutor:xscissor",
-        "tutor:rockslide",
-        "tutor:gigaimpact",
-        "tutor:stoneedge",
-        "tutor:hyperbeam"
-    ],
+    "moves": [],
     "labels": [
         "gen8"
     ],
     "pokedex": [
-        "pokemoncobbled.species.kleavor.desc1",
-        "pokemoncobbled.species.kleavor.desc2"
+        "pokemod.species.kleavor.desc1",
+        "pokemod.species.kleavor.desc2"
     ],
     "preEvolution": "scyther",
     "evolutions": [],
-    "baseScale": 0.65,
+    "baseScale": 1,
     "hitbox": {
-        "width": 0.8,
-        "height": 1.0,
+        "width": 1.2,
+        "height": 2.2,
         "fixed": false
-    }
+    },
+    "baseFriendship": null,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 18,
+    "weight": 890,
+    "forms": []
 }

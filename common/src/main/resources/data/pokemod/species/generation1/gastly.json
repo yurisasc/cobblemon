@@ -22,15 +22,15 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "indeterminate"
+        "amorphous"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
-            "swim": {
-                "canWalkOnWater": true
-            },
-			"fly": {
+            "fly": {
                 "canFly": true
+            },
+            "walk": {
+                "canWalk": false
             }
         }
     },
@@ -38,6 +38,7 @@
         "1:confuseray",
         "1:lick",
         "4:hypnosis",
+        "7:poisongas",
         "8:meanlook",
         "12:payback",
         "16:spite",
@@ -48,6 +49,7 @@
         "36:darkpulse",
         "40:shadowball",
         "44:destinybond",
+        "47:nightmare",
         "48:dreameater",
         "egg:astonish",
         "egg:clearsmog",
@@ -55,28 +57,49 @@
         "egg:grudge",
         "egg:haze",
         "egg:perishsong",
+        "egg:psywave",
         "egg:reflecttype",
         "egg:smog",
         "egg:toxic",
         "tm:allyswitch",
         "tm:attract",
+        "tm:bide",
+        "tm:captivate",
+        "tm:confide",
+        "tm:darkpulse",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:embargo",
         "tm:endure",
         "tm:energyball",
+        "tm:explosion",
         "tm:facade",
         "tm:firepunch",
         "tm:foulplay",
+        "tm:frustration",
         "tm:gigadrain",
+        "tm:headbutt",
+        "tm:hex",
+        "tm:hiddenpower",
         "tm:icepunch",
         "tm:icywind",
+        "tm:infestation",
+        "tm:megadrain",
+        "tm:naturalgift",
+        "tm:payback",
         "tm:poisonjab",
         "tm:protect",
         "tm:psychic",
+        "tm:psychup",
+        "tm:rage",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scaryface",
+        "tm:secretpower",
         "tm:selfdestruct",
+        "tm:shadowball",
         "tm:skillswap",
         "tm:sleeptalk",
         "tm:sludgebomb",
@@ -84,19 +107,29 @@
         "tm:snore",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:taunt",
         "tm:thief",
+        "tm:thunder",
         "tm:thunderbolt",
         "tm:thunderpunch",
+        "tm:torment",
         "tm:trick",
         "tm:trickroom",
         "tm:uproar",
         "tm:venoshock",
         "tm:willowisp",
         "tm:wonderroom",
+        "tm:zapcannon",
         "tutor:corrosivegas",
+        "tutor:knockoff",
+        "tutor:mimic",
+        "tutor:ominouswind",
+        "tutor:painsplit",
         "tutor:poltergeist",
-        "tutor:skittersmack"
+        "tutor:skittersmack",
+        "tutor:snatch",
+        "tutor:telekinesis"
     ],
     "labels": [
         "gen1"
@@ -120,10 +153,16 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 1.7,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.5,
+        "height": 0.5,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 13,
+    "weight": 1
 }

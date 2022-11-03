@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common.client.net
 
+import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
 import com.cablemc.pokemod.common.client.net.battle.*
@@ -62,6 +63,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<BenchedMovesUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<GenderUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<AspectsUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<AbilityUpdatePacket>(SingleUpdatePacketHandler())
 
         // Party storage
         registerHandler(InitializePartyHandler)
@@ -115,6 +117,8 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(DataRegistrySyncPacketHandler<MoveTemplate, MovesRegistrySyncPacket>())
         registerHandler(DataRegistrySyncPacketHandler<Species, SpeciesRegistrySyncPacket>())
         registerHandler(DataRegistrySyncPacketHandler<PropertiesCompletionProvider.SuggestionHolder, PropertiesCompletionRegistrySyncPacket>())
+
+        PokemodNetwork.clientHandlersRegistered.complete(Unit)
     }
 }
 

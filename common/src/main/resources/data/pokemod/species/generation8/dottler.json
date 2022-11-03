@@ -30,6 +30,9 @@
         "0:confusion",
         "0:lightscreen",
         "0:reflect",
+        "1:confusion",
+        "1:lightscreen",
+        "1:reflect",
         "1:strugglebug",
         "tm:allyswitch",
         "tm:attract",
@@ -45,6 +48,7 @@
         "tm:imprison",
         "tm:irondefense",
         "tm:leechlife",
+        "tm:lightscreen",
         "tm:magicroom",
         "tm:payback",
         "tm:powerswap",
@@ -52,6 +56,7 @@
         "tm:psychic",
         "tm:psychicterrain",
         "tm:psyshock",
+        "tm:reflect",
         "tm:rest",
         "tm:round",
         "tm:safeguard",
@@ -96,5 +101,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 2
+    },
+    "height": 4,
+    "weight": 195
 }

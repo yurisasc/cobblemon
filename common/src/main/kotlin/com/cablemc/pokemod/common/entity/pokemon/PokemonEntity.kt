@@ -112,7 +112,7 @@ class PokemonEntity(
     val aspects = addEntityProperty(ASPECTS, pokemon.aspects)
     val deathEffectsStarted = addEntityProperty(DYING_EFFECTS_STARTED, false)
     val poseType = addEntityProperty(POSE_TYPE, PoseType.NONE)
-    private val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
+    internal val labelLevel = addEntityProperty(LABEL_LEVEL, pokemon.level)
 
     /**
      * 0 is do nothing,
@@ -434,10 +434,6 @@ class PokemonEntity(
                             stack.decrement(1)
                         }
                         this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, volume = 1F, pitch = 1F)
-                        // Only hint the evolution if it isn't instantly starting
-                        if (evolution.optional) {
-                            player.sendMessage("pokemod.ui.evolve.hint".asTranslated(pokemon.displayName))
-                        }
                         return true
                     }
                 }

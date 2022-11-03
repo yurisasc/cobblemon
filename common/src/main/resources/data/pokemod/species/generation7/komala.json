@@ -21,7 +21,7 @@
     "experienceGroup": "slow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:defensecurl",
@@ -56,6 +56,7 @@
         "tm:lowsweep",
         "tm:payback",
         "tm:protect",
+        "tm:psychup",
         "tm:quash",
         "tm:return",
         "tm:rockslide",
@@ -91,5 +92,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 4,
+    "weight": 199
 }

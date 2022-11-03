@@ -58,7 +58,6 @@ object TestCommand {
             val enemyPokemon3 = BattlePokemon(PokemonSpecies.random().create())
             val enemyPokemon4 = BattlePokemon(PokemonSpecies.random().create())
 
-
             enemyPokemon.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(2.0, 0.0, 0.0))
             enemyPokemon2.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(-2.0, 0.0, 0.0))
             enemyPokemon3.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(0.0, 0.0, 2.0))

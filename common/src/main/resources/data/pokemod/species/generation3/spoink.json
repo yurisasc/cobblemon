@@ -23,7 +23,7 @@
     "experienceGroup": "fast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:splash",
@@ -51,22 +51,32 @@
         "egg:skillswap",
         "egg:trick",
         "egg:whirlwind",
+        "egg:zenheadbutt",
         "tm:attract",
         "tm:calmmind",
+        "tm:captivate",
         "tm:chargebeam",
         "tm:confide",
         "tm:doubleteam",
         "tm:dreameater",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
         "tm:lightscreen",
+        "tm:naturalgift",
+        "tm:payback",
         "tm:protect",
+        "tm:psychic",
+        "tm:psychup",
+        "tm:psyshock",
         "tm:raindance",
         "tm:reflect",
+        "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:substitute",
@@ -79,16 +89,27 @@
         "tm:toxic",
         "tm:trickroom",
         "tutor:allyswitch",
+        "tutor:bodyslam",
+        "tutor:bounce",
         "tutor:covet",
+        "tutor:doubleedge",
+        "tutor:headbutt",
         "tutor:healbell",
         "tutor:icywind",
         "tutor:irontail",
+        "tutor:magiccoat",
+        "tutor:mimic",
         "tutor:recycle",
         "tutor:roleplay",
         "tutor:shockwave",
         "tutor:signalbeam",
+        "tutor:skillswap",
         "tutor:snatch",
-        "tutor:telekinesis"
+        "tutor:snore",
+        "tutor:swift",
+        "tutor:telekinesis",
+        "tutor:trick",
+        "tutor:zenheadbutt"
     ],
     "labels": [
         "gen3"
@@ -117,5 +138,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 7,
+    "weight": 306
 }

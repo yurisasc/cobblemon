@@ -23,7 +23,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "monster",
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -44,38 +44,59 @@
         "egg:afteryou",
         "egg:agility",
         "egg:bodyslam",
+        "egg:charge",
         "egg:eerieimpulse",
         "egg:electricterrain",
         "egg:flatter",
         "egg:irontail",
         "egg:odorsleuth",
+        "egg:reflect",
         "egg:sandattack",
         "egg:screech",
+        "egg:takedown",
         "tm:attract",
+        "tm:captivate",
         "tm:chargebeam",
         "tm:confide",
+        "tm:curse",
         "tm:doubleteam",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:hiddenpower",
+        "tm:lightscreen",
+        "tm:naturalgift",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:swagger",
+        "tm:thunder",
         "tm:thunderbolt",
+        "tm:thunderwave",
         "tm:toxic",
         "tm:wildcharge",
+        "tm:zapcannon",
+        "tutor:afteryou",
+        "tutor:defensecurl",
+        "tutor:doubleedge",
         "tutor:electroweb",
+        "tutor:headbutt",
         "tutor:healbell",
+        "tutor:irontail",
         "tutor:magnetrise",
+        "tutor:mimic",
         "tutor:shockwave",
-        "tutor:snore"
+        "tutor:signalbeam",
+        "tutor:snore",
+        "tutor:swift"
     ],
     "labels": [
         "gen2"
@@ -104,5 +125,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 6,
+    "weight": 78
 }

@@ -17,14 +17,14 @@
         "speed": 75
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 177,
     "experienceGroup": "slow",
     "eggCycles": 35,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:tackle",
@@ -45,6 +45,7 @@
         "tm:brutalswing",
         "tm:bulldoze",
         "tm:dragonclaw",
+        "tm:dragonpulse",
         "tm:earthpower",
         "tm:earthquake",
         "tm:electroball",
@@ -99,5 +100,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 18,
+    "weight": 1900
 }

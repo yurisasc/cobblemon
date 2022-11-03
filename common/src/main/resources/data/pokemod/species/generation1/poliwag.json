@@ -23,59 +23,93 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "water1"
+        "water_1"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
     "moves": [
         "1:watergun",
         "1:hypnosis",
+        "1:bubble",
+        "1:watersport",
         "6:pound",
         "12:mudshot",
+        "16:doubleslap",
         "18:bubblebeam",
         "24:raindance",
+        "26:lowkick",
         "30:bodyslam",
+        "35:wakeupslap",
         "36:earthpower",
+        "38:amnesia",
+        "41:mudbomb",
         "42:hydropump",
         "48:bellydrum",
         "54:doubleedge",
         "egg:endeavor",
         "egg:haze",
+        "egg:iceball",
         "egg:mindreader",
         "egg:mist",
+        "egg:refresh",
         "egg:splash",
         "egg:waterpulse",
+        "egg:watersport",
         "tm:attract",
+        "tm:bide",
         "tm:blizzard",
+        "tm:bodyslam",
         "tm:bulldoze",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
         "tm:dig",
         "tm:dive",
+        "tm:doubleteam",
+        "tm:earthpower",
         "tm:encore",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:hail",
+        "tm:headbutt",
         "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:hydropump",
         "tm:icebeam",
         "tm:icywind",
         "tm:muddywater",
+        "tm:mudshot",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychic",
+        "tm:psywave",
+        "tm:rage",
+        "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
+        "tm:skullbash",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
         "tm:surf",
+        "tm:swagger",
+        "tm:takedown",
         "tm:thief",
+        "tm:toxic",
         "tm:waterfall",
-        "tm:whirlpool"
+        "tm:whirlpool",
+        "tutor:defensecurl",
+        "tutor:mimic"
     ],
     "labels": [
         "gen1"
@@ -99,10 +133,16 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.75,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.6,
+        "height": 0.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 124
 }

@@ -26,11 +26,11 @@
     "eggGroups": [
         "bug"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInLava": true,
-				"canBreatheUnderlava": true
+                "canBreatheUnderlava": true
             }
         }
     },
@@ -55,8 +55,10 @@
         "tm:attract",
         "tm:brutalswing",
         "tm:bugbuzz",
+        "tm:crunch",
         "tm:endure",
         "tm:facade",
+        "tm:firespin",
         "tm:heatcrash",
         "tm:heatwave",
         "tm:leechlife",
@@ -100,5 +102,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 7,
+    "weight": 10
 }

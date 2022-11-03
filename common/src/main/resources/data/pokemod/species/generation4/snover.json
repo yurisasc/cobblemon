@@ -24,13 +24,14 @@
     "eggCycles": 20,
     "eggGroups": [
         "monster",
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:leer",
         "1:powdersnow",
         "5:leafage",
         "10:mist",
+        "13:grasswhistle",
         "15:iceshard",
         "20:razorleaf",
         "25:icywind",
@@ -42,19 +43,29 @@
         "egg:doubleedge",
         "egg:growth",
         "egg:leechseed",
+        "egg:naturalgift",
         "egg:skullbash",
         "egg:stomp",
         "tm:attract",
         "tm:avalanche",
+        "tm:blizzard",
         "tm:bulletseed",
+        "tm:captivate",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
+        "tm:frostbreath",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:grassknot",
         "tm:hail",
+        "tm:hiddenpower",
         "tm:icebeam",
         "tm:icepunch",
+        "tm:icywind",
         "tm:irontail",
         "tm:lightscreen",
         "tm:magicalleaf",
@@ -62,8 +73,10 @@
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:shadowball",
         "tm:sleeptalk",
@@ -71,8 +84,15 @@
         "tm:solarbeam",
         "tm:substitute",
         "tm:swordsdance",
+        "tm:toxic",
         "tm:weatherball",
-        "tutor:grassyglide"
+        "tutor:grassyglide",
+        "tutor:headbutt",
+        "tutor:mudslap",
+        "tutor:roleplay",
+        "tutor:synthesis",
+        "tutor:waterpulse",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen4"
@@ -101,5 +121,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 10,
+    "weight": 505
 }

@@ -5,12 +5,14 @@
   "minVersion": "0.8",
   "client": [
     "EntityRenderDispatcherMixin",
+    "GameRendererMixin",
     "KeyBindingMixin",
     "KeyboardHandlerMixin"
   ],
   "mixins": [
     "ArgumentTypesMixin",
     "PlayerMixin",
+    "PointedDripstoneBlockMixin",
     "accessor.AccessorEntity"
   ],
   "injectors": {

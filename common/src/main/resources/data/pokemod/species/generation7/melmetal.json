@@ -14,24 +14,35 @@
         "speed": 34
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [
         {
             "name": "gmax",
-            "aspects": [
-                "gmax"
-            ]
+            "baseExperienceYield": 270,
+            "moves": [],
+            "labels": [
+                "gen7",
+                "gmax",
+                "mythical"
+            ],
+            "pokedex": [
+                "pokemod.form.melmetal-gmax.desc1",
+                "pokemod.form.melmetal-gmax.desc2"
+            ],
+            "height": 250,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 300,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "0:thunderpunch",
+        "1:thunderpunch",
         "1:headbutt",
         "1:tailwhip",
         "1:thundershock",
@@ -55,15 +66,19 @@
         "tm:electricterrain",
         "tm:endure",
         "tm:facade",
+        "tm:flashcannon",
         "tm:gigaimpact",
         "tm:gyroball",
         "tm:heavyslam",
         "tm:highhorsepower",
+        "tm:hyperbeam",
         "tm:icebeam",
         "tm:icepunch",
         "tm:irondefense",
         "tm:ironhead",
         "tm:megakick",
+        "tm:megapunch",
+        "tm:protect",
         "tm:rest",
         "tm:rockslide",
         "tm:rocktomb",
@@ -73,14 +88,18 @@
         "tm:snore",
         "tm:solarbeam",
         "tm:substitute",
+        "tm:superpower",
         "tm:thunder",
         "tm:thunderbolt",
+        "tm:thunderpunch",
+        "tm:thunderwave",
+        "tm:toxic",
         "tutor:steelbeam",
         "tutor:steelroller"
     ],
     "labels": [
-        "mythical",
-        "gen7"
+        "gen7",
+        "mythical"
     ],
     "pokedex": [
         "pokemod.species.melmetal.desc1",
@@ -92,5 +111,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "attack": 3
+    },
+    "height": 25,
+    "weight": 8000
 }

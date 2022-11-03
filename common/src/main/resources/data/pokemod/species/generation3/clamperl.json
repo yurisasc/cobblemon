@@ -19,10 +19,10 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 69,
-    "experienceGroup": "slowthenveryfast",
+    "experienceGroup": "erratic",
     "eggCycles": 20,
     "eggGroups": [
-        "water1"
+        "water_1"
     ],
     "moves": [
         "1:watergun",
@@ -43,27 +43,35 @@
         "egg:waterpulse",
         "tm:attract",
         "tm:blizzard",
+        "tm:captivate",
         "tm:confide",
+        "tm:dive",
         "tm:doubleteam",
         "tm:facade",
         "tm:frustration",
         "tm:hail",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:naturalgift",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:surf",
         "tm:swagger",
         "tm:toxic",
         "tm:waterfall",
+        "tutor:doubleedge",
         "tutor:icywind",
-        "tutor:snore"
+        "tutor:irondefense",
+        "tutor:mimic",
+        "tutor:snore",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen3"
@@ -77,27 +85,29 @@
             "id": "clamperl_huntail",
             "variant": "trade",
             "result": "huntail",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [
                 {
                     "variant": "held_item",
-                    "item": "deep-sea-tooth"
+                    "item": "pokemod:deep_sea_tooth"
                 }
-            ]
+            ],
+            "requiredContext": null
         },
         {
             "id": "clamperl_gorebyss",
             "variant": "trade",
             "result": "gorebyss",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [
                 {
                     "variant": "held_item",
-                    "item": "deep-sea-scale"
+                    "item": "pokemod:deep_sea_scale"
                 }
-            ]
+            ],
+            "requiredContext": null
         }
     ],
     "baseScale": 1.0,
@@ -105,5 +115,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 4,
+    "weight": 525
 }

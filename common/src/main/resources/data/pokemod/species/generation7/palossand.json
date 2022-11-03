@@ -23,7 +23,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "1:absorb",
@@ -43,19 +43,35 @@
         "tm:amnesia",
         "tm:attract",
         "tm:brine",
+        "tm:bulldoze",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:earthpower",
         "tm:earthquake",
+        "tm:embargo",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:fling",
+        "tm:frustration",
+        "tm:gigadrain",
         "tm:gigaimpact",
+        "tm:hiddenpower",
+        "tm:infestation",
+        "tm:irondefense",
         "tm:mudshot",
         "tm:protect",
         "tm:psychic",
+        "tm:quash",
         "tm:rest",
+        "tm:return",
+        "tm:rockpolish",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
+        "tm:sandstorm",
+        "tm:sandtomb",
+        "tm:shadowball",
         "tm:skillswap",
         "tm:sleeptalk",
         "tm:sludgebomb",
@@ -63,9 +79,18 @@
         "tm:stealthrock",
         "tm:stoneedge",
         "tm:substitute",
+        "tm:swagger",
+        "tm:toxic",
         "tm:trick",
+        "tutor:afteryou",
+        "tutor:block",
+        "tutor:gravity",
+        "tutor:painsplit",
         "tutor:poltergeist",
+        "tutor:recycle",
+        "tutor:roleplay",
         "tutor:scorchingsands",
+        "tutor:spite",
         "tutor:terrainpulse"
     ],
     "labels": [
@@ -82,5 +107,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 2
+    },
+    "height": 13,
+    "weight": 2500
 }

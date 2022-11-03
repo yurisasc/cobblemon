@@ -34,6 +34,7 @@
         "16:avalanche",
         "20:hail",
         "24:iciclespear",
+        "26:mirrorshot",
         "28:uproar",
         "32:acidarmor",
         "38:mirrorcoat",
@@ -42,21 +43,43 @@
         "56:sheercold",
         "tm:allyswitch",
         "tm:attract",
+        "tm:avalanche",
+        "tm:blizzard",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:endure",
+        "tm:explosion",
         "tm:facade",
         "tm:flashcannon",
+        "tm:frostbreath",
+        "tm:frustration",
+        "tm:hail",
+        "tm:hiddenpower",
         "tm:hypervoice",
+        "tm:icebeam",
+        "tm:iciclespear",
+        "tm:icywind",
         "tm:imprison",
         "tm:irondefense",
         "tm:lightscreen",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:selfdestruct",
         "tm:sleeptalk",
         "tm:snore",
-        "tm:substitute"
+        "tm:substitute",
+        "tm:swagger",
+        "tm:taunt",
+        "tm:toxic",
+        "tm:uproar",
+        "tutor:magiccoat",
+        "tutor:magnetrise",
+        "tutor:signalbeam",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen5"
@@ -86,5 +109,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 11,
+    "weight": 410
 }

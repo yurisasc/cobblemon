@@ -24,33 +24,49 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:absorb",
         "1:growth",
         "1:stunspore",
         "1:worryseed",
+        "7:watersport",
+        "13:megadrain",
         "egg:cottonspore",
         "egg:extrasensory",
+        "egg:grasswhistle",
         "egg:lifedew",
+        "egg:mindreader",
+        "egg:naturalgift",
         "egg:razorleaf",
         "egg:sleeppowder",
         "egg:synthesis",
         "tm:attract",
         "tm:bulletseed",
+        "tm:captivate",
+        "tm:confide",
+        "tm:cut",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:grassknot",
+        "tm:hiddenpower",
         "tm:leafstorm",
+        "tm:naturepower",
         "tm:pinmissile",
         "tm:protect",
+        "tm:psychup",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:shadowball",
         "tm:sleeptalk",
@@ -60,12 +76,16 @@
         "tm:spikes",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swift",
         "tm:swordsdance",
+        "tm:toxic",
         "tm:uproar",
         "tm:venoshock",
         "tm:weatherball",
-        "tutor:grassyglide"
+        "tutor:covet",
+        "tutor:grassyglide",
+        "tutor:mudslap"
     ],
     "labels": [
         "baby",
@@ -99,5 +119,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 2,
+    "weight": 12
 }

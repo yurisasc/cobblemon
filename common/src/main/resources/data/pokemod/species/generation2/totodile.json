@@ -23,7 +23,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "monster",
-        "water1"
+        "water_1"
     ],
     "moves": [
         "1:scratch",
@@ -45,27 +45,41 @@
         "egg:ancientpower",
         "egg:aquajet",
         "egg:block",
+        "egg:crunch",
         "egg:dragondance",
         "egg:faketears",
         "egg:flatter",
+        "egg:hydropump",
         "egg:icepunch",
         "egg:metalclaw",
         "egg:mudsport",
+        "egg:razorwind",
+        "egg:thrash",
         "egg:waterpulse",
         "egg:watersport",
         "tm:aerialace",
         "tm:attract",
         "tm:blizzard",
         "tm:brickbreak",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
+        "tm:cut",
+        "tm:detect",
+        "tm:dig",
+        "tm:dive",
         "tm:doubleteam",
         "tm:dragonclaw",
+        "tm:endure",
         "tm:facade",
         "tm:fling",
         "tm:frustration",
         "tm:hail",
         "tm:hiddenpower",
+        "tm:honeclaws",
         "tm:icebeam",
+        "tm:naturalgift",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
@@ -74,6 +88,7 @@
         "tm:rocktomb",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:shadowclaw",
         "tm:sleeptalk",
         "tm:substitute",
@@ -82,21 +97,38 @@
         "tm:swordsdance",
         "tm:toxic",
         "tm:waterfall",
+        "tm:whirlpool",
         "tm:workup",
+        "tutor:aquatail",
+        "tutor:block",
+        "tutor:bodyslam",
+        "tutor:counter",
+        "tutor:doubleedge",
+        "tutor:dynamicpunch",
         "tutor:focuspunch",
+        "tutor:headbutt",
+        "tutor:icepunch",
         "tutor:icywind",
         "tutor:irontail",
         "tutor:lowkick",
+        "tutor:megakick",
+        "tutor:megapunch",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:seismictoss",
         "tutor:snore",
         "tutor:spite",
+        "tutor:superpower",
         "tutor:uproar",
-        "tutor:waterpledge"
+        "tutor:waterpledge",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen2"
     ],
     "pokedex": [
-        "pokemod.species.totodile.desc1"
+        "pokemod.species.totodile.desc1",
+        "pokemod.species.totodile.desc2"
     ],
     "evolutions": [
         {
@@ -118,5 +150,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 6,
+    "weight": 95
 }

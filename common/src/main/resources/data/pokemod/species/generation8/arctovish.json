@@ -17,14 +17,14 @@
         "speed": 55
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 177,
     "experienceGroup": "slow",
     "eggCycles": 35,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:watergun",
@@ -41,8 +41,10 @@
         "70:iciclecrash",
         "77:blizzard",
         "tm:avalanche",
+        "tm:blizzard",
         "tm:bodyslam",
         "tm:brine",
+        "tm:crunch",
         "tm:dive",
         "tm:endure",
         "tm:facade",
@@ -53,9 +55,11 @@
         "tm:icebeam",
         "tm:icefang",
         "tm:iciclespear",
+        "tm:icywind",
         "tm:irondefense",
         "tm:ironhead",
         "tm:liquidation",
+        "tm:protect",
         "tm:psychicfangs",
         "tm:raindance",
         "tm:rest",
@@ -86,5 +90,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 2
+    },
+    "height": 20,
+    "weight": 1750
 }

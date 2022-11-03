@@ -25,10 +25,11 @@
     "eggCycles": 20,
     "eggGroups": [
         "fairy",
-        "plant"
+        "grass"
     ],
     "moves": [
         "0:poisonsting",
+        "1:poisonsting",
         "1:absorb",
         "1:growth",
         "1:stunspore",
@@ -37,6 +38,7 @@
         "10:leechseed",
         "15:magicalleaf",
         "20:toxicspikes",
+        "22:grasswhistle",
         "25:sweetscent",
         "30:gigadrain",
         "35:synthesis",
@@ -47,25 +49,41 @@
         "60:petaldance",
         "egg:cottonspore",
         "egg:extrasensory",
+        "egg:grasswhistle",
         "egg:lifedew",
+        "egg:mindreader",
+        "egg:naturalgift",
         "egg:razorleaf",
         "egg:sleeppowder",
         "tm:attract",
         "tm:bodyslam",
         "tm:bulletseed",
+        "tm:captivate",
+        "tm:confide",
+        "tm:cut",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
+        "tm:frustration",
+        "tm:gigadrain",
         "tm:grassknot",
+        "tm:hiddenpower",
         "tm:leafstorm",
+        "tm:magicalleaf",
+        "tm:naturepower",
         "tm:pinmissile",
         "tm:poisonjab",
         "tm:powerwhip",
         "tm:protect",
+        "tm:psychup",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:shadowball",
         "tm:sleeptalk",
@@ -75,12 +93,20 @@
         "tm:spikes",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swift",
         "tm:swordsdance",
+        "tm:toxicspikes",
         "tm:uproar",
         "tm:venoshock",
         "tm:weatherball",
-        "tutor:grassyglide"
+        "tutor:covet",
+        "tutor:doubleedge",
+        "tutor:furycutter",
+        "tutor:grassyglide",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:nightmare"
     ],
     "labels": [
         "gen3"
@@ -95,7 +121,7 @@
             "id": "roselia_roserade",
             "variant": "item_interact",
             "result": "roserade",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:shiny_stone"
@@ -106,5 +132,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 3,
+    "weight": 20
 }

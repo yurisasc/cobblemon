@@ -22,8 +22,8 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
-        "ground"
+        "water_1",
+        "field"
     ],
     "moves": [
         "1:sonicboom",
@@ -41,6 +41,7 @@
         "41:agility",
         "45:hydropump",
         "egg:aquaring",
+        "egg:aquatail",
         "egg:batonpass",
         "egg:doubleslap",
         "egg:furycutter",
@@ -57,29 +58,41 @@
         "tm:attract",
         "tm:blizzard",
         "tm:brickbreak",
+        "tm:brine",
         "tm:bulkup",
+        "tm:captivate",
         "tm:confide",
+        "tm:dig",
+        "tm:dive",
         "tm:doubleteam",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:facade",
         "tm:frustration",
         "tm:hail",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:naturalgift",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
         "tm:return",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
+        "tm:strength",
         "tm:substitute",
         "tm:surf",
         "tm:swagger",
         "tm:toxic",
         "tm:waterfall",
+        "tutor:aquatail",
         "tutor:focuspunch",
+        "tutor:helpinghand",
         "tutor:icepunch",
         "tutor:icywind",
         "tutor:irontail",
@@ -113,5 +126,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 7,
+    "weight": 295
 }

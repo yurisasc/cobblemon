@@ -23,13 +23,14 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:growl",
         "1:powdersnow",
         "3:endure",
         "6:furyswipes",
+        "9:bide",
         "9:icywind",
         "12:playnice",
         "15:brine",
@@ -45,31 +46,55 @@
         "egg:focuspunch",
         "egg:nightslash",
         "egg:yawn",
+        "tm:aerialace",
         "tm:assurance",
         "tm:attract",
         "tm:avalanche",
+        "tm:blizzard",
+        "tm:brine",
+        "tm:charm",
+        "tm:confide",
+        "tm:cut",
         "tm:dig",
+        "tm:doubleteam",
+        "tm:echoedvoice",
         "tm:encore",
+        "tm:endure",
         "tm:facade",
         "tm:fling",
+        "tm:frustration",
         "tm:grassknot",
+        "tm:hail",
+        "tm:hiddenpower",
+        "tm:honeclaws",
         "tm:icebeam",
         "tm:icefang",
         "tm:icepunch",
+        "tm:icywind",
         "tm:lowkick",
         "tm:megakick",
         "tm:megapunch",
         "tm:playrough",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowclaw",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:strength",
         "tm:substitute",
         "tm:superpower",
-        "tm:surf"
+        "tm:surf",
+        "tm:swagger",
+        "tm:toxic",
+        "tutor:covet",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen5"
@@ -98,5 +123,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 5,
+    "weight": 85
 }

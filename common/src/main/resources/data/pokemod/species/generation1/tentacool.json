@@ -24,13 +24,13 @@
     "experienceGroup": "slow",
     "eggCycles": 20,
     "eggGroups": [
-        "water3"
+        "water_3"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
-				"canBreatheUnderwater": true
+                "canBreatheUnderwater": true
             }
         }
     },
@@ -52,20 +52,25 @@
         "1:poisonsting",
         "1:watergun",
         "4:acid",
+        "4:constrict",
         "8:wrap",
         "12:supersonic",
         "16:waterpulse",
         "20:screech",
+        "22:acidspray",
         "24:bubblebeam",
         "28:hex",
+        "31:barrier",
         "32:acidarmor",
         "36:poisonjab",
         "40:surf",
         "44:sludgewave",
         "48:hydropump",
+        "49:wringout",
         "egg:acupressure",
         "egg:aquaring",
         "egg:aurorabeam",
+        "egg:bubble",
         "egg:confuseray",
         "egg:haze",
         "egg:knockoff",
@@ -73,36 +78,66 @@
         "egg:rapidspin",
         "egg:tickle",
         "tm:attract",
+        "tm:bide",
         "tm:blizzard",
         "tm:brine",
         "tm:brutalswing",
+        "tm:captivate",
+        "tm:confide",
         "tm:crosspoison",
+        "tm:curse",
+        "tm:cut",
         "tm:dazzlinggleam",
         "tm:dive",
+        "tm:doubleteam",
         "tm:endure",
         "tm:facade",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:hail",
+        "tm:headbutt",
+        "tm:hex",
+        "tm:hiddenpower",
+        "tm:hydropump",
         "tm:icebeam",
         "tm:icywind",
+        "tm:infestation",
+        "tm:megadrain",
         "tm:muddywater",
+        "tm:naturalgift",
         "tm:payback",
+        "tm:poisonjab",
         "tm:protect",
+        "tm:rage",
         "tm:raindance",
+        "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
         "tm:scald",
+        "tm:screech",
+        "tm:secretpower",
+        "tm:skullbash",
         "tm:sleeptalk",
         "tm:sludgebomb",
+        "tm:sludgewave",
         "tm:snore",
         "tm:substitute",
+        "tm:surf",
+        "tm:swagger",
         "tm:swordsdance",
+        "tm:takedown",
         "tm:thief",
+        "tm:toxic",
         "tm:toxicspikes",
         "tm:venoshock",
         "tm:waterfall",
-        "tm:whirlpool"
+        "tm:whirlpool",
+        "tutor:bind",
+        "tutor:doubleedge",
+        "tutor:magiccoat",
+        "tutor:mimic"
     ],
     "labels": [
         "gen1"
@@ -126,10 +161,16 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 1,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.4,
+        "height": 1.2,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 9,
+    "weight": 455
 }

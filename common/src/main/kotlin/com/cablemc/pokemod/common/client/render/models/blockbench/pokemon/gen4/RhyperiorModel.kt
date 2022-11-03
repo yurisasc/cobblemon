@@ -36,7 +36,7 @@ class RhyperiorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0464_rhyperior/rhyperior", "ground_idle")
+                //bedrock("0464_rhyperior/rhyperior", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class RhyperiorModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0464_rhyperior/rhyperior", "ground_walk")
+                //bedrock("0464_rhyperior/rhyperior", "ground_walk")
             )
         )
     }

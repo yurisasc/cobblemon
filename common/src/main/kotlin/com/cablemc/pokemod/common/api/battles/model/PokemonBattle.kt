@@ -49,7 +49,7 @@ open class PokemonBattle(
     val side2: BattleSide
 ) {
     /** Whether or not logging will be silenced for this battle. */
-    var mute = false
+    var mute = true
     init {
         side1.battle = this
         side2.battle = this
@@ -175,6 +175,9 @@ open class PokemonBattle(
                     val experience = Pokemod.experienceCalculator.calculate(pokemon)
                     if (experience > 0) {
                         actor.awardExperience(pokemon, experience)
+                    }
+                    Pokemod.evYieldCalculator.calculate(pokemon).forEach { (stat, amount) ->
+                        pokemon.originalPokemon.evs.add(stat, amount)
                     }
                 }
             }

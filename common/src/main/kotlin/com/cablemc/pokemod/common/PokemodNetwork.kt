@@ -12,12 +12,40 @@ import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.events.net.MessageBuiltEvent
 import com.cablemc.pokemod.common.api.net.NetworkPacket
 import com.cablemc.pokemod.common.net.PacketHandler
-import com.cablemc.pokemod.common.net.messages.client.battle.*
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleApplyCaptureResponsePacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleCaptureEndPacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleCaptureShakePacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleCaptureStartPacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleEndPacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleFaintPacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleHealthChangePacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleInitializePacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleMakeChoicePacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleMessagePacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleQueueRequestPacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cablemc.pokemod.common.net.messages.client.battle.BattleUpdateTeamPokemonPacket
+import com.cablemc.pokemod.common.net.messages.client.battle.ChallengeNotificationPacket
 import com.cablemc.pokemod.common.net.messages.client.data.AbilityRegistrySyncPacket
 import com.cablemc.pokemod.common.net.messages.client.data.MovesRegistrySyncPacket
 import com.cablemc.pokemod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cablemc.pokemod.common.net.messages.client.data.SpeciesRegistrySyncPacket
-import com.cablemc.pokemod.common.net.messages.client.pokemon.update.*
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.AbilityUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.GenderUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.HealthUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cablemc.pokemod.common.net.messages.client.pokemon.update.StatusUpdatePacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
@@ -30,20 +58,32 @@ import com.cablemc.pokemod.common.net.messages.client.storage.party.InitializePa
 import com.cablemc.pokemod.common.net.messages.client.storage.party.MoveClientPartyPokemonPacket
 import com.cablemc.pokemod.common.net.messages.client.storage.party.SetPartyPokemonPacket
 import com.cablemc.pokemod.common.net.messages.client.storage.party.SetPartyReferencePacket
-import com.cablemc.pokemod.common.net.messages.client.storage.pc.*
+import com.cablemc.pokemod.common.net.messages.client.storage.pc.ClosePCPacket
+import com.cablemc.pokemod.common.net.messages.client.storage.pc.InitializePCPacket
+import com.cablemc.pokemod.common.net.messages.client.storage.pc.MoveClientPCPokemonPacket
+import com.cablemc.pokemod.common.net.messages.client.storage.pc.OpenPCPacket
+import com.cablemc.pokemod.common.net.messages.client.storage.pc.SetPCBoxPokemonPacket
+import com.cablemc.pokemod.common.net.messages.client.storage.pc.SetPCPokemonPacket
 import com.cablemc.pokemod.common.net.messages.client.ui.SummaryUIPacket
-import com.cablemc.pokemod.common.net.messages.server.*
+import com.cablemc.pokemod.common.net.messages.server.BattleChallengePacket
+import com.cablemc.pokemod.common.net.messages.server.BenchMovePacket
+import com.cablemc.pokemod.common.net.messages.server.RequestMoveSwapPacket
+import com.cablemc.pokemod.common.net.messages.server.SelectStarterPacket
+import com.cablemc.pokemod.common.net.messages.server.SendOutPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.battle.BattleSelectActionsPacket
 import com.cablemc.pokemod.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cablemc.pokemod.common.net.messages.server.starter.RequestStarterScreenPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.SwapPCPartyPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.party.MovePartyPokemonPacket
+import com.cablemc.pokemod.common.net.messages.server.storage.party.ReleasePartyPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.party.SwapPartyPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.MovePCPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.MovePCPokemonToPartyPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
+import com.cablemc.pokemod.common.net.messages.server.storage.pc.ReleasePCPokemonPacket
 import com.cablemc.pokemod.common.net.messages.server.storage.pc.SwapPCPokemonPacket
 import com.cablemc.pokemod.common.util.getServer
+import java.util.concurrent.CompletableFuture
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
@@ -56,6 +96,15 @@ import net.minecraft.server.network.ServerPlayerEntity
  */
 object PokemodNetwork {
     const val PROTOCOL_VERSION = "1"
+
+    var clientHandlersRegistered = CompletableFuture<Unit>()
+    var serverHandlersRegistered = CompletableFuture<Unit>()
+
+    init {
+        clientHandlersRegistered.runAfterBoth(serverHandlersRegistered) {
+            register()
+        }
+    }
 
     lateinit var networkDelegate: NetworkDelegate
 
@@ -97,6 +146,7 @@ object PokemodNetwork {
         buildClientMessage<BenchedMovesUpdatePacket>()
         buildClientMessage<GenderUpdatePacket>()
         buildClientMessage<AspectsUpdatePacket>()
+        buildClientMessage<AbilityUpdatePacket>()
         // Evolution start
         buildClientMessage<AddEvolutionPacket>()
         buildClientMessage<ClearEvolutionsPacket>()
@@ -171,6 +221,8 @@ object PokemodNetwork {
 
         buildServerMessage<MovePCPokemonToPartyPacket>()
         buildServerMessage<MovePartyPokemonToPCPacket>()
+        buildServerMessage<ReleasePartyPokemonPacket>()
+        buildServerMessage<ReleasePCPokemonPacket>()
 
         // Starter packets
         buildServerMessage<SelectStarterPacket>()

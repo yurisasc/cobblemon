@@ -22,9 +22,9 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 25,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
-	"drops": {
+    "drops": {
         "amount": "2",
         "entries": [
             {
@@ -42,9 +42,11 @@
         "1:smog",
         "4:ember",
         "8:smokescreen",
+        "12:feintattack",
         "12:clearsmog",
         "16:flamewheel",
         "20:confuseray",
+        "22:flameburst",
         "24:scaryface",
         "28:firepunch",
         "32:lavaplume",
@@ -52,39 +54,72 @@
         "40:flamethrower",
         "44:sunnyday",
         "48:fireblast",
+        "egg:barrier",
         "egg:belch",
+        "egg:bellydrum",
         "egg:crosschop",
         "egg:dynamicpunch",
         "egg:focuspunch",
+        "egg:karatechop",
         "egg:machpunch",
         "tm:attract",
         "tm:bodyslam",
         "tm:brickbreak",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
+        "tm:detect",
+        "tm:doubleteam",
         "tm:endure",
         "tm:facade",
+        "tm:fireblast",
+        "tm:firepunch",
         "tm:firespin",
+        "tm:flamecharge",
+        "tm:flamethrower",
         "tm:flareblitz",
         "tm:fling",
         "tm:focusenergy",
+        "tm:frustration",
         "tm:heatwave",
         "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:incinerate",
         "tm:irontail",
+        "tm:lowkick",
         "tm:megakick",
         "tm:megapunch",
+        "tm:naturalgift",
         "tm:overheat",
         "tm:powerswap",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:psychic",
         "tm:rest",
+        "tm:return",
+        "tm:rocksmash",
         "tm:round",
+        "tm:scaryface",
         "tm:screech",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
         "tm:thief",
         "tm:thunderpunch",
+        "tm:toxic",
         "tm:uproar",
-        "tm:willowisp"
+        "tm:willowisp",
+        "tutor:counter",
+        "tutor:covet",
+        "tutor:doubleedge",
+        "tutor:dualchop",
+        "tutor:headbutt",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:seismictoss"
     ],
     "labels": [
         "baby",
@@ -109,10 +144,16 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.8,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.6,
+        "height": 1.1,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 7,
+    "weight": 214
 }

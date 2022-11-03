@@ -13,7 +13,7 @@ import com.cablemc.pokemod.common.api.drop.DropTable
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
 import com.cablemc.pokemod.common.api.net.Decodable
 import com.cablemc.pokemod.common.api.net.Encodable
-import com.cablemc.pokemod.common.api.pokemon.Learnset
+import com.cablemc.pokemod.common.api.pokemon.moves.Learnset
 import com.cablemc.pokemod.common.api.pokemon.effect.ShoulderEffect
 import com.cablemc.pokemod.common.api.pokemon.egg.EggGroup
 import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
@@ -49,6 +49,10 @@ class FormData(
     private var _experienceGroup: ExperienceGroup? = null,
     @SerializedName("baseExperienceYield")
     private var _baseExperienceYield: Int? = null,
+    @SerializedName("_baseFriendship")
+    private var _baseFriendship: Int? = null,
+    @SerializedName("evYield")
+    private var _evYield: MutableMap<Stat, Int>? = null,
     @SerializedName("primaryType")
     private var _primaryType: ElementalType? = null,
     @SerializedName("secondaryType")
@@ -67,13 +71,14 @@ class FormData(
     private val _drops: DropTable? = null,
     @SerializedName("pokedex")
     private var _pokedex: MutableList<String>? = null,
+    @SerializedName("preEvolution")
     private val _preEvolution: PreEvolution? = null,
     private var standingEyeHeight: Float? = null,
     private var swimmingEyeHeight: Float? = null,
     private var flyingEyeHeight: Float? = null,
     @SerializedName("labels")
     private val _labels: Set<String>? = null,
-    @SerializedName("cannotDynamax")
+    @SerializedName("dynamaxBlocked")
     private var _dynamaxBlocked: Boolean? = null,
     @SerializedName("eggGroups")
     private val _eggGroups: Set<EggGroup>? = null,
@@ -106,6 +111,10 @@ class FormData(
         get() = _experienceGroup ?: species.experienceGroup
     val baseExperienceYield: Int
         get() = _baseExperienceYield ?: species.baseExperienceYield
+    val baseFriendship: Int
+        get() = _baseFriendship ?: species.baseFriendship
+    val evYield: Map<Stat, Int>
+        get() = _evYield ?: species.evYield
     val primaryType: ElementalType
         get() = _primaryType ?: species.primaryType
 

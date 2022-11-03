@@ -25,7 +25,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "bug",
-        "plant"
+        "grass"
     ],
     "drops": {
         "amount": "1",
@@ -39,17 +39,20 @@
     },
     "moves": [
         "1:scratch",
+        "2:sleeppowder",
+        "4:stunspore",
         "6:poisonpowder",
-        "6:stunspore",
-        "11:absorb",
+        "9:absorb",
+        "12:growth",
+        "15:furyswipes",
         "17:furycutter",
-        "22:spore",
-        "27:slash",
-        "33:growth",
+        "19:slash",
+        "23:leechlife",
+        "27:spore",
+        "31:xscissor",
         "38:gigadrain",
         "43:aromatherapy",
         "49:ragepowder",
-        "54:xscissor",
         "egg:agility",
         "egg:bugbite",
         "egg:counter",
@@ -69,36 +72,59 @@
         "egg:wideguard",
         "tm:aerialace",
         "tm:attract",
+        "tm:bide",
         "tm:brickbreak",
+        "tm:bulletseed",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
+        "tm:cut",
+        "tm:dig",
         "tm:doubleteam",
         "tm:energyball",
         "tm:facade",
         "tm:falseswipe",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
+        "tm:headbutt",
         "tm:hiddenpower",
-        "tm:leechlife",
+        "tm:honeclaws",
         "tm:lightscreen",
+        "tm:megadrain",
         "tm:naturepower",
         "tm:protect",
+        "tm:rage",
+        "tm:reflect",
         "tm:rest",
         "tm:return",
+        "tm:rocksmash",
         "tm:round",
+        "tm:secretpower",
+        "tm:skullbash",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:solarbeam",
+        "tm:strugglebug",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
         "tm:swordsdance",
+        "tm:takedown",
         "tm:thief",
         "tm:toxic",
         "tm:venoshock",
+        "tm:xscissor",
         "tutor:afteryou",
+        "tutor:bodyslam",
+        "tutor:bugbite",
+        "tutor:doubleedge",
+        "tutor:gigadrain",
         "tutor:knockoff",
+        "tutor:mimic",
         "tutor:seedbomb",
         "tutor:snore",
+        "tutor:stringshot",
         "tutor:synthesis",
         "tutor:worryseed"
     ],
@@ -106,7 +132,8 @@
         "gen1"
     ],
     "pokedex": [
-        "pokemod.species.paras.desc1"
+        "pokemod.species.paras.desc1",
+        "pokemod.species.paras.desc2"
     ],
     "evolutions": [
         {
@@ -123,10 +150,16 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.7,
     "hitbox": {
         "width": 1.0,
-        "height": 1.0,
+        "height": 0.5,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 3,
+    "weight": 54
 }

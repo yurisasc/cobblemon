@@ -14,7 +14,7 @@
         "speed": 138
     },
     "catchRate": 10,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [
         {
@@ -28,16 +28,19 @@
                 "special_defence": 145,
                 "speed": 128
             },
-            "aspects": [
-                "crowned"
-            ]
+            "baseExperienceYield": 360,
+            "pokedex": [
+                "pokemod.form.zamazenta-crowned.desc1",
+                "pokemod.form.zamazenta-crowned.desc2"
+            ],
+            "weight": 7850
         }
     ],
     "baseExperienceYield": 335,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:bite",
@@ -55,6 +58,8 @@
         "77:closecombat",
         "88:gigaimpact",
         "tm:agility",
+        "tm:closecombat",
+        "tm:crunch",
         "tm:dazzlinggleam",
         "tm:dig",
         "tm:endure",
@@ -63,12 +68,15 @@
         "tm:flashcannon",
         "tm:focusblast",
         "tm:focusenergy",
+        "tm:gigaimpact",
         "tm:guardswap",
         "tm:helpinghand",
         "tm:hyperbeam",
         "tm:hypervoice",
         "tm:icefang",
         "tm:imprison",
+        "tm:irondefense",
+        "tm:ironhead",
         "tm:irontail",
         "tm:lightscreen",
         "tm:payback",
@@ -98,8 +106,8 @@
         "tutor:steelbeam"
     ],
     "labels": [
-        "legendary",
-        "gen8"
+        "gen8",
+        "legendary"
     ],
     "pokedex": [
         "pokemod.species.zamazenta.desc1",
@@ -111,5 +119,12 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "speed": 3
+    },
+    "height": 29,
+    "weight": 2100,
+    "dynamaxBlocked": true
 }

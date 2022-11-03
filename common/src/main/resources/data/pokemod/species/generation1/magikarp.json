@@ -22,14 +22,17 @@
     "experienceGroup": "slow",
     "eggCycles": 5,
     "eggGroups": [
-        "water2",
+        "water_2",
         "dragon"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInWater": true,
 				"canBreatheUnderwater": true
+            },
+			"fly": {
+                "canFly": true
             }
         }
     },
@@ -70,10 +73,16 @@
             ]
         }
     ],
-    "baseScale": 0.8,
+    "baseScale": 0.9,
     "hitbox": {
-        "width": 0.6,
-        "height": 0.8,
+        "width": 0.9,
+        "height": 0.9,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 9,
+    "weight": 100
 }

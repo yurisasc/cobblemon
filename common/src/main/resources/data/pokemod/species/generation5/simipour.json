@@ -22,7 +22,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:leer",
@@ -34,6 +34,9 @@
         "tm:blizzard",
         "tm:brickbreak",
         "tm:confide",
+        "tm:cut",
+        "tm:dig",
+        "tm:dive",
         "tm:doubleteam",
         "tm:facade",
         "tm:fling",
@@ -43,17 +46,22 @@
         "tm:grassknot",
         "tm:hail",
         "tm:hiddenpower",
+        "tm:honeclaws",
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:lowsweep",
         "tm:payback",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
+        "tm:scald",
+        "tm:secretpower",
         "tm:shadowclaw",
         "tm:sleeptalk",
         "tm:substitute",
@@ -100,5 +108,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 10,
+    "weight": 290
 }

@@ -22,8 +22,8 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 25,
     "eggGroups": [
-        "water1",
-        "humanshape"
+        "water_1",
+        "human_like"
     ],
     "moves": [
         "0:octolock",
@@ -32,6 +32,7 @@
         "1:octazooka",
         "1:rocksmash",
         "1:feint",
+        "1:octolock",
         "15:detect",
         "20:brickbreak",
         "25:bulkup",
@@ -42,8 +43,10 @@
         "50:topsyturvy",
         "tm:attract",
         "tm:bodyslam",
+        "tm:brickbreak",
         "tm:brine",
         "tm:brutalswing",
+        "tm:bulkup",
         "tm:closecombat",
         "tm:dig",
         "tm:dive",
@@ -64,13 +67,16 @@
         "tm:rest",
         "tm:retaliate",
         "tm:revenge",
+        "tm:reversal",
         "tm:round",
         "tm:scaryface",
         "tm:sleeptalk",
         "tm:snore",
         "tm:stompingtantrum",
         "tm:substitute",
+        "tm:superpower",
         "tm:surf",
+        "tm:taunt",
         "tm:waterfall",
         "tm:whirlpool",
         "tm:workup",
@@ -91,5 +97,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 16,
+    "weight": 390
 }

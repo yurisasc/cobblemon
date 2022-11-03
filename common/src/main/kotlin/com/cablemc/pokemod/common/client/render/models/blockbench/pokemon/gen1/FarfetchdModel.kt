@@ -13,6 +13,7 @@ import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BipedFra
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
@@ -32,27 +33,36 @@ class FarfetchdModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     lateinit var standing: PokemonPose
+    lateinit var hover: PokemonPose
+    lateinit var fly: PokemonPose
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
         standing = registerPose(
             poseName = "standing",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
-            idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0083_farfetchd/farfetchd", "ground_idle")
-            )
-        )
-
-        walk = registerPose(
-            poseName = "walk",
-            poseTypes = MOVING_POSES,
-            transformTicks = 10,
+            poseTypes = UI_POSES + PoseType.STAND,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 BipedWalkAnimation(this, periodMultiplier = 0.8F)
-                // bedrock("0083_farfetchd/farfetchd", "ground_walk")
+            )
+        )
+
+        hover = registerPose(
+            poseName = "hover",
+            poseType = PoseType.HOVER,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0083_farfetchd/farfetchd", "air_idle")
+            )
+        )
+
+        fly = registerPose(
+            poseName = "fly",
+            poseType = PoseType.FLY,
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0083_farfetchd/farfetchd", "air_fly")
+                //bedrock("0083_farfetchd/farfetchd", "ground_walk")
             )
         )
     }

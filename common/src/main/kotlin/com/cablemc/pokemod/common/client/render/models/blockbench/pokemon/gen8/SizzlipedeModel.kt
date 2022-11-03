@@ -35,8 +35,8 @@ class SizzlipedeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("0850_sizzlipede/sizzlipede", "ground_idle")
+                singleBoneLook()
+//                bedrock("0850_sizzlipede/sizzlipede", "ground_idle")
             )
         )
 
@@ -44,8 +44,8 @@ class SizzlipedeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook(),
-                bedrock("0850_sizzlipede/sizzlipede", "ground_idle")
+                singleBoneLook()
+//                bedrock("0850_sizzlipede/sizzlipede", "ground_idle")
                 //bedrock("0850_sizzlipede/sizzlipede", "ground_walk")
             )
         )

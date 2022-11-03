@@ -20,6 +20,7 @@ import net.minecraft.network.PacketByteBuf
  */
 abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
     abstract val acceptableRange: IntRange
+    abstract val defaultValue: Int
     override fun iterator() = stats.entries.iterator()
 
     /** Emits any stat change. */
@@ -47,12 +48,13 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
 
     operator fun get(key: Stat) = stats[key]
     open operator fun set(key: Stat, value: Int) {
-        if (value !in acceptableRange) {
-            return
+        if (this.canSet(key, value)) {
+            stats[key] = value
+            update()
         }
-        stats[key] = value
-        update()
     }
+
+    protected open fun canSet(stat: Stat, value: Int) = value in acceptableRange
 
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
         stats.entries.forEach { (stat, value) -> nbt.putShort(stat.id, value.toShort()) }
@@ -99,5 +101,5 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         }
     }
 
-    fun getOrOne(stat: Stat) = this[stat] ?: 1
+    fun getOrDefault(stat: Stat) = this[stat] ?: this.defaultValue
 }

@@ -22,9 +22,17 @@
     "forms": [
         {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.centiskorch-gmax.desc1",
+                "pokemod.form.centiskorch-gmax.desc2"
+            ],
+            "height": 750,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 184,
@@ -33,11 +41,11 @@
     "eggGroups": [
         "bug"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canSwimInLava": true,
-				"canBreatheUnderlava": true
+                "canBreatheUnderlava": true
             }
         }
     },
@@ -59,10 +67,12 @@
         "tm:attract",
         "tm:brutalswing",
         "tm:bugbuzz",
+        "tm:crunch",
         "tm:endure",
         "tm:facade",
         "tm:fireblast",
         "tm:firefang",
+        "tm:firespin",
         "tm:flamethrower",
         "tm:flareblitz",
         "tm:gigaimpact",
@@ -103,5 +113,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 30,
+    "weight": 1200
 }

@@ -33,20 +33,19 @@ class GrimerModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0088_grimer/grimer", "ground_idle")
+                singleBoneLook(),
+                bedrock("0088_grimer/grimer", "ground_idle")
             )
         )
 
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0088_grimer/grimer", "ground_walk")
+                singleBoneLook(),
+                bedrock("0088_grimer/grimer", "ground_idle")
+                //bedrock("0088_grimer/grimer", "ground_walk")
             )
         )
     }

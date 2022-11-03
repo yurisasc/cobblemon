@@ -8,7 +8,9 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cablemc.pokemod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
@@ -16,9 +18,14 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class NinetalesModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class NinetalesModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("ninetales")
     override val head = getPart("head")
+
+    override val foreLeftLeg = getPart("leg_front_left")
+    override val foreRightLeg = getPart("leg_front_right")
+    override val hindLeftLeg = getPart("leg_back_left")
+    override val hindRightLeg = getPart("leg_back_right")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -45,7 +52,8 @@ class NinetalesModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
+                singleBoneLook(),
+                QuadrupedWalkAnimation(this, periodMultiplier = 0.5F, amplitudeMultiplier = 1.1F)
                 // bedrock("0038_ninetales/ninetales", "ground_walk")
             )
         )

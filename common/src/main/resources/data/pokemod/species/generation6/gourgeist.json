@@ -30,9 +30,12 @@
                 "special_defence": 75,
                 "speed": 99
             },
-            "aspects": [
-                "small"
-            ]
+            "pokedex": [
+                "pokemod.form.gourgeist-small.desc1",
+                "pokemod.form.gourgeist-small.desc2"
+            ],
+            "height": 7,
+            "weight": 95
         },
         {
             "name": "large",
@@ -44,9 +47,12 @@
                 "special_defence": 75,
                 "speed": 69
             },
-            "aspects": [
-                "large"
-            ]
+            "pokedex": [
+                "pokemod.form.gourgeist-large.desc1",
+                "pokemod.form.gourgeist-large.desc2"
+            ],
+            "height": 11,
+            "weight": 140
         },
         {
             "name": "super",
@@ -58,16 +64,19 @@
                 "special_defence": 75,
                 "speed": 54
             },
-            "aspects": [
-                "super"
-            ]
+            "pokedex": [
+                "pokemod.form.gourgeist-super.desc1",
+                "pokemod.form.gourgeist-super.desc2"
+            ],
+            "height": 17,
+            "weight": 390
         }
     ],
     "baseExperienceYield": 173,
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "1:confuseray",
@@ -77,43 +86,64 @@
         "1:trickortreat",
         "1:moonblast",
         "12:razorleaf",
+        "12:trickortreat",
         "16:leechseed",
         "20:bulletseed",
         "24:scaryface",
+        "24:trickortreat",
         "28:worryseed",
         "32:seedbomb",
         "36:shadowball",
+        "36:trickortreat",
         "40:trick",
         "44:painsplit",
         "48:phantomforce",
         "tm:allyswitch",
         "tm:attract",
         "tm:brutalswing",
+        "tm:bulletseed",
+        "tm:chargebeam",
+        "tm:confide",
         "tm:darkpulse",
+        "tm:doubleteam",
+        "tm:dreameater",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:fireblast",
+        "tm:flamecharge",
         "tm:flamethrower",
+        "tm:flash",
         "tm:focusblast",
         "tm:foulplay",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:gigaimpact",
         "tm:grassknot",
         "tm:gyroball",
         "tm:hex",
+        "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:imprison",
+        "tm:incinerate",
         "tm:lightscreen",
         "tm:mysticalfire",
         "tm:nastyplot",
+        "tm:naturepower",
+        "tm:phantomforce",
         "tm:powerwhip",
         "tm:protect",
         "tm:psychic",
         "tm:rest",
+        "tm:return",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:round",
         "tm:safeguard",
+        "tm:scaryface",
+        "tm:secretpower",
+        "tm:seedbomb",
+        "tm:shadowball",
         "tm:skillswap",
         "tm:sleeptalk",
         "tm:sludgebomb",
@@ -121,12 +151,20 @@
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:thief",
+        "tm:toxic",
+        "tm:trick",
         "tm:trickroom",
         "tm:willowisp",
         "tutor:grassyglide",
+        "tutor:magiccoat",
         "tutor:poltergeist",
-        "tutor:skittersmack"
+        "tutor:roleplay",
+        "tutor:skittersmack",
+        "tutor:spite",
+        "tutor:synthesis",
+        "tutor:telekinesis"
     ],
     "labels": [
         "gen6"
@@ -142,5 +180,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 2
+    },
+    "height": 9,
+    "weight": 125
 }

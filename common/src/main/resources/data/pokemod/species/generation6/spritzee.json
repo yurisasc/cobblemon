@@ -29,8 +29,10 @@
         "1:fairywind",
         "3:sweetkiss",
         "6:echoedvoice",
+        "8:odorsleuth",
         "9:drainingkiss",
         "12:aromatherapy",
+        "15:drainingkiss",
         "18:attract",
         "21:flail",
         "24:mistyterrain",
@@ -39,33 +41,61 @@
         "33:calmmind",
         "36:moonblast",
         "39:skillswap",
+        "50:disarmingvoice",
         "egg:afteryou",
+        "egg:captivate",
         "egg:disable",
+        "egg:refresh",
         "egg:wish",
         "tm:allyswitch",
+        "tm:attract",
+        "tm:calmmind",
+        "tm:chargebeam",
+        "tm:charm",
+        "tm:confide",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:drainingkiss",
+        "tm:dreameater",
         "tm:encore",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:faketears",
+        "tm:flash",
         "tm:flashcannon",
+        "tm:frustration",
         "tm:gyroball",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:lightscreen",
+        "tm:mistyterrain",
         "tm:nastyplot",
         "tm:protect",
+        "tm:psychic",
+        "tm:psychup",
         "tm:raindance",
         "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
+        "tm:skillswap",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:thunderbolt",
+        "tm:torment",
+        "tm:toxic",
         "tm:trickroom",
-        "tutor:mistyexplosion"
+        "tutor:covet",
+        "tutor:endeavor",
+        "tutor:healbell",
+        "tutor:magiccoat",
+        "tutor:mistyexplosion",
+        "tutor:telekinesis"
     ],
     "labels": [
         "gen6"
@@ -79,14 +109,15 @@
             "id": "spritzee_aromatisse",
             "variant": "trade",
             "result": "aromatisse",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [
                 {
                     "variant": "held_item",
-                    "item": "sachet"
+                    "item": "pokemod:sachet"
                 }
-            ]
+            ],
+            "requiredContext": null
         }
     ],
     "baseScale": 1.0,
@@ -94,5 +125,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 2,
+    "weight": 5
 }

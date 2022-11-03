@@ -31,7 +31,8 @@ class PolitoedModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(
-                singleBoneLook()
+                singleBoneLook(),
+                //bedrock("0186_politoed/politoed", "ground_idle")
             )
         )
 
@@ -39,7 +40,8 @@ class PolitoedModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseName = "walking",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                bedrock("0186_politoed/politoed", "ground_idle")
+                singleBoneLook()
+                //bedrock("0186_politoed/politoed", "ground_walk")
             )
         )
     }

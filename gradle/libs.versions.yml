@@ -23,7 +23,7 @@ versions:
   # common
   javet: 1.1.0
   eliotlash: 18
-  architectury: 6.2.43
+  architectury: 6.3.49
 
   # test
   junit: 5.9.0

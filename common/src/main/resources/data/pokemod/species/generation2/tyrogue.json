@@ -23,19 +23,22 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 25,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:tackle",
         "1:focusenergy",
+        "1:foresight",
         "1:fakeout",
         "1:helpinghand",
+        "egg:allyswitch",
         "egg:bulletpunch",
         "egg:counter",
         "egg:feint",
         "egg:highjumpkick",
         "egg:machpunch",
         "egg:mindreader",
+        "egg:pursuit",
         "egg:rapidspin",
         "egg:vacuumwave",
         "tm:attract",
@@ -43,27 +46,51 @@
         "tm:brickbreak",
         "tm:bulkup",
         "tm:bulldoze",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
+        "tm:detect",
+        "tm:doubleteam",
         "tm:earthquake",
         "tm:endure",
         "tm:facade",
+        "tm:focusenergy",
+        "tm:frustration",
+        "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:lowkick",
         "tm:lowsweep",
         "tm:megakick",
         "tm:megapunch",
+        "tm:naturalgift",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
         "tm:retaliate",
+        "tm:return",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swift",
         "tm:thief",
+        "tm:toxic",
         "tm:uproar",
-        "tm:workup"
+        "tm:workup",
+        "tutor:covet",
+        "tutor:doubleedge",
+        "tutor:headbutt",
+        "tutor:laserfocus",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:roleplay",
+        "tutor:seismictoss"
     ],
     "labels": [
         "baby",
@@ -126,10 +153,16 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.75,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.6,
+        "height": 1.25,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 7,
+    "weight": 210
 }

@@ -50,6 +50,7 @@
         "tm:brickbreak",
         "tm:confide",
         "tm:doubleteam",
+        "tm:echoedvoice",
         "tm:flamecharge",
         "tm:fly",
         "tm:frustration",
@@ -57,6 +58,7 @@
         "tm:protect",
         "tm:rest",
         "tm:return",
+        "tm:roost",
         "tm:round",
         "tm:sleeptalk",
         "tm:smackdown",
@@ -72,9 +74,12 @@
         "tutor:defog",
         "tutor:gunkshot",
         "tutor:heatwave",
+        "tutor:hypervoice",
         "tutor:knockoff",
         "tutor:skyattack",
-        "tutor:snore"
+        "tutor:snore",
+        "tutor:tailwind",
+        "tutor:uproar"
     ],
     "labels": [
         "gen7"
@@ -103,5 +108,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 3,
+    "weight": 12
 }

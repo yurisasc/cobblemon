@@ -28,6 +28,10 @@ class PokemodConfig {
     var maxPokemonLevel = 100
 
     @NodeCategory(Category.Pokemon)
+    @IntConstraint(min = 0, max = 1000)
+    var maxPokemonFriendship = 255
+
+    @NodeCategory(Category.Pokemon)
     var announceDropItems = true
     @NodeCategory(Category.Pokemon)
     var defaultDropItemMethod = ItemDropMethod.ON_ENTITY
@@ -142,4 +146,6 @@ class PokemodConfig {
     @NodeCategory(Category.Pokemon)
     var displayEntityLevelLabel = true
 
+    @NodeCategory(Category.Spawning)
+    var shinyRate = 8192F
 }

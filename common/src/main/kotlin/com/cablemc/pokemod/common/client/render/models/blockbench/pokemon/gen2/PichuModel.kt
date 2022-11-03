@@ -36,7 +36,7 @@ class PichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0172_pichu/pichu", "ground_idle")
+                //bedrock("0172_pichu/pichu", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class PichuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0172_pichu/pichu", "ground_walk")
+                //bedrock("0172_pichu/pichu", "ground_walk")
             )
         )
     }

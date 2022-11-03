@@ -24,7 +24,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -62,29 +62,38 @@
         "tm:attract",
         "tm:bulldoze",
         "tm:calmmind",
+        "tm:captivate",
         "tm:chargebeam",
         "tm:confide",
+        "tm:curse",
         "tm:dazzlinggleam",
         "tm:doubleteam",
         "tm:dreameater",
         "tm:earthquake",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
         "tm:lightscreen",
+        "tm:naturalgift",
         "tm:protect",
+        "tm:psychic",
         "tm:psychup",
         "tm:psyshock",
         "tm:raindance",
         "tm:reflect",
         "tm:rest",
+        "tm:retaliate",
         "tm:return",
+        "tm:rocksmash",
         "tm:round",
         "tm:shadowball",
         "tm:sleeptalk",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
@@ -95,19 +104,31 @@
         "tm:toxic",
         "tm:trickroom",
         "tm:workup",
+        "tm:zapcannon",
         "tutor:allyswitch",
+        "tutor:bodyslam",
+        "tutor:doubleedge",
         "tutor:foulplay",
         "tutor:gravity",
+        "tutor:headbutt",
         "tutor:hypervoice",
         "tutor:irontail",
+        "tutor:magiccoat",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:nightmare",
         "tutor:recycle",
         "tutor:shockwave",
         "tutor:signalbeam",
+        "tutor:skillswap",
         "tutor:snore",
         "tutor:stompingtantrum",
+        "tutor:suckerpunch",
+        "tutor:swift",
         "tutor:telekinesis",
         "tutor:trick",
-        "tutor:uproar"
+        "tutor:uproar",
+        "tutor:zenheadbutt"
     ],
     "labels": [
         "gen2"
@@ -122,5 +143,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 15,
+    "weight": 415
 }

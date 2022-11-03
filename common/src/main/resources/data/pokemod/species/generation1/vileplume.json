@@ -18,12 +18,14 @@
     "catchRate": 45,
     "maleRatio": 0.5,
     "shoulderMountable": false,
-    "forms": [],
+    "features": [
+        "valencian"
+    ],
     "baseExperienceYield": 245,
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "plant"
+        "grass"
     ],
     "moves": [
         "0:petalblizzard",
@@ -40,26 +42,46 @@
         "1:sweetscent",
         "1:moonlight",
         "1:aromatherapy",
+        "1:petalblizzard",
         "1:grassyterrain",
         "1:moonblast",
         "tm:attract",
+        "tm:bide",
         "tm:bodyslam",
         "tm:bulletseed",
+        "tm:captivate",
         "tm:charm",
+        "tm:confide",
+        "tm:curse",
+        "tm:cut",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
         "tm:drainpunch",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:fling",
+        "tm:frustration",
+        "tm:gigadrain",
         "tm:gigaimpact",
         "tm:grassknot",
+        "tm:grassyterrain",
+        "tm:headbutt",
+        "tm:hiddenpower",
         "tm:hyperbeam",
+        "tm:infestation",
+        "tm:naturalgift",
+        "tm:naturepower",
         "tm:pollenpuff",
         "tm:protect",
+        "tm:rage",
+        "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:sludgebomb",
@@ -68,10 +90,18 @@
         "tm:solarbeam",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swordsdance",
+        "tm:takedown",
         "tm:venoshock",
+        "tutor:afteryou",
         "tutor:corrosivegas",
-        "tutor:grassyglide"
+        "tutor:doubleedge",
+        "tutor:gastroacid",
+        "tutor:grassyglide",
+        "tutor:mimic",
+        "tutor:synthesis",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen1"
@@ -87,5 +117,12 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 3
+    },
+    "height": 12,
+    "weight": 186,
+    "forms": []
 }

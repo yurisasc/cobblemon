@@ -36,7 +36,7 @@ class TyrogueModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0236_tyrogue/tyrogue", "ground_idle")
+                //bedrock("0236_tyrogue/tyrogue", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class TyrogueModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0236_tyrogue/tyrogue", "ground_walk")
+                //bedrock("0236_tyrogue/tyrogue", "ground_walk")
             )
         )
     }

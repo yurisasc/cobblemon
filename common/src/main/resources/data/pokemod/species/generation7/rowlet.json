@@ -25,14 +25,14 @@
     "eggGroups": [
         "flying"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
-			"fly": {
+            "fly": {
                 "canFly": true
             }
         }
     },
-	"drops": {
+    "drops": {
         "amount": "2",
         "entries": [
             {
@@ -52,28 +52,44 @@
         "9:peck",
         "12:shadowsneak",
         "15:razorleaf",
+        "16:ominouswind",
+        "18:foresight",
         "18:synthesis",
         "21:pluck",
         "24:nastyplot",
         "27:suckerpunch",
+        "29:furyattack",
         "30:leafblade",
         "33:featherdance",
         "36:bravebird",
         "egg:confuseray",
+        "egg:curse",
         "egg:defog",
         "egg:doubleteam",
+        "egg:haze",
         "egg:knockoff",
+        "egg:ominouswind",
         "tm:attract",
         "tm:batonpass",
+        "tm:bravebird",
+        "tm:confide",
+        "tm:echoedvoice",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:falseswipe",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:grassknot",
+        "tm:hiddenpower",
+        "tm:leafblade",
         "tm:lightscreen",
+        "tm:nastyplot",
+        "tm:naturepower",
         "tm:protect",
         "tm:rest",
+        "tm:return",
+        "tm:roost",
         "tm:round",
         "tm:safeguard",
         "tm:seedbomb",
@@ -84,12 +100,17 @@
         "tm:steelwing",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swift",
         "tm:swordsdance",
+        "tm:toxic",
         "tm:workup",
+        "tutor:covet",
         "tutor:dualwingbeat",
         "tutor:grasspledge",
-        "tutor:grassyglide"
+        "tutor:grassyglide",
+        "tutor:skyattack",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen7"
@@ -118,5 +139,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 3,
+    "weight": 15
 }

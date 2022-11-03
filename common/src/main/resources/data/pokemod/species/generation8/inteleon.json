@@ -20,17 +20,25 @@
     "forms": [
         {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.inteleon-gmax.desc1",
+                "pokemod.form.inteleon-gmax.desc2"
+            ],
+            "height": 400,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 265,
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
-        "ground"
+        "water_1",
+        "field"
     ],
     "moves": [
         "0:snipeshot",
@@ -39,6 +47,7 @@
         "1:growl",
         "1:watergun",
         "1:acrobatics",
+        "1:snipeshot",
         "12:waterpulse",
         "19:tearfullook",
         "24:suckerpunch",
@@ -47,6 +56,7 @@
         "46:soak",
         "54:raindance",
         "62:hydropump",
+        "tm:acrobatics",
         "tm:agility",
         "tm:airslash",
         "tm:attract",
@@ -61,15 +71,18 @@
         "tm:fling",
         "tm:focusenergy",
         "tm:gigaimpact",
+        "tm:hydropump",
         "tm:hyperbeam",
         "tm:icebeam",
         "tm:iciclespear",
         "tm:icywind",
         "tm:lightscreen",
+        "tm:liquidation",
         "tm:metronome",
         "tm:muddywater",
         "tm:mudshot",
         "tm:protect",
+        "tm:raindance",
         "tm:reflect",
         "tm:rest",
         "tm:round",
@@ -82,6 +95,7 @@
         "tm:surf",
         "tm:swift",
         "tm:swordsdance",
+        "tm:uturn",
         "tm:waterfall",
         "tm:weatherball",
         "tm:whirlpool",
@@ -104,5 +118,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 3
+    },
+    "height": 19,
+    "weight": 452
 }

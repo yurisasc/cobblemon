@@ -1,6 +1,6 @@
 {
   "poser": "pokemod:mimejr",
-  "model": "pokemod:bedrock/models/0439_mimejr/mime_jr.geo.json",
+  "model": "pokemod:bedrock/models/0439_mimejr/mimejr.geo.json",
   "texture": "pokemod:textures/pokemon/0439_mimejr/mimejr.png",
   "variations": [
     {

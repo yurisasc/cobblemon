@@ -26,81 +26,124 @@
     "eggGroups": [
         "bug"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canWalkOnWater": true
             },
-			"fly": {
+            "fly": {
                 "canFly": true
             }
         }
     },
     "moves": [
         "0:gust",
+        "1:gust",
         "1:tackle",
         "1:supersonic",
         "1:disable",
+        "1:confusion",
+        "1:agility",
+        "1:screech",
         "1:foresight",
         "1:silverwind",
-        "1:bugbuzz",
-        "1:quiverdance",
-        "11:confusion",
-        "13:poisonpowder",
-        "17:psybeam",
-        "23:stunspore",
+        "4:disable",
+        "8:supersonic",
+        "12:confusion",
+        "14:poisonpowder",
+        "16:stunspore",
+        "20:psybeam",
+        "24:sleeppowder",
         "25:signalbeam",
-        "29:sleeppowder",
-        "37:leechlife",
+        "28:leechlife",
+        "37:psychic",
         "41:zenheadbutt",
+        "46:bugbuzz",
         "47:poisonfang",
-        "55:psychic",
+        "55:quiverdance",
         "tm:acrobatics",
         "tm:aerialace",
         "tm:attract",
+        "tm:bide",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
         "tm:doubleteam",
+        "tm:dreameater",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:gigaimpact",
+        "tm:headbutt",
         "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:infestation",
+        "tm:megadrain",
+        "tm:naturalgift",
         "tm:protect",
+        "tm:psychic",
+        "tm:psywave",
+        "tm:rage",
+        "tm:razorwind",
+        "tm:reflect",
         "tm:rest",
         "tm:return",
         "tm:roost",
         "tm:round",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:solarbeam",
+        "tm:strugglebug",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
+        "tm:sweetscent",
+        "tm:takedown",
+        "tm:teleport",
         "tm:thief",
         "tm:toxic",
         "tm:uturn",
         "tm:venoshock",
+        "tm:whirlwind",
+        "tutor:aircutter",
         "tutor:bugbite",
         "tutor:defog",
+        "tutor:doubleedge",
         "tutor:gigadrain",
+        "tutor:mimic",
+        "tutor:ominouswind",
+        "tutor:signalbeam",
         "tutor:skillswap",
         "tutor:snore",
-        "tutor:tailwind"
+        "tutor:stringshot",
+        "tutor:swift",
+        "tutor:tailwind",
+        "tutor:twister",
+        "tutor:zenheadbutt"
     ],
     "labels": [
         "gen1"
     ],
     "pokedex": [
-        "pokemod.species.venomoth.desc1"
+        "pokemod.species.venomoth.desc1",
+        "pokemod.species.venomoth.desc2"
     ],
     "preEvolution": "venonat",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 0.9,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.8,
+        "height": 1.2,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 1,
+        "speed": 1
+    },
+    "height": 15,
+    "weight": 125
 }

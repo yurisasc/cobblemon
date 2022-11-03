@@ -23,7 +23,7 @@
     "experienceGroup": "fast",
     "eggCycles": 15,
     "eggGroups": [
-        "ground",
+        "field",
         "fairy"
     ],
     "moves": [
@@ -47,7 +47,9 @@
         "43:captivate",
         "46:playrough",
         "egg:batonpass",
+        "egg:captivate",
         "egg:cosmicpower",
+        "egg:fakeout",
         "egg:faketears",
         "egg:helpinghand",
         "egg:lastresort",
@@ -58,26 +60,33 @@
         "egg:uproar",
         "egg:wish",
         "egg:zenheadbutt",
+        "tm:attract",
         "tm:blizzard",
         "tm:calmmind",
         "tm:chargebeam",
         "tm:confide",
+        "tm:dig",
         "tm:doubleteam",
         "tm:dreameater",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:naturalgift",
         "tm:payback",
         "tm:protect",
         "tm:psychup",
         "tm:raindance",
         "tm:rest",
+        "tm:retaliate",
         "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:solarbeam",
@@ -90,12 +99,25 @@
         "tm:toxic",
         "tm:wildcharge",
         "tm:workup",
+        "tutor:bodyslam",
+        "tutor:covet",
+        "tutor:defensecurl",
+        "tutor:headbutt",
+        "tutor:healbell",
+        "tutor:helpinghand",
         "tutor:hypervoice",
         "tutor:icywind",
         "tutor:irontail",
+        "tutor:lastresort",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:rollout",
         "tutor:shockwave",
         "tutor:snore",
-        "tutor:waterpulse"
+        "tutor:swift",
+        "tutor:uproar",
+        "tutor:waterpulse",
+        "tutor:zenheadbutt"
     ],
     "labels": [
         "gen3"
@@ -109,7 +131,7 @@
             "id": "skitty_delcatty",
             "variant": "item_interact",
             "result": "delcatty",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:moon_stone"
@@ -120,5 +142,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 110
 }

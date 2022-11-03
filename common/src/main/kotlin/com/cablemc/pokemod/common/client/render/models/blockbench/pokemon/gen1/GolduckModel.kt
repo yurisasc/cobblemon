@@ -36,7 +36,7 @@ class GolduckModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0055_golduck/golduck", "ground_idle")
+                //bedrock("0055_golduck/golduck", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class GolduckModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0055_golduck/golduck", "ground_walk")
+                //bedrock("0055_golduck/golduck", "ground_walk")
             )
         )
     }

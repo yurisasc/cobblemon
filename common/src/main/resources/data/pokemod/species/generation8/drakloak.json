@@ -24,7 +24,7 @@
     "experienceGroup": "slow",
     "eggCycles": 40,
     "eggGroups": [
-        "indeterminate",
+        "amorphous",
         "dragon"
     ],
     "moves": [
@@ -32,6 +32,7 @@
         "1:bite",
         "1:quickattack",
         "1:astonish",
+        "1:dragonpulse",
         "1:infestation",
         "6:lockon",
         "12:assurance",
@@ -46,20 +47,26 @@
         "66:doubleedge",
         "72:lastresort",
         "tm:acrobatics",
+        "tm:agility",
         "tm:allyswitch",
+        "tm:assurance",
         "tm:attract",
         "tm:batonpass",
         "tm:beatup",
         "tm:breakingswipe",
         "tm:brine",
         "tm:dive",
+        "tm:dragondance",
+        "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
         "tm:fireblast",
         "tm:flamethrower",
         "tm:helpinghand",
+        "tm:hex",
         "tm:hydropump",
         "tm:outrage",
+        "tm:phantomforce",
         "tm:protect",
         "tm:psychicfangs",
         "tm:rest",
@@ -76,6 +83,7 @@
         "tm:thunder",
         "tm:thunderbolt",
         "tm:thunderwave",
+        "tm:uturn",
         "tm:willowisp",
         "tutor:dracometeor"
     ],
@@ -107,5 +115,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 14,
+    "weight": 110
 }

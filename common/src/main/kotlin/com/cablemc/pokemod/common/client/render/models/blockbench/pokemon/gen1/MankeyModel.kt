@@ -9,8 +9,10 @@
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
 import com.cablemc.pokemod.common.client.render.models.blockbench.PoseableEntityState
+import com.cablemc.pokemod.common.client.render.models.blockbench.asTransformed
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
+import com.cablemc.pokemod.common.client.render.models.blockbench.pose.TransformedModelPart.Companion.Y_AXIS
 import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
 import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
@@ -36,7 +38,8 @@ class MankeyModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("0056_mankey/mankey", "ground_idle")
-            )
+            ),
+            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, 1.5F))
         )
 
         walk = registerPose(
@@ -45,7 +48,8 @@ class MankeyModel(root: ModelPart) : PokemonPoseableModel() {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 bedrock("0056_mankey/mankey", "ground_walk")
-            )
+            ),
+            transformedParts = arrayOf(rootPart.asTransformed().addPosition(Y_AXIS, 1.5F))
         )
     }
 

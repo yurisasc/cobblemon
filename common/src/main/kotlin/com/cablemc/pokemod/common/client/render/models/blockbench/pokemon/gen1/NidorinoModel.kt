@@ -36,7 +36,7 @@ class NidorinoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0033_nidorino/nidorino", "ground_idle")
+                //bedrock("0033_nidorino/nidorino", "ground_idle")
             )
         )
 
@@ -46,7 +46,7 @@ class NidorinoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook()
-                // bedrock("0033_nidorino/nidorino", "ground_walk")
+                //bedrock("0033_nidorino/nidorino", "ground_walk")
             )
         )
     }

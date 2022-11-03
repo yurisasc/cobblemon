@@ -41,6 +41,7 @@
         "50:headbutt",
         "55:crunch",
         "60:blizzard",
+        "egg:bide",
         "egg:block",
         "egg:disable",
         "egg:iciclecrash",
@@ -48,23 +49,43 @@
         "egg:switcheroo",
         "tm:attract",
         "tm:avalanche",
+        "tm:blizzard",
         "tm:bodyslam",
+        "tm:captivate",
+        "tm:confide",
+        "tm:crunch",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
+        "tm:flash",
+        "tm:frustration",
+        "tm:hail",
         "tm:hex",
+        "tm:hiddenpower",
         "tm:icebeam",
+        "tm:icefang",
+        "tm:icywind",
         "tm:lightscreen",
+        "tm:naturalgift",
+        "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:snore",
         "tm:spikes",
         "tm:substitute",
-        "tm:weatherball"
+        "tm:swagger",
+        "tm:toxic",
+        "tm:weatherball",
+        "tutor:doubleedge",
+        "tutor:mimic",
+        "tutor:spite",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen3"
@@ -91,12 +112,12 @@
             "id": "snorunt_froslass",
             "variant": "item_interact",
             "result": "froslass",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [
                 {
                     "variant": "properties",
-                    "target": "female"
+                    "target": "gender=female"
                 }
             ],
             "requiredContext": "pokemod:dawn_stone"
@@ -107,5 +128,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 7,
+    "weight": 168
 }

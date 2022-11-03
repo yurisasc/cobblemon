@@ -42,21 +42,23 @@
         "1:growl",
         "1:peck",
         "5:quickattack",
-        "8:rage",
-        "12:furyattack",
+        "10:rage",
         "15:pursuit",
+        "16:furyattack",
         "19:pluck",
+        "21:triattack",
+        "22:agility",
         "22:doublehit",
-        "26:agility",
+        "27:drillpeck",
         "29:uproar",
+        "32:swordsdance",
         "33:acupressure",
-        "36:swordsdance",
-        "40:jumpkick",
-        "43:drillpeck",
+        "38:jumpkick",
+        "44:thrash",
         "47:endeavor",
-        "50:thrash",
         "egg:assurance",
         "egg:bravebird",
+        "egg:endeavor",
         "egg:feintattack",
         "egg:flail",
         "egg:haze",
@@ -65,34 +67,54 @@
         "egg:supersonic",
         "tm:aerialace",
         "tm:attract",
+        "tm:bide",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
         "tm:doubleteam",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:facade",
         "tm:fly",
         "tm:frustration",
+        "tm:headbutt",
         "tm:hiddenpower",
         "tm:protect",
+        "tm:reflect",
         "tm:rest",
         "tm:return",
         "tm:roost",
         "tm:round",
+        "tm:secretpower",
+        "tm:skullbash",
         "tm:sleeptalk",
         "tm:steelwing",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
+        "tm:takedown",
         "tm:thief",
         "tm:toxic",
+        "tm:whirlwind",
         "tm:workup",
+        "tutor:aircutter",
+        "tutor:bodyslam",
+        "tutor:doubleedge",
+        "tutor:endeavor",
         "tutor:knockoff",
-        "tutor:snore"
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:skyattack",
+        "tutor:snore",
+        "tutor:swift",
+        "tutor:uproar"
     ],
     "labels": [
         "gen1"
     ],
     "pokedex": [
-        "pokemod.species.doduo.desc1"
+        "pokemod.species.doduo.desc1",
+        "pokemod.species.doduo.desc2"
     ],
     "evolutions": [
         {
@@ -109,10 +131,16 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 1.2,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.6,
+        "height": 1.2,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 14,
+    "weight": 392
 }

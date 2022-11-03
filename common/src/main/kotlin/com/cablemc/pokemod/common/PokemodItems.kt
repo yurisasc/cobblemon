@@ -40,13 +40,13 @@ object PokemodItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
 
     val ballMap = mutableMapOf<PokeBall, RegistrySupplier<PokeBallItem>>()
 
-    val BLACK_APRICORN = queue("black_apricorn") { ApricornItem() }
-    val BLUE_APRICORN = queue("blue_apricorn") { ApricornItem() }
-    val GREEN_APRICORN = queue("green_apricorn") { ApricornItem() }
-    val PINK_APRICORN = queue("pink_apricorn") { ApricornItem() }
-    val RED_APRICORN = queue("red_apricorn") { ApricornItem() }
-    val WHITE_APRICORN = queue("white_apricorn") { ApricornItem() }
-    val YELLOW_APRICORN = queue("yellow_apricorn") { ApricornItem() }
+    val BLACK_APRICORN = queue("black_apricorn") { ApricornItem(PokemodBlocks.BLACK_APRICORN.get()) }
+    val BLUE_APRICORN = queue("blue_apricorn") { ApricornItem(PokemodBlocks.BLUE_APRICORN.get()) }
+    val GREEN_APRICORN = queue("green_apricorn") { ApricornItem(PokemodBlocks.GREEN_APRICORN.get()) }
+    val PINK_APRICORN = queue("pink_apricorn") { ApricornItem(PokemodBlocks.PINK_APRICORN.get()) }
+    val RED_APRICORN = queue("red_apricorn") { ApricornItem(PokemodBlocks.RED_APRICORN.get()) }
+    val WHITE_APRICORN = queue("white_apricorn") { ApricornItem(PokemodBlocks.WHITE_APRICORN.get()) }
+    val YELLOW_APRICORN = queue("yellow_apricorn") { ApricornItem(PokemodBlocks.YELLOW_APRICORN.get()) }
 
     val BLACK_APRICORN_SEED = queue("black_apricorn_seed") { itemNameBlockItem(PokemodBlocks.BLACK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
     val BLUE_APRICORN_SEED = queue("blue_apricorn_seed") { itemNameBlockItem(PokemodBlocks.BLUE_APRICORN_SAPLING.get(), ItemGroup.MISC) }

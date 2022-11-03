@@ -24,7 +24,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
+        "water_1",
         "flying"
     ],
     "moves": [
@@ -32,6 +32,9 @@
         "1:watergun",
         "1:watersport",
         "1:defog",
+        "3:watersport",
+        "6:defog",
+        "9:wingattack",
         "13:waterpulse",
         "15:aerialace",
         "19:bubblebeam",
@@ -43,8 +46,10 @@
         "40:tailwind",
         "47:bravebird",
         "55:hurricane",
+        "tm:aerialace",
         "tm:attract",
         "tm:confide",
+        "tm:dive",
         "tm:doubleteam",
         "tm:facade",
         "tm:fly",
@@ -54,23 +59,30 @@
         "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:icebeam",
+        "tm:pluck",
         "tm:protect",
+        "tm:raindance",
         "tm:rest",
         "tm:return",
+        "tm:roost",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:steelwing",
         "tm:substitute",
         "tm:surf",
         "tm:swagger",
         "tm:toxic",
+        "tutor:defog",
         "tutor:endeavor",
         "tutor:icywind",
         "tutor:liquidation",
         "tutor:skyattack",
         "tutor:snore",
-        "tutor:uproar"
+        "tutor:tailwind",
+        "tutor:uproar",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen5"
@@ -86,5 +98,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 13,
+    "weight": 242
 }

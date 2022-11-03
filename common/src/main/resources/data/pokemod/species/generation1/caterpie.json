@@ -14,10 +14,20 @@
         "special_defence": 20,
         "speed": 45
     },
+    "behaviour": {
+        "moving": {
+            "canLook": false,
+            "walk": {
+                "canWalk": false
+            }
+        }
+    },
     "catchRate": 255,
     "maleRatio": 0.5,
     "shoulderMountable": false,
-    "forms": [],
+    "features": [
+        "valencian"
+    ],
     "baseExperienceYield": 39,
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
@@ -37,7 +47,8 @@
         "1:tackle",
         "1:stringshot",
         "9:bugbite",
-        "tm:electroweb"
+        "tm:electroweb",
+        "tutor:snore"
     ],
     "labels": [
         "gen1"
@@ -61,10 +72,17 @@
             ]
         }
     ],
-    "baseScale": 0.8,
+    "baseScale": 0.5,
     "hitbox": {
         "width": 0.6,
         "height": 0.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 3,
+    "weight": 29,
+    "forms": []
 }

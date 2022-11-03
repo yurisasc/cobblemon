@@ -27,6 +27,7 @@ import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroupAdapter
+import com.cablemc.pokemod.common.api.pokemon.moves.Learnset
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.reactive.SimpleObservable
@@ -207,7 +208,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
             species.initialize()
         }
-
+        this.species.forEach(Species::initializePostLoads)
         createShowdownData()
         Pokemod.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
         this.observable.emit(this)

@@ -21,16 +21,24 @@
     "forms": [
         {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.sandaconda-gmax.desc1",
+                "pokemod.form.sandaconda-gmax.desc2"
+            ],
+            "height": 220,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 179,
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "ground",
+        "field",
         "dragon"
     ],
     "moves": [
@@ -49,6 +57,9 @@
         "51:sandtomb",
         "tm:attract",
         "tm:bodypress",
+        "tm:brutalswing",
+        "tm:bulldoze",
+        "tm:dig",
         "tm:drillrun",
         "tm:earthpower",
         "tm:earthquake",
@@ -69,6 +80,8 @@
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
+        "tm:sandstorm",
+        "tm:sandtomb",
         "tm:screech",
         "tm:sleeptalk",
         "tm:snore",
@@ -94,5 +107,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 2
+    },
+    "height": 38,
+    "weight": 655
 }

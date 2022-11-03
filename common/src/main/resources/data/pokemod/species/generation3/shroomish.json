@@ -20,11 +20,11 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 59,
-    "experienceGroup": "fastthenveryslow",
+    "experienceGroup": "fluctuating",
     "eggCycles": 15,
     "eggGroups": [
         "fairy",
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:tackle",
@@ -47,13 +47,18 @@
         "egg:focuspunch",
         "egg:helpinghand",
         "egg:naturalgift",
+        "egg:seedbomb",
         "egg:wakeupslap",
+        "egg:worryseed",
         "tm:attract",
+        "tm:captivate",
         "tm:confide",
         "tm:doubleteam",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:falseswipe",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
@@ -62,6 +67,7 @@
         "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:solarbeam",
@@ -69,10 +75,20 @@
         "tm:sunnyday",
         "tm:swagger",
         "tm:swordsdance",
+        "tm:toxic",
         "tm:venoshock",
+        "tutor:bodyslam",
+        "tutor:doubleedge",
+        "tutor:drainpunch",
+        "tutor:focuspunch",
+        "tutor:gigadrain",
+        "tutor:helpinghand",
+        "tutor:mimic",
+        "tutor:seedbomb",
         "tutor:snatch",
         "tutor:snore",
-        "tutor:synthesis"
+        "tutor:synthesis",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen3"
@@ -101,5 +117,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 4,
+    "weight": 45
 }

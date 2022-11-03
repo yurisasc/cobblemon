@@ -12,28 +12,30 @@ import com.cablemc.pokemod.common.api.gui.ColourLibrary
 import com.cablemc.pokemod.common.api.gui.blitk
 import com.cablemc.pokemod.common.client.render.drawScaledText
 import com.cablemc.pokemod.common.util.pokemodResource
-import net.minecraft.client.gui.widget.TexturedButtonWidget
+import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder
+import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
+
 class SummaryButton(
     var buttonX: Float,
     var buttonY: Float,
     val buttonWidth: Number,
     val buttonHeight: Number,
-    clickAction: PressAction,
+    val clickAction: PressAction,
     private val text: MutableText,
     private val resource: Identifier = pokemodResource("ui/summary/summary_button.png"),
-    private val renderRequirement: ((button: TexturedButtonWidget) -> Boolean) = { true },
-    private val clickRequirement: ((button: TexturedButtonWidget) -> Boolean) = { true },
-    private val hoverColorRequirement: ((button: TexturedButtonWidget) -> Boolean) = { button -> button.isHovered },
+    private val renderRequirement: ((button: SummaryButton) -> Boolean) = { true },
+    private val clickRequirement: ((button: SummaryButton) -> Boolean) = { true },
     private val silent: Boolean = false,
-    private val buttonScale: Float = 1F,
     private val textScale: Float = 1F
-): TexturedButtonWidget(buttonX.toInt(), buttonY.toInt(), buttonWidth.toInt(), buttonHeight.toInt(), 0, 0, 0, resource, buttonWidth.toInt(), buttonHeight.toInt(), clickAction) {
+): ButtonWidget(buttonX.toInt(), buttonY.toInt(), buttonWidth.toInt(), buttonHeight.toInt(), text, clickAction) {
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double) = false
+    override fun appendNarrations(builder: NarrationMessageBuilder) {
+    }
 
     override fun renderButton(poseStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if (!this.renderRequirement.invoke(this)) {
@@ -53,17 +55,19 @@ class SummaryButton(
             text = this.text,
             scale = textScale,
             x = this.buttonX + buttonWidth.toFloat() / 2,
-            y = buttonY + 0.2F * buttonHeight.toFloat(),
-            colour = if (this.hoverColorRequirement.invoke(this)) ColourLibrary.BUTTON_HOVER_COLOUR else ColourLibrary.WHITE,
+            y = buttonY + buttonHeight.toFloat() / 2 - textScale / 2 * 8,
+            colour = if (isHovered) ColourLibrary.BUTTON_HOVER_COLOUR else ColourLibrary.WHITE,
             shadow = false,
             maxCharacterWidth = (buttonWidth.toFloat() * 0.8F).toInt(),
             centered = true
         )
     }
 
+//    fun isHovered(mouseX: Int, mouseY: Int) = mouseX in x..(x + buttonWidth.toInt()) && mouseY in y..(y + buttonHeight.toInt())
+
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         if (this.clickRequirement.invoke(this)) {
-            return super.mouseClicked(mouseX, mouseY, button)
+            super.mouseClicked(mouseX, mouseY, button)
         }
         return false
     }
@@ -74,8 +78,13 @@ class SummaryButton(
         }
     }
 
+//    override fun onPress() {
+//        this.clickAction()
+//    }
+
     fun setPosFloat(x: Float, y: Float) {
-        setPos(x.toInt(), y.toInt())
+        this.x = x.toInt()
+        this.y = y.toInt()
         this.buttonX = x
         this.buttonY = y
     }

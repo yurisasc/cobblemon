@@ -35,8 +35,8 @@ class SandshrewModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0027_sandshrew/sandshrew", "ground_idle")
+                singleBoneLook(),
+                bedrock("0027_sandshrew/sandshrew", "ground_idle")
             )
         )
 
@@ -45,8 +45,8 @@ class SandshrewModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             transformTicks = 10,
             idleAnimations = arrayOf(
-                singleBoneLook()
-                // bedrock("0027_sandshrew/sandshrew", "ground_walk")
+                singleBoneLook(),
+                bedrock("0027_sandshrew/sandshrew", "ground_walk")
             )
         )
     }

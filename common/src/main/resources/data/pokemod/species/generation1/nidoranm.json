@@ -24,9 +24,10 @@
     "eggCycles": 20,
     "eggGroups": [
         "monster",
-        "ground"
+        "field"
     ],
     "moves": [
+        "1:tackle",
         "1:poisonsting",
         "1:leer",
         "5:peck",
@@ -37,9 +38,11 @@
         "30:hornattack",
         "35:helpinghand",
         "40:toxic",
+        "43:captivate",
         "45:flatter",
         "50:poisonjab",
         "55:earthpower",
+        "egg:chipaway",
         "egg:confusion",
         "egg:counter",
         "egg:disable",
@@ -53,30 +56,62 @@
         "tm:amnesia",
         "tm:attract",
         "tm:beatup",
+        "tm:bide",
         "tm:blizzard",
         "tm:bodyslam",
+        "tm:confide",
+        "tm:curse",
+        "tm:cut",
+        "tm:detect",
         "tm:dig",
+        "tm:doubleteam",
         "tm:drillrun",
+        "tm:earthpower",
+        "tm:echoedvoice",
         "tm:endure",
         "tm:facade",
+        "tm:focusenergy",
+        "tm:frustration",
+        "tm:headbutt",
+        "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:honeclaws",
         "tm:icebeam",
         "tm:irontail",
+        "tm:naturalgift",
+        "tm:poisonjab",
         "tm:protect",
+        "tm:rage",
         "tm:raindance",
+        "tm:reflect",
         "tm:rest",
+        "tm:return",
+        "tm:rocksmash",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowclaw",
+        "tm:skullbash",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:smartstrike",
         "tm:snore",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:thief",
         "tm:thunder",
         "tm:thunderbolt",
+        "tm:toxicspikes",
         "tm:venomdrench",
-        "tm:venoshock"
+        "tm:venoshock",
+        "tutor:defensecurl",
+        "tutor:doubleedge",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:shockwave",
+        "tutor:superfang",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen1"
@@ -100,10 +135,16 @@
             ]
         }
     ],
-    "baseScale": 1.0,
+    "baseScale": 0.8,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 0.65,
+        "height": 0.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 5,
+    "weight": 90
 }

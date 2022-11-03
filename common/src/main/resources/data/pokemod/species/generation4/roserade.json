@@ -25,7 +25,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "fairy",
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:poisonsting",
@@ -50,21 +50,36 @@
         "tm:attract",
         "tm:bodyslam",
         "tm:bulletseed",
+        "tm:captivate",
+        "tm:confide",
+        "tm:cut",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
+        "tm:frustration",
+        "tm:gigadrain",
         "tm:gigaimpact",
         "tm:grassknot",
+        "tm:grassyterrain",
+        "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:leafstorm",
+        "tm:magicalleaf",
+        "tm:naturalgift",
+        "tm:naturepower",
         "tm:pinmissile",
         "tm:poisonjab",
         "tm:powerwhip",
         "tm:protect",
+        "tm:psychup",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:seedbomb",
         "tm:shadowball",
         "tm:sleeptalk",
@@ -74,12 +89,19 @@
         "tm:spikes",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swift",
         "tm:swordsdance",
+        "tm:toxicspikes",
         "tm:uproar",
+        "tm:venomdrench",
         "tm:venoshock",
         "tm:weatherball",
-        "tutor:grassyglide"
+        "tutor:covet",
+        "tutor:furycutter",
+        "tutor:grassyglide",
+        "tutor:laserfocus",
+        "tutor:mudslap"
     ],
     "labels": [
         "gen4"
@@ -95,5 +117,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 3
+    },
+    "height": 9,
+    "weight": 145
 }
