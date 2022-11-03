@@ -146,6 +146,8 @@
   "pokemod.command.teach": "%2$s's %1$s learnt %3$s.",
   "pokemod.command.healpokemon.heal": "Fully healed %1$s's party.",
   "pokemod.command.friendship": " %1$s has %2$s friendship.",
+  "pokemod.command.givepokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
+  "pokemod.command.spawnpokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
 
   "advancements.pokemod.root": "Pokemod",
   "advancements.pokemod.root.description": "Started your adventure by picking a starter Pokémon",
