@@ -1,12 +1,12 @@
 {
-    "id": "0851-centiskortch",
+    "id": "0851-centiskorch",
     "version": "1",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "centiskortch-1",
-            "pokemon": "centiskortch",
+            "id": "centiskorch-1",
+            "pokemon": "centiskorch",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -20,8 +20,8 @@
             }
         },
         {
-            "id": "centiskortch-2",
-            "pokemon": "centiskortch",
+            "id": "centiskorch-2",
+            "pokemon": "centiskorch",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
