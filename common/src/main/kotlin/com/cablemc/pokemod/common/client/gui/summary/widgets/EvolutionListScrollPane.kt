@@ -41,15 +41,11 @@ class EvolutionListScrollPane(private val pokemon: Pokemon) : ModelSectionScroll
     entryHeight = ENTRY_HEIGHT
 ) {
 
-    var render = false
-
     override fun createEntries() = this.pokemon.evolutionProxy.client().map { EvolutionOption(this.pokemon, it) }
 
     override fun render(poseStack: MatrixStack, mouseX: Int, mouseY: Int, partialTicks: Float) {
-        if (this.render) {
-            this.renderPropositionText(poseStack, this.left, this.top)
-            super.render(poseStack, mouseX, mouseY, partialTicks)
-        }
+        this.renderPropositionText(poseStack, this.left, this.top)
+        super.render(poseStack, mouseX, mouseY, partialTicks)
     }
 
     private fun renderPropositionText(matrices: MatrixStack, x: Int, y: Int) {

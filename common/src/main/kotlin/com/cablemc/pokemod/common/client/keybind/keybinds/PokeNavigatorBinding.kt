@@ -10,7 +10,7 @@ package com.cablemc.pokemod.common.client.keybind.keybinds
 
 import com.cablemc.pokemod.common.api.text.red
 import com.cablemc.pokemod.common.client.PokemodClient
-import com.cablemc.pokemod.common.client.gui.pokenav.PokeNav
+import com.cablemc.pokemod.common.client.gui.summary.Summary
 import com.cablemc.pokemod.common.client.keybind.KeybindCategories
 import com.cablemc.pokemod.common.client.keybind.PokemodKeyBinding
 import com.cablemc.pokemod.common.net.messages.server.starter.RequestStarterScreenPacket
@@ -35,7 +35,8 @@ object PokeNavigatorBinding : PokemodKeyBinding(
                 RequestStarterScreenPacket().sendToServer()
             }
         } else  {
-            MinecraftClient.getInstance().setScreen(PokeNav())
+//            MinecraftClient.getInstance().setScreen(PokeNav())
+            MinecraftClient.getInstance().setScreen(Summary(PokemodClient.storage.myParty))
         }
     }
 }
