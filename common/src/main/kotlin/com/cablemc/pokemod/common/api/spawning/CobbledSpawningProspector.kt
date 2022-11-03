@@ -17,8 +17,11 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.Material
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
-import net.minecraft.util.math.ChunkSectionPos
+import net.minecraft.util.math.ChunkSectionPos.getSectionCoord
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.chunk.ChunkStatus
+import net.minecraft.world.chunk.WorldChunk
 
 /**
  * A spawning prospector that takes a straightforward approach
@@ -71,16 +74,17 @@ object CobbledSpawningProspector : SpawningProspector {
         val skyLevel = Array(area.length) { Array(area.width) { world.topY } }
         val pos = BlockPos.Mutable()
 
+        val chunks = mutableMapOf<Pair<Int, Int>, Chunk?>()
         val yRange = (baseY until baseY + height).reversed()
         for (x in area.baseX until area.baseX + area.length) {
             for (z in area.baseZ until area.baseZ + area.width) {
-                if(!world.isChunkLoaded(ChunkSectionPos.getSectionCoord(x), ChunkSectionPos.getSectionCoord(z))) {
-                    continue
-                }
+                val query = chunks.computeIfAbsent(Pair(getSectionCoord(x), getSectionCoord(z))) {
+                    world.getChunk(it.first, it.second, ChunkStatus.FULL, false)
+                } ?: continue
 
                 var canSeeSky = true
                 for (y in yRange) {
-                    val state = world.getBlockState(pos.set(x, y, z))
+                    val state = query.getBlockState(pos.set(x, y, z))
                     blocks[x - area.baseX][y - baseY][z - area.baseZ] = WorldSlice.BlockData(
                         state = state,
                         light = state.getOpacity(world, pos)
