@@ -13,6 +13,8 @@ import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemod.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemod.common.api.battles.model.actor.EntityBackedBattleActor
+import com.cablemc.pokemod.common.api.events.PokemodEvents
+import com.cablemc.pokemod.common.api.events.battles.BattleVictoryEvent
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.pokemon.status.Statuses
 import com.cablemc.pokemod.common.api.text.aqua
@@ -463,6 +465,8 @@ object ShowdownInterpreter {
             battle.broadcastChatMessage(battleLang("win", winners).gold())
 
             battle.end()
+            PokemodEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, ids))
+
             this.lastMover.remove(battle.battleId)
             GO
         }

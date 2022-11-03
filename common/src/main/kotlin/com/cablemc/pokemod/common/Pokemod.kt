@@ -15,6 +15,7 @@ import com.cablemc.pokemod.common.api.drop.CommandDropEntry
 import com.cablemc.pokemod.common.api.drop.DropEntry
 import com.cablemc.pokemod.common.api.drop.ItemDropEntry
 import com.cablemc.pokemod.common.api.events.PokemodEvents
+import com.cablemc.pokemod.common.api.events.PokemodEvents.BATTLE_VICTORY
 import com.cablemc.pokemod.common.api.events.PokemodEvents.EGG_HATCH
 import com.cablemc.pokemod.common.api.events.PokemodEvents.EVOLUTION_COMPLETE
 import com.cablemc.pokemod.common.api.events.PokemodEvents.PLAYER_JOIN
@@ -254,6 +255,7 @@ object Pokemod {
         POKEMON_CAPTURED.subscribe { AdvancementHandler.onCapture(it) }
         EGG_HATCH.subscribe { AdvancementHandler.onHatch(it) }
         EVOLUTION_COMPLETE.subscribe { AdvancementHandler.onEvolve(it) }
+        BATTLE_VICTORY.subscribe { AdvancementHandler.onWinBattle(it) }
         PokemodEvents.EVOLUTION_COMPLETE.subscribe(Priority.LOWEST) { event ->
             val pokemon = event.pokemon
             val ninjaskIdentifier = pokemodResource("ninjask")

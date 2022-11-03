@@ -10,10 +10,14 @@ package com.cablemc.pokemod.common.events
 
 import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.advancement.PokemodCriteria
+import com.cablemc.pokemod.common.api.battles.model.actor.ActorType
+import com.cablemc.pokemod.common.api.events.battles.BattleVictoryEvent
 import com.cablemc.pokemod.common.api.events.pokemon.HatchEggEvent
 import com.cablemc.pokemod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cablemc.pokemod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cablemc.pokemod.common.api.storage.player.PlayerAdvancementDataExtension
+import com.cablemc.pokemod.common.util.getPlayer
+import net.minecraft.entity.player.PlayerEntity
 
 object AdvancementHandler {
 
@@ -70,6 +74,42 @@ object AdvancementHandler {
                 playerData.extraData.replace("advancements", advancementData)
                 Pokemod.playerData.saveSingle(playerData)
                 PokemodCriteria.EVOLVE_POKEMON.trigger(event.pokemon.getOwnerPlayer()!!, advancementData.getTotalEvolvedCount())
+            }
+        }
+    }
+
+    fun onWinBattle(event: BattleVictoryEvent) {
+        if(event.battle.isPvW)
+        {
+            return
+        }
+        event.battle.actors.forEach {
+            if(it.type != ActorType.PLAYER) {
+                return
+            }
+            if(it.uuid.getPlayer() is PlayerEntity) {
+                val player = it.uuid.getPlayer()
+                if (player != null) {
+                    if(!event.victorIDs.contains(player.uuid.toString())) {
+                        return
+                    }
+                }
+                val playerData = player?.let { it1 -> Pokemod.playerData.get(it1) }
+                if(playerData != null) {
+                    var advancementData = playerData.extraData["advancements"]
+                    if (advancementData == null) {
+                        advancementData = PlayerAdvancementDataExtension()
+                    }
+                    if (advancementData is PlayerAdvancementDataExtension) {
+                        advancementData.updateTotalBattleVictoryCount()
+                        if (advancementData.getTotalBattleVictoryCount() <= 1) {
+                            playerData.extraData["advancements"] = advancementData
+                        }
+                        playerData.extraData.replace("advancements", advancementData)
+                        Pokemod.playerData.saveSingle(playerData)
+                        PokemodCriteria.WIN_BATTLE.trigger(player, advancementData.getTotalBattleVictoryCount())
+                    }
+                }
             }
         }
     }
