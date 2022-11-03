@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokemod:poke_ball"
+    },
+    "title": {
+      "translate": "advancements.pokemod.first_catch"
+    },
+    "description": {
+      "translate": "advancements.pokemod.first_catch.description"
+    },
+    "background": "pokemod:textures/blocks/apricorn_planks.png"
+  },
+  "criteria": {
+    "catch": {
+      "trigger": "pokemod:catch_pokemon",
+      "conditions": {
+        "count": 1
+      }
+    }
+  }
+}

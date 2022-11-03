@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokemod:pc"
+    },
+    "title": {
+      "translate": "advancements.pokemod.full_party"
+    },
+    "description": {
+      "translate": "advancements.pokemod.full_party.description"
+    }
+  },
+  "parent": "pokemod:first_catch",
+  "criteria": {
+    "catch": {
+      "trigger": "pokemod:catch_pokemon",
+      "conditions": {
+        "count": 5
+      }
+    }
+  }
+}

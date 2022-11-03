@@ -8,6 +8,9 @@
 
 package com.cablemc.pokemod.common.advancement
 
+import com.cablemc.pokemod.common.advancement.criterion.CatchPokemonCriterion
+import com.cablemc.pokemod.common.advancement.criterion.EggHatchCriterion
+import com.cablemc.pokemod.common.advancement.criterion.EvolvePokemonCriterion
 import com.cablemc.pokemod.common.advancement.criterion.PickStarterCriterion
 import net.minecraft.advancement.criterion.Criteria
 
@@ -20,5 +23,8 @@ import net.minecraft.advancement.criterion.Criteria
 object PokemodCriteria {
 
     val PICK_STARTER = Criteria.register(PickStarterCriterion())
+    val CATCH_POKEMON = Criteria.register(CatchPokemonCriterion())
+    val EGG_HATCH = Criteria.register(EggHatchCriterion())
+    val EVOLVE_POKEMON = Criteria.register(EvolvePokemonCriterion())
 
 }

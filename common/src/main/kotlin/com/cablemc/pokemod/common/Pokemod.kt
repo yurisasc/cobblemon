@@ -15,8 +15,11 @@ import com.cablemc.pokemod.common.api.drop.CommandDropEntry
 import com.cablemc.pokemod.common.api.drop.DropEntry
 import com.cablemc.pokemod.common.api.drop.ItemDropEntry
 import com.cablemc.pokemod.common.api.events.PokemodEvents
+import com.cablemc.pokemod.common.api.events.PokemodEvents.EGG_HATCH
+import com.cablemc.pokemod.common.api.events.PokemodEvents.EVOLUTION_COMPLETE
 import com.cablemc.pokemod.common.api.events.PokemodEvents.PLAYER_JOIN
 import com.cablemc.pokemod.common.api.events.PokemodEvents.PLAYER_QUIT
+import com.cablemc.pokemod.common.api.events.PokemodEvents.POKEMON_CAPTURED
 import com.cablemc.pokemod.common.api.events.PokemodEvents.SERVER_STARTED
 import com.cablemc.pokemod.common.api.events.PokemodEvents.SERVER_STOPPING
 import com.cablemc.pokemod.common.api.events.PokemodEvents.TICK_POST
@@ -63,6 +66,7 @@ import com.cablemc.pokemod.common.config.PokemodConfig
 import com.cablemc.pokemod.common.config.constraint.IntConstraint
 import com.cablemc.pokemod.common.config.starter.StarterConfig
 import com.cablemc.pokemod.common.data.CobbledDataProvider
+import com.cablemc.pokemod.common.events.AdvancementHandler
 import com.cablemc.pokemod.common.events.ServerTickHandler
 import com.cablemc.pokemod.common.item.PokeBallItem
 import com.cablemc.pokemod.common.net.messages.client.settings.ServerSettingsPacket
@@ -221,6 +225,9 @@ object Pokemod {
         }
         SERVER_STARTED.subscribe { bestSpawner.onServerStarted() }
         TICK_POST.subscribe { ServerTickHandler.onTick(it) }
+        POKEMON_CAPTURED.subscribe { AdvancementHandler.onCapture(it) }
+        EGG_HATCH.subscribe { AdvancementHandler.onHatch(it) }
+        EVOLUTION_COMPLETE.subscribe { AdvancementHandler.onEvolve(it) }
         PokemodEvents.EVOLUTION_COMPLETE.subscribe(Priority.LOWEST) { event ->
             val pokemon = event.pokemon
             val ninjaskIdentifier = pokemodResource("ninjask")

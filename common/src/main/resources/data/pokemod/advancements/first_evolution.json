@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokemod:link_cable"
+    },
+    "title": {
+      "translate": "advancements.pokemod.first_evolution"
+    },
+    "description": {
+      "translate": "advancements.pokemod.first_evolution.description"
+    },
+    "background": "pokemod:textures/blocks/apricorn_planks.png"
+  },
+  "criteria": {
+    "catch": {
+      "trigger": "pokemod:pokemon_evolved",
+      "conditions": {
+        "count": 1
+      }
+    }
+  }
+}
