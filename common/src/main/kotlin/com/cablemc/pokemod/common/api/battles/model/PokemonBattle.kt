@@ -75,6 +75,7 @@ open class PokemonBattle(
 
     val showdownMessages = mutableListOf<String>()
     var started = false
+    var ended = false
     // TEMP battle showcase stuff
     var announcingRules = false
 
@@ -169,6 +170,7 @@ open class PokemonBattle(
     }
 
     fun end() {
+        ended = true
         for (actor in actors) {
             for (pokemon in actor.pokemonList.filter { it.health > 0 }) {
                 if (pokemon.facedOpponents.isNotEmpty() /* TODO exp share held item check */) {
@@ -247,7 +249,7 @@ open class PokemonBattle(
             dispatchResult = dispatch(this)
         }
 
-        if (started && isPvW) {
+        if (started && isPvW && !ended) {
             checkFlee()
         }
     }
