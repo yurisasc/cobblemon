@@ -106,7 +106,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
             return ActionResult.SUCCESS
         }
 
-        if (party.getHealingRemainderPercent() == 0.0f) {
+        if (party.none { pokemon -> pokemon.canBeHealed() }) {
             player.sendMessage(lang("healingmachine.alreadyhealed").red())
             return ActionResult.SUCCESS
         }
