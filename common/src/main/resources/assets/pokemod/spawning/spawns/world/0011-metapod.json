@@ -44,7 +44,7 @@
         },
 		{
             "id": "metapod-valencian-1",
-            "pokemon": "metapod valencia",
+            "pokemon": "metapod valencian",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

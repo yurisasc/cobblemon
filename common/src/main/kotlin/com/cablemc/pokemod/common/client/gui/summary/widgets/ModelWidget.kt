@@ -68,6 +68,5 @@ class ModelWidget(
     }
 
     override fun onClick(pMouseX: Double, pMouseY: Double) {
-
     }
 }

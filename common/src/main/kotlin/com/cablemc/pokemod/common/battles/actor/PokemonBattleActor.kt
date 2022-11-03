@@ -31,6 +31,14 @@ open class PokemonBattleActor(
 ) : AIBattleActor(uuid, listOf(pokemon), artificialDecider), EntityBackedBattleActor<PokemonEntity>, FleeableBattleActor {
     override fun getName() = pokemon.effectedPokemon.species.translatedName
     override fun getWorldAndPosition(): Pair<ServerWorld, Vec3d>? {
+        // This isn't a great solution, but basically capturing a Pokémon
+        // removes the entity from the world, which sure does look similar
+        // to an entity perishing -> which is grounds for flee triggering.
+        val ownerPlayer = pokemon.effectedPokemon.getOwnerPlayer()
+        if (ownerPlayer != null) {
+            return ownerPlayer.getWorld() to ownerPlayer.pos
+        }
+
         val entity = this.entity ?: return null
         val world = entity.world as? ServerWorld ?: return null
         return world to entity.pos

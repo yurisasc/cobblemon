@@ -38,6 +38,7 @@ class MovesWidget(
             field = value
             if (value != null) {
                 this.addWidget(value)
+                summary.sidePanel = null
             }
         }
 

@@ -10,7 +10,9 @@ package com.cablemc.pokemod.common.command
 
 import com.cablemc.pokemod.common.api.permission.PermissionLevel
 import com.cablemc.pokemod.common.api.permission.PokemodPermissions
+import com.cablemc.pokemod.common.api.text.red
 import com.cablemc.pokemod.common.command.argument.PokemonPropertiesArgumentType
+import com.cablemc.pokemod.common.util.commandLang
 import com.cablemc.pokemod.common.util.permission
 import com.cablemc.pokemod.common.util.permissionLevel
 import com.mojang.brigadier.Command
@@ -38,6 +40,10 @@ object SpawnPokemon {
         val entity = context.source.entity
         if (entity is ServerPlayerEntity && !entity.world.isClient) {
             val pkm = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
+            if (pkm.species == null) {
+                entity.sendMessage(commandLang("spawnpokemon.nospecies").red())
+                return Command.SINGLE_SUCCESS
+            }
             val pokemonEntity = pkm.createEntity(entity.world)
             entity.world.spawnEntity(pokemonEntity)
             pokemonEntity.setPosition(entity.pos)

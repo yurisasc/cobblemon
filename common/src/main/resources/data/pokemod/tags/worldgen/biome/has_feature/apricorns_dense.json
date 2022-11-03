@@ -6,6 +6,7 @@
     "#pokemod:is_forest",
 	"#pokemod:is_jungle",
 	"#pokemod:is_snowy",
+	"#pokemod:is_swamp",
 	"#pokemod:is_taiga"
   ]
 }
