@@ -120,7 +120,7 @@ open class Pokemon {
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
             features.removeAll { it.name in removedFeatures }
             this.evolutionProxy.current().clear()
-            // if it used to have a legit ability but does not anymore, figure out what the new one should be
+            checkGender()
             updateAspects()
             updateForm()
             updateHP(quotient)
