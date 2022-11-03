@@ -16,6 +16,9 @@
   "shoulderMountable": false,
   "forms": [
     {
+      "name": "normal"
+    },
+    {
       "name": "hisui",
       "primaryType": "normal",
       "secondaryType": "ghost",

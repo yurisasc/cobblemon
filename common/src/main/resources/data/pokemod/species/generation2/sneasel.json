@@ -17,6 +17,9 @@
   "shoulderMountable": false,
   "forms": [
     {
+      "name": "normal"
+    },
+    {
       "name": "hisui",
       "primaryType": "fighting",
       "secondaryType": "poison",

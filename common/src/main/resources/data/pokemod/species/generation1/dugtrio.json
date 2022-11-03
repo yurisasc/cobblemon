@@ -16,6 +16,9 @@
   "shoulderMountable": false,
   "forms": [
     {
+      "name": "normal"
+    },
+    {
       "name": "alola",
       "secondaryType": "steel",
       "abilities": ["sandveil", "tanglinghair", "h:sandforce"],

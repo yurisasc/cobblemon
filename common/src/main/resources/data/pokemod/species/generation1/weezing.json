@@ -17,6 +17,9 @@
   "features": ["galarian"],
   "forms": [
     {
+      "name": "normal"
+    },
+    {
       "name": "galar",
       "secondaryType": "fairy",
       "abilities": ["levitate", "neutralizinggas", "h:mistysurge"],

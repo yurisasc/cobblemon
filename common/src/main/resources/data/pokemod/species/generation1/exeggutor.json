@@ -17,6 +17,9 @@
   "shoulderMountable": false,
   "forms": [
     {
+      "name": "normal"
+    },
+    {
       "name": "alola",
       "secondaryType": "dragon",
       "abilities": ["frisk", "h:harvest"],

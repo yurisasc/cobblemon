@@ -19,6 +19,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "mega",
             "secondaryType": "dragon",
             "abilities": [

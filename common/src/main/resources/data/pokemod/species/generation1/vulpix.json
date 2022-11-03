@@ -16,6 +16,9 @@
   "shoulderMountable": false,
   "forms": [
     {
+      "name": "normal"
+    },
+    {
       "name": "alola",
       "primaryType": "ice",
       "abilities": ["snowcloak", "h:snowwarning"],
