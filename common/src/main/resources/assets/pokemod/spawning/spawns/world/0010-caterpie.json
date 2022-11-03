@@ -44,7 +44,7 @@
         },
 		{
             "id": "caterpie-valencian-1",
-            "pokemon": "caterpie valencia",
+            "pokemon": "caterpie valencian",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",

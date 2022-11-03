@@ -38,7 +38,7 @@
         },
 		{
             "id": "gloom-valencian-1",
-            "pokemon": "gloom valencia",
+            "pokemon": "gloom valencian",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

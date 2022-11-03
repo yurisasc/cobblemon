@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
 	"#pokemod:is_hills",
-	"#pokemod:is_savanna",
-	"#pokemod:is_swamp"
+	"#pokemod:is_plains",
+	"#pokemod:is_savanna"
   ]
 }
