@@ -421,7 +421,7 @@ class PokemonEntity(
     }
 
     private fun attemptItemInteraction(player: PlayerEntity, stack: ItemStack): Boolean {
-        if (player !is ServerPlayerEntity || stack.isEmpty) {
+        if (player !is ServerPlayerEntity || stack.isEmpty || this.isBusy) {
             return false
         }
         if (pokemon.getOwnerPlayer() == player) {
