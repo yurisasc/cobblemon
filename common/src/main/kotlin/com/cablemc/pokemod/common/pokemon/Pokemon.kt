@@ -124,6 +124,9 @@ open class Pokemon {
             updateAspects()
             updateForm()
             updateHP(quotient)
+            if (ability.template == Abilities.DUMMY) {
+                ability = form.abilities.select(value, aspects)
+            }
             _species.emit(value)
         }
 
@@ -290,7 +293,7 @@ open class Pokemon {
      */
     val benchedMoves = BenchedMoves()
 
-    var ability: Ability = Abilities.first().create()
+    var ability: Ability = Abilities.DUMMY.create()
         set(value) {
             if (field != value) {
                 _ability.emit(value)
