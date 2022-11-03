@@ -11,7 +11,10 @@ package com.cablemc.pokemod.common.world.block
 import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.api.storage.pc.link.PCLinkManager
 import com.cablemc.pokemod.common.api.storage.pc.link.ProximityPCLink
+import com.cablemc.pokemod.common.api.text.red
 import com.cablemc.pokemod.common.net.messages.client.storage.pc.OpenPCPacket
+import com.cablemc.pokemod.common.util.isInBattle
+import com.cablemc.pokemod.common.util.lang
 import com.cablemc.pokemod.common.world.block.entity.PCBlockEntity
 import net.minecraft.block.*
 import net.minecraft.block.entity.BlockEntity
@@ -31,6 +34,7 @@ import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
+
 class PCBlock(properties: Settings): BlockWithEntity(properties) {
     companion object {
         val NORTH_AABB = Block.createCuboidShape(1.5, 0.0, 0.0, 14.5, 16.0, 16.0)
@@ -145,7 +149,10 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         if (blockEntity !is PCBlockEntity) {
             return ActionResult.SUCCESS
         }
-
+        if (player.isInBattle()) {
+            player.sendMessage(lang("pc.inbattle").red())
+            return ActionResult.SUCCESS
+        }
         val pc = Pokemod.storage.getPCForPlayer(player, blockEntity) ?: return ActionResult.SUCCESS
         // TODO add event to check if they can open this PC?
         PCLinkManager.addLink(ProximityPCLink(pc, player.uuid, blockEntity))

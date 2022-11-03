@@ -95,6 +95,9 @@
   "pokemod.healingmachine.healing": "Your Pokemon party is being healed!",
   "pokemod.healingmachine.healed": "Your Pokemon party has been healed!",
   "pokemod.healingmachine.notenoughcharge": "This machine needs %s more charge to heal your party!",
+  "pokemod.healingmachine.inbattle": "You cannot use a healing machine while in battle!",
+
+  "pokemod.pc.inbattle": "You cannot use a PC while in battle!",
 
   "pokemod.ui.pokemonteam": "Pokémon Team",
   "pokemod.ui.lv": "Lv.",
