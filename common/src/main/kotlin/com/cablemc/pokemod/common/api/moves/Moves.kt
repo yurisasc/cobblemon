@@ -47,6 +47,8 @@ object Moves : JsonDataRegistry<MoveTemplate> {
         this.reload(data, true)
     }
 
+    // ToDo we need a system to easily check between client, logical and integrated server and allow code to run in specific environments, once that is done it should be applied here in favour of this "cheat", there is API for that on Arch but doesn't seem to work very well
+    // applyId should be true server side and false client
     internal fun reload(data: Map<Identifier, MoveTemplate>, applyId: Boolean) {
         this.allMoves.clear()
         data.forEach { (identifier, moveTemplate) ->
