@@ -18,6 +18,7 @@ import net.minecraft.network.PacketByteBuf
 
 class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate>(Moves.all()) {
     override fun encodeEntry(buffer: PacketByteBuf, entry: MoveTemplate) {
+        buffer.writeInt(entry.id)
         buffer.writeString(entry.name)
         buffer.writeString(entry.elementalType.name)
         buffer.writeString(entry.damageCategory.name)
@@ -32,6 +33,7 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate>(Moves.all()
     }
 
     override fun decodeEntry(buffer: PacketByteBuf): MoveTemplate? {
+        val id = buffer.readInt()
         val name = buffer.readString()
         val type = ElementalTypes.getOrException(buffer.readString())
         val damageCategory = DamageCategories.getOrException(buffer.readString())
@@ -43,11 +45,11 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate>(Moves.all()
         val critRatio = buffer.readDouble()
         val effectChance = buffer.readNullable { pb -> pb.readDouble() } ?: .0
         val effectStatus = buffer.readNullable { pb -> pb.readString() } ?: ""
-        return MoveTemplate(name, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChance, effectStatus)
+        return MoveTemplate(name, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChance, effectStatus).apply { this.id = id }
     }
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {
-        Moves.reload(entries.associateBy { pokemodResource(it.name) })
+        Moves.reload(entries.associateBy { pokemodResource(it.name) }, false)
     }
 
 }

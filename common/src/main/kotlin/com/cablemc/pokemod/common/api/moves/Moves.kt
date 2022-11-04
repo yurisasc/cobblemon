@@ -44,9 +44,20 @@ object Moves : JsonDataRegistry<MoveTemplate> {
     private val allMoves = mutableMapOf<String, MoveTemplate>()
     private val idMapping = mutableMapOf<Int, MoveTemplate>()
     override fun reload(data: Map<Identifier, MoveTemplate>) {
+        this.reload(data, true)
+    }
+
+    internal fun reload(data: Map<Identifier, MoveTemplate>, applyId: Boolean) {
         this.allMoves.clear()
-        data.forEach { (identifier, moveTemplate) -> this.allMoves[identifier.path] = moveTemplate }
-        applyIDs()
+        data.forEach { (identifier, moveTemplate) ->
+            this.allMoves[identifier.path] = moveTemplate
+            if (!applyId) {
+                this.idMapping[moveTemplate.id] = moveTemplate
+            }
+        }
+        if (applyId) {
+            applyIDs()
+        }
         Pokemod.LOGGER.info("Loaded {} moves", this.allMoves.size)
         this.observable.emit(this)
     }
