@@ -48,7 +48,7 @@ interface AreaContextResolver {
                 while (z < slice.baseZ + slice.width) {
                     pos.set(x, y, z)
                     val vec = pos.toVec3d()
-                    if (slice.nearbyEntityPositions.none { it.isInRange(vec, config.minimumDistanceBetweenEntities) }) {
+                    if (slice.nearbyEntityPositions.none { it.isInRange(vec, config.minimumDistanceBetweenEntities) && it != slice.cause.entity }) {
                         val fittedContextCalculator = contextCalculators.firstOrNull { it.fits(input) }
                         if (fittedContextCalculator != null) {
                             val context = fittedContextCalculator.calculate(input)
