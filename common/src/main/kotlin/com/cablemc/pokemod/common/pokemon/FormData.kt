@@ -230,7 +230,6 @@ class FormData(
         buffer.writeNullable(this._height) { pb, height -> pb.writeFloat(height) }
         buffer.writeNullable(this._weight) { pb, weight -> pb.writeFloat(weight) }
         buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
-        buffer.writeBoolean(_moves != null)
         buffer.writeNullable(_moves) { buf, moves -> moves.encodeLevelUpMoves(buf)}
     }
 
