@@ -21,6 +21,11 @@
 				"neededNearbyBlocks": [
                     "minecraft:lava", "minecraft:flowing_lava"
                 ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_volcanic"
+                ]
             }
 		},
         {

@@ -41,6 +41,7 @@
         "tm:airslash",
         "tm:assurance",
         "tm:attract",
+        "tm:bravebird",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
@@ -54,10 +55,12 @@
         "tm:revenge",
         "tm:reversal",
         "tm:round",
+        "tm:scaryface",
         "tm:sleeptalk",
         "tm:snore",
         "tm:substitute",
         "tm:swift",
+        "tm:taunt",
         "tm:thief",
         "tm:uturn",
         "tm:workup",
@@ -91,5 +94,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 8,
+    "weight": 160
 }

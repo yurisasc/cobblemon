@@ -19,7 +19,7 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 70,
-    "experienceGroup": "slowthenveryfast",
+    "experienceGroup": "erratic",
     "eggCycles": 30,
     "eggGroups": [
         "monster"
@@ -43,6 +43,7 @@
         "egg:hammerarm",
         "egg:ironhead",
         "egg:irontail",
+        "egg:leer",
         "egg:slam",
         "egg:stomp",
         "egg:thrash",
@@ -50,9 +51,12 @@
         "tm:attract",
         "tm:blizzard",
         "tm:bulldoze",
+        "tm:captivate",
         "tm:confide",
+        "tm:dig",
         "tm:doubleteam",
         "tm:earthquake",
+        "tm:endure",
         "tm:facade",
         "tm:fireblast",
         "tm:flamethrower",
@@ -60,20 +64,27 @@
         "tm:frustration",
         "tm:hiddenpower",
         "tm:icebeam",
+        "tm:incinerate",
+        "tm:naturalgift",
         "tm:payback",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
         "tm:return",
         "tm:roar",
+        "tm:rockclimb",
         "tm:rockpolish",
         "tm:rockslide",
+        "tm:rocksmash",
         "tm:rocktomb",
         "tm:round",
         "tm:sandstorm",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:smackdown",
         "tm:stoneedge",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
@@ -86,13 +97,17 @@
         "tutor:earthpower",
         "tutor:endeavor",
         "tutor:firepunch",
+        "tutor:ironhead",
+        "tutor:irontail",
+        "tutor:mudslap",
         "tutor:shockwave",
         "tutor:snore",
         "tutor:spite",
         "tutor:stealthrock",
         "tutor:superpower",
         "tutor:thunderpunch",
-        "tutor:uproar"
+        "tutor:uproar",
+        "tutor:zenheadbutt"
     ],
     "labels": [
         "gen4"
@@ -121,5 +136,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 9,
+    "weight": 315
 }

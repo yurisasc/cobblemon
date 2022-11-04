@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
 	"#minecraft:is_ocean",
+	"#pokemod:is_river",
     "#pokemod:is_swamp"
   ]
 }

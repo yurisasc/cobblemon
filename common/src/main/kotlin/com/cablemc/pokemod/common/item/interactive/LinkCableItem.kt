@@ -23,7 +23,6 @@ class LinkCableItem : PokemonInteractiveItem(Settings().group(PokemodItemGroups.
             // If an evolution is possible non-optional or has been successfully queued we will consume the item and stop
             if (evolution.evolve(pokemon)) {
                 this.consumeItem(player, stack)
-                player.sendMessage("pokemod.ui.evolve.hint".asTranslated(pokemon.displayName))
                 return true
             }
         }

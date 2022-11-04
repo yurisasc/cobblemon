@@ -12,11 +12,13 @@ import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.events.pokemon.evolution.EvolutionAcceptedEvent
 import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionController
+import com.cablemc.pokemod.common.api.text.green
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.EvolutionUpdatePacket
 import com.cablemc.pokemod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cablemc.pokemod.common.pokemon.Pokemon
+import com.cablemc.pokemod.common.util.asTranslated
 import com.cablemc.pokemod.common.util.toJsonArray
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
@@ -89,6 +91,7 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
 
     override fun add(element: Evolution): Boolean {
         if (this.evolutions.add(element)) {
+            this.pokemon.getOwnerPlayer()?.sendMessage("pokemod.ui.evolve.hint".asTranslated(pokemon.displayName).green())
             this.pokemon.notify(AddEvolutionPacket(this.pokemon, element))
             return true
         }
@@ -104,7 +107,6 @@ class ServerEvolutionController(override val pokemon: Pokemon) : EvolutionContro
         }
         return result
     }
-
 
     override fun clear() {
         // We don't want to send unnecessary packets

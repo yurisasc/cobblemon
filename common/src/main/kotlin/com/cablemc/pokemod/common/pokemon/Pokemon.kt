@@ -16,23 +16,37 @@ import com.cablemc.pokemod.common.api.abilities.Ability
 import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.events.PokemodEvents.FRIENDSHIP_UPDATED
 import com.cablemc.pokemod.common.api.events.PokemodEvents.POKEMON_FAINTED
-import com.cablemc.pokemod.common.api.events.pokemon.*
-import com.cablemc.pokemod.common.api.moves.*
+import com.cablemc.pokemod.common.api.events.pokemon.ExperienceGainedPostEvent
+import com.cablemc.pokemod.common.api.events.pokemon.ExperienceGainedPreEvent
+import com.cablemc.pokemod.common.api.events.pokemon.FriendshipUpdatedEvent
+import com.cablemc.pokemod.common.api.events.pokemon.LevelUpEvent
+import com.cablemc.pokemod.common.api.events.pokemon.PokemonFaintedEvent
+import com.cablemc.pokemod.common.api.moves.BenchedMove
+import com.cablemc.pokemod.common.api.moves.BenchedMoves
+import com.cablemc.pokemod.common.api.moves.Move
+import com.cablemc.pokemod.common.api.moves.MoveSet
+import com.cablemc.pokemod.common.api.moves.MoveTemplate
+import com.cablemc.pokemod.common.api.moves.Moves
 import com.cablemc.pokemod.common.api.pokeball.PokeBalls
 import com.cablemc.pokemod.common.api.pokemon.Natures
 import com.cablemc.pokemod.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemod.common.api.pokemon.PokemonPropertyExtractor
 import com.cablemc.pokemod.common.api.pokemon.PokemonSpecies
 import com.cablemc.pokemod.common.api.pokemon.aspect.AspectProvider
-import com.cablemc.pokemod.common.api.pokemon.evolution.*
+import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
+import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionController
+import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionDisplay
+import com.cablemc.pokemod.common.api.pokemon.evolution.EvolutionProxy
+import com.cablemc.pokemod.common.api.pokemon.evolution.PreEvolution
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceGroup
 import com.cablemc.pokemod.common.api.pokemon.experience.ExperienceSource
 import com.cablemc.pokemod.common.api.pokemon.feature.SpeciesFeature
 import com.cablemc.pokemod.common.api.pokemon.friendship.FriendshipMutationCalculator
+import com.cablemc.pokemod.common.api.pokemon.moves.LearnsetQuery
 import com.cablemc.pokemod.common.api.pokemon.stats.Stat
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.pokemon.status.Statuses
-import com.cablemc.pokemod.common.api.pokemon.tags.PokemodPokemonLabels
+import com.cablemc.pokemod.common.api.pokemon.labels.PokemodPokemonLabels
 import com.cablemc.pokemod.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemod.common.api.reactive.Observable
 import com.cablemc.pokemod.common.api.reactive.SettableObservable
@@ -56,10 +70,24 @@ import com.cablemc.pokemod.common.pokemon.evolution.CobbledEvolutionProxy
 import com.cablemc.pokemod.common.pokemon.feature.DamageTakenFeature
 import com.cablemc.pokemod.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemod.common.pokemon.status.PersistentStatusContainer
-import com.cablemc.pokemod.common.util.*
+import com.cablemc.pokemod.common.util.DataKeys
+import com.cablemc.pokemod.common.util.getServer
+import com.cablemc.pokemod.common.util.lang
+import com.cablemc.pokemod.common.util.playSoundServer
+import com.cablemc.pokemod.common.util.pokemodResource
+import com.cablemc.pokemod.common.util.readSizedInt
+import com.cablemc.pokemod.common.util.setPositionSafely
+import com.cablemc.pokemod.common.util.writeSizedInt
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import java.util.Optional
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
+import kotlin.math.absoluteValue
+import kotlin.math.min
+import kotlin.math.roundToInt
+import kotlin.random.Random
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
@@ -75,12 +103,6 @@ import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.math.min
-import kotlin.math.roundToInt
-import kotlin.random.Random
-import kotlin.math.absoluteValue
 
 open class Pokemon {
     var uuid = UUID.randomUUID()
@@ -98,19 +120,26 @@ open class Pokemon {
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
             features.removeAll { it.name in removedFeatures }
             this.evolutionProxy.current().clear()
+            checkGender()
             updateAspects()
             updateForm()
             updateHP(quotient)
+            if (ability.template == Abilities.DUMMY && !isClient) {
+                ability = form.abilities.select(value, aspects)
+            }
             _species.emit(value)
         }
 
     var form = species.standardForm
         set(value) {
+            val old = field
             field = value
+            this.sanitizeFormChangeMoves(old)
             // Evo proxy is already cleared on species update but the form may be changed by itself, this is fine and no unnecessary packets will be sent out
             this.evolutionProxy.current().clear()
             // Species updates already update HP but just a form change may require it
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
+            findAndLearnFormChangeMoves()
             updateHP(quotient)
             _form.emit(value)
         }
@@ -195,7 +224,7 @@ open class Pokemon {
      * Use [setFriendship], [incrementFriendship] and [decrementFriendship] for safe mutation with return feedback.
      * See this [page](https://bulbapedia.bulbagarden.net/wiki/Friendship) for more information.
      */
-    var friendship = 0
+    var friendship = this.form.baseFriendship
         private set(value) {
             // Don't check on client, that way we don't need to actually sync the config value it doesn't affect anything
             if (!this.isClient && !this.isPossibleFriendship(value)) {
@@ -264,7 +293,13 @@ open class Pokemon {
      */
     val benchedMoves = BenchedMoves()
 
-    var ability: Ability = Abilities.first().create()
+    var ability: Ability = Abilities.DUMMY.create()
+        set(value) {
+            if (field != value) {
+                _ability.emit(value)
+            }
+            field = value
+        }
 
     val hp: Int
         get() = getStat(Stats.HP)
@@ -322,7 +357,7 @@ open class Pokemon {
                 (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4)) * level / 100 + level + 10
             }
         } else {
-            nature.modifyStat(stat, (2 * (form.baseStats[stat] ?: 1) * ivs.getOrOne(stat) + evs.getOrOne(stat) / 4) / 100 * level + 5)
+            nature.modifyStat(stat, (2 * (form.baseStats[stat] ?: 1) + ivs.getOrDefault(stat) + evs.getOrDefault(stat) / 4) / 100 * level + 5)
         }
     }
 
@@ -365,6 +400,14 @@ open class Pokemon {
         this.healTimer = -1
         this.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.reset()
     }
+
+    /**
+     * Check if this Pokémon can be healed.
+     * This verifies if HP is not maxed, any status is present or any move is not full PP.
+     *
+     * @return If this Pokémon can be healed.
+     */
+    fun canBeHealed() = this.hp != this.currentHealth || this.status != null || this.moveSet.any { move -> move.currentPp != move.maxPp }
 
     fun isFainted() = currentHealth <= 0
 
@@ -737,12 +780,8 @@ open class Pokemon {
     }
 
     fun initialize(): Pokemon {
-        // TODO some other initializations to do with form n shit\
         checkGender()
-        // shiny = randomize, probably
         initializeMoveset()
-
-        ability = form.abilities.select(species, aspects)
         return this
     }
 
@@ -948,6 +987,38 @@ open class Pokemon {
     /** Returns an [Observable] that emits Unit whenever any change is made to this Pokémon. The change itself is not included. */
     fun getChangeObservable(): Observable<Pokemon> = anyChangeObservable
 
+    private fun findAndLearnFormChangeMoves() {
+        this.form.moves.formChangeMoves.forEach { move ->
+            if (this.benchedMoves.none { it.moveTemplate == move }) {
+                this.benchedMoves.add(BenchedMove(move, 0))
+            }
+        }
+    }
+
+    private fun sanitizeFormChangeMoves(old: FormData) {
+        for (i in 0 until MoveSet.MOVE_COUNT) {
+            val move = this.moveSet[i]
+            if (move != null && LearnsetQuery.FORM_CHANGE.canLearn(move.template, old.moves) && !LearnsetQuery.ANY.canLearn(move.template, this.form.moves)) {
+                this.moveSet.setMove(i, null)
+            }
+        }
+        val benchedIterator = this.benchedMoves.iterator()
+        while (benchedIterator.hasNext()) {
+            val benchedMove = benchedIterator.next()
+            if (LearnsetQuery.FORM_CHANGE.canLearn(benchedMove.moveTemplate, old.moves) && !LearnsetQuery.ANY.canLearn(benchedMove.moveTemplate, this.form.moves)) {
+                benchedIterator.remove()
+            }
+        }
+        if (this.moveSet.filterNotNull().isEmpty()) {
+            val benchedMove = this.benchedMoves.firstOrNull()
+            if (benchedMove != null) {
+                this.moveSet.setMove(0, Move(benchedMove.moveTemplate, benchedMove.ppRaisedStages))
+                return
+            }
+            this.initializeMoveset()
+        }
+    }
+
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
     private val _experience = registerObservable(SimpleObservable<Int>()) { ExperienceUpdatePacket(this, it) }
@@ -966,6 +1037,7 @@ open class Pokemon {
     private val _evs = registerObservable(evs.observable) // TODO needs a packet
     private val _aspects = registerObservable(SimpleObservable<Set<String>>()) { AspectsUpdatePacket(this, it) }
     private val _gender = registerObservable(SimpleObservable<Gender>()) { GenderUpdatePacket(this, it) }
+    private val _ability = registerObservable(SimpleObservable<Ability>()) { AbilityUpdatePacket(this, it.template) }
 
     companion object {
 

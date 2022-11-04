@@ -22,7 +22,7 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 15,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:scratch",
@@ -30,6 +30,7 @@
         "3:ember",
         "6:lick",
         "9:roar",
+        "11:leer",
         "12:furyswipes",
         "15:bite",
         "18:doublekick",
@@ -46,12 +47,20 @@
         "tm:attract",
         "tm:bodyslam",
         "tm:bulkup",
+        "tm:confide",
         "tm:crunch",
+        "tm:doubleteam",
         "tm:endure",
         "tm:facade",
         "tm:fireblast",
+        "tm:firefang",
         "tm:firespin",
+        "tm:flamecharge",
+        "tm:flamethrower",
+        "tm:flareblitz",
+        "tm:frustration",
         "tm:heatwave",
+        "tm:hiddenpower",
         "tm:leechlife",
         "tm:nastyplot",
         "tm:outrage",
@@ -59,8 +68,10 @@
         "tm:payday",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:revenge",
         "tm:round",
+        "tm:scaryface",
         "tm:shadowclaw",
         "tm:sleeptalk",
         "tm:snore",
@@ -68,9 +79,13 @@
         "tm:sunnyday",
         "tm:swordsdance",
         "tm:taunt",
+        "tm:torment",
+        "tm:toxic",
         "tm:uturn",
         "tm:willowisp",
         "tm:workup",
+        "tutor:covet",
+        "tutor:endeavor",
         "tutor:firepledge"
     ],
     "labels": [
@@ -100,5 +115,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 4,
+    "weight": 43
 }

@@ -23,12 +23,12 @@
     "experienceGroup": "fast",
     "eggCycles": 40,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
-	"drops": {
+    "drops": {
         "amount": "1",
         "entries": [
-			{
+            {
                 "item": "pokemod:oval_stone",
                 "percentage": 25
             }
@@ -40,33 +40,52 @@
         "1:copycat",
         "4:defensecurl",
         "8:sweetkiss",
+        "9:refresh",
         "12:disarmingvoice",
         "16:covet",
         "20:charm",
         "egg:aromatherapy",
+        "egg:counter",
         "egg:gravity",
+        "egg:healbell",
+        "egg:lastresort",
+        "egg:mudbomb",
+        "egg:naturalgift",
         "egg:present",
         "egg:seismictoss",
         "tm:attract",
+        "tm:captivate",
+        "tm:charm",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:drainpunch",
+        "tm:dreameater",
+        "tm:echoedvoice",
         "tm:endure",
         "tm:facade",
         "tm:fireblast",
         "tm:flamethrower",
+        "tm:flash",
         "tm:fling",
+        "tm:frustration",
         "tm:grassknot",
         "tm:hail",
         "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:hypervoice",
         "tm:icywind",
+        "tm:incinerate",
         "tm:lightscreen",
         "tm:metronome",
         "tm:protect",
         "tm:psychic",
+        "tm:psychup",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:snore",
@@ -74,10 +93,21 @@
         "tm:storedpower",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:thunderwave",
+        "tm:toxic",
         "tm:uproar",
         "tm:workup",
-        "tm:zenheadbutt"
+        "tm:zenheadbutt",
+        "tutor:endeavor",
+        "tutor:headbutt",
+        "tutor:healbell",
+        "tutor:lastresort",
+        "tutor:mudslap",
+        "tutor:recycle",
+        "tutor:rollout",
+        "tutor:shockwave",
+        "tutor:waterpulse"
     ],
     "labels": [
         "baby",
@@ -92,7 +122,7 @@
             "id": "happiny_chansey",
             "variant": "level_up",
             "result": "chansey",
-            "consumeHeldItem": false,
+            "consumeHeldItem": true,
             "learnableMoves": [],
             "requirements": [
                 {
@@ -111,5 +141,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 140,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 6,
+    "weight": 244
 }

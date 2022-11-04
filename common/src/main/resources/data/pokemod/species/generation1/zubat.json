@@ -25,12 +25,12 @@
     "eggGroups": [
         "flying"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
             "swim": {
                 "canWalkOnWater": true
             },
-			"fly": {
+            "fly": {
                 "canFly": true
             }
         }
@@ -43,6 +43,7 @@
         "15:poisonfang",
         "20:quickguard",
         "25:aircutter",
+        "28:toxic",
         "30:bite",
         "35:haze",
         "40:venoshock",
@@ -51,28 +52,49 @@
         "55:leechlife",
         "egg:curse",
         "egg:defog",
+        "egg:feintattack",
         "egg:gust",
         "egg:hypnosis",
+        "egg:pursuit",
         "egg:quickattack",
         "egg:whirlwind",
         "egg:wingattack",
         "tm:acrobatics",
+        "tm:aerialace",
         "tm:agility",
+        "tm:airslash",
         "tm:assurance",
         "tm:attract",
+        "tm:bide",
         "tm:bravebird",
+        "tm:captivate",
+        "tm:confide",
         "tm:crunch",
+        "tm:detect",
+        "tm:doubleteam",
         "tm:endure",
         "tm:facade",
         "tm:fly",
+        "tm:frustration",
         "tm:gigadrain",
+        "tm:headbutt",
         "tm:heatwave",
+        "tm:hiddenpower",
+        "tm:leechlife",
+        "tm:megadrain",
         "tm:nastyplot",
+        "tm:naturalgift",
         "tm:payback",
+        "tm:pluck",
         "tm:protect",
+        "tm:rage",
         "tm:raindance",
+        "tm:razorwind",
         "tm:rest",
+        "tm:return",
+        "tm:roost",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:sludgebomb",
@@ -80,14 +102,26 @@
         "tm:steelwing",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swift",
+        "tm:takedown",
         "tm:taunt",
         "tm:thief",
+        "tm:torment",
+        "tm:toxic",
         "tm:uproar",
         "tm:uturn",
         "tm:venomdrench",
+        "tm:venoshock",
         "tm:zenheadbutt",
-        "tutor:dualwingbeat"
+        "tutor:doubleedge",
+        "tutor:dualwingbeat",
+        "tutor:mimic",
+        "tutor:ominouswind",
+        "tutor:snatch",
+        "tutor:superfang",
+        "tutor:tailwind",
+        "tutor:twister"
     ],
     "labels": [
         "gen1"
@@ -116,5 +150,11 @@
         "width": 0.6,
         "height": 0.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 8,
+    "weight": 75
 }

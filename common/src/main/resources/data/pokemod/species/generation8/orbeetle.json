@@ -21,13 +21,18 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.orbeetle-gmax.desc1",
+                "pokemod.form.orbeetle-gmax.desc2"
+            ],
+            "height": 140,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 253,
@@ -53,9 +58,13 @@
         "40:afteryou",
         "44:calmmind",
         "48:psychicterrain",
+        "tm:agility",
+        "tm:allyswitch",
         "tm:attract",
         "tm:batonpass",
         "tm:bodypress",
+        "tm:bugbuzz",
+        "tm:calmmind",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
@@ -68,12 +77,16 @@
         "tm:imprison",
         "tm:irondefense",
         "tm:leechlife",
+        "tm:lightscreen",
         "tm:magicroom",
         "tm:payback",
         "tm:powerswap",
         "tm:protect",
+        "tm:psychic",
+        "tm:psychicterrain",
         "tm:psychocut",
         "tm:psyshock",
+        "tm:reflect",
         "tm:rest",
         "tm:round",
         "tm:safeguard",
@@ -105,5 +118,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 3
+    },
+    "height": 4,
+    "weight": 408
 }

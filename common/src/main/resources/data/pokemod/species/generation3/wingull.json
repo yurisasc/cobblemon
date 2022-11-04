@@ -24,7 +24,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1",
+        "water_1",
         "flying"
     ],
     "moves": [
@@ -35,6 +35,7 @@
         "15:wingattack",
         "20:waterpulse",
         "26:agility",
+        "26:pursuit",
         "30:airslash",
         "35:mist",
         "40:roost",
@@ -46,31 +47,55 @@
         "egg:knockoff",
         "egg:soak",
         "egg:twister",
+        "egg:watersport",
         "egg:wideguard",
+        "tm:agility",
+        "tm:airslash",
         "tm:attract",
         "tm:blizzard",
         "tm:brine",
+        "tm:captivate",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:echoedvoice",
         "tm:endure",
         "tm:facade",
         "tm:fly",
+        "tm:frustration",
         "tm:hail",
+        "tm:hiddenpower",
+        "tm:hurricane",
         "tm:icebeam",
         "tm:icywind",
         "tm:liquidation",
+        "tm:naturalgift",
+        "tm:pluck",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:snore",
         "tm:steelwing",
         "tm:substitute",
+        "tm:swagger",
         "tm:swift",
         "tm:thief",
+        "tm:toxic",
         "tm:uproar",
         "tm:uturn",
-        "tutor:dualwingbeat"
+        "tutor:defog",
+        "tutor:doubleedge",
+        "tutor:dualwingbeat",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:ominouswind",
+        "tutor:shockwave",
+        "tutor:skyattack",
+        "tutor:tailwind"
     ],
     "labels": [
         "gen3"
@@ -99,5 +124,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 95
 }

@@ -19,21 +19,26 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.rillaboom-gmax.desc1",
+                "pokemod.form.rillaboom-gmax.desc2"
+            ],
+            "height": 280,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 265,
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground",
-        "plant"
+        "field",
+        "grass"
     ],
     "moves": [
         "0:drumbeating",
@@ -43,6 +48,7 @@
         "1:doublehit",
         "1:nobleroar",
         "1:grassyterrain",
+        "1:drumbeating",
         "1:branchpoke",
         "12:razorleaf",
         "19:screech",
@@ -76,6 +82,7 @@
         "tm:gigadrain",
         "tm:gigaimpact",
         "tm:grassknot",
+        "tm:grassyterrain",
         "tm:highhorsepower",
         "tm:hyperbeam",
         "tm:hypervoice",
@@ -89,6 +96,7 @@
         "tm:rest",
         "tm:round",
         "tm:scaryface",
+        "tm:screech",
         "tm:sleeptalk",
         "tm:snarl",
         "tm:snore",
@@ -100,6 +108,8 @@
         "tm:superpower",
         "tm:swift",
         "tm:swordsdance",
+        "tm:taunt",
+        "tm:uproar",
         "tm:uturn",
         "tm:workup",
         "tutor:frenzyplant",
@@ -120,5 +130,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 3
+    },
+    "height": 21,
+    "weight": 900
 }

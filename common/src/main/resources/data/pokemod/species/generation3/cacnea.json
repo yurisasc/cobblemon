@@ -22,8 +22,8 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "plant",
-        "humanshape"
+        "grass",
+        "human_like"
     ],
     "moves": [
         "1:poisonsting",
@@ -63,20 +63,30 @@
         "egg:worryseed",
         "tm:attract",
         "tm:brickbreak",
+        "tm:bulletseed",
+        "tm:captivate",
         "tm:confide",
+        "tm:cut",
         "tm:darkpulse",
         "tm:doubleteam",
+        "tm:endure",
+        "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:fling",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
+        "tm:naturalgift",
         "tm:naturepower",
+        "tm:payback",
         "tm:poisonjab",
         "tm:protect",
         "tm:rest",
         "tm:return",
         "tm:round",
+        "tm:sandstorm",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:solarbeam",
         "tm:substitute",
@@ -85,14 +95,26 @@
         "tm:swordsdance",
         "tm:toxic",
         "tm:venoshock",
+        "tutor:block",
+        "tutor:bodyslam",
+        "tutor:doubleedge",
         "tutor:drainpunch",
         "tutor:focuspunch",
+        "tutor:furycutter",
         "tutor:gigadrain",
+        "tutor:headbutt",
+        "tutor:lowkick",
+        "tutor:megapunch",
+        "tutor:mimic",
+        "tutor:mudslap",
         "tutor:roleplay",
+        "tutor:seedbomb",
+        "tutor:seismictoss",
         "tutor:snore",
         "tutor:spite",
         "tutor:synthesis",
-        "tutor:thunderpunch"
+        "tutor:thunderpunch",
+        "tutor:worryseed"
     ],
     "labels": [
         "gen3"
@@ -121,5 +143,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 35,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 4,
+    "weight": 513
 }

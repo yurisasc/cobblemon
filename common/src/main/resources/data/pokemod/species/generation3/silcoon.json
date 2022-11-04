@@ -25,9 +25,11 @@
     ],
     "moves": [
         "0:harden",
+        "1:harden",
         "tutor:bugbite",
         "tutor:electroweb",
-        "tutor:irondefense"
+        "tutor:irondefense",
+        "tutor:stringshot"
     ],
     "labels": [
         "gen3"
@@ -57,5 +59,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "defence": 2
+    },
+    "height": 6,
+    "weight": 100
 }

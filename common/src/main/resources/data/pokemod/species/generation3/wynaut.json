@@ -22,7 +22,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:counter",
@@ -32,7 +32,11 @@
         "1:charm",
         "1:safeguard",
         "1:encore",
-        "1:mirrorcoat"
+        "1:mirrorcoat",
+        "tm:amnesia",
+        "tm:charm",
+        "tm:encore",
+        "tm:safeguard"
     ],
     "labels": [
         "baby",
@@ -62,5 +66,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 6,
+    "weight": 140
 }

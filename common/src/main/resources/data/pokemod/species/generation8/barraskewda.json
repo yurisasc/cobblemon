@@ -22,7 +22,7 @@
     "experienceGroup": "slow",
     "eggCycles": 20,
     "eggGroups": [
-        "water2"
+        "water_2"
     ],
     "moves": [
         "1:furyattack",
@@ -36,11 +36,14 @@
         "40:crunch",
         "48:liquidation",
         "56:doubleedge",
+        "tm:agility",
         "tm:assurance",
         "tm:attract",
         "tm:bounce",
         "tm:brickbreak",
         "tm:closecombat",
+        "tm:crunch",
+        "tm:dive",
         "tm:drillrun",
         "tm:endure",
         "tm:facade",
@@ -49,6 +52,7 @@
         "tm:hydropump",
         "tm:hyperbeam",
         "tm:icefang",
+        "tm:liquidation",
         "tm:poisonjab",
         "tm:protect",
         "tm:psychicfangs",
@@ -62,6 +66,7 @@
         "tm:substitute",
         "tm:surf",
         "tm:swift",
+        "tm:throatchop",
         "tm:waterfall",
         "tm:whirlpool",
         "tutor:flipturn",
@@ -81,5 +86,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 13,
+    "weight": 300
 }

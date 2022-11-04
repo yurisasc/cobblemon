@@ -21,13 +21,18 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.hatterene-gmax.desc1",
+                "pokemod.form.hatterene-gmax.desc2"
+            ],
+            "height": 260,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 255,
@@ -39,6 +44,7 @@
     "moves": [
         "0:psychocut",
         "1:confusion",
+        "1:psychocut",
         "1:disarmingvoice",
         "1:playnice",
         "1:brutalswing",
@@ -53,8 +59,11 @@
         "64:magicpowder",
         "tm:attract",
         "tm:batonpass",
+        "tm:brutalswing",
+        "tm:calmmind",
         "tm:charm",
         "tm:darkpulse",
+        "tm:dazzlinggleam",
         "tm:drainingkiss",
         "tm:endure",
         "tm:facade",
@@ -73,6 +82,8 @@
         "tm:powerswap",
         "tm:powerwhip",
         "tm:protect",
+        "tm:psychic",
+        "tm:psychocut",
         "tm:psyshock",
         "tm:rest",
         "tm:round",
@@ -105,5 +116,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 3
+    },
+    "height": 21,
+    "weight": 51
 }

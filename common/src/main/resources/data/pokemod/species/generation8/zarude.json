@@ -15,13 +15,14 @@
         "speed": 105
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [
         {
             "name": "dada",
-            "aspects": [
-                "dada"
+            "pokedex": [
+                "pokemod.form.zarude-dada.desc1",
+                "pokemod.form.zarude-dada.desc2"
             ]
         }
     ],
@@ -29,7 +30,7 @@
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:scratch",
@@ -64,10 +65,12 @@
         "tm:drainpunch",
         "tm:encore",
         "tm:endure",
+        "tm:energyball",
         "tm:facade",
         "tm:fling",
         "tm:gigadrain",
         "tm:gigaimpact",
+        "tm:grassknot",
         "tm:grassyterrain",
         "tm:hyperbeam",
         "tm:hypervoice",
@@ -79,12 +82,14 @@
         "tm:mudshot",
         "tm:nastyplot",
         "tm:payback",
+        "tm:powerwhip",
         "tm:protect",
         "tm:rest",
         "tm:revenge",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
+        "tm:scaryface",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:snarl",
@@ -99,12 +104,13 @@
         "tm:taunt",
         "tm:thief",
         "tm:throatchop",
+        "tm:uturn",
         "tutor:grassyglide",
         "tutor:lashout"
     ],
     "labels": [
-        "mythical",
-        "gen8"
+        "gen8",
+        "mythical"
     ],
     "pokedex": [
         "pokemod.species.zarude.desc1",
@@ -116,5 +122,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "attack": 3
+    },
+    "height": 18,
+    "weight": 700
 }

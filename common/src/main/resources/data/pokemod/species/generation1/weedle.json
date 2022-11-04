@@ -46,13 +46,15 @@
         "1:poisonsting",
         "1:stringshot",
         "9:bugbite",
+        "tutor:bugbite",
         "tutor:electroweb"
     ],
     "labels": [
         "gen1"
     ],
     "pokedex": [
-        "pokemod.species.weedle.desc1"
+        "pokemod.species.weedle.desc1",
+        "pokemod.species.weedle.desc2"
     ],
     "evolutions": [
         {
@@ -74,5 +76,11 @@
         "width": 0.6,
         "height": 0.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 3,
+    "weight": 32
 }

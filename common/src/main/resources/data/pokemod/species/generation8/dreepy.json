@@ -24,7 +24,7 @@
     "experienceGroup": "slow",
     "eggCycles": 40,
     "eggGroups": [
-        "indeterminate",
+        "amorphous",
         "dragon"
     ],
     "moves": [
@@ -81,5 +81,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 5,
+    "weight": 20
 }

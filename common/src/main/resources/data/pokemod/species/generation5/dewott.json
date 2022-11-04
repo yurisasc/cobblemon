@@ -22,13 +22,16 @@
     "experienceGroup": "mediumslow",
     "eggCycles": 20,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
         "1:tailwhip",
         "1:watergun",
         "1:watersport",
+        "5:tailwhip",
+        "7:watergun",
+        "11:watersport",
         "13:focusenergy",
         "18:razorshell",
         "21:furycutter",
@@ -44,6 +47,9 @@
         "tm:attract",
         "tm:blizzard",
         "tm:confide",
+        "tm:cut",
+        "tm:dig",
+        "tm:dive",
         "tm:doubleteam",
         "tm:facade",
         "tm:falseswipe",
@@ -57,23 +63,28 @@
         "tm:raindance",
         "tm:rest",
         "tm:return",
+        "tm:rocksmash",
         "tm:round",
         "tm:scald",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:substitute",
         "tm:surf",
         "tm:swagger",
+        "tm:swordsdance",
         "tm:taunt",
         "tm:toxic",
         "tm:waterfall",
         "tm:workup",
         "tm:xscissor",
+        "tutor:aquatail",
         "tutor:covet",
         "tutor:helpinghand",
         "tutor:icywind",
         "tutor:irontail",
         "tutor:snore",
-        "tutor:waterpledge"
+        "tutor:waterpledge",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen5"
@@ -103,5 +114,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 8,
+    "weight": 245
 }

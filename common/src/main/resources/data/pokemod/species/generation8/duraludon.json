@@ -21,13 +21,18 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.duraludon-gmax.desc1",
+                "pokemod.form.duraludon-gmax.desc2"
+            ],
+            "height": 430,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 187,
@@ -57,15 +62,20 @@
         "tm:attract",
         "tm:bodypress",
         "tm:bodyslam",
+        "tm:breakingswipe",
         "tm:brickbreak",
         "tm:darkpulse",
+        "tm:dragonclaw",
         "tm:dragonpulse",
         "tm:endure",
         "tm:facade",
+        "tm:flashcannon",
         "tm:foulplay",
         "tm:gigaimpact",
         "tm:gyroball",
         "tm:heavyslam",
+        "tm:hyperbeam",
+        "tm:irondefense",
         "tm:ironhead",
         "tm:lightscreen",
         "tm:outrage",
@@ -106,5 +116,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 18,
+    "weight": 400
 }

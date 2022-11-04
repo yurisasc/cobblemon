@@ -21,7 +21,7 @@
     "experienceGroup": "fast",
     "eggCycles": 25,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:wrap",
@@ -43,17 +43,21 @@
         "egg:wish",
         "tm:attract",
         "tm:calmmind",
+        "tm:captivate",
         "tm:chargebeam",
         "tm:confide",
         "tm:dazzlinggleam",
         "tm:doubleteam",
         "tm:dreameater",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
         "tm:lightscreen",
+        "tm:naturalgift",
         "tm:protect",
         "tm:psychic",
         "tm:psychup",
@@ -64,6 +68,7 @@
         "tm:return",
         "tm:round",
         "tm:safeguard",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:substitute",
@@ -82,14 +87,19 @@
         "tutor:hypervoice",
         "tutor:icywind",
         "tutor:knockoff",
+        "tutor:lastresort",
         "tutor:magiccoat",
         "tutor:recycle",
+        "tutor:rollout",
         "tutor:shockwave",
         "tutor:signalbeam",
+        "tutor:skillswap",
         "tutor:snatch",
         "tutor:snore",
+        "tutor:swift",
         "tutor:telekinesis",
         "tutor:trick",
+        "tutor:uproar",
         "tutor:zenheadbutt"
     ],
     "labels": [
@@ -124,5 +134,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 2,
+    "weight": 6
 }

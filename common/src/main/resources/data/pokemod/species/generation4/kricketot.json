@@ -29,8 +29,11 @@
         "1:bide",
         "6:strugglebug",
         "16:bugbite",
+        "tutor:bugbite",
         "tutor:endeavor",
+        "tutor:mudslap",
         "tutor:snore",
+        "tutor:stringshot",
         "tutor:uproar"
     ],
     "labels": [
@@ -60,5 +63,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "defence": 1
+    },
+    "height": 3,
+    "weight": 22
 }

@@ -19,13 +19,18 @@
     "shoulderMountable": false,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen8",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.alcremie-gmax.desc1",
+                "pokemod.form.alcremie-gmax.desc2"
+            ],
+            "height": 300,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 173,
@@ -33,7 +38,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "fairy",
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "0:decorate",
@@ -41,6 +46,7 @@
         "1:sweetkiss",
         "1:sweetscent",
         "1:aromaticmist",
+        "1:decorate",
         "15:drainingkiss",
         "20:aromatherapy",
         "25:attract",
@@ -49,8 +55,11 @@
         "40:recover",
         "45:mistyterrain",
         "50:entrainment",
+        "tm:attract",
         "tm:calmmind",
         "tm:charm",
+        "tm:dazzlinggleam",
+        "tm:drainingkiss",
         "tm:drainpunch",
         "tm:encore",
         "tm:endure",
@@ -67,6 +76,7 @@
         "tm:magicalleaf",
         "tm:magicroom",
         "tm:metronome",
+        "tm:mistyterrain",
         "tm:mysticalfire",
         "tm:playrough",
         "tm:protect",
@@ -98,5 +108,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 2
+    },
+    "height": 3,
+    "weight": 5
 }

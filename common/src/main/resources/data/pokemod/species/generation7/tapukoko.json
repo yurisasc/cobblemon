@@ -16,14 +16,14 @@
         "speed": 130
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 285,
     "experienceGroup": "slow",
     "eggCycles": 15,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:thundershock",
@@ -35,6 +35,7 @@
         "25:shockwave",
         "30:charge",
         "35:agility",
+        "38:mirrormove",
         "40:screech",
         "45:discharge",
         "50:meanlook",
@@ -44,33 +45,52 @@
         "70:powerswap",
         "75:electricterrain",
         "tm:acrobatics",
+        "tm:aerialace",
+        "tm:agility",
         "tm:assurance",
+        "tm:bravebird",
         "tm:calmmind",
+        "tm:confide",
         "tm:dazzlinggleam",
+        "tm:doubleteam",
+        "tm:echoedvoice",
         "tm:eerieimpulse",
+        "tm:electricterrain",
         "tm:electroball",
         "tm:electroweb",
         "tm:endure",
         "tm:facade",
+        "tm:falseswipe",
         "tm:fly",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:grassknot",
+        "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:hypervoice",
         "tm:irondefense",
         "tm:ironhead",
         "tm:lightscreen",
+        "tm:naturepower",
+        "tm:powerswap",
         "tm:protect",
+        "tm:psychup",
         "tm:raindance",
         "tm:reflect",
         "tm:rest",
+        "tm:return",
+        "tm:roar",
+        "tm:roost",
         "tm:round",
         "tm:safeguard",
+        "tm:screech",
+        "tm:skydrop",
         "tm:sleeptalk",
         "tm:snore",
         "tm:steelwing",
         "tm:storedpower",
         "tm:substitute",
+        "tm:swagger",
         "tm:swift",
         "tm:taunt",
         "tm:thief",
@@ -78,13 +98,19 @@
         "tm:thunderbolt",
         "tm:thunderpunch",
         "tm:thunderwave",
+        "tm:torment",
+        "tm:toxic",
         "tm:uturn",
         "tm:voltswitch",
-        "tm:workup"
+        "tm:wildcharge",
+        "tm:workup",
+        "tutor:defog",
+        "tutor:skyattack",
+        "tutor:telekinesis"
     ],
     "labels": [
-        "legendary",
-        "gen7"
+        "gen7",
+        "legendary"
     ],
     "pokedex": [
         "pokemod.species.tapukoko.desc1",
@@ -96,5 +122,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 3
+    },
+    "height": 18,
+    "weight": 205
 }

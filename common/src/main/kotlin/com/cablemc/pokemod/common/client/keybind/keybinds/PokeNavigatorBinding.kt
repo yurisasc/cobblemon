@@ -10,7 +10,7 @@ package com.cablemc.pokemod.common.client.keybind.keybinds
 
 import com.cablemc.pokemod.common.api.text.red
 import com.cablemc.pokemod.common.client.PokemodClient
-import com.cablemc.pokemod.common.client.gui.pokenav.PokeNav
+import com.cablemc.pokemod.common.client.gui.summary.Summary
 import com.cablemc.pokemod.common.client.keybind.KeybindCategories
 import com.cablemc.pokemod.common.client.keybind.PokemodKeyBinding
 import com.cablemc.pokemod.common.net.messages.server.starter.RequestStarterScreenPacket
@@ -30,12 +30,13 @@ object PokeNavigatorBinding : PokemodKeyBinding(
         val startersLocked = PokemodClient.clientPlayerData.starterLocked
         if (!starterSelected && !havePokemon) {
             if (startersLocked) {
-                MinecraftClient.getInstance().player?.sendMessage(lang("ui.starterscreen.cannotchoose").red(), false)
+                MinecraftClient.getInstance().player?.sendMessage(lang("ui.starter.cannotchoose").red(), false)
             } else {
                 RequestStarterScreenPacket().sendToServer()
             }
         } else  {
-            MinecraftClient.getInstance().setScreen(PokeNav())
+//            MinecraftClient.getInstance().setScreen(PokeNav())
+            MinecraftClient.getInstance().setScreen(Summary(PokemodClient.storage.myParty))
         }
     }
 }

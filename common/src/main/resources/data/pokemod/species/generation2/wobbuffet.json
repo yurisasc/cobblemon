@@ -22,17 +22,25 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "indeterminate"
+        "amorphous"
     ],
     "moves": [
         "0:counter",
         "0:destinybond",
         "0:safeguard",
         "0:mirrorcoat",
+        "1:counter",
         "1:amnesia",
         "1:splash",
+        "1:destinybond",
         "1:charm",
-        "1:encore"
+        "1:safeguard",
+        "1:encore",
+        "1:mirrorcoat",
+        "tm:amnesia",
+        "tm:charm",
+        "tm:encore",
+        "tm:safeguard"
     ],
     "labels": [
         "gen2"
@@ -48,5 +56,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "hp": 2
+    },
+    "height": 13,
+    "weight": 285
 }

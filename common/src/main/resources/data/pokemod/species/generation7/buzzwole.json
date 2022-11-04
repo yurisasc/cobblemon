@@ -15,19 +15,20 @@
         "speed": 79
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 285,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:harden",
         "1:poweruppunch",
         "5:taunt",
+        "7:cometpunch",
         "10:fellstinger",
         "15:vitalthrow",
         "20:bulkup",
@@ -44,42 +45,62 @@
         "tm:bodyslam",
         "tm:bounce",
         "tm:brickbreak",
+        "tm:bulkup",
         "tm:bulldoze",
         "tm:closecombat",
+        "tm:confide",
         "tm:darkestlariat",
+        "tm:doubleteam",
         "tm:drainpunch",
         "tm:earthquake",
+        "tm:endure",
         "tm:facade",
         "tm:falseswipe",
         "tm:fling",
+        "tm:focusenergy",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:gyroball",
+        "tm:hiddenpower",
         "tm:highhorsepower",
         "tm:icepunch",
         "tm:ironhead",
         "tm:leechlife",
         "tm:lowsweep",
+        "tm:megapunch",
         "tm:outrage",
         "tm:payback",
         "tm:poisonjab",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:revenge",
+        "tm:reversal",
         "tm:rockslide",
         "tm:rocktomb",
+        "tm:roost",
         "tm:round",
         "tm:sleeptalk",
+        "tm:smackdown",
         "tm:snore",
         "tm:stompingtantrum",
         "tm:stoneedge",
         "tm:substitute",
+        "tm:superpower",
+        "tm:swagger",
+        "tm:taunt",
         "tm:thunderpunch",
+        "tm:toxic",
         "tm:workup",
+        "tutor:bugbite",
         "tutor:coaching",
-        "tutor:dualwingbeat"
+        "tutor:dualchop",
+        "tutor:dualwingbeat",
+        "tutor:endeavor"
     ],
     "labels": [
-        "gen7"
+        "gen7",
+        "ultra_beast"
     ],
     "pokedex": [
         "pokemod.species.buzzwole.desc1",
@@ -91,5 +112,12 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "attack": 1,
+        "defence": 2
+    },
+    "height": 24,
+    "weight": 3336
 }

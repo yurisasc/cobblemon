@@ -15,14 +15,14 @@
         "speed": 107
     },
     "catchRate": 30,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 285,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:firespin",
@@ -30,6 +30,7 @@
         "5:lightscreen",
         "10:ember",
         "15:nightshade",
+        "17:flameburst",
         "20:confuseray",
         "25:magiccoat",
         "30:incinerate",
@@ -41,40 +42,67 @@
         "60:trick",
         "65:fireblast",
         "70:mindblown",
+        "tm:calmmind",
+        "tm:confide",
         "tm:darkpulse",
+        "tm:doubleteam",
         "tm:encore",
         "tm:endure",
+        "tm:explosion",
         "tm:facade",
+        "tm:fireblast",
         "tm:firepunch",
+        "tm:firespin",
+        "tm:flamecharge",
         "tm:flamethrower",
         "tm:fling",
         "tm:foulplay",
+        "tm:frustration",
         "tm:heatwave",
+        "tm:hiddenpower",
         "tm:hyperbeam",
+        "tm:lightscreen",
+        "tm:mysticalfire",
         "tm:overheat",
         "tm:payback",
         "tm:protect",
         "tm:psychic",
         "tm:psyshock",
+        "tm:quash",
         "tm:rest",
+        "tm:return",
         "tm:rockblast",
         "tm:round",
         "tm:selfdestruct",
+        "tm:shadowball",
         "tm:shadowclaw",
         "tm:sleeptalk",
+        "tm:smackdown",
         "tm:snore",
         "tm:solarbeam",
         "tm:storedpower",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:taunt",
         "tm:thief",
+        "tm:torment",
+        "tm:toxic",
+        "tm:trick",
         "tm:uproar",
+        "tm:willowisp",
         "tm:zenheadbutt",
-        "tutor:expandingforce"
+        "tutor:afteryou",
+        "tutor:expandingforce",
+        "tutor:knockoff",
+        "tutor:lastresort",
+        "tutor:painsplit",
+        "tutor:recycle",
+        "tutor:spite"
     ],
     "labels": [
-        "gen7"
+        "gen7",
+        "ultra_beast"
     ],
     "pokedex": [
         "pokemod.species.blacephalon.desc1",
@@ -86,5 +114,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "special_attack": 3
+    },
+    "height": 18,
+    "weight": 130
 }

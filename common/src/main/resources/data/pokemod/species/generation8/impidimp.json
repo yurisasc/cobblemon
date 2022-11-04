@@ -25,7 +25,7 @@
     "eggCycles": 20,
     "eggGroups": [
         "fairy",
-        "humanshape"
+        "human_like"
     ],
     "moves": [
         "1:fakeout",
@@ -41,17 +41,23 @@
         "36:nastyplot",
         "40:playrough",
         "44:foulplay",
+        "tm:assurance",
         "tm:attract",
+        "tm:darkpulse",
         "tm:dazzlinggleam",
         "tm:drainingkiss",
         "tm:drainpunch",
         "tm:endure",
         "tm:facade",
+        "tm:faketears",
+        "tm:foulplay",
         "tm:leechlife",
         "tm:lowkick",
         "tm:megakick",
         "tm:megapunch",
         "tm:metronome",
+        "tm:nastyplot",
+        "tm:playrough",
         "tm:protect",
         "tm:rest",
         "tm:retaliate",
@@ -95,5 +101,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 1
+    },
+    "height": 4,
+    "weight": 55
 }

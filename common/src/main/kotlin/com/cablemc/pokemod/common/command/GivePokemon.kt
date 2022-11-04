@@ -11,6 +11,7 @@ package com.cablemc.pokemod.common.command
 import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.api.permission.PermissionLevel
 import com.cablemc.pokemod.common.api.permission.PokemodPermissions
+import com.cablemc.pokemod.common.api.text.red
 import com.cablemc.pokemod.common.command.argument.PokemonPropertiesArgumentType
 import com.cablemc.pokemod.common.util.appendRequirement
 import com.cablemc.pokemod.common.util.commandLang
@@ -27,7 +28,6 @@ import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 
 object GivePokemon {
-
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = dispatcher.register(literal("givepokemon")
             .permission(PokemodPermissions.GIVE_POKEMON)
@@ -49,6 +49,12 @@ object GivePokemon {
     private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {
         try {
             val pokemonProperties = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
+
+            if (pokemonProperties.species == null) {
+                player.sendMessage(commandLang("givepokemon.nospecies").red())
+                return Command.SINGLE_SUCCESS
+            }
+
             val pokemon = pokemonProperties.create()
             val party = Pokemod.storage.getParty(player)
             party.add(pokemon)

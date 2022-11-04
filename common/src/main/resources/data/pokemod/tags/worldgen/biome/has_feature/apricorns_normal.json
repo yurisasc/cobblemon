@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "#pokemod:is_tundra"
+	"#pokemod:is_hills",
+	"#pokemod:is_plains",
+	"#pokemod:is_savanna"
   ]
 }

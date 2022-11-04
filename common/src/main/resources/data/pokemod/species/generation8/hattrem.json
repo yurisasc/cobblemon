@@ -30,6 +30,7 @@
         "1:confusion",
         "1:disarmingvoice",
         "1:playnice",
+        "1:brutalswing",
         "1:lifedew",
         "15:aromatherapy",
         "20:psybeam",
@@ -40,8 +41,11 @@
         "51:healingwish",
         "tm:attract",
         "tm:batonpass",
+        "tm:brutalswing",
+        "tm:calmmind",
         "tm:charm",
         "tm:darkpulse",
+        "tm:dazzlinggleam",
         "tm:drainingkiss",
         "tm:endure",
         "tm:facade",
@@ -53,6 +57,7 @@
         "tm:mysticalfire",
         "tm:playrough",
         "tm:protect",
+        "tm:psychic",
         "tm:psyshock",
         "tm:rest",
         "tm:round",
@@ -93,5 +98,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 2
+    },
+    "height": 6,
+    "weight": 48
 }

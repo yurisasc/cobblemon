@@ -15,14 +15,14 @@
         "speed": 121
     },
     "catchRate": 45,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 270,
     "experienceGroup": "slow",
     "eggCycles": 120,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "0:aircutter",
@@ -30,6 +30,7 @@
         "1:acid",
         "1:peck",
         "1:helpinghand",
+        "1:aircutter",
         "1:airslash",
         "1:dragonpulse",
         "7:furyattack",
@@ -43,31 +44,46 @@
         "63:toxic",
         "70:dragonrush",
         "tm:acrobatics",
+        "tm:aerialace",
+        "tm:airslash",
         "tm:allyswitch",
         "tm:assurance",
         "tm:breakingswipe",
+        "tm:charm",
+        "tm:confide",
         "tm:crosspoison",
         "tm:darkpulse",
+        "tm:doubleteam",
         "tm:dragonclaw",
         "tm:dragondance",
+        "tm:dragonpulse",
+        "tm:dragontail",
+        "tm:echoedvoice",
         "tm:endure",
         "tm:facade",
         "tm:fireblast",
         "tm:flamethrower",
         "tm:fly",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:gunkshot",
         "tm:heatwave",
+        "tm:helpinghand",
         "tm:hex",
+        "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:irontail",
         "tm:leechlife",
+        "tm:nastyplot",
         "tm:outrage",
         "tm:pinmissile",
+        "tm:poisonjab",
         "tm:protect",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:shadowclaw",
+        "tm:skydrop",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:sludgewave",
@@ -83,13 +99,22 @@
         "tm:toxicspikes",
         "tm:uproar",
         "tm:uturn",
+        "tm:venomdrench",
+        "tm:venoshock",
         "tm:xscissor",
         "tutor:dracometeor",
         "tutor:dualwingbeat",
-        "tutor:scaleshot"
+        "tutor:laserfocus",
+        "tutor:scaleshot",
+        "tutor:shockwave",
+        "tutor:signalbeam",
+        "tutor:skyattack",
+        "tutor:snatch",
+        "tutor:tailwind"
     ],
     "labels": [
-        "gen7"
+        "gen7",
+        "ultra_beast"
     ],
     "pokedex": [
         "pokemod.species.naganadel.desc1",
@@ -102,5 +127,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 0,
+    "evYield": {
+        "special_attack": 3
+    },
+    "height": 36,
+    "weight": 1500
 }

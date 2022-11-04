@@ -24,7 +24,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 20,
     "eggGroups": [
-        "water1"
+        "water_1"
     ],
     "moves": [
         "0:banefulbunker",
@@ -32,9 +32,11 @@
         "1:bite",
         "1:peck",
         "1:wideguard",
+        "1:banefulbunker",
         "15:venoshock",
         "20:recover",
         "25:pinmissile",
+        "29:spikecannon",
         "30:toxicspikes",
         "35:liquidation",
         "42:venomdrench",
@@ -43,32 +45,57 @@
         "tm:attract",
         "tm:blizzard",
         "tm:brine",
+        "tm:confide",
         "tm:crosspoison",
+        "tm:doubleteam",
         "tm:endure",
         "tm:facade",
+        "tm:frostbreath",
+        "tm:frustration",
         "tm:gunkshot",
         "tm:hail",
         "tm:hex",
+        "tm:hiddenpower",
         "tm:hydropump",
         "tm:icebeam",
         "tm:icywind",
+        "tm:infestation",
         "tm:irondefense",
         "tm:lightscreen",
+        "tm:liquidation",
         "tm:muddywater",
         "tm:mudshot",
         "tm:payback",
+        "tm:pinmissile",
+        "tm:poisonjab",
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
         "tm:safeguard",
         "tm:scald",
         "tm:sleeptalk",
         "tm:sludgebomb",
         "tm:sludgewave",
+        "tm:smackdown",
         "tm:snore",
         "tm:substitute",
-        "tm:surf"
+        "tm:surf",
+        "tm:swagger",
+        "tm:toxicspikes",
+        "tm:venomdrench",
+        "tm:venoshock",
+        "tutor:afteryou",
+        "tutor:block",
+        "tutor:covet",
+        "tutor:gastroacid",
+        "tutor:knockoff",
+        "tutor:magiccoat",
+        "tutor:painsplit",
+        "tutor:snatch",
+        "tutor:spite",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen7"
@@ -84,5 +111,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 2
+    },
+    "height": 7,
+    "weight": 145
 }

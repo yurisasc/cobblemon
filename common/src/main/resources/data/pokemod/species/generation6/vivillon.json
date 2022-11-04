@@ -28,6 +28,7 @@
     ],
     "moves": [
         "0:gust",
+        "1:gust",
         "1:poisonpowder",
         "1:stunspore",
         "1:sleeppowder",
@@ -42,6 +43,7 @@
         "41:safeguard",
         "45:quiverdance",
         "50:hurricane",
+        "55:powder",
         "tm:acrobatics",
         "tm:aerialace",
         "tm:attract",
@@ -51,11 +53,13 @@
         "tm:dreameater",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:gigaimpact",
         "tm:hiddenpower",
         "tm:hyperbeam",
         "tm:infestation",
+        "tm:lightscreen",
         "tm:protect",
         "tm:psychic",
         "tm:psychup",
@@ -64,6 +68,8 @@
         "tm:return",
         "tm:roost",
         "tm:round",
+        "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
         "tm:solarbeam",
         "tm:substitute",
@@ -96,5 +102,13 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "hp": 1,
+        "special_attack": 1,
+        "speed": 1
+    },
+    "height": 12,
+    "weight": 170
 }

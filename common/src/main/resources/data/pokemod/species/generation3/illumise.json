@@ -20,11 +20,11 @@
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 151,
-    "experienceGroup": "fastthenveryslow",
+    "experienceGroup": "fluctuating",
     "eggCycles": 15,
     "eggGroups": [
         "bug",
-        "humanshape"
+        "human_like"
     ],
     "moves": [
         "1:tackle",
@@ -45,8 +45,10 @@
         "50:infestation",
         "egg:aromatherapy",
         "egg:batonpass",
+        "egg:bugbuzz",
         "egg:captivate",
         "egg:confuseray",
+        "egg:encore",
         "egg:faketears",
         "egg:growth",
         "egg:silverwind",
@@ -58,11 +60,16 @@
         "tm:confide",
         "tm:dazzlinggleam",
         "tm:doubleteam",
+        "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:fling",
         "tm:frustration",
         "tm:hiddenpower",
+        "tm:infestation",
         "tm:lightscreen",
+        "tm:naturalgift",
+        "tm:poweruppunch",
         "tm:protect",
         "tm:psychup",
         "tm:raindance",
@@ -70,6 +77,7 @@
         "tm:return",
         "tm:roost",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:solarbeam",
@@ -82,16 +90,33 @@
         "tm:thunderwave",
         "tm:toxic",
         "tm:uturn",
+        "tutor:aircutter",
+        "tutor:bodyslam",
         "tutor:bugbite",
+        "tutor:counter",
+        "tutor:covet",
         "tutor:defog",
+        "tutor:doubleedge",
+        "tutor:dynamicpunch",
         "tutor:focuspunch",
         "tutor:gigadrain",
+        "tutor:helpinghand",
         "tutor:icepunch",
+        "tutor:megakick",
+        "tutor:megapunch",
+        "tutor:metronome",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:ominouswind",
+        "tutor:seismictoss",
         "tutor:shockwave",
         "tutor:snore",
+        "tutor:stringshot",
+        "tutor:swift",
         "tutor:tailwind",
         "tutor:thunderpunch",
-        "tutor:waterpulse"
+        "tutor:waterpulse",
+        "tutor:zenheadbutt"
     ],
     "labels": [
         "gen3"
@@ -106,5 +131,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 6,
+    "weight": 177
 }

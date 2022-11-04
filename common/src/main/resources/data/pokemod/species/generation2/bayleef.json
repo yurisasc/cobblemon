@@ -23,13 +23,15 @@
     "eggCycles": 20,
     "eggGroups": [
         "monster",
-        "plant"
+        "grass"
     ],
     "moves": [
         "1:tackle",
         "1:growl",
         "1:razorleaf",
         "1:poisonpowder",
+        "6:razorleaf",
+        "9:poisonpowder",
         "12:synthesis",
         "18:reflect",
         "22:magicalleaf",
@@ -41,40 +43,63 @@
         "50:aromatherapy",
         "54:solarbeam",
         "tm:attract",
+        "tm:bulletseed",
+        "tm:captivate",
         "tm:confide",
+        "tm:curse",
+        "tm:cut",
+        "tm:detect",
         "tm:doubleteam",
         "tm:echoedvoice",
+        "tm:endure",
         "tm:energyball",
         "tm:facade",
+        "tm:flash",
         "tm:frustration",
         "tm:grassknot",
         "tm:hiddenpower",
+        "tm:lightscreen",
         "tm:naturepower",
         "tm:protect",
+        "tm:reflect",
         "tm:rest",
         "tm:return",
+        "tm:rocksmash",
         "tm:round",
+        "tm:safeguard",
+        "tm:secretpower",
         "tm:sleeptalk",
+        "tm:solarbeam",
+        "tm:strength",
         "tm:substitute",
         "tm:sunnyday",
         "tm:swagger",
         "tm:swordsdance",
         "tm:toxic",
         "tm:workup",
+        "tutor:ancientpower",
+        "tutor:counter",
+        "tutor:doubleedge",
+        "tutor:furycutter",
         "tutor:gigadrain",
         "tutor:grasspledge",
+        "tutor:headbutt",
         "tutor:irontail",
         "tutor:laserfocus",
         "tutor:magiccoat",
+        "tutor:mimic",
+        "tutor:mudslap",
         "tutor:seedbomb",
         "tutor:snore",
+        "tutor:synthesis",
         "tutor:worryseed"
     ],
     "labels": [
         "gen2"
     ],
     "pokedex": [
-        "pokemod.species.bayleef.desc1"
+        "pokemod.species.bayleef.desc1",
+        "pokemod.species.bayleef.desc2"
     ],
     "preEvolution": "chikorita",
     "evolutions": [
@@ -97,5 +122,12 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "defence": 1,
+        "special_defence": 1
+    },
+    "height": 12,
+    "weight": 158
 }

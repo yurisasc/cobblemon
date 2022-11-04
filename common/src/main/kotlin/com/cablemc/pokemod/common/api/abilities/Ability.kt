@@ -11,7 +11,7 @@ package com.cablemc.pokemod.common.api.abilities
 import com.cablemc.pokemod.common.util.DataKeys
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
-import net.minecraft.text.Text
+import net.minecraft.text.MutableText
 
 /**
  * Representing an Ability with all its attributes
@@ -26,10 +26,10 @@ open class Ability internal constructor(var template: AbilityTemplate) {
     val name: String
         get() = template.name
 
-    val displayName: Text
+    val displayName: MutableText
         get() = template.displayName
 
-    val description: Text
+    val description: MutableText
         get() = template.description
 
     open fun saveToNBT(nbt: NbtCompound): NbtCompound {

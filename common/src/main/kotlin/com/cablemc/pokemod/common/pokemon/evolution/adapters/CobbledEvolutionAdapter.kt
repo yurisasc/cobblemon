@@ -10,6 +10,7 @@ package com.cablemc.pokemod.common.pokemon.evolution.adapters
 
 import com.cablemc.pokemod.common.api.pokemon.evolution.Evolution
 import com.cablemc.pokemod.common.api.pokemon.evolution.adapters.EvolutionAdapter
+import com.cablemc.pokemod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cablemc.pokemod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cablemc.pokemod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cablemc.pokemod.common.pokemon.evolution.variants.TradeEvolution
@@ -36,6 +37,7 @@ object CobbledEvolutionAdapter : EvolutionAdapter {
         this.registerType(TradeEvolution.ADAPTER_VARIANT, TradeEvolution::class)
         this.registerType(ItemInteractionEvolution.ADAPTER_VARIANT, ItemInteractionEvolution::class)
         this.registerType(LevelUpEvolution.ALTERNATIVE_ADAPTER_VARIANT, LevelUpEvolution::class)
+        this.registerType(BlockClickEvolution.ADAPTER_VARIANT, BlockClickEvolution::class)
     }
 
     override fun <T : Evolution> registerType(id: String, type: KClass<T>) {

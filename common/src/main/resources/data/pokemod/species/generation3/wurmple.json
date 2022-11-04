@@ -29,6 +29,7 @@
         "1:stringshot",
         "5:poisonsting",
         "15:bugbite",
+        "tutor:bugbite",
         "tutor:electroweb",
         "tutor:snore"
     ],
@@ -72,5 +73,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "hp": 1
+    },
+    "height": 3,
+    "weight": 36
 }

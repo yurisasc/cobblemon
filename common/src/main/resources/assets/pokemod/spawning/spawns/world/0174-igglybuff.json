@@ -32,6 +32,11 @@
                 "biomes": [
                     "#pokemod:is_plains"
                 ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#pokemod:is_floral"
+                ]
             }
         }
     ]

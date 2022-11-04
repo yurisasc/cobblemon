@@ -11,10 +11,10 @@ package com.cablemc.pokemod.common
 import com.cablemc.pokemod.common.registry.CompletableRegistry
 import com.cablemc.pokemod.common.world.feature.ApricornTreeFeature
 import dev.architectury.registry.registries.RegistrySupplier
-import java.util.function.Supplier
 import net.minecraft.util.registry.Registry
 import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig
+import java.util.function.Supplier
 
 object PokemodFeatures : CompletableRegistry<Feature<*>>(Registry.FEATURE_KEY) {
     private fun <T : Feature<*>> register(name: String, feature: Supplier<T>) : RegistrySupplier<T> {

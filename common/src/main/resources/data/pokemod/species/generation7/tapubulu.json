@@ -16,14 +16,14 @@
         "speed": 75
     },
     "catchRate": 3,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 285,
     "experienceGroup": "slow",
     "eggCycles": 15,
     "eggGroups": [
-        "no-eggs"
+        "undiscovered"
     ],
     "moves": [
         "1:rocksmash",
@@ -35,6 +35,7 @@
         "25:whirlwind",
         "30:hornattack",
         "35:scaryface",
+        "38:rototiller",
         "40:hornleech",
         "45:zenheadbutt",
         "50:meanlook",
@@ -49,33 +50,44 @@
         "tm:bulletseed",
         "tm:calmmind",
         "tm:closecombat",
+        "tm:confide",
         "tm:darkestlariat",
         "tm:dazzlinggleam",
+        "tm:echoedvoice",
         "tm:endure",
         "tm:energyball",
         "tm:facade",
         "tm:falseswipe",
         "tm:fling",
         "tm:focusblast",
+        "tm:frustration",
         "tm:gigadrain",
         "tm:gigaimpact",
         "tm:grassknot",
+        "tm:grassyterrain",
         "tm:guardswap",
+        "tm:hiddenpower",
         "tm:highhorsepower",
         "tm:hyperbeam",
         "tm:irondefense",
         "tm:lightscreen",
+        "tm:megahorn",
         "tm:megapunch",
+        "tm:naturepower",
         "tm:payback",
         "tm:powerswap",
         "tm:protect",
+        "tm:psychup",
         "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:revenge",
+        "tm:roar",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
         "tm:safeguard",
+        "tm:scaryface",
         "tm:seedbomb",
         "tm:sleeptalk",
         "tm:smartstrike",
@@ -87,13 +99,22 @@
         "tm:substitute",
         "tm:sunnyday",
         "tm:superpower",
+        "tm:swagger",
         "tm:swordsdance",
         "tm:taunt",
-        "tm:workup"
+        "tm:torment",
+        "tm:toxic",
+        "tm:workup",
+        "tm:zenheadbutt",
+        "tutor:dualchop",
+        "tutor:focuspunch",
+        "tutor:synthesis",
+        "tutor:telekinesis",
+        "tutor:worryseed"
     ],
     "labels": [
-        "legendary",
-        "gen7"
+        "gen7",
+        "legendary"
     ],
     "pokedex": [
         "pokemod.species.tapubulu.desc1",
@@ -105,5 +126,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 3
+    },
+    "height": 19,
+    "weight": 455
 }

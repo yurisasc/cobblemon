@@ -14,7 +14,7 @@
         "speed": 105
     },
     "catchRate": 25,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 180,
@@ -25,6 +25,7 @@
     ],
     "moves": [
         "1:bind",
+        "1:sharpen",
         "1:iceshard",
         "4:confuseray",
         "8:rapidspin",
@@ -45,25 +46,47 @@
         "56:solarbeam",
         "60:sheercold",
         "tm:acrobatics",
+        "tm:attract",
+        "tm:auroraveil",
         "tm:avalanche",
         "tm:blizzard",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:endure",
+        "tm:explosion",
         "tm:facade",
         "tm:flashcannon",
+        "tm:frostbreath",
+        "tm:frustration",
         "tm:hail",
+        "tm:hiddenpower",
         "tm:hyperbeam",
+        "tm:icebeam",
         "tm:iciclespear",
+        "tm:icywind",
         "tm:irondefense",
+        "tm:lightscreen",
         "tm:poisonjab",
         "tm:protect",
         "tm:raindance",
+        "tm:reflect",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:selfdestruct",
         "tm:sleeptalk",
         "tm:snore",
+        "tm:solarbeam",
         "tm:substitute",
-        "tutor:tripleaxel"
+        "tm:swagger",
+        "tm:toxic",
+        "tutor:defog",
+        "tutor:knockoff",
+        "tutor:magiccoat",
+        "tutor:signalbeam",
+        "tutor:tripleaxel",
+        "tutor:waterpulse"
     ],
     "labels": [
         "gen5"
@@ -78,5 +101,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 2
+    },
+    "height": 11,
+    "weight": 1480
 }

@@ -12,8 +12,9 @@ import com.cablemc.pokemod.common.api.gui.blitk
 import com.cablemc.pokemod.common.api.moves.MoveSet
 import com.cablemc.pokemod.common.api.reactive.Observable.Companion.emitWhile
 import com.cablemc.pokemod.common.api.reactive.ObservableSubscription
+import com.cablemc.pokemod.common.api.scheduling.after
 import com.cablemc.pokemod.common.client.PokemodClient
-import com.cablemc.pokemod.common.client.gui.pokenav.PokeNav
+import com.cablemc.pokemod.common.client.gui.summary.widgets.EvolutionListScrollPane
 import com.cablemc.pokemod.common.client.gui.summary.widgets.ModelWidget
 import com.cablemc.pokemod.common.client.gui.summary.widgets.PartyWidget
 import com.cablemc.pokemod.common.client.gui.summary.widgets.pages.SummarySwitchButton
@@ -22,13 +23,18 @@ import com.cablemc.pokemod.common.client.gui.summary.widgets.pages.moves.MovesWi
 import com.cablemc.pokemod.common.client.gui.summary.widgets.pages.stats.StatWidget
 import com.cablemc.pokemod.common.client.storage.ClientParty
 import com.cablemc.pokemod.common.pokemon.Pokemon
+import com.cablemc.pokemod.common.util.lang
 import com.cablemc.pokemod.common.util.pokemodResource
 import java.security.InvalidParameterException
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.gui.Drawable
+import net.minecraft.client.gui.Element
+import net.minecraft.client.gui.Selectable
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.client.gui.widget.ClickableWidget
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
+
 class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summary.title")) {
 
     companion object {
@@ -55,6 +61,17 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
         commonInit()
         this.editable = editable
     }
+
+    var sidePanel: Element? = null
+        set(value) {
+            if (field != null) {
+                remove(field)
+            }
+            field = value
+            if (value is Drawable && value is Selectable) {
+                addDrawableChild(value)
+            }
+        }
 
     constructor(party: ClientParty) : this() {
         party.forEach { pokemonList.add(it) }
@@ -101,7 +118,7 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
      */
     private lateinit var modelWidget: ModelWidget
 
-    var currentPageIndex = MOVES
+    var currentPageIndex = INFO
 
     /**
      * Initializes the Summary Screen
@@ -113,12 +130,30 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
         val y = (height - BASE_HEIGHT) / 2
 
 
-        currentPage = MovesWidget(
+        currentPage = InfoWidget(
             pX = x, pY = y,
             pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
-            summary = this
+            pokemon = currentPokemon
         )
-        currentPageIndex = MOVES
+        currentPageIndex = INFO
+
+        addDrawableChild(
+            SummaryButton(
+                buttonX = x + 212F,
+                buttonY = y + 172F,
+                buttonWidth = SummaryButton.BUTTON_WIDTH * 1.5,
+                buttonHeight = SummaryButton.BUTTON_HEIGHT * 1.5,
+                clickAction = {
+                    after(ticks = 0, serverThread = false) {
+                        sidePanel = EvolutionListScrollPane(this.currentPokemon)
+                    }
+                },
+                text = lang("ui.evolve"),
+                renderRequirement = { this.currentPokemon.evolutionProxy.client().isNotEmpty() },
+                clickRequirement = { this.currentPokemon.evolutionProxy.client().isNotEmpty() }
+            )
+        )
+
 
         // Add Buttons to change Pages - START
         addDrawableChild(
@@ -154,7 +189,7 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
                 pWidth = 28, pHeight = 16,
                 pXTexStart = 0, pYTexStart = 0, pYDiffText = 0
             ) {
-            MinecraftClient.getInstance().setScreen(PokeNav())
+            MinecraftClient.getInstance().setScreen(null)
         })
 
         // Add Party
@@ -193,6 +228,7 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
         moveSetSubscription?.unsubscribe()
         listenToMoveSet()
         switchTo(currentPageIndex)
+        children().find { it is EvolutionListScrollPane }?.let(this::remove)
         modelWidget.pokemon = currentPokemon.asRenderablePokemon()
     }
 
@@ -238,6 +274,7 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
             }
             STATS -> {
                 currentPage = StatWidget(
+                    pokemon = this.currentPokemon,
                     pX = (width - BASE_WIDTH) / 2, pY = (height - BASE_HEIGHT) / 2,
                     pWidth = BASE_WIDTH, pHeight =  BASE_HEIGHT
                 )

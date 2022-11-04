@@ -20,9 +20,6 @@
     "shoulderMountable": true,
     "forms": [
         {
-            "name": "normal"
-        },
-        {
             "name": "starter",
             "baseStats": {
                 "hp": 65,
@@ -32,22 +29,65 @@
                 "special_defence": 85,
                 "speed": 75
             },
-            "aspects": [
-                "starter"
+            "baseExperienceYield": 87,
+            "moves": [
+                "1:tackle",
+                "1:growl",
+                "3:tailwhip",
+                "6:quickattack",
+                "10:doublekick",
+                "14:sandattack",
+                "17:bite",
+                "21:swift",
+                "24:takedown",
+                "28:doubleedge",
+                "31:helpinghand",
+                "tm:dig",
+                "tm:facade",
+                "tm:headbutt",
+                "tm:helpinghand",
+                "tm:irontail",
+                "tm:payday",
+                "tm:protect",
+                "tm:reflect",
+                "tm:rest",
+                "tm:shadowball",
+                "tm:substitute",
+                "tm:toxic",
+                "tutor:baddybad",
+                "tutor:bouncybubble",
+                "tutor:buzzybuzz",
+                "tutor:freezyfrost",
+                "tutor:glitzyglow",
+                "tutor:sappyseed",
+                "tutor:sizzlyslide",
+                "tutor:sparklyswirl"
+            ],
+            "pokedex": [
+                "pokemod.form.eevee-starter.desc1",
+                "pokemod.form.eevee-starter.desc2"
             ]
         },
         {
             "name": "gmax",
-            "aspects": [
+            "moves": [],
+            "labels": [
+                "gen1",
                 "gmax"
-            ]
+            ],
+            "pokedex": [
+                "pokemod.form.eevee-gmax.desc1",
+                "pokemod.form.eevee-gmax.desc2"
+            ],
+            "height": 180,
+            "weight": 10000
         }
     ],
     "baseExperienceYield": 65,
     "experienceGroup": "mediumfast",
     "eggCycles": 35,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -59,44 +99,70 @@
         "10:quickattack",
         "15:babydolleyes",
         "20:swift",
+        "20:refresh",
         "25:bite",
         "30:copycat",
         "35:batonpass",
         "40:takedown",
         "45:charm",
+        "45:trumpcard",
         "50:doubleedge",
         "55:lastresort",
+        "egg:captivate",
         "egg:curse",
         "egg:detect",
         "egg:doublekick",
         "egg:flail",
         "egg:mudslap",
+        "egg:naturalgift",
+        "egg:synchronoise",
         "egg:tickle",
         "egg:wish",
         "egg:yawn",
         "tm:attract",
+        "tm:batonpass",
+        "tm:bide",
         "tm:bodyslam",
+        "tm:charm",
+        "tm:confide",
         "tm:dig",
+        "tm:doubleteam",
+        "tm:echoedvoice",
         "tm:endure",
         "tm:facade",
         "tm:faketears",
         "tm:focusenergy",
+        "tm:frustration",
+        "tm:headbutt",
+        "tm:helpinghand",
+        "tm:hiddenpower",
         "tm:hypervoice",
         "tm:irontail",
         "tm:payday",
         "tm:protect",
+        "tm:rage",
         "tm:raindance",
+        "tm:reflect",
         "tm:rest",
         "tm:retaliate",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowball",
+        "tm:skullbash",
         "tm:sleeptalk",
         "tm:snore",
         "tm:storedpower",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
+        "tm:swift",
+        "tm:toxic",
         "tm:weatherball",
-        "tm:workup"
+        "tm:workup",
+        "tutor:healbell",
+        "tutor:laserfocus",
+        "tutor:mimic"
     ],
     "labels": [
         "gen1"
@@ -110,7 +176,7 @@
             "id": "eevee_vaporeon",
             "variant": "item_interact",
             "result": "vaporeon",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:water_stone"
@@ -119,7 +185,7 @@
             "id": "eevee_jolteon",
             "variant": "item_interact",
             "result": "jolteon",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:thunder_stone"
@@ -128,7 +194,7 @@
             "id": "eevee_flareon",
             "variant": "item_interact",
             "result": "flareon",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:fire_stone"
@@ -171,7 +237,7 @@
             "id": "eevee_leafeon",
             "variant": "item_interact",
             "result": "leafeon",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:leaf_stone"
@@ -180,10 +246,23 @@
             "id": "eevee_glaceon",
             "variant": "item_interact",
             "result": "glaceon",
-            "consumeHeldItem": true,
+            "consumeHeldItem": false,
             "learnableMoves": [],
             "requirements": [],
             "requiredContext": "pokemod:ice_stone"
+        },
+        {
+            "id": "eevee_sylveon",
+            "variant": "level_up",
+            "result": "sylveon",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "has_move_type",
+                    "type": "fairy"
+                }
+            ]
         },
         {
             "id": "eevee_sylveon",
@@ -208,5 +287,11 @@
         "width": 0.9,
         "height": 0.9,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_defence": 1
+    },
+    "height": 3,
+    "weight": 65
 }

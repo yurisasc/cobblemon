@@ -23,7 +23,7 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
@@ -54,6 +54,8 @@
         "egg:tearfullook",
         "tm:attract",
         "tm:confide",
+        "tm:cut",
+        "tm:dig",
         "tm:doubleteam",
         "tm:facade",
         "tm:fling",
@@ -63,8 +65,10 @@
         "tm:protect",
         "tm:raindance",
         "tm:rest",
+        "tm:retaliate",
         "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:substitute",
@@ -73,17 +77,21 @@
         "tm:swordsdance",
         "tm:thunderbolt",
         "tm:toxic",
+        "tm:workup",
+        "tutor:afteryou",
         "tutor:aquatail",
         "tutor:covet",
         "tutor:endeavor",
         "tutor:gunkshot",
         "tutor:helpinghand",
+        "tutor:irontail",
         "tutor:laserfocus",
         "tutor:lastresort",
         "tutor:lowkick",
         "tutor:seedbomb",
         "tutor:shockwave",
         "tutor:snore",
+        "tutor:superfang",
         "tutor:zenheadbutt"
     ],
     "labels": [
@@ -113,5 +121,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 5,
+    "weight": 116
 }

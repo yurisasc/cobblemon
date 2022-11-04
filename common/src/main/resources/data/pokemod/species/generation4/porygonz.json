@@ -16,7 +16,7 @@
         "speed": 90
     },
     "catchRate": 30,
-    "maleRatio": 1.125,
+    "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [],
     "baseExperienceYield": 268,
@@ -25,9 +25,9 @@
     "eggGroups": [
         "mineral"
     ],
-	"behaviour": {
+    "behaviour": {
         "moving": {
-			"fly": {
+            "fly": {
                 "canFly": true
             },
             "walk": {
@@ -46,7 +46,9 @@
         "15:thundershock",
         "20:psybeam",
         "25:conversion2",
+        "29:signalbeam",
         "30:agility",
+        "34:embargo",
         "35:recover",
         "40:discharge",
         "45:triattack",
@@ -54,26 +56,42 @@
         "55:lockon",
         "60:zapcannon",
         "65:hyperbeam",
+        "tm:aerialace",
+        "tm:agility",
         "tm:allyswitch",
         "tm:blizzard",
+        "tm:chargebeam",
+        "tm:confide",
         "tm:darkpulse",
+        "tm:doubleteam",
+        "tm:dreameater",
         "tm:eerieimpulse",
         "tm:electroweb",
+        "tm:embargo",
         "tm:endure",
         "tm:facade",
+        "tm:flash",
         "tm:foulplay",
+        "tm:frustration",
         "tm:gigaimpact",
         "tm:guardswap",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
         "tm:icebeam",
         "tm:icywind",
         "tm:irontail",
+        "tm:nastyplot",
+        "tm:naturalgift",
         "tm:powerswap",
         "tm:protect",
         "tm:psychic",
+        "tm:psychup",
         "tm:psyshock",
         "tm:raindance",
         "tm:rest",
+        "tm:return",
         "tm:round",
+        "tm:secretpower",
         "tm:shadowball",
         "tm:sleeptalk",
         "tm:snore",
@@ -81,15 +99,25 @@
         "tm:speedswap",
         "tm:substitute",
         "tm:sunnyday",
+        "tm:swagger",
         "tm:swift",
         "tm:thief",
         "tm:thunder",
         "tm:thunderbolt",
         "tm:thunderwave",
+        "tm:toxic",
+        "tm:triattack",
         "tm:trick",
+        "tm:trickroom",
         "tm:uproar",
         "tm:wonderroom",
-        "tm:zenheadbutt"
+        "tm:zenheadbutt",
+        "tutor:gravity",
+        "tutor:lastresort",
+        "tutor:painsplit",
+        "tutor:shockwave",
+        "tutor:signalbeam",
+        "tutor:telekinesis"
     ],
     "labels": [
         "gen4"
@@ -105,5 +133,11 @@
         "width": 0.8,
         "height": 1.8,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 3
+    },
+    "height": 9,
+    "weight": 340
 }

@@ -24,12 +24,13 @@
     "experienceGroup": "mediumfast",
     "eggCycles": 15,
     "eggGroups": [
-        "ground"
+        "field"
     ],
     "moves": [
         "1:tackle",
         "1:leer",
         "4:babydolleyes",
+        "5:bide",
         "8:payback",
         "12:brutalswing",
         "16:endure",
@@ -45,22 +46,33 @@
         "egg:forcepalm",
         "egg:rollout",
         "egg:stomp",
+        "egg:wideguard",
+        "tm:aerialace",
         "tm:attract",
         "tm:brickbreak",
+        "tm:brutalswing",
         "tm:bulkup",
         "tm:bulldoze",
         "tm:charm",
+        "tm:confide",
+        "tm:doubleteam",
         "tm:earthquake",
+        "tm:endure",
         "tm:facade",
         "tm:fling",
         "tm:focusblast",
+        "tm:frustration",
+        "tm:hiddenpower",
         "tm:icepunch",
         "tm:ironhead",
         "tm:lowsweep",
         "tm:megakick",
         "tm:megapunch",
+        "tm:payback",
         "tm:protect",
         "tm:rest",
+        "tm:return",
+        "tm:roar",
         "tm:rockslide",
         "tm:rocktomb",
         "tm:round",
@@ -68,12 +80,19 @@
         "tm:snore",
         "tm:stompingtantrum",
         "tm:substitute",
+        "tm:superpower",
+        "tm:swagger",
         "tm:swordsdance",
         "tm:taunt",
         "tm:thunderpunch",
+        "tm:toxic",
         "tm:workup",
         "tm:zenheadbutt",
-        "tutor:coaching"
+        "tutor:bind",
+        "tutor:coaching",
+        "tutor:dualchop",
+        "tutor:focuspunch",
+        "tutor:roleplay"
     ],
     "labels": [
         "gen7"
@@ -102,5 +121,11 @@
         "width": 1.0,
         "height": 1.0,
         "fixed": false
-    }
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 5,
+    "weight": 68
 }
