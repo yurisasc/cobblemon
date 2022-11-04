@@ -15,7 +15,8 @@
     "catch": {
       "trigger": "pokemod:catch_pokemon",
       "conditions": {
-        "count": 1
+        "count": 1,
+        "type": "any"
       }
     }
   }

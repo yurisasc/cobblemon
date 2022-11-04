@@ -1,13 +1,13 @@
 {
   "display": {
     "icon": {
-      "item": "pokemod:pc"
+      "item": "minecraft:elytra"
     },
     "title": {
-      "translate": "advancements.pokemod.full_party"
+      "translate": "advancements.pokemod.first_flying_catch"
     },
     "description": {
-      "translate": "advancements.pokemod.full_party.description"
+      "translate": "advancements.pokemod.first_flying_catch.description"
     }
   },
   "parent": "pokemod:first_catch",
@@ -15,8 +15,8 @@
     "catch": {
       "trigger": "pokemod:catch_pokemon",
       "conditions": {
-        "count": 5,
-        "type": "any"
+        "count": 1,
+        "type": "flying"
       }
     }
   }

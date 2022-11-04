@@ -30,13 +30,21 @@ object AdvancementHandler {
         }
         if(advancementData is PlayerAdvancementDataExtension) {
             advancementData.updateTotalCaptureCount()
-            if(advancementData.getTotalCaptureCount() <= 1)
+            if(advancementData.totalCaptureCount <= 1)
             {
                 playerData.extraData["advancements"] = advancementData
             }
+            PokemodCriteria.CATCH_POKEMON.trigger(event.player, advancementData.totalCaptureCount, "any")
+            event.pokemon.types.forEach {
+                advancementData.updateTotalTypeCaptureCount(it)
+                PokemodCriteria.CATCH_POKEMON.trigger(event.player, advancementData.getTotalTypeCaptureCount(it), it.name)
+            }
+            if(event.pokemon.shiny) {
+                advancementData.updateTotalShinyCaptureCount()
+                PokemodCriteria.CATCH_SHINY_POKEMON.trigger(event.player, advancementData.totalShinyCaptureCount)
+            }
             playerData.extraData.replace("advancements", advancementData)
             Pokemod.playerData.saveSingle(playerData)
-            PokemodCriteria.CATCH_POKEMON.trigger(event.player, advancementData.getTotalCaptureCount())
         }
     }
 
@@ -49,13 +57,13 @@ object AdvancementHandler {
         }
         if(advancementData is PlayerAdvancementDataExtension) {
             advancementData.updateTotalEggsHatched()
-            if(advancementData.getTotalEggsHatched() <= 1)
+            if(advancementData.totalEggsHatched <= 1)
             {
                 playerData.extraData["advancements"] = advancementData
             }
             playerData.extraData.replace("advancements", advancementData)
             Pokemod.playerData.saveSingle(playerData)
-            PokemodCriteria.EGG_HATCH.trigger(event.player, advancementData.getTotalEggsHatched())
+            PokemodCriteria.EGG_HATCH.trigger(event.player, advancementData.totalEggsHatched)
         }
     }
 
@@ -68,12 +76,12 @@ object AdvancementHandler {
             }
             if (advancementData is PlayerAdvancementDataExtension) {
                 advancementData.updateTotalEvolvedCount()
-                if (advancementData.getTotalEvolvedCount() <= 1) {
+                if (advancementData.totalEvolvedCount <= 1) {
                     playerData.extraData["advancements"] = advancementData
                 }
                 playerData.extraData.replace("advancements", advancementData)
                 Pokemod.playerData.saveSingle(playerData)
-                PokemodCriteria.EVOLVE_POKEMON.trigger(event.pokemon.getOwnerPlayer()!!, advancementData.getTotalEvolvedCount())
+                PokemodCriteria.EVOLVE_POKEMON.trigger(event.pokemon.getOwnerPlayer()!!, advancementData.totalEvolvedCount)
             }
         }
     }
@@ -102,12 +110,12 @@ object AdvancementHandler {
                     }
                     if (advancementData is PlayerAdvancementDataExtension) {
                         advancementData.updateTotalBattleVictoryCount()
-                        if (advancementData.getTotalBattleVictoryCount() <= 1) {
+                        if (advancementData.totalBattleVictoryCount <= 1) {
                             playerData.extraData["advancements"] = advancementData
                         }
                         playerData.extraData.replace("advancements", advancementData)
                         Pokemod.playerData.saveSingle(playerData)
-                        PokemodCriteria.WIN_BATTLE.trigger(player, advancementData.getTotalBattleVictoryCount())
+                        PokemodCriteria.WIN_BATTLE.trigger(player, advancementData.totalBattleVictoryCount)
                     }
                 }
             }

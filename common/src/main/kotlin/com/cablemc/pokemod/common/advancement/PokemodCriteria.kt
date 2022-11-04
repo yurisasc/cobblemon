@@ -21,6 +21,7 @@ object PokemodCriteria {
 
     val PICK_STARTER = Criteria.register(PickStarterCriterion())
     val CATCH_POKEMON = Criteria.register(CatchPokemonCriterion())
+    val CATCH_SHINY_POKEMON = Criteria.register(CatchShinyPokemonCriterion())
     val EGG_HATCH = Criteria.register(EggHatchCriterion())
     val EVOLVE_POKEMON = Criteria.register(EvolvePokemonCriterion())
     val WIN_BATTLE = Criteria.register(BattleVictoryCriterion())

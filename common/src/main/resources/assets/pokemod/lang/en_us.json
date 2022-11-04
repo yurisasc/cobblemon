@@ -169,6 +169,10 @@
   "advancements.pokemod.first_evolution.description": "Evolve your first Pokémon",
   "advancements.pokemod.first_battle_victory": "I wanna be the very best",
   "advancements.pokemod.first_battle_victory.description": "Win your first trainer battle",
+  "advancements.pokemod.first_shiny_catch": "Ooh, Shiny!",
+  "advancements.pokemod.first_shiny_catch.description": "Catch your first shiny Pokémon",
+  "advancements.pokemod.first_flying_catch": "To the sky!",
+  "advancements.pokemod.first_flying_catch.description": "Catch your first flying-type Pokémon",
 
   "pokemod.battle.damage_dealt": "%1$s took %2$s damage!",
   "pokemod.battle.used_move": "%1$s used %2$s!",

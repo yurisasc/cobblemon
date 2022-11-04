@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:nether_star"
+    },
+    "title": {
+      "translate": "advancements.pokemod.first_shiny_catch"
+    },
+    "description": {
+      "translate": "advancements.pokemod.first_shiny_catch.description"
+    }
+  },
+  "parent": "pokemod:first_catch",
+  "criteria": {
+    "catch": {
+      "trigger": "pokemod:catch_shiny_pokemon",
+      "conditions": {
+        "count": 1
+      }
+    }
+  }
+}

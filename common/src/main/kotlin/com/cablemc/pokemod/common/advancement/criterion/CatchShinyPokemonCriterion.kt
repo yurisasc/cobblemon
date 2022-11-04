@@ -18,7 +18,7 @@ import net.minecraft.predicate.entity.EntityPredicate
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
-class CatchPokemonCriterion : AbstractCriterion<CatchPokemonCriterion.Conditions>() {
+class CatchShinyPokemonCriterion : AbstractCriterion<CatchShinyPokemonCriterion.Conditions>() {
 
     override fun getId(): Identifier = ID
 
@@ -28,37 +28,29 @@ class CatchPokemonCriterion : AbstractCriterion<CatchPokemonCriterion.Conditions
             predicateDeserializer: AdvancementEntityPredicateDeserializer
     ): Conditions {
         if (obj.has("count")) {
-            if(obj.has("type")) {
-                return Conditions(playerPredicate, obj.get("count").asInt, obj.get("type").asString)
-            }
-            return Conditions(playerPredicate, obj.get("count").asInt, "any")
+            return Conditions(playerPredicate, obj.get("count").asInt)
         }
-        return Conditions(playerPredicate, 0, "any")
+        return Conditions(playerPredicate, 0)
     }
 
-    fun trigger(player: ServerPlayerEntity, count: Int, type: String) {
-        this.trigger(player) { predicate -> predicate.matches(count, type) }
+    fun trigger(player: ServerPlayerEntity, count: Int) {
+        this.trigger(player) { predicate -> predicate.matches(count) }
     }
 
-    class Conditions(entity: EntityPredicate.Extended, private val count: Int, private val type: String) : AbstractCriterionConditions(ID, entity) {
+    class Conditions(entity: EntityPredicate.Extended, private val count: Int) : AbstractCriterionConditions(ID, entity) {
 
         override fun toJson(predicateSerializer: AdvancementEntityPredicateSerializer?): JsonObject {
             val json = super.toJson(predicateSerializer)
             json.addProperty("count", this.count)
-            json.addProperty("type", this.type)
             return json
         }
 
-        fun matches(totalCount: Int, type: String): Boolean {
-            if(this.type == "any")
-            {
-              return this.count == totalCount
-            }
-            return this.count == totalCount && this.type == type
-        }
+        fun matches(totalCount: Int) = this.count == totalCount
     }
 
     companion object {
-        private val ID = pokemodResource("catch_pokemon")
+
+        private val ID = pokemodResource("catch_shiny_pokemon")
+
     }
 }
