@@ -120,10 +120,6 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
 
     var currentPageIndex = INFO
 
-    fun `somethi$ng`() {
-
-    }
-
     /**
      * Initializes the Summary Screen
      */
