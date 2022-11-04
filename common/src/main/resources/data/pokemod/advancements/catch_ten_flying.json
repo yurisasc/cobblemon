@@ -11,7 +11,7 @@
     },
     "frame": "challenge"
   },
-  "parent": "pokemod:catch/full_party",
+  "parent": "pokemod:full_party",
   "criteria": {
     "catch": {
       "trigger": "pokemod:catch_pokemon",
