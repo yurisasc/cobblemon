@@ -4,10 +4,10 @@
       "item": "pokemod:poke_ball"
     },
     "title": {
-      "translate": "pokemod:craft_poke_ball"
+      "translate": "advancements.pokemod.craft_poke_ball"
     },
     "description": {
-      "translate": "pokemod:craft_poke_ball.description"
+      "translate": "advancements.pokemod.craft_poke_ball.description"
     },
     "background": "pokemod:textures/blocks/apricorn_planks.png"
   },
