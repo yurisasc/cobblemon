@@ -11,6 +11,7 @@ package com.cablemc.pokemod.common
 import com.cablemc.pokemod.common.util.pokemodResource
 import dev.architectury.registry.level.biome.BiomeModifications
 import net.minecraft.util.registry.RegistryEntry
+import net.minecraft.util.registry.RegistryEntryList
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.*
 import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier
@@ -44,16 +45,16 @@ object PokemodPlacements {
             PokemodBlocks.YELLOW_APRICORN_SAPLING.get()))
 
         val apricornTreeVariety = ConfiguredFeatures.register(
-            pokemodResource("apricorn_trees").toString(), Feature.RANDOM_SELECTOR, RandomFeatureConfig(
-                listOf(
-                    RandomFeatureEntry(BLACK_APRICORN_TREE, 0.04f),
-                    RandomFeatureEntry(BLUE_APRICORN_TREE, 0.10f),
-                    RandomFeatureEntry(GREEN_APRICORN_TREE, 0.15f),
-                    RandomFeatureEntry(PINK_APRICORN_TREE, 0.12f),
-                    RandomFeatureEntry(RED_APRICORN_TREE, 0.33f),
-                    RandomFeatureEntry(WHITE_APRICORN_TREE, 0.20f),
-                    RandomFeatureEntry(YELLOW_APRICORN_TREE, 0.06f)
-                ), RED_APRICORN_TREE
+            pokemodResource("apricorn_trees").toString(), Feature.SIMPLE_RANDOM_SELECTOR, SimpleRandomFeatureConfig(
+                RegistryEntryList.of(
+                    BLACK_APRICORN_TREE,
+                    BLUE_APRICORN_TREE,
+                    GREEN_APRICORN_TREE,
+                    PINK_APRICORN_TREE,
+                    RED_APRICORN_TREE,
+                    WHITE_APRICORN_TREE,
+                    YELLOW_APRICORN_TREE
+                )
             )
         )
 

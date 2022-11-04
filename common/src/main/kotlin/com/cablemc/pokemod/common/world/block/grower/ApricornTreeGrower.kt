@@ -8,17 +8,18 @@
 
 package com.cablemc.pokemod.common.world.block.grower
 
+import com.cablemc.pokemod.common.PokemodConfiguredFeatures
+import com.cablemc.pokemod.common.api.apricorn.Apricorn
 import net.minecraft.block.sapling.SaplingGenerator
 import net.minecraft.util.math.random.Random
-class ApricornTreeGrower(private val color: String) : SaplingGenerator() {
-    override fun getTreeFeature(random: Random, bl: Boolean) = when (color) {
-            "black" -> com.cablemc.pokemod.common.PokemodConfiguredFeatures.BLACK_APRICORN_TREE
-            "blue" -> com.cablemc.pokemod.common.PokemodConfiguredFeatures.BLUE_APRICORN_TREE
-            "green" -> com.cablemc.pokemod.common.PokemodConfiguredFeatures.GREEN_APRICORN_TREE
-            "pink" -> com.cablemc.pokemod.common.PokemodConfiguredFeatures.PINK_APRICORN_TREE
-            "red" -> com.cablemc.pokemod.common.PokemodConfiguredFeatures.RED_APRICORN_TREE
-            "white" -> com.cablemc.pokemod.common.PokemodConfiguredFeatures.WHITE_APRICORN_TREE
-            "yellow" -> com.cablemc.pokemod.common.PokemodConfiguredFeatures.YELLOW_APRICORN_TREE
-            else -> com.cablemc.pokemod.common.PokemodConfiguredFeatures.WHITE_APRICORN_TREE
-        }
+class ApricornTreeGrower(private val apricorn: Apricorn) : SaplingGenerator() {
+    override fun getTreeFeature(random: Random, bl: Boolean) = when (this.apricorn) {
+        Apricorn.BLACK -> PokemodConfiguredFeatures.BLACK_APRICORN_TREE
+        Apricorn.BLUE -> PokemodConfiguredFeatures.BLUE_APRICORN_TREE
+        Apricorn.GREEN -> PokemodConfiguredFeatures.GREEN_APRICORN_TREE
+        Apricorn.PINK -> PokemodConfiguredFeatures.PINK_APRICORN_TREE
+        Apricorn.RED -> PokemodConfiguredFeatures.RED_APRICORN_TREE
+        Apricorn.WHITE -> PokemodConfiguredFeatures.WHITE_APRICORN_TREE
+        Apricorn.YELLOW -> PokemodConfiguredFeatures.YELLOW_APRICORN_TREE
+    }
 }

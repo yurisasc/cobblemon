@@ -173,7 +173,7 @@ class ApricornTreeFeature(
                         it.second,
                         context.config.state
                             .with(HorizontalFacingBlock.FACING, it.first)
-                            .with(ApricornBlock.AGE, if (isGenerating) ApricornBlock.MAX_AGE else 0)
+                            .with(ApricornBlock.AGE, if (isGenerating) random.nextInt(ApricornBlock.MAX_AGE + 1) else 0)
                     )
                 }
         }

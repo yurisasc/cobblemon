@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common.world.block
 
+import com.cablemc.pokemod.common.api.apricorn.Apricorn
 import com.cablemc.pokemod.common.world.block.grower.ApricornTreeGrower
 import net.minecraft.block.SaplingBlock
-class ApricornSaplingBlock(properties : Settings, color: String) : SaplingBlock(ApricornTreeGrower(color), properties)
+class ApricornSaplingBlock(properties : Settings, apricorn: Apricorn) : SaplingBlock(ApricornTreeGrower(apricorn), properties)

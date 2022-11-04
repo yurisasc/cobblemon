@@ -112,6 +112,8 @@ class Species : ClientDataSynchronizer<Species> {
         // These properties are lazy
         this.preEvolution?.species
         this.preEvolution?.form
+        this.evolutions.size
+        this.forms.forEach(FormData::initializePostLoads)
     }
 
     fun create(level: Int = 10) = Pokemon().apply {

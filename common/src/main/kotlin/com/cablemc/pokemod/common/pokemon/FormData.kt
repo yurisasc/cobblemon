@@ -196,6 +196,17 @@ class FormData(
         return this
     }
 
+    /**
+     * Initialize properties that relied on all species and forms to be loaded.
+     *
+     */
+    internal fun initializePostLoads() {
+        // These properties are lazy
+        this.preEvolution?.species
+        this.preEvolution?.form
+        this.evolutions.size
+    }
+
     override fun equals(other: Any?): Boolean {
         return other is FormData
                 && other.species.name.equals(this.species.name, true)
