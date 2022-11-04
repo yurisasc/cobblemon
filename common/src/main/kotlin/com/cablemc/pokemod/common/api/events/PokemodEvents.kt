@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common.api.events
 
+import com.cablemc.pokemod.common.api.events.battles.BattleVictoryEvent
 import com.cablemc.pokemod.common.api.events.drops.LootDroppedEvent
 import com.cablemc.pokemod.common.api.events.entity.EntityAttributeEvent
 import com.cablemc.pokemod.common.api.events.net.MessageBuiltEvent
@@ -38,6 +39,10 @@ object PokemodEvents {
     val EVOLUTION_ACCEPTED = CancelableObservable<EvolutionAcceptedEvent>()
     val EVOLUTION_DISPLAY = EventObservable<EvolutionDisplayEvent>()
     val EVOLUTION_COMPLETE = EventObservable<EvolutionCompleteEvent>()
+
+    val POKEMON_CAPTURED = EventObservable<PokemonCapturedEvent>()
+//    val EGG_HATCH = EventObservable<HatchEggEvent>()
+    val BATTLE_VICTORY = EventObservable<BattleVictoryEvent>()
 
     val LEVEL_UP_EVENT = EventObservable<LevelUpEvent>()
 

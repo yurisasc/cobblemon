@@ -13,6 +13,8 @@ import com.cablemc.pokemod.common.PokemodNetwork
 import com.cablemc.pokemod.common.api.battles.model.PokemonBattle
 import com.cablemc.pokemod.common.api.battles.model.actor.BattleActor
 import com.cablemc.pokemod.common.api.battles.model.actor.EntityBackedBattleActor
+import com.cablemc.pokemod.common.api.events.PokemodEvents
+import com.cablemc.pokemod.common.api.events.battles.BattleVictoryEvent
 import com.cablemc.pokemod.common.api.pokemon.stats.Stats
 import com.cablemc.pokemod.common.api.pokemon.status.Statuses
 import com.cablemc.pokemod.common.api.text.aqua
@@ -458,11 +460,14 @@ object ShowdownInterpreter {
     private fun handleWinInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val ids = message.split("|win|")[1].split("&").map { it.trim() }
-            val winners = ids.map { battle.getActor(UUID.fromString(it))!!.getName() }.reduce { acc, next -> acc + " & " + next }
+            val winners = ids.map { battle.getActor(UUID.fromString(it))!! }
+            val winnersText = winners.map { it.getName() }.reduce { acc, next -> acc + " & " + next }
 
-            battle.broadcastChatMessage(battleLang("win", winners).gold())
+            battle.broadcastChatMessage(battleLang("win", winnersText).gold())
 
             battle.end()
+            PokemodEvents.BATTLE_VICTORY.post(BattleVictoryEvent(battle, winners))
+
             this.lastMover.remove(battle.battleId)
             GO
         }

@@ -11,6 +11,8 @@ package com.cablemc.pokemod.common.entity.pokeball
 import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.PokemodItems
 import com.cablemc.pokemod.common.PokemodSounds
+import com.cablemc.pokemod.common.api.events.PokemodEvents
+import com.cablemc.pokemod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cablemc.pokemod.common.api.net.serializers.Vec3DataSerializer
 import com.cablemc.pokemod.common.api.pokeball.PokeBalls
 import com.cablemc.pokemod.common.api.scheduling.afterOnMain
@@ -53,6 +55,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+
 class EmptyPokeBallEntity(
     var pokeBall: PokeBall,
     world: World,
@@ -256,6 +259,7 @@ class EmptyPokeBallEntity(
                                     val party = Pokemod.storage.getParty(player.uuid)
                                     pokemon.pokemon.caughtBall = pokeBall
                                     party.add(pokemon.pokemon)
+                                    PokemodEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
                                 }
 
                                 return@execute
