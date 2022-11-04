@@ -120,7 +120,7 @@ open class Pokemon {
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
             features.removeAll { it.name in removedFeatures }
             this.evolutionProxy.current().clear()
-            // if it used to have a legit ability but does not anymore, figure out what the new one should be
+            checkGender()
             updateAspects()
             updateForm()
             updateHP(quotient)
@@ -400,6 +400,14 @@ open class Pokemon {
         this.healTimer = -1
         this.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.reset()
     }
+
+    /**
+     * Check if this Pokémon can be healed.
+     * This verifies if HP is not maxed, any status is present or any move is not full PP.
+     *
+     * @return If this Pokémon can be healed.
+     */
+    fun canBeHealed() = this.hp != this.currentHealth || this.status != null || this.moveSet.any { move -> move.currentPp != move.maxPp }
 
     fun isFainted() = currentHealth <= 0
 

@@ -16,6 +16,9 @@
   "shoulderMountable": false,
   "forms": [
     {
+      "name": "normal"
+    },
+    {
       "name": "galar",
       "primaryType": "ice",
       "moves": [

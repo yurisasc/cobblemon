@@ -10,6 +10,8 @@ package com.cablemc.pokemod.common.world.block
 
 import com.cablemc.pokemod.common.api.text.green
 import com.cablemc.pokemod.common.api.text.red
+import com.cablemc.pokemod.common.battles.BattleRegistry
+import com.cablemc.pokemod.common.util.isInBattle
 import com.cablemc.pokemod.common.util.lang
 import com.cablemc.pokemod.common.util.party
 import com.cablemc.pokemod.common.world.block.entity.HealingMachineBlockEntity
@@ -100,13 +102,17 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         }
 
         val serverPlayerEntity = player as ServerPlayerEntity
+        if (serverPlayerEntity.isInBattle()) {
+            player.sendMessage(lang("healingmachine.inbattle").red())
+            return ActionResult.SUCCESS
+        }
         val party = serverPlayerEntity.party()
         if (party.none()) {
             player.sendMessage(lang("healingmachine.nopokemon").red())
             return ActionResult.SUCCESS
         }
 
-        if (party.getHealingRemainderPercent() == 0.0f) {
+        if (party.none { pokemon -> pokemon.canBeHealed() }) {
             player.sendMessage(lang("healingmachine.alreadyhealed").red())
             return ActionResult.SUCCESS
         }

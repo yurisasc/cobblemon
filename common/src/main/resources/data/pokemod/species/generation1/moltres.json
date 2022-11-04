@@ -17,6 +17,9 @@
   "shoulderMountable": false,
   "forms": [
     {
+      "name": "normal"
+    },
+    {
       "name": "galar",
       "primaryType": "dark",
       "abilities": ["berserk"],

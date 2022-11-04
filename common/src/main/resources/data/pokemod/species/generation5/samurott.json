@@ -19,6 +19,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "hisui",
             "secondaryType": "dark",
             "baseStats": {

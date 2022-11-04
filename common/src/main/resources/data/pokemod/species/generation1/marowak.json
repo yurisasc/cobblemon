@@ -20,6 +20,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "alola",
             "primaryType": "fire",
             "secondaryType": "ghost",

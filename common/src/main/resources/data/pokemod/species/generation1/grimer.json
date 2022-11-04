@@ -16,6 +16,9 @@
   "shoulderMountable": false,
   "forms": [
     {
+      "name": "normal"
+    },
+    {
       "name": "alola",
       "secondaryType": "dark",
       "abilities": ["poisontouch", "gluttony", "h:powerofalchemy"],

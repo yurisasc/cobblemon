@@ -16,6 +16,9 @@
   "shoulderMountable": false,
   "forms": [
     {
+      "name": "normal"
+    },
+    {
       "name": "alola",
       "primaryType": "dark",
       "abilities": ["pickup", "technician", "h:rattled"],
