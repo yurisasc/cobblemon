@@ -62,7 +62,7 @@ class InfoWidget(
             y = top + lineSeparation * line
         )
 
-        val typeValue = pokemon.types.map { it.displayName }.reduce { acc, next -> acc.plus("/").plus(next) }
+        val typeValue = pokemon.types.map { it.displayName.copy() }.reduce { acc, next -> acc.plus("/").plus(next) }
 
         drawScaledText(
             matrixStack = matrices,

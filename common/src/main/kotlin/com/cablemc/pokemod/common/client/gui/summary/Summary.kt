@@ -118,7 +118,11 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
      */
     private lateinit var modelWidget: ModelWidget
 
-    var currentPageIndex = MOVES
+    var currentPageIndex = INFO
+
+    fun `somethi$ng`() {
+
+    }
 
     /**
      * Initializes the Summary Screen
@@ -130,12 +134,12 @@ class Summary private constructor(): Screen(Text.translatable("pokemod.ui.summar
         val y = (height - BASE_HEIGHT) / 2
 
 
-        currentPage = MovesWidget(
+        currentPage = InfoWidget(
             pX = x, pY = y,
             pWidth = BASE_WIDTH, pHeight = BASE_HEIGHT,
-            summary = this
+            pokemon = currentPokemon
         )
-        currentPageIndex = MOVES
+        currentPageIndex = INFO
 
         addDrawableChild(
             SummaryButton(
