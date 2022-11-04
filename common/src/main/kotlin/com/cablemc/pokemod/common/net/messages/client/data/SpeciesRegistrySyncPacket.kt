@@ -38,6 +38,7 @@ class SpeciesRegistrySyncPacket : DataRegistrySyncPacket<Species>(PokemonSpecies
     }
 
     override fun synchronizeDecoded(entries: Collection<Species>) {
+        Pokemod.LOGGER.info("Decoding species...")
         PokemonSpecies.reload(entries.associateBy { it.resourceIdentifier })
     }
 }

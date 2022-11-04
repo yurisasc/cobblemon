@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common.net.messages.client.data
 
+import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.api.abilities.Abilities
 import com.cablemc.pokemod.common.api.abilities.AbilityTemplate
 import com.cablemc.pokemod.common.util.pokemodResource
@@ -29,6 +30,7 @@ class AbilityRegistrySyncPacket : DataRegistrySyncPacket<AbilityTemplate>(Abilit
     }
 
     override fun synchronizeDecoded(entries: Collection<AbilityTemplate>) {
+        Pokemod.LOGGER.info("Decoding abilities...")
         Abilities.reload(entries.associateBy { pokemodResource(it.name.lowercase()) })
     }
 
