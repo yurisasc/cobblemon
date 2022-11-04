@@ -63,6 +63,13 @@ internal object PropertiesCompletionProvider : DataRegistry {
     }
 
     /**
+     * Provides all the keys from the registered providers.
+     *
+     * @return Every possible key to be suggested.
+     */
+    fun keys() = this.providers.flatMap { it.keys }
+
+    /**
      * Attempts to suggest a key for a property from the provided partial key.
      *
      * @param partialKey The partial key attempting to fill.
@@ -71,15 +78,25 @@ internal object PropertiesCompletionProvider : DataRegistry {
      * @return The suggestions
      */
     fun suggestKeys(partialKey: String, excludedKeys: Collection<String>, builder: SuggestionsBuilder): CompletableFuture<Suggestions> {
+        var matches = 0
+        var exactMatch = false
         this.providers.forEach { provider ->
             if (provider.keys.none { key -> excludedKeys.contains(key) }) {
                 provider.keys.forEach { key ->
                     if (key.startsWith(partialKey)) {
                         val substring = key.substringAfter(partialKey)
                         builder.suggest(builder.remaining + substring)
+                        matches++
+                        if (substring.isEmpty()) {
+                            exactMatch = true
+                        }
                     }
                 }
             }
+        }
+        // If only 1 match happened and it was the exact value already input then we suggest the assigner character
+        if (matches == 1 && exactMatch) {
+            builder.suggest("${builder.remaining}=")
         }
         return builder.buildFuture()
     }

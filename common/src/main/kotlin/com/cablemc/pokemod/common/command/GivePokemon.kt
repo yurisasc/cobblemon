@@ -33,28 +33,23 @@ object GivePokemon {
             .permission(PokemodPermissions.GIVE_POKEMON)
             .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
             .then(
-                CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
-                    .appendRequirement { it.player != null }
-                    .executes { execute(it, it.source.playerOrThrow) }
-            )
-            .then(
                 CommandManager.argument("player", EntityArgumentType.player())
                     .then(CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
-                        .executes { execute(it, it.player()) }
+                        .executes { execute(it) }
                     )
             ))
         dispatcher.register(literal("pokegive").redirect(command))
     }
 
-    private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {
+    private fun execute(context: CommandContext<ServerCommandSource>): Int {
         try {
+            val player = context.player()
             val pokemonProperties = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
-
             if (pokemonProperties.species == null) {
                 player.sendMessage(commandLang("givepokemon.nospecies").red())
                 return Command.SINGLE_SUCCESS
             }
-
+            // if (context.source.player?.uuid != player.uuid && ) {}
             val pokemon = pokemonProperties.create()
             val party = Pokemod.storage.getParty(player)
             party.add(pokemon)

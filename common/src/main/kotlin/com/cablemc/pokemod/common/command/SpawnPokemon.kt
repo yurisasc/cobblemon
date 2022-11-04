@@ -31,7 +31,7 @@ object SpawnPokemon {
             .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(
                 CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
-                    .executes { execute(it) }
+                    .executes(this::execute)
             ))
         dispatcher.register(literal("pokespawn").redirect(command))
     }

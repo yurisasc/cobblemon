@@ -11,7 +11,6 @@ package com.cablemc.pokemod.common.command.argument
 import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.api.pokemon.PokemonProperties
 import com.cablemc.pokemod.common.api.pokemon.PokemonSpecies
-import com.cablemc.pokemod.common.api.properties.CustomPokemonProperty
 import com.cablemc.pokemod.common.api.properties.CustomPokemonPropertyType
 import com.cablemc.pokemod.common.pokemon.properties.PropertiesCompletionProvider
 import com.mojang.brigadier.StringReader
@@ -21,6 +20,7 @@ import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import net.minecraft.command.CommandSource
 import java.util.concurrent.CompletableFuture
+
 class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
 
     companion object {
@@ -37,7 +37,6 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
     override fun parse(reader: StringReader): PokemonProperties {
         val properties = reader.remaining
         reader.cursor = reader.totalLength
-
         return PokemonProperties.parse(properties)
     }
 
@@ -65,11 +64,9 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
         return this.suggestSpeciesAndPropertyKeys(builder)
     }
 
-    private fun suggestSpeciesAndPropertyKeys(builder: SuggestionsBuilder) = CommandSource.suggestMatching(this.collectSpeciesIdentifiers() + this.collectPropertyKeys(), builder)
+    private fun suggestSpeciesAndPropertyKeys(builder: SuggestionsBuilder) = CommandSource.suggestMatching(this.collectSpeciesIdentifiers() + PropertiesCompletionProvider.keys(), builder)
 
     private fun collectSpeciesIdentifiers() = PokemonSpecies.species.map { if (it.resourceIdentifier.namespace == Pokemod.MODID) it.resourceIdentifier.path else it.resourceIdentifier.toString() }
-
-    private fun collectPropertyKeys() = CustomPokemonProperty.properties.mapNotNull { it.keys.firstOrNull()?.lowercase() }
 
     override fun getExamples() = EXAMPLES
 }
