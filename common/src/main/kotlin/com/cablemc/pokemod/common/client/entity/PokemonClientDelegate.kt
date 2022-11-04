@@ -42,6 +42,7 @@ class PokemonClientDelegate : PoseableEntityState<PokemonEntity>(), PokemonSideD
     private val minimumFallSpeed = -0.1F
     private val intensityVelocityCap = -0.5F
     override fun changePokemon(pokemon: Pokemon) {
+        pokemon.isClient = true
         entity.subscriptions.add(entity.species.subscribeIncludingCurrent {
             currentPose = null
             entity.pokemon.species = PokemonSpecies.getByIdentifier(Identifier(it))!! // TODO exception handling

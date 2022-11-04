@@ -42,11 +42,23 @@ object Moves : JsonDataRegistry<MoveTemplate> {
     override val observable = SimpleObservable<Moves>()
 
     private val allMoves = mutableMapOf<String, MoveTemplate>()
+    private val idMapping = mutableMapOf<Int, MoveTemplate>()
     override fun reload(data: Map<Identifier, MoveTemplate>) {
         this.allMoves.clear()
         data.forEach { (identifier, moveTemplate) -> this.allMoves[identifier.path] = moveTemplate }
+        applyIDs()
         Pokemod.LOGGER.info("Loaded {} moves", this.allMoves.size)
         this.observable.emit(this)
+    }
+
+    private fun applyIDs() {
+        var id = 0
+        this.allMoves.values
+            .sortedBy { it.name }
+            .forEach {
+                it.id = id++
+                idMapping[it.id] = it
+            }
     }
 
     override fun sync(player: ServerPlayerEntity) {
@@ -54,6 +66,7 @@ object Moves : JsonDataRegistry<MoveTemplate> {
     }
 
     fun getByName(name: String) = allMoves[name.lowercase()]
+    fun getByNumericalId(id: Int) = idMapping[id]!!
     fun getByNameOrDummy(name: String) = allMoves[name.lowercase()] ?: MoveTemplate.dummy(name.lowercase())
     fun getExceptional() = getByName("tackle") ?: allMoves.values.random()
     fun count() = allMoves.size

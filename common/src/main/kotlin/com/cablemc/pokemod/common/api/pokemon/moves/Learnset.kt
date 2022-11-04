@@ -10,8 +10,12 @@ package com.cablemc.pokemod.common.api.pokemon.moves
 
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
 import com.cablemc.pokemod.common.api.moves.Moves
+import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.util.isInt
+import com.cablemc.pokemod.common.util.readSizedInt
+import com.cablemc.pokemod.common.util.writeSizedInt
 import com.google.gson.JsonElement
+import net.minecraft.network.PacketByteBuf
 
 open class Learnset {
     class Interpreter(
@@ -87,4 +91,27 @@ open class Learnset {
         .sortedBy { it.key }
         .flatMap { it.value }
         .toSet()
+
+    fun encodeLevelUpMoves(buffer: PacketByteBuf) {
+        buffer.writeSizedInt(IntSize.U_BYTE, levelUpMoves.size)
+        for ((level, moves) in levelUpMoves) {
+            buffer.writeSizedInt(IntSize.U_SHORT, level)
+            buffer.writeSizedInt(IntSize.U_BYTE, moves.size)
+            for (move in moves) {
+                buffer.writeSizedInt(IntSize.U_SHORT, move.id)
+            }
+        }
+    }
+
+    fun decodeLevelUpMoves(buffer: PacketByteBuf) {
+        repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
+            val level = buffer.readSizedInt(IntSize.U_SHORT)
+            val moves = mutableListOf<MoveTemplate>()
+            repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
+                val move = Moves.getByNumericalId(buffer.readSizedInt(IntSize.U_SHORT))
+                moves.add(move)
+            }
+            levelUpMoves[level] = moves
+        }
+    }
 }
