@@ -41,7 +41,7 @@ object PokemodEvents {
     val EVOLUTION_COMPLETE = EventObservable<EvolutionCompleteEvent>()
 
     val POKEMON_CAPTURED = EventObservable<PokemonCapturedEvent>()
-    val EGG_HATCH = EventObservable<HatchEggEvent>()
+//    val EGG_HATCH = EventObservable<HatchEggEvent>()
     val BATTLE_VICTORY = EventObservable<BattleVictoryEvent>()
 
     val LEVEL_UP_EVENT = EventObservable<LevelUpEvent>()

@@ -13,7 +13,6 @@ import com.cablemc.pokemod.common.advancement.PokemodCriteria
 import com.cablemc.pokemod.common.advancement.criterion.CountablePokemonTypeContext
 import com.cablemc.pokemod.common.advancement.criterion.trigger
 import com.cablemc.pokemod.common.api.events.battles.BattleVictoryEvent
-import com.cablemc.pokemod.common.api.events.pokemon.HatchEggEvent
 import com.cablemc.pokemod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cablemc.pokemod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cablemc.pokemod.common.util.getPlayer
@@ -37,13 +36,13 @@ object AdvancementHandler {
         Pokemod.playerData.saveSingle(playerData)
     }
 
-    fun onHatch(event: HatchEggEvent) {
-        val playerData = Pokemod.playerData.get(event.player)
-        val advancementData = playerData.advancementData
-        advancementData.updateTotalEggsHatched()
-        Pokemod.playerData.saveSingle(playerData)
-        PokemodCriteria.EGG_HATCH.trigger(event.player, advancementData.totalEggsHatched)
-    }
+//    fun onHatch(event: HatchEggEvent) {
+//        val playerData = Pokemod.playerData.get(event.player)
+//        val advancementData = playerData.advancementData
+//        advancementData.updateTotalEggsHatched()
+//        Pokemod.playerData.saveSingle(playerData)
+//        PokemodCriteria.EGG_HATCH.trigger(event.player, advancementData.totalEggsHatched)
+//    }
 
     fun onEvolve(event: EvolutionCompleteEvent) {
         val playerData = event.pokemon.getOwnerPlayer()?.let { Pokemod.playerData.get(it) }
