@@ -4,18 +4,19 @@
       "item": "minecraft:elytra"
     },
     "title": {
-      "translate": "advancements.pokemod.first_flying_catch"
+      "translate": "advancements.pokemod.catch_ten_flying"
     },
     "description": {
-      "translate": "advancements.pokemod.first_flying_catch.description"
-    }
+      "translate": "advancements.pokemod.catch_ten_flying.description"
+    },
+    "frame": "challenge"
   },
-  "parent": "pokemod:first_catch",
+  "parent": "pokemod:catch/full_party",
   "criteria": {
     "catch": {
       "trigger": "pokemod:catch_pokemon",
       "conditions": {
-        "count": 1,
+        "count": 10,
         "type": "flying"
       }
     }

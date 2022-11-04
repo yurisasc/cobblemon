@@ -9,7 +9,8 @@
     "description": {
       "translate": "advancements.pokemod.first_battle_victory.description"
     },
-    "background": "pokemod:textures/blocks/apricorn_planks.png"
+    "background": "pokemod:textures/blocks/apricorn_planks.png",
+    "frame": "task"
   },
   "criteria": {
     "catch": {
