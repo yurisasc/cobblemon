@@ -43,7 +43,7 @@ open class MoveTemplate(
     val effectChance: Double,
     val effectStatus: String
 ) {
-    var id = 0
+    var id = -1
     val displayName: MutableText
         get() = lang("move.$name")
     val description: MutableText

@@ -13,12 +13,15 @@ import com.cablemc.pokemod.common.api.moves.Moves
 import com.cablemc.pokemod.common.api.moves.categories.DamageCategories
 import com.cablemc.pokemod.common.api.types.ElementalTypes
 import com.cablemc.pokemod.common.battles.MoveTarget
+import com.cablemc.pokemod.common.net.IntSize
 import com.cablemc.pokemod.common.util.pokemodResource
+import com.cablemc.pokemod.common.util.readSizedInt
+import com.cablemc.pokemod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 
 class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate>(Moves.all()) {
     override fun encodeEntry(buffer: PacketByteBuf, entry: MoveTemplate) {
-        buffer.writeInt(entry.id)
+        buffer.writeSizedInt(IntSize.U_SHORT, entry.id)
         buffer.writeString(entry.name)
         buffer.writeString(entry.elementalType.name)
         buffer.writeString(entry.damageCategory.name)
@@ -33,7 +36,7 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate>(Moves.all()
     }
 
     override fun decodeEntry(buffer: PacketByteBuf): MoveTemplate? {
-        val id = buffer.readInt()
+        val id = buffer.readSizedInt(IntSize.U_SHORT)
         val name = buffer.readString()
         val type = ElementalTypes.getOrException(buffer.readString())
         val damageCategory = DamageCategories.getOrException(buffer.readString())
@@ -49,7 +52,6 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate>(Moves.all()
     }
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {
-        Moves.reload(entries.associateBy { pokemodResource(it.name) }, false)
+        Moves.reload(entries.associateBy { pokemodResource(it.name) })
     }
-
 }

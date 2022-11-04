@@ -43,21 +43,18 @@ object Moves : JsonDataRegistry<MoveTemplate> {
 
     private val allMoves = mutableMapOf<String, MoveTemplate>()
     private val idMapping = mutableMapOf<Int, MoveTemplate>()
-    override fun reload(data: Map<Identifier, MoveTemplate>) {
-        this.reload(data, true)
-    }
 
-    // ToDo we need a system to easily check between client, logical and integrated server and allow code to run in specific environments, once that is done it should be applied here in favour of this "cheat", there is API for that on Arch but doesn't seem to work very well
-    // applyId should be true server side and false client
-    internal fun reload(data: Map<Identifier, MoveTemplate>, applyId: Boolean) {
+    override fun reload(data: Map<Identifier, MoveTemplate>) {
         this.allMoves.clear()
+        var shouldApplyIds = true
         data.forEach { (identifier, moveTemplate) ->
             this.allMoves[identifier.path] = moveTemplate
-            if (!applyId) {
-                this.idMapping[moveTemplate.id] = moveTemplate
+            if (moveTemplate.id != -1) {
+                shouldApplyIds = false
+                idMapping[moveTemplate.id] = moveTemplate
             }
         }
-        if (applyId) {
+        if (shouldApplyIds) {
             applyIDs()
         }
         Pokemod.LOGGER.info("Loaded {} moves", this.allMoves.size)
