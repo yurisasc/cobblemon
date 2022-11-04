@@ -8,57 +8,32 @@
 
 package com.cablemc.pokemod.common.advancement.criterion
 
-import com.cablemc.pokemod.common.util.pokemodResource
 import com.google.gson.JsonObject
-import net.minecraft.advancement.criterion.AbstractCriterion
-import net.minecraft.advancement.criterion.AbstractCriterionConditions
-import net.minecraft.predicate.entity.AdvancementEntityPredicateDeserializer
-import net.minecraft.predicate.entity.AdvancementEntityPredicateSerializer
-import net.minecraft.predicate.entity.EntityPredicate
+import net.minecraft.predicate.entity.EntityPredicate.Extended
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
-class CatchPokemonCriterion : AbstractCriterion<CatchPokemonCriterion.Conditions>() {
+/**
+ * A context that is used when you require a [CountableContext] along with some type string.
+ *
+ * @author Hiroku
+ * @since November 4th, 2022
+ */
+open class CountablePokemonTypeContext(times: Int, var type: String) : CountableContext(times)
 
-    override fun getId(): Identifier = ID
-
-    override fun conditionsFromJson(
-            obj: JsonObject,
-            playerPredicate: EntityPredicate.Extended,
-            predicateDeserializer: AdvancementEntityPredicateDeserializer
-    ): Conditions {
-        if (obj.has("count")) {
-            if(obj.has("type")) {
-                return Conditions(playerPredicate, obj.get("count").asInt, obj.get("type").asString)
-            }
-            return Conditions(playerPredicate, obj.get("count").asInt, "any")
-        }
-        return Conditions(playerPredicate, 0, "any")
+class CaughtPokemonCriterionCondition(id: Identifier, entity: Extended) : CountableCriterionCondition<CountablePokemonTypeContext>(id, entity) {
+    var type = "any"
+    override fun toJson(json: JsonObject) {
+        super.toJson(json)
+        json.addProperty("type", type)
     }
 
-    fun trigger(player: ServerPlayerEntity, count: Int, type: String) {
-        this.trigger(player) { predicate -> predicate.matches(count, type) }
+    override fun fromJson(json: JsonObject) {
+        super.fromJson(json)
+        type = json.get("type")?.asString ?: "any"
     }
 
-    class Conditions(entity: EntityPredicate.Extended, private val count: Int, private val type: String) : AbstractCriterionConditions(ID, entity) {
-
-        override fun toJson(predicateSerializer: AdvancementEntityPredicateSerializer?): JsonObject {
-            val json = super.toJson(predicateSerializer)
-            json.addProperty("count", this.count)
-            json.addProperty("type", this.type)
-            return json
-        }
-
-        fun matches(totalCount: Int, type: String): Boolean {
-            if(this.type == "any")
-            {
-              return this.count == totalCount
-            }
-            return this.count == totalCount && this.type == type
-        }
-    }
-
-    companion object {
-        private val ID = pokemodResource("catch_pokemon")
+    override fun matches(player: ServerPlayerEntity, context: CountablePokemonTypeContext): Boolean {
+        return super.matches(player, context) && context.type == type
     }
 }

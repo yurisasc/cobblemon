@@ -9,8 +9,15 @@
 package com.cablemc.pokemod.common.api.events.battles
 
 import com.cablemc.pokemod.common.api.battles.model.PokemonBattle
+import com.cablemc.pokemod.common.api.battles.model.actor.BattleActor
 
+/**
+ * Event fired when a battle is won by some number of [BattleActor]s.
+ *
+ * @author MoeBoy76
+ * @since November 3rd, 2022
+ */
 data class BattleVictoryEvent (
     val battle: PokemonBattle,
-    val victorIDs : List<String>
+    val winners : List<BattleActor>
 )

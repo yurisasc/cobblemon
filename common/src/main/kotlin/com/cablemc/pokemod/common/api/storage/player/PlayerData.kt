@@ -22,6 +22,8 @@ data class PlayerData(
     var starterUUID: UUID?,
     val extraData: MutableMap<String, PlayerDataExtension>
 ) {
+    var advancementData: PlayerAdvancementData = PlayerAdvancementData()
+
     fun sendToPlayer(player: ServerPlayerEntity) {
         player.sendPacket(SetClientPlayerDataPacket(this))
     }

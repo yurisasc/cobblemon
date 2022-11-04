@@ -11,6 +11,7 @@
     },
     "background": "pokemod:textures/blocks/apricorn_planks.png"
   },
+  "parent": "pokemod:root",
   "criteria": {
     "catch": {
       "trigger": "pokemod:catch_pokemon",

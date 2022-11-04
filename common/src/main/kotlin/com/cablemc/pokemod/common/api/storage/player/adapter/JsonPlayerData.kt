@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common.api.storage.player.adapter
 
+import com.cablemc.pokemod.common.api.storage.player.PlayerAdvancementData
 import com.cablemc.pokemod.common.api.storage.player.PlayerData
 import com.cablemc.pokemod.common.api.storage.player.PlayerDataExtension
 import com.cablemc.pokemod.common.util.fromJson
@@ -56,6 +57,10 @@ class JsonPlayerData: PlayerDataFileStoreAdapter {
         return if (playerFile.exists()) {
             gson.fromJson<PlayerData>(BufferedReader(FileReader(playerFile))).also {
                 cache[uuid] = it
+                // Resolves old data from pre 1.0, don't even ask man. - Hiroku
+                if (it.advancementData == null) {
+                    it.advancementData = PlayerAdvancementData()
+                }
             }
         } else {
             PlayerData.default(uuid).also(::save)
