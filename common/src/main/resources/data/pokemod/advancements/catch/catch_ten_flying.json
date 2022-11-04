@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:elytra"
+    },
+    "title": {
+      "translate": "advancements.pokemod.catch_ten_flying"
+    },
+    "description": {
+      "translate": "advancements.pokemod.catch_ten_flying.description"
+    },
+    "frame": "challenge"
+  },
+  "parent": "pokemod:catch/full_party",
+  "criteria": {
+    "catch": {
+      "trigger": "pokemod:catch_pokemon",
+      "conditions": {
+        "count": 10,
+        "type": "flying"
+      }
+    }
+  }
+}

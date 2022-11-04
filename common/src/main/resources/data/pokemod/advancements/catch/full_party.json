@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokemod:pc"
+    },
+    "title": {
+      "translate": "advancements.pokemod.full_party"
+    },
+    "description": {
+      "translate": "advancements.pokemod.full_party.description"
+    },
+    "background": "pokemod:textures/blocks/apricorn_planks.png"
+  },
+  "criteria": {
+    "catch": {
+      "trigger": "pokemod:catch_pokemon",
+      "conditions": {
+        "count": 5,
+        "type": "any"
+      }
+    }
+  }
+}

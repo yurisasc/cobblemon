@@ -8,7 +8,8 @@
 
 package com.cablemc.pokemod.common.advancement
 
-import com.cablemc.pokemod.common.advancement.criterion.PickStarterCriterion
+import com.cablemc.pokemod.common.advancement.criterion.*
+import com.cablemc.pokemod.common.util.pokemodResource
 import net.minecraft.advancement.criterion.Criteria
 
 /**
@@ -18,7 +19,40 @@ import net.minecraft.advancement.criterion.Criteria
  * @since October 26th, 2022
  */
 object PokemodCriteria {
-
-    val PICK_STARTER = Criteria.register(PickStarterCriterion())
-
+    val PICK_STARTER = Criteria.register(
+        SimpleCriterionTrigger(
+            pokemodResource("pick_starter"),
+            PickStarterCriterionCondition::class.java
+        )
+    )
+    val CATCH_POKEMON = Criteria.register(
+        SimpleCriterionTrigger(
+            pokemodResource("catch_pokemon"),
+            CaughtPokemonCriterionCondition::class.java
+        )
+    )
+    val CATCH_SHINY_POKEMON = Criteria.register(
+        SimpleCriterionTrigger(
+            pokemodResource("catch_shiny_pokemon"),
+            SimpleCountableCriterionCondition::class.java
+        )
+    )
+    val EGG_HATCH = Criteria.register(
+        SimpleCriterionTrigger(
+            pokemodResource("eggs_hatched"),
+            SimpleCountableCriterionCondition::class.java
+        )
+    )
+    val EVOLVE_POKEMON = Criteria.register(
+        SimpleCriterionTrigger(
+            pokemodResource("pokemon_evolved"),
+            SimpleCountableCriterionCondition::class.java
+        )
+    )
+    val WIN_BATTLE = Criteria.register(
+        SimpleCriterionTrigger(
+            pokemodResource("battles_won"),
+            SimpleCountableCriterionCondition::class.java
+        )
+    )
 }

@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokemod:poke_ball"
+    },
+    "title": {
+      "translate": "pokemod:craft_poke_ball"
+    },
+    "description": {
+      "translate": "pokemod:craft_poke_ball.description"
+    },
+    "background": "pokemod:textures/blocks/apricorn_planks.png"
+  },
+  "parent": "pokemod:harvest_apricorn",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "pokemod:poke_ball"
+          }
+        ]
+      }
+    }
+  }
+}
