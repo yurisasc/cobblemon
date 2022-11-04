@@ -16,7 +16,6 @@ import com.cablemc.pokemod.common.api.drop.DropEntry
 import com.cablemc.pokemod.common.api.drop.ItemDropEntry
 import com.cablemc.pokemod.common.api.events.PokemodEvents
 import com.cablemc.pokemod.common.api.events.PokemodEvents.BATTLE_VICTORY
-import com.cablemc.pokemod.common.api.events.PokemodEvents.EGG_HATCH
 import com.cablemc.pokemod.common.api.events.PokemodEvents.EVOLUTION_COMPLETE
 import com.cablemc.pokemod.common.api.events.PokemodEvents.PLAYER_JOIN
 import com.cablemc.pokemod.common.api.events.PokemodEvents.PLAYER_QUIT
@@ -90,14 +89,27 @@ import com.cablemc.pokemod.common.pokemon.properties.UntradeableProperty
 import com.cablemc.pokemod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cablemc.pokemod.common.registry.CompletableRegistry
 import com.cablemc.pokemod.common.starter.CobbledStarterHandler
-import com.cablemc.pokemod.common.util.*
+import com.cablemc.pokemod.common.util.DataKeys
+import com.cablemc.pokemod.common.util.getServer
+import com.cablemc.pokemod.common.util.ifDedicatedServer
+import com.cablemc.pokemod.common.util.party
+import com.cablemc.pokemod.common.util.pokemodResource
+import com.cablemc.pokemod.common.util.removeAmountIf
 import com.cablemc.pokemod.common.world.PokemodGameRules
-import dev.architectury.event.EventResult
 import com.cablemc.pokemod.common.world.feature.PokemodOrePlacedFeatures
 import com.cablemc.pokemod.common.world.placement.PokemodPlacementTypes
+import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.hooks.item.tool.AxeItemHooks
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.io.PrintWriter
+import java.util.UUID
+import kotlin.properties.Delegates
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.server.network.ServerPlayerEntity
@@ -105,14 +117,6 @@ import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.io.PrintWriter
-import java.util.*
-import kotlin.properties.Delegates
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.memberProperties
 
 object Pokemod {
     const val MODID = "pokemod"
@@ -253,7 +257,7 @@ object Pokemod {
         SERVER_STARTED.subscribe { bestSpawner.onServerStarted() }
         TICK_POST.subscribe { ServerTickHandler.onTick(it) }
         POKEMON_CAPTURED.subscribe { AdvancementHandler.onCapture(it) }
-        EGG_HATCH.subscribe { AdvancementHandler.onHatch(it) }
+//        EGG_HATCH.subscribe { AdvancementHandler.onHatch(it) }
         EVOLUTION_COMPLETE.subscribe { AdvancementHandler.onEvolve(it) }
         BATTLE_VICTORY.subscribe { AdvancementHandler.onWinBattle(it) }
         PokemodEvents.EVOLUTION_COMPLETE.subscribe(Priority.LOWEST) { event ->
