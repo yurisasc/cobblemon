@@ -10,6 +10,7 @@ package com.cablemc.pokemod.common.api.spawning
 
 import com.cablemc.pokemod.common.Pokemod
 import com.cablemc.pokemod.common.Pokemod.config
+import com.cablemc.pokemod.common.api.spawning.mixins.CachedOnlyChunkAccessor
 import com.cablemc.pokemod.common.api.spawning.prospecting.SpawningProspector
 import com.cablemc.pokemod.common.api.spawning.spawner.Spawner
 import com.cablemc.pokemod.common.api.spawning.spawner.SpawningArea
@@ -20,6 +21,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.ChunkSectionPos.getSectionCoord
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.chunk.ChunkManager
 import net.minecraft.world.chunk.ChunkStatus
 import net.minecraft.world.chunk.WorldChunk
 
@@ -79,7 +81,8 @@ object CobbledSpawningProspector : SpawningProspector {
         for (x in area.baseX until area.baseX + area.length) {
             for (z in area.baseZ until area.baseZ + area.width) {
                 val query = chunks.computeIfAbsent(Pair(getSectionCoord(x), getSectionCoord(z))) {
-                    world.getChunk(it.first, it.second, ChunkStatus.FULL, false)
+                    val manager = world.chunkManager as CachedOnlyChunkAccessor
+                    manager.`cobbled$request`(it.first, it.second, ChunkStatus.FULL)
                 } ?: continue
 
                 var canSeeSky = true
