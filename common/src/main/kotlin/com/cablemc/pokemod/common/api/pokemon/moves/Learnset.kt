@@ -8,6 +8,7 @@
 
 package com.cablemc.pokemod.common.api.pokemon.moves
 
+import com.cablemc.pokemod.common.api.data.ClientDataSynchronizer
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
 import com.cablemc.pokemod.common.api.moves.Moves
 import com.cablemc.pokemod.common.net.IntSize
@@ -17,7 +18,7 @@ import com.cablemc.pokemod.common.util.writeSizedInt
 import com.google.gson.JsonElement
 import net.minecraft.network.PacketByteBuf
 
-open class Learnset {
+open class Learnset : ClientDataSynchronizer<Learnset> {
     class Interpreter(
         val loadMove: (JsonElement, Learnset) -> Boolean
     ) {
@@ -92,18 +93,11 @@ open class Learnset {
         .flatMap { it.value }
         .toSet()
 
-    fun encodeLevelUpMoves(buffer: PacketByteBuf) {
-        buffer.writeSizedInt(IntSize.U_BYTE, levelUpMoves.size)
-        for ((level, moves) in levelUpMoves) {
-            buffer.writeSizedInt(IntSize.U_SHORT, level)
-            buffer.writeSizedInt(IntSize.U_BYTE, moves.size)
-            for (move in moves) {
-                buffer.writeSizedInt(IntSize.U_SHORT, move.id)
-            }
-        }
-    }
+    // We only sync level up moves atm
+    override fun shouldSynchronize(other: Learnset) = other.levelUpMoves != this.levelUpMoves
 
-    fun decodeLevelUpMoves(buffer: PacketByteBuf) {
+    override fun decode(buffer: PacketByteBuf) {
+        this.levelUpMoves.clear()
         repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
             val level = buffer.readSizedInt(IntSize.U_SHORT)
             val moves = mutableListOf<MoveTemplate>()
@@ -112,6 +106,17 @@ open class Learnset {
                 moves.add(move)
             }
             levelUpMoves[level] = moves
+        }
+    }
+
+    override fun encode(buffer: PacketByteBuf) {
+        buffer.writeSizedInt(IntSize.U_BYTE, levelUpMoves.size)
+        for ((level, moves) in levelUpMoves) {
+            buffer.writeSizedInt(IntSize.U_SHORT, level)
+            buffer.writeSizedInt(IntSize.U_BYTE, moves.size)
+            for (move in moves) {
+                buffer.writeSizedInt(IntSize.U_SHORT, move.id)
+            }
         }
     }
 }
