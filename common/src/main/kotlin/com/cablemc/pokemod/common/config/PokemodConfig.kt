@@ -59,7 +59,7 @@ class PokemodConfig {
     var enableSpawning = true
 
     @NodeCategory(Category.Spawning)
-    var minimumDistanceBetweenEntities = 6.0
+    var minimumDistanceBetweenEntities = 8.0
 
     @NodeCategory(Category.Spawning)
     var maxNearbyBlocksHorizontalRange = 4
@@ -74,16 +74,16 @@ class PokemodConfig {
     var maxVerticalSpace = 8
 
     @NodeCategory(Category.Spawning)
-    var worldSliceDiameter = 12
+    var worldSliceDiameter = 8
 
     @NodeCategory(Category.Spawning)
-    var worldSliceHeight = 8
+    var worldSliceHeight = 16
 
     @NodeCategory(Category.Spawning)
-    var minimumSliceDistanceFromPlayer = 16 * 1.5F
+    var minimumSliceDistanceFromPlayer = 16 * 2F
 
     @NodeCategory(Category.Spawning)
-    var maximumSliceDistanceFromPlayer = 16 * 2.5F
+    var maximumSliceDistanceFromPlayer = 16 * 6F
 
     @NodeCategory(Category.Spawning)
     var exportSpawnsToConfig = false

@@ -29,10 +29,10 @@ import net.minecraft.entity.Entity
  * @since March 19th, 2022
  */
 class CobbledAgingDespawner<T : Entity>(
-    val nearDistance: Float = 12F,
-    val farDistance: Float = 42F,
-    val minAgeTicks: Int = 20 * 3,
-    val maxAgeTicks: Int = 20 * 120,
+    val nearDistance: Float = 2 * 16F,
+    val farDistance: Float = 7 * 16F,
+    val minAgeTicks: Int = 20 * 60 * 1,
+    val maxAgeTicks: Int = 20 * 60 * 5,
     val getAgeTicks: (T) -> Int
 ) : Despawner<T> {
 
