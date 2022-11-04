@@ -27,7 +27,7 @@ internal object CobbledDataProvider : DataProvider {
 
     // Both Forge n Fabric keep insertion order so if a registry depends on another simply register it after
     var canReload = true
-    private val registries = hashMapOf<Identifier, DataRegistry>()
+    private val registries = linkedMapOf<Identifier, DataRegistry>()
 
     fun registerDefaults() {
         this.register(Moves)

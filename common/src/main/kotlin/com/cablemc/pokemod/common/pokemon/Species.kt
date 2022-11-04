@@ -148,6 +148,7 @@ class Species : ClientDataSynchronizer<Species> {
         buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
+        moves.encodeLevelUpMoves(buffer)
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -162,6 +163,7 @@ class Species : ClientDataSynchronizer<Species> {
             pokedex += buffer.readList { pb -> pb.readString() }
             forms.clear()
             forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
+            moves.decodeLevelUpMoves(buffer)
         }
     }
 
