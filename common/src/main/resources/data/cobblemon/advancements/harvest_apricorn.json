@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "cobblemon:red_apricorn"
+    },
+    "title": {
+      "translate": "advancements.cobblemon.harvest_apricorn"
+    },
+    "description": {
+      "translate": "advancements.cobblemon.harvest_apricorn.description"
+    }
+  },
+  "parent": "cobblemon:root",
+  "criteria": {
+    "check_inv": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "cobblemon:apricorns"
+          }
+        ]
+      }
+    }
+  }
+}

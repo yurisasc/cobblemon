@@ -5,7 +5,7 @@ stages:
   - build
   - deploy
 
-#TODO add client reference test process, search for import com.cablemc.pokemod.common.client
+#TODO add client reference test process, search for import com.cobblemon.mod.common.client
 
 build-job:
   stage: build

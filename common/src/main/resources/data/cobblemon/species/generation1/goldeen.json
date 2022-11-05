@@ -1,0 +1,159 @@
+{
+    "name": "goldeen",
+    "nationalPokedexNumber": 118,
+    "primaryType": "water",
+    "abilities": [
+        "swiftswim",
+        "waterveil",
+        "h:lightningrod"
+    ],
+    "baseStats": {
+        "hp": 45,
+        "attack": 67,
+        "defence": 60,
+        "special_attack": 35,
+        "special_defence": 50,
+        "speed": 63
+    },
+    "catchRate": 225,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 64,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water_2"
+    ],
+    "behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+                "canBreatheUnderwater": true
+            }
+        }
+    },
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:salmon"
+            }
+        ]
+    },
+    "moves": [
+        "1:tailwhip",
+        "1:peck",
+        "1:watersport",
+        "5:supersonic",
+        "10:quickattack",
+        "10:waterpulse",
+        "15:hornattack",
+        "20:furyattack",
+        "20:agility",
+        "25:aquaring",
+        "30:flail",
+        "35:waterfall",
+        "40:soak",
+        "45:megahorn",
+        "50:horndrill",
+        "egg:acupressure",
+        "egg:aquatail",
+        "egg:haze",
+        "egg:mudslap",
+        "egg:mudsport",
+        "egg:psybeam",
+        "egg:signalbeam",
+        "egg:skullbash",
+        "tm:agility",
+        "tm:attract",
+        "tm:bide",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:bounce",
+        "tm:bubblebeam",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
+        "tm:dive",
+        "tm:doubleteam",
+        "tm:drillrun",
+        "tm:endure",
+        "tm:facade",
+        "tm:frustration",
+        "tm:hail",
+        "tm:headbutt",
+        "tm:hiddenpower",
+        "tm:hydropump",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:megahorn",
+        "tm:muddywater",
+        "tm:mudshot",
+        "tm:naturalgift",
+        "tm:poisonjab",
+        "tm:protect",
+        "tm:rage",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:scald",
+        "tm:secretpower",
+        "tm:sleeptalk",
+        "tm:smartstrike",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swagger",
+        "tm:swift",
+        "tm:swordsdance",
+        "tm:takedown",
+        "tm:throatchop",
+        "tm:toxic",
+        "tm:waterfall",
+        "tm:watergun",
+        "tm:whirlpool",
+        "tutor:doubleedge",
+        "tutor:flipturn",
+        "tutor:furycutter",
+        "tutor:knockoff",
+        "tutor:mimic",
+        "tutor:scaleshot",
+        "tutor:signalbeam"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "cobblemon.species.goldeen.desc1",
+        "cobblemon.species.goldeen.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "goldeen_seaking",
+            "variant": "level_up",
+            "result": "seaking",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 33
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 0.5,
+        "height": 0.4,
+        "fixed": false
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 6,
+    "weight": 150
+}

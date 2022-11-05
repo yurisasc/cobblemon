@@ -1,0 +1,45 @@
+{
+    "name": "overqwil",
+    "nationalPokedexNumber": 904,
+    "primaryType": "dark",
+    "secondaryType": "poison",
+    "abilities": [
+        "poisonpoint",
+        "swiftswim",
+        "h:intimidate"
+    ],
+    "baseStats": {
+        "hp": 85,
+        "attack": 115,
+        "defence": 95,
+        "special_attack": 65,
+        "special_defence": 65,
+        "speed": 85
+    },
+    "catchRate": 135,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "baseExperienceYield": null,
+    "baseFriendship": null,
+    "evYield": {
+        "attack": 1
+    },
+    "experienceGroup": "mediumfast",
+    "eggCycles": null,
+    "eggGroups": [
+        "water_2"
+    ],
+    "moves": [],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "cobblemon.species.overqwil.desc1",
+        "cobblemon.species.overqwil.desc2"
+    ],
+    "height": 25,
+    "weight": 605,
+    "preEvolution": "qwilfish",
+    "evolutions": [],
+    "forms": []
+}

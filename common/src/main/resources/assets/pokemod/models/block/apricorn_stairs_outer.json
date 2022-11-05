@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "pokemod:blocks/apricorn_planks",
-    "top": "pokemod:blocks/apricorn_planks",
-    "side": "pokemod:blocks/apricorn_planks"
-  }
-}

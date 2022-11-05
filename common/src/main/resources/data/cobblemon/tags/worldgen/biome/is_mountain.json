@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+	"#minecraft:is_mountain",
+    "#cobblemon:is_hills",
+    {
+      "id": "terralith:stony_spires",
+      "required": false
+    },
+	{
+      "id": "terralith:volcanic_peaks",
+      "required": false
+    },
+	{
+      "id": "terralith:windswept_spires",
+      "required": false
+    },
+	{
+      "id": "terralith:yosemite_cliffs",
+      "required": false
+    }
+  ]
+}

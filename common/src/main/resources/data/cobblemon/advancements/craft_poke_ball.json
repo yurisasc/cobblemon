@@ -1,0 +1,27 @@
+{
+  "display": {
+    "icon": {
+      "item": "cobblemon:poke_ball"
+    },
+    "title": {
+      "translate": "advancements.cobblemon.craft_poke_ball"
+    },
+    "description": {
+      "translate": "advancements.cobblemon.craft_poke_ball.description"
+    },
+    "background": "cobblemon:textures/blocks/apricorn_planks.png"
+  },
+  "parent": "cobblemon:harvest_apricorn",
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "cobblemon:poke_ball"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "capture_succeeded": {
+    "subtitle": "cobblemon.subtitle.capture_succeeded",
+    "sounds": [ "cobblemon:pokeball/capture_succeeded" ]
+  },
+  "shake": {
+    "sounds": [ "cobblemon:pokeball/shake" ]
+  },
+  "capture_started": {
+    "sounds": [ "cobblemon:pokeball/capture_started" ]
+  },
+  "recall": {
+    "sounds": [ "cobblemon:pokeball/recall" ]
+  },
+  "send_out": {
+    "sounds": [ "cobblemon:pokeball/send_out" ]
+  },
+  "hit": {
+    "sounds": [ "cobblemon:pokeball/hit" ]
+  }
+}

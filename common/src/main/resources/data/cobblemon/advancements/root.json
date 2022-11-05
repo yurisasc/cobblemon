@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "cobblemon:poke_ball"
+    },
+    "title": {
+      "translate": "advancements.cobblemon.root"
+    },
+    "description": {
+      "translate": "advancements.cobblemon.root.description"
+    },
+    "background": "cobblemon:textures/blocks/apricorn_planks.png"
+  },
+  "criteria": {
+    "picked_starter": {
+      "trigger": "cobblemon:pick_starter"
+    }
+  }
+}

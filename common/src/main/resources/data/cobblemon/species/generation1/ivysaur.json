@@ -1,0 +1,156 @@
+{
+    "name": "ivysaur",
+    "nationalPokedexNumber": 2,
+    "primaryType": "grass",
+    "secondaryType": "poison",
+    "abilities": [
+        "overgrow",
+        "h:chlorophyll"
+    ],
+    "baseStats": {
+        "hp": 60,
+        "attack": 62,
+        "defence": 63,
+        "special_attack": 80,
+        "special_defence": 80,
+        "speed": 60
+    },
+    "catchRate": 45,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 142,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "monster",
+        "grass"
+    ],
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:melon_seeds",
+                "quantityRange": "1-2",
+                "percentage": 66
+            }
+        ]
+    },
+    "moves": [
+        "1:vinewhip",
+        "1:tackle",
+        "1:growl",
+        "1:growth",
+        "9:leechseed",
+        "12:razorleaf",
+        "15:poisonpowder",
+        "15:sleeppowder",
+        "20:seedbomb",
+        "25:takedown",
+        "30:sweetscent",
+        "35:synthesis",
+        "40:worryseed",
+        "45:doubleedge",
+        "50:solarbeam",
+        "tm:amnesia",
+        "tm:attract",
+        "tm:bide",
+        "tm:bodyslam",
+        "tm:bulletseed",
+        "tm:captivate",
+        "tm:charm",
+        "tm:confide",
+        "tm:curse",
+        "tm:cut",
+        "tm:doubleteam",
+        "tm:echoedvoice",
+        "tm:endure",
+        "tm:energyball",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:flash",
+        "tm:frustration",
+        "tm:gigadrain",
+        "tm:grassknot",
+        "tm:grassyterrain",
+        "tm:headbutt",
+        "tm:helpinghand",
+        "tm:hiddenpower",
+        "tm:leafstorm",
+        "tm:lightscreen",
+        "tm:magicalleaf",
+        "tm:megadrain",
+        "tm:naturalgift",
+        "tm:naturepower",
+        "tm:outrage",
+        "tm:powerwhip",
+        "tm:protect",
+        "tm:rage",
+        "tm:reflect",
+        "tm:rest",
+        "tm:return",
+        "tm:rocksmash",
+        "tm:round",
+        "tm:safeguard",
+        "tm:secretpower",
+        "tm:seedbomb",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:solarbeam",
+        "tm:strength",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:toxic",
+        "tm:venoshock",
+        "tm:weatherball",
+        "tm:workup",
+        "tutor:bind",
+        "tutor:defensecurl",
+        "tutor:furycutter",
+        "tutor:grasspledge",
+        "tutor:grassyglide",
+        "tutor:knockoff",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:stringshot"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "cobblemon.species.ivysaur.desc1",
+        "cobblemon.species.ivysaur.desc2"
+    ],
+    "preEvolution": "bulbasaur",
+    "evolutions": [
+        {
+            "id": "ivysaur_venusaur",
+            "variant": "level_up",
+            "result": "venusaur",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 32
+                }
+            ]
+        }
+    ],
+    "baseScale": 1,
+    "hitbox": {
+        "width": 0.7,
+        "height": 0.8,
+        "fixed": false
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "special_attack": 1,
+        "special_defence": 1
+    },
+    "height": 10,
+    "weight": 130
+}

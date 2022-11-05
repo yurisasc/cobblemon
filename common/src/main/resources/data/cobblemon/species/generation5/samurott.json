@@ -1,0 +1,146 @@
+{
+    "name": "samurott",
+    "nationalPokedexNumber": 503,
+    "primaryType": "water",
+    "abilities": [
+        "torrent",
+        "h:shellarmor"
+    ],
+    "baseStats": {
+        "hp": 95,
+        "attack": 100,
+        "defence": 85,
+        "special_attack": 108,
+        "special_defence": 70,
+        "speed": 70
+    },
+    "catchRate": 45,
+    "maleRatio": 0.875,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "normal"
+        },
+        {
+            "name": "hisui",
+            "secondaryType": "dark",
+            "baseStats": {
+                "hp": 90,
+                "attack": 108,
+                "defence": 80,
+                "special_attack": 100,
+                "special_defence": 65,
+                "speed": 85
+            },
+            "baseExperienceYield": null,
+            "moves": [],
+            "pokedex": [
+                "cobblemon.form.samurott-hisui.desc1",
+                "cobblemon.form.samurott-hisui.desc2"
+            ],
+            "weight": 582
+        }
+    ],
+    "baseExperienceYield": 238,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 20,
+    "eggGroups": [
+        "field"
+    ],
+    "moves": [
+        "0:slash",
+        "1:tackle",
+        "1:tailwhip",
+        "1:watergun",
+        "1:slash",
+        "1:megahorn",
+        "1:watersport",
+        "5:tailwhip",
+        "7:watergun",
+        "11:watersport",
+        "13:focusenergy",
+        "18:razorshell",
+        "21:furycutter",
+        "25:waterpulse",
+        "29:revenge",
+        "34:aquajet",
+        "39:encore",
+        "46:aquatail",
+        "51:retaliate",
+        "58:swordsdance",
+        "63:hydropump",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:blizzard",
+        "tm:confide",
+        "tm:cut",
+        "tm:dig",
+        "tm:dive",
+        "tm:doubleteam",
+        "tm:dragontail",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:grassknot",
+        "tm:hail",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:rocksmash",
+        "tm:round",
+        "tm:scald",
+        "tm:secretpower",
+        "tm:sleeptalk",
+        "tm:smartstrike",
+        "tm:strength",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:taunt",
+        "tm:toxic",
+        "tm:waterfall",
+        "tm:workup",
+        "tm:xscissor",
+        "tutor:aquatail",
+        "tutor:block",
+        "tutor:covet",
+        "tutor:helpinghand",
+        "tutor:hydrocannon",
+        "tutor:icywind",
+        "tutor:irontail",
+        "tutor:knockoff",
+        "tutor:liquidation",
+        "tutor:snore",
+        "tutor:superpower",
+        "tutor:waterpledge",
+        "tutor:waterpulse"
+    ],
+    "labels": [
+        "gen5"
+    ],
+    "pokedex": [
+        "cobblemon.species.samurott.desc1",
+        "cobblemon.species.samurott.desc2"
+    ],
+    "preEvolution": "dewott",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 3
+    },
+    "height": 15,
+    "weight": 946
+}

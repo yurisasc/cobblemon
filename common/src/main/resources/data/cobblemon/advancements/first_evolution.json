@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "item": "cobblemon:link_cable"
+    },
+    "title": {
+      "translate": "advancements.cobblemon.first_evolution"
+    },
+    "description": {
+      "translate": "advancements.cobblemon.first_evolution.description"
+    },
+    "background": "cobblemon:textures/blocks/apricorn_planks.png"
+  },
+  "criteria": {
+    "catch": {
+      "trigger": "cobblemon:pokemon_evolved",
+      "conditions": {
+        "count": 1
+      }
+    }
+  }
+}
