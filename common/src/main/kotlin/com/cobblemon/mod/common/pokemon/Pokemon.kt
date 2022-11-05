@@ -120,9 +120,9 @@ open class Pokemon {
             features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
             features.removeAll { it.name in removedFeatures }
             this.evolutionProxy.current().clear()
-            checkGender()
             updateAspects()
             updateForm()
+            checkGender()
             updateHP(quotient)
             if (ability.template == Abilities.DUMMY && !isClient) {
                 ability = form.abilities.select(value, aspects)
