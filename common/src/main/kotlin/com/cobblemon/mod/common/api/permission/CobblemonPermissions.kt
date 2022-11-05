@@ -20,7 +20,9 @@ object CobblemonPermissions {
 
     const val GET_NBT = "${COMMAND_PREFIX}getnbt"
 
-    const val GIVE_POKEMON = "${COMMAND_PREFIX}givepokemon"
+    private const val GIVE_POKEMON_BASE = "${COMMAND_PREFIX}givepokemon"
+    const val GIVE_POKEMON_SELF = "$GIVE_POKEMON_BASE.self"
+    const val GIVE_POKEMON_OTHER = "$GIVE_POKEMON_BASE.other"
 
     private const val HEAL_POKEMON_BASE = "${COMMAND_PREFIX}healpokemon"
     const val HEAL_POKEMON_SELF = "$HEAL_POKEMON_BASE.self"
