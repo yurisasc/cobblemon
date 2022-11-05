@@ -9,12 +9,10 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.permissionLevel
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.server.command.CommandManager
@@ -26,7 +24,6 @@ object FriendshipCommand {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(CommandManager.literal("friendship")
             .permission(CobblemonPermissions.FRIENDSHIP)
-            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(
                 CommandManager.argument("slot", PartySlotArgumentType.partySlot())
                     .executes { execute(it.source, it.source.playerOrThrow, PartySlotArgumentType.getPokemon(it, "slot")) }

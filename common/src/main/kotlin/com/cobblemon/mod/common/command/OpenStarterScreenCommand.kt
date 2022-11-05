@@ -11,12 +11,10 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork.sendPacket
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.net.messages.client.starter.OpenStarterUIPacket
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.permissionLevel
 import com.mojang.brigadier.Command.SINGLE_SUCCESS
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -31,7 +29,6 @@ object OpenStarterScreenCommand {
         dispatcher.register(
             literal("openstarterscreen")
                 .permission(CobblemonPermissions.OPEN_STARTER_SCREEN)
-                .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
                 .then(
                     argument("player", EntityArgumentType.player())
                         .executes { execute(it,) }

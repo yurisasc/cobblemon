@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
+import com.cobblemon.mod.forge.permission.ForgePermissionValidator
 import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
 import java.util.*
@@ -68,9 +69,10 @@ class CobblemonForge : CobblemonImplementation {
     fun initialize(event: FMLCommonSetupEvent) {
         Cobblemon.LOGGER.info("Initializing...")
         Cobblemon.initialize()
-        if (ModList.get().isLoaded("luckperms")) {
-//            PokemonCobblemon.permissionValidator = LuckPermsPermissionValidator()
-        }
+        //if (ModList.get().isLoaded("luckperms")) { PokemonCobblemon.permissionValidator = LuckPermsPermissionValidator() }
+        //else {
+        Cobblemon.permissionValidator = ForgePermissionValidator
+        //}
     }
 
     private val hasBeenSynced = hashSetOf<UUID>()

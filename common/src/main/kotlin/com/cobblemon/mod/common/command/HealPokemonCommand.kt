@@ -9,11 +9,9 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.permissionLevel
 import com.cobblemon.mod.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -28,19 +26,16 @@ object HealPokemonCommand {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = dispatcher.register(literal("healpokemon")
             .permission(CobblemonPermissions.HEAL_POKEMON_SELF)
-            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .executes { execute(it.source, it.source.playerOrThrow) }
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
                     .permission(CobblemonPermissions.HEAL_POKEMON_OTHER)
-                    .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
                     .executes { execute(it.source, it.player("player")) }
             ))
         dispatcher.register(literal("pokeheal")
             .redirect(command)
             .executes(command.command)
             .permission(CobblemonPermissions.HEAL_POKEMON_SELF)
-            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
         )
     }
 
