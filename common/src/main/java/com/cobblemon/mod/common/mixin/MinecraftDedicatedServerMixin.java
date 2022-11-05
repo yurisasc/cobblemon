@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MinecraftDedicatedServerMixin implements DedicatedServer {
 
     @Inject(method = "shouldCancelSpawn", at = @At(value = "HEAD"), cancellable = true)
-    public void Cobblemon$allowPokemonSpawns(Entity entity, CallbackInfoReturnable<Boolean> callback) {
+    public void cobblemon$allowPokemonSpawns(Entity entity, CallbackInfoReturnable<Boolean> callback) {
         if(entity instanceof PokemonEntity) {
             callback.setReturnValue(false);
         }

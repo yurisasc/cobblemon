@@ -80,10 +80,10 @@ object CobblemonSpawningProspector : SpawningProspector {
             for (z in area.baseZ until area.baseZ + area.width) {
                 val query = chunks.computeIfAbsent(Pair(getSectionCoord(x), getSectionCoord(z))) {
                     val manager = world.chunkManager as CachedOnlyChunkAccessor
-                    manager.`Cobblemon$request`(it.first, it.second, ChunkStatus.FULL)
+                    manager.`cobblemon$request`(it.first, it.second, ChunkStatus.FULL)
                 } ?: continue
 
-                var canSeeSky = true
+                var canSeeSky = world.isSkyVisibleAllowingSea(pos.set(x, yRange.first, z))
                 for (y in yRange) {
                     val state = query.getBlockState(pos.set(x, y, z))
                     blocks[x - area.baseX][y - baseY][z - area.baseZ] = WorldSlice.BlockData(
@@ -91,10 +91,13 @@ object CobblemonSpawningProspector : SpawningProspector {
                         light = state.getOpacity(world, pos)
                     )
 
+                    if (canSeeSky) {
+                        skyLevel[x - area.baseX][z - area.baseZ] = y
+                    }
+
                     // TODO don't just check solid, have some property somewhere modifiable that excludes some blocks from occluding
-                    if (canSeeSky && state.material.isSolid && state.material != Material.LEAVES) {
+                    if (state.material.isSolid && state.material != Material.LEAVES) {
                         canSeeSky = false
-                        skyLevel[x - area.baseX][z - area.baseZ] = y + 1
                     }
                 }
             }

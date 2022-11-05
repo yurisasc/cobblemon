@@ -17,9 +17,15 @@ import com.cobblemon.mod.common.api.spawning.context.calculators.AreaSpawningCon
 import com.cobblemon.mod.common.api.spawning.context.calculators.SpawningContextCalculator.Companion.prioritizedAreaCalculators
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.api.spawning.detail.SpawnPool
+import com.cobblemon.mod.common.api.spawning.mixins.CachedOnlyChunkAccessor
 import com.cobblemon.mod.common.api.spawning.prospecting.SpawningProspector
 import com.cobblemon.mod.common.util.squeezeWithinBounds
+import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.ChunkSectionPos
+import net.minecraft.world.World
+import net.minecraft.world.chunk.Chunk
+import net.minecraft.world.chunk.ChunkStatus
 
 /**
  * A type of [TickingSpawner] that operates within some area. When this spawner type
@@ -63,23 +69,69 @@ abstract class AreaSpawner(
         return null
     }
 
-    private fun constrainArea(area: SpawningArea): SpawningArea? {
-        val basePos = BlockPos(area.baseX, area.baseY, area.baseZ)
-        val min = area.world.squeezeWithinBounds(basePos)
-        val max = area.world.squeezeWithinBounds(basePos.add(area.length, area.height, area.width))
-        return if (area.world.canSetBlock(min) && area.world.canSetBlock(max) && min.y != max.y) {
-            return SpawningArea(
-                cause = area.cause,
-                world = area.world,
-                baseX = min.x,
-                baseY = min.y,
-                baseZ = min.z,
-                length = area.length,
-                height = max.y - min.y,
-                width = area.width
-            )
-        } else {
-            null
+    fun isValidStartPoint(world: World, chunk: Chunk, startPos: BlockPos.Mutable): Boolean {
+        val y = startPos.y
+        if (!world.canSetBlock(startPos) || !world.canSetBlock(startPos.setY(y + 1))) {
+            return false
         }
+
+        val mid = chunk.getBlockState(startPos.setY(y))
+        val above = chunk.getBlockState(startPos.setY(y + 1))
+
+        // Above must be non-solid
+         if (!above.canPathfindThrough(world, startPos, NavigationType.AIR)) {
+             return false
+         }
+        // Position must be non-air
+        if (mid.isAir) {
+            return false
+        }
+
+        return true
+    }
+
+    private fun constrainArea(area: SpawningArea): SpawningArea? {
+        val basePos = BlockPos.Mutable(area.baseX, area.baseY, area.baseZ)
+        val originalY = area.baseY
+
+        val (chunkX, chunkZ) = Pair(ChunkSectionPos.getSectionCoord(area.baseX), ChunkSectionPos.getSectionCoord(area.baseZ))
+        val chunk = (area.world.chunkManager as CachedOnlyChunkAccessor).`cobblemon$request`(chunkX, chunkZ, ChunkStatus.FULL) ?: return null
+
+        var valid = isValidStartPoint(area.world, chunk, basePos)
+
+        if (!valid) {
+            var offset = 1
+            do {
+                if (isValidStartPoint(area.world, chunk, basePos.setY(originalY + offset))) {
+                    valid = true
+                    basePos.y = originalY + offset
+                    break
+                } else if (isValidStartPoint(area.world, chunk, basePos.setY(originalY - offset))) {
+                    valid = true
+                    basePos.y = originalY + offset
+                    break
+                }
+                offset++
+            } while (offset <= Cobblemon.config.maxVerticalCorrectionBlocks)
+        }
+
+        if (valid) {
+            val min = area.world.squeezeWithinBounds(basePos)
+            val max = area.world.squeezeWithinBounds(basePos.add(area.length, area.height, area.width))
+            if (area.world.canSetBlock(min) && area.world.canSetBlock(max) && min.y != max.y) {
+                return SpawningArea(
+                    cause = area.cause,
+                    world = area.world,
+                    baseX = min.x,
+                    baseY = min.y,
+                    baseZ = min.z,
+                    length = area.length,
+                    height = max.y - min.y,
+                    width = area.width
+                )
+            }
+        }
+
+        return null
     }
 }

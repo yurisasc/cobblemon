@@ -52,6 +52,10 @@ class CobblemonConfig {
     // TODO new types of constraint
 
     @NodeCategory(Category.Spawning)
+    @IntConstraint(min = 1, max = 200)
+    var maxVerticalCorrectionBlocks = 64
+
+    @NodeCategory(Category.Spawning)
     @IntConstraint(min = 1, max = 1000)
     var minimumLevelRangeMax = 15
 
@@ -83,7 +87,10 @@ class CobblemonConfig {
     var minimumSliceDistanceFromPlayer = 16 * 2F
 
     @NodeCategory(Category.Spawning)
-    var maximumSliceDistanceFromPlayer = 16 * 6F
+    var maximumSliceDistanceFromPlayer = 16 * 3.5F
+
+    @NodeCategory(Category.Spawning)
+    var maximumSpawnedPokemonPerPlayer = 30
 
     @NodeCategory(Category.Spawning)
     var exportSpawnsToConfig = false
