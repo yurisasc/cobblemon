@@ -1,19 +1,19 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "  I",
-        "CCI",
-        "III"
+        "GG ",
+        "II ",
+        "II "
     ],
     "key": {
-        "C": {
-            "item": "minecraft:copper_ingot"
+        "G": {
+            "item": "minecraft:glass"
         },
         "I": {
             "item": "minecraft:iron_ingot"
         }
     },
     "result": {
-        "item": "pokemod:healing_machine"
+        "item": "pokemod:pc"
     }
 }
