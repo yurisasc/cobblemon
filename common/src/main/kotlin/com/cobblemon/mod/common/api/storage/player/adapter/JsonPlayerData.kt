@@ -45,7 +45,7 @@ class JsonPlayerData: PlayerDataFileStoreAdapter {
             "$uuid.json"
         }
     }
-    private fun file(uuid: UUID) = savePath.resolve("Cobblemonplayerdata/${getSubFile(uuid)}").toFile()
+    private fun file(uuid: UUID) = savePath.resolve("cobblemonplayerdata/${getSubFile(uuid)}").toFile()
 
     override fun load(uuid: UUID): PlayerData {
         if (cache.contains(uuid)) {
