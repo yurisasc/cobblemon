@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
+import com.cobblemon.mod.common.util.alias
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.permission
 import com.mojang.brigadier.Command
@@ -32,7 +33,7 @@ object SpawnPokemon {
             .permission(CobblemonPermissions.SPAWN_POKEMON)
             .then(argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
                 .executes(this::execute)))
-        //dispatcher.register(literal(ALIAS).redirect(command))
+        dispatcher.register(command.alias(ALIAS))
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>) : Int {

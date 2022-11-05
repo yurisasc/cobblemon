@@ -34,14 +34,13 @@ object CheckSpawnsCommand {
     val df = DecimalFormat("#.##")
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = dispatcher.register(CommandManager.literal("checkspawn")
+        dispatcher.register(CommandManager.literal("checkspawn")
             .permission(CobblemonPermissions.CHECKSPAWNS)
             .then(
                 CommandManager.argument("bucket", SpawnBucketArgumentType.spawnBucket())
                     .requires { it.player != null }
                     .executes { execute(it, it.source.playerOrThrow) }
             ))
-        dispatcher.register(CommandManager.literal("pokegive").redirect(command))
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity) : Int {

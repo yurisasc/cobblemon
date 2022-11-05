@@ -51,7 +51,7 @@ object ForgePermissionValidator : PermissionValidator {
 
     private fun createNodes() = CobblemonPermissions.all().map { permission ->
         // 3rd arg is default value if no implementation is present essentially
-        val node = PermissionNode(permission.identifier, PermissionTypes.BOOLEAN, { _, _, _ -> true })
+        val node = PermissionNode(permission.identifier, PermissionTypes.BOOLEAN, { _, _, _ -> false })
         this.nodes[permission.identifier] = node
         Cobblemon.LOGGER.debug("Registered Forge permission node ${node.nodeName}")
         node

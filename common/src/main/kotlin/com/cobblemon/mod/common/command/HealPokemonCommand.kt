@@ -9,10 +9,7 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.util.commandLang
-import com.cobblemon.mod.common.util.party
-import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.player
+import com.cobblemon.mod.common.util.*
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.argument.EntityArgumentType
@@ -32,11 +29,7 @@ object HealPokemonCommand {
                     .permission(CobblemonPermissions.HEAL_POKEMON_OTHER)
                     .executes { execute(it.source, it.player("player")) }
             ))
-        dispatcher.register(literal("pokeheal")
-            .redirect(command)
-            .executes(command.command)
-            .permission(CobblemonPermissions.HEAL_POKEMON_SELF)
-        )
+        dispatcher.register(command.alias("pokeheal"))
     }
 
     private fun execute(source: ServerCommandSource, target: ServerPlayerEntity) : Int {

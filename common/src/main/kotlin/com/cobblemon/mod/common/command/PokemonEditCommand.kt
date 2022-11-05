@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.command
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
 import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
+import com.cobblemon.mod.common.util.alias
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.permission
 import com.cobblemon.mod.common.util.player
@@ -39,7 +40,7 @@ object PokemonEditCommand {
             .then(argument(SLOT, PartySlotArgumentType.partySlot())
                 .then(argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
                     .executes{ execute(it, it.source.playerOrThrow) })))
-        //dispatcher.register(literal(ALIAS).redirect(selfCommand))
+        dispatcher.register(selfCommand.alias(ALIAS))
 
         val otherCommand = dispatcher.register(literal(NAME_OTHER)
             .permission(CobblemonPermissions.POKEMON_EDIT_OTHER)
@@ -47,7 +48,7 @@ object PokemonEditCommand {
                 .then(argument(SLOT, PartySlotArgumentType.partySlot())
                     .then(argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
                         .executes{ execute(it, it.player()) })))
-        //dispatcher.register(literal(ALIAS_OTHER).redirect(otherCommand))
+        dispatcher.register(otherCommand.alias(ALIAS_OTHER))
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity): Int {
