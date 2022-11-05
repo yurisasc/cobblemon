@@ -32,7 +32,7 @@ object SpawnPokemon {
             .permission(CobblemonPermissions.SPAWN_POKEMON)
             .then(argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
                 .executes(this::execute)))
-        dispatcher.register(literal(ALIAS).redirect(command))
+        //dispatcher.register(literal(ALIAS).redirect(command))
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>) : Int {

@@ -39,7 +39,7 @@ object PokemonEditCommand {
             .then(argument(SLOT, PartySlotArgumentType.partySlot())
                 .then(argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
                     .executes{ execute(it, it.source.playerOrThrow) })))
-        dispatcher.register(literal(ALIAS).redirect(selfCommand))
+        //dispatcher.register(literal(ALIAS).redirect(selfCommand))
 
         val otherCommand = dispatcher.register(literal(NAME_OTHER)
             .permission(CobblemonPermissions.POKEMON_EDIT_OTHER)
@@ -47,7 +47,7 @@ object PokemonEditCommand {
                 .then(argument(SLOT, PartySlotArgumentType.partySlot())
                     .then(argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
                         .executes{ execute(it, it.player()) })))
-        dispatcher.register(literal(ALIAS_OTHER).redirect(otherCommand))
+        //dispatcher.register(literal(ALIAS_OTHER).redirect(otherCommand))
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity): Int {

@@ -35,7 +35,7 @@ object ForgePermissionValidator : PermissionValidator {
     }
 
     override fun initialize() {
-        Cobblemon.LOGGER.info("Booting ForgePermissionApiPermissionValidator, permissions will be checked using MinecraftForge' PermissionAPI, if an implementation doesn't support permissions it will default to Minecraft' permission level system, see https://docs.minecraftforge.net/en/latest/ and https://minecraft.fandom.com/wiki/Permission_level")
+        Cobblemon.LOGGER.info("Booting ForgePermissionApiPermissionValidator, player permissions will be checked using MinecraftForge' PermissionAPI, non player command sources will use Minecraft' permission level system, see https://docs.minecraftforge.net/en/latest/ and https://minecraft.fandom.com/wiki/Permission_level")
     }
 
     override fun hasPermission(player: ServerPlayerEntity, permission: Permission): Boolean {
@@ -51,7 +51,7 @@ object ForgePermissionValidator : PermissionValidator {
 
     private fun createNodes() = CobblemonPermissions.all().map { permission ->
         // 3rd arg is default value if no implementation is present essentially
-        val node = PermissionNode(permission.identifier, PermissionTypes.BOOLEAN, { player, _, _ -> false })
+        val node = PermissionNode(permission.identifier, PermissionTypes.BOOLEAN, { _, _, _ -> true })
         this.nodes[permission.identifier] = node
         Cobblemon.LOGGER.debug("Registered Forge permission node ${node.nodeName}")
         node
