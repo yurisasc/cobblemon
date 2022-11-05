@@ -1,7 +1,0 @@
-{
-	"parent": "pokemod:block/apricorn",
-	"textures": {
-		"0": "pokemod:blocks/red_apricorn",
-		"particle": "pokemod:blocks/red_apricorn"
-	}
-}

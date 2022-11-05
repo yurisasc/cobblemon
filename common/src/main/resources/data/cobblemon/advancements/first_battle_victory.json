@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "cobblemon:rare_candy"
+    },
+    "title": {
+      "translate": "advancements.cobblemon.first_battle_victory"
+    },
+    "description": {
+      "translate": "advancements.cobblemon.first_battle_victory.description"
+    },
+    "background": "cobblemon:textures/blocks/apricorn_planks.png",
+    "frame": "task"
+  },
+  "criteria": {
+    "catch": {
+      "trigger": "cobblemon:battles_won",
+      "conditions": {
+        "count": 1
+      }
+    }
+  }
+}

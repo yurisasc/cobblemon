@@ -1,0 +1,45 @@
+{
+    "name": "ursaluna",
+    "nationalPokedexNumber": 901,
+    "primaryType": "ground",
+    "secondaryType": "normal",
+    "abilities": [
+        "guts",
+        "bulletproof",
+        "h:unnerve"
+    ],
+    "baseStats": {
+        "hp": 130,
+        "attack": 140,
+        "defence": 105,
+        "special_attack": 45,
+        "special_defence": 80,
+        "speed": 50
+    },
+    "catchRate": 75,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "baseExperienceYield": null,
+    "baseFriendship": null,
+    "evYield": {
+        "attack": 3
+    },
+    "experienceGroup": "mediumfast",
+    "eggCycles": null,
+    "eggGroups": [
+        "field"
+    ],
+    "moves": [],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "cobblemon.species.ursaluna.desc1",
+        "cobblemon.species.ursaluna.desc2"
+    ],
+    "height": 24,
+    "weight": 2900,
+    "preEvolution": "ursaring",
+    "evolutions": [],
+    "forms": []
+}

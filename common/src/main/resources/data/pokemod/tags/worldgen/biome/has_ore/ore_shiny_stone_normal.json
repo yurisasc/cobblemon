@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#pokemod:is_floral",
-	"#pokemod:is_magical",
-	"#pokemod:is_sky"
-  ]
-}

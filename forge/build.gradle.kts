@@ -1,5 +1,5 @@
 plugins {
-    id("pokemod.platform-conventions")
+    id("cobblemon.platform-conventions")
 }
 
 architectury {
@@ -10,7 +10,7 @@ architectury {
 loom {
     forge {
         convertAccessWideners.set(true)
-        mixinConfig("mixins.pokemod-common.json")
+        mixinConfig("mixins.cobblemon-common.json")
     }
 }
 

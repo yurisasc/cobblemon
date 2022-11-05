@@ -1,0 +1,156 @@
+{
+    "name": "spearow",
+    "nationalPokedexNumber": 21,
+    "primaryType": "normal",
+    "secondaryType": "flying",
+    "abilities": [
+        "keeneye",
+        "h:sniper"
+    ],
+    "baseStats": {
+        "hp": 40,
+        "attack": 60,
+        "defence": 30,
+        "special_attack": 31,
+        "special_defence": 31,
+        "speed": 70
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 52,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "flying"
+    ],
+    "behaviour": {
+        "moving": {
+            "fly": {
+                "canFly": true
+            }
+        }
+    },
+    "drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:feather",
+                "percentage": 50
+            },
+            {
+                "item": "minecraft:chicken"
+            }
+        ]
+    },
+    "moves": [
+        "1:peck",
+        "3:growl",
+        "8:leer",
+        "8:pursuit",
+        "11:focusenergy",
+        "15:aerialace",
+        "16:furyattack",
+        "19:mirrormove",
+        "22:assurance",
+        "24:roost",
+        "27:agility",
+        "32:drillpeck",
+        "egg:astonish",
+        "egg:featherdance",
+        "egg:feintattack",
+        "egg:quickattack",
+        "egg:razorwind",
+        "egg:scaryface",
+        "egg:skyattack",
+        "egg:steelwing",
+        "egg:uproar",
+        "egg:whirlwind",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:bide",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
+        "tm:detect",
+        "tm:doubleteam",
+        "tm:drillrun",
+        "tm:echoedvoice",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fly",
+        "tm:frustration",
+        "tm:headbutt",
+        "tm:hiddenpower",
+        "tm:naturalgift",
+        "tm:pluck",
+        "tm:protect",
+        "tm:rage",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:roost",
+        "tm:round",
+        "tm:secretpower",
+        "tm:sleeptalk",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:takedown",
+        "tm:thief",
+        "tm:toxic",
+        "tm:triattack",
+        "tm:uturn",
+        "tm:workup",
+        "tutor:aircutter",
+        "tutor:defog",
+        "tutor:doubleedge",
+        "tutor:heatwave",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:ominouswind",
+        "tutor:skyattack",
+        "tutor:snore",
+        "tutor:swift",
+        "tutor:tailwind",
+        "tutor:twister",
+        "tutor:uproar"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "cobblemon.species.spearow.desc1",
+        "cobblemon.species.spearow.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "spearow_fearow",
+            "variant": "level_up",
+            "result": "fearow",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 20
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 0.65,
+        "height": 1.0,
+        "fixed": false
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 3,
+    "weight": 20
+}

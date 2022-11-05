@@ -1,0 +1,51 @@
+{
+    "name": "kleavor",
+    "nationalPokedexNumber": 900,
+    "primaryType": "bug",
+    "secondaryType": "rock",
+    "abilities": [
+        "swarm",
+        "sheerforce",
+        "h:steadfast"
+    ],
+    "baseStats": {
+        "hp": 70,
+        "attack": 135,
+        "defence": 95,
+        "special_attack": 45,
+        "special_defence": 70,
+        "speed": 85
+    },
+    "catchRate": 115,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "baseExperienceYield": null,
+    "experienceGroup": "mediumfast",
+    "eggCycles": null,
+    "eggGroups": [
+        "bug"
+    ],
+    "moves": [],
+    "labels": [
+        "gen8"
+    ],
+    "pokedex": [
+        "cobblemon.species.kleavor.desc1",
+        "cobblemon.species.kleavor.desc2"
+    ],
+    "preEvolution": "scyther",
+    "evolutions": [],
+    "baseScale": 1,
+    "hitbox": {
+        "width": 1.2,
+        "height": 2.2,
+        "fixed": false
+    },
+    "baseFriendship": null,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 18,
+    "weight": 890,
+    "forms": []
+}

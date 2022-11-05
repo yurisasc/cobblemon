@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "cobblemon:poke_ball"
+    },
+    "title": {
+      "translate": "advancements.cobblemon.first_catch"
+    },
+    "description": {
+      "translate": "advancements.cobblemon.first_catch.description"
+    },
+    "background": "cobblemon:textures/blocks/apricorn_planks.png"
+  },
+  "parent": "cobblemon:craft_poke_ball",
+  "criteria": {
+    "catch": {
+      "trigger": "cobblemon:catch_pokemon",
+      "conditions": {
+        "count": 1,
+        "type": "any"
+      }
+    }
+  }
+}

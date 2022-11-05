@@ -1,0 +1,119 @@
+{
+    "name": "crabrawler",
+    "nationalPokedexNumber": 739,
+    "primaryType": "fighting",
+    "abilities": [
+        "hypercutter",
+        "ironfist",
+        "h:angerpoint"
+    ],
+    "baseStats": {
+        "hp": 47,
+        "attack": 82,
+        "defence": 57,
+        "special_attack": 42,
+        "special_defence": 47,
+        "speed": 63
+    },
+    "catchRate": 225,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 68,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water_3"
+    ],
+    "moves": [
+        "1:bubble",
+        "5:rocksmash",
+        "9:leer",
+        "13:pursuit",
+        "17:bubblebeam",
+        "22:poweruppunch",
+        "25:dizzypunch",
+        "29:payback",
+        "33:reversal",
+        "37:crabhammer",
+        "42:irondefense",
+        "45:dynamicpunch",
+        "49:closecombat",
+        "egg:amnesia",
+        "egg:endeavor",
+        "egg:superpower",
+        "egg:wideguard",
+        "tm:attract",
+        "tm:brickbreak",
+        "tm:brutalswing",
+        "tm:bulkup",
+        "tm:bulldoze",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:earthquake",
+        "tm:facade",
+        "tm:fling",
+        "tm:focusblast",
+        "tm:frostbreath",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:payback",
+        "tm:protect",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:rockslide",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scald",
+        "tm:sleeptalk",
+        "tm:stoneedge",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:thief",
+        "tm:toxic",
+        "tm:workup",
+        "tutor:drainpunch",
+        "tutor:dualchop",
+        "tutor:endeavor",
+        "tutor:focuspunch",
+        "tutor:icepunch",
+        "tutor:irondefense",
+        "tutor:ironhead",
+        "tutor:snore",
+        "tutor:superpower",
+        "tutor:thunderpunch",
+        "tutor:zenheadbutt"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "cobblemon.species.crabrawler.desc1",
+        "cobblemon.species.crabrawler.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "crabrawler_crabominable",
+            "variant": "item_interact",
+            "result": "crabominable",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [],
+            "requiredContext": "cobblemon:ice_stone"
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "attack": 1
+    },
+    "height": 6,
+    "weight": 70
+}

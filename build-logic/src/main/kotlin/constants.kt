@@ -1,2 +1,2 @@
 
-const val ACCESS_WIDENER = "src/main/resources/pokemod-common.accesswidener"
+const val ACCESS_WIDENER = "src/main/resources/cobblemon-common.accesswidener"

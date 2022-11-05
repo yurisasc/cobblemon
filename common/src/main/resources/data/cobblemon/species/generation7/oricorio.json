@@ -1,0 +1,124 @@
+{
+    "name": "oricorio",
+    "nationalPokedexNumber": 741,
+    "primaryType": "fire",
+    "secondaryType": "flying",
+    "abilities": [
+        "dancer"
+    ],
+    "baseStats": {
+        "hp": 75,
+        "attack": 70,
+        "defence": 70,
+        "special_attack": 98,
+        "special_defence": 70,
+        "speed": 93
+    },
+    "catchRate": 45,
+    "maleRatio": 0.25,
+    "shoulderMountable": false,
+    "baseExperienceYield": 167,
+    "baseFriendship": 70,
+    "evYield": {
+        "special_attack": 2
+    },
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "flying"
+    ],
+    "moves": [
+        "1:pound",
+        "4:growl",
+        "6:peck",
+        "10:helpinghand",
+        "13:aircutter",
+        "16:batonpass",
+        "20:featherdance",
+        "23:doubleslap",
+        "26:teeterdance",
+        "30:roost",
+        "33:captivate",
+        "36:airslash",
+        "40:revelationdance",
+        "43:mirrormove",
+        "46:agility",
+        "50:hurricane",
+        "egg:captivate",
+        "egg:pluck",
+        "egg:safeguard",
+        "egg:tailwind",
+        "tm:acrobatics",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:calmmind",
+        "tm:confide",
+        "tm:doubleteam",
+        "tm:embargo",
+        "tm:facade",
+        "tm:fly",
+        "tm:frustration",
+        "tm:hiddenpower",
+        "tm:protect",
+        "tm:quash",
+        "tm:rest",
+        "tm:return",
+        "tm:roost",
+        "tm:round",
+        "tm:safeguard",
+        "tm:sandstorm",
+        "tm:sleeptalk",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:taunt",
+        "tm:toxic",
+        "tm:uturn",
+        "tm:workup",
+        "tutor:covet",
+        "tutor:defog",
+        "tutor:helpinghand",
+        "tutor:icywind",
+        "tutor:roleplay",
+        "tutor:skyattack",
+        "tutor:snore",
+        "tutor:tailwind"
+    ],
+    "labels": [
+        "gen7"
+    ],
+    "pokedex": [
+        "cobblemon.species.oricorio.desc1",
+        "cobblemon.species.oricorio.desc2"
+    ],
+    "height": 6,
+    "weight": 34,
+    "evolutions": [],
+    "forms": [
+        {
+            "name": "pom-pom",
+            "primaryType": "electric",
+            "pokedex": [
+                "cobblemon.form.oricorio-pom-pom.desc1",
+                "cobblemon.form.oricorio-pom-pom.desc2"
+            ]
+        },
+        {
+            "name": "pau",
+            "primaryType": "psychic",
+            "pokedex": [
+                "cobblemon.form.oricorio-pau.desc1",
+                "cobblemon.form.oricorio-pau.desc2"
+            ]
+        },
+        {
+            "name": "sensu",
+            "primaryType": "ghost",
+            "pokedex": [
+                "cobblemon.form.oricorio-sensu.desc1",
+                "cobblemon.form.oricorio-sensu.desc2"
+            ]
+        }
+    ]
+}

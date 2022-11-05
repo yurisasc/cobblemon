@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#cobblemon:is_freezing",
+    "#cobblemon:is_frigid",
+    "#cobblemon:is_peak",
+    "#cobblemon:is_taiga",
+    "#cobblemon:is_tundra",
+    {
+      "id": "#byg:is_cold",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+/*
+ * Copyright (C) 2022 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+package com.cobblemon.mod.common.mixin;
+
+import com.cobblemon.mod.common.Cobblemon;
+import com.cobblemon.mod.common.api.storage.NoPokemonStoreException;
+import com.cobblemon.mod.common.api.storage.party.PartyStore;
+import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.util.CompoundTagExtensionsKt;
+import com.cobblemon.mod.common.util.DataKeys;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.world.World;
+import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.UUID;
+
+@Mixin(PlayerEntity.class)
+public abstract class PlayerMixin extends LivingEntity {
+
+    @Shadow public abstract NbtCompound getShoulderEntityLeft();
+
+    @Shadow public abstract NbtCompound getShoulderEntityRight();
+
+    @Shadow public abstract void dropShoulderEntity(NbtCompound entityNbt);
+
+    @Shadow public abstract void setShoulderEntityRight(NbtCompound entityNbt);
+
+    @Shadow public abstract void setShoulderEntityLeft(NbtCompound entityNbt);
+
+    @Shadow public abstract boolean isSpectator();
+
+    protected PlayerMixin(EntityType<? extends LivingEntity> p_20966_, World p_20967_) {
+        super(p_20966_, p_20967_);
+    }
+
+    @Inject(method = "dropShoulderEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityType;getEntityFromNbt(Lnet/minecraft/nbt/NbtCompound;Lnet/minecraft/world/World;)Ljava/util/Optional;"), cancellable = true)
+    private void cobblemon$removePokemon(NbtCompound nbt, CallbackInfo ci) {
+        if (CompoundTagExtensionsKt.isPokemonEntity(nbt)) {
+            final UUID uuid = this.getPokemonID(nbt);
+            if (this.isShoulderPokemon(this.getShoulderEntityRight())) {
+                final UUID uuidRight = this.getPokemonID(this.getShoulderEntityRight());
+                if (uuid.equals(uuidRight)) {
+                    this.recallPokemon(uuidRight);
+                    this.setShoulderEntityRight(new NbtCompound());
+                }
+            }
+            if (this.isShoulderPokemon(this.getShoulderEntityLeft())) {
+                final UUID uuidLeft = this.getPokemonID(this.getShoulderEntityLeft());
+                if (uuid.equals(uuidLeft)) {
+                    this.recallPokemon(uuidLeft);
+                    this.setShoulderEntityLeft(new NbtCompound());
+                }
+            }
+            ci.cancel();
+        }
+    }
+
+    @Inject(
+        method = "dropShoulderEntities",
+        at = @At(
+            value = "JUMP",
+            opcode = Opcodes.IFGE,
+            ordinal = 0,
+            shift = At.Shift.AFTER
+        ),
+        cancellable = true
+    )
+    private void cobblemon$preventPokemonDropping(CallbackInfo ci) {
+        // We want to allow both of these to forcefully remove the entities
+        if (this.isSpectator() || this.isDead())
+            return;
+        if (!this.isShoulderPokemon(this.getShoulderEntityLeft())) {
+            this.dropShoulderEntity(this.getShoulderEntityLeft());
+            this.setShoulderEntityLeft(new NbtCompound());
+        }
+        if (!this.isShoulderPokemon(this.getShoulderEntityRight())) {
+            this.dropShoulderEntity(this.getShoulderEntityRight());
+            this.setShoulderEntityRight(new NbtCompound());
+        }
+        ci.cancel();
+    }
+
+    private UUID getPokemonID(NbtCompound nbt) {
+        return nbt.getCompound(DataKeys.POKEMON)
+                .getUuid(DataKeys.POKEMON_UUID);
+    }
+
+    private void recallPokemon(UUID uuid) {
+        // We need to do this cause the Entity doesn't store a reference to its storage
+        try {
+            final PartyStore party = Cobblemon.INSTANCE.getStorage().getParty(this.uuid);
+            for (Pokemon pokemon : party) {
+                if (pokemon.getUuid().equals(uuid)) {
+                    pokemon.recall();
+                }
+            }
+        } catch (NoPokemonStoreException ignored) {}
+    }
+
+    private boolean isShoulderPokemon(NbtCompound nbt) {
+        return CompoundTagExtensionsKt.isPokemonEntity(nbt);
+    }
+
+}

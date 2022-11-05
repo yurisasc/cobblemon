@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#pokemod:is_sandy",
-	"#pokemod:is_thermal",
-	"#pokemod:is_volcanic"
-  ]
-}

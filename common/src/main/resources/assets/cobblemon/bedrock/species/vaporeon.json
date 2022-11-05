@@ -1,0 +1,11 @@
+{
+  "poser": "cobblemon:vaporeon",
+  "model": "cobblemon:bedrock/models/0134_vaporeon/vaporeon.geo.json",
+  "texture": "cobblemon:textures/pokemon/0134_vaporeon/vaporeon.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "cobblemon:textures/pokemon/0134_vaporeon/vaporeon_shiny.png"
+    }
+  ]
+}

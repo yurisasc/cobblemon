@@ -1,35 +1,32 @@
 {
   "schemaVersion": 1,
-  "id": "pokemod",
+  "id": "cobblemon",
   "version": "${version}",
-
-  "name": "Pokémon Cobbled",
+  "name": "Cobblemon",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Me!"
   ],
   "contact": {
-    "homepage": "https://gitlab.com/cable-mc/pokemod-cobbled",
-    "sources": "https://gitlab.com/cable-mc/pokemod-cobbled"
+    "homepage": "https://gitlab.com/cable-mc/cobblemon",
+    "sources": "https://gitlab.com/cable-mc/cobblemon"
   },
-
   "license": "MPL-2.0",
-  "icon": "assets/pokemod/icon_cobbled.png",
-
+  "icon": "assets/cobblemon/icon_cobblemon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.cablemc.pokemod.fabric.FabricBootstrap"
+      "com.cobblemon.mod.fabric.FabricBootstrap"
     ],
     "client": [
-      "com.cablemc.pokemod.fabric.client.PokemodFabricClient"
+      "com.cobblemon.mod.fabric.client.CobblemonFabricClient"
     ]
   },
   "mixins": [
-    "mixins.pokemod-common.json",
-    "mixins.pokemod-fabric.json"
+    "mixins.cobblemon-common.json",
+    "mixins.cobblemon-fabric.json"
   ],
-  "accessWidener": "pokemod-common.accesswidener",
+  "accessWidener": "cobblemon-common.accesswidener",
   "depends": {
     "fabricloader": ">=0.13.3",
     "fabric": "*",

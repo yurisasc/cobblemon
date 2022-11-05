@@ -1,0 +1,167 @@
+{
+    "name": "kingler",
+    "nationalPokedexNumber": 99,
+    "primaryType": "water",
+    "abilities": [
+        "hypercutter",
+        "shellarmor",
+        "h:sheerforce"
+    ],
+    "baseStats": {
+        "hp": 55,
+        "attack": 130,
+        "defence": 115,
+        "special_attack": 50,
+        "special_defence": 50,
+        "speed": 75
+    },
+    "catchRate": 60,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "normal"
+        },
+        {
+            "name": "gmax",
+            "moves": [],
+            "labels": [
+                "gen1",
+                "gmax"
+            ],
+            "pokedex": [
+                "cobblemon.form.kingler-gmax.desc1",
+                "cobblemon.form.kingler-gmax.desc2"
+            ],
+            "height": 190,
+            "weight": 10000
+        }
+    ],
+    "baseExperienceYield": 166,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water_3"
+    ],
+    "behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+                "canBreatheUnderwater": true
+            }
+        }
+    },
+    "moves": [
+        "1:visegrip",
+        "1:leer",
+        "1:watergun",
+        "1:harden",
+        "1:bubble",
+        "1:metalclaw",
+        "1:mudsport",
+        "1:hammerarm",
+        "1:wideguard",
+        "5:visegrip",
+        "12:mudshot",
+        "16:protect",
+        "20:bubblebeam",
+        "24:stomp",
+        "31:flail",
+        "36:razorshell",
+        "42:slam",
+        "48:swordsdance",
+        "54:crabhammer",
+        "60:guillotine",
+        "tm:agility",
+        "tm:allyswitch",
+        "tm:amnesia",
+        "tm:attract",
+        "tm:bide",
+        "tm:blizzard",
+        "tm:bodyslam",
+        "tm:brickbreak",
+        "tm:brine",
+        "tm:brutalswing",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
+        "tm:cut",
+        "tm:dig",
+        "tm:dive",
+        "tm:doubleteam",
+        "tm:endure",
+        "tm:facade",
+        "tm:falseswipe",
+        "tm:fling",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:headbutt",
+        "tm:hiddenpower",
+        "tm:highhorsepower",
+        "tm:honeclaws",
+        "tm:hydropump",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:irondefense",
+        "tm:liquidation",
+        "tm:mudshot",
+        "tm:naturalgift",
+        "tm:protect",
+        "tm:quash",
+        "tm:rage",
+        "tm:raindance",
+        "tm:razorshell",
+        "tm:rest",
+        "tm:return",
+        "tm:rockslide",
+        "tm:rocksmash",
+        "tm:rocktomb",
+        "tm:round",
+        "tm:scald",
+        "tm:secretpower",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:stompingtantrum",
+        "tm:strength",
+        "tm:substitute",
+        "tm:superpower",
+        "tm:surf",
+        "tm:swagger",
+        "tm:swordsdance",
+        "tm:takedown",
+        "tm:thief",
+        "tm:toxic",
+        "tm:whirlpool",
+        "tm:xscissor",
+        "tutor:ancientpower",
+        "tutor:doubleedge",
+        "tutor:furycutter",
+        "tutor:knockoff",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:waterpulse"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "cobblemon.species.kingler.desc1",
+        "cobblemon.species.kingler.desc2"
+    ],
+    "preEvolution": "krabby",
+    "evolutions": [],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "attack": 2
+    },
+    "height": 13,
+    "weight": 600
+}

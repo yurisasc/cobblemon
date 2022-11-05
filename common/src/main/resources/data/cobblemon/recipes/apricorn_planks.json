@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [{
+        "item": "cobblemon:apricorn_log"
+    }],
+    "result": {
+        "item": "cobblemon:apricorn_planks",
+        "count": 4
+    }
+}
