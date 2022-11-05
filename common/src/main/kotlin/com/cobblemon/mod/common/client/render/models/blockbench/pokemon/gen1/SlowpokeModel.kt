@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.QuadrupedWalkAnimation
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.QuadrupedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
@@ -16,9 +18,14 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
+class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, QuadrupedFrame {
     override val rootPart = root.registerChildWithAllChildren("slowpoke")
     override val head = getPart("head")
+
+    override val foreLeftLeg = getPart("leftfrontleg")
+    override val foreRightLeg = getPart("rightfrontleg")
+    override val hindLeftLeg = getPart("leftbackleg")
+    override val hindRightLeg = getPart("rightbackleg")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -45,6 +52,7 @@ class SlowpokeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "walk",
             poseType = PoseType.WALK,
             idleAnimations = arrayOf(
+                QuadrupedWalkAnimation(this, periodMultiplier = 1.1F),
                 singleBoneLook(),
                 bedrock("0079_slowbro/slowpoke", "ground_idle")
                 //bedrock("0079_slowpoke/slowpoke", "ground_walk")
