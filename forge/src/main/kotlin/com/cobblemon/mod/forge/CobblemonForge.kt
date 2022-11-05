@@ -61,6 +61,7 @@ class CobblemonForge : CobblemonImplementation {
             addListener(this@CobblemonForge::onLogin)
             addListener(this@CobblemonForge::onLogout)
         }
+        Cobblemon.permissionValidator = ForgePermissionValidator
     }
 
     fun serverInit(event: FMLDedicatedServerSetupEvent) {
@@ -71,7 +72,6 @@ class CobblemonForge : CobblemonImplementation {
         Cobblemon.initialize()
         //if (ModList.get().isLoaded("luckperms")) { PokemonCobblemon.permissionValidator = LuckPermsPermissionValidator() }
         //else {
-        Cobblemon.permissionValidator = ForgePermissionValidator
         //}
     }
 

@@ -28,7 +28,9 @@ object ForgePermissionValidator : PermissionValidator {
 
     init {
         MinecraftForge.EVENT_BUS.addListener<PermissionGatherEvent.Nodes> { event ->
+            Cobblemon.LOGGER.debug("Starting Forge permission node registry")
             event.addNodes(this.createNodes())
+            Cobblemon.LOGGER.debug("Finished Forge permission node registry")
         }
     }
 
@@ -51,6 +53,7 @@ object ForgePermissionValidator : PermissionValidator {
         // 3rd arg is default value if no implementation is present essentially
         val node = PermissionNode(permission.identifier, PermissionTypes.BOOLEAN, { player, _, _ -> player?.hasPermissionLevel(permission.level.numericalValue) ?: false })
         this.nodes[permission.identifier] = node
+        Cobblemon.LOGGER.debug("Registered Forge permission node ${node.nodeName}")
         node
     }
 
