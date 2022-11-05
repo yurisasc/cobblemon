@@ -10,9 +10,7 @@ package com.cobblemon.mod.common.client.gui.battle
 
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.gui.drawPortraitPokemon
-import com.cobblemon.mod.common.api.text.blue
 import com.cobblemon.mod.common.api.text.bold
-import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonResources
@@ -30,7 +28,7 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Species
-import com.cablemc.pokemod.common.pokemon.status.PersistentStatus
+import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
@@ -255,7 +253,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             val statusWidth = 37
             blitk(
                 matrixStack = matrices,
-                texture = pokemodResource("ui/battle/battle_status_" + status.showdownName + ".png"),
+                texture = cobblemonResource("ui/battle/battle_status_" + status.showdownName + ".png"),
                 x = x + if (reversed) 56 else 38,
                 y = y + 28,
                 height = 7,
@@ -267,7 +265,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
 
             drawScaledText(
                 matrixStack = matrices,
-                font = PokemodResources.DEFAULT_LARGE,
+                font = CobblemonResources.DEFAULT_LARGE,
                 text = lang("ui.status." + status.showdownName).bold(),
                 x = x + if (reversed) 78 else 42,
                 y = y + 27,

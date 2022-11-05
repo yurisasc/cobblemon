@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.client.net.battle.BattleHealthChangeHandler
 import com.cobblemon.mod.common.client.net.battle.BattleInitializeHandler
 import com.cobblemon.mod.common.client.net.battle.BattleMakeChoiceHandler
 import com.cobblemon.mod.common.client.net.battle.BattleMessageHandler
+import com.cobblemon.mod.common.client.net.battle.BattlePersistentStatusHandler
 import com.cobblemon.mod.common.client.net.battle.BattleQueueRequestHandler
 import com.cobblemon.mod.common.client.net.battle.BattleSetTeamPokemonHandler
 import com.cobblemon.mod.common.client.net.battle.BattleSwitchPokemonHandler
@@ -140,6 +141,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(BattleCaptureEndHandler)
         registerHandler(ChallengeNotificationHandler)
         registerHandler(BattleUpdateTeamPokemonHandler)
+        registerHandler(BattlePersistentStatusHandler)
 
         // Settings
         registerHandler(ServerSettingsPacketHandler)

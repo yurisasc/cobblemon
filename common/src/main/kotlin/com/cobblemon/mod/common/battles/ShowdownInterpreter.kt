@@ -33,6 +33,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
+import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
@@ -82,6 +83,7 @@ object ShowdownInterpreter {
         updateInstructions["|-fail|"] = this::handleFailInstruction
         updateInstructions["|-start|"] = this::handleStartInstructions
         updateInstructions["|-activate|"] = this::handleActivateInstructions
+        updateInstructions["|-curestatus|"] = this::handleCureStatusInstruction
         updateInstructions["|-nothing"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
         }
@@ -483,7 +485,11 @@ object ShowdownInterpreter {
                 ?: return@dispatchGo LOGGER.error("Unrecognized status: $statusLabel")
 
             if (status is PersistentStatus) {
-                pokemon.battlePokemon?.effectedPokemon?.applyStatus(status)
+                pokemon.battlePokemon?.effectedPokemon?.let{
+                    it.applyStatus(status)
+                    battle.sendUpdate(BattlePersistentStatusPacket(pnx, status))
+                }
+
             }
 
             battle.broadcastChatMessage(status.applyMessage.asTranslated(pokemon.battlePokemon?.getName() ?: "DEAD".text()))
@@ -659,6 +665,25 @@ object ShowdownInterpreter {
             val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             battle.broadcastChatMessage(battleLang("recharge", pokemon.battlePokemon?.getName() ?: ""))
             WaitDispatch(2F)
+        }
+    }
+
+    private fun handleCureStatusInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        battle.dispatch {
+            val pnx = message.split("|-curestatus|")[1].substring(0, 3)
+            val remaining = message.substringAfter("|-curestatus|")
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val status = Statuses.getStatus(remaining.split("|")[1])
+            val battlePokemon = pokemon.battlePokemon ?: return@dispatch GO
+            if (status is PersistentStatus) {
+                battlePokemon.effectedPokemon.status = null
+                battle.sendUpdate(BattlePersistentStatusPacket(pnx, null))
+            }
+            val showMessage = "[msg]" in remaining
+            if (status != null && showMessage) {
+                status.removeMessage?.let { battle.broadcastChatMessage(it.asTranslated(battlePokemon.getName())) }
+            }
+            WaitDispatch(1F)
         }
     }
 

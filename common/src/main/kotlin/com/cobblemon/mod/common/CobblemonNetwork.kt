@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.net.MessageBuiltEvent
 import com.cobblemon.mod.common.api.net.NetworkPacket
@@ -194,6 +195,7 @@ object CobblemonNetwork {
         buildClientMessage<BattleApplyCaptureResponsePacket>()
         buildClientMessage<ChallengeNotificationPacket>()
         buildClientMessage<BattleUpdateTeamPokemonPacket>()
+        buildClientMessage<BattlePersistentStatusPacket>()
 
         // Settings packets
         buildClientMessage<ServerSettingsPacket>()

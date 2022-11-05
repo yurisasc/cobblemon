@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.IntSize
@@ -26,7 +27,6 @@ import com.cobblemon.mod.common.util.writeSizedInt
 import java.util.UUID
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
-import net.minecraft.util.Identifier
 
 /**
  * Initializes the client's understanding of a battle. This can be for a participant or for a spectator.
@@ -158,7 +158,7 @@ class BattleInitializePacket() : NetworkPacket {
                 val pokemonDisplayName = buffer.readText().copy()
                 val properties = PokemonProperties.parse(buffer.readString(), delimiter = " ")
                 val status = if (buffer.readBoolean()) {
-                    PersistentStatus(Identifier(buffer.readString()), "", "", null)
+                    Statuses.getStatus(buffer.readIdentifier()) as? PersistentStatus
                 } else {
                     null
                 }
