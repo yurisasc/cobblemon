@@ -30,6 +30,7 @@ import com.cablemc.pokemod.common.entity.PoseType
 import com.cablemc.pokemod.common.entity.pokemon.PokemonEntity
 import com.cablemc.pokemod.common.pokemon.Gender
 import com.cablemc.pokemod.common.pokemon.Species
+import com.cablemc.pokemod.common.pokemon.status.PersistentStatus
 import com.cablemc.pokemod.common.util.battleLang
 import com.cablemc.pokemod.common.util.lang
 import com.cablemc.pokemod.common.util.pokemodResource
@@ -146,6 +147,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             aspects = battlePokemon.properties.aspects,
             displayName = battlePokemon.displayName,
             gender = battlePokemon.gender,
+            status = battlePokemon.status,
             hpRatio = battlePokemon.hpRatio,
             state = battlePokemon.state,
             colour = Triple(r, g, b),
@@ -164,6 +166,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         aspects: Set<String>,
         displayName: MutableText,
         gender: Gender,
+        status: PersistentStatus?,
         hpRatio: Float,
         state: PoseableEntityState<PokemonEntity>?,
         colour: Triple<Float, Float, Float>?,
@@ -247,6 +250,30 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             )
         }
 
+        if (status != null) {
+            val statusWidth = 37
+            blitk(
+                matrixStack = matrices,
+                texture = pokemodResource("ui/battle/battle_status_" + status.showdownName + ".png"),
+                x = x + if (reversed) 56 else 38,
+                y = y + 28,
+                height = 7,
+                width = statusWidth,
+                uOffset = if (reversed) 0 else statusWidth,
+                textureWidth = statusWidth * 2,
+                alpha = opacity
+            )
+
+            drawScaledText(
+                matrixStack = matrices,
+                font = PokemodResources.DEFAULT_LARGE,
+                text = lang("ui.status." + status.showdownName).bold(),
+                x = x + if (reversed) 78 else 42,
+                y = y + 27,
+                opacity = opacity
+            )
+        }
+
         // Draw labels
         val infoBoxX = x + if (!reversed) PORTRAIT_DIAMETER + PORTRAIT_OFFSET_X + INFO_OFFSET_X else INFO_OFFSET_X
         drawScaledText(
@@ -260,13 +287,15 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         )
 
         if (gender != Gender.GENDERLESS) {
-            val textSymbol = if (gender == Gender.MALE) "♂".text().blue() else "♀".text().red()
+            val isMale = gender == Gender.MALE
+            val textSymbol = if (isMale) "♂".text().bold() else "♀".text().bold()
             drawScaledText(
                 matrixStack = matrices,
                 font = PokemodResources.DEFAULT_LARGE,
-                text = textSymbol.bold(),
+                text = textSymbol,
                 x = infoBoxX + 53,
                 y = y + 7,
+                colour = if (isMale) 0x32CBFF else 0xFC5454,
                 opacity = opacity,
                 shadow = true
             )
