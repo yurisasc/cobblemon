@@ -13,8 +13,7 @@ import net.minecraft.network.PacketByteBuf
 
 abstract class DataRegistrySyncPacket<T>(private val registryEntries: Collection<T>) : NetworkPacket {
 
-    internal var buffer: PacketByteBuf? = null
-    internal var entries = arrayListOf<T>()
+    internal val entries = arrayListOf<T>()
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeCollection(this.registryEntries, this::encodeEntry)
@@ -22,8 +21,7 @@ abstract class DataRegistrySyncPacket<T>(private val registryEntries: Collection
 
     override fun decode(buffer: PacketByteBuf) {
         this.entries.clear()
-        buffer.retain()
-        this.buffer = buffer
+        this.entries += buffer.readList(this::decodeEntry).filterNotNull()
     }
 
     /**

@@ -10,12 +10,11 @@ package com.cobblemon.mod.common.client.net.data
 
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.client.net.ClientPacketHandler
+import com.cobblemon.mod.common.net.PacketHandler
 import com.cobblemon.mod.common.net.messages.client.data.DataRegistrySyncPacket
 
-class DataRegistrySyncPacketHandler<P, T : DataRegistrySyncPacket<P>> : ClientPacketHandler<T> {
-    override fun invokeOnClient(packet: T, ctx: CobblemonNetwork.NetworkContext) {
-        val entries = packet.buffer!!.readList(packet::decodeEntry).filterNotNull().toMutableList()
-        packet.synchronizeDecoded(entries)
-        packet.buffer!!.release()
+class DataRegistrySyncPacketHandler<P, T : DataRegistrySyncPacket<P>> : PacketHandler<T> {
+    override fun invoke(packet: T, ctx: CobblemonNetwork.NetworkContext) {
+        packet.synchronizeDecoded(packet.entries)
     }
 }
