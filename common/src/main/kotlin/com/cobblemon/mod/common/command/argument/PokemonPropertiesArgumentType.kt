@@ -19,8 +19,8 @@ import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import java.util.concurrent.CompletableFuture
 import net.minecraft.command.CommandSource
+import java.util.concurrent.CompletableFuture
 
 class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
 
@@ -38,7 +38,6 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
     override fun parse(reader: StringReader): PokemonProperties {
         val properties = reader.remaining
         reader.cursor = reader.totalLength
-
         return PokemonProperties.parse(properties)
     }
 
@@ -66,11 +65,9 @@ class PokemonPropertiesArgumentType: ArgumentType<PokemonProperties> {
         return this.suggestSpeciesAndPropertyKeys(builder)
     }
 
-    private fun suggestSpeciesAndPropertyKeys(builder: SuggestionsBuilder) = CommandSource.suggestMatching(this.collectSpeciesIdentifiers() + this.collectPropertyKeys(), builder)
+    private fun suggestSpeciesAndPropertyKeys(builder: SuggestionsBuilder) = CommandSource.suggestMatching(this.collectSpeciesIdentifiers() + PropertiesCompletionProvider.keys(), builder)
 
     private fun collectSpeciesIdentifiers() = PokemonSpecies.species.map { if (it.resourceIdentifier.namespace == Cobblemon.MODID) it.resourceIdentifier.path else it.resourceIdentifier.toString() }
-
-    private fun collectPropertyKeys() = CustomPokemonProperty.properties.mapNotNull { it.keys.firstOrNull()?.lowercase() }
 
     override fun getExamples() = EXAMPLES
 }

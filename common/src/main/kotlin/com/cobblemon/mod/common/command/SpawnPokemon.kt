@@ -18,30 +18,31 @@ import com.cobblemon.mod.common.util.permissionLevel
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import net.minecraft.server.command.CommandManager
-import net.minecraft.server.command.CommandManager.literal
+import net.minecraft.server.command.CommandManager.*
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 
 object SpawnPokemon {
 
+    private const val NAME = "spawnpokemon"
+    private const val PROPERTIES = "properties"
+    private const val ALIAS = "pokespawn"
+
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = dispatcher.register(literal("spawnpokemon")
+        val command = dispatcher.register(literal(NAME)
             .permission(CobblemonPermissions.SPAWN_POKEMON)
             .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
-            .then(
-                CommandManager.argument("pokemon", PokemonPropertiesArgumentType.properties())
-                    .executes { execute(it) }
-            ))
-        dispatcher.register(literal("pokespawn").redirect(command))
+            .then(argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
+                .executes(this::execute)))
+        dispatcher.register(literal(ALIAS).redirect(command))
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>) : Int {
         val entity = context.source.entity
         if (entity is ServerPlayerEntity && !entity.world.isClient) {
-            val pkm = PokemonPropertiesArgumentType.getPokemonProperties(context, "pokemon")
+            val pkm = PokemonPropertiesArgumentType.getPokemonProperties(context, PROPERTIES)
             if (pkm.species == null) {
-                entity.sendMessage(commandLang("spawnpokemon.nospecies").red())
+                entity.sendMessage(commandLang("${NAME}.nospecies").red())
                 return Command.SINGLE_SUCCESS
             }
             val pokemonEntity = pkm.createEntity(entity.world)
