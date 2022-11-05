@@ -8,6 +8,8 @@
 
 package com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.gen1
 
+import com.cablemc.pokemod.common.client.render.models.blockbench.animation.BipedWalkAnimation
+import com.cablemc.pokemod.common.client.render.models.blockbench.frame.BipedFrame
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cablemc.pokemod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cablemc.pokemod.common.entity.PoseType.Companion.MOVING_POSES
@@ -15,8 +17,11 @@ import com.cablemc.pokemod.common.entity.PoseType.Companion.STATIONARY_POSES
 import com.cablemc.pokemod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
-class VenonatModel(root: ModelPart) : PokemonPoseableModel() {
+class VenonatModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val rootPart = root.registerChildWithAllChildren("venonat")
+
+    override val leftLeg = getPart("foot_left")
+    override val rightLeg = getPart("foot_right")
 
     override val portraitScale = 1.0F
     override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -40,6 +45,7 @@ class VenonatModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
+                BipedWalkAnimation(this, periodMultiplier = 1F,amplitudeMultiplier = 0.8f),
                 bedrock("0048_venonat/venonat", "ground_idle")
                 //bedrock("0048_venonat/venonat", "ground_walk")
             )
