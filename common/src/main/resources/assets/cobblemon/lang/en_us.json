@@ -152,7 +152,7 @@
   "cobblemon.command.givepokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
   "cobblemon.command.spawnpokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
 
-  "advancements.cobblemon.root": "Pokemod",
+  "advancements.cobblemon.root": "Cobblemon",
   "advancements.cobblemon.root.description": "Started your adventure by picking a starter Pokémon",
   "advancements.cobblemon.harvest_apricorn": "Your first Apricorn",
   "advancements.cobblemon.harvest_apricorn.description": "Harvest an Apricorn by right clicking it when fully grown",

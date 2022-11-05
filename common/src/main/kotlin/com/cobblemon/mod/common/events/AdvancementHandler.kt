@@ -37,7 +37,7 @@ object AdvancementHandler {
     }
 
 //    fun onHatch(event: HatchEggEvent) {
-//        val playerData = Pokemod.playerData.get(event.player)
+//        val playerData = Cobblemon.playerData.get(event.player)
 //        val advancementData = playerData.advancementData
 //        advancementData.updateTotalEggsHatched()
 //        Cobblemon.playerData.saveSingle(playerData)
