@@ -8,7 +8,6 @@
 
 package com.cablemc.pokemod.common.net.messages.client.data
 
-import com.cablemc.pokemod.common.Pokemod.LOGGER
 import com.cablemc.pokemod.common.api.moves.MoveTemplate
 import com.cablemc.pokemod.common.api.moves.Moves
 import com.cablemc.pokemod.common.api.moves.categories.DamageCategories
@@ -53,7 +52,6 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate>(Moves.all()
     }
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {
-        LOGGER.info("Decoding moves...")
         Moves.reload(entries.associateBy { pokemodResource(it.name) })
     }
 }

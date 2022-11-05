@@ -13,9 +13,9 @@ import com.cablemc.pokemod.common.client.net.ClientPacketHandler
 import com.cablemc.pokemod.common.net.messages.client.data.DataRegistrySyncPacket
 
 class DataRegistrySyncPacketHandler<P, T : DataRegistrySyncPacket<P>> : ClientPacketHandler<T> {
-
     override fun invokeOnClient(packet: T, ctx: PokemodNetwork.NetworkContext) {
-        packet.synchronizeDecoded(packet.entries)
+        val entries = packet.buffer!!.readList(packet::decodeEntry).filterNotNull().toMutableList()
+        packet.synchronizeDecoded(entries)
+        packet.buffer!!.release()
     }
-
 }

@@ -27,7 +27,7 @@ internal object CobbledDataProvider : DataProvider {
 
     // Both Forge n Fabric keep insertion order so if a registry depends on another simply register it after
     var canReload = true
-    private val registries = linkedMapOf<Identifier, DataRegistry>()
+    private val registries = mutableListOf<DataRegistry>()
 
     fun registerDefaults() {
         this.register(Moves)
@@ -42,16 +42,16 @@ internal object CobbledDataProvider : DataProvider {
             LOGGER.info("Note: Pokémon Cobbled data registries are only loaded once per server instance as Pokémon species are not safe to reload.")
         }
         ReloadListenerRegistry.register(registry.type, SimpleResourceReloader(registry))
-        this.registries[registry.id] = registry
+        this.registries.add(registry)
         LOGGER.info("Registered the {} registry", registry.id.toString())
         LOGGER.debug("Registered the {} registry of class {}", registry.id.toString(), registry::class.qualifiedName)
     }
 
-    override fun fromIdentifier(registryIdentifier: Identifier): DataRegistry? = this.registries[registryIdentifier]
+    override fun fromIdentifier(registryIdentifier: Identifier): DataRegistry? = this.registries.find { it.id == registryIdentifier }
 
     override fun sync(player: ServerPlayerEntity) {
         if (!player.networkHandler.connection.isLocal) {
-            this.registries.values.forEach { registry -> registry.sync(player) }
+            this.registries.forEach { registry -> registry.sync(player) }
         }
     }
 
