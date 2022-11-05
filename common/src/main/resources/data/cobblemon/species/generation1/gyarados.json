@@ -137,6 +137,15 @@
         "water_2",
         "dragon"
     ],
+	"behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+                "canBreatheUnderwater": true,
+                "canWalkOnWater": true
+            }
+        }
+    },
     "moves": [
         "0:bite",
         "1:bind",

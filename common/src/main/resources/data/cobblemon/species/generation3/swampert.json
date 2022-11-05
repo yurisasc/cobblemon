@@ -133,6 +133,14 @@
         "monster",
         "water_1"
     ],
+    "behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+                "canBreatheUnderwater": true
+            }
+        }
+    },
     "moves": [
         "1:tackle",
         "1:growl",
