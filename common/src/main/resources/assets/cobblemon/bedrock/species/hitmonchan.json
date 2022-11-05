@@ -1,0 +1,11 @@
+{
+  "poser": "cobblemon:hitmonchan",
+  "model": "cobblemon:bedrock/models/0107_hitmonchan/hitmonchan.geo.json",
+  "texture": "cobblemon:textures/pokemon/0107_hitmonchan/hitmonchan.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "cobblemon:textures/pokemon/0107_hitmonchan/hitmonchan_shiny.png"
+    }
+  ]
+}

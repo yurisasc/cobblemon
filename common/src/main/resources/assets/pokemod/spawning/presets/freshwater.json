@@ -1,9 +1,0 @@
-{
-  "name": "freshwater",
-  "condition": {
-    "biomes": [ "#pokemod:is_freshwater" ]
-  },
-  "anticondition": {
-    "biomes": [ "#pokemod:is_freezing" ]
-  }
-}

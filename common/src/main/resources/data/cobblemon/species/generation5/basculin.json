@@ -1,0 +1,151 @@
+{
+  "name": "basculin",
+  "nationalPokedexNumber": 550,
+  "primaryType": "water",
+  "abilities": ["reckless", "adaptability", "h:moldbreaker"],
+  "baseStats": {
+    "hp": 70,
+    "attack": 92,
+    "defence": 65,
+    "special_attack": 80,
+    "special_defence": 55,
+    "speed": 98
+  },
+  "catchRate": 25,
+  "maleRatio": 0.5,
+  "shoulderMountable": false,
+  "baseExperienceYield": 161,
+  "experienceGroup": "mediumfast",
+  "eggCycles": 40,
+  "eggGroups": ["water_2"],
+  "behaviour": {
+    "moving": {
+      "swim": {
+        "canSwimInWater": true,
+        "canBreatheUnderwater": true
+      }
+    }
+  },
+  "moves": [
+    "1:tailwhip",
+    "1:watergun",
+    "4:tackle",
+    "8:flail",
+    "11:chipaway",
+    "12:aquajet",
+    "16:bite",
+    "20:scaryface",
+    "24:headbutt",
+    "28:soak",
+    "32:crunch",
+    "36:takedown",
+    "40:finalgambit",
+    "44:aquatail",
+    "48:thrash",
+    "52:doubleedge",
+    "56:headsmash",
+    "egg:bubblebeam",
+    "egg:endeavor",
+    "egg:rage",
+    "tm:agility",
+    "tm:assurance",
+    "tm:attract",
+    "tm:bounce",
+    "tm:brine",
+    "tm:confide",
+    "tm:crunch",
+    "tm:cut",
+    "tm:dive",
+    "tm:doubleteam",
+    "tm:endure",
+    "tm:facade",
+    "tm:frustration",
+    "tm:hail",
+    "tm:hiddenpower",
+    "tm:hydropump",
+    "tm:icebeam",
+    "tm:icefang",
+    "tm:icywind",
+    "tm:liquidation",
+    "tm:muddywater",
+    "tm:mudshot",
+    "tm:protect",
+    "tm:psychicfangs",
+    "tm:raindance",
+    "tm:rest",
+    "tm:return",
+    "tm:revenge",
+    "tm:reversal",
+    "tm:round",
+    "tm:scald",
+    "tm:scaryface",
+    "tm:secretpower",
+    "tm:sleeptalk",
+    "tm:snore",
+    "tm:substitute",
+    "tm:superpower",
+    "tm:surf",
+    "tm:swagger",
+    "tm:swift",
+    "tm:taunt",
+    "tm:toxic",
+    "tm:uproar",
+    "tm:waterfall",
+    "tm:whirlpool",
+    "tm:zenheadbutt",
+    "tutor:flipturn",
+    "tutor:scaleshot"
+  ],
+  "labels": ["gen5", "unova_regional", "regional"],
+  "pokedex": [
+    "cobblemon.species.basculin.desc1",
+    "cobblemon.species.basculin.desc2"
+  ],
+  "evolutions": [],
+  "baseScale": 1.0,
+  "hitbox": {
+    "width": 1.0,
+    "height": 1.0,
+    "fixed": false
+  },
+  "baseFriendship": 50,
+  "evYield": {
+    "speed": 2
+  },
+  "height": 10,
+  "weight": 180,
+  "forms": [
+    {
+      "name": "blue-striped",
+      "abilities": ["rockhead", "adaptability", "h:moldbreaker"],
+      "pokedex": [
+        "cobblemon.form.basculin-blue-striped.desc1",
+        "cobblemon.form.basculin-blue-striped.desc2"
+      ]
+    },
+    {
+      "name": "white-striped",
+      "abilities": ["rattled", "adaptability", "h:moldbreaker"],
+      "pokedex": [
+        "cobblemon.form.basculin-white-striped.desc1",
+        "cobblemon.form.basculin-white-striped.desc2"
+      ],
+      "labels": ["gen5", "hisui_regional", "regional"],
+      "evolutions": [
+        {
+          "id": "basculin_basculegion",
+          "variant": "passive",
+          "result": "basculegion",
+          "consumeHeldItem": false,
+          "learnableMoves": [],
+          "requirements": [
+            {
+              "variant": "damage_taken",
+              "amount": 294
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

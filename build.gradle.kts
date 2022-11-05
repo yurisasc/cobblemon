@@ -1,8 +1,8 @@
 
 plugins {
     base
-    id("pokemod.root-conventions")
+    id("cobblemon.root-conventions")
 }
 
-group = "com.cablemc.pokemod"
+group = "com.cobblemon.mod"
 version = "${project.property("mod_version")}+${project.property("mc_version")}"

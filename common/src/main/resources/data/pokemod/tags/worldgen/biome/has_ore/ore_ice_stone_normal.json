@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#pokemod:is_glacial",
-	"#pokemod:is_snowy",
-	"#pokemod:is_tundra"
-  ]
-}

@@ -1,0 +1,19 @@
+{
+    "variants": {
+      "facing=east": {
+        "model": "cobblemon:block/healing_machine",
+        "y": 270
+      },
+      "facing=north": {
+        "model": "cobblemon:block/healing_machine",
+        "y": 180
+      },
+      "facing=south": {
+        "model": "cobblemon:block/healing_machine"
+      },
+      "facing=west": {
+        "model": "cobblemon:block/healing_machine",
+        "y": 90
+      }
+    }
+}

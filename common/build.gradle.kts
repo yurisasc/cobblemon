@@ -1,5 +1,5 @@
 plugins {
-    id("pokemod.base-conventions")
+    id("cobblemon.base-conventions")
 }
 
 architectury {

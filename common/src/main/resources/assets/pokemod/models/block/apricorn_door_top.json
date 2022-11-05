@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/door_top",
-  "textures": {
-    "top": "pokemod:blocks/apricorn_door_top",
-    "bottom": "pokemod:blocks/apricorn_door_bottom"
-  }
-}

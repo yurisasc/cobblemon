@@ -1,0 +1,23 @@
+{
+  "display": {
+    "icon": {
+      "item": "cobblemon:pc"
+    },
+    "title": {
+      "translate": "advancements.cobblemon.full_party"
+    },
+    "description": {
+      "translate": "advancements.cobblemon.full_party.description"
+    }
+  },
+  "parent": "cobblemon:first_catch",
+  "criteria": {
+    "catch": {
+      "trigger": "cobblemon:catch_pokemon",
+      "conditions": {
+        "count": 5,
+        "type": "any"
+      }
+    }
+  }
+}

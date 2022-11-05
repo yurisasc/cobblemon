@@ -1,0 +1,88 @@
+{
+    "name": "magikarp",
+    "nationalPokedexNumber": 129,
+    "primaryType": "water",
+    "abilities": [
+        "swiftswim",
+        "h:rattled"
+    ],
+    "baseStats": {
+        "hp": 20,
+        "attack": 10,
+        "defence": 55,
+        "special_attack": 15,
+        "special_defence": 20,
+        "speed": 80
+    },
+    "catchRate": 255,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 40,
+    "experienceGroup": "slow",
+    "eggCycles": 5,
+    "eggGroups": [
+        "water_2",
+        "dragon"
+    ],
+    "behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+				"canBreatheUnderwater": true
+            },
+			"fly": {
+                "canFly": true
+            }
+        }
+    },
+    "drops": {
+        "amount": "1",
+        "entries": [
+            {
+                "item": "minecraft:salmon"
+            }
+        ]
+    },
+    "moves": [
+        "1:splash",
+        "15:tackle",
+        "25:flail",
+        "tm:bounce",
+        "tm:hydropump"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "cobblemon.species.magikarp.desc1",
+        "cobblemon.species.magikarp.desc2"
+    ],
+    "evolutions": [
+        {
+            "id": "magikarp_gyarados",
+            "variant": "level_up",
+            "result": "gyarados",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "level",
+                    "minLevel": 20
+                }
+            ]
+        }
+    ],
+    "baseScale": 0.9,
+    "hitbox": {
+        "width": 0.9,
+        "height": 0.9,
+        "fixed": false
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 1
+    },
+    "height": 9,
+    "weight": 100
+}

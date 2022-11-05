@@ -1,0 +1,162 @@
+{
+    "name": "golbat",
+    "nationalPokedexNumber": 42,
+    "primaryType": "poison",
+    "secondaryType": "flying",
+    "abilities": [
+        "innerfocus",
+        "h:infiltrator"
+    ],
+    "baseStats": {
+        "hp": 75,
+        "attack": 80,
+        "defence": 70,
+        "special_attack": 65,
+        "special_defence": 75,
+        "speed": 90
+    },
+    "catchRate": 90,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 159,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 15,
+    "eggGroups": [
+        "flying"
+    ],
+    "behaviour": {
+        "moving": {
+            "swim": {
+                "canWalkOnWater": true
+            },
+            "fly": {
+                "canFly": true
+            }
+        }
+    },
+    "moves": [
+        "1:wingattack",
+        "1:whirlwind",
+        "1:supersonic",
+        "1:absorb",
+        "1:quickattack",
+        "1:screech",
+        "1:meanlook",
+        "1:astonish",
+        "4:wingattack",
+        "15:poisonfang",
+        "20:quickguard",
+        "27:aircutter",
+        "34:bite",
+        "40:toxic",
+        "41:haze",
+        "48:venoshock",
+        "55:confuseray",
+        "62:airslash",
+        "69:leechlife",
+        "tm:acrobatics",
+        "tm:aerialace",
+        "tm:agility",
+        "tm:airslash",
+        "tm:assurance",
+        "tm:attract",
+        "tm:bide",
+        "tm:bravebird",
+        "tm:captivate",
+        "tm:confide",
+        "tm:crunch",
+        "tm:curse",
+        "tm:detect",
+        "tm:doubleteam",
+        "tm:endure",
+        "tm:facade",
+        "tm:fly",
+        "tm:frustration",
+        "tm:gigadrain",
+        "tm:gigaimpact",
+        "tm:headbutt",
+        "tm:heatwave",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:leechlife",
+        "tm:megadrain",
+        "tm:nastyplot",
+        "tm:naturalgift",
+        "tm:payback",
+        "tm:pluck",
+        "tm:protect",
+        "tm:rage",
+        "tm:raindance",
+        "tm:razorwind",
+        "tm:rest",
+        "tm:return",
+        "tm:roost",
+        "tm:round",
+        "tm:screech",
+        "tm:secretpower",
+        "tm:shadowball",
+        "tm:sleeptalk",
+        "tm:sludgebomb",
+        "tm:snore",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:swift",
+        "tm:takedown",
+        "tm:taunt",
+        "tm:thief",
+        "tm:torment",
+        "tm:toxic",
+        "tm:uproar",
+        "tm:uturn",
+        "tm:venomdrench",
+        "tm:venoshock",
+        "tm:zenheadbutt",
+        "tutor:defog",
+        "tutor:doubleedge",
+        "tutor:dualwingbeat",
+        "tutor:mimic",
+        "tutor:ominouswind",
+        "tutor:snatch",
+        "tutor:superfang",
+        "tutor:tailwind",
+        "tutor:twister"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "cobblemon.species.golbat.desc1",
+        "cobblemon.species.golbat.desc2"
+    ],
+    "preEvolution": "zubat",
+    "evolutions": [
+        {
+            "id": "golbat_crobat",
+            "variant": "level_up",
+            "result": "crobat",
+            "consumeHeldItem": false,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "friendship",
+                    "amount": 160
+                }
+            ]
+        }
+    ],
+    "baseScale": 1.0,
+    "hitbox": {
+        "width": 1.0,
+        "height": 1.0,
+        "fixed": false
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "speed": 2
+    },
+    "height": 16,
+    "weight": 550
+}

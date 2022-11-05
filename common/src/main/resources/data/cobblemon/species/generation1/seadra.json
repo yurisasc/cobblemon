@@ -1,0 +1,161 @@
+{
+    "name": "seadra",
+    "nationalPokedexNumber": 117,
+    "primaryType": "water",
+    "abilities": [
+        "poisonpoint",
+        "sniper",
+        "h:damp"
+    ],
+    "baseStats": {
+        "hp": 55,
+        "attack": 65,
+        "defence": 95,
+        "special_attack": 95,
+        "special_defence": 45,
+        "speed": 85
+    },
+    "catchRate": 75,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [],
+    "baseExperienceYield": 154,
+    "experienceGroup": "mediumfast",
+    "eggCycles": 20,
+    "eggGroups": [
+        "water_1",
+        "dragon"
+    ],
+    "behaviour": {
+        "moving": {
+            "swim": {
+                "canSwimInWater": true,
+                "canBreatheUnderwater": true
+            }
+        }
+    },
+    "drops": {
+        "amount": "2",
+        "entries": [
+            {
+                "item": "minecraft:prismarine_crystals",
+                "quantityRange": "1-2",
+                "percentage": 66
+            },
+            {
+                "item": "cobblemon:dragon_scale",
+                "percentage": 5
+            }
+        ]
+    },
+    "moves": [
+        "1:leer",
+        "1:disable",
+        "1:watergun",
+        "1:smokescreen",
+        "1:bubble",
+        "1:twister",
+        "1:clearsmog",
+        "15:focusenergy",
+        "20:dragonbreath",
+        "25:bubblebeam",
+        "30:agility",
+        "37:laserfocus",
+        "44:dragonpulse",
+        "51:hydropump",
+        "58:dragondance",
+        "65:raindance",
+        "tm:agility",
+        "tm:attract",
+        "tm:bide",
+        "tm:blizzard",
+        "tm:bounce",
+        "tm:brine",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
+        "tm:dive",
+        "tm:doubleteam",
+        "tm:dragondance",
+        "tm:dragonpulse",
+        "tm:endure",
+        "tm:facade",
+        "tm:flashcannon",
+        "tm:focusenergy",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:hail",
+        "tm:headbutt",
+        "tm:hiddenpower",
+        "tm:hydropump",
+        "tm:hyperbeam",
+        "tm:icebeam",
+        "tm:icywind",
+        "tm:liquidation",
+        "tm:muddywater",
+        "tm:naturalgift",
+        "tm:outrage",
+        "tm:protect",
+        "tm:rage",
+        "tm:raindance",
+        "tm:rest",
+        "tm:return",
+        "tm:round",
+        "tm:scald",
+        "tm:secretpower",
+        "tm:skullbash",
+        "tm:sleeptalk",
+        "tm:snore",
+        "tm:substitute",
+        "tm:surf",
+        "tm:swagger",
+        "tm:swift",
+        "tm:takedown",
+        "tm:toxic",
+        "tm:waterfall",
+        "tm:whirlpool",
+        "tutor:doubleedge",
+        "tutor:flipturn",
+        "tutor:mimic",
+        "tutor:scaleshot",
+        "tutor:signalbeam",
+        "tutor:waterpulse"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "cobblemon.species.seadra.desc1",
+        "cobblemon.species.seadra.desc2"
+    ],
+    "preEvolution": "horsea",
+    "evolutions": [
+        {
+            "id": "seadra_kingdra",
+            "variant": "trade",
+            "result": "kingdra",
+            "consumeHeldItem": true,
+            "learnableMoves": [],
+            "requirements": [
+                {
+                    "variant": "held_item",
+                    "item": "cobblemon:dragon_scale"
+                }
+            ],
+            "requiredContext": null
+        }
+    ],
+    "baseScale": 0.85,
+    "hitbox": {
+        "width": 0.7,
+        "height": 1.8,
+        "fixed": false
+    },
+    "baseFriendship": 50,
+    "evYield": {
+        "defence": 1,
+        "special_attack": 1
+    },
+    "height": 12,
+    "weight": 250
+}

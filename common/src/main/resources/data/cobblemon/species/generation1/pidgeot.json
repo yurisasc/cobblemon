@@ -1,0 +1,213 @@
+{
+    "name": "pidgeot",
+    "nationalPokedexNumber": 18,
+    "primaryType": "normal",
+    "secondaryType": "flying",
+    "abilities": [
+        "keeneye",
+        "tangledfeet",
+        "h:bigpecks"
+    ],
+    "baseStats": {
+        "hp": 83,
+        "attack": 80,
+        "defence": 75,
+        "special_attack": 70,
+        "special_defence": 70,
+        "speed": 101
+    },
+    "catchRate": 45,
+    "maleRatio": 0.5,
+    "shoulderMountable": false,
+    "forms": [
+        {
+            "name": "normal"
+        },
+        {
+            "name": "mega",
+            "abilities": [
+                "noguard"
+            ],
+            "baseStats": {
+                "hp": 83,
+                "attack": 80,
+                "defence": 80,
+                "special_attack": 135,
+                "special_defence": 80,
+                "speed": 121
+            },
+            "baseExperienceYield": 261,
+            "moves": [
+                "1:gust",
+                "1:sandattack",
+                "1:tackle",
+                "1:quickattack",
+                "1:skyattack",
+                "1:heatwave",
+                "1:hurricane",
+                "3:sandattack",
+                "5:gust",
+                "9:quickattack",
+                "11:mirrormove",
+                "15:wingattack",
+                "17:roost",
+                "22:twister",
+                "25:whirlwind",
+                "27:featherdance",
+                "31:agility",
+                "43:airslash",
+                "50:tailwind",
+                "53:razorwind",
+                "68:hurricane",
+                "tm:aerialace",
+                "tm:attract",
+                "tm:confide",
+                "tm:doubleteam",
+                "tm:facade",
+                "tm:fly",
+                "tm:frustration",
+                "tm:gigaimpact",
+                "tm:headbutt",
+                "tm:hiddenpower",
+                "tm:hyperbeam",
+                "tm:protect",
+                "tm:raindance",
+                "tm:reflect",
+                "tm:rest",
+                "tm:return",
+                "tm:roost",
+                "tm:round",
+                "tm:secretpower",
+                "tm:sleeptalk",
+                "tm:steelwing",
+                "tm:substitute",
+                "tm:sunnyday",
+                "tm:swagger",
+                "tm:thief",
+                "tm:toxic",
+                "tm:uturn",
+                "tm:workup",
+                "tutor:defog",
+                "tutor:laserfocus",
+                "tutor:snore",
+                "tutor:tailwind",
+                "tutor:uproar"
+            ],
+            "labels": [
+                "gen1",
+                "mega_evolution"
+            ],
+            "pokedex": [
+                "cobblemon.form.pidgeot-mega.desc1",
+                "cobblemon.form.pidgeot-mega.desc2"
+            ],
+            "height": 22,
+            "weight": 505
+        }
+    ],
+    "baseExperienceYield": 216,
+    "experienceGroup": "mediumslow",
+    "eggCycles": 15,
+    "eggGroups": [
+        "flying"
+    ],
+    "behaviour": {
+        "moving": {
+            "fly": {
+                "canFly": true
+            }
+        }
+    },
+    "moves": [
+        "1:gust",
+        "1:sandattack",
+        "1:tackle",
+        "1:quickattack",
+        "1:skyattack",
+        "1:heatwave",
+        "1:hurricane",
+        "3:sandattack",
+        "5:gust",
+        "9:quickattack",
+        "11:mirrormove",
+        "15:wingattack",
+        "17:roost",
+        "22:twister",
+        "25:whirlwind",
+        "27:featherdance",
+        "31:agility",
+        "43:airslash",
+        "50:tailwind",
+        "53:razorwind",
+        "68:hurricane",
+        "tm:aerialace",
+        "tm:attract",
+        "tm:bide",
+        "tm:captivate",
+        "tm:confide",
+        "tm:curse",
+        "tm:detect",
+        "tm:doubleteam",
+        "tm:endure",
+        "tm:facade",
+        "tm:fly",
+        "tm:frustration",
+        "tm:gigaimpact",
+        "tm:headbutt",
+        "tm:hiddenpower",
+        "tm:hyperbeam",
+        "tm:naturalgift",
+        "tm:pluck",
+        "tm:protect",
+        "tm:rage",
+        "tm:raindance",
+        "tm:reflect",
+        "tm:rest",
+        "tm:return",
+        "tm:roost",
+        "tm:round",
+        "tm:secretpower",
+        "tm:sleeptalk",
+        "tm:steelwing",
+        "tm:substitute",
+        "tm:sunnyday",
+        "tm:swagger",
+        "tm:takedown",
+        "tm:thief",
+        "tm:toxic",
+        "tm:uturn",
+        "tm:workup",
+        "tutor:aircutter",
+        "tutor:defog",
+        "tutor:doubleedge",
+        "tutor:laserfocus",
+        "tutor:mimic",
+        "tutor:mudslap",
+        "tutor:ominouswind",
+        "tutor:snore",
+        "tutor:swift",
+        "tutor:tailwind",
+        "tutor:uproar"
+    ],
+    "labels": [
+        "gen1"
+    ],
+    "pokedex": [
+        "cobblemon.species.pidgeot.desc1",
+        "cobblemon.species.pidgeot.desc2"
+    ],
+    "preEvolution": "pidgeotto",
+    "evolutions": [],
+    "baseScale": 2,
+    "hitbox": {
+        "width": 0.7,
+        "height": 1.0,
+        "fixed": false
+    },
+    "baseFriendship": 70,
+    "evYield": {
+        "speed": 3
+    },
+    "height": 15,
+    "weight": 395
+}
