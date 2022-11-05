@@ -16,7 +16,7 @@ and runData is for summoning the Eldritch gods or something, idk.
 ## Contributing
 
 If you're interested in contributing to the project, you can simply fork the repository and comment on any of the issues 
-[here](https://gitlab.com/cable-mc/pokemon-Cobblemon/-/issues?scope=all&state=opened&label_name[]=accepted&assignee_id=None).
+[here](https://gitlab.com/cable-mc/cobblemon/-/issues?scope=all&state=opened&label_name[]=accepted&assignee_id=None).
 
 If you want a more involved role in the project, involving branches on the main repository instead of forking and involvement
 in design discussions, add and message Hiroku#4373 on our Discord here: https://discord.gg/AsNpJSST7G.
