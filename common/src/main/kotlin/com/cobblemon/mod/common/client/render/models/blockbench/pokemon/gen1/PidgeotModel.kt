@@ -16,20 +16,20 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.pose.TransformedModelPart
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.parabolaFunction
 import com.cobblemon.mod.common.client.render.models.blockbench.wavefunction.sineFunction
-import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
-import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
+
 class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BiWingedFrame {
-    override val rootPart = registerRelevantPart("pidgeot", root.getChild("pidgeot"))
-    override val leftWing = registerRelevantPart("leftwing", rootPart.getChildOf("body","wing_left"))
-    override val rightWing = registerRelevantPart("rightwing", rootPart.getChildOf("body","wing_right"))
-    override val leftLeg = registerRelevantPart("leftleg", rootPart.getChildOf("body","leg_left"))
-    override val rightLeg = registerRelevantPart("rightleg", rootPart.getChildOf("body","leg_right"))
-    override val head = registerRelevantPart("head", rootPart.getChildOf("body","head"))
-    private val tail = registerRelevantPart("tail", rootPart.getChildOf("body","tail"))
+    override val rootPart = root.registerChildWithAllChildren("pidgeot")
+    override val leftWing = getPart("wing_left")
+    override val rightWing = getPart("wing_right")
+    override val leftLeg = getPart("leg_left")
+    override val rightLeg = getPart("leg_right")
+    override val head = getPart("head")
+    private val tail = getPart("tail")
 
     override val portraitScale = 1.85F
     override val portraitTranslation = Vec3d(-0.1, -0.5, 0.0)
@@ -39,18 +39,19 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override fun registerPoses() {
         registerPose(
             poseName = "stand",
-            poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 0,
+            poseTypes = UI_POSES + PoseType.STAND,
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                bedrock("0018_pidgeot/pidgeot", "ground_idle")
             )
         )
+
         registerPose(
             poseName = "walk",
-            poseTypes = MOVING_POSES,
-            transformTicks = 5,
+            poseType = PoseType.WALK,
             idleAnimations = arrayOf(
                 singleBoneLook(),
+                bedrock("0018_pidgeot/pidgeot", "ground_idle"),
                 rootPart.translation(
                     function = parabolaFunction(
                         peak = -4F,
@@ -122,6 +123,24 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                     axis = TransformedModelPart.Y_AXIS,
                     timeVariable = { _, _, ageInTicks -> ageInTicks / 20 },
                 ),
+            )
+        )
+
+        registerPose(
+            poseName = "floating",
+            poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0018_pidgeot/pidgeot", "air_idle")
+            )
+        )
+
+        registerPose(
+            poseName = "flying",
+            poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
+            idleAnimations = arrayOf(
+                singleBoneLook(),
+                bedrock("0018_pidgeot/pidgeot", "air_fly")
             )
         )
     }

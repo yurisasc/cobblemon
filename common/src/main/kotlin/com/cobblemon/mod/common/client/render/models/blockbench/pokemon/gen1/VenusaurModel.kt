@@ -40,7 +40,6 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0003_venusaur/venusaur", "ground_idle")
@@ -50,7 +49,6 @@ class VenusaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
-            transformTicks = 10,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0003_venusaur/venusaur", "ground_idle"),
