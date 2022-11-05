@@ -83,7 +83,7 @@ class WorldSlice(
         return if (!isInBounds(x, y, z)) {
             elseCanSeeSky
         } else {
-            skyLevel[x - baseX][z - baseZ] <= y
+            y >= skyLevel[x - baseX][z - baseZ]
         }
     }
     fun canSeeSky(position: BlockPos, elseCanSeeSky: Boolean = false) = canSeeSky(position.x, position.y, position.z, elseCanSeeSky)
