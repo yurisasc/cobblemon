@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.spawning.spawner
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.SpawnerManager
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
@@ -45,7 +46,7 @@ abstract class TickingSpawner(
 
     var active = true
     val spawnedEntities = mutableListOf<Entity>()
-    var maximumSpawned = 15
+    var maximumSpawned = Cobblemon.config.maximumSpawnedPokemonPerPlayer
 
     var lastSpawnTime = 0L
     var ticksUntilNextSpawn = 100F

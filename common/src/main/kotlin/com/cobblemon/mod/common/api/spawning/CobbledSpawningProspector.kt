@@ -80,7 +80,7 @@ object CobblemonSpawningProspector : SpawningProspector {
             for (z in area.baseZ until area.baseZ + area.width) {
                 val query = chunks.computeIfAbsent(Pair(getSectionCoord(x), getSectionCoord(z))) {
                     val manager = world.chunkManager as CachedOnlyChunkAccessor
-                    manager.`Cobblemon$request`(it.first, it.second, ChunkStatus.FULL)
+                    manager.`cobblemon$request`(it.first, it.second, ChunkStatus.FULL)
                 } ?: continue
 
                 var canSeeSky = true

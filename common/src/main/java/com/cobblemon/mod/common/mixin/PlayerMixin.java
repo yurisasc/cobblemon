@@ -48,7 +48,7 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
     @Inject(method = "dropShoulderEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityType;getEntityFromNbt(Lnet/minecraft/nbt/NbtCompound;Lnet/minecraft/world/World;)Ljava/util/Optional;"), cancellable = true)
-    private void Cobblemon$removePokemon(NbtCompound nbt, CallbackInfo ci) {
+    private void cobblemon$removePokemon(NbtCompound nbt, CallbackInfo ci) {
         if (CompoundTagExtensionsKt.isPokemonEntity(nbt)) {
             final UUID uuid = this.getPokemonID(nbt);
             if (this.isShoulderPokemon(this.getShoulderEntityRight())) {
@@ -79,7 +79,7 @@ public abstract class PlayerMixin extends LivingEntity {
         ),
         cancellable = true
     )
-    private void Cobblemon$preventPokemonDropping(CallbackInfo ci) {
+    private void cobblemon$preventPokemonDropping(CallbackInfo ci) {
         // We want to allow both of these to forcefully remove the entities
         if (this.isSpectator() || this.isDead())
             return;

@@ -13,6 +13,6 @@ import net.minecraft.world.chunk.ChunkStatus
 
 interface CachedOnlyChunkAccessor {
 
-    fun `Cobblemon$request`(x: Int, z: Int, status: ChunkStatus): Chunk?
+    fun `cobblemon$request`(x: Int, z: Int, status: ChunkStatus): Chunk?
 
 }
