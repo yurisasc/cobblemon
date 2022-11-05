@@ -144,7 +144,7 @@
         "cobblemon.species.tauros.desc2"
     ],
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.5,
     "hitbox": {
         "width": 1.0,
         "height": 1.2,
