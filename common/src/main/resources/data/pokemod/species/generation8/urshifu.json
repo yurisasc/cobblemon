@@ -19,6 +19,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "rapid-strike",
             "secondaryType": "water",
             "moves": [
@@ -99,21 +102,6 @@
                 "pokemod.form.urshifu-rapid-strike.desc1",
                 "pokemod.form.urshifu-rapid-strike.desc2"
             ]
-        },
-        {
-            "name": "gmax",
-            "moves": [],
-            "labels": [
-                "gen8",
-                "gmax",
-                "legendary"
-            ],
-            "pokedex": [
-                "pokemod.form.urshifu-gmax.desc1",
-                "pokemod.form.urshifu-gmax.desc2"
-            ],
-            "height": 290,
-            "weight": 10000
         },
         {
             "name": "gmax",

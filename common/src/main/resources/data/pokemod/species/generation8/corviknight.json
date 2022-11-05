@@ -21,6 +21,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "gmax",
             "moves": [],
             "labels": [

@@ -21,6 +21,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "low-key",
             "abilities": [
                 "punkrock",
@@ -104,25 +107,6 @@
         },
         {
             "name": "gmax",
-            "moves": [],
-            "labels": [
-                "gen8",
-                "gmax"
-            ],
-            "pokedex": [
-                "pokemod.form.toxtricity-gmax.desc1",
-                "pokemod.form.toxtricity-gmax.desc2"
-            ],
-            "height": 240,
-            "weight": 10000
-        },
-        {
-            "name": "gmax",
-            "abilities": [
-                "punkrock",
-                "minus",
-                "h:technician"
-            ],
             "moves": [],
             "labels": [
                 "gen8",

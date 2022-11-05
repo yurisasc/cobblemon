@@ -20,6 +20,9 @@
     "shoulderMountable": false,
     "forms": [
         {
+            "name": "normal"
+        },
+        {
             "name": "gmax",
             "baseExperienceYield": 178,
             "moves": [],
