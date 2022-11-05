@@ -15,6 +15,8 @@ import com.cobblemon.mod.common.net.messages.client.data.DataRegistrySyncPacket
 
 class DataRegistrySyncPacketHandler<P, T : DataRegistrySyncPacket<P>> : PacketHandler<T> {
     override fun invoke(packet: T, ctx: CobblemonNetwork.NetworkContext) {
+        packet.entries.addAll(packet.buffer!!.readList(packet::decodeEntry).filterNotNull())
+        packet.buffer!!.release()
         packet.synchronizeDecoded(packet.entries)
     }
 }

@@ -32,7 +32,7 @@ class CobblemonAgingDespawner<T : Entity>(
     val nearDistance: Float = 2 * 16F,
     val farDistance: Float = 6 * 16F,
     val minAgeTicks: Int = 20 * 30 * 1,
-    val maxAgeTicks: Int = 20 * 60 * 5,
+    val maxAgeTicks: Int = 20 * 60 * 3,
     val getAgeTicks: (T) -> Int
 ) : Despawner<T> {
 
