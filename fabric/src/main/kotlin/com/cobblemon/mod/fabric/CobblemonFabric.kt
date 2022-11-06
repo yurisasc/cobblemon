@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.CobblemonImplementation
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.CobblemonPlacements
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkDelegate
+import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.loader.api.FabricLoader
 
@@ -27,8 +28,13 @@ object CobblemonFabric : CobblemonImplementation {
         CobblemonPlacements.register()
 
         Cobblemon.initialize()
+        /*
         if (FabricLoader.getInstance().getModContainer("luckperms").isPresent) {
-//            PokemonCobblemon.permissionValidator = LuckPermsPermissionValidator()
+            Cobblemon.permissionValidator = LuckPermsPermissionValidator()
+        }
+         */
+        if (FabricLoader.getInstance().getModContainer("fabric-permissions-api-v0").isPresent) {
+            Cobblemon.permissionValidator = FabricPermissionValidator()
         }
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register { player, isLogin ->
             if (isLogin) {
