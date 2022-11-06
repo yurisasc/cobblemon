@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.util.playSoundServer
+import java.util.Optional
 import net.minecraft.entity.Entity
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
@@ -69,8 +70,13 @@ class PokemonServerDelegate : PokemonSideDelegate {
             entity.setBehaviourFlag(PokemonBehaviourFlag.FLYING, true)
         }
 
-        if (entity.ticksLived % 20 == 0) {
-            val activeBattlePokemon = entity.battleId.get().orElse(null)?.let { BattleRegistry.getBattle(it) }
+        val battleId = entity.battleId.get().orElse(null)
+        if (battleId != null && BattleRegistry.getBattle(battleId).let { it == null || it.ended }) {
+            entity.battleId.set(Optional.empty())
+        }
+
+        if (entity.ticksLived % 20 == 0 && battleId != null) {
+            val activeBattlePokemon = BattleRegistry.getBattle(battleId)
                 ?.activePokemon
                 ?.find { it.battlePokemon?.uuid == entity.pokemon.uuid }
 
