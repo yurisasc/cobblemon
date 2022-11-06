@@ -35,6 +35,13 @@ interface StatProvider {
     val typeAdapter: StatTypeAdapter
 
     /**
+     * Collects all the stats currently implemented.
+     *
+     * @return A collection of stats.
+     */
+    fun all(): Collection<Stat>
+
+    /**
      * Collects all stats of the given type.
      *
      * @param type The [Stat.Type] being queried.

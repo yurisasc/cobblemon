@@ -32,6 +32,12 @@ enum class Stats(override val identifier: Identifier, override val displayName: 
     companion object {
 
         /**
+         * All the stats, an alternative to [values].
+         * Using [StatProvider.all] is recommended instead for maximum addon compatibility.
+         */
+        val ALL: Set<Stat> = EnumSet.allOf(Stats::class.java)
+
+        /**
          * All the stats with type of [Stat.Type.PERMANENT].
          * Using [StatProvider.ofType] with type [Stat.Type.PERMANENT] is recommended instead for maximum addon compatibility.
          */

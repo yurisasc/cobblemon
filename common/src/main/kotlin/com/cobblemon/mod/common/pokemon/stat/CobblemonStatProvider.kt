@@ -26,6 +26,8 @@ object CobblemonStatProvider : StatProvider {
     override val typeAdapter: StatTypeAdapter = CobblemonStatTypeAdapter
     private val stats = Stats.values().associateBy { it.identifier }
 
+    override fun all(): Collection<Stat> = Stats.ALL
+
     override fun ofType(type: Stat.Type): Collection<Stat> = when(type) {
         Stat.Type.BATTLE_ONLY -> Stats.BATTLE_ONLY
         Stat.Type.PERMANENT -> Stats.PERMANENT
