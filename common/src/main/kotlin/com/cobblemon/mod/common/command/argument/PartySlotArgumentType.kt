@@ -9,7 +9,9 @@
 package com.cobblemon.mod.common.command.argument
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.commandLang
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -42,7 +44,7 @@ class PartySlotArgumentType : ArgumentType<Int> {
         private const val MIN = 1
         private const val MAX = 6
         private val EXAMPLES = (MIN..MAX).map { it.toString() }
-        private val INVALID_SLOT = DynamicCommandExceptionType { slot -> Text.translatable("cobblemon.command.general.invalid-party-slot", slot) }
+        private val INVALID_SLOT = DynamicCommandExceptionType { slot -> commandLang("general.invalid-party-slot", slot).red() }
 
         fun partySlot() = PartySlotArgumentType()
 
