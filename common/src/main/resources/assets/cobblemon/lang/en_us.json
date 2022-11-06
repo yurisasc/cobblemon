@@ -150,6 +150,7 @@
   "item.cobblemon.exp_candy_l": "Exp. Candy L",
   "item.cobblemon.exp_candy_xl": "Exp. Candy XL",
 
+  "cobblemon.command.general.invalid-party-slot": "There is no Pokémon in slot %1$s!",
   "cobblemon.command.givepokemon.give": "Gave %1$s to %2$s.",
   "cobblemon.command.pokemonedit": "Edited %2$s's %1$s.",
   "cobblemon.command.teach": "%2$s's %1$s learnt %3$s.",
