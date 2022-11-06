@@ -10,12 +10,10 @@ package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.moves.BenchedMove
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.command.argument.MoveArgumentType
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.permissionLevel
 import com.cobblemon.mod.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -35,7 +33,6 @@ object TeachCommand {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal(NAME)
             .permission(CobblemonPermissions.TEACH)
-            .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
             .then(CommandManager.argument(PLAYER, EntityArgumentType.player())
                 .then(CommandManager.argument(SLOT, PartySlotArgumentType.partySlot())
                     .then(CommandManager.argument(MOVE, MoveArgumentType.move())
