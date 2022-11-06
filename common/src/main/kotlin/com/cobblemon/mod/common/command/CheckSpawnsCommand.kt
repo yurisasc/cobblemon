@@ -10,31 +10,22 @@ package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.Cobblemon.config
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.api.spawning.CobblemonWorldSpawnerManager
 import com.cobblemon.mod.common.api.spawning.SpawnCause
 import com.cobblemon.mod.common.api.spawning.spawner.SpawningArea
-import com.cobblemon.mod.common.api.text.add
-import com.cobblemon.mod.common.api.text.green
-import com.cobblemon.mod.common.api.text.lightPurple
-import com.cobblemon.mod.common.api.text.plus
-import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.api.text.text
-import com.cobblemon.mod.common.api.text.underline
-import com.cobblemon.mod.common.api.text.yellow
+import com.cobblemon.mod.common.api.text.*
 import com.cobblemon.mod.common.command.argument.SpawnBucketArgumentType
 import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.permissionLevel
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
-import java.text.DecimalFormat
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.MathHelper
+import java.text.DecimalFormat
 
 object CheckSpawnsCommand {
     const val PURPLE_THRESHOLD = 0.01F
@@ -43,9 +34,8 @@ object CheckSpawnsCommand {
     val df = DecimalFormat("#.##")
 
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
-        val command = dispatcher.register(CommandManager.literal("checkspawn")
+        dispatcher.register(CommandManager.literal("checkspawn")
             .permission(CobblemonPermissions.CHECKSPAWNS)
-            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(
                 CommandManager.argument("bucket", SpawnBucketArgumentType.spawnBucket())
                     .requires { it.player != null }

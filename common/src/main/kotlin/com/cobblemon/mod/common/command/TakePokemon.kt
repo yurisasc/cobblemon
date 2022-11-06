@@ -9,11 +9,9 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.permissionLevel
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -27,7 +25,6 @@ object TakePokemon {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("takepokemon")
             .permission(CobblemonPermissions.TAKE_POKEMON)
-            .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
                     .then(

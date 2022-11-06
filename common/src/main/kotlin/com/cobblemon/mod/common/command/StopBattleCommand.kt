@@ -9,10 +9,8 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.permissionLevel
 import com.cobblemon.mod.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -27,7 +25,6 @@ object StopBattleCommand {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(CommandManager.literal("stopbattle")
             .permission(CobblemonPermissions.STOP_BATTLE)
-            .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
                     .executes { execute(it) }

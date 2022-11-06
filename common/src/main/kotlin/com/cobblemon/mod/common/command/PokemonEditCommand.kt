@@ -9,12 +9,11 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.command.argument.PartySlotArgumentType
 import com.cobblemon.mod.common.command.argument.PokemonPropertiesArgumentType
+import com.cobblemon.mod.common.util.alias
 import com.cobblemon.mod.common.util.commandLang
 import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.permissionLevel
 import com.cobblemon.mod.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -38,20 +37,18 @@ object PokemonEditCommand {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val selfCommand = dispatcher.register(literal(NAME)
             .permission(CobblemonPermissions.POKEMON_EDIT_SELF)
-            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(argument(SLOT, PartySlotArgumentType.partySlot())
                 .then(argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
                     .executes{ execute(it, it.source.playerOrThrow) })))
-        dispatcher.register(literal(ALIAS).redirect(selfCommand))
+        dispatcher.register(selfCommand.alias(ALIAS))
 
         val otherCommand = dispatcher.register(literal(NAME_OTHER)
             .permission(CobblemonPermissions.POKEMON_EDIT_OTHER)
-            .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
             .then(argument(PLAYER, EntityArgumentType.player()))
                 .then(argument(SLOT, PartySlotArgumentType.partySlot())
                     .then(argument(PROPERTIES, PokemonPropertiesArgumentType.properties())
                         .executes{ execute(it, it.player()) })))
-        dispatcher.register(literal(ALIAS_OTHER).redirect(otherCommand))
+        dispatcher.register(otherCommand.alias(ALIAS_OTHER))
     }
 
     private fun execute(context: CommandContext<ServerCommandSource>, player: ServerPlayerEntity): Int {

@@ -9,10 +9,8 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.api.text.suggest
 import com.cobblemon.mod.common.api.text.text
-import com.cobblemon.mod.common.util.permissionLevel
 import com.cobblemon.mod.common.util.requiresWithPermission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -27,7 +25,6 @@ object GetNBT {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(CommandManager.literal("getnbt")
             .requiresWithPermission(CobblemonPermissions.GET_NBT) { it.player != null }
-            .permissionLevel(PermissionLevel.ALL_COMMANDS)
             .executes { execute(it, it.source.playerOrThrow) })
     }
 

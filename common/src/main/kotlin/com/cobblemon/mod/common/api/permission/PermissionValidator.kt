@@ -31,18 +31,18 @@ interface PermissionValidator {
      * Validates a permission for [ServerPlayerEntity].
      *
      * @param player The target [ServerPlayerEntity].
-     * @param permission The literal permission being queried.
+     * @param permission The [Permission] being queried.
      * @return If the [player] has the [permission].
      */
-    fun hasPermission(player: ServerPlayerEntity, permission: String): Boolean
+    fun hasPermission(player: ServerPlayerEntity, permission: Permission): Boolean
 
     /**
      * Validates a permission for [CommandSource].
      *
      * @param source The target [CommandSource].
-     * @param permission The literal permission being queried.
+     * @param permission The [Permission] being queried.
      * @return If the [source] has the [permission].
      */
-    fun hasPermission(source: CommandSource, permission: String): Boolean
+    fun hasPermission(source: CommandSource, permission: Permission): Boolean
 
 }

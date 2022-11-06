@@ -10,9 +10,7 @@ package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
-import com.cobblemon.mod.common.util.permissionLevel
 import com.cobblemon.mod.common.util.requiresWithPermission
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -27,7 +25,6 @@ object SpawnAllPokemon {
         dispatcher.register(
             CommandManager.literal("spawnallpokemon")
                 .requiresWithPermission(CobblemonPermissions.SPAWN_ALL_POKEMON) { it.player != null }
-                .permissionLevel(PermissionLevel.ALL_COMMANDS)
                 .then(
                     CommandManager.argument("min", IntegerArgumentType.integer(1))
                         .then(

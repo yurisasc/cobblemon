@@ -9,12 +9,10 @@
 package com.cobblemon.mod.common.command
 
 import com.cobblemon.mod.common.api.permission.CobblemonPermissions
-import com.cobblemon.mod.common.api.permission.PermissionLevel
 import com.cobblemon.mod.common.api.pokemon.experience.CommandExperienceSource
 import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.permission
-import com.cobblemon.mod.common.util.permissionLevel
 import com.cobblemon.mod.common.util.player
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
@@ -30,11 +28,9 @@ object LevelUp {
     fun register(dispatcher : CommandDispatcher<ServerCommandSource>) {
         val command = CommandManager.literal("levelup")
             .permission(CobblemonPermissions.LEVEL_UP_SELF)
-            .permissionLevel(PermissionLevel.CHEAT_COMMANDS_AND_COMMAND_BLOCKS)
             .then(
                 CommandManager.argument("player", EntityArgumentType.player())
                     .permission(CobblemonPermissions.LEVEL_UP_OTHER)
-                    .permissionLevel(PermissionLevel.MULTIPLAYER_MANAGEMENT)
                     .then(
                         CommandManager.argument("slot", IntegerArgumentType.integer(1, 99))
                             .executes { execute(it, it.player()) }
