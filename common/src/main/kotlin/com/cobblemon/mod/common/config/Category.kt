@@ -15,5 +15,6 @@ enum class Category {
     Battles,
     PassiveStatus,
     Healing,
-    Storage
+    Storage,
+    World
 }

@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.world.block
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.tags.CobblemonBlockTags
 import net.minecraft.block.Block
@@ -48,6 +49,9 @@ class ApricornBlock(settings: Settings, private val apricorn: Apricorn) : CocoaB
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         if (state.get(AGE) == MAX_AGE) {
             dropStack(world, pos, ItemStack(this.apricorn.item()))
+            if (world.random.nextFloat() < Cobblemon.config.apricornSeedChance) {
+                dropStack(world, pos, ItemStack(this.apricorn.seed()))
+            }
             // Don't use default as we want to keep the facing
             val resetState = state.with(AGE, MIN_AGE)
             world.setBlockState(pos, resetState, 2)
