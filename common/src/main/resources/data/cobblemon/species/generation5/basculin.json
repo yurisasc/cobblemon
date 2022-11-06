@@ -16,6 +16,7 @@
   "shoulderMountable": false,
   "baseExperienceYield": 161,
   "experienceGroup": "mediumfast",
+  "features": ["striped"],
   "eggCycles": 40,
   "eggGroups": ["water_2"],
   "behaviour": {
@@ -116,8 +117,12 @@
   "weight": 180,
   "forms": [
     {
+      "name": "red-striped"
+    },
+    {
       "name": "blue-striped",
       "abilities": ["rockhead", "adaptability", "h:moldbreaker"],
+      "aspects": ["bluestriped"],
       "pokedex": [
         "cobblemon.form.basculin-blue-striped.desc1",
         "cobblemon.form.basculin-blue-striped.desc2"
@@ -126,6 +131,7 @@
     {
       "name": "white-striped",
       "abilities": ["rattled", "adaptability", "h:moldbreaker"],
+      "aspects": ["whitestriped"],
       "pokedex": [
         "cobblemon.form.basculin-white-striped.desc1",
         "cobblemon.form.basculin-white-striped.desc2"

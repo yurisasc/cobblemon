@@ -75,12 +75,15 @@ import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacke
 import com.cobblemon.mod.common.net.serverhandling.ServerPacketRegistrar
 import com.cobblemon.mod.common.permission.LaxPermissionValidator
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.aspects.FishStripesAspect
 import com.cobblemon.mod.common.pokemon.aspects.GENDER_ASPECT
 import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.pokemon.aspects.SnakePatternAspect
 import com.cobblemon.mod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
 import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
+import com.cobblemon.mod.common.pokemon.feature.FISH_STRIPES
+import com.cobblemon.mod.common.pokemon.feature.FishStripesFeature
 import com.cobblemon.mod.common.pokemon.feature.SNAKE_PATTERN
 import com.cobblemon.mod.common.pokemon.feature.SnakePatternFeature
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
@@ -206,6 +209,7 @@ object Cobblemon {
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()
         SnakePatternAspect.register()
+        FishStripesAspect.register()
 
         config.flagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
         config.globalFlagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
@@ -216,6 +220,7 @@ object Cobblemon {
         SpeciesFeature.registerGlobalFeature(DamageTakenFeature.ID) { DamageTakenFeature() }
         SpeciesFeature.registerGlobalFeature(BattleCriticalHitsFeature.ID) { BattleCriticalHitsFeature() }
         EnumSpeciesFeature.registerWithProperty(SNAKE_PATTERN, SnakePatternFeature::class.java)
+        EnumSpeciesFeature.registerWithProperty(FISH_STRIPES, FishStripesFeature::class.java)
 
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)
