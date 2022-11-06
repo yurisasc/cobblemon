@@ -405,7 +405,7 @@ class PokemonEntity(
             return false
         } else if (battleId.get().isPresent) {
             return false
-        } else if (ownerUuid == player.uuid) {
+        } else if (ownerUuid != null) {
             return false
         }
 
