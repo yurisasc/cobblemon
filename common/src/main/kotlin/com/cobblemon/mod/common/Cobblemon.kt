@@ -169,7 +169,10 @@ object Cobblemon {
             starterHandler.handleJoin(it)
             ServerSettingsPacket().sendToPlayer(it)
         }
-        PLAYER_QUIT.subscribe { PCLinkManager.removeLink(it.uuid) }
+        PLAYER_QUIT.subscribe {
+            PCLinkManager.removeLink(it.uuid)
+            BattleRegistry.getBattleByParticipatingPlayer(it)?.stop()
+        }
         InteractionEvent.RIGHT_CLICK_BLOCK.register(InteractionEvent.RightClickBlock { pl, _, pos, _ ->
             val player = pl as? ServerPlayerEntity ?: return@RightClickBlock EventResult.pass()
             val block = player.world.getBlockState(pos).block
