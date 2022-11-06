@@ -1,45 +1,110 @@
 {
-  "display": {
-    "icon": {
-      "item": "cobblemon:yellow_apricorn"
-    },
-    "title": {
-      "translate": "advancements.cobblemon.rainbow_apricorns"
-    },
-    "description": {
-      "translate": "advancements.cobblemon.rainbow_apricorns.description"
-    },
-    "frame": "challenge"
-  },
-  "parent": "cobblemon:harvest_apricorn",
-  "criteria": {
-    "check_inv": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": ["cobblemon:black_apricorn"]
-          },
-          {
-            "items": ["cobblemon:blue_apricorn"]
-          },
-          {
-            "items": ["cobblemon:green_apricorn"]
-          },
-          {
-            "items": ["cobblemon:pink_apricorn"]
-          },
-          {
-            "items": ["cobblemon:red_apricorn"]
-          },
-          {
-            "items": ["cobblemon:white_apricorn"]
-          },
-          {
-            "items": ["cobblemon:yellow_apricorn"]
-          }
-        ]
-      }
-    }
-  }
+	"parent": "cobblemon:harvest_apricorn",
+	"display": {
+		"icon": {
+			"item": "cobblemon:yellow_apricorn"
+		},
+		"title": {
+			"translate": "advancements.cobblemon.rainbow_apricorns"
+		},
+		"description": {
+			"translate": "advancements.cobblemon.rainbow_apricorns.description"
+		},
+		"frame": "challenge"
+	},
+	"criteria": {
+		"obtain_black": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": ["cobblemon:black_apricorn"]
+					}
+				]
+			}
+		},
+		"obtain_blue": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": ["cobblemon:blue_apricorn"]
+					}
+				]
+			}
+		},
+		"obtain_green": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": ["cobblemon:green_apricorn"]
+					}
+				]
+			}
+		},
+		"obtain_pink": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": ["cobblemon:pink_apricorn"]
+					}
+				]
+			}
+		},
+		"obtain_red": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": ["cobblemon:red_apricorn"]
+					}
+				]
+			}
+		},
+		"obtain_white": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": ["cobblemon:white_apricorn"]
+					}
+				]
+			}
+		},
+		"obtain_yellow": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": ["cobblemon:yellow_apricorn"]
+					}
+				]
+			}
+		}
+	},
+	"requirements": [
+		[
+			"obtain_black"
+		],
+		[
+			"obtain_blue"
+		],
+		[
+			"obtain_green"
+		],
+		[
+			"obtain_pink"
+		],
+		[
+			"obtain_red"
+		],
+		[
+			"obtain_white"
+		],
+		[
+			"obtain_yellow"
+		]
+	]
 }
