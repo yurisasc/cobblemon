@@ -49,7 +49,7 @@ object Moves : JsonDataRegistry<MoveTemplate> {
         var shouldApplyIds = true
         data.forEach { (identifier, moveTemplate) ->
             this.allMoves[identifier.path] = moveTemplate
-            if (moveTemplate.id != -1) {
+            if (moveTemplate.id != 0) {
                 shouldApplyIds = false
                 idMapping[moveTemplate.id] = moveTemplate
             }
@@ -62,7 +62,7 @@ object Moves : JsonDataRegistry<MoveTemplate> {
     }
 
     private fun applyIDs() {
-        var id = 0
+        var id = 1
         this.allMoves.values
             .sortedBy { it.name }
             .forEach {

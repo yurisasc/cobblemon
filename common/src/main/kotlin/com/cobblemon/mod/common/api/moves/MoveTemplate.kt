@@ -43,7 +43,8 @@ open class MoveTemplate(
     val effectChance: Double,
     val effectStatus: String
 ) {
-    var id = -1
+    /** Don't change this from 0. It was -1, but then the data JSON reader was making this 0 instead of -1, ignoring our original video. */
+    var id = 0
     val displayName: MutableText
         get() = lang("move.$name")
     val description: MutableText
