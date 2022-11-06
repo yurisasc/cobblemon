@@ -20,14 +20,14 @@ import java.util.*
  */
 enum class Stats(override val identifier: Identifier, override val displayName: Text, override val type: Stat.Type) : Stat {
 
-    HP(cobblemonResource("stat.hp"), lang("stat.hp.name"), Stat.Type.PERMANENT),
-    ATTACK(cobblemonResource("stat.attack"), lang("stat.attack.name"), Stat.Type.PERMANENT),
-    DEFENCE(cobblemonResource("stat.defence"), lang("stat.defence.name"), Stat.Type.PERMANENT),
-    SPECIAL_ATTACK(cobblemonResource("stat.special_attack"), lang("stat.special_attack.name"), Stat.Type.PERMANENT),
-    SPECIAL_DEFENCE(cobblemonResource("stat.special_defence"), lang("stat.special_defence.name"), Stat.Type.PERMANENT),
-    SPEED(cobblemonResource("stat.speed"), lang("stat.speed.name"), Stat.Type.PERMANENT),
-    EVASION(cobblemonResource("stat.evasion"), lang("stat.evasion.name"), Stat.Type.BATTLE_ONLY),
-    ACCURACY(cobblemonResource("stat.accuracy"), lang("stat.accuracy.name"), Stat.Type.BATTLE_ONLY);
+    HP(cobblemonResource("hp"), lang("stat.hp.name"), Stat.Type.PERMANENT),
+    ATTACK(cobblemonResource("attack"), lang("stat.attack.name"), Stat.Type.PERMANENT),
+    DEFENCE(cobblemonResource("defence"), lang("stat.defence.name"), Stat.Type.PERMANENT),
+    SPECIAL_ATTACK(cobblemonResource("special_attack"), lang("stat.special_attack.name"), Stat.Type.PERMANENT),
+    SPECIAL_DEFENCE(cobblemonResource("special_defence"), lang("stat.special_defence.name"), Stat.Type.PERMANENT),
+    SPEED(cobblemonResource("speed"), lang("stat.speed.name"), Stat.Type.PERMANENT),
+    EVASION(cobblemonResource("evasion"), lang("stat.evasion.name"), Stat.Type.BATTLE_ONLY),
+    ACCURACY(cobblemonResource("accuracy"), lang("stat.accuracy.name"), Stat.Type.BATTLE_ONLY);
 
     companion object {
 
