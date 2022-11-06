@@ -20,7 +20,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 object ClickTextCommand {
     fun register(dispatcher: CommandDispatcher<ServerCommandSource>) {
         dispatcher.register(
-            CommandManager.literal("Cobblemonclicktext")
+            CommandManager.literal("cobblemonclicktext")
                 .requires { src -> src.entity is ServerPlayerEntity }
                 .then(
                     RequiredArgumentBuilder

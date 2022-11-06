@@ -90,7 +90,7 @@ fun click(consumed: AtomicBoolean, action: (p: ServerPlayerEntity) -> Unit): Cli
         }
         textClickHandlers.remove(uuid)
     }
-    return ClickEvent(ClickEvent.Action.RUN_COMMAND, "/Cobblemonclicktext $uuid")
+    return ClickEvent(ClickEvent.Action.RUN_COMMAND, "/cobblemonclicktext $uuid")
 }
 
 fun click(onlyOnce: Boolean = false, action: (p: ServerPlayerEntity) -> Unit): ClickEvent {
@@ -103,7 +103,7 @@ fun click(onlyOnce: Boolean = false, action: (p: ServerPlayerEntity) -> Unit): C
     } else {
         { action.invoke(it) }
     }
-    return ClickEvent(ClickEvent.Action.RUN_COMMAND, "/Cobblemonclicktext $uuid")
+    return ClickEvent(ClickEvent.Action.RUN_COMMAND, "/cobblemonclicktext $uuid")
 }
 
 fun hover(text: Text) = HoverEvent(HoverEvent.Action.SHOW_TEXT, text)

@@ -20,7 +20,7 @@ class FabricPermissionValidator : PermissionValidator {
         Cobblemon.LOGGER.info("Booting FabricPermissionValidator, permissions will be checked using fabric-permissions-api, see https://github.com/lucko/fabric-permissions-api")
     }
 
-    override fun hasPermission(player: ServerPlayerEntity, permission: Permission) = Permissions.check(player, permission.literal)
+    override fun hasPermission(player: ServerPlayerEntity, permission: Permission) = Permissions.check(player, permission.literal, permission.level.numericalValue)
 
-    override fun hasPermission(source: CommandSource, permission: Permission) = Permissions.check(source, permission.literal)
+    override fun hasPermission(source: CommandSource, permission: Permission) = Permissions.check(source, permission.literal, permission.level.numericalValue)
 }

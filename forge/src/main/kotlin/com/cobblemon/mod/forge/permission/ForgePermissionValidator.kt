@@ -28,7 +28,7 @@ object ForgePermissionValidator : PermissionValidator {
 
     init {
         MinecraftForge.EVENT_BUS.addListener<PermissionGatherEvent.Nodes> { event ->
-            Cobblemon.LOGGER.debug("Starting Forge permission node registry")
+            Cobblemon.LOGGER.info("Starting Forge permission node registry")
             event.addNodes(this.createNodes())
             Cobblemon.LOGGER.debug("Finished Forge permission node registry")
         }
@@ -39,19 +39,19 @@ object ForgePermissionValidator : PermissionValidator {
     }
 
     override fun hasPermission(player: ServerPlayerEntity, permission: Permission): Boolean {
-        val node = this.findNode(permission) ?: return false
+        val node = this.findNode(permission) ?: return player.hasPermissionLevel(permission.level.numericalValue)
         return PermissionAPI.getPermission(player, node)
     }
 
     override fun hasPermission(source: CommandSource, permission: Permission): Boolean {
         val player = this.extractPlayerFromSource(source) ?: return source.hasPermissionLevel(permission.level.numericalValue)
-        val node = this.findNode(permission) ?: return false
+        val node = this.findNode(permission) ?: return source.hasPermissionLevel(permission.level.numericalValue)
         return PermissionAPI.getPermission(player, node)
     }
 
     private fun createNodes() = CobblemonPermissions.all().map { permission ->
         // 3rd arg is default value if no implementation is present essentially
-        val node = PermissionNode(permission.identifier, PermissionTypes.BOOLEAN, { _, _, _ -> false })
+        val node = PermissionNode(permission.identifier, PermissionTypes.BOOLEAN, { player, _, _ -> player?.hasPermissionLevel(permission.level.numericalValue) == true })
         this.nodes[permission.identifier] = node
         Cobblemon.LOGGER.debug("Registered Forge permission node ${node.nodeName}")
         node
