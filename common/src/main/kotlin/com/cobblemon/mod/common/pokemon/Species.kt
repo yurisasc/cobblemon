@@ -138,7 +138,7 @@ class Species : ClientDataSynchronizer<Species> {
         buffer.writeIdentifier(this.resourceIdentifier)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
-        buffer.writeMap(this.baseStats, { pb, stat -> Cobblemon.statProvider.statNetworkSerializer.encode(pb, stat) }, { pb, value -> pb.writeSizedInt(IntSize.U_SHORT, value) })
+        buffer.writeMap(this.baseStats, { pb, stat -> Cobblemon.statProvider.encode(pb, stat) }, { pb, value -> pb.writeSizedInt(IntSize.U_SHORT, value) })
         // Hitbox start
         buffer.writeFloat(this.hitbox.width)
         buffer.writeFloat(this.hitbox.height)
@@ -159,7 +159,7 @@ class Species : ClientDataSynchronizer<Species> {
         this.apply {
             name = buffer.readString()
             nationalPokedexNumber = buffer.readInt()
-            baseStats.putAll(buffer.readMap({ Cobblemon.statProvider.statNetworkSerializer.decode(it) }, { it.readSizedInt(IntSize.U_SHORT) }))
+            baseStats.putAll(buffer.readMap({ Cobblemon.statProvider.decode(it) }, { it.readSizedInt(IntSize.U_SHORT) }))
             hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
             primaryType = ElementalTypes.getOrException(buffer.readString())
             secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }

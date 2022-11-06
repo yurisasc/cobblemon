@@ -165,7 +165,7 @@ class BattleInitializePacket() : NetworkPacket {
                 val hpRatio = buffer.readFloat()
                 val statChanges = mutableMapOf<Stat, Int>()
                 buffer.readMapK(size = IntSize.U_BYTE, statChanges) {
-                    val stat = Cobblemon.statProvider.statNetworkSerializer.decode(buffer)
+                    val stat = Cobblemon.statProvider.decode(buffer)
                     val stages = buffer.readSizedInt(IntSize.BYTE)
                     stat to stages
                 }
@@ -188,7 +188,7 @@ class BattleInitializePacket() : NetworkPacket {
             status?.let { buffer.writeString(it.name.toString()) }
             buffer.writeFloat(hpRatio)
             buffer.writeMapK(IntSize.U_BYTE, statChanges) { (stat, stages) ->
-                Cobblemon.statProvider.statNetworkSerializer.encode(buffer, stat)
+                Cobblemon.statProvider.encode(buffer, stat)
                 buffer.writeSizedInt(IntSize.BYTE, stages)
             }
             return this

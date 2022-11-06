@@ -107,7 +107,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
     fun saveToBuffer(buffer: PacketByteBuf) {
         buffer.writeSizedInt(IntSize.U_BYTE, stats.size)
         for ((stat, value) in stats) {
-            Cobblemon.statProvider.statNetworkSerializer.encode(buffer, stat)
+            Cobblemon.statProvider.encode(buffer, stat)
             buffer.writeSizedInt(IntSize.U_SHORT, value)
         }
     }
@@ -115,7 +115,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
     fun loadFromBuffer(buffer: PacketByteBuf) {
         stats.clear()
         repeat(times = buffer.readUnsignedByte().toInt()) {
-            val stat = Cobblemon.statProvider.statNetworkSerializer.decode(buffer)
+            val stat = Cobblemon.statProvider.decode(buffer)
             val value = buffer.readUnsignedShort()
             stats[stat] = value
         }

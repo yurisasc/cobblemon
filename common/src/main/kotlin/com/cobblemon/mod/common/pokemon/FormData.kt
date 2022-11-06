@@ -218,7 +218,7 @@ class FormData(
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(this.name)
-        buffer.writeNullable(this._baseStats) { pb1, map -> pb1.writeMap(map, { pb2, stat -> Cobblemon.statProvider.statNetworkSerializer.encode(pb2, stat) }, { pb, value -> pb.writeSizedInt(IntSize.U_SHORT, value) }) }
+        buffer.writeNullable(this._baseStats) { pb1, map -> pb1.writeMap(map, { pb2, stat -> Cobblemon.statProvider.encode(pb2, stat) }, { pb, value -> pb.writeSizedInt(IntSize.U_SHORT, value) }) }
         buffer.writeNullable(this._hitbox) { pb, hitbox ->
             pb.writeFloat(hitbox.width)
             pb.writeFloat(hitbox.height)
@@ -239,7 +239,7 @@ class FormData(
 
     override fun decode(buffer: PacketByteBuf) {
         this.name = buffer.readString()
-        this._baseStats = buffer.readNullable { pb -> pb.readMap({ Cobblemon.statProvider.statNetworkSerializer.decode(it) }, { it.readSizedInt(IntSize.U_SHORT) }) }
+        this._baseStats = buffer.readNullable { pb -> pb.readMap({ Cobblemon.statProvider.decode(it) }, { it.readSizedInt(IntSize.U_SHORT) }) }
         this._hitbox = buffer.readNullable { pb ->
             EntityDimensions(pb.readFloat(), pb.readFloat(), pb.readBoolean())
         }

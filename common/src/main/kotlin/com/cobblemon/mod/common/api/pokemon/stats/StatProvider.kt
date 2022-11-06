@@ -9,8 +9,12 @@
 package com.cobblemon.mod.common.api.pokemon.stats
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
+import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.writeSizedInt
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
 /**
@@ -23,11 +27,6 @@ import net.minecraft.util.Identifier
  * @since November 6th, 2022
  */
 interface StatProvider {
-
-    /**
-     * The [StatNetworkSerializer] implementation.
-     */
-    val statNetworkSerializer: StatNetworkSerializer
 
     /**
      * The [StatTypeAdapter] implementation.
@@ -114,5 +113,21 @@ interface StatProvider {
      * @return The [Stat] if existing otherwise throws exception.
      */
     fun fromIdentifierOrThrow(identifier: Identifier): Stat
+
+    /**
+     * Decode a [Stat] from the given [buffer].
+     *
+     * @param buffer The [PacketByteBuf].
+     * @return The decoded [Stat].
+     */
+    fun decode(buffer: PacketByteBuf): Stat
+
+    /**
+     * Encode the given [stat] to the [buffer].
+     *
+     * @param buffer The [PacketByteBuf].
+     * @param stat The [Stat] being encoded.
+     */
+    fun encode(buffer: PacketByteBuf, stat: Stat)
 
 }

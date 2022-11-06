@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.pokemon.adapters
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.StatTypeAdapter
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
@@ -21,7 +22,7 @@ import java.lang.reflect.Type
 /** Handles JSON adapting between a Stat and its serialized form; its id.*/
 object CobblemonStatTypeAdapter : StatTypeAdapter {
     override fun deserialize(element: JsonElement, type: Type, context: JsonDeserializationContext): Stat {
-        val identifier = Identifier(element.asString)
+        val identifier = element.asString.asIdentifierDefaultingNamespace()
         return Cobblemon.statProvider.fromIdentifierOrThrow(identifier)
     }
 

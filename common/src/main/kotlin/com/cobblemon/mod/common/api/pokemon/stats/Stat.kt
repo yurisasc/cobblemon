@@ -13,7 +13,7 @@ import net.minecraft.util.Identifier
 
 /**
  * Represents a stat of a Pokémon.
- * If you wish to implement custom stats be sure to implement your own [StatNetworkSerializer] and [StatProvider].
+ * If you wish to implement custom stats be sure to implement your own [StatProvider].
  * Any custom implementation must be provided to both sides.
  *
  * @author Licious

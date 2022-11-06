@@ -9,8 +9,12 @@
 package com.cobblemon.mod.common.pokemon.stat
 
 import com.cobblemon.mod.common.api.pokemon.stats.*
+import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.*
 import com.cobblemon.mod.common.pokemon.adapters.CobblemonStatTypeAdapter
+import com.cobblemon.mod.common.util.readSizedInt
+import com.cobblemon.mod.common.util.writeSizedInt
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import kotlin.random.Random
 
@@ -22,9 +26,10 @@ import kotlin.random.Random
  */
 object CobblemonStatProvider : StatProvider {
 
-    override val statNetworkSerializer = CobblemonStatNetworkSerializer
     override val typeAdapter: StatTypeAdapter = CobblemonStatTypeAdapter
     private val stats = Stats.values().associateBy { it.identifier }
+    private val ordinalToStat = Stats.values().associateBy { it.ordinal }
+    private val identifierToOrdinal = Stats.values().associate { it.identifier to it.ordinal }
 
     override fun all(): Collection<Stat> = Stats.ALL
 
@@ -88,10 +93,30 @@ object CobblemonStatProvider : StatProvider {
 
     override fun fromIdentifierOrThrow(identifier: Identifier): Stat = this.fromIdentifier(identifier) ?: throw IllegalArgumentException("No stat was found with the identifier $identifier")
 
+    override fun decode(buffer: PacketByteBuf): Stat {
+        val ordinal = buffer.readSizedInt(IntSize.U_BYTE)
+        return this.ordinalLookup(ordinal)
+    }
+
+    override fun encode(buffer: PacketByteBuf, stat: Stat) {
+        val ordinal = this.identifierLookup(stat.identifier)
+        buffer.writeSizedInt(IntSize.U_BYTE, ordinal)
+    }
+
     private fun allocate(map: MutableMap<Stat, Int>) {
         Stats.PERMANENT.forEach { stat ->
             map.putIfAbsent(stat, 1)
         }
+    }
+
+    private fun ordinalLookup(ordinal: Int): Stat {
+        return this.ordinalToStat[ordinal]
+            ?: throw IllegalArgumentException("Cannot find the stat with the ordinal $ordinal, this should only happen if there is a custom Stat implementation but no StatProvider to go alongside it")
+    }
+
+    private fun identifierLookup(identifier: Identifier): Int {
+        return this.identifierToOrdinal[identifier]
+            ?: throw IllegalArgumentException("Cannot find the stat to encode, this should only happen if there is a custom Stat implementation but no StatProvider to go alongside it on the server side")
     }
 
 }
