@@ -30,6 +30,7 @@ object CobblemonStatProvider : StatProvider {
     private val stats = Stats.values().associateBy { it.identifier }
     private val ordinalToStat = Stats.values().associateBy { it.ordinal }
     private val identifierToOrdinal = Stats.values().associate { it.identifier to it.ordinal }
+    private var printed = false
 
     override fun all(): Collection<Stat> = Stats.ALL
 
@@ -82,7 +83,7 @@ object CobblemonStatProvider : StatProvider {
             if (pokemon.species.resourceIdentifier == Pokemon.SHEDINJA) {
                 1
             } else {
-                (2 * pokemon.form.baseStats[Stats.HP]!! + pokemon.ivs[Stats.HP]!! + (pokemon.evs[Stats.HP]!! / 4)) * pokemon.level / 100 + pokemon.level + 10
+                (2 * pokemon.form.baseStats[Stats.HP]!! + pokemon.ivs.getOrDefault(Stats.HP) + (pokemon.evs.getOrDefault(Stats.HP) / 4)) * pokemon.level / 100 + pokemon.level + 10
             }
         } else {
             pokemon.nature.modifyStat(stat, (2 * (pokemon.form.baseStats[stat] ?: 1) + pokemon.ivs.getOrDefault(stat) + pokemon.evs.getOrDefault(stat) / 4) / 100 * pokemon.level + 5)

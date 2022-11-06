@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.net.IntSize
+import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import com.cobblemon.mod.common.util.writeSizedInt
 import com.google.gson.JsonObject
 import net.minecraft.nbt.NbtCompound
@@ -64,7 +65,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         this.stats.forEach { (stat, value) ->
             // don't waste space if default
             if (value != this.defaultValue) {
-                nbt.putShort(stat.identifier.toString(), value.toShort())
+                nbt.putShort(this.cleanStatIdentifier(stat.identifier), value.toShort())
             }
         }
         return nbt
@@ -74,7 +75,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         stats.clear()
         nbt.keys.forEach { statId ->
             try {
-                val identifier = Identifier(statId)
+                val identifier = statId.asIdentifierDefaultingNamespace()
                 val stat = Cobblemon.statProvider.fromIdentifier(identifier) ?: return@forEach
                 this[stat] = nbt.getShort(statId).toInt()
             } catch (_: InvalidIdentifierException) {}
@@ -86,7 +87,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         this.stats.forEach { (stat, value) ->
             // don't waste space if default
             if (value != this.defaultValue) {
-                json.addProperty(stat.identifier.toString(), value)
+                json.addProperty(this.cleanStatIdentifier(stat.identifier), value)
             }
         }
         return json
@@ -96,7 +97,7 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
         stats.clear()
         json.entrySet().forEach { (key, element) ->
             try {
-                val identifier = Identifier(key)
+                val identifier = key.asIdentifierDefaultingNamespace()
                 val stat = Cobblemon.statProvider.fromIdentifier(identifier) ?: return@forEach
                 this[stat] = element.asInt
             } catch (_: InvalidIdentifierException) {}
@@ -122,4 +123,8 @@ abstract class PokemonStats : Iterable<Map.Entry<Stat, Int>> {
     }
 
     fun getOrDefault(stat: Stat) = this[stat] ?: this.defaultValue
+
+    // util to prevent unnecessary long identifiers, usually vanilla defaults to Minecraft but in our context defaulting to cobblemon makes more sense
+    private fun cleanStatIdentifier(identifier: Identifier): String = identifier.toString().substringAfter("${Cobblemon.MODID}:")
+
 }

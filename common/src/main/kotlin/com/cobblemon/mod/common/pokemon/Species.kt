@@ -138,12 +138,10 @@ class Species : ClientDataSynchronizer<Species> {
         buffer.writeIdentifier(this.resourceIdentifier)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
-        buffer.writeMap(this.baseStats, { pb, stat -> Cobblemon.statProvider.encode(pb, stat) }, { pb, value -> pb.writeSizedInt(IntSize.U_SHORT, value) })
-        // Hitbox start
-        buffer.writeFloat(this.hitbox.width)
-        buffer.writeFloat(this.hitbox.height)
-        buffer.writeBoolean(this.hitbox.fixed)
-        // Hitbox end
+        buffer.writeMap(this.baseStats,
+            { keyBuffer, stat -> Cobblemon.statProvider.encode(keyBuffer, stat)},
+            { valueBuffer, value -> valueBuffer.writeSizedInt(IntSize.U_SHORT, value) }
+        )
         // ToDo remake once we have custom typing support
         buffer.writeString(this.primaryType.name)
         buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
@@ -151,26 +149,30 @@ class Species : ClientDataSynchronizer<Species> {
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
         this.moves.encode(buffer)
         buffer.writeFloat(baseScale)
+        // Hitbox start
         buffer.writeFloat(hitbox.width)
         buffer.writeFloat(hitbox.height)
+        buffer.writeBoolean(hitbox.fixed)
+        // Hitbox end
     }
 
     override fun decode(buffer: PacketByteBuf) {
-        this.apply {
-            name = buffer.readString()
-            nationalPokedexNumber = buffer.readInt()
-            baseStats.putAll(buffer.readMap({ Cobblemon.statProvider.decode(it) }, { it.readSizedInt(IntSize.U_SHORT) }))
-            hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
-            primaryType = ElementalTypes.getOrException(buffer.readString())
-            secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }
-            pokedex.clear()
-            pokedex += buffer.readList { pb -> pb.readString() }
-            forms.clear()
-            forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
-            this.moves.decode(buffer)
-            baseScale = buffer.readFloat()
-            hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), true)
-        }
+        // identifier is decoded in the sync packet for easier debug log
+        this.name = buffer.readString()
+        this.nationalPokedexNumber = buffer.readInt()
+        this.baseStats.putAll(buffer.readMap(
+            { keyBuffer -> Cobblemon.statProvider.decode(keyBuffer) },
+            { valueBuffer -> valueBuffer.readSizedInt(IntSize.U_SHORT) })
+        )
+        this.primaryType = ElementalTypes.getOrException(buffer.readString())
+        this.secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }
+        this.pokedex.clear()
+        this.pokedex += buffer.readList { pb -> pb.readString() }
+        this.forms.clear()
+        this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
+        this.moves.decode(buffer)
+        this.baseScale = buffer.readFloat()
+        this.hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
     }
 
     override fun shouldSynchronize(other: Species): Boolean {
