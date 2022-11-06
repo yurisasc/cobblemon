@@ -152,6 +152,9 @@ class Species : ClientDataSynchronizer<Species> {
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
         this.moves.encode(buffer)
+        buffer.writeFloat(baseScale)
+        buffer.writeFloat(hitbox.width)
+        buffer.writeFloat(hitbox.height)
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -167,6 +170,8 @@ class Species : ClientDataSynchronizer<Species> {
             forms.clear()
             forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
             this.moves.decode(buffer)
+            baseScale = buffer.readFloat()
+            hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), true)
         }
     }
 

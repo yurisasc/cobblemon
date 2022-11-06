@@ -231,6 +231,11 @@ class FormData(
         buffer.writeNullable(this._weight) { pb, weight -> pb.writeFloat(weight) }
         buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
         buffer.writeNullable(this._moves) { buf, moves -> moves.encode(buf)}
+        buffer.writeNullable(this._baseScale) { buf, fl -> buf.writeFloat(fl)}
+        buffer.writeNullable(this._hitbox) { buf, hitbox ->
+            buf.writeFloat(hitbox.width)
+            buf.writeFloat(hitbox.height)
+        }
     }
 
     override fun decode(buffer: PacketByteBuf) {
@@ -245,5 +250,7 @@ class FormData(
         this._weight = buffer.readNullable { pb -> pb.readFloat() }
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
         this._moves = buffer.readNullable { pb -> Learnset().also { it.decode(pb) }}
+        this._baseScale = buffer.readNullable { pb -> pb.readFloat() }
+        this._hitbox = buffer.readNullable { pb -> EntityDimensions(buffer.readFloat(), buffer.readFloat(), true) }
     }
 }
