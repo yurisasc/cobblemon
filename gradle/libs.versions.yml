@@ -30,6 +30,9 @@ versions:
   mockito: 3.3.3
   mockk: 1.12.1
 
+  #
+  fabric-permissions-api: 0.2-SNAPSHOT
+
 dependencies:
 
   # build-logic
@@ -116,6 +119,10 @@ dependencies:
     group: dev.architectury
     name: architectury-fabric
     version: { ref: architectury }
+  fabricPermissionsApi:
+    group: me.lucko
+    name: fabric-permissions-api
+    version: { ref: fabric-permissions-api }
 
   # forge
   forge:
