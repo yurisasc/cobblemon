@@ -431,7 +431,7 @@ class PokemonEntity(
                 .filterIsInstance<ItemInteractionEvolution>()
                 .forEach { evolution ->
                     if (evolution.attemptEvolution(pokemon, context)) {
-                        if (!player.isCreative && evolution.consumeHeldItem) {
+                        if (!player.isCreative) {
                             stack.decrement(1)
                         }
                         this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, volume = 1F, pitch = 1F)
