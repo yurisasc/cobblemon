@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.pokemon
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
 import com.cobblemon.mod.common.api.drop.DropTable
@@ -18,7 +19,6 @@ import com.cobblemon.mod.common.api.pokemon.evolution.PreEvolution
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
-import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.PoseType.Companion.FLYING_POSES
@@ -97,9 +97,7 @@ class Species : ClientDataSynchronizer<Species> {
     lateinit var resourceIdentifier: Identifier
 
     fun initialize() {
-        Stats.mainStats.forEach { stat ->
-            this.baseStats.putIfAbsent(stat, 1)
-        }
+        Cobblemon.statProvider.provide(this)
         for (form in forms) {
             form.initialize(this)
         }
@@ -140,7 +138,7 @@ class Species : ClientDataSynchronizer<Species> {
         buffer.writeIdentifier(this.resourceIdentifier)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
-        buffer.writeMap(this.baseStats, { pb, stat -> pb.writeString(stat.id) }, { pb, value -> pb.writeSizedInt(IntSize.U_SHORT, value) })
+        buffer.writeMap(this.baseStats, { pb, stat -> Cobblemon.statProvider.statNetworkSerializer.encode(pb, stat) }, { pb, value -> pb.writeSizedInt(IntSize.U_SHORT, value) })
         // Hitbox start
         buffer.writeFloat(this.hitbox.width)
         buffer.writeFloat(this.hitbox.height)
@@ -161,7 +159,7 @@ class Species : ClientDataSynchronizer<Species> {
         this.apply {
             name = buffer.readString()
             nationalPokedexNumber = buffer.readInt()
-            baseStats.putAll(buffer.readMap({ Stats.getStat(it.readString(), true) }, { it.readSizedInt(IntSize.U_SHORT) }))
+            baseStats.putAll(buffer.readMap({ Cobblemon.statProvider.statNetworkSerializer.decode(it) }, { it.readSizedInt(IntSize.U_SHORT) }))
             hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
             primaryType = ElementalTypes.getOrException(buffer.readString())
             secondaryType = buffer.readNullable { pb -> ElementalTypes.getOrException(pb.readString()) }

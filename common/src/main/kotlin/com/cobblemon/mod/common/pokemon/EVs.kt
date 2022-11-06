@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.pokemon
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
-import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import kotlin.math.min
 
 class EVs : PokemonStats() {
@@ -55,13 +55,6 @@ class EVs : PokemonStats() {
         const val MAX_STAT_VALUE = 252
         const val MAX_TOTAL_VALUE = 510
 
-        fun createEmpty() : EVs {
-            val evs = EVs()
-            // Initialize base empty values
-            for (stat in Stats.mainStats) {
-                evs[stat] = 0
-            }
-            return evs
-        }
+        fun createEmpty() : EVs = Cobblemon.statProvider.createEmptyEVs()
     }
 }

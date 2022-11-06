@@ -8,23 +8,24 @@
 
 package com.cobblemon.mod.common.pokemon.adapters
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
-import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.api.pokemon.stats.StatTypeAdapter
 import com.google.gson.JsonDeserializationContext
-import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
+import net.minecraft.util.Identifier
 import java.lang.reflect.Type
 
 /** Handles JSON adapting between a Stat and its serialized form; its id.*/
-object StatAdapter : JsonSerializer<Stat>, JsonDeserializer<Stat> {
-    override fun serialize(src: Stat, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
-        return JsonPrimitive(src.id)
+object CobblemonStatTypeAdapter : StatTypeAdapter {
+    override fun deserialize(element: JsonElement, type: Type, context: JsonDeserializationContext): Stat {
+        val identifier = Identifier(element.asString)
+        return Cobblemon.statProvider.fromIdentifierOrThrow(identifier)
     }
 
-    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Stat {
-        return Stats.getStat(json.asString)
+    override fun serialize(stat: Stat, type: Type, context: JsonSerializationContext): JsonElement {
+        return JsonPrimitive(stat.identifier.toString())
     }
 }

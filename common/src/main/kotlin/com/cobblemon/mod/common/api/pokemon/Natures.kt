@@ -37,7 +37,7 @@ object Natures {
 
     val BRAVE = registerNature(
         Nature(cobblemonResource("brave"), lang("nature.brave"),
-        Stats.ATTACK, Stats.SPEED, Flavor.SPICY, Flavor.SWEET)
+            Stats.ATTACK, Stats.SPEED, Flavor.SPICY, Flavor.SWEET)
     )
 
     val ADAMANT = registerNature(

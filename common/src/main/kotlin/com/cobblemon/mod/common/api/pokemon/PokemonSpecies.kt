@@ -31,7 +31,6 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroupAdapter
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
-import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.spawning.condition.TimeRange
 import com.cobblemon.mod.common.api.types.ElementalType
@@ -40,7 +39,6 @@ import com.cobblemon.mod.common.api.types.adapters.ElementalTypeAdapter
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
-import com.cobblemon.mod.common.pokemon.adapters.StatAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonPreEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonRequirementAdapter
@@ -84,7 +82,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     override val type = ResourceType.SERVER_DATA
 
     override val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(Stat::class.java, StatAdapter)
+        .registerTypeAdapter(Stat::class.java, Cobblemon.statProvider.typeAdapter)
         .registerTypeAdapter(ElementalType::class.java, ElementalTypeAdapter)
         .registerTypeAdapter(AbilityTemplate::class.java, AbilityTemplateAdapter)
         .registerTypeAdapter(ShoulderEffect::class.java, ShoulderEffectAdapter)
@@ -430,10 +428,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         else -> "genderRatio: { M: ${maleRatio}, F: ${1F - maleRatio} }"
     }
 
-    private fun generateBaseStatsDetails(species: Species, form: FormData? = null): String {
-        val baseStats = form?.baseStats ?: species.baseStats
-        return "baseStats: { hp: ${baseStats[Stats.HP]}, atk: ${baseStats[Stats.ATTACK]}, def: ${baseStats[Stats.DEFENCE]}, spa: ${baseStats[Stats.SPECIAL_ATTACK]}, spd: ${baseStats[Stats.SPECIAL_DEFENCE]}, spe: ${baseStats[Stats.SPEED]} }"
-    }
+    private fun generateBaseStatsDetails(species: Species, form: FormData? = null) = Cobblemon.statProvider.toShowdown(species, form)
 
     private fun generateEggGroupDetails(species: Species, form: FormData? = null): String {
         val eggGroups = form?.eggGroups ?: species.eggGroups
