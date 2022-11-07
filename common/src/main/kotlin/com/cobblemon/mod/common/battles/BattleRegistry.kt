@@ -79,7 +79,7 @@ object BattleRegistry {
             // EVs
             packedTeamBuilder.append("${pk.evs.map { ev -> ev.value }.joinToString(",")}|")
             // Gender TODO: Replace with actual gender variable
-            packedTeamBuilder.append("M|")
+            packedTeamBuilder.append("${pk.gender.showdownName}|")
             // IVs
             packedTeamBuilder.append("${pk.ivs.map { iv -> iv.value }.joinToString(",")}|")
             // Shiny
