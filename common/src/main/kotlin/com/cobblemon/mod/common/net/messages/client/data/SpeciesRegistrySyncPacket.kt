@@ -14,7 +14,9 @@ import com.cobblemon.mod.common.pokemon.Species
 import net.minecraft.network.PacketByteBuf
 
 // We do not need to know every single attribute as a client, as such, we only sync the aspects that matter
-class SpeciesRegistrySyncPacket : DataRegistrySyncPacket<Species>(PokemonSpecies.species) {
+class SpeciesRegistrySyncPacket : DataRegistrySyncPacket<Species> {
+    constructor(): super(emptyList())
+    constructor(species: Collection<Species>): super(species)
 
     override fun encodeEntry(buffer: PacketByteBuf, entry: Species) {
         try {

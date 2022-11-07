@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.forge.net
 
+import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.NetworkDelegate
 import com.cobblemon.mod.common.api.net.NetworkPacket
@@ -66,7 +67,15 @@ object CobblemonForgeNetworkDelegate : NetworkDelegate {
                 if (toServer) NetworkDirection.PLAY_TO_SERVER else NetworkDirection.PLAY_TO_CLIENT
             )
                 .encoder { packet, buffer -> packet.encode(buffer) }
-                .decoder { buffer -> packetClass.getDeclaredConstructor().newInstance().also { it.decode(buffer) } }
+                .decoder { buffer ->
+                    try {
+                        packetClass.getDeclaredConstructor().newInstance().also { it.decode(buffer) }
+                    } catch (exception: Exception) {
+                        LOGGER.error("There was an exception while decoding a packet of type ${packetClass.simpleName}")
+                        exception.printStackTrace()
+                        throw exception
+                    }
+                }
         )
     }
 }
