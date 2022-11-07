@@ -2,7 +2,7 @@
   "texture_size": [128, 128],
   "textures": {
     "0": "cobblemon:blocks/pc",
-    "particle": "cobblemon:blocks/pc"
+    "particle": "cobblemon:blocks/pc_particle"
   },
   "elements": [
     {
