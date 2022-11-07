@@ -185,6 +185,8 @@
   "advancements.cobblemon.first_shiny_catch.description": "Catch your first shiny Pokémon",
   "advancements.cobblemon.catch_ten_flying": "To the Sky!",
   "advancements.cobblemon.catch_ten_flying.description": "Catch 10 flying-type Pokémon",
+  "advancements.cobblemon.full_heal": "Full Healing Power",
+  "advancements.cobblemon.full_heal": "Use a Healing Machine to restore your partners' HP",
 
   "cobblemon.battle.damage_dealt": "%1$s took %2$s damage!",
   "cobblemon.battle.used_move": "%1$s used %2$s!",

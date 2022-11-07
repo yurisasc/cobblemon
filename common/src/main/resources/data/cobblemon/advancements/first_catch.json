@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "cobblemon:poke_ball"
+      "item": "cobblemon:great_ball"
     },
     "title": {
       "translate": "advancements.cobblemon.first_catch"
