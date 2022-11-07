@@ -25,7 +25,15 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 object ChallengeHandler : ServerPacketHandler<BattleChallengePacket> {
     override fun invokeOnServer(packet: BattleChallengePacket, ctx: CobblemonNetwork.NetworkContext, player: ServerPlayerEntity) {
-        val targetedEntity = player.world.getEntityById(packet.targetedEntityId) ?: return
+        val targetedEntity = player.world.getEntityById(packet.targetedEntityId)?.let {
+            if (it is PokemonEntity) {
+                val owner = it.owner
+                if (owner != null) {
+                    return@let owner
+                }
+            }
+            return@let it
+        } ?: return
         val leadingPokemon = player.party()[packet.selectedPokemonId]?.uuid ?: return
 
         when (targetedEntity) {
