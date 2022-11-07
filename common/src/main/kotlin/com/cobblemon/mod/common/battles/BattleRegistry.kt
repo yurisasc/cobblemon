@@ -36,6 +36,11 @@ object BattleRegistry {
     // Challenger to challenged
     val pvpChallenges = mutableMapOf<UUID, BattleChallenge>()
 
+    fun onServerStarted() {
+        battleMap.clear()
+        pvpChallenges.clear()
+    }
+
     /**
      * Packs a team into the showdown format
      * @return a string of the packed team
@@ -78,7 +83,7 @@ object BattleRegistry {
             packedTeamBuilder.append("${pk.nature.name.path}|")
             // EVs
             packedTeamBuilder.append("${pk.evs.map { ev -> ev.value }.joinToString(",")}|")
-            // Gender TODO: Replace with actual gender variable
+            // Gender
             packedTeamBuilder.append("${pk.gender.showdownName}|")
             // IVs
             packedTeamBuilder.append("${pk.ivs.map { iv -> iv.value }.joinToString(",")}|")
