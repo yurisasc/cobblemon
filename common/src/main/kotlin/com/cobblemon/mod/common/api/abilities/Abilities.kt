@@ -71,7 +71,7 @@ object Abilities : JsonDataRegistry<AbilityTemplate> {
     }
 
     override fun sync(player: ServerPlayerEntity) {
-        AbilityRegistrySyncPacket().sendToPlayer(player)
+        AbilityRegistrySyncPacket(all()).sendToPlayer(player)
     }
 
     fun register(ability: AbilityTemplate): AbilityTemplate {

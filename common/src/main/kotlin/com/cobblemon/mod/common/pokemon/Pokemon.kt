@@ -75,6 +75,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
+import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.util.math.Vec3d
 import java.util.*
 import java.util.concurrent.CompletableFuture
@@ -157,9 +158,8 @@ open class Pokemon {
             if (value == field) {
                 return
             }
-            if (currentHealth <= 0 && value > 0) {
-                this.healTimer = Cobblemon.config.healTimer
-            } else if (value <= 0) {
+
+            if (value <= 0) {
                 entity?.health = 0F
             }
             field = min(hp, value)
@@ -173,8 +173,8 @@ open class Pokemon {
                 POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
                     this.faintedTimer = it.faintedTimer
                 }
-
             }
+            this.healTimer = Cobblemon.config.healTimer
         }
     var gender = Gender.GENDERLESS
         set(value) {

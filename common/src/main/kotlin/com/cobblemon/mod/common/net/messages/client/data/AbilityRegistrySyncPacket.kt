@@ -13,7 +13,10 @@ import com.cobblemon.mod.common.api.abilities.AbilityTemplate
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.network.PacketByteBuf
 
-class AbilityRegistrySyncPacket : DataRegistrySyncPacket<AbilityTemplate>(Abilities.all()) {
+class AbilityRegistrySyncPacket : DataRegistrySyncPacket<AbilityTemplate> {
+    constructor(): super(emptyList())
+    constructor(abilities: Collection<AbilityTemplate>): super(abilities)
+
     override fun encodeEntry(buffer: PacketByteBuf, entry: AbilityTemplate) {
         buffer.writeString(entry.name)
         buffer.writeText(entry.displayName)

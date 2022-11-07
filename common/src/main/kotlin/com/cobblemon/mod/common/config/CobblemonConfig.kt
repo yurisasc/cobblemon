@@ -107,6 +107,9 @@ class CobblemonConfig {
     @NodeCategory(category = Category.Battles)
     var allowExperienceFromPvP = true
 
+    @NodeCategory(category = Category.Pokemon)
+    var experienceMultiplier = 2F
+
     @NodeCategory(Category.PassiveStatus)
     var passiveStatuses = mutableMapOf(
         Statuses.POISON.configEntry(),
@@ -124,7 +127,7 @@ class CobblemonConfig {
     var maxHealerCharge = 6.0f
 
     @NodeCategory(Category.Healing)
-    var chargeGainedPerTick = 0.00008333333f
+    var chargeGainedPerTick = 0.00016666666f
 
     @NodeCategory(Category.Healing)
     var defaultFaintTimer = 300

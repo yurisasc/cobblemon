@@ -86,7 +86,7 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
 
     @Deprecated("Deprecated in Java")
     override fun onUse(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, interactionHand: Hand, blockHitResult: BlockHitResult): ActionResult {
-        if (world.isClient) {
+        if (world.isClient || interactionHand == Hand.OFF_HAND) {
             return ActionResult.SUCCESS
         }
 

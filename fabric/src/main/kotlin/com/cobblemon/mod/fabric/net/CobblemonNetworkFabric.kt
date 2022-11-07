@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.fabric.net
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.NetworkDelegate
 import com.cobblemon.mod.common.api.net.NetworkPacket
@@ -38,9 +39,15 @@ class PreparedServerBoundFabricMessage<T : NetworkPacket>(registeredMessage: Reg
         ServerPlayNetworking.registerGlobalReceiver(
             registeredMessage.identifier
         ) { _, player, _, buf, _ ->
-            val packet = registeredMessage.packetClass.getDeclaredConstructor().newInstance().also { it.decode(buf) }
-            val context = FabricServerNetworkContext(player)
-            handler(packet, context)
+            try {
+                val packet = registeredMessage.packetClass.getDeclaredConstructor().newInstance().also { it.decode(buf) }
+                val context = FabricServerNetworkContext(player)
+                handler(packet, context)
+            } catch (exception: Exception) {
+                Cobblemon.LOGGER.error("There was an exception while decoding a packet of type ${registeredMessage.packetClass.simpleName}")
+                exception.printStackTrace()
+                throw exception
+            }
         }
     }
 }

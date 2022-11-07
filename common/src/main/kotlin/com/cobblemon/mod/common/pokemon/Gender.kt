@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.pokemon
 
-enum class Gender {
-    MALE,
-    FEMALE,
-    GENDERLESS
+enum class Gender(val showdownName: String) {
+    MALE("M"),
+    FEMALE("F"),
+    GENDERLESS("N")
 }

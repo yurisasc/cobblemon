@@ -72,7 +72,7 @@ object Moves : JsonDataRegistry<MoveTemplate> {
     }
 
     override fun sync(player: ServerPlayerEntity) {
-        MovesRegistrySyncPacket().sendToPlayer(player)
+        MovesRegistrySyncPacket(all()).sendToPlayer(player)
     }
 
     fun getByName(name: String) = allMoves[name.lowercase()]
