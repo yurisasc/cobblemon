@@ -89,7 +89,7 @@ open class PlayerPartyStore(
                 }
                 // Passive healing while less than full health
                 else if (pokemon.currentHealth < pokemon.hp) {
-                    pokemon.healTimer -= 1
+                    pokemon.healTimer--
                     if (pokemon.healTimer <= -1) {
                         pokemon.healTimer = Cobblemon.config.healTimer
                         val healAmount = 1.0.coerceAtLeast(pokemon.hp.toDouble() * Cobblemon.config.healPercent)

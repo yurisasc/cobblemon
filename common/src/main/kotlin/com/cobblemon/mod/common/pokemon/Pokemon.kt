@@ -87,6 +87,7 @@ import java.util.concurrent.CompletableFuture
 import kotlin.math.absoluteValue
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.math.truncate
 import kotlin.random.Random
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -102,6 +103,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
+import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.util.math.Vec3d
 
 open class Pokemon {
@@ -178,9 +180,8 @@ open class Pokemon {
             if (value == field) {
                 return
             }
-            if (currentHealth <= 0 && value > 0) {
-                this.healTimer = Cobblemon.config.healTimer
-            } else if (value <= 0) {
+
+            if (value <= 0) {
                 entity?.health = 0F
             }
             field = min(hp, value)
@@ -194,8 +195,8 @@ open class Pokemon {
                 POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
                     this.faintedTimer = it.faintedTimer
                 }
-
             }
+            this.healTimer = Cobblemon.config.healTimer
         }
     var gender = Gender.GENDERLESS
         set(value) {
@@ -350,14 +351,17 @@ open class Pokemon {
     val customProperties = mutableListOf<CustomPokemonProperty>()
 
     open fun getStat(stat: Stat): Int {
+        val stats = form.baseStats
         return if (stat == Stats.HP) {
             if (species.resourceIdentifier == SHEDINJA) {
                 1
             } else {
-                (2 * form.baseStats[Stats.HP]!! + ivs[Stats.HP]!! + (evs[Stats.HP]!! / 4)) * level / 100 + level + 10
+                // Why does showdown have the + 100 inside the numerator instead of + level at the end? It's the same mathematically but odd choice.
+                // modStats['hp'] = tr(tr(2 * stat + set.ivs['hp'] + tr(set.evs['hp'] / 4) + 100) * set.level / 100 + 10);
+                truncate(truncate(2.0 * stats[Stats.HP]!! + ivs[Stats.HP]!! + truncate(evs[Stats.HP]!! / 4.0)) * level / 100.0 + level + 10).toInt()
             }
         } else {
-            nature.modifyStat(stat, (2 * (form.baseStats[stat] ?: 1) + ivs.getOrDefault(stat) + evs.getOrDefault(stat) / 4) / 100 * level + 5)
+            nature.modifyStat(stat, (2 * stats[stat]!! + ivs[stat]!! + evs[stat]!! / 4) / 100 * level + 5)
         }
     }
 

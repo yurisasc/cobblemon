@@ -191,9 +191,12 @@ object ShowdownInterpreter {
                         return
                     }
 
+                    val privateMessage = lines[0]
+                    val publicMessage = lines[1]
+
                     for (instruction in splitUpdateInstructions.entries) {
                         if (lines[0].startsWith(instruction.key)) {
-                            instruction.value(battle, targetActor, lines[0], lines[1])
+                            instruction.value(battle, targetActor, publicMessage, privateMessage)
                             break
                         }
                     }
