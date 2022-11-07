@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
+import kotlin.math.truncate
 import kotlin.random.Random
 
 /**
@@ -65,7 +66,7 @@ object CobblemonStatProvider : StatProvider {
 
         // Initialize base random values
         for (stat in this.ofType(Stat.Type.PERMANENT)) {
-            ivs[stat] = Random.nextInt(IVs.MAX_VALUE)
+            ivs[stat] = Random.nextInt(IVs.MAX_VALUE + 1)
         }
 
         // Add in minimum perfect IVs
@@ -79,14 +80,17 @@ object CobblemonStatProvider : StatProvider {
     }
 
     override fun getStatForPokemon(pokemon: Pokemon, stat: Stat): Int {
+        val stats = pokemon.form.baseStats
         return if (stat == Stats.HP) {
             if (pokemon.species.resourceIdentifier == Pokemon.SHEDINJA) {
                 1
             } else {
-                (2 * pokemon.form.baseStats[Stats.HP]!! + pokemon.ivs.getOrDefault(Stats.HP) + (pokemon.evs.getOrDefault(Stats.HP) / 4)) * pokemon.level / 100 + pokemon.level + 10
+                // Why does showdown have the + 100 inside the numerator instead of + level at the end? It's the same mathematically but odd choice.
+                // modStats['hp'] = tr(tr(2 * stat + set.ivs['hp'] + tr(set.evs['hp'] / 4) + 100) * set.level / 100 + 10);
+                truncate(truncate(2.0 * stats[Stats.HP]!! + pokemon.ivs.getOrDefault(Stats.HP) + truncate(pokemon.evs.getOrDefault(Stats.HP) / 4.0)) * pokemon.level / 100.0 + pokemon.level + 10).toInt()
             }
         } else {
-            pokemon.nature.modifyStat(stat, (2 * (pokemon.form.baseStats[stat] ?: 1) + pokemon.ivs.getOrDefault(stat) + pokemon.evs.getOrDefault(stat) / 4) / 100 * pokemon.level + 5)
+            pokemon.nature.modifyStat(stat, (2 * stats[stat]!! + pokemon.ivs.getOrDefault(stat) + pokemon.evs.getOrDefault(stat) / 4) / 100 * pokemon.level + 5)
         }
     }
 
