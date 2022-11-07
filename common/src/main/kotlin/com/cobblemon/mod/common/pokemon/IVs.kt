@@ -24,7 +24,7 @@ class IVs : PokemonStats() {
 
             // Initialize base random values
             for (stat in Stats.mainStats) {
-                ivs[stat] = Random.nextInt(MAX_VALUE)
+                ivs[stat] = Random.nextInt(MAX_VALUE + 1)
             }
 
             // Add in minimum perfect IVs
