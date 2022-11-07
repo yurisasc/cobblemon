@@ -176,7 +176,7 @@ open class PokemonBattle(
                 if (pokemon.facedOpponents.isNotEmpty() /* TODO exp share held item check */) {
                     val experience = Cobblemon.experienceCalculator.calculate(pokemon)
                     if (experience > 0) {
-                        actor.awardExperience(pokemon, experience)
+                        actor.awardExperience(pokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
                     }
                     Cobblemon.evYieldCalculator.calculate(pokemon).forEach { (stat, amount) ->
                         pokemon.originalPokemon.evs.add(stat, amount)

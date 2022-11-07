@@ -107,6 +107,9 @@ class CobblemonConfig {
     @NodeCategory(category = Category.Battles)
     var allowExperienceFromPvP = true
 
+    @NodeCategory(category = Category.Pokemon)
+    var experienceMultiplier = 2F
+
     @NodeCategory(Category.PassiveStatus)
     var passiveStatuses = mutableMapOf(
         Statuses.POISON.configEntry(),
