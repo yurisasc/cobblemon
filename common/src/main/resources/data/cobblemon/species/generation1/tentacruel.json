@@ -148,10 +148,10 @@
     ],
     "preEvolution": "tentacool",
     "evolutions": [],
-    "baseScale": 1.1,
+    "baseScale": 1.2,
     "hitbox": {
-        "width": 0.6,
-        "height": 1.3,
+        "width": 0.8,
+        "height": 1.4,
         "fixed": false
     },
     "baseFriendship": 50,

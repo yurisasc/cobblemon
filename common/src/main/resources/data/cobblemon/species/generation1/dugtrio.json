@@ -222,10 +222,10 @@
   "pokedex": ["cobblemon.species.dugtrio.desc1", "cobblemon.species.dugtrio.desc2"],
   "preEvolution": "diglett",
   "evolutions": [],
-  "baseScale": 0.9,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 0.8,
-    "height": 0.9,
+    "width": 0.9,
+    "height": 0.8,
     "fixed": false
   },
   "baseFriendship": 50,

@@ -259,10 +259,10 @@
   "pokedex": ["cobblemon.species.persian.desc1", "cobblemon.species.persian.desc2"],
   "preEvolution": "meowth",
   "evolutions": [],
-  "baseScale": 1.0,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 1.0,
-    "height": 1.0,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 50,

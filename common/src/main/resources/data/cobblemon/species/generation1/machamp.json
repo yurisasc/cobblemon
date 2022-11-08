@@ -162,10 +162,10 @@
     ],
     "preEvolution": "machoke",
     "evolutions": [],
-    "baseScale": 1.1,
+    "baseScale": 1.2,
     "hitbox": {
-        "width": 0.7,
-        "height": 1.85,
+        "width": 1.0,
+        "height": 1.8,
         "fixed": false
     },
     "baseFriendship": 50,

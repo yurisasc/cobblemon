@@ -266,10 +266,10 @@
     ],
     "preEvolution": "magikarp",
     "evolutions": [],
-    "baseScale": 1.75,
+    "baseScale": 2.0,
     "hitbox": {
-        "width": 1.4,
-        "height": 1.5,
+        "width": 1.5,
+        "height": 1.6,
         "fixed": false
     },
     "baseFriendship": 50,

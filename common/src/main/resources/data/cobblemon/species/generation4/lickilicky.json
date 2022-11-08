@@ -139,10 +139,10 @@
     ],
     "preEvolution": "lickitung",
     "evolutions": [],
-    "baseScale": 0.8,
+    "baseScale": 1.1,
     "hitbox": {
         "width": 0.9,
-        "height": 1.5,
+        "height": 1.7,
         "fixed": false
     },
     "baseFriendship": 50,

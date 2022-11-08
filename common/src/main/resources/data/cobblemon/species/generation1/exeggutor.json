@@ -246,10 +246,10 @@
   "features": ["alolan"],
   "preEvolution": "exeggcute",
   "evolutions": [],
-  "baseScale": 1.2,
+  "baseScale": 1.7,
   "hitbox": {
-    "width": 0.8,
-    "height": 1.25,
+    "width": 0.7,
+    "height": 1.3,
     "fixed": false
   },
   "baseFriendship": 50,

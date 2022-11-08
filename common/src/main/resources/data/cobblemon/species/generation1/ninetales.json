@@ -235,10 +235,10 @@
   ],
   "preEvolution": "vulpix",
   "evolutions": [],
-  "baseScale": 0.9,
+  "baseScale": 0.8,
   "hitbox": {
-    "width": 1.0,
-    "height": 1.2,
+    "width": 1.1,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 50,
