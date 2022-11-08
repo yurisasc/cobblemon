@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.forge.mod
+package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
 import com.cobblemon.mod.common.CobblemonEntities.POKEMON_TYPE
