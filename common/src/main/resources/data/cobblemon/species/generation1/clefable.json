@@ -188,7 +188,7 @@
     ],
     "preEvolution": "clefairy",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.2,
     "hitbox": {
         "width": 0.7,
         "height": 1.0,

@@ -277,10 +277,10 @@
     ],
     "preEvolution": "kadabra",
     "evolutions": [],
-    "baseScale": 0.75,
+    "baseScale": 1,
     "hitbox": {
         "width": 1.0,
-        "height": 1.8,
+        "height": 1.7,
         "fixed": false
     },
     "baseFriendship": 50,

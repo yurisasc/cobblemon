@@ -157,10 +157,10 @@
             "requiredContext": null
         }
     ],
-    "baseScale": 1.15,
+    "baseScale": 0.8,
     "hitbox": {
         "width": 0.7,
-        "height": 1.4,
+        "height": 1.5,
         "fixed": false
     },
     "baseFriendship": 50,

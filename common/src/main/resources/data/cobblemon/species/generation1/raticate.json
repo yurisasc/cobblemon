@@ -305,10 +305,10 @@
   ],
   "preEvolution": "rattata",
   "evolutions": [],
-  "baseScale": null,
+  "baseScale": 0.8,
   "hitbox": {
     "width": 0.7,
-    "height": 1,
+    "height": 1.1,
     "fixed": false
   },
   "baseFriendship": 70,

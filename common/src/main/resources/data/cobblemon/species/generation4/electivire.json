@@ -125,9 +125,9 @@
     ],
     "preEvolution": "electabuzz",
     "evolutions": [],
-    "baseScale": 1.45,
+    "baseScale": 1.2,
     "hitbox": {
-        "width": 0.8,
+        "width": 0.9,
         "height": 1.6,
         "fixed": false
     },

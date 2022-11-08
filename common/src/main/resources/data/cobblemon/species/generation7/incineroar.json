@@ -138,10 +138,10 @@
     ],
     "preEvolution": "torracat",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.2,
     "hitbox": {
         "width": 1.0,
-        "height": 1.0,
+        "height": 2.1,
         "fixed": false
     },
     "baseFriendship": 50,
