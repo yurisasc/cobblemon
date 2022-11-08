@@ -8,7 +8,8 @@
 
 package com.cobblemon.mod.common.client.gui.summary.widgets.pages.stats
 
-import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.lightPurple
 import com.cobblemon.mod.common.api.text.red
@@ -22,6 +23,8 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.stat.Stats
+import net.minecraft.text.MutableText
 import net.minecraft.text.Text
 
 class StatWidget(
@@ -60,10 +63,10 @@ class StatWidget(
 
         var statIndex = 1
 
-        for (stat in Stats.mainStats) {
+        for (stat in Cobblemon.statProvider.ofType(Stat.Type.PERMANENT)) {
             drawScaledText(
                 matrixStack = pMatrixStack,
-                text = stat.name.text(),
+                text = stat.displayName.copy(),
                 x = labelLeft,
                 y = top + statIndex * lineSeparation
             )
@@ -73,7 +76,7 @@ class StatWidget(
 
         statIndex = 1
 
-        for (stat in Stats.mainStats) {
+        for (stat in Cobblemon.statProvider.ofType(Stat.Type.PERMANENT)) {
             drawScaledText(
                 matrixStack = pMatrixStack,
                 text = pokemon.getStat(stat).toString().text(),
@@ -92,7 +95,7 @@ class StatWidget(
         )
 
         statIndex = 1
-        for (stat in Stats.mainStats) {
+        for (stat in Cobblemon.statProvider.ofType(Stat.Type.PERMANENT)) {
             drawScaledText(
                 matrixStack = pMatrixStack,
                 text = pokemon.ivs[stat].toString().text(),
@@ -103,7 +106,7 @@ class StatWidget(
             statIndex++
         }
 
-        var line = Stats.mainStats.size + 1
+        var line = Cobblemon.statProvider.ofType(Stat.Type.PERMANENT).size + 1
         line++
 
         drawScaledText(
