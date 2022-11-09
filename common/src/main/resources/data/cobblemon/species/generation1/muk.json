@@ -240,10 +240,10 @@
   "pokedex": ["cobblemon.species.muk.desc1", "cobblemon.species.muk.desc2"],
   "preEvolution": "grimer",
   "evolutions": [],
-  "baseScale": 1.2,
+  "baseScale": 1.4,
   "hitbox": {
-    "width": 1.3,
-    "height": 1.2,
+    "width": 1.4,
+    "height": 1.0,
     "fixed": false
   },
   "baseFriendship": 70,

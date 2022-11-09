@@ -34,7 +34,7 @@ class TentacruelModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
             idleAnimations = arrayOf(
-                bedrock("0072_tentacool/tentacool", "ground_idle")
+                bedrock("0073_tentacruel/tentacruel", "ground_idle")
             )
         )
 

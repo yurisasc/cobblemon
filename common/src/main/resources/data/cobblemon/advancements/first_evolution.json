@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancements.cobblemon.first_evolution.description"
     },
-    "background": "cobblemon:textures/blocks/apricorn_planks.png"
+  "parent": "cobblemon:first_battle_victory",
   },
   "criteria": {
     "catch": {

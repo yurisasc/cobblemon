@@ -147,7 +147,7 @@
             "requiredContext": null
         }
     ],
-    "baseScale": 0.9,
+    "baseScale": 0.8,
     "hitbox": {
         "width": 0.9,
         "height": 0.9,

@@ -35,7 +35,8 @@ class PokemonServerDelegate : PokemonSideDelegate {
 
     fun updateMaxHealth() {
         val currentHealthRatio = entity.health.toDouble() / entity.maxHealth
-        acknowledgedHPStat = entity.form.baseStats[Stats.HP]!!
+        // Why would you remove HP is beyond me but protects us from obscure crash due to crappy addon
+        acknowledgedHPStat = entity.form.baseStats[Stats.HP] ?: return
 
         val minStat = 50 // Metapod's base HP
         val maxStat = 150 // Slaking's base HP
@@ -85,7 +86,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
             }
         }
 
-        if (entity.form.baseStats[Stats.HP]!! != acknowledgedHPStat) {
+        if (entity.form.baseStats[Stats.HP] != acknowledgedHPStat) {
             updateMaxHealth()
         }
         if (entity.ownerUuid != entity.pokemon.getOwnerUUID()) {

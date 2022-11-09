@@ -135,9 +135,9 @@
     ],
     "preEvolution": "tyrogue",
     "evolutions": [],
-    "baseScale": 1.05,
+    "baseScale": 1.2,
     "hitbox": {
-        "width": 0.6,
+        "width": 0.5,
         "height": 1.5,
         "fixed": false
     },

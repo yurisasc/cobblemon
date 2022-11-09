@@ -418,10 +418,10 @@
   "pokedex": ["cobblemon.species.slowbro.desc1", "cobblemon.species.slowbro.desc2"],
   "preEvolution": "slowpoke",
   "evolutions": [],
-  "baseScale": 1.1,
+  "baseScale": 1.3,
   "hitbox": {
-    "width": 0.65,
-    "height": 1,
+    "width": 0.7,
+    "height": 1.2,
     "fixed": false
   },
   "baseFriendship": 50,

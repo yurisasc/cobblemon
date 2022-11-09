@@ -12,30 +12,31 @@ import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.exception.IllegalActionChoiceException
-import com.cobblemon.mod.common.net.PacketHandler
 import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
-import com.cobblemon.mod.common.util.runOnServer
+import com.cobblemon.mod.common.net.serverhandling.ServerPacketHandler
+import net.minecraft.server.network.ServerPlayerEntity
 
-object BattleSelectActionsHandler : PacketHandler<BattleSelectActionsPacket> {
-    override fun invoke(packet: BattleSelectActionsPacket, ctx: CobblemonNetwork.NetworkContext) {
-        runOnServer {
-            val battle = BattleRegistry.getBattle(packet.battleId) ?: return@runOnServer
-            val player = ctx.player ?: return@runOnServer
-            val actor = battle.actors.find { player.uuid in it.getPlayerUUIDs() } ?: return@runOnServer
+object BattleSelectActionsHandler : ServerPacketHandler<BattleSelectActionsPacket> {
+    override fun invokeOnServer(
+        packet: BattleSelectActionsPacket,
+        ctx: CobblemonNetwork.NetworkContext,
+        player: ServerPlayerEntity
+    ) {
+        val battle = BattleRegistry.getBattle(packet.battleId) ?: return
+        val actor = battle.actors.find { player.uuid in it.getPlayerUUIDs() } ?: return
 
-            if (!actor.mustChoose) {
-                return@runOnServer
-            }
+        if (!actor.mustChoose) {
+            return
+        }
 
-            try {
-                actor.setActionResponses(packet.showdownActionResponses)
-            } catch (e: IllegalActionChoiceException) {
-                player.sendMessage(e.message!!.red())
-                actor.sendUpdate(BattleQueueRequestPacket(actor.request!!))
-                actor.sendUpdate(BattleMakeChoicePacket())
-            }
+        try {
+            actor.setActionResponses(packet.showdownActionResponses)
+        } catch (e: IllegalActionChoiceException) {
+            player.sendMessage(e.message!!.red())
+            actor.sendUpdate(BattleQueueRequestPacket(actor.request!!))
+            actor.sendUpdate(BattleMakeChoicePacket())
         }
     }
 }

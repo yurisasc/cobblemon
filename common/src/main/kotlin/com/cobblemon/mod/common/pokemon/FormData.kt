@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.pokemon
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.moves.MoveTemplate
@@ -20,7 +21,6 @@ import com.cobblemon.mod.common.api.pokemon.evolution.PreEvolution
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
-import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.entity.PoseType
@@ -35,8 +35,9 @@ import net.minecraft.network.PacketByteBuf
 
 class FormData(
     name: String = "normal",
+    // Internal for the sake of the base stat provider
     @SerializedName("baseStats")
-    private var _baseStats: MutableMap<Stat, Int>? = null,
+    internal var _baseStats: MutableMap<Stat, Int>? = null,
     @SerializedName("maleRatio")
     private val _maleRatio: Float? = null,
     @SerializedName("baseScale")
@@ -188,11 +189,9 @@ class FormData(
     lateinit var species: Species
 
     fun initialize(species: Species): FormData {
-        Stats.mainStats.forEach { stat ->
-            this._baseStats?.putIfAbsent(stat, 1)
-        }
         this.species = species
         this.behaviour.parent = species.behaviour
+        Cobblemon.statProvider.provide(this)
         return this
     }
 
@@ -219,11 +218,11 @@ class FormData(
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(this.name)
-        buffer.writeNullable(this._baseStats) { pb1, map -> pb1.writeMap(map, { pb2, stat -> pb2.writeString(stat.id) }, { pb, value -> pb.writeSizedInt(IntSize.U_SHORT, value) }) }
-        buffer.writeNullable(this._hitbox) { pb, hitbox ->
-            pb.writeFloat(hitbox.width)
-            pb.writeFloat(hitbox.height)
-            pb.writeBoolean(hitbox.fixed)
+        buffer.writeNullable(this._baseStats) { statsBuffer, map ->
+            statsBuffer.writeMap(map,
+                { keyBuffer, stat -> Cobblemon.statProvider.encode(keyBuffer, stat)},
+                { valueBuffer, value -> valueBuffer.writeSizedInt(IntSize.U_SHORT, value) }
+            )
         }
         buffer.writeNullable(this._primaryType) { pb, type -> pb.writeString(type.name) }
         buffer.writeNullable(this._secondaryType) { pb, type -> pb.writeString(type.name) }
@@ -232,17 +231,20 @@ class FormData(
         buffer.writeNullable(this._pokedex) { pb1, pokedex -> pb1.writeCollection(pokedex)  { pb2, line -> pb2.writeString(line) } }
         buffer.writeNullable(this._moves) { buf, moves -> moves.encode(buf)}
         buffer.writeNullable(this._baseScale) { buf, fl -> buf.writeFloat(fl)}
-        buffer.writeNullable(this._hitbox) { buf, hitbox ->
-            buf.writeFloat(hitbox.width)
-            buf.writeFloat(hitbox.height)
+        buffer.writeNullable(this._hitbox) { pb, hitbox ->
+            pb.writeFloat(hitbox.width)
+            pb.writeFloat(hitbox.height)
+            pb.writeBoolean(hitbox.fixed)
         }
     }
 
     override fun decode(buffer: PacketByteBuf) {
         this.name = buffer.readString()
-        this._baseStats = buffer.readNullable { pb -> pb.readMap({ Stats.getStat(it.readString(), true) }, { it.readSizedInt(IntSize.U_SHORT) }) }
-        this._hitbox = buffer.readNullable { pb ->
-            EntityDimensions(pb.readFloat(), pb.readFloat(), pb.readBoolean())
+        buffer.readNullable { mapBuffer ->
+            this._baseStats = mapBuffer.readMap(
+                { keyBuffer -> Cobblemon.statProvider.decode(keyBuffer) },
+                { valueBuffer -> valueBuffer.readSizedInt(IntSize.U_SHORT) }
+            )
         }
         this._primaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
         this._secondaryType = buffer.readNullable { pb -> ElementalTypes.get(pb.readString()) }
@@ -251,6 +253,8 @@ class FormData(
         this._pokedex = buffer.readNullable { pb -> pb.readList { it.readString() } }
         this._moves = buffer.readNullable { pb -> Learnset().also { it.decode(pb) }}
         this._baseScale = buffer.readNullable { pb -> pb.readFloat() }
-        this._hitbox = buffer.readNullable { pb -> EntityDimensions(buffer.readFloat(), buffer.readFloat(), true) }
+        this._hitbox = buffer.readNullable { pb ->
+            EntityDimensions(pb.readFloat(), pb.readFloat(), pb.readBoolean())
+        }
     }
 }

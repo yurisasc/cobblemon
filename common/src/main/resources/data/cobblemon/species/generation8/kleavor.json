@@ -35,10 +35,10 @@
     ],
     "preEvolution": "scyther",
     "evolutions": [],
-    "baseScale": 1,
+    "baseScale": 0.9,
     "hitbox": {
         "width": 1.2,
-        "height": 2.2,
+        "height": 2.0,
         "fixed": false
     },
     "baseFriendship": null,

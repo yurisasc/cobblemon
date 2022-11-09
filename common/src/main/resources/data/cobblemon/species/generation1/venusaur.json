@@ -248,10 +248,10 @@
     ],
     "preEvolution": "ivysaur",
     "evolutions": [],
-    "baseScale": 1.2,
+    "baseScale": 2.0,
     "hitbox": {
-        "width": 0.9,
-        "height": 0.8,
+        "width": 1.5,
+        "height": 1.4,
         "fixed": false
     },
     "baseFriendship": 50,

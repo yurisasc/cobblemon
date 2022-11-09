@@ -14,7 +14,6 @@ import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.drop.CommandDropEntry
 import com.cobblemon.mod.common.api.drop.DropEntry
 import com.cobblemon.mod.common.api.drop.ItemDropEntry
-import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_VICTORY
 import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
 import com.cobblemon.mod.common.api.events.CobblemonEvents.PLAYER_JOIN
@@ -37,6 +36,7 @@ import com.cobblemon.mod.common.api.pokemon.experience.StandardExperienceCalcula
 import com.cobblemon.mod.common.api.pokemon.feature.EnumSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature
+import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
 import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
@@ -90,6 +90,7 @@ import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.UntradeableProperty
 import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
+import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.registry.CompletableRegistry
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.util.DataKeys
@@ -139,11 +140,13 @@ object Cobblemon {
     var prospector: SpawningProspector = CobblemonSpawningProspector
     var areaContextResolver: AreaContextResolver = object : AreaContextResolver {}
     val bestSpawner = BestSpawner
+    val battleRegistry = BattleRegistry
     var storage = PokemonStoreManager()
     lateinit var playerData: PlayerDataStoreManager
     lateinit var starterConfig: StarterConfig
     val dataProvider: DataProvider = CobblemonDataProvider
     var permissionValidator: PermissionValidator by Delegates.observable(LaxPermissionValidator().also { it.initialize() }) { _, _, newValue -> newValue.initialize() }
+    var statProvider: StatProvider = CobblemonStatProvider
 
     fun preinitialize(implementation: CobblemonImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
@@ -262,13 +265,16 @@ object Cobblemon {
             storage.unregisterAll()
             playerData.saveAll()
         }
-        SERVER_STARTED.subscribe { bestSpawner.onServerStarted() }
+        SERVER_STARTED.subscribe {
+            bestSpawner.onServerStarted()
+            battleRegistry.onServerStarted()
+        }
         TICK_POST.subscribe { ServerTickHandler.onTick(it) }
         POKEMON_CAPTURED.subscribe { AdvancementHandler.onCapture(it) }
 //        EGG_HATCH.subscribe { AdvancementHandler.onHatch(it) }
-        EVOLUTION_COMPLETE.subscribe { AdvancementHandler.onEvolve(it) }
         BATTLE_VICTORY.subscribe { AdvancementHandler.onWinBattle(it) }
-        CobblemonEvents.EVOLUTION_COMPLETE.subscribe(Priority.LOWEST) { event ->
+        EVOLUTION_COMPLETE.subscribe(Priority.LOWEST) { event ->
+            AdvancementHandler.onEvolve(event)
             val pokemon = event.pokemon
             val ninjaskIdentifier = cobblemonResource("ninjask")
             // Ensure the config option is enabled and that the result was a ninjask and that shedinja exists
@@ -288,7 +294,7 @@ object Cobblemon {
         showdownThread.showdownStarted.thenAccept {
             PokemonSpecies.observable.pipe(takeFirst()).subscribe {
                 LOGGER.info("Starting dummy Showdown battle to force it to pre-load data.")
-                BattleRegistry.startBattle(
+                battleRegistry.startBattle(
                     BattleFormat.GEN_8_SINGLES,
                     BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F)),
                     BattleSide(PokemonBattleActor(UUID.randomUUID(), BattlePokemon(Pokemon().initialize()), -1F))

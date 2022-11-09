@@ -407,6 +407,8 @@ class PokemonEntity(
             return false
         } else if (ownerUuid != null) {
             return false
+        } else if (health <= 0F || isDead) {
+            return false
         }
 
         return true

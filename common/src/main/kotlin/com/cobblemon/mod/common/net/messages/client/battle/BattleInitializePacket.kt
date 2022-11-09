@@ -8,13 +8,13 @@
 
 package com.cobblemon.mod.common.net.messages.client.battle
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.net.NetworkPacket
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
-import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
@@ -165,7 +165,7 @@ class BattleInitializePacket() : NetworkPacket {
                 val hpRatio = buffer.readFloat()
                 val statChanges = mutableMapOf<Stat, Int>()
                 buffer.readMapK(size = IntSize.U_BYTE, statChanges) {
-                    val stat = Stats.getStat(buffer.readString())
+                    val stat = Cobblemon.statProvider.decode(buffer)
                     val stages = buffer.readSizedInt(IntSize.BYTE)
                     stat to stages
                 }
@@ -188,7 +188,7 @@ class BattleInitializePacket() : NetworkPacket {
             status?.let { buffer.writeString(it.name.toString()) }
             buffer.writeFloat(hpRatio)
             buffer.writeMapK(IntSize.U_BYTE, statChanges) { (stat, stages) ->
-                buffer.writeString(stat.id)
+                Cobblemon.statProvider.encode(buffer, stat)
                 buffer.writeSizedInt(IntSize.BYTE, stages)
             }
             return this

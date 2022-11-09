@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "minecraft:elytra"
+      "item": "minecraft:feather"
     },
     "title": {
       "translate": "advancements.cobblemon.catch_ten_flying"
