@@ -16,15 +16,28 @@ import com.cobblemon.mod.common.api.abilities.Ability
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
-import com.cobblemon.mod.common.api.events.pokemon.*
-import com.cobblemon.mod.common.api.moves.*
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPostEvent
+import com.cobblemon.mod.common.api.events.pokemon.ExperienceGainedPreEvent
+import com.cobblemon.mod.common.api.events.pokemon.FriendshipUpdatedEvent
+import com.cobblemon.mod.common.api.events.pokemon.LevelUpEvent
+import com.cobblemon.mod.common.api.events.pokemon.PokemonFaintedEvent
+import com.cobblemon.mod.common.api.moves.BenchedMove
+import com.cobblemon.mod.common.api.moves.BenchedMoves
+import com.cobblemon.mod.common.api.moves.Move
+import com.cobblemon.mod.common.api.moves.MoveSet
+import com.cobblemon.mod.common.api.moves.MoveTemplate
+import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.Natures
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonPropertyExtractor
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
-import com.cobblemon.mod.common.api.pokemon.evolution.*
+import com.cobblemon.mod.common.api.pokemon.evolution.Evolution
+import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionController
+import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionDisplay
+import com.cobblemon.mod.common.api.pokemon.evolution.EvolutionProxy
+import com.cobblemon.mod.common.api.pokemon.evolution.PreEvolution
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceSource
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature
@@ -33,7 +46,6 @@ import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
 import com.cobblemon.mod.common.api.pokemon.moves.LearnsetQuery
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
-import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
 import com.cobblemon.mod.common.api.reactive.Observable
 import com.cobblemon.mod.common.api.reactive.SettableObservable
@@ -44,9 +56,22 @@ import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.AbilityUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.LevelUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.StatusUpdatePacket
 import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
@@ -57,17 +82,28 @@ import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy
 import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
-import com.cobblemon.mod.common.util.*
+import com.cobblemon.mod.common.util.DataKeys
+import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.getServer
+import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.setPositionSafely
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import java.util.Optional
+import java.util.UUID
+import java.util.concurrent.CompletableFuture
+import kotlin.math.absoluteValue
+import kotlin.math.min
+import kotlin.math.roundToInt
+import kotlin.random.Random
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
-import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.text.MutableText
@@ -75,14 +111,7 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
-import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.util.math.Vec3d
-import java.util.*
-import java.util.concurrent.CompletableFuture
-import kotlin.math.absoluteValue
-import kotlin.math.min
-import kotlin.math.roundToInt
-import kotlin.random.Random
 
 open class Pokemon {
     var uuid = UUID.randomUUID()
@@ -193,7 +222,7 @@ open class Pokemon {
             this._status.emit(value?.status?.name?.toString() ?: "")
         }
     var experience = 0
-        protected set(value) {
+        internal set(value) {
             field = value
             _experience.emit(value)
         }
@@ -565,71 +594,6 @@ open class Pokemon {
         this.customProperties.addAll(properties.customProperties)
         features.forEach { it.loadFromJSON(json) }
         updateAspects()
-        return this
-    }
-
-    fun saveToBuffer(buffer: PacketByteBuf, toClient: Boolean): PacketByteBuf {
-        buffer.writeBoolean(toClient)
-        buffer.writeUuid(uuid)
-        buffer.writeIdentifier(species.resourceIdentifier)
-        buffer.writeString(form.name)
-        buffer.writeInt(experience)
-        buffer.writeByte(level)
-        buffer.writeShort(friendship)
-        buffer.writeShort(currentHealth)
-        buffer.writeSizedInt(IntSize.U_BYTE, gender.ordinal)
-        ivs.saveToBuffer(buffer)
-        evs.saveToBuffer(buffer)
-        moveSet.saveToBuffer(buffer)
-        buffer.writeFloat(scaleModifier)
-        buffer.writeString(ability.name)
-        buffer.writeBoolean(shiny)
-        state.writeToBuffer(buffer)
-        buffer.writeString(status?.status?.name?.toString() ?: "")
-        buffer.writeString(caughtBall.name.toString())
-        benchedMoves.saveToBuffer(buffer)
-        buffer.writeInt(faintedTimer)
-        buffer.writeInt(healTimer)
-        buffer.writeSizedInt(IntSize.U_BYTE, aspects.size)
-        aspects.forEach { buffer.writeString(it) }
-        this.evolutionProxy.saveToBuffer(buffer, toClient)
-        return buffer
-    }
-
-    fun loadFromBuffer(buffer: PacketByteBuf): Pokemon {
-        isClient = buffer.readBoolean()
-        uuid = buffer.readUuid()
-        species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())
-            ?: throw IllegalStateException("Pokemon#loadFromBuffer cannot find the species! Species reference data has not been synchronized correctly!")
-        val formId = buffer.readString()
-        form = species.forms.find { it.name == formId } ?: species.standardForm
-        experience = buffer.readInt()
-        level = buffer.readUnsignedByte().toInt()
-        friendship = buffer.readUnsignedShort()
-        currentHealth = buffer.readUnsignedShort()
-        gender = Gender.values()[buffer.readSizedInt(IntSize.U_BYTE)]
-        ivs.loadFromBuffer(buffer)
-        evs.loadFromBuffer(buffer)
-        moveSet.loadFromBuffer(buffer)
-        scaleModifier = buffer.readFloat()
-        ability = Abilities.getOrException(buffer.readString()).create()
-        shiny = buffer.readBoolean()
-        state = PokemonState.fromBuffer(buffer)
-        val status = Statuses.getStatus(Identifier(buffer.readString()))
-        if (status != null && status is PersistentStatus) {
-            this.status = PersistentStatusContainer(status, 0)
-        }
-        val ballName = buffer.readString()
-        caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
-        benchedMoves.loadFromBuffer(buffer)
-        faintedTimer = buffer.readInt()
-        healTimer = buffer.readInt()
-        val aspects = mutableSetOf<String>()
-        repeat(times = buffer.readSizedInt(IntSize.U_BYTE)) {
-            aspects.add(buffer.readString())
-        }
-        this.aspects = aspects
-        this.evolutionProxy.loadFromBuffer(buffer)
         return this
     }
 
