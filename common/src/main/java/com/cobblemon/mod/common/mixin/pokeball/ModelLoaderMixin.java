@@ -27,12 +27,12 @@ public abstract class ModelLoaderMixin {
 
     @Shadow protected abstract void addModel(ModelIdentifier modelId);
 
-    @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", ordinal = 3, shift = At.Shift.BEFORE))
-    private void cobblemon$load3dPokeballModels(ResourceManager resourceManager, BlockColors blockColors, Profiler profiler, int mipmapLevel, CallbackInfo ci) {
-        profiler.swap(Cobblemon.MODID + "_pokeball_3d_model");
-        for (PokeBall pokeBall : PokeBalls.INSTANCE.all()) {
-            this.addModel(new ModelIdentifier(pokeBall.getModel3d()));
-        }
-    }
+//    @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", ordinal = 3, shift = At.Shift.BEFORE))
+//    private void cobblemon$load3dPokeballModels(ResourceManager resourceManager, BlockColors blockColors, Profiler profiler, int mipmapLevel, CallbackInfo ci) {
+//        profiler.swap(Cobblemon.MODID + "_pokeball_3d_model");
+//        for (PokeBall pokeBall : PokeBalls.INSTANCE.all()) {
+//            this.addModel(new ModelIdentifier(pokeBall.getModel3d()));
+//        }
+//    }
 
 }

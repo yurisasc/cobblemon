@@ -112,7 +112,7 @@ object CobblemonNetwork {
 
 
     fun ServerPlayerEntity.sendPacket(packet: NetworkPacket) = sendToPlayer(this, packet)
-    fun sendToPlayer(player: ServerPlayerEntity, packet: NetworkPacket) = networkDelegate/*.also { LOGGER.info("Sending ${packet::class.simpleName} to ${player.name}") }*/.sendPacketToPlayer(player, packet)
+    fun sendToPlayer(player: ServerPlayerEntity, packet: NetworkPacket) = networkDelegate.also { LOGGER.info("Sending ${packet::class.simpleName} to ${player.name}") }.sendPacketToPlayer(player, packet)
     fun sendToServer(packet: NetworkPacket) = networkDelegate.sendPacketToServer(packet)
     fun sendToAllPlayers(packet: NetworkPacket) = sendToPlayers(getServer()!!.playerManager.playerList, packet)
     fun sendToPlayers(players: Iterable<ServerPlayerEntity>, packet: NetworkPacket) = players.forEach { sendToPlayer(it, packet) }
