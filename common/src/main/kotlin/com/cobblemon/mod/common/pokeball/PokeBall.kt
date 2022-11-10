@@ -8,7 +8,9 @@
 
 package com.cobblemon.mod.common.pokeball
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokeball.catching.CatchRateModifier
+import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.util.Identifier
 
 /**
@@ -20,5 +22,7 @@ import net.minecraft.util.Identifier
  */
 open class PokeBall(
     val name: Identifier,
-    val catchRateModifiers: List<CatchRateModifier> = listOf()
+    val catchRateModifiers: List<CatchRateModifier> = listOf(),
+    val model2d: ModelIdentifier = ModelIdentifier("${name}#inventory"),
+    val model3d: ModelIdentifier = ModelIdentifier("${name}_in_hand#inventory")
 )
