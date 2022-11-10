@@ -8,8 +8,7 @@
     "GameRendererMixin",
     "KeyBindingMixin",
     "KeyboardHandlerMixin",
-    "pokeball.ItemRendererMixin",
-    "pokeball.ModelLoaderMixin"
+    "pokeball.ItemRendererMixin"
   ],
   "mixins": [
     "ArgumentTypesMixin",
