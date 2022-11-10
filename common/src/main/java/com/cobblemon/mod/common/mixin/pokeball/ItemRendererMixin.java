@@ -38,7 +38,7 @@ public abstract class ItemRendererMixin {
     @Inject(method = "getModel", at = @At("HEAD"), cancellable = true)
     private void cobblemon$bakePokeballModel(ItemStack stack, World world, LivingEntity entity, int seed, CallbackInfoReturnable<BakedModel> cir) {
         if (stack.getItem() instanceof PokeBallItem pokeBallItem) {
-            ModelIdentifier modelIdentifier = pokeBallItem.getPokeBall().getModel3d();
+            ModelIdentifier modelIdentifier = new ModelIdentifier(pokeBallItem.getPokeBall().getModel3d());
             BakedModel model = this.models.getModelManager().getModel(modelIdentifier);
             ClientWorld clientWorld = world instanceof ClientWorld ? (ClientWorld) world : null;
             BakedModel overriddenModel = model.getOverrides().apply(model, stack, clientWorld, entity, seed);
@@ -54,7 +54,7 @@ public abstract class ItemRendererMixin {
     private void cobblemon$determinePokeballModel(ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo ci) {
         boolean shouldBe2d = renderMode == ModelTransformation.Mode.GUI || renderMode == ModelTransformation.Mode.FIXED;
         if (shouldBe2d && stack.getItem() instanceof PokeBallItem pokeBallItem) {
-            ModelIdentifier modelIdentifier = pokeBallItem.getPokeBall().getModel2d();
+            ModelIdentifier modelIdentifier = new ModelIdentifier(pokeBallItem.getPokeBall().getModel2d());
             BakedModel replacementModel = this.models.getModelManager().getModel(modelIdentifier);
             if (!model.equals(replacementModel)) {
                 ci.cancel();
