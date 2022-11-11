@@ -26,6 +26,7 @@ import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUs
 import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.reactive.CancelableObservable
 import com.cobblemon.mod.common.api.reactive.EventObservable
+import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.util.asObservable
 import com.cobblemon.mod.common.util.asServerObservable
 import com.cobblemon.mod.common.util.asTickObservable
@@ -38,7 +39,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 object CobblemonEvents {
     val MESSAGE_BUILT = EventObservable<MessageBuiltEvent<*>>()
-    val DATA_SYNCHRONIZED = EventObservable<ServerPlayerEntity>()
+    val DATA_SYNCHRONIZED = SimpleObservable<ServerPlayerEntity>()
     val ENTITY_ATTRIBUTE = EventObservable<EntityAttributeEvent>()
     val SHOULDER_MOUNT = CancelableObservable<ShoulderMountEvent>()
     val FRIENDSHIP_UPDATED = EventObservable<FriendshipUpdatedEvent>()

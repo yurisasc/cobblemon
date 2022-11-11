@@ -92,7 +92,7 @@ object CobblemonGen348CaptureCalculator : CaptureCalculator {
             min
         }
 
-        return if(guaranteed) 255.0f else (base * l * d)
+        return if (guaranteed) 255.0f else (base * l * d)
     }
 
     private fun tryCriticalCapture(catchRate: Float, thrower: LivingEntity): Boolean {
@@ -109,5 +109,4 @@ object CobblemonGen348CaptureCalculator : CaptureCalculator {
         // TODO: Get status from pokemon and get bonus (2 for sleep and freeze, 1.5 for paralyze, poison, or burn, and 1 otherwise).
         return 1f
     }
-
 }
