@@ -82,7 +82,7 @@ object CobblemonGen348CaptureCalculator : CaptureCalculator {
         val guaranteed = pokeBall.catchRateModifiers.any { it.isGuaranteed() }
         val statusBonus = this.getStatusBonus(target)
 
-        val base = (((3 * target.hp - 2 * target.currentHealth) * catchRate) / (3 * target.hp)) * statusBonus
+        val base = (((3 * target.hp - 2 * pokeBall.hpForCalculation(target)) * catchRate) / (3 * target.hp)) * statusBonus
         val l = max(1, (30 - target.level) / 10)
 
         val min = 33.0f/100.0f

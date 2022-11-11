@@ -14,6 +14,7 @@ import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.moves.Moves
+import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import dev.architectury.registry.ReloadListenerRegistry
@@ -36,6 +37,7 @@ internal object CobblemonDataProvider : DataProvider {
         this.register(Moves)
         this.register(Abilities)
         this.register(PokemonSpecies)
+        this.register(PokeBalls)
         this.register(PropertiesCompletionProvider)
 
         CobblemonEvents.PLAYER_QUIT.subscribe { synchronizedPlayerIds.remove(it.uuid) }

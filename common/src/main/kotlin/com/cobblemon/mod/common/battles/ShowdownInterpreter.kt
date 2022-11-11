@@ -434,7 +434,7 @@ object ShowdownInterpreter {
         battle.dispatch {
             battle.sendToActors(BattleMakeChoicePacket())
             battle.broadcastChatMessage("It is now turn $turnNumber".aqua())
-            battle.turn()
+            battle.turn(turnNumber)
             GO
         }
     }
