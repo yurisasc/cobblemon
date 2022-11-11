@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancements.cobblemon.first_evolution.description"
     },
-  "parent": "cobblemon:first_battle_victory",
+  "parent": "cobblemon:first_battle_victory"
   },
   "criteria": {
     "catch": {

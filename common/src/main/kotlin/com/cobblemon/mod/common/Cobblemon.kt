@@ -169,6 +169,7 @@ object Cobblemon {
         CobblemonGameRules.register()
 
         ShoulderEffectRegistry.register()
+
         DATA_SYNCHRONIZED.subscribe {
             storage.onPlayerDataSync(it)
             playerData.get(it).sendToPlayer(it)
