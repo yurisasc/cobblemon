@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.net.MessageBuiltEvent
@@ -41,7 +40,6 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpd
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.LevelUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
@@ -135,7 +133,6 @@ object CobblemonNetwork {
          */
 
         // Pokemon Update Packets
-        buildClientMessage<LevelUpdatePacket>()
         buildClientMessage<FriendshipUpdatePacket>()
         buildClientMessage<MoveSetUpdatePacket>()
         buildClientMessage<NatureUpdatePacket>()

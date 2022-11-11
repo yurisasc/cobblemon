@@ -58,7 +58,6 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpd
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.LevelUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
@@ -84,7 +83,6 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         // Don't forget to register packets in CobblemonNetwork!
 
         registerHandler<ExperienceUpdatePacket>(SingleUpdatePacketHandler())
-        registerHandler<LevelUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<SpeciesUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<FriendshipUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<PokemonStateUpdatePacket>(SingleUpdatePacketHandler())
