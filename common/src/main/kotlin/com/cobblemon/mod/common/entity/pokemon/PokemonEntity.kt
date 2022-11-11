@@ -100,6 +100,8 @@ class PokemonEntity(
     val busyLocks = mutableListOf<Any>()
     val isBusy: Boolean
         get() = busyLocks.isNotEmpty()
+    val isBattling: Boolean
+        get() = this.battleId.get().isPresent
 
     var drops: DropTable? = null
     val entityProperties = mutableListOf<EntityProperty<*>>()

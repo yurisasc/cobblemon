@@ -170,7 +170,7 @@ class EmptyPokeBallEntity(
                             lang(
                                 "capture.attempted_capture",
                                 throwerActor.getName(),
-                                CobblemonItems.ballMap[pokeBall]!!.get().name,
+                                pokeBall.item().name,
                                 pokemonEntity.pokemon.species.translatedName
                             ).yellow()
                         )
@@ -293,7 +293,7 @@ class EmptyPokeBallEntity(
         }
     }
 
-    override fun getDefaultItem(): Item = CobblemonItems.ballMap[pokeBall]?.get() as Item
+    override fun getDefaultItem(): Item = pokeBall.item()
 
     override fun createSpawnPacket(): Packet<*> {
         return NetworkManager.createAddEntityPacket(this)
