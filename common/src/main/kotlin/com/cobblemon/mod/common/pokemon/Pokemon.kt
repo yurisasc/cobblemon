@@ -65,7 +65,6 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpd
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.LevelUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
@@ -177,7 +176,7 @@ open class Pokemon {
             if (experienceGroup.getLevel(experience) != value) {
                 experience = experienceGroup.getExperience(value)
             }
-            _level.emit(value)
+//            _level.emit(value)
 
             currentHealth = ceil(hpRatio * hp).coerceIn(0..hp)
         }
@@ -955,7 +954,6 @@ open class Pokemon {
     private val _form = SimpleObservable<FormData>()
     private val _species = registerObservable(SimpleObservable<Species>()) { SpeciesUpdatePacket(this, it) }
     private val _experience = registerObservable(SimpleObservable<Int>()) { ExperienceUpdatePacket(this, it) }
-    private val _level = registerObservable(SimpleObservable<Int>()) { LevelUpdatePacket(this, it) }
     private val _friendship = registerObservable(SimpleObservable<Int>()) { FriendshipUpdatePacket(this, it) }
     private val _currentHealth = registerObservable(SimpleObservable<Int>()) { HealthUpdatePacket(this, it) }
     private val _shiny = registerObservable(SimpleObservable<Boolean>()) { ShinyUpdatePacket(this, it) }

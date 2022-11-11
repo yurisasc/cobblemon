@@ -147,6 +147,7 @@ class Species : ClientDataSynchronizer<Species> {
         buffer.writeNullable(this.secondaryType) { pb, type -> pb.writeString(type.name) }
         buffer.writeCollection(this.pokedex) { pb, line -> pb.writeString(line) }
         buffer.writeCollection(this.forms) { pb, form -> form.encode(pb) }
+        buffer.writeString(this.experienceGroup.name)
         this.moves.encode(buffer)
         buffer.writeFloat(baseScale)
         // Hitbox start
@@ -170,6 +171,7 @@ class Species : ClientDataSynchronizer<Species> {
         this.pokedex += buffer.readList { pb -> pb.readString() }
         this.forms.clear()
         this.forms += buffer.readList{ pb -> FormData().apply { decode(pb) } }.filterNotNull()
+        this.experienceGroup = ExperienceGroups.findByName(buffer.readString())!!
         this.moves.decode(buffer)
         this.baseScale = buffer.readFloat()
         this.hitbox = EntityDimensions(buffer.readFloat(), buffer.readFloat(), buffer.readBoolean())
