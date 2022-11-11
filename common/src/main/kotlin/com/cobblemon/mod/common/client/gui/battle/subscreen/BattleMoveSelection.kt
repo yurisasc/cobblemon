@@ -137,6 +137,10 @@ class BattleMoveSelection(
                 movePPText = if (move.pp == 0) movePPText.red() else movePPText.gold()
             }
 
+            if (move.pp == 100 && move.maxpp == 100) {
+                movePPText = "-/-".text()
+            }
+
             drawScaledText(
                 matrixStack = matrices,
                 font = CobblemonResources.DEFAULT_LARGE,
