@@ -108,7 +108,7 @@ object ShowdownInterpreter {
         val targetPokemon = battle.getActorAndActiveSlotFromPNX(targetPNX)
         val statKey = line.split("|")[3]
         val stages = line.split("|")[4].toInt()
-        val stat = getStat(statKey).name.asTranslated()
+        val stat = getStat(statKey).displayName
         val severity = getSeverity(stages)
         val rootKey = if (isBoost) "boost" else "unboost"
 

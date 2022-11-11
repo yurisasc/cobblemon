@@ -50,7 +50,7 @@ class BattleMoveSelection(
     }
 
     val moveSet = request.moveSet!!
-    val moveTiles = moveSet.moves.mapIndexed { index, inBattleMove ->
+    val moveTiles = moveSet.moves.filterNot { it.disabled }.mapIndexed { index, inBattleMove ->
         val isEven = index % 2 == 0
         val x = if (isEven) this.x.toFloat() else this.x + MOVE_HORIZONTAL_SPACING + MOVE_WIDTH
         val y = if (index > 1) this.y + MOVE_HEIGHT + MOVE_VERTICAL_SPACING else this.y.toFloat()
