@@ -483,8 +483,8 @@ open class Pokemon {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
         form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm
-        experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE)
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
+        experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE).takeIf { experienceGroup.getLevel(experience) != level } ?: experienceGroup.getExperience(level)
         friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt().coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonLevel)
         gender = Gender.valueOf(nbt.getString(DataKeys.POKEMON_GENDER).takeIf { it.isNotBlank() } ?: Gender.MALE.name)
         currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
@@ -559,8 +559,8 @@ open class Pokemon {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
         form = species.forms.find { it.name == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
-        experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
+        experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(experience) != level } ?: experienceGroup.getExperience(level)
         friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt.coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonLevel)
         currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
         gender = Gender.valueOf(json.get(DataKeys.POKEMON_GENDER)?.asString ?: "male")

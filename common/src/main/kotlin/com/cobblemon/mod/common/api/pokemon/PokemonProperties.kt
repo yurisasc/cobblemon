@@ -202,9 +202,6 @@ open class PokemonProperties {
     )
 
     fun apply(pokemon: Pokemon) {
-        level?.let { pokemon.level = it }
-        shiny?.let { pokemon.shiny = it }
-        gender?.let { pokemon.gender = it }
         species?.let {
             return@let try {
                 if (it == "random") {
@@ -217,14 +214,14 @@ open class PokemonProperties {
             }
         }?.let { pokemon.species = it }
         form?.let { formID -> pokemon.species.forms.firstOrNull { it.name.equals(formID, true) } }?.let { form -> pokemon.form = form }
+        shiny?.let { pokemon.shiny = it }
+        gender?.let { pokemon.gender = it }
+        level?.let { pokemon.level = it }
         friendship?.let { pokemon.setFriendship(it) }
         customProperties.forEach { it.apply(pokemon) }
     }
 
     fun apply(pokemonEntity: PokemonEntity) {
-        level?.let { pokemonEntity.pokemon.level = it }
-        shiny?.let { pokemonEntity.pokemon.shiny = it }
-        gender?.let { pokemonEntity.pokemon.gender = it }
         species?.let {
             return@let try {
                 if (it == "random") {
@@ -237,6 +234,9 @@ open class PokemonProperties {
             }
         }?.let { pokemonEntity.pokemon.species = it }
         form?.let { formID -> pokemonEntity.pokemon.species.forms.firstOrNull { it.name.equals(formID, true) } }?.let { form -> pokemonEntity.pokemon.form = form }
+        level?.let { pokemonEntity.pokemon.level = it }
+        shiny?.let { pokemonEntity.pokemon.shiny = it }
+        gender?.let { pokemonEntity.pokemon.gender = it }
         friendship?.let { pokemonEntity.pokemon.setFriendship(it) }
         customProperties.forEach { it.apply(pokemonEntity) }
     }
