@@ -27,11 +27,19 @@
         "human_like"
     ],
     "drops": {
-        "amount": "1",
+        "amount": "3",
         "entries": [
             {
                 "item": "minecraft:carrot",
                 "percentage": 50
+            },
+            {
+                "item": "minecraft:rabbit_hide",
+                "percentage": 50
+            },
+            {
+                "item": "minecraft:rabbit_foot",
+                "percentage": 5
             }
         ]
     },
