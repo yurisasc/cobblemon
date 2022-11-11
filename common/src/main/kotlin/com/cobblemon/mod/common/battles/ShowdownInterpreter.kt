@@ -44,6 +44,7 @@ import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.runOnServer
 import com.cobblemon.mod.common.util.swap
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
@@ -166,8 +167,10 @@ object ShowdownInterpreter {
             return
         }
 
-        battle.showdownMessages.add(message)
-        interpret(battle, rawMessage)
+        runOnServer {
+            battle.showdownMessages.add(message)
+            interpret(battle, rawMessage)
+        }
     }
 
     fun interpret(battle: PokemonBattle, rawMessage: String) {
