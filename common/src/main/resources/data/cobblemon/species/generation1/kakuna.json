@@ -26,7 +26,9 @@
     ],
     "behaviour": {
         "moving": {
-            "canMove": false,
+            "walk": {
+                "canWalk": false
+            },
             "canLook": false
         }
     },
