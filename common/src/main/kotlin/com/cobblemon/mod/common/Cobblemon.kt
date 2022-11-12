@@ -20,7 +20,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
 import com.cobblemon.mod.common.api.events.CobblemonEvents.PLAYER_QUIT
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.SERVER_STARTED
-import com.cobblemon.mod.common.api.events.CobblemonEvents.SERVER_STOPPING
+import com.cobblemon.mod.common.api.events.CobblemonEvents.SERVER_STOPPED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.TICK_POST
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
@@ -262,7 +262,7 @@ object Cobblemon {
             )
         }
 
-        SERVER_STOPPING.subscribe {
+        SERVER_STOPPED.subscribe {
             storage.unregisterAll()
             playerData.saveAll()
         }
