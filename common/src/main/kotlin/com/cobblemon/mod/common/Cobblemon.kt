@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.api.drop.ItemDropEntry
 import com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_VICTORY
 import com.cobblemon.mod.common.api.events.CobblemonEvents.DATA_SYNCHRONIZED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.EVOLUTION_COMPLETE
+import com.cobblemon.mod.common.api.events.CobblemonEvents.LIVING_DEATH
 import com.cobblemon.mod.common.api.events.CobblemonEvents.PLAYER_QUIT
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_CAPTURED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.SERVER_STARTED
@@ -40,6 +41,8 @@ import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
 import com.cobblemon.mod.common.api.properties.CustomPokemonProperty
+import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
+import com.cobblemon.mod.common.api.reactive.Observable.Companion.map
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.common.api.scheduling.ScheduledTaskTracker
 import com.cobblemon.mod.common.api.spawning.BestSpawner
@@ -180,6 +183,10 @@ object Cobblemon {
             PCLinkManager.removeLink(it.uuid)
             BattleRegistry.getBattleByParticipatingPlayer(it)?.stop()
         }
+        LIVING_DEATH.pipe(filter { it is ServerPlayerEntity }, map { it as ServerPlayerEntity }).subscribe {
+            battleRegistry.getBattleByParticipatingPlayer(it)?.stop()
+        }
+
         InteractionEvent.RIGHT_CLICK_BLOCK.register(InteractionEvent.RightClickBlock { pl, _, pos, _ ->
             val player = pl as? ServerPlayerEntity ?: return@RightClickBlock EventResult.pass()
             val block = player.world.getBlockState(pos).block
