@@ -16,7 +16,8 @@
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
     "ServerChunkManagerMixin",
-    "accessor.AccessorEntity"
+    "accessor.AccessorEntity",
+    "entity.TameableEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
