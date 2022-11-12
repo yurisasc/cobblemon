@@ -53,7 +53,7 @@ class SetPCBoxPokemonPacket() : NetworkPacket {
         storeID = buffer.readUuid()
         boxNumber = buffer.readSizedInt(IntSize.U_BYTE)
         val pokemonMap = mutableMapOf<Int, PokemonDTO>()
-        buffer.readMapK(map = pokemonMap) { buffer.readSizedInt(IntSize.U_BYTE) to PokemonDTO().also { decode(buffer) } }
+        buffer.readMapK(map = pokemonMap) { buffer.readSizedInt(IntSize.U_BYTE) to PokemonDTO().also { it.decode(buffer) } }
         pokemon = pokemonMap
     }
 }

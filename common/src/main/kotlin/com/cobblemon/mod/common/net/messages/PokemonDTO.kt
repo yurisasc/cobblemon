@@ -132,9 +132,6 @@ class PokemonDTO : Encodable, Decodable {
         shiny = buffer.readBoolean()
         state = PokemonState.fromBuffer(buffer)
         status = buffer.readNullable { buffer.readIdentifier() }
-//        if (status != null && status is PersistentStatus) {
-//           Statuses.getStatus(Identifier(buffer.readString())) this.status = PersistentStatusContainer(status, 0)
-//        }
         caughtBall = buffer.readIdentifier()
         benchedMoves.loadFromBuffer(buffer)
         val aspects = mutableSetOf<String>()
