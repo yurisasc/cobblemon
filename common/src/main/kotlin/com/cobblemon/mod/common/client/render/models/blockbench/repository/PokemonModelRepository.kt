@@ -502,7 +502,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     }
 
     fun registerJsonPosers(resourceManager: ResourceManager) {
-        resourceManager.findResources(Path("bedrock/posers").pathString) { path -> path.endsWith(".json") }.forEach { identifier, resource ->
+        resourceManager.findResources("bedrock/posers") { path -> path.endsWith(".json") }.forEach { identifier, resource ->
             resource.inputStream.use { stream ->
                 val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
                 val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
@@ -515,7 +515,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     }
 
     fun registerSpeciesAssetResolvers(resourceManager: ResourceManager) {
-        resourceManager.findResources(Path("bedrock/species").pathString) { path -> path.endsWith(".json") }.forEach { identifier, resource ->
+        resourceManager.findResources("bedrock/species") { path -> path.endsWith(".json") }.forEach { identifier, resource ->
             resource.inputStream.use { stream ->
                 val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
                 val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)

@@ -50,7 +50,7 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         .setPrettyPrinting()
         .create()
     override val typeToken: TypeToken<PokeBall> = TypeToken.get(PokeBall::class.java)
-    override val resourcePath = Path("pokeballs")
+    override val resourcePath = "pokeballs"
 
     private val defaults = hashMapOf<Identifier, PokeBall>()
     // ToDo datapack pokeball type here instead
