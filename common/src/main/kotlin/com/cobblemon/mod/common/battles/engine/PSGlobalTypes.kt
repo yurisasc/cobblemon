@@ -30,6 +30,20 @@ interface EffectData {
     val shortDesc: String?
 }
 
+typealias ModifierEffect = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias ModifierMove = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias ResultMove = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias ExtResultMove = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias VoidEffect = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias VoidMove = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias ModifierSourceEffect = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias ModifierSourceMove = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias ResultSourceMove = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias ExtResultSourceMove = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias VoidSourceEffect = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+typealias VoidSourceMove = PSBattle.(relayVar: Number, target: PSPokemon, effect: PSEffect) -> Int?
+
+
 interface BasicEffect : EffectData {
     val id: String
     override val effectType: EffectType
@@ -38,11 +52,4 @@ interface BasicEffect : EffectData {
     val gen: Int
     val sourceEffect: String
     override fun toString(): String
-}
-
-interface AbilityEventMethods {
-    val onCheckShow: (PSBattle.(pokemon: PSPokemon) -> Unit)? get() = {}
-    val onEnd: (PSBattle.(target: Triple<PSPokemon, PSSide, PSField>) -> Unit)? get() = {} // target was actually meant to be a union type of those 3
-    val onPreStart: (PSBattle.(pokemon: PSPokemon) -> Unit)? get() = {}
-    val onStart: (PSBattle.(target: PSPokemon) -> Unit)? get() = {}
 }
