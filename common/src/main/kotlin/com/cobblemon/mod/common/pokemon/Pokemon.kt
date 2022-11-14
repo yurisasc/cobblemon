@@ -396,6 +396,8 @@ open class Pokemon {
         this.faintedTimer = -1
         this.healTimer = -1
         this.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.reset()
+        val entity = entity
+        entity?.heal(entity.maxHealth - entity.health)
     }
 
     /**

@@ -113,7 +113,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .create()
 
     override val typeToken: TypeToken<Species> = TypeToken.get(Species::class.java)
-    override val resourcePath = Path("species")
+    override val resourcePath = "species"
 
     override val observable = SimpleObservable<PokemonSpecies>()
 

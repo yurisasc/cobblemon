@@ -1,1 +1,3 @@
-- Added shit
+Fixes:
+- Fixed resource pack support for Pokémon models and forms
+- Fixed shinies and form variations not displaying in the party or PC.

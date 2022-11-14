@@ -344,7 +344,7 @@ class PokemonEntity(
             if (this.health == 0F) {
                 pokemon.currentHealth = 0
             } else {
-                pokemon.currentHealth = this.health.toInt()
+//                pokemon.currentHealth = this.health.toInt()
             }
             true
         } else false
