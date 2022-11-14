@@ -10,8 +10,7 @@ package com.cobblemon.mod.forge.mod.client
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonClientImplementation
-import com.cobblemon.mod.common.CobblemonEntities.EMPTY_POKEBALL_TYPE
-import com.cobblemon.mod.common.CobblemonEntities.POKEMON_TYPE
+import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.CobblemonKeybinds
@@ -60,8 +59,8 @@ object CobblemonForgeClient : CobblemonClientImplementation {
         MinecraftForge.EVENT_BUS.register(this)
         event.enqueueWork {
             CobblemonClient.initialize(this)
-            EntityRenderers.register(POKEMON_TYPE) { CobblemonClient.registerPokemonRenderer(it) }
-            EntityRenderers.register(EMPTY_POKEBALL_TYPE) { CobblemonClient.registerPokeBallRenderer(it) }
+            EntityRenderers.register(CobblemonEntities.POKEMON.get()) { CobblemonClient.registerPokemonRenderer(it) }
+            EntityRenderers.register(CobblemonEntities.EMPTY_POKEBALL.get()) { CobblemonClient.registerPokeBallRenderer(it) }
         }
 
     }

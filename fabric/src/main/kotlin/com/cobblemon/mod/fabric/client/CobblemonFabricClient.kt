@@ -33,8 +33,8 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
         CobblemonClient.initialize(this)
         CobblemonKeybinds.keybinds.forEach(KeyBindingHelper::registerKeyBinding)
 
-        EntityRendererRegistry.register(CobblemonEntities.POKEMON_TYPE) { CobblemonClient.registerPokemonRenderer(it) }
-        EntityRendererRegistry.register(CobblemonEntities.EMPTY_POKEBALL_TYPE) { CobblemonClient.registerPokeBallRenderer(it) }
+        EntityRendererRegistry.register(CobblemonEntities.POKEMON.get()) { CobblemonClient.registerPokemonRenderer(it) }
+        EntityRendererRegistry.register(CobblemonEntities.EMPTY_POKEBALL.get()) { CobblemonClient.registerPokeBallRenderer(it) }
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(object : SimpleSynchronousResourceReloadListener {
             override fun getFabricId() = cobblemonResource("resources")

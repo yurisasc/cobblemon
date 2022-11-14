@@ -2,3 +2,4 @@ Fixes:
 - Fixed resource pack support for Pokémon models and forms
 - Fixed shinies and form variations not displaying in the party or PC.
 - Fixed servers getting stuck on shutdown due to non-closed showdown server connections
+- Fixed a niche situation where players could challenge themselves. It's a little inspirational if you think about it.
