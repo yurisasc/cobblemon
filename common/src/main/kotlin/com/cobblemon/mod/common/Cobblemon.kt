@@ -272,6 +272,7 @@ object Cobblemon {
         SERVER_STOPPED.subscribe {
             storage.unregisterAll()
             playerData.saveAll()
+            showdown.close()
         }
         SERVER_STARTED.subscribe {
             bestSpawner.onServerStarted()

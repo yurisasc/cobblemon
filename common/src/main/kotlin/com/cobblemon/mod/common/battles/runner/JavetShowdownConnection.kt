@@ -17,13 +17,12 @@ import java.net.Socket
 import java.nio.charset.Charset
 class JavetShowdownConnection : ShowdownConnection {
 
-    private lateinit var process: Process
     private lateinit var socket: Socket
     private lateinit var writer: OutputStreamWriter
     private lateinit var reader: BufferedReader
     private var data = ""
     private var closed = false
-    val serverThread = Thread { ShowdownServer.start() }
+    private val serverThread = Thread({ ShowdownServer.start() }, "Cobblemon Showdown Server")
 
     fun initializeServer() {
         serverThread.start()
@@ -38,7 +37,11 @@ class JavetShowdownConnection : ShowdownConnection {
 
     override fun close() {
         socket.close()
-        process.destroy()
+
+        // This needs to ultimately be replaced with a socket message to the server which informs it to
+        // kill the blocking process. For now, we will go about it the unsafe way and stop the thread
+        serverThread.stop()
+
         closed = true
     }
 
