@@ -21,7 +21,6 @@ import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.EVs
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.IVs
-import com.cobblemon.mod.common.pokemon.Nature
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
@@ -108,7 +107,7 @@ class PokemonDTO : Encodable, Decodable {
         buffer.writeString(ability)
         buffer.writeBoolean(shiny)
         state.writeToBuffer(buffer)
-        buffer.writeNullable(status) { bf, v -> buffer.writeIdentifier(v) }
+        buffer.writeNullable(status) { _, v -> buffer.writeIdentifier(v) }
         buffer.writeIdentifier(caughtBall)
         benchedMoves.saveToBuffer(buffer)
         buffer.writeSizedInt(IntSize.U_BYTE, aspects.size)
