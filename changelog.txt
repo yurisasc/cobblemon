@@ -7,3 +7,4 @@ Fixes:
 - Fixed servers getting stuck on shutdown due to non-closed showdown server connections
 - Fixed a niche situation where players could challenge themselves. It's a little inspirational if you think about it.
 - Fixed Pokémon natures not saving such that every time you restarted they had a totally different nature.
+- Fixed Hitmonchan asserting dominance with a T-pose as well as Grimer and Muk pointing their hands to the sky.
