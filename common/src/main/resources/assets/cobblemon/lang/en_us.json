@@ -268,6 +268,7 @@
   "cobblemon.battle.confusion_snapped": "%1$s snapped out of its confusion!",
   "cobblemon.battle.protect_start": "%1$s starts protecting itself!",
   "cobblemon.battle.protect_activate": "%1$s protected itself!",
+  "cobblemon.battle.magnitude_level": "Magnitude %1$s!",
 
   "cobblemon.battle.errors.busy": "%1$s is busy!",
   "cobblemon.battle.error.in_battle": "%1$s is already in a battle.",

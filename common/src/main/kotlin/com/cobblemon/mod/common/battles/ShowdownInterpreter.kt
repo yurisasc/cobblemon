@@ -714,8 +714,9 @@ object ShowdownInterpreter {
 //            if ("|confusion" in message) { // Don't even say anything about it, it's too spammy
 //                battle.broadcastChatMessage(battleLang("confusion_continues_idk", pokemon.battlePokemon!!.getName()))
 //            }
-            if ("|protect" in message) {
-                battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon!!.getName()))
+            when {
+                "|protect" in message -> battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon!!.getName()))
+                "move: Magnitude" in message -> battle.broadcastChatMessage(battleLang("magnitude_level", message.substringAfterLast("|").toIntOrNull() ?: 1))
             }
             GO
         }
