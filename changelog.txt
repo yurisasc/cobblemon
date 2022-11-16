@@ -10,3 +10,6 @@ Fixes:
 - Fixed Hitmonchan asserting dominance with a T-pose as well as Grimer and Muk pointing their hands to the sky.
 - Fixed being unable to customize keybinds on Forge
 - Fixed Summary keybinding being branded as PokéNav
+
+Battle:
+- Added interpretation for Magnitude levels
