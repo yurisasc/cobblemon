@@ -12,6 +12,7 @@
     "special_defence": 70,
     "speed": 97
   },
+  "features": ["alolan"],
   "catchRate": 127,
   "maleRatio": 0.5,
   "shoulderMountable": false,
@@ -20,7 +21,8 @@
       "name": "normal"
     },
     {
-      "name": "alola",
+      "name": "alolan",
+      "aspects": ["alolan"],
       "primaryType": "dark",
       "secondaryType": "normal",
       "abilities": ["gluttony", "hustle", "h:thickfat"],

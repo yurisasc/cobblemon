@@ -3,7 +3,6 @@
 	"animations": {
 		"animation.lapras.ground_idle": {
 			"loop": true,
-			"animation_length": 18.75,
 			"bones": {
 				"body": {
 					"rotation": ["-math.clamp(math.sin(q.anim_time*90*2)*0.25,0,2)-math.clamp(math.sin(q.anim_time*90*2)*0.25,-2,0)", 0, 0],
