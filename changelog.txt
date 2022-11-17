@@ -1,5 +1,8 @@
 Changes:
 - /givepokemon random, /spawnpokemon random, and /spawnallpokemon will now only choose implemented Pokémon
+- Moves that are disabled or out of PP now show transparently in the battle GUI instead of being hidden completely.
+- The battle message box now displays even when the battle GUI is minimised.
+- Moved the R prompt in battle to be higher on the screen, so not as obstructive.
 
 Fixes:
 - Fixed resource pack support for Pokémon models and forms
@@ -8,4 +11,4 @@ Fixes:
 - Fixed a niche situation where players could challenge themselves. It's a little inspirational if you think about it.
 - Fixed Pokémon natures not saving such that every time you restarted they had a totally different nature.
 - Fixed Hitmonchan asserting dominance with a T-pose as well as Grimer and Muk pointing their hands to the sky.
-- Fixed some underground Pokémon spawning above ground instead. I'm told other weird spawns were probably
+- Fixed some underground Pokémon spawning above ground instead. I'm told other weird spawns were probably fixed at the same time.
