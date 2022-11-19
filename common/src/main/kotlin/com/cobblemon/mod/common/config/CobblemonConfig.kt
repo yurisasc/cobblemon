@@ -47,7 +47,7 @@ class CobblemonConfig {
     var storageFormat = "nbt"
 
     @NodeCategory(Category.Storage)
-    var preventCompletePartyDeposit = true
+    var preventCompletePartyDeposit = false
 
     // TODO new types of constraint
 
@@ -57,7 +57,7 @@ class CobblemonConfig {
 
     @NodeCategory(Category.Spawning)
     @IntConstraint(min = 1, max = 1000)
-    var minimumLevelRangeMax = 15
+    var minimumLevelRangeMax = 10
 
     @NodeCategory(Category.Spawning)
     var enableSpawning = true
@@ -84,10 +84,10 @@ class CobblemonConfig {
     var worldSliceHeight = 16
 
     @NodeCategory(Category.Spawning)
-    var minimumSliceDistanceFromPlayer = 16 * 2F
+    var minimumSliceDistanceFromPlayer = 16
 
     @NodeCategory(Category.Spawning)
-    var maximumSliceDistanceFromPlayer = 16 * 3.5F
+    var maximumSliceDistanceFromPlayer = 16 * 4F
 
     @NodeCategory(Category.Spawning)
     var maximumSpawnedPokemonPerPlayer = 30

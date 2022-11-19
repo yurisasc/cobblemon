@@ -12,6 +12,10 @@
       "required": false
     },
 	{
+      "id": "terralith:brushland",
+      "required": false
+    },
+	{
       "id": "terralith:highlands",
       "required": false
     },

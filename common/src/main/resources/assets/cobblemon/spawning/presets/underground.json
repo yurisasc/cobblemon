@@ -1,8 +1,8 @@
 {
   "name": "underground",
   "condition": {
-    "biomes": [ "#minecraft:is_overworld" ],
+	"biomes": [ "#cobblemon:is_overworld" ],
     "canSeeSky": false,
-	"maxY": 62
+	"maxY": 58
   }
 }
