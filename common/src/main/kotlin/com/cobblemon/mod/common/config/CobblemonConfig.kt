@@ -84,7 +84,7 @@ class CobblemonConfig {
     var worldSliceHeight = 16
 
     @NodeCategory(Category.Spawning)
-    var minimumSliceDistanceFromPlayer = 16
+    var minimumSliceDistanceFromPlayer = 16F
 
     @NodeCategory(Category.Spawning)
     var maximumSliceDistanceFromPlayer = 16 * 4F
