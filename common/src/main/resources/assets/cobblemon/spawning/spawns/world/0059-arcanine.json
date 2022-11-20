@@ -7,6 +7,9 @@
         {
             "id": "arcanine-1",
             "pokemon": "arcanine",
+			"presets": [
+                "urban"
+            ],
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",
