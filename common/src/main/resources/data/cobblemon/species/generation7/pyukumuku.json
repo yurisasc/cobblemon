@@ -32,6 +32,8 @@
 				"quantityRange": "1-2",
                 "percentage": 66
             }
+		]
+	},
     "moves": [
         "1:harden",
         "1:bide",
