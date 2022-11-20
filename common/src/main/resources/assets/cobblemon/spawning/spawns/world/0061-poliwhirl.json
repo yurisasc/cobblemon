@@ -1,6 +1,6 @@
 {
     "id": "0061-poliwhirl",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -14,7 +14,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "25-38",
-            "weight": 1.0,
+            "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
                 "isRaining": true,
@@ -34,7 +34,7 @@
             "context": "submerged",
             "bucket": "common",
             "level": "25-38",
-            "weight": 1.0,
+            "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
 				"neededNearbyBlocks": [

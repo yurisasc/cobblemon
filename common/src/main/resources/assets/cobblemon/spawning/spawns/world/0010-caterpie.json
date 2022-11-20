@@ -1,6 +1,6 @@
 {
     "id": "0010-caterpie",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -11,7 +11,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "2-19",
-            "weight": 9.0,
+            "weight": 7.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -34,7 +34,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "2-19",
-            "weight": 9.0,
+            "weight": 7.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -49,7 +49,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "2-19",
-            "weight": 9.0,
+            "weight": 7.0,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

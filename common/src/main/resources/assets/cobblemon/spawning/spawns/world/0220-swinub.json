@@ -1,6 +1,6 @@
 {
     "id": "0220-swinub",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -10,7 +10,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "5-32",
+            "level": "5-25",
             "weight": 9.0,
             "condition": {
                 "canSeeSky": true,

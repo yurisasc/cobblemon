@@ -1,6 +1,6 @@
 {
     "id": "0008-wartortle",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -14,7 +14,7 @@
             "context": "grounded",
             "bucket": "ultra-rare",
             "level": "16-40",
-            "weight": 1.0,
+            "weight": 0.9,
             "condition": {
                 "canSeeSky": true
             }
@@ -30,7 +30,7 @@
             "context": "submerged",
             "bucket": "ultra-rare",
             "level": "16-40",
-            "weight": 1.0,
+            "weight": 0.9,
             "condition": {
                 "canSeeSky": true
             }

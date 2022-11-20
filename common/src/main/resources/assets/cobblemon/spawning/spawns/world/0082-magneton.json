@@ -1,6 +1,6 @@
 {
     "id": "0082-magneton",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -11,7 +11,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "30-46",
-            "weight": 0.2,
+            "weight": 0.18,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
