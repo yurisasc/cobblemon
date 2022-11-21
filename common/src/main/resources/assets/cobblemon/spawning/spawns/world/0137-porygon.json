@@ -1,6 +1,6 @@
 {
     "id": "0137-porygon",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -14,7 +14,7 @@
             "context": "grounded",
             "bucket": "rare",
             "level": "15-39",
-            "weight": 10.0,
+            "weight": 9,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

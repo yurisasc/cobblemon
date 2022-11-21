@@ -1,6 +1,6 @@
 {
     "id": "0067-machoke",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -11,7 +11,7 @@
             "context": "grounded",
             "bucket": "common",
             "level": "28-40",
-            "weight": 0.6,
+            "weight": 0.54,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

@@ -1,6 +1,6 @@
 {
     "id": "0762-steenee",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -10,8 +10,8 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "18-27",
-            "weight": 0.4,
+            "level": "18-29",
+            "weight": 0.18,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

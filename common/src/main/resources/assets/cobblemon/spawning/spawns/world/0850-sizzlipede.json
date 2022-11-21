@@ -1,6 +1,6 @@
 {
     "id": "0850-sizzlipede",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -10,7 +10,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "10-27",
+            "level": "10-30",
             "weight": 5.4,
             "condition": {
                 "canSeeSky": true,
@@ -25,7 +25,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "10-27",
+            "level": "10-30",
             "weight": 5.4,
             "condition": {
                 "biomes": [

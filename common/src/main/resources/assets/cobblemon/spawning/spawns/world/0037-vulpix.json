@@ -1,6 +1,6 @@
 {
     "id": "0037-vulpix",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -11,7 +11,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "16-30",
-            "weight": 6.0,
+            "weight": 5.94,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -32,7 +32,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "16-30",
-            "weight": 6.0,
+            "weight": 5.94,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
