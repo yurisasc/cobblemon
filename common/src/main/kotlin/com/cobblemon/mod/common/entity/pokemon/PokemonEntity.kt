@@ -108,7 +108,6 @@ class PokemonEntity(
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val species = addEntityProperty(SPECIES, pokemon.species.resourceIdentifier.toString())
-    val shiny = addEntityProperty(SHINY, pokemon.shiny)
     val isMoving = addEntityProperty(MOVING, false)
     val behaviourFlags = addEntityProperty(BEHAVIOUR_FLAGS, 0)
     val phasingTargetId = addEntityProperty(PHASING_TARGET_ID, -1)
@@ -161,17 +160,16 @@ class PokemonEntity(
     }
 
     companion object {
-        private val SPECIES = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.STRING)
-        private val SHINY = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        private val MOVING = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        private val BEHAVIOUR_FLAGS = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
-        private val PHASING_TARGET_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
-        private val BEAM_MODE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
-        private val BATTLE_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
-        private val ASPECTS = DataTracker.registerData(PokemonEntity::class.java, StringSetDataSerializer)
-        private val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
-        private val POSE_TYPE = DataTracker.registerData(PokemonEntity::class.java, PoseTypeDataSerializer)
-        private val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        val SPECIES = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.STRING)
+        val MOVING = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        val BEHAVIOUR_FLAGS = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
+        val PHASING_TARGET_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
+        val BEAM_MODE = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BYTE)
+        val BATTLE_ID = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.OPTIONAL_UUID)
+        val ASPECTS = DataTracker.registerData(PokemonEntity::class.java, StringSetDataSerializer)
+        val DYING_EFFECTS_STARTED = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.BOOLEAN)
+        val POSE_TYPE = DataTracker.registerData(PokemonEntity::class.java, PoseTypeDataSerializer)
+        val LABEL_LEVEL = DataTracker.registerData(PokemonEntity::class.java, TrackedDataHandlerRegistry.INTEGER)
 
         const val BATTLE_LOCK = "battle"
     }
@@ -275,7 +273,6 @@ class PokemonEntity(
         super.readNbt(nbt)
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
-        shiny.set(pokemon.shiny)
         labelLevel.set(pokemon.level)
     }
 
@@ -358,7 +355,6 @@ class PokemonEntity(
         buffer.writeString(pokemon.form.name)
         buffer.writeInt(phasingTargetId.get())
         buffer.writeByte(beamModeEmitter.get().toInt())
-        buffer.writeBoolean(pokemon.shiny)
         buffer.writeCollection(pokemon.aspects, PacketByteBuf::writeString)
         buffer.writeInt(if (Cobblemon.config.displayEntityLevelLabel) this.labelLevel.get() else -1)
     }
@@ -373,7 +369,6 @@ class PokemonEntity(
             pokemon.form = pokemon.species.forms.find { form -> form.name == formName } ?: pokemon.species.standardForm
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
-            shiny.set(buffer.readBoolean())
             this.aspects.set(buffer.readList(PacketByteBuf::readString).toSet())
             labelLevel.set(buffer.readInt())
         }

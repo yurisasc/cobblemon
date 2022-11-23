@@ -266,7 +266,7 @@ open class PokemonProperties {
 
     fun matches(pokemonEntity: PokemonEntity): Boolean {
         level?.takeIf { it != pokemonEntity.pokemon.level }?.let { return false }
-        shiny?.takeIf { it != pokemonEntity.shiny.get() }?.let { return false }
+        shiny?.takeIf { it != ("shiny" in pokemonEntity.pokemon.aspects) }?.let { return false }
         gender?.takeIf { it != pokemonEntity.pokemon.gender }?.let { return false }
         species?.run {
             try {
