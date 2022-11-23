@@ -49,7 +49,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES - PoseType.HOVER + UI_POSES,
-            transformTicks = 10,
+            transformTicks = 5,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0006_charizard/charizard", "ground_idle")
@@ -59,7 +59,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES - PoseType.FLY,
-            transformTicks = 10,
+            transformTicks = 5,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0006_charizard/charizard", "ground_idle"),
@@ -70,7 +70,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         flyIdle = registerPose(
             poseName = "hover",
             poseType = PoseType.HOVER,
-            transformTicks = 10,
+            transformTicks = 5,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0006_charizard/charizard", "air_idle")
@@ -81,7 +81,7 @@ class CharizardModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         fly = registerPose(
             poseName = "fly",
             poseType = PoseType.FLY,
-            transformTicks = 10,
+            transformTicks = 5,
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("0006_charizard/charizard", "air_fly")

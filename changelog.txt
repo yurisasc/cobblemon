@@ -1,11 +1,14 @@
 Additions:
 - Added Alolan Rattata and Alolan Raticate. Now where would you find them...?
+- Pokémon like Magikarp desperately move to water if they're on land.
 
 Changes:
 - /givepokemon random, /spawnpokemon random, and /spawnallpokemon will now only choose implemented Pokémon
+- Significantly improved AI pathing for larger entities.
+- Water Pokémon properly swim around instead of sinking to the bottom.
 
 Fixes:
-- Fixed resource pack support for Pokémon models and forms
+- Fixed resource pack support for Pokémon models and textures.
 - Fixed shinies and form variations not displaying in the party or PC.
 - Fixed servers getting stuck on shutdown due to non-closed showdown server connections
 - Fixed a niche situation where players could challenge themselves. It's a little inspirational if you think about it.
@@ -13,6 +16,8 @@ Fixes:
 - Fixed some underground Pokémon spawning above ground instead. I'm told other weird spawns were probably fixed at the same time.
 - Fixed being unable to customize keybinds on Forge
 - Fixed Summary keybinding being labeled as PokéNav
+- Fixed Pokémon sometimes running in place. It's still possible, but much less likely.
+- Fixed messages appearing in the console whenever a healer is used.
 
 Models:
 - Fixed Paras and Nidoqueen looking very weird.
@@ -26,5 +31,4 @@ Battle:
 - Added Magnitude battle messages.
 - Moves that are disabled or out of PP now show transparently in the battle GUI instead of being hidden completely.
 - The battle message box now displays even when the battle GUI is minimised.
-- Moved the R prompt in battle to be higher on the screen, so not as obstructive.
-
+- Moved the R prompt in battle to be higher on the screen, so that it's not as obstructive.

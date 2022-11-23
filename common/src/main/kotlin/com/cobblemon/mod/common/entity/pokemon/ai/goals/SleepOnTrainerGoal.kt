@@ -122,13 +122,7 @@ class SleepOnTrainerGoal(private val pokemonEntity: PokemonEntity) : Goal() {
 
     override fun tick() {
         if (owner != null && bedPos != null) {
-            pokemonEntity.navigation.startMovingTo(
-                bedPos!!.x.toDouble(),
-                bedPos!!.y.toDouble(),
-                bedPos!!.z.toDouble(),
-                0.7
-            )
-            if (pokemonEntity.squaredDistanceTo(owner) < 2.5) {
+            if (pokemonEntity.squaredDistanceTo(owner) < 1.5) {
                 ++ticksOnBed
                 if (ticksOnBed > getTickCount(16)) {
                     pokemonEntity.setBehaviourFlag(SLEEPING, true)

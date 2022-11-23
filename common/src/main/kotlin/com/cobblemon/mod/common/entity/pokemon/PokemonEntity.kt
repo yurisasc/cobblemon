@@ -48,6 +48,7 @@ import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.control.MoveControl
+import net.minecraft.entity.ai.goal.BreatheAirGoal
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.damage.DamageSource
@@ -287,19 +288,21 @@ class PokemonEntity(
         if (pokemon != null) {
             moveControl = PokemonMoveControl(this)
             navigation = PokemonNavigation(world, this)
+            goalSelector.clear()
+            goalSelector.add(0, object : Goal() {
+                override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1
+                override fun getControls() = EnumSet.allOf(Control::class.java)
+            })
+
+            goalSelector.add(1, PokemonBreatheAirGoal(this))
+            goalSelector.add(2, PokemonFloatToSurfaceGoal(this))
+            goalSelector.add(3, PokemonFollowOwnerGoal(this, 1.0, 8F, 2F, false))
+            goalSelector.add(4, PokemonMoveIntoFluidGoal(this))
+            goalSelector.add(5, SleepOnTrainerGoal(this))
+            goalSelector.add(5, WildRestGoal(this))
+            goalSelector.add(6, PokemonWanderAroundGoal(this))
+            goalSelector.add(7, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
         }
-
-        goalSelector.clear()
-        goalSelector.add(0, object : Goal() {
-            override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1
-            override fun getControls() = EnumSet.allOf(Control::class.java)
-        })
-
-        goalSelector.add(2, SleepOnTrainerGoal(this))
-        goalSelector.add(3, PokemonFollowOwnerGoal(this, 0.4, 8F, 2F, false))
-        goalSelector.add(4, WildRestGoal(this))
-        goalSelector.add(5, PokemonWanderAroundGoal(this, 0.4))
-        goalSelector.add(6, PokemonLookAtEntityGoal(this, ServerPlayerEntity::class.java, 5F))
     }
 
     fun <T> addEntityProperty(accessor: TrackedData<T>, initialValue: T): EntityProperty<T> {

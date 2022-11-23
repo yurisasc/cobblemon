@@ -43,8 +43,6 @@ class CharmanderModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override fun registerPoses() {
         sleep = registerPose(
             poseType = PoseType.SLEEP,
-            condition = { it.getBehaviourFlag(PokemonBehaviourFlag.SLEEPING) },
-            transformTicks = 10,
             idleAnimations = arrayOf(bedrock("0004_charmander/charmander", "sleep"))
         )
 

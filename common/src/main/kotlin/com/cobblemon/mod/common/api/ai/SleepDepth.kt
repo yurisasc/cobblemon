@@ -26,7 +26,7 @@ fun interface SleepDepth {
     companion object {
         val comatose = SleepDepth { true }
         val normal = SleepDepth { pokemonEntity ->
-            val nearbyPlayers = pokemonEntity.world.getPlayers(TargetPredicate.DEFAULT, pokemonEntity, Box.of(pokemonEntity.pos, 16.0, 16.0, 16.0))
+            val nearbyPlayers = pokemonEntity.world.getPlayers(TargetPredicate.createNonAttackable(), pokemonEntity, Box.of(pokemonEntity.pos, 8.0, 8.0, 8.0))
             return@SleepDepth nearbyPlayers.none { !it.isSneaking }
         }
         val depths = mutableMapOf(
