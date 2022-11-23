@@ -170,8 +170,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                 val expBarWidth = 1
                 val expBarHeight = expRatio * barHeightMax
 
-                val (r, g) = getDepletableRedGreen(hpRatio)
-                val b = 0
+                val (red, green) = getDepletableRedGreen(hpRatio)
 
                 blitk(
                     matrixStack = matrixStack,
@@ -182,9 +181,9 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                     height = hpBarHeight,
                     textureHeight = hpBarHeight / hpRatio,
                     vOffset = barHeightMax - hpBarHeight,
-                    red = r,
-                    green = g,
-                    blue = b
+                    red = red * 0.8F,
+                    green = green * 0.8F,
+                    blue = 0.27F
                 )
 
                 blitk(
@@ -196,16 +195,16 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                     height = expBarHeight,
                     textureHeight = expBarHeight / expRatio,
                     vOffset = barHeightMax - expBarHeight,
-                    red = 0,
-                    green = 0.784,
-                    blue = 1.0
+                    red = 0.2,
+                    green = 0.65,
+                    blue = 0.84
                 )
 
                 val fontScale = 0.5F
 
                 drawScaledText(
                     matrixStack = matrixStack,
-                    text = pokemon.species.translatedName,
+                    text = pokemon.displayName,
                     x = panelX + selectedOffsetX + 2.5F,
                     y = startY + 1 + ((slotHeight + slotSpacing) * index) + slotHeight * 0.84F - 1F,
                     scale = fontScale

@@ -61,10 +61,12 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.AbilityUpdate
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.EVsUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.IVsUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
@@ -970,8 +972,8 @@ open class Pokemon {
     private val _status = registerObservable(SimpleObservable<String>()) { StatusUpdatePacket(this, it) }
     private val _caughtBall = registerObservable(SimpleObservable<String>()) { CaughtBallUpdatePacket(this, it) }
     private val _benchedMoves = registerObservable(benchedMoves.observable) { BenchedMovesUpdatePacket(this, it) }
-    private val _ivs = registerObservable(ivs.observable) // TODO consider a packet for it for changed ivs
-    private val _evs = registerObservable(evs.observable) // TODO needs a packet
+    private val _ivs = registerObservable(ivs.observable) { IVsUpdatePacket(this, it as IVs) }
+    private val _evs = registerObservable(evs.observable) { EVsUpdatePacket(this, it as EVs) }
     private val _aspects = registerObservable(SimpleObservable<Set<String>>()) { AspectsUpdatePacket(this, it) }
     private val _gender = registerObservable(SimpleObservable<Gender>()) { GenderUpdatePacket(this, it) }
     private val _ability = registerObservable(SimpleObservable<Ability>()) { AbilityUpdatePacket(this, it.template) }

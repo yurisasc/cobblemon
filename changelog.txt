@@ -1,11 +1,13 @@
 Additions:
+- Added a new GUI for viewing party information, rearranging moves, and evolving Pokémon. It looks unreasonably good.
 - Added Alolan Rattata and Alolan Raticate. Now where would you find them...?
 - Pokémon like Magikarp desperately move to water if they're on land.
 
 Changes:
-- /givepokemon random, /spawnpokemon random, and /spawnallpokemon will now only choose implemented Pokémon
 - Significantly improved AI pathing for larger entities.
 - Water Pokémon properly swim around instead of sinking to the bottom.
+- Changed the starter menu and summary menu keybinds to "M" by default.
+- /givepokemon random, /spawnpokemon random, and /spawnallpokemon will now only choose implemented Pokémon
 
 Fixes:
 - Fixed resource pack support for Pokémon models and textures.
