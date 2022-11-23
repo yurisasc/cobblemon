@@ -74,6 +74,7 @@ class BattleMoveSelection(
         fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
 
             val unselectable = move.disabled
+            val selectConditionOpacity = moveSelection.opacity * if (unselectable) 0.5F else 1F
 
             blitk(
                 matrixStack = matrices,
@@ -87,7 +88,7 @@ class BattleMoveSelection(
                 red = rgb.first,
                 green = rgb.second,
                 blue = rgb.third,
-                alpha = moveSelection.opacity * if (unselectable) 0.3F else 1F
+                alpha = selectConditionOpacity
             )
 
             blitk(
@@ -122,7 +123,7 @@ class BattleMoveSelection(
                 text = moveTemplate.displayName.bold(),
                 x = x + 17,
                 y = y + 2,
-                opacity = moveSelection.opacity,
+                opacity = selectConditionOpacity,
                 shadow = true
             )
 

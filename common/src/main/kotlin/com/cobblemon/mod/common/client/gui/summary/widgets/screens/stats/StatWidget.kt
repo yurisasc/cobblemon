@@ -56,6 +56,7 @@ class StatWidget(
         private const val RED = 0x00FB5454
 
         private val statsBaseResource = cobblemonResource("ui/summary/summary_stats_chart_base.png")
+        private val statsChartResource = cobblemonResource("ui/summary/summary_stats_chart.png")
         private val statsOtherBaseResource = cobblemonResource("ui/summary/summary_stats_other_base.png")
         private val friendshipOverlayResource = cobblemonResource("ui/summary/summary_stats_friendship_overlay.png")
         private val tabMarkerResource = cobblemonResource("ui/summary/summary_stats_tab_marker.png")
@@ -78,7 +79,7 @@ class StatWidget(
 
     var statTabIndex = tabIndex
 
-    fun drawTriangle(
+    private fun drawTriangle(
         colour: Vec3f,
         v1: Vec2f,
         v2: Vec2f,
@@ -86,20 +87,20 @@ class StatWidget(
     ) {
         CobblemonResources.WHITE.let { RenderSystem.setShaderTexture(0, it) }
         RenderSystem.setShaderColor(colour.x, colour.y, colour.z, 0.6F)
-        val bufferbuilder = Tessellator.getInstance().buffer
-        bufferbuilder.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION)
-        bufferbuilder.vertex(v1.x.toDouble(), v1.y.toDouble(), 10.0).next()
-        bufferbuilder.vertex(v2.x.toDouble(), v2.y.toDouble(), 10.0).next()
-        bufferbuilder.vertex(v3.x.toDouble(), v3.y.toDouble(), 10.0).next()
-        BufferRenderer.drawWithShader(bufferbuilder.end())
+        val bufferBuilder = Tessellator.getInstance().buffer
+        bufferBuilder.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION)
+        bufferBuilder.vertex(v1.x.toDouble(), v1.y.toDouble(), 10.0).next()
+        bufferBuilder.vertex(v2.x.toDouble(), v2.y.toDouble(), 10.0).next()
+        bufferBuilder.vertex(v3.x.toDouble(), v3.y.toDouble(), 10.0).next()
+        BufferRenderer.drawWithShader(bufferBuilder.end())
     }
 
-    fun drawStatHexagon(stats: Map<Stat, Int>, colour: Vec3f, maximum: Int) {
+    private fun drawStatHexagon(stats: Map<Stat, Int>, colour: Vec3f, maximum: Int) {
         val hexLeftX = x + 25.5
-        val hexTopY = y + 23.75
-        val hexAttackY = hexTopY + 24.75
-        val hexDefenceY = hexAttackY + 43.0
-        val hexBottomY = hexDefenceY + 24.75
+        val hexTopY = y + 22
+        val hexAttackY = hexTopY + 24.5
+        val hexDefenceY = hexAttackY + 47.0
+        val hexBottomY = hexDefenceY + 24.5
         val hexRightX = x + 108.5
         val hexCenterX = (hexLeftX + hexRightX) / 2
         val hexCenterY = (hexTopY + hexBottomY) / 2
@@ -110,8 +111,8 @@ class StatWidget(
         val hpRatio = (stats.getOrDefault(Stats.HP, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
         val atkRatio = (stats.getOrDefault(Stats.ATTACK, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
         val defRatio = (stats.getOrDefault(Stats.DEFENCE, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val spatkRatio = (stats.getOrDefault(Stats.SPECIAL_ATTACK, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
-        val spdefRatio = (stats.getOrDefault(Stats.SPECIAL_DEFENCE, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
+        val spAtkRatio = (stats.getOrDefault(Stats.SPECIAL_ATTACK, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
+        val spDefRatio = (stats.getOrDefault(Stats.SPECIAL_DEFENCE, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
         val spdRatio = (stats.getOrDefault(Stats.SPEED, 0).toFloat() / maximum).coerceIn(0.075F, 1F)
 
         val hpPoint = Vec2f(
@@ -130,13 +131,13 @@ class StatWidget(
         )
 
         val specialAttackPoint = Vec2f(
-            hexCenterX.toFloat() - spatkRatio * triangleWidth,
-            hexCenterY.toFloat() - spatkRatio * triangleHeight / 2
+            hexCenterX.toFloat() - spAtkRatio * triangleWidth,
+            hexCenterY.toFloat() - spAtkRatio * triangleHeight / 2
         )
 
         val specialDefencePoint = Vec2f(
-            hexCenterX.toFloat() - spdefRatio * triangleWidth,
-            hexCenterY.toFloat() + spdefRatio * triangleHeight / 2
+            hexCenterX.toFloat() - spDefRatio * triangleWidth,
+            hexCenterY.toFloat() + spDefRatio * triangleHeight / 2
         )
 
         val speedPoint = Vec2f(
@@ -168,14 +169,30 @@ class StatWidget(
 
 
     override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
+        val renderChart = statTabIndex != OTHER
+
+        // Background
         blitk(
             matrixStack = pMatrixStack,
-            texture = if (statTabIndex != OTHER) statsBaseResource else statsOtherBaseResource,
+            texture = if (renderChart) statsBaseResource else statsOtherBaseResource,
             x= x,
             y = y,
             width = width,
             height = height
         )
+
+        // Chart
+        if (renderChart) {
+            blitk(
+                matrixStack = pMatrixStack,
+                texture = statsChartResource,
+                x= (x + 25.5) / SCALE,
+                y = (y + 22) / SCALE,
+                width = 166,
+                height = 192,
+                scale = SCALE
+            )
+        }
 
         when (statTabIndex) {
             STATS -> drawStatHexagon(
@@ -267,7 +284,7 @@ class StatWidget(
             scale = SCALE,
         )
 
-        if (statTabIndex != OTHER) {
+        if (renderChart) {
             // Stat Labels
             renderTextAtVertices(
                 pMatrixStack = pMatrixStack,
@@ -378,12 +395,12 @@ class StatWidget(
             var posY = y.toDouble()
 
             when(stat) {
-                Stats.HP -> { posX += 65; posY += 5.5 }
+                Stats.HP -> { posX += 65; posY += 6 }
                 Stats.SPECIAL_ATTACK -> { posX += 10; posY += 38 }
                 Stats.ATTACK -> { posX += 120; posY += 38 }
                 Stats.SPECIAL_DEFENCE -> { posX += 10; posY += 89 }
                 Stats.DEFENCE -> { posX += 120; posY += 89 }
-                Stats.SPEED -> { posX += 65; posY += 118.5 }
+                Stats.SPEED -> { posX += 65; posY += 120 }
             }
 
             blitk(
@@ -421,7 +438,7 @@ class StatWidget(
             matrixStack = pMatrixStack,
             text = hp,
             x = x + 67,
-            y = y + 10 + offsetY,
+            y = y + 10.5 + offsetY,
             scale = SCALE,
             colour = getModifiedStatColour(Stats.HP, enableColour),
             centered = true
@@ -471,7 +488,7 @@ class StatWidget(
             matrixStack = pMatrixStack,
             text = speed,
             x = x + 67,
-            y = y + 123 + offsetY,
+            y = y + 124.5 + offsetY,
             scale = SCALE,
             colour = getModifiedStatColour(Stats.SPEED, enableColour),
             centered = true
