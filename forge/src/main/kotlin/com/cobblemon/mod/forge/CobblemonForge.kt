@@ -9,7 +9,6 @@
 package com.cobblemon.mod.forge
 
 import com.cobblemon.mod.common.*
-import com.cobblemon.mod.common.CobblemonEntities.POKEMON_TYPE
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
@@ -34,7 +33,7 @@ class CobblemonForge : CobblemonImplementation {
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
 
-            CobblemonEvents.ENTITY_ATTRIBUTE.pipe(filter { it.entityType == POKEMON_TYPE }, takeFirst())
+            CobblemonEvents.ENTITY_ATTRIBUTE.pipe(filter { it.entityType == CobblemonEntities.POKEMON.get() }, takeFirst())
                 .subscribe {
                     it.attributeSupplier
                         .add(ForgeMod.ENTITY_GRAVITY.get())

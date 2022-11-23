@@ -16,7 +16,8 @@ import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.battle.ActiveClientBattlePokemon
 import com.cobblemon.mod.common.client.battle.ClientBallDisplay
-import com.cobblemon.mod.common.client.keybind.currentKey
+import com.cobblemon.mod.common.client.gui.battle.widgets.BattleMessagePane
+import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.PartySendBinding
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.getDepletableRedGreen
@@ -35,9 +36,11 @@ import com.cobblemon.mod.common.util.lang
 import com.mojang.blaze3d.systems.RenderSystem
 import java.lang.Double.max
 import java.lang.Double.min
+import java.util.UUID
 import kotlin.math.roundToInt
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.hud.InGameHud
+import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.render.DiffuseLighting
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
@@ -77,6 +80,9 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         get() = (opacity - MIN_OPACITY) / (MAX_OPACITY - MIN_OPACITY)
     var passedSeconds = 0F
 
+    var lastKnownBattle: UUID? = null
+    lateinit var messagePane: BattleMessagePane
+
     override fun render(matrices: MatrixStack, tickDelta: Float) {
         passedSeconds += tickDelta / 20
         if (passedSeconds > 100) {
@@ -100,12 +106,23 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             val textOpacity = PROMPT_TEXT_OPACITY_CURVE(passedSeconds)
             drawScaledText(
                 matrixStack = matrices,
-                text = battleLang("ui.actions_label", PartySendBinding.currentKey().localizedText),
+                text = battleLang("ui.actions_label", PartySendBinding.boundKey().localizedText),
                 x = MinecraftClient.getInstance().window.scaledWidth / 2,
-                y = (MinecraftClient.getInstance().window.scaledHeight / 2) - 25,
+                y = MinecraftClient.getInstance().window.scaledHeight / 5,
                 opacity = textOpacity,
                 centered = true
             )
+        }
+
+        val currentScreen = MinecraftClient.getInstance().currentScreen
+
+        if (currentScreen == null || currentScreen is ChatScreen) {
+            if (lastKnownBattle != battle.battleId) {
+                lastKnownBattle = battle.battleId
+                messagePane = BattleMessagePane(CobblemonClient.battle!!.messages)
+            }
+            messagePane.opacity = 0.3F
+            messagePane.render(matrices, 0, 0, 0F)
         }
     }
 

@@ -10,6 +10,15 @@
     {
       "aspects": ["female"],
       "model": "cobblemon:bedrock/models/0019_rattata/rattata_female.geo.json"
+    },
+    {
+      "aspects": ["alolan"],
+      "model": "cobblemon:bedrock/models/0019_rattata/rattata_alolan.geo.json",
+      "texture": "cobblemon:textures/pokemon/0019_rattata/rattata_alolan.png"
+    },
+    {
+      "aspects": ["alolan", "shiny"],
+      "texture": "cobblemon:textures/pokemon/0019_rattata/rattata_alolan_shiny.png"
     }
   ]
 }

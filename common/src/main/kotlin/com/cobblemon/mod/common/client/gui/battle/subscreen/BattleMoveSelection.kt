@@ -50,7 +50,7 @@ class BattleMoveSelection(
     }
 
     val moveSet = request.moveSet!!
-    val moveTiles = moveSet.moves.filterNot { it.disabled }.mapIndexed { index, inBattleMove ->
+    val moveTiles = moveSet.moves.mapIndexed { index, inBattleMove ->
         val isEven = index % 2 == 0
         val x = if (isEven) this.x.toFloat() else this.x + MOVE_HORIZONTAL_SPACING + MOVE_WIDTH
         val y = if (index > 1) this.y + MOVE_HEIGHT + MOVE_VERTICAL_SPACING else this.y.toFloat()
@@ -69,6 +69,10 @@ class BattleMoveSelection(
         val rgb = moveTemplate.elementalType.hue.toRGB()
 
         fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
+
+            val unselectable = move.disabled
+            val opacity = moveSelection.opacity * if (unselectable) 0.3F else 1F
+
             blitk(
                 matrixStack = matrices,
                 texture = moveTexture,
@@ -76,12 +80,12 @@ class BattleMoveSelection(
                 y = y,
                 width = MOVE_WIDTH,
                 height = MOVE_HEIGHT,
-                vOffset = if (isHovered(mouseX.toDouble(), mouseY.toDouble())) MOVE_HEIGHT else 0,
+                vOffset = if (!unselectable && isHovered(mouseX.toDouble(), mouseY.toDouble())) MOVE_HEIGHT else 0,
                 textureHeight = MOVE_HEIGHT * 2,
                 red = rgb.first,
                 green = rgb.second,
                 blue = rgb.third,
-                alpha = moveSelection.opacity
+                alpha = opacity
             )
 
             blitk(
@@ -91,7 +95,7 @@ class BattleMoveSelection(
                 y = y,
                 width = MOVE_WIDTH,
                 height = MOVE_HEIGHT,
-                alpha = moveSelection.opacity
+                alpha = opacity
             )
 
             blitk(
@@ -103,7 +107,7 @@ class BattleMoveSelection(
                 width = TYPE_ICON_DIAMETER,
                 uOffset = TYPE_ICON_DIAMETER * moveTemplate.elementalType.textureXMultiplier.toFloat() + 0.1,
                 textureWidth = TYPE_ICON_DIAMETER * 18,
-                alpha = moveSelection.opacity,
+                alpha = opacity,
                 scale = 0.5F
             )
 
@@ -118,6 +122,7 @@ class BattleMoveSelection(
                 height = categoryHeight,
                 vOffset = categoryHeight * moveTemplate.damageCategory.textureXMultiplier,
                 textureHeight = categoryHeight * 3,
+                alpha = opacity,
                 scale = 0.5F
             )
 
@@ -127,7 +132,7 @@ class BattleMoveSelection(
                 text = moveTemplate.displayName.bold(),
                 x = x + 17,
                 y = y + 2,
-                opacity = moveSelection.opacity,
+                opacity = opacity,
                 shadow = true
             )
 
@@ -147,7 +152,7 @@ class BattleMoveSelection(
                 text = movePPText,
                 x = x + 75,
                 y = y + 14,
-                opacity = moveSelection.opacity,
+                opacity = opacity,
                 centered = true
             )
         }
@@ -155,6 +160,9 @@ class BattleMoveSelection(
         fun isHovered(mouseX: Double, mouseY: Double) = mouseX >= x && mouseX <= x + MOVE_WIDTH && mouseY >= y && mouseY <= y + MOVE_HEIGHT
 
         fun onClick() {
+            if (move.disabled) {
+                return
+            }
             moveSelection.playDownSound(MinecraftClient.getInstance().soundManager)
             val targets = move.target.targetList(moveSelection.request.activePokemon)
             if (targets == null) {

@@ -1,6 +1,6 @@
 {
     "id": "0020-raticate",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -16,6 +16,50 @@
                 "canSeeSky": true,
                 "biomes": [
                     "#cobblemon:is_grassland"
+                ],
+                "timeRange": "night"
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_spooky"
+                ]
+            }
+        },
+        {
+            "id": "raticate-alolan-1",
+            "pokemon": "raticate alolan",
+            "presets": [
+                "underground"
+            ],
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "20-41",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": false,
+                "biomes": [
+                    "#cobblemon:is_overworld"
+                ]
+            },
+            "anticondition": {
+                "biomes": [
+                    "#cobblemon:is_abyss"
+                ]
+            }
+        },
+        {
+            "id": "raticate-alolan-2",
+            "pokemon": "raticate alolan",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "common",
+            "level": "20-41",
+            "weight": 1.0,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_spooky"
                 ],
                 "timeRange": "night"
             }

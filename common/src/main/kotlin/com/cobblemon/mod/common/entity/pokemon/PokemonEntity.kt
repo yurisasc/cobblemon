@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.entity.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
@@ -73,7 +74,7 @@ import net.minecraft.world.World
 class PokemonEntity(
     world: World,
     pokemon: Pokemon = Pokemon(),
-    type: EntityType<out PokemonEntity> = com.cobblemon.mod.common.CobblemonEntities.POKEMON_TYPE,
+    type: EntityType<out PokemonEntity> = CobblemonEntities.POKEMON.get(),
 ) : TameableShoulderEntity(type, world), EntitySpawnExtension, Poseable {
     val removalObservable = SimpleObservable<RemovalReason?>()
     /** A list of observable subscriptions related to this entity that need to be cleaned up when the entity is removed. */
@@ -286,6 +287,7 @@ class PokemonEntity(
     }
 
     public override fun initGoals() {
+        // It is capable of being null in specific cases, dw about it
         if (pokemon != null) {
             moveControl = PokemonMoveControl(this)
             navigation = PokemonNavigation(world, this)

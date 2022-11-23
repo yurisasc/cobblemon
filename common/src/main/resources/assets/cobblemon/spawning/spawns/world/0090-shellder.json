@@ -1,6 +1,6 @@
 {
     "id": "0090-shellder",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -14,7 +14,7 @@
             "context": "seafloor",
             "bucket": "common",
             "level": "12-30",
-            "weight": 10.0,
+            "weight": 9.9,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

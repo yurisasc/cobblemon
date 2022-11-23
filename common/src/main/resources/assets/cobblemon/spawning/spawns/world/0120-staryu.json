@@ -1,6 +1,6 @@
 {
     "id": "0120-staryu",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -11,7 +11,7 @@
             "context": "grounded",
             "bucket": "uncommon",
             "level": "12-34",
-            "weight": 10.0,
+            "weight": 9.9,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
@@ -30,7 +30,7 @@
             "context": "seafloor",
             "bucket": "uncommon",
             "level": "12-34",
-            "weight": 6.0,
+            "weight": 5.94,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [
