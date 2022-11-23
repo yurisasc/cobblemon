@@ -1,6 +1,6 @@
 {
     "id": "0117-seadra",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -14,7 +14,7 @@
             "context": "submerged",
             "bucket": "uncommon",
             "level": "32-44",
-            "weight": 1.0,
+            "weight": 0.9,
             "condition": {
                 "canSeeSky": true,
                 "biomes": [

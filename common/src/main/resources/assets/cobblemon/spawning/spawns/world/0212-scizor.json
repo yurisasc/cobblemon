@@ -1,0 +1,24 @@
+{
+    "id": "0212-scizor",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "scizor-1",
+            "pokemon": "scizor",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "50",
+            "weight": 0.02,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_jungle"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}

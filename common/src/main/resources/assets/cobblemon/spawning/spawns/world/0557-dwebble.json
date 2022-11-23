@@ -1,6 +1,6 @@
 {
     "id": "0557-dwebble",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -10,7 +10,7 @@
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
-            "level": "8-33",
+            "level": "8-32",
             "weight": 9.0,
             "condition": {
                 "biomes": [

@@ -1,6 +1,6 @@
 {
     "id": "0550-basculin",
-    "version": "1",
+    "version": "2",
     "neededInstalledMods": [],
     "neededUninstalledMods": [],
     "spawns": [
@@ -15,7 +15,7 @@
             "context": "submerged",
             "bucket": "common",
             "level": "4-46",
-            "weight": 10.0,
+            "weight": 5.0,
             "condition": {
                 "canSeeSky": true
             }
@@ -31,7 +31,7 @@
             "context": "submerged",
             "bucket": "common",
             "level": "4-46",
-            "weight": 10.0,
+            "weight": 5.0,
             "condition": {
                 "canSeeSky": true
             }

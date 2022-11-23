@@ -1,0 +1,24 @@
+{
+    "id": "0031-nidoqueen",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "nidoqueen-1",
+            "pokemon": "nidoqueen",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "37-50",
+            "weight": 0.1,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_savanna"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}

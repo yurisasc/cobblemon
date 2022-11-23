@@ -1,0 +1,24 @@
+{
+    "id": "0107-hitmonchan",
+    "version": "1",
+    "neededInstalledMods": [],
+    "neededUninstalledMods": [],
+    "spawns": [
+        {
+            "id": "hitmonchan-1",
+            "pokemon": "hitmonchan",
+            "type": "pokemon",
+            "context": "grounded",
+            "bucket": "uncommon",
+            "level": "20-45",
+            "weight": 0.02,
+            "condition": {
+                "canSeeSky": true,
+                "biomes": [
+                    "#cobblemon:is_hills"
+                ],
+                "timeRange": "day"
+            }
+        }
+    ]
+}
