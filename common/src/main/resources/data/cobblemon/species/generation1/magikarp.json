@@ -27,13 +27,15 @@
     ],
     "behaviour": {
         "moving": {
+            "walk": {
+                "avoidsLand": true
+            },
             "swim": {
+                "swimSpeed": 0.1,
                 "canSwimInWater": true,
 				"canBreatheUnderwater": true
             },
-			"fly": {
-                "canFly": true
-            }
+            "wanderChance": 1
         }
     },
     "drops": {
@@ -75,8 +77,8 @@
     ],
     "baseScale": 1.0,
     "hitbox": {
-        "width": 1.0,
-        "height": 1.0,
+        "width": 1,
+        "height": 1,
         "fixed": false
     },
     "baseFriendship": 50,

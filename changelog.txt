@@ -1,3 +1,13 @@
+Additions:
+- Pokémon like Magikarp desperately move to water if they're on land.
+
+Changes:
+- Significantly improved AI pathing for larger entities.
+- Water Pokémon properly swim around instead of sinking to the bottom.
+
 Fixes:
-- Fixed resource pack support for Pokémon models and forms
+- Fixed resource pack support for Pokémon models and textures.
 - Fixed shinies and form variations not displaying in the party or PC.
+- Fixed Pokémon sometimes running in place. It's still possible, but much less likely.
+- Fixed messages appearing in the console whenever a healer is used.
+

@@ -19,6 +19,7 @@ import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.util.playSoundServer
 import java.util.Optional
 import net.minecraft.entity.Entity
+import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.damage.DamageSource
 import net.minecraft.server.network.ServerPlayerEntity
@@ -29,8 +30,29 @@ class PokemonServerDelegate : PokemonSideDelegate {
     lateinit var entity: PokemonEntity
     var acknowledgedHPStat = -1
     override fun changePokemon(pokemon: Pokemon) {
+        updatePathfindingPenalties(pokemon)
         entity.initGoals()
         updateMaxHealth()
+    }
+
+    fun updatePathfindingPenalties(pokemon: Pokemon) {
+        val moving = pokemon.form.behaviour.moving
+        entity.setPathfindingPenalty(PathNodeType.LAVA, if (moving.swim.canSwimInLava) 12F else -1F)
+        entity.setPathfindingPenalty(PathNodeType.WATER, if (moving.swim.canSwimInWater) 12F else -1F)
+        entity.setPathfindingPenalty(PathNodeType.WATER_BORDER, if (moving.swim.canSwimInWater) 6F else -1F)
+        if (moving.swim.canBreatheUnderwater) {
+            entity.setPathfindingPenalty(PathNodeType.WATER, if (moving.walk.avoidsLand) 0F else 4F)
+        }
+        if (moving.swim.canBreatheUnderlava) {
+            entity.setPathfindingPenalty(PathNodeType.LAVA, if (moving.swim.canSwimInLava) 4F else -1F)
+        }
+        if (moving.walk.avoidsLand) {
+            entity.setPathfindingPenalty(PathNodeType.WALKABLE, 12F)
+        }
+
+        if (moving.walk.canWalk && moving.fly.canFly) {
+            entity.setPathfindingPenalty(PathNodeType.WALKABLE, 0F)
+        }
     }
 
     fun updateMaxHealth() {
