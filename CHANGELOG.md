@@ -1,16 +1,20 @@
 # Changelog
 
-## Unreleased
+## 1.1.0 - The Swim and Sleep Update
+#### "Each sold separately"
+
 
 ### Additions
 - Added a new GUI for viewing party information, rearranging moves, and evolving Pokémon. It looks unreasonably good
-- Added status condition indicators for party sidebar
+- Starter Pokémon will sleep on top of you if sent out when you get on a bed.
+- Added sleeping animations (used in battle and in the wild) for starters, Weedle family, and the Caterpie family.
 - Added Alolan Rattata and Alolan Raticate. Now where would you find them...?
-- Pokémon like Magikarp desperately move to water if they're on land
+- Added swimming animations and swimming AI.
+- Pokémon like Magikarp desperately move to water if they're on land.
+- Added status condition indicators in the party overlay.
 
 ### Changes
 - Significantly improved AI pathing for larger entities
-- Water Pokémon properly swim around instead of sinking to the bottom
 - Changed the starter menu and summary menu keybinds to `M` by default
 - `/givepokemon random`, `/spawnpokemon random`, and `/spawnallpokemon` will now only choose implemented Pokémon
 
@@ -37,6 +41,6 @@
     - Moves that are disabled or out of PP now show transparently in the battle GUI instead of being hidden completely
     - The battle message box now displays even when the battle GUI is minimised
     - Moved the `R` prompt in battle to be higher on the screen, so that it's not as obstructive
-
+    - Statuses like sleep and frozen no longer last forever if it was carried over from a previous battle.
 ## 1.0.0 (2022-11-12)
 - Initial release

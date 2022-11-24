@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.entity.pokemon.ai
 
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.pokemon.PokemonBehaviourFlag
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
@@ -29,8 +30,11 @@ class PokemonMoveControl(val pokemonEntity: PokemonEntity) : MoveControl(pokemon
     companion object {
         const val VERY_CLOSE = 2.500000277905201E-3
     }
+
     override fun tick() {
-        if (pokemonEntity.getBehaviourFlag(PokemonBehaviourFlag.SLEEPING) || pokemonEntity.isDead) {
+        if (pokemonEntity.pokemon.status?.status == Statuses.SLEEP || pokemonEntity.isDead) {
+            pokemonEntity.movementSpeed = 0F
+            pokemonEntity.upwardSpeed = 0F
             return
         }
         val behaviour = pokemonEntity.behaviour

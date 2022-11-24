@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.entity.pokemon
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.entity.PokemonSideDelegate
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -29,6 +30,7 @@ import net.minecraft.server.world.ServerWorld
 class PokemonServerDelegate : PokemonSideDelegate {
     lateinit var entity: PokemonEntity
     var acknowledgedHPStat = -1
+
     override fun changePokemon(pokemon: Pokemon) {
         updatePathfindingPenalties(pokemon)
         entity.initGoals()
@@ -137,7 +139,7 @@ class PokemonServerDelegate : PokemonSideDelegate {
     }
 
     fun updatePoseType() {
-        val isSleeping = entity.getBehaviourFlag(PokemonBehaviourFlag.SLEEPING)
+        val isSleeping = entity.pokemon.status?.status == Statuses.SLEEP && entity.behaviour.resting.canSleep
         val isMoving = entity.isMoving.get()
         val isUnderwater = entity.getIsSubmerged()
         val isFlying = entity.getBehaviourFlag(PokemonBehaviourFlag.FLYING)
