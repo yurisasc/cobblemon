@@ -99,7 +99,7 @@ open class PlayerPartyStore(
 
                 // Statuses
                 val status = pokemon.status
-                if (status != null) {
+                if (status != null && !player.isSleeping) {
                     if (status.isExpired()) {
                         status.status.onStatusExpire(player, pokemon, random)
                         pokemon.status = null

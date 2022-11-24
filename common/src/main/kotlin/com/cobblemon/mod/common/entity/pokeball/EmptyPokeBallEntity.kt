@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.scheduling.taskBuilder
 import com.cobblemon.mod.common.api.text.red
@@ -283,6 +284,10 @@ class EmptyPokeBallEntity(
         pokemon.setPosition(pos)
         pokemon.beamModeEmitter.set(1)
         pokemon.isInvisible = false
+
+        if (pokemon.battleId.get().isEmpty) {
+            pokemon.pokemon.status?.takeIf { it.status == Statuses.SLEEP }?.let { pokemon.pokemon.status = null }
+        }
 
         afterOnMain(seconds = 0.25F) {
             pokemon.busyLocks.remove(this)

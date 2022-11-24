@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon.showdown
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.DataKeys
 import com.google.gson.GsonBuilder
@@ -62,6 +63,12 @@ object BattleRegistry {
             packedTeamBuilder.append("${pk.currentHealth}|")
             val showdownStatus = if (pk.status != null) pk.status!!.status.showdownName else ""
             packedTeamBuilder.append("$showdownStatus|")
+            // If a temporary status is on the Pokémon, provide a duration.
+            if (pk.status?.status in listOf(Statuses.SLEEP, Statuses.FROZEN)) {
+                packedTeamBuilder.append("2|")
+            } else {
+                packedTeamBuilder.append("-1|")
+            }
 
             // Held item, empty if non TODO: Replace with actual held item
             packedTeamBuilder.append("|")
