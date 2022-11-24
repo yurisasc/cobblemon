@@ -28,7 +28,8 @@
 - Fixed being unable to customize keybinds on Forge
 - Fixed Summary keybinding being labeled as PokéNav
 - Fixed Pokémon sometimes running in place. It's still possible, but much less likely
-- Fixed messages appearing in the console whenever a healer is used
+- Fixed messages appearing in the console whenever a healer is used.
+- Fixed mod incompatibility with many Architectury API mods, including *Biome Makeover* and *Earth2Java*.
 - **Model Fixes**
     - Fixed Paras and Nidoqueen looking very weird
     - Fixed Hitmonchan asserting dominance with a T-pose as well as Grimer and Muk pointing their hands to the sky
