@@ -30,6 +30,7 @@
 - Fixed Summary keybinding being labeled as PokéNav
 - Fixed Pokémon sometimes running in place. It's still possible, but much less likely
 - Fixed messages appearing in the console whenever a healer is used
+- Fixed Apricorns spawning without leaves
 - **Model Fixes**
     - Fixed Paras and Nidoqueen looking very weird
     - Fixed Hitmonchan asserting dominance with a T-pose as well as Grimer and Muk pointing their hands to the sky
