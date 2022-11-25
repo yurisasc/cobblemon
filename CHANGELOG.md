@@ -1,7 +1,7 @@
 # Changelog
 
 ## 1.1.0 - The Swim and Sleep Update
-#### "Each sold separately"
+#### "Ideally not at the same time."
 
 
 ### Additions
@@ -42,5 +42,8 @@
     - The battle message box now displays even when the battle GUI is minimised
     - Moved the `R` prompt in battle to be higher on the screen, so that it's not as obstructive
     - Statuses like sleep and frozen no longer last forever if it was carried over from a previous battle.
+
+### Localization
+- Added species, ability, and move translations for ko_ko, jp_jp, fr_fr, es_es, it_it, and zh_cn. 
 ## 1.0.0 (2022-11-12)
 - Initial release
