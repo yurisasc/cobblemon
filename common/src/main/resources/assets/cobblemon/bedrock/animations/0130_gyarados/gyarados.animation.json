@@ -168,28 +168,7 @@
 					"rotation": [30, 0, 0]
 				},
 				"segment6": {
-					"rotation": [30, 0, 0]
-				},
-				"segment7": {
-					"rotation": [15, 0, 0]
-				},
-				"segment8": {
-					"rotation": [15, 0, 0]
-				},
-				"segment9": {
-					"rotation": [-30, 0, 0]
-				},
-				"segment10": {
-					"rotation": [-25, 0, 0]
-				},
-				"segment11": {
-					"rotation": [-20, 0, 0]
-				},
-				"segment12": {
-					"rotation": [30, 0, 0]
-				},
-				"segment13": {
-					"rotation": [25, 0, 0]
+					"rotation": [27.5, 0, 0]
 				}
 			}
 		}

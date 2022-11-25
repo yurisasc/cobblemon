@@ -16,6 +16,7 @@
         "special_defence": 70,
         "speed": 95
     },
+    "features": ["season"],
     "catchRate": 75,
     "maleRatio": 0.5,
     "shoulderMountable": false,
@@ -100,10 +101,10 @@
     ],
     "preEvolution": "deerling",
     "evolutions": [],
-    "baseScale": 1.0,
+    "baseScale": 1.05,
     "hitbox": {
         "width": 1.0,
-        "height": 1.0,
+        "height": 1.9,
         "fixed": false
     },
     "baseFriendship": 70,

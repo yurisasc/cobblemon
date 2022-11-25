@@ -10,6 +10,7 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.api.Priority
+import com.cobblemon.mod.common.api.SeasonResolver
 import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.drop.CommandDropEntry
 import com.cobblemon.mod.common.api.drop.DropEntry
@@ -81,13 +82,17 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.aspects.FishStripesAspect
 import com.cobblemon.mod.common.pokemon.aspects.GENDER_ASPECT
 import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
+import com.cobblemon.mod.common.pokemon.aspects.SeasonAspect
 import com.cobblemon.mod.common.pokemon.aspects.SnakePatternAspect
 import com.cobblemon.mod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
+import com.cobblemon.mod.common.pokemon.feature.TagSeasonResolver
 import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
 import com.cobblemon.mod.common.pokemon.feature.FISH_STRIPES
 import com.cobblemon.mod.common.pokemon.feature.FishStripesFeature
+import com.cobblemon.mod.common.pokemon.feature.SEASON
 import com.cobblemon.mod.common.pokemon.feature.SNAKE_PATTERN
+import com.cobblemon.mod.common.pokemon.feature.SeasonFeature
 import com.cobblemon.mod.common.pokemon.feature.SnakePatternFeature
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
@@ -150,6 +155,7 @@ object Cobblemon {
     val dataProvider: DataProvider = CobblemonDataProvider
     var permissionValidator: PermissionValidator by Delegates.observable(LaxPermissionValidator().also { it.initialize() }) { _, _, newValue -> newValue.initialize() }
     var statProvider: StatProvider = CobblemonStatProvider
+    var seasonResolver: SeasonResolver = TagSeasonResolver
 
     fun preinitialize(implementation: CobblemonImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
@@ -221,6 +227,7 @@ object Cobblemon {
         GENDER_ASPECT.register()
         SnakePatternAspect.register()
         FishStripesAspect.register()
+        SeasonAspect.register()
 
         config.flagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
         config.globalFlagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
@@ -231,6 +238,7 @@ object Cobblemon {
         SpeciesFeature.registerGlobalFeature(DamageTakenFeature.ID) { DamageTakenFeature() }
         SpeciesFeature.registerGlobalFeature(BattleCriticalHitsFeature.ID) { BattleCriticalHitsFeature() }
         EnumSpeciesFeature.registerWithProperty(SNAKE_PATTERN, SnakePatternFeature::class.java)
+        EnumSpeciesFeature.registerWithProperty(SEASON, SeasonFeature::class.java)
         EnumSpeciesFeature.registerWithProperty(FISH_STRIPES, FishStripesFeature::class.java)
 
         CustomPokemonProperty.register(UntradeableProperty)

@@ -1,0 +1,11 @@
+{
+  "poser": "cobblemon:pyukumuku",
+  "model": "cobblemon:bedrock/models/0771_pyukumuku/pyukumuku.geo.json",
+  "texture": "cobblemon:textures/pokemon/0771_pyukumuku/pyukumuku.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "cobblemon:textures/pokemon/0771_pyukumuku/pyukumuku_shiny.png"
+    }
+  ]
+}
