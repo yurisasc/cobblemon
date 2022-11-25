@@ -9,9 +9,11 @@
 - Starter Pokémon will sleep on top of you if sent out when you get on a bed.
 - Added sleeping animations (used in battle and in the wild) for starters, Weedle family, and the Caterpie family.
 - Added Alolan Rattata and Alolan Raticate. Now where would you find them...?
+- Added Sableye, Deerling and Sawsbuck, and Pyukumukurutudulu or whatever it's called.
 - Added swimming animations and swimming AI.
 - Pokémon like Magikarp desperately move to water if they're on land.
 - Added status condition indicators in the party overlay.
+- Added shiny textures for many Pokémon (thank you MageFX!): Aerodactyl, Articuno, Zapdos, Moltres, Chansey, the Dratini family, Electabuzz, Goldeen and Seaking, Hitmonchan and Hitmonlee, Jynx, Kabuto and Kabutops, Magmar, Lickitung, Mr. Mime, Omanyte and Omastar, Rhyhorn and Rhydon, Koffing and Weezing, Porygon, Scyther, Seadra, Staryu and Starmie, and Tangela. Phew!
 - Added new advancements.
 
 ### Changes
@@ -29,6 +31,9 @@
 - Fixed being unable to customize keybinds on Forge
 - Fixed Summary keybinding being labeled as PokéNav
 - Fixed Pokémon sometimes running in place. It's still possible, but much less likely
+- Fixed messages appearing in the console whenever a healer is used.
+- Fixed mod incompatibility with many Architectury API mods, including *Biome Makeover* and *Earth2Java*.
+- Fixed a mod incompatibility with Minecraft Transit Rails Fabric and probably a bunch of other Fabric mods.
 - Fixed messages appearing in the console whenever a healer is used
 - Fixed Apricorns spawning without leaves
 - **Model Fixes**

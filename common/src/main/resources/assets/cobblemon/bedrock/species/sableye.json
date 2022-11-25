@@ -1,0 +1,11 @@
+{
+  "poser": "cobblemon:sableye",
+  "model": "cobblemon:bedrock/models/0302_sableye/sableye.geo.json",
+  "texture": "cobblemon:textures/pokemon/0302_sableye/sableye.png",
+  "variations": [
+    {
+      "aspects": ["shiny"],
+      "texture": "cobblemon:textures/pokemon/0302_sableye/sableye_shiny.png"
+    }
+  ]
+}
