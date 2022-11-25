@@ -18,6 +18,7 @@
     },
     "behaviour": {
         "moving": {
+            "canLook": false,
             "walk": {
                 "avoidsLand": true
             },

@@ -193,6 +193,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.Min
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.MudkipModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.PlusleModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.RayquazaModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.SableyeModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.SwampertModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.TorchicModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.BibarelModel
@@ -219,9 +220,11 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.Tan
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.YanmegaModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.BasculinModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.CrustleModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.DeerlingModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.DwebbleModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.EmolgaModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.MaractusModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.SawsbuckModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.SylveonModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.BounsweetModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.DartrixModel
@@ -231,6 +234,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.Lit
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.MimikyuModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.NaganadelModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.PoipoleModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.PyukumukuModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.RowletModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.SteeneeModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.TorracatModel
@@ -249,8 +253,6 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.endsWith
 import java.io.File
 import java.nio.charset.StandardCharsets
-import kotlin.io.path.Path
-import kotlin.io.path.pathString
 import net.minecraft.client.model.ModelPart
 import net.minecraft.resource.ResourceManager
 import net.minecraft.util.Identifier
@@ -495,6 +497,10 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("centiskorch", ::CentiskorchModel)
         inbuilt("sizzlipede", ::SizzlipedeModel)
         inbuilt("kleavor", ::KleavorModel)
+        inbuilt("pyukumuku", ::PyukumukuModel)
+        inbuilt("deerling", ::DeerlingModel)
+        inbuilt("sawsbuck", ::SawsbuckModel)
+        inbuilt("sableye", ::SableyeModel)
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {

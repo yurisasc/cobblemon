@@ -36,7 +36,7 @@
                 "canWalk": false
             },
             "swim": {
-                "canSwim": false
+                "canSwimInWater": false
             },
             "canLook": false
         }
