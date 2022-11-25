@@ -1,6 +1,6 @@
 # Changelog
 ## 1.1.0 - The Swim and Sleep Update
-#### "Each sold separately"
+#### "Ideally not at the same time."
 
 
 ### Additions
@@ -13,6 +13,7 @@
 - Pokémon like Magikarp desperately move to water if they're on land.
 - Added status condition indicators in the party overlay.
 - Added shiny textures for many Pokémon (thank you MageFX!): Aerodactyl, Articuno, Zapdos, Moltres, Chansey, the Dratini family, Electabuzz, Goldeen and Seaking, Hitmonchan and Hitmonlee, Jynx, Kabuto and Kabutops, Magmar, Lickitung, Mr. Mime, Omanyte and Omastar, Rhyhorn and Rhydon, Koffing and Weezing, Porygon, Scyther, Seadra, Staryu and Starmie, and Tangela. Phew!
+- Added new advancements.
 
 ### Changes
 - Significantly improved AI pathing for larger entities
@@ -45,5 +46,8 @@
     - The battle message box now displays even when the battle GUI is minimised
     - Moved the `R` prompt in battle to be higher on the screen, so that it's not as obstructive
     - Statuses like sleep and frozen no longer last forever if it was carried over from a previous battle.
+
+### Localization
+- Added species, ability, and move translations for ko_ko, jp_jp, fr_fr, es_es, it_it, and zh_cn. 
 ## 1.0.0 (2022-11-12)
 - Initial release
