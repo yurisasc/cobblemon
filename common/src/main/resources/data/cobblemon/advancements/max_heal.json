@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "cobblemon:healing_machine"
+    },
+    "title": {
+      "translate": "advancements.cobblemon.max_heal"
+    },
+    "description": {
+      "translate": "advancements.cobblemon.max_heal.description"
+    },
+    "frame": "goal"
+  },
+  "parent": "cobblemon:full_heal",
+  "criteria": {
+    "use_healing_machine": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": {
+          "block": {
+            "blocks": ["cobblemon:healing_machine"],
+			"nbt": "{MachineCharge:6.0f}"
+          }
+        }
+      }
+    }
+  },
+	"requirements": [
+		[
+			"use_healing_machine"
+		]
+	]
+}

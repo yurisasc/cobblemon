@@ -12,6 +12,7 @@
 - Added swimming animations and swimming AI.
 - Pokémon like Magikarp desperately move to water if they're on land.
 - Added status condition indicators in the party overlay.
+- Added new advancements.
 
 ### Changes
 - Significantly improved AI pathing for larger entities
