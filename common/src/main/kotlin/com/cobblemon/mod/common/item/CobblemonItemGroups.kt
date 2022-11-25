@@ -17,5 +17,6 @@ import net.minecraft.item.ItemStack
 object CobblemonItemGroups {
     val POKE_BALL_GROUP: ItemGroup = create(cobblemonResource("pokeball")) { ItemStack(CobblemonItems.POKE_BALL.get()) }
     val EVOLUTION_ITEM_GROUP: ItemGroup = create(cobblemonResource("evolution_item")) { ItemStack(CobblemonItems.BLACK_AUGURITE.get()) }
+    val PLANTS: ItemGroup = create(cobblemonResource("plants")) { ItemStack(CobblemonItems.PECHA_BERRY.get()) }
     val MEDICINE_ITEM_GROUP: ItemGroup = create(cobblemonResource("medicine")) { ItemStack(CobblemonItems.RARE_CANDY.get()) }
 }

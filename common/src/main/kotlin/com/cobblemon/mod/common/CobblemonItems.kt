@@ -9,10 +9,7 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
-import com.cobblemon.mod.common.item.ApricornItem
-import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.CobblemonItemGroups
-import com.cobblemon.mod.common.item.PokeBallItem
+import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.pokeball.PokeBall
@@ -111,6 +108,9 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val UPGRADE = queue("upgrade") { evolutionItem() }
     val DUBIOUS_DISC = queue("dubious_disc") { evolutionItem() }
 
+    // Plants
+    val PECHA_BERRY = berryItem("pecha_berry")
+
     // Medicine
     val RARE_CANDY = queue("rare_candy") { CandyItem { _, pokemon -> pokemon.getExperienceToNextLevel() } }
     val EXPERIENCE_CANDY_XS = queue("exp_candy_xs") { CandyItem { _, _ -> CandyItem.DEFAULT_XS_CANDY_YIELD } }
@@ -166,6 +166,10 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
 
     private fun evolutionItem(): CobblemonItem {
         return CobblemonItem(Item.Settings().group(CobblemonItemGroups.EVOLUTION_ITEM_GROUP))
+    }
+
+    private fun berryItem(name: String): RegistrySupplier<BerryItem> {
+        return this.queue(name) { BerryItem(name) }
     }
 
     private fun pokeballItem(pokeBall: PokeBall): RegistrySupplier<PokeBallItem> {
