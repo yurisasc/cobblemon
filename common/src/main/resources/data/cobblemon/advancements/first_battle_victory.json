@@ -1,5 +1,4 @@
 {
-  "parent": "cobblemon:root",
   "display": {
     "icon": {
       "item": "cobblemon:rare_candy"
@@ -10,10 +9,8 @@
     "description": {
       "translate": "advancements.cobblemon.first_battle_victory.description"
     },
-    "frame": "task",
-	"show_toast": true,
-	"announce_to_chat": true,
-	"hidden": true
+  "parent": "cobblemon:root",
+    "frame": "task"
   },
   "criteria": {
     "catch": {
@@ -22,10 +19,5 @@
         "count": 1
       }
     }
-  },
-	"requirements": [
-		[
-			"catch"
-		]
-	]
+  }
 }
