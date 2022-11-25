@@ -1,4 +1,5 @@
 # Changelog
+
 ## 1.1.0 - The Swim and Sleep Update
 #### "Ideally not at the same time."
 
@@ -6,7 +7,7 @@
 ### Additions
 - Added a new GUI for viewing party information, rearranging moves, and evolving Pokémon. It looks unreasonably good
 - Starter Pokémon will sleep on top of you if sent out when you get on a bed.
-- Added sleeping animations (used in battle and in the wild) for starters, the Weedle family, and the Caterpie family.
+- Added sleeping animations (used in battle and in the wild) for starters, Weedle family, and the Caterpie family.
 - Added Alolan Rattata and Alolan Raticate. Now where would you find them...?
 - Added Sableye, Deerling and Sawsbuck, and Pyukumukurutudulu or whatever it's called.
 - Added swimming animations and swimming AI.
@@ -33,6 +34,8 @@
 - Fixed messages appearing in the console whenever a healer is used.
 - Fixed mod incompatibility with many Architectury API mods, including *Biome Makeover* and *Earth2Java*.
 - Fixed a mod incompatibility with Minecraft Transit Rails Fabric and probably a bunch of other Fabric mods.
+- Fixed messages appearing in the console whenever a healer is used
+- Fixed Apricorns spawning without leaves
 - **Model Fixes**
     - Fixed Paras and Nidoqueen looking very weird
     - Fixed Hitmonchan asserting dominance with a T-pose as well as Grimer and Muk pointing their hands to the sky
