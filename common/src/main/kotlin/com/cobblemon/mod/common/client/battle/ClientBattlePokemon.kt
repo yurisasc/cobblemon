@@ -23,6 +23,8 @@ class ClientBattlePokemon(
     var displayName: MutableText,
     var properties: PokemonProperties,
     var hpRatio: Float,
+    var health: Int,
+    var maxHealth: Int,
     var status: PersistentStatus?,
     var statChanges: MutableMap<Stat, Int>
 ) {

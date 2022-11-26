@@ -61,7 +61,9 @@ object BattleInitializeHandler : ClientPacketHandler<BattleInitializePacket> {
                         uuid = it.uuid,
                         properties = it.properties,
                         displayName = it.displayName,
-                        hpRatio = it.hpRatio,
+                        hpRatio = (it.health.toFloat() / it.maxHealth.toFloat()),
+                        health = it.health,
+                        maxHealth = it.maxHealth,
                         status = it.status,
                         statChanges = it.statChanges,
                     )

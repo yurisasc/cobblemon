@@ -165,6 +165,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             gender = battlePokemon.gender,
             status = battlePokemon.status,
             hpRatio = battlePokemon.hpRatio,
+            health = battlePokemon.health,
+            maxHealth = battlePokemon.maxHealth,
             state = battlePokemon.state,
             colour = Triple(r, g, b),
             opacity = opacity.toFloat(),
@@ -184,6 +186,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         gender: Gender,
         status: PersistentStatus?,
         hpRatio: Float,
+        health: Int,
+        maxHealth: Int,
         state: PoseableEntityState<PokemonEntity>?,
         colour: Triple<Float, Float, Float>?,
         opacity: Float,
@@ -352,9 +356,20 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             green = healthGreen * 0.8F,
             blue = 0.27F
         )
+
+        drawScaledText(
+            matrixStack = matrices,
+            text = "$health/$maxHealth".text(),
+            x = infoBoxX + (if (!reversed) 39.5 else 44.5),
+            y = y + 22,
+            scale = 0.5F,
+            opacity = opacity,
+            centered = true,
+            shadow = true
+        )
     }
 
-    fun drawPokeBall(
+    private fun drawPokeBall(
         state: ClientBallDisplay,
         matrixStack: MatrixStack,
         scale: Float = 6F,

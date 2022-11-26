@@ -12,15 +12,19 @@
 - Added swimming animations and swimming AI.
 - Aquatic Pokémon like Magikarp desperately move to water if they're on land.
 - Added status condition indicators in the party overlay.
+- Added HP labels to the battle interface.
 - Added spawn data for all final and special evolutions previously lacking spawn data.
 - Added shiny textures for many Pokémon (thank you MageFX!): Aerodactyl, Articuno, Zapdos, Moltres, Chansey, the Dratini family, Electabuzz, Goldeen and Seaking, Hitmonchan and Hitmonlee, Jynx, Kabuto and Kabutops, Magmar, Lickitung, Mr. Mime, Omanyte and Omastar, Rhyhorn and Rhydon, Koffing and Weezing, Porygon, Scyther, Seadra, Staryu and Starmie, and Tangela. Phew!
 - Added new advancements.
+- Added Calcium, Carbos, HP Up, Iron, Protein, and Zinc.
 
 ### Changes
-- Significantly improved AI pathing for larger entities
-- Changed the starter menu and summary menu keybinds to `M` by default
-- `/givepokemon random`, `/spawnpokemon random`, and `/spawnallpokemon` will now only choose implemented Pokémon
+- Significantly improved AI pathing for larger entities.
+- Changed the starter menu and summary menu keybinds to `M` by default.
+- `/givepokemon random`, `/spawnpokemon random`, and `/spawnallpokemon` will now only choose implemented Pokémon.
 - Pokémon that are sent out slowly raise friendship. Before this it was faster and even worked when not sent out which was very unbalanced.
+- Changed the Poké Ball opening sound.
+- Changed the Pokémon item use sound.
 
 ### Fixes
 - Fixed resource pack support for Pokémon models and textures.

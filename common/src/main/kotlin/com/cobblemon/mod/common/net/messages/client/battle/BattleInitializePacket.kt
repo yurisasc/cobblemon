@@ -133,7 +133,8 @@ class BattleInitializePacket() : NetworkPacket {
         val displayName: MutableText,
         val properties: PokemonProperties,
         val status: PersistentStatus?,
-        val hpRatio: Float,
+        val health: Int,
+        val maxHealth: Int,
         val statChanges: MutableMap<Stat, Int>
     ) {
         companion object {
@@ -148,7 +149,8 @@ class BattleInitializePacket() : NetworkPacket {
                         PokemonPropertyExtractor.ASPECTS
                     ),
                     status = status?.status,
-                    hpRatio = battlePokemon.health / battlePokemon.maxHealth.toFloat(),
+                    health = battlePokemon.health,
+                    maxHealth = battlePokemon.maxHealth,
                     statChanges = battlePokemon.statChanges
                 )
             }
@@ -162,7 +164,8 @@ class BattleInitializePacket() : NetworkPacket {
                 } else {
                     null
                 }
-                val hpRatio = buffer.readFloat()
+                val health = buffer.readInt()
+                val maxHealth = buffer.readInt()
                 val statChanges = mutableMapOf<Stat, Int>()
                 buffer.readMapK(size = IntSize.U_BYTE, statChanges) {
                     val stat = Cobblemon.statProvider.decode(buffer)
@@ -174,7 +177,8 @@ class BattleInitializePacket() : NetworkPacket {
                     displayName = pokemonDisplayName,
                     properties = properties,
                     status = status,
-                    hpRatio = hpRatio,
+                    health = health,
+                    maxHealth = maxHealth,
                     statChanges = statChanges
                 )
             }
@@ -186,7 +190,8 @@ class BattleInitializePacket() : NetworkPacket {
             buffer.writeString(properties.asString())
             buffer.writeBoolean(status != null)
             status?.let { buffer.writeString(it.name.toString()) }
-            buffer.writeFloat(hpRatio)
+            buffer.writeInt(health)
+            buffer.writeInt(maxHealth)
             buffer.writeMapK(IntSize.U_BYTE, statChanges) { (stat, stages) ->
                 Cobblemon.statProvider.encode(buffer, stat)
                 buffer.writeSizedInt(IntSize.BYTE, stages)
