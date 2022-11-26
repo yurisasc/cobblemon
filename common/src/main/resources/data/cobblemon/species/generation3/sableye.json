@@ -157,6 +157,24 @@
     "eggGroups": [
         "human_like"
     ],
+	"drops": {
+        "amount": "3",
+        "entries": [
+            {
+                "item": "minecraft:amethyst_shard",
+				"quantityRange": "1-2",
+                "percentage": 66
+            },
+            {
+                "item": "minecraft:diamond",
+                "percentage": 5
+            },
+            {
+                "item": "minecraft:emerald",
+                "percentage": 5
+            }
+        ]
+    },
     "moves": [
         "1:scratch",
         "1:leer",
