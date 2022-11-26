@@ -20,6 +20,7 @@
 - Significantly improved AI pathing for larger entities
 - Changed the starter menu and summary menu keybinds to `M` by default
 - `/givepokemon random`, `/spawnpokemon random`, and `/spawnallpokemon` will now only choose implemented Pokémon
+- Pokémon that are sent out slowly raise friendship. Before this it was faster and even worked when not sent out which was very unbalanced.
 
 ### Fixes
 - Fixed resource pack support for Pokémon models and textures
