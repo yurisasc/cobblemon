@@ -25,7 +25,7 @@ import net.minecraft.world.WorldAccess
  */
 enum class CobblemonSeason {
     SPRING,
-    FALL,
+    AUTUMN,
     SUMMER,
     WINTER;
 
@@ -42,7 +42,7 @@ class SeasonFeature : EnumSpeciesFeature<CobblemonSeason>() {
     fun update(pokemon: Pokemon, world: WorldAccess, pos: BlockPos) {
         val currentSeason = enumValue
         val newSeason = Cobblemon.seasonResolver(world, pos)
-        if (currentSeason != newSeason) {
+        if (currentSeason != newSeason && newSeason != null) {
             enumValue = newSeason
             pokemon.updateAspects()
             pokemon.markFeatureDirty(this)
@@ -57,16 +57,18 @@ class SeasonFeature : EnumSpeciesFeature<CobblemonSeason>() {
  * @since November 25th, 2022
  */
 object TagSeasonResolver : SeasonResolver {
-    override fun invoke(world: WorldAccess, pos: BlockPos): CobblemonSeason {
+    override fun invoke(world: WorldAccess, pos: BlockPos): CobblemonSeason? {
         val biome = world.getBiome(pos)
-        return if (biome.isIn(CobblemonBiomeTags.IS_SUMMER)) {
-            CobblemonSeason.SUMMER
-        } else if (biome.isIn(CobblemonBiomeTags.IS_WINTER)) {
+        return if (biome.isIn(CobblemonBiomeTags.IS_WINTER)) {
             CobblemonSeason.WINTER
-        } else if (biome.isIn(CobblemonBiomeTags.IS_FALL)) {
-            CobblemonSeason.FALL
-        } else {
+        } else if (biome.isIn(CobblemonBiomeTags.IS_SPRING)) {
             CobblemonSeason.SPRING
+        } else if (biome.isIn(CobblemonBiomeTags.IS_AUTUMN)) {
+            CobblemonSeason.AUTUMN
+        } else if (biome.isIn(CobblemonBiomeTags.IS_SUMMER)) {
+            CobblemonSeason.SUMMER
+        } else {
+            null
         }
     }
 }

@@ -50,7 +50,7 @@ object CobblemonBiomeTags {
     val IS_UNDERGROUND = create("is_underground")
     val IS_VOID = create("is_void")
     val IS_SUMMER = create("is_summer")
-    val IS_FALL = create("is_fall")
+    val IS_AUTUMN = create("is_fall")
     val IS_WINTER = create("is_winter")
     val IS_SPRING = create("is_spring")
 
