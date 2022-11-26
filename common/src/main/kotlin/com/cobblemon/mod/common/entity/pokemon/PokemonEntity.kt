@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
@@ -290,7 +291,7 @@ class PokemonEntity(
             navigation = PokemonNavigation(world, this)
             goalSelector.clear()
             goalSelector.add(0, object : Goal() {
-                override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1
+                override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP
                 override fun getControls() = EnumSet.allOf(Control::class.java)
             })
 
