@@ -4,8 +4,8 @@
   "texture": "cobblemon:textures/pokemon/0585_deerling/deerling_spring.png",
   "variations": [
     {
-      "aspects": ["fall"],
-      "texture": "cobblemon:textures/pokemon/0585_deerling/deerling_fall.png"
+      "aspects": ["autumn"],
+      "texture": "cobblemon:textures/pokemon/0585_deerling/deerling_autumn.png"
     },
     {
       "aspects": ["summer"],

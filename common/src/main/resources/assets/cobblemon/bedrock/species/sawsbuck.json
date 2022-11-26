@@ -4,9 +4,9 @@
   "texture": "cobblemon:textures/pokemon/0586_sawsbuck/sawsbuck_spring.png",
   "variations": [
     {
-      "aspects": ["fall"],
-      "texture": "cobblemon:textures/pokemon/0586_sawsbuck/sawsbuck_fall.png",
-      "model": "cobblemon:bedrock/models/0586_sawsbuck/sawsbuck_fall.geo.json"
+      "aspects": ["autumn"],
+      "texture": "cobblemon:textures/pokemon/0586_sawsbuck/sawsbuck_autumn.png",
+      "model": "cobblemon:bedrock/models/0586_sawsbuck/sawsbuck_autumn.geo.json"
     },
     {
       "aspects": ["summer"],
