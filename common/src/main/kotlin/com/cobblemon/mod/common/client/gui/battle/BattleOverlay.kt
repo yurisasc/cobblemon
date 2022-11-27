@@ -46,6 +46,7 @@ import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
+import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.Vec3f
 
 class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
@@ -153,6 +154,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val g = ((hue shr 8) and 0b11111111) / 255F
         val b = (hue and 0b11111111) / 255F
 
+        val truePokemon = activeBattlePokemon.actor.pokemon.find { it.uuid == activeBattlePokemon.battlePokemon?.uuid }
+
         drawBattleTile(
             matrices = matrices,
             x = x,
@@ -165,12 +168,11 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             gender = battlePokemon.gender,
             status = battlePokemon.status,
             hpRatio = battlePokemon.hpRatio,
-            health = battlePokemon.health,
-            maxHealth = battlePokemon.maxHealth,
             state = battlePokemon.state,
             colour = Triple(r, g, b),
             opacity = opacity.toFloat(),
-            ballState = activeBattlePokemon.ballCapturing
+            ballState = activeBattlePokemon.ballCapturing,
+            trueHealth = truePokemon?.let { (it.currentHealth * battlePokemon.hpRatio).roundToInt() to (it.hp * battlePokemon.hpRatio).roundToInt() }
         )
     }
 
@@ -186,13 +188,13 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         gender: Gender,
         status: PersistentStatus?,
         hpRatio: Float,
-        health: Int,
-        maxHealth: Int,
         state: PoseableEntityState<PokemonEntity>?,
         colour: Triple<Float, Float, Float>?,
         opacity: Float,
-        ballState: ClientBallDisplay? = null
+        ballState: ClientBallDisplay? = null,
+        trueHealth: Pair<Int, Int>?
     ) {
+
         val mc = MinecraftClient.getInstance()
         fun scaleIt(i: Number): Int {
             return (mc.window.scaleFactor * i.toFloat()).roundToInt()
@@ -357,9 +359,15 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             blue = 0.27F
         )
 
+        val text = if (trueHealth != null) {
+            "${trueHealth.first}/${trueHealth.second}"
+        } else {
+            "${ceil(hpRatio * 100)}%"
+        }.text()
+
         drawScaledText(
             matrixStack = matrices,
-            text = "$health/$maxHealth".text(),
+            text = text,
             x = infoBoxX + (if (!reversed) 39.5 else 44.5),
             y = y + 22,
             scale = 0.5F,

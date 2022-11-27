@@ -16,7 +16,7 @@
 - Added spawn data for all final and special evolutions previously lacking spawn data.
 - Added shiny textures for many Pokémon (thank you MageFX!): Aerodactyl, Articuno, Zapdos, Moltres, Chansey, the Dratini family, Electabuzz, Goldeen and Seaking, Hitmonchan and Hitmonlee, Jynx, Kabuto and Kabutops, Magmar, Lickitung, Mr. Mime, Omanyte and Omastar, Rhyhorn and Rhydon, Koffing and Weezing, Porygon, Scyther, Seadra, Staryu and Starmie, and Tangela. Phew!
 - Added new advancements.
-- Added Calcium, Carbos, HP Up, Iron, Protein, and Zinc.
+- Added Calcium, Carbos, HP Up, Iron, Protein, and Zinc to the creative menu (this is a surprise tool that we'll use later).
 
 ### Changes
 - Significantly improved AI pathing for larger entities.
@@ -25,6 +25,8 @@
 - Pokémon that are sent out slowly raise friendship. Before this it was faster and even worked when not sent out which was very unbalanced.
 - Changed the Poké Ball opening sound.
 - Changed the Pokémon item use sound.
+- The battle message box now displays even when the battle GUI is minimised.
+- Moved the `R` prompt in battle to be higher on the screen, so that it's not as obstructive.
 
 ### Fixes
 - Fixed resource pack support for Pokémon models and textures.
@@ -50,10 +52,9 @@
     - Updated the Substitute model, and updated its shiny texture to be better for the red-green colorblind.
     - Improved Horsea, Seadra, and Kingdra animations.
 - **Battle Fixes**
-    - Added Magnitude battle messages.
+    - Fixed an issue with battles where Pokémon had a different max HP causing some desync issues with the health bars.
+    - Fixed Magnitude battle messages.
     - Moves that are disabled or out of PP now show transparently in the battle GUI instead of being hidden completely.
-    - The battle message box now displays even when the battle GUI is minimised.
-    - Moved the `R` prompt in battle to be higher on the screen, so that it's not as obstructive.
     - Statuses like sleep and frozen no longer last forever if it was carried over from a previous battle.
 
 ### Localization

@@ -25,14 +25,12 @@ class HealthChangeAnimation(val newHealthRatio: Float, val newHealth: Int, val d
         }
 
         if (initialHealth == -1) {
-            initialHealth = pokemon.health
             healthDifference = newHealth - initialHealth
         }
 
         passedSeconds += deltaTicks / 20
         passedSeconds = passedSeconds.coerceAtMost(duration)
         pokemon.hpRatio = initialHealthRatio + (passedSeconds / duration) * ratioDifference
-        pokemon.health = initialHealth + (healthDifference / (duration - passedSeconds)).toInt() // Fix calculations
         return passedSeconds == duration
     }
 }

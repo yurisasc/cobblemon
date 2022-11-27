@@ -34,9 +34,7 @@ object BattleSwitchPokemonHandler : ClientPacketHandler<BattleSwitchPokemonPacke
                         uuid = uuid,
                         displayName = displayName,
                         properties = properties,
-                        hpRatio = (health.toFloat() / maxHealth.toFloat()),
-                        health = health,
-                        maxHealth = maxHealth,
+                        hpRatio = hpRatio,
                         status = status,
                         statChanges = statChanges
                     ).also {
