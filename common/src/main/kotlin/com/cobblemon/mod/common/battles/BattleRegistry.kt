@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon.showdown
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.DataKeys
@@ -89,11 +90,13 @@ object BattleRegistry {
             // Nature
             packedTeamBuilder.append("${pk.nature.name.path}|")
             // EVs
-            packedTeamBuilder.append("${pk.evs.map { ev -> ev.value }.joinToString(",")}|")
+            val evsInOrder = Stats.PERMANENT.map { pk.evs.getOrDefault(it) }.joinToString(separator = ",")
+            packedTeamBuilder.append("$evsInOrder|")
             // Gender
             packedTeamBuilder.append("${pk.gender.showdownName}|")
             // IVs
-            packedTeamBuilder.append("${pk.ivs.map { iv -> iv.value }.joinToString(",")}|")
+            val ivsInOrder = Stats.PERMANENT.map { pk.ivs.getOrDefault(it) }.joinToString(separator = ",")
+            packedTeamBuilder.append("$ivsInOrder|")
             // Shiny
             packedTeamBuilder.append("${if (pk.shiny) "S" else ""}|")
             // Level

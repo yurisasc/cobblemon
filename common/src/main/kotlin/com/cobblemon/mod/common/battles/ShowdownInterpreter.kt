@@ -855,6 +855,7 @@ object ShowdownInterpreter {
 
         battle.dispatch {
             val newHealthRatio: Float
+            val remainingHealth = newHealth.split("/")[0].toInt()
             if (newHealth == "0") {
                 newHealthRatio = 0F
                 battle.dispatch {
@@ -864,7 +865,6 @@ object ShowdownInterpreter {
                 }
             } else {
                 val maxHealth = newHealth.split("/")[1].toInt()
-                val remainingHealth = newHealth.split("/")[0].toInt()
                 val difference = maxHealth - remainingHealth
                 newHealthRatio = remainingHealth.toFloat() / maxHealth
                 battle.dispatch {
@@ -876,7 +876,7 @@ object ShowdownInterpreter {
                     GO
                 }
             }
-            battle.sendUpdate(BattleHealthChangePacket(pnx, newHealthRatio))
+            battle.sendUpdate(BattleHealthChangePacket(pnx, newHealthRatio, remainingHealth))
             if (cause != null) {
                 when (cause) {
                     "confusion" -> battle.broadcastChatMessage(battleLang("confusion_activate", activePokemon.battlePokemon?.getName()!!))

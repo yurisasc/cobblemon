@@ -34,6 +34,19 @@
             }
 		]
 	},
+    "behaviour": {
+        "moving": {
+            "walk": {
+                "walkSpeed": 0.175
+            },
+            "swim": {
+                "swimSpeed": 0.1,
+                "canSwimInWater": false,
+                "canBreatheUnderwater": true
+            },
+            "wanderChance": 360
+        }
+    },
     "moves": [
         "1:harden",
         "1:bide",
