@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.1
+
+### Fixes
+- Fixed a critical issue with servers where Pokémon data didn't properly synchronize and so you couldn't see any.
+
 ## 1.1.0 - The Swim and Sleep Update
 #### "Ideally not at the same time."
 

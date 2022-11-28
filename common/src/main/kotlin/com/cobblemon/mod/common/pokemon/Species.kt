@@ -137,6 +137,7 @@ class Species : ClientDataSynchronizer<Species> {
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeIdentifier(this.resourceIdentifier)
+        buffer.writeBoolean(this.implemented)
         buffer.writeString(this.name)
         buffer.writeInt(this.nationalPokedexNumber)
         buffer.writeMap(this.baseStats,
@@ -159,6 +160,7 @@ class Species : ClientDataSynchronizer<Species> {
     }
 
     override fun decode(buffer: PacketByteBuf) {
+        this.implemented = buffer.readBoolean()
         // identifier is decoded in the sync packet for easier debug log
         this.name = buffer.readString()
         this.nationalPokedexNumber = buffer.readInt()
