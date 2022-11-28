@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.registry.CompletableRegistry
+import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
 import com.cobblemon.mod.common.world.block.entity.HealingMachineBlockEntity
 import com.cobblemon.mod.common.world.block.entity.PCBlockEntity
 import dev.architectury.registry.registries.RegistrySupplier
@@ -21,16 +22,24 @@ object CobblemonBlockEntities : CompletableRegistry<BlockEntityType<*>>(Registry
         return queue(name, blockEntityType)
     }
 
-    val HEALING_MACHINE = com.cobblemon.mod.common.CobblemonBlockEntities.register("healing_machine") {
+    val HEALING_MACHINE = register("healing_machine") {
         BlockEntityType.Builder.create(
             ::HealingMachineBlockEntity,
             CobblemonBlocks.HEALING_MACHINE.get()
         ).build(null)
     }
-    val PC = com.cobblemon.mod.common.CobblemonBlockEntities.register("pc") {
+    val PC = register("pc") {
         BlockEntityType.Builder.create(
             ::PCBlockEntity,
             CobblemonBlocks.PC.get()
         ).build(null)
     }
+
+    val BERRY = register("berry") {
+        BlockEntityType.Builder.create(
+            ::BerryBlockEntity,
+            CobblemonBlocks.BERRY.get()
+        ).build(null)
+    }
+
 }

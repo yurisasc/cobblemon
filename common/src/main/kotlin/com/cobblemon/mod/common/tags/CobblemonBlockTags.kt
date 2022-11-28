@@ -38,6 +38,7 @@ object CobblemonBlockTags {
     val WOODEN_SLABS = createTag("wooden_slabs")
     val WOODEN_STAIRS = createTag("wooden_stairs")
     val DRIPSTONE_GROWABLE = createTag("dripstone_growable")
+    val BERRY_SOIL = createTag("berry_soil")
 
     private fun createTag(name: String) = TagKey.of(Registry.BLOCK_KEY, cobblemonResource(name))
 

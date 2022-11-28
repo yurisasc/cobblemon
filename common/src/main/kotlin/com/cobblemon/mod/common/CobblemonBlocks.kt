@@ -10,10 +10,7 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.registry.CompletableRegistry
-import com.cobblemon.mod.common.world.block.ApricornBlock
-import com.cobblemon.mod.common.world.block.ApricornSaplingBlock
-import com.cobblemon.mod.common.world.block.HealingMachineBlock
-import com.cobblemon.mod.common.world.block.PCBlock
+import com.cobblemon.mod.common.world.block.*
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
@@ -133,6 +130,7 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
 
     val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque()) }
     val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque()) }
+    val BERRY = queue("berry") { BerryBlock(AbstractBlock.Settings.copy(Blocks.WHEAT)) }
 
     private fun registerApricornBlock(id: String, apricorn: Apricorn): RegistrySupplier<ApricornBlock> {
         return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn) }
