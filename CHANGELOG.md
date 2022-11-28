@@ -1,11 +1,11 @@
 # Changelog
 
-## 1.1.1
+## 1.1.1 (November 27th, 2022)
 
 ### Fixes
 - Fixed a critical issue with servers where Pokémon data didn't properly synchronize and so you couldn't see any.
 
-## 1.1.0 - The Swim and Sleep Update
+## 1.1.0 - The Swim and Sleep Update (November 27th, 2022)
 #### "Ideally not at the same time."
 
 
