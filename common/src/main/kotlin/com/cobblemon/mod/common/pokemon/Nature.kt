@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.pokemon
 
-import com.cobblemon.mod.common.api.item.Flavor
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier

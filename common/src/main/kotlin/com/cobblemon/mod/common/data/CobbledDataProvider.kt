@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.data
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.abilities.Abilities
+import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.data.DataProvider
 import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.events.CobblemonEvents
@@ -39,6 +40,7 @@ internal object CobblemonDataProvider : DataProvider {
         this.register(PokemonSpecies)
         this.register(PokeBalls)
         this.register(PropertiesCompletionProvider)
+        this.register(Berries)
 
         CobblemonEvents.PLAYER_QUIT.subscribe { synchronizedPlayerIds.remove(it.uuid) }
     }
