@@ -38,7 +38,7 @@ object CobblemonBlockEntities : CompletableRegistry<BlockEntityType<*>>(Registry
     val BERRY = register("berry") {
         BlockEntityType.Builder.create(
             ::BerryBlockEntity,
-            CobblemonBlocks.BERRY.get()
+            *CobblemonBlocks.berries().map { it.get() }.toTypedArray()
         ).build(null)
     }
 

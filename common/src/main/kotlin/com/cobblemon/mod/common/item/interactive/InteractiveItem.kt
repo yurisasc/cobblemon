@@ -8,9 +8,7 @@
 
 package com.cobblemon.mod.common.item.interactive
 
-import com.cobblemon.mod.common.item.CobblemonItem
 import net.minecraft.entity.Entity
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -18,10 +16,8 @@ import net.minecraft.server.network.ServerPlayerEntity
  * An item that will affect an [Entity].
  *
  * @param T The type of the [Entity] this item will affect.
- *
- * @param properties The [Item.Settings] of this item.
  */
-abstract class InteractiveItem<T : Entity>(properties: Settings) : CobblemonItem(properties) {
+interface InteractiveItem<T : Entity> {
 
     /**
      * Fired when a [ServerPlayerEntity] interacts with the target entity.
@@ -31,6 +27,21 @@ abstract class InteractiveItem<T : Entity>(properties: Settings) : CobblemonItem
      * @param stack The [ItemStack] used in this interaction. [ItemStack.getItem] will always be of the same type as this [InteractiveItem].
      * @return true if the interaction was successful and no further interactions should be processed
      */
-    abstract fun onInteraction(player: ServerPlayerEntity, entity: T, stack: ItemStack): Boolean
+    fun onInteraction(player: ServerPlayerEntity, entity: T, stack: ItemStack): Boolean
+
+    /**
+     * Decreases the stack size by a given amount.
+     * The stack size should be validated beforehand.
+     * If the [player] is in creative mode the decrement won't be performed.
+     *
+     * @param player The [ServerPlayerEntity] that caused the interaction, this is used to check for creative mode.
+     * @param stack The [ItemStack] being mutated.
+     * @param amount The amount to deduct from the stack, default is 1.
+     */
+    fun consumeItem(player: ServerPlayerEntity, stack: ItemStack, amount: Int = 1) {
+        if (!player.isCreative) {
+            stack.decrement(amount)
+        }
+    }
 
 }

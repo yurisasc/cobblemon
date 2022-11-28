@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.registry.CompletableRegistry
+import com.cobblemon.mod.common.world.block.BerryBlock
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.Block
 import net.minecraft.item.AliasedBlockItem
@@ -29,6 +30,7 @@ import net.minecraft.util.registry.Registry
 object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
 
     private val pokeballs = mutableListOf<RegistrySupplier<PokeBallItem>>()
+    private val berries = mutableListOf<RegistrySupplier<BerryItem>>()
 
     val POKE_BALL = pokeballItem(PokeBalls.POKE_BALL)
     val CITRINE_BALL = pokeballItem(PokeBalls.CITRINE_BALL)
@@ -113,7 +115,7 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val DUBIOUS_DISC = queue("dubious_disc") { evolutionItem() }
 
     // Plants
-    val PECHA_BERRY = berryItem(Berries.PECHA)
+    val PECHA_BERRY = berryItem("pecha", CobblemonBlocks.PECHA_BERRY)
 
     // Medicine
     val RARE_CANDY = queue("rare_candy") { CandyItem { _, pokemon -> pokemon.getExperienceToNextLevel() } }
@@ -166,6 +168,8 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
 
     fun pokeballs(): List<RegistrySupplier<PokeBallItem>> = this.pokeballs
 
+    fun berries(): List<RegistrySupplier<BerryItem>> = this.berries
+
     private fun blockItem(block: Block, tab: ItemGroup) : BlockItem {
         return BlockItem(block, Item.Settings().group(tab))
     }
@@ -178,8 +182,10 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
         return CobblemonItem(Item.Settings().group(CobblemonItemGroups.EVOLUTION_ITEM_GROUP))
     }
 
-    private fun berryItem(berry: Berry): RegistrySupplier<BerryItem> {
-        return this.queue("${berry.identifier.path}_berry") { BerryItem(berry) }
+    private fun berryItem(name: String, berry: RegistrySupplier<BerryBlock>): RegistrySupplier<BerryItem> {
+        val supplier = this.queue("${name}_berry") { BerryItem(berry.get()) }
+        this.berries.add(supplier)
+        return supplier
     }
 
     private fun pokeballItem(pokeBall: PokeBall): RegistrySupplier<PokeBallItem> {

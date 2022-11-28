@@ -8,11 +8,13 @@
 
 package com.cobblemon.mod.common.world.block
 
+import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
 import net.minecraft.block.*
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
+import net.minecraft.state.property.IntProperty
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
@@ -21,16 +23,16 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
-class BerryBlock(settings: Settings) : BlockWithEntity(settings), Fertilizable {
+class BerryBlock(val berry: Berry, settings: Settings) : BlockWithEntity(settings), Fertilizable {
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state)
 
-    override fun isFertilizable(world: BlockView?, pos: BlockPos?, state: BlockState?, isClient: Boolean): Boolean {
+    override fun isFertilizable(world: BlockView, pos: BlockPos, state: BlockState, isClient: Boolean): Boolean {
         TODO("Not yet implemented")
     }
 
     override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState): Boolean {
-        TODO("Not yet implemented")
+        return world.isAir(pos.up())
     }
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
@@ -47,7 +49,14 @@ class BerryBlock(settings: Settings) : BlockWithEntity(settings), Fertilizable {
         return if (state.canPlaceAt(world, pos)) super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos) else Blocks.AIR.defaultState
     }
 
-    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>?) {
-        super.appendProperties(builder)
+    override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
+        builder.add(AGE)
+    }
+
+    companion object {
+
+        private const val MAX_AGE = 5
+        val AGE = IntProperty.of("age", 0, MAX_AGE)
+
     }
 }

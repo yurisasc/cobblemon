@@ -15,14 +15,15 @@ import net.minecraft.server.network.ServerPlayerEntity
 
 /**
  * An [InteractiveItem] targeting [PokemonEntity]s.
- *
- * @param accepted The [Ownership] variants for this interaction to fire [PokemonInteractiveItem.processInteraction].
  */
-abstract class PokemonInteractiveItem(properties: Settings, vararg accepted: Ownership) : InteractiveItem<PokemonEntity>(properties) {
+interface PokemonInteractiveItem : InteractiveItem<PokemonEntity> {
 
-    private val accepted = accepted.toSet()
+    /**
+     * The accepted [Ownership] for the Pokémon entity in order for the interaction to fire.
+     */
+    val accepted: Set<Ownership>
 
-    final override fun onInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
+    override fun onInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon
         val storeCoordinates = pokemon.storeCoordinates.get()
         val ownership = when {
@@ -45,22 +46,7 @@ abstract class PokemonInteractiveItem(properties: Settings, vararg accepted: Own
      * @param stack The [ItemStack] used in this interaction. [ItemStack.getItem] will always be of the same type as this [InteractiveItem].
      * @return true if the interaction was successful and no further interactions should be processed.
      */
-    abstract fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean
-
-    /**
-     * Decreases the stack size by a given amount.
-     * The stack size should be validated beforehand.
-     * If the [player] is in creative mode the decrement won't be performed.
-     *
-     * @param player The [ServerPlayerEntity] that caused the interaction, this is used to check for creative mode.
-     * @param stack The [ItemStack] being mutated.
-     * @param amount The amount to deduct from the stack, default is 1.
-     */
-    protected fun consumeItem(player: ServerPlayerEntity, stack: ItemStack, amount: Int = 1) {
-        if (!player.isCreative) {
-            stack.decrement(amount)
-        }
-    }
+    fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean
 
     /**
      * Represents the ownership status of a Pokemon relative to a Player.

@@ -9,6 +9,8 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.apricorn.Apricorn
+import com.cobblemon.mod.common.api.berry.Berries
+import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.registry.CompletableRegistry
 import com.cobblemon.mod.common.world.block.*
 import dev.architectury.registry.registries.RegistrySupplier
@@ -36,10 +38,12 @@ import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.Registry
 
 object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
+
+    private val berries = mutableListOf<RegistrySupplier<BerryBlock>>()
+
     /**
      * Evolution Ores
      */
-
     val DAWN_STONE_ORE = this.evolutionStoneOre("dawn_stone_ore")
     val DUSK_STONE_ORE = this.evolutionStoneOre("dusk_stone_ore")
     val FIRE_STONE_ORE = this.evolutionStoneOre("fire_stone_ore")
@@ -130,10 +134,19 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
 
     val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque()) }
     val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque()) }
-    val BERRY = queue("berry") { BerryBlock(AbstractBlock.Settings.copy(Blocks.WHEAT)) }
+
+    val PECHA_BERRY = this.berryBlock("pecha", Berries.PECHA)
+
+    fun berries() = this.berries.toList()
 
     private fun registerApricornBlock(id: String, apricorn: Apricorn): RegistrySupplier<ApricornBlock> {
         return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn) }
+    }
+
+    private fun berryBlock(name: String, berry: Berry): RegistrySupplier<BerryBlock> {
+        val supplier = queue("${name}_berry") { BerryBlock(berry, AbstractBlock.Settings.copy(Blocks.WHEAT)) }
+        this.berries.add(supplier)
+        return supplier
     }
 
     /**

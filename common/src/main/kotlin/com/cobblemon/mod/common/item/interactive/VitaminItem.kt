@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.item.interactive
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.CobblemonItemGroups
 import com.cobblemon.mod.common.util.asTranslated
 import net.minecraft.client.item.TooltipContext
@@ -18,13 +19,13 @@ import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.world.World
+import java.util.*
 
 class VitaminItem(
     val stat: Stat
-) : PokemonInteractiveItem(Settings().group(CobblemonItemGroups.MEDICINE_ITEM_GROUP), Ownership.OWNER) {
-    companion object {
-        const val EV_YIELD = 10
-    }
+) : PokemonInteractiveItem, CobblemonItem(Settings().group(CobblemonItemGroups.MEDICINE_ITEM_GROUP)) {
+
+    override val accepted: Set<PokemonInteractiveItem.Ownership> = EnumSet.of(PokemonInteractiveItem.Ownership.OWNER)
 
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon
@@ -34,5 +35,9 @@ class VitaminItem(
             return true
         }
         return false
+    }
+
+    companion object {
+        const val EV_YIELD = 10
     }
 }
