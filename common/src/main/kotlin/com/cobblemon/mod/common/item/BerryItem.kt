@@ -1,5 +1,14 @@
+/*
+ * Copyright (C) 2022 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.item
 
+import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.util.tooltipLang
 import net.minecraft.block.ComposterBlock
@@ -8,7 +17,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 import net.minecraft.world.World
 
-class BerryItem(private val name: String) : CobblemonItem(Settings().group(CobblemonItemGroups.PLANTS)) {
+class BerryItem(private val berry: Berry) : CobblemonItem(Settings().group(CobblemonItemGroups.PLANTS)) {
 
     init {
         // 65% to raise composter level
@@ -17,7 +26,7 @@ class BerryItem(private val name: String) : CobblemonItem(Settings().group(Cobbl
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
-        tooltip.add(tooltipLang(this.name).gray())
+        tooltip.add(tooltipLang(this.berry.identifier.namespace, this.berry.identifier.path).gray())
     }
 
 }

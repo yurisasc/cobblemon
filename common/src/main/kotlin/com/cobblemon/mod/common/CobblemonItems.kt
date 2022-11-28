@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common
 
+import com.cobblemon.mod.common.api.berry.Berries
+import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.item.*
@@ -111,7 +113,7 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val DUBIOUS_DISC = queue("dubious_disc") { evolutionItem() }
 
     // Plants
-    val PECHA_BERRY = berryItem("pecha_berry")
+    val PECHA_BERRY = berryItem(Berries.PECHA)
 
     // Medicine
     val RARE_CANDY = queue("rare_candy") { CandyItem { _, pokemon -> pokemon.getExperienceToNextLevel() } }
@@ -176,8 +178,8 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
         return CobblemonItem(Item.Settings().group(CobblemonItemGroups.EVOLUTION_ITEM_GROUP))
     }
 
-    private fun berryItem(name: String): RegistrySupplier<BerryItem> {
-        return this.queue(name) { BerryItem(name) }
+    private fun berryItem(berry: Berry): RegistrySupplier<BerryItem> {
+        return this.queue("${berry.identifier.path}_berry") { BerryItem(berry) }
     }
 
     private fun pokeballItem(pokeBall: PokeBall): RegistrySupplier<PokeBallItem> {
