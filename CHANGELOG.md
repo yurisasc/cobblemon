@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.2
+
+### Fixes
+- Fixed an incompatibility with [Porting Lib](https://github.com/Fabricators-of-Create/Porting-Lib) used by Fabric ports of mods such as Create or Twilight Forest.
+
 ## 1.1.1 (November 27th, 2022)
 
 ### Fixes
