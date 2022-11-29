@@ -6,10 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.item.interactive
+package com.cobblemon.mod.common.api.item
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem.Ownership
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 

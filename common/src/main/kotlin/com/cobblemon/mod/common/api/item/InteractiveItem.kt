@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.item.interactive
+package com.cobblemon.mod.common.api.item
 
 import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack

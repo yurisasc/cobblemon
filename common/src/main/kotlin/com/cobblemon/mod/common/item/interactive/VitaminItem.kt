@@ -8,17 +8,13 @@
 
 package com.cobblemon.mod.common.item.interactive
 
+import com.cobblemon.mod.common.api.item.PokemonInteractiveItem
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
-import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.CobblemonItemGroups
-import com.cobblemon.mod.common.util.asTranslated
-import net.minecraft.client.item.TooltipContext
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.text.Text
-import net.minecraft.world.World
 import java.util.*
 
 class VitaminItem(
