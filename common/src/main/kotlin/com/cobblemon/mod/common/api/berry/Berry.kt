@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.berry
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
+import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import net.minecraft.predicate.NumberRange
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -39,6 +40,7 @@ class Berry(
     val temperatureBonusYield: IntRange,
     val downfallRange: NumberRange.FloatRange,
     val downfallBonusYield: IntRange,
+    val interactions: Collection<PokemonEntityInteraction>,
     private val flavors: Map<Flavor, Int>
 ) {
 

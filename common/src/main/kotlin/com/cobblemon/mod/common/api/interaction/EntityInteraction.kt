@@ -6,25 +6,26 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.item
+package com.cobblemon.mod.common.api.interaction
 
 import net.minecraft.entity.Entity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
- * An item that will affect an [Entity].
+ * An interaction that will affect an [Entity].
+ * These need to be triggered.
  *
- * @param T The type of the [Entity] this item will affect.
+ * @param T The type of the [Entity] this interaction will affect.
  */
-interface InteractiveItem<T : Entity> {
+interface EntityInteraction<T : Entity> {
 
     /**
      * Fired when a [ServerPlayerEntity] interacts with the target entity.
      *
      * @param player The [ServerPlayerEntity] interacting with the [entity].
      * @param entity The [Entity] of type [T] being interacted.
-     * @param stack The [ItemStack] used in this interaction. [ItemStack.getItem] will always be of the same type as this [InteractiveItem].
+     * @param stack The [ItemStack] used in this interaction.
      * @return true if the interaction was successful and no further interactions should be processed
      */
     fun onInteraction(player: ServerPlayerEntity, entity: T, stack: ItemStack): Boolean

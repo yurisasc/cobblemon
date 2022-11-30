@@ -9,8 +9,14 @@
 package com.cobblemon.mod.common.api.berry
 
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
+import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
+import com.cobblemon.mod.common.api.pokemon.status.Status
+import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.pokemon.interaction.HealStatusInteraction
+import com.cobblemon.mod.common.util.adapters.CobblemonPokemonEntityInteractionTypeAdapter
 import com.cobblemon.mod.common.util.adapters.FloatNumberRangeAdapter
+import com.cobblemon.mod.common.util.adapters.StatusAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -19,6 +25,12 @@ import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
+/**
+ * The data registry for [Berry].
+ *
+ * @author Licious
+ * @since November 28th, 2022
+ */
 object Berries : JsonDataRegistry<Berry> {
 
     override val id: Identifier = cobblemonResource("berries")
@@ -29,6 +41,8 @@ object Berries : JsonDataRegistry<Berry> {
         .disableHtmlEscaping()
         .setPrettyPrinting()
         .registerTypeAdapter(NumberRange.FloatRange::class.java, FloatNumberRangeAdapter)
+        .registerTypeAdapter(PokemonEntityInteraction::class.java, CobblemonPokemonEntityInteractionTypeAdapter)
+        .registerTypeAdapter(Status::class.java, StatusAdapter)
         .create()
     override val typeToken: TypeToken<Berry> = TypeToken.get(Berry::class.java)
     override val resourcePath = "berries"
@@ -39,13 +53,13 @@ object Berries : JsonDataRegistry<Berry> {
     val PECHA
         get() = this.byName("pecha")
 
+    init {
+        this.create("pecha", 2..4, 3..3, NumberRange.FloatRange.between(0.8, 1.0), 1..1, NumberRange.FloatRange.between(0.8, 1.0), 1..1, listOf(HealStatusInteraction(listOf(Statuses.POISON, Statuses.POISON_BADLY))), Flavor.SWEET to 10)
+    }
+
     override fun reload(data: Map<Identifier, Berry>) {
         this.custom.clear()
         // ToDo once datapack berries are implemented load them here
-    }
-
-    init {
-        this.create("pecha", 2..4, 3..3, NumberRange.FloatRange.between(0.8, 1.0), 1..1, NumberRange.FloatRange.between(0.8, 1.0), 1..1,Flavor.SWEET to 10)
     }
 
     // There's nothing to sync for clients atm
@@ -61,9 +75,10 @@ object Berries : JsonDataRegistry<Berry> {
         temperatureBonusYield: IntRange,
         downfallRange: NumberRange.FloatRange,
         downfallBonusYield: IntRange,
+        interactions: Collection<PokemonEntityInteraction>,
         vararg flavors: Pair<Flavor, Int>
     ) {
-        val berry = Berry(cobblemonResource(name), baseYield, lifeCycles, temperatureRange, temperatureBonusYield, downfallRange, downfallBonusYield, flavors.toMap())
+        val berry = Berry(cobblemonResource(name), baseYield, lifeCycles, temperatureRange, temperatureBonusYield, downfallRange, downfallBonusYield, interactions, flavors.toMap())
         this.defaults[berry.identifier] = berry
     }
 

@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.item.interactive
 
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
-import com.cobblemon.mod.common.api.item.PokemonInteractiveItem
+import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.pokemon.experience.CandyExperienceSource
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.CobblemonItem
@@ -32,9 +32,9 @@ import java.util.*
  */
 class CandyItem(
     val calculator: Calculator
-) : PokemonInteractiveItem, CobblemonItem(Settings().group(CobblemonItemGroups.MEDICINE_ITEM_GROUP)) {
+) : PokemonEntityInteraction, CobblemonItem(Settings().group(CobblemonItemGroups.MEDICINE_ITEM_GROUP)) {
 
-    override val accepted: Set<PokemonInteractiveItem.Ownership> = EnumSet.of(PokemonInteractiveItem.Ownership.OWNER)
+    override val accepted: Set<PokemonEntityInteraction.Ownership> = EnumSet.of(PokemonEntityInteraction.Ownership.OWNER)
 
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon

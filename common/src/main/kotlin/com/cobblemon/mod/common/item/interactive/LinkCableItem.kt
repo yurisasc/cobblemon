@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.item.interactive
 
-import com.cobblemon.mod.common.api.item.PokemonInteractiveItem
+import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.item.CobblemonItem
 import com.cobblemon.mod.common.item.CobblemonItemGroups
@@ -17,9 +17,9 @@ import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 import java.util.*
 
-class LinkCableItem : PokemonInteractiveItem, CobblemonItem(Settings().group(CobblemonItemGroups.EVOLUTION_ITEM_GROUP)) {
+class LinkCableItem : PokemonEntityInteraction, CobblemonItem(Settings().group(CobblemonItemGroups.EVOLUTION_ITEM_GROUP)) {
 
-    override val accepted: Set<PokemonInteractiveItem.Ownership> = EnumSet.of(PokemonInteractiveItem.Ownership.OWNER)
+    override val accepted: Set<PokemonEntityInteraction.Ownership> = EnumSet.of(PokemonEntityInteraction.Ownership.OWNER)
 
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon

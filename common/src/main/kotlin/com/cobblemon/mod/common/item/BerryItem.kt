@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.api.text.gray
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.api.item.PokemonInteractiveItem
+import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.util.tooltipLang
 import com.cobblemon.mod.common.world.block.BerryBlock
 import net.minecraft.block.ComposterBlock
@@ -22,8 +22,7 @@ import net.minecraft.text.Text
 import net.minecraft.world.World
 import java.util.*
 
-class BerryItem(private val berryBlock: BerryBlock) : AliasedBlockItem(berryBlock, Settings().group(CobblemonItemGroups.PLANTS)),
-    PokemonInteractiveItem {
+class BerryItem(private val berryBlock: BerryBlock) : AliasedBlockItem(berryBlock, Settings().group(CobblemonItemGroups.PLANTS)), PokemonEntityInteraction {
 
     init {
         // 65% to raise composter level
@@ -32,16 +31,13 @@ class BerryItem(private val berryBlock: BerryBlock) : AliasedBlockItem(berryBloc
 
     fun berry() = this.berryBlock.berry
 
-    override val accepted: Set<PokemonInteractiveItem.Ownership> = EnumSet.of(PokemonInteractiveItem.Ownership.OWNER)
+    override val accepted: Set<PokemonEntityInteraction.Ownership> = EnumSet.of(PokemonEntityInteraction.Ownership.OWNER)
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
         tooltip.add(tooltipLang(this.berry().identifier.namespace, this.berry().identifier.path).gray())
     }
 
-    override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
-        // ToDo we need a system to handle interactions on a per berry impl level
-        return false
-    }
+    override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack) = this.berry().interactions.any { it.processInteraction(player, entity, stack) }
 
 }

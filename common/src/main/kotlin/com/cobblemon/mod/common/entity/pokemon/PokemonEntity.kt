@@ -30,7 +30,7 @@ import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
-import com.cobblemon.mod.common.api.item.PokemonInteractiveItem
+import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -443,7 +443,7 @@ class PokemonEntity(
                 }
         }
 
-        (stack.item as? PokemonInteractiveItem)?.let {
+        (stack.item as? PokemonEntityInteraction)?.let {
             if (it.onInteraction(player, this, stack)) {
                 this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
                 return true

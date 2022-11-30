@@ -6,16 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.item
+package com.cobblemon.mod.common.api.interaction
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
- * An [InteractiveItem] targeting [PokemonEntity]s.
+ * An [EntityInteraction] targeting [PokemonEntity]s.
+ * These need to be manually triggered if not implemented by an item.
  */
-interface PokemonInteractiveItem : InteractiveItem<PokemonEntity> {
+interface PokemonEntityInteraction : EntityInteraction<PokemonEntity> {
 
     /**
      * The accepted [Ownership] for the Pokémon entity in order for the interaction to fire.
@@ -38,11 +39,11 @@ interface PokemonInteractiveItem : InteractiveItem<PokemonEntity> {
     }
 
     /**
-     * Fired after [InteractiveItem.onInteraction] the [Ownership] is checked if contained in [accepted].
+     * Fired after [EntityInteraction.onInteraction] the [Ownership] is checked if contained in [accepted].
      *
      * @param player The [ServerPlayerEntity] interacting with the [entity].
      * @param entity The [PokemonEntity] being interacted with.
-     * @param stack The [ItemStack] used in this interaction. [ItemStack.getItem] will always be of the same type as this [InteractiveItem].
+     * @param stack The [ItemStack] used in this interaction.
      * @return true if the interaction was successful and no further interactions should be processed.
      */
     fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean
