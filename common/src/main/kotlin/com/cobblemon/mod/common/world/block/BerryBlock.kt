@@ -27,16 +27,24 @@ class BerryBlock(val berry: Berry, settings: Settings) : BlockWithEntity(setting
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state)
 
-    override fun isFertilizable(world: BlockView, pos: BlockPos, state: BlockState, isClient: Boolean): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun isFertilizable(world: BlockView, pos: BlockPos, state: BlockState, isClient: Boolean) = true
 
-    override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState): Boolean {
-        return world.isAir(pos.up())
+    override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = state.get(AGE) < MAX_AGE
+
+    override fun hasRandomTicks(state: BlockState) = state.get(AGE) < MAX_AGE
+
+    override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
+        // Cocoa block uses a 5 here might as well stay consistent
+        if (world.random.nextInt(5) == 0) {
+            val currentAge = state.get(AGE)
+            if (currentAge < MAX_AGE) {
+                world.setBlockState(pos, state.with(AGE, currentAge + 1), 2)
+            }
+        }
     }
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
-        TODO("Not yet implemented")
+        world.setBlockState(pos, state.with(AGE, state.get(AGE) + 1), 2)
     }
 
     @Deprecated("Deprecated in Java")

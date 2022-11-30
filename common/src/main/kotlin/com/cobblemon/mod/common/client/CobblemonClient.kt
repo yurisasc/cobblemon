@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.net.ClientPacketRegistrar
+import com.cobblemon.mod.common.client.render.block.BerryBlockRenderer
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
@@ -86,6 +87,7 @@ object CobblemonClient {
         PokeBallModelRepository.init()
 
         BlockEntityRendererRegistry.register(CobblemonBlockEntities.HEALING_MACHINE.get(), ::HealingMachineRenderer)
+        BlockEntityRendererRegistry.register(CobblemonBlockEntities.BERRY.get(), ::BerryBlockRenderer)
 
         registerBlockRenderTypes()
         registerColors()
@@ -119,7 +121,9 @@ object CobblemonClient {
             CobblemonBlocks.RED_APRICORN.get(),
             CobblemonBlocks.WHITE_APRICORN.get(),
             CobblemonBlocks.YELLOW_APRICORN.get(),
-            CobblemonBlocks.HEALING_MACHINE.get())
+            CobblemonBlocks.HEALING_MACHINE.get(),
+            *CobblemonBlocks.berries().map { it.get() }.toTypedArray()
+        )
     }
 
     fun beforeChatRender(matrixStack: MatrixStack, partialDeltaTicks: Float) {
