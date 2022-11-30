@@ -35,7 +35,7 @@ class BerryItem(private val berryBlock: BerryBlock) : AliasedBlockItem(berryBloc
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
-        tooltip.add(tooltipLang(this.berry().identifier.namespace, this.berry().identifier.path).gray())
+        tooltip.add(tooltipLang(this.berry().identifier.namespace, "${this.berry().identifier.path}_berry").gray())
     }
 
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack) = this.berry().interactions.any { it.processInteraction(player, entity, stack) }
