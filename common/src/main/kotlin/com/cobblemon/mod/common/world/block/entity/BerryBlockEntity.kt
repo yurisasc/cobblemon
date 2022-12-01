@@ -19,7 +19,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
 
     fun berryBlock() = this.cachedState.block as BerryBlock
 
-    fun berry() = this.berryBlock().berry
+    fun berry() = this.berryBlock().berry()
 
     override fun readNbt(nbt: NbtCompound?) {
         super.readNbt(nbt)

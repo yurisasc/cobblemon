@@ -12,6 +12,7 @@ import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.registry.CompletableRegistry
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.world.block.*
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.AbstractBlock
@@ -136,7 +137,7 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque()) }
     val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque()) }
 
-    val PECHA_BERRY = this.berryBlock("pecha", Berries.PECHA)
+    val PECHA_BERRY = this.berryBlock("pecha")
 
     fun berries() = this.berries.toList()
 
@@ -144,8 +145,9 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
         return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn) }
     }
 
-    private fun berryBlock(name: String, berry: Berry, vararg berryPositions: Pair<VoxelShape, VoxelShape>): RegistrySupplier<BerryBlock> {
-        val supplier = queue("${name}_berry") { BerryBlock(berry, AbstractBlock.Settings.copy(Blocks.WHEAT)) }
+    private fun berryBlock(name: String): RegistrySupplier<BerryBlock> {
+        val identifier = cobblemonResource("${name}_berry")
+        val supplier = queue(identifier.path) { BerryBlock(identifier, AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().sounds(BlockSoundGroup.CROP)) }
         this.berries.add(supplier)
         return supplier
     }

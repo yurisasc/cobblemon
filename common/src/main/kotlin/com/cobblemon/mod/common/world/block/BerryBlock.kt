@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.world.block
 
+import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
@@ -15,6 +16,7 @@ import net.minecraft.block.*
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
@@ -23,7 +25,9 @@ import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
 import net.minecraft.world.WorldView
 
-class BerryBlock(val berry: Berry, settings: Settings) : BlockWithEntity(settings), Fertilizable {
+class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : BlockWithEntity(settings), Fertilizable {
+
+    fun berry(): Berry? = Berries.getByIdentifier(this.berryIdentifier)
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state)
 

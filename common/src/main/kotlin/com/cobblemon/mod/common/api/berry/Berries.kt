@@ -8,16 +8,12 @@
 
 package com.cobblemon.mod.common.api.berry
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.pokemon.status.Status
-import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.berry.CobblemonBerry
-import com.cobblemon.mod.common.pokemon.interaction.HealStatusInteraction
-import com.cobblemon.mod.common.util.adapters.CobblemonPokemonEntityInteractionTypeAdapter
-import com.cobblemon.mod.common.util.adapters.FloatNumberRangeAdapter
-import com.cobblemon.mod.common.util.adapters.StatusAdapter
+import com.cobblemon.mod.common.util.adapters.*
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -25,6 +21,8 @@ import net.minecraft.predicate.NumberRange
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
+import net.minecraft.util.math.Box
+import net.minecraft.util.math.Vec3d
 
 /**
  * The data registry for [Berry].
@@ -44,62 +42,52 @@ object Berries : JsonDataRegistry<Berry> {
         .registerTypeAdapter(NumberRange.FloatRange::class.java, FloatNumberRangeAdapter)
         .registerTypeAdapter(PokemonEntityInteraction::class.java, CobblemonPokemonEntityInteractionTypeAdapter)
         .registerTypeAdapter(Status::class.java, StatusAdapter)
+        .registerTypeAdapter(Box::class.java, BoxAdapter)
+        .registerTypeAdapter(Vec3d::class.java, VerboseVec3dAdapter)
+        .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .create()
     override val typeToken: TypeToken<Berry> = TypeToken.get(Berry::class.java)
     override val resourcePath = "berries"
 
-    private val defaults = hashMapOf<Identifier, Berry>()
-    private val custom = hashMapOf<Identifier, Berry>()
+    private val berries = hashMapOf<Identifier, Berry>()
 
     val PECHA
-        get() = this.byName("pecha")
-
-    init {
-        this.create("pecha", 2..4, 3..3, NumberRange.FloatRange.between(0.8, 1.0), 1..1, NumberRange.FloatRange.between(0.8, 1.0), 1..1,
-            listOf(HealStatusInteraction(listOf(Statuses.POISON, Statuses.POISON_BADLY))),
-            arrayOf(
-                Triple(4.5, 10.5, 7.5),
-                Triple(10.6, 12.4, 4.0),
-                Triple(13.0, 14.4, 9.6),
-                Triple(5.0, 16.4, 12.6),
-                Triple(5.0, 23.7, 10.6),
-                Triple(12.0, 24.7, 11.0),
-                Triple(10.5, 20.7, 4.0),
-                Triple(4.0, 20.7, 5.5)
-            ),
-            Flavor.SWEET to 10
-        )
-    }
+        get() = this.getByName("pecha")
 
     override fun reload(data: Map<Identifier, Berry>) {
-        this.custom.clear()
-        // ToDo once datapack berries are implemented load them here
+        this.berries.clear()
+        data.forEach { (identifier, berry) ->
+            try {
+                berry.identifier = identifier
+                berry.validate()
+                this.berries[identifier] = berry
+            } catch (e: Exception) {
+                Cobblemon.LOGGER.error("Skipped loading the {} berry", identifier, e)
+            }
+        }
+        this.observable.emit(this)
     }
 
-    // There's nothing to sync for clients atm
-    override fun sync(player: ServerPlayerEntity) {}
-
-    fun all() = this.defaults.filterKeys { !this.custom.containsKey(it) }.values + this.custom.values
-
-    private fun create(
-        name: String,
-        baseYield: IntRange,
-        lifeCycles: IntRange,
-        temperatureRange: NumberRange.FloatRange,
-        temperatureBonusYield: IntRange,
-        downfallRange: NumberRange.FloatRange,
-        downfallBonusYield: IntRange,
-        interactions: Collection<PokemonEntityInteraction>,
-        anchorPoints: Array<Triple<Double, Double, Double>>,
-        vararg flavors: Pair<Flavor, Int>
-    ) {
-        val berry = CobblemonBerry(cobblemonResource(name), baseYield, lifeCycles, temperatureRange, temperatureBonusYield, downfallRange, downfallBonusYield, interactions, anchorPoints, flavors.toMap())
-        this.defaults[berry.identifier] = berry
+    override fun sync(player: ServerPlayerEntity) {
+        // ToDo sync clients
     }
 
-    private fun byName(name: String): Berry {
-        val identifier = cobblemonResource(name)
-        return this.custom[identifier] ?: this.defaults[identifier]!!
-    }
+    fun all() = this.berries.values.toList()
+
+    /**
+     * Gets a berry if loaded.
+     *
+     * @param identifier The identifier of the berry.
+     * @return The [Berry] if loaded otherwise null.
+     */
+    fun getByIdentifier(identifier: Identifier): Berry? = this.berries[identifier]
+
+    /**
+     * Gets a berry if loaded.
+     *
+     * @param name The path of the identifier of the berry under the [Cobblemon.MODID] namespace.
+     * @return The [Berry] if loaded otherwise null.
+     */
+    fun getByName(name: String): Berry? = this.getByIdentifier(cobblemonResource(name))
 
 }

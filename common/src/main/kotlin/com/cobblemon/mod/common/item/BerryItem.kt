@@ -29,15 +29,15 @@ class BerryItem(private val berryBlock: BerryBlock) : AliasedBlockItem(berryBloc
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE[this] = .65F
     }
 
-    fun berry() = this.berryBlock.berry
+    fun berry() = this.berryBlock.berry()
 
     override val accepted: Set<PokemonEntityInteraction.Ownership> = EnumSet.of(PokemonEntityInteraction.Ownership.OWNER)
 
     override fun appendTooltip(stack: ItemStack, world: World?, tooltip: MutableList<Text>, context: TooltipContext) {
         super.appendTooltip(stack, world, tooltip, context)
-        tooltip.add(tooltipLang(this.berry().identifier.namespace, "${this.berry().identifier.path}_berry").gray())
+        this.berry()?.let { berry -> tooltip.add(tooltipLang(berry.identifier.namespace, berry.identifier.path).gray()) }
     }
 
-    override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack) = this.berry().interactions.any { it.processInteraction(player, entity, stack) }
+    override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack) = this.berry()?.interactions?.any { it.processInteraction(player, entity, stack) } ?: false
 
 }
