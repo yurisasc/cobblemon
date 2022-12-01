@@ -27,14 +27,14 @@ class BerryBlock(val berry: Berry, settings: Settings) : BlockWithEntity(setting
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state)
 
-    override fun isFertilizable(world: BlockView, pos: BlockPos, state: BlockState, isClient: Boolean) = true
+    override fun isFertilizable(world: BlockView, pos: BlockPos, state: BlockState, isClient: Boolean) = !this.isMaxAge(state)
 
-    override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = state.get(AGE) < MAX_AGE
+    override fun canGrow(world: World, random: Random, pos: BlockPos, state: BlockState) = !this.isMaxAge(state)
 
-    override fun hasRandomTicks(state: BlockState) = state.get(AGE) < MAX_AGE
+    override fun hasRandomTicks(state: BlockState) = !this.isMaxAge(state)
 
+    @Deprecated("Deprecated in Java")
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        // Cocoa block uses a 5 here might as well stay consistent
         if (world.random.nextInt(5) == 0) {
             val currentAge = state.get(AGE)
             if (currentAge < MAX_AGE) {
@@ -60,6 +60,8 @@ class BerryBlock(val berry: Berry, settings: Settings) : BlockWithEntity(setting
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(AGE)
     }
+
+    private fun isMaxAge(state: BlockState) = state.get(AGE) == MAX_AGE
 
     companion object {
 

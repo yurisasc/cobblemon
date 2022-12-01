@@ -8,8 +8,6 @@
 
 package com.cobblemon.mod.common
 
-import com.cobblemon.mod.common.api.berry.Berries
-import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.item.*
@@ -182,8 +180,8 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
         return CobblemonItem(Item.Settings().group(CobblemonItemGroups.EVOLUTION_ITEM_GROUP))
     }
 
-    private fun berryItem(name: String, berry: RegistrySupplier<BerryBlock>): RegistrySupplier<BerryItem> {
-        val supplier = this.queue("${name}_berry") { BerryItem(berry.get()) }
+    private fun berryItem(name: String, berryBlock: RegistrySupplier<BerryBlock>): RegistrySupplier<BerryItem> {
+        val supplier = this.queue("${name}_berry") { BerryItem(berryBlock.get()) }
         this.berries.add(supplier)
         return supplier
     }

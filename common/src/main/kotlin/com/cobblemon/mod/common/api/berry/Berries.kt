@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.pokemon.status.Status
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.berry.CobblemonBerry
 import com.cobblemon.mod.common.pokemon.interaction.HealStatusInteraction
 import com.cobblemon.mod.common.util.adapters.CobblemonPokemonEntityInteractionTypeAdapter
 import com.cobblemon.mod.common.util.adapters.FloatNumberRangeAdapter
@@ -54,7 +55,20 @@ object Berries : JsonDataRegistry<Berry> {
         get() = this.byName("pecha")
 
     init {
-        this.create("pecha", 2..4, 3..3, NumberRange.FloatRange.between(0.8, 1.0), 1..1, NumberRange.FloatRange.between(0.8, 1.0), 1..1, listOf(HealStatusInteraction(listOf(Statuses.POISON, Statuses.POISON_BADLY))), Flavor.SWEET to 10)
+        this.create("pecha", 2..4, 3..3, NumberRange.FloatRange.between(0.8, 1.0), 1..1, NumberRange.FloatRange.between(0.8, 1.0), 1..1,
+            listOf(HealStatusInteraction(listOf(Statuses.POISON, Statuses.POISON_BADLY))),
+            arrayOf(
+                Triple(4.5, 10.5, 7.5),
+                Triple(10.6, 12.4, 4.0),
+                Triple(13.0, 14.4, 9.6),
+                Triple(5.0, 16.4, 12.6),
+                Triple(5.0, 23.7, 10.6),
+                Triple(12.0, 24.7, 11.0),
+                Triple(10.5, 20.7, 4.0),
+                Triple(4.0, 20.7, 5.5)
+            ),
+            Flavor.SWEET to 10
+        )
     }
 
     override fun reload(data: Map<Identifier, Berry>) {
@@ -76,9 +90,10 @@ object Berries : JsonDataRegistry<Berry> {
         downfallRange: NumberRange.FloatRange,
         downfallBonusYield: IntRange,
         interactions: Collection<PokemonEntityInteraction>,
+        anchorPoints: Array<Triple<Double, Double, Double>>,
         vararg flavors: Pair<Flavor, Int>
     ) {
-        val berry = Berry(cobblemonResource(name), baseYield, lifeCycles, temperatureRange, temperatureBonusYield, downfallRange, downfallBonusYield, interactions, flavors.toMap())
+        val berry = CobblemonBerry(cobblemonResource(name), baseYield, lifeCycles, temperatureRange, temperatureBonusYield, downfallRange, downfallBonusYield, interactions, anchorPoints, flavors.toMap())
         this.defaults[berry.identifier] = berry
     }
 

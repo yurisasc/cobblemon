@@ -15,6 +15,7 @@ import net.minecraft.predicate.NumberRange
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.WorldView
 import net.minecraft.world.biome.Biome
 
@@ -45,18 +46,7 @@ class Berry(
 ) {
 
     init {
-        if (this.baseYield.first < 1 || this.baseYield.last < 1) {
-            throw IllegalArgumentException("A berry base yield must be a positive range")
-        }
-        if (this.lifeCycles.first < 1 || this.lifeCycles.last < 1) {
-            throw IllegalArgumentException("A berry life cycle must be a positive range")
-        }
-        if (this.temperatureBonusYield.first < 1 || this.temperatureBonusYield.last < 1) {
-            throw IllegalArgumentException("A berry temperature bonus yield must be a positive range")
-        }
-        if (this.downfallBonusYield.first < 1 || this.downfallBonusYield.last < 1) {
-            throw IllegalArgumentException("A berry downfall bonus yield must be a positive range")
-        }
+        this.validate()
     }
 
     /**
@@ -73,7 +63,7 @@ class Berry(
      *
      * @param world The [WorldView] the tree is present in.
      * @param pos The [BlockPos] of the tree.
-     * @param player The [ServerPlayerEntity] harvesting the tree, if any.
+     * @param player The [ServerPlayerEntity] planting the tree, if any.
      * @return The total berry stack count.
      */
     fun calculateYield(world: WorldView, pos: BlockPos, player: ServerPlayerEntity? = null): Int {
@@ -85,6 +75,32 @@ class Berry(
             CobblemonEvents.BERRY_YIELD.post(event) { yield = it.yield }
         }
         return yield
+    }
+
+    fun minYield() = this.baseYield.first + this.temperatureBonusYield.first + this.downfallBonusYield.first
+
+    fun maxYield() = this.baseYield.last + this.temperatureBonusYield.last + this.downfallBonusYield.last
+
+    // A cheat since gson doesn't invoke init block
+    internal fun validate() {
+        if (this.baseYield.first < 1 || this.baseYield.last < 1) {
+            throw IllegalArgumentException("A berry base yield must be a positive range")
+        }
+        if (this.lifeCycles.first < 1 || this.lifeCycles.last < 1) {
+            throw IllegalArgumentException("A berry life cycle must be a positive range")
+        }
+        if (this.temperatureBonusYield.first < 1 || this.temperatureBonusYield.last < 1) {
+            throw IllegalArgumentException("A berry temperature bonus yield must be a positive range")
+        }
+        if (this.downfallBonusYield.first < 1 || this.downfallBonusYield.last < 1) {
+            throw IllegalArgumentException("A berry downfall bonus yield must be a positive range")
+        }
+        val maxYield = this.maxYield()
+        /*
+        if (this.anchorPoints.size < maxYield) {
+            throw IllegalArgumentException("Anchor points must have enough elements for the max possible yield ${this.identifier} can yield $maxYield you've provided ${this.anchorPointCount()} points")
+        }
+         */
     }
 
     /**

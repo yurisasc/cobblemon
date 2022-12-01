@@ -36,6 +36,7 @@ import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.Registry
+import net.minecraft.util.shape.VoxelShape
 
 object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
 
@@ -143,7 +144,7 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
         return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn) }
     }
 
-    private fun berryBlock(name: String, berry: Berry): RegistrySupplier<BerryBlock> {
+    private fun berryBlock(name: String, berry: Berry, vararg berryPositions: Pair<VoxelShape, VoxelShape>): RegistrySupplier<BerryBlock> {
         val supplier = queue("${name}_berry") { BerryBlock(berry, AbstractBlock.Settings.copy(Blocks.WHEAT)) }
         this.berries.add(supplier)
         return supplier
