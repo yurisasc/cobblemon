@@ -8,9 +8,12 @@
 
 package com.cobblemon.mod.common.api.berry
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
+import com.google.gson.annotations.SerializedName
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -44,8 +47,10 @@ class Berry(
     val growthFactors: Collection<GrowthFactor>,
     val interactions: Collection<PokemonEntityInteraction>,
     private val anchorPoints: Array<Vec3d>,
-    sproutShape: Collection<Box>,
-    matureShape: Collection<Box>,
+    @SerializedName("sproutShape")
+    private val sproutShapeBoxes: Collection<Box>,
+    @SerializedName("matureShape")
+    private val matureShapeBoxes: Collection<Box>,
     private val flowerShape: Collection<Box>,
     private val fruitShape: Collection<Box>,
     private val flavors: Map<Flavor, Int>
@@ -56,21 +61,24 @@ class Berry(
         internal set
 
     @Transient
-    private val shapedFlower = hashMapOf<Int, VoxelShape>()
+    private lateinit var shapedFlower: HashMap<Int, VoxelShape>
+
     @Transient
-    private val shapedFruit = hashMapOf<Int, VoxelShape>()
+    private lateinit var shapedFruit: HashMap<Int, VoxelShape>
 
     /**
      * The [VoxelShape] of the tree during the sprouting stages.
      */
     @Transient
-    val sproutShape: VoxelShape = this.createAndUniteShapes(sproutShape)
+    lateinit var sproutShape: VoxelShape
+        private set
 
     /**
      * The [VoxelShape] of the tree during the mature stages.
      */
     @Transient
-    val matureShape: VoxelShape = this.createAndUniteShapes(matureShape)
+    lateinit var matureShape: VoxelShape
+        private set
 
     init {
         this.validate()
@@ -138,6 +146,10 @@ class Berry(
         if (this.fruitShape.isEmpty()) {
             throw IllegalArgumentException("A fruit shape must be provided")
         }
+        this.shapedFlower = hashMapOf()
+        this.shapedFruit = hashMapOf()
+        this.sproutShape = this.createAndUniteShapes(this.sproutShapeBoxes)
+        this.matureShape = this.createAndUniteShapes(this.matureShapeBoxes)
     }
 
     /**
@@ -191,15 +203,15 @@ class Berry(
         return bonus to passed
     }
 
-    private fun createAnchorPointShape(box: Box, vec: Vec3d): VoxelShape = VoxelShapes.cuboid(vec.x + box.minX, vec.y + box.minY, vec.z + box.minZ, vec.x + box.maxX, vec.y + box.maxY, vec.z + box.maxZ)
+    private fun createAnchorPointShape(box: Box, vec: Vec3d): VoxelShape = Block.createCuboidShape(vec.x + box.minX, vec.y + box.minY, vec.z + box.minZ, vec.x + box.maxX, vec.y + box.maxY, vec.z + box.maxZ)
 
     private fun createAndUniteShapes(boxes: Collection<Box>): VoxelShape {
         var shape: VoxelShape? = null
         boxes.forEach { box ->
             shape = if (shape == null) {
-                VoxelShapes.cuboid(box)
+                Block.createCuboidShape(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ)
             } else {
-                VoxelShapes.union(shape, VoxelShapes.cuboid(box))
+                VoxelShapes.union(shape, Block.createCuboidShape(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ))
             }
         }
         return shape ?: VoxelShapes.fullCube()

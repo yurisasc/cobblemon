@@ -13,6 +13,9 @@ import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
 import net.minecraft.block.*
+import net.minecraft.entity.LivingEntity
+import net.minecraft.item.ItemStack
+import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
@@ -63,8 +66,19 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         return if (state.canPlaceAt(world, pos)) super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos) else Blocks.AIR.defaultState
     }
 
+    override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
+        if (!world.isClient) {
+            val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return
+            blockEntity.generateGrowthPoints(world, state, pos, placer as? ServerPlayerEntity)
+        }
+    }
+
     override fun appendProperties(builder: StateManager.Builder<Block, BlockState>) {
         builder.add(AGE)
+    }
+
+    override fun getPickStack(world: BlockView?, pos: BlockPos?, state: BlockState?): ItemStack {
+        TODO("Redirect to the base berry item")
     }
 
     @Deprecated("Deprecated in Java")

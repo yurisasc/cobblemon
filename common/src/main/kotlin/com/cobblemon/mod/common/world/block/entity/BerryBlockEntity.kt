@@ -30,7 +30,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     var lifeCycles: Int = this.berry()?.lifeCycles?.random() ?: 1
         private set
 
-    private val growthPoints = arrayListOf<Berry>()
+    private val growthPoints = arrayListOf<Identifier>()
 
     fun berryBlock() = this.cachedState.block as BerryBlock
 
@@ -45,7 +45,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         val yield = berry.calculateYield(world, state, pos, player)
         this.growthPoints.clear()
         repeat(yield) {
-            this.growthPoints += berry
+            this.growthPoints += berry.identifier
         }
     }
 
@@ -74,7 +74,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     override fun readNbt(nbt: NbtCompound) {
         nbt.putInt(LIFE_CYCLES, this.lifeCycles)
         val list = NbtList()
-        list += this.growthPoints.map { NbtString.of(it.identifier.toString()) }
+        list += this.growthPoints.map { NbtString.of(it.toString()) }
         nbt.put(GROWTH_POINTS, list)
     }
 
@@ -83,8 +83,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         this.lifeCycles = nbt.getInt(LIFE_CYCLES)
         nbt.getList(GROWTH_POINTS, NbtList.STRING_TYPE.toInt()).filterIsInstance<NbtString>().forEach { element ->
             try {
-                val identifier = Identifier(element.asString())
-                Berries.getByIdentifier(identifier)?.let { this.growthPoints.add(it) }
+                this.growthPoints += Identifier(element.asString())
             } catch (ignored: InvalidIdentifierException) {}
         }
     }
