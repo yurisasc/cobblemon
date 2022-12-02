@@ -172,7 +172,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             colour = Triple(r, g, b),
             opacity = opacity.toFloat(),
             ballState = activeBattlePokemon.ballCapturing,
-            trueHealth = truePokemon?.let { (it.currentHealth * battlePokemon.hpRatio).roundToInt() to (it.hp * battlePokemon.hpRatio).roundToInt() }
+            trueHealth = truePokemon?.let { (it.hp * battlePokemon.hpRatio).roundToInt() to it.hp }
         )
     }
 
