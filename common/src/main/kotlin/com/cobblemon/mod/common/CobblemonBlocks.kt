@@ -147,7 +147,7 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
 
     private fun berryBlock(name: String): RegistrySupplier<BerryBlock> {
         val identifier = cobblemonResource("${name}_berry")
-        val supplier = queue(identifier.path) { BerryBlock(identifier, AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().sounds(BlockSoundGroup.CROP)) }
+        val supplier = queue(identifier.path) { BerryBlock(identifier, AbstractBlock.Settings.of(Material.PLANT).dynamicBounds().ticksRandomly().sounds(BlockSoundGroup.CROP)) }
         this.berries.add(supplier)
         return supplier
     }

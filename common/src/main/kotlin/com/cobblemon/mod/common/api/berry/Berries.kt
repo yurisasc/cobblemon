@@ -46,6 +46,7 @@ object Berries : JsonDataRegistry<Berry> {
         .registerTypeAdapter(Vec3d::class.java, VerboseVec3dAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .registerTypeAdapter(GrowthFactor::class.java, CobblemonGrowthFactorAdapter)
+        .registerTypeAdapter(IntRange::class.java, VerboseIntRangeAdapter)
         .create()
     override val typeToken: TypeToken<Berry> = TypeToken.get(Berry::class.java)
     override val resourcePath = "berries"

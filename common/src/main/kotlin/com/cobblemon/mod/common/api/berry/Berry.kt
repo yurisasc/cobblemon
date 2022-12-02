@@ -12,7 +12,6 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import net.minecraft.block.BlockState
-import net.minecraft.predicate.NumberRange
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
@@ -20,8 +19,7 @@ import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
-import net.minecraft.world.WorldView
-import net.minecraft.world.biome.Biome
+import net.minecraft.world.World
 
 /**
  * Represents the data behind a berry.
@@ -90,13 +88,13 @@ class Berry(
      * Calculates the yield for a berry tree being harvested.
      * This will trigger [BerryYieldCalculationEvent] if the [player] argument is not null.
      *
-     * @param world The [WorldView] the tree is present in.
+     * @param world The [World] the tree is present in.
      * @param state The [BlockState] of the tree.
      * @param pos The [BlockPos] of the tree.
      * @param player The [ServerPlayerEntity] planting the tree, if any.
      * @return The total berry stack count.
      */
-    fun calculateYield(world: WorldView, state: BlockState, pos: BlockPos, player: ServerPlayerEntity? = null): Int {
+    fun calculateYield(world: World, state: BlockState, pos: BlockPos, player: ServerPlayerEntity? = null): Int {
         val base = this.baseYield.random()
         val bonus = this.bonusYield(world, state, pos)
         var yield = base + bonus.first
@@ -123,10 +121,10 @@ class Berry(
 
     // A cheat since gson doesn't invoke init block
     internal fun validate() {
-        if (this.baseYield.first < 1 || this.baseYield.last < 1) {
+        if (this.baseYield.first < 0 || this.baseYield.last < 0) {
             throw IllegalArgumentException("A berry base yield must be a positive range")
         }
-        if (this.lifeCycles.first < 1 || this.lifeCycles.last < 1) {
+        if (this.lifeCycles.first < 0 || this.lifeCycles.last < 0) {
             throw IllegalArgumentException("A berry life cycle must be a positive range")
         }
         this.growthFactors.forEach { it.validateArguments() }
@@ -176,12 +174,12 @@ class Berry(
     /**
      * Calculates the bonus yield for the berry tree.
      *
-     * @param world The [WorldView] the tree is present in.
+     * @param world The [World] the tree is present in.
      * @param state The [BlockState] of the tree.
      * @param pos The [BlockPos] of the tree.
      * @return The bonus yield, the growth factors that passed.
      */
-    private fun bonusYield(world: WorldView, state: BlockState, pos: BlockPos): Pair<Int, Collection<GrowthFactor>> {
+    private fun bonusYield(world: World, state: BlockState, pos: BlockPos): Pair<Int, Collection<GrowthFactor>> {
         var bonus = 0
         val passed = arrayListOf<GrowthFactor>()
         this.growthFactors.forEach { factor ->

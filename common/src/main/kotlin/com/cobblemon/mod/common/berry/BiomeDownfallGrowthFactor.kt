@@ -23,7 +23,7 @@ class BiomeDownfallGrowthFactor(
 ) : GrowthFactor {
 
     override fun validateArguments() {
-        if (this.bonusYield.first < 1 || this.bonusYield.last < 1) {
+        if (this.bonusYield.first < 0 || this.bonusYield.last < 0) {
             throw IllegalArgumentException("$ID bonusYield must be a positive range")
         }
     }
