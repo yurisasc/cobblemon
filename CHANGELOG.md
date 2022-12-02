@@ -4,7 +4,7 @@
 
 ### Fixes
 - Fixed an incompatibility with [Porting Lib](https://github.com/Fabricators-of-Create/Porting-Lib) used by Fabric ports of mods such as Create or Twilight Forest.
-
+- Fixed HP and max HP values in the battle GUI not being correct.
 ## 1.1.1 (November 27th, 2022)
 
 ### Fixes
