@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:charmeleon",
-  "model": "cobblemon:bedrock/models/0005_charmeleon/charmeleon.geo.json",
+  "model": "cobblemon:bedrock/models/0005_charmeleon/charmeleon.geo",
   "texture": "cobblemon:textures/pokemon/0005_charmeleon/charmeleon.png",
   "variations": [
     {

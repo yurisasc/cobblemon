@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:clefable",
-  "model": "cobblemon:bedrock/models/0036_clefable/clefable.geo.json",
+  "model": "cobblemon:bedrock/models/0036_clefable/clefable.geo",
   "texture": "cobblemon:textures/pokemon/0036_clefable/clefable.png",
   "variations": [
     {

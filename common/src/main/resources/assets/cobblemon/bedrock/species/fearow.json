@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:fearow",
-  "model": "cobblemon:bedrock/models/0022_fearow/fearow.geo.json",
+  "model": "cobblemon:bedrock/models/0022_fearow/fearow.geo",
   "texture": "cobblemon:textures/pokemon/0022_fearow/fearow.png",
   "variations": [
     {

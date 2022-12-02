@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:nidorina",
-  "model": "cobblemon:bedrock/models/0030_nidorina/nidorina.geo.json",
+  "model": "cobblemon:bedrock/models/0030_nidorina/nidorina.geo",
   "texture": "cobblemon:textures/pokemon/0030_nidorina/nidorina.png",
   "variations": [
     {

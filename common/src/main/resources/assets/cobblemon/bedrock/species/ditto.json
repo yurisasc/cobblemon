@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:ditto",
-  "model": "cobblemon:bedrock/models/0132_ditto/ditto.geo.json",
+  "model": "cobblemon:bedrock/models/0132_ditto/ditto.geo",
   "texture": "cobblemon:textures/pokemon/0132_ditto/ditto.png",
   "variations": [
     {

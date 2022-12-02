@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:parasect",
-  "model": "cobblemon:bedrock/models/0047_parasect/parasect.geo.json",
+  "model": "cobblemon:bedrock/models/0047_parasect/parasect.geo",
   "texture": "cobblemon:textures/pokemon/0047_parasect/parasect.png",
   "variations": [
     {

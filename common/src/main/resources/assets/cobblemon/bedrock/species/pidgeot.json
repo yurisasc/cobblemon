@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:pidgeot",
-  "model": "cobblemon:bedrock/models/0018_pidgeot/pidgeot.geo.json",
+  "model": "cobblemon:bedrock/models/0018_pidgeot/pidgeot.geo",
   "texture": "cobblemon:textures/pokemon/0018_pidgeot/pidgeot.png",
   "variations": [
     {

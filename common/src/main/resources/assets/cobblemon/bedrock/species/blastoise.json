@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:blastoise",
-  "model": "cobblemon:bedrock/models/0009_blastoise/blastoise.geo.json",
+  "model": "cobblemon:bedrock/models/0009_blastoise/blastoise.geo",
   "texture": "cobblemon:textures/pokemon/0009_blastoise/blastoise.png",
   "variations": [
     {

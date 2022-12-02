@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:charizard",
-  "model": "cobblemon:bedrock/models/0006_charizard/charizard.geo.json",
+  "model": "cobblemon:bedrock/models/0006_charizard/charizard.geo",
   "texture": "cobblemon:textures/pokemon/0006_charizard/charizard.png",
   "variations": [
     {

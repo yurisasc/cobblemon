@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:jynx",
-  "model": "cobblemon:bedrock/models/0124_jynx/jynx.geo.json",
+  "model": "cobblemon:bedrock/models/0124_jynx/jynx.geo",
   "texture": "cobblemon:textures/pokemon/0124_jynx/jynx.png",
   "variations": [
     {

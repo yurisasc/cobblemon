@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:kingler",
-  "model": "cobblemon:bedrock/models/0099_kingler/kingler.geo.json",
+  "model": "cobblemon:bedrock/models/0099_kingler/kingler.geo",
   "texture": "cobblemon:textures/pokemon/0099_kingler/kingler.png",
   "variations": [
     {

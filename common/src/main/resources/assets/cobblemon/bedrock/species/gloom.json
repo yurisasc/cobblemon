@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:gloom",
-  "model": "cobblemon:bedrock/models/0044_gloom/gloom_male.geo.json",
+  "model": "cobblemon:bedrock/models/0044_gloom/gloom_male.geo",
   "texture": "cobblemon:textures/pokemon/0044_gloom/gloom.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0044_gloom/gloom_female.geo.json"
+      "model": "cobblemon:bedrock/models/0044_gloom/gloom_female.geo"
     },
     {
       "aspects": ["valencian"],

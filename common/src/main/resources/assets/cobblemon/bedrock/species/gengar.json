@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:gengar",
-  "model": "cobblemon:bedrock/models/0094_gengar/gengar.geo.json",
+  "model": "cobblemon:bedrock/models/0094_gengar/gengar.geo",
   "texture": "cobblemon:textures/pokemon/0094_gengar/gengar.png",
   "variations": [
     {

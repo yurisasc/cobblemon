@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:dragonite",
-  "model": "cobblemon:bedrock/models/0149_dragonite/dragonite.geo.json",
+  "model": "cobblemon:bedrock/models/0149_dragonite/dragonite.geo",
   "texture": "cobblemon:textures/pokemon/0149_dragonite/dragonite.png",
   "variations": [
     {

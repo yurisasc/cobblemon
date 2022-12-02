@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:arcanine",
-  "model": "cobblemon:bedrock/models/0059_arcanine/arcanine.geo.json",
+  "model": "cobblemon:bedrock/models/0059_arcanine/arcanine.geo",
   "texture": "cobblemon:textures/pokemon/0059_arcanine/arcanine.png",
   "variations": [
     {

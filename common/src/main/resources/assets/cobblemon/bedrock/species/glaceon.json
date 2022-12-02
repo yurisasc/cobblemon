@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:glaceon",
-  "model": "cobblemon:bedrock/models/0471_glaceon/glaceon.geo.json",
+  "model": "cobblemon:bedrock/models/0471_glaceon/glaceon.geo",
   "texture": "cobblemon:textures/pokemon/0471_glaceon/glaceon.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:cubone",
-  "model": "cobblemon:bedrock/models/0104_cubone/cubone.geo.json",
+  "model": "cobblemon:bedrock/models/0104_cubone/cubone.geo",
   "texture": "cobblemon:textures/pokemon/0104_cubone/cubone.png",
   "variations": [
     {

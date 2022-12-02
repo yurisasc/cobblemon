@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:electrode",
-  "model": "cobblemon:bedrock/models/0101_electrode/electrode.geo.json",
+  "model": "cobblemon:bedrock/models/0101_electrode/electrode.geo",
   "texture": "cobblemon:textures/pokemon/0101_electrode/electrode.png",
   "variations": [
     {

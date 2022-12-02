@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:yanmega",
-  "model": "cobblemon:bedrock/models/0469_yanmega/yanmega.geo.json",
+  "model": "cobblemon:bedrock/models/0469_yanmega/yanmega.geo",
   "texture": "cobblemon:textures/pokemon/0469_yanmega/yanmega.png",
   "variations": [
     {

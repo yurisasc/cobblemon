@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:meowth",
-  "model": "cobblemon:bedrock/models/0052_meowth/meowth.geo.json",
+  "model": "cobblemon:bedrock/models/0052_meowth/meowth.geo",
   "texture": "cobblemon:textures/pokemon/0052_meowth/meowth.png",
   "variations": [
     {

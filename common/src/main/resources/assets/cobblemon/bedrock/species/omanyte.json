@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:omanyte",
-  "model": "cobblemon:bedrock/models/0138_omanyte/omanyte.geo.json",
+  "model": "cobblemon:bedrock/models/0138_omanyte/omanyte.geo",
   "texture": "cobblemon:textures/pokemon/0138_omanyte/omanyte.png",
   "variations": [
     {

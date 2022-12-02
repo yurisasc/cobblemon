@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:nidoqueen",
-  "model": "cobblemon:bedrock/models/0031_nidoqueen/nidoqueen.geo.json",
+  "model": "cobblemon:bedrock/models/0031_nidoqueen/nidoqueen.geo",
   "texture": "cobblemon:textures/pokemon/0031_nidoqueen/nidoqueen.png",
   "variations": [
     {

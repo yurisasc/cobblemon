@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:koffing",
-  "model": "cobblemon:bedrock/models/0109_koffing/koffing.geo.json",
+  "model": "cobblemon:bedrock/models/0109_koffing/koffing.geo",
   "texture": "cobblemon:textures/pokemon/0109_koffing/koffing.png",
   "variations": [
     {

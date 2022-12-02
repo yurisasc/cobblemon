@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:bulbasaur",
-  "model": "cobblemon:bedrock/models/0001_bulbasaur/bulbasaur.geo.json",
+  "model": "cobblemon:bedrock/models/0001_bulbasaur/bulbasaur.geo",
   "texture": "cobblemon:textures/pokemon/0001_bulbasaur/bulbasaur.png",
   "variations": [
     {

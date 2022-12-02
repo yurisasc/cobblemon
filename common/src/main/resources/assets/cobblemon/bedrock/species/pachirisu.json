@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:pachirisu",
-  "model": "cobblemon:bedrock/models/0417_pachirisu/pachirisu.geo.json",
+  "model": "cobblemon:bedrock/models/0417_pachirisu/pachirisu.geo",
   "texture": "cobblemon:textures/pokemon/0417_pachirisu/pachirisu.png",
   "variations": [
     {

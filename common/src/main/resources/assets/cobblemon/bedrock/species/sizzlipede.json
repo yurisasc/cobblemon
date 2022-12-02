@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:sizzlipede",
-  "model": "cobblemon:bedrock/models/0850_sizzlipede/sizzlipede.geo.json",
+  "model": "cobblemon:bedrock/models/0850_sizzlipede/sizzlipede.geo",
   "texture": "cobblemon:textures/pokemon/0850_sizzlipede/sizzlipede.png",
   "variations": [
     {

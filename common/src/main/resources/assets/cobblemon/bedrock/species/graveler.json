@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:graveler",
-  "model": "cobblemon:bedrock/models/0075_graveler/graveler.geo.json",
+  "model": "cobblemon:bedrock/models/0075_graveler/graveler.geo",
   "texture": "cobblemon:textures/pokemon/0075_graveler/graveler.png",
   "variations": [
     {

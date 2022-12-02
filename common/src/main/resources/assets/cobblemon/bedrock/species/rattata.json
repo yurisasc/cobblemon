@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:rattata",
-  "model": "cobblemon:bedrock/models/0019_rattata/rattata_male.geo.json",
+  "model": "cobblemon:bedrock/models/0019_rattata/rattata_male.geo",
   "texture": "cobblemon:textures/pokemon/0019_rattata/rattata.png",
   "variations": [
     {
@@ -9,11 +9,11 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0019_rattata/rattata_female.geo.json"
+      "model": "cobblemon:bedrock/models/0019_rattata/rattata_female.geo"
     },
     {
       "aspects": ["alolan"],
-      "model": "cobblemon:bedrock/models/0019_rattata/rattata_alolan.geo.json",
+      "model": "cobblemon:bedrock/models/0019_rattata/rattata_alolan.geo",
       "texture": "cobblemon:textures/pokemon/0019_rattata/rattata_alolan.png"
     },
     {

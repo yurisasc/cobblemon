@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:mew",
-  "model": "cobblemon:bedrock/models/0151_mew/mew.geo.json",
+  "model": "cobblemon:bedrock/models/0151_mew/mew.geo",
   "texture": "cobblemon:textures/pokemon/0151_mew/mew.png",
   "variations": [
     {

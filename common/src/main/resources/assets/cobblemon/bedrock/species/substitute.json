@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:substitute",
-  "model": "cobblemon:bedrock/models/substitute.geo.json",
+  "model": "cobblemon:bedrock/models/substitute.geo",
   "texture": "cobblemon:textures/pokemon/substitute.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:mankey",
-  "model": "cobblemon:bedrock/models/0056_mankey/mankey.geo.json",
+  "model": "cobblemon:bedrock/models/0056_mankey/mankey.geo",
   "texture": "cobblemon:textures/pokemon/0056_mankey/mankey.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:bounsweet",
-  "model": "cobblemon:bedrock/models/0761_bounsweet/bounsweet.geo.json",
+  "model": "cobblemon:bedrock/models/0761_bounsweet/bounsweet.geo",
   "texture": "cobblemon:textures/pokemon/0761_bounsweet/bounsweet.png",
   "variations": [
     {

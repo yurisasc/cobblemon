@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:slowpoke",
-  "model": "cobblemon:bedrock/models/0079_slowpoke/slowpoke.geo.json",
+  "model": "cobblemon:bedrock/models/0079_slowpoke/slowpoke.geo",
   "texture": "cobblemon:textures/pokemon/0079_slowpoke/slowpoke.png",
   "variations": [
     {

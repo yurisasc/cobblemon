@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:caterpie",
-  "model": "cobblemon:bedrock/models/0010_caterpie/caterpie.geo.json",
+  "model": "cobblemon:bedrock/models/0010_caterpie/caterpie.geo",
   "texture": "cobblemon:textures/pokemon/0010_caterpie/caterpie.png",
   "variations": [
     {

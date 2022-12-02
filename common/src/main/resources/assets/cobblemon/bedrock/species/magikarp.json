@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:magikarp",
-  "model": "cobblemon:bedrock/models/0129_magikarp/magikarp_male.geo.json",
+  "model": "cobblemon:bedrock/models/0129_magikarp/magikarp_male.geo",
   "texture": "cobblemon:textures/pokemon/0129_magikarp/magikarp.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0129_magikarp/magikarp_female.geo.json"
+      "model": "cobblemon:bedrock/models/0129_magikarp/magikarp_female.geo"
     }
   ]
 }

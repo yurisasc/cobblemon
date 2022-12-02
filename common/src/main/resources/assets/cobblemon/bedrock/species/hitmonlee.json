@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:hitmonlee",
-  "model": "cobblemon:bedrock/models/0106_hitmonlee/hitmonlee.geo.json",
+  "model": "cobblemon:bedrock/models/0106_hitmonlee/hitmonlee.geo",
   "texture": "cobblemon:textures/pokemon/0106_hitmonlee/hitmonlee.png",
   "variations": [
     {

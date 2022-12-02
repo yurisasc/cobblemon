@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:machamp",
-  "model": "cobblemon:bedrock/models/0068_machamp/machamp.geo.json",
+  "model": "cobblemon:bedrock/models/0068_machamp/machamp.geo",
   "texture": "cobblemon:textures/pokemon/0068_machamp/machamp.png",
   "variations": [
     {

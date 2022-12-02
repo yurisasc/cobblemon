@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:gastly",
-  "model": "cobblemon:bedrock/models/0092_gastly/gastly.geo.json",
+  "model": "cobblemon:bedrock/models/0092_gastly/gastly.geo",
   "texture": "cobblemon:textures/pokemon/0092_gastly/gastly.png",
   "variations": [
     {

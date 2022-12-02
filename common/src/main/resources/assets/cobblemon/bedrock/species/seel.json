@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:seel",
-  "model": "cobblemon:bedrock/models/0086_seel/seel.geo.json",
+  "model": "cobblemon:bedrock/models/0086_seel/seel.geo",
   "texture": "cobblemon:textures/pokemon/0086_seel/seel.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:victreebel",
-  "model": "cobblemon:bedrock/models/0071_victreebel/victreebel.geo.json",
+  "model": "cobblemon:bedrock/models/0071_victreebel/victreebel.geo",
   "texture": "cobblemon:textures/pokemon/0071_victreebel/victreebel.png",
   "variations": [
     {

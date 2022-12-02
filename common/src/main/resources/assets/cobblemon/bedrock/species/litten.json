@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:litten",
-  "model": "cobblemon:bedrock/models/0725_litten/litten.geo.json",
+  "model": "cobblemon:bedrock/models/0725_litten/litten.geo",
   "texture": "cobblemon:textures/pokemon/0725_litten/litten.png",
   "variations": [
     {

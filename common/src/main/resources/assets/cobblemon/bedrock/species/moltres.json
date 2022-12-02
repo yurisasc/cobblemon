@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:moltres",
-  "model": "cobblemon:bedrock/models/0146_moltres/moltres.geo.json",
+  "model": "cobblemon:bedrock/models/0146_moltres/moltres.geo",
   "texture": "cobblemon:textures/pokemon/0146_moltres/moltres.png",
   "variations": [
     {

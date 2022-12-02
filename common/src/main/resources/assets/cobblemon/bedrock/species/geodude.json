@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:geodude",
-  "model": "cobblemon:bedrock/models/0074_geodude/geodude.geo.json",
+  "model": "cobblemon:bedrock/models/0074_geodude/geodude.geo",
   "texture": "cobblemon:textures/pokemon/0074_geodude/geodude.png",
   "variations": [
     {

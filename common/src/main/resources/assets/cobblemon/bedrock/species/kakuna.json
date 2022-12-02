@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:kakuna",
-  "model": "cobblemon:bedrock/models/0014_kakuna/kakuna.geo.json",
+  "model": "cobblemon:bedrock/models/0014_kakuna/kakuna.geo",
   "texture": "cobblemon:textures/pokemon/0014_kakuna/kakuna.png",
   "variations": [
     {

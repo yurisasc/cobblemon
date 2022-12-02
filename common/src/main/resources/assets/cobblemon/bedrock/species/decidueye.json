@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:decidueye",
-  "model": "cobblemon:bedrock/models/0724_decidueye/decidueye.geo.json",
+  "model": "cobblemon:bedrock/models/0724_decidueye/decidueye.geo",
   "texture": "cobblemon:textures/pokemon/0724_decidueye/decidueye.png",
   "variations": [
     {

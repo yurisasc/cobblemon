@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:shellder",
-  "model": "cobblemon:bedrock/models/0090_shellder/shellder.geo.json",
+  "model": "cobblemon:bedrock/models/0090_shellder/shellder.geo",
   "texture": "cobblemon:textures/pokemon/0090_shellder/shellder.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:combusken",
-  "model": "cobblemon:bedrock/models/0256_combusken/combusken.geo.json",
+  "model": "cobblemon:bedrock/models/0256_combusken/combusken.geo",
   "texture": "cobblemon:textures/pokemon/0256_combusken/combusken.png",
   "variations": [
     {

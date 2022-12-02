@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:abra",
-  "model": "cobblemon:bedrock/models/0063_abra/abra.geo.json",
+  "model": "cobblemon:abra.geo",
   "texture": "cobblemon:textures/pokemon/0063_abra/abra.png",
   "variations": [
     {

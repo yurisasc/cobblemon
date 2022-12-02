@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:raichu",
-  "model": "cobblemon:bedrock/models/0026_raichu/raichu_male.geo.json",
+  "model": "cobblemon:bedrock/models/0026_raichu/raichu_male.geo",
   "texture": "cobblemon:textures/pokemon/0026_raichu/raichu.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0026_raichu/raichu_female.geo.json"
+      "model": "cobblemon:bedrock/models/0026_raichu/raichu_female.geo"
     }
   ]
 }

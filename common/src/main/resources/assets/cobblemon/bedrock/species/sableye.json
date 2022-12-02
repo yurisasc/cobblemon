@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:sableye",
-  "model": "cobblemon:bedrock/models/0302_sableye/sableye.geo.json",
+  "model": "cobblemon:bedrock/models/0302_sableye/sableye.geo",
   "texture": "cobblemon:textures/pokemon/0302_sableye/sableye.png",
   "variations": [
     {

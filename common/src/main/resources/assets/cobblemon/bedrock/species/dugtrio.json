@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:dugtrio",
-  "model": "cobblemon:bedrock/models/0051_dugtrio/dugtrio.geo.json",
+  "model": "cobblemon:bedrock/models/0051_dugtrio/dugtrio.geo",
   "texture": "cobblemon:textures/pokemon/0051_dugtrio/dugtrio.png",
   "variations": [
     {

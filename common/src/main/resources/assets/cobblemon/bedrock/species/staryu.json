@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:staryu",
-  "model": "cobblemon:bedrock/models/0120_staryu/staryu.geo.json",
+  "model": "cobblemon:bedrock/models/0120_staryu/staryu.geo",
   "texture": "cobblemon:textures/pokemon/0120_staryu/staryu.png",
   "variations": [
     {

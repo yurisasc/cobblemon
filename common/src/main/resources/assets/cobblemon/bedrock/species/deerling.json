@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:deerling",
-  "model": "cobblemon:bedrock/models/0585_deerling/deerling.geo.json",
+  "model": "cobblemon:bedrock/models/0585_deerling/deerling.geo",
   "texture": "cobblemon:textures/pokemon/0585_deerling/deerling_spring.png",
   "variations": [
     {

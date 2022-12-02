@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:omastar",
-  "model": "cobblemon:bedrock/models/0139_omastar/omastar.geo.json",
+  "model": "cobblemon:bedrock/models/0139_omastar/omastar.geo",
   "texture": "cobblemon:textures/pokemon/0139_omastar/omastar.png",
   "variations": [
     {

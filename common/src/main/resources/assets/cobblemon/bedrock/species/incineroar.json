@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:incineroar",
-  "model": "cobblemon:bedrock/models/0727_incineroar/incineroar.geo.json",
+  "model": "cobblemon:bedrock/models/0727_incineroar/incineroar.geo",
   "texture": "cobblemon:textures/pokemon/0727_incineroar/incineroar.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:aerodactyl",
-  "model": "cobblemon:bedrock/models/0142_aerodactyl/aerodactyl.geo.json",
+  "model": "cobblemon:bedrock/models/0142_aerodactyl/aerodactyl.geo",
   "texture": "cobblemon:textures/pokemon/0142_aerodactyl/aerodactyl.png",
   "variations": [
     {

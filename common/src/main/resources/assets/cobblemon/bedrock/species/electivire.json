@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:electivire",
-  "model": "cobblemon:bedrock/models/0466_electivire/electivire.geo.json",
+  "model": "cobblemon:bedrock/models/0466_electivire/electivire.geo",
   "texture": "cobblemon:textures/pokemon/0466_electivire/electivire.png",
   "variations": [
     {

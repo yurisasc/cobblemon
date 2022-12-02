@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:tentacruel",
-  "model": "cobblemon:bedrock/models/0073_tentacruel/tentacruel.geo.json",
+  "model": "cobblemon:bedrock/models/0073_tentacruel/tentacruel.geo",
   "texture": "cobblemon:textures/pokemon/0073_tentacruel/tentacruel.png",
   "variations": [
     {

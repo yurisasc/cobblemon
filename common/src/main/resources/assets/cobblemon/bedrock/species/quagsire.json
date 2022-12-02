@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:quagsire",
-  "model": "cobblemon:bedrock/models/0195_quagsire/quagsire_male.geo.json",
+  "model": "cobblemon:bedrock/models/0195_quagsire/quagsire_male.geo",
   "texture": "cobblemon:textures/pokemon/0195_quagsire/quagsire.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0195_quagsire/quagsire_female.geo.json"
+      "model": "cobblemon:bedrock/models/0195_quagsire/quagsire_female.geo"
     }
   ]
 }

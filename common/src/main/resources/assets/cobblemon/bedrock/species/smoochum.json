@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:smoochum",
-  "model": "cobblemon:bedrock/models/0238_smoochum/smoochum.geo.json",
+  "model": "cobblemon:bedrock/models/0238_smoochum/smoochum.geo",
   "texture": "cobblemon:textures/pokemon/0238_smoochum/smoochum.png",
   "variations": [
     {

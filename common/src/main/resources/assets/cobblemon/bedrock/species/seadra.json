@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:seadra",
-  "model": "cobblemon:bedrock/models/0117_seadra/seadra.geo.json",
+  "model": "cobblemon:bedrock/models/0117_seadra/seadra.geo",
   "texture": "cobblemon:textures/pokemon/0117_seadra/seadra.png",
   "variations": [
     {

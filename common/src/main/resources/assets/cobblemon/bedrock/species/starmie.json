@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:starmie",
-  "model": "cobblemon:bedrock/models/0121_starmie/starmie.geo.json",
+  "model": "cobblemon:bedrock/models/0121_starmie/starmie.geo",
   "texture": "cobblemon:textures/pokemon/0121_starmie/starmie.png",
   "variations": [
     {

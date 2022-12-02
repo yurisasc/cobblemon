@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:pidgey",
-  "model": "cobblemon:bedrock/models/0016_pidgey/pidgey.geo.json",
+  "model": "cobblemon:bedrock/models/0016_pidgey/pidgey.geo",
   "texture": "cobblemon:textures/pokemon/0016_pidgey/pidgey.png",
   "variations": [
     {
