@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.events.berry
 
 import com.cobblemon.mod.common.api.berry.Berry
+import com.cobblemon.mod.common.api.berry.GrowthFactor
 import net.minecraft.server.network.ServerPlayerEntity
 
 /**
@@ -16,13 +17,38 @@ import net.minecraft.server.network.ServerPlayerEntity
  *
  * @property player The [ServerPlayerEntity] triggering the calculation.
  * @property yield The current yield of berries.
- * @property passedTemperatureCheck If [Berry.temperatureRange] was valid for the berry harvest location.
- * @property passedDownfallCheck If [Berry.downfallRange] was valid for the berry harvest location.
+ * @property passedGrowthFactors The [Berry.growthFactors] where [GrowthFactor.isValid] was true.
  */
-data class BerryYieldCalculationEvent(
+class BerryYieldCalculationEvent(
     override val berry: Berry,
     val player: ServerPlayerEntity,
-    var yield: Int,
-    val passedTemperatureCheck: Boolean,
-    val passedDownfallCheck: Boolean
-) : BerryEvent
+    yield: Int,
+    val passedGrowthFactors: Collection<GrowthFactor>
+) : BerryEvent {
+
+    /**
+     * The amount of berries this tree will yield.
+     * This value must cannot exceed [Berry.maxYield] or be lesser than 0.
+     */
+    var yield: Int = yield
+        private set
+
+    /**
+     * Sets a new value for [yield].
+     *
+     * @param newYield The new value for the yield.
+     *
+     * @throws IllegalArgumentException If [newYield] exceeds [Berry.maxYield].
+     */
+    fun setYield(newYield: Int) {
+        val max = this.berry.maxYield()
+        if (newYield > max) {
+            throw IllegalArgumentException("Cannot set the berry yield for ${this.berry.identifier} above $max")
+        }
+        if (newYield < 0) {
+            throw IllegalArgumentException("A berry tree cannot yield a negative amount of berries")
+        }
+        this.yield = newYield
+    }
+
+}

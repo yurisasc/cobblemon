@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.berry
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
+import net.minecraft.block.BlockState
 import net.minecraft.predicate.NumberRange
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -28,10 +29,12 @@ import net.minecraft.world.biome.Biome
  * @property identifier The [Identifier] of this berry.
  * @property baseYield The [IntRange] possible for the berry tree before [bonusYield] is calculated.
  * @property lifeCycles The [IntRange] possible for the berry to live for between harvests.
- * @property temperatureRange The [NumberRange.FloatRange] possible for the [Biome.getTemperature] in order to yield a bonus berry.
- * @property temperatureBonusYield The [IntRange] for the bonus amount of berries if the [temperatureRange] is satisfied.
- * @property downfallRange The [NumberRange.FloatRange] possible for the [Biome.getDownfall] in order to yield a bonus berry.
- * @property downfallBonusYield The [IntRange] for the bonus amount of berries if the [downfallRange] is satisfied.
+ * @property growthFactors A collection of [GrowthFactor]s that will affect this berry.
+ * @property interactions A collection of [PokemonEntityInteraction]s this berry will have in item form.
+ * @property sproutShape A collection of [Box]es that make up the tree [VoxelShape] during the sprouting stages.
+ * @property matureShape A collection of [Box]es that make up the tree [VoxelShape] during the mature stages.
+ * @property flowerShape A collection of [Box]es used to dynamically create [VoxelShape]s for flowering berries tied to [anchorPoints].
+ * @property fruitShape A collection of [Box]es used to dynamically create [VoxelShape]s for flowering berries tied to [anchorPoints].
  * @property flavors The [Flavor] values.
  *
  * @throws IllegalArgumentException if the any yield range argument is not a positive range.
@@ -40,12 +43,11 @@ class Berry(
     identifier: Identifier,
     val baseYield: IntRange,
     val lifeCycles: IntRange,
-    val temperatureRange: NumberRange.FloatRange,
-    val temperatureBonusYield: IntRange,
-    val downfallRange: NumberRange.FloatRange,
-    val downfallBonusYield: IntRange,
+    val growthFactors: Collection<GrowthFactor>,
     val interactions: Collection<PokemonEntityInteraction>,
     private val anchorPoints: Array<Vec3d>,
+    sproutShape: Collection<Box>,
+    matureShape: Collection<Box>,
     private val flowerShape: Collection<Box>,
     private val fruitShape: Collection<Box>,
     private val flavors: Map<Flavor, Int>
@@ -59,6 +61,18 @@ class Berry(
     private val shapedFlower = hashMapOf<Int, VoxelShape>()
     @Transient
     private val shapedFruit = hashMapOf<Int, VoxelShape>()
+
+    /**
+     * The [VoxelShape] of the tree during the sprouting stages.
+     */
+    @Transient
+    val sproutShape: VoxelShape = this.createAndUniteShapes(sproutShape)
+
+    /**
+     * The [VoxelShape] of the tree during the mature stages.
+     */
+    @Transient
+    val matureShape: VoxelShape = this.createAndUniteShapes(matureShape)
 
     init {
         this.validate()
@@ -77,34 +91,35 @@ class Berry(
      * This will trigger [BerryYieldCalculationEvent] if the [player] argument is not null.
      *
      * @param world The [WorldView] the tree is present in.
+     * @param state The [BlockState] of the tree.
      * @param pos The [BlockPos] of the tree.
      * @param player The [ServerPlayerEntity] planting the tree, if any.
      * @return The total berry stack count.
      */
-    fun calculateYield(world: WorldView, pos: BlockPos, player: ServerPlayerEntity? = null): Int {
+    fun calculateYield(world: WorldView, state: BlockState, pos: BlockPos, player: ServerPlayerEntity? = null): Int {
         val base = this.baseYield.random()
-        val bonus = this.bonusYield(world, pos)
+        val bonus = this.bonusYield(world, state, pos)
         var yield = base + bonus.first
         if (player != null) {
-            val event = BerryYieldCalculationEvent(this, player, yield, bonus.second, bonus.third)
+            val event = BerryYieldCalculationEvent(this, player, yield, bonus.second)
             CobblemonEvents.BERRY_YIELD.post(event) { yield = it.yield }
         }
         return yield
     }
 
     /**
-     * Calculates and returns the minimum possible yield by summing [baseYield], [temperatureBonusYield] and [downfallBonusYield] minimum values.
+     * Calculates and returns the minimum possible yield by summing [baseYield] and [growthFactors] minimum values.
      *
      * @return The minimum possible yield.
      */
-    fun minYield() = this.baseYield.first + this.temperatureBonusYield.first + this.downfallBonusYield.first
+    fun minYield() = this.baseYield.first + this.growthFactors.sumOf { it.minYield() }
 
     /**
-     * Calculates and returns the maximum possible yield by summing [baseYield], [temperatureBonusYield] and [downfallBonusYield] max values.
+     * Calculates and returns the maximum possible yield by summing [baseYield] and [growthFactors] max values.
      *
      * @return The maximum possible yield.
      */
-    fun maxYield() = this.baseYield.last + this.temperatureBonusYield.last + this.downfallBonusYield.last
+    fun maxYield() = this.baseYield.last + this.growthFactors.sumOf { it.maxYield() }
 
     // A cheat since gson doesn't invoke init block
     internal fun validate() {
@@ -114,12 +129,7 @@ class Berry(
         if (this.lifeCycles.first < 1 || this.lifeCycles.last < 1) {
             throw IllegalArgumentException("A berry life cycle must be a positive range")
         }
-        if (this.temperatureBonusYield.first < 1 || this.temperatureBonusYield.last < 1) {
-            throw IllegalArgumentException("A berry temperature bonus yield must be a positive range")
-        }
-        if (this.downfallBonusYield.first < 1 || this.downfallBonusYield.last < 1) {
-            throw IllegalArgumentException("A berry downfall bonus yield must be a positive range")
-        }
+        this.growthFactors.forEach { it.validateArguments() }
         val maxYield = this.maxYield()
         if (this.anchorPoints.size < maxYield) {
             throw IllegalArgumentException("Anchor points must have enough elements for the max possible yield of $maxYield you've provided ${this.anchorPoints.size} points")
@@ -145,7 +155,7 @@ class Berry(
         if (!map.containsKey(index)) {
             val vec = this.anchorPoints[index]
             val boxes = if (isFlower) this.flowerShape else this.fruitShape
-            val shapeParts = boxes.map { this.createShape(it, vec) }
+            val shapeParts = boxes.map { this.createAnchorPointShape(it, vec) }
             return if (shapeParts.size > 1) {
                 var shape: VoxelShape? = null
                 for (element in shapeParts) {
@@ -167,25 +177,34 @@ class Berry(
      * Calculates the bonus yield for the berry tree.
      *
      * @param world The [WorldView] the tree is present in.
+     * @param state The [BlockState] of the tree.
      * @param pos The [BlockPos] of the tree.
-     * @return The bonus yield, if temp range passed, if downfall range passed.
+     * @return The bonus yield, the growth factors that passed.
      */
-    private fun bonusYield(world: WorldView, pos: BlockPos): Triple<Int, Boolean, Boolean> {
+    private fun bonusYield(world: WorldView, state: BlockState, pos: BlockPos): Pair<Int, Collection<GrowthFactor>> {
         var bonus = 0
-        var passedTemperature = false
-        var passedDownfall = false
-        val biome = world.getBiome(pos).value()
-        if (this.temperatureRange.test(biome.temperature.toDouble())) {
-            bonus += this.temperatureBonusYield.random()
-            passedTemperature = true
+        val passed = arrayListOf<GrowthFactor>()
+        this.growthFactors.forEach { factor ->
+            if (factor.isValid(world, state, pos)) {
+                bonus += factor.yield()
+                passed += factor
+            }
         }
-        if (this.downfallRange.test(biome.downfall.toDouble())) {
-            bonus += this.downfallBonusYield.random()
-            passedDownfall = true
-        }
-        return Triple(bonus, passedTemperature, passedDownfall)
+        return bonus to passed
     }
 
-    private fun createShape(box: Box, vec: Vec3d): VoxelShape = VoxelShapes.cuboid(vec.x + box.minX, vec.y + box.minY, vec.z + box.minZ, vec.x + box.maxX, vec.y + box.maxY, vec.z + box.maxZ)
+    private fun createAnchorPointShape(box: Box, vec: Vec3d): VoxelShape = VoxelShapes.cuboid(vec.x + box.minX, vec.y + box.minY, vec.z + box.minZ, vec.x + box.maxX, vec.y + box.maxY, vec.z + box.maxZ)
+
+    private fun createAndUniteShapes(boxes: Collection<Box>): VoxelShape {
+        var shape: VoxelShape? = null
+        boxes.forEach { box ->
+            shape = if (shape == null) {
+                VoxelShapes.cuboid(box)
+            } else {
+                VoxelShapes.union(shape, VoxelShapes.cuboid(box))
+            }
+        }
+        return shape ?: VoxelShapes.fullCube()
+    }
 
 }

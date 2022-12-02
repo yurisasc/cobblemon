@@ -20,6 +20,8 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import net.minecraft.world.WorldAccess
@@ -65,10 +67,23 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         builder.add(AGE)
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
+        val berry = this.berry() ?: return VoxelShapes.fullCube()
+        return when(state.get(AGE)) {
+            MAX_AGE -> VoxelShapes.union(berry.matureShape, berry.shapeAt(0, false))
+            FLOWER_AGE -> VoxelShapes.union(berry.matureShape, berry.shapeAt(0, true))
+            MATURE_AGE -> berry.matureShape
+            else -> berry.sproutShape
+        }
+    }
+
     private fun isMaxAge(state: BlockState) = state.get(AGE) == MAX_AGE
 
     companion object {
 
+        private const val MATURE_AGE = 3
+        private const val FLOWER_AGE = 4
         private const val MAX_AGE = 5
         val AGE = IntProperty.of("age", 0, MAX_AGE)
 
