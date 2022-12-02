@@ -35,9 +35,10 @@ import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceCalculator
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.experience.StandardExperienceCalculator
-import com.cobblemon.mod.common.api.pokemon.feature.EnumSpeciesFeature
-import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature
-import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature
+import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
+import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeatureProvider
+import com.cobblemon.mod.common.api.pokemon.feature.GlobalSpeciesFeatures
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.Generation8EvCalculator
 import com.cobblemon.mod.common.api.pokemon.stats.StatProvider
@@ -79,21 +80,12 @@ import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacke
 import com.cobblemon.mod.common.net.serverhandling.ServerPacketRegistrar
 import com.cobblemon.mod.common.permission.LaxPermissionValidator
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.aspects.FishStripesAspect
 import com.cobblemon.mod.common.pokemon.aspects.GENDER_ASPECT
 import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
-import com.cobblemon.mod.common.pokemon.aspects.SeasonAspect
-import com.cobblemon.mod.common.pokemon.aspects.SnakePatternAspect
 import com.cobblemon.mod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
-import com.cobblemon.mod.common.pokemon.feature.TagSeasonResolver
 import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
-import com.cobblemon.mod.common.pokemon.feature.FISH_STRIPES
-import com.cobblemon.mod.common.pokemon.feature.FishStripesFeature
-import com.cobblemon.mod.common.pokemon.feature.SEASON
-import com.cobblemon.mod.common.pokemon.feature.SNAKE_PATTERN
-import com.cobblemon.mod.common.pokemon.feature.SeasonFeature
-import com.cobblemon.mod.common.pokemon.feature.SnakePatternFeature
+import com.cobblemon.mod.common.pokemon.feature.TagSeasonResolver
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
 import com.cobblemon.mod.common.pokemon.properties.UntradeableProperty
@@ -101,7 +93,6 @@ import com.cobblemon.mod.common.pokemon.properties.tags.PokemonFlagProperty
 import com.cobblemon.mod.common.pokemon.stat.CobblemonStatProvider
 import com.cobblemon.mod.common.registry.CompletableRegistry
 import com.cobblemon.mod.common.starter.CobblemonStarterHandler
-import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.getServer
 import com.cobblemon.mod.common.util.ifDedicatedServer
@@ -225,21 +216,12 @@ object Cobblemon {
 
         SHINY_ASPECT.register()
         GENDER_ASPECT.register()
-        SnakePatternAspect.register()
-        FishStripesAspect.register()
-        SeasonAspect.register()
 
-        config.flagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
-        config.globalFlagSpeciesFeatures.forEach(FlagSpeciesFeature::registerWithPropertyAndAspect)
-        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.ALOLAN)
-        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.GALARIAN)
-        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.HISUIAN)
-        FlagSpeciesFeature.registerWithPropertyAndAspect(DataKeys.VALENCIAN)
-        SpeciesFeature.registerGlobalFeature(DamageTakenFeature.ID) { DamageTakenFeature() }
-        SpeciesFeature.registerGlobalFeature(BattleCriticalHitsFeature.ID) { BattleCriticalHitsFeature() }
-        EnumSpeciesFeature.registerWithProperty(SNAKE_PATTERN, SnakePatternFeature::class.java)
-        EnumSpeciesFeature.registerWithProperty(SEASON, SeasonFeature::class.java)
-        EnumSpeciesFeature.registerWithProperty(FISH_STRIPES, FishStripesFeature::class.java)
+        SpeciesFeatures.types["choice"] = ChoiceSpeciesFeatureProvider::class.java
+        SpeciesFeatures.types["flag"] = FlagSpeciesFeatureProvider::class.java
+
+        GlobalSpeciesFeatures.register(DamageTakenFeature.ID) { DamageTakenFeature() }
+        GlobalSpeciesFeatures.register(BattleCriticalHitsFeature.ID) { BattleCriticalHitsFeature() }
 
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)

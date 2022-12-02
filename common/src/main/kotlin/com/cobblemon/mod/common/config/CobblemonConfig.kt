@@ -145,12 +145,6 @@ class CobblemonConfig {
     var baseApricornTreeGenerationChance = 0.1F
 
     @NodeCategory(Category.Pokemon)
-    var globalFlagSpeciesFeatures = mutableListOf<String>()
-
-    @NodeCategory(Category.Pokemon)
-    var flagSpeciesFeatures = mutableListOf("sunglasses")
-
-    @NodeCategory(Category.Pokemon)
     var ninjaskCreatesShedinja = true
 
     @NodeCategory(Category.Pokemon)

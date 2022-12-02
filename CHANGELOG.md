@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.2
+
+### Additions
+- Reworked customisation of models, textures, and animations.
+### Fixes
+- Fixed some animations on snake-type Pokémon.
+
 ## 1.1.1 (November 27th, 2022)
 
 ### Fixes
