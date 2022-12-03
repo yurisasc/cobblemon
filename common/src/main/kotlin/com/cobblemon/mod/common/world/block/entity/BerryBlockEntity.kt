@@ -125,11 +125,10 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             this.lifeCycles--
             world.setBlockState(pos, state.with(BerryBlock.AGE, 0), 2)
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, state))
+            this.markDirty()
+            return
         }
-        else {
-            world.setBlockState(pos, Blocks.AIR.defaultState)
-        }
-        this.markDirty()
+        world.setBlockState(pos, Blocks.AIR.defaultState)
     }
 
     companion object {
