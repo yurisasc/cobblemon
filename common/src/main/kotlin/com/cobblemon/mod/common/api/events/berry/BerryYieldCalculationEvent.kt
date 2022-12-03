@@ -10,18 +10,24 @@ package com.cobblemon.mod.common.api.events.berry
 
 import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.api.berry.GrowthFactor
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.block.BlockState
+import net.minecraft.entity.LivingEntity
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 
 /**
- * The event fired when [Berry.calculateYield] is invoked with a non-null player argument.
+ * The event fired when [Berry.calculateYield] is invoked.
  *
- * @property player The [ServerPlayerEntity] triggering the calculation.
+ * @property placer The [LivingEntity] triggering the calculation.
  * @property yield The current yield of berries.
  * @property passedGrowthFactors The [Berry.growthFactors] where [GrowthFactor.isValid] was true.
  */
 class BerryYieldCalculationEvent(
     override val berry: Berry,
-    val player: ServerPlayerEntity,
+    val world: World,
+    val state: BlockState,
+    val pos: BlockPos,
+    val placer: LivingEntity?,
     yield: Int,
     val passedGrowthFactors: Collection<GrowthFactor>
 ) : BerryEvent {

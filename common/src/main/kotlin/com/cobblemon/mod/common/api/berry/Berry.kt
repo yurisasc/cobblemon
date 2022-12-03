@@ -8,14 +8,13 @@
 
 package com.cobblemon.mod.common.api.berry
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.google.gson.annotations.SerializedName
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.server.network.ServerPlayerEntity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
@@ -99,17 +98,15 @@ class Berry(
      * @param world The [World] the tree is present in.
      * @param state The [BlockState] of the tree.
      * @param pos The [BlockPos] of the tree.
-     * @param player The [ServerPlayerEntity] planting the tree, if any.
+     * @param placer The [LivingEntity] planting the tree, if any.
      * @return The total berry stack count.
      */
-    fun calculateYield(world: World, state: BlockState, pos: BlockPos, player: ServerPlayerEntity? = null): Int {
+    fun calculateYield(world: World, state: BlockState, pos: BlockPos, placer: LivingEntity? = null): Int {
         val base = this.baseYield.random()
         val bonus = this.bonusYield(world, state, pos)
         var yield = base + bonus.first
-        if (player != null) {
-            val event = BerryYieldCalculationEvent(this, player, yield, bonus.second)
-            CobblemonEvents.BERRY_YIELD.post(event) { yield = it.yield }
-        }
+        val event = BerryYieldCalculationEvent(this, world, state, pos, placer, yield, bonus.second)
+        CobblemonEvents.BERRY_YIELD.post(event) { yield = it.yield }
         return yield
     }
 

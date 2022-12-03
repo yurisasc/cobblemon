@@ -69,7 +69,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     override fun onPlaced(world: World, pos: BlockPos, state: BlockState, placer: LivingEntity?, itemStack: ItemStack) {
         if (!world.isClient) {
             val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return
-            blockEntity.generateGrowthPoints(world, state, pos, placer as? ServerPlayerEntity)
+            blockEntity.generateGrowthPoints(world, state, pos, placer)
         }
     }
 

@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.world.block.BerryBlock
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
+import net.minecraft.entity.LivingEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
@@ -40,9 +41,9 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
      * TODO
      *
      */
-    fun generateGrowthPoints(world: World, state: BlockState, pos: BlockPos, player: ServerPlayerEntity?) {
+    fun generateGrowthPoints(world: World, state: BlockState, pos: BlockPos, placer: LivingEntity?) {
         val berry = this.berry() ?: return
-        val yield = berry.calculateYield(world, state, pos, player)
+        val yield = berry.calculateYield(world, state, pos, placer)
         this.growthPoints.clear()
         repeat(yield) {
             this.growthPoints += berry.identifier
