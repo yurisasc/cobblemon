@@ -41,6 +41,7 @@ import com.cobblemon.mod.common.api.pokemon.evolution.PreEvolution
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroup
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceSource
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeature
+import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.friendship.FriendshipMutationCalculator
 import com.cobblemon.mod.common.api.pokemon.labels.CobblemonPokemonLabels
 import com.cobblemon.mod.common.api.pokemon.moves.LearnsetQuery
@@ -81,8 +82,7 @@ import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy
 import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
-import com.cobblemon.mod.common.pokemon.feature.SEASON
-import com.cobblemon.mod.common.pokemon.feature.SeasonFeature
+import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import com.cobblemon.mod.common.util.DataKeys
@@ -125,13 +125,10 @@ open class Pokemon {
                 throw IllegalArgumentException("Cannot set a species that isn't registered")
             }
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
-            val previousFeatureKeys = features.map { it.name }.toSet()
             field = value
-            val newFeatureKeys = species.features + Cobblemon.config.globalFlagSpeciesFeatures + SpeciesFeature.globalFeatures().keys
-            val addedFeatures = newFeatureKeys - previousFeatureKeys
-            val removedFeatures = previousFeatureKeys - newFeatureKeys
-            features.addAll(addedFeatures.mapNotNull { SpeciesFeature.get(it)?.invoke() })
-            features.removeAll { it.name in removedFeatures }
+            val newFeatures = SpeciesFeatures.getFeaturesFor(species).mapNotNull { it.invoke(this) }
+            features.clear()
+            features.addAll(newFeatures)
             this.evolutionProxy.current().clear()
             updateAspects()
             updateForm()
@@ -364,7 +361,7 @@ open class Pokemon {
     open fun getStat(stat: Stat) = Cobblemon.statProvider.getStatForPokemon(this, stat)
 
     fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
-        getFeature<SeasonFeature>(SEASON)?.update(this, level, position.toBlockPos())
+        SeasonFeatureHandler.updateSeason(this, level, position.toBlockPos())
         val entity = PokemonEntity(level, this)
         entity.setPositionSafely(position)
         mutation(entity)

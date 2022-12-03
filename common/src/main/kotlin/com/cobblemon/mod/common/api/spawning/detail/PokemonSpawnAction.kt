@@ -12,8 +12,7 @@ import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
-import com.cobblemon.mod.common.pokemon.feature.SEASON
-import com.cobblemon.mod.common.pokemon.feature.SeasonFeature
+import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
 import kotlin.random.Random
 
 /**
@@ -37,7 +36,7 @@ class PokemonSpawnAction(
             props.shiny = Cobblemon.config.shinyRate.takeIf { it >= 1 }?.let { Random.Default.nextFloat() < 1 / it }
         }
         val entity = props.createEntity(ctx.world)
-        entity.pokemon.getFeature<SeasonFeature>(SEASON)?.update(entity.pokemon, ctx.world, ctx.position)
+        SeasonFeatureHandler.updateSeason(entity.pokemon, ctx.world, ctx.position)
         entity.drops = detail.drops
         return entity
     }
