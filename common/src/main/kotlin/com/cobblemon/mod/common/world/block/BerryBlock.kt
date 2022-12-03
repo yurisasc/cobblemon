@@ -37,6 +37,12 @@ import net.minecraft.world.WorldView
 
 class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : BlockWithEntity(settings), Fertilizable {
 
+    /**
+     * Returns the [Berry] behind this block,
+     * This will be null if it doesn't exist in the [Berries] registry.
+     *
+     * @return The [Berry] if existing.
+     */
     fun berry(): Berry? = Berries.getByIdentifier(this.berryIdentifier)
 
     override fun createBlockEntity(pos: BlockPos, state: BlockState) = BerryBlockEntity(pos, state)

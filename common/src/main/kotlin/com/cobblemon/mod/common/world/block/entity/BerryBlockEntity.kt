@@ -47,8 +47,19 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
 
     private val growthPoints = arrayListOf<Identifier>()
 
+    /**
+     * Returns the [BerryBlock] behind this entity.
+     *
+     * @return The [BerryBlock].
+     */
     fun berryBlock() = this.cachedState.block as BerryBlock
 
+    /**
+     * Returns the [Berry] behind this entity,
+     * This will be null if it doesn't exist in the [Berries] registry.
+     *
+     * @return The [Berry] if existing.
+     */
     fun berry() = this.berryBlock().berry()
 
     /**
