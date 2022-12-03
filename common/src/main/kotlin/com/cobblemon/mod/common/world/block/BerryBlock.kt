@@ -14,12 +14,17 @@ import com.cobblemon.mod.common.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
+import net.minecraft.util.ActionResult
+import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
+import net.minecraft.util.hit.BlockHitResult
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.random.Random
@@ -54,6 +59,21 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
         world.setBlockState(pos, state.with(AGE, state.get(AGE) + 1), 2)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
+        if (player.getStackInHand(hand).isOf(Items.BONE_MEAL)) {
+            return ActionResult.PASS
+        }
+        else if (this.isMaxAge(state)) {
+            val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return ActionResult.PASS
+            blockEntity.harvest(world, state, pos, player).forEach { drop ->
+                Block.dropStack(world, pos, drop)
+            }
+            return ActionResult.success(world.isClient)
+        }
+        return super.onUse(state, world, pos, player, hand, hit)
     }
 
     @Deprecated("Deprecated in Java")

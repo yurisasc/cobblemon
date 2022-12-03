@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.events
 
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.events.berry.BerryEvent
+import com.cobblemon.mod.common.api.events.berry.BerryHarvestEvent
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
 import com.cobblemon.mod.common.api.events.entity.EntityAttributeEvent
@@ -84,4 +85,5 @@ object CobblemonEvents {
 
     // Berries
     val BERRY_YIELD = EventObservable<BerryYieldCalculationEvent>()
+    val BERRY_HARVEST = EventObservable<BerryHarvestEvent>()
 }

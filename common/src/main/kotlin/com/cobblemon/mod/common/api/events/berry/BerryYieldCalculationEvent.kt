@@ -18,6 +18,9 @@ import net.minecraft.world.World
 /**
  * The event fired when [Berry.calculateYield] is invoked.
  *
+ * @property world The [World] the berry tree is in.
+ * @property state The [BlockState] of the berry tree.
+ * @property pos The [BlockPos] of the berry tree.
  * @property placer The [LivingEntity] triggering the calculation.
  * @property yield The current yield of berries.
  * @property passedGrowthFactors The [Berry.growthFactors] where [GrowthFactor.isValid] was true.

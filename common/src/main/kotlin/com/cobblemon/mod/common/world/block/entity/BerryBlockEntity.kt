@@ -11,11 +11,14 @@ package com.cobblemon.mod.common.world.block.entity
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.berry.BerryHarvestEvent
 import com.cobblemon.mod.common.world.block.BerryBlock
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
@@ -25,11 +28,22 @@ import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraft.world.event.GameEvent
 
 class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(CobblemonBlockEntities.BERRY.get(), pos, state) {
 
+    /**
+     * The number of life cycles on this plant.
+     * @throws IllegalArgumentException if the cycles are set to less than 0.
+     */
     var lifeCycles: Int = this.berry()?.lifeCycles?.random() ?: 1
-        private set
+        set(value) {
+            if (value < 0) {
+                throw IllegalArgumentException("You cannot set the life cycles to less than 0")
+            }
+            field = value
+            this.markDirty()
+        }
 
     private val growthPoints = arrayListOf<Identifier>()
 
@@ -38,8 +52,12 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     fun berry() = this.berryBlock().berry()
 
     /**
-     * TODO
+     * Generates a random amount of growth points for this tree.
      *
+     * @param world The [World] the tree is in.
+     * @param state The [BlockState] of the tree.
+     * @param pos The [BlockPos] of the tree.
+     * @param placer The [LivingEntity] that placed the tree if any.
      */
     fun generateGrowthPoints(world: World, state: BlockState, pos: BlockPos, placer: LivingEntity?) {
         val berry = this.berry() ?: return
@@ -51,25 +69,37 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     }
 
     /**
-     * TODO
+     * Calculates the berry produce in [ItemStack] form.
      *
-     * @param world
-     * @param state
-     * @param pos
-     * @param player
-     * @return
+     * @param world The [World] the tree is in.
+     * @param state The [BlockState] of the tree.
+     * @param pos The [BlockPos] of the tree.
+     * @param player The [PlayerEntity] harvesting the tree.
+     * @return The resulting [ItemStack]s to be dropped.
      */
-    fun harvest(world: World, state: BlockState, pos: BlockPos, player: ServerPlayerEntity?): Collection<ItemStack> {
-        TODO("Not yet implemented")
-    }
-
-    /**
-     * TODO
-     *
-     * @param newCycles
-     */
-    fun setLifeCycles(newCycles: Int) {
-        TODO("Not yet implemented")
+    fun harvest(world: World, state: BlockState, pos: BlockPos, player: PlayerEntity): Collection<ItemStack> {
+        val drops = arrayListOf<ItemStack>()
+        if (this.lifeCycles > 0) {
+            val unique = this.growthPoints.groupingBy { it }.eachCount()
+            unique.forEach { (identifier, amount) ->
+                val berryItem = Berries.getByIdentifier(identifier)?.item()
+                if (berryItem != null) {
+                    var remain = amount
+                    while (remain > 0) {
+                        val count = remain.coerceAtMost(berryItem.maxCount)
+                        drops += ItemStack(berryItem, count)
+                        remain -= count
+                    }
+                }
+            }
+        }
+        this.consumeLife(world, pos, state, player)
+        this.berry()?.let { berry ->
+            if (player is ServerPlayerEntity) {
+                CobblemonEvents.BERRY_HARVEST.post(BerryHarvestEvent(berry, player, world, pos, state, this, drops))
+            }
+        }
+        return drops
     }
 
     override fun readNbt(nbt: NbtCompound) {
@@ -81,18 +111,23 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
 
     override fun writeNbt(nbt: NbtCompound) {
         this.growthPoints.clear()
-        this.lifeCycles = nbt.getInt(LIFE_CYCLES)
+        this.lifeCycles = nbt.getInt(LIFE_CYCLES).coerceAtLeast(0)
         nbt.getList(GROWTH_POINTS, NbtList.STRING_TYPE.toInt()).filterIsInstance<NbtString>().forEach { element ->
+            // In case some 3rd party mutates the NBT incorrectly
             try {
                 this.growthPoints += Identifier(element.asString())
             } catch (ignored: InvalidIdentifierException) {}
         }
     }
 
-    private fun consumeLife(world: World, pos: BlockPos) {
-        if (--this.lifeCycles <= 0) {
+    private fun consumeLife(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+        if (this.lifeCycles > 1) {
+            this.lifeCycles--
+            world.setBlockState(pos, state.with(BerryBlock.AGE, 0), 2)
+            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, state))
+        }
+        else {
             world.setBlockState(pos, Blocks.AIR.defaultState)
-            return
         }
         this.markDirty()
     }
