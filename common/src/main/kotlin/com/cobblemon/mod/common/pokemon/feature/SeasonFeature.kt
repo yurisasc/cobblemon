@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.pokemon.feature
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.SeasonResolver
-import com.cobblemon.mod.common.api.pokemon.feature.EnumSpeciesFeature
+import com.cobblemon.mod.common.api.pokemon.feature.StringSpeciesFeature
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.tags.CobblemonBiomeTags
 import java.util.EnumSet
@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.WorldAccess
 
 /**
- * A season variation of a Pokémon.
+ * A season. You know the ones.
  *
  * @author Hiroku
  * @since November 25th, 2022
@@ -35,17 +35,16 @@ enum class CobblemonSeason {
 }
 
 const val SEASON = "season"
-class SeasonFeature : EnumSpeciesFeature<CobblemonSeason>() {
-    override val name: String = SEASON
-    override fun getValues() = CobblemonSeason.ALL_VALUES
 
-    fun update(pokemon: Pokemon, world: WorldAccess, pos: BlockPos) {
-        val currentSeason = enumValue
-        val newSeason = Cobblemon.seasonResolver(world, pos)
+object SeasonFeatureHandler {
+    fun updateSeason(pokemon: Pokemon, world: WorldAccess, pos: BlockPos) {
+        val feature = pokemon.getFeature<StringSpeciesFeature>(SEASON) ?: return
+        val currentSeason = feature.value
+        val newSeason = Cobblemon.seasonResolver(world, pos)?.name?.lowercase()
         if (currentSeason != newSeason && newSeason != null) {
-            enumValue = newSeason
+            feature.value = newSeason
             pokemon.updateAspects()
-            pokemon.markFeatureDirty(this)
+            pokemon.markFeatureDirty(feature)
         }
     }
 }
