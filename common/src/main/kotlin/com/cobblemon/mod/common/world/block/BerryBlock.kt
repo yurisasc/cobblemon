@@ -78,7 +78,8 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     }
 
     override fun getPickStack(world: BlockView?, pos: BlockPos?, state: BlockState?): ItemStack {
-        TODO("Redirect to the base berry item")
+        val berryItem = this.berry()?.item() ?: return ItemStack.EMPTY
+        return ItemStack(berryItem)
     }
 
     @Deprecated("Deprecated in Java")

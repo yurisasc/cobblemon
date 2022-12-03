@@ -8,9 +8,13 @@
 
 package com.cobblemon.mod.common.api.berry
 
+import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
+import com.cobblemon.mod.common.item.BerryItem
+import com.cobblemon.mod.common.world.block.BerryBlock
 import com.google.gson.annotations.SerializedName
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -84,6 +88,20 @@ class Berry(
     }
 
     /**
+     * Finds the [BerryItem] that uses this berry for data.
+     *
+     * @return The [BerryItem] if existing.
+     */
+    fun item(): BerryItem? = CobblemonItems.berries()[this.identifier]?.get()
+
+    /**
+     * Finds the [BerryBlock] that uses this berry for data.
+     *
+     * @return The [BerryBlock] if existing.
+     */
+    fun block(): BerryBlock? = CobblemonBlocks.berries()[this.identifier]?.get()
+
+    /**
      * Query the value of a certain flavor.
      *
      * @param flavor The [Flavor] being queried.
@@ -92,8 +110,8 @@ class Berry(
     fun flavor(flavor: Flavor): Int = this.flavors[flavor] ?: 0
 
     /**
-     * Calculates the yield for a berry tree being harvested.
-     * This will trigger [BerryYieldCalculationEvent] if the [player] argument is not null.
+     * Calculates the yield for a berry tree being planted.
+     * Triggers [BerryYieldCalculationEvent].
      *
      * @param world The [World] the tree is present in.
      * @param state The [BlockState] of the tree.

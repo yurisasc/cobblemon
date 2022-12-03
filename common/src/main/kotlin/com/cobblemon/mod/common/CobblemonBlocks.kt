@@ -34,6 +34,7 @@ import net.minecraft.block.TrapdoorBlock
 import net.minecraft.block.WoodenButtonBlock
 import net.minecraft.entity.EntityType
 import net.minecraft.sound.BlockSoundGroup
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.Registry
@@ -41,7 +42,7 @@ import net.minecraft.util.shape.VoxelShape
 
 object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
 
-    private val berries = mutableListOf<RegistrySupplier<BerryBlock>>()
+    private val berries = hashMapOf<Identifier, RegistrySupplier<BerryBlock>>()
 
     /**
      * Evolution Ores
@@ -139,7 +140,7 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
 
     val PECHA_BERRY = this.berryBlock("pecha")
 
-    fun berries() = this.berries.toList()
+    fun berries() = this.berries.toMap()
 
     private fun registerApricornBlock(id: String, apricorn: Apricorn): RegistrySupplier<ApricornBlock> {
         return queue(id) { ApricornBlock(AbstractBlock.Settings.of(Material.PLANT).ticksRandomly().strength(0.2f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque(), apricorn) }
@@ -148,7 +149,7 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     private fun berryBlock(name: String): RegistrySupplier<BerryBlock> {
         val identifier = cobblemonResource("${name}_berry")
         val supplier = queue(identifier.path) { BerryBlock(identifier, AbstractBlock.Settings.of(Material.PLANT).dynamicBounds().ticksRandomly().sounds(BlockSoundGroup.CROP)) }
-        this.berries.add(supplier)
+        this.berries[supplier.id] = supplier
         return supplier
     }
 

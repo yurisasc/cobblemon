@@ -23,12 +23,13 @@ import net.minecraft.item.AliasedBlockItem
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
+import net.minecraft.util.Identifier
 import net.minecraft.util.registry.Registry
 
 object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
 
     private val pokeballs = mutableListOf<RegistrySupplier<PokeBallItem>>()
-    private val berries = mutableListOf<RegistrySupplier<BerryItem>>()
+    private val berries = hashMapOf<Identifier, RegistrySupplier<BerryItem>>()
 
     val POKE_BALL = pokeballItem(PokeBalls.POKE_BALL)
     val CITRINE_BALL = pokeballItem(PokeBalls.CITRINE_BALL)
@@ -166,7 +167,7 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
 
     fun pokeballs(): List<RegistrySupplier<PokeBallItem>> = this.pokeballs
 
-    fun berries(): List<RegistrySupplier<BerryItem>> = this.berries
+    fun berries() = this.berries.toMap()
 
     private fun blockItem(block: Block, tab: ItemGroup) : BlockItem {
         return BlockItem(block, Item.Settings().group(tab))
@@ -182,7 +183,7 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
 
     private fun berryItem(name: String, berryBlock: RegistrySupplier<BerryBlock>): RegistrySupplier<BerryItem> {
         val supplier = this.queue("${name}_berry") { BerryItem(berryBlock.get()) }
-        this.berries.add(supplier)
+        this.berries[supplier.id] = supplier
         return supplier
     }
 

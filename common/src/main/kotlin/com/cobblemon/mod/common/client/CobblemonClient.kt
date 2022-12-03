@@ -122,7 +122,7 @@ object CobblemonClient {
             CobblemonBlocks.WHITE_APRICORN.get(),
             CobblemonBlocks.YELLOW_APRICORN.get(),
             CobblemonBlocks.HEALING_MACHINE.get(),
-            *CobblemonBlocks.berries().map { it.get() }.toTypedArray()
+            *CobblemonBlocks.berries().values.map { it.get() }.toTypedArray()
         )
     }
 
