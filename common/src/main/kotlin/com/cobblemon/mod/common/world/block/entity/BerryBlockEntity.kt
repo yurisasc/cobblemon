@@ -80,6 +80,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         repeat(yield) {
             this.growthPoints += berry.identifier
         }
+        this.markDirty()
     }
 
     /**
@@ -93,26 +94,28 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
      */
     fun harvest(world: World, state: BlockState, pos: BlockPos, player: PlayerEntity): Collection<ItemStack> {
         val drops = arrayListOf<ItemStack>()
-        if (this.lifeCycles > 0) {
-            val unique = this.growthPoints.groupingBy { it }.eachCount()
-            unique.forEach { (identifier, amount) ->
-                val berryItem = Berries.getByIdentifier(identifier)?.item()
-                if (berryItem != null) {
-                    var remain = amount
-                    while (remain > 0) {
-                        val count = remain.coerceAtMost(berryItem.maxCount)
-                        drops += ItemStack(berryItem, count)
-                        remain -= count
-                    }
+        if (this.lifeCycles <= 0) {
+            this.consumeLife(world, pos, state, player)
+            return drops
+        }
+        val unique = this.growthPoints.groupingBy { it }.eachCount()
+        unique.forEach { (identifier, amount) ->
+            val berryItem = Berries.getByIdentifier(identifier)?.item()
+            if (berryItem != null) {
+                var remain = amount
+                while (remain > 0) {
+                    val count = remain.coerceAtMost(berryItem.maxCount)
+                    drops += ItemStack(berryItem, count)
+                    remain -= count
                 }
             }
         }
-        this.consumeLife(world, pos, state, player)
         this.berry()?.let { berry ->
             if (player is ServerPlayerEntity) {
                 CobblemonEvents.BERRY_HARVEST.post(BerryHarvestEvent(berry, player, world, pos, state, this, drops))
             }
         }
+        this.consumeLife(world, pos, state, player)
         return drops
     }
 
@@ -156,7 +159,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             this.lifeCycles--
             world.setBlockState(pos, state.with(BerryBlock.AGE, 0), 2)
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, state))
-            this.markDirty()
+            this.generateGrowthPoints(world, state, pos, player)
             return
         }
         world.setBlockState(pos, Blocks.AIR.defaultState)
