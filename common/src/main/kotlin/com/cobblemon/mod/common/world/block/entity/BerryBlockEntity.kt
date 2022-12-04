@@ -27,6 +27,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
@@ -113,14 +114,24 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         return drops
     }
 
-    override fun readNbt(nbt: NbtCompound) {
-        nbt.putInt(LIFE_CYCLES, this.lifeCycles)
-        val list = NbtList()
-        list += this.growthPoints.map { NbtString.of(it.toString()) }
-        nbt.put(GROWTH_POINTS, list)
+    /**
+     * TODO
+     *
+     * @param isFlower
+     * @return
+     */
+    internal fun berryAndShape(isFlower: Boolean): Collection<Pair<Berry, VoxelShape>> {
+        val shapes = arrayListOf<Pair<Berry, VoxelShape>>()
+        for (index in this.growthPoints.indices) {
+            val identifier = this.growthPoints[index]
+            val berry = Berries.getByIdentifier(identifier) ?: continue
+            val shape = berry.shapeAt(index, isFlower)
+            shapes.add(berry to shape)
+        }
+        return shapes
     }
 
-    override fun writeNbt(nbt: NbtCompound) {
+    override fun readNbt(nbt: NbtCompound) {
         this.growthPoints.clear()
         this.lifeCycles = nbt.getInt(LIFE_CYCLES).coerceAtLeast(0)
         nbt.getList(GROWTH_POINTS, NbtList.STRING_TYPE.toInt()).filterIsInstance<NbtString>().forEach { element ->
@@ -129,6 +140,13 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
                 this.growthPoints += Identifier(element.asString())
             } catch (ignored: InvalidIdentifierException) {}
         }
+    }
+
+    override fun writeNbt(nbt: NbtCompound) {
+        nbt.putInt(LIFE_CYCLES, this.lifeCycles)
+        val list = NbtList()
+        list += this.growthPoints.map { NbtString.of(it.toString()) }
+        nbt.put(GROWTH_POINTS, list)
     }
 
     private fun consumeLife(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {

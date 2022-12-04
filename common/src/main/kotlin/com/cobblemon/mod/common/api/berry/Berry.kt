@@ -195,7 +195,7 @@ class Berry(
                 shapeParts.first()
             }
         }
-        return map[index]!!
+        return map[index] ?: VoxelShapes.empty()
     }
 
     /**
