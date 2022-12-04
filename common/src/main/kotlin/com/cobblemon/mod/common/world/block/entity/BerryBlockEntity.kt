@@ -42,8 +42,10 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             if (value < 0) {
                 throw IllegalArgumentException("You cannot set the life cycles to less than 0")
             }
+            if (field != value) {
+                this.markDirty()
+            }
             field = value
-            this.markDirty()
         }
 
     private val growthPoints = arrayListOf<Identifier>()
