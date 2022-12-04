@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:tentacool",
-  "model": "cobblemon:bedrock/models/0072_tentacool/tentacool.geo.json",
+  "model": "cobblemon:tentacool.geo",
   "texture": "cobblemon:textures/pokemon/0072_tentacool/tentacool.png",
   "variations": [
     {

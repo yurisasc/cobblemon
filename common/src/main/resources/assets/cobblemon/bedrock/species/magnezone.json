@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:magnezone",
-  "model": "cobblemon:bedrock/models/0462_magnezone/magnezone.geo.json",
+  "model": "cobblemon:magnezone.geo",
   "texture": "cobblemon:textures/pokemon/0462_magnezone/magnezone.png",
   "variations": [
     {

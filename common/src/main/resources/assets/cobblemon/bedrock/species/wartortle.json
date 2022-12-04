@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:wartortle",
-  "model": "cobblemon:bedrock/models/0008_wartortle/wartortle.geo.json",
+  "model": "cobblemon:wartortle.geo",
   "texture": "cobblemon:textures/pokemon/0008_wartortle/wartortle.png",
   "variations": [
     {

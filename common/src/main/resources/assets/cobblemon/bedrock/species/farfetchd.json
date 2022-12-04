@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:farfetchd",
-  "model": "cobblemon:bedrock/models/0083_farfetchd/farfetchd.geo.json",
+  "model": "cobblemon:farfetchd.geo",
   "texture": "cobblemon:textures/pokemon/0083_farfetchd/farfetchd.png",
   "variations": [
     {

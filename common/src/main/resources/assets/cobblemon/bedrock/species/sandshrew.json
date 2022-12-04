@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:sandshrew",
-  "model": "cobblemon:bedrock/models/0027_sandshrew/sandshrew.geo.json",
+  "model": "cobblemon:sandshrew.geo",
   "texture": "cobblemon:textures/pokemon/0027_sandshrew/sandshrew.png",
   "variations": [
     {

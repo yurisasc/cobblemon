@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:machop",
-  "model": "cobblemon:bedrock/models/0066_machop/machop.geo.json",
+  "model": "cobblemon:machop.geo",
   "texture": "cobblemon:textures/pokemon/0066_machop/machop.png",
   "variations": [
     {

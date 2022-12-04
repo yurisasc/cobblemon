@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:igglybuff",
-  "model": "cobblemon:bedrock/models/0174_igglybuff/igglybuff.geo.json",
+  "model": "cobblemon:igglybuff.geo",
   "texture": "cobblemon:textures/pokemon/0174_igglybuff/igglybuff.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:dewgong",
-  "model": "cobblemon:bedrock/models/0087_dewgong/dewgong.geo.json",
+  "model": "cobblemon:dewgong.geo",
   "texture": "cobblemon:textures/pokemon/0087_dewgong/dewgong.png",
   "variations": [
     {

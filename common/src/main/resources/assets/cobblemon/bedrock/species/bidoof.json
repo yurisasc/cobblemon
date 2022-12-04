@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:bidoof",
-  "model": "cobblemon:bedrock/models/0399_bidoof/bidoof_male.geo.json",
+  "model": "cobblemon:bidoof_male.geo",
   "texture": "cobblemon:textures/pokemon/0399_bidoof/bidoof.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0399_bidoof/bidoof_female.geo.json"
+      "model": "cobblemon:bidoof_female.geo"
     }
   ]
 }

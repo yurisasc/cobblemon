@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:butterfree",
-  "model": "cobblemon:bedrock/models/0012_butterfree/butterfree_male.geo.json",
+  "model": "cobblemon:butterfree_male.geo",
   "texture": "cobblemon:textures/pokemon/0012_butterfree/butterfree.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0012_butterfree/butterfree_female.geo.json"
+      "model": "cobblemon:butterfree_female.geo"
     },
     {
       "aspects": ["valencian"],

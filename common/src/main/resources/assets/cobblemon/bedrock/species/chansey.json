@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:chansey",
-  "model": "cobblemon:bedrock/models/0113_chansey/chansey.geo.json",
+  "model": "cobblemon:chansey.geo",
   "texture": "cobblemon:textures/pokemon/0113_chansey/chansey.png",
   "variations": [
     {

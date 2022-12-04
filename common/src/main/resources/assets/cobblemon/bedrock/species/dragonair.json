@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:dragonair",
-  "model": "cobblemon:bedrock/models/0148_dragonair/dragonair.geo.json",
+  "model": "cobblemon:dragonair.geo",
   "texture": "cobblemon:textures/pokemon/0148_dragonair/dragonair.png",
   "variations": [
     {

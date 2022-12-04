@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:clefairy",
-  "model": "cobblemon:bedrock/models/0035_clefairy/clefairy.geo.json",
+  "model": "cobblemon:clefairy.geo",
   "texture": "cobblemon:textures/pokemon/0035_clefairy/clefairy.png",
   "variations": [
     {

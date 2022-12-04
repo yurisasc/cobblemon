@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:rowlet",
-  "model": "cobblemon:bedrock/models/0722_rowlet/rowlet.geo.json",
+  "model": "cobblemon:rowlet.geo",
   "texture": "cobblemon:textures/pokemon/0722_rowlet/rowlet.png",
   "variations": [
     {

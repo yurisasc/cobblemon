@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:nidoking",
-  "model": "cobblemon:bedrock/models/0034_nidoking/nidoking.geo.json",
+  "model": "cobblemon:nidoking.geo",
   "texture": "cobblemon:textures/pokemon/0034_nidoking/nidoking.png",
   "variations": [
     {

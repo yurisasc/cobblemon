@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:umbreon",
-  "model": "cobblemon:bedrock/models/0197_umbreon/umbreon.geo.json",
+  "model": "cobblemon:umbreon.geo",
   "texture": "cobblemon:textures/pokemon/0197_umbreon/umbreon.png",
   "variations": [
     {

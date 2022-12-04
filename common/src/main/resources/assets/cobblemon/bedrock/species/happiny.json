@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:happiny",
-  "model": "cobblemon:bedrock/models/0440_happiny/happiny.geo.json",
+  "model": "cobblemon:happiny.geo",
   "texture": "cobblemon:textures/pokemon/0440_happiny/happiny.png",
   "variations": [
     {

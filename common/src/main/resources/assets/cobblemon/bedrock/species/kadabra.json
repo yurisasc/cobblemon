@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:kadabra",
-  "model": "cobblemon:bedrock/models/0064_kadabra/kadabra_male.geo.json",
+  "model": "cobblemon:kadabra_male.geo",
   "texture": "cobblemon:textures/pokemon/0064_kadabra/kadabra.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0064_kadabra/kadabra_female.geo.json"
+      "model": "cobblemon:kadabra_female.geo"
     }
   ]
 }

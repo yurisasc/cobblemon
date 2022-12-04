@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:magby",
-  "model": "cobblemon:bedrock/models/0240_magby/magby.geo.json",
+  "model": "cobblemon:magby.geo",
   "texture": "cobblemon:textures/pokemon/0240_magby/magby.png",
   "variations": [
     {

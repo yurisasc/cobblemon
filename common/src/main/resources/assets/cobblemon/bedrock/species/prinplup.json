@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:prinplup",
-  "model": "cobblemon:bedrock/models/0394_prinplup/prinplup.geo.json",
+  "model": "cobblemon:prinplup.geo",
   "texture": "cobblemon:textures/pokemon/0394_prinplup/prinplup.png",
   "variations": [
     {

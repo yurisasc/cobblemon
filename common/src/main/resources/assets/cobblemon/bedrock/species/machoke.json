@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:machoke",
-  "model": "cobblemon:bedrock/models/0067_machoke/machoke.geo.json",
+  "model": "cobblemon:machoke.geo",
   "texture": "cobblemon:textures/pokemon/0067_machoke/machoke.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:swinub",
-  "model": "cobblemon:bedrock/models/0220_swinub/swinub.geo.json",
+  "model": "cobblemon:swinub.geo",
   "texture": "cobblemon:textures/pokemon/0220_swinub/swinub.png",
   "variations": [
     {

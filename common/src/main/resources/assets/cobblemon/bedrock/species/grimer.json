@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:grimer",
-  "model": "cobblemon:bedrock/models/0088_grimer/grimer.geo.json",
+  "model": "cobblemon:grimer.geo",
   "texture": "cobblemon:textures/pokemon/0088_grimer/grimer.png",
   "variations": [
     {

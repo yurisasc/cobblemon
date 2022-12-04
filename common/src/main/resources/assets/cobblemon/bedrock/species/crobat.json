@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:crobat",
-  "model": "cobblemon:bedrock/models/0169_crobat/crobat.geo.json",
+  "model": "cobblemon:crobat.geo",
   "texture": "cobblemon:textures/pokemon/0169_crobat/crobat.png",
   "variations": [
     {

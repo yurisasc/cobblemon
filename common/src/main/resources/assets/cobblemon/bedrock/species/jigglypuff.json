@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:jigglypuff",
-  "model": "cobblemon:bedrock/models/0039_jigglypuff/jigglypuff.geo.json",
+  "model": "cobblemon:jigglypuff.geo",
   "texture": "cobblemon:textures/pokemon/0039_jigglypuff/jigglypuff.png",
   "variations": [
     {

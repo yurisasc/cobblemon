@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:mimikyu",
-  "model": "cobblemon:bedrock/models/0778_mimikyu/mimikyu_male.geo.json",
+  "model": "cobblemon:mimikyu_male.geo",
   "texture": "cobblemon:textures/pokemon/0778_mimikyu/mimikyu.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0778_mimikyu/mimikyu_female.geo.json"
+      "model": "cobblemon:mimikyu_female.geo"
     }
   ]
 }

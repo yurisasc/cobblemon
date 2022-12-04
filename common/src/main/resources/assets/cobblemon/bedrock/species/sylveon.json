@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:sylveon",
-  "model": "cobblemon:bedrock/models/0700_sylveon/sylveon.geo.json",
+  "model": "cobblemon:sylveon.geo",
   "texture": "cobblemon:textures/pokemon/0700_sylveon/sylveon.png",
   "variations": [
     {

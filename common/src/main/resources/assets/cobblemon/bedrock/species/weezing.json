@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:weezing",
-  "model": "cobblemon:bedrock/models/0110_weezing/weezing.geo.json",
+  "model": "cobblemon:weezing.geo",
   "texture": "cobblemon:textures/pokemon/0110_weezing/weezing.png",
   "variations": [
     {

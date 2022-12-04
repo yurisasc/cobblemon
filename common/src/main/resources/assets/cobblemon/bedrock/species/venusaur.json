@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:venusaur",
-  "model": "cobblemon:bedrock/models/0003_venusaur/venusaur_male.geo.json",
+  "model": "cobblemon:venusaur_male.geo",
   "texture": "cobblemon:textures/pokemon/0003_venusaur/venusaur.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0003_venusaur/venusaur_female.geo.json"
+      "model": "cobblemon:venusaur_female.geo"
     }
   ]
 }

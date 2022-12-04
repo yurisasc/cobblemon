@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:torchic",
-  "model": "cobblemon:bedrock/models/0255_torchic/torchic.geo.json",
+  "model": "cobblemon:torchic.geo",
   "texture": "cobblemon:textures/pokemon/0255_torchic/torchic.png",
   "variations": [
     {

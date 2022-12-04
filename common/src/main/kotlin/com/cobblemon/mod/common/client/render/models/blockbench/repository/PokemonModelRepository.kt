@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen1.AbraModel
@@ -507,6 +508,8 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         posers[cobblemonResource(name)] = model
     }
 
+
+
     fun registerJsonPosers(resourceManager: ResourceManager) {
         resourceManager.findResources("bedrock/posers") { path -> path.endsWith(".json") }.forEach { identifier, resource ->
             resource.inputStream.use { stream ->
@@ -536,16 +539,26 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     override fun registerAll() {
     }
 
+    val texturedModels = mutableMapOf<Identifier, TexturedModel>()
+    fun registerModels(resourceManager: ResourceManager) {
+        resourceManager.findResources("bedrock/models") { path -> path.endsWith(".geo.json") }.forEach { identifier, resource ->
+            resource.inputStream.use { stream ->
+                val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
+                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
+                texturedModels[resolvedIdentifier] = TexturedModel.from(json)
+            }
+        }
+    }
+
     override fun reload(resourceManager: ResourceManager) {
         Cobblemon.LOGGER.info("Initializing Pokémon models")
         this.renders.clear()
         this.posers.clear()
         registerPosers(resourceManager)
+        registerModels(resourceManager)
         registerSpeciesAssetResolvers(resourceManager)
         initializeModelLayers()
     }
-
-    var brokenOnes = mutableListOf<Species>()
 
     fun getPoser(species: Species, aspects: Set<String>): PokemonPoseableModel {
         try {

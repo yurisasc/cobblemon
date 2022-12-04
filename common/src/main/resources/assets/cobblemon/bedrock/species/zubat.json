@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:zubat",
-  "model": "cobblemon:bedrock/models/0041_zubat/zubat.geo.json",
+  "model": "cobblemon:zubat.geo",
   "texture": "cobblemon:textures/pokemon/0041_zubat/zubat_male.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:poliwrath",
-  "model": "cobblemon:bedrock/models/0062_poliwrath/poliwrath.geo.json",
+  "model": "cobblemon:poliwrath.geo",
   "texture": "cobblemon:textures/pokemon/0062_poliwrath/poliwrath.png",
   "variations": [
     {
