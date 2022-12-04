@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:dwebble",
-  "model": "cobblemon:bedrock/models/0557_dwebble/dwebble.geo",
+  "model": "cobblemon:dwebble.geo",
   "texture": "cobblemon:textures/pokemon/0557_dwebble/dwebble.png",
   "variations": [
     {

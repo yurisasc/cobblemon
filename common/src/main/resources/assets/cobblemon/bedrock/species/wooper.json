@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:wooper",
-  "model": "cobblemon:bedrock/models/0194_wooper/wooper_male.geo",
+  "model": "cobblemon:wooper_male.geo",
   "texture": "cobblemon:textures/pokemon/0194_wooper/wooper.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0194_wooper/wooper_female.geo"
+      "model": "cobblemon:wooper_female.geo"
     }
   ]
 }

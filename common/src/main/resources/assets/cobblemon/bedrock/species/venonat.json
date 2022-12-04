@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:venonat",
-  "model": "cobblemon:bedrock/models/0048_venonat/venonat.geo",
+  "model": "cobblemon:venonat.geo",
   "texture": "cobblemon:textures/pokemon/0048_venonat/venonat.png",
   "variations": [
     {

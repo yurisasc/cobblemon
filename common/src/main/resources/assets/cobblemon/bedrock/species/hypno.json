@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:hypno",
-  "model": "cobblemon:bedrock/models/0097_hypno/hypno_male.geo",
+  "model": "cobblemon:hypno_male.geo",
   "texture": "cobblemon:textures/pokemon/0097_hypno/hypno.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0097_hypno/hypno_female.geo"
+      "model": "cobblemon:hypno_female.geo"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:mrmime",
-  "model": "cobblemon:bedrock/models/0122_mrmime/mrmime.geo",
+  "model": "cobblemon:mrmime.geo",
   "texture": "cobblemon:textures/pokemon/0122_mrmime/mrmime.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:rapidash",
-  "model": "cobblemon:bedrock/models/0078_rapidash/rapidash.geo",
+  "model": "cobblemon:rapidash.geo",
   "texture": "cobblemon:textures/pokemon/0078_rapidash/rapidash.png",
   "variations": [
     {

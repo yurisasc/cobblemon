@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:raticate",
-  "model": "cobblemon:bedrock/models/0020_raticate/raticate_male.geo",
+  "model": "cobblemon:raticate_male.geo",
   "texture": "cobblemon:textures/pokemon/0020_raticate/raticate.png",
   "variations": [
     {
@@ -9,11 +9,11 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0020_raticate/raticate_female.geo"
+      "model": "cobblemon:raticate_female.geo"
     },
     {
       "aspects": ["alolan"],
-      "model": "cobblemon:bedrock/models/0020_raticate/raticate_alolan.geo",
+      "model": "cobblemon:raticate_alolan.geo",
       "texture": "cobblemon:textures/pokemon/0020_raticate/raticate_alolan.png"
     },
     {

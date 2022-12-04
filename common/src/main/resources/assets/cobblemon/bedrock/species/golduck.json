@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:golduck",
-  "model": "cobblemon:bedrock/models/0055_golduck/golduck.geo",
+  "model": "cobblemon:golduck.geo",
   "texture": "cobblemon:textures/pokemon/0055_golduck/golduck.png",
   "variations": [
     {

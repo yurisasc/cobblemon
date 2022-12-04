@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:crustle",
-  "model": "cobblemon:bedrock/models/0558_crustle/crustle.geo",
+  "model": "cobblemon:crustle.geo",
   "texture": "cobblemon:textures/pokemon/0558_crustle/crustle.png",
   "variations": [
     {

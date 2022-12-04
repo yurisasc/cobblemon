@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:naganadel",
-  "model": "cobblemon:bedrock/models/0804_naganadel/naganadel.geo",
+  "model": "cobblemon:naganadel.geo",
   "texture": "cobblemon:textures/pokemon/0804_naganadel/naganadel.png",
   "variations": [
     {

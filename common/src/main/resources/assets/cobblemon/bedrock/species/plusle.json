@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:plusle",
-  "model": "cobblemon:bedrock/models/0311_plusle/plusle.geo",
+  "model": "cobblemon:plusle.geo",
   "texture": "cobblemon:textures/pokemon/0311_plusle/plusle.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:slowking",
-  "model": "cobblemon:bedrock/models/0199_slowking/slowking.geo",
+  "model": "cobblemon:slowking.geo",
   "texture": "cobblemon:textures/pokemon/0199_slowking/slowking.png",
   "variations": [
     {

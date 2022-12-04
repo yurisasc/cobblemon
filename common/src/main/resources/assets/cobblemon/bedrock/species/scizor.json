@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:scizor",
-  "model": "cobblemon:bedrock/models/0212_scizor/scizor_male.geo",
+  "model": "cobblemon:scizor_male.geo",
   "texture": "cobblemon:textures/pokemon/0212_scizor/scizor.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0212_scizor/scizor_female.geo"
+      "model": "cobblemon:scizor_female.geo"
     }
   ]
 }

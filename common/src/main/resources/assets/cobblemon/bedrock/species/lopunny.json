@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:lopunny",
-  "model": "cobblemon:bedrock/models/0428_lopunny/lopunny.geo",
+  "model": "cobblemon:lopunny.geo",
   "texture": "cobblemon:textures/pokemon/0428_lopunny/lopunny.png",
   "variations": [
     {

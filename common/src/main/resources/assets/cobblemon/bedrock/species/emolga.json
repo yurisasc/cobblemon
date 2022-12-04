@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:emolga",
-  "model": "cobblemon:bedrock/models/0587_emolga/emolga.geo",
+  "model": "cobblemon:emolga.geo",
   "texture": "cobblemon:textures/pokemon/0587_emolga/emolga.png",
   "variations": [
     {

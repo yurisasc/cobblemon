@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:empoleon",
-  "model": "cobblemon:bedrock/models/0395_empoleon/empoleon.geo",
+  "model": "cobblemon:empoleon.geo",
   "texture": "cobblemon:textures/pokemon/0395_empoleon/empoleon.png",
   "variations": [
     {

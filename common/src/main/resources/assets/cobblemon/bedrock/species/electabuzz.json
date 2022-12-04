@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:electabuzz",
-  "model": "cobblemon:bedrock/models/0125_electabuzz/electabuzz.geo",
+  "model": "cobblemon:electabuzz.geo",
   "texture": "cobblemon:textures/pokemon/0125_electabuzz/electabuzz.png",
   "variations": [
     {

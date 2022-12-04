@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:haunter",
-  "model": "cobblemon:bedrock/models/0093_haunter/haunter.geo",
+  "model": "cobblemon:haunter.geo",
   "texture": "cobblemon:textures/pokemon/0093_haunter/haunter.png",
   "variations": [
     {

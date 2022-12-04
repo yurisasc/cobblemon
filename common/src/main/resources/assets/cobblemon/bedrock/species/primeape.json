@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:primeape",
-  "model": "cobblemon:bedrock/models/0057_primeape/primeape.geo",
+  "model": "cobblemon:primeape.geo",
   "texture": "cobblemon:textures/pokemon/0057_primeape/primeape.png",
   "variations": [
     {

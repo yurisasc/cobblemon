@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:squirtle",
-  "model": "cobblemon:bedrock/models/0007_squirtle/squirtle.geo",
+  "model": "cobblemon:squirtle.geo",
   "texture": "cobblemon:textures/pokemon/0007_squirtle/squirtle.png",
   "variations": [
     {

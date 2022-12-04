@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:politoed",
-  "model": "cobblemon:bedrock/models/0186_politoed/politoed.geo",
+  "model": "cobblemon:politoed.geo",
   "texture": "cobblemon:textures/pokemon/0186_politoed/politoed.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:hitmonchan",
-  "model": "cobblemon:bedrock/models/0107_hitmonchan/hitmonchan.geo",
+  "model": "cobblemon:hitmonchan.geo",
   "texture": "cobblemon:textures/pokemon/0107_hitmonchan/hitmonchan.png",
   "variations": [
     {

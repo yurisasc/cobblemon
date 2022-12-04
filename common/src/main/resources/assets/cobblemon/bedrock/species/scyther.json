@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:scyther",
-  "model": "cobblemon:bedrock/models/0123_scyther/scyther_male.geo",
+  "model": "cobblemon:scyther_male.geo",
   "texture": "cobblemon:textures/pokemon/0123_scyther/scyther.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["shiny"],
-      "model": "cobblemon:bedrock/models/0123_scyther/scyther_female.geo"
+      "model": "cobblemon:scyther_female.geo"
     }
   ]
 }

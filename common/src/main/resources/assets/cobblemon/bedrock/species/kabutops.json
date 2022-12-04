@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:kabutops",
-  "model": "cobblemon:bedrock/models/0141_kabutops/kabutops.geo",
+  "model": "cobblemon:kabutops.geo",
   "texture": "cobblemon:textures/pokemon/0141_kabutops/kabutops.png",
   "variations": [
     {

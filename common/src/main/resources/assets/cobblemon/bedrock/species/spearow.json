@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:spearow",
-  "model": "cobblemon:bedrock/models/0021_spearow/spearow.geo",
+  "model": "cobblemon:spearow.geo",
   "texture": "cobblemon:textures/pokemon/0021_spearow/spearow.png",
   "variations": [
     {

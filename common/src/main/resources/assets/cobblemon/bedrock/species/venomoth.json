@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:venomoth",
-  "model": "cobblemon:bedrock/models/0049_venomoth/venomoth.geo",
+  "model": "cobblemon:venomoth.geo",
   "texture": "cobblemon:textures/pokemon/0049_venomoth/venomoth.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:marowak",
-  "model": "cobblemon:bedrock/models/0105_marowak/marowak.geo",
+  "model": "cobblemon:marowak.geo",
   "texture": "cobblemon:textures/pokemon/0105_marowak/marowak.png",
   "variations": [
     {

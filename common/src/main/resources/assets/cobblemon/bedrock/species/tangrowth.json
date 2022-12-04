@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:tangrowth",
-  "model": "cobblemon:bedrock/models/0465_tangrowth/tangrowth.geo",
+  "model": "cobblemon:tangrowth.geo",
   "texture": "cobblemon:textures/pokemon/0465_tangrowth/tangrowth.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:centiskorch",
-  "model": "cobblemon:bedrock/models/0851_centiskorch/centiskorch.geo",
+  "model": "cobblemon:centiskorch.geo",
   "texture": "cobblemon:textures/pokemon/0851_centiskorch/centiskorch.png",
   "variations": [
     {

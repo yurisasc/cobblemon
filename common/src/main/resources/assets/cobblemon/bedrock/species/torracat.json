@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:torracat",
-  "model": "cobblemon:bedrock/models/0726_torracat/torracat.geo",
+  "model": "cobblemon:torracat.geo",
   "texture": "cobblemon:textures/pokemon/0726_torracat/torracat.png",
   "variations": [
     {

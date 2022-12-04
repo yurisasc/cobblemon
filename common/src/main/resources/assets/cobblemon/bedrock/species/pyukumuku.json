@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:pyukumuku",
-  "model": "cobblemon:bedrock/models/0771_pyukumuku/pyukumuku.geo",
+  "model": "cobblemon:pyukumuku.geo",
   "texture": "cobblemon:textures/pokemon/0771_pyukumuku/pyukumuku.png",
   "variations": [
     {

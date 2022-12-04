@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:weepinbell",
-  "model": "cobblemon:bedrock/models/0070_weepinbell/weepinbell.geo",
+  "model": "cobblemon:weepinbell.geo",
   "texture": "cobblemon:textures/pokemon/0070_weepinbell/weepinbell.png",
   "variations": [
     {

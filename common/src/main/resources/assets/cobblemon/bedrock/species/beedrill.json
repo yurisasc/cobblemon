@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:beedrill",
-  "model": "cobblemon:bedrock/models/0015_beedrill/beedrill.geo",
+  "model": "cobblemon:beedrill.geo",
   "texture": "cobblemon:textures/pokemon/0015_beedrill/beedrill.png",
   "variations": [
     {

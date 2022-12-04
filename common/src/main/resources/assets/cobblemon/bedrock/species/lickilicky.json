@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:lickilicky",
-  "model": "cobblemon:bedrock/models/0463_lickilicky/lickilicky.geo",
+  "model": "cobblemon:lickilicky.geo",
   "texture": "cobblemon:textures/pokemon/0463_lickilicky/lickilicky.png",
   "variations": [
     {

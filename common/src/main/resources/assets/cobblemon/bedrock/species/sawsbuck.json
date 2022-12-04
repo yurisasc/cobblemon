@@ -1,22 +1,22 @@
 {
   "poser": "cobblemon:sawsbuck",
-  "model": "cobblemon:bedrock/models/0586_sawsbuck/sawsbuck_spring.geo",
+  "model": "cobblemon:sawsbuck_spring.geo",
   "texture": "cobblemon:textures/pokemon/0586_sawsbuck/sawsbuck_spring.png",
   "variations": [
     {
       "aspects": ["autumn"],
       "texture": "cobblemon:textures/pokemon/0586_sawsbuck/sawsbuck_autumn.png",
-      "model": "cobblemon:bedrock/models/0586_sawsbuck/sawsbuck_autumn.geo"
+      "model": "cobblemon:sawsbuck_autumn.geo"
     },
     {
       "aspects": ["summer"],
       "texture": "cobblemon:textures/pokemon/0586_sawsbuck/sawsbuck_summer.png",
-      "model": "cobblemon:bedrock/models/0586_sawsbuck/sawsbuck_summer.geo"
+      "model": "cobblemon:sawsbuck_summer.geo"
     },
     {
       "aspects": ["winter"],
       "texture": "cobblemon:textures/pokemon/0586_sawsbuck/sawsbuck_winter.png",
-      "model": "cobblemon:bedrock/models/0586_sawsbuck/sawsbuck_winter.geo"
+      "model": "cobblemon:sawsbuck_winter.geo"
     }
   ]
 }

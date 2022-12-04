@@ -1,6 +1,6 @@
 {
     "poser": "cobblemon:krabby",
-    "model": "cobblemon:bedrock/models/0098_krabby/krabby.geo",
+    "model": "cobblemon:krabby.geo",
     "texture": "cobblemon:textures/pokemon/0098_krabby/krabby.png",
     "variations": [
         {

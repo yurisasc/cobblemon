@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:psyduck",
-  "model": "cobblemon:bedrock/models/0054_psyduck/psyduck.geo",
+  "model": "cobblemon:psyduck.geo",
   "texture": "cobblemon:textures/pokemon/0054_psyduck/psyduck.png",
   "variations": [
     {

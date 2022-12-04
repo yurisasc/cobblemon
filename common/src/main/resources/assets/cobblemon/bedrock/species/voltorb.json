@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:voltorb",
-  "model": "cobblemon:bedrock/models/0100_voltorb/voltorb.geo",
+  "model": "cobblemon:voltorb.geo",
   "texture": "cobblemon:textures/pokemon/0100_voltorb/voltorb.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:poipole",
-  "model": "cobblemon:bedrock/models/0803_poipole/poipole.geo",
+  "model": "cobblemon:poipole.geo",
   "texture": "cobblemon:textures/pokemon/0803_poipole/poipole.png",
   "variations": [
     {

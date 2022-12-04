@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:golem",
-  "model": "cobblemon:bedrock/models/0076_golem/golem.geo",
+  "model": "cobblemon:golem.geo",
   "texture": "cobblemon:textures/pokemon/0076_golem/golem.png",
   "variations": [
     {

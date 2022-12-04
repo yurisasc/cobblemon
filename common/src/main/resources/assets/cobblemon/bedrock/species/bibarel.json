@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:bibarel",
-  "model": "cobblemon:bedrock/models/0400_bibarel/bibarel_male.geo",
+  "model": "cobblemon:bibarel_male.geo",
   "texture": "cobblemon:textures/pokemon/0400_bibarel/bibarel.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0400_bibarel/bibarel_female.geo"
+      "model": "cobblemon:bibarel_female.geo"
     }
   ]
 }

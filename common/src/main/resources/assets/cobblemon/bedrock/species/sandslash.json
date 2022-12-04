@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:sandslash",
-  "model": "cobblemon:bedrock/models/0028_sandslash/sandslash.geo",
+  "model": "cobblemon:sandslash.geo",
   "texture": "cobblemon:textures/pokemon/0028_sandslash/sandslash.png",
   "variations": [
     {

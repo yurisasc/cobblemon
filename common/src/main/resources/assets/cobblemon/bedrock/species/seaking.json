@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:seaking",
-  "model": "cobblemon:bedrock/models/0119_seaking/seaking_male.geo",
+  "model": "cobblemon:seaking_male.geo",
   "texture": "cobblemon:textures/pokemon/0119_seaking/seaking.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0119_seaking/seaking_female.geo"
+      "model": "cobblemon:seaking_female.geo"
     }
   ]
 }

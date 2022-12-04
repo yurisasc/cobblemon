@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:dodrio",
-  "model": "cobblemon:bedrock/models/0085_dodrio/dodrio.geo",
+  "model": "cobblemon:dodrio.geo",
   "texture": "cobblemon:textures/pokemon/0085_dodrio/dodrio_male.png",
   "variations": [
     {

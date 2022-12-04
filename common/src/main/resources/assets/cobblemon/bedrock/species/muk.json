@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:muk",
-  "model": "cobblemon:bedrock/models/0089_muk/muk.geo",
+  "model": "cobblemon:muk.geo",
   "texture": "cobblemon:textures/pokemon/0089_muk/muk.png",
   "variations": [
     {

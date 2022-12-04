@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:basculin",
-  "model": "cobblemon:bedrock/models/0550_basculin/basculin_redstripe.geo",
+  "model": "cobblemon:basculin_redstripe.geo",
   "texture": "cobblemon:textures/pokemon/0550_basculin/basculin_redstripe.png",
   "variations": [
     {
@@ -10,7 +10,7 @@
     {
       "aspects": ["bluestriped"],
       "texture": "cobblemon:textures/pokemon/0550_basculin/basculin_bluestripe.png",
-      "model": "cobblemon:bedrock/models/0550_basculin/basculin_bluestripe.geo"
+      "model": "cobblemon:basculin_bluestripe.geo"
     },
     {
       "aspects": ["bluestriped", "shiny"],

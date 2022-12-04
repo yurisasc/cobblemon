@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:wigglytuff",
-  "model": "cobblemon:bedrock/models/0040_wigglytuff/wigglytuff.geo",
+  "model": "cobblemon:wigglytuff.geo",
   "texture": "cobblemon:textures/pokemon/0040_wigglytuff/wigglytuff.png",
   "variations": [
     {

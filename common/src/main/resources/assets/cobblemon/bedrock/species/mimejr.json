@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:mimejr",
-  "model": "cobblemon:bedrock/models/0439_mimejr/mimejr.geo",
+  "model": "cobblemon:mimejr.geo",
   "texture": "cobblemon:textures/pokemon/0439_mimejr/mimejr.png",
   "variations": [
     {

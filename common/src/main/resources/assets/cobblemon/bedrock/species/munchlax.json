@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:munchlax",
-  "model": "cobblemon:bedrock/models/0446_munchlax/munchlax.geo",
+  "model": "cobblemon:munchlax.geo",
   "texture": "cobblemon:textures/pokemon/0446_munchlax/munchlax.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:ponyta",
-  "model": "cobblemon:bedrock/models/0077_ponyta/ponyta.geo",
+  "model": "cobblemon:ponyta.geo",
   "texture": "cobblemon:textures/pokemon/0077_ponyta/ponyta.png",
   "variations": [
     {

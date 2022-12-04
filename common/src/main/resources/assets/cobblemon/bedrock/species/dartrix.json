@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:dartrix",
-  "model": "cobblemon:bedrock/models/0723_dartrix/dartrix.geo",
+  "model": "cobblemon:dartrix.geo",
   "texture": "cobblemon:textures/pokemon/0723_dartrix/dartrix.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:magnemite",
-  "model": "cobblemon:bedrock/models/0081_magnemite/magnemite.geo",
+  "model": "cobblemon:magnemite.geo",
   "texture": "cobblemon:textures/pokemon/0081_magnemite/magnemite.png",
   "variations": [
     {

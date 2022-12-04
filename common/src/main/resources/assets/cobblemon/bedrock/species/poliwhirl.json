@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:poliwhirl",
-  "model": "cobblemon:bedrock/models/0061_poliwhirl/poliwhirl.geo",
+  "model": "cobblemon:poliwhirl.geo",
   "texture": "cobblemon:textures/pokemon/0061_poliwhirl/poliwhirl.png",
   "variations": [
     {

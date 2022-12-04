@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:buneary",
-  "model": "cobblemon:bedrock/models/0427_buneary/buneary.geo",
+  "model": "cobblemon:buneary.geo",
   "texture": "cobblemon:textures/pokemon/0427_buneary/buneary.png",
   "variations": [
     {

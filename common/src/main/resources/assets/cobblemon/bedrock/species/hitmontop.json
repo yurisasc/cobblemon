@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:hitmontop",
-  "model": "cobblemon:bedrock/models/0237_hitmontop/hitmontop.geo",
+  "model": "cobblemon:hitmontop.geo",
   "texture": "cobblemon:textures/pokemon/0237_hitmontop/hitmontop.png",
   "variations": [
     {

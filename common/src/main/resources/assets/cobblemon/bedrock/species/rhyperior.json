@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:rhyperior",
-  "model": "cobblemon:bedrock/models/0464_rhyperior/rhyperior.geo",
+  "model": "cobblemon:rhyperior.geo",
   "texture": "cobblemon:textures/pokemon/0464_rhyperior/rhyperior.png",
   "variations": [
     {

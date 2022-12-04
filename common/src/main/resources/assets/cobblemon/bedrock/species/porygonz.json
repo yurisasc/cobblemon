@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:porygonz",
-  "model": "cobblemon:bedrock/models/0474_porygonz/porygonz.geo",
+  "model": "cobblemon:porygonz.geo",
   "texture": "cobblemon:textures/pokemon/0474_porygonz/porygonz.png",
   "variations": [
     {

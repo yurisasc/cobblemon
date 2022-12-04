@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:bellsprout",
-  "model": "cobblemon:bedrock/models/0069_bellsprout/bellsprout.geo",
+  "model": "cobblemon:bellsprout.geo",
   "texture": "cobblemon:textures/pokemon/0069_bellsprout/bellsprout.png",
   "variations": [
     {

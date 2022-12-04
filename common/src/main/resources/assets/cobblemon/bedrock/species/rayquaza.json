@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:rayquaza",
-  "model": "cobblemon:bedrock/models/0384_rayquaza/rayquaza.geo",
+  "model": "cobblemon:rayquaza.geo",
   "texture": "cobblemon:textures/pokemon/0384_rayquaza/rayquaza.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:mamoswine",
-  "model": "cobblemon:bedrock/models/0473_mamoswine/mamoswine_male.geo",
+  "model": "cobblemon:mamoswine_male.geo",
   "texture": "cobblemon:textures/pokemon/0473_mamoswine/mamoswine.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0473_mamoswine/mamoswine_female.geo"
+      "model": "cobblemon:mamoswine_female.geo"
     }
   ]
 }
