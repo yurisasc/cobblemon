@@ -23,6 +23,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Box
 import net.minecraft.util.math.Vec3d
+import java.awt.Color
 
 /**
  * The data registry for [Berry].
@@ -47,6 +48,7 @@ object Berries : JsonDataRegistry<Berry> {
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .registerTypeAdapter(GrowthFactor::class.java, CobblemonGrowthFactorAdapter)
         .registerTypeAdapter(IntRange::class.java, VerboseIntRangeAdapter)
+        .registerTypeAdapter(Color::class.java, LiteralHexColorAdapter)
         .create()
     override val typeToken: TypeToken<Berry> = TypeToken.get(Berry::class.java)
     override val resourcePath = "berries"

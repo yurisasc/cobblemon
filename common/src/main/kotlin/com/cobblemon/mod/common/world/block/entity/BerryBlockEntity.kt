@@ -127,8 +127,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
      */
     internal fun berryAndShape(isFlower: Boolean): Collection<Pair<Berry, VoxelShape>> {
         val shapes = arrayListOf<Pair<Berry, VoxelShape>>()
-        for (index in this.growthPoints.indices) {
-            val identifier = this.growthPoints[index]
+        for ((index, identifier) in this.growthPoints.withIndex()) {
             val berry = Berries.getByIdentifier(identifier) ?: continue
             val shape = berry.shapeAt(index, isFlower)
             shapes.add(berry to shape)

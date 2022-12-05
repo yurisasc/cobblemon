@@ -26,6 +26,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.World
+import java.awt.Color
 
 /**
  * Represents the data behind a berry.
@@ -50,7 +51,7 @@ class Berry(
     val lifeCycles: IntRange,
     val growthFactors: Collection<GrowthFactor>,
     val interactions: Collection<PokemonEntityInteraction>,
-    val foliageColor: Int,
+    val foliageColor: Color,
     private val anchorPoints: Array<Vec3d>,
     @SerializedName("sproutShape")
     private val sproutShapeBoxes: Collection<Box>,
