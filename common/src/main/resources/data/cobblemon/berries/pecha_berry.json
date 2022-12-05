@@ -148,5 +148,6 @@
   ],
   "flavors": {
     "SWEET": 10
-  }
+  },
+  "foliageColor": "0x686898"
 }

@@ -35,6 +35,7 @@ import net.minecraft.world.World
  * @property lifeCycles The [IntRange] possible for the berry to live for between harvests.
  * @property growthFactors A collection of [GrowthFactor]s that will affect this berry.
  * @property interactions A collection of [PokemonEntityInteraction]s this berry will have in item form.
+ * @property foliageColor Determines the color of the leaves.
  * @property sproutShape A collection of [Box]es that make up the tree [VoxelShape] during the sprouting stages.
  * @property matureShape A collection of [Box]es that make up the tree [VoxelShape] during the mature stages.
  * @property flowerShape A collection of [Box]es used to dynamically create [VoxelShape]s for flowering berries tied to [anchorPoints].
@@ -49,6 +50,7 @@ class Berry(
     val lifeCycles: IntRange,
     val growthFactors: Collection<GrowthFactor>,
     val interactions: Collection<PokemonEntityInteraction>,
+    val foliageColor: Int,
     private val anchorPoints: Array<Vec3d>,
     @SerializedName("sproutShape")
     private val sproutShapeBoxes: Collection<Box>,

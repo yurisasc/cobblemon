@@ -29,6 +29,7 @@ import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.data.CobblemonDataProvider
+import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
@@ -36,6 +37,7 @@ import dev.architectury.registry.client.rendering.ColorHandlerRegistry
 import dev.architectury.registry.client.rendering.RenderTypeRegistry
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
+import net.minecraft.client.color.world.BiomeColors
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.entity.EntityRenderer
 import net.minecraft.client.render.entity.EntityRendererFactory
@@ -101,6 +103,13 @@ object CobblemonClient {
         ColorHandlerRegistry.registerItemColors(ItemColorProvider { itemStack, i ->
             return@ItemColorProvider 0x71c219
         }, CobblemonItems.APRICORN_LEAVES.get())
+
+        // Berry trees don't have an item representation
+        CobblemonBlocks.berries().values.forEach { berry ->
+            ColorHandlerRegistry.registerBlockColors({ _, blockAndTintGetter, blockPos, _ ->
+                (blockAndTintGetter?.getBlockEntity(blockPos) as? BerryBlockEntity)?.berry()?.foliageColor ?: BiomeColors.getFoliageColor(blockAndTintGetter, blockPos)
+            }, berry.get())
+        }
     }
 
     private fun registerBlockRenderTypes() {

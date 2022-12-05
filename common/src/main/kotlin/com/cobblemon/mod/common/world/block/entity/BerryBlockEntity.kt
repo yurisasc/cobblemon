@@ -162,7 +162,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             this.generateGrowthPoints(world, state, pos, player)
             return
         }
-        world.setBlockState(pos, Blocks.AIR.defaultState)
+        world.breakBlock(pos, false)
     }
 
     companion object {
