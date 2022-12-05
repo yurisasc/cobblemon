@@ -245,13 +245,14 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.Kle
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.SizzlipedeModel
 import com.cobblemon.mod.common.client.render.pokemon.ModelLayer
 import com.cobblemon.mod.common.client.render.pokemon.RegisteredSpeciesRendering
-import com.cobblemon.mod.common.client.render.pokemon.SpeciesAssetResolver
+import com.cobblemon.mod.common.client.render.pokemon.SpeciesVariationSet
 import com.cobblemon.mod.common.client.util.exists
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.endsWith
+import com.cobblemon.mod.common.util.fromJson
 import java.io.File
 import java.nio.charset.StandardCharsets
 import net.minecraft.client.model.ModelPart
@@ -524,16 +525,21 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     }
 
     fun registerSpeciesAssetResolvers(resourceManager: ResourceManager) {
+        val speciesToSpeciesVariationSets = mutableMapOf<Identifier, MutableList<SpeciesVariationSet>>()
         resourceManager.findResources("bedrock/species") { path -> path.endsWith(".json") }.forEach { identifier, resource ->
             resource.inputStream.use { stream ->
                 val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
-                val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
-                renders[resolvedIdentifier] = RegisteredSpeciesRendering(
-                    resolvedIdentifier,
-                    SpeciesAssetResolver.GSON.fromJson(json, SpeciesAssetResolver::class.java)
-                )
+                val speciesVariationSet = RegisteredSpeciesRendering.GSON.fromJson<SpeciesVariationSet>(json)
+                speciesToSpeciesVariationSets.getOrPut(speciesVariationSet.species) { mutableListOf() }.add(speciesVariationSet)
             }
         }
+
+        for ((species, speciesVariationSets) in speciesToSpeciesVariationSets) {
+            val variations = speciesVariationSets.sortedBy { it.order }.flatMap { it.variations }.toMutableList()
+            renders[species] = RegisteredSpeciesRendering(species, variations)
+        }
+
+        renders.values.forEach(RegisteredSpeciesRendering::initialize)
     }
 
     override fun registerAll() {
