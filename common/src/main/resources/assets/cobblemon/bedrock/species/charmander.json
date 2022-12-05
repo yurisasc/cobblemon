@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:charmander",
-  "model": "cobblemon:bedrock/models/0004_charmander/charmander.geo.json",
+  "model": "cobblemon:charmander.geo",
   "texture": "cobblemon:textures/pokemon/0004_charmander/charmander.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:leafeon",
-  "model": "cobblemon:bedrock/models/0470_leafeon/leafeon.geo.json",
+  "model": "cobblemon:leafeon.geo",
   "texture": "cobblemon:textures/pokemon/0470_leafeon/leafeon.png",
   "variations": [
     {

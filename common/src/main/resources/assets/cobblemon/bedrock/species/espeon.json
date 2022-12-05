@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:espeon",
-  "model": "cobblemon:bedrock/models/0196_espeon/espeon.geo.json",
+  "model": "cobblemon:espeon.geo",
   "texture": "cobblemon:textures/pokemon/0196_espeon/espeon.png",
   "variations": [
     {

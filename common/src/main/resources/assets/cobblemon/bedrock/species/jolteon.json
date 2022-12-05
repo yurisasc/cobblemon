@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:jolteon",
-  "model": "cobblemon:bedrock/models/0135_jolteon/jolteon.geo.json",
+  "model": "cobblemon:jolteon.geo",
   "texture": "cobblemon:textures/pokemon/0135_jolteon/jolteon.png",
   "variations": [
     {

@@ -56,7 +56,7 @@ class WaveAnimation<T : Entity>(
 
     override fun setAngles(entity: T?, model: PoseableEntityModel<T>, state: PoseableEntityState<T>?, limbSwing: Float, limbSwingAmount: Float, ageInTicks: Float, headYaw: Float, headPitch: Float) {
         val t = if (basedOnLimbSwing) {
-            limbSwing / 20F
+            limbSwing
         } else {
             entity?.let { model.getState(it).animationSeconds } ?: 0F
         }

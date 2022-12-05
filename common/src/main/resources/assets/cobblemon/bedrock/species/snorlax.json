@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:snorlax",
-  "model": "cobblemon:bedrock/models/0143_snorlax/snorlax.geo.json",
+  "model": "cobblemon:snorlax.geo",
   "texture": "cobblemon:textures/pokemon/0143_snorlax/snorlax.png",
   "variations": [
     {

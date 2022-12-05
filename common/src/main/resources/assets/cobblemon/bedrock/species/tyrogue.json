@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:tyrogue",
-  "model": "cobblemon:bedrock/models/0236_tyrogue/tyrogue.geo.json",
+  "model": "cobblemon:tyrogue.geo",
   "texture": "cobblemon:textures/pokemon/0236_tyrogue/tyrogue.png",
   "variations": [
     {

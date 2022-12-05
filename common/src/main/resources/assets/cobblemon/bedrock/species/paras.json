@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:paras",
-  "model": "cobblemon:bedrock/models/0046_paras/paras.geo.json",
+  "model": "cobblemon:paras.geo",
   "texture": "cobblemon:textures/pokemon/0046_paras/paras.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:oddish",
-  "model": "cobblemon:bedrock/models/0043_oddish/oddish.geo.json",
+  "model": "cobblemon:oddish.geo",
   "texture": "cobblemon:textures/pokemon/0043_oddish/oddish.png",
   "variations": [
     {

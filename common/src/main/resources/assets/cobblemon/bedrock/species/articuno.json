@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:articuno",
-  "model": "cobblemon:bedrock/models/0144_articuno/articuno.geo.json",
+  "model": "cobblemon:articuno.geo",
   "texture": "cobblemon:textures/pokemon/0144_articuno/articuno.png",
   "variations": [
     {

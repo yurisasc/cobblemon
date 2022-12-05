@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:arbok",
-  "model": "cobblemon:bedrock/models/0024_arbok/arbok.geo.json",
+  "model": "cobblemon:arbok.geo",
   "texture": "cobblemon:textures/pokemon/0024_arbok/arbok.png",
   "layers": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:goldeen",
-  "model": "cobblemon:bedrock/models/0118_goldeen/goldeen_male.geo.json",
+  "model": "cobblemon:goldeen_male.geo",
   "texture": "cobblemon:textures/pokemon/0118_goldeen/goldeen.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0118_goldeen/goldeen_female.geo.json"
+      "model": "cobblemon:goldeen_female.geo"
     }
   ]
 }

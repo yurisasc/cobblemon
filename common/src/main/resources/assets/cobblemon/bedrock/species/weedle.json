@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:weedle",
-  "model": "cobblemon:bedrock/models/0013_weedle/weedle.geo.json",
+  "model": "cobblemon:weedle.geo",
   "texture": "cobblemon:textures/pokemon/0013_weedle/weedle.png",
   "variations": [
     {

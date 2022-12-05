@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:vulpix",
-  "model": "cobblemon:bedrock/models/0037_vulpix/vulpix.geo.json",
+  "model": "cobblemon:vulpix.geo",
   "texture": "cobblemon:textures/pokemon/0037_vulpix/vulpix.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["alolan"],
-      "model": "cobblemon:bedrock/models/0037_vulpix/vulpix_alolan.geo.json",
+      "model": "cobblemon:vulpix_alolan.geo",
       "texture": "cobblemon:textures/pokemon/0037_vulpix/vulpix_alolan.png"
     },
     {

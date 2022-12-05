@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.render.pokemon
 
 import com.cobblemon.mod.common.api.pokemon.aspect.AspectProvider
-import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.pokemon.Species
@@ -38,7 +37,7 @@ class RegisteredSpeciesRendering(
     init {
         posers.clear()
         assetResolver.getAllModels().forEach { identifier ->
-            models[identifier] = TexturedModel.from(identifier.path).create().createModel()
+            models[identifier] = PokemonModelRepository.texturedModels[identifier]!!.create().createModel()
         }
     }
 

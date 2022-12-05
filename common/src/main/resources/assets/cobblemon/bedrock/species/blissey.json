@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:blissey",
-  "model": "cobblemon:bedrock/models/0242_blissey/blissey.geo.json",
+  "model": "cobblemon:blissey.geo",
   "texture": "cobblemon:textures/pokemon/0242_blissey/blissey.png",
   "variations": [
     {

@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:exeggcute",
-  "model": "cobblemon:bedrock/models/0102_exeggcute/exeggcute.geo.json",
+  "model": "cobblemon:exeggcute.geo",
   "texture": "cobblemon:textures/pokemon/0102_exeggcute/exeggcute.png",
   "variations": [
     {

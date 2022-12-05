@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:golbat",
-  "model": "cobblemon:bedrock/models/0042_golbat/golbat_male.geo.json",
+  "model": "cobblemon:golbat_male.geo",
   "texture": "cobblemon:textures/pokemon/0042_golbat/golbat.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["female"],
-      "model": "cobblemon:bedrock/models/0042_golbat/golbat_female.geo.json"
+      "model": "cobblemon:golbat_female.geo"
     }
   ]
 }

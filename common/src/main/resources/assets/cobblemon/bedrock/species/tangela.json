@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:tangela",
-  "model": "cobblemon:bedrock/models/0114_tangela/tangela.geo.json",
+  "model": "cobblemon:tangela.geo",
   "texture": "cobblemon:textures/pokemon/0114_tangela/tangela.png",
   "variations": [
     {

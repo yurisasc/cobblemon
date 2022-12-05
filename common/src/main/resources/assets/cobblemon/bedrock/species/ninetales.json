@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:ninetales",
-  "model": "cobblemon:bedrock/models/0038_ninetales/ninetales.geo.json",
+  "model": "cobblemon:ninetales.geo",
   "texture": "cobblemon:textures/pokemon/0038_ninetales/ninetales.png",
   "variations": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "aspects": ["alolan"],
-      "model": "cobblemon:bedrock/models/0038_ninetales/ninetales_alolan.geo.json",
+      "model": "cobblemon:ninetales_alolan.geo",
       "texture": "cobblemon:textures/pokemon/0038_ninetales/ninetales_alolan.png"
     },
     {

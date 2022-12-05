@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:elekid",
-  "model": "cobblemon:bedrock/models/0239_elekid/elekid.geo.json",
+  "model": "cobblemon:elekid.geo",
   "texture": "cobblemon:textures/pokemon/0239_elekid/elekid.png",
   "variations": [
     {

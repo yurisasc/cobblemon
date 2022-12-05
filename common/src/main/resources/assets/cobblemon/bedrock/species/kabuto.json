@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:kabuto",
-  "model": "cobblemon:bedrock/models/0140_kabuto/kabuto.geo.json",
+  "model": "cobblemon:kabuto.geo",
   "texture": "cobblemon:textures/pokemon/0140_kabuto/kabuto.png",
   "variations": [
     {

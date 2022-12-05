@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:kangaskhan",
-  "model": "cobblemon:bedrock/models/0115_kangaskhan/kangaskhan.geo.json",
+  "model": "cobblemon:kangaskhan.geo",
   "texture": "cobblemon:textures/pokemon/0115_kangaskhan/kangaskhan.png",
   "variations": [
     {

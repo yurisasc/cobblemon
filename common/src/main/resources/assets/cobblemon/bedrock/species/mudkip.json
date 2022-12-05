@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:mudkip",
-  "model": "cobblemon:bedrock/models/0258_mudkip/mudkip.geo.json",
+  "model": "cobblemon:mudkip.geo",
   "texture": "cobblemon:textures/pokemon/0258_mudkip/mudkip.png",
   "variations": [
     {

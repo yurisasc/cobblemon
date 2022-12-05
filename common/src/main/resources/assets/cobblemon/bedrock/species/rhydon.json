@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:rhydon",
-  "model": "cobblemon:bedrock/models/0112_rhydon/rhydon.geo.json",
+  "model": "cobblemon:rhydon.geo",
   "texture": "cobblemon:textures/pokemon/0112_rhydon/rhydon.png",
   "variations": [
     {

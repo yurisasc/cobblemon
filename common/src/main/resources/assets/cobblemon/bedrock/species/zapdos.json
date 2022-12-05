@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:zapdos",
-  "model": "cobblemon:bedrock/models/0145_zapdos/zapdos.geo.json",
+  "model": "cobblemon:zapdos.geo",
   "texture": "cobblemon:textures/pokemon/0145_zapdos/zapdos.png",
   "variations": [
     {

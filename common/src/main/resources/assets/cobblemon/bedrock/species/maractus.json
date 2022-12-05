@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:maractus",
-  "model": "cobblemon:bedrock/models/0556_maractus/maractus.geo.json",
+  "model": "cobblemon:maractus.geo",
   "texture": "cobblemon:textures/pokemon/0556_maractus/maractus.png",
   "variations": [
     {

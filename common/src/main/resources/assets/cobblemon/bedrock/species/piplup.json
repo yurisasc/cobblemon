@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:piplup",
-  "model": "cobblemon:bedrock/models/0393_piplup/piplup.geo.json",
+  "model": "cobblemon:piplup.geo",
   "texture": "cobblemon:textures/pokemon/0393_piplup/piplup.png",
   "variations": [
     {

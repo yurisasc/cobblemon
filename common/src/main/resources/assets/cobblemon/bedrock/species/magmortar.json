@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:magmortar",
-  "model": "cobblemon:bedrock/models/0467_magmortar/magmortar.geo.json",
+  "model": "cobblemon:magmortar.geo",
   "texture": "cobblemon:textures/pokemon/0467_magmortar/magmortar.png",
   "variations": [
     {

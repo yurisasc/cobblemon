@@ -1,6 +1,6 @@
 {
   "poser": "cobblemon:marshtomp",
-  "model": "cobblemon:bedrock/models/0259_marshtomp/marshtomp.geo.json",
+  "model": "cobblemon:marshtomp.geo",
   "texture": "cobblemon:textures/pokemon/0259_marshtomp/marshtomp.png",
   "variations": [
     {
