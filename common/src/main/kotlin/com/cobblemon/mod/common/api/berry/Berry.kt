@@ -19,6 +19,7 @@ import com.google.gson.annotations.SerializedName
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.entity.LivingEntity
+import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Box
@@ -201,6 +202,53 @@ class Berry(
         return map[index] ?: VoxelShapes.empty()
     }
 
+    internal fun encode(buffer: PacketByteBuf) {
+        buffer.writeIdentifier(this.identifier)
+        buffer.writeInt(this.baseYield.first)
+        buffer.writeInt(this.baseYield.last)
+        buffer.writeInt(this.lifeCycles.first)
+        buffer.writeInt(this.lifeCycles.last)
+        buffer.writeInt(this.foliageColor.rgb)
+        buffer.writeCollection(this.anchorPoints.toList())  { writer, value ->
+            writer.writeDouble(value.x)
+            writer.writeDouble(value.y)
+            writer.writeDouble(value.z)
+        }
+        buffer.writeCollection(this.sproutShapeBoxes) { writer, value ->
+            writer.writeDouble(value.minX)
+            writer.writeDouble(value.minY)
+            writer.writeDouble(value.minZ)
+            writer.writeDouble(value.maxX)
+            writer.writeDouble(value.maxY)
+            writer.writeDouble(value.maxZ)
+        }
+        buffer.writeCollection(this.matureShapeBoxes) { writer, value ->
+            writer.writeDouble(value.minX)
+            writer.writeDouble(value.minY)
+            writer.writeDouble(value.minZ)
+            writer.writeDouble(value.maxX)
+            writer.writeDouble(value.maxY)
+            writer.writeDouble(value.maxZ)
+        }
+        buffer.writeCollection(this.flowerShape) { writer, value ->
+            writer.writeDouble(value.minX)
+            writer.writeDouble(value.minY)
+            writer.writeDouble(value.minZ)
+            writer.writeDouble(value.maxX)
+            writer.writeDouble(value.maxY)
+            writer.writeDouble(value.maxZ)
+        }
+        buffer.writeCollection(this.fruitShape) { writer, value ->
+            writer.writeDouble(value.minX)
+            writer.writeDouble(value.minY)
+            writer.writeDouble(value.minZ)
+            writer.writeDouble(value.maxX)
+            writer.writeDouble(value.maxY)
+            writer.writeDouble(value.maxZ)
+        }
+        buffer.writeMap(this.flavors, { writer, key -> writer.writeEnumConstant(key) }, { writer, value -> writer.writeInt(value) })
+    }
+
     /**
      * Calculates the bonus yield for the berry tree.
      *
@@ -233,6 +281,34 @@ class Berry(
             }
         }
         return shape ?: VoxelShapes.fullCube()
+    }
+
+    companion object {
+
+        internal fun decode(buffer: PacketByteBuf): Berry {
+            val identifier = buffer.readIdentifier()
+            val baseYield = IntRange(buffer.readInt(), buffer.readInt())
+            val lifeCycles = IntRange(buffer.readInt(), buffer.readInt())
+            val foliageColor = Color(buffer.readInt())
+            val anchorPoints = buffer.readList { reader ->
+                Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble())
+            }.toTypedArray()
+            val sproutShapeBoxes = buffer.readList { reader ->
+                Box(reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble())
+            }
+            val matureShapeBoxes = buffer.readList { reader ->
+                Box(reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble())
+            }
+            val flowerShape = buffer.readList { reader ->
+                Box(reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble())
+            }
+            val fruitShape = buffer.readList { reader ->
+                Box(reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble())
+            }
+            val flavors = buffer.readMap({ reader -> reader.readEnumConstant(Flavor::class.java) }, { reader -> reader.readInt() })
+            return Berry(identifier, baseYield, lifeCycles, emptyList(), emptyList(), foliageColor, anchorPoints, sproutShapeBoxes, matureShapeBoxes, flowerShape, fruitShape, flavors)
+        }
+
     }
 
 }

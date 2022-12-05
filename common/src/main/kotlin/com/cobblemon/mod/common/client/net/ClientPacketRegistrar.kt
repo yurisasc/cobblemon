@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.client.net
 
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.abilities.AbilityTemplate
+import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.client.net.battle.BattleApplyCaptureResponseHandler
 import com.cobblemon.mod.common.client.net.battle.BattleCaptureEndHandler
@@ -46,10 +47,8 @@ import com.cobblemon.mod.common.client.net.storage.pc.OpenPCHandler
 import com.cobblemon.mod.common.client.net.storage.pc.SetPCBoxPokemonHandler
 import com.cobblemon.mod.common.client.net.storage.pc.SetPCPokemonHandler
 import com.cobblemon.mod.common.net.SidedPacketRegistrar
-import com.cobblemon.mod.common.net.messages.client.data.AbilityRegistrySyncPacket
-import com.cobblemon.mod.common.net.messages.client.data.MovesRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.data.*
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
-import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.AbilityUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
@@ -154,6 +153,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(DataRegistrySyncPacketHandler<MoveTemplate, MovesRegistrySyncPacket>())
         registerHandler(DataRegistrySyncPacketHandler<Species, SpeciesRegistrySyncPacket>())
         registerHandler(DataRegistrySyncPacketHandler<PropertiesCompletionProvider.SuggestionHolder, PropertiesCompletionRegistrySyncPacket>())
+        registerHandler(DataRegistrySyncPacketHandler<Berry, BerryRegistrySyncPacket>())
 
         CobblemonNetwork.clientHandlersRegistered.complete(Unit)
     }

@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.api.pokemon.status.Status
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
+import com.cobblemon.mod.common.net.messages.client.data.BerryRegistrySyncPacket
 import com.cobblemon.mod.common.util.adapters.*
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
@@ -69,11 +70,12 @@ object Berries : JsonDataRegistry<Berry> {
                 Cobblemon.LOGGER.error("Skipped loading the {} berry", identifier, e)
             }
         }
+        Cobblemon.LOGGER.info("Loaded {} berries", this.berries.size)
         this.observable.emit(this)
     }
 
     override fun sync(player: ServerPlayerEntity) {
-        // ToDo sync clients
+        BerryRegistrySyncPacket(this.all()).sendToPlayer(player)
     }
 
     fun all() = this.berries.values.toList()
