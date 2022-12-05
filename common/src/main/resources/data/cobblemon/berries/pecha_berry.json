@@ -85,36 +85,36 @@
   "sproutShape": [
     {
       "minX": 7,
-      "minY": 0,
+      "minY": -1,
       "minZ": 7,
       "maxX": 9,
-      "maxY": 1,
+      "maxY": 0,
       "maxZ": 9
     }
   ],
   "matureShape": [
     {
       "minX": 6,
-      "minY": 0,
+      "minY": -1,
       "minZ": 6,
       "maxX": 10,
-      "maxY": 1,
+      "maxY": 0,
       "maxZ": 10
     },
     {
       "minX": 7,
-      "minY": 1,
+      "minY": 0,
       "minZ": 7,
       "maxX": 9,
-      "maxY": 12,
+      "maxY": 11,
       "maxZ": 9
     },
     {
       "minX": 7.5,
-      "minY": 12,
+      "minY": 11,
       "minZ": 7.5,
       "maxX": 8.5,
-      "maxY": 23,
+      "maxY": 22,
       "maxZ": 8.5
     }
   ],
