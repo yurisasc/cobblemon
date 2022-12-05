@@ -69,10 +69,6 @@ import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.ShowdownConnection
-import com.cobblemon.mod.common.client.render.pokemon.ModelAssetVariation
-import com.cobblemon.mod.common.client.render.pokemon.ModelLayer
-import com.cobblemon.mod.common.client.render.pokemon.RegisteredSpeciesRendering
-import com.cobblemon.mod.common.client.render.pokemon.SpeciesVariationSet
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.config.starter.StarterConfig
@@ -114,14 +110,12 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.io.PrintWriter
 import java.util.UUID
-import jdk.jfr.Registered
 import kotlin.properties.Delegates
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.memberProperties
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.server.network.ServerPlayerEntity
-import net.minecraft.util.Identifier
 import net.minecraft.util.WorldSavePath
 import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
@@ -154,94 +148,7 @@ object Cobblemon {
     var statProvider: StatProvider = CobblemonStatProvider
     var seasonResolver: SeasonResolver = TagSeasonResolver
 
-    class OldAspect {
-        lateinit var poser: Identifier
-        lateinit var model: Identifier
-        lateinit var texture: Identifier
-        val layers = mutableListOf<ModelLayer>()
-        val variations = mutableListOf<ModelAssetVariation>()
-
-        fun baseVariation() = ModelAssetVariation(
-            aspects = mutableSetOf(),
-            poser = poser,
-            model = model,
-            texture = texture,
-            layers = layers
-        )
-    }
-
-    fun saveVariationSet(name: String, species: Identifier, order: Int, variations: MutableList<ModelAssetVariation>) {
-        try {
-            val dexNumber = (if (species.path == "substitute") 0 else PokemonSpecies.getByIdentifier(species)!!.nationalPokedexNumber).toString().padStart(4, '0')
-            val set = SpeciesVariationSet(
-                species = species,
-                order = order,
-                variations = variations
-            )
-            val folder = File("aspect-jsons-new/${dexNumber}_${species.path}")
-            folder.mkdir()
-            val file = File(folder, "${order}_" + set.species.path + "_" + name + ".json")
-            val json = RegisteredSpeciesRendering.GSON.toJson(set)
-            val pw = PrintWriter(file)
-            pw.write(json)
-            pw.flush()
-            pw.close()
-        } catch (e: Exception) {
-            println("Could not do $species")
-            throw e
-        }
-    }
-
-    fun convert() {
-        val oldFolder = File("aspect-jsons-old/")
-        val newFolder = File("aspect-jsons-new/")
-        newFolder.mkdir()
-        oldFolder.walkTopDown().onEnter { file ->
-            if (file.isDirectory) {
-                return@onEnter true
-            }
-            true
-        }.forEach { file ->
-            if (file.isDirectory) {
-                return@forEach
-            }
-            val species = cobblemonResource(file.nameWithoutExtension)
-            val oldResolver = RegisteredSpeciesRendering.GSON.fromJson(file.reader(), OldAspect::class.java)
-            val baseVariations = mutableListOf(oldResolver.baseVariation())
-            oldResolver.variations.find { it.aspects == setOf("shiny") || it.aspects == setOf("shiny", "male") }?.let { baseVariations.add(it) }
-            oldResolver.variations.removeAll(baseVariations)
-
-            val alolan = oldResolver.variations.filter { "alolan" in it.aspects }
-            oldResolver.variations.removeAll(alolan)
-            val valencian = oldResolver.variations.filter { "valencian" in it.aspects }
-            oldResolver.variations.removeAll(valencian)
-            val maleVariations = oldResolver.variations.filter { "male" in it.aspects }
-            oldResolver.variations.removeAll(maleVariations)
-            val femaleVariations = oldResolver.variations.filter { "female" in it.aspects }
-            oldResolver.variations.removeAll(femaleVariations)
-
-            var order = 0
-            saveVariationSet("base", species, order++, baseVariations)
-            if (maleVariations.isNotEmpty()) {
-                saveVariationSet("male", species, order++, maleVariations.toMutableList())
-            }
-            if (femaleVariations.isNotEmpty()) {
-                saveVariationSet("female", species, order++, femaleVariations.toMutableList())
-            }
-            if (alolan.isNotEmpty()) {
-                saveVariationSet("alolan", species, order++, alolan.toMutableList())
-            }
-            if (valencian.isNotEmpty()) {
-                saveVariationSet("valencian", species, order++, valencian.toMutableList())
-            }
-            LOGGER.info("Completed ${file.nameWithoutExtension} conversion to a separated $order JSONs.")
-        }
-        System.exit(0)
-    }
-
     fun preinitialize(implementation: CobblemonImplementation) {
-
-
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
 
