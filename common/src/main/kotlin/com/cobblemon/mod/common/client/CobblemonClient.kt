@@ -106,8 +106,11 @@ object CobblemonClient {
 
         // Berry trees don't have an item representation
         CobblemonBlocks.berries().values.forEach { berry ->
-            ColorHandlerRegistry.registerBlockColors({ _, blockAndTintGetter, blockPos, _ ->
-                (blockAndTintGetter?.getBlockEntity(blockPos) as? BerryBlockEntity)?.berry()?.foliageColor?.rgb ?: BiomeColors.getFoliageColor(blockAndTintGetter, blockPos)
+            ColorHandlerRegistry.registerBlockColors({ _, blockAndTintGetter, blockPos, tintIndex ->
+                if (tintIndex == 1)
+                    (blockAndTintGetter?.getBlockEntity(blockPos) as? BerryBlockEntity)?.berry()?.foliageColor?.rgb ?: BiomeColors.getFoliageColor(blockAndTintGetter, blockPos)
+                else
+                    -1
             }, berry.get())
         }
     }

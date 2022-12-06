@@ -138,7 +138,7 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque()) }
     val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque()) }
 
-    val PECHA_BERRY = this.berryBlock("pecha")
+    val PECHA_BERRY = this.berryBlock("pecha_berry")
 
     fun berries() = this.berries.toMap()
 
@@ -147,7 +147,7 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     }
 
     private fun berryBlock(name: String): RegistrySupplier<BerryBlock> {
-        val identifier = cobblemonResource("${name}_berry")
+        val identifier = cobblemonResource(name)
         val supplier = queue(identifier.path) { BerryBlock(identifier, AbstractBlock.Settings.of(Material.PLANT).dynamicBounds().ticksRandomly().sounds(BlockSoundGroup.CROP)) }
         this.berries[supplier.id] = supplier
         return supplier
