@@ -120,10 +120,10 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     }
 
     /**
-     * TODO
+     * Collects the [Berry] and [VoxelShape] of each growth point.
      *
-     * @param isFlower
-     * @return
+     * @param isFlower If we want the [VoxelShape] of the flower or fruit form.
+     * @return Collection of the [Berry] and [VoxelShape] of each growth point.
      */
     internal fun berryAndShape(isFlower: Boolean): Collection<Pair<Berry, VoxelShape>> {
         val shapes = arrayListOf<Pair<Berry, VoxelShape>>()
