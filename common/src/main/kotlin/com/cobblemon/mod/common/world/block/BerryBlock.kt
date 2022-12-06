@@ -55,16 +55,18 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
     @Deprecated("Deprecated in Java")
     override fun randomTick(state: BlockState, world: ServerWorld, pos: BlockPos, random: Random) {
-        if (world.random.nextInt(5) == 0) {
-            val currentAge = state.get(AGE)
-            if (currentAge < MAX_AGE) {
-                world.setBlockState(pos, state.with(AGE, currentAge + 1), 2)
-            }
+        if (world.random.nextInt(5) == 0 && this.canGrow(world, random, pos, state)) {
+            this.grow(world, random, pos, state)
         }
     }
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
-        world.setBlockState(pos, state.with(AGE, state.get(AGE) + 1), 2)
+        val newAge = state.get(AGE) + 1
+        // ToDo check if mutation should occur before flowering
+        if (newAge == MATURE_AGE) {
+
+        }
+        world.setBlockState(pos, state.with(AGE, newAge), 2)
     }
 
     @Deprecated("Deprecated in Java")
