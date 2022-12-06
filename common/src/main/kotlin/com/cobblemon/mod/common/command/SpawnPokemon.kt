@@ -48,7 +48,6 @@ object SpawnPokemon {
                 val pokemonEntity = pkm.createEntity(entity.world)
                 entity.world.spawnEntity(pokemonEntity)
                 pokemonEntity.setPosition(entity.pos)
-                pokemonEntity.pokemon.features.forEach { println(it.name) }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
