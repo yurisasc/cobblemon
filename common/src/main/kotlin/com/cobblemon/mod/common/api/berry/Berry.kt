@@ -14,6 +14,8 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.item.BerryItem
+import com.cobblemon.mod.common.util.readBox
+import com.cobblemon.mod.common.util.writeBox
 import com.cobblemon.mod.common.world.block.BerryBlock
 import com.google.gson.annotations.SerializedName
 import net.minecraft.block.Block
@@ -215,36 +217,16 @@ class Berry(
             writer.writeDouble(value.z)
         }
         buffer.writeCollection(this.sproutShapeBoxes) { writer, value ->
-            writer.writeDouble(value.minX)
-            writer.writeDouble(value.minY)
-            writer.writeDouble(value.minZ)
-            writer.writeDouble(value.maxX)
-            writer.writeDouble(value.maxY)
-            writer.writeDouble(value.maxZ)
+            writer.writeBox(value)
         }
         buffer.writeCollection(this.matureShapeBoxes) { writer, value ->
-            writer.writeDouble(value.minX)
-            writer.writeDouble(value.minY)
-            writer.writeDouble(value.minZ)
-            writer.writeDouble(value.maxX)
-            writer.writeDouble(value.maxY)
-            writer.writeDouble(value.maxZ)
+            writer.writeBox(value)
         }
         buffer.writeCollection(this.flowerShape) { writer, value ->
-            writer.writeDouble(value.minX)
-            writer.writeDouble(value.minY)
-            writer.writeDouble(value.minZ)
-            writer.writeDouble(value.maxX)
-            writer.writeDouble(value.maxY)
-            writer.writeDouble(value.maxZ)
+            writer.writeBox(value)
         }
         buffer.writeCollection(this.fruitShape) { writer, value ->
-            writer.writeDouble(value.minX)
-            writer.writeDouble(value.minY)
-            writer.writeDouble(value.minZ)
-            writer.writeDouble(value.maxX)
-            writer.writeDouble(value.maxY)
-            writer.writeDouble(value.maxZ)
+            writer.writeBox(value)
         }
         buffer.writeMap(this.flavors, { writer, key -> writer.writeEnumConstant(key) }, { writer, value -> writer.writeInt(value) })
     }
@@ -293,18 +275,10 @@ class Berry(
             val anchorPoints = buffer.readList { reader ->
                 Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble())
             }.toTypedArray()
-            val sproutShapeBoxes = buffer.readList { reader ->
-                Box(reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble())
-            }
-            val matureShapeBoxes = buffer.readList { reader ->
-                Box(reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble())
-            }
-            val flowerShape = buffer.readList { reader ->
-                Box(reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble())
-            }
-            val fruitShape = buffer.readList { reader ->
-                Box(reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble(), reader.readDouble())
-            }
+            val sproutShapeBoxes = buffer.readList { it.readBox() }
+            val matureShapeBoxes = buffer.readList { it.readBox() }
+            val flowerShape = buffer.readList { it.readBox() }
+            val fruitShape = buffer.readList { it.readBox() }
             val flavors = buffer.readMap({ reader -> reader.readEnumConstant(Flavor::class.java) }, { reader -> reader.readInt() })
             return Berry(identifier, baseYield, lifeCycles, emptyList(), emptyList(), foliageColor, anchorPoints, sproutShapeBoxes, matureShapeBoxes, flowerShape, fruitShape, flavors)
         }
