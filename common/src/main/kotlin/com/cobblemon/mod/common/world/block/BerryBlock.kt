@@ -129,6 +129,11 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         return VoxelShapes.union(base, *array)
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun getRenderType(blockState: BlockState): BlockRenderType {
+        return BlockRenderType.MODEL
+    }
+
     companion object {
 
         private const val MATURE_AGE = 3
