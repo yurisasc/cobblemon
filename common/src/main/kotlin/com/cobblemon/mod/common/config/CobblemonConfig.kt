@@ -90,9 +90,6 @@ class CobblemonConfig {
     var maximumSliceDistanceFromPlayer = 16 * 4F
 
     @NodeCategory(Category.Spawning)
-    var maximumSpawnedPokemonPerPlayer = 30
-
-    @NodeCategory(Category.Spawning)
     var exportSpawnsToConfig = false
 
     @NodeCategory(Category.Spawning)
