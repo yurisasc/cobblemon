@@ -4,6 +4,7 @@
 ### Additions
 - Reworked customisation of models, textures, and animations to make fakemon very easy to create.
 - Added 'nature' and 'pokeball' options to commands such as /spawnpokemon and /givepokemon.
+- Added support for datapack spawn files and spawn file presets.
 
 ### Changes
 - Changed the healer advancements to make the healing machine's mechanics more obvious.
