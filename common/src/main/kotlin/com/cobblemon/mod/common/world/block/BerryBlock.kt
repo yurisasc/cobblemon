@@ -17,7 +17,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
-import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
@@ -62,9 +61,8 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
         val newAge = state.get(AGE) + 1
-        // ToDo check if mutation should occur before flowering
         if (newAge == MATURE_AGE) {
-
+            // ToDo check if mutation should occur before flowering
         }
         world.setBlockState(pos, state.with(AGE, newAge), 2)
     }
@@ -114,14 +112,14 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
         val berry = this.berry() ?: return VoxelShapes.fullCube()
         return when(state.get(AGE)) {
-            MAX_AGE -> this.unionWithFruit(world, pos, berry.matureShape, false)
+            FRUIT_AGE -> this.unionWithFruit(world, pos, berry.matureShape, false)
             FLOWER_AGE -> this.unionWithFruit(world, pos, berry.matureShape, true)
             MATURE_AGE -> berry.matureShape
             else -> berry.sproutShape
         }
     }
 
-    private fun isMaxAge(state: BlockState) = state.get(AGE) == MAX_AGE
+    private fun isMaxAge(state: BlockState) = state.get(AGE) == FRUIT_AGE
 
     private fun unionWithFruit(world: BlockView, pos: BlockPos, base: VoxelShape, isFlower: Boolean): VoxelShape {
         val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return base
@@ -136,10 +134,10 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
 
     companion object {
 
-        private const val MATURE_AGE = 3
-        private const val FLOWER_AGE = 4
-        private const val MAX_AGE = 5
-        val AGE = IntProperty.of("age", 0, MAX_AGE)
+        const val MATURE_AGE = 3
+        const val FLOWER_AGE = 4
+        const val FRUIT_AGE = 5
+        val AGE = IntProperty.of("age", 0, FRUIT_AGE)
 
     }
 }

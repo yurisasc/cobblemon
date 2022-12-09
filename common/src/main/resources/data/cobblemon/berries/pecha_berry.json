@@ -149,5 +149,11 @@
   "flavors": {
     "SWEET": 10
   },
-  "foliageColor": "#686898"
+  "tintIndexes": {
+    "1": "#686898"
+  },
+  "flowerModel": "cobblemon:pecha_flower.geo",
+  "flowerTexture": "cobblemon:textures/berries/pecha.png",
+  "fruitModel": "cobblemon:pecha_berry.geo",
+  "fruitTexture": "cobblemon:textures/berries/pecha.png"
 }

@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.util.readBox
 import com.cobblemon.mod.common.util.writeBox
@@ -20,6 +21,7 @@ import com.cobblemon.mod.common.world.block.BerryBlock
 import com.google.gson.annotations.SerializedName
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.client.model.ModelPart
 import net.minecraft.entity.LivingEntity
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
@@ -39,12 +41,16 @@ import java.awt.Color
  * @property lifeCycles The [IntRange] possible for the berry to live for between harvests.
  * @property growthFactors A collection of [GrowthFactor]s that will affect this berry.
  * @property interactions A collection of [PokemonEntityInteraction]s this berry will have in item form.
- * @property foliageColor Determines the color of the leaves.
  * @property sproutShape A collection of [Box]es that make up the tree [VoxelShape] during the sprouting stages.
  * @property matureShape A collection of [Box]es that make up the tree [VoxelShape] during the mature stages.
  * @property flowerShape A collection of [Box]es used to dynamically create [VoxelShape]s for flowering berries tied to [anchorPoints].
  * @property fruitShape A collection of [Box]es used to dynamically create [VoxelShape]s for flowering berries tied to [anchorPoints].
  * @property flavors The [Flavor] values.
+ * @property tintIndexes Determines tints at specific indexes if any.
+ * @property flowerModelIdentifier The [Identifier] for the model of the berry in flower form.
+ * @property flowerTexture The [Identifier] for the texture of the berry in flower form.
+ * @property fruitModelIdentifier The [Identifier] for the model of the berry in flower form.
+ * @property fruitTexture The [Identifier] for the texture of the berry in flower form.
  *
  * @throws IllegalArgumentException if the any yield range argument is not a positive range.
  */
@@ -54,7 +60,6 @@ class Berry(
     val lifeCycles: IntRange,
     val growthFactors: Collection<GrowthFactor>,
     val interactions: Collection<PokemonEntityInteraction>,
-    val foliageColor: Color,
     private val anchorPoints: Array<Vec3d>,
     @SerializedName("sproutShape")
     private val sproutShapeBoxes: Collection<Box>,
@@ -62,7 +67,14 @@ class Berry(
     private val matureShapeBoxes: Collection<Box>,
     private val flowerShape: Collection<Box>,
     private val fruitShape: Collection<Box>,
-    private val flavors: Map<Flavor, Int>
+    private val flavors: Map<Flavor, Int>,
+    val tintIndexes: Map<Int, Color>,
+    @SerializedName("flowerModel")
+    private val flowerModelIdentifier: Identifier,
+    val flowerTexture: Identifier,
+    @SerializedName("fruitModel")
+    private val fruitModelIdentifier: Identifier,
+    val fruitTexture: Identifier
 ) {
 
     @Transient
@@ -114,6 +126,22 @@ class Berry(
      * @return The value if any or 0.
      */
     fun flavor(flavor: Flavor): Int = this.flavors[flavor] ?: 0
+
+    /**
+     * Finds the [ModelPart] for the given [flowerModelIdentifier].
+     * This should only be invoked on the client.
+     *
+     * @return The [ModelPart] of the fruit if existing.
+     */
+    fun flowerModel(): ModelPart? = BerryModelRepository.modelOf(this.flowerModelIdentifier)
+
+    /**
+     * Finds the [ModelPart] for the given [fruitModelIdentifier].
+     * This should only be invoked on the client.
+     *
+     * @return The [ModelPart] of the fruit if existing.
+     */
+    fun fruitModel(): ModelPart? = BerryModelRepository.modelOf(this.fruitModelIdentifier)
 
     /**
      * Calculates the yield for a berry tree being planted.
@@ -210,7 +238,6 @@ class Berry(
         buffer.writeInt(this.baseYield.last)
         buffer.writeInt(this.lifeCycles.first)
         buffer.writeInt(this.lifeCycles.last)
-        buffer.writeInt(this.foliageColor.rgb)
         buffer.writeCollection(this.anchorPoints.toList())  { writer, value ->
             writer.writeDouble(value.x)
             writer.writeDouble(value.y)
@@ -229,6 +256,11 @@ class Berry(
             writer.writeBox(value)
         }
         buffer.writeMap(this.flavors, { writer, key -> writer.writeEnumConstant(key) }, { writer, value -> writer.writeInt(value) })
+        buffer.writeMap(this.tintIndexes, { writer, key -> writer.writeInt(key) }, { writer, value -> writer.writeInt(value.rgb) })
+        buffer.writeIdentifier(this.flowerModelIdentifier)
+        buffer.writeIdentifier(this.flowerTexture)
+        buffer.writeIdentifier(this.fruitModelIdentifier)
+        buffer.writeIdentifier(this.fruitTexture)
     }
 
     /**
@@ -271,7 +303,6 @@ class Berry(
             val identifier = buffer.readIdentifier()
             val baseYield = IntRange(buffer.readInt(), buffer.readInt())
             val lifeCycles = IntRange(buffer.readInt(), buffer.readInt())
-            val foliageColor = Color(buffer.readInt())
             val anchorPoints = buffer.readList { reader ->
                 Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble())
             }.toTypedArray()
@@ -280,7 +311,12 @@ class Berry(
             val flowerShape = buffer.readList { it.readBox() }
             val fruitShape = buffer.readList { it.readBox() }
             val flavors = buffer.readMap({ reader -> reader.readEnumConstant(Flavor::class.java) }, { reader -> reader.readInt() })
-            return Berry(identifier, baseYield, lifeCycles, emptyList(), emptyList(), foliageColor, anchorPoints, sproutShapeBoxes, matureShapeBoxes, flowerShape, fruitShape, flavors)
+            val tintIndexes = buffer.readMap({ reader -> reader.readInt() }, { reader -> Color(reader.readInt()) })
+            val flowerModelIdentifier = buffer.readIdentifier()
+            val flowerTexture = buffer.readIdentifier()
+            val fruitModelIdentifier = buffer.readIdentifier()
+            val fruitTexture = buffer.readIdentifier()
+            return Berry(identifier, baseYield, lifeCycles, emptyList(), emptyList(), anchorPoints, sproutShapeBoxes, matureShapeBoxes, flowerShape, fruitShape, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
         }
 
     }

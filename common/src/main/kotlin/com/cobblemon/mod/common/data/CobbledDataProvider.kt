@@ -20,6 +20,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.feature.GlobalSpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureAssignments
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import dev.architectury.registry.ReloadListenerRegistry
 import java.util.UUID
@@ -47,6 +48,7 @@ internal object CobblemonDataProvider : DataProvider {
         this.register(PropertiesCompletionProvider)
         this.register(SpeciesFeatureAssignments)
         this.register(Berries)
+        this.register(BerryModelRepository)
 
         CobblemonEvents.PLAYER_QUIT.subscribe { synchronizedPlayerIds.remove(it.uuid) }
     }
