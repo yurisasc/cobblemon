@@ -90,10 +90,7 @@ class CobblemonConfig {
     var maximumSliceDistanceFromPlayer = 16 * 4F
 
     @NodeCategory(Category.Spawning)
-    var exportSpawnsToConfig = false
-
-    @NodeCategory(Category.Spawning)
-    var exportSpawnConfigToConfig = false
+    var exportSpawnConfig = false
 
     @NodeCategory(Category.Battles)
     var autoUpdateShowdown = true
