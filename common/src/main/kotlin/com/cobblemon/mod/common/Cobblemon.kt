@@ -351,19 +351,23 @@ object Cobblemon {
     }
 
     fun loadStarterConfig(): StarterConfig {
-        val file = File("config/cobblemon/starters.json")
-        file.parentFile.mkdirs()
-        if (!file.exists()) {
-            val config = StarterConfig()
-            val pw = PrintWriter(file)
-            StarterConfig.GSON.toJson(config, pw)
-            pw.close()
+        if (config.exportStarterConfig) {
+            val file = File("config/cobblemon/starters.json")
+            file.parentFile.mkdirs()
+            if (!file.exists()) {
+                val config = StarterConfig()
+                val pw = PrintWriter(file)
+                StarterConfig.GSON.toJson(config, pw)
+                pw.close()
+                return config
+            }
+            val reader = FileReader(file)
+            val config = StarterConfig.GSON.fromJson(reader, StarterConfig::class.java)
+            reader.close()
             return config
+        } else {
+            return StarterConfig()
         }
-        val reader = FileReader(file)
-        val config = StarterConfig.GSON.fromJson(reader, StarterConfig::class.java)
-        reader.close()
-        return config
     }
 
     fun saveConfig() {
