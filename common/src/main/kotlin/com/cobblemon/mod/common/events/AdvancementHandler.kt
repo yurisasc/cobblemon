@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.events
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.advancement.CobblemonCriteria
 import com.cobblemon.mod.common.advancement.criterion.CountablePokemonTypeContext
 import com.cobblemon.mod.common.advancement.criterion.trigger
@@ -16,6 +17,7 @@ import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.events.pokemon.PokemonCapturedEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.util.getPlayer
+import net.minecraft.sound.SoundCategory
 import java.util.UUID
 
 object AdvancementHandler {
@@ -51,6 +53,7 @@ object AdvancementHandler {
             advancementData.updateTotalEvolvedCount()
             Cobblemon.playerData.saveSingle(playerData)
             CobblemonCriteria.EVOLVE_POKEMON.trigger(event.pokemon.getOwnerPlayer()!!, advancementData.totalEvolvedCount)
+            event.pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLUTION_COMPLETED.get(), SoundCategory.NEUTRAL, 1F, 1F)
         }
     }
 

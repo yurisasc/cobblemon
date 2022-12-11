@@ -24,4 +24,6 @@ object CobblemonSounds : CompletableRegistry<SoundEvent>(Registry.SOUND_EVENT_KE
     val POKE_BALL_SEND_OUT = queue("poke_ball.send_out")
     val POKE_BALL_RECALL = queue("poke_ball.recall")
     val ITEM_USE = queue("item.use")
+    val CAN_EVOLVE = queue("pokemon.can_evolve")
+    val EVOLUTION_COMPLETED = queue("pokemon.evolution_completed")
 }
