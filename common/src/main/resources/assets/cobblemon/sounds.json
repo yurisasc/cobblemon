@@ -23,5 +23,11 @@
   },
   "item.use": {
     "sounds": [ "cobblemon:use_item" ]
+  },
+  "pokemon.can_evolve": {
+    "sounds": [ "cobblemon:pokemon/can_evolve"]
+  },
+  "pokemon.evolution_completed": {
+    "sounds": [ "cobblemon:pokemon/evolution_completed"]
   }
 }
