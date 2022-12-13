@@ -10,12 +10,14 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.world.block.BerryBlock
 import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
+import kotlin.math.PI
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 import net.minecraft.util.shape.VoxelShape
 
@@ -28,15 +30,43 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             return
         }
         matrices.push()
-        matrices.translate(0.5, 0.5, 0.5)
         val isFlower = age == BerryBlock.FLOWER_AGE
         entity.berryAndShape(isFlower).forEach { (berry, shape) ->
             val model = (if (isFlower) berry.flowerModel() else berry.fruitModel()) ?: return@forEach
             val texture = if (isFlower) berry.flowerTexture else berry.fruitTexture
             val layer = RenderLayer.getEntityCutoutNoCull(texture)
-            matrices.translate(shape.getMin(Direction.Axis.X), shape.getMin(Direction.Axis.Y), shape.getMin(Direction.Axis.Z))
+            matrices.push()
+            matrices.scale(1F, -1F, 1F)
+           // matrices.multiply(Quaternion.fromEulerXyz(PI.toFloat(), 0F, 0F))
+            matrices.push()
+            val midX = (shape.getMin(Direction.Axis.X) + shape.getMax(Direction.Axis.X)) / 2
+            /*
+             * For midY we have to subtract 1.5. Here's why:
+             *
+             * In Minecraft's entity rendering of Java models, there's a locked in Y+24 offset in the model exports and
+             * in the MobRenderer code which our PokemonRenderer extends. It's unclear why they do it but my enduring
+             * theory is that it's rendering the entities upside down, but basically the MobRenderer pushes it in one
+             * direction and the model's +24 pushes it back into place again.
+             *
+             * We extend the MobRenderer, but we use Bedrock model exports which don't do the +24. In the bedrock model
+             * interpreter we had to add a hardcoded +24 to match what the renderer is going to do later, but we aren't
+             * in the MobRenderer, are we?
+             *
+             * The 24 is in model coordinates, which are world coordinates multiplied by 16. So, 1.5.
+             *
+             * - Hiro
+             *
+             * P.S. we also swap the sign on Y because they really do normally do this shit upside down, so the -1 Y
+             * scale up above has forced me to inverse the Y here as well. It's pixel-perfect though, we're good.
+             */
+            val midY = -(shape.getMin(Direction.Axis.Y) + shape.getMax(Direction.Axis.Y)) / 2 - 1.5
+            val midZ = (shape.getMin(Direction.Axis.Z) + shape.getMax(Direction.Axis.Z)) / 2
+
+            matrices.translate(midX, midY, midZ)
             val vertexConsumer = vertexConsumers.getBuffer(layer)
             model.render(matrices, vertexConsumer, light, overlay)
+            matrices.pop()
+            matrices.pop()
         }
         matrices.pop()
     }
