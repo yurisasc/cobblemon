@@ -35,10 +35,6 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             val model = (if (isFlower) berry.flowerModel() else berry.fruitModel()) ?: return@forEach
             val texture = if (isFlower) berry.flowerTexture else berry.fruitTexture
             val layer = RenderLayer.getEntityCutoutNoCull(texture)
-            matrices.push()
-            matrices.scale(1F, -1F, 1F)
-           // matrices.multiply(Quaternion.fromEulerXyz(PI.toFloat(), 0F, 0F))
-            matrices.push()
             val midX = (shape.getMin(Direction.Axis.X) + shape.getMax(Direction.Axis.X)) / 2
             /*
              * For midY we have to subtract 1.5. Here's why:
@@ -62,10 +58,12 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             val midY = -(shape.getMin(Direction.Axis.Y) + shape.getMax(Direction.Axis.Y)) / 2 - 1.5
             val midZ = (shape.getMin(Direction.Axis.Z) + shape.getMax(Direction.Axis.Z)) / 2
 
-            matrices.translate(midX, midY, midZ)
             val vertexConsumer = vertexConsumers.getBuffer(layer)
+
+            matrices.push()
+            matrices.scale(1F, -1F, 1F)
+            matrices.translate(midX, midY, midZ)
             model.render(matrices, vertexConsumer, light, overlay)
-            matrices.pop()
             matrices.pop()
         }
         matrices.pop()
