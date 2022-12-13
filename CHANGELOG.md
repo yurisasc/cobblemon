@@ -15,6 +15,7 @@
 - Fixed some animations on snake-type Pokémon being mega slow.
 - Fixed a typo in the English name for Calcium. Calcuim.
 - Fixed Pokémon gradually becoming rarer around you if you move long distances.
+- Fixed shoulder mount crash on Fabric.
 
 ## 1.1.1 (November 27th, 2022)
 
