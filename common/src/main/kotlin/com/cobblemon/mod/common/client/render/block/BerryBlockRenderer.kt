@@ -16,9 +16,12 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
+import net.minecraft.client.util.math.Vector3d
 import net.minecraft.util.math.Direction
+import net.minecraft.util.math.Matrix3f
 import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.Vector4f
 import net.minecraft.util.shape.VoxelShape
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
@@ -63,7 +66,11 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
             matrices.push()
             matrices.scale(1F, -1F, 1F)
             matrices.translate(midX, midY, midZ)
+            matrices.push()
+            val angleOfRotationDegrees = 30F
+            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(angleOfRotationDegrees))
             model.render(matrices, vertexConsumer, light, overlay)
+            matrices.pop()
             matrices.pop()
         }
         matrices.pop()
