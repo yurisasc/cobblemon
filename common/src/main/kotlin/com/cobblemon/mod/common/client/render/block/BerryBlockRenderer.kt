@@ -53,7 +53,7 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
              * - Hiro
              *
              * P.S. we also swap the sign on Y because they really do normally do this shit upside down, so the -1 Y
-             * scale up above has forced me to inverse the Y here as well. It's pixel-perfect though, we're good.
+             * scale down below has forced me to inverse the Y here as well. It's pixel-perfect though, we're good.
              */
             val midY = -(shape.getMin(Direction.Axis.Y) + shape.getMax(Direction.Axis.Y)) / 2 - 1.5
             val midZ = (shape.getMin(Direction.Axis.Z) + shape.getMax(Direction.Axis.Z)) / 2
