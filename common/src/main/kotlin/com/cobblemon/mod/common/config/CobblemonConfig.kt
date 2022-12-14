@@ -92,6 +92,9 @@ class CobblemonConfig {
     @NodeCategory(Category.Spawning)
     var exportSpawnConfig = false
 
+    @NodeCategory(Category.Starter)
+    var exportStarterConfig = false
+
     @NodeCategory(Category.Battles)
     var autoUpdateShowdown = true
 
