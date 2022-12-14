@@ -8,6 +8,7 @@
 
 ### Changes
 - Changed the healer advancements to make the healing machine's mechanics more obvious.
+- Reinforced party and PC saving to make data corruption from crashes less bad.
 - Added a config option for whether the starter config will be exported, making it more maintainable as we add starter Pokémon.
 
 ### Fixes
@@ -16,6 +17,7 @@
 - Fixed some animations on snake-type Pokémon being mega slow.
 - Fixed a typo in the English name for Calcium. Calcuim.
 - Fixed Pokémon gradually becoming rarer around you if you move long distances.
+- Fixed shoulder mount crash on Fabric.
 
 ## 1.1.1 (November 27th, 2022)
 
