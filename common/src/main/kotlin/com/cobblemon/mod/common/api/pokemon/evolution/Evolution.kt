@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.api.pokemon.evolution
 
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
@@ -18,6 +19,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.LevelUpEvolution
 import com.cobblemon.mod.common.pokemon.evolution.variants.TradeEvolution
+import net.minecraft.sound.SoundCategory
 
 /**
  * Represents an evolution of a [Pokemon], this is the server side counterpart of [EvolutionDisplay].
@@ -96,6 +98,7 @@ interface Evolution : EvolutionLike {
                 evolution.attemptEvolution(pokemon)
             }
         CobblemonEvents.EVOLUTION_COMPLETE.post(EvolutionCompleteEvent(pokemon, this))
+        pokemon.getOwnerPlayer()?.playSound(CobblemonSounds.EVOLUTION_COMPLETED.get(), SoundCategory.NEUTRAL, 1F, 1F)
     }
 
     fun evolveAbility(pokemon: Pokemon, previousAbilityPool: AbilityPool) {
