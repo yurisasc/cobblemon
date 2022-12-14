@@ -4,9 +4,11 @@
 ### Additions
 - Reworked customisation of models, textures, and animations to make fakemon very easy to create.
 - Added 'nature' and 'pokeball' options to commands such as /spawnpokemon and /givepokemon.
+- Added support for datapack spawn files and spawn file presets.
 
 ### Changes
 - Changed the healer advancements to make the healing machine's mechanics more obvious.
+- Reinforced party and PC saving to make data corruption from crashes less bad.
 
 ### Fixes
 - Fixed an incompatibility with [Porting Lib](https://github.com/Fabricators-of-Create/Porting-Lib) used by Fabric ports of mods such as Create or Twilight Forest.
@@ -14,6 +16,7 @@
 - Fixed some animations on snake-type Pokémon being mega slow.
 - Fixed a typo in the English name for Calcium. Calcuim.
 - Fixed Pokémon gradually becoming rarer around you if you move long distances.
+- Fixed shoulder mount crash on Fabric.
 
 ## 1.1.1 (November 27th, 2022)
 

@@ -123,7 +123,7 @@ import org.apache.logging.log4j.LogManager
 
 object Cobblemon {
     const val MODID = "cobblemon"
-    const val VERSION = "1.1.0"
+    const val VERSION = "1.2.0"
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER = LogManager.getLogger()
 
@@ -153,7 +153,6 @@ object Cobblemon {
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
 
         ExperienceGroups.registerDefaults()
-        PokemonSpecies.observable.subscribe { CobblemonSpawnPools.load() }
 
         this.loadConfig()
         this.implementation = implementation
