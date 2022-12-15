@@ -10,6 +10,7 @@
 ### Changes
 - Changed the healer advancements to make the healing machine's mechanics more obvious.
 - Reinforced party and PC saving to make data corruption from crashes less bad.
+- Added a config option for whether the starter config will be exported, making it more maintainable as we add starter Pokémon.
 
 ### Fixes
 - Fixed an incompatibility with [Porting Lib](https://github.com/Fabricators-of-Create/Porting-Lib) used by Fabric ports of mods such as Create or Twilight Forest.
