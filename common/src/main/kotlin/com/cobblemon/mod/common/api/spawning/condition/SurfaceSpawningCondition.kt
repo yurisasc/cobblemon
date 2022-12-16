@@ -9,22 +9,21 @@
 package com.cobblemon.mod.common.api.spawning.condition
 
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
-import com.cobblemon.mod.common.api.spawning.context.SubmergedSpawningContext
+import com.cobblemon.mod.common.api.spawning.context.SurfaceSpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.util.Merger
 import net.minecraft.fluid.Fluid
 
 /**
- * Base type for a spawning condition that applies to some kind of [SubmergedSpawningContext]. This
- * can be extended for subclasses of [SubmergedSpawningContext].
+ * Base type for a spawning condition that applies to some kind of [SurfaceSpawningContext]. This
+ * can be extended for subclasses of [SurfaceSpawningContext].
  *
  * @author Hiroku
- * @since February 7th, 2022
+ * @since December 15th, 2022
  */
-abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : AreaTypeSpawningCondition<T>() {
+abstract class SurfaceTypeSpawningCondition<T : SurfaceSpawningContext> : AreaTypeSpawningCondition<T>() {
     var minDepth: Int? = null
     var maxDepth: Int? = null
-    var fluidIsSource: Boolean? = null
     var fluid: RegistryLikeCondition<Fluid>? = null
 
     override fun fits(ctx: T, detail: SpawnDetail): Boolean {
@@ -34,31 +33,28 @@ abstract class SubmergedTypeSpawningCondition<T : SubmergedSpawningContext> : Ar
             false
         } else if (maxDepth != null && ctx.depth > maxDepth!!) {
             false
-        } else if (fluidIsSource != null && ctx.fluid.isStill != fluidIsSource!!) {
-            false
-        } else !(ctx.fluid.isEmpty || (fluid != null && !fluid!!.fits(ctx.fluid.fluid, ctx.fluidRegistry)))
+        } else !(ctx.baseBlock.fluidState.isEmpty || (fluid != null && !fluid!!.fits(ctx.baseBlock.fluidState.fluid, ctx.fluidRegistry)))
     }
 
     override fun copyFrom(other: SpawningCondition<*>, merger: Merger) {
         super.copyFrom(other, merger)
-        if (other is SubmergedTypeSpawningCondition) {
+        if (other is SurfaceTypeSpawningCondition) {
             minDepth = merger.mergeSingle(minDepth, other.minDepth)
             maxDepth = merger.mergeSingle(minDepth, other.minDepth)
-            fluidIsSource = merger.mergeSingle(fluidIsSource, other.fluidIsSource)
             fluid = merger.mergeSingle(fluid, other.fluid)
         }
     }
 }
 
 /**
- * A spawning condition for an [SubmergedSpawningContext].
+ * A spawning condition for a [SurfaceSpawningContext].
  *
  * @author Hiroku
- * @since February 7th, 2022
+ * @since December 15th, 2022
  */
-open class SubmergedSpawningCondition : SubmergedTypeSpawningCondition<SubmergedSpawningContext>() {
-    override fun contextClass() = SubmergedSpawningContext::class.java
+open class SurfaceSpawningCondition : SurfaceTypeSpawningCondition<SurfaceSpawningContext>() {
+    override fun contextClass() = SurfaceSpawningContext::class.java
     companion object {
-        const val NAME = "submerged"
+        const val NAME = "surface"
     }
 }
