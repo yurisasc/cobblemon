@@ -23,7 +23,9 @@ class MoonPhaseRange : IntRanges {
             "gibbous" to MoonPhaseRange(1..1, 7..7),
             "full" to MoonPhaseRange(0..0),
             "new" to MoonPhaseRange(4..4),
-            "quarter" to MoonPhaseRange(3..3, 7..7)
+            "quarter" to MoonPhaseRange(2..2, 6..6),
+            "waxing" to MoonPhaseRange(5..5, 7..7),
+            "waning" to MoonPhaseRange(1..1, 3..3)
         )
     }
 
