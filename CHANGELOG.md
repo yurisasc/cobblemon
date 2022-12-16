@@ -20,6 +20,7 @@
 - Fixed Pokémon gradually becoming rarer around you if you move long distances.
 - Fixed shoulder mount crash on Fabric.
 - Fixed a rare issue where chunks would take a really long time to generate.
+- Fixed a singleplayer bug where battles wouldn't work after leaving and joining a world.
 
 ## 1.1.1 (November 27th, 2022)
 
