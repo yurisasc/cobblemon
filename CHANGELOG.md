@@ -19,6 +19,7 @@
 - Fixed a typo in the English name for Calcium. Calcuim.
 - Fixed Pokémon gradually becoming rarer around you if you move long distances.
 - Fixed shoulder mount crash on Fabric.
+- Fixed a rare issue where chunks would take a really long time to generate.
 
 ## 1.1.1 (November 27th, 2022)
 
