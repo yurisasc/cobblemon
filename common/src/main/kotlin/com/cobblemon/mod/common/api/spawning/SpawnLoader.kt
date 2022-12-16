@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.api.drop.DropEntry
 import com.cobblemon.mod.common.api.drop.ItemDropMethod
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.spawning.condition.SpawningCondition
-import com.cobblemon.mod.common.api.spawning.condition.TimeRange
 import com.cobblemon.mod.common.api.spawning.context.RegisteredSpawningContext
 import com.cobblemon.mod.common.api.spawning.detail.SpawnDetail
 import com.cobblemon.mod.common.util.adapters.BiomeLikeConditionAdapter
@@ -22,12 +21,12 @@ import com.cobblemon.mod.common.util.adapters.DropEntryAdapter
 import com.cobblemon.mod.common.util.adapters.FluidLikeConditionAdapter
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.adapters.IntRangeAdapter
+import com.cobblemon.mod.common.util.adapters.IntRangesAdapter
 import com.cobblemon.mod.common.util.adapters.NbtCompoundAdapter
 import com.cobblemon.mod.common.util.adapters.RegisteredSpawningContextAdapter
 import com.cobblemon.mod.common.util.adapters.SpawnBucketAdapter
 import com.cobblemon.mod.common.util.adapters.SpawnDetailAdapter
 import com.cobblemon.mod.common.util.adapters.SpawningConditionAdapter
-import com.cobblemon.mod.common.util.adapters.TimeRangeAdapter
 import com.cobblemon.mod.common.util.adapters.pokemonPropertiesShortAdapter
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -57,7 +56,8 @@ object SpawnLoader {
         .registerTypeAdapter(SpawnDetail::class.java, SpawnDetailAdapter)
         .registerTypeAdapter(DropEntry::class.java, DropEntryAdapter)
         .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
-        .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
+        .registerTypeAdapter(TimeRange::class.java, IntRangesAdapter(TimeRange.timeRanges) { TimeRange(*it) })
+        .registerTypeAdapter(MoonPhaseRange::class.java, IntRangesAdapter(MoonPhaseRange.moonPhaseRanges) { MoonPhaseRange(*it) })
         .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
         .registerTypeAdapter(SpawnBucket::class.java, SpawnBucketAdapter)

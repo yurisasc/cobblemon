@@ -10,23 +10,21 @@ package com.cobblemon.mod.common.api.spawning
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.conditional.RegistryLikeCondition
-import com.cobblemon.mod.common.api.data.DataRegistry
 import com.cobblemon.mod.common.api.data.JsonDataRegistry
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.spawning.condition.SpawningCondition
-import com.cobblemon.mod.common.api.spawning.condition.TimeRange
 import com.cobblemon.mod.common.api.spawning.context.RegisteredSpawningContext
 import com.cobblemon.mod.common.api.spawning.preset.SpawnDetailPreset
 import com.cobblemon.mod.common.util.adapters.BiomeLikeConditionAdapter
 import com.cobblemon.mod.common.util.adapters.BlockLikeConditionAdapter
 import com.cobblemon.mod.common.util.adapters.FluidLikeConditionAdapter
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
+import com.cobblemon.mod.common.util.adapters.IntRangesAdapter
 import com.cobblemon.mod.common.util.adapters.RegisteredSpawningContextAdapter
 import com.cobblemon.mod.common.util.adapters.SpawnBucketAdapter
 import com.cobblemon.mod.common.util.adapters.SpawnDetailPresetAdapter
 import com.cobblemon.mod.common.util.adapters.SpawningConditionAdapter
-import com.cobblemon.mod.common.util.adapters.TimeRangeAdapter
 import com.cobblemon.mod.common.util.adapters.pokemonPropertiesShortAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
@@ -60,7 +58,8 @@ object SpawnDetailPresets : JsonDataRegistry<SpawnDetailPreset> {
         .registerTypeAdapter(SpawnDetailPreset::class.java, SpawnDetailPresetAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
         .registerTypeAdapter(SpawningCondition::class.java, SpawningConditionAdapter)
-        .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
+        .registerTypeAdapter(TimeRange::class.java, IntRangesAdapter(TimeRange.timeRanges) { TimeRange(*it) })
+        .registerTypeAdapter(MoonPhaseRange::class.java, IntRangesAdapter(MoonPhaseRange.moonPhaseRanges) { MoonPhaseRange(*it) })
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
         .create()
 
