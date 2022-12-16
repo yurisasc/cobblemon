@@ -151,6 +151,6 @@ class CobblemonConfig {
     var shinyRate = 8192F
 
     @NodeCategory(Category.World)
-    var apricornSeedChance = 0.06
+    var apricornSeedChance = 0.1
 
 }
