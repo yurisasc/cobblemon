@@ -22,7 +22,7 @@ import com.cobblemon.mod.common.api.spawning.condition.SpawningCondition
  * to register it, by name, in [moonPhaseRanges].
  *
  * @author Hiroku
- * @since January 26th, 2022
+ * @since December 16th, 2022
  */
 class MoonPhaseRange : IntRanges {
     companion object {
