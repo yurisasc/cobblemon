@@ -41,8 +41,7 @@ dependencies {
         libs.jetbrainsAnnotations,
         libs.serializationCore,
         libs.serializationJson,
-        libs.javet,
-        libs.javetMac,
+        libs.graal,
         libs.molang,
         libs.mclib
     ).forEach {
