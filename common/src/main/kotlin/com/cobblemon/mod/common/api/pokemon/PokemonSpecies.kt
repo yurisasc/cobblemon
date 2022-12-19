@@ -233,7 +233,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 """.trimIndent()
             )
         }
-        val formatsDataFile = File("node_modules/pokemon-showdown/.data-dist/mods/cobblemon/formats-data.js")
+        val formatsDataFile = File("showdown/node_modules/pokemon-showdown/.data-dist/mods/cobblemon/formats-data.js")
         formatsDataFile.bufferedWriter().use { writer ->
             writer.write(
                 """
