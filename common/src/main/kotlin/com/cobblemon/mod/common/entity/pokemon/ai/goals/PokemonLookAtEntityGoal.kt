@@ -21,7 +21,7 @@ import net.minecraft.entity.ai.goal.LookAtEntityGoal
  * @since July 30th, 2022
  */
 class PokemonLookAtEntityGoal(entity: PokemonEntity, targetType: Class<out LivingEntity>, range: Float) : LookAtEntityGoal(entity, targetType, range) {
-    fun canLook() = (mob as PokemonEntity).behaviour.moving.canLook && (mob as PokemonEntity).pokemon.status?.status != Statuses.SLEEP
+    fun canLook() = (mob as PokemonEntity).behaviour.moving.canLook && (mob as PokemonEntity).pokemon.status?.status != Statuses.SLEEP && (mob as PokemonEntity).isBattling
     override fun canStart() = super.canStart() && canLook()
     override fun shouldContinue() = super.shouldContinue() && canLook()
 
