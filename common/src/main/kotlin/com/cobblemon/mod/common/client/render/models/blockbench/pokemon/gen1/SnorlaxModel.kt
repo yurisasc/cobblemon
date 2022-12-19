@@ -20,8 +20,8 @@ class SnorlaxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("snorlax")
     override val head = getPart("head")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 1.1F
+    override val portraitTranslation = Vec3d(0.0, 0.9, 0.0)
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -35,7 +35,7 @@ class SnorlaxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("0143_snorlax/snorlax", "ground_idle")
+                bedrock("snorlax", "ground_idle")
             )
         )
 
@@ -44,7 +44,7 @@ class SnorlaxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
                 singleBoneLook(),
-                bedrock("0143_snorlax/snorlax", "ground_walk")
+                bedrock("snorlax", "ground_walk")
             )
         )
     }
@@ -52,5 +52,5 @@ class SnorlaxModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0143_snorlax/snorlax", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("snorlax", "faint") else null
 }

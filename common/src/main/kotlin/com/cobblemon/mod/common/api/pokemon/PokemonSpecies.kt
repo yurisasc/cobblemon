@@ -32,13 +32,12 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroupAdapter
 import com.cobblemon.mod.common.api.pokemon.moves.Learnset
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
-import com.cobblemon.mod.common.api.spawning.condition.TimeRange
+import com.cobblemon.mod.common.api.spawning.TimeRange
 import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.adapters.ElementalTypeAdapter
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.FormData
-import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonPreEvolutionAdapter
@@ -52,11 +51,11 @@ import com.cobblemon.mod.common.util.adapters.DropEntryAdapter
 import com.cobblemon.mod.common.util.adapters.EggGroupAdapter
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
 import com.cobblemon.mod.common.util.adapters.IntRangeAdapter
+import com.cobblemon.mod.common.util.adapters.IntRangesAdapter
 import com.cobblemon.mod.common.util.adapters.ItemLikeConditionAdapter
 import com.cobblemon.mod.common.util.adapters.LazySetAdapter
 import com.cobblemon.mod.common.util.adapters.LearnsetAdapter
 import com.cobblemon.mod.common.util.adapters.NbtCompoundAdapter
-import com.cobblemon.mod.common.util.adapters.TimeRangeAdapter
 import com.cobblemon.mod.common.util.adapters.pokemonPropertiesShortAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.common.collect.HashBasedTable
@@ -65,7 +64,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import java.io.File
 import java.nio.file.Files
-import kotlin.io.path.Path
 import kotlin.reflect.KProperty
 import net.minecraft.block.Block
 import net.minecraft.entity.EntityDimensions
@@ -100,7 +98,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
         .registerTypeAdapter(PokemonProperties::class.java, pokemonPropertiesShortAdapter)
         .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
-        .registerTypeAdapter(TimeRange::class.java, TimeRangeAdapter)
+        .registerTypeAdapter(TimeRange::class.java, IntRangesAdapter(TimeRange.timeRanges) { TimeRange(*it) })
         .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
         .registerTypeAdapter(SleepDepth::class.java, SleepDepth.adapter)
         .registerTypeAdapter(DropEntry::class.java, DropEntryAdapter)
@@ -114,7 +112,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         .create()
 
     override val typeToken: TypeToken<Species> = TypeToken.get(Species::class.java)
-    override val resourcePath = Path("species")
+    override val resourcePath = "species"
 
     override val observable = SimpleObservable<PokemonSpecies>()
 
@@ -128,45 +126,11 @@ object PokemonSpecies : JsonDataRegistry<Species> {
 
     val species: Collection<Species>
         get() = this.speciesByIdentifier.values
+    val implemented = mutableListOf<Species>()
 
     object SpeciesByNameDelegate {
         operator fun getValue(_species: PokemonSpecies, property: KProperty<*>) = getByIdentifier(cobblemonResource(property.name.lowercase()))
     }
-
-    val BULBASAUR by SpeciesByNameDelegate
-    val IVYSAUR by SpeciesByNameDelegate
-    val VENUSAUR by SpeciesByNameDelegate
-    val CHARMANDER by SpeciesByNameDelegate
-    val CHARMELEON by SpeciesByNameDelegate
-    val CHARIZARD by SpeciesByNameDelegate
-    val SQUIRTLE by SpeciesByNameDelegate
-    val WARTORTLE by SpeciesByNameDelegate
-    val BLASTOISE by SpeciesByNameDelegate
-    val CATERPIE by SpeciesByNameDelegate
-    val METAPOD by SpeciesByNameDelegate
-    val BUTTERFREE by SpeciesByNameDelegate
-    val WEEDLE by SpeciesByNameDelegate
-    val KAKUNA by SpeciesByNameDelegate
-    val BEEDRILL by SpeciesByNameDelegate
-    val PIDGEY by SpeciesByNameDelegate
-    val PIDGEOTTO by SpeciesByNameDelegate
-    val PIDGEOT by SpeciesByNameDelegate
-    val EKANS by SpeciesByNameDelegate
-    val ZUBAT by SpeciesByNameDelegate
-    val DIGLETT by SpeciesByNameDelegate
-    val DUGTRIO by SpeciesByNameDelegate
-    val MAGIKARP by SpeciesByNameDelegate
-    val GYARADOS by SpeciesByNameDelegate
-    val EEVEE by SpeciesByNameDelegate
-    val RATTATA by SpeciesByNameDelegate
-    val RATICATE by SpeciesByNameDelegate
-    val CLEFFA by SpeciesByNameDelegate
-    val CLEFABLE by SpeciesByNameDelegate
-    val CLEFAIRY by SpeciesByNameDelegate
-    val MACHOP by SpeciesByNameDelegate
-    val MACHOKE by SpeciesByNameDelegate
-    val MACHAMP by SpeciesByNameDelegate
-
 
     /**
      * Finds a species by the pathname of their [Identifier].
@@ -208,10 +172,11 @@ object PokemonSpecies : JsonDataRegistry<Species> {
      *
      * @return A randomly selected [Species].
      */
-    fun random(): Species = this.species.random()
+    fun random(): Species = this.implemented.random()
 
     override fun reload(data: Map<Identifier, Species>) {
         this.speciesByIdentifier.clear()
+        this.implemented.clear()
         this.speciesByDex.clear()
         data.forEach { (identifier, species) ->
             species.resourceIdentifier = identifier
@@ -219,6 +184,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 this.speciesByDex.remove(old.resourceIdentifier.namespace, old.nationalPokedexNumber)
             }
             this.speciesByDex.put(species.resourceIdentifier.namespace, species.nationalPokedexNumber, species)
+            if (species.implemented) {
+                this.implemented.add(species)
+            }
             species.initialize()
         }
         this.species.forEach(Species::initializePostLoads)

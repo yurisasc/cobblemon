@@ -18,8 +18,8 @@ import net.minecraft.util.math.Vec3d
 class WeepinbellModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("weepinbell")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 1.45F
+    override val portraitTranslation = Vec3d(0.15, -0.5, 0.0)
 
     override val profileScale = 1.0F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
@@ -32,7 +32,7 @@ class WeepinbellModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             idleAnimations = arrayOf(
-                bedrock("0070_weepinbell/weepinbell", "ground_idle")
+                bedrock("weepinbell", "ground_idle")
             )
         )
 
@@ -40,8 +40,8 @@ class WeepinbellModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                bedrock("0070_weepinbell/weepinbell", "ground_idle")
-                //bedrock("0070_weepinbell/weepinbell", "ground_walk")
+                bedrock("weepinbell", "ground_idle")
+                //bedrock("weepinbell", "ground_walk")
             )
         )
     }
@@ -49,5 +49,5 @@ class WeepinbellModel(root: ModelPart) : PokemonPoseableModel() {
 //    override fun getFaintAnimation(
 //        pokemonEntity: PokemonEntity,
 //        state: PoseableEntityState<PokemonEntity>
-//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("0070_weepinbell/weepinbell", "faint") else null
+//    ) = if (state.isPosedIn(standing, walk)) bedrockStateful("weepinbell", "faint") else null
 }
