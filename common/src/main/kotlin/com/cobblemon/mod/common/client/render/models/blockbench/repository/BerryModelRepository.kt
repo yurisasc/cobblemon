@@ -20,6 +20,10 @@ import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 
+/**
+ * The data registry responsible for berry fruit and flower models.
+ * This is only present on the client.
+ */
 object BerryModelRepository : JsonDataRegistry<TexturedModel> {
 
     override val id = cobblemonResource("berry_models")

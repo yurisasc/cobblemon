@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.block
 
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.world.block.BerryBlock
 import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
 import net.minecraft.client.render.RenderLayer
@@ -16,7 +17,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Vec3f
-import kotlin.random.Random
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
 
@@ -28,8 +28,8 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         }
         matrices.push()
         val isFlower = age == BerryBlock.FLOWER_AGE
-        entity.berryAndGrowthPoint().forEach { (berry, growthPoint) ->
-            val model = (if (isFlower) berry.flowerModel() else berry.fruitModel()) ?: return@forEach
+        for ((berry, growthPoint) in entity.berryAndGrowthPoint()) {
+            val model = (if (isFlower) BerryModelRepository.modelOf(berry.flowerModelIdentifier) else BerryModelRepository.modelOf(berry.fruitModelIdentifier)) ?: continue
             val texture = if (isFlower) berry.flowerTexture else berry.fruitTexture
             val layer = RenderLayer.getEntityCutoutNoCull(texture)
             val vertexConsumer = vertexConsumers.getBuffer(layer)

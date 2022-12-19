@@ -13,7 +13,6 @@ import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
-import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.util.readBox
 import com.cobblemon.mod.common.util.writeBox
@@ -47,8 +46,8 @@ import java.awt.Color
  * @property flavors The [Flavor] values.
  * @property tintIndexes Determines tints at specific indexes if any.
  * @property flowerModelIdentifier The [Identifier] for the model of the berry in flower form.
- * @property flowerTexture The [Identifier] for the texture of the berry in flower form.
- * @property fruitModelIdentifier The [Identifier] for the model of the berry in flower form.
+ * @property flowerTexture The [Identifier] for the texture of the berry in flower form. This is resolved into a [ModelPart] on the client.
+ * @property fruitModelIdentifier The [Identifier] for the model of the berry in flower form. This is resolved into a [ModelPart] on the client.
  * @property fruitTexture The [Identifier] for the texture of the berry in flower form.
  *
  * @throws IllegalArgumentException if the any yield range argument is not a positive range.
@@ -67,10 +66,10 @@ class Berry(
     private val flavors: Map<Flavor, Int>,
     val tintIndexes: Map<Int, Color>,
     @SerializedName("flowerModel")
-    private val flowerModelIdentifier: Identifier,
+    val flowerModelIdentifier: Identifier,
     val flowerTexture: Identifier,
     @SerializedName("fruitModel")
-    private val fruitModelIdentifier: Identifier,
+    val fruitModelIdentifier: Identifier,
     val fruitTexture: Identifier
 ) {
 
@@ -123,22 +122,6 @@ class Berry(
      * @return The value if any or 0.
      */
     fun flavor(flavor: Flavor): Int = this.flavors[flavor] ?: 0
-
-    /**
-     * Finds the [ModelPart] for the given [flowerModelIdentifier].
-     * This should only be invoked on the client.
-     *
-     * @return The [ModelPart] of the fruit if existing.
-     */
-    fun flowerModel(): ModelPart? = BerryModelRepository.modelOf(this.flowerModelIdentifier)
-
-    /**
-     * Finds the [ModelPart] for the given [fruitModelIdentifier].
-     * This should only be invoked on the client.
-     *
-     * @return The [ModelPart] of the fruit if existing.
-     */
-    fun fruitModel(): ModelPart? = BerryModelRepository.modelOf(this.fruitModelIdentifier)
 
     /**
      * Calculates the yield for a berry tree being planted.

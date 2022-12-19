@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.world.block.entity
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
@@ -42,7 +43,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             if (value < 0) {
                 throw IllegalArgumentException("You cannot set the life cycles to less than 0")
             }
-            if (field != value && this.wasLoading) {
+            if (field != value) {
                 this.markDirty()
             }
             field = value
@@ -144,7 +145,8 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         nbt.getList(GROWTH_POINTS, NbtList.STRING_TYPE.toInt()).filterIsInstance<NbtString>().forEach { element ->
             // In case some 3rd party mutates the NBT incorrectly
             try {
-                this.growthPoints += Identifier(element.asString())
+                val identifier = Identifier(element.asString())
+                this.growthPoints += identifier
             } catch (ignored: InvalidIdentifierException) {}
         }
         this.wasLoading = false
@@ -166,6 +168,12 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             return
         }
         world.breakBlock(pos, false)
+    }
+
+    override fun markDirty() {
+        if (!this.wasLoading) {
+            super.markDirty()
+        }
     }
 
     companion object {
