@@ -123,7 +123,7 @@ import org.apache.logging.log4j.LogManager
 
 object Cobblemon {
     const val MODID = "cobblemon"
-    const val VERSION = "1.1.0"
+    const val VERSION = "1.2.0"
     const val CONFIG_PATH = "config/$MODID/main.json"
     val LOGGER = LogManager.getLogger()
 
@@ -153,7 +153,6 @@ object Cobblemon {
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
 
         ExperienceGroups.registerDefaults()
-        PokemonSpecies.observable.subscribe { CobblemonSpawnPools.load() }
 
         this.loadConfig()
         this.implementation = implementation
@@ -262,7 +261,9 @@ object Cobblemon {
         SERVER_STOPPED.subscribe {
             storage.unregisterAll()
             playerData.saveAll()
-            showdown.close()
+            if (it.isDedicated) {
+                showdown.close()
+            }
         }
         SERVER_STARTED.subscribe {
             bestSpawner.onServerStarted()
@@ -352,19 +353,23 @@ object Cobblemon {
     }
 
     fun loadStarterConfig(): StarterConfig {
-        val file = File("config/cobblemon/starters.json")
-        file.parentFile.mkdirs()
-        if (!file.exists()) {
-            val config = StarterConfig()
-            val pw = PrintWriter(file)
-            StarterConfig.GSON.toJson(config, pw)
-            pw.close()
+        if (config.exportStarterConfig) {
+            val file = File("config/cobblemon/starters.json")
+            file.parentFile.mkdirs()
+            if (!file.exists()) {
+                val config = StarterConfig()
+                val pw = PrintWriter(file)
+                StarterConfig.GSON.toJson(config, pw)
+                pw.close()
+                return config
+            }
+            val reader = FileReader(file)
+            val config = StarterConfig.GSON.fromJson(reader, StarterConfig::class.java)
+            reader.close()
             return config
+        } else {
+            return StarterConfig()
         }
-        val reader = FileReader(file)
-        val config = StarterConfig.GSON.fromJson(reader, StarterConfig::class.java)
-        reader.close()
-        return config
     }
 
     fun saveConfig() {
