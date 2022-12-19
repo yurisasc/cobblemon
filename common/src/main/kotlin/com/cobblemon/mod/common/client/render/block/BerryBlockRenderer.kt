@@ -10,19 +10,13 @@ package com.cobblemon.mod.common.client.render.block
 
 import com.cobblemon.mod.common.world.block.BerryBlock
 import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
-import kotlin.math.PI
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.block.entity.BlockEntityRenderer
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.client.util.math.Vector3d
-import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Matrix3f
-import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
-import net.minecraft.util.math.Vector4f
-import net.minecraft.util.shape.VoxelShape
+import kotlin.random.Random
 
 class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context) : BlockEntityRenderer<BerryBlockEntity> {
 
@@ -34,13 +28,15 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
         }
         matrices.push()
         val isFlower = age == BerryBlock.FLOWER_AGE
-        entity.berryAndShape(isFlower).forEach { (berry, shape) ->
+        entity.berryAndGrowthPoint().forEach { (berry, growthPoint) ->
             val model = (if (isFlower) berry.flowerModel() else berry.fruitModel()) ?: return@forEach
             val texture = if (isFlower) berry.flowerTexture else berry.fruitTexture
             val layer = RenderLayer.getEntityCutoutNoCull(texture)
-            val midX = (shape.getMin(Direction.Axis.X) + shape.getMax(Direction.Axis.X)) / 2
+            val vertexConsumer = vertexConsumers.getBuffer(layer)
+            matrices.push()
+            matrices.scale(1F, -1F, 1F)
             /*
-             * For midY we have to subtract 1.5. Here's why:
+             * For Y we have to subtract 1.5. Here's why:
              *
              * In Minecraft's entity rendering of Java models, there's a locked in Y+24 offset in the model exports and
              * in the MobRenderer code which our PokemonRenderer extends. It's unclear why they do it but my enduring
@@ -58,17 +54,9 @@ class BerryBlockRenderer(private val context: BlockEntityRendererFactory.Context
              * P.S. we also swap the sign on Y because they really do normally do this shit upside down, so the -1 Y
              * scale down below has forced me to inverse the Y here as well. It's pixel-perfect though, we're good.
              */
-            val midY = -(shape.getMin(Direction.Axis.Y) + shape.getMax(Direction.Axis.Y)) / 2 - 1.5
-            val midZ = (shape.getMin(Direction.Axis.Z) + shape.getMax(Direction.Axis.Z)) / 2
-
-            val vertexConsumer = vertexConsumers.getBuffer(layer)
-
+            matrices.translate(growthPoint.position.x / 16.0, -(growthPoint.position.y / 16.0) - 1.5, growthPoint.position.z / 16.0)
             matrices.push()
-            matrices.scale(1F, -1F, 1F)
-            matrices.translate(midX, midY, midZ)
-            matrices.push()
-            val angleOfRotationDegrees = 30F
-            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(angleOfRotationDegrees))
+            matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(growthPoint.rotation))
             model.render(matrices, vertexConsumer, light, overlay)
             matrices.pop()
             matrices.pop()

@@ -111,21 +111,10 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     @Deprecated("Deprecated in Java")
     override fun getOutlineShape(state: BlockState, world: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
         val berry = this.berry() ?: return VoxelShapes.fullCube()
-        return when(state.get(AGE)) {
-            FRUIT_AGE -> this.unionWithFruit(world, pos, berry.matureShape, false)
-            FLOWER_AGE -> this.unionWithFruit(world, pos, berry.matureShape, true)
-            MATURE_AGE -> berry.matureShape
-            else -> berry.sproutShape
-        }
+        return if (state.get(AGE) >= MATURE_AGE) berry.matureShape else berry.sproutShape
     }
 
     private fun isMaxAge(state: BlockState) = state.get(AGE) == FRUIT_AGE
-
-    private fun unionWithFruit(world: BlockView, pos: BlockPos, base: VoxelShape, isFlower: Boolean): VoxelShape {
-        val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity ?: return base
-        val array = blockEntity.berryAndShape(isFlower).map { it.second }.toTypedArray()
-        return VoxelShapes.union(base, *array)
-    }
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(blockState: BlockState): BlockRenderType {

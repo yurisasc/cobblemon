@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.world.block.entity
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
+import com.cobblemon.mod.common.api.berry.GrowthPoint
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryHarvestEvent
 import com.cobblemon.mod.common.world.block.BerryBlock
@@ -26,7 +27,7 @@ import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.shape.VoxelShape
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
@@ -41,13 +42,16 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
             if (value < 0) {
                 throw IllegalArgumentException("You cannot set the life cycles to less than 0")
             }
-            if (field != value) {
+            if (field != value && this.wasLoading) {
                 this.markDirty()
             }
             field = value
         }
 
     private val growthPoints = arrayListOf<Identifier>()
+
+    // Just a cheat to not invoke markDirty unnecessarily
+    private var wasLoading = false
 
     /**
      * Returns the [BerryBlock] behind this entity.
@@ -119,22 +123,22 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     }
 
     /**
-     * Collects the [Berry] and [VoxelShape] of each growth point.
+     * Collects each [Berry] and [GrowthPoint].
      *
-     * @param isFlower If we want the [VoxelShape] of the flower or fruit form.
-     * @return Collection of the [Berry] and [VoxelShape] of each growth point.
+     * @return Collection of the [Berry] and [GrowthPoint].
      */
-    internal fun berryAndShape(isFlower: Boolean): Collection<Pair<Berry, VoxelShape>> {
-        val shapes = arrayListOf<Pair<Berry, VoxelShape>>()
+    internal fun berryAndGrowthPoint(): Collection<Pair<Berry, GrowthPoint>> {
+        val baseBerry = this.berry() ?: return emptyList()
+        val berryPoints = arrayListOf<Pair<Berry, GrowthPoint>>()
         for ((index, identifier) in this.growthPoints.withIndex()) {
             val berry = Berries.getByIdentifier(identifier) ?: continue
-            val shape = berry.shapeAt(index, isFlower)
-            shapes.add(berry to shape)
+            berryPoints.add(berry to baseBerry.growthPoints[index])
         }
-        return shapes
+        return berryPoints
     }
 
     override fun readNbt(nbt: NbtCompound) {
+        this.wasLoading = true
         this.growthPoints.clear()
         this.lifeCycles = nbt.getInt(LIFE_CYCLES).coerceAtLeast(0)
         nbt.getList(GROWTH_POINTS, NbtList.STRING_TYPE.toInt()).filterIsInstance<NbtString>().forEach { element ->
@@ -143,6 +147,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
                 this.growthPoints += Identifier(element.asString())
             } catch (ignored: InvalidIdentifierException) {}
         }
+        this.wasLoading = false
     }
 
     override fun writeNbt(nbt: NbtCompound) {

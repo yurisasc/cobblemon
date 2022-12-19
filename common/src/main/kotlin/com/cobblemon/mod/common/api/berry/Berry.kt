@@ -39,12 +39,11 @@ import java.awt.Color
  * @property identifier The [Identifier] of this berry.
  * @property baseYield The [IntRange] possible for the berry tree before [bonusYield] is calculated.
  * @property lifeCycles The [IntRange] possible for the berry to live for between harvests.
- * @property growthFactors A collection of [GrowthFactor]s that will affect this berry.
- * @property interactions A collection of [PokemonEntityInteraction]s this berry will have in item form.
- * @property sproutShape A collection of [Box]es that make up the tree [VoxelShape] during the sprouting stages.
- * @property matureShape A collection of [Box]es that make up the tree [VoxelShape] during the mature stages.
- * @property flowerShape A collection of [Box]es used to dynamically create [VoxelShape]s for flowering berries tied to [anchorPoints].
- * @property fruitShape A collection of [Box]es used to dynamically create [VoxelShape]s for flowering berries tied to [anchorPoints].
+ * @property growthFactors An array of [GrowthFactor]s that will affect this berry. The client is not aware of these.
+ * @property interactions A collection of [PokemonEntityInteraction]s this berry will have in item form. The client is not aware of these.
+ * @property growthPoints A collection of [GrowthPoint]s for the berry flowers and fruit.
+ * @property sproutShapeBoxes A collection of [Box]es that make up the tree [VoxelShape] during the sprouting stages.
+ * @property matureShapeBoxes A collection of [Box]es that make up the tree [VoxelShape] during the mature stages.
  * @property flavors The [Flavor] values.
  * @property tintIndexes Determines tints at specific indexes if any.
  * @property flowerModelIdentifier The [Identifier] for the model of the berry in flower form.
@@ -60,13 +59,11 @@ class Berry(
     val lifeCycles: IntRange,
     val growthFactors: Collection<GrowthFactor>,
     val interactions: Collection<PokemonEntityInteraction>,
-    private val anchorPoints: Array<Vec3d>,
+    val growthPoints: Array<GrowthPoint>,
     @SerializedName("sproutShape")
     private val sproutShapeBoxes: Collection<Box>,
     @SerializedName("matureShape")
     private val matureShapeBoxes: Collection<Box>,
-    private val flowerShape: Collection<Box>,
-    private val fruitShape: Collection<Box>,
     private val flavors: Map<Flavor, Int>,
     val tintIndexes: Map<Int, Color>,
     @SerializedName("flowerModel")
@@ -186,50 +183,13 @@ class Berry(
         }
         this.growthFactors.forEach { it.validateArguments() }
         val maxYield = this.maxYield()
-        if (this.anchorPoints.size < maxYield) {
-            throw IllegalArgumentException("Anchor points must have enough elements for the max possible yield of $maxYield you've provided ${this.anchorPoints.size} points")
-        }
-        if (this.flowerShape.isEmpty()) {
-            throw IllegalArgumentException("A flower shape must be provided")
-        }
-        if (this.fruitShape.isEmpty()) {
-            throw IllegalArgumentException("A fruit shape must be provided")
+        if (this.growthPoints.size < maxYield) {
+            throw IllegalArgumentException("Anchor points must have enough elements for the max possible yield of $maxYield you've provided ${this.growthPoints.size} points")
         }
         this.shapedFlower = hashMapOf()
         this.shapedFruit = hashMapOf()
         this.sproutShape = this.createAndUniteShapes(this.sproutShapeBoxes)
         this.matureShape = this.createAndUniteShapes(this.matureShapeBoxes)
-    }
-
-    /**
-     * Find the [VoxelShape] at the provided [index].
-     *
-     * @param index The index the [VoxelShape] is expected to be at.
-     * @param isFlower If the shape being queried is the flower or fruit variant.
-     * @return The [VoxelShape] at the queried index.
-     * @throws IndexOutOfBoundsException If the [index] is invalid.
-     */
-    internal fun shapeAt(index: Int, isFlower: Boolean): VoxelShape {
-        val map = if (isFlower) this.shapedFlower else this.shapedFruit
-        if (!map.containsKey(index)) {
-            val vec = this.anchorPoints[index]
-            val boxes = if (isFlower) this.flowerShape else this.fruitShape
-            val shapeParts = boxes.map { this.createAnchorPointShape(it, vec) }
-            return if (shapeParts.size > 1) {
-                var shape: VoxelShape? = null
-                for (element in shapeParts) {
-                    shape = if (shape == null) {
-                        element
-                    } else {
-                        VoxelShapes.union(shape, element)
-                    }
-                }
-                shape!!
-            } else {
-                shapeParts.first()
-            }
-        }
-        return map[index] ?: VoxelShapes.empty()
     }
 
     internal fun encode(buffer: PacketByteBuf) {
@@ -238,21 +198,16 @@ class Berry(
         buffer.writeInt(this.baseYield.last)
         buffer.writeInt(this.lifeCycles.first)
         buffer.writeInt(this.lifeCycles.last)
-        buffer.writeCollection(this.anchorPoints.toList())  { writer, value ->
-            writer.writeDouble(value.x)
-            writer.writeDouble(value.y)
-            writer.writeDouble(value.z)
+        buffer.writeCollection(this.growthPoints.toList())  { writer, value ->
+            writer.writeDouble(value.position.x)
+            writer.writeDouble(value.position.y)
+            writer.writeDouble(value.position.z)
+            writer.writeFloat(value.rotation)
         }
         buffer.writeCollection(this.sproutShapeBoxes) { writer, value ->
             writer.writeBox(value)
         }
         buffer.writeCollection(this.matureShapeBoxes) { writer, value ->
-            writer.writeBox(value)
-        }
-        buffer.writeCollection(this.flowerShape) { writer, value ->
-            writer.writeBox(value)
-        }
-        buffer.writeCollection(this.fruitShape) { writer, value ->
             writer.writeBox(value)
         }
         buffer.writeMap(this.flavors, { writer, key -> writer.writeEnumConstant(key) }, { writer, value -> writer.writeInt(value) })
@@ -283,8 +238,6 @@ class Berry(
         return bonus to passed
     }
 
-    private fun createAnchorPointShape(box: Box, vec: Vec3d): VoxelShape = Block.createCuboidShape(vec.x + box.minX, vec.y + box.minY, vec.z + box.minZ, vec.x + box.maxX, vec.y + box.maxY, vec.z + box.maxZ)
-
     private fun createAndUniteShapes(boxes: Collection<Box>): VoxelShape {
         var shape: VoxelShape? = null
         boxes.forEach { box ->
@@ -303,20 +256,18 @@ class Berry(
             val identifier = buffer.readIdentifier()
             val baseYield = IntRange(buffer.readInt(), buffer.readInt())
             val lifeCycles = IntRange(buffer.readInt(), buffer.readInt())
-            val anchorPoints = buffer.readList { reader ->
-                Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble())
+            val growthPoints = buffer.readList { reader ->
+                GrowthPoint(Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble()), reader.readFloat())
             }.toTypedArray()
             val sproutShapeBoxes = buffer.readList { it.readBox() }
             val matureShapeBoxes = buffer.readList { it.readBox() }
-            val flowerShape = buffer.readList { it.readBox() }
-            val fruitShape = buffer.readList { it.readBox() }
             val flavors = buffer.readMap({ reader -> reader.readEnumConstant(Flavor::class.java) }, { reader -> reader.readInt() })
             val tintIndexes = buffer.readMap({ reader -> reader.readInt() }, { reader -> Color(reader.readInt()) })
             val flowerModelIdentifier = buffer.readIdentifier()
             val flowerTexture = buffer.readIdentifier()
             val fruitModelIdentifier = buffer.readIdentifier()
             val fruitTexture = buffer.readIdentifier()
-            return Berry(identifier, baseYield, lifeCycles, emptyList(), emptyList(), anchorPoints, sproutShapeBoxes, matureShapeBoxes, flowerShape, fruitShape, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
+            return Berry(identifier, baseYield, lifeCycles, emptyList(), emptyList(), growthPoints, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
         }
 
     }

@@ -40,46 +40,70 @@
       ]
     }
   ],
-  "anchorPoints": [
+  "growthPoints": [
     {
-      "x": 4.5,
-      "y": 10.5,
-      "z": 7.5
+      "position": {
+        "x": 4.5,
+        "y": 10.5,
+        "z": 7.5
+      },
+      "rotation": 0
     },
     {
-      "x": 10.6,
-      "y": 12.4,
-      "z": 4
+      "position": {
+        "x": 10.6,
+        "y": 12.4,
+        "z": 4
+      },
+      "rotation": 0
     },
     {
-      "x": 13,
-      "y": 14.4,
-      "z": 9.6
+      "position": {
+        "x": 13,
+        "y": 14.4,
+        "z": 9.6
+      },
+      "rotation": 0
     },
     {
-      "x": 5,
-      "y": 16.4,
-      "z": 12.6
+      "position": {
+        "x": 5,
+        "y": 16.4,
+        "z": 12.6
+      },
+      "rotation": 0
     },
     {
-      "x": 5,
-      "y": 23.7,
-      "z": 10.6
+      "position": {
+        "x": 5,
+        "y": 23.7,
+        "z": 10.6
+      },
+      "rotation": 0
     },
     {
-      "x": 12,
-      "y": 24.7,
-      "z": 11
+      "position": {
+        "x": 12,
+        "y": 24.7,
+        "z": 11
+      },
+      "rotation": 0
     },
     {
-      "x": 10.5,
-      "y": 20.7,
-      "z": 4
+      "position": {
+        "x": 10.5,
+        "y": 20.7,
+        "z": 4
+      },
+      "rotation": 0
     },
     {
-      "x": 4,
-      "y": 20.7,
-      "z": 5.5
+      "position": {
+        "x": 4,
+        "y": 20.7,
+        "z": 5.5
+      },
+      "rotation": 0
     }
   ],
   "sproutShape": [
@@ -116,34 +140,6 @@
       "maxX": 8.5,
       "maxY": 22,
       "maxZ": 8.5
-    }
-  ],
-  "flowerShape": [
-    {
-      "minX": 0,
-      "minY": 0,
-      "minZ": 0,
-      "maxX": 3,
-      "maxY": 3,
-      "maxZ": 3
-    }
-  ],
-  "fruitShape": [
-    {
-      "minX": 0,
-      "minY": 0,
-      "minZ": 0,
-      "maxX": 2,
-      "maxY": 1,
-      "maxZ": 2
-    },
-    {
-      "minX": 2,
-      "minY": 1,
-      "minZ": 2,
-      "maxX": 5,
-      "maxY": 2,
-      "maxZ": 3
     }
   ],
   "flavors": {

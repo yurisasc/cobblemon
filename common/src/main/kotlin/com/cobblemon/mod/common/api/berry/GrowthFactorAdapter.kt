@@ -23,6 +23,12 @@ import kotlin.reflect.KClass
  */
 interface GrowthFactorAdapter : JsonDeserializer<GrowthFactor>, JsonSerializer<GrowthFactor> {
 
+    /**
+     * Register a [GrowthFactor] to be used by this adapter.
+     *
+     * @param type The [KClass] of the [GrowthFactor].
+     * @param identifier The expected [Identifier] in the parsed JSON.
+     */
     fun register(type: KClass<out GrowthFactor>, identifier: Identifier)
 
 }
