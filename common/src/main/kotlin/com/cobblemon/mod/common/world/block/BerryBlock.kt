@@ -64,7 +64,7 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
         if (newAge == MATURE_AGE) {
             // ToDo check if mutation should occur before flowering
         }
-        world.setBlockState(pos, state.with(AGE, newAge), 2)
+        world.setBlockState(pos, state.with(AGE, newAge), Block.NOTIFY_LISTENERS)
     }
 
     @Deprecated("Deprecated in Java")

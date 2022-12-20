@@ -37,27 +37,19 @@ class BerryYieldCalculationEvent(
 
     /**
      * The amount of berries this tree will yield.
-     * This value must cannot exceed [Berry.maxYield] or be lesser than 0.
+     *
+     * @throws IllegalArgumentException If a new value exceeds [Berry.maxYield] or be lesser than 0.
      */
     var yield: Int = yield
-        private set
-
-    /**
-     * Sets a new value for [yield].
-     *
-     * @param newYield The new value for the yield.
-     *
-     * @throws IllegalArgumentException If [newYield] exceeds [Berry.maxYield].
-     */
-    fun setYield(newYield: Int) {
-        val max = this.berry.maxYield()
-        if (newYield > max) {
-            throw IllegalArgumentException("Cannot set the berry yield for ${this.berry.identifier} above $max")
+        set(value) {
+            val max = this.berry.maxYield()
+            if (value > max) {
+                throw IllegalArgumentException("Cannot set the berry yield for ${this.berry.identifier} above $max")
+            }
+            if (value < 0) {
+                throw IllegalArgumentException("A berry tree cannot yield a negative amount of berries")
+            }
+            field = value
         }
-        if (newYield < 0) {
-            throw IllegalArgumentException("A berry tree cannot yield a negative amount of berries")
-        }
-        this.yield = newYield
-    }
 
 }

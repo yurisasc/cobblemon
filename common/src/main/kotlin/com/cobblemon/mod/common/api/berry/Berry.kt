@@ -124,13 +124,13 @@ class Berry(
     fun flavor(flavor: Flavor): Int = this.flavors[flavor] ?: 0
 
     /**
-     * Calculates the yield for a berry tree being planted.
+     * Calculates the yield for a berry tree being planted or replanted after a life cycle.
      * Triggers [BerryYieldCalculationEvent].
      *
      * @param world The [World] the tree is present in.
      * @param state The [BlockState] of the tree.
      * @param pos The [BlockPos] of the tree.
-     * @param placer The [LivingEntity] planting the tree, if any.
+     * @param placer The [LivingEntity] tending to the tree, if any.
      * @return The total berry stack count.
      */
     fun calculateYield(world: World, state: BlockState, pos: BlockPos, placer: LivingEntity? = null): Int {

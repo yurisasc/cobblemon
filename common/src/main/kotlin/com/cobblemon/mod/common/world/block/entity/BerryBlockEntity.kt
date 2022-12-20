@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.world.block.entity
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
@@ -16,6 +15,7 @@ import com.cobblemon.mod.common.api.berry.GrowthPoint
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.berry.BerryHarvestEvent
 import com.cobblemon.mod.common.world.block.BerryBlock
+import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.entity.BlockEntity
 import net.minecraft.entity.LivingEntity
@@ -24,11 +24,13 @@ import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtList
 import net.minecraft.nbt.NbtString
+import net.minecraft.network.Packet
+import net.minecraft.network.listener.ClientPlayPacketListener
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.InvalidIdentifierException
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
 import net.minecraft.world.event.GameEvent
 
@@ -75,7 +77,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
      * @param world The [World] the tree is in.
      * @param state The [BlockState] of the tree.
      * @param pos The [BlockPos] of the tree.
-     * @param placer The [LivingEntity] that placed the tree if any.
+     * @param placer The [LivingEntity] tending to the tree if any.
      */
     fun generateGrowthPoints(world: World, state: BlockState, pos: BlockPos, placer: LivingEntity?) {
         val berry = this.berry() ?: return
@@ -84,6 +86,7 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         repeat(yield) {
             this.growthPoints += berry.identifier
         }
+        world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS)
         this.markDirty()
     }
 
@@ -162,8 +165,8 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
     private fun consumeLife(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
         if (this.lifeCycles > 1) {
             this.lifeCycles--
-            world.setBlockState(pos, state.with(BerryBlock.AGE, 0), 2)
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, state))
+            world.setBlockState(pos, state.with(BerryBlock.AGE, 0), Block.NOTIFY_LISTENERS)
+            world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos)
             this.generateGrowthPoints(world, state, pos, player)
             return
         }
@@ -174,6 +177,14 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         if (!this.wasLoading) {
             super.markDirty()
         }
+    }
+
+    override fun toUpdatePacket(): Packet<ClientPlayPacketListener>? {
+        return BlockEntityUpdateS2CPacket.create(this)
+    }
+
+    override fun toInitialChunkDataNbt(): NbtCompound {
+        return this.createNbt()
     }
 
     companion object {
