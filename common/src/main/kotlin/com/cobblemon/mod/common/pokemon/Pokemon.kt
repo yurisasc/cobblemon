@@ -721,6 +721,7 @@ open class Pokemon {
     }
 
     fun initialize(): Pokemon {
+        species = species
         checkGender()
         initializeMoveset()
         return this
