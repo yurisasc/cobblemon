@@ -9,6 +9,7 @@ architectury {
 
 repositories {
     maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    maven(url = "https://maven.impactdev.net/repository/development/")
 }
 
 dependencies {
@@ -38,6 +39,8 @@ dependencies {
 //    modCompileOnly 'com.caoccao.javet:javet:1.0.6' // Linux or Windows
 //    modCompileOnly 'com.caoccao.javet:javet-macos:1.0.6' // Mac OS (x86_64 Only)
 //    modCompileOnly group: 'commons-io', name: 'commons-io', version: '2.6'
+
+    implementation("net.impactdev:json:1.0.0")
 }
 
 publishing {

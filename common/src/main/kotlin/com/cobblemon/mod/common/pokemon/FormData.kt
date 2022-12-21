@@ -84,6 +84,8 @@ class FormData(
     private var _dynamaxBlocked: Boolean? = null,
     @SerializedName("eggGroups")
     private val _eggGroups: Set<EggGroup>? = null,
+    @SerializedName("eggCycles")
+    private val _eggCycles: Int? = null,
     @SerializedName("height")
     private var _height: Float? = null,
     @SerializedName("weight")
@@ -155,6 +157,9 @@ class FormData(
 
     val eggGroups: Set<EggGroup>
         get() = _eggGroups ?: species.eggGroups
+
+    val eggCycles: Int
+        get() = _eggCycles ?: species.eggCycles
 
     /**
      * The height in decimeters
