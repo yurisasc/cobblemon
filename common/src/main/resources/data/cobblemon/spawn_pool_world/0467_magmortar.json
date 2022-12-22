@@ -4,8 +4,8 @@
     "neededUninstalledMods": [],
     "spawns": [
         {
-            "id": "magmotar-1",
-            "pokemon": "magmotar",
+            "id": "magmortar-1",
+            "pokemon": "magmortar",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -20,8 +20,8 @@
             }
         },
         {
-            "id": "magmotar-2",
-            "pokemon": "magmotar",
+            "id": "magmortar-2",
+            "pokemon": "magmortar",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "common",
@@ -36,8 +36,8 @@
             }
         },
         {
-            "id": "magmotar-3",
-            "pokemon": "magmotar",
+            "id": "magmortar-3",
+            "pokemon": "magmortar",
             "type": "pokemon",
             "context": "grounded",
             "bucket": "uncommon",

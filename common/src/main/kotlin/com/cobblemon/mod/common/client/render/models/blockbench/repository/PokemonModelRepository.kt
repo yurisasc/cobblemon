@@ -451,7 +451,6 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("sylveon", ::SylveonModel)
         inbuilt("umbreon", ::UmbreonModel)
         inbuilt("espeon", ::EspeonModel)
-
         inbuilt("blissey", ::BlisseyModel)
         inbuilt("kingdra", ::KingdraModel)
         inbuilt("piloswine", ::PiloswineModel)
