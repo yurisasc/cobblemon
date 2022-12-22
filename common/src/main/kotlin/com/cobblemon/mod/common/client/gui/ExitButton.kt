@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.gui
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.util.cobblemonResource
 import net.minecraft.client.gui.widget.ButtonWidget
+import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 
@@ -48,6 +49,9 @@ class ExitButton(
             height = 11,
             scale = SCALE
         )
+    }
+
+    override fun playDownSound(soundManager: SoundManager) {
     }
 
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + WIDTH)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + HEIGHT))
