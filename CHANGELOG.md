@@ -22,6 +22,10 @@
 - Fixed shoulder mount crash on Fabric.
 - Fixed a rare issue where chunks would take a really long time to generate.
 - Fixed a singleplayer bug where battles wouldn't work after leaving and joining a world.
+- Fixed stat calculations for everything except HP. HP was fine.
+- Fixed a randomized Pokémon spawning in mountains that corrupted the data of whatever party or PC it got into. Yikes.
+- Fixed a rare crash involving literally random number generation. A random crash involving random numbers.
+- Fixed all regular Mewtwos having the stats and types of Mega Mewtwo X. 
 
 ## 1.1.1 (November 27th, 2022)
 
