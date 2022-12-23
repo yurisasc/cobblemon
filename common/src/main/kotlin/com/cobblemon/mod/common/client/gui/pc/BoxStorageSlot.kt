@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.client.gui.pc
 import com.cobblemon.mod.common.api.storage.pc.PCPosition
 import com.cobblemon.mod.common.client.storage.ClientPC
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.client.sound.SoundManager
 
 class BoxStorageSlot(
     x: Int, y: Int,
@@ -21,15 +20,8 @@ class BoxStorageSlot(
     onPress: PressAction
 ) : StorageSlot(x, y, parent, onPress) {
 
-    override fun playDownSound(soundManager: SoundManager) {
-    }
-
     override fun getPokemon(): Pokemon? {
         return pc.get(position)
-    }
-
-    override fun isSelected(): Boolean {
-        return position == parent.selectedPosition
     }
 
     override fun shouldRender(): Boolean {

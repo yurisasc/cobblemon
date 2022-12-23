@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.gui.pc
 
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 
 class GrabbedStorageSlot(
@@ -17,9 +16,6 @@ class GrabbedStorageSlot(
     parent: StorageWidget,
     private val pokemon: Pokemon
 ) : StorageSlot(x, y, parent, {}) {
-
-    override fun playDownSound(soundManager: SoundManager) {
-    }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         renderSlot(matrices, mouseX - (width / 2), mouseY - (height / 2))
