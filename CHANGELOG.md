@@ -8,6 +8,7 @@
 - Added `nature` and `pokeball` options to commands such as `/spawnpokemon` and `/givepokemon`.
 - Added support for datapack spawn files and spawn file presets.
 - Added water surface spawning for Pokémon like Lapras.
+- Added emissive texture support to Pokémon render layers.
 
 ### Changes
 - Changed the healer advancements to make the healing machine's mechanics more obvious.
