@@ -6,9 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves.change
+package com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves
 
 import com.cobblemon.mod.common.CobblemonNetwork
+import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.api.moves.Move
 import com.cobblemon.mod.common.api.moves.MoveTemplate
@@ -18,7 +19,6 @@ import com.cobblemon.mod.common.client.gui.MoveCategoryIcon
 import com.cobblemon.mod.common.client.gui.TypeIcon
 import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.gui.summary.widgets.common.SummaryScrollList
-import com.cobblemon.mod.common.client.gui.summary.widgets.screens.moves.MovesWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.net.messages.server.BenchMovePacket
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -195,6 +195,7 @@ class MoveSwapScreen(
                         newMove = move
                     )
                 )
+                pane.movesWidget.summary.playSound(CobblemonSounds.GUI_CLICK.get())
                 pane.movesWidget.summary.displaySideScreen(Summary.PARTY)
                 return true
             }
