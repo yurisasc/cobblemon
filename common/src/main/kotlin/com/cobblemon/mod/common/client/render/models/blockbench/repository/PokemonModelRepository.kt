@@ -173,6 +173,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.Hit
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.IgglybuffModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.KingdraModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.MagbyModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.NatuModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.PichuModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.PiloswineModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.PolitoedModel
@@ -186,6 +187,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.Swi
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.TyrogueModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.UmbreonModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.WooperModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.XatuModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen2.YanmaModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.BlazikenModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.CombuskenModel
@@ -451,7 +453,6 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("sylveon", ::SylveonModel)
         inbuilt("umbreon", ::UmbreonModel)
         inbuilt("espeon", ::EspeonModel)
-
         inbuilt("blissey", ::BlisseyModel)
         inbuilt("kingdra", ::KingdraModel)
         inbuilt("piloswine", ::PiloswineModel)
@@ -503,6 +504,8 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("deerling", ::DeerlingModel)
         inbuilt("sawsbuck", ::SawsbuckModel)
         inbuilt("sableye", ::SableyeModel)
+        inbuilt("natu", ::NatuModel)
+        inbuilt("xatu", ::XatuModel)
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
