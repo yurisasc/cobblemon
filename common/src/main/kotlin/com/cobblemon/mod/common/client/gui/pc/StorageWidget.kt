@@ -54,10 +54,8 @@ class StorageWidget(
         const val BOX_SLOT_START_OFFSET_Y = 11
         const val PARTY_SLOT_START_OFFSET_X = 193
         const val PARTY_SLOT_START_OFFSET_Y = 8
-        const val SLOT_SIZE = 25
         const val BOX_SLOT_PADDING = 2
         const val PARTY_SLOT_PADDING = 6
-        const val GRAB_DEBOUNCE = 10
 
         private val screenOverlayResource = cobblemonResource("ui/pc/pc_screen_overlay.png")
     }
@@ -70,8 +68,6 @@ class StorageWidget(
 
     var displayConfirmRelease = false
     var screenLoaded = false
-    var pokemonClicked = false
-    var mouseDownCount = 0
     var selectedPosition: StorePosition? = null
     var grabbedSlot: GrabbedStorageSlot? = null
 
@@ -156,8 +152,8 @@ class StorageWidget(
         for (row in 1..5) {
             for (col in 1..6) {
                 BoxStorageSlot(
-                    x = boxStartX + ((col - 1) * (SLOT_SIZE + BOX_SLOT_PADDING)),
-                    y = boxStartY + ((row - 1) * (SLOT_SIZE + BOX_SLOT_PADDING)),
+                    x = boxStartX + ((col - 1) * (StorageSlot.SIZE + BOX_SLOT_PADDING)),
+                    y = boxStartY + ((row - 1) * (StorageSlot.SIZE + BOX_SLOT_PADDING)),
                     parent = this,
                     pc = pc,
                     position = PCPosition(box, index),
@@ -178,11 +174,11 @@ class StorageWidget(
             if (partyIndex > 0) {
                 val isEven = partyIndex % 2 == 0
                 val offsetIndex = (partyIndex - (if (isEven) 0 else 1)) / 2
-                val offsetX = if (isEven) 0 else (SLOT_SIZE + PARTY_SLOT_PADDING)
+                val offsetX = if (isEven) 0 else (StorageSlot.SIZE + PARTY_SLOT_PADDING)
                 val offsetY = if (isEven) 0 else 8
 
                 partyX += offsetX
-                partyY += ((SLOT_SIZE + PARTY_SLOT_PADDING) * offsetIndex) + offsetY
+                partyY += ((StorageSlot.SIZE + PARTY_SLOT_PADDING) * offsetIndex) + offsetY
             }
 
             PartyStorageSlot(
@@ -247,29 +243,23 @@ class StorageWidget(
         )
 
         if (screenLoaded) {
-            this.boxSlots.forEach { widget -> widget.render(matrices, mouseX, mouseY, delta) }
+            this.boxSlots.forEach { slot ->
+                slot.render(matrices, mouseX, mouseY, delta)
+                val pokemon = slot.getPokemon()
+                if (grabbedSlot == null && slot.isHovered(mouseX, mouseY)
+                    && pokemon != null && pokemon != pcGui.previewPokemon) pcGui.setPreviewPokemon(pokemon)
+            }
         } else {
             if (pcGui.ticksElapsed >= 10)  screenLoaded = true
         }
 
-        this.partySlots.forEach { widget -> widget.render(matrices, mouseX, mouseY, delta) }
-
-        if (pokemonClicked && grabbedSlot == null) {
-            mouseDownCount++
-            if (mouseDownCount >= GRAB_DEBOUNCE) {
-                val selectedPokemon = pcGui.selectedPokemon
-                if (selectedPokemon != null) {
-                    grabbedSlot = GrabbedStorageSlot(
-                        x = mouseX - (SLOT_SIZE / 2),
-                        y = mouseY - (SLOT_SIZE / 2),
-                        parent = this,
-                        pokemon = selectedPokemon
-                    )
-                    playSound(CobblemonSounds.PC_GRAB.get())
-                }
-                mouseDownCount = 0
-            }
+        this.partySlots.forEach { slot ->
+            slot.render(matrices, mouseX, mouseY, delta)
+            val pokemon = slot.getPokemon()
+            if (grabbedSlot == null && slot.isHovered(mouseX, mouseY)
+                && pokemon != null && pokemon != pcGui.previewPokemon) pcGui.setPreviewPokemon(pokemon)
         }
+
         grabbedSlot?.render(matrices, mouseX, mouseY, delta)
     }
 
@@ -282,12 +272,6 @@ class StorageWidget(
         }
 
         return super.mouseClicked(pMouseX, pMouseY, pButton)
-    }
-
-    override fun mouseReleased(pMouseX: Double, pMouseY: Double, pButton: Int): Boolean {
-        pokemonClicked = false
-        mouseDownCount = 0
-        return super.mouseReleased(pMouseX, pMouseY, pButton)
     }
 
     private fun resetStorageSlots() {
@@ -330,19 +314,26 @@ class StorageWidget(
 
         if (grabbedSlot == null) {
             if (clickedPokemon != null) {
-                pokemonClicked = true
                 this.selectedPosition = clickedPosition
-                this.pcGui.setSelectedPokemon(clickedPokemon)
+                this.pcGui.setPreviewPokemon(clickedPokemon)
+                grabbedSlot = GrabbedStorageSlot(
+                    x = button.x,
+                    y = button.y,
+                    parent = this,
+                    pokemon = clickedPokemon
+                )
+                playSound(CobblemonSounds.PC_GRAB.get())
+
             }
         } else  {
-            // Handle movement within the PC
+            // Handle movement within the Box
             val selectedPokemon = when(this.selectedPosition) {
                 is PCPosition -> pc.get(this.selectedPosition as PCPosition)
                 is PartyPosition -> party.get(this.selectedPosition as PartyPosition)
                 else -> null
             } ?: return
 
-            // PC -> PC
+            // Box to Box
             if (this.selectedPosition is PCPosition && clickedPosition is PCPosition) {
                 val packet = clickedPokemon?.let { SwapPCPokemonPacket(it.uuid, clickedPosition, selectedPokemon.uuid, this.selectedPosition as PCPosition) }
                     ?: MovePCPokemonPacket(selectedPokemon.uuid, selectedPosition as PCPosition, clickedPosition)
@@ -350,7 +341,7 @@ class StorageWidget(
                 playSound(CobblemonSounds.PC_DROP.get())
                 resetSelected()
             }
-            // PC -> Party
+            // Box to Party
             else if (this.selectedPosition is PCPosition && clickedPosition is PartyPosition) {
                 val packet = clickedPokemon?.let { SwapPCPartyPokemonPacket(clickedPokemon.uuid, clickedPosition, selectedPokemon.uuid, this.selectedPosition as PCPosition) }
                     ?: MovePCPokemonToPartyPacket(selectedPokemon.uuid, this.selectedPosition as PCPosition, clickedPosition)
@@ -358,7 +349,7 @@ class StorageWidget(
                 playSound(CobblemonSounds.PC_DROP.get())
                 resetSelected()
             }
-            // Party -> PC
+            // Party to Box
             else if (this.selectedPosition is PartyPosition && clickedPosition is PCPosition) {
                 if (ServerSettings.preventCompletePartyDeposit && this.party.filterNotNull().size == 1 && clickedPokemon == null) {
                     return
@@ -369,7 +360,7 @@ class StorageWidget(
                 playSound(CobblemonSounds.PC_DROP.get())
                 resetSelected()
             }
-            // Party -> Party
+            // Party to Party
             else if (this.selectedPosition is PartyPosition && clickedPosition is PartyPosition) {
                 val packet = clickedPokemon?.let { SwapPartyPokemonPacket(it.uuid, clickedPosition, selectedPokemon.uuid, this.selectedPosition as PartyPosition) }
                     ?: MovePartyPokemonPacket(selectedPokemon.uuid, selectedPosition as PartyPosition, clickedPosition)
@@ -383,6 +374,6 @@ class StorageWidget(
     private fun resetSelected() {
         selectedPosition = null
         grabbedSlot = null
-        pcGui.setSelectedPokemon(null)
+        pcGui.setPreviewPokemon(null)
     }
 }

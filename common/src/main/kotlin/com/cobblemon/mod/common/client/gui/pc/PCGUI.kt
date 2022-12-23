@@ -58,7 +58,7 @@ class PCGUI(
 
     private lateinit var storageWidget: StorageWidget
     private var modelWidget: ModelWidget? = null
-    internal var selectedPokemon: Pokemon? = null
+    internal var previewPokemon: Pokemon? = null
 
     var ticksElapsed = 0
     var selectPointerOffsetY = 0
@@ -103,7 +103,7 @@ class PCGUI(
             party = party
         )
 
-        this.setSelectedPokemon(null)
+        this.setPreviewPokemon(null)
         this.addDrawableChild(storageWidget)
         super.init()
     }
@@ -165,7 +165,7 @@ class PCGUI(
         )
 
         // Render Pokemon Info
-        val pokemon = selectedPokemon
+        val pokemon = previewPokemon
         if (pokemon != null) {
             // Status
             val status = pokemon.status?.status
@@ -386,9 +386,9 @@ class PCGUI(
         MinecraftClient.getInstance().soundManager.play(PositionedSoundInstance.master(soundEvent, 1.0F))
     }
 
-    fun setSelectedPokemon(pokemon: Pokemon?) {
+    fun setPreviewPokemon(pokemon: Pokemon?) {
         if (pokemon != null) {
-            selectedPokemon = pokemon
+            previewPokemon = pokemon
 
             val x = (width - BASE_WIDTH) / 2
             val y = (height - BASE_HEIGHT) / 2
@@ -403,7 +403,7 @@ class PCGUI(
                 offsetY = -10.0
             )
         } else {
-            selectedPokemon = null;
+            previewPokemon = null;
             modelWidget = null;
         }
     }

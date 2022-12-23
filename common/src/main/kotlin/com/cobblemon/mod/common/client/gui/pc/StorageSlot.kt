@@ -26,9 +26,11 @@ open class StorageSlot(
     x: Int, y: Int,
     private val parent: StorageWidget,
     onPress: PressAction
-) : ButtonWidget(x, y, StorageWidget.SLOT_SIZE, StorageWidget.SLOT_SIZE, Text.literal("StorageSlot"), onPress) {
+) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("StorageSlot"), onPress) {
 
     companion object {
+        const val SIZE = 25
+
         private val genderIconMale = cobblemonResource("ui/pc/gender_icon_male.png")
         private val genderIconFemale = cobblemonResource("ui/pc/gender_icon_female.png")
         private val selectPointerResource = cobblemonResource("ui/pc/pc_pointer.png")
@@ -48,7 +50,7 @@ open class StorageSlot(
 
         // Render Pokémon
         matrices.push()
-        matrices.translate(posX + (StorageWidget.SLOT_SIZE / 2.0), posY + 3.0, 0.0)
+        matrices.translate(posX + (SIZE / 2.0), posY + 3.0, 0.0)
         matrices.scale(2.5F, 2.5F, 1F)
         drawProfilePokemon(
             renderablePokemon = pokemon.asRenderablePokemon(),
@@ -103,10 +105,12 @@ open class StorageSlot(
     }
 
     open fun isSelected(): Boolean {
-        return false
+        return getPokemon() == parent.pcGui.previewPokemon
     }
 
     open fun shouldRender(): Boolean {
         return true
     }
+
+    fun isHovered(mouseX: Int, mouseY: Int) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + SIZE)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + SIZE))
 }

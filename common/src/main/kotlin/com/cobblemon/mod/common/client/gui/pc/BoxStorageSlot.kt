@@ -21,15 +21,8 @@ class BoxStorageSlot(
     onPress: PressAction
 ) : StorageSlot(x, y, parent, onPress) {
 
-    override fun playDownSound(soundManager: SoundManager) {
-    }
-
     override fun getPokemon(): Pokemon? {
         return pc.get(position)
-    }
-
-    override fun isSelected(): Boolean {
-        return position == parent.selectedPosition
     }
 
     override fun shouldRender(): Boolean {
