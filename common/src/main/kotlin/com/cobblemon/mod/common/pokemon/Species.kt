@@ -40,34 +40,48 @@ class Species : ClientDataSynchronizer<Species> {
         get() = lang("species.$name.name")
     var nationalPokedexNumber = 1
 
-    val baseStats = hashMapOf<Stat, Int>()
+    var baseStats = hashMapOf<Stat, Int>()
+        private set
     /** The ratio of the species being male. If -1, the Pokémon is genderless. */
-    val maleRatio: Float = 0.5F
-    val catchRate = 45
+    var maleRatio: Float = 0.5F
+        private set
+    var catchRate = 45
+        private set
     // Only modifiable for debugging sizes
     var baseScale = 1F
     var baseExperienceYield = 10
     var baseFriendship = 0
-    val evYield = hashMapOf<Stat, Int>()
+    var evYield = hashMapOf<Stat, Int>()
+        private set
     var experienceGroup = ExperienceGroups.first()
     var hitbox = EntityDimensions(1F, 1F, false)
     var primaryType = ElementalTypes.GRASS
         internal set
     var secondaryType: ElementalType? = null
         internal set
-    val abilities = AbilityPool()
-    val shoulderMountable: Boolean = false
-    val shoulderEffects = mutableListOf<ShoulderEffect>()
-    val moves = Learnset()
-    val features = mutableSetOf<String>()
+    var abilities = AbilityPool()
+        private set
+    var shoulderMountable: Boolean = false
+        private set
+    var shoulderEffects = mutableListOf<ShoulderEffect>()
+        private set
+    var moves = Learnset()
+        private set
+    var features = mutableSetOf<String>()
+        private set
     private var standingEyeHeight: Float? = null
     private var swimmingEyeHeight: Float? = null
     private var flyingEyeHeight: Float? = null
-    val behaviour = PokemonBehaviour()
-    val pokedex = mutableListOf<String>()
-    val drops = DropTable()
-    val eggCycles = 120
-    val eggGroups = setOf<EggGroup>()
+    var behaviour = PokemonBehaviour()
+        private set
+    var pokedex = mutableListOf<String>()
+        private set
+    var drops = DropTable()
+        private set
+    var eggCycles = 120
+        private set
+    var eggGroups = hashSetOf<EggGroup>()
+        private set
     var dynamaxBlocked = false
     var implemented = false
 
@@ -84,36 +98,33 @@ class Species : ClientDataSynchronizer<Species> {
         private set
 
     var forms = mutableListOf<FormData>()
+        private set
 
     val standardForm by lazy { FormData().initialize(this) }
 
-    internal val labels = emptySet<String>()
+    internal var labels = hashSetOf<String>()
+        private set
 
     // Only exists for use of the field in Pokémon do not expose to end user due to how the species/form data is structured
-    internal val evolutions: MutableSet<Evolution> = hashSetOf()
+    internal var evolutions: MutableSet<Evolution> = hashSetOf()
+        private set
 
-    internal val preEvolution: PreEvolution? = null
+    internal var preEvolution: PreEvolution? = null
+        private set
 
     @Transient
     lateinit var resourceIdentifier: Identifier
 
     fun initialize() {
         Cobblemon.statProvider.provide(this)
-        for (form in forms) {
-            form.initialize(this)
+        if (this.forms.isNotEmpty() && this.forms.none { it.name == this.standardForm.name }) {
+            this.forms.add(0, this.standardForm)
         }
-    }
-
-    /**
-     * Initialize properties that relied on all species and forms to be loaded.
-     *
-     */
-    internal fun initializePostLoads() {
-        // These properties are lazy
+        this.forms.forEach { it.initialize(this) }
+        // These properties are lazy, these need all species to be reloaded but SpeciesAdditions is what will eventually trigger this after all species have been loaded
         this.preEvolution?.species
         this.preEvolution?.form
         this.evolutions.size
-        this.forms.forEach(FormData::initializePostLoads)
     }
 
     fun create(level: Int = 10) = Pokemon().apply {

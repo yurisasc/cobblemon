@@ -39,6 +39,7 @@ import com.cobblemon.mod.common.api.types.adapters.ElementalTypeAdapter
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Species
+import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonPreEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonRequirementAdapter
@@ -187,12 +188,13 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             if (species.implemented) {
                 this.implemented.add(species)
             }
-            species.initialize()
         }
-        this.species.forEach(Species::initializePostLoads)
-        createShowdownData()
-        Cobblemon.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
-        this.observable.emit(this)
+        SpeciesAdditions.observable.subscribe {
+            this.species.forEach(Species::initialize)
+            createShowdownData()
+            Cobblemon.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
+            this.observable.emit(this)
+        }
     }
 
     override fun sync(player: ServerPlayerEntity) {
