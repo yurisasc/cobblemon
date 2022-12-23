@@ -2,7 +2,8 @@
 
 ## 1.2.0
 ### Additions
-- Reworked PC interface to improve user experience.
+- Reworked the PC interface to be vastly better.
+- Reworked the battle system so that battles load faster, cause less bugs, and can run on shared server hosts. This is a very big change that also reduced the size of the mod by 50mb!
 - Reworked customisation of models, textures, and animations to make custom Pokémon species and variations very easy to create.
 - Added `nature` and `pokeball` options to commands such as `/spawnpokemon` and `/givepokemon`.
 - Added support for datapack spawn files and spawn file presets.
