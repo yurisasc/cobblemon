@@ -9,7 +9,6 @@
 package com.cobblemon.mod.common.client.gui.pc
 
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 
 class GrabbedStorageSlot(

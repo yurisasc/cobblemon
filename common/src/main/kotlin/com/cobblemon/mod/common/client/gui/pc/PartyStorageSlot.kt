@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.client.gui.pc
 import com.cobblemon.mod.common.api.storage.party.PartyPosition
 import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.pokemon.Pokemon
-import net.minecraft.client.sound.SoundManager
 
 class PartyStorageSlot(
     x: Int, y: Int,
