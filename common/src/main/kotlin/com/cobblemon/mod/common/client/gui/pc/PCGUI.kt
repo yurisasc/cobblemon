@@ -21,6 +21,7 @@ import com.cobblemon.mod.common.client.storage.ClientPC
 import com.cobblemon.mod.common.client.storage.ClientParty
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.MinecraftClient
@@ -277,7 +278,7 @@ class PCGUI(
             // Nature
             drawScaledText(
                 matrixStack = matrices,
-                text = pokemon.nature.displayName,
+                text = pokemon.nature.displayName.asTranslated(),
                 x = x + 39,
                 y = y + 137,
                 centered = true,
@@ -288,7 +289,7 @@ class PCGUI(
             // Ability
             drawScaledText(
                 matrixStack = matrices,
-                text = pokemon.ability.displayName,
+                text = pokemon.ability.displayName.asTranslated(),
                 x = x + 39,
                 y = y + 154,
                 centered = true,
