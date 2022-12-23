@@ -46,7 +46,9 @@ dependencies {
         libs.mclib
     ).forEach {
         forgeRuntimeLibrary(it)
-        bundle(it)
+        bundle(it) {
+            exclude("com.ibm.icu", "icu4j")
+        }
     }
 }
 
