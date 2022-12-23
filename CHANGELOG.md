@@ -16,6 +16,7 @@
 - Added a config option for whether the starter config will be exported, making it more maintainable as we add starter Pokémon.
 - Changed the default Apricorn seed chance config value from 6% to 10%.
 - Updated sounds for interface interactions and item usage.
+- Pokémon now look at their opponents during battle.
 
 ### Fixes
 - Fixed an incompatibility with [Porting Lib](https://github.com/Fabricators-of-Create/Porting-Lib) used by Fabric ports of mods such as Create or Twilight Forest.
