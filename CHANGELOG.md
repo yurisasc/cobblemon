@@ -2,20 +2,21 @@
 
 ## 1.2.0
 ### Additions
-- Reworked the PC interface to be vastly better.
+- Added models for Natu and Xatu.
+- Added new PC interface and it is beautiful.
 - Reworked the battle system so that battles load faster, cause less bugs, and can run on shared server hosts. This is a very big change that also reduced the size of the mod by 50mb!
-- Reworked customisation of models, textures, and animations to make custom Pokémon species and variations very easy to create.
-- Added `nature` and `pokeball` options to commands such as `/spawnpokemon` and `/givepokemon`.
+- Added full customisation of models, textures, and animations to make custom Pokémon species and variations very easy to create. [guide needed]
 - Added support for datapack spawn files and spawn file presets.
 - Added water surface spawning for Pokémon like Lapras.
 - Added emissive texture support to Pokémon render layers.
+- Added new sounds for GUIs and item uses.
+- Added `nature` and `pokeball` options to commands such as `/spawnpokemon` and `/givepokemon`.
 
 ### Changes
 - Changed the healer advancements to make the healing machine's mechanics more obvious.
 - Reinforced party and PC saving to make data corruption from crashes less bad.
 - Added a config option for whether the starter config will be exported, making it more maintainable as we add starter Pokémon.
 - Changed the default Apricorn seed chance config value from 6% to 10%.
-- Updated sounds for interface interactions and item usage.
 - Pokémon now look at their opponents during battle.
 
 ### Fixes
