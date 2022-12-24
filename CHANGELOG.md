@@ -2,7 +2,7 @@
 
 ## 1.2.0
 ### Additions
-- Added models for Natu and Xatu.
+- Added models for Natu and Xatu, Murkrow and Honchkrow, Wailmer and Wailord.
 - Added new PC interface and it is beautiful.
 - Reworked the battle system so that battles load faster, cause less bugs, and can run on shared server hosts. This is a very big change that also reduced the size of the mod by 50mb!
 - Added full customisation of models, textures, and animations to make custom Pokémon species and variations very easy to create. [guide needed]
@@ -32,6 +32,7 @@
 - Fixed a randomized Pokémon spawning in mountains that corrupted the data of whatever party or PC it got into. Yikes.
 - Fixed a rare crash involving literally random number generation. A random crash involving random numbers.
 - Fixed all regular Mewtwo having the stats and types of Mega Mewtwo X. 
+- Fixed the framing of many Pokémon in GUIs.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes
