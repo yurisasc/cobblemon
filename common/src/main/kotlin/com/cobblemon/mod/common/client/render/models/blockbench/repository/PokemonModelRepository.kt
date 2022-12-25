@@ -558,17 +558,20 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
 
     val texturedModels = mutableMapOf<Identifier, TexturedModel>()
     fun registerModels(resourceManager: ResourceManager) {
+        var models = 0
         resourceManager.findResources("bedrock/models") { path -> path.endsWith(".geo.json") }.forEach { identifier, resource ->
             resource.inputStream.use { stream ->
                 val json = String(stream.readAllBytes(), StandardCharsets.UTF_8)
                 val resolvedIdentifier = Identifier(identifier.namespace, File(identifier.path).nameWithoutExtension)
                 texturedModels[resolvedIdentifier] = TexturedModel.from(json)
+                models++
             }
         }
+        Cobblemon.LOGGER.info("Loaded $models Pokémon models.")
     }
 
     override fun reload(resourceManager: ResourceManager) {
-        Cobblemon.LOGGER.info("Initializing Pokémon models")
+        Cobblemon.LOGGER.info("Loading Pokémon models...")
         this.renders.clear()
         this.posers.clear()
         registerPosers(resourceManager)

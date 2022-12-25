@@ -48,7 +48,7 @@ class HypnoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFr
             poseName = "walk",
             poseTypes = MOVING_POSES,
             idleAnimations = arrayOf(
-                BipedWalkAnimation(this, periodMultiplier = 1.1F),
+                BipedWalkAnimation(this, periodMultiplier = 0.7F, amplitudeMultiplier = 0.85F),
                 singleBoneLook(),
                 bedrock("hypno", "ground_idle")
                 //bedrock("hypno", "ground_walk")

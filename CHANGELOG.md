@@ -18,6 +18,7 @@
 - Added a config option for whether the starter config will be exported, making it more maintainable as we add starter Pokémon.
 - Changed the default Apricorn seed chance config value from 6% to 10%.
 - Pokémon now look at their opponents during battle.
+- Updated Sableye's animations to be super freaky.
 
 ### Fixes
 - Fixed an incompatibility with [Porting Lib](https://github.com/Fabricators-of-Create/Porting-Lib) used by Fabric ports of mods such as Create or Twilight Forest.
@@ -33,6 +34,7 @@
 - Fixed a rare crash involving literally random number generation. A random crash involving random numbers.
 - Fixed all regular Mewtwo having the stats and types of Mega Mewtwo X. 
 - Fixed the framing of many Pokémon in GUIs.
+- Fixed texture glitches with Rattata and Nidoqueen (again!).
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes
