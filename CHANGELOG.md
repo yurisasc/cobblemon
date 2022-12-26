@@ -35,6 +35,8 @@
 - Fixed all regular Mewtwo having the stats and types of Mega Mewtwo X. 
 - Fixed the framing of many Pokémon in GUIs.
 - Fixed texture glitches with Rattata and Nidoqueen (again!).
+- Fixed issues with forms not showing the correct evolution in the evolution menu.
+- Fixed some alternate forms not having the alternate stats and types.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes
