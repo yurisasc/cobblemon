@@ -36,6 +36,8 @@
 - Fixed the framing of many Pokémon in GUIs.
 - Fixed texture glitches with Rattata and Nidoqueen (again!).
 - Fixed dropped item forms of all Pokéballs and the Healing Machine, and minorly adjusted all other display settings
+- Fixed issues with forms not showing the correct evolution in the evolution menu.
+- Fixed some alternate forms not having the alternate stats and types.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes
