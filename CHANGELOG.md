@@ -2,7 +2,7 @@
 
 ## 1.2.0
 ### Additions
-- Added models for Natu and Xatu.
+- Added models for Natu and Xatu, Murkrow and Honchkrow, Wailmer and Wailord.
 - Added new PC interface and it is beautiful.
 - Reworked the battle system so that battles load faster, cause less bugs, and can run on shared server hosts. This is a very big change that also reduced the size of the mod by 50mb!
 - Added full customisation of models, textures, and animations to make custom Pokémon species and variations very easy to create. [guide needed]
@@ -18,6 +18,7 @@
 - Added a config option for whether the starter config will be exported, making it more maintainable as we add starter Pokémon.
 - Changed the default Apricorn seed chance config value from 6% to 10%.
 - Pokémon now look at their opponents during battle.
+- Updated Sableye's animations to be super freaky.
 
 ### Fixes
 - Fixed an incompatibility with [Porting Lib](https://github.com/Fabricators-of-Create/Porting-Lib) used by Fabric ports of mods such as Create or Twilight Forest.
@@ -32,6 +33,11 @@
 - Fixed a randomized Pokémon spawning in mountains that corrupted the data of whatever party or PC it got into. Yikes.
 - Fixed a rare crash involving literally random number generation. A random crash involving random numbers.
 - Fixed all regular Mewtwo having the stats and types of Mega Mewtwo X. 
+- Fixed the framing of many Pokémon in GUIs.
+- Fixed texture glitches with Rattata and Nidoqueen (again!).
+- Fixed dropped item forms of all Pokéballs and the Healing Machine, and minorly adjusted all other display settings
+- Fixed issues with forms not showing the correct evolution in the evolution menu.
+- Fixed some alternate forms not having the alternate stats and types.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes
