@@ -11,6 +11,7 @@
 - Added emissive texture support to Pokémon render layers.
 - Added new sounds for GUIs and item uses.
 - Added `nature` and `pokeball` options to commands such as `/spawnpokemon` and `/givepokemon`.
+- Added compatibility for Mod Menu ([CurseForge](https://www.curseforge.com/minecraft/mc-mods/modmenu), [Modrinth](https://modrinth.com/mod/modmenu)).
 
 ### Changes
 - Changed the healer advancements to make the healing machine's mechanics more obvious.
