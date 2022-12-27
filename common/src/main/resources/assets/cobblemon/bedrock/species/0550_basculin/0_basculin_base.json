@@ -14,6 +14,20 @@
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0550_basculin/basculin_redstripe_shiny.png"
+    },
+    {
+      "aspects": [
+        "bluestriped"
+      ],
+      "model": "cobblemon:basculin_bluestripe.geo",
+      "texture": "cobblemon:textures/pokemon/0550_basculin/basculin_bluestripe.png"
+    },
+    {
+      "aspects": [
+        "bluestriped",
+        "shiny"
+      ],
+      "texture": "cobblemon:textures/pokemon/0550_basculin/basculin_bluestripe_shiny.png"
     }
   ]
 }

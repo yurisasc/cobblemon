@@ -14,6 +14,10 @@
         "shiny"
       ],
       "texture": "cobblemon:textures/pokemon/0123_scyther/scyther_shiny.png"
+    },
+    {
+      "aspects": ["female"],
+      "model": "cobblemon:scyther_female.geo"
     }
   ]
 }

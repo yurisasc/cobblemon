@@ -5,12 +5,13 @@
     {
       "aspects": [],
       "poser": "cobblemon:arbok",
-      "texture": "cobblemon:textures/pokemon/0024_arbok/arbok.png",
       "model": "cobblemon:arbok.geo",
+      "texture": "cobblemon:textures/pokemon/0024_arbok/arbok.png",
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_classic.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_classic.png",
+          "emissive": false
         }
       ]
     },
@@ -20,7 +21,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_classic_shiny.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_classic_shiny.png",
+          "emissive": false
         }
       ]
     },
@@ -29,7 +31,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_attack.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_attack.png",
+          "emissive": false
         }
       ]
     },
@@ -38,7 +41,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_dark.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_dark.png",
+          "emissive": false
         }
       ]
     },
@@ -47,7 +51,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_elusive.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_elusive.png",
+          "emissive": false
         }
       ]
     },
@@ -56,7 +61,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_heart.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_heart.png",
+          "emissive": false
         }
       ]
     },
@@ -65,7 +71,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_legacy.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_legacy.png",
+          "emissive": false
         }
       ]
     },
@@ -74,7 +81,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_sound.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_sound.png",
+          "emissive": false
         }
       ]
     },
@@ -83,7 +91,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_speed.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_speed.png",
+          "emissive": false
         }
       ]
     },
@@ -92,7 +101,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_attack_shiny.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_attack_shiny.png",
+          "emissive": false
         }
       ]
     },
@@ -101,7 +111,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_dark_shiny.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_dark_shiny.png",
+          "emissive": false
         }
       ]
     },
@@ -110,7 +121,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_elusive_shiny.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_elusive_shiny.png",
+          "emissive": false
         }
       ]
     },
@@ -119,7 +131,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_heart_shiny.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_heart_shiny.png",
+          "emissive": false
         }
       ]
     },
@@ -128,7 +141,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_legacy_shiny.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_legacy_shiny.png",
+          "emissive": false
         }
       ]
     },
@@ -137,7 +151,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_sound_shiny.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_sound_shiny.png",
+          "emissive": false
         }
       ]
     },
@@ -146,7 +161,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_speed_shiny.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_speed_shiny.png",
+          "emissive": false
         }
       ]
     },
@@ -155,7 +171,8 @@
       "layers": [
         {
           "name": "pattern",
-          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_classic_shiny.png"
+          "texture": "cobblemon:textures/pokemon/0024_arbok/arbok_pattern_classic_shiny.png",
+          "emissive": false
         }
       ]
     }
