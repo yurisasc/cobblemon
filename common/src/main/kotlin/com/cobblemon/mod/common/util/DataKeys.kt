@@ -29,6 +29,7 @@ object DataKeys {
     const val POKEMON_MOVESET_RAISED_PP_STAGES = "RaisedPPStages"
     const val POKEMON_ABILITY = "Ability"
     const val POKEMON_ABILITY_NAME = "AbilityName"
+    const val POKEMON_ABILITY_FORCED = "AbilityForced"
     const val POKEMON_SHINY = "Shiny"
     const val POKEMON_STATUS = "Status"
     const val POKEMON_STATUS_NAME = "StatusName"
