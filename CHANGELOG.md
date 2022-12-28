@@ -12,6 +12,7 @@
 - Added new sounds for GUIs and item uses.
 - Added `nature` and `pokeball` options to commands such as `/spawnpokemon` and `/givepokemon`.
 - Added compatibility for Mod Menu ([CurseForge](https://www.curseforge.com/minecraft/mc-mods/modmenu), [Modrinth](https://modrinth.com/mod/modmenu)).
+- Added blank ambient Pokémon cries so cries can be added via resource packs.
 
 ### Changes
 - Changed the healer advancements to make the healing machine's mechanics more obvious.
