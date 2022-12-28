@@ -40,6 +40,7 @@
 - Fixed issues with forms not showing the correct evolution in the evolution menu.
 - Fixed some alternate forms not having the alternate stats and types.
 - Fixed moves that only work in double battles not being selectable at all (such as Helping Hand and Aromatic Mist).
+- Fixed abilities not remaining legal in some instances of other forms.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes

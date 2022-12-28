@@ -133,6 +133,7 @@ open class Pokemon {
             updateAspects()
             updateForm()
             checkGender()
+            checkAbility()
             updateHP(quotient)
             if (ability.template == Abilities.DUMMY && !isClient) {
                 ability = form.abilities.select(value, aspects)
@@ -151,6 +152,8 @@ open class Pokemon {
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             findAndLearnFormChangeMoves()
             updateHP(quotient)
+            checkGender()
+            checkAbility()
             _form.emit(value)
         }
 
@@ -519,7 +522,6 @@ open class Pokemon {
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
-        nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
         val propertiesList = nbt.getList(DataKeys.POKEMON_DATA, NbtString.STRING_TYPE.toInt())
         val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString() }, " ")
         this.customProperties.clear()
@@ -527,9 +529,7 @@ open class Pokemon {
         features.forEach { it.loadFromNBT(nbt) }
         this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
         updateAspects()
-        if (abilityName == "dummy") {
-            ability = form.abilities.select(species, aspects)
-        }
+        nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
         return this
     }
 
@@ -602,7 +602,6 @@ open class Pokemon {
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
-        this.evolutionProxy.loadFromJson(json.get(DataKeys.POKEMON_EVOLUTIONS))
         val propertyList = json.getAsJsonArray(DataKeys.POKEMON_DATA)?.map { it.asString } ?: emptyList()
         val properties = PokemonProperties.parse(propertyList.joinToString(" "), " ")
         this.customProperties.clear()
@@ -613,14 +612,15 @@ open class Pokemon {
         if (abilityName == "dummy") {
             ability = form.abilities.select(species, aspects)
         }
+        json.get(DataKeys.POKEMON_EVOLUTIONS)?.let { this.evolutionProxy.loadFromJson(it) }
         return this
     }
 
     fun clone(useJSON: Boolean = true, newUUID: Boolean = true): Pokemon {
         val pokemon = if (useJSON) {
-            Pokemon().loadFromJSON(saveToJSON(JsonObject()))
+            Pokemon().loadFromJSON(saveToJSON(JsonObject()).also { it.remove(DataKeys.POKEMON_EVOLUTIONS) })
         } else {
-            Pokemon().loadFromNBT(saveToNBT(NbtCompound()))
+            Pokemon().loadFromNBT(saveToNBT(NbtCompound()).also { it.remove(DataKeys.POKEMON_EVOLUTIONS) })
         }
         if (newUUID) {
             pokemon.uuid = UUID.randomUUID()
@@ -734,6 +734,7 @@ open class Pokemon {
     fun initialize(): Pokemon {
         species = species
         checkGender()
+        checkAbility()
         initializeMoveset()
         return this
     }
@@ -758,6 +759,18 @@ open class Pokemon {
             } else {
                 Gender.FEMALE
             }
+        }
+    }
+
+    fun checkAbility() {
+        if (isClient) {
+            return
+        }
+        val hasForcedAbility = ability.forced
+        val hasLegalAbility = ability.template in form.abilities.mapping.flatMap { it.value.map { it.template } }
+
+        if (ability.template == Abilities.DUMMY || (!hasLegalAbility && !hasForcedAbility)) {
+            ability = form.abilities.select(species, aspects)
         }
     }
 
