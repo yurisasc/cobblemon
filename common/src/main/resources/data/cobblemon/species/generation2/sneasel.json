@@ -21,6 +21,7 @@
     },
     {
       "name": "hisui",
+      "aspects": ["hisuian"],
       "primaryType": "fighting",
       "secondaryType": "poison",
       "abilities": ["innerfocus", "keeneye", "h:poisontouch"],

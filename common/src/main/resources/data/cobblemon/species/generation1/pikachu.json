@@ -91,6 +91,7 @@
     },
     {
       "name": "belle",
+      "aspects": ["pikachu-belle"],
       "moves": [
         "1:tailwhip",
         "1:thundershock",
@@ -161,6 +162,7 @@
     },
     {
       "name": "pop-star",
+      "aspects": ["pikachu-popstar"],
       "moves": [
         "1:tailwhip",
         "1:thundershock",
@@ -231,6 +233,7 @@
     },
     {
       "name": "phd",
+      "aspects": ["pikachu-phd"],
       "moves": [
         "1:tailwhip",
         "1:thundershock",
@@ -301,6 +304,7 @@
     },
     {
       "name": "libre",
+      "aspects": ["pikachu-libre"],
       "moves": [
         "1:tailwhip",
         "1:thundershock",
@@ -371,6 +375,7 @@
     },
     {
       "name": "cosplay",
+      "aspects": ["pikachu-cosplay"],
       "moves": [
         "1:tailwhip",
         "1:thundershock",
@@ -440,6 +445,7 @@
     },
     {
       "name": "original-cap",
+      "aspects": ["pikachu-original-cap"],
       "moves": [
         "1:tailwhip",
         "1:growl",
@@ -528,6 +534,7 @@
     },
     {
       "name": "hoenn-cap",
+      "aspects": ["pikachu-hoenne-cap"],
       "moves": [
         "1:tailwhip",
         "1:growl",
@@ -616,6 +623,7 @@
     },
     {
       "name": "sinnoh-cap",
+      "aspects": ["pikachu-sinnoh-cap"],
       "moves": [
         "1:tailwhip",
         "1:growl",
@@ -715,6 +723,7 @@
     },
     {
       "name": "unova-cap",
+      "aspects": ["pikachu-unova-cap"],
       "moves": [
         "1:tailwhip",
         "1:growl",
@@ -803,6 +812,7 @@
     },
     {
       "name": "kalos-cap",
+      "aspects": ["pikachu-kalos-cap"],
       "moves": [
         "1:tailwhip",
         "1:growl",
@@ -902,6 +912,7 @@
     },
     {
       "name": "alola-cap",
+      "aspects": ["pikachu-alola-cap"],
       "moves": [
         "1:tailwhip",
         "1:growl",
@@ -990,6 +1001,7 @@
     },
     {
       "name": "partner-cap",
+      "aspects": ["pikachu-partner-cap"],
       "moves": [
         "1:tailwhip",
         "1:growl",
@@ -1078,6 +1090,7 @@
     },
     {
       "name": "starter",
+      "aspects": ["pikachu-starter"],
       "baseStats": {
         "hp": 45,
         "attack": 80,
@@ -1130,6 +1143,7 @@
     },
     {
       "name": "world-cap",
+      "aspects": ["pikachu-world-cap"],
       "moves": [
         "1:tailwhip",
         "1:growl",
@@ -1202,7 +1216,7 @@
     },
     {
       "name": "gmax",
-      "moves": [],
+      "aspects": ["gmax"],
       "labels": ["gen1", "gmax"],
       "pokedex": [
         "cobblemon.form.pikachu-gmax.desc1",

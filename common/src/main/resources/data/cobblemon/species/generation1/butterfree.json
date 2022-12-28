@@ -25,6 +25,7 @@
         },
         {
             "name": "gmax",
+            "aspects": ["gmax"],
             "baseExperienceYield": 178,
             "moves": [],
             "labels": [

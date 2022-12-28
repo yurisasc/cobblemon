@@ -21,6 +21,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "secondaryType": "dark",
       "abilities": ["poisontouch", "gluttony", "h:powerofalchemy"],
       "moves": [

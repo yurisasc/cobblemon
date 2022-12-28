@@ -21,6 +21,7 @@
     },
     {
       "name": "hisui",
+      "aspects": ["hisuian"],
       "primaryType": "dark",
       "baseExperienceYield": null,
       "pokedex": [

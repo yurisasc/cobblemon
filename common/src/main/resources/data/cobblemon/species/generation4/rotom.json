@@ -18,8 +18,10 @@
     "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [
+        { "name": "normal" },
         {
             "name": "heat",
+            "aspects": ["rotom-heat"],
             "secondaryType": "fire",
             "baseStats": {
                 "hp": 50,
@@ -110,6 +112,7 @@
         },
         {
             "name": "wash",
+            "aspects": ["rotom-wash"],
             "secondaryType": "water",
             "baseStats": {
                 "hp": 50,
@@ -200,6 +203,7 @@
         },
         {
             "name": "frost",
+            "aspects": ["rotom-frost"],
             "secondaryType": "ice",
             "baseStats": {
                 "hp": 50,
@@ -290,6 +294,7 @@
         },
         {
             "name": "fan",
+            "aspects": ["rotom-fan"],
             "secondaryType": "flying",
             "baseStats": {
                 "hp": 50,
@@ -380,6 +385,7 @@
         },
         {
             "name": "mow",
+            "aspects": ["rotom-mow"],
             "secondaryType": "grass",
             "baseStats": {
                 "hp": 50,

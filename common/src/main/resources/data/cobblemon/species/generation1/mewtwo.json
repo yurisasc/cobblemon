@@ -22,6 +22,7 @@
         { "name": "normal" },
         {
             "name": "mega-x",
+            "aspects": ["mega-x"],
             "secondaryType": "fighting",
             "abilities": [
                 "steadfast"
@@ -172,6 +173,7 @@
         },
         {
             "name": "mega-y",
+            "aspects": ["mega-y"],
             "abilities": [
                 "insomnia"
             ],

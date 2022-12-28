@@ -21,6 +21,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "secondaryType": "steel",
       "abilities": ["sandveil", "tanglinghair", "h:sandforce"],
       "baseStats": {

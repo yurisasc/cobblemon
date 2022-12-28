@@ -22,6 +22,7 @@
     },
     {
       "name": "galar",
+      "aspects": ["galarian"],
       "secondaryType": "fairy",
       "abilities": ["levitate", "neutralizinggas", "h:mistysurge"],
       "moves": [

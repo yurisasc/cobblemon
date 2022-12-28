@@ -22,6 +22,7 @@
     },
     {
       "name": "galar",
+      "aspects": ["galarian"],
       "primaryType": "ice",
       "secondaryType": "psychic",
       "abilities": ["vitalspirit", "screencleaner", "h:icebody"],

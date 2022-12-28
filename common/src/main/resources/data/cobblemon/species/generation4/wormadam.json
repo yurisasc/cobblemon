@@ -110,8 +110,10 @@
     "preEvolution": "burmy",
     "evolutions": [],
     "forms": [
+        { "name": "normal" },
         {
             "name": "sandy",
+            "aspects": ["wormadam-sandy"],
             "secondaryType": "ground",
             "baseStats": {
                 "hp": 60,
@@ -202,6 +204,7 @@
         },
         {
             "name": "trash",
+            "aspects": ["wormadam-trash"],
             "secondaryType": "steel",
             "baseStats": {
                 "hp": 60,

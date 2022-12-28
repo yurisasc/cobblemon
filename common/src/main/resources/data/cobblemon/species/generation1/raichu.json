@@ -21,6 +21,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "secondaryType": "psychic",
       "abilities": ["surgesurfer"],
       "baseStats": {

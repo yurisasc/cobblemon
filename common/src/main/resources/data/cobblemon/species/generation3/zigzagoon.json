@@ -20,6 +20,7 @@
     },
     {
       "name": "galar",
+      "aspects": ["galarian"],
       "primaryType": "dark",
       "secondaryType": "normal",
       "moves": [

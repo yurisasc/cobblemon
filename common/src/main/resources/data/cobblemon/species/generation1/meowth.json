@@ -21,6 +21,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "primaryType": "dark",
       "abilities": ["pickup", "technician", "h:rattled"],
       "baseStats": {
@@ -244,6 +245,7 @@
     },
     {
       "name": "gmax",
+      "aspects": ["gmax"],
       "moves": [],
       "labels": ["gen1", "gmax"],
       "pokedex": [

@@ -21,6 +21,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "primaryType": "ice",
       "secondaryType": "steel",
       "abilities": ["snowcloak", "h:slushrush"],

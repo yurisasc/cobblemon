@@ -20,6 +20,7 @@
     },
     {
       "name": "hisui",
+      "aspects": ["hisuian"],
       "secondaryType": "ghost",
       "baseStats": {
         "hp": 73,

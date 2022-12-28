@@ -149,8 +149,10 @@
     "weight": 608,
     "evolutions": [],
     "forms": [
+        { "name": "normal" },
         {
             "name": "attack",
+            "aspects": ["deoxys-attack"],
             "baseStats": {
                 "hp": 50,
                 "attack": 180,
@@ -276,6 +278,7 @@
         },
         {
             "name": "defense",
+            "aspects": ["deoxys-defense"],
             "baseStats": {
                 "hp": 50,
                 "attack": 70,
@@ -403,6 +406,7 @@
         },
         {
             "name": "speed",
+            "aspects": ["deoxys-speed"],
             "baseStats": {
                 "hp": 50,
                 "attack": 95,

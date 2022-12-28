@@ -17,8 +17,10 @@
     "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [
+        { "name": "normal" },
         {
             "name": "primal",
+            "aspects": ["primal"],
             "abilities": [
                 "primordialsea"
             ],

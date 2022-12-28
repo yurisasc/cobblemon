@@ -24,6 +24,7 @@
 		},
 		{
 			"name": "alola",
+			"aspects": ["alolan"],
 			"primaryType": "ice",
 			"secondaryType": "fairy",
 			"abilities": [
