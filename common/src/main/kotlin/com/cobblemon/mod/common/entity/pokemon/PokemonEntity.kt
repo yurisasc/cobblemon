@@ -49,7 +49,6 @@ import net.minecraft.entity.EntityDimensions
 import net.minecraft.entity.EntityPose
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.ai.control.MoveControl
-import net.minecraft.entity.ai.goal.BreatheAirGoal
 import net.minecraft.entity.ai.goal.Goal
 import net.minecraft.entity.ai.pathing.PathNodeType
 import net.minecraft.entity.damage.DamageSource
@@ -65,6 +64,7 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundEvent
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -426,6 +426,14 @@ class PokemonEntity(
      */
     fun labelLevel(): Int {
         return this.labelLevel.get()
+    }
+
+    override fun getAmbientSound(): SoundEvent {
+        return SoundEvent(cobblemonResource("pokemon.${pokemon.species.name}.ambient"))
+    }
+
+    override fun getMinAmbientSoundDelay(): Int {
+        return Cobblemon.config.ambientPokemonCryTicks
     }
 
     private fun attemptItemInteraction(player: PlayerEntity, stack: ItemStack): Boolean {
