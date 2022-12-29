@@ -4,7 +4,7 @@
 ### Additions
 - Added models for Natu and Xatu, Murkrow and Honchkrow, Wailmer and Wailord.
 - Added new PC interface and it is beautiful.
-- Reworked the battle system so that battles load faster, cause less bugs, and can run on shared server hosts. This is a very big change that also reduced the size of the mod by 50mb!
+- Reworked the battle system so that battles load faster, cause fewer bugs, and can run on shared server hosts. This is a very big change that also reduced the size of the mod by 50mb!
 - Added full customisation of models, textures, and animations to make custom Pokémon species and variations very easy to create. [guide needed]
 - Added support for datapack spawn files and spawn file presets.
 - Added water surface spawning for Pokémon like Lapras.
