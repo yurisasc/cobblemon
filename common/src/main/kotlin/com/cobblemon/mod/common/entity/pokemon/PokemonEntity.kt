@@ -31,6 +31,7 @@ import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
 import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem
+import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -68,6 +69,7 @@ import net.minecraft.sound.SoundEvent
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -428,8 +430,20 @@ class PokemonEntity(
         return this.labelLevel.get()
     }
 
-    override fun getAmbientSound(): SoundEvent {
-        return SoundEvent(cobblemonResource("pokemon.${pokemon.species.name}.ambient"))
+    override fun playAmbientSound() {
+        if (!this.isSilent) {
+            val subPath = if (this.pokemon.form == this.pokemon.species.standardForm) this.pokemon.species.name else "${this.pokemon.species.name}-${this.pokemon.form.name}"
+            val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.$subPath.ambient")
+            // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
+            UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
+                .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.registryKey)
+        }
+    }
+
+    // We never want to allow an actual sound event here, we do not register our sounds to the sound registry as species are loaded by the time the registry is frozen.
+    // Super call would do the same but might as well future-proof.
+    override fun getAmbientSound(): SoundEvent? {
+        return null
     }
 
     override fun getMinAmbientSoundDelay(): Int {

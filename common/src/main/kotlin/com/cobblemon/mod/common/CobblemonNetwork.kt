@@ -52,6 +52,7 @@ import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.Add
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
+import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
 import com.cobblemon.mod.common.net.messages.client.starter.OpenStarterUIPacket
 import com.cobblemon.mod.common.net.messages.client.starter.SetClientPlayerDataPacket
 import com.cobblemon.mod.common.net.messages.client.storage.RemoveClientPokemonPacket
@@ -206,6 +207,9 @@ object CobblemonNetwork {
         buildClientMessage<MovesRegistrySyncPacket>()
         buildClientMessage<SpeciesRegistrySyncPacket>()
         buildClientMessage<PropertiesCompletionRegistrySyncPacket>()
+
+        // Hax
+        buildClientMessage<UnvalidatedPlaySoundS2CPacket>()
 
         /**
          * Server Packets

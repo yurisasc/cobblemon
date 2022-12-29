@@ -32,6 +32,7 @@ import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
 import com.cobblemon.mod.common.client.net.pokemon.update.EvolutionUpdatePacketHandler
 import com.cobblemon.mod.common.client.net.pokemon.update.SingleUpdatePacketHandler
 import com.cobblemon.mod.common.client.net.settings.ServerSettingsPacketHandler
+import com.cobblemon.mod.common.client.net.sound.UnvalidatedPlaySoundS2CPacketHandler
 import com.cobblemon.mod.common.client.net.starter.StarterUIPacketHandler
 import com.cobblemon.mod.common.client.net.storage.RemoveClientPokemonHandler
 import com.cobblemon.mod.common.client.net.storage.SwapClientPokemonHandler
@@ -154,6 +155,9 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(DataRegistrySyncPacketHandler<MoveTemplate, MovesRegistrySyncPacket>())
         registerHandler(DataRegistrySyncPacketHandler<Species, SpeciesRegistrySyncPacket>())
         registerHandler(DataRegistrySyncPacketHandler<PropertiesCompletionProvider.SuggestionHolder, PropertiesCompletionRegistrySyncPacket>())
+
+        // Hax
+        registerHandler(UnvalidatedPlaySoundS2CPacketHandler)
 
         CobblemonNetwork.clientHandlersRegistered.complete(Unit)
     }
