@@ -58,22 +58,7 @@ import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.AbilityUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.EVsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.IVsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.StatusUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
 import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
@@ -95,6 +80,7 @@ import com.cobblemon.mod.common.util.toBlockPos
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import com.mojang.serialization.JsonOps
 import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
@@ -104,6 +90,7 @@ import kotlin.math.roundToInt
 import kotlin.random.Random
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
@@ -361,6 +348,11 @@ open class Pokemon {
 
     val customProperties = mutableListOf<CustomPokemonProperty>()
 
+    /**
+     * The [ItemStack] this Pokémon is holding.
+     */
+    private var heldItem: ItemStack = ItemStack.EMPTY
+
     open fun getStat(stat: Stat) = Cobblemon.statProvider.getStatForPokemon(this, stat)
 
     fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
@@ -452,6 +444,26 @@ open class Pokemon {
      */
     fun hasLabels(vararg labels: String) = labels.all { label -> this.form.labels.any { it.equals(label, true) } }
 
+    /**
+     * Returns a copy of the [heldItem].
+     * In order to change the [heldItem] use [swapHeldItem].
+     *
+     * @return A copy of the [heldItem].
+     */
+    fun heldItem(): ItemStack = this.heldItem.copy()
+
+    /**
+     * Swaps out the current [heldItem] for the given [stack].
+     * If [ItemStack.count] of [stack] is great then 1 it will be shrunk.
+     *
+     * @param stack The new [ItemStack] being set as the [heldItem].
+     */
+    fun swapHeldItem(stack: ItemStack) {
+        stack.count = 1
+        this.heldItem = stack
+        this._heldItem.emit(stack)
+    }
+
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
         nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
@@ -478,6 +490,9 @@ open class Pokemon {
         val propertyList = customProperties.map { it.asString() }.map { NbtString.of(it) }
         nbt.put(DataKeys.POKEMON_DATA, NbtList().also { it.addAll(propertyList) })
         nbt.putString(DataKeys.POKEMON_NATURE, nature.name.toString())
+        if (!this.heldItem.isEmpty) {
+            nbt.put(DataKeys.HELD_ITEM, this.heldItem.writeNbt(NbtCompound()))
+        }
         features.forEach { it.saveToNBT(nbt) }
         return nbt
     }
@@ -530,6 +545,9 @@ open class Pokemon {
         this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
         updateAspects()
         nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
+        if (nbt.contains(DataKeys.HELD_ITEM)) {
+            this.heldItem = ItemStack.fromNbt(nbt.getCompound(DataKeys.HELD_ITEM))
+        }
         return this
     }
 
@@ -559,6 +577,9 @@ open class Pokemon {
         json.add(DataKeys.POKEMON_DATA, JsonArray().also { propertyList.forEach(it::add) })
         json.addProperty(DataKeys.POKEMON_NATURE, nature.name.toString())
         features.forEach { it.saveToJSON(json) }
+        if (!this.heldItem.isEmpty) {
+            NbtCompound.CODEC.encodeStart(JsonOps.INSTANCE, this.heldItem.writeNbt(NbtCompound())).result().ifPresent { json.add(DataKeys.HELD_ITEM, it) }
+        }
         return json
     }
 
@@ -613,6 +634,11 @@ open class Pokemon {
             ability = form.abilities.select(species, aspects)
         }
         json.get(DataKeys.POKEMON_EVOLUTIONS)?.let { this.evolutionProxy.loadFromJson(it) }
+        if (json.has(DataKeys.HELD_ITEM)) {
+            NbtCompound.CODEC.decode(JsonOps.INSTANCE, json.get(DataKeys.HELD_ITEM)).result().ifPresent {
+                this.heldItem = ItemStack.fromNbt(it.first)
+            }
+        }
         return this
     }
 
@@ -1007,6 +1033,7 @@ open class Pokemon {
     private val _aspects = registerObservable(SimpleObservable<Set<String>>()) { AspectsUpdatePacket(this, it) }
     private val _gender = registerObservable(SimpleObservable<Gender>()) { GenderUpdatePacket(this, it) }
     private val _ability = registerObservable(SimpleObservable<Ability>()) { AbilityUpdatePacket(this, it.template) }
+    private val _heldItem = registerObservable(SimpleObservable<ItemStack>()) { HeldItemUpdatePacket(this, it) }
 
     private val _features = registerObservable(SimpleObservable<SpeciesFeature>())
 

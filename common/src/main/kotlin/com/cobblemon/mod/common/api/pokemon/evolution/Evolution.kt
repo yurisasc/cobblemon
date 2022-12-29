@@ -42,7 +42,7 @@ interface Evolution : EvolutionLike {
 
     // ToDo pending held items.
     /**
-     * If this [Evolution] will consume the [Pokemon.heldItem]
+     * If this [Evolution] will consume the [Pokemon.swapHeldItem]
      */
     var consumeHeldItem: Boolean
 
