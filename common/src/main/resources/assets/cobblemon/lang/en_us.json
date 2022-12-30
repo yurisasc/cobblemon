@@ -347,6 +347,9 @@
   "cobblemon.battle.immune": "But %1$s is immune!",
   "cobblemon.battle.missed": "But it missed.",
 
+  "cobblemon.battle.item.air_balloon.start": "%1$s floats in the air with its Air Balloon!",
+  "cobblemon.battle.item.air_balloon.end": "%1$s's Air Balloon popped!",
+
   "cobblemon.experience.gained": "%1$s received %2$s experience.",
   "cobblemon.experience.level_up": "%1$s is now level %2$s!",
   "cobblemon.experience.learned_move": "%1$s has learned %2$s.",

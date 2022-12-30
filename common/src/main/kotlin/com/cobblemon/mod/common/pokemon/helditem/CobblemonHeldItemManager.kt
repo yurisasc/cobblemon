@@ -14,8 +14,10 @@ import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.GraalShowdown
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.battleLang
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
+import net.minecraft.text.Text
 import net.minecraft.util.registry.Registry
 
 /**
@@ -29,6 +31,7 @@ import net.minecraft.util.registry.Registry
 object CobblemonHeldItemManager : HeldItemManager {
 
     private val itemIDs = hashSetOf<String>()
+    private val itemLang = hashMapOf<String, Text>()
 
     /**
      * Loads the item IDs by querying them from the [GraalShowdown.context].
@@ -37,23 +40,45 @@ object CobblemonHeldItemManager : HeldItemManager {
     internal fun load() {
         this.itemIDs.clear()
         val script = """
-            const { Dex } = require("pokemon-showdown");
-            Dex.mod("${Cobblemon.MODID}")
+            PokemonShowdown.Dex.mod("${Cobblemon.MODID}")
               .items.all()
               .map(item => item.id);
         """.trimIndent()
-        val itemIDs = arrayListOf<String>()
         val arrayResult = GraalShowdown.context.eval("js", script)
         for (i in 0 until arrayResult.arraySize) {
             this.itemIDs+= arrayResult.getArrayElement(i).asString()
         }
-        Cobblemon.LOGGER.info("Received {} held item IDs from showdown", itemIDs.size)
+        Registry.ITEM.forEach { item ->
+            val showdownId = this.showdownIdOf(item)
+            if (showdownId != null) {
+                this.itemLang[showdownId] = item.name
+            }
+        }
+        Cobblemon.LOGGER.info("Imported {} held item IDs from showdown", this.itemIDs.size)
     }
 
     override fun showdownId(pokemon: BattlePokemon): String? = this.showdownIdOf(pokemon.effectedPokemon.heldItem().item)
 
+    override fun nameOf(showdownId: String): Text? = this.itemLang[showdownId]
+
     override fun consume(pokemon: BattlePokemon) {
         pokemon.effectedPokemon.swapHeldItem(ItemStack.EMPTY)
+    }
+
+    override fun startText(pokemon: BattlePokemon, showdownId: String): Text? {
+        val battlerName = pokemon.getName()
+        return when (showdownId) {
+            "airballoon" -> battleLang("item.air_balloon.start", battlerName)
+            else -> Text.empty()
+        }
+    }
+
+    override fun endText(pokemon: BattlePokemon, showdownId: String): Text? {
+        val battlerName = pokemon.getName()
+        return when (showdownId) {
+            "airballoon" -> battleLang("item.air_balloon.end", battlerName)
+            else -> Text.empty()
+        }
     }
 
     /**

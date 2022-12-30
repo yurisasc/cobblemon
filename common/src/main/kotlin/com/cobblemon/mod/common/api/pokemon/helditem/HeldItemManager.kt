@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.api.pokemon.helditem
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.item.ItemStack
+import net.minecraft.text.Text
 
 /**
  * Responsible for querying [BattlePokemon] for the presence of held items and their consumption.
@@ -31,12 +32,38 @@ interface HeldItemManager {
     fun showdownId(pokemon: BattlePokemon): String?
 
     /**
+     * Queries the [Text] representation of the item under the given [showdownId].
+     *
+     * @param showdownId The literal ID of the held item on Showdown.
+     * @return The [Text] representation if existing.
+     */
+    fun nameOf(showdownId: String): Text?
+
+    /**
      * Consumes the item.
      * Note that it might not necessarily be the [Pokemon.heldItem].
      *
      * @param pokemon The [BattlePokemon] that is holding the item.
      */
     fun consume(pokemon: BattlePokemon)
+
+    /**
+     * Invoked when the held item has been revealed, changed or triggered.
+     *
+     * @param pokemon The [BattlePokemon] holding the item.
+     * @param showdownId The literal ID of the held item on Showdown.
+     * @return The [Text] representation of the start if any.
+     */
+    fun startText(pokemon: BattlePokemon, showdownId: String): Text?
+
+    /**
+     * Invoked when the held item has been "destroyed", for example a Berry consumed or an Air Balloon popped.
+     *
+     * @param pokemon The [BattlePokemon] holding the item.
+     * @param showdownId The literal ID of the held item on Showdown.
+     * @return The [Text] representation of the end if any.
+     */
+    fun endText(pokemon: BattlePokemon, showdownId: String): Text?
 
 
     companion object {
@@ -47,7 +74,10 @@ interface HeldItemManager {
          */
         val EMPTY = object : HeldItemManager {
             override fun showdownId(pokemon: BattlePokemon): String? = null
+            override fun nameOf(showdownId: String): Text? = Text.empty()
             override fun consume(pokemon: BattlePokemon) {}
+            override fun startText(pokemon: BattlePokemon, showdownId: String): Text? = Text.empty()
+            override fun endText(pokemon: BattlePokemon, showdownId: String): Text? = Text.empty()
         }
 
     }

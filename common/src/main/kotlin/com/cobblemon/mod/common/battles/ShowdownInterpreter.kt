@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.battles
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
@@ -50,6 +49,7 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.text.Text
 import org.apache.commons.lang3.StringUtils
 
 object ShowdownInterpreter {
@@ -918,17 +918,22 @@ object ShowdownInterpreter {
             }
          */
         battle.dispatchGo {
-            val data = StringUtils.substringsBetween(baseMessage, "|", "|")
-            val message = baseMessage.split("|-item|")[1]
-            battle.broadcastChatMessage(baseMessage.text())
-            battle.broadcastChatMessage(data.joinToString(" ").text())
+            var currentMessage = baseMessage
+            val data = arrayListOf<String>()
+            while (currentMessage.indexOf("|") != -1) {
+                currentMessage = currentMessage.substringAfter("|")
+                data.add(currentMessage.substringBefore("|"))
+            }
+            val pnx = data[1].substring(0, 3)
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val itemId = data[2].replace(" ", "").lowercase()
+            battle.broadcastChatMessage("$itemId is the item of ".text().append(pokemon.battlePokemon?.getName()))
         }
     }
 
     fun handleEndItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchGo {
-            val data = StringUtils.substringsBetween(baseMessage, "|", "|")
-            battle.broadcastChatMessage(data.joinToString(" ").text())
+            battle.broadcastChatMessage(baseMessage.text())
         }
     }
 
