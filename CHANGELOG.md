@@ -43,6 +43,7 @@
 - Fixed moves that only work in double battles not being selectable at all (such as Helping Hand and Aromatic Mist).
 - Fixed abilities not remaining legal in some instances of other forms.
 - Fixed Pokéball capture effects not triggering after a successful capture.
+- Multiple hit moves hit count message not being interpreted into a human friendly one.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes

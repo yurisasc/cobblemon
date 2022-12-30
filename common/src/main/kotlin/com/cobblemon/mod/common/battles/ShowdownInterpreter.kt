@@ -49,6 +49,7 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
+import org.apache.commons.lang3.StringUtils
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String, MutableList<String>) -> Unit>()
@@ -95,6 +96,7 @@ object ShowdownInterpreter {
         updateInstructions["|-status|"] = this::handleStatusInstruction
         updateInstructions["|-end|"] = this::handleEndInstruction
         updateInstructions["|-miss|"] = this::handleMissInstruction
+        updateInstructions["|-hitcount|"] = this::handleHitCountInstruction
 
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
@@ -900,4 +902,14 @@ object ShowdownInterpreter {
         }
 
     }
+
+    // |-hitcount|POKEMON|NUM
+    fun handleHitCountInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val hitCount = message.substringAfterLast("|").toIntOrNull() ?: -1
+            val lang = if (hitCount == 1) battleLang("hit_count_singular") else battleLang("hit_count", hitCount)
+            battle.broadcastChatMessage(lang)
+        }
+    }
+
 }
