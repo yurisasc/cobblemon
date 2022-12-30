@@ -445,12 +445,22 @@ open class Pokemon {
     fun hasLabels(vararg labels: String) = labels.all { label -> this.form.labels.any { it.equals(label, true) } }
 
     /**
-     * Returns a copy of the [heldItem].
+     * Returns a copy of the held item.
      * In order to change the [ItemStack] use [swapHeldItem].
      *
      * @return A copy of the [ItemStack] held by this Pokémon.
      */
     fun heldItem(): ItemStack = this.heldItem.copy()
+
+
+    /**
+     * Returns the backing held item, this is intended to skip the unnecessary copy operation for our internal use.
+     * No mutations should be done to it and expected to synchronize.
+     * If you wish to do so remember to set it with [swapHeldItem].
+     *
+     * @return The [ItemStack] held by this Pokémon.
+     */
+    internal fun heldItemNoCopy(): ItemStack = this.heldItem
 
     /**
      * Swaps out the current [heldItem] for the given [stack].
