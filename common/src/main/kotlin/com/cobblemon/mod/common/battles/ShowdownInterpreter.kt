@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
@@ -49,6 +50,7 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
+import org.apache.commons.lang3.StringUtils
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String, MutableList<String>) -> Unit>()
@@ -95,6 +97,8 @@ object ShowdownInterpreter {
         updateInstructions["|-status|"] = this::handleStatusInstruction
         updateInstructions["|-end|"] = this::handleEndInstruction
         updateInstructions["|-miss|"] = this::handleMissInstruction
+        updateInstructions["|-item|"] = this::handleItemInstruction
+        updateInstructions["|-enditem|"] = this::handleEndItemInstruction
 
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
@@ -900,4 +904,32 @@ object ShowdownInterpreter {
         }
 
     }
+
+    fun handleItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
+        /*
+        val editedMessage = message.split("|-end|")[1]
+            val pnx = editedMessage.substring(0, 3)
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val fromWhat = editedMessage.split("|")[1]
+
+            when (fromWhat) {
+                "confusion" -> battle.broadcastChatMessage(battleLang("confusion_snapped", pokemon.battlePokemon!!.getName()))
+                else -> battle.broadcastChatMessage(editedMessage.text())
+            }
+         */
+        battle.dispatchGo {
+            val data = StringUtils.substringsBetween(baseMessage, "|", "|")
+            val message = baseMessage.split("|-item|")[1]
+            battle.broadcastChatMessage(baseMessage.text())
+            battle.broadcastChatMessage(data.joinToString(" ").text())
+        }
+    }
+
+    fun handleEndItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val data = StringUtils.substringsBetween(baseMessage, "|", "|")
+            battle.broadcastChatMessage(data.joinToString(" ").text())
+        }
+    }
+
 }
