@@ -446,17 +446,17 @@ open class Pokemon {
 
     /**
      * Returns a copy of the [heldItem].
-     * In order to change the [heldItem] use [swapHeldItem].
+     * In order to change the [ItemStack] use [swapHeldItem].
      *
-     * @return A copy of the [heldItem].
+     * @return A copy of the [ItemStack] held by this Pokémon.
      */
     fun heldItem(): ItemStack = this.heldItem.copy()
 
     /**
      * Swaps out the current [heldItem] for the given [stack].
-     * If [ItemStack.count] of [stack] is great then 1 it will be shrunk.
+     * If [ItemStack.count] of [stack] is greater than 1 it will be shrunk.
      *
-     * @param stack The new [ItemStack] being set as the [heldItem].
+     * @param stack The new [ItemStack] being set as the held item.
      */
     fun swapHeldItem(stack: ItemStack) {
         stack.count = 1
@@ -490,10 +490,10 @@ open class Pokemon {
         val propertyList = customProperties.map { it.asString() }.map { NbtString.of(it) }
         nbt.put(DataKeys.POKEMON_DATA, NbtList().also { it.addAll(propertyList) })
         nbt.putString(DataKeys.POKEMON_NATURE, nature.name.toString())
+        features.forEach { it.saveToNBT(nbt) }
         if (!this.heldItem.isEmpty) {
             nbt.put(DataKeys.HELD_ITEM, this.heldItem.writeNbt(NbtCompound()))
         }
-        features.forEach { it.saveToNBT(nbt) }
         return nbt
     }
 
@@ -578,7 +578,7 @@ open class Pokemon {
         json.addProperty(DataKeys.POKEMON_NATURE, nature.name.toString())
         features.forEach { it.saveToJSON(json) }
         if (!this.heldItem.isEmpty) {
-            NbtCompound.CODEC.encodeStart(JsonOps.INSTANCE, this.heldItem.writeNbt(NbtCompound())).result().ifPresent { json.add(DataKeys.HELD_ITEM, it) }
+            ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, this.heldItem).result().ifPresent { json.add(DataKeys.HELD_ITEM, it) }
         }
         return json
     }
@@ -635,8 +635,8 @@ open class Pokemon {
         }
         json.get(DataKeys.POKEMON_EVOLUTIONS)?.let { this.evolutionProxy.loadFromJson(it) }
         if (json.has(DataKeys.HELD_ITEM)) {
-            NbtCompound.CODEC.decode(JsonOps.INSTANCE, json.get(DataKeys.HELD_ITEM)).result().ifPresent {
-                this.heldItem = ItemStack.fromNbt(it.first)
+            ItemStack.CODEC.decode(JsonOps.INSTANCE, json.get(DataKeys.HELD_ITEM)).result().ifPresent {
+                this.heldItem = it.first
             }
         }
         return this
