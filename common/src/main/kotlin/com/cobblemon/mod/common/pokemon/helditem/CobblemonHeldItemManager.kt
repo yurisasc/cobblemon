@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.pokemon.helditem
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.GraalShowdown
 import com.cobblemon.mod.common.pokemon.Pokemon
 import net.minecraft.item.Item
@@ -49,10 +50,10 @@ object CobblemonHeldItemManager : HeldItemManager {
         Cobblemon.LOGGER.info("Received {} held item IDs from showdown", itemIDs.size)
     }
 
-    override fun showdownId(pokemon: Pokemon): String? = this.showdownIdOf(pokemon.heldItem().item)
+    override fun showdownId(pokemon: BattlePokemon): String? = this.showdownIdOf(pokemon.effectedPokemon.heldItem().item)
 
-    override fun consume(pokemon: Pokemon) {
-        pokemon.swapHeldItem(ItemStack.EMPTY)
+    override fun consume(pokemon: BattlePokemon) {
+        pokemon.effectedPokemon.swapHeldItem(ItemStack.EMPTY)
     }
 
     /**

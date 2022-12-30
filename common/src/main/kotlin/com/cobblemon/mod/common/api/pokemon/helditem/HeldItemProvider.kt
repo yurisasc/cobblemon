@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.api.pokemon.helditem
 
 import com.cobblemon.mod.common.api.PrioritizedList
 import com.cobblemon.mod.common.api.Priority
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
 
 /**
@@ -26,25 +27,25 @@ object HeldItemProvider {
      * Finds a [HeldItemManager] if any whose [HeldItemManager.showdownId] is not null for the provided [pokemon].
      *
      * @param pokemon The [Pokemon] being queried.
-     * @return The [HeldItemManager] that can provide for the given [pokemon] if any.
+     * @return The [HeldItemManager] that can provide for the given [pokemon], if non match returns the [HeldItemManager.EMPTY].
      */
-    fun provide(pokemon: Pokemon): HeldItemManager? = this.managers.firstOrNull { manager -> manager.showdownId(pokemon) != null }
+    fun provide(pokemon: BattlePokemon): HeldItemManager = this.managers.firstOrNull { manager -> manager.showdownId(pokemon) != null } ?: HeldItemManager.EMPTY
 
     /**
-     * TODO
+     * Registers a new [HeldItemManager].
      *
-     * @param manager
-     * @param priority
+     * @param manager The [HeldItemManager] being registered.
+     * @param priority The [Priority] to register it under.
      */
-    fun register(manager: HeldItemManager, priority: Priority) {
+    fun register(manager: HeldItemManager, priority: Priority = Priority.NORMAL) {
         this.managers.add(priority, manager)
     }
 
     /**
-     * TODO
+     * Unregisters a [HeldItemManager].
      *
-     * @param manager
-     * @param priority
+     * @param manager The [HeldItemManager] being unregistered.
+     * @param priority The [Priority] to specifically remove the instance from, if null it will remove from all.
      */
     fun unregister(manager: HeldItemManager, priority: Priority? = null) {
         if (priority != null) {
