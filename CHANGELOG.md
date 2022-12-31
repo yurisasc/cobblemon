@@ -48,6 +48,7 @@
 - Multiple hit moves hit count message not being interpreted into a human friendly one.
 - Fixed Pyukumuku not being appropriately scaled.
 - Fixed shiny and other variations of Pokémon not showing in the battle GUI.
+- Fixed Eevee being poorly positioned and unanimated on shoulders.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes
