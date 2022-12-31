@@ -22,6 +22,7 @@
 - Pokémon now look at their opponents during battle.
 - Updated Sableye's animations to be super freaky.
 - Battles now start with the options menu open for convenience.
+- Doubled the default charge rate of healers. You'd need to reset your config under ./config/cobblemon/main.json to have this change!
 
 ### Fixes
 - Fixed an incompatibility with [Porting Lib](https://github.com/Fabricators-of-Create/Porting-Lib) used by Fabric ports of mods such as Create or Twilight Forest.
