@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.api.pokemon.helditem
 
+import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.battles.interpreter.Effect
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -52,11 +54,19 @@ interface HeldItemManager {
      * Invoked when an action instruction is sent from the Showdown server of type '-item'
      *
      * @param pokemon The [BattlePokemon] affected.
-     * @param itemShowdownId The Showdown ID of the held item.
-     * @param effect The [Effect] that generated this action, can be null.
-     * @param effectSource The [BattlePokemon] that triggered the effect, can be null even when [effect] isn't.
+     * @param battle The [PokemonBattle] receiving the [battleMessage].
+     * @param battleMessage The [BattleMessage] received.
      */
-    fun handleStartInstruction(pokemon: BattlePokemon, itemShowdownId: String, effect: Effect?, effectSource: BattlePokemon?): Text
+    fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage): Text
+
+    /**
+     * Invoked when an action instruction is sent from the Showdown server of type '-item'
+     *
+     * @param pokemon The [BattlePokemon] affected.
+     * @param battle The [PokemonBattle] receiving the [battleMessage].
+     * @param battleMessage The [BattleMessage] received.
+     */
+    fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage): Text
 
 
     companion object {
@@ -69,7 +79,8 @@ interface HeldItemManager {
             override fun showdownId(pokemon: BattlePokemon): String? = null
             override fun nameOf(showdownId: String): Text = Text.empty()
             override fun consume(pokemon: BattlePokemon) {}
-            override fun handleStartInstruction(pokemon: BattlePokemon, itemShowdownId: String, effect: Effect?, effectSource: BattlePokemon?): Text = Text.empty()
+            override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage): Text = Text.empty()
+            override fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage): Text = Text.empty()
         }
 
     }

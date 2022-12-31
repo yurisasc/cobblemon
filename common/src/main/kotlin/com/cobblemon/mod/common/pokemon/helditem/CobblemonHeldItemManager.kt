@@ -9,8 +9,11 @@
 package com.cobblemon.mod.common.pokemon.helditem
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
+import com.cobblemon.mod.common.api.text.red
+import com.cobblemon.mod.common.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.battles.interpreter.Effect
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.GraalShowdown
@@ -66,23 +69,35 @@ object CobblemonHeldItemManager : HeldItemManager {
         pokemon.effectedPokemon.swapHeldItem(ItemStack.EMPTY)
     }
 
-    override fun handleStartInstruction(pokemon: BattlePokemon, itemShowdownId: String, effect: Effect?, effectSource: BattlePokemon?): Text {
+    override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage): Text {
+        val itemID = battleMessage.argumentAt(1)?.lowercase()?.replace(" ", "") ?: return Text.literal("Missing item ID from item start action, received message was: ${battleMessage.rawMessage}").red().also {
+            Cobblemon.LOGGER.error("Failed to handle '-item' action: ${battleMessage.rawMessage}")
+        }
+        val effect = battleMessage.effect()
         val battlerName = pokemon.getName()
         // The only item using the null effect gimmick
-        if (effect == null && itemShowdownId == "airballoon") {
+        if (effect == null && itemID == "airballoon") {
             return battleLang("item.air_balloon.start", battlerName)
         }
-        val itemName = this.nameOf(itemShowdownId)
-        val sourceName = effectSource?.getName() ?: Text.of("UNKNOWN")
+        val source = battleMessage.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon
+        val itemName = this.nameOf(itemID)
+        val sourceName = source?.getName() ?: Text.of("UNKNOWN")
         return when (effect?.id?.lowercase() ?: "") {
             "pickup", "recycle" -> battleLang("item.recycle_or_pickup.start", battlerName, itemName)
             "frisk" -> battleLang("item.frisk.start", sourceName, battlerName, itemName)
-            "magician", "pickpocket", "thief", "covet" -> battleLang("item.take_item.start", sourceName, battlerName, itemName)
+            // The "source" is actually the target here
+            "magician", "pickpocket", "thief", "covet" -> battleLang("item.take_item.start", battlerName, sourceName, itemName)
             "harvest" -> battleLang("item.harvest.start", battlerName, itemName)
-            "bestow" -> battleLang("item.take_item.start", battlerName, itemName, sourceName)
+            "bestow" -> battleLang("item.bestow.start", battlerName, itemName, sourceName)
             "switcheroo", "trick" -> battleLang("item.tricked.start", battlerName)
-            else -> Text.literal("Cannot interpret $effect for item $itemShowdownId held by ").append(pokemon.getName())
+            else -> Text.literal("Cannot interpret ${battleMessage.rawMessage}").red().also {
+                Cobblemon.LOGGER.error("Failed to handle '-item' action: ${battleMessage.rawMessage}")
+            }
         }
+    }
+
+    override fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage): Text {
+        TODO("Not yet implemented")
     }
 
     /*

@@ -354,7 +354,9 @@
   "cobblemon.battle.item.take_item.start": "%1$s stole %2$s's %3$s!",
   "cobblemon.battle.item.harvest.start": "%1$s harvested one %2$s!",
   "cobblemon.battle.item.bestow.start": "%1$s received %2$s from %3$s!",
-  "cobblemon.battle.item.tricked.start":"%1$s switched items with its target",
+  "cobblemon.battle.item.tricked.start":"%1$s switched items with its target!",
+
+  "cobblemon.battle.item.fling.end":"%1$s flung its %2$s!",
 
   "cobblemon.experience.gained": "%1$s received %2$s experience.",
   "cobblemon.experience.level_up": "%1$s is now level %2$s!",

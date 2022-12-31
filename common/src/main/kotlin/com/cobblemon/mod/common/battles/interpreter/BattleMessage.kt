@@ -8,6 +8,10 @@
 
 package com.cobblemon.mod.common.battles.interpreter
 
+import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
+import com.cobblemon.mod.common.battles.ActiveBattlePokemon
+
 /**
  * TODO
  *
@@ -21,15 +25,31 @@ package com.cobblemon.mod.common.battles.interpreter
  */
 class BattleMessage(rawMessage: String) {
 
+    /**
+     * TODO
+     */
     var id = ""
         private set
 
+    /**
+     * TODO
+     */
     var rawMessage: String = rawMessage
         private set
 
+    /**
+     * TODO
+     */
     private val args = arrayListOf<String>()
 
+    /**
+     * TODO
+     */
     private val optionalArguments = hashMapOf<String, String>()
+
+    /**
+     * TODO
+     */
     private val optionalArgumentMatcher = Regex("^\\${OPTIONAL_ARG_START}([^]]+)${OPTIONAL_ARG_END}")
 
     init {
@@ -73,7 +93,7 @@ class BattleMessage(rawMessage: String) {
             val currentData = message.substringBefore(SEPARATOR)
             val optionalArgumentID = this.optionalArgumentMatcher.find(currentData)
             if (optionalArgumentID != null) {
-                val id = optionalArgumentID.value.replace(OPTIONAL_ARG_START, "").replace(OPTIONAL_ARG_END, "").lowercase()
+                val id = optionalArgumentID.value.removePrefix(OPTIONAL_ARG_START).removeSuffix(OPTIONAL_ARG_END).lowercase()
                 val value = currentData.substringAfter(optionalArgumentID.value).trim()
                 this.optionalArguments[id] = value
             }
@@ -88,6 +108,18 @@ class BattleMessage(rawMessage: String) {
     /**
      * TODO
      *
+     * @param index
+     * @param battle
+     * @return
+     */
+    fun actorAndActivePokemon(index: Int, battle: PokemonBattle): Pair<BattleActor, ActiveBattlePokemon>? {
+        val pnx = this.argumentAt(index)?.substring(0, 3) ?: return null
+        return this.actorAndActivePokemon(pnx, battle)
+    }
+
+    /**
+     * TODO
+     *
      * @param argumentName
      * @return
      */
@@ -96,7 +128,37 @@ class BattleMessage(rawMessage: String) {
         return Effect.parse(data)
     }
 
+    /**
+     * TODO
+     *
+     * @param argumentName
+     * @return
+     */
+    fun actorAndActivePokemonFromOptional(battle: PokemonBattle, argumentName: String = "of"): Pair<BattleActor, ActiveBattlePokemon>? {
+        val pnx = this.optionalArgument(argumentName)?.substring(0, 3) ?: return null
+        return this.actorAndActivePokemon(pnx, battle)
+    }
+
+    /**
+     * TODO
+     *
+     * @param message
+     * @return
+     */
     private fun push(message: String): String = message.substringAfter(SEPARATOR, "")
+
+    /**
+     * TODO
+     *
+     * @param pnx
+     * @param battle
+     * @return
+     */
+    private fun actorAndActivePokemon(pnx: String, battle: PokemonBattle): Pair<BattleActor, ActiveBattlePokemon>? = try {
+        battle.getActorAndActiveSlotFromPNX(pnx)
+    } catch (_: Exception) {
+        null
+    }
 
     companion object {
 

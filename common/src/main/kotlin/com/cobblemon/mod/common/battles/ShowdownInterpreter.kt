@@ -910,19 +910,8 @@ object ShowdownInterpreter {
     fun handleItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchGo {
             val battleMessage = BattleMessage(baseMessage)
-            var currentMessage = baseMessage
-            val data = arrayListOf<String>()
-            while (currentMessage.indexOf("|") != -1) {
-                currentMessage = currentMessage.substringAfter("|")
-                data.add(currentMessage.substringBefore("|"))
-            }
-            val pnx = data[1].substring(0, 3)
-            val battlePokemon = battle.getActorAndActiveSlotFromPNX(pnx).second.battlePokemon!!
-            val itemId = data[2].replace(" ", "").lowercase()
-            val rawFromEffect = (data.getOrNull(3)?.replace("[from]", "") ?: "").trim()
-            val effect = Effect.parse(rawFromEffect)
-            LOGGER.info(baseMessage)
-            val text = battlePokemon.heldItemManager.handleStartInstruction(battlePokemon, itemId, effect, null)
+            val battlePokemon = battleMessage.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchGo
+            val text = battlePokemon.heldItemManager.handleStartInstruction(battlePokemon, battle, battleMessage)
             battle.broadcastChatMessage(text)
         }
     }
