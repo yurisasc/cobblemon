@@ -50,6 +50,7 @@
 - Fixed Pyukumuku not being appropriately scaled.
 - Fixed shiny and other variations of Pokémon not showing in the battle GUI.
 - Fixed Eevee being poorly positioned and unanimated on shoulders.
+- Fixed a Pokémon's hitbox not updating when it evolves while sent out.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes

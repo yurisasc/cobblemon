@@ -160,6 +160,12 @@ class PokemonEntity(
                 }
             }
         )
+
+        subscriptions.add(
+            species.subscribe {
+                calculateDimensions()
+            }
+        )
     }
 
     companion object {
