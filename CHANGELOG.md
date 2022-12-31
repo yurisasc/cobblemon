@@ -44,6 +44,7 @@
 - Fixed abilities not remaining legal in some instances of other forms.
 - Fixed Pokéball capture effects not triggering after a successful capture.
 - Multiple hit moves hit count message not being interpreted into a human friendly one.
+- Fixed Pyukumuku not being appropriately scaled.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes
