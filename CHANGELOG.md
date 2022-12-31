@@ -21,6 +21,7 @@
 - Changed the default Apricorn seed chance config value from 6% to 10%.
 - Pokémon now look at their opponents during battle.
 - Updated Sableye's animations to be super freaky.
+- Battles now start with the options menu open for convenience.
 
 ### Fixes
 - Fixed an incompatibility with [Porting Lib](https://github.com/Fabricators-of-Create/Porting-Lib) used by Fabric ports of mods such as Create or Twilight Forest.
@@ -45,6 +46,7 @@
 - Fixed Pokéball capture effects not triggering after a successful capture.
 - Multiple hit moves hit count message not being interpreted into a human friendly one.
 - Fixed Pyukumuku not being appropriately scaled.
+- Fixed shiny and other variations of Pokémon not showing in the battle GUI.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes

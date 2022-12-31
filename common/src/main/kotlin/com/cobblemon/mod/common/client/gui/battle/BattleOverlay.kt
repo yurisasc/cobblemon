@@ -163,7 +163,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             reversed = !left,
             species = battlePokemon.species,
             level = battlePokemon.level,
-            aspects = battlePokemon.properties.aspects,
+            aspects = battlePokemon.aspects,
             displayName = battlePokemon.displayName,
             gender = battlePokemon.gender,
             status = battlePokemon.status,
