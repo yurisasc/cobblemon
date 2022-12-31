@@ -23,6 +23,7 @@
 - Updated Sableye's animations to be super freaky.
 - Battles now start with the options menu open for convenience.
 - Doubled the default charge rate of healers. You'd need to reset your config under ./config/cobblemon/main.json to have this change!
+- The mod now correctly reports our dependency on Architectury API so people don't get super confused when things don't work.
 
 ### Fixes
 - Fixed an incompatibility with [Porting Lib](https://github.com/Fabricators-of-Create/Porting-Lib) used by Fabric ports of mods such as Create or Twilight Forest.
