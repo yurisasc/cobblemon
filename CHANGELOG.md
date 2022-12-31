@@ -51,6 +51,7 @@
 - Fixed shiny and other variations of Pokémon not showing in the battle GUI.
 - Fixed Eevee being poorly positioned and unanimated on shoulders.
 - Fixed a Pokémon's hitbox not updating when it evolves while sent out.
+- Fixed a Pokémon's PP going from zero to above the maximum when entering another battle.
 
 ## 1.1.1 (November 27th, 2022)
 ### Fixes
