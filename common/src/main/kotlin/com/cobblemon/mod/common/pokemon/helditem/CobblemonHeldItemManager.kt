@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.pokemon.helditem
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
+import com.cobblemon.mod.common.battles.interpreter.Effect
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.GraalShowdown
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -59,20 +60,32 @@ object CobblemonHeldItemManager : HeldItemManager {
 
     override fun showdownId(pokemon: BattlePokemon): String? = this.showdownIdOf(pokemon.effectedPokemon.heldItem().item)
 
-    override fun nameOf(showdownId: String): Text? = this.itemLang[showdownId]
+    override fun nameOf(showdownId: String): Text = this.itemLang[showdownId] ?: Text.of(showdownId)
 
     override fun consume(pokemon: BattlePokemon) {
         pokemon.effectedPokemon.swapHeldItem(ItemStack.EMPTY)
     }
 
-    override fun startText(pokemon: BattlePokemon, showdownId: String): Text? {
+    override fun handleStartInstruction(pokemon: BattlePokemon, itemShowdownId: String, effect: Effect?, effectSource: BattlePokemon?): Text {
         val battlerName = pokemon.getName()
-        return when (showdownId) {
-            "airballoon" -> battleLang("item.air_balloon.start", battlerName)
-            else -> Text.empty()
+        // The only item using the null effect gimmick
+        if (effect == null && itemShowdownId == "airballoon") {
+            return battleLang("item.air_balloon.start", battlerName)
+        }
+        val itemName = this.nameOf(itemShowdownId)
+        val sourceName = effectSource?.getName() ?: Text.of("UNKNOWN")
+        return when (effect?.id?.lowercase() ?: "") {
+            "pickup", "recycle" -> battleLang("item.recycle_or_pickup.start", battlerName, itemName)
+            "frisk" -> battleLang("item.frisk.start", sourceName, battlerName, itemName)
+            "magician", "pickpocket", "thief", "covet" -> battleLang("item.take_item.start", sourceName, battlerName, itemName)
+            "harvest" -> battleLang("item.harvest.start", battlerName, itemName)
+            "bestow" -> battleLang("item.take_item.start", battlerName, itemName, sourceName)
+            "switcheroo", "trick" -> battleLang("item.tricked.start", battlerName)
+            else -> Text.literal("Cannot interpret $effect for item $itemShowdownId held by ").append(pokemon.getName())
         }
     }
 
+    /*
     override fun endText(pokemon: BattlePokemon, showdownId: String): Text? {
         val battlerName = pokemon.getName()
         return when (showdownId) {
@@ -80,6 +93,7 @@ object CobblemonHeldItemManager : HeldItemManager {
             else -> Text.empty()
         }
     }
+     */
 
     /**
      * Find the Showdown literal ID of the given [item].

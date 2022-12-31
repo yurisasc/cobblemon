@@ -349,6 +349,12 @@
 
   "cobblemon.battle.item.air_balloon.start": "%1$s floats in the air with its Air Balloon!",
   "cobblemon.battle.item.air_balloon.end": "%1$s's Air Balloon popped!",
+  "cobblemon.battle.item.recycle_or_pickup.start": "%1$s found one %2$s!",
+  "cobblemon.battle.item.frisk.start": "%1$s frisked %2$s and found its %3$s!",
+  "cobblemon.battle.item.take_item.start": "%1$s stole %2$s's %3$s!",
+  "cobblemon.battle.item.harvest.start": "%1$s harvested one %2$s!",
+  "cobblemon.battle.item.bestow.start": "%1$s received %2$s from %3$s!",
+  "cobblemon.battle.item.tricked.start":"%1$s switched items with its target",
 
   "cobblemon.experience.gained": "%1$s received %2$s experience.",
   "cobblemon.experience.level_up": "%1$s is now level %2$s!",

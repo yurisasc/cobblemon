@@ -72,9 +72,12 @@ object BattleRegistry {
             }
 
             // Held item, empty if none
+            /*
             pokemon.heldItemManager = HeldItemProvider.provide(pokemon)
             val heldItemID = pokemon.heldItemManager.showdownId(pokemon) ?: ""
-            //packedTeamBuilder.append("$heldItemID|")
+            packedTeamBuilder.append("$heldItemID|")
+             */
+            pokemon.heldItemManager = CobblemonHeldItemManager
             packedTeamBuilder.append("airballoon|")
             // Ability, our showdown has edits here to trust whatever we tell it, this was needed to support more than 4 abilities.
             packedTeamBuilder.append("${pk.ability.name.replace("_", "")}|")

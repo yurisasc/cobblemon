@@ -27,6 +27,8 @@ import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
+import com.cobblemon.mod.common.battles.interpreter.BattleMessage
+import com.cobblemon.mod.common.battles.interpreter.Effect
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
@@ -906,18 +908,8 @@ object ShowdownInterpreter {
     }
 
     fun handleItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
-        /*
-        val editedMessage = message.split("|-end|")[1]
-            val pnx = editedMessage.substring(0, 3)
-            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-            val fromWhat = editedMessage.split("|")[1]
-
-            when (fromWhat) {
-                "confusion" -> battle.broadcastChatMessage(battleLang("confusion_snapped", pokemon.battlePokemon!!.getName()))
-                else -> battle.broadcastChatMessage(editedMessage.text())
-            }
-         */
         battle.dispatchGo {
+            val battleMessage = BattleMessage(baseMessage)
             var currentMessage = baseMessage
             val data = arrayListOf<String>()
             while (currentMessage.indexOf("|") != -1) {
@@ -925,9 +917,13 @@ object ShowdownInterpreter {
                 data.add(currentMessage.substringBefore("|"))
             }
             val pnx = data[1].substring(0, 3)
-            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val battlePokemon = battle.getActorAndActiveSlotFromPNX(pnx).second.battlePokemon!!
             val itemId = data[2].replace(" ", "").lowercase()
-            battle.broadcastChatMessage("$itemId is the item of ".text().append(pokemon.battlePokemon?.getName()))
+            val rawFromEffect = (data.getOrNull(3)?.replace("[from]", "") ?: "").trim()
+            val effect = Effect.parse(rawFromEffect)
+            LOGGER.info(baseMessage)
+            val text = battlePokemon.heldItemManager.handleStartInstruction(battlePokemon, itemId, effect, null)
+            battle.broadcastChatMessage(text)
         }
     }
 
