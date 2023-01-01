@@ -1,11 +1,11 @@
 # Changelog
 
-## 1.2.0 - The Customization Update (January 1st, 2023)
+## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
 - Added models for Natu and Xatu, Murkrow and Honchkrow, Wailmer and Wailord.
 - Added new PC interface and it is beautiful.
 - Reworked the battle system so that battles load faster, cause fewer bugs, and can run on shared server hosts. This is a very big change that also reduced the size of the mod by 50mb!
-- Added full resource pack / data pack customization of models, textures, animations, spawning, and spawn file presets to make custom Pokémon species and variations very easy to create. You can find the guide for creating fakemon on [our website](https://cobblemon.com/guides/custompokemon.html)!
+- Added full resource pack / data pack customization of models, textures, animations, spawning, and spawn file presets to make custom Pokémon species and variations very easy to create. You can find the guide for creating custom Pokémon on [our website](https://cobblemon.com/guides/custompokemon.html)!
 - Added water surface spawning for Pokémon like Lapras.
 - Added emissive texture support to Pokémon render layers.
 - Added compatibility for Mod Menu ([CurseForge](https://www.curseforge.com/minecraft/mc-mods/modmenu), [Modrinth](https://modrinth.com/mod/modmenu)).
@@ -17,7 +17,7 @@
 - Reinforced party and PC saving to make data corruption from crashes less bad.
 - Added a config option for whether the starter config will be exported, making it more maintainable as we add starter Pokémon.
 - Battles now start with the options menu open for convenience.
-- Doubled the default charge rate of healers. You'd need to reset your config under ./config/cobblemon/main.json to have this change!
+- Doubled the default charge rate of healers. You'd need to reset your config under `./config/cobblemon/main.json` to see this change!
 - Changed the default Apricorn seed chance config value from 6% to 10%.
 - The mod now correctly reports our dependency on Architectury API so people don't get super confused when things don't work.
 - Pokémon now look at their opponents during battle.
@@ -44,7 +44,7 @@
 - Fixed some alternate forms not having the alternate stats and types.
 - Fixed moves that only work in double battles not being selectable at all (such as Helping Hand and Aromatic Mist).
 - Fixed abilities not remaining legal in some forms.
-- Fixed Pokéball capture effects not triggering after a successful capture, such as the Heal Ball's healing effect.
+- Fixed Poké Ball capture effects not triggering after a successful capture, such as the Heal Ball's healing effect.
 - Fixed multiple-hit moves sending gibberish into the battle chat.
 - Fixed Pyukumuku not being appropriately scaled.
 - Fixed shiny and other variations of Pokémon not showing in the battle GUI.
@@ -52,11 +52,11 @@
 - Fixed a Pokémon's hitbox not updating when it evolves while sent out.
 - Fixed a Pokémon's PP going from zero to above the maximum when entering another battle.
 
-## 1.1.1 (November 27th, 2022)
+## [1.1.1 (November 27th, 2022)](#1-1-1)
 ### Fixes
 - Fixed a critical issue with servers where Pokémon data didn't properly synchronize and so you couldn't see any.
 
-## 1.1.0 - The Swim and Sleep Update (November 27th, 2022)
+## [1.1.0 - The Swim and Sleep Update (November 27th, 2022)](#1-1-0)
 #### "Ideally not at the same time."
 ### Additions
 - Added a new GUI for viewing party information, rearranging moves, and evolving Pokémon. It looks too good.
@@ -111,7 +111,7 @@
     - Statuses like sleep and frozen no longer last forever if it was carried over from a previous battle.
 
 ### Localization
-- Added species, ability, and move translations for ko_ko, jp_jp, fr_fr, es_es, it_it, and zh_cn.
+- Added species, ability, and move translations for `ko_ko`, `jp_jp`, `fr_fr`, `es_es`, `it_it`, and `zh_cn`.
 
-## 1.0.0 (November 12th, 2022)
+## [1.0.0 (November 12th, 2022)](#1-0-0)
 - Initial release.
