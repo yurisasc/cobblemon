@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.2.0 - The Customization Update (January 1st, 2023)]((#1-2-0))
+## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
 - Added models for Natu and Xatu, Murkrow and Honchkrow, Wailmer and Wailord.
 - Added new PC interface and it is beautiful.
