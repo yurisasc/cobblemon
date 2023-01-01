@@ -4,7 +4,7 @@
 ### Additions
 - Added models for Natu and Xatu, Murkrow and Honchkrow, Wailmer and Wailord.
 - Added new PC interface and it is beautiful.
-- Reworked the battle system so that battles load faster, cause less bugs, and can run on shared server hosts. This is a very big change that also reduced the size of the mod by 50mb!
+- Reworked the battle system so that battles load faster, cause fewer bugs, and can run on shared server hosts. This is a very big change that also reduced the size of the mod by 50mb!
 - Added full resource pack / data pack customization of models, textures, animations, spawning, and spawn file presets to make custom Pokémon species and variations very easy to create. You can find the guide for creating fakemon on [our website](https://cobblemon.com/guides/custompokemon.html)!
 - Added water surface spawning for Pokémon like Lapras.
 - Added emissive texture support to Pokémon render layers.
