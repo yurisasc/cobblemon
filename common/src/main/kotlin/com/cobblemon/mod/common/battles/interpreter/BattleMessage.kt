@@ -75,6 +75,14 @@ class BattleMessage(rawMessage: String) {
     /**
      * TODO
      *
+     * @param name
+     * @return
+     */
+    fun hasOptionalArgument(name: String): Boolean = this.optionalArgument(name) != null
+
+    /**
+     * TODO
+     *
      * @param rawMessage
      * @return
      */

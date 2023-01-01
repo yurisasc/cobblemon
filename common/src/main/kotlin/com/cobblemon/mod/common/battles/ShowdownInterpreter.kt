@@ -719,6 +719,7 @@ object ShowdownInterpreter {
             when {
                 "|protect" in message -> battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon!!.getName()))
                 "move: Magnitude" in message -> battle.broadcastChatMessage(battleLang("magnitude_level", message.substringAfterLast("|").toIntOrNull() ?: 1))
+                // ToDo Focus Band, use battleLang("item.hung_on.end", battlerName, itemName)
             }
             GO
         }
@@ -911,14 +912,15 @@ object ShowdownInterpreter {
         battle.dispatchGo {
             val battleMessage = BattleMessage(baseMessage)
             val battlePokemon = battleMessage.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchGo
-            val text = battlePokemon.heldItemManager.handleStartInstruction(battlePokemon, battle, battleMessage)
-            battle.broadcastChatMessage(text)
+            battlePokemon.heldItemManager.handleStartInstruction(battlePokemon, battle, battleMessage)
         }
     }
 
     fun handleEndItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchGo {
-            battle.broadcastChatMessage(baseMessage.text())
+            val battleMessage = BattleMessage(baseMessage)
+            val battlePokemon = battleMessage.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchGo
+            battlePokemon.heldItemManager.handleEndInstruction(battlePokemon, battle, battleMessage)
         }
     }
 

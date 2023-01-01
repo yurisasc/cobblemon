@@ -57,7 +57,7 @@ interface HeldItemManager {
      * @param battle The [PokemonBattle] receiving the [battleMessage].
      * @param battleMessage The [BattleMessage] received.
      */
-    fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage): Text
+    fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage)
 
     /**
      * Invoked when an action instruction is sent from the Showdown server of type '-item'
@@ -66,7 +66,7 @@ interface HeldItemManager {
      * @param battle The [PokemonBattle] receiving the [battleMessage].
      * @param battleMessage The [BattleMessage] received.
      */
-    fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage): Text
+    fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage)
 
 
     companion object {
@@ -79,8 +79,8 @@ interface HeldItemManager {
             override fun showdownId(pokemon: BattlePokemon): String? = null
             override fun nameOf(showdownId: String): Text = Text.empty()
             override fun consume(pokemon: BattlePokemon) {}
-            override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage): Text = Text.empty()
-            override fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage): Text = Text.empty()
+            override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {}
+            override fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {}
         }
 
     }

@@ -107,10 +107,10 @@ interface Effect {
                 return null
             }
             return when {
-                rawData.startsWith(Type.ABILITY.prefix) -> this.ability(rawData.substringAfter(Type.ABILITY.prefix).trim(), rawData)
-                rawData.startsWith(Type.ITEM.prefix) -> this.item(rawData.substringAfter(Type.ITEM.prefix).trim(), rawData)
-                rawData.startsWith(Type.MOVE.prefix) -> this.move(rawData.substringAfter(Type.MOVE.prefix).trim(), rawData)
-                else -> this.pure(rawData.trim(), rawData)
+                rawData.startsWith(Type.ABILITY.prefix) -> this.ability(rawData.substringAfter(Type.ABILITY.prefix).replace(" ", ""), rawData)
+                rawData.startsWith(Type.ITEM.prefix) -> this.item(rawData.substringAfter(Type.ITEM.prefix).replace(" ", ""), rawData)
+                rawData.startsWith(Type.MOVE.prefix) -> this.move(rawData.substringAfter(Type.MOVE.prefix).replace(" ", ""), rawData)
+                else -> this.pure(rawData.replace(" ", ""), rawData)
             }
         }
 
