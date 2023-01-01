@@ -162,6 +162,20 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val THUNDER_STONE = queue("thunder_stone") { evolutionItem() }
     val WATER_STONE = queue("water_stone") { evolutionItem() }
 
+    // Held Items
+    val ASSAULT_VEST = queue("assault_vest") { heldItem() }
+    val BLACK_GLASSES = queue("black_glasses") { heldItem() }
+    val CHOICE_BAND = queue("choice_band") { heldItem() }
+    val CHOICE_SPECS = queue("choice_specs") { heldItem() }
+    val EXP_SHARE = queue("exp_share") { heldItem() }
+    val FOCUS_BAND = queue("focus_band") { heldItem() }
+    val HARD_STONE = queue("hard_stone") { heldItem() }
+    val HEAVY_DUTY_BOOTS = queue("heavy_duty_boots") { heldItem() }
+    val MUSCLE_BAND = queue("muscle_band") { heldItem() }
+    val ROCKY_HELMET = queue("rocky_helmet") { heldItem() }
+    val SAFETY_GOGGLES = queue("safety_goggles") { heldItem() }
+    val WISE_GLASSES = queue("wise_glasses") { heldItem() }
+
     fun pokeballs(): List<RegistrySupplier<PokeBallItem>> = this.pokeballs
 
     private fun blockItem(block: Block, tab: ItemGroup) : BlockItem {
@@ -181,6 +195,10 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
         pokeBall.itemSupplier = supplier
         this.pokeballs.add(supplier)
         return supplier
+    }
+
+    private fun heldItem(): CobblemonItem {
+        return CobblemonItem(Item.Settings().group(CobblemonItemGroups.HELD_ITEM_GROUP))
     }
 
 }
