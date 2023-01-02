@@ -8,10 +8,12 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation
 
+import com.bedrockk.molang.Expression
+import com.bedrockk.molang.runtime.MoScope
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.util.math.geometry.toRadians
-import com.eliotlash.molang.expressions.MolangExpression
 import java.util.SortedMap
 import net.minecraft.util.math.Vec3d
 
@@ -73,19 +75,23 @@ data class BedrockBoneTimeline (
     val rotation: BedrockBoneValue
 )
 class MolangBoneValue(
-    val x: MolangExpression,
-    val y: MolangExpression,
-    val z: MolangExpression,
+    val x: Expression,
+    val y: Expression,
+    val z: Expression,
     transformation: Transformation
 ) : BedrockBoneValue {
     val yMul = if (transformation == Transformation.POSITION) -1 else 1
     override fun isEmpty() = false
     override fun resolve(time: Double): Vec3d {
-        for (n in arrayOf(x, y, z)) {
-            n.context.setValue("q.anim_time", time)
-            n.context.setValue("query.anim_time", time)
-        }
-        return Vec3d(x.get(), y.get() * yMul, z.get())
+        val runtime = BedrockAnimationAdapter.molangRuntime
+        val environment = runtime.environment
+        val scope = MoScope()
+        environment.setValue("variable.anim_time", DoubleValue(time))
+        return Vec3d(
+            x.evaluate(scope, runtime.environment).asDouble(),
+            y.evaluate(scope, runtime.environment).asDouble() * yMul,
+            z.evaluate(scope, runtime.environment).asDouble(),
+        )
     }
 
 }

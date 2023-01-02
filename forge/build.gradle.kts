@@ -15,7 +15,8 @@ loom {
 }
 
 repositories {
-    maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    maven(url = "${rootProject.projectDir}/deps")
+    mavenLocal()
 }
 
 dependencies {
@@ -42,8 +43,7 @@ dependencies {
         libs.serializationCore,
         libs.serializationJson,
         libs.graal,
-        libs.molang,
-        libs.mclib
+        libs.molang
     ).forEach {
         forgeRuntimeLibrary(it)
         bundle(it) {

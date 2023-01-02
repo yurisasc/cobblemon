@@ -8,7 +8,8 @@ architectury {
 }
 
 repositories {
-    maven(url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
+    maven(url = "${rootProject.projectDir}/deps")
+    mavenLocal()
 }
 
 dependencies {
@@ -18,12 +19,12 @@ dependencies {
     modImplementation(libs.fabricLoader)
     modApi(libs.architectury)
     modApi(libs.molang)
-    modApi(libs.mclib)
 
     // For Showdown
     modCompileOnly(libs.graal)
 
     //shadowCommon group: 'commons-io', name: 'commons-io', version: '2.6'
+
 
     testRuntimeOnly(libs.junitEngine)
     testImplementation(libs.junitApi)
@@ -32,6 +33,10 @@ dependencies {
     testImplementation(libs.mockk)
 
     compileOnly("net.luckperms:api:${rootProject.property("luckperms_version")}")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 publishing {

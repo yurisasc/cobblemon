@@ -22,7 +22,7 @@ versions:
 
   # common
   graal: 22.3.0
-  eliotlash: 18
+  molang: 1.0.2
   architectury: 6.3.49
 
   # test
@@ -83,13 +83,9 @@ dependencies:
     name: js
     version: { ref: graal }
   molang:
-    group: com.eliotlash.molang
+    group: local.com.bedrockk
     name: molang
-    version: { ref: eliotlash }
-  mclib:
-    group: com.eliotlash.mclib
-    name: mclib
-    version: { ref: eliotlash }
+    version: { ref: molang }
   fabricLoader:
     group: net.fabricmc
     name: fabric-loader
