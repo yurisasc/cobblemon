@@ -258,6 +258,7 @@ class EmptyPokeBallEntity(
                                     captureFuture.complete(true)
                                     val party = Cobblemon.storage.getParty(player.uuid)
                                     pokemon.pokemon.caughtBall = pokeBall
+                                    pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
                                     party.add(pokemon.pokemon)
                                     CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
                                 }

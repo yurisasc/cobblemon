@@ -126,7 +126,7 @@ class CobblemonConfig {
     var maxHealerCharge = 6.0f
 
     @NodeCategory(Category.Healing)
-    var chargeGainedPerTick = 0.00016666666f
+    var chargeGainedPerTick = 0.000333333f
 
     @NodeCategory(Category.Healing)
     var defaultFaintTimer = 300

@@ -38,6 +38,12 @@ object CobblemonPokemonLabels {
     const val PSEUDO_LEGENDARY = "pseudo_legendary"
 
     /**
+     * Represents a baby Pokémon, this is not just a first stage Pokémon species, it is also unable to breed.
+     * For more information see this [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Baby_Pok%C3%A9mon) page.
+     */
+    const val BABY = "baby"
+
+    /**
      * Represents a Pokémon that has multiple forms depending on the region they're from.
      * In Cobblemon/Minecraft terms there are no regions, but we follow the official concept.
      */
@@ -92,12 +98,6 @@ object CobblemonPokemonLabels {
      * See [REGIONAL] and this [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Regional_form#Hisuian_Form) page.
      */
     const val REGIONAL_OF_PALDEA = "paldea_regional"
-
-    /**
-     * Represents a Pokémon "baby", this is not just a first stage Pokémon species, it is also unable to breed.
-     * For more information see this [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Baby_Pok%C3%A9mon) page.
-     */
-    const val BABY = "baby"
 
     /**
      * Represents a mega evolution.
@@ -158,13 +158,12 @@ object CobblemonPokemonLabels {
     const val GENERATION_8 = "gen8"
 
     /**
-     * Official Pokémon changed by a datapack, there is no guarantee authors will adhere to this principle
+     * Official Pokémon changed by a data pack, there is no guarantee authors will adhere to this principle
      */
     const val CUSTOMIZED_OFFICIAL = "customized_official"
 
     /**
-     * Unofficial Pokémon created by a datapack, there is no guarantee authors will adhere to this principle
+     * Unofficial Pokémon created by a data pack, there is no guarantee authors will adhere to this principle
      */
-    const val FAKEMON = "fakemon"
-
+    const val CUSTOM = "custom"
 }

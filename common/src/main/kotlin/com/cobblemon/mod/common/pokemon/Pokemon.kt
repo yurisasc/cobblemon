@@ -453,6 +453,7 @@ open class Pokemon {
     fun hasLabels(vararg labels: String) = labels.all { label -> this.form.labels.any { it.equals(label, true) } }
 
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
+        nbt.putString(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
         nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
         nbt.putString(DataKeys.POKEMON_FORM_ID, form.name)
@@ -483,6 +484,7 @@ open class Pokemon {
     }
 
     fun loadFromNBT(nbt: NbtCompound): Pokemon {
+        val version = nbt.getString(DataKeys.POKEMON_LAST_SAVED_VERSION).takeIf { it.isNotBlank() } ?: "1.1.1"
         uuid = nbt.getUuid(DataKeys.POKEMON_UUID)
         try {
             val rawID = nbt.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER).replace("pokemonCobblemon", "cobblemon")
@@ -529,11 +531,13 @@ open class Pokemon {
         features.forEach { it.loadFromNBT(nbt) }
         this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
         updateAspects()
+        checkAbility()
         nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
         return this
     }
 
     fun saveToJSON(json: JsonObject): JsonObject {
+        json.addProperty(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.name)
@@ -563,6 +567,7 @@ open class Pokemon {
     }
 
     fun loadFromJSON(json: JsonObject): Pokemon {
+        val version = json.get(DataKeys.POKEMON_LAST_SAVED_VERSION)?.asString ?: "1.1.1"
         uuid = UUID.fromString(json.get(DataKeys.POKEMON_UUID).asString)
         try {
             val rawID = json.get(DataKeys.POKEMON_SPECIES_IDENTIFIER).asString.replace("pokemonCobblemon", "cobblemon")
@@ -609,9 +614,7 @@ open class Pokemon {
         features.forEach { it.loadFromJSON(json) }
         this.nature = json.get(DataKeys.POKEMON_NATURE).asString?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
         updateAspects()
-        if (abilityName == "dummy") {
-            ability = form.abilities.select(species, aspects)
-        }
+        checkAbility()
         json.get(DataKeys.POKEMON_EVOLUTIONS)?.let { this.evolutionProxy.loadFromJson(it) }
         return this
     }

@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.util
 
 object DataKeys {
+    const val POKEMON_LAST_SAVED_VERSION = "CobblemonVersion"
     const val POKEMON = "Pokemon"
     const val POKEMON_UUID = "UUID"
     const val POKEMON_SPECIES_IDENTIFIER = "Species"
