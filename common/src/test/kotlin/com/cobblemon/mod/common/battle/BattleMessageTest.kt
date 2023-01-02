@@ -8,8 +8,8 @@
 
 package com.cobblemon.mod.common.battle
 
-import com.cobblemon.mod.common.battles.interpreter.BattleMessage
-import com.cobblemon.mod.common.battles.interpreter.Effect
+import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
+import com.cobblemon.mod.common.api.battles.interpreter.Effect
 import org.junit.jupiter.api.Test
 
 class BattleMessageTest {

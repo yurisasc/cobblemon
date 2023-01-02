@@ -27,8 +27,7 @@ import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
-import com.cobblemon.mod.common.battles.interpreter.BattleMessage
-import com.cobblemon.mod.common.battles.interpreter.Effect
+import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
@@ -51,8 +50,6 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
-import net.minecraft.text.Text
-import org.apache.commons.lang3.StringUtils
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String, MutableList<String>) -> Unit>()

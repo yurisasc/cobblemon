@@ -6,19 +6,19 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.battles.interpreter
+package com.cobblemon.mod.common.api.battles.interpreter
 
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 
 /**
- * TODO
+ * A class responsible for parsing a raw simulator protocol message received from Showdown.
+ * For more information see the [Showdown protocol](https://github.com/smogon/pokemon-showdown/blob/master/sim/SIM-PROTOCOL.md).
  *
- * @constructor
- * TODO
+ * @constructor Creates a battle message with the given raw message.
  *
- * @param rawMessage
+ * @param rawMessage The raw message received from Showdown.
  *
  * @author Licious
  * @since December 31st, 2022
@@ -26,65 +26,67 @@ import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 class BattleMessage(rawMessage: String) {
 
     /**
-     * TODO
+     * The ID of the action received in the message.
      */
     var id = ""
         private set
 
     /**
-     * TODO
+     * The raw message received.
      */
     var rawMessage: String = rawMessage
         private set
 
     /**
-     * TODO
+     * A collection of the individual arguments the message had.
      */
     private val args = arrayListOf<String>()
 
     /**
-     * TODO
+     * A collection of the optional arguments the message had.
      */
     private val optionalArguments = hashMapOf<String, String>()
 
     /**
-     * TODO
+     * Pattern to match the start of an optional argument.
      */
-    private val optionalArgumentMatcher = Regex("^\\${OPTIONAL_ARG_START}([^]]+)${OPTIONAL_ARG_END}")
+    private val optionalArgumentMatcher = Regex("^\\$OPTIONAL_ARG_START([^]]+)$OPTIONAL_ARG_END")
 
     init {
         this.parse(rawMessage)
     }
 
     /**
-     * TODO
+     * Get an argument at the given [index].
      *
-     * @param index
-     * @return
+     * @param index The index of the expected argument.
+     * @return The argument if existing or null.
      */
     fun argumentAt(index: Int): String? = this.args.getOrNull(index)
 
     /**
-     * TODO
+     * Get an optional argument with the given [name].
+     * This returns the data of the argument only.
      *
-     * @param name
-     * @return
+     * @param name The name of the optional argument.
+     * @return The argument data if existing or null.
      */
     fun optionalArgument(name: String): String? = this.optionalArguments[name.lowercase()]
 
     /**
-     * TODO
+     * Checks if an optional argument is present.
+     * [optionalArgument] is null safe, this method is meant as a way to check 'flags' as some optional arguments contain no data.
      *
-     * @param name
-     * @return
+     * @param name The name of the optional argument.
+     * @return True if the argument is present.
      */
     fun hasOptionalArgument(name: String): Boolean = this.optionalArgument(name) != null
 
     /**
-     * TODO
+     * Clears the parsed arguments and parses the message again with the new given [rawMessage].
      *
-     * @param rawMessage
-     * @return
+     * @param rawMessage The raw message received from Showdown.
+     * @return This instance of the battle message updated.
      */
     fun parse(rawMessage: String): BattleMessage {
         var message = rawMessage.trim()
@@ -114,11 +116,11 @@ class BattleMessage(rawMessage: String) {
     }
 
     /**
-     * TODO
+     * Queries an argument at the given [index] for a 'pnx' that will be parsed into a [BattleActor] and [ActiveBattlePokemon].
      *
-     * @param index
-     * @param battle
-     * @return
+     * @param index The index of the argument containing the [BattleActor] and [ActiveBattlePokemon].
+     * @param battle The [PokemonBattle] being queried.
+     * @return A pair of [BattleActor] and [ActiveBattlePokemon] if the argument exists and successfully parses them otherwise null.
      */
     fun actorAndActivePokemon(index: Int, battle: PokemonBattle): Pair<BattleActor, ActiveBattlePokemon>? {
         val pnx = this.argumentAt(index)?.substring(0, 3) ?: return null
@@ -126,10 +128,10 @@ class BattleMessage(rawMessage: String) {
     }
 
     /**
-     * TODO
+     * Attempts to parse an [Effect] from an optional argument.
      *
-     * @param argumentName
-     * @return
+     * @param argumentName The name of the optional argument.
+     * @return The parsed [Effect] or null.
      */
     fun effect(argumentName: String = "from"): Effect? {
         val data = this.optionalArgument(argumentName) ?: return null
@@ -137,10 +139,11 @@ class BattleMessage(rawMessage: String) {
     }
 
     /**
-     * TODO
+     * Queries an optional argument with given [argumentName] for a 'pnx' that will be parsed into a [BattleActor] and [ActiveBattlePokemon].
      *
-     * @param argumentName
-     * @return
+     * @param battle The [PokemonBattle] being queried.
+     * @param argumentName The name of the optional argument.
+     * @return A pair of [BattleActor] and [ActiveBattlePokemon] if the argument exists and successfully parses them otherwise null.
      */
     fun actorAndActivePokemonFromOptional(battle: PokemonBattle, argumentName: String = "of"): Pair<BattleActor, ActiveBattlePokemon>? {
         val pnx = this.optionalArgument(argumentName)?.substring(0, 3) ?: return null
@@ -148,19 +151,19 @@ class BattleMessage(rawMessage: String) {
     }
 
     /**
-     * TODO
+     * Pushes the given string down into the next argument.
      *
-     * @param message
-     * @return
+     * @param message The current state of the message.
+     * @return A substring of [message] after the first [SEPARATOR] or empty if no [SEPARATOR] remains.
      */
     private fun push(message: String): String = message.substringAfter(SEPARATOR, "")
 
     /**
-     * TODO
+     * A utility to wrap [PokemonBattle.getActorAndActiveSlotFromPNX] to make it nullable instead of throwing an exception.
      *
-     * @param pnx
-     * @param battle
-     * @return
+     * @param pnx The raw pnx.
+     * @param battle The [PokemonBattle] being queried.
+     * @returnA pair of [BattleActor] and [ActiveBattlePokemon] if [PokemonBattle.getActorAndActiveSlotFromPNX] executes without any exception being thrown or else null.
      */
     private fun actorAndActivePokemon(pnx: String, battle: PokemonBattle): Pair<BattleActor, ActiveBattlePokemon>? = try {
         battle.getActorAndActiveSlotFromPNX(pnx)

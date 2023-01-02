@@ -8,6 +8,8 @@
 
 package com.cobblemon.mod.common.battles.interpreter
 
+import com.cobblemon.mod.common.api.battles.interpreter.Effect
+
 internal data class CobblemonEffect(
     override val id: String,
     override val type: Effect.Type,
