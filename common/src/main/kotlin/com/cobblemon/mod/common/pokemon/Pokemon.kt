@@ -99,6 +99,7 @@ import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import kotlin.math.absoluteValue
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
@@ -195,7 +196,7 @@ open class Pokemon {
             if (value <= 0) {
                 entity?.health = 0F
             }
-            field = min(hp, value)
+            field = max(min(hp, value), 0)
             _currentHealth.emit(field)
 
             // If the Pokémon is fainted, give it a timer for it to wake back up

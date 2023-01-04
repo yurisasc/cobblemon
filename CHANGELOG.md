@@ -3,6 +3,7 @@
 ## [1.2.1](#1-2-1)
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably)
+- Fixed Pokémon that faint from poison appearing to be on full health and suckering you into false hope.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
