@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.2.1](#1-2-1)
+### Fixes
+- Fixed layering logic so multiple texture layers can exist on a Pokémon (probably)
+
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
 - Added models for Natu and Xatu, Murkrow and Honchkrow, Wailmer and Wailord.
