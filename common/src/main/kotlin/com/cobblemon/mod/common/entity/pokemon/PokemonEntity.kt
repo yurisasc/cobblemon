@@ -328,7 +328,7 @@ class PokemonEntity(
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
         // TODO: Move to proper pokemon interaction menu
-        if (this.attemptItemInteraction(player, player.getStackInHand(hand))) {
+        if (hand == Hand.MAIN_HAND && this.attemptItemInteraction(player, player.getStackInHand(hand))) {
             // TODO #105
             return ActionResult.SUCCESS
         }
@@ -451,31 +451,54 @@ class PokemonEntity(
     }
 
     private fun attemptItemInteraction(player: PlayerEntity, stack: ItemStack): Boolean {
-        if (player !is ServerPlayerEntity || stack.isEmpty || this.isBusy) {
+        if (player !is ServerPlayerEntity || this.isBusy) {
             return false
         }
-        if (pokemon.getOwnerPlayer() == player) {
-            val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
-            pokemon.evolutions
-                .filterIsInstance<ItemInteractionEvolution>()
-                .forEach { evolution ->
-                    if (evolution.attemptEvolution(pokemon, context)) {
-                        if (!player.isCreative) {
-                            stack.decrement(1)
-                        }
-                        this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
-                        return true
-                    }
-                }
-        }
-
-        (stack.item as? PokemonInteractiveItem)?.let {
-            if (it.onInteraction(player, this, stack)) {
-                this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+        if (player.isSneaking && pokemon.getOwnerPlayer() == player) {
+            val giving = stack.copy()
+            if (!player.isCreative) {
+                stack.decrement(1)
+            }
+            val returned = pokemon.swapHeldItem(giving)
+            if (giving.isEmpty && returned.isEmpty) {
+                return false
+            }
+            if (ItemStack.areEqual(giving, returned)) {
+                player.sendMessage(lang("hold_item.already_holding", pokemon.displayName, giving.name))
                 return true
             }
+            val text = when {
+                giving.isEmpty -> lang("hold_item.take", pokemon.displayName, returned.name)
+                returned.isEmpty -> lang("hold_item.give", pokemon.displayName, giving.name)
+                else -> lang("hold_item.replace", pokemon.displayName, returned.name, giving.name)
+            }
+            player.giveItemStack(returned)
+            player.sendMessage(text)
+            return true
         }
+        if (!stack.isEmpty) {
+            if (pokemon.getOwnerPlayer() == player) {
+                val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
+                pokemon.evolutions
+                    .filterIsInstance<ItemInteractionEvolution>()
+                    .forEach { evolution ->
+                        if (evolution.attemptEvolution(pokemon, context)) {
+                            if (!player.isCreative) {
+                                stack.decrement(1)
+                            }
+                            this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+                            return true
+                        }
+                    }
+            }
 
+            (stack.item as? PokemonInteractiveItem)?.let {
+                if (it.onInteraction(player, this, stack)) {
+                    this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+                    return true
+                }
+            }
+        }
         return false
     }
 

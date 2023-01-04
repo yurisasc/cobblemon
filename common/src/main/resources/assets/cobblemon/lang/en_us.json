@@ -220,6 +220,11 @@
 
   "cobblemon.pc.inbattle": "You cannot use a PC while in battle!",
 
+  "cobblemon.hold_item.give": "%1$s is now holding the %2$s!",
+  "cobblemon.hold_item.replace": "You took %1$s's %2$s and gave it the %3$s.",
+  "cobblemon.hold_item.take": "You took %1$s's %2$s.",
+  "cobblemon.hold_item.already_holding": "%1$s is already holding %2$s!",
+
   "cobblemon.ui.pokemonteam": "Pokémon Team",
   "cobblemon.ui.lv": "Lv.",
   "cobblemon.ui.lv.number": "Lv.%1$s",

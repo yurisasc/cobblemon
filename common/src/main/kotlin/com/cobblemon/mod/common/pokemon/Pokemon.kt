@@ -467,11 +467,14 @@ open class Pokemon {
      * If [ItemStack.count] of [stack] is greater than 1 it will be shrunk.
      *
      * @param stack The new [ItemStack] being set as the held item.
+     * @return The existing [ItemStack] being held.
      */
-    fun swapHeldItem(stack: ItemStack) {
+    fun swapHeldItem(stack: ItemStack): ItemStack {
         stack.count = 1
+        val existing = this.heldItem()
         this.heldItem = stack
         this._heldItem.emit(stack)
+        return existing
     }
 
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
