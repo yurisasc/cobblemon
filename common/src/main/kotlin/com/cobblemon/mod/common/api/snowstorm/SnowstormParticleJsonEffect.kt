@@ -30,11 +30,25 @@ class ParticleDescription {
     var basicRenderParameters = BasicRenderParameters()
 }
 
-class ParticleCurve {
-    val input: String = "v.name = 2;"
-    @SerializedName("horizontal_range")
-    val horizontalRange = "v.particle_lifetime"
-    val nodes = arrayOf<Float>()
+
+enum class ParticleMotionType {
+    DYNAMIC,
+    PARAMETRIC, // TODO figure out how that even works
+    STATIC
+}
+
+enum class ParticleMotionDirectionType {
+    CUSTOM,
+    OUTWARDS,
+    INWARDS
+}
+
+enum class ParticleEmitterShapeType {
+    SPHERE,
+    POINT,
+    BOX,
+    DISC,
+    ENTITY_BOUNDING_BOX
 }
 
 class BasicRenderParameters {
@@ -49,10 +63,7 @@ enum class CurveType {
     BEZIER_CHAIN
 }
 
-class ParticleEffect {
-    val description = ParticleDescription()
-    val curves = mutableMapOf<String, ParticleCurve>()
-}
+
 
 class ParticleComponents {
     @SerializedName("emitter_initialization")
