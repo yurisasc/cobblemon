@@ -500,7 +500,10 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
         val heldItem = selectedPokemon.heldItem()
         val itemX = x + 3
         val itemY = y + 104
-        if (!heldItem.isEmpty) MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem,itemX, itemY)
+        if (!heldItem.isEmpty) {
+            MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem, itemX, itemY)
+            MinecraftClient.getInstance().itemRenderer.renderGuiItemOverlay(MinecraftClient.getInstance().textRenderer, heldItem, itemX, itemY)
+        }
 
         drawScaledText(
             matrixStack = pMatrixStack,
