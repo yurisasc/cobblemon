@@ -220,10 +220,11 @@
 
   "cobblemon.pc.inbattle": "You cannot use a PC while in battle!",
 
-  "cobblemon.hold_item.give": "%1$s is now holding the %2$s!",
-  "cobblemon.hold_item.replace": "You took %1$s's %2$s and gave it the %3$s.",
-  "cobblemon.hold_item.take": "You took %1$s's %2$s.",
-  "cobblemon.hold_item.already_holding": "%1$s is already holding %2$s!",
+  "cobblemon.held_item": "Held Item",
+  "cobblemon.held_item.give": "%1$s was given %2$s to hold.",
+  "cobblemon.held_item.replace": "You retrieve %1$s from %2$s and give it %3$s to hold.",
+  "cobblemon.held_item.take": "You retrieve %1$s from %2$s.",
+  "cobblemon.held_item.already_holding": "%1$s is already holding %2$s!",
 
   "cobblemon.ui.pokemonteam": "Pokémon Team",
   "cobblemon.ui.lv": "Lv.",
@@ -265,7 +266,7 @@
   "cobblemon.command.friendship": " %1$s has %2$s friendship.",
   "cobblemon.command.givepokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
   "cobblemon.command.spawnpokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
-  "cobblemon.command.held_item": "%1$s' %2$s was given the %3$s to hold",
+  "cobblemon.command.held_item": "%1$s' %2$s was given the %3$s to hold.",
 
   "advancements.cobblemon.root": "Cobblemon",
   "advancements.cobblemon.root.description": "Started your adventure by picking a starter Pokémon",

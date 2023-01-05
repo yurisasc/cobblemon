@@ -254,6 +254,20 @@ class PCGUI(
                 )
             }
 
+            // Held Item
+            val heldItem = pokemon.heldItem()
+            val itemX = x + 3
+            val itemY = y + 98
+            if (!heldItem.isEmpty) MinecraftClient.getInstance().itemRenderer.renderGuiItemIcon(heldItem,itemX, itemY)
+
+            drawScaledText(
+                matrixStack = matrices,
+                text = lang("held_item"),
+                x = x + 27,
+                y = y + 108.5,
+                scale = SCALE
+            )
+
             blitk(
                 matrixStack = matrices,
                 texture = if (pokemon.secondaryType != null) typeSpacerDoubleResource else typeSpacerSingleResource,
@@ -364,6 +378,14 @@ class PCGUI(
         )
 
         super.render(matrices, mouseX, mouseY, delta)
+
+        // Item Tooptip
+        if (pokemon != null && !pokemon.heldItem().isEmpty) {
+            val itemX = x + 3
+            val itemY = y + 98
+            val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
+            if (itemHovered) renderTooltip(matrices, pokemon.heldItem(), mouseX, mouseY)
+        }
     }
 
     /**

@@ -66,6 +66,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -464,16 +465,17 @@ class PokemonEntity(
                 return false
             }
             if (ItemStack.areEqual(giving, returned)) {
-                player.sendMessage(lang("hold_item.already_holding", pokemon.displayName, giving.name))
+                player.sendMessage(lang("held_item.already_holding", pokemon.displayName, giving.name))
                 return true
             }
             val text = when {
-                giving.isEmpty -> lang("hold_item.take", pokemon.displayName, returned.name)
-                returned.isEmpty -> lang("hold_item.give", pokemon.displayName, giving.name)
-                else -> lang("hold_item.replace", pokemon.displayName, returned.name, giving.name)
+                giving.isEmpty -> lang("held_item.take", returned.name, pokemon.displayName)
+                returned.isEmpty -> lang("held_item.give", pokemon.displayName, giving.name)
+                else -> lang("held_item.replace", returned.name, pokemon.displayName, giving.name)
             }
             player.giveItemStack(returned)
             player.sendMessage(text)
+            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
             return true
         }
         if (!stack.isEmpty) {
