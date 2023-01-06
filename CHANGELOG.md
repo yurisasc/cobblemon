@@ -7,6 +7,7 @@
 - Fixed Sliggoo and Goodra secretly being their Hisuian form despite us not having those modelled yet.
 - Fixed forms not being able to unset the secondary type of a Pokémon in the stat JSON.
 - Fixed optional aspects not saving and loading properly.
+- Fixed issues of invisible Pokémon in GUIs on some Macs.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions

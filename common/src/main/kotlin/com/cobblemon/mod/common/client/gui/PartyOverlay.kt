@@ -16,14 +16,12 @@ import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.battle.BattleGUI
 import com.cobblemon.mod.common.client.keybind.boundKey
 import com.cobblemon.mod.common.client.keybind.keybinds.HidePartyBinding
-import com.cobblemon.mod.common.client.keybind.keybinds.PokeNavigatorBinding
 import com.cobblemon.mod.common.client.keybind.keybinds.SummaryBinding
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.render.getDepletableRedGreen
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
-import com.mojang.blaze3d.systems.RenderSystem
 import kotlin.math.roundToInt
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
@@ -135,7 +133,7 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
 
                 drawPortraitPokemon(pokemon.species, pokemon.aspects, matrixStack)
 
-                RenderSystem.disableScissor()
+                DrawableHelper.disableScissor()
             }
         }
 
