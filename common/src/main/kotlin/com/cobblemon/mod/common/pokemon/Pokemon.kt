@@ -529,7 +529,11 @@ open class Pokemon {
         val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString() }, " ")
         this.customProperties.clear()
         this.customProperties.addAll(properties.customProperties)
-        features.forEach { it.loadFromNBT(nbt) }
+        SpeciesFeatures.getFeaturesFor(species).forEach {
+            val feature = it(nbt) ?: return@forEach
+            features.removeIf { it.name == feature.name }
+            features.add(feature)
+        }
         this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
         updateAspects()
         checkAbility()
@@ -612,7 +616,11 @@ open class Pokemon {
         val properties = PokemonProperties.parse(propertyList.joinToString(" "), " ")
         this.customProperties.clear()
         this.customProperties.addAll(properties.customProperties)
-        features.forEach { it.loadFromJSON(json) }
+        SpeciesFeatures.getFeaturesFor(species).forEach {
+            val feature = it(json) ?: return@forEach
+            features.removeIf { it.name == feature.name }
+            features.add(feature)
+        }
         this.nature = json.get(DataKeys.POKEMON_NATURE).asString?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
         updateAspects()
         checkAbility()
