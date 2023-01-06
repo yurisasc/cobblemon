@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.gui.pc
 import com.cobblemon.mod.common.api.gui.blitk
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.render.drawScaledText
+import com.cobblemon.mod.common.client.render.renderScaledGuiItemIcon
 import com.cobblemon.mod.common.pokemon.Gender
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
@@ -73,7 +74,7 @@ open class StorageSlot(
 
         RenderSystem.disableScissor()
 
-        // Ensure labels are not hidden behind Pokémon render
+        // Ensure elements are not hidden behind Pokémon render
         matrices.push()
         matrices.translate(0.0, 0.0, 100.0)
         // Level
@@ -108,6 +109,17 @@ open class StorageSlot(
                 width = 11,
                 height = 8,
                 scale = PCGUI.SCALE
+            )
+        }
+
+        // Held Item
+        val heldItem = pokemon.heldItem()
+        if (!heldItem.isEmpty) {
+            renderScaledGuiItemIcon(
+                itemStack = heldItem,
+                x = posX + 16.0,
+                y = posY + 16.0,
+                scale = 0.5
             )
         }
     }
