@@ -497,7 +497,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
         )
 
         // Held Item
-        val heldItem = selectedPokemon.heldItem()
+        val heldItem = selectedPokemon.heldItemNoCopy()
         val itemX = x + 3
         val itemY = y + 104
         if (!heldItem.isEmpty) {

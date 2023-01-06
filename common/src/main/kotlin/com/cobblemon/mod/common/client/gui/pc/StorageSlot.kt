@@ -113,7 +113,7 @@ open class StorageSlot(
         }
 
         // Held Item
-        val heldItem = pokemon.heldItem()
+        val heldItem = pokemon.heldItemNoCopy()
         if (!heldItem.isEmpty) {
             renderScaledGuiItemIcon(
                 itemStack = heldItem,

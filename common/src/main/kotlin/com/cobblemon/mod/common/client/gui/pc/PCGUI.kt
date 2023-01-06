@@ -255,7 +255,7 @@ class PCGUI(
             }
 
             // Held Item
-            val heldItem = pokemon.heldItem()
+            val heldItem = pokemon.heldItemNoCopy()
             val itemX = x + 3
             val itemY = y + 98
             if (!heldItem.isEmpty) {
@@ -383,11 +383,11 @@ class PCGUI(
         super.render(matrices, mouseX, mouseY, delta)
 
         // Item Tooptip
-        if (pokemon != null && !pokemon.heldItem().isEmpty) {
+        if (pokemon != null && !pokemon.heldItemNoCopy().isEmpty) {
             val itemX = x + 3
             val itemY = y + 98
             val itemHovered = mouseX.toFloat() in (itemX.toFloat()..(itemX.toFloat() + 16)) && mouseY.toFloat() in (itemY.toFloat()..(itemY.toFloat() + 16))
-            if (itemHovered) renderTooltip(matrices, pokemon.heldItem(), mouseX, mouseY)
+            if (itemHovered) renderTooltip(matrices, pokemon.heldItemNoCopy(), mouseX, mouseY)
         }
     }
 

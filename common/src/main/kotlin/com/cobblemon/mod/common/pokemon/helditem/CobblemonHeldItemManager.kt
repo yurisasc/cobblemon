@@ -60,7 +60,7 @@ object CobblemonHeldItemManager : HeldItemManager {
         Cobblemon.LOGGER.info("Imported {} held item IDs from showdown", this.itemIDs.size)
     }
 
-    override fun showdownId(pokemon: BattlePokemon): String? = this.showdownIdOf(pokemon.effectedPokemon.heldItem().item)
+    override fun showdownId(pokemon: BattlePokemon): String? = this.showdownIdOf(pokemon.effectedPokemon.heldItemNoCopy().item)
 
     override fun nameOf(showdownId: String): Text = this.itemLang[showdownId] ?: Text.of(showdownId)
 

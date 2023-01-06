@@ -191,7 +191,7 @@ class PartySlotWidget(
             )
 
             // Held Item
-            val heldItem = slotPokemon.heldItem()
+            val heldItem = slotPokemon.heldItemNoCopy()
             if (!heldItem.isEmpty) {
                 renderScaledGuiItemIcon(
                     itemStack = heldItem,
