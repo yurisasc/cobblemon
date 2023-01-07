@@ -34,8 +34,6 @@ class PokemonInteractGUI(
         this.addDrawableChild(PokemonInteractButton(
             x = x,
             y = y,
-            text = if (canMountShoulder) lang("ui.interact.pokemon.shoulder").bold() else null,
-            textOffsetX = 6F,
             textureResource = topLeftResource,
             enabled = canMountShoulder
         ) {
@@ -49,8 +47,6 @@ class PokemonInteractGUI(
         this.addDrawableChild(PokemonInteractButton(
             x = x + PokemonInteractButton.SIZE,
             y = y,
-            text = lang("ui.interact.pokemon.give_item").bold(),
-            textOffsetX = -6F,
             textureResource = topRightResource
         ) {
             InteractPokemonPacket(pokemonID, false).sendToServer()
@@ -61,8 +57,6 @@ class PokemonInteractGUI(
         this.addDrawableChild(PokemonInteractButton(
             x = x,
             y = y + PokemonInteractButton.SIZE,
-            text = null,
-            textOffsetX = 6F,
             textureResource = bottomLeftResource,
             enabled = false
         ) {});
@@ -71,8 +65,6 @@ class PokemonInteractGUI(
         this.addDrawableChild(PokemonInteractButton(
             x = x + PokemonInteractButton.SIZE,
             y = y + PokemonInteractButton.SIZE,
-            text = null,
-            textOffsetX = -6F,
             textureResource = bottomRightResource,
             enabled = false
         ) {});

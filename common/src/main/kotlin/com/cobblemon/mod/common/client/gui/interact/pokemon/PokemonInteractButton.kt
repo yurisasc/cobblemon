@@ -20,8 +20,6 @@ import net.minecraft.util.Identifier
 
 class PokemonInteractButton(
     x: Int, y: Int,
-    private val text: MutableText?,
-    private val textOffsetX: Float = 0F,
     private val textureResource: Identifier,
     private val enabled: Boolean = true,
     onPress: PressAction
@@ -41,21 +39,8 @@ class PokemonInteractButton(
             height = SIZE,
             vOffset = if (isHovered(mouseX.toDouble(), mouseY.toDouble()) && enabled) SIZE else 0,
             textureHeight = SIZE * 2,
-            alpha = if (enabled) 1F else 0.5F
+            alpha = if (enabled) 1F else 0.4F
         )
-
-        if (text != null) {
-            drawScaledText(
-                matrixStack = matrices,
-                font = CobblemonResources.DEFAULT_LARGE,
-                text = text,
-                x = (x + (SIZE / 2)) + textOffsetX,
-                y = y + 30,
-                opacity = if (enabled) 1F else 0.5F,
-                centered = true,
-                shadow = true
-            )
-        }
     }
 
     override fun playDownSound(pHandler: SoundManager) {

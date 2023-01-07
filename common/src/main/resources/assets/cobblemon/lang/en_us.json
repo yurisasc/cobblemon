@@ -156,12 +156,6 @@
   "cobblemon.ui.generic.yes": "Yes",
   "cobblemon.ui.generic.no": "No",
 
-  "cobblemon.ui.interact.pokemon.shoulder": "Shoulder",
-  "cobblemon.ui.interact.pokemon.mount": "Mount",
-  "cobblemon.ui.interact.pokemon.moves": "Moves",
-  "cobblemon.ui.interact.pokemon.give_item": "Give",
-  "cobblemon.ui.interact.pokemon.take_item": "Take",
-
   "cobblemon.ui.pokenav.title": "PokéNav",
   "cobblemon.ui.summary.title": "Summary",
   "cobblemon.ui.starter.title": "Starter Selection",
