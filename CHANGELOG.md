@@ -1,6 +1,8 @@
 # Changelog
 
 ## [1.2.1](#1-2-1)
+### Additions
+- Added /giveallpokemon command which is definitely safe and not insane.
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably)
 - Fixed Pokémon that faint from poison appearing to be on full health and suckering you into false hope.
