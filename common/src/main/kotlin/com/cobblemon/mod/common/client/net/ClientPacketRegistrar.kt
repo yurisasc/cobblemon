@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.client.net.battle.BattleSwitchPokemonHandler
 import com.cobblemon.mod.common.client.net.battle.BattleUpdateTeamPokemonHandler
 import com.cobblemon.mod.common.client.net.battle.ChallengeNotificationHandler
 import com.cobblemon.mod.common.client.net.data.DataRegistrySyncPacketHandler
+import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
 import com.cobblemon.mod.common.client.net.pokemon.update.EvolutionUpdatePacketHandler
 import com.cobblemon.mod.common.client.net.pokemon.update.SingleUpdatePacketHandler
@@ -107,6 +108,8 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(SwapClientPokemonHandler)
 
         registerHandler(SetClientPlayerDataHandler)
+
+        registerHandler(InteractPokemonUIPacketHandler)
 
         registerHandler(SummaryUIPacketHandler)
         registerHandler(StarterUIPacketHandler)

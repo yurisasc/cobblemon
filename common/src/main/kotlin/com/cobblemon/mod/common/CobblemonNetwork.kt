@@ -52,6 +52,7 @@ import com.cobblemon.mod.common.net.messages.client.storage.pc.MoveClientPCPokem
 import com.cobblemon.mod.common.net.messages.client.storage.pc.OpenPCPacket
 import com.cobblemon.mod.common.net.messages.client.storage.pc.SetPCBoxPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.storage.pc.SetPCPokemonPacket
+import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.messages.client.ui.SummaryUIPacket
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket
 import com.cobblemon.mod.common.net.messages.server.BenchMovePacket
@@ -59,6 +60,7 @@ import com.cobblemon.mod.common.net.messages.server.RequestMoveSwapPacket
 import com.cobblemon.mod.common.net.messages.server.SelectStarterPacket
 import com.cobblemon.mod.common.net.messages.server.SendOutPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.battle.BattleSelectActionsPacket
+import com.cobblemon.mod.common.net.messages.server.pokemon.interact.InteractPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cobblemon.mod.common.net.messages.server.starter.RequestStarterScreenPacket
 import com.cobblemon.mod.common.net.messages.server.storage.SwapPCPartyPokemonPacket
@@ -162,6 +164,7 @@ object CobblemonNetwork {
 
         // UI Packets
         buildClientMessage<SummaryUIPacket>()
+        buildClientMessage<InteractPokemonUIPacket>()
 
         // Starter packets
         buildClientMessage<OpenStarterUIPacket>()
@@ -205,6 +208,9 @@ object CobblemonNetwork {
         // Evolution start
         buildServerMessage<AcceptEvolutionPacket>()
         // Evolution End
+
+        // Interaction Packets
+        buildServerMessage<InteractPokemonPacket>()
 
         // Storage Packets
         buildServerMessage<SendOutPokemonPacket>()

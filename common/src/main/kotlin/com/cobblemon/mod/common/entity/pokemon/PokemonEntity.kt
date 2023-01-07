@@ -32,6 +32,7 @@ import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
 import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
+import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -328,16 +329,15 @@ class PokemonEntity(
     }
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
-        // TODO: Move to proper pokemon interaction menu
-        if (hand == Hand.MAIN_HAND && this.attemptItemInteraction(player, player.getStackInHand(hand))) {
-            // TODO #105
-            return ActionResult.SUCCESS
-        }
-        if (player.isSneaking && hand == Hand.MAIN_HAND) {
-            if (isReadyToSitOnPlayer && player is ServerPlayerEntity && !isBusy) {
-                this.tryMountingShoulder(player)
+        if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
+            if (player.isSneaking) {
+                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer).sendToPlayer(player)
+            } else {
+                // TODO #105
+                if (this.attemptItemInteraction(player, player.getStackInHand(hand))) return ActionResult.SUCCESS
             }
         }
+
         return super.interactMob(player, hand)
     }
 
@@ -455,29 +455,6 @@ class PokemonEntity(
         if (player !is ServerPlayerEntity || this.isBusy) {
             return false
         }
-        if (player.isSneaking && pokemon.getOwnerPlayer() == player) {
-            val giving = stack.copy()
-            if (!player.isCreative) {
-                stack.decrement(1)
-            }
-            val returned = pokemon.swapHeldItem(giving)
-            if (giving.isEmpty && returned.isEmpty) {
-                return false
-            }
-            if (ItemStack.areEqual(giving, returned)) {
-                player.sendMessage(lang("held_item.already_holding", pokemon.displayName, giving.name))
-                return true
-            }
-            val text = when {
-                giving.isEmpty -> lang("held_item.take", returned.name, pokemon.displayName)
-                returned.isEmpty -> lang("held_item.give", pokemon.displayName, giving.name)
-                else -> lang("held_item.replace", returned.name, pokemon.displayName, giving.name)
-            }
-            player.giveItemStack(returned)
-            player.sendMessage(text)
-            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
-            return true
-        }
         if (!stack.isEmpty) {
             if (pokemon.getOwnerPlayer() == player) {
                 val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
@@ -504,7 +481,37 @@ class PokemonEntity(
         return false
     }
 
-    private fun tryMountingShoulder(player: ServerPlayerEntity): Boolean {
+    fun offerHeldItem(player: PlayerEntity, stack: ItemStack): Boolean {
+        if (player !is ServerPlayerEntity || this.isBusy) {
+            return false
+        }
+        if (pokemon.getOwnerPlayer() == player) {
+            val giving = stack.copy()
+            if (!player.isCreative) {
+                stack.decrement(1)
+            }
+            val returned = pokemon.swapHeldItem(giving)
+            if (giving.isEmpty && returned.isEmpty) {
+                return false
+            }
+            if (ItemStack.areEqual(giving, returned)) {
+                player.sendMessage(lang("held_item.already_holding", pokemon.displayName, giving.name))
+                return true
+            }
+            val text = when {
+                giving.isEmpty -> lang("held_item.take", returned.name, pokemon.displayName)
+                returned.isEmpty -> lang("held_item.give", pokemon.displayName, giving.name)
+                else -> lang("held_item.replace", returned.name, pokemon.displayName, giving.name)
+            }
+            player.giveItemStack(returned)
+            player.sendMessage(text)
+            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+            return true
+        }
+        return false
+    }
+
+    fun tryMountingShoulder(player: ServerPlayerEntity): Boolean {
         if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
             CobblemonEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
                 val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
@@ -539,7 +546,7 @@ class PokemonEntity(
     }
 
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
-    private fun hasRoomToMount(player: PlayerEntity): Boolean {
+    fun hasRoomToMount(player: PlayerEntity): Boolean {
         return (player.shoulderEntityLeft.isEmpty || player.shoulderEntityRight.isEmpty)
                 && !player.hasVehicle()
                 && player.isOnGround
