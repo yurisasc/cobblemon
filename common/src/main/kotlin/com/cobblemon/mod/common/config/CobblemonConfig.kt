@@ -94,6 +94,9 @@ class CobblemonConfig {
     @NodeCategory(Category.Spawning)
     var exportSpawnConfig = false
 
+    @NodeCategory(Category.Spawning)
+    var savePokemonToWorld = true
+
     @NodeCategory(Category.Starter)
     var exportStarterConfig = false
 
