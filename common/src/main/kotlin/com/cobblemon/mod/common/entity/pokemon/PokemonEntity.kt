@@ -482,33 +482,32 @@ class PokemonEntity(
     }
 
     fun offerHeldItem(player: PlayerEntity, stack: ItemStack): Boolean {
-        if (player !is ServerPlayerEntity || this.isBusy) {
+        if (player !is ServerPlayerEntity || this.isBusy || this.pokemon.getOwnerPlayer() != player) {
             return false
         }
-        if (pokemon.getOwnerPlayer() == player) {
-            val giving = stack.copy()
-            if (!player.isCreative) {
-                stack.decrement(1)
-            }
-            val returned = pokemon.swapHeldItem(giving)
-            if (giving.isEmpty && returned.isEmpty) {
-                return false
-            }
-            if (ItemStack.areEqual(giving, returned)) {
-                player.sendMessage(lang("held_item.already_holding", pokemon.displayName, giving.name))
-                return true
-            }
-            val text = when {
-                giving.isEmpty -> lang("held_item.take", returned.name, pokemon.displayName)
-                returned.isEmpty -> lang("held_item.give", pokemon.displayName, giving.name)
-                else -> lang("held_item.replace", returned.name, pokemon.displayName, giving.name)
-            }
-            player.giveItemStack(returned)
-            player.sendMessage(text)
-            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+        // We want the count of 1 in order to match the ItemStack#areEqual
+        val giving = stack.copy().apply { count = 1 }
+        val possibleReturn = this.pokemon.heldItemNoCopy()
+        if (stack.isEmpty && possibleReturn.isEmpty) {
+            return false
+        }
+        if (ItemStack.areEqual(giving, possibleReturn)) {
+            player.sendMessage(lang("held_item.already_holding", this.pokemon.displayName, stack.name))
             return true
         }
-        return false
+        val returned = this.pokemon.swapHeldItem(giving)
+        if (!player.isCreative) {
+            stack.decrement(1)
+        }
+        val text = when {
+            giving.isEmpty -> lang("held_item.take", returned.name, this.pokemon.displayName)
+            returned.isEmpty -> lang("held_item.give", this.pokemon.displayName, giving.name)
+            else -> lang("held_item.replace", returned.name, this.pokemon.displayName, giving.name)
+        }
+        player.giveItemStack(returned)
+        player.sendMessage(text)
+        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+        return true
     }
 
     fun tryMountingShoulder(player: ServerPlayerEntity): Boolean {

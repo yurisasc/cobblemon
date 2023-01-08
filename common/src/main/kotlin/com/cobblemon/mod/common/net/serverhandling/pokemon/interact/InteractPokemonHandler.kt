@@ -19,6 +19,9 @@ object InteractPokemonHandler : ServerPacketHandler<InteractPokemonPacket> {
         val pokemonEntity = player.getWorld().getEntity(packet.pokemonID);
         if (pokemonEntity is PokemonEntity) {
             if (packet.mountShoulder) {
+                if (!pokemonEntity.isReadyToSitOnPlayer) {
+                    return
+                }
                 pokemonEntity.tryMountingShoulder(player)
             } else {
                 pokemonEntity.offerHeldItem(player, player.mainHandStack)
