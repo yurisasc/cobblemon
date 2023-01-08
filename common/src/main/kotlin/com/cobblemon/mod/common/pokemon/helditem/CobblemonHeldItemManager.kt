@@ -9,19 +9,14 @@
 package com.cobblemon.mod.common.pokemon.helditem
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
-import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemManager
 import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.battles.runner.GraalShowdown
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.battleLang
-import net.minecraft.item.Item
-import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
-import net.minecraft.util.registry.Registry
 
 /**
  * The Cobblemon implementation of [HeldItemManager].
@@ -31,44 +26,20 @@ import net.minecraft.util.registry.Registry
  * @author Licious
  * @since December 30th, 2022
  */
-object CobblemonHeldItemManager : HeldItemManager {
-
-    private val itemIDs = hashSetOf<String>()
-    private val itemLang = hashMapOf<String, Text>()
+object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
 
     /**
-     * Loads the item IDs by querying them from the [GraalShowdown.context].
-     * This should be invoked by [PokemonSpecies.reload] as it triggers a reload of the Cobblemon Showdown mod.
+     * A collection of literal effect IDs that will trigger the Pokémon receiving the associated held item.
      */
-    internal fun load() {
-        this.itemIDs.clear()
-        val script = """
-            PokemonShowdown.Dex.mod("${Cobblemon.MODID}")
-              .items.all()
-              .map(item => item.id);
-        """.trimIndent()
-        val arrayResult = GraalShowdown.context.eval("js", script)
-        for (i in 0 until arrayResult.arraySize) {
-            this.itemIDs+= arrayResult.getArrayElement(i).asString()
-        }
-        Registry.ITEM.forEach { item ->
-            val showdownId = this.showdownIdOf(item)
-            if (showdownId != null) {
-                this.itemLang[showdownId] = item.name
-            }
-        }
-        Cobblemon.LOGGER.info("Imported {} held item IDs from showdown", this.itemIDs.size)
-    }
+    private val giveItemEffect = setOf("pickup", "recycle", "magician", "pickpocket", "thief", "covet", "harvest", "bestow", "switcheroo", "trick")
 
-    override fun showdownId(pokemon: BattlePokemon): String? = this.showdownIdOf(pokemon.effectedPokemon.heldItemNoCopy().item)
-
-    override fun nameOf(showdownId: String): Text = this.itemLang[showdownId] ?: Text.of(showdownId)
-
-    override fun consume(pokemon: BattlePokemon) {
-        pokemon.effectedPokemon.swapHeldItem(ItemStack.EMPTY)
+    override fun load() {
+        super.load()
+        Cobblemon.LOGGER.info("Imported {} held item IDs from showdown", this.loadedItemCount())
     }
 
     override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
+        println(battleMessage.rawMessage)
         val itemID = battleMessage.argumentAt(1)?.lowercase()?.replace(" ", "") ?: run {
             battle.broadcastChatMessage(Text.literal("Failed to handle '-item' action: ${battleMessage.rawMessage}").red())
             Cobblemon.LOGGER.error("Failed to handle '-item' action: ${battleMessage.rawMessage}")
@@ -84,37 +55,46 @@ object CobblemonHeldItemManager : HeldItemManager {
         val source = battleMessage.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon
         val itemName = this.nameOf(itemID)
         val sourceName = source?.getName() ?: Text.of("UNKNOWN")
-        val text = when (effect?.id?.lowercase() ?: "") {
+        val effectId = effect?.id?.lowercase() ?: ""
+        val text = when (effectId) {
+            // ToDo confirm item change functionality
             "pickup", "recycle" -> battleLang("item.recycle_or_pickup.start", battlerName, itemName)
+            // ToDo confirm item change functionality
             "frisk" -> battleLang("item.frisk.start", sourceName, battlerName, itemName)
+            // ToDo confirm item change functionality
             // The "source" is actually the target here
             "magician", "pickpocket", "thief", "covet" -> battleLang("item.take_item.start", battlerName, sourceName, itemName)
+            // ToDo confirm item change functionality
             "harvest" -> battleLang("item.harvest.start", battlerName, itemName)
+            // ToDo confirm item change functionality
             "bestow" -> battleLang("item.bestow.start", battlerName, itemName, sourceName)
             "switcheroo", "trick" -> battleLang("item.tricked.start", battlerName)
             else -> Text.literal("Cannot interpret ${battleMessage.rawMessage}").red().also {
                 Cobblemon.LOGGER.error("Failed to handle '-item' action: ${battleMessage.rawMessage}")
             }
         }
+        if (this.giveItemEffect.contains(effectId)) {
+            this.give(pokemon, itemID)
+        }
         battle.broadcastChatMessage(text)
     }
 
     override fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
-        // These are sent when showdown wants the client to animate something but not produce any text
-        if (battleMessage.hasOptionalArgument("silent")) {
-            TODO("Consume item")
-            return
-        }
         val itemID = battleMessage.argumentAt(1)?.lowercase()?.replace(" ", "") ?: run {
             battle.broadcastChatMessage(Text.literal("Failed to handle '-enditem' action: ${battleMessage.rawMessage}").red())
             Cobblemon.LOGGER.error("Failed to handle '-enditem' action: ${battleMessage.rawMessage}")
+            return
+        }
+        // These are sent when showdown wants the client to animate something but not produce any text
+        if (battleMessage.hasOptionalArgument("silent")) {
+            this.take(pokemon, itemID)
             return
         }
         val battlerName = pokemon.getName()
         val itemName = this.nameOf(itemID)
         if (battleMessage.hasOptionalArgument("eat")) {
             battle.broadcastChatMessage(battleLang("item.eat.end", battlerName, itemName))
-            TODO("Consume item")
+            this.take(pokemon, itemID)
             return
         }
         val source = battleMessage.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon
@@ -141,28 +121,8 @@ object CobblemonHeldItemManager : HeldItemManager {
                 }
             }
         }
+        this.take(pokemon, itemID)
         battle.broadcastChatMessage(text)
-        TODO("Consume item")
-    }
-
-    /**
-     * Find the Showdown literal ID of the given [item].
-     * This only works for items under the [Cobblemon.MODID] namespace.
-     * If you wish to support your own items you need to implement your own [HeldItemManager].
-     *
-     * @param item The [Item] being queried.
-     * @return The literal Showdown ID if any.
-     */
-    fun showdownIdOf(item: Item): String? {
-        val identifier = Registry.ITEM.getId(item)
-        if (identifier.namespace != Cobblemon.MODID) {
-            return null
-        }
-        val path = identifier.path.replace("_", "")
-        if (this.itemIDs.contains(path)) {
-            return path
-        }
-        return null
     }
 
 }
