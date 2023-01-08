@@ -477,6 +477,13 @@ open class Pokemon {
         return existing
     }
 
+    /**
+     * Swaps out the current [heldItem] for an [ItemStack.EMPTY].
+     *
+     * @return The existing [ItemStack] being held.
+     */
+    fun removeHeldItem(): ItemStack = this.swapHeldItem(ItemStack.EMPTY)
+
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
         nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
