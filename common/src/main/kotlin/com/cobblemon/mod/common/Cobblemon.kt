@@ -68,6 +68,7 @@ import com.cobblemon.mod.common.battles.ShowdownThread
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.config.CobblemonConfig
+import com.cobblemon.mod.common.config.LastChangedVersion
 import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.config.starter.StarterConfig
 import com.cobblemon.mod.common.data.CobblemonDataProvider
@@ -94,6 +95,7 @@ import com.cobblemon.mod.common.starter.CobblemonStarterHandler
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.getServer
 import com.cobblemon.mod.common.util.ifDedicatedServer
+import com.cobblemon.mod.common.util.isLaterVersion
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.removeAmountIf
 import com.cobblemon.mod.common.world.CobblemonGameRules
@@ -109,8 +111,9 @@ import java.io.FileWriter
 import java.io.PrintWriter
 import java.util.UUID
 import kotlin.properties.Delegates
-import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.isAccessible
+import kotlin.reflect.jvm.javaField
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
 import net.minecraft.server.network.ServerPlayerEntity
@@ -322,25 +325,36 @@ object Cobblemon {
                 exception.printStackTrace()
             }
 
-            this.config::class.memberProperties.forEach {
-                // Member must have annotations and must be mutable
-                if (it.annotations.isEmpty() || it !is KMutableProperty<*>) return@forEach
+            val defaultConfig = CobblemonConfig()
 
-                var value = it.getter.call(config)
-                for (annotation in it.annotations) {
-                    when (annotation) {
+            CobblemonConfig::class.memberProperties.forEach {
+                val field = it.javaField!!
+                it.isAccessible = true
+                field.annotations.forEach {
+                    when (it) {
+                        is LastChangedVersion -> {
+                            val defaultChangedVersion = it.version
+                            val lastSavedVersion = config.lastSavedVersion
+                            if (defaultChangedVersion.isLaterVersion(lastSavedVersion)) {
+                                field.set(config, field.get(defaultConfig))
+                            }
+                        }
                         is IntConstraint -> {
-                            if (value !is Int) break
-                            value = value.coerceIn(annotation.min, annotation.max)
-                            it.setter.call(config, value)
+                            var value = field.get(config)
+                            if (value is Int) {
+                                value = value.coerceIn(it.min, it.max)
+                                field.set(config, value)
+                            }
                         }
                     }
                 }
             }
         } else {
             this.config = CobblemonConfig()
-            this.saveConfig()
         }
+
+        config.lastSavedVersion = VERSION
+        this.saveConfig()
 
         bestSpawner.loadConfig()
         PokemonSpecies.observable.subscribe { starterConfig = this.loadStarterConfig() }
