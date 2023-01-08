@@ -3,7 +3,9 @@
 ## [1.2.1](#1-2-1)
 ### Additions
 - Added /giveallpokemon command which is definitely safe and not insane.
+- Added a cap of Pokémon spawns in an area because waiting a while made things insane. Controlled by a new `pokemonPerChunk` config option
 - Pokémon now save to the world by default, meaning the same Pokémon are there after you log out and back in.
+
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably)
@@ -13,7 +15,6 @@
 - Fixed optional aspects not saving and loading properly.
 - Fixed issues of invisible Pokémon in GUIs on some Macs.
 - Fixed a soft-duplicate that could occur when a party Pokémon is pushed through a Nether Portal.
-
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
