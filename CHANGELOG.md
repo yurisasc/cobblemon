@@ -6,7 +6,8 @@
 - Added a cap of Pokémon spawns in an area because waiting a while made things insane. Controlled by a new `pokemonPerChunk` config option
 - Pokémon now save to the world by default, meaning the same Pokémon are there after you log out and back in.
 
-
+### Changes
+- Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably)
 - Fixed Pokémon that faint from poison appearing to be on full health and suckering you into false hope.
