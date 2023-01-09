@@ -33,13 +33,26 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
      */
     private val giveItemEffect = setOf("pickup", "recycle", "magician", "pickpocket", "thief", "covet", "harvest", "bestow", "switcheroo", "trick")
 
+    /**
+     * A collection of literal effect IDs that will trigger the Pokémon needing to have their item removed these are never communicated through '-enditem'.
+     */
+    private val takeItemEffect = setOf("magician", "pickpocket", "covet", "bestow")
+
     override fun load() {
         super.load()
         Cobblemon.LOGGER.info("Imported {} held item IDs from showdown", this.loadedItemCount())
     }
 
+    override fun showdownId(pokemon: BattlePokemon): String? {
+        val original = super.showdownId(pokemon)
+        if (original == null && pokemon.effectedPokemon.heldItemNoCopy().isEmpty) {
+            // This will allow interactions such as thief to occur, we want this when there is no item only instead of overwriting other stacks that aren't held items.
+            return ""
+        }
+        return original
+    }
+
     override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {
-        println(battleMessage.rawMessage)
         val itemID = battleMessage.argumentAt(1)?.lowercase()?.replace(" ", "") ?: run {
             battle.broadcastChatMessage(Text.literal("Failed to handle '-item' action: ${battleMessage.rawMessage}").red())
             Cobblemon.LOGGER.error("Failed to handle '-item' action: ${battleMessage.rawMessage}")
@@ -57,16 +70,11 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
         val sourceName = source?.getName() ?: Text.of("UNKNOWN")
         val effectId = effect?.id?.lowercase() ?: ""
         val text = when (effectId) {
-            // ToDo confirm item change functionality
             "pickup", "recycle" -> battleLang("item.recycle_or_pickup.start", battlerName, itemName)
-            // ToDo confirm item change functionality
             "frisk" -> battleLang("item.frisk.start", sourceName, battlerName, itemName)
-            // ToDo confirm item change functionality
             // The "source" is actually the target here
-            "magician", "pickpocket", "thief", "covet" -> battleLang("item.take_item.start", battlerName, sourceName, itemName)
-            // ToDo confirm item change functionality
+            "magician", "pickpocket", "covet", "thief" -> battleLang("item.take_item.start", battlerName, sourceName, itemName)
             "harvest" -> battleLang("item.harvest.start", battlerName, itemName)
-            // ToDo confirm item change functionality
             "bestow" -> battleLang("item.bestow.start", battlerName, itemName, sourceName)
             "switcheroo", "trick" -> battleLang("item.tricked.start", battlerName)
             else -> Text.literal("Cannot interpret ${battleMessage.rawMessage}").red().also {
@@ -75,6 +83,9 @@ object CobblemonHeldItemManager : BaseCobblemonHeldItemManager() {
         }
         if (this.giveItemEffect.contains(effectId)) {
             this.give(pokemon, itemID)
+        }
+        if (this.takeItemEffect.contains(effectId)) {
+            battleMessage.actorAndActivePokemonFromOptional(battle)?.second?.battlePokemon?.let { this.take(it, itemID) }
         }
         battle.broadcastChatMessage(text)
     }
