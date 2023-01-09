@@ -5,6 +5,7 @@
 - Added /giveallpokemon command which is definitely safe and not insane.
 - Added a cap of Pokémon spawns in an area because waiting a while made things insane. Controlled by a new `pokemonPerChunk` config option
 - Pokémon now save to the world by default, meaning the same Pokémon are there after you log out and back in.
+- Added held item functionality alongside a few held items, currently creative only items.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
