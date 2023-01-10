@@ -27,7 +27,7 @@ object StandardExperienceCalculator : ExperienceCalculator {
         val trainerMultiplier = if (opponentPokemon.effectedPokemon.isWild()) 1.0 else 1.5 /* Not used in modern formulas */
         val baseExp = opponentPokemon.originalPokemon.form.baseExperienceYield
         val luckyEggMultiplier = if (battlePokemon.effectedPokemon.heldItemNoCopy().isIn(CobblemonItemTags.LUCKY_EGG)) Cobblemon.config.luckyEggMultiplier else 1.0
-        val affectionMultiplier = 1.0
+        val affectionMultiplier = if (battlePokemon.effectedPokemon.friendship >= 220) 1.2 else 1.0
         val level = opponentPokemon.originalPokemon.level
         val levelVictor = battlePokemon.originalPokemon.level
         val pointPowerMultiplier = 1.0
