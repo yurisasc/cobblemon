@@ -163,18 +163,19 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val WATER_STONE = queue("water_stone") { evolutionItem() }
 
     // Held Items
-    val ASSAULT_VEST = queue("assault_vest") { heldItem() }
-    val BLACK_GLASSES = queue("black_glasses") { heldItem() }
-    val CHOICE_BAND = queue("choice_band") { heldItem() }
-    val CHOICE_SPECS = queue("choice_specs") { heldItem() }
-    val EXP_SHARE = queue("exp_share") { heldItem() }
-    val FOCUS_BAND = queue("focus_band") { heldItem() }
-    val HARD_STONE = queue("hard_stone") { heldItem() }
-    val HEAVY_DUTY_BOOTS = queue("heavy_duty_boots") { heldItem() }
-    val MUSCLE_BAND = queue("muscle_band") { heldItem() }
-    val ROCKY_HELMET = queue("rocky_helmet") { heldItem() }
-    val SAFETY_GOGGLES = queue("safety_goggles") { heldItem() }
-    val WISE_GLASSES = queue("wise_glasses") { heldItem() }
+    val ASSAULT_VEST = this.heldItem("assault_vest")
+    val BLACK_GLASSES = this.heldItem("black_glasses")
+    val CHOICE_BAND = this.heldItem("choice_band")
+    val CHOICE_SPECS = this.heldItem("choice_specs")
+    val EXP_SHARE = this.heldItem("exp_share")
+    val FOCUS_BAND = this.heldItem("focus_band")
+    val HARD_STONE = this.heldItem("hard_stone")
+    val HEAVY_DUTY_BOOTS = this.heldItem("heavy_duty_boots")
+    val LUCKY_EGG = this.heldItem("lucky_egg")
+    val MUSCLE_BAND = this.heldItem("muscle_band")
+    val ROCKY_HELMET = this.heldItem("rocky_helmet")
+    val SAFETY_GOGGLES = this.heldItem("safety_goggles")
+    val WISE_GLASSES = this.heldItem("wise_glasses")
 
     fun pokeballs(): List<RegistrySupplier<PokeBallItem>> = this.pokeballs
 
@@ -197,8 +198,6 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
         return supplier
     }
 
-    private fun heldItem(): CobblemonItem {
-        return CobblemonItem(Item.Settings().group(CobblemonItemGroups.HELD_ITEM_GROUP))
-    }
+    private fun heldItem(name: String): RegistrySupplier<CobblemonItem> = queue(name) { CobblemonItem(Item.Settings().group(CobblemonItemGroups.HELD_ITEM_GROUP)) }
 
 }

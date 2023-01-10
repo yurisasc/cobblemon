@@ -5,10 +5,14 @@
 - Added /giveallpokemon command which is definitely safe and not insane.
 - Added a cap of Pokémon spawns in an area because waiting a while made things insane. Controlled by a new `pokemonPerChunk` config option
 - Pokémon now save to the world by default, meaning the same Pokémon are there after you log out and back in.
-- Added held item functionality alongside a few held items, currently creative only items.
+- Added held item functionality, Pokémon can now be given traditional held items with the various expected battle or out of battle effects or just hold any regular item in the game and act as an extra storage.
+- Added a few held items, currently creative only items.
+- Added the Item [tags](https://minecraft.fandom.com/wiki/Tag) `cobblemon:held/experience_share` and `cobblemon:held/lucky_egg` allowing you to mark any items you desire to have the effects implied in the tag name.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
+- Made shift clicking a Pokémon bring up a GUI for the different possible interactions such as shouldering or giving/taking/swapping held items.
+
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably)
 - Fixed Pokémon that faint from poison appearing to be on full health and suckering you into false hope.
