@@ -16,6 +16,7 @@ import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 import com.cobblemon.mod.common.battles.BattleCaptureAction
@@ -25,6 +26,7 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.GraalShowdown
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
@@ -164,19 +166,6 @@ open class PokemonBattle(
 
     fun end() {
         ended = true
-        for (actor in actors) {
-            for (pokemon in actor.pokemonList.filter { it.health > 0 }) {
-                if (pokemon.facedOpponents.isNotEmpty() /* TODO exp share held item check */) {
-                    val experience = Cobblemon.experienceCalculator.calculate(pokemon)
-                    if (experience > 0) {
-                        actor.awardExperience(pokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
-                    }
-                    Cobblemon.evYieldCalculator.calculate(pokemon).forEach { (stat, amount) ->
-                        pokemon.originalPokemon.evs.add(stat, amount)
-                    }
-                }
-            }
-        }
         sendUpdate(BattleEndPacket())
         BattleRegistry.closeBattle(this)
     }
@@ -254,7 +243,7 @@ open class PokemonBattle(
             .filter { it.getWorldAndPosition() != null }
             .none { pokemonActor ->
                 val (world, pos) = pokemonActor.getWorldAndPosition()!!
-                val nearestPlayerActorDistance = actors
+                val nearestPlayerActorDistance = actors.asSequence()
                     .filter { it.type == ActorType.PLAYER }
                     .filterIsInstance<EntityBackedBattleActor<*>>()
                     .mapNotNull { it.entity }
@@ -282,4 +271,27 @@ open class PokemonBattle(
             actors.forEach { it.responses.clear() ; it.request = null }
         }
     }
+
+    fun onFaint(actor: BattleActor, faintedPokemon: BattlePokemon) {
+        actor.getSide().getOppositeSide().actors.forEach { opponent ->
+            opponent.pokemonList.filter { it.health > 0 }
+                .forEach { opponentPokemon ->
+                    val facedFainted = opponentPokemon.facedOpponents.contains(faintedPokemon)
+                    val multiplier = when {
+                        // ToDo when Exp. All is implement if enabled && !facedFainted return 2.0, probably should be a configurable value too, this will have priority over the Exp. Share
+                        !facedFainted && opponentPokemon.effectedPokemon.heldItemNoCopy().isIn(CobblemonItemTags.EXPERIENCE_SHARE) -> Cobblemon.config.experienceShareMultiplier
+                        else -> 1.0
+                    }
+                    LOGGER.info("{} is getting experience with multiplier of {}", opponentPokemon.originalPokemon.species.name, multiplier)
+                    val experience = Cobblemon.experienceCalculator.calculate(opponentPokemon, faintedPokemon, multiplier)
+                    if (experience > 0) {
+                        actor.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
+                    }
+                    Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
+                        opponentPokemon.originalPokemon.evs.add(stat, amount)
+                    }
+                }
+        }
+    }
+
 }

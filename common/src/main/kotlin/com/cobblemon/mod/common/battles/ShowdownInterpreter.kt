@@ -455,10 +455,11 @@ object ShowdownInterpreter {
     private fun handleFaintInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val pnx = message.split("|faint|")[1].substring(0, 3)
-            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val (actor, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             pokemon.battlePokemon?.sendUpdate()
+            //pokemon.battlePokemon?.let { battle.onFaint(actor, it) }
             battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
             pokemon.battlePokemon = null
             WaitDispatch(2.5F)
