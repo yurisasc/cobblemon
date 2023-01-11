@@ -282,10 +282,9 @@ open class PokemonBattle(
                         !facedFainted && opponentPokemon.effectedPokemon.heldItemNoCopy().isIn(CobblemonItemTags.EXPERIENCE_SHARE) -> Cobblemon.config.experienceShareMultiplier
                         else -> 1.0
                     }
-                    LOGGER.info("{} is getting experience with multiplier of {}", opponentPokemon.originalPokemon.species.name, multiplier)
                     val experience = Cobblemon.experienceCalculator.calculate(opponentPokemon, faintedPokemon, multiplier)
                     if (experience > 0) {
-                        actor.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
+                        opponent.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
                     }
                     Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
                         opponentPokemon.originalPokemon.evs.add(stat, amount)
