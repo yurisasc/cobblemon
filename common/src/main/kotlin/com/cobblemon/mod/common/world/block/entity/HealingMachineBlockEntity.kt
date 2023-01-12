@@ -26,7 +26,7 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
+
 class HealingMachineBlockEntity(
     blockPos: BlockPos,
     blockState: BlockState
@@ -40,6 +40,13 @@ class HealingMachineBlockEntity(
     val isInUse: Boolean
         get() = currentUser != null
     var infinite: Boolean = false
+
+    var currentSignal = 0
+        private set
+
+    init {
+        this.updateRedstoneSignal()
+    }
 
     fun setUser(user: UUID) {
         this.clearData()
@@ -67,6 +74,7 @@ class HealingMachineBlockEntity(
         if (!Cobblemon.config.infiniteHealerCharge) {
             val neededHealthPercent = player.party().getHealingRemainderPercent()
             this.healingCharge -= neededHealthPercent
+            this.updateRedstoneSignal()
         }
         this.setUser(player.uuid)
     }
@@ -157,27 +165,41 @@ class HealingMachineBlockEntity(
         world!!.updateListeners(pos, this.cachedState, this.cachedState, 3)
     }
 
-    companion object : BlockEntityTicker<HealingMachineBlockEntity> {
-        override fun tick(world: World, blockPos: BlockPos, blockState: BlockState, tileEntity: HealingMachineBlockEntity) {
-            if (world.isClient) {
-                return
-            }
+    private fun updateRedstoneSignal() {
+        if (Cobblemon.config.infiniteHealerCharge || this.infinite) {
+            this.currentSignal = MAX_REDSTONE_SIGNAL
+        }
+        val remainder = ((this.healingCharge / Cobblemon.config.maxHealerCharge) * 100).toInt() / 10
+        this.currentSignal = remainder.coerceAtMost(MAX_REDSTONE_SIGNAL)
+    }
 
+    companion object {
+
+        const val MAX_REDSTONE_SIGNAL = 10
+
+        internal val TICKER = BlockEntityTicker<HealingMachineBlockEntity> { world, _, _, blockEntity ->
+            if (world.isClient) {
+                return@BlockEntityTicker
+            }
             // Healing progression
-            if (tileEntity.isInUse) {
-                if (tileEntity.healTimeLeft > 0) {
-                    tileEntity.healTimeLeft--
+            if (blockEntity.isInUse) {
+                if (blockEntity.healTimeLeft > 0) {
+                    blockEntity.healTimeLeft--
                 } else {
-                    tileEntity.completeHealing()
+                    blockEntity.completeHealing()
                 }
             } else {
                 // Recharging
                 val maxCharge = Cobblemon.config.maxHealerCharge
-                if (tileEntity.healingCharge < maxCharge) {
-                    tileEntity.healingCharge = (tileEntity.healingCharge + Cobblemon.config.chargeGainedPerTick).coerceAtMost(maxCharge)
-                    tileEntity.markUpdated()
+                if (blockEntity.healingCharge < maxCharge) {
+                    blockEntity.healingCharge = (blockEntity.healingCharge + Cobblemon.config.chargeGainedPerTick).coerceAtMost(maxCharge)
+                    blockEntity.updateRedstoneSignal()
+                    blockEntity.markUpdated()
                 }
             }
         }
+
     }
+
+
 }

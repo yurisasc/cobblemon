@@ -15,6 +15,7 @@
     "PlayerMixin",
     "PointedDripstoneBlockMixin",
     "ServerChunkManagerMixin",
+    "ShearsDispenserBehaviorMixin",
     "accessor.AccessorEntity",
     "entity.TameableEntityMixin"
   ],
