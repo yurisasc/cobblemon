@@ -35,7 +35,7 @@ import net.minecraft.world.WorldView
 import net.minecraft.world.event.GameEvent
 
 // Note we cannot make this inherit from CocoaBlock since our age properties differ, it is however safe to copy most of the logic from it
-class ApricornBlock(settings: Settings, private val apricorn: Apricorn) : HorizontalFacingBlock(settings), Fertilizable {
+class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFacingBlock(settings), Fertilizable {
 
     init {
         this.defaultState = this.stateManager.defaultState
@@ -113,13 +113,7 @@ class ApricornBlock(settings: Settings, private val apricorn: Apricorn) : Horizo
     @Deprecated("Deprecated in Java")
     override fun onUse(state: BlockState, world: World, pos: BlockPos, player: PlayerEntity, hand: Hand, hit: BlockHitResult): ActionResult {
         if (state.get(AGE) == MAX_AGE) {
-            dropStack(world, pos, ItemStack(this.apricorn.item()))
-            if (world.random.nextFloat() < Cobblemon.config.apricornSeedChance) {
-                dropStack(world, pos, ItemStack(this.apricorn.seed()))
-            }
-            // Don't use default as we want to keep the facing
-            val resetState = state.with(AGE, MIN_AGE)
-            world.setBlockState(pos, resetState, 2)
+            val resetState = this.harvest(world, state, pos)
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, resetState))
             return ActionResult.success(world.isClient)
         }
@@ -129,6 +123,25 @@ class ApricornBlock(settings: Settings, private val apricorn: Apricorn) : Horizo
     // We need to point back to the actual apricorn item, see SweetBerryBushBlock for example
     override fun getPickStack(world: BlockView, pos: BlockPos, state: BlockState) = ItemStack(this.apricorn.item())
 
+    /**
+     * Harvests the apricorn at the given params.
+     * This also handles the random possible seed drop.
+     *
+     * @param world The [World] the apricorn is in.
+     * @param state The [BlockState] of the apricorn.
+     * @param pos The [BlockPos] of the apricorn.
+     * @return The [BlockState] after harvest.
+     */
+    fun harvest(world: World, state: BlockState, pos: BlockPos): BlockState {
+        dropStack(world, pos, ItemStack(this.apricorn.item()))
+        if (world.random.nextFloat() < Cobblemon.config.apricornSeedChance) {
+            dropStack(world, pos, ItemStack(this.apricorn.seed()))
+        }
+        // Don't use default as we want to keep the facing
+        val resetState = state.with(AGE, MIN_AGE)
+        world.setBlockState(pos, resetState, Block.NOTIFY_LISTENERS)
+        return resetState
+    }
 
     companion object {
 
@@ -247,6 +260,7 @@ class ApricornBlock(settings: Settings, private val apricorn: Apricorn) : Horizo
             VoxelShapes.union(WEST_BODY_STAGE_3, WEST_TOP_STAGE_3, WEST_BOTTOM_STAGE_3),
             VoxelShapes.union(WEST_BODY_FRUIT, WEST_TOP_FRUIT, WEST_BOTTOM_FRUIT)
         )
+
     }
 
 
