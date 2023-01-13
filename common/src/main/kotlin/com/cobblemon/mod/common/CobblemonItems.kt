@@ -10,10 +10,7 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
-import com.cobblemon.mod.common.item.ApricornItem
-import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.CobblemonItemGroups
-import com.cobblemon.mod.common.item.PokeBallItem
+import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
@@ -72,13 +69,13 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val BLACK_APRICORN = queue("black_apricorn") { ApricornItem(CobblemonBlocks.BLACK_APRICORN.get()) }
     val WHITE_APRICORN = queue("white_apricorn") { ApricornItem(CobblemonBlocks.WHITE_APRICORN.get()) }
 
-    val RED_APRICORN_SEED = queue("red_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.RED_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val YELLOW_APRICORN_SEED = queue("yellow_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.YELLOW_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val GREEN_APRICORN_SEED = queue("green_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.GREEN_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val BLUE_APRICORN_SEED = queue("blue_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.BLUE_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val PINK_APRICORN_SEED = queue("pink_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.PINK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val BLACK_APRICORN_SEED = queue("black_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.BLACK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val WHITE_APRICORN_SEED = queue("white_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.WHITE_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val RED_APRICORN_SEED = queue("red_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.RED_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val YELLOW_APRICORN_SEED = queue("yellow_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.YELLOW_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val GREEN_APRICORN_SEED = queue("green_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.GREEN_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val BLUE_APRICORN_SEED = queue("blue_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.BLUE_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val PINK_APRICORN_SEED = queue("pink_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.PINK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val BLACK_APRICORN_SEED = queue("black_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.BLACK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val WHITE_APRICORN_SEED = queue("white_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.WHITE_APRICORN_SAPLING.get(), ItemGroup.MISC) }
 
     val APRICORN_LOG = queue("apricorn_log") { blockItem(CobblemonBlocks.APRICORN_LOG.get(), ItemGroup.BUILDING_BLOCKS) }
     val STRIPPED_APRICORN_LOG = queue("stripped_apricorn_log") { blockItem(CobblemonBlocks.STRIPPED_APRICORN_LOG.get(), ItemGroup.BUILDING_BLOCKS) }

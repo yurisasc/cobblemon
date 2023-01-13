@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.world.block
 
+import com.cobblemon.mod.common.CobblemonBlockEntities
 import com.cobblemon.mod.common.api.text.green
 import com.cobblemon.mod.common.api.text.red
 import com.cobblemon.mod.common.util.isInBattle
@@ -138,12 +139,13 @@ class HealingMachineBlock(properties: Settings) : BlockWithEntity(properties) {
         }
     }
 
-    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? {
-        if (BlockWithEntityType != com.cobblemon.mod.common.CobblemonBlockEntities.HEALING_MACHINE.get()) {
-            return null
-        }
-        return HealingMachineBlockEntity.Companion as BlockEntityTicker<T>
-    }
+    @Deprecated("Deprecated in Java")
+    override fun hasComparatorOutput(state: BlockState) = true
+
+    @Deprecated("Deprecated in Java")
+    override fun getComparatorOutput(state: BlockState, world: World, pos: BlockPos): Int = (world.getBlockEntity(pos) as? HealingMachineBlockEntity)?.currentSignal ?: 0
+
+    override fun <T : BlockEntity> getTicker(world: World, blockState: BlockState, BlockWithEntityType: BlockEntityType<T>): BlockEntityTicker<T>? = checkType(BlockWithEntityType, CobblemonBlockEntities.HEALING_MACHINE.get(), HealingMachineBlockEntity.TICKER::tick)
 
     @Deprecated("Deprecated in Java")
     override fun getRenderType(blockState: BlockState): BlockRenderType {
