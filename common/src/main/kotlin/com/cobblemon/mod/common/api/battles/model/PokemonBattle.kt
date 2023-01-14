@@ -183,7 +183,7 @@ open class PokemonBattle(
                                 opponent.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
                             }
                             Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
-                                opponentPokemon.originalPokemon.evs.add(stat, amount)
+                                opponentPokemon.effectedPokemon.evs.add(stat, amount)
                             }
                         }
                 }
