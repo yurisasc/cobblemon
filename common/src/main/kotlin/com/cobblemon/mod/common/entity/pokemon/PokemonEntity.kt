@@ -25,9 +25,6 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
-import com.cobblemon.mod.common.api.storage.party.PartyStore
-import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
-import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -45,7 +42,6 @@ import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
-import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
@@ -291,20 +287,7 @@ class PokemonEntity(
             nbt.putUuid(DataKeys.POKEMON_OWNER_ID, ownerId)
         }
 
-        val storeCoordinates = pokemon.storeCoordinates.get()
-        if (storeCoordinates != null) {
-            // This could be improved to be generalized and API-able
-            val (store, position) = storeCoordinates
-            nbt.putBoolean(DataKeys.OWNED_BY_PLAYER, store is PlayerPartyStore)
-            if (store is PCStore) {
-                nbt.putBoolean(DataKeys.STORE_IS_PARTY, false)
-            } else if (store is PartyStore) {
-                nbt.putBoolean(DataKeys.STORE_IS_PARTY, true)
-            }
-            storeCoordinates.saveToNBT(nbt)
-        } else {
-            nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
-        }
+        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
         val battleIdToSave = battleId.get().orElse(null)
         if (battleIdToSave != null) {
             nbt.putUuid(DataKeys.POKEMON_BATTLE_ID, battleIdToSave)
@@ -322,32 +305,7 @@ class PokemonEntity(
         if (nbt.containsUuid(DataKeys.POKEMON_OWNER_ID)) {
             ownerUuid = nbt.getUuid(DataKeys.POKEMON_OWNER_ID)
         }
-        if (nbt.contains(DataKeys.OWNED_BY_PLAYER)) {
-            val isParty = nbt.getBoolean(DataKeys.STORE_IS_PARTY)
-            val store = if (isParty) {
-                Cobblemon.storage.getParty(ownerUuid!!)
-            } else {
-                Cobblemon.storage.getPC(ownerUuid!!)
-            }
-            val coordinates = store.loadPositionFromNBT(nbt)
-            val pokemon = coordinates.get()
-            if (pokemon == null) {
-                discard()
-                return
-            } else {
-                this.pokemon = pokemon
-                // Link it back up
-                val state = pokemon.state
-                if (state is SentOutState) {
-                    state.update(this)
-                } else {
-                    pokemon.state = SentOutState(this)
-                }
-            }
-
-        } else {
-            pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
-        }
+        pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
         labelLevel.set(pokemon.level)
         val savedBattleId = if (nbt.containsUuid(DataKeys.POKEMON_BATTLE_ID)) nbt.getUuid(DataKeys.POKEMON_BATTLE_ID) else null
@@ -627,7 +585,7 @@ class PokemonEntity(
     override fun remove(reason: RemovalReason?) {
         val stateEntity = (pokemon.state as? ActivePokemonState)?.entity
         super.remove(reason)
-        if (stateEntity == this || stateEntity == null) {
+        if (stateEntity == this) {
             pokemon.state = InactivePokemonState()
         }
         subscriptions.forEach(ObservableSubscription<*>::unsubscribe)
