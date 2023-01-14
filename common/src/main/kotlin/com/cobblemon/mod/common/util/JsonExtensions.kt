@@ -56,3 +56,8 @@ fun JsonObject.isEmpty() = size() <= 0
 fun JsonObject.isNotEmpty() = size() > 0
 
 fun JsonElement.asNbt(): NbtElement = JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, this)
+
+fun <T : Enum<T>> Array<T>.getFromJSON(element: JsonElement, name: String): T {
+    val type = (element as JsonObject).get(name).asString
+    return first { type.equals(it.name, ignoreCase = true) }
+}

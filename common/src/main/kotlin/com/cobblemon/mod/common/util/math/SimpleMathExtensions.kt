@@ -8,10 +8,13 @@
 
 package com.cobblemon.mod.common.util.math
 
+import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
+import kotlin.math.sin
 import kotlin.random.Random
+import net.minecraft.util.math.Vec3d
 
 infix fun Int.pow(power: Int): Int {
     return toDouble().pow(power.toDouble()).toInt()
@@ -40,3 +43,9 @@ fun IntRange.intersection(other: IntRange): IntRange {
 }
 
 fun Pair<Float, Float>.random() = Random.nextFloat() * (second - first) + first
+
+fun convertSphericalToCartesian(radius: Double, theta: Double, psi: Double): Vec3d = Vec3d(
+    radius * cos(theta) * sin(psi),
+    radius * sin(theta) * sin(psi),
+    radius * cos(psi)
+)

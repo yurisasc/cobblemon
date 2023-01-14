@@ -6,12 +6,12 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import java.lang.reflect.Type
 
-object SnowstormDeserializer : JsonDeserializer<ParticleStorm> {
-    override fun deserialize(json: JsonElement, t: Type, ctx: JsonDeserializationContext): ParticleStorm {
-        json as JsonObject
-
-       // TODO heaps of logic
-
-        return ParticleStorm()
-    }
-}
+//object SnowstormDeserializer : JsonDeserializer<ParticleStorm> {
+//    override fun deserialize(json: JsonElement, t: Type, ctx: JsonDeserializationContext): ParticleStorm {
+//        json as JsonObject
+//
+//       // TODO heaps of logic
+//
+//        return ParticleStorm()
+//    }
+//}

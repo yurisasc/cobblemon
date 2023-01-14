@@ -1,7 +1,11 @@
 package com.cobblemon.mod.common.api.snowstorm
 
 import com.bedrockk.molang.Expression
+import com.cobblemon.mod.common.util.adapters.ExpressionAdapter
+import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
+import com.google.gson.GsonBuilder
 import kotlin.math.floor
+import net.minecraft.particle.ParticleEffect
 import net.minecraft.util.Identifier
 
 /**
@@ -12,6 +16,21 @@ import net.minecraft.util.Identifier
  * @since January 2nd, 2022
  */
 class BedrockParticleEffect {
+    companion object {
+        val gson = GsonBuilder()
+            .setPrettyPrinting()
+            .disableHtmlEscaping()
+            .registerTypeAdapter(Expression::class.java, ExpressionAdapter)
+            .registerTypeAdapter(ParticleEffectCurve::class.java, ParticleEffectCurve.adapter)
+            .registerTypeAdapter(ParticleEmitterShape::class.java, ParticleEmitterShape.adapter)
+            .registerTypeAdapter(ParticleUVMode::class.java, ParticleUVMode.adapter)
+            .registerTypeAdapter(ParticleMotion::class.java, ParticleMotion.adapter)
+            .registerTypeAdapter(ParticleEmitterRate::class.java, ParticleEmitterRate.adapter)
+            .registerTypeAdapter(ParticleMotionDirection::class.java, ParticleMotionDirection.adapter)
+            .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+            .create()
+    }
+
     val id = Identifier("minecraft:particle_effect")
     var emitter = BedrockParticleEmitter()
     var particle = BedrockParticle()

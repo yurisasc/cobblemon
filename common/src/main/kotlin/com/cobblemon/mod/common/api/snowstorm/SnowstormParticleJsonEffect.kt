@@ -21,39 +21,7 @@ class SnowstormParticle {
     @SerializedName("format_version")
     var formatVersion = ""
     @SerializedName("particle_effect")
-    var particleEffect = ParticleEffect()
-}
-
-class ParticleDescription {
-    var identifier = Identifier("")
-    @SerializedName("basic_render_parameters")
-    var basicRenderParameters = BasicRenderParameters()
-}
-
-
-enum class ParticleMotionType {
-    DYNAMIC,
-    PARAMETRIC, // TODO figure out how that even works
-    STATIC
-}
-
-enum class ParticleMotionDirectionType {
-    CUSTOM,
-    OUTWARDS,
-    INWARDS
-}
-
-enum class ParticleEmitterShapeType {
-    SPHERE,
-    POINT,
-    BOX,
-    DISC,
-    ENTITY_BOUNDING_BOX
-}
-
-class BasicRenderParameters {
-    val material = "particles_alpha"
-    val texture = Identifier("")
+    var particleEffect = BedrockParticleEffect()
 }
 
 enum class CurveType {
@@ -62,8 +30,6 @@ enum class CurveType {
     CATMULL_ROM,
     BEZIER_CHAIN
 }
-
-
 
 class ParticleComponents {
     @SerializedName("emitter_initialization")
@@ -87,10 +53,3 @@ class EmitterLifetimeLooping  {
     @SerializedName("sleep_time")
     var sleepTime = 0
 }
-
-enum class ParticleMaterial {
-    ALPHA,
-    OPAQUE,
-    BLEND
-}
-

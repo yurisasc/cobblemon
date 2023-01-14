@@ -5,4 +5,5 @@ import com.bedrockk.molang.Expression
 class BedrockParticleEmitter {
     val updateExpressions = mutableListOf<Expression>()
     val rate: ParticleEmitterRate = InstantParticleEmitterRate()
+    val shape: ParticleEmitterShape = SphereParticleEmitterShape()
 }
