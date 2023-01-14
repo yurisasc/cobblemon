@@ -20,6 +20,7 @@ import net.minecraft.util.Identifier
 
 class PokemonInteractButton(
     x: Int, y: Int,
+    private val iconResource: Identifier? = null,
     private val textureResource: Identifier,
     private val enabled: Boolean = true,
     onPress: PressAction
@@ -27,6 +28,8 @@ class PokemonInteractButton(
 
     companion object {
         const val SIZE = 69
+        const val ICON_SIZE = 32
+        const val ICON_SCALE = 0.5F
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
@@ -41,6 +44,19 @@ class PokemonInteractButton(
             textureHeight = SIZE * 2,
             alpha = if (enabled) 1F else 0.4F
         )
+
+        if (iconResource != null) {
+            blitk(
+                matrixStack = matrices,
+                texture = iconResource,
+                x = (x + 26.5) / ICON_SCALE,
+                y = (y + 26.5) / ICON_SCALE,
+                width = ICON_SIZE,
+                height = ICON_SIZE,
+                alpha = if (enabled) 1F else 0.4F,
+                scale = ICON_SCALE
+            )
+        }
     }
 
     override fun playDownSound(pHandler: SoundManager) {

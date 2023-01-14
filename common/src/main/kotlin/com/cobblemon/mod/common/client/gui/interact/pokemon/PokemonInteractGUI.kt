@@ -28,10 +28,13 @@ class PokemonInteractGUI(
         const val SIZE = 138
 
         private val baseBackgroundResource = cobblemonResource("ui/interact/interact_base.png")
-        private val topLeftResource = cobblemonResource("ui/interact/top_left_button.png")
-        private val topRightResource = cobblemonResource("ui/interact/top_right_button.png")
-        private val bottomLeftResource = cobblemonResource("ui/interact/bottom_left_button.png")
-        private val bottomRightResource = cobblemonResource("ui/interact/bottom_right_button.png")
+        private val topLeftResource = cobblemonResource("ui/interact/button_left_top.png")
+        private val topRightResource = cobblemonResource("ui/interact/button_right_top.png")
+        private val bottomLeftResource = cobblemonResource("ui/interact/button_left_bottom.png")
+        private val bottomRightResource = cobblemonResource("ui/interact/button_right_bottom.png")
+
+        private val iconShoulderResource = cobblemonResource("ui/interact/icon_shoulder.png")
+        private val iconHeldItemResource = cobblemonResource("ui/interact/icon_held_item.png")
     }
 
     override fun init() {
@@ -42,6 +45,7 @@ class PokemonInteractGUI(
         this.addDrawableChild(PokemonInteractButton(
             x = x,
             y = y,
+            iconResource = iconShoulderResource,
             textureResource = topLeftResource,
             enabled = canMountShoulder
         ) {
@@ -55,6 +59,7 @@ class PokemonInteractGUI(
         this.addDrawableChild(PokemonInteractButton(
             x = x + PokemonInteractButton.SIZE,
             y = y,
+            iconResource = iconHeldItemResource,
             textureResource = topRightResource
         ) {
             InteractPokemonPacket(pokemonID, false).sendToServer()
