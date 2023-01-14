@@ -5,9 +5,13 @@
 - Added /giveallpokemon command which is definitely safe and not insane.
 - Added a cap of Pokémon spawns in an area because waiting a while made things insane. Controlled by a new `pokemonPerChunk` config option
 - Pokémon now save to the world by default, meaning the same Pokémon are there after you log out and back in.
+- [Dispensers](https://minecraft.fandom.com/wiki/Dispenser) can now use shears to automatically harvest fully grown Apricorns.
+- Apricorn seeds can now be used with the [Composter](https://minecraft.fandom.com/wiki/Composter), these have the layer increase chance of 65% like Apricorns and various Minecraft crops.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
+- The Healing Machine will now emit a redstone signal with the strength of 1 for every 10% charge it has when attached to a [Redstone Comparator](https://minecraft.fandom.com/wiki/Redstone_Comparator).
+
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably)
 - Fixed Pokémon that faint from poison appearing to be on full health and suckering you into false hope.
