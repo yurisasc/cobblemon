@@ -2,27 +2,27 @@
 
 ## [1.2.1](#1-2-1)
 ### Additions
-- Added /giveallpokemon command which is definitely safe and not insane.
-- Added a cap of Pokémon spawns in an area because waiting a while made things insane. Controlled by a new `pokemonPerChunk` config option
-- Pokémon now save to the world by default, meaning the same Pokémon are there after you log out and back in.
+- Added `/giveallpokemon` command which is definitely safe and not insane.
+- Added a cap of Pokémon spawns in an area because waiting a while made things insane. Controlled by a new `pokemonPerChunk` config option.
+- Pokémon now save to the world by default, meaning the same Pokémon will remain in the world and not and not disappear after you log out and log back in.
 - [Dispensers](https://minecraft.fandom.com/wiki/Dispenser) can now use shears to automatically harvest fully grown Apricorns.
 - Apricorn seeds can now be used with the [Composter](https://minecraft.fandom.com/wiki/Composter), these have the layer increase chance of 65% like Apricorns and various Minecraft crops.
-- Added held item functionality, Pokémon can now be given traditional held items with the various expected battle or out of battle effects or just hold any regular item in the game and act as an extra storage.
-- Added a few held items, currently creative only items.
+- Pokémon can now act as an extra storage slot and can be given an item to hold. Traditional Pokémon held items will have their expected battle or out-of-battle effects.
+- Added a few held items that are currently obtainable in Creative Mode.
 - Added the Item [tags](https://minecraft.fandom.com/wiki/Tag) `cobblemon:held/experience_share` and `cobblemon:held/lucky_egg` allowing you to mark any items you desire to have the effects implied in the tag name.
+- Added an interface that appears when interacting with your Pokémon while sneaking. The interface allows for interactive options such as shouldering and exchanging held items.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
 - The Healing Machine will now emit a redstone signal with the strength of 1 for every 10% charge it has when attached to a [Redstone Comparator](https://minecraft.fandom.com/wiki/Redstone_Comparator).
-- Made shift clicking a Pokémon bring up a GUI for the different possible interactions such as shouldering or giving/taking/swapping held items.
 
 ### Fixes
-- Fixed layering logic so multiple texture layers can exist on a Pokémon (probably)
+- Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
 - Fixed Pokémon that faint from poison appearing to be on full health and suckering you into false hope.
 - Fixed Sliggoo and Goodra secretly being their Hisuian form despite us not having those modelled yet.
 - Fixed forms not being able to unset the secondary type of a Pokémon in the stat JSON.
 - Fixed optional aspects not saving and loading properly.
-- Fixed issues of invisible Pokémon in GUIs on some Macs.
+- Fixed an issue of Pokémon not rendering in GUIs on some Mac computers.
 - Fixed a soft-duplicate that could occur when a party Pokémon is pushed through a Nether Portal.
 - Fixed missing multiplier on the experience calculator when a Pokémon is at or past the level where it would be able to evolve, but it has not.
 - Fixed missing multiplier on the experience calculator based on Pokémon affection.
