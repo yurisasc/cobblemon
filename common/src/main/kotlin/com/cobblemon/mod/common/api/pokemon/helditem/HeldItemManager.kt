@@ -12,13 +12,17 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.pokemon.helditem.BaseCobblemonHeldItemManager
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonEmptyHeldItemManager
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import net.minecraft.item.ItemStack
 import net.minecraft.text.Text
 
 /**
  * Responsible for querying [BattlePokemon] for the presence of held items and their consumption.
  * These are invoked when creating battles and are only used for in battle data.
- * For operations on the [ItemStack] a [Pokemon] may be holding see [Pokemon.heldItem] and [Pokemon.swapHeldItem]
+ * For operations on the [ItemStack] a [Pokemon] may be holding see [Pokemon.heldItem] and [Pokemon.swapHeldItem].
+ * For the default implementation see [BaseCobblemonHeldItemManager], [CobblemonEmptyHeldItemManager] and [CobblemonHeldItemManager].
  *
  * @author Licious
  * @since December 30th, 2022
@@ -42,14 +46,6 @@ interface HeldItemManager {
     fun nameOf(showdownId: String): Text
 
     /**
-     * Consumes the item.
-     * Note that it might not necessarily be the [Pokemon.heldItem].
-     *
-     * @param pokemon The [BattlePokemon] that is holding the item.
-     */
-    fun consume(pokemon: BattlePokemon)
-
-    /**
      * Invoked when an action instruction is sent from the Showdown server of type '-item'
      *
      * @param pokemon The [BattlePokemon] affected.
@@ -67,20 +63,32 @@ interface HeldItemManager {
      */
     fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage)
 
+    /**
+     * Gives the given [pokemon] a held item based on the [showdownId].
+     *
+     * @param pokemon The [BattlePokemon] being affected.
+     * @param showdownId The literal ID of the held item on Showdown.
+     */
+    fun give(pokemon: BattlePokemon, showdownId: String)
+
+    /**
+     * Takes the given [showdownId] held item based from the [pokemon].
+     *
+     * @param pokemon The [BattlePokemon] being affected.
+     * @param showdownId The literal ID of the held item on Showdown.
+     */
+    fun take(pokemon: BattlePokemon, showdownId: String)
+
 
     companion object {
 
         /**
-         * A [HeldItemManager] that never finds an item ID nor consumes anything.
+         * A [HeldItemManager] that never finds an item ID.
          * This is meant to be used when a battle Pokémon cannot be attached to any of the registered managers.
+         * It will attempt to map a showdown item ID to a Cobblemon provided item and use that when taking or giving held items.
+         * This is necessary for the basic functionality of consuming, swapping or removing items.
          */
-        val EMPTY = object : HeldItemManager {
-            override fun showdownId(pokemon: BattlePokemon): String? = null
-            override fun nameOf(showdownId: String): Text = Text.empty()
-            override fun consume(pokemon: BattlePokemon) {}
-            override fun handleStartInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {}
-            override fun handleEndInstruction(pokemon: BattlePokemon, battle: PokemonBattle, battleMessage: BattleMessage) {}
-        }
+        val EMPTY: HeldItemManager = CobblemonEmptyHeldItemManager
 
     }
 

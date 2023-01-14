@@ -26,7 +26,7 @@ class HeldItemUpdatePacket internal constructor() : SingleUpdatePacket<ItemStack
     override fun decodeValue(buffer: PacketByteBuf): ItemStack = buffer.readItemStack()
 
     override fun set(pokemon: Pokemon, value: ItemStack) {
-        pokemon.swapHeldItem(value)
+        pokemon.swapHeldItem(value, false)
     }
 
 }

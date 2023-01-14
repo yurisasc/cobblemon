@@ -96,6 +96,7 @@ object ShowdownInterpreter {
         updateInstructions["|-status|"] = this::handleStatusInstruction
         updateInstructions["|-end|"] = this::handleEndInstruction
         updateInstructions["|-miss|"] = this::handleMissInstruction
+        updateInstructions["|-hitcount|"] = this::handleHitCountInstruction
         updateInstructions["|-item|"] = this::handleItemInstruction
         updateInstructions["|-enditem|"] = this::handleEndItemInstruction
 
@@ -454,7 +455,7 @@ object ShowdownInterpreter {
     private fun handleFaintInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val pnx = message.split("|faint|")[1].substring(0, 3)
-            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val (actor, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             pokemon.battlePokemon?.sendUpdate()
@@ -904,6 +905,16 @@ object ShowdownInterpreter {
         }
 
     }
+
+    // |-hitcount|POKEMON|NUM
+    fun handleHitCountInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val hitCount = message.substringAfterLast("|").toIntOrNull() ?: -1
+            val lang = if (hitCount == 1) battleLang("hit_count_singular") else battleLang("hit_count", hitCount)
+            battle.broadcastChatMessage(lang)
+        }
+    }
+
 
     fun handleItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
         battle.dispatchGo {

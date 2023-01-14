@@ -83,6 +83,7 @@
   "item.cobblemon.focus_band": "Focus Band",
   "item.cobblemon.hard_stone": "Hard Stone",
   "item.cobblemon.heavy_duty_boots": "Heavy-Duty Boots",
+  "item.cobblemon.lucky_egg": "Lucky Egg",
   "item.cobblemon.muscle_band": "Muscle Band",
   "item.cobblemon.rocky_helmet": "Rocky Helmet",
   "item.cobblemon.safety_goggles": "Safety Goggles",
@@ -222,8 +223,8 @@
 
   "cobblemon.held_item": "Held Item",
   "cobblemon.held_item.give": "%1$s was given %2$s to hold.",
-  "cobblemon.held_item.replace": "You retrieve %1$s from %2$s and give it %3$s to hold.",
-  "cobblemon.held_item.take": "You retrieve %1$s from %2$s.",
+  "cobblemon.held_item.replace": "You retrieved %1$s from %2$s and gave it %3$s to hold.",
+  "cobblemon.held_item.take": "You retrieved %1$s from %2$s.",
   "cobblemon.held_item.already_holding": "%1$s is already holding %2$s!",
 
   "cobblemon.ui.pokemonteam": "Pokémon Team",
@@ -366,6 +367,8 @@
   "cobblemon.battle.flinched": "%1$s flinched and couldn't move!",
   "cobblemon.battle.immune": "But %1$s is immune!",
   "cobblemon.battle.missed": "But it missed.",
+  "cobblemon.battle.hit_count": "Hit %1$s times!",
+  "cobblemon.battle.hit_count_singular": "Hit 1 time!",
 
   "cobblemon.battle.item.air_balloon.start": "%1$s floats in the air with its Air Balloon!",
   "cobblemon.battle.item.recycle_or_pickup.start": "%1$s found one %2$s!",

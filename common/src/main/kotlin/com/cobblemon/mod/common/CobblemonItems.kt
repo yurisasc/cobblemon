@@ -10,10 +10,7 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
-import com.cobblemon.mod.common.item.ApricornItem
-import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.CobblemonItemGroups
-import com.cobblemon.mod.common.item.PokeBallItem
+import com.cobblemon.mod.common.item.*
 import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
@@ -72,13 +69,13 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val BLACK_APRICORN = queue("black_apricorn") { ApricornItem(CobblemonBlocks.BLACK_APRICORN.get()) }
     val WHITE_APRICORN = queue("white_apricorn") { ApricornItem(CobblemonBlocks.WHITE_APRICORN.get()) }
 
-    val RED_APRICORN_SEED = queue("red_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.RED_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val YELLOW_APRICORN_SEED = queue("yellow_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.YELLOW_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val GREEN_APRICORN_SEED = queue("green_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.GREEN_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val BLUE_APRICORN_SEED = queue("blue_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.BLUE_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val PINK_APRICORN_SEED = queue("pink_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.PINK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val BLACK_APRICORN_SEED = queue("black_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.BLACK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
-    val WHITE_APRICORN_SEED = queue("white_apricorn_seed") { itemNameBlockItem(CobblemonBlocks.WHITE_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val RED_APRICORN_SEED = queue("red_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.RED_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val YELLOW_APRICORN_SEED = queue("yellow_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.YELLOW_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val GREEN_APRICORN_SEED = queue("green_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.GREEN_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val BLUE_APRICORN_SEED = queue("blue_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.BLUE_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val PINK_APRICORN_SEED = queue("pink_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.PINK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val BLACK_APRICORN_SEED = queue("black_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.BLACK_APRICORN_SAPLING.get(), ItemGroup.MISC) }
+    val WHITE_APRICORN_SEED = queue("white_apricorn_seed") { ApricornSeedItem(CobblemonBlocks.WHITE_APRICORN_SAPLING.get(), ItemGroup.MISC) }
 
     val APRICORN_LOG = queue("apricorn_log") { blockItem(CobblemonBlocks.APRICORN_LOG.get(), ItemGroup.BUILDING_BLOCKS) }
     val STRIPPED_APRICORN_LOG = queue("stripped_apricorn_log") { blockItem(CobblemonBlocks.STRIPPED_APRICORN_LOG.get(), ItemGroup.BUILDING_BLOCKS) }
@@ -163,18 +160,19 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val WATER_STONE = queue("water_stone") { evolutionItem() }
 
     // Held Items
-    val ASSAULT_VEST = queue("assault_vest") { heldItem() }
-    val BLACK_GLASSES = queue("black_glasses") { heldItem() }
-    val CHOICE_BAND = queue("choice_band") { heldItem() }
-    val CHOICE_SPECS = queue("choice_specs") { heldItem() }
-    val EXP_SHARE = queue("exp_share") { heldItem() }
-    val FOCUS_BAND = queue("focus_band") { heldItem() }
-    val HARD_STONE = queue("hard_stone") { heldItem() }
-    val HEAVY_DUTY_BOOTS = queue("heavy_duty_boots") { heldItem() }
-    val MUSCLE_BAND = queue("muscle_band") { heldItem() }
-    val ROCKY_HELMET = queue("rocky_helmet") { heldItem() }
-    val SAFETY_GOGGLES = queue("safety_goggles") { heldItem() }
-    val WISE_GLASSES = queue("wise_glasses") { heldItem() }
+    val ASSAULT_VEST = this.heldItem("assault_vest")
+    val BLACK_GLASSES = this.heldItem("black_glasses")
+    val CHOICE_BAND = this.heldItem("choice_band")
+    val CHOICE_SPECS = this.heldItem("choice_specs")
+    val EXP_SHARE = this.heldItem("exp_share")
+    val FOCUS_BAND = this.heldItem("focus_band")
+    val HARD_STONE = this.heldItem("hard_stone")
+    val HEAVY_DUTY_BOOTS = this.heldItem("heavy_duty_boots")
+    val LUCKY_EGG = this.heldItem("lucky_egg")
+    val MUSCLE_BAND = this.heldItem("muscle_band")
+    val ROCKY_HELMET = this.heldItem("rocky_helmet")
+    val SAFETY_GOGGLES = this.heldItem("safety_goggles")
+    val WISE_GLASSES = this.heldItem("wise_glasses")
 
     fun pokeballs(): List<RegistrySupplier<PokeBallItem>> = this.pokeballs
 
@@ -197,8 +195,6 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
         return supplier
     }
 
-    private fun heldItem(): CobblemonItem {
-        return CobblemonItem(Item.Settings().group(CobblemonItemGroups.HELD_ITEM_GROUP))
-    }
+    private fun heldItem(name: String): RegistrySupplier<CobblemonItem> = queue(name) { CobblemonItem(Item.Settings().group(CobblemonItemGroups.HELD_ITEM_GROUP)) }
 
 }

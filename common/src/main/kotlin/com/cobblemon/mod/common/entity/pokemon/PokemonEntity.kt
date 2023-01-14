@@ -14,6 +14,9 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
+import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
+import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
@@ -24,6 +27,7 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
+import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
@@ -162,6 +166,12 @@ class PokemonEntity(
                 }
             }
         )
+
+        subscriptions.add(
+            species.subscribe {
+                calculateDimensions()
+            }
+        )
     }
 
     companion object {
@@ -239,13 +249,8 @@ class PokemonEntity(
     }
 
     override fun saveNbt(nbt: NbtCompound): Boolean {
-        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
+//        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
         return super.saveNbt(nbt)
-    }
-
-    override fun writeNbt(nbt: NbtCompound): NbtCompound {
-        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
-        return super.writeNbt(nbt)
     }
 
     override fun isInvulnerableTo(damageSource: DamageSource): Boolean {
@@ -276,11 +281,48 @@ class PokemonEntity(
         return future
     }
 
+    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+        val ownerId = ownerUuid
+        if (ownerId != null) {
+            nbt.putUuid(DataKeys.POKEMON_OWNER_ID, ownerId)
+        }
+
+        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
+        val battleIdToSave = battleId.get().orElse(null)
+        if (battleIdToSave != null) {
+            nbt.putUuid(DataKeys.POKEMON_BATTLE_ID, battleIdToSave)
+        }
+        nbt.putString(DataKeys.POKEMON_POSE_TYPE, poseType.get().name)
+        nbt.putByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS, behaviourFlags.get())
+
+        CobblemonEvents.POKEMON_ENTITY_SAVE.post(PokemonEntitySaveEvent(this, nbt))
+
+        return super.writeNbt(nbt)
+    }
+
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
+        if (nbt.containsUuid(DataKeys.POKEMON_OWNER_ID)) {
+            ownerUuid = nbt.getUuid(DataKeys.POKEMON_OWNER_ID)
+        }
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
         labelLevel.set(pokemon.level)
+        val savedBattleId = if (nbt.containsUuid(DataKeys.POKEMON_BATTLE_ID)) nbt.getUuid(DataKeys.POKEMON_BATTLE_ID) else null
+        if (savedBattleId != null) {
+            val battle = BattleRegistry.getBattle(savedBattleId)
+            if (battle != null) {
+                battleId.set(Optional.of(savedBattleId))
+            }
+        }
+        poseType.set(PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
+        behaviourFlags.set(nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
+        this.setBehaviourFlag(PokemonBehaviourFlag.EXCITED, true)
+        CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(
+            event = PokemonEntityLoadEvent(this, nbt),
+            ifSucceeded = {},
+            ifCanceled = { this.discard() }
+        )
     }
 
     override fun createSpawnPacket() = NetworkManager.createAddEntityPacket(this)
@@ -384,6 +426,11 @@ class PokemonEntity(
     }
 
     override fun shouldSave(): Boolean {
+        if (ownerUuid == null && Cobblemon.config.savePokemonToWorld) {
+            CobblemonEvents.POKEMON_ENTITY_SAVE_TO_WORLD.postThen(PokemonEntitySaveToWorldEvent(this)) {
+                return true
+            }
+        }
         return false
     }
 
@@ -470,7 +517,7 @@ class PokemonEntity(
                         }
                     }
             }
-
+            shouldSave()
             (stack.item as? PokemonInteractiveItem)?.let {
                 if (it.onInteraction(player, this, stack)) {
                     this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
@@ -482,33 +529,29 @@ class PokemonEntity(
     }
 
     fun offerHeldItem(player: PlayerEntity, stack: ItemStack): Boolean {
-        if (player !is ServerPlayerEntity || this.isBusy) {
+        if (player !is ServerPlayerEntity || this.isBusy || this.pokemon.getOwnerPlayer() != player) {
             return false
         }
-        if (pokemon.getOwnerPlayer() == player) {
-            val giving = stack.copy()
-            if (!player.isCreative) {
-                stack.decrement(1)
-            }
-            val returned = pokemon.swapHeldItem(giving)
-            if (giving.isEmpty && returned.isEmpty) {
-                return false
-            }
-            if (ItemStack.areEqual(giving, returned)) {
-                player.sendMessage(lang("held_item.already_holding", pokemon.displayName, giving.name))
-                return true
-            }
-            val text = when {
-                giving.isEmpty -> lang("held_item.take", returned.name, pokemon.displayName)
-                returned.isEmpty -> lang("held_item.give", pokemon.displayName, giving.name)
-                else -> lang("held_item.replace", returned.name, pokemon.displayName, giving.name)
-            }
-            player.giveItemStack(returned)
-            player.sendMessage(text)
-            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+        // We want the count of 1 in order to match the ItemStack#areEqual
+        val giving = stack.copy().apply { count = 1 }
+        val possibleReturn = this.pokemon.heldItemNoCopy()
+        if (stack.isEmpty && possibleReturn.isEmpty) {
+            return false
+        }
+        if (ItemStack.areEqual(giving, possibleReturn)) {
+            player.sendMessage(lang("held_item.already_holding", this.pokemon.displayName, stack.name))
             return true
         }
-        return false
+        val returned = this.pokemon.swapHeldItem(giving, !player.isCreative)
+        val text = when {
+            giving.isEmpty -> lang("held_item.take", returned.name, this.pokemon.displayName)
+            returned.isEmpty -> lang("held_item.give", this.pokemon.displayName, giving.name)
+            else -> lang("held_item.replace", returned.name, this.pokemon.displayName, giving.name)
+        }
+        player.giveItemStack(returned)
+        player.sendMessage(text)
+        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+        return true
     }
 
     fun tryMountingShoulder(player: ServerPlayerEntity): Boolean {
