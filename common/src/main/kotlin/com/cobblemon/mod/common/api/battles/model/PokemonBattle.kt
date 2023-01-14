@@ -169,9 +169,9 @@ open class PokemonBattle(
         this.actors.forEach { actor ->
             val faintedPokemons = actor.pokemonList.filter { it.health <= 0 }
             actor.getSide().getOppositeSide().actors.forEach { opponent ->
+                val opponentNonFaintedPokemons = opponent.pokemonList.filter { it.health > 0 }
                 faintedPokemons.forEach { faintedPokemon ->
-                    opponent.pokemonList.filter { it.health > 0 }
-                        .forEach { opponentPokemon ->
+                    opponentNonFaintedPokemons.forEach { opponentPokemon ->
                             val facedFainted = opponentPokemon.facedOpponents.contains(faintedPokemon)
                             val multiplier = when {
                                 // ToDo when Exp. All is implement if enabled && !facedFainted return 2.0, probably should be a configurable value too, this will have priority over the Exp. Share
