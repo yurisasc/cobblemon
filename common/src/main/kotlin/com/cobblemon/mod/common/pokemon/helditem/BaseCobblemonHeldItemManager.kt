@@ -59,7 +59,7 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
     // This is safe to do as any item triggers will only happen if a Pokémon has a valid held item to begin with.
     override fun give(pokemon: BattlePokemon, showdownId: String) {
         val stack = this.itemIds[showdownId]?.let { ItemStack(it) } ?: ItemStack.EMPTY
-        pokemon.effectedPokemon.swapHeldItem(stack)
+        pokemon.effectedPokemon.swapHeldItem(stack, false)
     }
 
     // This is safe to do as any item triggers will only happen if a Pokémon has a valid held item to begin with.

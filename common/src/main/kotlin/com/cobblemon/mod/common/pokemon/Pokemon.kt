@@ -465,16 +465,21 @@ open class Pokemon {
 
     /**
      * Swaps out the current [heldItem] for the given [stack].
-     * If [ItemStack.count] of [stack] is greater than 1 it will be shrunk.
+     * The assigned [heldItem] will always have the [ItemStack.count] of 1.
      *
      * @param stack The new [ItemStack] being set as the held item.
+     * @param decrement If the given [stack] should have [ItemStack.decrement] invoked with the parameter of 1. Default is true.
      * @return The existing [ItemStack] being held.
      */
-    fun swapHeldItem(stack: ItemStack): ItemStack {
-        stack.count = 1
+    fun swapHeldItem(stack: ItemStack, decrement: Boolean = true): ItemStack {
+        var giving = stack
+        if (decrement) {
+            stack.decrement(1)
+            giving = stack.copy().apply { count = 1 }
+        }
         val existing = this.heldItem()
-        this.heldItem = stack
-        this._heldItem.emit(stack)
+        this.heldItem = giving
+        this._heldItem.emit(giving)
         return existing
     }
 

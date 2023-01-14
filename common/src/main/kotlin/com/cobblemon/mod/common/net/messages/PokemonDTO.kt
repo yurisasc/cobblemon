@@ -189,7 +189,7 @@ class PokemonDTO : Encodable, Decodable {
             it.evolutionProxy.loadFromBuffer(evolutionBuffer)
             evolutionBuffer.release()
             it.nature = Natures.getNature(nature)!!
-            it.swapHeldItem(heldItem)
+            it.swapHeldItem(heldItem, false)
         }
     }
 }
