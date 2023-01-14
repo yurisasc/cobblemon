@@ -223,8 +223,8 @@
 
   "cobblemon.held_item": "Held Item",
   "cobblemon.held_item.give": "%1$s was given %2$s to hold.",
-  "cobblemon.held_item.replace": "You retrieve %1$s from %2$s and give it %3$s to hold.",
-  "cobblemon.held_item.take": "You retrieve %1$s from %2$s.",
+  "cobblemon.held_item.replace": "You retrieved %1$s from %2$s and gave it %3$s to hold.",
+  "cobblemon.held_item.take": "You retrieved %1$s from %2$s.",
   "cobblemon.held_item.already_holding": "%1$s is already holding %2$s!",
 
   "cobblemon.ui.pokemonteam": "Pokémon Team",
