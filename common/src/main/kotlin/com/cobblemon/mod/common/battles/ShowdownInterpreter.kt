@@ -459,7 +459,6 @@ object ShowdownInterpreter {
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             pokemon.battlePokemon?.sendUpdate()
-            pokemon.battlePokemon?.let { battle.onFaint(actor, it) }
             battle.broadcastChatMessage(battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD".red()).red())
             pokemon.battlePokemon = null
             WaitDispatch(2.5F)

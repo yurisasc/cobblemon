@@ -90,9 +90,10 @@ class BattleMessage(rawMessage: String) {
      */
     fun parse(rawMessage: String): BattleMessage {
         var message = rawMessage.trim()
-        this.rawMessage = message
+        this.id = ""
         this.args.clear()
         this.optionalArguments.clear()
+        this.rawMessage = message
         if (!message.startsWith(SEPARATOR) || message == SEPARATOR) {
             return this
         }
