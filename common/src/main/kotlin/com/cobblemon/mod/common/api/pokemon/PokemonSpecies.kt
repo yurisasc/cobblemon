@@ -41,6 +41,8 @@ import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonPreEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonRequirementAdapter
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonEmptyHeldItemManager
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.adapters.AbilityPoolAdapter
 import com.cobblemon.mod.common.util.adapters.AbilityTemplateAdapter
 import com.cobblemon.mod.common.util.adapters.BiomeLikeConditionAdapter
@@ -190,6 +192,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         }
         this.species.forEach(Species::initializePostLoads)
         createShowdownData()
+        // Reload this with the mod
+        CobblemonEmptyHeldItemManager.load()
+        CobblemonHeldItemManager.load()
         Cobblemon.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
         this.observable.emit(this)
     }

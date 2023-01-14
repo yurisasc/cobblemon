@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
+import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
@@ -96,6 +97,8 @@ object ShowdownInterpreter {
         updateInstructions["|-end|"] = this::handleEndInstruction
         updateInstructions["|-miss|"] = this::handleMissInstruction
         updateInstructions["|-hitcount|"] = this::handleHitCountInstruction
+        updateInstructions["|-item|"] = this::handleItemInstruction
+        updateInstructions["|-enditem|"] = this::handleEndItemInstruction
 
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
@@ -452,7 +455,7 @@ object ShowdownInterpreter {
     private fun handleFaintInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val pnx = message.split("|faint|")[1].substring(0, 3)
-            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val (actor, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             pokemon.battlePokemon?.sendUpdate()
@@ -714,6 +717,7 @@ object ShowdownInterpreter {
             when {
                 "|protect" in message -> battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon!!.getName()))
                 "move: Magnitude" in message -> battle.broadcastChatMessage(battleLang("magnitude_level", message.substringAfterLast("|").toIntOrNull() ?: 1))
+                // ToDo Focus Band, use battleLang("item.hung_on.end", battlerName, itemName)
             }
             GO
         }
@@ -908,6 +912,23 @@ object ShowdownInterpreter {
             val hitCount = message.substringAfterLast("|").toIntOrNull() ?: -1
             val lang = if (hitCount == 1) battleLang("hit_count_singular") else battleLang("hit_count", hitCount)
             battle.broadcastChatMessage(lang)
+        }
+    }
+
+
+    fun handleItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val battleMessage = BattleMessage(baseMessage)
+            val battlePokemon = battleMessage.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchGo
+            battlePokemon.heldItemManager.handleStartInstruction(battlePokemon, battle, battleMessage)
+        }
+    }
+
+    fun handleEndItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val battleMessage = BattleMessage(baseMessage)
+            val battlePokemon = battleMessage.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchGo
+            battlePokemon.heldItemManager.handleEndInstruction(battlePokemon, battle, battleMessage)
         }
     }
 

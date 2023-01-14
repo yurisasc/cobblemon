@@ -25,9 +25,6 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.reactive.ObservableSubscription
 import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
-import com.cobblemon.mod.common.api.storage.party.PartyStore
-import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore
-import com.cobblemon.mod.common.api.storage.pc.PCStore
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -39,12 +36,12 @@ import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
 import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem
 import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
+import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
-import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.pokemon.activestate.ShoulderedState
 import com.cobblemon.mod.common.pokemon.ai.FormPokemonBehaviour
 import com.cobblemon.mod.common.pokemon.evolution.variants.ItemInteractionEvolution
@@ -74,6 +71,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -289,20 +287,7 @@ class PokemonEntity(
             nbt.putUuid(DataKeys.POKEMON_OWNER_ID, ownerId)
         }
 
-        val storeCoordinates = pokemon.storeCoordinates.get()
-        if (storeCoordinates != null) {
-            // This could be improved to be generalized and API-able
-            val (store, position) = storeCoordinates
-            nbt.putBoolean(DataKeys.OWNED_BY_PLAYER, store is PlayerPartyStore)
-            if (store is PCStore) {
-                nbt.putBoolean(DataKeys.STORE_IS_PARTY, false)
-            } else if (store is PartyStore) {
-                nbt.putBoolean(DataKeys.STORE_IS_PARTY, true)
-            }
-            storeCoordinates.saveToNBT(nbt)
-        } else {
-            nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
-        }
+        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
         val battleIdToSave = battleId.get().orElse(null)
         if (battleIdToSave != null) {
             nbt.putUuid(DataKeys.POKEMON_BATTLE_ID, battleIdToSave)
@@ -320,32 +305,7 @@ class PokemonEntity(
         if (nbt.containsUuid(DataKeys.POKEMON_OWNER_ID)) {
             ownerUuid = nbt.getUuid(DataKeys.POKEMON_OWNER_ID)
         }
-        if (nbt.contains(DataKeys.OWNED_BY_PLAYER)) {
-            val isParty = nbt.getBoolean(DataKeys.STORE_IS_PARTY)
-            val store = if (isParty) {
-                Cobblemon.storage.getParty(ownerUuid!!)
-            } else {
-                Cobblemon.storage.getPC(ownerUuid!!)
-            }
-            val coordinates = store.loadPositionFromNBT(nbt)
-            val pokemon = coordinates.get()
-            if (pokemon == null) {
-                discard()
-                return
-            } else {
-                this.pokemon = pokemon
-                // Link it back up
-                val state = pokemon.state
-                if (state is SentOutState) {
-                    state.update(this)
-                } else {
-                    pokemon.state = SentOutState(this)
-                }
-            }
-
-        } else {
-            pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
-        }
+        pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
         labelLevel.set(pokemon.level)
         val savedBattleId = if (nbt.containsUuid(DataKeys.POKEMON_BATTLE_ID)) nbt.getUuid(DataKeys.POKEMON_BATTLE_ID) else null
@@ -411,16 +371,15 @@ class PokemonEntity(
     }
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
-        // TODO: Move to proper pokemon interaction menu
-        if (this.attemptItemInteraction(player, player.getStackInHand(hand))) {
-            // TODO #105
-            return ActionResult.SUCCESS
-        }
-        if (player.isSneaking && hand == Hand.MAIN_HAND) {
-            if (isReadyToSitOnPlayer && player is ServerPlayerEntity && !isBusy) {
-                this.tryMountingShoulder(player)
+        if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
+            if (player.isSneaking) {
+                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer).sendToPlayer(player)
+            } else {
+                // TODO #105
+                if (this.attemptItemInteraction(player, player.getStackInHand(hand))) return ActionResult.SUCCESS
             }
         }
+
         return super.interactMob(player, hand)
     }
 
@@ -540,37 +499,62 @@ class PokemonEntity(
     }
 
     private fun attemptItemInteraction(player: PlayerEntity, stack: ItemStack): Boolean {
-        if (player !is ServerPlayerEntity || stack.isEmpty || this.isBusy) {
+        if (player !is ServerPlayerEntity || this.isBusy) {
             return false
         }
-        if (pokemon.getOwnerPlayer() == player) {
-            val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
-            pokemon.evolutions
-                .filterIsInstance<ItemInteractionEvolution>()
-                .forEach { evolution ->
-                    if (evolution.attemptEvolution(pokemon, context)) {
-                        if (!player.isCreative) {
-                            stack.decrement(1)
+        if (!stack.isEmpty) {
+            if (pokemon.getOwnerPlayer() == player) {
+                val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
+                pokemon.evolutions
+                    .filterIsInstance<ItemInteractionEvolution>()
+                    .forEach { evolution ->
+                        if (evolution.attemptEvolution(pokemon, context)) {
+                            if (!player.isCreative) {
+                                stack.decrement(1)
+                            }
+                            this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+                            return true
                         }
-                        this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
-                        return true
                     }
+            }
+            shouldSave()
+            (stack.item as? PokemonInteractiveItem)?.let {
+                if (it.onInteraction(player, this, stack)) {
+                    this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+                    return true
                 }
-        }
-
-        shouldSave()
-
-        (stack.item as? PokemonInteractiveItem)?.let {
-            if (it.onInteraction(player, this, stack)) {
-                this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
-                return true
             }
         }
-
         return false
     }
 
-    private fun tryMountingShoulder(player: ServerPlayerEntity): Boolean {
+    fun offerHeldItem(player: PlayerEntity, stack: ItemStack): Boolean {
+        if (player !is ServerPlayerEntity || this.isBusy || this.pokemon.getOwnerPlayer() != player) {
+            return false
+        }
+        // We want the count of 1 in order to match the ItemStack#areEqual
+        val giving = stack.copy().apply { count = 1 }
+        val possibleReturn = this.pokemon.heldItemNoCopy()
+        if (stack.isEmpty && possibleReturn.isEmpty) {
+            return false
+        }
+        if (ItemStack.areEqual(giving, possibleReturn)) {
+            player.sendMessage(lang("held_item.already_holding", this.pokemon.displayName, stack.name))
+            return true
+        }
+        val returned = this.pokemon.swapHeldItem(giving, !player.isCreative)
+        val text = when {
+            giving.isEmpty -> lang("held_item.take", returned.name, this.pokemon.displayName)
+            returned.isEmpty -> lang("held_item.give", this.pokemon.displayName, giving.name)
+            else -> lang("held_item.replace", returned.name, this.pokemon.displayName, giving.name)
+        }
+        player.giveItemStack(returned)
+        player.sendMessage(text)
+        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+        return true
+    }
+
+    fun tryMountingShoulder(player: ServerPlayerEntity): Boolean {
         if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
             CobblemonEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
                 val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
@@ -585,6 +569,7 @@ class PokemonEntity(
                             pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
                             this.mountOnto(player)
                             this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
+                            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
                         }
                     }
                 }
@@ -597,7 +582,7 @@ class PokemonEntity(
     override fun remove(reason: RemovalReason?) {
         val stateEntity = (pokemon.state as? ActivePokemonState)?.entity
         super.remove(reason)
-        if (stateEntity == this || stateEntity == null) {
+        if (stateEntity == this) {
             pokemon.state = InactivePokemonState()
         }
         subscriptions.forEach(ObservableSubscription<*>::unsubscribe)
@@ -605,7 +590,7 @@ class PokemonEntity(
     }
 
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
-    private fun hasRoomToMount(player: PlayerEntity): Boolean {
+    fun hasRoomToMount(player: PlayerEntity): Boolean {
         return (player.shoulderEntityLeft.isEmpty || player.shoulderEntityRight.isEmpty)
                 && !player.hasVehicle()
                 && player.isOnGround
