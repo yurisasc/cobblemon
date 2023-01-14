@@ -20,6 +20,7 @@
 - Fixed optional aspects not saving and loading properly.
 - Fixed issues of invisible Pokémon in GUIs on some Macs.
 - Fixed a soft-duplicate that could occur when a party Pokémon is pushed through a Nether Portal.
+- Fixed the not all Pokéballs being associated with the `cobblemon:pokeballs` item tag.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
