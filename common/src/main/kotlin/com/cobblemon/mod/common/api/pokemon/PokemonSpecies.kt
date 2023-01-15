@@ -42,6 +42,8 @@ import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonPreEvolutionAdapter
 import com.cobblemon.mod.common.pokemon.evolution.adapters.CobblemonRequirementAdapter
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonEmptyHeldItemManager
+import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.util.adapters.AbilityPoolAdapter
 import com.cobblemon.mod.common.util.adapters.AbilityTemplateAdapter
 import com.cobblemon.mod.common.util.adapters.BiomeLikeConditionAdapter
@@ -190,7 +192,10 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         }
         SpeciesAdditions.observable.subscribe {
             this.species.forEach(Species::initialize)
-            createShowdownData()
+            Cobblemon.showdownThread.showdownStarted.whenComplete { _, _ -> createShowdownData() }.get()
+            // Reload this with the mod
+            CobblemonEmptyHeldItemManager.load()
+            CobblemonHeldItemManager.load()
             Cobblemon.LOGGER.info("Loaded {} Pokémon species", this.speciesByIdentifier.size)
             this.observable.emit(this)
         }
@@ -221,7 +226,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
 
 
         // Showdown loads mods by reading existing files as such we cannot dynamically add to the Pokédex, instead, we will overwrite the existing file and force a mod reload.
-        val pokedexFile = File("showdown/node_modules/pokemon-showdown/.data-dist/mods/cobblemon/pokedex.js")
+        val pokedexFile = File("showdown/node_modules/pokemon-showdown/data/mods/cobblemon/pokedex.js")
         Files.createDirectories(pokedexFile.toPath().parent)
         pokedexFile.bufferedWriter().use { writer ->
             writer.write(
@@ -235,7 +240,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 """.trimIndent()
             )
         }
-        val formatsDataFile = File("showdown/node_modules/pokemon-showdown/.data-dist/mods/cobblemon/formats-data.js")
+        val formatsDataFile = File("showdown/node_modules/pokemon-showdown/data/mods/cobblemon/formats-data.js")
         formatsDataFile.bufferedWriter().use { writer ->
             writer.write(
                 """

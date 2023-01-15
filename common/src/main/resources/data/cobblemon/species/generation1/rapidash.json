@@ -21,6 +21,7 @@
     },
     {
       "name": "galar",
+      "aspects": ["galarian"],
       "primaryType": "psychic",
       "secondaryType": "fairy",
       "abilities": ["runaway", "pastelveil", "h:anticipation"],

@@ -4,14 +4,7 @@
   "damageCategory": "Special",
   "target": "any",
   "power": 80,
-  "accuracy": 100.0,
+  "accuracy": -1.0,
   "pp": 20,
-  "priority": 0,
-  "flags": {
-    "bullet": 1,
-    "protect": 1,
-    "pulse": 1,
-    "mirror": 1,
-    "distance": 1
-  }
+  "priority": 0
 }

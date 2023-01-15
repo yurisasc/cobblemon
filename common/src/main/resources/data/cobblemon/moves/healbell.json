@@ -4,13 +4,7 @@
   "damageCategory": "Status",
   "target": "allyTeam",
   "power": 0,
-  "accuracy": 100.0,
+  "accuracy": -1.0,
   "pp": 5,
-  "priority": 0,
-  "flags": {
-    "snatch": 1,
-    "sound": 1,
-    "distance": 1,
-    "bypasssub": 1
-  }
+  "priority": 0
 }

@@ -19,6 +19,8 @@ import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.net.ClientPacketRegistrar
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
+import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
+import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
 import com.cobblemon.mod.common.client.render.layer.PokemonOnShoulderRenderer
 import com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation.BedrockAnimationRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokeBallModelRepository
@@ -89,6 +91,8 @@ object CobblemonClient {
 
         registerBlockRenderTypes()
         registerColors()
+        LOGGER.info("Registering custom BuiltinItemRenderers")
+        CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
     }
 
     fun registerColors() {

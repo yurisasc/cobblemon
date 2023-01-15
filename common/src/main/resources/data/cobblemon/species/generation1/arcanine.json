@@ -21,6 +21,7 @@
     },
     {
       "name": "hisui",
+      "aspects": ["hisuian"],
       "secondaryType": "rock",
       "baseStats": {
         "hp": 95,

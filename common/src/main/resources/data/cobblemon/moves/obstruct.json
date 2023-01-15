@@ -4,8 +4,7 @@
   "damageCategory": "Status",
   "target": "self",
   "power": 0,
-  "accuracy": 100,
+  "accuracy": 100.0,
   "pp": 10,
-  "priority": 4,
-  "flags": {}
+  "priority": 4
 }

@@ -22,6 +22,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "secondaryType": "dragon",
       "abilities": ["frisk", "h:harvest"],
       "baseStats": {

@@ -1,0 +1,10 @@
+{
+  "name": "orderup",
+  "type": "Dragon",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 80,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0
+}

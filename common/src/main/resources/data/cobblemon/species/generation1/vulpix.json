@@ -24,12 +24,12 @@
 		},
 		{
 			"name": "alola",
+			"aspects": ["alolan"],
 			"primaryType": "ice",
 			"abilities": [
 				"snowcloak",
 				"h:snowwarning"
 			],
-			"aspects": ["alolan"],
 			"moves": [
 				"1:tackle",
 				"1:tailwhip",

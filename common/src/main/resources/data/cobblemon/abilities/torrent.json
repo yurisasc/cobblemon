@@ -1,5 +1,5 @@
 {
-    "name": "torrent",
-    "displayName": "cobblemon.ability.torrent",
-    "description": "cobblemon.ability.torrent.desc"
+  "name": "torrent",
+  "displayName": "cobblemon.ability.torrent",
+  "description": "cobblemon.ability.torrent.desc"
 }

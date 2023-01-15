@@ -25,6 +25,7 @@
         },
         {
             "name": "mega",
+            "aspects": ["mega"],
             "abilities": [
                 "parentalbond"
             ],

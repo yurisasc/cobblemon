@@ -21,6 +21,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "primaryType": "dark",
       "abilities": ["furcoat", "technician", "h:rattled"],
       "baseStats": {

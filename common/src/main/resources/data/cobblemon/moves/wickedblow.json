@@ -3,14 +3,8 @@
   "type": "Dark",
   "damageCategory": "Physical",
   "target": "normal",
-  "power": 80,
-  "accuracy": 100,
+  "power": 75,
+  "accuracy": 100.0,
   "pp": 5,
-  "priority": 0,
-  "flags": {
-    "contact": 1,
-    "protect": 1,
-    "punch": 1,
-    "mirror": 1
-  }
+  "priority": 0
 }

@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.world.feature
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlocks
+import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.randomNoCopy
 import com.cobblemon.mod.common.world.block.ApricornBlock
@@ -38,9 +39,6 @@ import net.minecraft.world.gen.feature.util.FeatureContext
 class ApricornTreeFeature(
     codec: Codec<SingleStateFeatureConfig>
 ) : Feature<SingleStateFeatureConfig>(codec) {
-    val apricornSparseBiomeTag = TagKey.of(Registry.BIOME_KEY, cobblemonResource("has_feature/apricorns_sparse"))
-    val apricornNormalBiomeTag = TagKey.of(Registry.BIOME_KEY, cobblemonResource("has_feature/apricorns_normal"))
-    val apricornDenseBiomeTag = TagKey.of(Registry.BIOME_KEY, cobblemonResource("has_feature/apricorns_dense"))
 
     override fun generate(context: FeatureContext<SingleStateFeatureConfig>) : Boolean {
         val worldGenLevel: StructureWorldAccess = context.world
@@ -51,11 +49,11 @@ class ApricornTreeFeature(
 
         if (isGenerating) {
             val biome = worldGenLevel.getBiome(origin)
-            val multiplier = if (biome.isIn(apricornDenseBiomeTag)) {
+            val multiplier = if (biome.isIn(CobblemonBiomeTags.HAS_APRICORNS_DENSE)) {
                 10F
-            } else if (biome.isIn(apricornNormalBiomeTag)) {
+            } else if (biome.isIn(CobblemonBiomeTags.HAS_APRICORNS_NORMAL)) {
                 1.0F
-            } else if (biome.isIn(apricornSparseBiomeTag)) {
+            } else if (biome.isIn(CobblemonBiomeTags.HAS_APRICORNS_SPARSE)) {
                 0.1F
             } else {
                 return false

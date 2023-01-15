@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.config.constraint.IntConstraint
 import com.cobblemon.mod.common.util.adapters.IntRangeAdapter
 import com.google.gson.GsonBuilder
+
 class CobblemonConfig {
     companion object {
         val GSON = GsonBuilder()
@@ -22,6 +23,8 @@ class CobblemonConfig {
             .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
             .create()
     }
+
+    var lastSavedVersion: String = "0.0.1"
 
     @NodeCategory(Category.Pokemon)
     @IntConstraint(min = 1, max = 1000)
@@ -35,6 +38,8 @@ class CobblemonConfig {
     var announceDropItems = true
     @NodeCategory(Category.Pokemon)
     var defaultDropItemMethod = ItemDropMethod.ON_ENTITY
+    @NodeCategory(Category.Pokemon)
+    var ambientPokemonCryTicks = 160
 
     @NodeCategory(Category.Storage)
     @IntConstraint(min = 1, max = 1000)
@@ -92,6 +97,9 @@ class CobblemonConfig {
     @NodeCategory(Category.Spawning)
     var exportSpawnConfig = false
 
+    @NodeCategory(Category.Spawning)
+    var savePokemonToWorld = true
+
     @NodeCategory(Category.Starter)
     var exportStarterConfig = false
 
@@ -104,8 +112,17 @@ class CobblemonConfig {
     @NodeCategory(category = Category.Battles)
     var allowExperienceFromPvP = true
 
+    @NodeCategory(category = Category.Battles)
+    var experienceShareMultiplier = .5
+
+    @NodeCategory(category = Category.Battles)
+    var luckyEggMultiplier = 1.5
+
     @NodeCategory(category = Category.Pokemon)
     var experienceMultiplier = 2F
+
+    @NodeCategory(category = Category.Spawning)
+    var pokemonPerChunk = 1F
 
     @NodeCategory(Category.PassiveStatus)
     var passiveStatuses = mutableMapOf(
@@ -124,7 +141,7 @@ class CobblemonConfig {
     var maxHealerCharge = 6.0f
 
     @NodeCategory(Category.Healing)
-    var chargeGainedPerTick = 0.00016666666f
+    var chargeGainedPerTick = 0.000333333f
 
     @NodeCategory(Category.Healing)
     var defaultFaintTimer = 300

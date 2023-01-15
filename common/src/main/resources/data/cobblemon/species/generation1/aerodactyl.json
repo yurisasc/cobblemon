@@ -26,6 +26,7 @@
         },
         {
             "name": "mega",
+            "aspects": ["mega"],
             "abilities": [
                 "toughclaws"
             ],

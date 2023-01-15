@@ -105,6 +105,7 @@
         },
         {
             "name": "gmax",
+            "aspects": ["gmax"],
             "secondaryType": "water",
             "moves": [],
             "labels": [

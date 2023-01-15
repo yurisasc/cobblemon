@@ -1,5 +1,5 @@
 {
-    "name": "swarm",
-    "displayName": "cobblemon.ability.swarm",
-    "description": "cobblemon.ability.swarm.desc"
+  "name": "swarm",
+  "displayName": "cobblemon.ability.swarm",
+  "description": "cobblemon.ability.swarm.desc"
 }

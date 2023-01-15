@@ -22,6 +22,7 @@
     },
     {
       "name": "galar",
+      "aspects": ["galarian"],
       "primaryType": "fighting",
       "abilities": ["defiant"],
       "baseStats": {
