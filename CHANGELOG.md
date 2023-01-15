@@ -27,6 +27,7 @@
 - Fixed a soft-duplicate that could occur when a party Pokémon is pushed through a Nether Portal.
 - Fixed missing multiplier on the experience calculator when a Pokémon is at or past the level where it would be able to evolve, but it has not.
 - Fixed missing multiplier on the experience calculator based on Pokémon affection.
+- Fixed not all Pokéballs being associated with the `cobblemon:pokeballs` item tag.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
