@@ -90,4 +90,8 @@ object DataKeys {
     const val HEALER_MACHINE_INFINITE = "MachineInfinite"
     /* ----------- */
 
+    // Pokemon Item
+    const val POKEMON_ITEM_SPECIES = "species"
+    const val POKEMON_ITEM_ASPECTS = "aspects"
+
 }

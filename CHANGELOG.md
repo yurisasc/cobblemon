@@ -11,6 +11,7 @@
 - Added a few held items that are currently obtainable in Creative Mode.
 - Added the Item [tags](https://minecraft.fandom.com/wiki/Tag) `cobblemon:held/experience_share` and `cobblemon:held/lucky_egg` allowing you to mark any items you desire to have the effects implied in the tag name.
 - Added an interface that appears when interacting with your Pokémon while sneaking. The interface allows for interactive options such as shouldering and exchanging held items.
+- Added a new item for representing pokemon within native UI menus
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
