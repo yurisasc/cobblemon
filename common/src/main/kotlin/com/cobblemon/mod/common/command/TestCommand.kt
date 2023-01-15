@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.command
 
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.battles.BattleFormat
 import com.cobblemon.mod.common.battles.BattleRegistry
@@ -15,11 +16,16 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.actor.MultiPokemonBattleActor
 import com.cobblemon.mod.common.battles.actor.PlayerBattleActor
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.pokemon.Pokemon
+import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.party
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NbtList
+import net.minecraft.nbt.NbtString
 import net.minecraft.server.command.CommandManager
 import net.minecraft.server.command.ServerCommandSource
 import net.minecraft.server.network.ServerPlayerEntity
@@ -40,35 +46,38 @@ object TestCommand {
         }
 
         try {
-            // Player variables
+//            // Player variables
+//            val player = context.source.entity as ServerPlayerEntity
+//            val party = player.party()
+//            party.heal()
+//
+//            val playerActor = PlayerBattleActor(
+//                player.uuid,
+//                party.toBattleTeam()
+//            )
+//
+//            // Enemy variables
+//            val pokemon = Pokemon().apply { species = PokemonSpecies.random() }.also { it.initialize() }
+//            val enemyPokemon = BattlePokemon(pokemon)
+//
+//            val enemyPokemon2 = BattlePokemon(PokemonSpecies.random().create())
+//            val enemyPokemon3 = BattlePokemon(PokemonSpecies.random().create())
+//            val enemyPokemon4 = BattlePokemon(PokemonSpecies.random().create())
+//
+//            enemyPokemon.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(2.0, 0.0, 0.0))
+//            enemyPokemon2.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(-2.0, 0.0, 0.0))
+//            enemyPokemon3.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(0.0, 0.0, 2.0))
+//            enemyPokemon4.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(0.0, 0.0, -2.0))
+//
+//            // Start the battle
+//            BattleRegistry.startBattle(
+//                battleFormat = BattleFormat.GEN_8_DOUBLES,
+//                side1 = BattleSide(playerActor),
+//                side2 = BattleSide(MultiPokemonBattleActor(listOf(enemyPokemon, enemyPokemon2, enemyPokemon3, enemyPokemon4)))
+//            )
+
             val player = context.source.entity as ServerPlayerEntity
-            val party = player.party()
-            party.heal()
-
-            val playerActor = PlayerBattleActor(
-                player.uuid,
-                party.toBattleTeam()
-            )
-
-            // Enemy variables
-            val pokemon = Pokemon().apply { species = PokemonSpecies.random() }.also { it.initialize() }
-            val enemyPokemon = BattlePokemon(pokemon)
-
-            val enemyPokemon2 = BattlePokemon(PokemonSpecies.random().create())
-            val enemyPokemon3 = BattlePokemon(PokemonSpecies.random().create())
-            val enemyPokemon4 = BattlePokemon(PokemonSpecies.random().create())
-
-            enemyPokemon.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(2.0, 0.0, 0.0))
-            enemyPokemon2.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(-2.0, 0.0, 0.0))
-            enemyPokemon3.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(0.0, 0.0, 2.0))
-            enemyPokemon4.effectedPokemon.sendOut(player.world as ServerWorld, player.pos.add(0.0, 0.0, -2.0))
-
-            // Start the battle
-            BattleRegistry.startBattle(
-                battleFormat = BattleFormat.GEN_8_DOUBLES,
-                side1 = BattleSide(playerActor),
-                side2 = BattleSide(MultiPokemonBattleActor(listOf(enemyPokemon, enemyPokemon2, enemyPokemon3, enemyPokemon4)))
-            )
+            player.giveItemStack(PokemonItem.from(PokemonSpecies.random(), "alolan"))
         } catch (e: Exception) {
             e.printStackTrace()
         }

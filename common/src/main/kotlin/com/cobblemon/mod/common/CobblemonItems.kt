@@ -10,7 +10,12 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
-import com.cobblemon.mod.common.item.*
+import com.cobblemon.mod.common.item.ApricornItem
+import com.cobblemon.mod.common.item.ApricornSeedItem
+import com.cobblemon.mod.common.item.CobblemonItem
+import com.cobblemon.mod.common.item.CobblemonItemGroups
+import com.cobblemon.mod.common.item.PokeBallItem
+import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.item.interactive.CandyItem
 import com.cobblemon.mod.common.item.interactive.LinkCableItem
 import com.cobblemon.mod.common.item.interactive.VitaminItem
@@ -173,6 +178,9 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val ROCKY_HELMET = this.heldItem("rocky_helmet")
     val SAFETY_GOGGLES = this.heldItem("safety_goggles")
     val WISE_GLASSES = this.heldItem("wise_glasses")
+
+    // Misc
+    val POKEMON_MODEL = queue("pokemon_model") { PokemonItem() }
 
     fun pokeballs(): List<RegistrySupplier<PokeBallItem>> = this.pokeballs
 
