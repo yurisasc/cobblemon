@@ -22,6 +22,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "secondaryType": "electric",
       "abilities": ["magnetpull", "sturdy", "h:galvanize"],
       "moves": [
@@ -116,7 +117,7 @@
         {
           "id": "geodude_graveler_alola",
           "variant": "level_up",
-          "result": "graveler form=alola",
+          "result": "graveler alolan",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [

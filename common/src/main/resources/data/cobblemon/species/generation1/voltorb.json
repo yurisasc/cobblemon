@@ -21,6 +21,7 @@
     },
     {
       "name": "hisui",
+      "aspects": ["hisuian"],
       "secondaryType": "grass",
       "moves": [
         "1:thundershock",
@@ -50,7 +51,7 @@
         {
           "id": "voltorb_electrode_hisui",
           "variant": "item_interact",
-          "result": "electrode form=hisui",
+          "result": "electrode hisuian",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [],

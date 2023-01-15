@@ -27,8 +27,8 @@ import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
+import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.battles.runner.ShowdownConnection
 import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
@@ -96,6 +96,9 @@ object ShowdownInterpreter {
         updateInstructions["|-status|"] = this::handleStatusInstruction
         updateInstructions["|-end|"] = this::handleEndInstruction
         updateInstructions["|-miss|"] = this::handleMissInstruction
+        updateInstructions["|-hitcount|"] = this::handleHitCountInstruction
+        updateInstructions["|-item|"] = this::handleItemInstruction
+        updateInstructions["|-enditem|"] = this::handleEndItemInstruction
 
         sideUpdateInstructions["|request|"] = this::handleRequestInstruction
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
@@ -149,18 +152,15 @@ object ShowdownInterpreter {
         else -> "HUH!?"
     }
 
-    fun interpretMessage(message: String) {
+    fun interpretMessage(battleId: UUID, message: String) {
         // Check key map and use function if matching
-        val battleId = message.split(ShowdownConnection.LINE_START)[0]
-        val rawMessage = message.replace(battleId + ShowdownConnection.LINE_START, "")
-
-        if (rawMessage.startsWith("{\"winner\":\"")) {
+        if (message.startsWith("{\"winner\":\"")) {
             // The post-win message is something we don't care about just yet. It's basically a summary of what happened in the battle.
             // Check /docs/example-post-win-message.json for its format.
             return
         }
 
-        val battle = BattleRegistry.getBattle(UUID.fromString(battleId))
+        val battle = BattleRegistry.getBattle(battleId)
 
         if (battle == null) {
             LOGGER.info("No battle could be found with the id: $battleId")
@@ -169,7 +169,7 @@ object ShowdownInterpreter {
 
         runOnServer {
             battle.showdownMessages.add(message)
-            interpret(battle, rawMessage)
+            interpret(battle, message)
         }
     }
 
@@ -455,7 +455,7 @@ object ShowdownInterpreter {
     private fun handleFaintInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         battle.dispatch {
             val pnx = message.split("|faint|")[1].substring(0, 3)
-            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val (actor, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
             battle.sendUpdate(BattleFaintPacket(pnx, battleLang("fainted", pokemon.battlePokemon?.getName() ?: "ALREADY DEAD")))
             pokemon.battlePokemon?.effectedPokemon?.currentHealth = 0
             pokemon.battlePokemon?.sendUpdate()
@@ -717,6 +717,7 @@ object ShowdownInterpreter {
             when {
                 "|protect" in message -> battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon!!.getName()))
                 "move: Magnitude" in message -> battle.broadcastChatMessage(battleLang("magnitude_level", message.substringAfterLast("|").toIntOrNull() ?: 1))
+                // ToDo Focus Band, use battleLang("item.hung_on.end", battlerName, itemName)
             }
             GO
         }
@@ -904,4 +905,31 @@ object ShowdownInterpreter {
         }
 
     }
+
+    // |-hitcount|POKEMON|NUM
+    fun handleHitCountInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val hitCount = message.substringAfterLast("|").toIntOrNull() ?: -1
+            val lang = if (hitCount == 1) battleLang("hit_count_singular") else battleLang("hit_count", hitCount)
+            battle.broadcastChatMessage(lang)
+        }
+    }
+
+
+    fun handleItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val battleMessage = BattleMessage(baseMessage)
+            val battlePokemon = battleMessage.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchGo
+            battlePokemon.heldItemManager.handleStartInstruction(battlePokemon, battle, battleMessage)
+        }
+    }
+
+    fun handleEndItemInstruction(battle: PokemonBattle, baseMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val battleMessage = BattleMessage(baseMessage)
+            val battlePokemon = battleMessage.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchGo
+            battlePokemon.heldItemManager.handleEndInstruction(battlePokemon, battle, battleMessage)
+        }
+    }
+
 }

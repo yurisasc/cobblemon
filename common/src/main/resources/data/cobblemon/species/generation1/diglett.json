@@ -21,6 +21,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "secondaryType": "steel",
       "abilities": ["sandveil", "tanglinghair", "h:sandforce"],
       "baseStats": {
@@ -115,7 +116,7 @@
         {
           "id": "diglett_dugtrio_alola",
           "variant": "level_up",
-          "result": "dugtrio form=alola",
+          "result": "dugtrio alolan",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [

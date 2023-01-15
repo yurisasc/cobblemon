@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.util
 
 object DataKeys {
+    const val POKEMON_LAST_SAVED_VERSION = "CobblemonVersion"
     const val POKEMON = "Pokemon"
     const val POKEMON_UUID = "UUID"
     const val POKEMON_SPECIES_IDENTIFIER = "Species"
@@ -29,6 +30,7 @@ object DataKeys {
     const val POKEMON_MOVESET_RAISED_PP_STAGES = "RaisedPPStages"
     const val POKEMON_ABILITY = "Ability"
     const val POKEMON_ABILITY_NAME = "AbilityName"
+    const val POKEMON_ABILITY_FORCED = "AbilityForced"
     const val POKEMON_SHINY = "Shiny"
     const val POKEMON_STATUS = "Status"
     const val POKEMON_STATUS_NAME = "StatusName"
@@ -38,6 +40,7 @@ object DataKeys {
     const val POKEMON_HEALING_TIMER = "HealingTimer"
     const val POKEMON_DATA = "PokemonData"
     const val POKEMON_NATURE = "Nature"
+    const val HELD_ITEM = "HeldItem"
 
     const val POKEMON_STATE = "State"
     const val POKEMON_STATE_TYPE = "StateType"
@@ -46,12 +49,19 @@ object DataKeys {
     const val POKEMON_STATE_PLAYER_UUID = "PlayerUUID"
     const val POKEMON_STATE_POKEMON_UUID = "PokemonUUID"
 
+    const val POKEMON_BATTLE_ID = "BattleId"
+    const val POKEMON_POSE_TYPE = "PoseType"
+    const val POKEMON_BEHAVIOUR_FLAGS = "BehaviourFlags"
+    const val POKEMON_OWNER_ID = "PokemonOwnerId"
+
     // Evolution stuff
     const val POKEMON_EVOLUTIONS = "Evolutions"
     const val POKEMON_PENDING_EVOLUTIONS = "Pending"
 
     const val BENCHED_MOVES = "BenchedMoves"
 
+    const val OWNED_BY_PLAYER = "OwnedByPlayer"
+    const val STORE_IS_PARTY = "IsParty"
     const val STORE_SLOT = "Slot"
     const val STORE_SLOT_COUNT = "SlotCount"
     const val STORE_BOX = "Box"
@@ -67,14 +77,6 @@ object DataKeys {
     const val CRYSTAL = "crystal"
     /* ---------- */
 
-    /* Battle keys */
-    const val REQUEST_TYPE = "RequestType"
-    const val REQUEST_BATTLE_ID = "RequestBattleId"
-    const val REQUEST_BATTLE_START = "StartBattle"
-    const val REQUEST_BATTLE_SEND_MESSAGE = "SendMessage"
-    const val REQUEST_MESSAGES = "RequestMessages"
-    /* ----------- */
-
     const val POKEMON_PROPERTIES = "Properties"
     const val POKEMON_PROPERTIES_CUSTOM = "CustomProperties"
     const val POKEMON_PROPERTIES_ORIGINAL_TEXT = "OriginalText"
@@ -87,5 +89,9 @@ object DataKeys {
     const val HEALER_MACHINE_CHARGE = "MachineCharge"
     const val HEALER_MACHINE_INFINITE = "MachineInfinite"
     /* ----------- */
+
+    // Pokemon Item
+    const val POKEMON_ITEM_SPECIES = "species"
+    const val POKEMON_ITEM_ASPECTS = "aspects"
 
 }

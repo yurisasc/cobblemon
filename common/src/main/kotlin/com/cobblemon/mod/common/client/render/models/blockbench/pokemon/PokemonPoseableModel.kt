@@ -42,17 +42,17 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
     var alpha = 1F
 
     @Transient
-    var currentLayers = listOf<ModelLayer>()
+    var currentLayers: Iterable<ModelLayer> = listOf()
     @Transient
     var bufferProvider: VertexConsumerProvider? = null
 
-    fun withLayerContext(buffer: VertexConsumerProvider, layers: List<ModelLayer>, action: () -> Unit) {
+    fun withLayerContext(buffer: VertexConsumerProvider, layers: Iterable<ModelLayer>, action: () -> Unit) {
         setLayerContext(buffer, layers)
         action()
         resetLayerContext()
     }
 
-    fun setLayerContext(buffer: VertexConsumerProvider, layers: List<ModelLayer>) {
+    fun setLayerContext(buffer: VertexConsumerProvider, layers: Iterable<ModelLayer>) {
         currentLayers = layers
         bufferProvider = buffer
     }
@@ -89,7 +89,11 @@ abstract class PokemonPoseableModel : PoseableEntityModel<PokemonEntity>() {
         if (provider != null) {
             for (layer in currentLayers) {
                 val texture = layer.texture ?: continue
-                val consumer = provider.getBuffer(RenderLayer.getEntityTranslucent(texture))
+                val consumer = if (layer.emissive) {
+                    provider.getBuffer(RenderLayer.getEntityTranslucentEmissive(texture))
+                } else {
+                    provider.getBuffer(RenderLayer.getEntityTranslucent(texture))
+                }
                 stack.push()
                 stack.scale(layer.scale.x, layer.scale.y, layer.scale.z)
                 super.render(stack, consumer, packedLight, OverlayTexture.DEFAULT_UV, layer.tint.x, layer.tint.y, layer.tint.z, layer.tint.w)

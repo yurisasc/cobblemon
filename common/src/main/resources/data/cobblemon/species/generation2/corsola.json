@@ -21,6 +21,7 @@
     },
     {
       "name": "galar",
+      "aspects": ["galarian"],
       "primaryType": "ghost",
       "abilities": ["weakarmor", "h:cursedbody"],
       "baseStats": {

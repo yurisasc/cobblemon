@@ -1,0 +1,10 @@
+{
+  "name": "takeheart",
+  "type": "Psychic",
+  "damageCategory": "Status",
+  "target": "self",
+  "power": 0,
+  "accuracy": -1.0,
+  "pp": 15,
+  "priority": 0
+}

@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.net.SidedPacketRegistrar
 import com.cobblemon.mod.common.net.messages.server.pokemon.update.evolution.AcceptEvolutionPacket
 import com.cobblemon.mod.common.net.serverhandling.battle.BattleSelectActionsHandler
 import com.cobblemon.mod.common.net.serverhandling.evolution.EvolutionDisplayUpdatePacketHandler
+import com.cobblemon.mod.common.net.serverhandling.pokemon.interact.InteractPokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.starter.RequestStarterScreenHandler
 import com.cobblemon.mod.common.net.serverhandling.starter.SelectStarterPacketHandler
 import com.cobblemon.mod.common.net.serverhandling.storage.BenchMoveHandler
@@ -47,6 +48,8 @@ object ServerPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<AcceptEvolutionPacket>(EvolutionDisplayUpdatePacketHandler())
         registerHandler(BattleSelectActionsHandler)
         registerHandler(SelectStarterPacketHandler)
+
+        registerHandler(InteractPokemonHandler)
 
         // PC actions
         registerHandler(MovePCPokemonHandler)

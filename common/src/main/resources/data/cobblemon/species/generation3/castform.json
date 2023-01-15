@@ -17,8 +17,10 @@
     "maleRatio": 0.5,
     "shoulderMountable": false,
     "forms": [
+        { "name": "normal" },
         {
             "name": "sunny",
+            "aspects": ["castform-sunny"],
             "primaryType": "fire",
             "pokedex": [
                 "cobblemon.form.castform-sunny.desc1",
@@ -27,6 +29,7 @@
         },
         {
             "name": "rainy",
+            "aspects": ["castform-rainy"],
             "primaryType": "water",
             "pokedex": [
                 "cobblemon.form.castform-rainy.desc1",
@@ -35,6 +38,7 @@
         },
         {
             "name": "snowy",
+            "aspects": ["castform-snowy"],
             "primaryType": "ice",
             "pokedex": [
                 "cobblemon.form.castform-snowy.desc1",

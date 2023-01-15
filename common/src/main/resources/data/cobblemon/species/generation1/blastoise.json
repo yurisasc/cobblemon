@@ -24,6 +24,7 @@
         },
         {
             "name": "mega",
+            "aspects": ["mega"],
             "abilities": [
                 "megalauncher"
             ],
@@ -133,6 +134,7 @@
         },
         {
             "name": "gmax",
+            "aspects": ["gmax"],
             "baseExperienceYield": 239,
             "moves": [],
             "labels": [

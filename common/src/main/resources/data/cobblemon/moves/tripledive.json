@@ -1,0 +1,10 @@
+{
+  "name": "tripledive",
+  "type": "Water",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 30,
+  "accuracy": 95.0,
+  "pp": 10,
+  "priority": 0
+}

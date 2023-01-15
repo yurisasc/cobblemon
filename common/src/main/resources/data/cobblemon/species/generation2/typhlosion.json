@@ -20,6 +20,7 @@
     },
     {
       "name": "hisui",
+      "aspects": ["hisuian"],
       "secondaryType": "ghost",
       "baseStats": {
         "hp": 73,
@@ -67,7 +68,7 @@
       "height": 16,
       "weight": 698,
       "labels": ["gen2", "hisui_regional", "regional"],
-      "preEvolution": "quilava form=hisui"
+      "preEvolution": "quilava hisuian"
     }
   ],
   "baseExperienceYield": 240,

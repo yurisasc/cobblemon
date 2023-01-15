@@ -10,13 +10,13 @@ package com.cobblemon.mod.common.api.battles.model
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.Cobblemon.showdown
 import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.FleeableBattleActor
 import com.cobblemon.mod.common.api.net.NetworkPacket
+import com.cobblemon.mod.common.api.tags.CobblemonItemTags
 import com.cobblemon.mod.common.api.text.yellow
 import com.cobblemon.mod.common.battles.ActiveBattlePokemon
 import com.cobblemon.mod.common.battles.BattleCaptureAction
@@ -26,13 +26,12 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
+import com.cobblemon.mod.common.battles.runner.GraalShowdown
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
-import com.cobblemon.mod.common.util.DataKeys
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import java.util.UUID
 import java.util.concurrent.ConcurrentLinkedQueue
 import net.minecraft.text.Text
@@ -50,6 +49,7 @@ open class PokemonBattle(
 ) {
     /** Whether or not logging will be silenced for this battle. */
     var mute = true
+
     init {
         side1.battle = this
         side2.battle = this
@@ -148,17 +148,8 @@ open class PokemonBattle(
     }
 
     fun writeShowdownAction(vararg messages: String) {
-        val jsonArray = JsonArray()
-        for (message in messages) {
-            jsonArray.add(message)
-        }
-        val request = JsonObject()
-        request.addProperty(DataKeys.REQUEST_TYPE, DataKeys.REQUEST_BATTLE_SEND_MESSAGE)
-        request.addProperty(DataKeys.REQUEST_BATTLE_ID, battleId.toString())
-        request.add(DataKeys.REQUEST_MESSAGES, jsonArray)
-        val json = BattleRegistry.gson.toJson(request)
-        log(json)
-        showdown.write(json)
+        log(messages.joinToString("\n"))
+        GraalShowdown.sendToShowdown(battleId, messages.toList().toTypedArray())
     }
 
     fun turn(newTurnNumber: Int) {
@@ -175,16 +166,26 @@ open class PokemonBattle(
 
     fun end() {
         ended = true
-        for (actor in actors) {
-            for (pokemon in actor.pokemonList.filter { it.health > 0 }) {
-                if (pokemon.facedOpponents.isNotEmpty() /* TODO exp share held item check */) {
-                    val experience = Cobblemon.experienceCalculator.calculate(pokemon)
-                    if (experience > 0) {
-                        actor.awardExperience(pokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
-                    }
-                    Cobblemon.evYieldCalculator.calculate(pokemon).forEach { (stat, amount) ->
-                        pokemon.originalPokemon.evs.add(stat, amount)
-                    }
+        this.actors.forEach { actor ->
+            val faintedPokemons = actor.pokemonList.filter { it.health <= 0 }
+            actor.getSide().getOppositeSide().actors.forEach { opponent ->
+                val opponentNonFaintedPokemons = opponent.pokemonList.filter { it.health > 0 }
+                faintedPokemons.forEach { faintedPokemon ->
+                    opponentNonFaintedPokemons.forEach { opponentPokemon ->
+                            val facedFainted = opponentPokemon.facedOpponents.contains(faintedPokemon)
+                            val multiplier = when {
+                                // ToDo when Exp. All is implement if enabled && !facedFainted return 2.0, probably should be a configurable value too, this will have priority over the Exp. Share
+                                !facedFainted && opponentPokemon.effectedPokemon.heldItemNoCopy().isIn(CobblemonItemTags.EXPERIENCE_SHARE) -> Cobblemon.config.experienceShareMultiplier
+                                else -> 1.0
+                            }
+                            val experience = Cobblemon.experienceCalculator.calculate(opponentPokemon, faintedPokemon, multiplier)
+                            if (experience > 0) {
+                                opponent.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
+                            }
+                            Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
+                                opponentPokemon.effectedPokemon.evs.add(stat, amount)
+                            }
+                        }
                 }
             }
         }
@@ -265,7 +266,7 @@ open class PokemonBattle(
             .filter { it.getWorldAndPosition() != null }
             .none { pokemonActor ->
                 val (world, pos) = pokemonActor.getWorldAndPosition()!!
-                val nearestPlayerActorDistance = actors
+                val nearestPlayerActorDistance = actors.asSequence()
                     .filter { it.type == ActorType.PLAYER }
                     .filterIsInstance<EntityBackedBattleActor<*>>()
                     .mapNotNull { it.entity }
@@ -293,4 +294,5 @@ open class PokemonBattle(
             actors.forEach { it.responses.clear() ; it.request = null }
         }
     }
+
 }

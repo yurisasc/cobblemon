@@ -21,6 +21,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "primaryType": "ice",
       "secondaryType": "steel",
       "abilities": ["snowcloak", "h:slushrush"],
@@ -134,7 +135,7 @@
         {
           "id": "sandshrew_sandslash_alola",
           "variant": "item_interact",
-          "result": "sandslash form=alola",
+          "result": "sandslash alolan",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [],

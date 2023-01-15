@@ -29,10 +29,12 @@ import com.cobblemon.mod.common.client.net.battle.BattleSwitchPokemonHandler
 import com.cobblemon.mod.common.client.net.battle.BattleUpdateTeamPokemonHandler
 import com.cobblemon.mod.common.client.net.battle.ChallengeNotificationHandler
 import com.cobblemon.mod.common.client.net.data.DataRegistrySyncPacketHandler
+import com.cobblemon.mod.common.client.net.gui.InteractPokemonUIPacketHandler
 import com.cobblemon.mod.common.client.net.gui.SummaryUIPacketHandler
 import com.cobblemon.mod.common.client.net.pokemon.update.EvolutionUpdatePacketHandler
 import com.cobblemon.mod.common.client.net.pokemon.update.SingleUpdatePacketHandler
 import com.cobblemon.mod.common.client.net.settings.ServerSettingsPacketHandler
+import com.cobblemon.mod.common.client.net.sound.UnvalidatedPlaySoundS2CPacketHandler
 import com.cobblemon.mod.common.client.net.starter.StarterUIPacketHandler
 import com.cobblemon.mod.common.client.net.storage.RemoveClientPokemonHandler
 import com.cobblemon.mod.common.client.net.storage.SwapClientPokemonHandler
@@ -48,23 +50,7 @@ import com.cobblemon.mod.common.client.net.storage.pc.SetPCBoxPokemonHandler
 import com.cobblemon.mod.common.client.net.storage.pc.SetPCPokemonHandler
 import com.cobblemon.mod.common.net.SidedPacketRegistrar
 import com.cobblemon.mod.common.net.messages.client.data.*
-import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.AbilityUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.EVsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.IVsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.StatusUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.RemoveEvolutionPacket
@@ -99,6 +85,7 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler<AbilityUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<EVsUpdatePacket>(SingleUpdatePacketHandler())
         registerHandler<IVsUpdatePacket>(SingleUpdatePacketHandler())
+        registerHandler<HeldItemUpdatePacket>(SingleUpdatePacketHandler())
 
         // Party storage
         registerHandler(InitializePartyHandler)
@@ -119,6 +106,8 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(SwapClientPokemonHandler)
 
         registerHandler(SetClientPlayerDataHandler)
+
+        registerHandler(InteractPokemonUIPacketHandler)
 
         registerHandler(SummaryUIPacketHandler)
         registerHandler(StarterUIPacketHandler)
@@ -154,6 +143,9 @@ object ClientPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(DataRegistrySyncPacketHandler<Species, SpeciesRegistrySyncPacket>())
         registerHandler(DataRegistrySyncPacketHandler<PropertiesCompletionProvider.SuggestionHolder, PropertiesCompletionRegistrySyncPacket>())
         registerHandler(DataRegistrySyncPacketHandler<Berry, BerryRegistrySyncPacket>())
+
+        // Hax
+        registerHandler(UnvalidatedPlaySoundS2CPacketHandler)
 
         CobblemonNetwork.clientHandlersRegistered.complete(Unit)
     }

@@ -1,0 +1,10 @@
+{
+  "name": "lunarblessing",
+  "type": "Psychic",
+  "damageCategory": "Status",
+  "target": "allies",
+  "power": 0,
+  "accuracy": -1.0,
+  "pp": 5,
+  "priority": 0
+}

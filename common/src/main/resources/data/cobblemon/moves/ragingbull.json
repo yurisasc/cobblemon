@@ -1,0 +1,10 @@
+{
+  "name": "ragingbull",
+  "type": "Normal",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 90,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0
+}

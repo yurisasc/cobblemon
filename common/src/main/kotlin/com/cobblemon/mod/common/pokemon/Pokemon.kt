@@ -58,22 +58,7 @@ import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.AbilityUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.EVsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.IVsUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.StatusUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
 import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
@@ -95,15 +80,18 @@ import com.cobblemon.mod.common.util.toBlockPos
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
+import com.mojang.serialization.JsonOps
 import java.util.Optional
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import kotlin.math.absoluteValue
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.random.Random
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.nbt.NbtElement.COMPOUND_TYPE
 import net.minecraft.nbt.NbtList
@@ -133,6 +121,7 @@ open class Pokemon {
             updateAspects()
             updateForm()
             checkGender()
+            checkAbility()
             updateHP(quotient)
             if (ability.template == Abilities.DUMMY && !isClient) {
                 ability = form.abilities.select(value, aspects)
@@ -151,6 +140,8 @@ open class Pokemon {
             val quotient = clamp(currentHealth / hp.toFloat(), 0F, 1F)
             findAndLearnFormChangeMoves()
             updateHP(quotient)
+            checkGender()
+            checkAbility()
             _form.emit(value)
         }
 
@@ -192,7 +183,7 @@ open class Pokemon {
             if (value <= 0) {
                 entity?.health = 0F
             }
-            field = min(hp, value)
+            field = max(min(hp, value), 0)
             _currentHealth.emit(field)
 
             // If the Pokémon is fainted, give it a timer for it to wake back up
@@ -358,6 +349,11 @@ open class Pokemon {
 
     val customProperties = mutableListOf<CustomPokemonProperty>()
 
+    /**
+     * The [ItemStack] this Pokémon is holding.
+     */
+    private var heldItem: ItemStack = ItemStack.EMPTY
+
     open fun getStat(stat: Stat) = Cobblemon.statProvider.getStatForPokemon(this, stat)
 
     fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
@@ -449,7 +445,53 @@ open class Pokemon {
      */
     fun hasLabels(vararg labels: String) = labels.all { label -> this.form.labels.any { it.equals(label, true) } }
 
+    /**
+     * Returns a copy of the held item.
+     * In order to change the [ItemStack] use [swapHeldItem].
+     *
+     * @return A copy of the [ItemStack] held by this Pokémon.
+     */
+    fun heldItem(): ItemStack = this.heldItem.copy()
+
+
+    /**
+     * Returns the backing held item, this is intended to skip the unnecessary copy operation for our internal use.
+     * No mutations should be done to it and expected to synchronize.
+     * If you wish to do so remember to set it with [swapHeldItem].
+     *
+     * @return The [ItemStack] held by this Pokémon.
+     */
+    internal fun heldItemNoCopy(): ItemStack = this.heldItem
+
+    /**
+     * Swaps out the current [heldItem] for the given [stack].
+     * The assigned [heldItem] will always have the [ItemStack.count] of 1.
+     *
+     * @param stack The new [ItemStack] being set as the held item.
+     * @param decrement If the given [stack] should have [ItemStack.decrement] invoked with the parameter of 1. Default is true.
+     * @return The existing [ItemStack] being held.
+     */
+    fun swapHeldItem(stack: ItemStack, decrement: Boolean = true): ItemStack {
+        var giving = stack
+        if (decrement) {
+            stack.decrement(1)
+            giving = stack.copy().apply { count = 1 }
+        }
+        val existing = this.heldItem()
+        this.heldItem = giving
+        this._heldItem.emit(giving)
+        return existing
+    }
+
+    /**
+     * Swaps out the current [heldItem] for an [ItemStack.EMPTY].
+     *
+     * @return The existing [ItemStack] being held.
+     */
+    fun removeHeldItem(): ItemStack = this.swapHeldItem(ItemStack.EMPTY)
+
     fun saveToNBT(nbt: NbtCompound): NbtCompound {
+        nbt.putString(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
         nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
         nbt.putString(DataKeys.POKEMON_FORM_ID, form.name)
@@ -476,10 +518,14 @@ open class Pokemon {
         nbt.put(DataKeys.POKEMON_DATA, NbtList().also { it.addAll(propertyList) })
         nbt.putString(DataKeys.POKEMON_NATURE, nature.name.toString())
         features.forEach { it.saveToNBT(nbt) }
+        if (!this.heldItem.isEmpty) {
+            nbt.put(DataKeys.HELD_ITEM, this.heldItem.writeNbt(NbtCompound()))
+        }
         return nbt
     }
 
     fun loadFromNBT(nbt: NbtCompound): Pokemon {
+        val version = nbt.getString(DataKeys.POKEMON_LAST_SAVED_VERSION).takeIf { it.isNotBlank() } ?: "1.1.1"
         uuid = nbt.getUuid(DataKeys.POKEMON_UUID)
         try {
             val rawID = nbt.getString(DataKeys.POKEMON_SPECIES_IDENTIFIER).replace("pokemonCobblemon", "cobblemon")
@@ -500,7 +546,9 @@ open class Pokemon {
         scaleModifier = nbt.getFloat(DataKeys.POKEMON_SCALE_MODIFIER)
         val abilityNBT = nbt.getCompound(DataKeys.POKEMON_ABILITY) ?: NbtCompound()
         val abilityName = abilityNBT.getString(DataKeys.POKEMON_ABILITY_NAME).takeIf { it.isNotEmpty() } ?: "runaway"
-        ability = Abilities.getOrException(abilityName).create(abilityNBT)
+        if (abilityName != "dummy") {
+            ability = Abilities.getOrException(abilityName).create(abilityNBT)
+        }
         shiny = nbt.getBoolean(DataKeys.POKEMON_SHINY)
         if (nbt.contains(DataKeys.POKEMON_STATE)) {
             val stateNBT = nbt.getCompound(DataKeys.POKEMON_STATE)
@@ -517,18 +565,27 @@ open class Pokemon {
         val ballName = nbt.getString(DataKeys.POKEMON_CAUGHT_BALL)
         caughtBall = PokeBalls.getPokeBall(Identifier(ballName)) ?: PokeBalls.POKE_BALL
         benchedMoves.loadFromNBT(nbt.getList(DataKeys.BENCHED_MOVES, COMPOUND_TYPE.toInt()))
-        nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
         val propertiesList = nbt.getList(DataKeys.POKEMON_DATA, NbtString.STRING_TYPE.toInt())
         val properties = PokemonProperties.parse(propertiesList.joinToString(separator = " ") { it.asString() }, " ")
         this.customProperties.clear()
         this.customProperties.addAll(properties.customProperties)
-        features.forEach { it.loadFromNBT(nbt) }
+        SpeciesFeatures.getFeaturesFor(species).forEach {
+            val feature = it(nbt) ?: return@forEach
+            features.removeIf { it.name == feature.name }
+            features.add(feature)
+        }
         this.nature = nbt.getString(DataKeys.POKEMON_NATURE).takeIf { it.isNotBlank() }?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
         updateAspects()
+        checkAbility()
+        nbt.get(DataKeys.POKEMON_EVOLUTIONS)?.let { tag -> this.evolutionProxy.loadFromNBT(tag) }
+        if (nbt.contains(DataKeys.HELD_ITEM)) {
+            this.heldItem = ItemStack.fromNbt(nbt.getCompound(DataKeys.HELD_ITEM))
+        }
         return this
     }
 
     fun saveToJSON(json: JsonObject): JsonObject {
+        json.addProperty(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
         json.addProperty(DataKeys.POKEMON_FORM_ID, form.name)
@@ -554,10 +611,14 @@ open class Pokemon {
         json.add(DataKeys.POKEMON_DATA, JsonArray().also { propertyList.forEach(it::add) })
         json.addProperty(DataKeys.POKEMON_NATURE, nature.name.toString())
         features.forEach { it.saveToJSON(json) }
+        if (!this.heldItem.isEmpty) {
+            ItemStack.CODEC.encodeStart(JsonOps.INSTANCE, this.heldItem).result().ifPresent { json.add(DataKeys.HELD_ITEM, it) }
+        }
         return json
     }
 
     fun loadFromJSON(json: JsonObject): Pokemon {
+        val version = json.get(DataKeys.POKEMON_LAST_SAVED_VERSION)?.asString ?: "1.1.1"
         uuid = UUID.fromString(json.get(DataKeys.POKEMON_UUID).asString)
         try {
             val rawID = json.get(DataKeys.POKEMON_SPECIES_IDENTIFIER).asString.replace("pokemonCobblemon", "cobblemon")
@@ -577,7 +638,10 @@ open class Pokemon {
         moveSet.loadFromJSON(json.get(DataKeys.POKEMON_MOVESET).asJsonObject)
         scaleModifier = json.get(DataKeys.POKEMON_SCALE_MODIFIER).asFloat
         val abilityJSON = json.get(DataKeys.POKEMON_ABILITY)?.asJsonObject ?: JsonObject()
-        ability = Abilities.getOrException(abilityJSON.get(DataKeys.POKEMON_ABILITY_NAME)?.asString ?: "drought").create(abilityJSON)
+        val abilityName = abilityJSON.get(DataKeys.POKEMON_ABILITY_NAME)?.asString
+        if (abilityName != "dummy" && abilityName != null) {
+            ability = Abilities.getOrException(abilityName).create(abilityJSON)
+        }
         shiny = json.get(DataKeys.POKEMON_SHINY).asBoolean
         if (json.has(DataKeys.POKEMON_STATE)) {
             val stateJson = json.get(DataKeys.POKEMON_STATE).asJsonObject
@@ -594,22 +658,32 @@ open class Pokemon {
         benchedMoves.loadFromJSON(json.get(DataKeys.BENCHED_MOVES)?.asJsonArray ?: JsonArray())
         faintedTimer = json.get(DataKeys.POKEMON_FAINTED_TIMER).asInt
         healTimer = json.get(DataKeys.POKEMON_HEALING_TIMER).asInt
-        this.evolutionProxy.loadFromJson(json.get(DataKeys.POKEMON_EVOLUTIONS))
         val propertyList = json.getAsJsonArray(DataKeys.POKEMON_DATA)?.map { it.asString } ?: emptyList()
         val properties = PokemonProperties.parse(propertyList.joinToString(" "), " ")
         this.customProperties.clear()
         this.customProperties.addAll(properties.customProperties)
-        features.forEach { it.loadFromJSON(json) }
+        SpeciesFeatures.getFeaturesFor(species).forEach {
+            val feature = it(json) ?: return@forEach
+            features.removeIf { it.name == feature.name }
+            features.add(feature)
+        }
         this.nature = json.get(DataKeys.POKEMON_NATURE).asString?.let { Natures.getNature(Identifier(it))!! } ?: Natures.getRandomNature()
         updateAspects()
+        checkAbility()
+        json.get(DataKeys.POKEMON_EVOLUTIONS)?.let { this.evolutionProxy.loadFromJson(it) }
+        if (json.has(DataKeys.HELD_ITEM)) {
+            ItemStack.CODEC.decode(JsonOps.INSTANCE, json.get(DataKeys.HELD_ITEM)).result().ifPresent {
+                this.heldItem = it.first
+            }
+        }
         return this
     }
 
     fun clone(useJSON: Boolean = true, newUUID: Boolean = true): Pokemon {
         val pokemon = if (useJSON) {
-            Pokemon().loadFromJSON(saveToJSON(JsonObject()))
+            Pokemon().loadFromJSON(saveToJSON(JsonObject()).also { it.remove(DataKeys.POKEMON_EVOLUTIONS) })
         } else {
-            Pokemon().loadFromNBT(saveToNBT(NbtCompound()))
+            Pokemon().loadFromNBT(saveToNBT(NbtCompound()).also { it.remove(DataKeys.POKEMON_EVOLUTIONS) })
         }
         if (newUUID) {
             pokemon.uuid = UUID.randomUUID()
@@ -721,7 +795,9 @@ open class Pokemon {
     }
 
     fun initialize(): Pokemon {
+        species = species
         checkGender()
+        checkAbility()
         initializeMoveset()
         return this
     }
@@ -746,6 +822,18 @@ open class Pokemon {
             } else {
                 Gender.FEMALE
             }
+        }
+    }
+
+    fun checkAbility() {
+        if (isClient) {
+            return
+        }
+        val hasForcedAbility = ability.forced
+        val hasLegalAbility = ability.template in form.abilities.mapping.flatMap { it.value.map { it.template } }
+
+        if (ability.template == Abilities.DUMMY || (!hasLegalAbility && !hasForcedAbility)) {
+            ability = form.abilities.select(species, aspects)
         }
     }
 
@@ -982,6 +1070,7 @@ open class Pokemon {
     private val _aspects = registerObservable(SimpleObservable<Set<String>>()) { AspectsUpdatePacket(this, it) }
     private val _gender = registerObservable(SimpleObservable<Gender>()) { GenderUpdatePacket(this, it) }
     private val _ability = registerObservable(SimpleObservable<Ability>()) { AbilityUpdatePacket(this, it.template) }
+    private val _heldItem = registerObservable(SimpleObservable<ItemStack>()) { HeldItemUpdatePacket(this, it) }
 
     private val _features = registerObservable(SimpleObservable<SpeciesFeature>())
 

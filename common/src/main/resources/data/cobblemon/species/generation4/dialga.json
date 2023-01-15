@@ -19,8 +19,10 @@
     "maleRatio": -1,
     "shoulderMountable": false,
     "forms": [
+        { "name": "normal" },
         {
             "name": "origin",
+            "aspects": ["origin"],
             "baseStats": {
                 "hp": 100,
                 "attack": 100,

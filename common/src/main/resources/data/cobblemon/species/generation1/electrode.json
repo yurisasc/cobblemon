@@ -21,6 +21,7 @@
     },
     {
       "name": "hisui",
+      "aspects": ["hisuian"],
       "secondaryType": "grass",
       "moves": [
         "1:thundershock",
@@ -49,7 +50,7 @@
       ],
       "weight": 710,
       "labels": ["gen1", "hisui_regional", "regional"],
-      "preEvolution": "voltorb form=hisui"
+      "preEvolution": "voltorb hisuian"
     }
   ],
   "baseExperienceYield": 172,

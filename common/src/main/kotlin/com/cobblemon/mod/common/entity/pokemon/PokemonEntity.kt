@@ -14,6 +14,9 @@ import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.entity.Despawner
 import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
+import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveEvent
+import com.cobblemon.mod.common.api.events.entity.PokemonEntitySaveToWorldEvent
 import com.cobblemon.mod.common.api.events.pokemon.ShoulderMountEvent
 import com.cobblemon.mod.common.api.net.serializers.PoseTypeDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
@@ -24,12 +27,16 @@ import com.cobblemon.mod.common.api.reactive.SimpleObservable
 import com.cobblemon.mod.common.api.scheduling.afterOnMain
 import com.cobblemon.mod.common.api.types.ElementalTypes
 import com.cobblemon.mod.common.api.types.ElementalTypes.FIRE
+import com.cobblemon.mod.common.battles.BattleRegistry
 import com.cobblemon.mod.common.entity.EntityProperty
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.entity.Poseable
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonMoveControl
 import com.cobblemon.mod.common.entity.pokemon.ai.PokemonNavigation
 import com.cobblemon.mod.common.entity.pokemon.ai.goals.*
+import com.cobblemon.mod.common.item.interactive.PokemonInteractiveItem
+import com.cobblemon.mod.common.net.messages.client.sound.UnvalidatedPlaySoundS2CPacket
+import com.cobblemon.mod.common.net.messages.client.ui.InteractPokemonUIPacket
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
 import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokemon.FormData
@@ -64,9 +71,12 @@ import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundEvent
+import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.FluidTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
+import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -157,6 +167,12 @@ class PokemonEntity(
                 }
             }
         )
+
+        subscriptions.add(
+            species.subscribe {
+                calculateDimensions()
+            }
+        )
     }
 
     companion object {
@@ -202,6 +218,8 @@ class PokemonEntity(
         }
     }
 
+
+
     fun setMoveControl(moveControl: MoveControl) {
         this.moveControl = moveControl
     }
@@ -232,13 +250,8 @@ class PokemonEntity(
     }
 
     override fun saveNbt(nbt: NbtCompound): Boolean {
-        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
+//        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
         return super.saveNbt(nbt)
-    }
-
-    override fun writeNbt(nbt: NbtCompound): NbtCompound {
-        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
-        return super.writeNbt(nbt)
     }
 
     override fun isInvulnerableTo(damageSource: DamageSource): Boolean {
@@ -269,11 +282,48 @@ class PokemonEntity(
         return future
     }
 
+    override fun writeNbt(nbt: NbtCompound): NbtCompound {
+        val ownerId = ownerUuid
+        if (ownerId != null) {
+            nbt.putUuid(DataKeys.POKEMON_OWNER_ID, ownerId)
+        }
+
+        nbt.put(DataKeys.POKEMON, pokemon.saveToNBT(NbtCompound()))
+        val battleIdToSave = battleId.get().orElse(null)
+        if (battleIdToSave != null) {
+            nbt.putUuid(DataKeys.POKEMON_BATTLE_ID, battleIdToSave)
+        }
+        nbt.putString(DataKeys.POKEMON_POSE_TYPE, poseType.get().name)
+        nbt.putByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS, behaviourFlags.get())
+
+        CobblemonEvents.POKEMON_ENTITY_SAVE.post(PokemonEntitySaveEvent(this, nbt))
+
+        return super.writeNbt(nbt)
+    }
+
     override fun readNbt(nbt: NbtCompound) {
         super.readNbt(nbt)
+        if (nbt.containsUuid(DataKeys.POKEMON_OWNER_ID)) {
+            ownerUuid = nbt.getUuid(DataKeys.POKEMON_OWNER_ID)
+        }
         pokemon = Pokemon().loadFromNBT(nbt.getCompound(DataKeys.POKEMON))
         species.set(pokemon.species.resourceIdentifier.toString())
         labelLevel.set(pokemon.level)
+        val savedBattleId = if (nbt.containsUuid(DataKeys.POKEMON_BATTLE_ID)) nbt.getUuid(DataKeys.POKEMON_BATTLE_ID) else null
+        if (savedBattleId != null) {
+            val battle = BattleRegistry.getBattle(savedBattleId)
+            if (battle != null) {
+                battleId.set(Optional.of(savedBattleId))
+            }
+        }
+        poseType.set(PoseType.valueOf(nbt.getString(DataKeys.POKEMON_POSE_TYPE)))
+        behaviourFlags.set(nbt.getByte(DataKeys.POKEMON_BEHAVIOUR_FLAGS))
+        this.setBehaviourFlag(PokemonBehaviourFlag.EXCITED, true)
+        CobblemonEvents.POKEMON_ENTITY_LOAD.postThen(
+            event = PokemonEntityLoadEvent(this, nbt),
+            ifSucceeded = {},
+            ifCanceled = { this.discard() }
+        )
     }
 
     override fun createSpawnPacket() = NetworkManager.createAddEntityPacket(this)
@@ -288,6 +338,7 @@ class PokemonEntity(
             moveControl = PokemonMoveControl(this)
             navigation = PokemonNavigation(world, this)
             goalSelector.clear()
+            goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
             goalSelector.add(0, object : Goal() {
                 override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get()
                 override fun getControls() = EnumSet.allOf(Control::class.java)
@@ -321,16 +372,15 @@ class PokemonEntity(
     }
 
     override fun interactMob(player: PlayerEntity, hand: Hand) : ActionResult {
-        // TODO: Move to proper pokemon interaction menu
-        if (this.attemptItemInteraction(player, player.getStackInHand(hand))) {
-            // TODO #105
-            return ActionResult.SUCCESS
-        }
-        if (player.isSneaking && hand == Hand.MAIN_HAND) {
-            if (isReadyToSitOnPlayer && player is ServerPlayerEntity && !isBusy) {
-                this.tryMountingShoulder(player)
+        if (hand == Hand.MAIN_HAND && player is ServerPlayerEntity && pokemon.getOwnerPlayer() == player) {
+            if (player.isSneaking) {
+                InteractPokemonUIPacket(this.getUuid(), isReadyToSitOnPlayer).sendToPlayer(player)
+            } else {
+                // TODO #105
+                if (this.attemptItemInteraction(player, player.getStackInHand(hand))) return ActionResult.SUCCESS
             }
         }
+
         return super.interactMob(player, hand)
     }
 
@@ -377,6 +427,11 @@ class PokemonEntity(
     }
 
     override fun shouldSave(): Boolean {
+        if (ownerUuid == null && Cobblemon.config.savePokemonToWorld) {
+            CobblemonEvents.POKEMON_ENTITY_SAVE_TO_WORLD.postThen(PokemonEntitySaveToWorldEvent(this)) {
+                return true
+            }
+        }
         return false
     }
 
@@ -424,36 +479,83 @@ class PokemonEntity(
         return this.labelLevel.get()
     }
 
+    override fun playAmbientSound() {
+        if (!this.isSilent) {
+            val subPath = if (this.pokemon.form == this.pokemon.species.standardForm) this.pokemon.species.name else "${this.pokemon.species.name}-${this.pokemon.form.name}"
+            val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.$subPath.ambient")
+            // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
+            UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
+                .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.registryKey)
+        }
+    }
+
+    // We never want to allow an actual sound event here, we do not register our sounds to the sound registry as species are loaded by the time the registry is frozen.
+    // Super call would do the same but might as well future-proof.
+    override fun getAmbientSound(): SoundEvent? {
+        return null
+    }
+
+    override fun getMinAmbientSoundDelay(): Int {
+        return Cobblemon.config.ambientPokemonCryTicks
+    }
+
     private fun attemptItemInteraction(player: PlayerEntity, stack: ItemStack): Boolean {
-        if (player !is ServerPlayerEntity || stack.isEmpty || this.isBusy) {
+        if (player !is ServerPlayerEntity || this.isBusy) {
             return false
         }
-        if (pokemon.getOwnerPlayer() == player) {
-            val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
-            pokemon.evolutions
-                .filterIsInstance<ItemInteractionEvolution>()
-                .forEach { evolution ->
-                    if (evolution.attemptEvolution(pokemon, context)) {
-                        if (!player.isCreative) {
-                            stack.decrement(1)
+        if (!stack.isEmpty) {
+            if (pokemon.getOwnerPlayer() == player) {
+                val context = ItemInteractionEvolution.ItemInteractionContext(stack.item, player.world)
+                pokemon.evolutions
+                    .filterIsInstance<ItemInteractionEvolution>()
+                    .forEach { evolution ->
+                        if (evolution.attemptEvolution(pokemon, context)) {
+                            if (!player.isCreative) {
+                                stack.decrement(1)
+                            }
+                            this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+                            return true
                         }
-                        this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
-                        return true
                     }
+            }
+            shouldSave()
+            (stack.item as? PokemonInteractiveItem)?.let {
+                if (it.onInteraction(player, this, stack)) {
+                    this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
+                    return true
                 }
-        }
-
-        (stack.item as? PokemonEntityInteraction)?.let {
-            if (it.onInteraction(player, this, stack)) {
-                this.world.playSoundServer(position = this.pos, sound = CobblemonSounds.ITEM_USE.get(), volume = 1F, pitch = 1F)
-                return true
             }
         }
-
         return false
     }
 
-    private fun tryMountingShoulder(player: ServerPlayerEntity): Boolean {
+    fun offerHeldItem(player: PlayerEntity, stack: ItemStack): Boolean {
+        if (player !is ServerPlayerEntity || this.isBusy || this.pokemon.getOwnerPlayer() != player) {
+            return false
+        }
+        // We want the count of 1 in order to match the ItemStack#areEqual
+        val giving = stack.copy().apply { count = 1 }
+        val possibleReturn = this.pokemon.heldItemNoCopy()
+        if (stack.isEmpty && possibleReturn.isEmpty) {
+            return false
+        }
+        if (ItemStack.areEqual(giving, possibleReturn)) {
+            player.sendMessage(lang("held_item.already_holding", this.pokemon.displayName, stack.name))
+            return true
+        }
+        val returned = this.pokemon.swapHeldItem(giving, !player.isCreative)
+        val text = when {
+            giving.isEmpty -> lang("held_item.take", returned.name, this.pokemon.displayName)
+            returned.isEmpty -> lang("held_item.give", this.pokemon.displayName, giving.name)
+            else -> lang("held_item.replace", returned.name, this.pokemon.displayName, giving.name)
+        }
+        player.giveItemStack(returned)
+        player.sendMessage(text)
+        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+        return true
+    }
+
+    fun tryMountingShoulder(player: ServerPlayerEntity): Boolean {
         if (this.pokemon.belongsTo(player) && this.hasRoomToMount(player)) {
             CobblemonEvents.SHOULDER_MOUNT.postThen(ShoulderMountEvent(player, pokemon, isLeft = player.shoulderEntityLeft.isEmpty)) {
                 val dirToPlayer = player.eyePos.subtract(pos).multiply(1.0, 0.0, 1.0).normalize()
@@ -468,6 +570,7 @@ class PokemonEntity(
                             pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
                             this.mountOnto(player)
                             this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
+                            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
                         }
                     }
                 }
@@ -488,7 +591,7 @@ class PokemonEntity(
     }
 
     // Copy and paste of how vanilla checks it, unfortunately no util method you can only add then wait for the result
-    private fun hasRoomToMount(player: PlayerEntity): Boolean {
+    fun hasRoomToMount(player: PlayerEntity): Boolean {
         return (player.shoulderEntityLeft.isEmpty || player.shoulderEntityRight.isEmpty)
                 && !player.hasVehicle()
                 && player.isOnGround

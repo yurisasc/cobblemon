@@ -41,25 +41,24 @@ dependencies {
         libs.jetbrainsAnnotations,
         libs.serializationCore,
         libs.serializationJson,
-        libs.javet,
-        libs.javetMac,
+        libs.graal,
         libs.molang,
         libs.mclib
     ).forEach {
         forgeRuntimeLibrary(it)
-        bundle(it)
+        bundle(it) {
+            //exclude("com.ibm.icu", "icu4j")
+        }
     }
-
-    // Testing - It needs this!
-//    forgeRuntimeLibrary("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
-
-    //
 }
 
 tasks {
     shadowJar {
         exclude("architectury-common.accessWidener")
+
+        relocate ("com.ibm.icu", "com.cobblemon.mod.relocations.ibm.icu")
     }
+
     processResources {
         inputs.property("version", rootProject.version)
 

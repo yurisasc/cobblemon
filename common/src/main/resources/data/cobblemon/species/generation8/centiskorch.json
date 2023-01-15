@@ -26,6 +26,7 @@
         },
         {
             "name": "gmax",
+            "aspects": ["gmax"],
             "moves": [],
             "labels": [
                 "gen8",

@@ -21,6 +21,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "secondaryType": "steel",
       "abilities": ["sandveil", "tanglinghair", "h:sandforce"],
       "baseStats": {
@@ -118,7 +119,7 @@
       ],
       "weight": 666,
       "labels": ["gen1", "alola_regional", "regional"],
-      "preEvolution": "diglett form=alola"
+      "preEvolution": "diglett alolan"
     }
   ],
   "baseExperienceYield": 149,

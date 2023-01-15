@@ -21,6 +21,7 @@
     },
     {
       "name": "alola",
+      "aspects": ["alolan"],
       "secondaryType": "dark",
       "abilities": ["poisontouch", "gluttony", "h:powerofalchemy"],
       "moves": [
@@ -120,7 +121,7 @@
         {
           "id": "grimer_muk_alola",
           "variant": "level_up",
-          "result": "muk form=alola",
+          "result": "muk alolan",
           "consumeHeldItem": false,
           "learnableMoves": [],
           "requirements": [

@@ -98,8 +98,10 @@
     "weight": 21,
     "evolutions": [],
     "forms": [
+        { "name": "normal" },
         {
             "name": "sky",
+            "aspects": ["shaymin-sky"],
             "secondaryType": "flying",
             "abilities": [
                 "serenegrace"

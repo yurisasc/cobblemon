@@ -138,8 +138,10 @@
     "weight": 7500,
     "evolutions": [],
     "forms": [
+        { "name": "normal" },
         {
             "name": "origin",
+            "aspects": ["origin"],
             "abilities": [
                 "levitate"
             ],
