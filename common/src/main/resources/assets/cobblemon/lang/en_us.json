@@ -518,7 +518,7 @@
   "item.cobblemon.thunder_stone": "Thunder Stone",
   "item.cobblemon.water_stone": "Water Stone",
 
-  "gamerule.doPokemonSpawning": "Spawn pokémon",
+  "gamerule.doPokemonSpawning": "Spawn Pokémon",
   "cobblemon.command.checkspawns.invalid-bucket": "Invalid Spawn Bucket",
   "cobblemon.command.checkspawns.spawns": "Spawns",
   "cobblemon.command.checkspawns.nothing": "Nothing can spawn here right now.",

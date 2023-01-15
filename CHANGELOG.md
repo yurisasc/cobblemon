@@ -4,7 +4,7 @@
 ### Additions
 - Added `/giveallpokemon` command which is definitely safe and not insane.
 - Added a cap of Pokémon spawns in an area because waiting a while made things insane. Controlled by a new `pokemonPerChunk` config option.
-- Pokémon now save to the world by default, meaning the same Pokémon will remain in the world and not and not disappear after you log out and log back in.
+- Pokémon now save to the world by default, meaning the same Pokémon will remain in the world and not disappear after you log out and log back in.
 - [Dispensers](https://minecraft.fandom.com/wiki/Dispenser) can now use shears to automatically harvest fully grown Apricorns.
 - Apricorn seeds can now be used with the [Composter](https://minecraft.fandom.com/wiki/Composter), these have the layer increase chance of 65% like Apricorns and various Minecraft crops.
 - Pokémon can now act as an extra storage slot and can be given an item to hold. Traditional Pokémon held items will have their expected battle or out-of-battle effects.
