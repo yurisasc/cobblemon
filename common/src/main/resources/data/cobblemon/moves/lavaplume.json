@@ -4,13 +4,8 @@
   "damageCategory": "Special",
   "target": "allAdjacent",
   "power": 80,
-  "accuracy": 100,
+  "accuracy": 100.0,
   "pp": 15,
   "priority": 0,
-  "effectChance": 30,
-  "effectStatus": "brn",
-  "flags": {
-    "protect": 1,
-    "mirror": 1
-  }
+  "effectChance": 30
 }

@@ -3,6 +3,7 @@
 ## [1.2.1](#1-2-1)
 ### Additions
 - Added `/giveallpokemon` command which is definitely safe and not insane.
+- Added generation 9 move and ability data.
 - Added a cap of Pokémon spawns in an area because waiting a while made things insane. Controlled by a new `pokemonPerChunk` config option.
 - Pokémon now save to the world by default, meaning the same Pokémon will remain in the world and not disappear after you log out and log back in.
 - [Dispensers](https://minecraft.fandom.com/wiki/Dispenser) can now use shears to automatically harvest fully grown Apricorns.

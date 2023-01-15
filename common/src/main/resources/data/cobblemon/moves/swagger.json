@@ -4,13 +4,7 @@
   "damageCategory": "Status",
   "target": "normal",
   "power": 0,
-  "accuracy": 85,
+  "accuracy": 85.0,
   "pp": 15,
-  "priority": 0,
-  "flags": {
-    "protect": 1,
-    "reflectable": 1,
-    "mirror": 1,
-    "allyanim": 1
-  }
+  "priority": 0
 }

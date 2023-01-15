@@ -1,0 +1,10 @@
+{
+  "name": "victorydance",
+  "type": "Fighting",
+  "damageCategory": "Status",
+  "target": "self",
+  "power": 0,
+  "accuracy": -1.0,
+  "pp": 10,
+  "priority": 0
+}

@@ -1,0 +1,11 @@
+{
+  "name": "mortalspin",
+  "type": "Poison",
+  "damageCategory": "Physical",
+  "target": "allAdjacentFoes",
+  "power": 30,
+  "accuracy": 100.0,
+  "pp": 15,
+  "priority": 0,
+  "effectChance": 100
+}

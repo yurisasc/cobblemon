@@ -4,15 +4,7 @@
   "damageCategory": "Status",
   "target": "any",
   "power": 0,
-  "accuracy": 100.0,
+  "accuracy": -1.0,
   "pp": 10,
-  "priority": 0,
-  "flags": {
-    "protect": 1,
-    "pulse": 1,
-    "reflectable": 1,
-    "distance": 1,
-    "heal": 1,
-    "allyanim": 1
-  }
+  "priority": 0
 }

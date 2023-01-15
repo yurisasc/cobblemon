@@ -1,0 +1,10 @@
+{
+  "name": "collisioncourse",
+  "type": "Fighting",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 100,
+  "accuracy": 100.0,
+  "pp": 5,
+  "priority": 0
+}

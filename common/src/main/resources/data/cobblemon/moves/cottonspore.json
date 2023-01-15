@@ -4,13 +4,7 @@
   "damageCategory": "Status",
   "target": "allAdjacentFoes",
   "power": 0,
-  "accuracy": 100,
+  "accuracy": 100.0,
   "pp": 40,
-  "priority": 0,
-  "flags": {
-    "powder": 1,
-    "protect": 1,
-    "reflectable": 1,
-    "mirror": 1
-  }
+  "priority": 0
 }

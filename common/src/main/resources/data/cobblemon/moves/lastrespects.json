@@ -1,0 +1,10 @@
+{
+  "name": "lastrespects",
+  "type": "Ghost",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 50,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0
+}
