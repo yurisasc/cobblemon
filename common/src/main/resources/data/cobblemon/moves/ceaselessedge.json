@@ -1,0 +1,10 @@
+{
+  "name": "ceaselessedge",
+  "type": "Dark",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 65,
+  "accuracy": 90.0,
+  "pp": 15,
+  "priority": 0
+}

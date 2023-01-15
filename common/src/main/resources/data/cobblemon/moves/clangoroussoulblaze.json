@@ -4,11 +4,7 @@
   "damageCategory": "Special",
   "target": "allAdjacentFoes",
   "power": 185,
-  "accuracy": 100.0,
+  "accuracy": -1.0,
   "pp": 1,
-  "priority": 0,
-  "flags": {
-    "sound": 1,
-    "bypasssub": 1
-  }
+  "priority": 0
 }

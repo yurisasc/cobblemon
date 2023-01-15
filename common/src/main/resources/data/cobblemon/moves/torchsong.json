@@ -1,0 +1,11 @@
+{
+  "name": "torchsong",
+  "type": "Fire",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 80,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0,
+  "effectChance": 100
+}

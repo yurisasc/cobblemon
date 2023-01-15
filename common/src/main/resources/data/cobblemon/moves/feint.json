@@ -4,10 +4,7 @@
   "damageCategory": "Physical",
   "target": "normal",
   "power": 30,
-  "accuracy": 100,
+  "accuracy": 100.0,
   "pp": 10,
-  "priority": 2,
-  "flags": {
-    "mirror": 1
-  }
+  "priority": 2
 }

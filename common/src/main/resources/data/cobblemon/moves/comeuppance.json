@@ -1,0 +1,10 @@
+{
+  "name": "comeuppance",
+  "type": "Dark",
+  "damageCategory": "Physical",
+  "target": "scripted",
+  "power": 0,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0
+}

@@ -1,0 +1,10 @@
+{
+  "name": "wavecrash",
+  "type": "Water",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 120,
+  "accuracy": 100.0,
+  "pp": 10,
+  "priority": 0
+}

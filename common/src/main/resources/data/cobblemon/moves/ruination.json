@@ -1,0 +1,10 @@
+{
+  "name": "ruination",
+  "type": "Dark",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 0,
+  "accuracy": 90.0,
+  "pp": 10,
+  "priority": 0
+}

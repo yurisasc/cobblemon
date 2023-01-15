@@ -1,0 +1,10 @@
+{
+  "name": "glaiverush",
+  "type": "Dragon",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 120,
+  "accuracy": 100.0,
+  "pp": 5,
+  "priority": 0
+}

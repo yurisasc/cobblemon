@@ -4,8 +4,7 @@
   "damageCategory": "Special",
   "target": "normal",
   "power": 140,
-  "accuracy": 100,
+  "accuracy": 100.0,
   "pp": 5,
-  "priority": 0,
-  "flags": {}
+  "priority": 0
 }
