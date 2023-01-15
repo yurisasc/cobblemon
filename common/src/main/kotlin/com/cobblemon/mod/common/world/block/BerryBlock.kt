@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.world.block
 
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
-import com.cobblemon.mod.common.tags.CobblemonBlockTags
+import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
 import net.minecraft.block.*
 import net.minecraft.entity.LivingEntity
