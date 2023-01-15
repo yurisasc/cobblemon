@@ -1,0 +1,10 @@
+{
+  "name": "populationbomb",
+  "type": "Normal",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 20,
+  "accuracy": 90.0,
+  "pp": 10,
+  "priority": 0
+}

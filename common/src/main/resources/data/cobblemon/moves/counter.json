@@ -4,11 +4,7 @@
   "damageCategory": "Physical",
   "target": "scripted",
   "power": 0,
-  "accuracy": 100,
+  "accuracy": 100.0,
   "pp": 20,
-  "priority": -5,
-  "flags": {
-    "contact": 1,
-    "protect": 1
-  }
+  "priority": -5
 }

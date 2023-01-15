@@ -1,0 +1,10 @@
+{
+  "name": "electrodrift",
+  "type": "Electric",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 100,
+  "accuracy": 100.0,
+  "pp": 5,
+  "priority": 0
+}

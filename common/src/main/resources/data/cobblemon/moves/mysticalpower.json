@@ -1,0 +1,11 @@
+{
+  "name": "mysticalpower",
+  "type": "Psychic",
+  "damageCategory": "Special",
+  "target": "normal",
+  "power": 70,
+  "accuracy": 90.0,
+  "pp": 10,
+  "priority": 0,
+  "effectChance": 100
+}

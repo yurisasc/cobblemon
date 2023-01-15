@@ -4,14 +4,8 @@
   "damageCategory": "Special",
   "target": "any",
   "power": 80,
-  "accuracy": 100,
+  "accuracy": 100.0,
   "pp": 15,
   "priority": 0,
-  "effectChance": 20,
-  "flags": {
-    "protect": 1,
-    "pulse": 1,
-    "mirror": 1,
-    "distance": 1
-  }
+  "effectChance": 20
 }

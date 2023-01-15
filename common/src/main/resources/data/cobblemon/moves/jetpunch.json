@@ -1,0 +1,10 @@
+{
+  "name": "jetpunch",
+  "type": "Water",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 60,
+  "accuracy": 100.0,
+  "pp": 15,
+  "priority": 1
+}

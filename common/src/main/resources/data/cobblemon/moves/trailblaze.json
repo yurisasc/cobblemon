@@ -1,0 +1,11 @@
+{
+  "name": "trailblaze",
+  "type": "Grass",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 50,
+  "accuracy": 100.0,
+  "pp": 20,
+  "priority": 0,
+  "effectChance": 100
+}

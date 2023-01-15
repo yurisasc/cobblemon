@@ -1,0 +1,10 @@
+{
+  "name": "snowscape",
+  "type": "Ice",
+  "damageCategory": "Status",
+  "target": "all",
+  "power": 0,
+  "accuracy": -1.0,
+  "pp": 10,
+  "priority": 0
+}

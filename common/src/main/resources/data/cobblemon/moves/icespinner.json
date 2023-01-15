@@ -1,0 +1,10 @@
+{
+  "name": "icespinner",
+  "type": "Ice",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 80,
+  "accuracy": 100.0,
+  "pp": 15,
+  "priority": 0
+}

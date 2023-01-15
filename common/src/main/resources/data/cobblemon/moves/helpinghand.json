@@ -4,10 +4,7 @@
   "damageCategory": "Status",
   "target": "adjacentAlly",
   "power": 0,
-  "accuracy": 100.0,
+  "accuracy": -1.0,
   "pp": 20,
-  "priority": 5,
-  "flags": {
-    "bypasssub": 1
-  }
+  "priority": 5
 }

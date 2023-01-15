@@ -3,12 +3,8 @@
   "type": "Grass",
   "damageCategory": "Physical",
   "target": "normal",
-  "power": 70,
-  "accuracy": 100,
+  "power": 60,
+  "accuracy": 100.0,
   "pp": 20,
-  "priority": 0,
-  "flags": {
-    "contact": 1,
-    "protect": 1
-  }
+  "priority": 0
 }
