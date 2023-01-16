@@ -1,5 +1,5 @@
 {
-    "name": "emergencyexit",
-    "displayName": "cobblemon.ability.emergencyexit",
-    "description": "cobblemon.ability.emergencyexit.desc"
+  "name": "emergencyexit",
+  "displayName": "cobblemon.ability.emergencyexit",
+  "description": "cobblemon.ability.emergencyexit.desc"
 }

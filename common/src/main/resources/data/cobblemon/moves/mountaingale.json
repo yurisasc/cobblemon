@@ -1,0 +1,11 @@
+{
+  "name": "mountaingale",
+  "type": "Ice",
+  "damageCategory": "Physical",
+  "target": "normal",
+  "power": 100,
+  "accuracy": 85.0,
+  "pp": 10,
+  "priority": 0,
+  "effectChance": 30
+}

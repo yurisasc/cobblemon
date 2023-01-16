@@ -87,6 +87,12 @@ class MolangBoneValue(
         val environment = runtime.environment
         val scope = MoScope()
         environment.setValue("variable.anim_time", DoubleValue(time))
+        val xRot = MinecraftClient.getInstance().gameRenderer.camera.rotation.x.toDouble()
+        val yRot = MinecraftClient.getInstance().gameRenderer.camera.rotation.y.toDouble()
+        n.context.setValue("q.camera_rotation(0)", xRot)
+        n.context.setValue("query.camera_rotation(0)",xRot)
+        n.context.setValue("q.camera_rotation(1)", yRot)
+        n.context.setValue("query.camera_rotation(1)",yRot)
         return Vec3d(
             x.evaluate(scope, runtime.environment).asDouble(),
             y.evaluate(scope, runtime.environment).asDouble() * yMul,

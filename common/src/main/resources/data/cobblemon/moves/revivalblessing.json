@@ -1,0 +1,10 @@
+{
+  "name": "revivalblessing",
+  "type": "Normal",
+  "damageCategory": "Status",
+  "target": "self",
+  "power": 0,
+  "accuracy": -1.0,
+  "pp": 1,
+  "priority": 0
+}

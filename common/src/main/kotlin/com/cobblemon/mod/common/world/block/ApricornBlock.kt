@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.world.block
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.apricorn.Apricorn
-import com.cobblemon.mod.common.tags.CobblemonBlockTags
+import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import net.minecraft.block.*
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
