@@ -94,7 +94,7 @@ class BattleGeneralActionSelection(
         return tiles.any { it.mouseClicked(mouseX, mouseY, button) }
     }
 
-    override fun appendNarrations(builder: NarrationMessageBuilder) {
+    override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
     }
 
     override fun playDownSound(soundManager: SoundManager) {

@@ -21,11 +21,10 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityType
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.SpawnGroup
-import net.minecraft.entity.attribute.DefaultAttributeContainer
 import net.minecraft.entity.attribute.EntityAttributes
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.RegistryKeys
 
-object CobblemonEntities : CompletableRegistry<EntityType<*>>(Registry.ENTITY_TYPE_KEY) {
+object CobblemonEntities : CompletableRegistry<EntityType<*>>(RegistryKeys.ENTITY_TYPE) {
     override fun register() {
         super.register()
 

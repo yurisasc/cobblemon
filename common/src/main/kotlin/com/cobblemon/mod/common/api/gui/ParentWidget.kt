@@ -91,7 +91,7 @@ abstract class ParentWidget(
         return super.charTyped(pCodePoint, pModifiers)
     }
 
-    override fun appendNarrations(pNarrationElementOutput: NarrationMessageBuilder) {
+    override fun appendDefaultNarrations(pNarrationElementOutput: NarrationMessageBuilder) {
     }
 
     /**

@@ -48,7 +48,8 @@ import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.MathHelper.ceil
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Vector3f
 
 class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.getInstance().itemRenderer) {
     companion object {
@@ -389,8 +390,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         val renderType = model.getLayer(texture)
 
         RenderSystem.applyModelViewMatrix()
-        val quaternion1 = Vec3f.POSITIVE_Y.getDegreesQuaternion(-32F * if (reversed) -1F else 1F)
-        val quaternion2 = Vec3f.POSITIVE_X.getDegreesQuaternion(5F)
+        val quaternion1 = RotationAxis.POSITIVE_Y.rotationDegrees(-32F * if (reversed) -1F else 1F)
+        val quaternion2 = RotationAxis.POSITIVE_X.rotationDegrees(5F)
 
         model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
         model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
@@ -402,8 +403,8 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
         matrixStack.multiply(quaternion1)
         matrixStack.multiply(quaternion2)
 
-        val light1 = Vec3f(0.2F, 1.0F, -1.0F)
-        val light2 = Vec3f(0.1F, -1.0F, 2.0F)
+        val light1 = Vector3f(0.2F, 1.0F, -1.0F)
+        val light2 = Vector3f(0.1F, -1.0F, 2.0F)
         RenderSystem.setShaderLights(light1, light2)
         quaternion1.conjugate()
 

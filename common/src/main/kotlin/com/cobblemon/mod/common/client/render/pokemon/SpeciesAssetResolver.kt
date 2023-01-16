@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
-import com.cobblemon.mod.common.util.adapters.Vec3fAdapter
+import com.cobblemon.mod.common.util.adapters.Vector3fAdapter
 import com.cobblemon.mod.common.util.adapters.Vector4fAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
@@ -77,7 +77,7 @@ class RegisteredSpeciesRendering(
         val GSON = GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
-            .registerTypeAdapter(Vec3f::class.java, Vec3fAdapter)
+            .registerTypeAdapter(Vec3f::class.java, Vector3fAdapter)
             .registerTypeAdapter(Vector4f::class.java, Vector4fAdapter)
             .disableHtmlEscaping()
             .setLenient()

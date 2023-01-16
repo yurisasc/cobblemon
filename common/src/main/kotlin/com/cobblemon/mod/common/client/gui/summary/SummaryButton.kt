@@ -46,7 +46,7 @@ class SummaryButton(
     var isActive = false
 
     override fun mouseDragged(d: Double, e: Double, i: Int, f: Double, g: Double) = false
-    override fun appendNarrations(builder: NarrationMessageBuilder) {
+    override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
     }
 
     override fun renderButton(poseStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

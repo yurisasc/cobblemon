@@ -10,8 +10,10 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.util.cobblemonResource
 import dev.architectury.registry.level.biome.BiomeModifications
-import net.minecraft.util.registry.RegistryEntry
-import net.minecraft.util.registry.RegistryEntryList
+import net.minecraft.registry.RegistryKey
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.entry.RegistryEntry
+import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.feature.ConfiguredFeatures
 import net.minecraft.world.gen.feature.Feature
@@ -22,6 +24,13 @@ import net.minecraft.world.gen.feature.VegetationPlacedFeatures
 import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier
 
 object CobblemonPlacements {
+    val BLACK_APRICORN_TREE_PLACED_FEATURE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, cobblemonResource("black_apricorn_tree"))
+    val BLUE_APRICORN_TREE_PLACED_FEATURE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, cobblemonResource("blue_apricorn_tree"))
+    val GREEN_APRICORN_TREE_PLACED_FEATURE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, cobblemonResource("green_apricorn_tree"))
+    val PINK_APRICORN_TREE_PLACED_FEATURE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, cobblemonResource("pink_apricorn_tree"))
+    val RED_APRICORN_TREE_PLACED_FEATURE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, cobblemonResource("red_apricorn_tree"))
+    val WHITE_APRICORN_TREE_PLACED_FEATURE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, cobblemonResource("white_apricorn_tree"))
+    val YELLOW_APRICORN_TREE_PLACED_FEATURE = RegistryKey.of(RegistryKeys.PLACED_FEATURE, cobblemonResource("yellow_apricorn_tree"))
 
     lateinit var BLACK_APRICORN_TREE: RegistryEntry<PlacedFeature>
     lateinit var BLUE_APRICORN_TREE: RegistryEntry<PlacedFeature>

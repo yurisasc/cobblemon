@@ -17,7 +17,8 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.registry.BlockIdentifierCondition
 import net.minecraft.block.Block
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.World
 
 /**
@@ -48,7 +49,7 @@ open class BlockClickEvolution(
     )
 
     override fun testContext(pokemon: Pokemon, context: BlockInteractionContext): Boolean {
-        return this.requiredContext.fits(context.block, context.world.registryManager.get(Registry.BLOCK_KEY))
+        return this.requiredContext.fits(context.block, context.world.registryManager.get(RegistryKeys.BLOCK))
     }
 
     override fun equals(other: Any?) = other is BlockClickEvolution && other.id.equals(this.id, true)

@@ -10,10 +10,10 @@ package com.cobblemon.mod.common.world.placement
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import net.minecraft.tag.TagKey
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.random.Random
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.feature.FeaturePlacementContext
 import net.minecraft.world.gen.placementmodifier.AbstractConditionalPlacementModifier
@@ -37,7 +37,7 @@ class BiomeTagModifier(private val tag: TagKey<Biome>) : AbstractConditionalPlac
         val CODEC: Codec<BiomeTagModifier> = RecordCodecBuilder.create { builder ->
             builder
                 .group(
-                    TagKey.unprefixedCodec(Registry.BIOME_KEY)
+                    TagKey.unprefixedCodec(RegistryKeys.BIOME)
                         .fieldOf("tag")
                         .forGetter { it.tag }
                 )

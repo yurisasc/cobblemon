@@ -73,6 +73,6 @@ class BattleOptionTile(
 
     fun isHovered(mouseX: Double, mouseY: Double) = mouseX > x && mouseY > y && mouseX < x + OPTION_WIDTH && mouseY < y + OPTION_HEIGHT
 
-    override fun appendNarrations(builder: NarrationMessageBuilder) = builder.put(NarrationPart.TITLE, text)
+    override fun appendDefaultNarrations(builder: NarrationMessageBuilder) = builder.put(NarrationPart.TITLE, text)
     override fun getType() = HOVERED
 }

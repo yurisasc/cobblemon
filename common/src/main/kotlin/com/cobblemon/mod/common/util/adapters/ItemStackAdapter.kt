@@ -15,7 +15,7 @@ import java.lang.reflect.Type
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
 
 /**
  * Saves and loads an [ItemStack] with JSON.
@@ -28,10 +28,10 @@ import net.minecraft.util.registry.Registry
  * @author Licious
  * @since March 20th, 2022
  */
-object ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> {
-
-    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): ItemStack = (if (json.isJsonPrimitive) ItemStack(Registry.ITEM.get(Identifier(json.asString.lowercase()))) else ItemStack.fromNbt(json.asNbt() as NbtCompound))!!
-
-    override fun serialize(src: ItemStack, typeOfSrc: Type, context: JsonSerializationContext) = src.saveToJson()
-
-}
+//object ItemStackAdapter : JsonDeserializer<ItemStack>, JsonSerializer<ItemStack> {
+//
+//    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): ItemStack = (if (json.isJsonPrimitive) ItemStack(Registry.ITEM.get(Identifier(json.asString.lowercase()))) else ItemStack.fromNbt(json.asNbt() as NbtCompound))!!
+//
+//    override fun serialize(src: ItemStack, typeOfSrc: Type, context: JsonSerializationContext) = src.saveToJson()
+//
+//}

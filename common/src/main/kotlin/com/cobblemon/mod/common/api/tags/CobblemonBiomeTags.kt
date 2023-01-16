@@ -9,8 +9,9 @@
 package com.cobblemon.mod.common.api.tags
 
 import com.cobblemon.mod.common.util.cobblemonResource
-import net.minecraft.tag.TagKey
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.registry.tag.TagKey
 
 /**
  * A collection of the Cobblemon [TagKey]s related to the [Registry.BIOME_KEY].
@@ -106,5 +107,5 @@ object CobblemonBiomeTags {
     @Deprecated(message = "This tag no longer exists", replaceWith = ReplaceWith("com.cobblemon.mod.common.api.tags.CobblemonBiomeTags.IS_CAVE"), level = DeprecationLevel.ERROR)
     val IS_UNDERGROUND = create("is_underground")
 
-    private fun create(path: String) = TagKey.of(Registry.BIOME_KEY, cobblemonResource(path))
+    private fun create(path: String) = TagKey.of(RegistryKeys.BIOME, cobblemonResource(path))
 }

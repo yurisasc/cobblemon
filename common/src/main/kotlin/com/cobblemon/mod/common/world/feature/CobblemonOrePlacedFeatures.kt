@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import com.cobblemon.mod.common.util.cobblemonResource
 import dev.architectury.registry.level.biome.BiomeModifications
 import net.minecraft.tag.TagKey
-import net.minecraft.util.registry.RegistryEntry
+import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.world.biome.Biome
 import net.minecraft.world.gen.GenerationStep
 import net.minecraft.world.gen.YOffset

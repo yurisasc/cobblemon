@@ -10,11 +10,11 @@ package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.registry.CompletableRegistry
 import com.cobblemon.mod.common.util.cobblemonResource
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.sound.SoundEvent
-import net.minecraft.util.registry.Registry
 
-object CobblemonSounds : CompletableRegistry<SoundEvent>(Registry.SOUND_EVENT_KEY) {
-    private fun queue(name: String) = queue(name) { SoundEvent(cobblemonResource(name)) }
+object CobblemonSounds : CompletableRegistry<SoundEvent>(RegistryKeys.SOUND_EVENT) {
+    private fun queue(name: String) = queue(name) { SoundEvent.of(cobblemonResource(name)) }
 
     val GUI_CLICK = queue("gui.click")
 

@@ -27,10 +27,10 @@ import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.math.DoubleRange
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import com.cobblemon.mod.common.util.math.remap
+import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.tan
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.font.TextRenderer
 import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
@@ -40,14 +40,13 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.MathConstants.PI
 import net.minecraft.util.math.MathHelper
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
-import net.minecraft.util.math.Vector4f
-import kotlin.math.max
+import net.minecraft.util.math.RotationAxis
+import org.joml.Quaternionf
+import org.joml.Vector3f
+import org.joml.Vector4f
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context
@@ -169,7 +168,7 @@ class PokemonRenderer(
             return
         }
 
-        val direction = Vec3f(pokemonPosition.subtract(beamSourcePosition))
+        val direction = pokemonPosition.subtract(beamSourcePosition).let { Vector3f(it.x.toFloat(), it.y.toFloat(), it.z.toFloat()) }
 
         matrixStack.push()
         with(beamSourcePosition.subtract(entity.pos)) { matrixStack.translate(x, y, z) }
@@ -185,12 +184,10 @@ class PokemonRenderer(
 
         direction.normalize()
 
-        val yAxis = Vec3f.POSITIVE_Y.copy()
+        val yAxis = Vector3f(0F, 1F, 0F)
         val dot = direction.dot(yAxis)
-        val cross = yAxis.copy()
-        cross.cross(direction)
-        val q = Quaternion(cross.x, cross.y, cross.z, 1 + dot)
-        q.normalize()
+        val cross = yAxis.cross(direction)
+        val q = Quaternionf(cross.x, cross.y, cross.z, 1 + dot).normalize()
         matrixStack.multiply(q)
 
         renderBeaconBeam(
@@ -286,17 +283,17 @@ class PokemonRenderer(
             val pose = matrixStack.peek().positionMatrix
 
             val newStack = MatrixStack()
-            newStack.multiply(Vec3f.POSITIVE_Y.getRadialQuaternion(ray1YRot + (it + 1) * PI / 2))
+            newStack.multiply(RotationAxis.POSITIVE_Y.rotation(ray1YRot + (it + 1) * PI / 2))
             val nearTop = Vector4f(startX, startY2, 0F, 1F)
             val nearBottom = Vector4f(startX, startY1, 0F, 1F)
             val farTop = Vector4f(endX, endY2, 0F, 1F)
             val farBottom = Vector4f(endX, endY1, 0F, 1F)
 
             val poseM = newStack.peek().positionMatrix
-            nearTop.transform(poseM)
-            nearBottom.transform(poseM)
-            farTop.transform(poseM)
-            farBottom.transform(poseM)
+            nearTop.mul(poseM)
+            nearBottom.mul(poseM)
+            farTop.mul(poseM)
+            farBottom.mul(poseM)
 
             // "Why are you drawing two quads?" because for some weird reason, a specific vertex order
             // only shows a visible quad for 180 degrees, and which 180 degrees changes with the order.

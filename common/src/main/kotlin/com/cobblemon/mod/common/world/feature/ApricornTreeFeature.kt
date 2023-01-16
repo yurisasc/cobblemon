@@ -11,7 +11,6 @@ package com.cobblemon.mod.common.world.feature
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
-import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.randomNoCopy
 import com.cobblemon.mod.common.world.block.ApricornBlock
 import com.google.common.collect.Lists
@@ -21,13 +20,11 @@ import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.LeavesBlock
-import net.minecraft.tag.BlockTags
-import net.minecraft.tag.TagKey
+import net.minecraft.registry.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Direction.*
 import net.minecraft.util.math.random.Random
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.TestableWorld
 import net.minecraft.world.chunk.ChunkStatus

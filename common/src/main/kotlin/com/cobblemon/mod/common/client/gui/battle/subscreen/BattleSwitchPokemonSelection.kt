@@ -120,7 +120,7 @@ class BattleSwitchPokemonSelection(
         return true
     }
 
-    override fun appendNarrations(builder: NarrationMessageBuilder) {
+    override fun appendDefaultNarrations(builder: NarrationMessageBuilder) {
     }
 
     override fun playDownSound(soundManager: SoundManager) {

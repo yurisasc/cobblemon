@@ -11,12 +11,12 @@ package com.cobblemon.mod.common.item
 import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.util.cobblemonResource
 import dev.architectury.registry.CreativeTabRegistry.create
-import net.minecraft.item.ItemGroup
+import java.util.function.Supplier
 import net.minecraft.item.ItemStack
 
 object CobblemonItemGroups {
-    val POKE_BALL_GROUP: ItemGroup = create(cobblemonResource("pokeball")) { ItemStack(CobblemonItems.POKE_BALL.get()) }
-    val EVOLUTION_ITEM_GROUP: ItemGroup = create(cobblemonResource("evolution_item")) { ItemStack(CobblemonItems.BLACK_AUGURITE.get()) }
-    val MEDICINE_ITEM_GROUP: ItemGroup = create(cobblemonResource("medicine")) { ItemStack(CobblemonItems.RARE_CANDY.get()) }
-    val HELD_ITEM_GROUP: ItemGroup = create(cobblemonResource("held_item")) { ItemStack(CobblemonItems.EXP_SHARE.get()) }
+    val POKE_BALL_GROUP = create(cobblemonResource("pokeball"), Supplier { ItemStack(CobblemonItems.POKE_BALL.get()) })
+    val EVOLUTION_ITEM_GROUP = create(cobblemonResource("evolution_item"), Supplier { ItemStack(CobblemonItems.BLACK_AUGURITE.get()) })
+    val MEDICINE_ITEM_GROUP = create(cobblemonResource("medicine"), Supplier { ItemStack(CobblemonItems.RARE_CANDY.get()) })
+    val HELD_ITEM_GROUP = create(cobblemonResource("held_item"), Supplier { ItemStack(CobblemonItems.EXP_SHARE.get()) })
 }

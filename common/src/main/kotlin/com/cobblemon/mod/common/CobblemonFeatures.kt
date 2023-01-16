@@ -12,11 +12,12 @@ import com.cobblemon.mod.common.registry.CompletableRegistry
 import com.cobblemon.mod.common.world.feature.ApricornTreeFeature
 import dev.architectury.registry.registries.RegistrySupplier
 import java.util.function.Supplier
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig
 
-object CobblemonFeatures : CompletableRegistry<Feature<*>>(Registry.FEATURE_KEY) {
+object CobblemonFeatures : CompletableRegistry<Feature<*>>(RegistryKeys.FEATURE) {
     private fun <T : Feature<*>> register(name: String, feature: Supplier<T>) : RegistrySupplier<T> {
         return queue(name, feature)
     }

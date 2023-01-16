@@ -14,7 +14,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
 import java.util.EnumSet
 import net.minecraft.entity.ai.goal.Goal
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
 
 /**
  * AI goal for sleeping in the wild.
@@ -45,7 +45,7 @@ class WildRestGoal(private val pokemonEntity: PokemonEntity) : Goal() {
                 !pokemonEntity.getBehaviourFlag(EXCITED) &&
                 worldTime in pokemonEntity.behaviour.resting.times &&
                 light in rest.light &&
-                (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, pokemonEntity.world.registryManager.get(Registry.BLOCK_KEY)) }) &&
+                (rest.blocks.isEmpty() || rest.blocks.any { it.fits(block, pokemonEntity.world.registryManager.get(RegistryKeys.BLOCK)) }) &&
                 (rest.biomes.isEmpty() || rest.biomes.any { it.fits(biome, pokemonEntity.world.registryManager.get(Registry.BIOME_KEY)) })
     }
 

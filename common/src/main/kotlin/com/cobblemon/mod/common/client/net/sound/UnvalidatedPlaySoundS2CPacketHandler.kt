@@ -20,7 +20,7 @@ internal object UnvalidatedPlaySoundS2CPacketHandler : ClientPacketHandler<Unval
         client.executeSync {
             // This prevents clients that might not have the required resources installed from getting spammed about missing sound
             if (client.soundManager.get(packet.sound) != null) {
-                client.world?.playSound(client.player, packet.x, packet.y, packet.z, SoundEvent(packet.sound), packet.category, packet.volume, packet.pitch)
+                client.world?.playSound(client.player, packet.x, packet.y, packet.z, SoundEvent.of(packet.sound), packet.category, packet.volume, packet.pitch)
             }
         }
     }

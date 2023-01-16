@@ -14,8 +14,8 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import java.util.concurrent.CompletableFuture
 import java.util.function.Supplier
-import net.minecraft.util.registry.Registry
-import net.minecraft.util.registry.RegistryKey
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
 
 /**
  * A registry which queues up for a [DeferredRegister] and will eventually be complete.

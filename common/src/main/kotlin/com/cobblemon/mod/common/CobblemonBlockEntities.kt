@@ -14,20 +14,21 @@ import com.cobblemon.mod.common.world.block.entity.PCBlockEntity
 import dev.architectury.registry.registries.RegistrySupplier
 import java.util.function.Supplier
 import net.minecraft.block.entity.BlockEntityType
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.RegistryKeys
+import net.minecraft.world.gen.feature.ConfiguredFeatures
 
-object CobblemonBlockEntities : CompletableRegistry<BlockEntityType<*>>(Registry.BLOCK_ENTITY_TYPE_KEY) {
+object CobblemonBlockEntities : CompletableRegistry<BlockEntityType<*>>(RegistryKeys.BLOCK_ENTITY_TYPE) {
     private fun <T : BlockEntityType<*>> register(name: String, blockEntityType: Supplier<T>) : RegistrySupplier<T> {
         return queue(name, blockEntityType)
     }
 
-    val HEALING_MACHINE = com.cobblemon.mod.common.CobblemonBlockEntities.register("healing_machine") {
+    val HEALING_MACHINE = register("healing_machine") {
         BlockEntityType.Builder.create(
             ::HealingMachineBlockEntity,
             CobblemonBlocks.HEALING_MACHINE.get()
         ).build(null)
     }
-    val PC = com.cobblemon.mod.common.CobblemonBlockEntities.register("pc") {
+    val PC = register("pc") {
         BlockEntityType.Builder.create(
             ::PCBlockEntity,
             CobblemonBlocks.PC.get()

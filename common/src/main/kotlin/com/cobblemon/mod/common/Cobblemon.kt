@@ -103,6 +103,7 @@ import com.cobblemon.mod.common.util.removeAmountIf
 import com.cobblemon.mod.common.world.CobblemonGameRules
 import com.cobblemon.mod.common.world.feature.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.placement.CobblemonPlacementTypes
+import com.mojang.bridge.game.PackType
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.InteractionEvent
@@ -118,9 +119,9 @@ import kotlin.reflect.jvm.isAccessible
 import kotlin.reflect.jvm.javaField
 import net.minecraft.client.MinecraftClient
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.registry.RegistryKey
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.WorldSavePath
-import net.minecraft.util.registry.RegistryKey
 import net.minecraft.world.World
 import org.apache.logging.log4j.LogManager
 
@@ -155,6 +156,8 @@ object Cobblemon {
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
 
         ExperienceGroups.registerDefaults()
+
+
 
         this.loadConfig()
         this.implementation = implementation

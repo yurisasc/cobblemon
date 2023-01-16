@@ -16,9 +16,10 @@ import com.cobblemon.mod.common.api.spawning.spawner.Spawner
 import net.minecraft.block.Block
 import net.minecraft.entity.Entity
 import net.minecraft.fluid.Fluid
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKeys
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 
@@ -64,9 +65,9 @@ abstract class SpawningContext {
     /** The biome of this location. */
     val biome: Biome by lazy { world.getBiome(position).value() }
 
-    val biomeRegistry: Registry<Biome> by lazy { world.registryManager.get(Registry.BIOME_KEY) }
-    val blockRegistry: Registry<Block> by lazy { world.registryManager.get(Registry.BLOCK_KEY) }
-    val fluidRegistry: Registry<Fluid> by lazy { world.registryManager.get(Registry.FLUID_KEY)}
+    val biomeRegistry: Registry<Biome> by lazy { world.registryManager.get(RegistryKeys.BIOME) }
+    val blockRegistry: Registry<Block> by lazy { world.registryManager.get(RegistryKeys.BLOCK) }
+    val fluidRegistry: Registry<Fluid> by lazy { world.registryManager.get(RegistryKeys.FLUID)}
 
     val biomeName: Identifier
         get() = this.biomeRegistry.getId(biome)!!

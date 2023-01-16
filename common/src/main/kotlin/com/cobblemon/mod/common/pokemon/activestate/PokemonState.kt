@@ -24,7 +24,7 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.Identifier
-import net.minecraft.util.registry.RegistryKey
+import net.minecraft.registry.RegistryKey
 import net.minecraft.world.World
 
 sealed class PokemonState {

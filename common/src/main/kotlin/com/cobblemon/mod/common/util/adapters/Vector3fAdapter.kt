@@ -15,15 +15,15 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import java.lang.reflect.Type
-import net.minecraft.util.math.Vec3f
+import org.joml.Vector3f
 
-object Vec3fAdapter : JsonDeserializer<Vec3f>, JsonSerializer<Vec3f> {
-    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Vec3f {
+object Vector3fAdapter : JsonDeserializer<Vector3f>, JsonSerializer<Vector3f> {
+    override fun deserialize(json: JsonElement, type: Type, ctx: JsonDeserializationContext): Vector3f {
         json as JsonArray
-        return Vec3f(json[0].asFloat, json[1].asFloat, json[2].asFloat)
+        return Vector3f(json[0].asFloat, json[1].asFloat, json[2].asFloat)
     }
 
-    override fun serialize(src: Vec3f, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+    override fun serialize(src: Vector3f, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
         return JsonArray()
             .also {
                 it.add(src.x)

@@ -8,7 +8,7 @@
 
 package com.cobblemon.mod.common.api.conditional
 
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
 
 /**
  * A condition which applies to an entry in some [Registry].
