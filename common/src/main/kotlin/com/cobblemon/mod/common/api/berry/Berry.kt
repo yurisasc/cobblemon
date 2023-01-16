@@ -17,7 +17,6 @@ import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.util.readBox
 import com.cobblemon.mod.common.util.writeBox
 import com.cobblemon.mod.common.world.block.BerryBlock
-import com.google.common.collect.HashBiMap
 import com.google.gson.annotations.SerializedName
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
