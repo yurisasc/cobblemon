@@ -17,6 +17,7 @@ import com.cobblemon.mod.common.item.BerryItem
 import com.cobblemon.mod.common.util.readBox
 import com.cobblemon.mod.common.util.writeBox
 import com.cobblemon.mod.common.world.block.BerryBlock
+import com.google.common.collect.HashBiMap
 import com.google.gson.annotations.SerializedName
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
@@ -39,6 +40,7 @@ import java.awt.Color
  * @property baseYield The [IntRange] possible for the berry tree before [bonusYield] is calculated.
  * @property lifeCycles The [IntRange] possible for the berry to live for between harvests.
  * @property growthFactors An array of [GrowthFactor]s that will affect this berry. The client is not aware of these.
+ * @property mutations A map of the partner berry as the key and the value as the resulting mutation with this berry.
  * @property interactions A collection of [PokemonEntityInteraction]s this berry will have in item form. The client is not aware of these.
  * @property growthPoints A collection of [GrowthPoint]s for the berry flowers and fruit.
  * @property sproutShapeBoxes A collection of [Box]es that make up the tree [VoxelShape] during the sprouting stages.
@@ -59,6 +61,7 @@ class Berry(
     val growthFactors: Collection<GrowthFactor>,
     val interactions: Collection<PokemonEntityInteraction>,
     val growthPoints: Array<GrowthPoint>,
+    private val mutations: Map<Identifier, Identifier>,
     @SerializedName("sproutShape")
     private val sproutShapeBoxes: Collection<Box>,
     @SerializedName("matureShape")
@@ -156,6 +159,41 @@ class Berry(
      */
     fun maxYield() = this.baseYield.last + this.growthFactors.sumOf { it.maxYield() }
 
+    /**
+     * Checks if this berry can mutate with the given [partner].
+     * For the berry the mutations may produce use [mutationWith].
+     *
+     * @param partner The [Berry] being checked as a possible mutation partner.
+     * @return If a mutation is possible.
+     */
+    fun canMutateWith(partner: Berry) = this.mutationWith(partner) != null
+
+    /**
+     * Query for the possible mutation with the given [partner].
+     *
+     * @param partner The [Berry] being mutated with.
+     * @return The resulting [Berry] if the mutation is possible.
+     */
+    fun mutationWith(partner: Berry): Berry? {
+        val berryIdentifier = this.mutations[partner.identifier] ?: return null
+        return Berries.getByIdentifier(berryIdentifier)
+    }
+
+    /**
+     * Query for a possible partner to mutate into the given [resulting].
+     *
+     * @param resulting The [Berry] the mutation should result in.
+     * @return The [Berry] that mutates with this berry into the given [resulting] if possible.
+     */
+    fun partnerForMutation(resulting: Berry): Berry? {
+        return this.mutations.firstNotNullOfOrNull { (partner, result) ->
+            if (result == resulting.identifier)
+                Berries.getByIdentifier(partner)
+            else
+                null
+        }
+    }
+
     // A cheat since gson doesn't invoke init block
     internal fun validate() {
         if (this.baseYield.first < 0 || this.baseYield.last < 0) {
@@ -187,6 +225,7 @@ class Berry(
             writer.writeDouble(value.position.z)
             writer.writeFloat(value.rotation)
         }
+        buffer.writeMap(this.mutations, { writer, key -> writer.writeIdentifier(key) }, { writer, value -> writer.writeIdentifier(value) })
         buffer.writeCollection(this.sproutShapeBoxes) { writer, value ->
             writer.writeBox(value)
         }
@@ -242,6 +281,7 @@ class Berry(
             val growthPoints = buffer.readList { reader ->
                 GrowthPoint(Vec3d(reader.readDouble(), reader.readDouble(), reader.readDouble()), reader.readFloat())
             }.toTypedArray()
+            val mutations = buffer.readMap({ reader -> reader.readIdentifier() }, { reader -> reader.readIdentifier() })
             val sproutShapeBoxes = buffer.readList { it.readBox() }
             val matureShapeBoxes = buffer.readList { it.readBox() }
             val flavors = buffer.readMap({ reader -> reader.readEnumConstant(Flavor::class.java) }, { reader -> reader.readInt() })
@@ -250,7 +290,7 @@ class Berry(
             val flowerTexture = buffer.readIdentifier()
             val fruitModelIdentifier = buffer.readIdentifier()
             val fruitTexture = buffer.readIdentifier()
-            return Berry(identifier, baseYield, lifeCycles, emptyList(), emptyList(), growthPoints, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
+            return Berry(identifier, baseYield, lifeCycles, emptyList(), emptyList(), growthPoints, mutations, sproutShapeBoxes, matureShapeBoxes, flavors, tintIndexes, flowerModelIdentifier, flowerTexture, fruitModelIdentifier, fruitTexture)
         }
 
     }

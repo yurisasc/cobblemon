@@ -36,6 +36,8 @@ import net.minecraft.world.WorldView
 
 class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : BlockWithEntity(settings), Fertilizable {
 
+    private val lookupDirections = setOf(Direction.NORTH, Direction.EAST, Direction.WEST, Direction.SOUTH)
+
     /**
      * Returns the [Berry] behind this block,
      * This will be null if it doesn't exist in the [Berries] registry.
@@ -62,7 +64,19 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     override fun grow(world: ServerWorld, random: Random, pos: BlockPos, state: BlockState) {
         val newAge = state.get(AGE) + 1
         if (newAge == MATURE_AGE) {
-            // ToDo check if mutation should occur before flowering
+            val mutations = hashSetOf<Berry>()
+            for (direction in this.lookupDirections) {
+                val redirectedPos = pos.add(direction.vector)
+                val redirectedState = world.getBlockState(redirectedPos)
+                val berryBlock = redirectedState.block as? BerryBlock ?: continue
+                val berry = berryBlock.berry() ?: continue
+                val mutation = this.berry()?.mutationWith(berry) ?: continue
+                mutations += mutation
+            }
+            if (mutations.isNotEmpty()) {
+                val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity
+                blockEntity?.mutate(mutations.random())
+            }
         }
         world.setBlockState(pos, state.with(AGE, newAge), Block.NOTIFY_LISTENERS)
     }
@@ -117,16 +131,14 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
     private fun isMaxAge(state: BlockState) = state.get(AGE) == FRUIT_AGE
 
     @Deprecated("Deprecated in Java")
-    override fun getRenderType(blockState: BlockState): BlockRenderType {
-        return BlockRenderType.MODEL
-    }
+    override fun getRenderType(blockState: BlockState) = BlockRenderType.MODEL
 
     companion object {
 
         const val MATURE_AGE = 3
         const val FLOWER_AGE = 4
         const val FRUIT_AGE = 5
-        val AGE = IntProperty.of("age", 0, FRUIT_AGE)
+        val AGE: IntProperty = IntProperty.of("age", 0, FRUIT_AGE)
 
     }
 }

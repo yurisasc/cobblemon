@@ -106,6 +106,10 @@
       "rotation": 0
     }
   ],
+  "mutations": {
+    "cobblemon:oran": "cobblemon:sitrus",
+    "cobblemon:persim": "cobblemon:mago"
+  },
   "sproutShape": [
     {
       "minX": 7,

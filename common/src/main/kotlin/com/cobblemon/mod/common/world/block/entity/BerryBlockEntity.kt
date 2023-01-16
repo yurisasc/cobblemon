@@ -126,21 +126,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         return drops
     }
 
-    /**
-     * Collects each [Berry] and [GrowthPoint].
-     *
-     * @return Collection of the [Berry] and [GrowthPoint].
-     */
-    internal fun berryAndGrowthPoint(): Collection<Pair<Berry, GrowthPoint>> {
-        val baseBerry = this.berry() ?: return emptyList()
-        val berryPoints = arrayListOf<Pair<Berry, GrowthPoint>>()
-        for ((index, identifier) in this.growthPoints.withIndex()) {
-            val berry = Berries.getByIdentifier(identifier) ?: continue
-            berryPoints.add(berry to baseBerry.growthPoints[index])
-        }
-        return berryPoints
-    }
-
     override fun readNbt(nbt: NbtCompound) {
         this.wasLoading = true
         this.growthPoints.clear()
@@ -162,17 +147,6 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
         nbt.put(GROWTH_POINTS, list)
     }
 
-    private fun consumeLife(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
-        if (this.lifeCycles > 1) {
-            this.lifeCycles--
-            world.setBlockState(pos, state.with(BerryBlock.AGE, 0), Block.NOTIFY_LISTENERS)
-            world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos)
-            this.generateGrowthPoints(world, state, pos, player)
-            return
-        }
-        world.breakBlock(pos, false)
-    }
-
     override fun markDirty() {
         if (!this.wasLoading) {
             super.markDirty()
@@ -185,6 +159,46 @@ class BerryBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(Cobblemon
 
     override fun toInitialChunkDataNbt(): NbtCompound {
         return this.createNbt()
+    }
+
+    /**
+     * Collects each [Berry] and [GrowthPoint].
+     *
+     * @return Collection of the [Berry] and [GrowthPoint].
+     */
+    internal fun berryAndGrowthPoint(): Collection<Pair<Berry, GrowthPoint>> {
+        val baseBerry = this.berry() ?: return emptyList()
+        val berryPoints = arrayListOf<Pair<Berry, GrowthPoint>>()
+        for ((index, identifier) in this.growthPoints.withIndex()) {
+            val berry = Berries.getByIdentifier(identifier) ?: continue
+            berryPoints.add(berry to baseBerry.growthPoints[index])
+        }
+        return berryPoints
+    }
+
+    /**
+     * Inserts the given [berry] as a mutation in a random [growthPoints].
+     *
+     * @param berry The [Berry] being mutated.
+     */
+    internal fun mutate(berry: Berry) {
+        if (this.growthPoints.isEmpty()) {
+            return
+        }
+        val index = this.growthPoints.indices.random()
+        this.growthPoints[index] = berry.identifier
+        this.markDirty()
+    }
+
+    private fun consumeLife(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity) {
+        if (this.lifeCycles > 1) {
+            this.lifeCycles--
+            world.setBlockState(pos, state.with(BerryBlock.AGE, 0), Block.NOTIFY_LISTENERS)
+            world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos)
+            this.generateGrowthPoints(world, state, pos, player)
+            return
+        }
+        world.breakBlock(pos, false)
     }
 
     companion object {
