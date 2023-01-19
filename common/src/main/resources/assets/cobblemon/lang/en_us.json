@@ -548,6 +548,13 @@
   "cobblemon.command.checkspawns.spawns": "Spawns",
   "cobblemon.command.checkspawns.nothing": "Nothing can spawn here right now.",
 
+  "cobblemon.interaction.ev.add": "%1$s' %2$s EVs increased by %3$s!",
+  "cobblemon.interaction.ev.deduct": "%1$s' %2$s EVs decreased by %3$s!",
+  "cobblemon.interaction.pp.restore": "You restore the PP of %1$s.",
+  "cobblemon.interaction.friendsip.add": "%1$s grows closer to you!",
+  "cobblemon.interaction.status.cure": "%1$s is cured of its status condition!",
+  "cobblemon.interaction.hp.heal": "%1$s restored its HP a bit!",
+
   "cobblemon.move.pound": "Pound",
   "cobblemon.move.pound.desc": "The target is physically pounded with a long tail, a foreleg, or the like.",
   "cobblemon.move.karatechop": "Karate Chop",

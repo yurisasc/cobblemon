@@ -11,7 +11,7 @@ package com.cobblemon.mod.common.util.adapters
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.interaction.EntityInteractionTypeAdapter
 import com.cobblemon.mod.common.api.interaction.PokemonEntityInteraction
-import com.cobblemon.mod.common.pokemon.interaction.HealStatusInteraction
+import com.cobblemon.mod.common.pokemon.interaction.*
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement
 import com.google.gson.JsonSerializationContext
@@ -25,7 +25,11 @@ object CobblemonPokemonEntityInteractionTypeAdapter : EntityInteractionTypeAdapt
     private val types = hashMapOf<String, KClass<out PokemonEntityInteraction>>()
 
     init {
+        registerInteraction(EvMutationInteraction.TYPE_ID, EvMutationInteraction::class)
+        registerInteraction(FriendshipIncrementInteraction.TYPE_ID, FriendshipIncrementInteraction::class)
         registerInteraction(HealStatusInteraction.TYPE_ID, HealStatusInteraction::class)
+        registerInteraction(HpRestoreInteraction.TYPE_ID, HpRestoreInteraction::class)
+        registerInteraction(PpRestoreInteraction.TYPE_ID, PpRestoreInteraction::class)
     }
 
     override fun registerInteraction(identifier: Identifier, type: KClass<out PokemonEntityInteraction>) {

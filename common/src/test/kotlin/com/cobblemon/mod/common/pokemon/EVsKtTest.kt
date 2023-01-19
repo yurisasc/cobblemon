@@ -44,4 +44,11 @@ internal class EVsKtTest {
         val evs = EVs()
         assert(evs.getOrDefault(Stats.HP) == 0)
     }
+
+    @Test
+    fun `decrement EVs`() {
+        val evs = EVs.createEmpty()
+        evs[Stats.HP] = EVs.MAX_STAT_VALUE
+        assert(evs.add(Stats.HP, -(EVs.MAX_STAT_VALUE + 1)) == -EVs.MAX_STAT_VALUE)
+    }
 }
