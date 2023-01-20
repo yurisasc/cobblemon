@@ -9,9 +9,7 @@
 package com.cobblemon.mod.common.api.events
 
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
-import com.cobblemon.mod.common.api.events.berry.BerryEvent
-import com.cobblemon.mod.common.api.events.berry.BerryHarvestEvent
-import com.cobblemon.mod.common.api.events.berry.BerryYieldCalculationEvent
+import com.cobblemon.mod.common.api.events.berry.*
 import com.cobblemon.mod.common.api.events.drops.LootDroppedEvent
 import com.cobblemon.mod.common.api.events.entity.EntityAttributeEvent
 import com.cobblemon.mod.common.api.events.entity.PokemonEntityLoadEvent
@@ -91,6 +89,8 @@ object CobblemonEvents {
     val LIVING_DEATH = EntityEvent.LIVING_DEATH.asObservable<LivingDeath, LivingEntity> { obs -> LivingDeath { entity, source -> obs.emit(entity); EventResult.pass() } }
 
     // Berries
-    val BERRY_YIELD = EventObservable<BerryYieldCalculationEvent>()
     val BERRY_HARVEST = EventObservable<BerryHarvestEvent>()
+    val BERRY_MUTATION_OFFER = EventObservable<BerryMutationOfferEvent>()
+    val BERRY_MUTATION_RESULT = EventObservable<BerryMutationResultEvent>()
+    val BERRY_YIELD = EventObservable<BerryYieldCalculationEvent>()
 }

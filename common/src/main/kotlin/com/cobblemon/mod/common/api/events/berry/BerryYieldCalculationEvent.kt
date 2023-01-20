@@ -24,6 +24,9 @@ import net.minecraft.world.World
  * @property placer The [LivingEntity] triggering the calculation.
  * @property yield The current yield of berries.
  * @property passedGrowthFactors The [Berry.growthFactors] where [GrowthFactor.isValid] was true.
+ *
+ * @author Licious
+ * @since November 28th, 2022
  */
 class BerryYieldCalculationEvent(
     override val berry: Berry,

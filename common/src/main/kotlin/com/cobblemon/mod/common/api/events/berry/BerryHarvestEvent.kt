@@ -26,6 +26,9 @@ import net.minecraft.world.World
  * @property state The [BlockState] of the tree.
  * @property blockEntity The backing [BerryBlockEntity]-
  * @property drops A collection of [ItemStack]s produced by this harvest.
+ *
+ * @author Licious
+ * @since November 28th, 2022
  */
 data class BerryHarvestEvent(
     override val berry: Berry,

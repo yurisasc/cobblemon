@@ -10,6 +10,9 @@ package com.cobblemon.mod.common.world.block
 
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.berry.BerryMutationOfferEvent
+import com.cobblemon.mod.common.api.events.berry.BerryMutationResultEvent
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
 import com.cobblemon.mod.common.world.block.entity.BerryBlockEntity
 import net.minecraft.block.*
@@ -73,9 +76,16 @@ class BerryBlock(private val berryIdentifier: Identifier, settings: Settings) : 
                 val mutation = this.berry()?.mutationWith(berry) ?: continue
                 mutations += mutation
             }
-            if (mutations.isNotEmpty()) {
-                val blockEntity = world.getBlockEntity(pos) as? BerryBlockEntity
-                blockEntity?.mutate(mutations.random())
+            this.berry()?.let { berry ->
+                CobblemonEvents.BERRY_MUTATION_OFFER.post(BerryMutationOfferEvent(berry, world, state, pos, mutations)) { berryMutationOffer ->
+                    if (berryMutationOffer.mutations.isNotEmpty()) {
+                        (world.getBlockEntity(pos) as? BerryBlockEntity)?.let { blockEntity ->
+                            CobblemonEvents.BERRY_MUTATION_RESULT.post(BerryMutationResultEvent(berry, world, state, pos, berryMutationOffer.mutations, berryMutationOffer.mutations.random())) { berryMutationResult ->
+                                berryMutationResult.pickedMutation?.let { mutation -> blockEntity.mutate(mutation) }
+                            }
+                        }
+                    }
+                }
             }
         }
         world.setBlockState(pos, state.with(AGE, newAge), Block.NOTIFY_LISTENERS)
