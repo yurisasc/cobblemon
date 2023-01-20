@@ -11,9 +11,8 @@ package com.cobblemon.mod.common.world.feature
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlocks
 import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
-import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.randomNoCopy
-import com.cobblemon.mod.common.world.block.ApricornBlock
+import com.cobblemon.mod.common.block.ApricornBlock
 import com.google.common.collect.Lists
 import com.mojang.serialization.Codec
 import kotlin.random.Random.Default.nextInt
@@ -22,12 +21,10 @@ import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.LeavesBlock
 import net.minecraft.tag.BlockTags
-import net.minecraft.tag.TagKey
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Direction.*
 import net.minecraft.util.math.random.Random
-import net.minecraft.util.registry.Registry
 import net.minecraft.world.StructureWorldAccess
 import net.minecraft.world.TestableWorld
 import net.minecraft.world.chunk.ChunkStatus

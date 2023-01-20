@@ -182,6 +182,7 @@ object Cobblemon {
             BattleRegistry.getBattleByParticipatingPlayer(it)?.stop()
         }
         LIVING_DEATH.pipe(filter { it is ServerPlayerEntity }, map { it as ServerPlayerEntity }).subscribe {
+            PCLinkManager.removeLink(it.uuid)
             battleRegistry.getBattleByParticipatingPlayer(it)?.stop()
         }
 
