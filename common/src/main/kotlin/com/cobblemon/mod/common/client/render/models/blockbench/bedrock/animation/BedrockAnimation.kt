@@ -15,7 +15,9 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityMo
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.util.math.geometry.toRadians
 import java.util.SortedMap
+import net.minecraft.client.MinecraftClient
 import net.minecraft.util.math.Vec3d
+import org.checkerframework.common.value.qual.DoubleVal
 
 data class BedrockAnimationGroup(
     val formatVersion: String,
@@ -87,12 +89,8 @@ class MolangBoneValue(
         val environment = runtime.environment
         val scope = MoScope()
         environment.setValue("variable.anim_time", DoubleValue(time))
-        val xRot = MinecraftClient.getInstance().gameRenderer.camera.rotation.x.toDouble()
-        val yRot = MinecraftClient.getInstance().gameRenderer.camera.rotation.y.toDouble()
-        n.context.setValue("q.camera_rotation(0)", xRot)
-        n.context.setValue("query.camera_rotation(0)",xRot)
-        n.context.setValue("q.camera_rotation(1)", yRot)
-        n.context.setValue("query.camera_rotation(1)",yRot)
+        environment.setValue("variable.camera_rotation_x", DoubleValue(MinecraftClient.getInstance().gameRenderer.camera.rotation.x.toDouble()))
+        environment.setValue("variable.camera_rotation_y", DoubleValue(MinecraftClient.getInstance().gameRenderer.camera.rotation.y.toDouble()))
         return Vec3d(
             x.evaluate(scope, runtime.environment).asDouble(),
             y.evaluate(scope, runtime.environment).asDouble() * yMul,

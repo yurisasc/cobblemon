@@ -22,7 +22,7 @@ versions:
 
   # common
   graal: 22.3.0
-  molang: 1.0.2
+  molang: 1.0.3
   architectury: 6.3.49
 
   # test

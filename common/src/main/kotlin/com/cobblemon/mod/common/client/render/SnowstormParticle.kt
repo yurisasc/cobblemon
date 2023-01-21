@@ -29,7 +29,7 @@ class SnowstormParticle(
     x: Double,
     y: Double,
     z: Double,
-    private val initialVelocity: Vec3d
+    initialVelocity: Vec3d
 ) : Particle(world, x, y, z) {
     var ageSeconds = 0F
 

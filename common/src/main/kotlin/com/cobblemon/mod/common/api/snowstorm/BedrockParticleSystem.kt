@@ -1,11 +1,11 @@
 package com.cobblemon.mod.common.api.snowstorm
 
 import com.bedrockk.molang.Expression
-import com.cobblemon.mod.common.util.adapters.ExpressionAdapter
-import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
-import com.google.gson.GsonBuilder
+import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
+import com.mojang.serialization.Codec
+import com.mojang.serialization.codecs.ListCodec
+import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.math.floor
-import net.minecraft.particle.ParticleEffect
 import net.minecraft.util.Identifier
 
 /**
@@ -15,28 +15,46 @@ import net.minecraft.util.Identifier
  * @author Hiroku
  * @since January 2nd, 2022
  */
-class BedrockParticleEffect {
+class BedrockParticleEffect(
+    var id: Identifier,
+    var emitter: BedrockParticleEmitter = BedrockParticleEmitter(),
+    var particle: BedrockParticle = BedrockParticle(),
+    var curves: MutableList<MoLangCurve> = mutableListOf(),
+//    var space = ParticleSpace(),
+    var startVariables: MutableList<Expression> = mutableListOf()
+) {
     companion object {
-        val gson = GsonBuilder()
-            .setPrettyPrinting()
-            .disableHtmlEscaping()
-            .registerTypeAdapter(Expression::class.java, ExpressionAdapter)
-            .registerTypeAdapter(ParticleEffectCurve::class.java, ParticleEffectCurve.adapter)
-            .registerTypeAdapter(ParticleEmitterShape::class.java, ParticleEmitterShape.adapter)
-            .registerTypeAdapter(ParticleUVMode::class.java, ParticleUVMode.adapter)
-            .registerTypeAdapter(ParticleMotion::class.java, ParticleMotion.adapter)
-            .registerTypeAdapter(ParticleEmitterRate::class.java, ParticleEmitterRate.adapter)
-            .registerTypeAdapter(ParticleMotionDirection::class.java, ParticleMotionDirection.adapter)
-            .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
-            .create()
-    }
+//        val gson = GsonBuilder()
+//            .setPrettyPrinting()
+//            .disableHtmlEscaping()
+//            .registerTypeAdapter(Expression::class.java, ExpressionAdapter)
+//            .registerTypeAdapter(ParticleEffectCurve::class.java, ParticleEffectCurve.adapter)
+//            .registerTypeAdapter(ParticleEmitterShape::class.java, ParticleEmitterShape.adapter)
+//            .registerTypeAdapter(ParticleUVMode::class.java, ParticleUVMode.adapter)
+//            .registerTypeAdapter(ParticleMotion::class.java, ParticleMotion.adapter)
+//            .registerTypeAdapter(ParticleEmitterRate::class.java, ParticleEmitterRate.adapter)
+//            .registerTypeAdapter(ParticleMotionDirection::class.java, ParticleMotionDirection.adapter)
+//            .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
+//            .create()
 
-    val id = Identifier("minecraft:particle_effect")
-    var emitter = BedrockParticleEmitter()
-    var particle = BedrockParticle()
-    var curves = mutableListOf<ParticleEffectCurve>()
-    val space = ParticleSpace()
-    val startVariables = mutableListOf<Expression>()
+        val CODEC: Codec<BedrockParticleEffect> = RecordCodecBuilder.create { instance ->
+            instance.group(
+                Identifier.CODEC.fieldOf("id").forGetter { it.id },
+                BedrockParticleEmitter.CODEC.fieldOf("emitter").forGetter { it.emitter },
+                BedrockParticle.CODEC.fieldOf("particle").forGetter { it.particle },
+                ListCodec(MoLangCurve.codec).fieldOf("curves").forGetter { it.curves },
+                ListCodec(EXPRESSION_CODEC).fieldOf("startVariables").forGetter { it.startVariables }
+            ).apply(instance) { id, emitter, particle, curves, startVariables ->
+                BedrockParticleEffect(
+                    id = id,
+                    emitter = emitter,
+                    particle = particle,
+                    curves = curves.toMutableList(),
+                    startVariables = startVariables
+                )
+            }
+        }
+    }
 }
 
 interface ParticleStormLifetime {

@@ -17,13 +17,6 @@ particle_lifetime seems to be the variable that's basically q.anim_time in model
 
  */
 
-class SnowstormParticle {
-    @SerializedName("format_version")
-    var formatVersion = ""
-    @SerializedName("particle_effect")
-    var particleEffect = BedrockParticleEffect()
-}
-
 enum class CurveType {
     LINEAR,
     BEZIER,
