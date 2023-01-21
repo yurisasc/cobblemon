@@ -36,6 +36,7 @@
 - Fixed `pokemoneditother` failing execution.
 - Fixed positioning of Poké Balls when rendered in Healing Machines.
 - Fixed ambient sound file path for Porygon2.
+- Fixed a desync issue on servers where all Pokémon seemed like they were special forms when they weren't.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions

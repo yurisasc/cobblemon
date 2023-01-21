@@ -220,6 +220,7 @@ class FormData(
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(this.name)
+        buffer.writeCollection(this.aspects) { pb, aspect -> pb.writeString(aspect) }
         buffer.writeNullable(this._baseStats) { statsBuffer, map ->
             statsBuffer.writeMap(map,
                 { keyBuffer, stat -> Cobblemon.statProvider.encode(keyBuffer, stat)},
@@ -243,6 +244,7 @@ class FormData(
 
     override fun decode(buffer: PacketByteBuf) {
         this.name = buffer.readString()
+        this.aspects = buffer.readList { buffer.readString() }.toMutableList()
         buffer.readNullable { mapBuffer ->
             this._baseStats = mapBuffer.readMap(
                 { keyBuffer -> Cobblemon.statProvider.decode(keyBuffer) },
