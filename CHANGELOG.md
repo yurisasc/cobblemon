@@ -37,6 +37,7 @@
 - Fixed positioning of Poké Balls when rendered in Healing Machines.
 - Fixed ambient sound file path for Porygon2.
 - Fixed a desync issue on servers where all Pokémon seemed like they were special forms when they weren't.
+- Fixed an incompatibility with [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium).
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
