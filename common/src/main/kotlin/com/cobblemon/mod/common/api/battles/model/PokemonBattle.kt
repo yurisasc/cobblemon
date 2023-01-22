@@ -171,21 +171,23 @@ open class PokemonBattle(
             actor.getSide().getOppositeSide().actors.forEach { opponent ->
                 val opponentNonFaintedPokemons = opponent.pokemonList.filter { it.health > 0 }
                 faintedPokemons.forEach { faintedPokemon ->
-                    opponentNonFaintedPokemons.forEach { opponentPokemon ->
-                            val facedFainted = opponentPokemon.facedOpponents.contains(faintedPokemon)
-                            val multiplier = when {
-                                // ToDo when Exp. All is implement if enabled && !facedFainted return 2.0, probably should be a configurable value too, this will have priority over the Exp. Share
-                                !facedFainted && opponentPokemon.effectedPokemon.heldItemNoCopy().isIn(CobblemonItemTags.EXPERIENCE_SHARE) -> Cobblemon.config.experienceShareMultiplier
-                                else -> 1.0
-                            }
-                            val experience = Cobblemon.experienceCalculator.calculate(opponentPokemon, faintedPokemon, multiplier)
-                            if (experience > 0) {
-                                opponent.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
-                            }
-                            Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
-                                opponentPokemon.effectedPokemon.evs.add(stat, amount)
-                            }
+                    for (opponentPokemon in opponentNonFaintedPokemons) {
+                        val facedFainted = opponentPokemon.facedOpponents.contains(faintedPokemon)
+                        val multiplier = when {
+                            // ToDo when Exp. All is implement if enabled && !facedFainted return 2.0, probably should be a configurable value too, this will have priority over the Exp. Share
+                            !facedFainted && opponentPokemon.effectedPokemon.heldItemNoCopy().isIn(CobblemonItemTags.EXPERIENCE_SHARE) -> Cobblemon.config.experienceShareMultiplier
+                            // ToDo when Exp. All is implemented the facedFainted and else can be collapsed into the 1.0 return value
+                            facedFainted -> 1.0
+                            else -> continue
                         }
+                        val experience = Cobblemon.experienceCalculator.calculate(opponentPokemon, faintedPokemon, multiplier)
+                        if (experience > 0) {
+                            opponent.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
+                        }
+                        Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
+                            opponentPokemon.effectedPokemon.evs.add(stat, amount)
+                        }
+                    }
                 }
             }
         }
