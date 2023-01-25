@@ -28,6 +28,7 @@ import com.cobblemon.mod.common.battles.dispatch.GO
 import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
 import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
+import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
@@ -39,6 +40,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonP
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
 import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
 import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
+import com.cobblemon.mod.common.pokemon.feature.UseMoveCountFeature
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.battleLang
@@ -535,6 +537,7 @@ object ShowdownInterpreter {
             } else {
                 null
             }
+            Moves.getByName(move)?.let { moveTemplate -> userPokemon.battlePokemon?.effectedPokemon?.getFeature<UseMoveCountFeature>(UseMoveCountFeature.ID)?.increment(moveTemplate) }
             if (targetPokemon != null && targetPokemon.second != userPokemon) {
                 val targetPNX = editMessaged.split("|")[2].split(":")[0]
                 val (_, targetPokemon) = battle.getActorAndActiveSlotFromPNX(targetPNX)
