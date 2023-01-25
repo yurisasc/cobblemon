@@ -10,21 +10,7 @@ package com.cobblemon.mod.common.pokemon.evolution.adapters
 
 import com.cobblemon.mod.common.api.pokemon.evolution.adapters.RequirementAdapter
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.AreaRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.AttackDefenceRatioRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.BattleCriticalHitsRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.BiomeRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.DamageTakenRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.FriendshipRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.HeldItemRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.LevelRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.MoveSetRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.MoveTypeRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.PartyMemberRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.PokemonPropertiesRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.TimeRangeRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.WeatherRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.WorldRequirement
+import com.cobblemon.mod.common.pokemon.evolution.requirements.*
 import com.google.common.collect.HashBiMap
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonElement

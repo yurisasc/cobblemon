@@ -53,8 +53,8 @@ object GlobalSpeciesFeatures : JsonDataRegistry<SpeciesFeatureProvider<*>> {
         data.forEach(this::registerFromAssets)
     }
 
-    fun getCodeFeature(name: String) = resourceFeatures[name]
-    fun getResourceFeature(name: String) = codeFeatures[name]
+    fun getCodeFeature(name: String) = codeFeatures[name]
+    fun getResourceFeature(name: String) = resourceFeatures[name]
     fun getFeature(name: String) = getCodeFeature(name) ?: getResourceFeature(name)
 
     fun getFeatures() = (resourceFeatures.keys + codeFeatures.keys).mapNotNull(this::getFeature)
