@@ -95,7 +95,7 @@ object CobblemonPokemonLabels {
     const val REGIONAL_OF_HISUI = "hisui_regional"
 
     /**
-     * See [REGIONAL] and this [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Regional_form#Hisuian_Form) page.
+     * See [REGIONAL] and this [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Regional_form#Paldean_Form) page.
      */
     const val REGIONAL_OF_PALDEA = "paldea_regional"
 
@@ -104,6 +104,12 @@ object CobblemonPokemonLabels {
      * For more information see the [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Mega_Evolution) page.
      */
     const val MEGA = "mega"
+
+    /**
+     * Represents a primal reversion.
+     * For more information see the [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Primal_Reversion) page.
+     */
+    const val PRIMAL = "primal"
 
     /**
      * Represents a gmax form.
@@ -116,6 +122,12 @@ object CobblemonPokemonLabels {
      * For more information see the [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Totem_Pok%C3%A9mon) page.
      */
     const val TOTEM = "totem"
+
+    /**
+     * Represents a Paradox species.
+     * For more information see the [Bulbapedia](https://bulbapedia.bulbagarden.net/wiki/Paradox_Pok%C3%A9mon) page.
+     */
+    const val PARADOX = "paradox"
 
     /**
      * Pokémon from the national Pokédex of 1 to 151
