@@ -47,6 +47,7 @@ object CobblemonRequirementAdapter : RequirementAdapter {
         this.registerType(BattleCriticalHitsRequirement.ADAPTER_VARIANT, BattleCriticalHitsRequirement::class)
         this.registerType(DamageTakenRequirement.ADAPTER_VARIANT, DamageTakenRequirement::class)
         this.registerType(UseMoveCountRequirement.ADAPTER_VARIANT, UseMoveCountRequirement::class)
+        this.registerType(MoonPhaseRequirement.ADAPTER_VARIANT, MoonPhaseRequirement::class)
     }
 
     override fun <T : EvolutionRequirement> registerType(id: String, type: KClass<T>) {
