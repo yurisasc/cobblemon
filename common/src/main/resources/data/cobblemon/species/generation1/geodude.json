@@ -144,7 +144,7 @@
       "weight": 203,
       "evolutions": [
         {
-          "id": "geodude_alola_graveler_alola",
+          "id": "geodude_graveler",
           "variant": "level_up",
           "result": "graveler form=alola",
           "consumeHeldItem": false,

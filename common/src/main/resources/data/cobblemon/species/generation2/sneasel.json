@@ -129,7 +129,7 @@
       "weight": 270,
       "evolutions": [
         {
-          "id": "sneasel_hisui_sneasler",
+          "id": "sneasel_sneasler",
           "variant": "level_up",
           "result": "sneasler",
           "consumeHeldItem": true,

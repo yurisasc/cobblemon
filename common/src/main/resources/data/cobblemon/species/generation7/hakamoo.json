@@ -112,7 +112,7 @@
   "preEvolution": "jangmoo",
   "evolutions": [
     {
-      "id": "hakamo_o_kommo_o",
+      "id": "hakamoo_kommoo",
       "variant": "level_up",
       "result": "kommoo",
       "consumeHeldItem": false,

@@ -4,7 +4,7 @@
   "primaryType": "steel",
   "secondaryType": "fairy",
   "abilities": [
-    "soul-heart"
+    "soulheart"
   ],
   "baseStats": {
     "hp": 80,
@@ -23,7 +23,7 @@
       "primaryType": "steel",
       "secondaryType": "fairy",
       "abilities": [
-        "soul-heart"
+        "soulheart"
       ],
       "baseStats": {
         "hp": 80,

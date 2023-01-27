@@ -125,7 +125,7 @@
       "weight": 227,
       "evolutions": [
         {
-          "id": "growlithe_hisui_arcanine_hisui",
+          "id": "growlithe_arcanine",
           "variant": "item_interact",
           "result": "arcanine form=hisui",
           "consumeHeldItem": false,

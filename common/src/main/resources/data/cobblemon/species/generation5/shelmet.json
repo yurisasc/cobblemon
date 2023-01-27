@@ -98,7 +98,7 @@
       "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [],
-      "requiredContext": "Karrablast"
+      "requiredContext": "karrablast"
     }
   ],
   "baseScale": 1,

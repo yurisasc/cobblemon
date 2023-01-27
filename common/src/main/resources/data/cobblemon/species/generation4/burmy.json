@@ -57,7 +57,7 @@
       ]
     },
     {
-      "id": "burmy_wormadam_sandy",
+      "id": "burmy_wormadam",
       "variant": "level_up",
       "result": "wormadam form=sandy",
       "consumeHeldItem": false,
@@ -70,7 +70,7 @@
       ]
     },
     {
-      "id": "burmy_wormadam_trash",
+      "id": "burmy_wormadam",
       "variant": "level_up",
       "result": "wormadam form=trash",
       "consumeHeldItem": false,

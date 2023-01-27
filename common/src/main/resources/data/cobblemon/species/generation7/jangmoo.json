@@ -104,7 +104,7 @@
   ],
   "evolutions": [
     {
-      "id": "jangmo_o_hakamo_o",
+      "id": "jangmoo_hakamoo",
       "variant": "level_up",
       "result": "hakamoo",
       "consumeHeldItem": false,

@@ -116,7 +116,7 @@
       "weight": 125,
       "evolutions": [
         {
-          "id": "zorua_hisui_zoroark_hisui",
+          "id": "zorua_zoroark",
           "variant": "level_up",
           "result": "zoroark form=hisui",
           "consumeHeldItem": false,

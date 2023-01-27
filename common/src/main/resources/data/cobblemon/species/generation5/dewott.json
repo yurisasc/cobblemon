@@ -121,7 +121,7 @@
       ]
     },
     {
-      "id": "dewott_samurott_hisui",
+      "id": "dewott_samurott",
       "variant": "level_up",
       "result": "samurott form=hisui",
       "consumeHeldItem": false,

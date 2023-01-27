@@ -73,7 +73,7 @@
       ]
     },
     {
-      "id": "toxel_toxtricity_low-key",
+      "id": "toxel_toxtricity",
       "variant": "level_up",
       "result": "toxtricity form=lowkey",
       "consumeHeldItem": false,

@@ -138,7 +138,7 @@
       "preEvolution": "geodude form=alola",
       "evolutions": [
         {
-          "id": "graveler_alola_golem_alola",
+          "id": "graveler_golem",
           "variant": "trade",
           "result": "golem form=alola",
           "consumeHeldItem": false,

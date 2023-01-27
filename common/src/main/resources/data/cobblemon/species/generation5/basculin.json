@@ -279,7 +279,7 @@
       "weight": 180,
       "evolutions": [
         {
-          "id": "basculin_white-striped_basculegion",
+          "id": "basculin_basculegion",
           "variant": "level_up",
           "result": "basculegion",
           "consumeHeldItem": false,
@@ -292,7 +292,7 @@
           ]
         },
         {
-          "id": "basculin_white-striped_basculegion_f",
+          "id": "basculin_basculegion",
           "variant": "level_up",
           "result": "basculegion form=f",
           "consumeHeldItem": false,

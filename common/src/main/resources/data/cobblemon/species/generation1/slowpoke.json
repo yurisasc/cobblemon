@@ -152,7 +152,7 @@
       "weight": 360,
       "evolutions": [
         {
-          "id": "slowpoke_galar_slowbro_galar",
+          "id": "slowpoke_slowbro",
           "variant": "item_interact",
           "result": "slowbro form=galar",
           "consumeHeldItem": false,
@@ -163,7 +163,7 @@
           "requiredContext": "cobblemon:galarica_cuff"
         },
         {
-          "id": "slowpoke_galar_slowking_galar",
+          "id": "slowpoke_slowking",
           "variant": "item_interact",
           "result": "slowking form=galar",
           "consumeHeldItem": false,

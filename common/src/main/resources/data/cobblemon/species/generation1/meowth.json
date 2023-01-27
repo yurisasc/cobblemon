@@ -162,7 +162,7 @@
       "weight": 42,
       "evolutions": [
         {
-          "id": "meowth_alola_persian_alola",
+          "id": "meowth_persian",
           "variant": "level_up",
           "result": "persian form=alola",
           "consumeHeldItem": false,
@@ -301,7 +301,7 @@
       "weight": 75,
       "evolutions": [
         {
-          "id": "meowth_galar_perrserker",
+          "id": "meowth_perrserker",
           "variant": "level_up",
           "result": "perrserker",
           "consumeHeldItem": false,

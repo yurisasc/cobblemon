@@ -65,7 +65,7 @@
       "weight": 35,
       "evolutions": [
         {
-          "id": "pumpkaboo_small_gourgeist_small",
+          "id": "pumpkaboo_gourgeist",
           "variant": "trade",
           "result": "gourgeist form=small",
           "consumeHeldItem": false,
@@ -120,7 +120,7 @@
       "weight": 75,
       "evolutions": [
         {
-          "id": "pumpkaboo_large_gourgeist_large",
+          "id": "pumpkaboo_gourgeist",
           "variant": "trade",
           "result": "gourgeist form=large",
           "consumeHeldItem": false,
@@ -180,7 +180,7 @@
       "weight": 150,
       "evolutions": [
         {
-          "id": "pumpkaboo_super_gourgeist_super",
+          "id": "pumpkaboo_gourgeist",
           "variant": "trade",
           "result": "gourgeist form=super",
           "consumeHeldItem": false,

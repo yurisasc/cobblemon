@@ -165,7 +165,7 @@
       ]
     },
     {
-      "id": "koffing_weezing_galar",
+      "id": "koffing_weezing",
       "variant": "level_up",
       "result": "weezing form=galar",
       "consumeHeldItem": false,

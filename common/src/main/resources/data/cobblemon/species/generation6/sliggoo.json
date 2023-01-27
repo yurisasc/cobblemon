@@ -112,7 +112,7 @@
       "preEvolution": "goomy",
       "evolutions": [
         {
-          "id": "sliggoo_hisui_goodra_hisui",
+          "id": "sliggoo_goodra",
           "variant": "level_up",
           "result": "goodra form=hisui",
           "consumeHeldItem": false,

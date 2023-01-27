@@ -134,7 +134,7 @@
       "preEvolution": "zigzagoon form=galar",
       "evolutions": [
         {
-          "id": "linoone_galar_obstagoon",
+          "id": "linoone_obstagoon",
           "variant": "level_up",
           "result": "obstagoon",
           "consumeHeldItem": false,

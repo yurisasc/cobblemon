@@ -111,7 +111,7 @@
       ]
     },
     {
-      "id": "tandemaus_maushold_four",
+      "id": "tandemaus_maushold",
       "variant": "level_up",
       "result": "maushold form=four",
       "consumeHeldItem": false,

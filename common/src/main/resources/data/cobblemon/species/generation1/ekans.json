@@ -170,14 +170,5 @@
   },
   "height": 20,
   "weight": 69,
-  "aspects": [
-    "classic",
-    "legacy",
-    "attack",
-    "dark",
-    "elusive",
-    "heart",
-    "speed",
-    "sound"
-  ]
+  "aspects": []
 }

@@ -139,7 +139,7 @@
       "weight": 5,
       "evolutions": [
         {
-          "id": "corsola_galar_cursola",
+          "id": "corsola_cursola",
           "variant": "level_up",
           "result": "cursola",
           "consumeHeldItem": false,

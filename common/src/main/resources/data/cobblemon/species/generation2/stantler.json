@@ -159,7 +159,7 @@
       "requirements": [
         {
           "variant": "use_move",
-          "move": "Psyshield Bash",
+          "move": "psyshieldbash",
           "amount": 20
         }
       ]

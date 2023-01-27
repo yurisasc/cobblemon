@@ -136,7 +136,7 @@
       "requirements": [
         {
           "variant": "defeat",
-          "target": "Bisharp held_item=cobblemon:leaders_crest",
+          "target": "bisharp held_item=cobblemon:leaders_crest",
           "amount": 3
         }
       ]

@@ -1735,7 +1735,7 @@
       "requiredContext": "cobblemon:thunder_stone"
     },
     {
-      "id": "pikachu_raichu_alola",
+      "id": "pikachu_raichu",
       "variant": "item_interact",
       "result": "raichu form=alola",
       "consumeHeldItem": false,

@@ -118,7 +118,7 @@
       "weight": 240,
       "evolutions": [
         {
-          "id": "ponyta_galar_rapidash_galar",
+          "id": "ponyta_rapidash",
           "variant": "level_up",
           "result": "rapidash form=galar",
           "consumeHeldItem": false,

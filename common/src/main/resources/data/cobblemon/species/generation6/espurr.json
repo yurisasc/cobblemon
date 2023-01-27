@@ -124,7 +124,7 @@
       ]
     },
     {
-      "id": "espurr_meowstic_f",
+      "id": "espurr_meowstic",
       "variant": "level_up",
       "result": "meowstic form=f",
       "consumeHeldItem": false,

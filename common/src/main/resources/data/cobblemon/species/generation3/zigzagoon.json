@@ -127,7 +127,7 @@
       "weight": 175,
       "evolutions": [
         {
-          "id": "zigzagoon_galar_linoone_galar",
+          "id": "zigzagoon_linoone",
           "variant": "level_up",
           "result": "linoone form=galar",
           "consumeHeldItem": false,

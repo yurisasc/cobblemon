@@ -23,7 +23,7 @@
       "primaryType": "psychic",
       "secondaryType": "ice",
       "abilities": [
-        "asone(glastrier)"
+        "asoneglastrier"
       ],
       "baseStats": {
         "hp": 100,
@@ -185,7 +185,7 @@
       "primaryType": "psychic",
       "secondaryType": "ghost",
       "abilities": [
-        "asone(spectrier)"
+        "asonespectrier"
       ],
       "baseStats": {
         "hp": 100,

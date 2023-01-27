@@ -168,7 +168,7 @@
       "weight": 420,
       "evolutions": [
         {
-          "id": "grimer_alola_muk_alola",
+          "id": "grimer_muk",
           "variant": "level_up",
           "result": "muk form=alola",
           "consumeHeldItem": false,

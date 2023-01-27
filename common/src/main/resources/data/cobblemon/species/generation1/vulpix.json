@@ -157,7 +157,7 @@
       "weight": 99,
       "evolutions": [
         {
-          "id": "vulpix_alola_ninetales_alola",
+          "id": "vulpix_ninetales",
           "variant": "item_interact",
           "result": "ninetales form=alola",
           "consumeHeldItem": false,

@@ -58,7 +58,7 @@
       ]
     },
     {
-      "id": "spewpa_vivillon_fancy",
+      "id": "spewpa_vivillon",
       "variant": "level_up",
       "result": "vivillon form=fancy",
       "consumeHeldItem": false,

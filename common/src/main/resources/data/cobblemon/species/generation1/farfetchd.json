@@ -122,7 +122,7 @@
       "weight": 150,
       "evolutions": [
         {
-          "id": "farfetch’d_galar_sirfetch’d",
+          "id": "farfetchd_sirfetchd",
           "variant": "level_up",
           "result": "sirfetchd",
           "consumeHeldItem": false,

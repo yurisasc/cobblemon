@@ -128,7 +128,7 @@
       "weight": 400,
       "evolutions": [
         {
-          "id": "darumaka_galar_darmanitan_galar",
+          "id": "darumaka_darmanitan",
           "variant": "item_interact",
           "result": "darmanitan form=galar",
           "consumeHeldItem": false,

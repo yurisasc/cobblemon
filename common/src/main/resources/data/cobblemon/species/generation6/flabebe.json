@@ -106,7 +106,7 @@
   ],
   "evolutions": [
     {
-      "id": "flabébé_floette",
+      "id": "flabebe_floette",
       "variant": "level_up",
       "result": "floette",
       "consumeHeldItem": false,

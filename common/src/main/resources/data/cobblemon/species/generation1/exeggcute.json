@@ -173,7 +173,7 @@
       "requiredContext": "cobblemon:leaf_stone"
     },
     {
-      "id": "exeggcute_exeggutor_alola",
+      "id": "exeggcute_exeggutor",
       "variant": "item_interact",
       "result": "exeggutor form=alola",
       "consumeHeldItem": false,

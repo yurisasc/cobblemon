@@ -105,7 +105,7 @@
       "weight": 2,
       "evolutions": [
         {
-          "id": "sinistea_antique_polteageist_antique",
+          "id": "sinistea_polteageist",
           "variant": "item_interact",
           "result": "polteageist form=antique",
           "consumeHeldItem": false,

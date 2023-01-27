@@ -147,7 +147,7 @@
   ],
   "evolutions": [
     {
-      "id": "nidoran_f_nidorina",
+      "id": "nidoranf_nidorina",
       "variant": "level_up",
       "result": "nidorina",
       "consumeHeldItem": false,

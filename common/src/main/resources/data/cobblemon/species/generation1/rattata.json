@@ -136,7 +136,7 @@
       "weight": 38,
       "evolutions": [
         {
-          "id": "rattata_alola_raticate_alola",
+          "id": "rattata_raticate",
           "variant": "level_up",
           "result": "raticate form=alola",
           "consumeHeldItem": false,

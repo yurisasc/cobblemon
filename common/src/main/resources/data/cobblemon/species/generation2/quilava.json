@@ -132,7 +132,7 @@
       ]
     },
     {
-      "id": "quilava_typhlosion_hisui",
+      "id": "quilava_typhlosion",
       "variant": "level_up",
       "result": "typhlosion form=hisui",
       "consumeHeldItem": false,

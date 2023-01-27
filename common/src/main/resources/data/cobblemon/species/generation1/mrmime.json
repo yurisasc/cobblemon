@@ -173,7 +173,7 @@
       "preEvolution": "mimejr",
       "evolutions": [
         {
-          "id": "mr._mime_galar_mr._rime",
+          "id": "mrmime_mrrime",
           "variant": "level_up",
           "result": "mrrime",
           "consumeHeldItem": false,

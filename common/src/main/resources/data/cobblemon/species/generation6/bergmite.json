@@ -121,7 +121,7 @@
       ]
     },
     {
-      "id": "bergmite_avalugg_hisui",
+      "id": "bergmite_avalugg",
       "variant": "level_up",
       "result": "avalugg form=hisui",
       "consumeHeldItem": false,

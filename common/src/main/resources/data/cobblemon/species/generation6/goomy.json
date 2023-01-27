@@ -105,7 +105,7 @@
       ]
     },
     {
-      "id": "goomy_sliggoo_hisui",
+      "id": "goomy_sliggoo",
       "variant": "level_up",
       "result": "sliggoo form=hisui",
       "consumeHeldItem": false,

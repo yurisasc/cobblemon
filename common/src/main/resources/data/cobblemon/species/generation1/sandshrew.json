@@ -176,7 +176,7 @@
       "weight": 400,
       "evolutions": [
         {
-          "id": "sandshrew_alola_sandslash_alola",
+          "id": "sandshrew_sandslash",
           "variant": "item_interact",
           "result": "sandslash form=alola",
           "consumeHeldItem": false,

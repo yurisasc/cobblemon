@@ -118,7 +118,7 @@
       "weight": 15,
       "evolutions": [
         {
-          "id": "yamask_galar_runerigus",
+          "id": "yamask_runerigus",
           "variant": "level_up",
           "result": "runerigus",
           "consumeHeldItem": false,

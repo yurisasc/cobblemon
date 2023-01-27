@@ -136,7 +136,7 @@
   ],
   "evolutions": [
     {
-      "id": "mime_jr._mr._mime",
+      "id": "mimejr_mrmime",
       "variant": "level_up",
       "result": "mrmime",
       "consumeHeldItem": false,
@@ -149,7 +149,7 @@
       ]
     },
     {
-      "id": "mime_jr._mr._mime_galar",
+      "id": "mimejr_mrmime",
       "variant": "level_up",
       "result": "mrmime form=galar",
       "consumeHeldItem": false,

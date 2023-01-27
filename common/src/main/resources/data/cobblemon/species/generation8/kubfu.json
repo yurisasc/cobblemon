@@ -100,7 +100,7 @@
       "block": "cobblemon:scroll_of_darkness"
     },
     {
-      "id": "kubfu_urshifu_rapid-strike",
+      "id": "kubfu_urshifu",
       "variant": "block_click",
       "result": "urshifu form=rapidstrike",
       "consumeHeldItem": false,

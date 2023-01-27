@@ -147,7 +147,7 @@
   "preEvolution": "porygon",
   "evolutions": [
     {
-      "id": "porygon2_porygon_z",
+      "id": "porygon2_porygonz",
       "variant": "trade",
       "result": "porygonz",
       "consumeHeldItem": true,

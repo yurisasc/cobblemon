@@ -170,7 +170,7 @@
       "requirements": [
         {
           "variant": "use_move",
-          "move": "Rage Fist",
+          "move": "ragefist",
           "amount": 20
         }
       ]

@@ -100,7 +100,7 @@
       "consumeHeldItem": false,
       "learnableMoves": [],
       "requirements": [],
-      "requiredContext": "Shelmet"
+      "requiredContext": "shelmet"
     }
   ],
   "baseScale": 1,

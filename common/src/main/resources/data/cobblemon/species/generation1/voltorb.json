@@ -118,7 +118,7 @@
       "weight": 130,
       "evolutions": [
         {
-          "id": "voltorb_hisui_electrode_hisui",
+          "id": "voltorb_electrode",
           "variant": "item_interact",
           "result": "electrode form=hisui",
           "consumeHeldItem": false,

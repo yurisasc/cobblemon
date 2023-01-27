@@ -100,7 +100,7 @@
   ],
   "evolutions": [
     {
-      "id": "type:_null_silvally",
+      "id": "typenull_silvally",
       "variant": "level_up",
       "result": "silvally",
       "consumeHeldItem": false,

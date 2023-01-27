@@ -132,7 +132,7 @@
       "weight": 39,
       "evolutions": [
         {
-          "id": "qwilfish_hisui_overqwil",
+          "id": "qwilfish_overqwil",
           "variant": "level_up",
           "result": "overqwil",
           "consumeHeldItem": false,
@@ -140,7 +140,7 @@
           "requirements": [
             {
               "variant": "use_move",
-              "move": "Barb Barrage",
+              "move": "barbbarrage",
               "amount": 20
             }
           ]

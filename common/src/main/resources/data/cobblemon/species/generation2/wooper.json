@@ -134,7 +134,7 @@
       "weight": 85,
       "evolutions": [
         {
-          "id": "wooper_paldea_clodsire",
+          "id": "wooper_clodsire",
           "variant": "level_up",
           "result": "clodsire",
           "consumeHeldItem": false,
