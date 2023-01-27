@@ -34,8 +34,8 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate> {
         buffer.writeInt(entry.pp)
         buffer.writeInt(entry.priority)
         buffer.writeDouble(entry.critRatio)
-        buffer.writeDouble(entry.effectChance)
-        buffer.writeString(entry.effectStatus)
+        buffer.writeVarInt(entry.effectChances.size)
+        entry.effectChances.forEach { chance -> buffer.writeDouble(chance) }
     }
 
     override fun decodeEntry(buffer: PacketByteBuf): MoveTemplate {
@@ -49,9 +49,11 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate> {
         val pp = buffer.readInt()
         val priority = buffer.readInt()
         val critRatio = buffer.readDouble()
-        val effectChance = buffer.readDouble()
-        val effectStatus = buffer.readString()
-        return MoveTemplate(name, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChance, effectStatus).apply { this.id = id }
+        val effectChances = arrayListOf<Double>()
+        repeat(buffer.readVarInt()) {
+            effectChances += buffer.readDouble()
+        }
+        return MoveTemplate(name, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances.toTypedArray()).apply { this.id = id }
     }
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {

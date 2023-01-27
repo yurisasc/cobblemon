@@ -53,7 +53,24 @@ object Moves : DataRegistry {
                 val pp = jsMove.getMember("pp").asInt()
                 val priority = jsMove.getMember("priority").asInt()
                 val critRatio = if (jsMove.hasMember("critRatio")) jsMove.getMember("critRatio").asDouble() else 1.0
-                val move = MoveTemplate(id, elementalType, damageCategory, power, target, accuracy, pp, priority, critRatio, 0.0, "")
+                val effectChances: Array<Double>
+                if (jsMove.hasMember("secondaries")) {
+                    val array = jsMove.getMember("secondaries")
+                    val values = arrayListOf<Double>()
+                    for (j in 0 until array.arraySize) {
+                        val element = array.getArrayElement(j)
+                        values += element.getMember("chance").asDouble()
+                    }
+                    effectChances = values.toTypedArray()
+                }
+                else if (jsMove.hasMember("secondary")) {
+                    val element = jsMove.getMember("secondary")
+                    effectChances = if (element.isNull) emptyArray() else arrayOf(element.getMember("chance").asDouble())
+                }
+                else {
+                    effectChances = emptyArray()
+                }
+                val move = MoveTemplate(id, elementalType, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances)
                 this.register(move)
             } catch (e: Exception) {
                 Cobblemon.LOGGER.error("Caught exception trying to resolve the move '{}'", id, e)
