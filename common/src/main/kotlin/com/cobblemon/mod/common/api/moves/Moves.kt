@@ -53,24 +53,25 @@ object Moves : DataRegistry {
                 val pp = jsMove.getMember("pp").asInt()
                 val priority = jsMove.getMember("priority").asInt()
                 val critRatio = if (jsMove.hasMember("critRatio")) jsMove.getMember("critRatio").asDouble() else 1.0
-                val effectChances: Array<Double>
-                if (jsMove.hasMember("secondaries")) {
-                    val array = jsMove.getMember("secondaries")
-                    val values = arrayListOf<Double>()
-                    for (j in 0 until array.arraySize) {
-                        val element = array.getArrayElement(j)
-                        values += element.getMember("chance").asDouble()
+                val effectChances = arrayListOf<Double>()
+                val secondariesMember = jsMove.getMember("secondaries")
+                val secondaryMember = jsMove.getMember("secondary")
+                if (!secondariesMember.isNull) {
+                    for (j in 0 until secondariesMember.arraySize) {
+                        val element = secondariesMember.getArrayElement(j)
+                        // They declare moves without data on secondary effects for sheer force compatibility
+                        if (element.hasMember("chance")) {
+                            effectChances += element.getMember("chance").asDouble()
+                        }
                     }
-                    effectChances = values.toTypedArray()
                 }
-                else if (jsMove.hasMember("secondary")) {
-                    val element = jsMove.getMember("secondary")
-                    effectChances = if (element.isNull) emptyArray() else arrayOf(element.getMember("chance").asDouble())
+                else if (!secondaryMember.isNull) {
+                    // They declare moves without data on secondary effects for sheer force compatibility
+                    if (secondaryMember.hasMember("chance")) {
+                        effectChances += secondaryMember.getMember("chance").asDouble()
+                    }
                 }
-                else {
-                    effectChances = emptyArray()
-                }
-                val move = MoveTemplate(id, elementalType, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances)
+                val move = MoveTemplate(id, elementalType, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChances.toTypedArray())
                 this.register(move)
             } catch (e: Exception) {
                 Cobblemon.LOGGER.error("Caught exception trying to resolve the move '{}'", id, e)
