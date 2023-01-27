@@ -131,46 +131,55 @@ object CobblemonPokemonLabels {
 
     /**
      * Pokémon from the national Pokédex of 1 to 151
+     * This may also include forms of Pokémon that had been previously introduced
      */
     const val GENERATION_1 = "gen1"
 
     /**
      * Pokémon from the national Pokédex of 152 to 251
+     * This may also include forms of Pokémon that had been previously introduced
      */
     const val GENERATION_2 = "gen2"
 
     /**
      * Pokémon from the national Pokédex of 252 to 386
+     * This may also include forms of Pokémon that had been previously introduced
      */
     const val GENERATION_3 = "gen3"
 
     /**
      * Pokémon from the national Pokédex of 387 to 493
+     * This may also include forms of Pokémon that had been previously introduced
      */
     const val GENERATION_4 = "gen4"
 
     /**
      * Pokémon from the national Pokédex of 494 to 649
+     * This may also include forms of Pokémon that had been previously introduced
      */
     const val GENERATION_5 = "gen5"
 
     /**
      * Pokémon from the national Pokédex of 650 to 721
+     * This may also include forms of Pokémon that had been previously introduced
      */
     const val GENERATION_6 = "gen6"
 
     /**
      * Pokémon from the national Pokédex of 722 to 809
+     * This may also include forms of Pokémon that had been previously introduced
      */
     const val GENERATION_7 = "gen7"
 
     /**
      * Pokémon from the national Pokédex of 810 to 905
+     * This may also include forms of Pokémon that had been previously introduced
      */
     const val GENERATION_8 = "gen8"
 
     /**
      * Pokémon from the national Pokédex from 906 to 1008
+     * This may also include forms of Pokémon that had been previously introduced
      */
     const val GENERATION_9 = "gen9"
 
