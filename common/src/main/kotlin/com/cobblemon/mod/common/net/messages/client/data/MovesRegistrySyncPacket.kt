@@ -34,8 +34,8 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate> {
         buffer.writeInt(entry.pp)
         buffer.writeInt(entry.priority)
         buffer.writeDouble(entry.critRatio)
-        buffer.writeNullable(entry.effectChance) { pb, value -> pb.writeDouble(value) }
-        buffer.writeNullable(entry.effectStatus) { pb, value -> pb.writeString(value) }
+        buffer.writeDouble(entry.effectChance)
+        buffer.writeString(entry.effectStatus)
     }
 
     override fun decodeEntry(buffer: PacketByteBuf): MoveTemplate {
@@ -49,12 +49,12 @@ class MovesRegistrySyncPacket : DataRegistrySyncPacket<MoveTemplate> {
         val pp = buffer.readInt()
         val priority = buffer.readInt()
         val critRatio = buffer.readDouble()
-        val effectChance = buffer.readNullable { pb -> pb.readDouble() } ?: .0
-        val effectStatus = buffer.readNullable { pb -> pb.readString() } ?: ""
+        val effectChance = buffer.readDouble()
+        val effectStatus = buffer.readString()
         return MoveTemplate(name, type, damageCategory, power, target, accuracy, pp, priority, critRatio, effectChance, effectStatus).apply { this.id = id }
     }
 
     override fun synchronizeDecoded(entries: Collection<MoveTemplate>) {
-        Moves.reload(entries.associateBy { cobblemonResource(it.name) })
+        Moves.receiveSyncPacket(entries)
     }
 }

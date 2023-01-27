@@ -17,7 +17,7 @@ class InBattleMove {
     lateinit var move: String
     var pp: Int = 100
     var maxpp: Int = 100
-    var target: MoveTarget = MoveTarget.self
+    var target: MoveTarget = MoveTarget.SELF
     var disabled: Boolean = false
 
     companion object {
@@ -35,7 +35,7 @@ class InBattleMove {
 
     fun getTargets(user: ActiveBattlePokemon) = target.targetList(user)
     fun canBeUsed() = (pp > 0 && !disabled) || mustBeUsed() // Second case is like Thrash, forced choice
-    fun mustBeUsed() = maxpp == 100 && pp == 100 && target == MoveTarget.self
+    fun mustBeUsed() = maxpp == 100 && pp == 100 && target == MoveTarget.SELF
     fun saveToBuffer(buffer: PacketByteBuf) {
         buffer.writeString(id)
         buffer.writeString(move)

@@ -8,8 +8,10 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.adapters
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.evolution.adapters.RequirementAdapter
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.*
 import com.google.common.collect.HashBiMap
 import com.google.gson.JsonDeserializationContext
@@ -56,7 +58,10 @@ object CobblemonRequirementAdapter : RequirementAdapter {
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): EvolutionRequirement {
         val variant = json.asJsonObject.get(VARIANT).asString.lowercase()
-        val type = this.types[variant] ?: throw IllegalArgumentException("Cannot resolve evolution requirement type for variant $variant")
+        val type = this.types[variant] ?: run {
+            Cobblemon.LOGGER.info("Need to implement evolution requirement type for '{}'", variant)
+            DummyVariant::class
+        }//throw IllegalArgumentException("Cannot resolve evolution requirement type for variant $variant")
         return context.deserialize(json, type.java)
     }
 
@@ -65,6 +70,10 @@ object CobblemonRequirementAdapter : RequirementAdapter {
         val variant = this.types.inverse()[src::class] ?: throw IllegalArgumentException("Cannot resolve evolution requirement for type ${src::class.qualifiedName}")
         json.addProperty(VARIANT, variant)
         return json
+    }
+
+    class DummyVariant : EvolutionRequirement {
+        override fun check(pokemon: Pokemon): Boolean = false
     }
 
 }

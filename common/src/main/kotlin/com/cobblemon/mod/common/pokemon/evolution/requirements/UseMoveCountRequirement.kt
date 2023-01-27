@@ -25,7 +25,7 @@ import com.cobblemon.mod.common.pokemon.feature.UseMoveCountFeature
  */
 class UseMoveCountRequirement(move: MoveTemplate, amount: Int) : EvolutionRequirement {
 
-    constructor() : this(Moves.getByNumericalId(0), 1)
+    constructor() : this(Moves.getByNameOrDummy(""), 1)
 
     val move: MoveTemplate = move
     val amount: Int = amount

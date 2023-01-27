@@ -79,9 +79,6 @@ object Abilities : DataRegistry {
     fun count() = this.abilityMap.size
 
     internal fun receiveSyncPacket(abilities: Collection<AbilityTemplate>) {
-        PotentialAbility.types.clear()
-        PotentialAbility.types.add(CommonAbilityType)
-        PotentialAbility.types.add(HiddenAbilityType)
         this.abilityMap.clear()
         abilities.forEach { ability -> this.register(ability) }
     }
