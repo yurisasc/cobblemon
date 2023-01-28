@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.pokemon.evolution.adapters
 
 import com.cobblemon.mod.common.api.pokemon.evolution.adapters.RequirementAdapter
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
-import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.evolution.requirements.*
 import com.google.common.collect.HashBiMap
 import com.google.gson.JsonDeserializationContext
@@ -69,10 +68,6 @@ object CobblemonRequirementAdapter : RequirementAdapter {
         val variant = this.types.inverse()[src::class] ?: throw IllegalArgumentException("Cannot resolve evolution requirement for type ${src::class.qualifiedName}")
         json.addProperty(VARIANT, variant)
         return json
-    }
-
-    class DummyVariant : EvolutionRequirement {
-        override fun check(pokemon: Pokemon): Boolean = false
     }
 
 }
