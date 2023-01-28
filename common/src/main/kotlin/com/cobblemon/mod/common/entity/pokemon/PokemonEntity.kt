@@ -640,7 +640,6 @@ class PokemonEntity(
         val stepsTaken = when {
             this.isSwimming || this.isSubmergedIn(FluidTags.WATER) -> round(sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff) * 100F)
             this.isClimbing -> round(yDiff * 100F)
-            this.isFallFlying -> 0.0
             // Walking, flying or touching water
             else -> round(sqrt(xDiff * xDiff + zDiff * zDiff) * 100F)
         }
