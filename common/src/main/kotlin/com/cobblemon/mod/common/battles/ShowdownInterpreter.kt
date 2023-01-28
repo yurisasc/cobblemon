@@ -38,9 +38,9 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatu
 import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
-import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.battleLang
@@ -899,7 +899,14 @@ object ShowdownInterpreter {
                 battle.dispatch {
                     activePokemon.battlePokemon?.effectedPokemon?.currentHealth = remainingHealth
                     if (difference > 0) {
-                        activePokemon.battlePokemon?.effectedPokemon?.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.let { it.currentValue += difference }
+                        activePokemon.battlePokemon?.effectedPokemon?.let { pokemon ->
+                            val damageProgress = DamageTakenProgress()
+                            // Lazy cheat to see if it's necessary to use this
+                            if (damageProgress.shouldKeep(pokemon)) {
+                                val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is DamageTakenProgress }) { damageProgress }
+                                progress.updateProgress(DamageTakenProgress.Progress(progress.currentProgress().amount + difference))
+                            }
+                        }
                     }
                     activePokemon.battlePokemon?.sendUpdate()
                     GO
