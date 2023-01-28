@@ -48,7 +48,7 @@ object CobblemonRequirementAdapter : RequirementAdapter {
         this.registerType(AttackDefenceRatioRequirement.ADAPTER_VARIANT, AttackDefenceRatioRequirement::class)
         this.registerType(BattleCriticalHitsRequirement.ADAPTER_VARIANT, BattleCriticalHitsRequirement::class)
         this.registerType(DamageTakenRequirement.ADAPTER_VARIANT, DamageTakenRequirement::class)
-        this.registerType(UseMoveCountRequirement.ADAPTER_VARIANT, UseMoveCountRequirement::class)
+        this.registerType(UseMoveRequirement.ADAPTER_VARIANT, UseMoveRequirement::class)
         this.registerType(MoonPhaseRequirement.ADAPTER_VARIANT, MoonPhaseRequirement::class)
         this.registerType(RecoilRequirement.ADAPTER_VARIANT, RecoilRequirement::class)
     }

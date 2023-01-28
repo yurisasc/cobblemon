@@ -39,8 +39,8 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPac
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
+import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
-import com.cobblemon.mod.common.pokemon.feature.UseMoveCountFeature
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.asTranslated
 import com.cobblemon.mod.common.util.battleLang
@@ -538,7 +538,15 @@ object ShowdownInterpreter {
             } else {
                 null
             }
-            Moves.getByName(move)?.let { moveTemplate -> userPokemon.battlePokemon?.effectedPokemon?.getFeature<UseMoveCountFeature>(UseMoveCountFeature.ID)?.increment(moveTemplate) }
+            userPokemon.battlePokemon?.effectedPokemon?.let { pokemon ->
+                Moves.getByName(move)?.let { moveTemplate ->
+                    val progress = UseMoveEvolutionProgress()
+                    if (progress.shouldKeep(pokemon)) {
+                        val created = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is UseMoveEvolutionProgress && it.currentProgress().move == moveTemplate }) { progress }
+                        created.updateProgress(UseMoveEvolutionProgress.Progress(created.currentProgress().move, created.currentProgress().amount + 1))
+                    }
+                }
+            }
             if (targetPokemon != null && targetPokemon.second != userPokemon) {
                 val targetPNX = editMessaged.split("|")[2].split(":")[0]
                 val (_, targetPokemon) = battle.getActorAndActiveSlotFromPNX(targetPNX)

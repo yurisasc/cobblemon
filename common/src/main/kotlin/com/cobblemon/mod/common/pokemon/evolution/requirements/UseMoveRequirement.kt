@@ -12,7 +12,7 @@ import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.feature.UseMoveCountFeature
+import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 
 /**
  * An [EvolutionRequirement] meant to require a move to have been used a specific amount of times.
@@ -23,20 +23,20 @@ import com.cobblemon.mod.common.pokemon.feature.UseMoveCountFeature
  * @author Licious
  * @since January 25th, 2023
  */
-class UseMoveCountRequirement(move: MoveTemplate, amount: Int) : EvolutionRequirement {
+class UseMoveRequirement(move: MoveTemplate, amount: Int) : EvolutionRequirement {
 
     constructor() : this(Moves.getByNameOrDummy(""), 1)
 
     val move: MoveTemplate = move
     val amount: Int = amount
 
-    override fun check(pokemon: Pokemon): Boolean {
-        val feature = pokemon.getFeature<UseMoveCountFeature>(UseMoveCountFeature.ID) ?: return false
-        return feature.amount(this.move) >= this.amount
-    }
+    override fun check(pokemon: Pokemon): Boolean = pokemon.evolutionProxy.current()
+        .progress()
+        .filterIsInstance<UseMoveEvolutionProgress>()
+        .any { progress -> progress.currentProgress().move == this.move && progress.currentProgress().amount >= this.amount }
 
     companion object {
-        const val ADAPTER_VARIANT = UseMoveCountFeature.ID
+        const val ADAPTER_VARIANT = "use_move"
     }
 
 }

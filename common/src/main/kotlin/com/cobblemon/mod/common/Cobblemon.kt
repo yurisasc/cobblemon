@@ -82,9 +82,8 @@ import com.cobblemon.mod.common.permission.LaxPermissionValidator
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.aspects.GENDER_ASPECT
 import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
-import com.cobblemon.mod.common.pokemon.evolution.requirements.BattleCriticalHitsRequirement
 import com.cobblemon.mod.common.pokemon.evolution.requirements.DamageTakenRequirement
-import com.cobblemon.mod.common.pokemon.evolution.requirements.UseMoveCountRequirement
+import com.cobblemon.mod.common.pokemon.evolution.requirements.UseMoveRequirement
 import com.cobblemon.mod.common.pokemon.evolution.variants.BlockClickEvolution
 import com.cobblemon.mod.common.pokemon.feature.*
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
@@ -226,7 +225,6 @@ object Cobblemon {
         SpeciesFeatures.types["flag"] = FlagSpeciesFeatureProvider::class.java
 
         GlobalSpeciesFeatures.register(DamageTakenFeature.ID, EvolutionRequirementFeatureProvider({ DamageTakenFeature() }, { requirement -> requirement is DamageTakenRequirement }))
-        GlobalSpeciesFeatures.register(UseMoveCountFeature.ID, EvolutionRequirementFeatureProvider({ UseMoveCountFeature() }, { requirement -> requirement is UseMoveCountRequirement }))
 
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)

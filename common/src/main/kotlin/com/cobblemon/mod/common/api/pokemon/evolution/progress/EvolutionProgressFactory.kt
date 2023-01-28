@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.api.pokemon.evolution.progress
 
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
+import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 
 object EvolutionProgressFactory {
 
@@ -16,6 +17,7 @@ object EvolutionProgressFactory {
 
     init {
         registerVariant(RecoilEvolutionProgress.ID.toString()) { RecoilEvolutionProgress() }
+        registerVariant(UseMoveEvolutionProgress.ID.toString()) { UseMoveEvolutionProgress() }
     }
 
     fun registerVariant(variant: String, factory: () -> EvolutionProgress<*>) {
