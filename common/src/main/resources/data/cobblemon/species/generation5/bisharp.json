@@ -1,5 +1,5 @@
 {
-  "name": "bisharp",
+  "name": "Bisharp",
   "nationalPokedexNumber": 625,
   "primaryType": "dark",
   "secondaryType": "steel",
@@ -159,5 +159,6 @@
   },
   "height": 16,
   "weight": 700,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

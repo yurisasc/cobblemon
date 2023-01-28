@@ -1,5 +1,5 @@
 {
-  "name": "naclstack",
+  "name": "Naclstack",
   "nationalPokedexNumber": 933,
   "primaryType": "rock",
   "abilities": [
@@ -102,5 +102,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

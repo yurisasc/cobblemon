@@ -1,5 +1,5 @@
 {
-  "name": "meloetta",
+  "name": "Meloetta",
   "nationalPokedexNumber": 648,
   "primaryType": "normal",
   "secondaryType": "psychic",
@@ -157,7 +157,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "pirouette",
+      "name": "Pirouette",
       "primaryType": "normal",
       "secondaryType": "fighting",
       "abilities": [
@@ -200,8 +200,10 @@
       "height": 6,
       "weight": 65,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

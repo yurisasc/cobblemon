@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "pinsir",
+  "name": "Pinsir",
   "nationalPokedexNumber": 127,
   "primaryType": "bug",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "bug",
       "secondaryType": "flying",
       "abilities": [

@@ -1,5 +1,5 @@
 {
-  "name": "mrrime",
+  "name": "Mr. Rime",
   "nationalPokedexNumber": 866,
   "primaryType": "ice",
   "secondaryType": "psychic",
@@ -154,5 +154,6 @@
   },
   "height": 15,
   "weight": 582,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

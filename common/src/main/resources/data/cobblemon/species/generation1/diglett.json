@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "diglett",
+  "name": "Diglett",
   "nationalPokedexNumber": 50,
   "primaryType": "ground",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "ground",
       "secondaryType": "steel",
       "abilities": [

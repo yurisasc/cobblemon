@@ -1,5 +1,5 @@
 {
-  "name": "espurr",
+  "name": "Espurr",
   "nationalPokedexNumber": 677,
   "primaryType": "psychic",
   "abilities": [
@@ -154,5 +154,6 @@
   },
   "height": 3,
   "weight": 35,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

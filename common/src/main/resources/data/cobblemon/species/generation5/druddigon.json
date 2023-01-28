@@ -1,5 +1,5 @@
 {
-  "name": "druddigon",
+  "name": "Druddigon",
   "nationalPokedexNumber": 621,
   "primaryType": "dragon",
   "abilities": [
@@ -150,5 +150,6 @@
   },
   "height": 16,
   "weight": 1390,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

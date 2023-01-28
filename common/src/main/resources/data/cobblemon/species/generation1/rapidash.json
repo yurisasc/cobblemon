@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "rapidash",
+  "name": "Rapidash",
   "nationalPokedexNumber": 78,
   "primaryType": "fire",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "psychic",
       "secondaryType": "fairy",
       "abilities": [

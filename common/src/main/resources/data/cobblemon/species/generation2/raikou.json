@@ -1,5 +1,5 @@
 {
-  "name": "raikou",
+  "name": "Raikou",
   "nationalPokedexNumber": 243,
   "primaryType": "electric",
   "abilities": [
@@ -147,5 +147,6 @@
   },
   "height": 19,
   "weight": 1780,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

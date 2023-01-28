@@ -1,5 +1,5 @@
 {
-  "name": "ariados",
+  "name": "Ariados",
   "nationalPokedexNumber": 168,
   "primaryType": "bug",
   "secondaryType": "poison",
@@ -153,5 +153,6 @@
   },
   "height": 11,
   "weight": 335,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

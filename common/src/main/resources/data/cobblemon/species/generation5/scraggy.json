@@ -1,5 +1,5 @@
 {
-  "name": "scraggy",
+  "name": "Scraggy",
   "nationalPokedexNumber": 559,
   "primaryType": "dark",
   "secondaryType": "fighting",
@@ -165,5 +165,6 @@
   },
   "height": 6,
   "weight": 118,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

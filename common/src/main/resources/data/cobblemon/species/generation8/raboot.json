@@ -1,5 +1,5 @@
 {
-  "name": "raboot",
+  "name": "Raboot",
   "nationalPokedexNumber": 814,
   "primaryType": "fire",
   "abilities": [
@@ -122,5 +122,6 @@
   },
   "height": 6,
   "weight": 90,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

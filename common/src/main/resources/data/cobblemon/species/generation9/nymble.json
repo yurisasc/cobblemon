@@ -1,5 +1,5 @@
 {
-  "name": "nymble",
+  "name": "Nymble",
   "nationalPokedexNumber": 919,
   "primaryType": "bug",
   "abilities": [
@@ -89,5 +89,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

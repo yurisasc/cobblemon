@@ -1,5 +1,5 @@
 {
-  "name": "pawmo",
+  "name": "Pawmo",
   "nationalPokedexNumber": 922,
   "primaryType": "electric",
   "secondaryType": "fighting",
@@ -108,5 +108,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

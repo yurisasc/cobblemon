@@ -1,5 +1,5 @@
 {
-  "name": "chesnaught",
+  "name": "Chesnaught",
   "nationalPokedexNumber": 652,
   "primaryType": "grass",
   "secondaryType": "fighting",
@@ -166,5 +166,6 @@
   },
   "height": 16,
   "weight": 900,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

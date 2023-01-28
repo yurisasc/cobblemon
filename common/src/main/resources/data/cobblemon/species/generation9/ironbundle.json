@@ -1,5 +1,5 @@
 {
-  "name": "ironbundle",
+  "name": "Iron Bundle",
   "nationalPokedexNumber": 991,
   "primaryType": "ice",
   "secondaryType": "water",
@@ -93,5 +93,6 @@
   "aspects": [],
   "height": 6,
   "weight": 110,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

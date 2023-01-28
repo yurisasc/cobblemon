@@ -1,5 +1,5 @@
 {
-  "name": "irontreads",
+  "name": "Iron Treads",
   "nationalPokedexNumber": 990,
   "primaryType": "ground",
   "secondaryType": "steel",
@@ -101,5 +101,6 @@
   "aspects": [],
   "height": 9,
   "weight": 2400,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

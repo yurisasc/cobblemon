@@ -1,5 +1,5 @@
 {
-  "name": "drifblim",
+  "name": "Drifblim",
   "nationalPokedexNumber": 426,
   "primaryType": "ghost",
   "secondaryType": "flying",
@@ -148,5 +148,6 @@
   },
   "height": 12,
   "weight": 150,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

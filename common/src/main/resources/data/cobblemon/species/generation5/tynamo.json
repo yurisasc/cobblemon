@@ -1,5 +1,5 @@
 {
-  "name": "tynamo",
+  "name": "Tynamo",
   "nationalPokedexNumber": 602,
   "primaryType": "electric",
   "abilities": [
@@ -73,5 +73,6 @@
   },
   "height": 2,
   "weight": 3,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

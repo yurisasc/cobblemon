@@ -1,5 +1,5 @@
 {
-  "name": "annihilape",
+  "name": "Annihilape",
   "nationalPokedexNumber": 979,
   "primaryType": "fighting",
   "secondaryType": "ghost",
@@ -113,5 +113,6 @@
   "height": 12,
   "weight": 560,
   "preEvolution": "primeape",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

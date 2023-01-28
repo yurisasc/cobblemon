@@ -1,5 +1,5 @@
 {
-  "name": "pineco",
+  "name": "Pineco",
   "nationalPokedexNumber": 204,
   "primaryType": "bug",
   "abilities": [
@@ -158,5 +158,6 @@
   },
   "height": 6,
   "weight": 72,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

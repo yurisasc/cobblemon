@@ -1,5 +1,5 @@
 {
-  "name": "azurill",
+  "name": "Azurill",
   "nationalPokedexNumber": 298,
   "primaryType": "normal",
   "secondaryType": "fairy",
@@ -143,5 +143,6 @@
   },
   "height": 2,
   "weight": 20,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

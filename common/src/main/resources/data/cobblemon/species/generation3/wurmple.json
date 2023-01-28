@@ -1,5 +1,5 @@
 {
-  "name": "wurmple",
+  "name": "Wurmple",
   "nationalPokedexNumber": 265,
   "primaryType": "bug",
   "abilities": [
@@ -84,5 +84,6 @@
   },
   "height": 3,
   "weight": 36,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

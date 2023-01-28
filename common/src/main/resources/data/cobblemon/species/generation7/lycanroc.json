@@ -1,5 +1,5 @@
 {
-  "name": "lycanroc",
+  "name": "Lycanroc",
   "nationalPokedexNumber": 745,
   "primaryType": "rock",
   "abilities": [
@@ -128,7 +128,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "midnight",
+      "name": "Midnight",
       "primaryType": "rock",
       "abilities": [
         "keeneye",
@@ -266,10 +266,11 @@
       "weight": 250,
       "preEvolution": "rockruff",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "dusk",
+      "name": "Dusk",
       "primaryType": "rock",
       "abilities": [
         "toughclaws"
@@ -395,8 +396,10 @@
       "weight": 250,
       "preEvolution": "rockruff",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

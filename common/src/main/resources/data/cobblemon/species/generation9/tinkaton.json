@@ -1,5 +1,5 @@
 {
-  "name": "tinkaton",
+  "name": "Tinkaton",
   "nationalPokedexNumber": 959,
   "primaryType": "fairy",
   "secondaryType": "steel",
@@ -90,5 +90,6 @@
   "height": 7,
   "weight": 1128,
   "preEvolution": "tinkatuff",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

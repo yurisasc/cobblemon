@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "espeon",
+  "name": "Espeon",
   "nationalPokedexNumber": 196,
   "primaryType": "psychic",
   "abilities": [
@@ -163,5 +163,6 @@
   },
   "height": 9,
   "weight": 265,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

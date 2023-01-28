@@ -1,5 +1,5 @@
 {
-  "name": "volcanion",
+  "name": "Volcanion",
   "nationalPokedexNumber": 721,
   "primaryType": "fire",
   "secondaryType": "water",
@@ -141,5 +141,6 @@
   },
   "height": 17,
   "weight": 1950,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

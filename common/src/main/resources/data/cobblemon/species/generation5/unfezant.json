@@ -1,5 +1,5 @@
 {
-  "name": "unfezant",
+  "name": "Unfezant",
   "nationalPokedexNumber": 521,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -106,5 +106,6 @@
   },
   "height": 12,
   "weight": 290,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

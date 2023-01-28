@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "blissey",
+  "name": "Blissey",
   "nationalPokedexNumber": 242,
   "primaryType": "normal",
   "abilities": [
@@ -200,5 +200,6 @@
   },
   "height": 15,
   "weight": 468,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

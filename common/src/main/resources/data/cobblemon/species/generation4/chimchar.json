@@ -1,5 +1,5 @@
 {
-  "name": "chimchar",
+  "name": "Chimchar",
   "nationalPokedexNumber": 390,
   "primaryType": "fire",
   "abilities": [
@@ -157,5 +157,6 @@
   },
   "height": 5,
   "weight": 62,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

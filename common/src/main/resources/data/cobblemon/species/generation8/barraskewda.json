@@ -1,5 +1,5 @@
 {
-  "name": "barraskewda",
+  "name": "Barraskewda",
   "nationalPokedexNumber": 847,
   "primaryType": "water",
   "abilities": [
@@ -101,5 +101,6 @@
   },
   "height": 13,
   "weight": 300,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

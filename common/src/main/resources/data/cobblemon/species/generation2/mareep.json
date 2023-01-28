@@ -1,5 +1,5 @@
 {
-  "name": "mareep",
+  "name": "Mareep",
   "nationalPokedexNumber": 179,
   "primaryType": "electric",
   "abilities": [
@@ -160,5 +160,6 @@
   },
   "height": 6,
   "weight": 78,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

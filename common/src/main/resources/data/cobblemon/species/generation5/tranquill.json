@@ -1,5 +1,5 @@
 {
-  "name": "tranquill",
+  "name": "Tranquill",
   "nationalPokedexNumber": 520,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -115,5 +115,6 @@
   },
   "height": 6,
   "weight": 150,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

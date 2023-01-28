@@ -1,5 +1,5 @@
 {
-  "name": "gothorita",
+  "name": "Gothorita",
   "nationalPokedexNumber": 575,
   "primaryType": "psychic",
   "abilities": [
@@ -156,5 +156,6 @@
   },
   "height": 7,
   "weight": 180,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

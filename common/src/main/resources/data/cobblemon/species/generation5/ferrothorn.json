@@ -1,5 +1,5 @@
 {
-  "name": "ferrothorn",
+  "name": "Ferrothorn",
   "nationalPokedexNumber": 598,
   "primaryType": "grass",
   "secondaryType": "steel",
@@ -133,5 +133,6 @@
   },
   "height": 10,
   "weight": 1100,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

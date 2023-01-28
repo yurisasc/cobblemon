@@ -1,5 +1,5 @@
 {
-  "name": "azumarill",
+  "name": "Azumarill",
   "nationalPokedexNumber": 184,
   "primaryType": "water",
   "secondaryType": "fairy",
@@ -163,5 +163,6 @@
   },
   "height": 8,
   "weight": 285,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

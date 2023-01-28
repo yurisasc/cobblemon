@@ -1,5 +1,5 @@
 {
-  "name": "banette",
+  "name": "Banette",
   "nationalPokedexNumber": 354,
   "primaryType": "ghost",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "ghost",
       "abilities": [
         "prankster"
@@ -61,6 +61,7 @@
       "height": 12,
       "weight": 130,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -195,5 +196,6 @@
   },
   "height": 11,
   "weight": 125,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

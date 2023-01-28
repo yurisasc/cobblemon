@@ -1,5 +1,5 @@
 {
-  "name": "sneasel",
+  "name": "Sneasel",
   "nationalPokedexNumber": 215,
   "primaryType": "dark",
   "secondaryType": "ice",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "fighting",
       "secondaryType": "poison",
       "abilities": [
@@ -146,6 +146,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -332,5 +333,6 @@
   },
   "height": 9,
   "weight": 280,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "ironjugulis",
+  "name": "Iron Jugulis",
   "nationalPokedexNumber": 993,
   "primaryType": "dark",
   "secondaryType": "flying",
@@ -103,5 +103,6 @@
   "aspects": [],
   "height": 13,
   "weight": 1110,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

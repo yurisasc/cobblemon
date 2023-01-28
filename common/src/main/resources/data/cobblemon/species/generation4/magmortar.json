@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "magmortar",
+  "name": "Magmortar",
   "nationalPokedexNumber": 467,
   "primaryType": "fire",
   "abilities": [
@@ -150,5 +150,6 @@
   },
   "height": 16,
   "weight": 680,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

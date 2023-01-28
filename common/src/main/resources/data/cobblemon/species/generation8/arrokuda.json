@@ -1,5 +1,5 @@
 {
-  "name": "arrokuda",
+  "name": "Arrokuda",
   "nationalPokedexNumber": 846,
   "primaryType": "water",
   "abilities": [
@@ -112,5 +112,6 @@
   },
   "height": 5,
   "weight": 10,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

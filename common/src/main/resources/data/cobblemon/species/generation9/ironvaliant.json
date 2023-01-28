@@ -1,5 +1,5 @@
 {
-  "name": "ironvaliant",
+  "name": "Iron Valiant",
   "nationalPokedexNumber": 1006,
   "primaryType": "fairy",
   "secondaryType": "fighting",
@@ -122,5 +122,6 @@
   "aspects": [],
   "height": 14,
   "weight": 350,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

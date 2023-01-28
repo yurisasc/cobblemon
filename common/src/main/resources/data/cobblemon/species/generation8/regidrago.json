@@ -1,5 +1,5 @@
 {
-  "name": "regidrago",
+  "name": "Regidrago",
   "nationalPokedexNumber": 895,
   "primaryType": "dragon",
   "abilities": [
@@ -97,5 +97,6 @@
   },
   "height": 21,
   "weight": 2000,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

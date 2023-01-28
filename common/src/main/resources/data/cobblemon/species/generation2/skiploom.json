@@ -1,5 +1,5 @@
 {
-  "name": "skiploom",
+  "name": "Skiploom",
   "nationalPokedexNumber": 188,
   "primaryType": "grass",
   "secondaryType": "flying",
@@ -154,5 +154,6 @@
   },
   "height": 6,
   "weight": 10,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

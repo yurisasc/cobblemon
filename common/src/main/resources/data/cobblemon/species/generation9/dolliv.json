@@ -1,5 +1,5 @@
 {
-  "name": "dolliv",
+  "name": "Dolliv",
   "nationalPokedexNumber": 929,
   "primaryType": "grass",
   "secondaryType": "normal",
@@ -90,5 +90,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

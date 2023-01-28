@@ -1,5 +1,5 @@
 {
-  "name": "quaquaval",
+  "name": "Quaquaval",
   "nationalPokedexNumber": 914,
   "primaryType": "water",
   "secondaryType": "fighting",
@@ -104,5 +104,6 @@
   "height": 18,
   "weight": 619,
   "preEvolution": "quaxwell",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

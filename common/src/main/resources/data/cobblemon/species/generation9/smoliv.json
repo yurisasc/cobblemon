@@ -1,5 +1,5 @@
 {
-  "name": "smoliv",
+  "name": "Smoliv",
   "nationalPokedexNumber": 928,
   "primaryType": "grass",
   "secondaryType": "normal",
@@ -93,5 +93,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

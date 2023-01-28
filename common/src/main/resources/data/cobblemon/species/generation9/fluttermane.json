@@ -1,5 +1,5 @@
 {
-  "name": "fluttermane",
+  "name": "Flutter Mane",
   "nationalPokedexNumber": 987,
   "primaryType": "ghost",
   "secondaryType": "fairy",
@@ -100,5 +100,6 @@
   "aspects": [],
   "height": 14,
   "weight": 40,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

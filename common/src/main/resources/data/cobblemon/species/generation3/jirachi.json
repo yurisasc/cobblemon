@@ -1,5 +1,5 @@
 {
-  "name": "jirachi",
+  "name": "Jirachi",
   "nationalPokedexNumber": 385,
   "primaryType": "steel",
   "secondaryType": "psychic",
@@ -170,5 +170,6 @@
   },
   "height": 3,
   "weight": 11,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

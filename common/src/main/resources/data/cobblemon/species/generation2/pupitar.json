@@ -1,5 +1,5 @@
 {
-  "name": "pupitar",
+  "name": "Pupitar",
   "nationalPokedexNumber": 247,
   "primaryType": "rock",
   "secondaryType": "ground",
@@ -158,5 +158,6 @@
   },
   "height": 12,
   "weight": 1520,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

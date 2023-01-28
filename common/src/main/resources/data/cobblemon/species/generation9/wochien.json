@@ -1,5 +1,5 @@
 {
-  "name": "wochien",
+  "name": "Wo-Chien",
   "nationalPokedexNumber": 1001,
   "primaryType": "dark",
   "secondaryType": "grass",
@@ -99,5 +99,6 @@
   "aspects": [],
   "height": 15,
   "weight": 742,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

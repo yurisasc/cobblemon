@@ -1,5 +1,5 @@
 {
-  "name": "wormadam",
+  "name": "Wormadam",
   "nationalPokedexNumber": 413,
   "primaryType": "bug",
   "secondaryType": "grass",
@@ -113,7 +113,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "sandy",
+      "name": "Sandy",
       "primaryType": "bug",
       "secondaryType": "ground",
       "abilities": [
@@ -223,10 +223,11 @@
       "weight": 65,
       "preEvolution": "burmy",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "trash",
+      "name": "Trash",
       "primaryType": "bug",
       "secondaryType": "steel",
       "abilities": [
@@ -335,8 +336,10 @@
       "weight": 65,
       "preEvolution": "burmy",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

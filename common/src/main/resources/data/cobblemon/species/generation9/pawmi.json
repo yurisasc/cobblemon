@@ -1,5 +1,5 @@
 {
-  "name": "pawmi",
+  "name": "Pawmi",
   "nationalPokedexNumber": 921,
   "primaryType": "electric",
   "abilities": [
@@ -107,5 +107,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

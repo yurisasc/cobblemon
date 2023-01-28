@@ -1,5 +1,5 @@
 {
-  "name": "roselia",
+  "name": "Roselia",
   "nationalPokedexNumber": 315,
   "primaryType": "grass",
   "secondaryType": "poison",
@@ -142,5 +142,6 @@
   },
   "height": 3,
   "weight": 20,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

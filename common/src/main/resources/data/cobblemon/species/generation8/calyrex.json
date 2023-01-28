@@ -1,5 +1,5 @@
 {
-  "name": "calyrex",
+  "name": "Calyrex",
   "nationalPokedexNumber": 898,
   "primaryType": "psychic",
   "secondaryType": "grass",
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "ice",
+      "name": "Ice",
       "primaryType": "psychic",
       "secondaryType": "ice",
       "abilities": [
@@ -178,10 +178,11 @@
       "height": 24,
       "weight": 8091,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "shadow",
+      "name": "Shadow",
       "primaryType": "psychic",
       "secondaryType": "ghost",
       "abilities": [
@@ -332,6 +333,7 @@
       "height": 24,
       "weight": 536,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -444,5 +446,6 @@
   },
   "height": 11,
   "weight": 77,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

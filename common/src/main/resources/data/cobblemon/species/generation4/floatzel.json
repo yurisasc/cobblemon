@@ -1,5 +1,5 @@
 {
-  "name": "floatzel",
+  "name": "Floatzel",
   "nationalPokedexNumber": 419,
   "primaryType": "water",
   "abilities": [
@@ -142,5 +142,6 @@
   },
   "height": 11,
   "weight": 335,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

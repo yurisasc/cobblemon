@@ -1,5 +1,5 @@
 {
-  "name": "skitty",
+  "name": "Skitty",
   "nationalPokedexNumber": 300,
   "primaryType": "normal",
   "abilities": [
@@ -154,5 +154,6 @@
   },
   "height": 6,
   "weight": 110,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

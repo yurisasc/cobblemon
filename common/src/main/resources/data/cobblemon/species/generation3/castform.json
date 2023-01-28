@@ -1,5 +1,5 @@
 {
-  "name": "castform",
+  "name": "Castform",
   "nationalPokedexNumber": 351,
   "primaryType": "normal",
   "abilities": [
@@ -18,7 +18,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "sunny",
+      "name": "Sunny",
       "primaryType": "fire",
       "abilities": [
         "forecast"
@@ -59,10 +59,11 @@
       "height": 3,
       "weight": 8,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     },
     {
-      "name": "rainy",
+      "name": "Rainy",
       "primaryType": "water",
       "abilities": [
         "forecast"
@@ -103,10 +104,11 @@
       "height": 3,
       "weight": 8,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     },
     {
-      "name": "snowy",
+      "name": "Snowy",
       "primaryType": "ice",
       "abilities": [
         "forecast"
@@ -147,6 +149,7 @@
       "height": 3,
       "weight": 8,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -259,5 +262,6 @@
   },
   "height": 3,
   "weight": 8,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "slowpoke",
+  "name": "Slowpoke",
   "nationalPokedexNumber": 79,
   "primaryType": "water",
   "secondaryType": "psychic",
@@ -22,7 +22,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "psychic",
       "abilities": [
         "gluttony",

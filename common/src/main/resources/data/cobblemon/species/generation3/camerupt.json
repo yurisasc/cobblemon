@@ -1,5 +1,5 @@
 {
-  "name": "camerupt",
+  "name": "Camerupt",
   "nationalPokedexNumber": 323,
   "primaryType": "fire",
   "secondaryType": "ground",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "fire",
       "secondaryType": "ground",
       "abilities": [
@@ -63,6 +63,7 @@
       "height": 25,
       "weight": 3205,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -188,5 +189,6 @@
   },
   "height": 19,
   "weight": 2200,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

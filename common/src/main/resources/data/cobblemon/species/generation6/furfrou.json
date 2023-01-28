@@ -1,5 +1,5 @@
 {
-  "name": "furfrou",
+  "name": "Furfrou",
   "nationalPokedexNumber": 676,
   "primaryType": "normal",
   "abilities": [
@@ -108,5 +108,6 @@
   },
   "height": 12,
   "weight": 280,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

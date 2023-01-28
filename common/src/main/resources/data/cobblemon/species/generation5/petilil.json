@@ -1,5 +1,5 @@
 {
-  "name": "petilil",
+  "name": "Petilil",
   "nationalPokedexNumber": 548,
   "primaryType": "grass",
   "abilities": [
@@ -139,5 +139,6 @@
   },
   "height": 5,
   "weight": 66,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

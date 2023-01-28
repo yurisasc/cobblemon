@@ -1,5 +1,5 @@
 {
-  "name": "drilbur",
+  "name": "Drilbur",
   "nationalPokedexNumber": 529,
   "primaryType": "ground",
   "abilities": [
@@ -129,5 +129,6 @@
   },
   "height": 3,
   "weight": 85,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

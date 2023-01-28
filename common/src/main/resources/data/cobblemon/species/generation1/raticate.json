@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "raticate",
+  "name": "Raticate",
   "nationalPokedexNumber": 20,
   "primaryType": "normal",
   "abilities": [
@@ -24,7 +24,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "dark",
       "secondaryType": "normal",
       "abilities": [
@@ -141,7 +141,7 @@
       "battleOnly": false
     },
     {
-      "name": "alolatotem",
+      "name": "Alola-Totem",
       "primaryType": "dark",
       "secondaryType": "normal",
       "abilities": [

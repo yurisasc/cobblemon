@@ -1,5 +1,5 @@
 {
-  "name": "clodsire",
+  "name": "Clodsire",
   "nationalPokedexNumber": 980,
   "primaryType": "poison",
   "secondaryType": "ground",
@@ -101,5 +101,6 @@
   "height": 18,
   "weight": 2230,
   "preEvolution": "wooper form=paldea",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

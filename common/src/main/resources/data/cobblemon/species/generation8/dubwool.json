@@ -1,5 +1,5 @@
 {
-  "name": "dubwool",
+  "name": "Dubwool",
   "nationalPokedexNumber": 832,
   "primaryType": "normal",
   "abilities": [
@@ -92,5 +92,6 @@
   },
   "height": 13,
   "weight": 430,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "baltoy",
+  "name": "Baltoy",
   "nationalPokedexNumber": 343,
   "primaryType": "ground",
   "secondaryType": "psychic",
@@ -156,5 +156,6 @@
   },
   "height": 5,
   "weight": 215,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

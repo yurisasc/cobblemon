@@ -1,5 +1,5 @@
 {
-  "name": "tropius",
+  "name": "Tropius",
   "nationalPokedexNumber": 357,
   "primaryType": "grass",
   "secondaryType": "flying",
@@ -153,5 +153,6 @@
   },
   "height": 20,
   "weight": 1000,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

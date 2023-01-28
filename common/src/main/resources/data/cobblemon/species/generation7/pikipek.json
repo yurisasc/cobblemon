@@ -1,5 +1,5 @@
 {
-  "name": "pikipek",
+  "name": "Pikipek",
   "nationalPokedexNumber": 731,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -119,5 +119,6 @@
   },
   "height": 3,
   "weight": 12,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

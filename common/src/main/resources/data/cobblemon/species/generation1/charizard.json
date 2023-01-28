@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "charizard",
+  "name": "Charizard",
   "nationalPokedexNumber": 6,
   "primaryType": "fire",
   "secondaryType": "flying",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "megax",
+      "name": "Mega-X",
       "primaryType": "fire",
       "secondaryType": "dragon",
       "abilities": [
@@ -67,7 +67,7 @@
       "battleOnly": true
     },
     {
-      "name": "megay",
+      "name": "Mega-Y",
       "primaryType": "fire",
       "secondaryType": "flying",
       "abilities": [
@@ -113,7 +113,7 @@
       "battleOnly": true
     },
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "fire",
       "secondaryType": "flying",
       "abilities": [

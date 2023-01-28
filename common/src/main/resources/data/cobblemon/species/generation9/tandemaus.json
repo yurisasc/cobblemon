@@ -1,5 +1,5 @@
 {
-  "name": "tandemaus",
+  "name": "Tandemaus",
   "nationalPokedexNumber": 924,
   "primaryType": "normal",
   "abilities": [
@@ -123,5 +123,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

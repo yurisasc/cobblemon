@@ -1,5 +1,5 @@
 {
-  "name": "fidough",
+  "name": "Fidough",
   "nationalPokedexNumber": 926,
   "primaryType": "fairy",
   "abilities": [
@@ -103,5 +103,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

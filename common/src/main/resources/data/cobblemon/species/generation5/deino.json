@@ -1,5 +1,5 @@
 {
-  "name": "deino",
+  "name": "Deino",
   "nationalPokedexNumber": 633,
   "primaryType": "dark",
   "secondaryType": "dragon",
@@ -137,5 +137,6 @@
   },
   "height": 8,
   "weight": 173,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

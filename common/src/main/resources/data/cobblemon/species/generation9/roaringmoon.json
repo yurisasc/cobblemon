@@ -1,5 +1,5 @@
 {
-  "name": "roaringmoon",
+  "name": "Roaring Moon",
   "nationalPokedexNumber": 1005,
   "primaryType": "dragon",
   "secondaryType": "dark",
@@ -115,5 +115,6 @@
   "aspects": [],
   "height": 20,
   "weight": 3800,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

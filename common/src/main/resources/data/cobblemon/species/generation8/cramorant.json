@@ -1,5 +1,5 @@
 {
-  "name": "cramorant",
+  "name": "Cramorant",
   "nationalPokedexNumber": 845,
   "primaryType": "flying",
   "secondaryType": "water",
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "gulping",
+      "name": "Gulping",
       "primaryType": "flying",
       "secondaryType": "water",
       "abilities": [
@@ -61,10 +61,11 @@
       "height": 8,
       "weight": 180,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     },
     {
-      "name": "gorging",
+      "name": "Gorging",
       "primaryType": "flying",
       "secondaryType": "water",
       "abilities": [
@@ -106,6 +107,7 @@
       "height": 8,
       "weight": 180,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -197,5 +199,6 @@
   },
   "height": 8,
   "weight": 180,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

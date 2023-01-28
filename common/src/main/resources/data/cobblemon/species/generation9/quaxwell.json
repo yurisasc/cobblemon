@@ -1,5 +1,5 @@
 {
-  "name": "quaxwell",
+  "name": "Quaxwell",
   "nationalPokedexNumber": 913,
   "primaryType": "water",
   "abilities": [
@@ -98,5 +98,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

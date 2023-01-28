@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "eevee",
+  "name": "Eevee",
   "nationalPokedexNumber": 133,
   "primaryType": "normal",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": true,
   "forms": [
     {
-      "name": "starter",
+      "name": "Starter",
       "primaryType": "normal",
       "abilities": [
         "runaway",
@@ -98,7 +98,7 @@
       "battleOnly": false
     },
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "normal",
       "abilities": [
         "runaway",

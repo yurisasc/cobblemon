@@ -1,5 +1,5 @@
 {
-  "name": "thundurus",
+  "name": "Thundurus",
   "nationalPokedexNumber": 642,
   "primaryType": "electric",
   "secondaryType": "flying",
@@ -144,7 +144,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "therian",
+      "name": "Therian",
       "primaryType": "electric",
       "secondaryType": "flying",
       "abilities": [
@@ -186,8 +186,10 @@
       "height": 30,
       "weight": 610,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

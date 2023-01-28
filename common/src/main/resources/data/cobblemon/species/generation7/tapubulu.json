@@ -1,5 +1,5 @@
 {
-  "name": "tapubulu",
+  "name": "Tapu Bulu",
   "nationalPokedexNumber": 787,
   "primaryType": "grass",
   "secondaryType": "fairy",
@@ -141,5 +141,6 @@
   },
   "height": 19,
   "weight": 455,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

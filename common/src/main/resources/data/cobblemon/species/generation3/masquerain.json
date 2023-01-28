@@ -1,5 +1,5 @@
 {
-  "name": "masquerain",
+  "name": "Masquerain",
   "nationalPokedexNumber": 284,
   "primaryType": "bug",
   "secondaryType": "flying",
@@ -142,5 +142,6 @@
   },
   "height": 8,
   "weight": 36,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

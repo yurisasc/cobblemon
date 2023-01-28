@@ -1,5 +1,5 @@
 {
-  "name": "greavard",
+  "name": "Greavard",
   "nationalPokedexNumber": 971,
   "primaryType": "ghost",
   "abilities": [
@@ -114,5 +114,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

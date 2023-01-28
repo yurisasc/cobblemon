@@ -1,5 +1,5 @@
 {
-  "name": "sawk",
+  "name": "Sawk",
   "nationalPokedexNumber": 539,
   "primaryType": "fighting",
   "abilities": [
@@ -127,5 +127,6 @@
   },
   "height": 14,
   "weight": 510,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

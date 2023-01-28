@@ -1,5 +1,5 @@
 {
-  "name": "pidove",
+  "name": "Pidove",
   "nationalPokedexNumber": 519,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -120,5 +120,6 @@
   },
   "height": 3,
   "weight": 21,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

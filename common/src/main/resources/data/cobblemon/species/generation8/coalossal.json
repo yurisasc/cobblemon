@@ -1,5 +1,5 @@
 {
-  "name": "coalossal",
+  "name": "Coalossal",
   "nationalPokedexNumber": 839,
   "primaryType": "rock",
   "secondaryType": "fire",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "rock",
       "secondaryType": "fire",
       "abilities": [
@@ -65,6 +65,7 @@
       "height": 420,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -166,5 +167,6 @@
   },
   "height": 28,
   "weight": 3105,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

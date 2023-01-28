@@ -1,5 +1,5 @@
 {
-  "name": "toucannon",
+  "name": "Toucannon",
   "nationalPokedexNumber": 733,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -106,5 +106,6 @@
   },
   "height": 11,
   "weight": 260,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

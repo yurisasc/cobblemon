@@ -1,5 +1,5 @@
 {
-  "name": "fletchling",
+  "name": "Fletchling",
   "nationalPokedexNumber": 661,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -130,5 +130,6 @@
   },
   "height": 3,
   "weight": 17,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

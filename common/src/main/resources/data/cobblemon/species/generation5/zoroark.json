@@ -1,5 +1,5 @@
 {
-  "name": "zoroark",
+  "name": "Zoroark",
   "nationalPokedexNumber": 571,
   "primaryType": "dark",
   "abilities": [
@@ -18,7 +18,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "normal",
       "secondaryType": "ghost",
       "abilities": [
@@ -127,6 +127,7 @@
       "weight": 730,
       "preEvolution": "zorua form=hisui",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -265,5 +266,6 @@
   },
   "height": 16,
   "weight": 811,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "quagsire",
+  "name": "Quagsire",
   "nationalPokedexNumber": 195,
   "primaryType": "water",
   "secondaryType": "ground",
@@ -184,5 +184,6 @@
   },
   "height": 14,
   "weight": 750,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

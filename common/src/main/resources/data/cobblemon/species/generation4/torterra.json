@@ -1,5 +1,5 @@
 {
-  "name": "torterra",
+  "name": "Torterra",
   "nationalPokedexNumber": 389,
   "primaryType": "grass",
   "secondaryType": "ground",
@@ -128,5 +128,6 @@
   },
   "height": 22,
   "weight": 3100,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

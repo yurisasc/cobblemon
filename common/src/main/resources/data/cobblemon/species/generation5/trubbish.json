@@ -1,5 +1,5 @@
 {
-  "name": "trubbish",
+  "name": "Trubbish",
   "nationalPokedexNumber": 568,
   "primaryType": "poison",
   "abilities": [
@@ -126,5 +126,6 @@
   },
   "height": 6,
   "weight": 310,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "wishiwashi",
+  "name": "Wishiwashi",
   "nationalPokedexNumber": 746,
   "primaryType": "water",
   "abilities": [
@@ -103,7 +103,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "school",
+      "name": "School",
       "primaryType": "water",
       "abilities": [
         "schooling"
@@ -143,8 +143,10 @@
       "height": 82,
       "weight": 786,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

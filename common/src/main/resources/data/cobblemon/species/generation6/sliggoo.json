@@ -1,5 +1,5 @@
 {
-  "name": "sliggoo",
+  "name": "Sliggoo",
   "nationalPokedexNumber": 705,
   "primaryType": "dragon",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "steel",
       "secondaryType": "dragon",
       "abilities": [
@@ -127,6 +127,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -237,5 +238,6 @@
   },
   "height": 8,
   "weight": 175,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

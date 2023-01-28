@@ -1,5 +1,5 @@
 {
-  "name": "shuckle",
+  "name": "Shuckle",
   "nationalPokedexNumber": 213,
   "primaryType": "bug",
   "secondaryType": "rock",
@@ -145,5 +145,6 @@
   },
   "height": 6,
   "weight": 205,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

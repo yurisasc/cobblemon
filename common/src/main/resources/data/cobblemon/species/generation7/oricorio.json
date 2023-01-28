@@ -1,5 +1,5 @@
 {
-  "name": "oricorio",
+  "name": "Oricorio",
   "nationalPokedexNumber": 741,
   "primaryType": "fire",
   "secondaryType": "flying",
@@ -116,7 +116,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "pompom",
+      "name": "Pom-Pom",
       "primaryType": "electric",
       "secondaryType": "flying",
       "abilities": [
@@ -157,10 +157,11 @@
       "height": 6,
       "weight": 34,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "pau",
+      "name": "Pa'u",
       "primaryType": "psychic",
       "secondaryType": "flying",
       "abilities": [
@@ -201,10 +202,11 @@
       "height": 6,
       "weight": 34,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "sensu",
+      "name": "Sensu",
       "primaryType": "ghost",
       "secondaryType": "flying",
       "abilities": [
@@ -245,8 +247,10 @@
       "height": 6,
       "weight": 34,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

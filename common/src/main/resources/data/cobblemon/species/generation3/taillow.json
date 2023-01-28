@@ -1,5 +1,5 @@
 {
-  "name": "taillow",
+  "name": "Taillow",
   "nationalPokedexNumber": 276,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -135,5 +135,6 @@
   },
   "height": 3,
   "weight": 23,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

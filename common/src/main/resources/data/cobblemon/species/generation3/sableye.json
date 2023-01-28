@@ -1,5 +1,5 @@
 {
-  "name": "sableye",
+  "name": "Sableye",
   "nationalPokedexNumber": 302,
   "primaryType": "dark",
   "secondaryType": "ghost",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "dark",
       "secondaryType": "ghost",
       "abilities": [
@@ -63,6 +63,7 @@
       "height": 5,
       "weight": 1610,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -258,5 +259,6 @@
   },
   "height": 5,
   "weight": 110,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

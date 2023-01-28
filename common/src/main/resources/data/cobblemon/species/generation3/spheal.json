@@ -1,5 +1,5 @@
 {
-  "name": "spheal",
+  "name": "Spheal",
   "nationalPokedexNumber": 363,
   "primaryType": "ice",
   "secondaryType": "water",
@@ -145,5 +145,6 @@
   },
   "height": 8,
   "weight": 395,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

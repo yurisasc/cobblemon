@@ -1,5 +1,5 @@
 {
-  "name": "wiglett",
+  "name": "Wiglett",
   "nationalPokedexNumber": 960,
   "primaryType": "water",
   "abilities": [
@@ -95,5 +95,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

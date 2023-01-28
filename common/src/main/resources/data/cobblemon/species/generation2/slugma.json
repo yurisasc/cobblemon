@@ -1,5 +1,5 @@
 {
-  "name": "slugma",
+  "name": "Slugma",
   "nationalPokedexNumber": 218,
   "primaryType": "fire",
   "abilities": [
@@ -159,5 +159,6 @@
   },
   "height": 7,
   "weight": 350,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

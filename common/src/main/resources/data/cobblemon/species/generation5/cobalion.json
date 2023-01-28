@@ -1,5 +1,5 @@
 {
-  "name": "cobalion",
+  "name": "Cobalion",
   "nationalPokedexNumber": 638,
   "primaryType": "steel",
   "secondaryType": "fighting",
@@ -132,5 +132,6 @@
   },
   "height": 21,
   "weight": 2500,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "araquanid",
+  "name": "Araquanid",
   "nationalPokedexNumber": 752,
   "primaryType": "water",
   "secondaryType": "bug",
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "totem",
+      "name": "Totem",
       "primaryType": "water",
       "secondaryType": "bug",
       "abilities": [
@@ -122,6 +122,7 @@
       "height": 31,
       "weight": 2175,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -220,5 +221,6 @@
   },
   "height": 18,
   "weight": 820,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

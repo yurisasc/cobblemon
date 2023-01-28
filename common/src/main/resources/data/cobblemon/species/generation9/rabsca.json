@@ -1,5 +1,5 @@
 {
-  "name": "rabsca",
+  "name": "Rabsca",
   "nationalPokedexNumber": 954,
   "primaryType": "bug",
   "secondaryType": "psychic",
@@ -106,5 +106,6 @@
   "height": 3,
   "weight": 35,
   "preEvolution": "rellor",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

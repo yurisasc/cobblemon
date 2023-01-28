@@ -1,5 +1,5 @@
 {
-  "name": "rolycoly",
+  "name": "Rolycoly",
   "nationalPokedexNumber": 837,
   "primaryType": "rock",
   "abilities": [
@@ -111,5 +111,6 @@
   },
   "height": 3,
   "weight": 120,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "celesteela",
+  "name": "Celesteela",
   "nationalPokedexNumber": 797,
   "primaryType": "steel",
   "secondaryType": "flying",
@@ -124,5 +124,6 @@
   },
   "height": 92,
   "weight": 9999,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "meowstic",
+  "name": "Meowstic",
   "nationalPokedexNumber": 678,
   "primaryType": "psychic",
   "abilities": [
@@ -139,7 +139,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "f",
+      "name": "F",
       "primaryType": "psychic",
       "abilities": [
         "keeneye",
@@ -275,8 +275,10 @@
       "weight": 85,
       "preEvolution": "espurr",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

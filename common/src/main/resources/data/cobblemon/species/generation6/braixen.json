@@ -1,5 +1,5 @@
 {
-  "name": "braixen",
+  "name": "Braixen",
   "nationalPokedexNumber": 654,
   "primaryType": "fire",
   "abilities": [
@@ -158,5 +158,6 @@
   },
   "height": 10,
   "weight": 145,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "shaymin",
+  "name": "Shaymin",
   "nationalPokedexNumber": 492,
   "primaryType": "grass",
   "abilities": [
@@ -115,7 +115,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "sky",
+      "name": "Sky",
       "primaryType": "grass",
       "secondaryType": "flying",
       "abilities": [
@@ -158,8 +158,10 @@
       "height": 4,
       "weight": 52,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "frillish",
+  "name": "Frillish",
   "nationalPokedexNumber": 592,
   "primaryType": "water",
   "secondaryType": "ghost",
@@ -143,5 +143,6 @@
   },
   "height": 12,
   "weight": 330,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

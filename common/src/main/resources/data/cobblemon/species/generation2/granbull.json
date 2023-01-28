@@ -1,5 +1,5 @@
 {
-  "name": "granbull",
+  "name": "Granbull",
   "nationalPokedexNumber": 210,
   "primaryType": "fairy",
   "abilities": [
@@ -188,5 +188,6 @@
   },
   "height": 14,
   "weight": 487,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

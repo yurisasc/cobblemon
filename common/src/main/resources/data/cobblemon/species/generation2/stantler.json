@@ -1,5 +1,5 @@
 {
-  "name": "stantler",
+  "name": "Stantler",
   "nationalPokedexNumber": 234,
   "primaryType": "normal",
   "abilities": [
@@ -182,5 +182,6 @@
   },
   "height": 14,
   "weight": 712,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

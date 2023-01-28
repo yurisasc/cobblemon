@@ -1,5 +1,5 @@
 {
-  "name": "kartana",
+  "name": "Kartana",
   "nationalPokedexNumber": 798,
   "primaryType": "grass",
   "secondaryType": "steel",
@@ -103,5 +103,6 @@
   },
   "height": 3,
   "weight": 1,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

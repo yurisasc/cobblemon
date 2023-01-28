@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "weezing",
+  "name": "Weezing",
   "nationalPokedexNumber": 110,
   "primaryType": "poison",
   "abilities": [
@@ -24,7 +24,7 @@
   ],
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "poison",
       "secondaryType": "fairy",
       "abilities": [

@@ -1,5 +1,5 @@
 {
-  "name": "gabite",
+  "name": "Gabite",
   "nationalPokedexNumber": 444,
   "primaryType": "dragon",
   "secondaryType": "ground",
@@ -152,5 +152,6 @@
   },
   "height": 14,
   "weight": 560,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

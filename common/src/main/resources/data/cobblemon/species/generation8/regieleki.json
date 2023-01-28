@@ -1,5 +1,5 @@
 {
-  "name": "regieleki",
+  "name": "Regieleki",
   "nationalPokedexNumber": 894,
   "primaryType": "electric",
   "abilities": [
@@ -98,5 +98,6 @@
   },
   "height": 12,
   "weight": 1450,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

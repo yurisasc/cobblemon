@@ -1,5 +1,5 @@
 {
-  "name": "floette",
+  "name": "Floette",
   "nationalPokedexNumber": 670,
   "primaryType": "fairy",
   "abilities": [
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "eternal",
+      "name": "Eternal",
       "primaryType": "fairy",
       "abilities": [
         "flowerveil"
@@ -114,6 +114,7 @@
       "height": 2,
       "weight": 9,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -232,5 +233,6 @@
   },
   "height": 2,
   "weight": 9,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

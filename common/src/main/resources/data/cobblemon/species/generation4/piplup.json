@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "piplup",
+  "name": "Piplup",
   "nationalPokedexNumber": 393,
   "primaryType": "water",
   "abilities": [
@@ -164,5 +164,6 @@
   },
   "height": 4,
   "weight": 52,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

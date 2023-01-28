@@ -1,5 +1,5 @@
 {
-  "name": "eelektrik",
+  "name": "Eelektrik",
   "nationalPokedexNumber": 603,
   "primaryType": "electric",
   "abilities": [
@@ -123,5 +123,6 @@
   },
   "height": 12,
   "weight": 220,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

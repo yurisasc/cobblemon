@@ -1,5 +1,5 @@
 {
-  "name": "garganacl",
+  "name": "Garganacl",
   "nationalPokedexNumber": 934,
   "primaryType": "rock",
   "abilities": [
@@ -98,5 +98,6 @@
   "height": 25,
   "weight": 2400,
   "preEvolution": "naclstack",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "tarountula",
+  "name": "Tarountula",
   "nationalPokedexNumber": 917,
   "primaryType": "bug",
   "abilities": [
@@ -99,5 +99,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

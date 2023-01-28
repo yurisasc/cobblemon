@@ -1,5 +1,5 @@
 {
-  "name": "munna",
+  "name": "Munna",
   "nationalPokedexNumber": 517,
   "primaryType": "psychic",
   "abilities": [
@@ -144,5 +144,6 @@
   },
   "height": 6,
   "weight": 233,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

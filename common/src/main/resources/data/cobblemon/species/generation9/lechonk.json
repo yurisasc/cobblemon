@@ -1,5 +1,5 @@
 {
-  "name": "lechonk",
+  "name": "Lechonk",
   "nationalPokedexNumber": 915,
   "primaryType": "normal",
   "abilities": [
@@ -111,5 +111,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

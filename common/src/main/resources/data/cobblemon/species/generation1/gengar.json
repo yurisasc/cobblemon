@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "gengar",
+  "name": "Gengar",
   "nationalPokedexNumber": 94,
   "primaryType": "ghost",
   "secondaryType": "poison",
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "ghost",
       "secondaryType": "poison",
       "abilities": [
@@ -65,7 +65,7 @@
       "battleOnly": true
     },
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "ghost",
       "secondaryType": "poison",
       "abilities": [

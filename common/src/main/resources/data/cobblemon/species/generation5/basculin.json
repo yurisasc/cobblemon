@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "basculin",
+  "name": "Basculin",
   "nationalPokedexNumber": 550,
   "primaryType": "water",
   "abilities": [
@@ -145,7 +145,7 @@
   "weight": 180,
   "forms": [
     {
-      "name": "bluestriped",
+      "name": "Blue-Striped",
       "primaryType": "water",
       "abilities": [
         "rockhead",
@@ -187,10 +187,11 @@
       "height": 10,
       "weight": 180,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "whitestriped",
+      "name": "White-Striped",
       "primaryType": "water",
       "abilities": [
         "rattled",
@@ -305,10 +306,12 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
   "aspects": [
     "redstriped"
-  ]
+  ],
+  "cannotDynamax": false
 }

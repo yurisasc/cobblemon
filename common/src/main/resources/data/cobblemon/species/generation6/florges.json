@@ -1,5 +1,5 @@
 {
-  "name": "florges",
+  "name": "Florges",
   "nationalPokedexNumber": 671,
   "primaryType": "fairy",
   "abilities": [
@@ -123,5 +123,6 @@
   },
   "height": 11,
   "weight": 100,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

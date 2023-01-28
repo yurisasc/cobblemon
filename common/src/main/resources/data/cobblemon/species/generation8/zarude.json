@@ -1,5 +1,5 @@
 {
-  "name": "zarude",
+  "name": "Zarude",
   "nationalPokedexNumber": 893,
   "primaryType": "dark",
   "secondaryType": "grass",
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "dada",
+      "name": "Dada",
       "primaryType": "dark",
       "secondaryType": "grass",
       "abilities": [
@@ -144,6 +144,7 @@
       "height": 18,
       "weight": 700,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -263,5 +264,6 @@
   },
   "height": 18,
   "weight": 700,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

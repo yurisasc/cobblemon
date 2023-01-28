@@ -1,5 +1,5 @@
 {
-  "name": "tinglu",
+  "name": "Ting-Lu",
   "nationalPokedexNumber": 1003,
   "primaryType": "dark",
   "secondaryType": "ground",
@@ -95,5 +95,6 @@
   "aspects": [],
   "height": 27,
   "weight": 6997,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

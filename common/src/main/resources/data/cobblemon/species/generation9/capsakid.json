@@ -1,5 +1,5 @@
 {
-  "name": "capsakid",
+  "name": "Capsakid",
   "nationalPokedexNumber": 951,
   "primaryType": "grass",
   "abilities": [
@@ -95,5 +95,6 @@
       "requirements": [],
       "requiredContext": "cobblemon:fire_stone"
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

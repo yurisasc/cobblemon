@@ -1,5 +1,5 @@
 {
-  "name": "brutebonnet",
+  "name": "Brute Bonnet",
   "nationalPokedexNumber": 986,
   "primaryType": "grass",
   "secondaryType": "dark",
@@ -96,5 +96,6 @@
   "aspects": [],
   "height": 12,
   "weight": 210,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

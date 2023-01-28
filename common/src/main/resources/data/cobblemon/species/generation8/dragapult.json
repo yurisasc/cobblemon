@@ -1,5 +1,5 @@
 {
-  "name": "dragapult",
+  "name": "Dragapult",
   "nationalPokedexNumber": 887,
   "primaryType": "dragon",
   "secondaryType": "ghost",
@@ -127,5 +127,6 @@
   },
   "height": 30,
   "weight": 500,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

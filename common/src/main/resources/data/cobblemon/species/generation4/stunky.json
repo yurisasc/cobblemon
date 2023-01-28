@@ -1,5 +1,5 @@
 {
-  "name": "stunky",
+  "name": "Stunky",
   "nationalPokedexNumber": 434,
   "primaryType": "poison",
   "secondaryType": "dark",
@@ -161,5 +161,6 @@
   },
   "height": 4,
   "weight": 192,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

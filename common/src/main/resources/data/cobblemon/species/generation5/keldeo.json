@@ -1,5 +1,5 @@
 {
-  "name": "keldeo",
+  "name": "Keldeo",
   "nationalPokedexNumber": 647,
   "primaryType": "water",
   "secondaryType": "fighting",
@@ -131,7 +131,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "resolute",
+      "name": "Resolute",
       "primaryType": "water",
       "secondaryType": "fighting",
       "abilities": [
@@ -174,8 +174,10 @@
       "height": 14,
       "weight": 485,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "rotom",
+  "name": "Rotom",
   "nationalPokedexNumber": 479,
   "primaryType": "electric",
   "secondaryType": "ghost",
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "heat",
+      "name": "Heat",
       "primaryType": "electric",
       "secondaryType": "fire",
       "abilities": [
@@ -62,10 +62,11 @@
       "height": 3,
       "weight": 3,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "wash",
+      "name": "Wash",
       "primaryType": "electric",
       "secondaryType": "water",
       "abilities": [
@@ -108,10 +109,11 @@
       "height": 3,
       "weight": 3,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "frost",
+      "name": "Frost",
       "primaryType": "electric",
       "secondaryType": "ice",
       "abilities": [
@@ -154,10 +156,11 @@
       "height": 3,
       "weight": 3,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "fan",
+      "name": "Fan",
       "primaryType": "electric",
       "secondaryType": "flying",
       "abilities": [
@@ -200,10 +203,11 @@
       "height": 3,
       "weight": 3,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "mow",
+      "name": "Mow",
       "primaryType": "electric",
       "secondaryType": "grass",
       "abilities": [
@@ -246,6 +250,7 @@
       "height": 3,
       "weight": 3,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -356,5 +361,6 @@
   },
   "height": 3,
   "weight": 3,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

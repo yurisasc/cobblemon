@@ -1,5 +1,5 @@
 {
-  "name": "aipom",
+  "name": "Aipom",
   "nationalPokedexNumber": 190,
   "primaryType": "normal",
   "abilities": [
@@ -209,5 +209,6 @@
   },
   "height": 8,
   "weight": 115,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

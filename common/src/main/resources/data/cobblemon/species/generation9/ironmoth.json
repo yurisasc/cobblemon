@@ -1,5 +1,5 @@
 {
-  "name": "ironmoth",
+  "name": "Iron Moth",
   "nationalPokedexNumber": 994,
   "primaryType": "fire",
   "secondaryType": "poison",
@@ -102,5 +102,6 @@
   "aspects": [],
   "height": 12,
   "weight": 360,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

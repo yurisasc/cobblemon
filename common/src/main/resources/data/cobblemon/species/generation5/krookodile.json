@@ -1,5 +1,5 @@
 {
-  "name": "krookodile",
+  "name": "Krookodile",
   "nationalPokedexNumber": 553,
   "primaryType": "ground",
   "secondaryType": "dark",
@@ -165,5 +165,6 @@
   },
   "height": 15,
   "weight": 963,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

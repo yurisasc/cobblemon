@@ -1,5 +1,5 @@
 {
-  "name": "dondozo",
+  "name": "Dondozo",
   "nationalPokedexNumber": 977,
   "primaryType": "water",
   "abilities": [
@@ -91,5 +91,6 @@
   "aspects": [],
   "height": 120,
   "weight": 2200,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

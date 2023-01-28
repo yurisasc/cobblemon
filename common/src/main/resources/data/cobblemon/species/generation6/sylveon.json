@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "sylveon",
+  "name": "Sylveon",
   "nationalPokedexNumber": 700,
   "primaryType": "fairy",
   "abilities": [
@@ -138,5 +138,6 @@
   },
   "height": 10,
   "weight": 235,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

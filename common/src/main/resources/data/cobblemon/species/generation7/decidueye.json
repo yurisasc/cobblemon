@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "decidueye",
+  "name": "Decidueye",
   "nationalPokedexNumber": 724,
   "primaryType": "grass",
   "secondaryType": "ghost",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "grass",
       "secondaryType": "fighting",
       "abilities": [
@@ -129,6 +129,7 @@
       "weight": 370,
       "preEvolution": "dartrix",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -284,5 +285,6 @@
   },
   "height": 16,
   "weight": 366,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

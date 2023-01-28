@@ -1,5 +1,5 @@
 {
-  "name": "silvally",
+  "name": "Silvally",
   "nationalPokedexNumber": 773,
   "primaryType": "normal",
   "abilities": [
@@ -18,7 +18,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "bug",
+      "name": "Bug",
       "primaryType": "bug",
       "abilities": [
         "rkssystem"
@@ -59,10 +59,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "dark",
+      "name": "Dark",
       "primaryType": "dark",
       "abilities": [
         "rkssystem"
@@ -103,10 +104,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "dragon",
+      "name": "Dragon",
       "primaryType": "dragon",
       "abilities": [
         "rkssystem"
@@ -147,10 +149,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "electric",
+      "name": "Electric",
       "primaryType": "electric",
       "abilities": [
         "rkssystem"
@@ -191,10 +194,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "fairy",
+      "name": "Fairy",
       "primaryType": "fairy",
       "abilities": [
         "rkssystem"
@@ -235,10 +239,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "fighting",
+      "name": "Fighting",
       "primaryType": "fighting",
       "abilities": [
         "rkssystem"
@@ -279,10 +284,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "fire",
+      "name": "Fire",
       "primaryType": "fire",
       "abilities": [
         "rkssystem"
@@ -323,10 +329,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "flying",
+      "name": "Flying",
       "primaryType": "flying",
       "abilities": [
         "rkssystem"
@@ -367,10 +374,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "ghost",
+      "name": "Ghost",
       "primaryType": "ghost",
       "abilities": [
         "rkssystem"
@@ -411,10 +419,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "grass",
+      "name": "Grass",
       "primaryType": "grass",
       "abilities": [
         "rkssystem"
@@ -455,10 +464,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "ground",
+      "name": "Ground",
       "primaryType": "ground",
       "abilities": [
         "rkssystem"
@@ -499,10 +509,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "ice",
+      "name": "Ice",
       "primaryType": "ice",
       "abilities": [
         "rkssystem"
@@ -543,10 +554,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "poison",
+      "name": "Poison",
       "primaryType": "poison",
       "abilities": [
         "rkssystem"
@@ -587,10 +599,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "psychic",
+      "name": "Psychic",
       "primaryType": "psychic",
       "abilities": [
         "rkssystem"
@@ -631,10 +644,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "rock",
+      "name": "Rock",
       "primaryType": "rock",
       "abilities": [
         "rkssystem"
@@ -675,10 +689,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "steel",
+      "name": "Steel",
       "primaryType": "steel",
       "abilities": [
         "rkssystem"
@@ -719,10 +734,11 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "water",
+      "name": "Water",
       "primaryType": "water",
       "abilities": [
         "rkssystem"
@@ -763,6 +779,7 @@
       "height": 23,
       "weight": 1005,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -897,5 +914,6 @@
   },
   "height": 23,
   "weight": 1005,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

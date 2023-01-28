@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "ninetales",
+  "name": "Ninetales",
   "nationalPokedexNumber": 38,
   "primaryType": "fire",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "ice",
       "secondaryType": "fairy",
       "abilities": [

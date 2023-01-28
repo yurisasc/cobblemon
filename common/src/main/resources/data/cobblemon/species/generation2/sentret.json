@@ -1,5 +1,5 @@
 {
-  "name": "sentret",
+  "name": "Sentret",
   "nationalPokedexNumber": 161,
   "primaryType": "normal",
   "abilities": [
@@ -190,5 +190,6 @@
   },
   "height": 8,
   "weight": 60,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

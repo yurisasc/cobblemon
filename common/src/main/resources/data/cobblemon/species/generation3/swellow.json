@@ -1,5 +1,5 @@
 {
-  "name": "swellow",
+  "name": "Swellow",
   "nationalPokedexNumber": 277,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -112,5 +112,6 @@
   },
   "height": 7,
   "weight": 198,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

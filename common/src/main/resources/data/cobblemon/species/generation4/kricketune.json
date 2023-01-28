@@ -1,5 +1,5 @@
 {
-  "name": "kricketune",
+  "name": "Kricketune",
   "nationalPokedexNumber": 402,
   "primaryType": "bug",
   "abilities": [
@@ -124,5 +124,6 @@
   },
   "height": 10,
   "weight": 255,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "cyclizar",
+  "name": "Cyclizar",
   "nationalPokedexNumber": 967,
   "primaryType": "dragon",
   "secondaryType": "normal",
@@ -94,5 +94,6 @@
   "aspects": [],
   "height": 16,
   "weight": 630,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

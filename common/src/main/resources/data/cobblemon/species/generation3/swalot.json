@@ -1,5 +1,5 @@
 {
-  "name": "swalot",
+  "name": "Swalot",
   "nationalPokedexNumber": 317,
   "primaryType": "poison",
   "abilities": [
@@ -145,5 +145,6 @@
   },
   "height": 17,
   "weight": 800,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

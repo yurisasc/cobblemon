@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "rattata",
+  "name": "Rattata",
   "nationalPokedexNumber": 19,
   "primaryType": "normal",
   "abilities": [
@@ -24,7 +24,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "dark",
       "secondaryType": "normal",
       "abilities": [

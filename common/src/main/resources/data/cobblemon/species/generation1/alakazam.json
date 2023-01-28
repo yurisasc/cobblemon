@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "alakazam",
+  "name": "Alakazam",
   "nationalPokedexNumber": 65,
   "primaryType": "psychic",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "psychic",
       "abilities": [
         "trace"

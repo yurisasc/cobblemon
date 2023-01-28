@@ -1,5 +1,5 @@
 {
-  "name": "oinkologne",
+  "name": "Oinkologne",
   "nationalPokedexNumber": 916,
   "primaryType": "normal",
   "abilities": [
@@ -89,9 +89,10 @@
   "weight": 1200,
   "preEvolution": "lechonk",
   "evolutions": [],
+  "cannotDynamax": false,
   "forms": [
     {
-      "name": "f",
+      "name": "F",
       "primaryType": "normal",
       "abilities": [
         "aromaveil",
@@ -182,6 +183,7 @@
       "weight": 1200,
       "preEvolution": "lechonk",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ]

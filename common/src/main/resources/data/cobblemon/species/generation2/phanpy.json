@@ -1,5 +1,5 @@
 {
-  "name": "phanpy",
+  "name": "Phanpy",
   "nationalPokedexNumber": 231,
   "primaryType": "ground",
   "abilities": [
@@ -156,5 +156,6 @@
   },
   "height": 5,
   "weight": 335,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "kingler",
+  "name": "Kingler",
   "nationalPokedexNumber": 99,
   "primaryType": "water",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "water",
       "abilities": [
         "hypercutter",

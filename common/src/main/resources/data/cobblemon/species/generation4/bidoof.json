@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "bidoof",
+  "name": "Bidoof",
   "nationalPokedexNumber": 399,
   "primaryType": "normal",
   "abilities": [
@@ -161,5 +161,6 @@
   },
   "height": 5,
   "weight": 200,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

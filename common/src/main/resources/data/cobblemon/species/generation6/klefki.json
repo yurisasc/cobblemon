@@ -1,5 +1,5 @@
 {
-  "name": "klefki",
+  "name": "Klefki",
   "nationalPokedexNumber": 707,
   "primaryType": "steel",
   "secondaryType": "fairy",
@@ -120,5 +120,6 @@
   },
   "height": 2,
   "weight": 30,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

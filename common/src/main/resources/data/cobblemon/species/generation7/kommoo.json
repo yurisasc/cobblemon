@@ -1,5 +1,5 @@
 {
-  "name": "kommoo",
+  "name": "Kommo-o",
   "nationalPokedexNumber": 784,
   "primaryType": "dragon",
   "secondaryType": "fighting",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "totem",
+      "name": "Totem",
       "primaryType": "dragon",
       "secondaryType": "fighting",
       "abilities": [
@@ -155,6 +155,7 @@
       "height": 24,
       "weight": 2075,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -293,5 +294,6 @@
   },
   "height": 16,
   "weight": 782,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

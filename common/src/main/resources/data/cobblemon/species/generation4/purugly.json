@@ -1,5 +1,5 @@
 {
-  "name": "purugly",
+  "name": "Purugly",
   "nationalPokedexNumber": 432,
   "primaryType": "normal",
   "abilities": [
@@ -126,5 +126,6 @@
   },
   "height": 10,
   "weight": 438,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

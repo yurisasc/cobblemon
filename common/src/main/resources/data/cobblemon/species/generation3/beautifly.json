@@ -1,5 +1,5 @@
 {
-  "name": "beautifly",
+  "name": "Beautifly",
   "nationalPokedexNumber": 267,
   "primaryType": "bug",
   "secondaryType": "flying",
@@ -114,5 +114,6 @@
   },
   "height": 10,
   "weight": 284,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

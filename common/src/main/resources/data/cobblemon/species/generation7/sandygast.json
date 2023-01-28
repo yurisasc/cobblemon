@@ -1,5 +1,5 @@
 {
-  "name": "sandygast",
+  "name": "Sandygast",
   "nationalPokedexNumber": 769,
   "primaryType": "ghost",
   "secondaryType": "ground",
@@ -143,5 +143,6 @@
   },
   "height": 5,
   "weight": 700,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

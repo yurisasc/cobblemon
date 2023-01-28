@@ -1,5 +1,5 @@
 {
-  "name": "ironhands",
+  "name": "Iron Hands",
   "nationalPokedexNumber": 992,
   "primaryType": "fighting",
   "secondaryType": "electric",
@@ -102,5 +102,6 @@
   "aspects": [],
   "height": 18,
   "weight": 3807,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

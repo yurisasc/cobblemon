@@ -1,5 +1,5 @@
 {
-  "name": "sawsbuck",
+  "name": "Sawsbuck",
   "nationalPokedexNumber": 586,
   "primaryType": "normal",
   "secondaryType": "grass",
@@ -146,5 +146,6 @@
   },
   "height": 19,
   "weight": 925,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

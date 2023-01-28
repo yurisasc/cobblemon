@@ -1,5 +1,5 @@
 {
-  "name": "linoone",
+  "name": "Linoone",
   "nationalPokedexNumber": 264,
   "primaryType": "normal",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "dark",
       "secondaryType": "normal",
       "abilities": [
@@ -151,6 +151,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -280,5 +281,6 @@
   "height": 5,
   "weight": 325,
   "aspects": [],
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

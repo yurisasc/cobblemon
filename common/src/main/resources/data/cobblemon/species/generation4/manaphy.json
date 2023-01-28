@@ -1,5 +1,5 @@
 {
-  "name": "manaphy",
+  "name": "Manaphy",
   "nationalPokedexNumber": 490,
   "primaryType": "water",
   "abilities": [
@@ -124,5 +124,6 @@
   },
   "height": 3,
   "weight": 14,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

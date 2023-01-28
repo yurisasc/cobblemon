@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "lapras",
+  "name": "Lapras",
   "nationalPokedexNumber": 131,
   "primaryType": "water",
   "secondaryType": "ice",
@@ -22,7 +22,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "water",
       "secondaryType": "ice",
       "abilities": [

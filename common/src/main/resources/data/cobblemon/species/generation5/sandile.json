@@ -1,5 +1,5 @@
 {
-  "name": "sandile",
+  "name": "Sandile",
   "nationalPokedexNumber": 551,
   "primaryType": "ground",
   "secondaryType": "dark",
@@ -152,5 +152,6 @@
   },
   "height": 7,
   "weight": 152,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

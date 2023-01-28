@@ -1,5 +1,5 @@
 {
-  "name": "chiyu",
+  "name": "Chi-Yu",
   "nationalPokedexNumber": 1004,
   "primaryType": "dark",
   "secondaryType": "fire",
@@ -93,5 +93,6 @@
   "aspects": [],
   "height": 4,
   "weight": 49,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

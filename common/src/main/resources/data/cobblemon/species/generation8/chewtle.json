@@ -1,5 +1,5 @@
 {
-  "name": "chewtle",
+  "name": "Chewtle",
   "nationalPokedexNumber": 833,
   "primaryType": "water",
   "abilities": [
@@ -115,5 +115,6 @@
   },
   "height": 3,
   "weight": 85,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

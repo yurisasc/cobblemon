@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "happiny",
+  "name": "Happiny",
   "nationalPokedexNumber": 440,
   "primaryType": "normal",
   "abilities": [
@@ -156,5 +156,6 @@
   },
   "height": 6,
   "weight": 244,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

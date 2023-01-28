@@ -1,5 +1,5 @@
 {
-  "name": "snivy",
+  "name": "Snivy",
   "nationalPokedexNumber": 495,
   "primaryType": "grass",
   "abilities": [
@@ -136,5 +136,6 @@
   },
   "height": 6,
   "weight": 81,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

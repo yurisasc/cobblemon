@@ -1,5 +1,5 @@
 {
-  "name": "bergmite",
+  "name": "Bergmite",
   "nationalPokedexNumber": 712,
   "primaryType": "ice",
   "abilities": [
@@ -153,5 +153,6 @@
   },
   "height": 10,
   "weight": 995,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

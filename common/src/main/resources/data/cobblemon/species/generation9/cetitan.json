@@ -1,5 +1,5 @@
 {
-  "name": "cetitan",
+  "name": "Cetitan",
   "nationalPokedexNumber": 975,
   "primaryType": "ice",
   "abilities": [
@@ -89,5 +89,6 @@
   "height": 45,
   "weight": 7000,
   "preEvolution": "cetoddle",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

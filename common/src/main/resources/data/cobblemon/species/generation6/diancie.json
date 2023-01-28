@@ -1,5 +1,5 @@
 {
-  "name": "diancie",
+  "name": "Diancie",
   "nationalPokedexNumber": 719,
   "primaryType": "rock",
   "secondaryType": "fairy",
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "rock",
       "secondaryType": "fairy",
       "abilities": [
@@ -63,6 +63,7 @@
       "height": 11,
       "weight": 278,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -196,5 +197,6 @@
   },
   "height": 7,
   "weight": 88,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

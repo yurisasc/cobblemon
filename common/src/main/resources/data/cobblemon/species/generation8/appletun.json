@@ -1,5 +1,5 @@
 {
-  "name": "appletun",
+  "name": "Appletun",
   "nationalPokedexNumber": 842,
   "primaryType": "grass",
   "secondaryType": "dragon",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "grass",
       "secondaryType": "dragon",
       "abilities": [
@@ -66,6 +66,7 @@
       "height": 240,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -169,5 +170,6 @@
   },
   "height": 4,
   "weight": 130,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "dugtrio",
+  "name": "Dugtrio",
   "nationalPokedexNumber": 51,
   "primaryType": "ground",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "ground",
       "secondaryType": "steel",
       "abilities": [

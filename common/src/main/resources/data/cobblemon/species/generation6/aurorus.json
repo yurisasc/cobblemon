@@ -1,5 +1,5 @@
 {
-  "name": "aurorus",
+  "name": "Aurorus",
   "nationalPokedexNumber": 699,
   "primaryType": "rock",
   "secondaryType": "ice",
@@ -139,5 +139,6 @@
   },
   "height": 27,
   "weight": 2250,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

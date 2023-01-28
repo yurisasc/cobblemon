@@ -1,5 +1,5 @@
 {
-  "name": "chimecho",
+  "name": "Chimecho",
   "nationalPokedexNumber": 358,
   "primaryType": "psychic",
   "abilities": [
@@ -141,5 +141,6 @@
   },
   "height": 6,
   "weight": 10,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "gligar",
+  "name": "Gligar",
   "nationalPokedexNumber": 207,
   "primaryType": "ground",
   "secondaryType": "flying",
@@ -195,5 +195,6 @@
   },
   "height": 11,
   "weight": 648,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

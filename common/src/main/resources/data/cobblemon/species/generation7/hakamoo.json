@@ -1,5 +1,5 @@
 {
-  "name": "hakamoo",
+  "name": "Hakamo-o",
   "nationalPokedexNumber": 783,
   "primaryType": "dragon",
   "secondaryType": "fighting",
@@ -144,5 +144,6 @@
   },
   "height": 12,
   "weight": 470,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

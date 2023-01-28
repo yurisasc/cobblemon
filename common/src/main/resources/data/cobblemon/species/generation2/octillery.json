@@ -1,5 +1,5 @@
 {
-  "name": "octillery",
+  "name": "Octillery",
   "nationalPokedexNumber": 224,
   "primaryType": "water",
   "abilities": [
@@ -147,5 +147,6 @@
   },
   "height": 9,
   "weight": 285,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

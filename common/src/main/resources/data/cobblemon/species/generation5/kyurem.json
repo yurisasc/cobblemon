@@ -1,5 +1,5 @@
 {
-  "name": "kyurem",
+  "name": "Kyurem",
   "nationalPokedexNumber": 646,
   "primaryType": "dragon",
   "secondaryType": "ice",
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "black",
+      "name": "Black",
       "primaryType": "dragon",
       "secondaryType": "ice",
       "abilities": [
@@ -150,10 +150,11 @@
       "height": 33,
       "weight": 3250,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "white",
+      "name": "White",
       "primaryType": "dragon",
       "secondaryType": "ice",
       "abilities": [
@@ -284,6 +285,7 @@
       "height": 36,
       "weight": 3250,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -409,5 +411,6 @@
   },
   "height": 30,
   "weight": 3250,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

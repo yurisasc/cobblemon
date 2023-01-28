@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "bellossom",
+  "name": "Bellossom",
   "nationalPokedexNumber": 182,
   "primaryType": "grass",
   "abilities": [
@@ -131,5 +131,6 @@
   },
   "height": 4,
   "weight": 58,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

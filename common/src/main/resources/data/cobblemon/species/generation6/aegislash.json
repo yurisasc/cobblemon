@@ -1,5 +1,5 @@
 {
-  "name": "aegislash",
+  "name": "Aegislash",
   "nationalPokedexNumber": 681,
   "primaryType": "steel",
   "secondaryType": "ghost",
@@ -113,7 +113,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "blade",
+      "name": "Blade",
       "primaryType": "steel",
       "secondaryType": "ghost",
       "abilities": [
@@ -154,8 +154,10 @@
       "height": 17,
       "weight": 530,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

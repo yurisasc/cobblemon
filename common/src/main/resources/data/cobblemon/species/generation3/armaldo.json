@@ -1,5 +1,5 @@
 {
-  "name": "armaldo",
+  "name": "Armaldo",
   "nationalPokedexNumber": 348,
   "primaryType": "rock",
   "secondaryType": "bug",
@@ -135,5 +135,6 @@
   },
   "height": 15,
   "weight": 682,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

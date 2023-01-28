@@ -1,5 +1,5 @@
 {
-  "name": "amoonguss",
+  "name": "Amoonguss",
   "nationalPokedexNumber": 591,
   "primaryType": "grass",
   "secondaryType": "poison",
@@ -112,5 +112,6 @@
   },
   "height": 6,
   "weight": 105,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

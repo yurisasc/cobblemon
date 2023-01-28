@@ -1,5 +1,5 @@
 {
-  "name": "zebstrika",
+  "name": "Zebstrika",
   "nationalPokedexNumber": 523,
   "primaryType": "electric",
   "abilities": [
@@ -104,5 +104,6 @@
   },
   "height": 16,
   "weight": 795,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "mudbray",
+  "name": "Mudbray",
   "nationalPokedexNumber": 749,
   "primaryType": "ground",
   "abilities": [
@@ -126,5 +126,6 @@
   },
   "height": 10,
   "weight": 1100,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "exeggutor",
+  "name": "Exeggutor",
   "nationalPokedexNumber": 103,
   "primaryType": "grass",
   "secondaryType": "psychic",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "grass",
       "secondaryType": "dragon",
       "abilities": [

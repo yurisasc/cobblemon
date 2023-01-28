@@ -1,5 +1,5 @@
 {
-  "name": "goomy",
+  "name": "Goomy",
   "nationalPokedexNumber": 704,
   "primaryType": "dragon",
   "abilities": [
@@ -137,5 +137,6 @@
   },
   "height": 3,
   "weight": 28,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

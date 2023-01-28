@@ -1,5 +1,5 @@
 {
-  "name": "morpeko",
+  "name": "Morpeko",
   "nationalPokedexNumber": 877,
   "primaryType": "electric",
   "secondaryType": "dark",
@@ -120,7 +120,7 @@
   "weight": 30,
   "forms": [
     {
-      "name": "hangry",
+      "name": "Hangry",
       "primaryType": "electric",
       "secondaryType": "dark",
       "abilities": [
@@ -162,8 +162,10 @@
       "height": 3,
       "weight": 30,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

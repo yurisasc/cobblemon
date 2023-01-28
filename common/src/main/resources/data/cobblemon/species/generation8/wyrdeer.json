@@ -1,5 +1,5 @@
 {
-  "name": "wyrdeer",
+  "name": "Wyrdeer",
   "nationalPokedexNumber": 899,
   "primaryType": "normal",
   "secondaryType": "psychic",
@@ -105,5 +105,6 @@
   "weight": 951,
   "preEvolution": "stantler",
   "evolutions": [],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

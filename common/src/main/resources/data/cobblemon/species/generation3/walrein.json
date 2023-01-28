@@ -1,5 +1,5 @@
 {
-  "name": "walrein",
+  "name": "Walrein",
   "nationalPokedexNumber": 365,
   "primaryType": "ice",
   "secondaryType": "water",
@@ -137,5 +137,6 @@
   },
   "height": 14,
   "weight": 1506,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "whimsicott",
+  "name": "Whimsicott",
   "nationalPokedexNumber": 547,
   "primaryType": "grass",
   "secondaryType": "fairy",
@@ -129,5 +129,6 @@
   },
   "height": 7,
   "weight": 66,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

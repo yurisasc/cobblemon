@@ -1,5 +1,5 @@
 {
-  "name": "polteageist",
+  "name": "Polteageist",
   "nationalPokedexNumber": 855,
   "primaryType": "ghost",
   "abilities": [
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "antique",
+      "name": "Antique",
       "primaryType": "ghost",
       "abilities": [
         "weakarmor",
@@ -61,6 +61,7 @@
       "weight": 4,
       "preEvolution": "sinistea form=antique",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -154,5 +155,6 @@
   },
   "height": 2,
   "weight": 4,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "honchkrow",
+  "name": "Honchkrow",
   "nationalPokedexNumber": 430,
   "primaryType": "dark",
   "secondaryType": "flying",
@@ -144,5 +144,6 @@
   },
   "height": 9,
   "weight": 273,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

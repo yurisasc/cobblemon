@@ -1,5 +1,5 @@
 {
-  "name": "genesect",
+  "name": "Genesect",
   "nationalPokedexNumber": 649,
   "primaryType": "bug",
   "secondaryType": "steel",
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "douse",
+      "name": "Douse",
       "primaryType": "bug",
       "secondaryType": "steel",
       "abilities": [
@@ -62,10 +62,11 @@
       "height": 15,
       "weight": 825,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "shock",
+      "name": "Shock",
       "primaryType": "bug",
       "secondaryType": "steel",
       "abilities": [
@@ -108,10 +109,11 @@
       "height": 15,
       "weight": 825,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "burn",
+      "name": "Burn",
       "primaryType": "bug",
       "secondaryType": "steel",
       "abilities": [
@@ -154,10 +156,11 @@
       "height": 15,
       "weight": 825,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "chill",
+      "name": "Chill",
       "primaryType": "bug",
       "secondaryType": "steel",
       "abilities": [
@@ -200,6 +203,7 @@
       "height": 15,
       "weight": 825,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -329,5 +333,6 @@
   },
   "height": 15,
   "weight": 825,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

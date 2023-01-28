@@ -1,5 +1,5 @@
 {
-  "name": "cryogonal",
+  "name": "Cryogonal",
   "nationalPokedexNumber": 615,
   "primaryType": "ice",
   "abilities": [
@@ -121,5 +121,6 @@
   },
   "height": 11,
   "weight": 1480,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

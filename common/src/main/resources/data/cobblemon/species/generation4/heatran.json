@@ -1,5 +1,5 @@
 {
-  "name": "heatran",
+  "name": "Heatran",
   "nationalPokedexNumber": 485,
   "primaryType": "fire",
   "secondaryType": "steel",
@@ -145,5 +145,6 @@
   },
   "height": 17,
   "weight": 4300,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "lombre",
+  "name": "Lombre",
   "nationalPokedexNumber": 271,
   "primaryType": "water",
   "secondaryType": "grass",
@@ -152,5 +152,6 @@
   },
   "height": 12,
   "weight": 325,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "huntail",
+  "name": "Huntail",
   "nationalPokedexNumber": 367,
   "primaryType": "water",
   "abilities": [
@@ -108,5 +108,6 @@
   },
   "height": 17,
   "weight": 270,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

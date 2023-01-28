@@ -1,5 +1,5 @@
 {
-  "name": "remoraid",
+  "name": "Remoraid",
   "nationalPokedexNumber": 223,
   "primaryType": "water",
   "abilities": [
@@ -166,5 +166,6 @@
   },
   "height": 6,
   "weight": 120,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

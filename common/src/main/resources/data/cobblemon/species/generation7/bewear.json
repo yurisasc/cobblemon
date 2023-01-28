@@ -1,5 +1,5 @@
 {
-  "name": "bewear",
+  "name": "Bewear",
   "nationalPokedexNumber": 760,
   "primaryType": "normal",
   "secondaryType": "fighting",
@@ -126,5 +126,6 @@
   },
   "height": 21,
   "weight": 1350,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

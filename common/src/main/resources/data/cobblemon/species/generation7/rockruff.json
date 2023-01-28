@@ -1,5 +1,5 @@
 {
-  "name": "rockruff",
+  "name": "Rockruff",
   "nationalPokedexNumber": 744,
   "primaryType": "rock",
   "abilities": [
@@ -178,5 +178,6 @@
   },
   "height": 5,
   "weight": 92,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

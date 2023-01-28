@@ -1,5 +1,5 @@
 {
-  "name": "yamask",
+  "name": "Yamask",
   "nationalPokedexNumber": 562,
   "primaryType": "ghost",
   "abilities": [
@@ -18,7 +18,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "ground",
       "secondaryType": "ghost",
       "abilities": [
@@ -131,6 +131,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -260,5 +261,6 @@
   },
   "height": 5,
   "weight": 15,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

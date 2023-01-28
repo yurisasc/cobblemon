@@ -1,5 +1,5 @@
 {
-  "name": "koraidon",
+  "name": "Koraidon",
   "nationalPokedexNumber": 1007,
   "primaryType": "fighting",
   "secondaryType": "dragon",
@@ -120,5 +120,6 @@
   "aspects": [],
   "height": 25,
   "weight": 3030,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

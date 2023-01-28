@@ -1,5 +1,5 @@
 {
-  "name": "dusknoir",
+  "name": "Dusknoir",
   "nationalPokedexNumber": 477,
   "primaryType": "ghost",
   "abilities": [
@@ -154,5 +154,6 @@
   },
   "height": 22,
   "weight": 1066,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

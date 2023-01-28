@@ -1,5 +1,5 @@
 {
-  "name": "drizzile",
+  "name": "Drizzile",
   "nationalPokedexNumber": 817,
   "primaryType": "water",
   "abilities": [
@@ -112,5 +112,6 @@
   },
   "height": 7,
   "weight": 115,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

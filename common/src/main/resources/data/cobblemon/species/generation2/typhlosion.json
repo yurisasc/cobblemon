@@ -1,5 +1,5 @@
 {
-  "name": "typhlosion",
+  "name": "Typhlosion",
   "nationalPokedexNumber": 157,
   "primaryType": "fire",
   "abilities": [
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "fire",
       "secondaryType": "ghost",
       "abilities": [
@@ -128,6 +128,7 @@
       "weight": 698,
       "preEvolution": "quilava",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -277,5 +278,6 @@
   },
   "height": 17,
   "weight": 795,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "skuntank",
+  "name": "Skuntank",
   "nationalPokedexNumber": 435,
   "primaryType": "poison",
   "secondaryType": "dark",
@@ -142,5 +142,6 @@
   },
   "height": 10,
   "weight": 380,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

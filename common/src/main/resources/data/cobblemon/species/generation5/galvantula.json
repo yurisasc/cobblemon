@@ -1,5 +1,5 @@
 {
-  "name": "galvantula",
+  "name": "Galvantula",
   "nationalPokedexNumber": 596,
   "primaryType": "bug",
   "secondaryType": "electric",
@@ -124,5 +124,6 @@
   },
   "height": 8,
   "weight": 143,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

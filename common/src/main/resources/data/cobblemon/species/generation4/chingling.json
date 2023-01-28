@@ -1,5 +1,5 @@
 {
-  "name": "chingling",
+  "name": "Chingling",
   "nationalPokedexNumber": 433,
   "primaryType": "psychic",
   "abilities": [
@@ -145,5 +145,6 @@
   },
   "height": 2,
   "weight": 6,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

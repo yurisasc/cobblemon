@@ -1,5 +1,5 @@
 {
-  "name": "pelipper",
+  "name": "Pelipper",
   "nationalPokedexNumber": 279,
   "primaryType": "water",
   "secondaryType": "flying",
@@ -146,5 +146,6 @@
   },
   "height": 12,
   "weight": 280,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

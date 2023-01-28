@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "munchlax",
+  "name": "Munchlax",
   "nationalPokedexNumber": 446,
   "primaryType": "normal",
   "abilities": [
@@ -184,5 +184,6 @@
   },
   "height": 6,
   "weight": 1050,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "frogadier",
+  "name": "Frogadier",
   "nationalPokedexNumber": 657,
   "primaryType": "water",
   "abilities": [
@@ -145,5 +145,6 @@
   },
   "height": 6,
   "weight": 109,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

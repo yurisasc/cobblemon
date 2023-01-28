@@ -1,5 +1,5 @@
 {
-  "name": "yveltal",
+  "name": "Yveltal",
   "nationalPokedexNumber": 717,
   "primaryType": "dark",
   "secondaryType": "flying",
@@ -131,5 +131,6 @@
   },
   "height": 58,
   "weight": 2030,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

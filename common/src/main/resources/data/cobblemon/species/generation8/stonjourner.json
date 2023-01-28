@@ -1,5 +1,5 @@
 {
-  "name": "stonjourner",
+  "name": "Stonjourner",
   "nationalPokedexNumber": 874,
   "primaryType": "rock",
   "abilities": [
@@ -105,5 +105,6 @@
   },
   "height": 25,
   "weight": 5200,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

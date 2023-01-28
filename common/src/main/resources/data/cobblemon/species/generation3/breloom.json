@@ -1,5 +1,5 @@
 {
-  "name": "breloom",
+  "name": "Breloom",
   "nationalPokedexNumber": 286,
   "primaryType": "grass",
   "secondaryType": "fighting",
@@ -157,5 +157,6 @@
   },
   "height": 12,
   "weight": 392,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "barbaracle",
+  "name": "Barbaracle",
   "nationalPokedexNumber": 689,
   "primaryType": "rock",
   "secondaryType": "water",
@@ -153,5 +153,6 @@
   },
   "height": 13,
   "weight": 960,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

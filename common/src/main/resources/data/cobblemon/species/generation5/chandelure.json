@@ -1,5 +1,5 @@
 {
-  "name": "chandelure",
+  "name": "Chandelure",
   "nationalPokedexNumber": 609,
   "primaryType": "ghost",
   "secondaryType": "fire",
@@ -125,5 +125,6 @@
   },
   "height": 10,
   "weight": 343,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

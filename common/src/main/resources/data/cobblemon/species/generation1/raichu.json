@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "raichu",
+  "name": "Raichu",
   "nationalPokedexNumber": 26,
   "primaryType": "electric",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "electric",
       "secondaryType": "psychic",
       "abilities": [

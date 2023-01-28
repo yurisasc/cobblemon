@@ -1,5 +1,5 @@
 {
-  "name": "probopass",
+  "name": "Probopass",
   "nationalPokedexNumber": 476,
   "primaryType": "rock",
   "secondaryType": "steel",
@@ -135,5 +135,6 @@
   },
   "height": 14,
   "weight": 3400,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

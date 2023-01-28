@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "beedrill",
+  "name": "Beedrill",
   "nationalPokedexNumber": 15,
   "primaryType": "bug",
   "secondaryType": "poison",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "bug",
       "secondaryType": "poison",
       "abilities": [

@@ -1,5 +1,5 @@
 {
-  "name": "forretress",
+  "name": "Forretress",
   "nationalPokedexNumber": 205,
   "primaryType": "bug",
   "secondaryType": "steel",
@@ -159,5 +159,6 @@
   },
   "height": 12,
   "weight": 1258,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

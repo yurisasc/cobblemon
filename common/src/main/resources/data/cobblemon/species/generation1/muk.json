@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "muk",
+  "name": "Muk",
   "nationalPokedexNumber": 89,
   "primaryType": "poison",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "poison",
       "secondaryType": "dark",
       "abilities": [

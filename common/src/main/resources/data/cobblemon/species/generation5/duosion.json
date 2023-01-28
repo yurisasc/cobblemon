@@ -1,5 +1,5 @@
 {
-  "name": "duosion",
+  "name": "Duosion",
   "nationalPokedexNumber": 578,
   "primaryType": "psychic",
   "abilities": [
@@ -152,5 +152,6 @@
   },
   "height": 6,
   "weight": 80,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

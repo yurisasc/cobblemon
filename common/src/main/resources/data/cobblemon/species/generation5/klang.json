@@ -1,5 +1,5 @@
 {
-  "name": "klang",
+  "name": "Klang",
   "nationalPokedexNumber": 600,
   "primaryType": "steel",
   "abilities": [
@@ -122,5 +122,6 @@
   },
   "height": 6,
   "weight": 510,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

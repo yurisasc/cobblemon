@@ -1,5 +1,5 @@
 {
-  "name": "mightyena",
+  "name": "Mightyena",
   "nationalPokedexNumber": 262,
   "primaryType": "dark",
   "abilities": [
@@ -131,5 +131,6 @@
   },
   "height": 10,
   "weight": 370,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

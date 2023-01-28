@@ -1,5 +1,5 @@
 {
-  "name": "mothim",
+  "name": "Mothim",
   "nationalPokedexNumber": 414,
   "primaryType": "bug",
   "secondaryType": "flying",
@@ -119,5 +119,6 @@
   },
   "height": 9,
   "weight": 233,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

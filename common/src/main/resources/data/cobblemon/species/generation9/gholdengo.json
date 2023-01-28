@@ -1,5 +1,5 @@
 {
-  "name": "gholdengo",
+  "name": "Gholdengo",
   "nationalPokedexNumber": 1000,
   "primaryType": "steel",
   "secondaryType": "ghost",
@@ -89,5 +89,6 @@
   "height": 12,
   "weight": 300,
   "preEvolution": "gimmighoul",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

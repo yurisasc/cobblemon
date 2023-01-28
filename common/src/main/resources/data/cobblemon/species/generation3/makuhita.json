@@ -1,5 +1,5 @@
 {
-  "name": "makuhita",
+  "name": "Makuhita",
   "nationalPokedexNumber": 296,
   "primaryType": "fighting",
   "abilities": [
@@ -170,5 +170,6 @@
   },
   "height": 10,
   "weight": 864,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

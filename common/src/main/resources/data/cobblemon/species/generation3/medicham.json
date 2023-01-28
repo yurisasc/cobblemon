@@ -1,5 +1,5 @@
 {
-  "name": "medicham",
+  "name": "Medicham",
   "nationalPokedexNumber": 308,
   "primaryType": "fighting",
   "secondaryType": "psychic",
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "fighting",
       "secondaryType": "psychic",
       "abilities": [
@@ -62,6 +62,7 @@
       "height": 13,
       "weight": 315,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -213,5 +214,6 @@
   },
   "height": 13,
   "weight": 315,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

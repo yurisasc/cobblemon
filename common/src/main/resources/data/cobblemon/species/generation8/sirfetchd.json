@@ -1,5 +1,5 @@
 {
-  "name": "sirfetchd",
+  "name": "Sirfetch’d",
   "nationalPokedexNumber": 865,
   "primaryType": "fighting",
   "abilities": [
@@ -105,5 +105,6 @@
   },
   "height": 8,
   "weight": 1170,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

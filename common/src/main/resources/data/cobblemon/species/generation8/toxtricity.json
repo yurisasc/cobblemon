@@ -1,5 +1,5 @@
 {
-  "name": "toxtricity",
+  "name": "Toxtricity",
   "nationalPokedexNumber": 849,
   "primaryType": "electric",
   "secondaryType": "poison",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "lowkey",
+      "name": "Low-Key",
       "primaryType": "electric",
       "secondaryType": "poison",
       "abilities": [
@@ -147,10 +147,11 @@
       "weight": 400,
       "preEvolution": "toxel",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "electric",
       "secondaryType": "poison",
       "abilities": [
@@ -194,10 +195,11 @@
       "height": 240,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "lowkeygmax",
+      "name": "Low-Key-Gmax",
       "primaryType": "electric",
       "secondaryType": "poison",
       "abilities": [
@@ -241,6 +243,7 @@
       "height": 240,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -359,5 +362,6 @@
   },
   "height": 16,
   "weight": 400,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

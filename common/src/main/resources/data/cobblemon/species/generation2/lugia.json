@@ -1,5 +1,5 @@
 {
-  "name": "lugia",
+  "name": "Lugia",
   "nationalPokedexNumber": 249,
   "primaryType": "psychic",
   "secondaryType": "flying",
@@ -185,5 +185,6 @@
   },
   "height": 52,
   "weight": 2160,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

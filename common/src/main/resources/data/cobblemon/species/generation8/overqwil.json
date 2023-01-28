@@ -1,5 +1,5 @@
 {
-  "name": "overqwil",
+  "name": "Overqwil",
   "nationalPokedexNumber": 904,
   "primaryType": "dark",
   "secondaryType": "poison",
@@ -100,5 +100,6 @@
   "weight": 39,
   "preEvolution": "qwilfish form=hisui",
   "evolutions": [],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "trevenant",
+  "name": "Trevenant",
   "nationalPokedexNumber": 709,
   "primaryType": "ghost",
   "secondaryType": "grass",
@@ -141,5 +141,6 @@
   },
   "height": 15,
   "weight": 710,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

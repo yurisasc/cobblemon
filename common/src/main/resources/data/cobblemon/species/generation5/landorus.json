@@ -1,5 +1,5 @@
 {
-  "name": "landorus",
+  "name": "Landorus",
   "nationalPokedexNumber": 645,
   "primaryType": "ground",
   "secondaryType": "flying",
@@ -135,7 +135,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "therian",
+      "name": "Therian",
       "primaryType": "ground",
       "secondaryType": "flying",
       "abilities": [
@@ -177,8 +177,10 @@
       "height": 13,
       "weight": 680,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

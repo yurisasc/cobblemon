@@ -1,5 +1,5 @@
 {
-  "name": "skarmory",
+  "name": "Skarmory",
   "nationalPokedexNumber": 227,
   "primaryType": "steel",
   "secondaryType": "flying",
@@ -147,5 +147,6 @@
   },
   "height": 17,
   "weight": 505,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

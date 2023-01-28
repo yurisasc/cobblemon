@@ -1,5 +1,5 @@
 {
-  "name": "rufflet",
+  "name": "Rufflet",
   "nationalPokedexNumber": 627,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -153,5 +153,6 @@
   },
   "height": 5,
   "weight": 105,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

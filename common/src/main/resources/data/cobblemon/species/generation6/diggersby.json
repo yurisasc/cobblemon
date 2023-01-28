@@ -1,5 +1,5 @@
 {
-  "name": "diggersby",
+  "name": "Diggersby",
   "nationalPokedexNumber": 660,
   "primaryType": "normal",
   "secondaryType": "ground",
@@ -147,5 +147,6 @@
   },
   "height": 10,
   "weight": 424,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

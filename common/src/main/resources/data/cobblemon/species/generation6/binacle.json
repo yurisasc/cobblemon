@@ -1,5 +1,5 @@
 {
-  "name": "binacle",
+  "name": "Binacle",
   "nationalPokedexNumber": 688,
   "primaryType": "rock",
   "secondaryType": "water",
@@ -153,5 +153,6 @@
   },
   "height": 5,
   "weight": 310,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

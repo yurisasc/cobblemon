@@ -1,5 +1,5 @@
 {
-  "name": "marshadow",
+  "name": "Marshadow",
   "nationalPokedexNumber": 802,
   "primaryType": "fighting",
   "secondaryType": "ghost",
@@ -146,5 +146,6 @@
   },
   "height": 7,
   "weight": 222,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

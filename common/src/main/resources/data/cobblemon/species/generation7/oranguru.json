@@ -1,5 +1,5 @@
 {
-  "name": "oranguru",
+  "name": "Oranguru",
   "nationalPokedexNumber": 765,
   "primaryType": "normal",
   "secondaryType": "psychic",
@@ -149,5 +149,6 @@
   },
   "height": 15,
   "weight": 760,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

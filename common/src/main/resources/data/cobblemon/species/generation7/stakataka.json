@@ -1,5 +1,5 @@
 {
-  "name": "stakataka",
+  "name": "Stakataka",
   "nationalPokedexNumber": 805,
   "primaryType": "rock",
   "secondaryType": "steel",
@@ -127,5 +127,6 @@
   },
   "height": 55,
   "weight": 8200,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

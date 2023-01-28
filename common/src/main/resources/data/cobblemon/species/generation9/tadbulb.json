@@ -1,5 +1,5 @@
 {
-  "name": "tadbulb",
+  "name": "Tadbulb",
   "nationalPokedexNumber": 938,
   "primaryType": "electric",
   "abilities": [
@@ -92,5 +92,6 @@
       "requirements": [],
       "requiredContext": "cobblemon:thunder_stone"
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

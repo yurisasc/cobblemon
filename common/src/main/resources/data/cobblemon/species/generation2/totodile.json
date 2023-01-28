@@ -1,5 +1,5 @@
 {
-  "name": "totodile",
+  "name": "Totodile",
   "nationalPokedexNumber": 158,
   "primaryType": "water",
   "abilities": [
@@ -192,5 +192,6 @@
   },
   "height": 6,
   "weight": 95,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

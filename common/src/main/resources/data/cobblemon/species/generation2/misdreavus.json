@@ -1,5 +1,5 @@
 {
-  "name": "misdreavus",
+  "name": "Misdreavus",
   "nationalPokedexNumber": 200,
   "primaryType": "ghost",
   "abilities": [
@@ -179,5 +179,6 @@
   },
   "height": 7,
   "weight": 10,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

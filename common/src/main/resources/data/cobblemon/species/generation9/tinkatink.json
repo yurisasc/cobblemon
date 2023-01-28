@@ -1,5 +1,5 @@
 {
-  "name": "tinkatink",
+  "name": "Tinkatink",
   "nationalPokedexNumber": 957,
   "primaryType": "fairy",
   "secondaryType": "steel",
@@ -103,5 +103,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

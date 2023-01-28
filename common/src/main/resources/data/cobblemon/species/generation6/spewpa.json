@@ -1,5 +1,5 @@
 {
-  "name": "spewpa",
+  "name": "Spewpa",
   "nationalPokedexNumber": 665,
   "primaryType": "bug",
   "abilities": [
@@ -90,5 +90,6 @@
   },
   "height": 3,
   "weight": 84,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

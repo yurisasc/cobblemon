@@ -1,5 +1,5 @@
 {
-  "name": "houndstone",
+  "name": "Houndstone",
   "nationalPokedexNumber": 972,
   "primaryType": "ghost",
   "abilities": [
@@ -92,5 +92,6 @@
   "height": 20,
   "weight": 150,
   "preEvolution": "greavard",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

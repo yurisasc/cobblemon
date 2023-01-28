@@ -1,5 +1,5 @@
 {
-  "name": "palkia",
+  "name": "Palkia",
   "nationalPokedexNumber": 484,
   "primaryType": "water",
   "secondaryType": "dragon",
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "origin",
+      "name": "Origin",
       "primaryType": "water",
       "secondaryType": "dragon",
       "abilities": [
@@ -63,6 +63,7 @@
       "height": 63,
       "weight": 6600,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -205,5 +206,6 @@
   },
   "height": 42,
   "weight": 3360,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

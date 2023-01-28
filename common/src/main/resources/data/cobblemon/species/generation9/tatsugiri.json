@@ -1,5 +1,5 @@
 {
-  "name": "tatsugiri",
+  "name": "Tatsugiri",
   "nationalPokedexNumber": 978,
   "primaryType": "dragon",
   "secondaryType": "water",
@@ -83,5 +83,6 @@
   "aspects": [],
   "height": 3,
   "weight": 80,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

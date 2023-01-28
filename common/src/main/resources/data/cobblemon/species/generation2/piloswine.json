@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "piloswine",
+  "name": "Piloswine",
   "nationalPokedexNumber": 221,
   "primaryType": "ice",
   "secondaryType": "ground",
@@ -164,5 +164,6 @@
   },
   "height": 11,
   "weight": 558,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

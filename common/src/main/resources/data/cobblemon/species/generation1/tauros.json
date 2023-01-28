@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "tauros",
+  "name": "Tauros",
   "nationalPokedexNumber": 128,
   "primaryType": "normal",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "paldeacombat",
+      "name": "Paldea-Combat",
       "primaryType": "fighting",
       "abilities": [
         "intimidate",
@@ -119,7 +119,7 @@
       "battleOnly": false
     },
     {
-      "name": "paldeablaze",
+      "name": "Paldea-Blaze",
       "primaryType": "fighting",
       "secondaryType": "fire",
       "abilities": [
@@ -224,7 +224,7 @@
       "battleOnly": false
     },
     {
-      "name": "paldeaaqua",
+      "name": "Paldea-Aqua",
       "primaryType": "fighting",
       "secondaryType": "water",
       "abilities": [

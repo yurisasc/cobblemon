@@ -1,5 +1,5 @@
 {
-  "name": "swadloon",
+  "name": "Swadloon",
   "nationalPokedexNumber": 541,
   "primaryType": "bug",
   "secondaryType": "grass",
@@ -111,5 +111,6 @@
   },
   "height": 5,
   "weight": 73,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

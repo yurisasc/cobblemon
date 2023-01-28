@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "marowak",
+  "name": "Marowak",
   "nationalPokedexNumber": 105,
   "primaryType": "ground",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "fire",
       "secondaryType": "ghost",
       "abilities": [
@@ -207,7 +207,7 @@
       "battleOnly": false
     },
     {
-      "name": "alolatotem",
+      "name": "Alola-Totem",
       "primaryType": "fire",
       "secondaryType": "ghost",
       "abilities": [

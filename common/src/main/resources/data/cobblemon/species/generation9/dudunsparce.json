@@ -1,5 +1,5 @@
 {
-  "name": "dudunsparce",
+  "name": "Dudunsparce",
   "nationalPokedexNumber": 982,
   "primaryType": "normal",
   "abilities": [
@@ -118,9 +118,10 @@
   "weight": 392,
   "preEvolution": "dunsparce",
   "evolutions": [],
+  "cannotDynamax": false,
   "forms": [
     {
-      "name": "threesegment",
+      "name": "Three-Segment",
       "primaryType": "normal",
       "abilities": [
         "serenegrace",
@@ -163,6 +164,7 @@
       "weight": 474,
       "preEvolution": "dunsparce",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ]

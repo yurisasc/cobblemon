@@ -1,5 +1,5 @@
 {
-  "name": "croconaw",
+  "name": "Croconaw",
   "nationalPokedexNumber": 159,
   "primaryType": "water",
   "abilities": [
@@ -179,5 +179,6 @@
   },
   "height": 11,
   "weight": 250,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

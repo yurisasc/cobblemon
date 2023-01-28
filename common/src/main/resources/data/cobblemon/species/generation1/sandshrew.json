@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "sandshrew",
+  "name": "Sandshrew",
   "nationalPokedexNumber": 27,
   "primaryType": "ground",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "ice",
       "secondaryType": "steel",
       "abilities": [

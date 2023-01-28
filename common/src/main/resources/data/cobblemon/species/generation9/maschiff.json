@@ -1,5 +1,5 @@
 {
-  "name": "maschiff",
+  "name": "Maschiff",
   "nationalPokedexNumber": 942,
   "primaryType": "dark",
   "abilities": [
@@ -103,5 +103,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

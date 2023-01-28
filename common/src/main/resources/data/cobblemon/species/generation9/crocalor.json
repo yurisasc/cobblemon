@@ -1,5 +1,5 @@
 {
-  "name": "crocalor",
+  "name": "Crocalor",
   "nationalPokedexNumber": 910,
   "primaryType": "fire",
   "abilities": [
@@ -102,5 +102,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

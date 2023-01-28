@@ -1,5 +1,5 @@
 {
-  "name": "regigigas",
+  "name": "Regigigas",
   "nationalPokedexNumber": 486,
   "primaryType": "normal",
   "abilities": [
@@ -145,5 +145,6 @@
   },
   "height": 37,
   "weight": 4200,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

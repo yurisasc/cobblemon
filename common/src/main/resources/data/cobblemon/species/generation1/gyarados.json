@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "gyarados",
+  "name": "Gyarados",
   "nationalPokedexNumber": 130,
   "primaryType": "water",
   "secondaryType": "flying",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "water",
       "secondaryType": "dark",
       "abilities": [

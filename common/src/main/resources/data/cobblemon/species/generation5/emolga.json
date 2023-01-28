@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "emolga",
+  "name": "Emolga",
   "nationalPokedexNumber": 587,
   "primaryType": "electric",
   "secondaryType": "flying",
@@ -131,5 +131,6 @@
   },
   "height": 4,
   "weight": 50,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

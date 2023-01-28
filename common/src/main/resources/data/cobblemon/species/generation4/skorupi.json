@@ -1,5 +1,5 @@
 {
-  "name": "skorupi",
+  "name": "Skorupi",
   "nationalPokedexNumber": 451,
   "primaryType": "poison",
   "secondaryType": "bug",
@@ -152,5 +152,6 @@
   },
   "height": 8,
   "weight": 120,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

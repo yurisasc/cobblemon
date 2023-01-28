@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "mewtwo",
+  "name": "Mewtwo",
   "nationalPokedexNumber": 150,
   "primaryType": "psychic",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "megax",
+      "name": "Mega-X",
       "primaryType": "psychic",
       "secondaryType": "fighting",
       "abilities": [
@@ -66,7 +66,7 @@
       "battleOnly": true
     },
     {
-      "name": "megay",
+      "name": "Mega-Y",
       "primaryType": "psychic",
       "abilities": [
         "insomnia"

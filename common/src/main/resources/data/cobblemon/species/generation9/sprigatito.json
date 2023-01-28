@@ -1,5 +1,5 @@
 {
-  "name": "sprigatito",
+  "name": "Sprigatito",
   "nationalPokedexNumber": 906,
   "primaryType": "grass",
   "abilities": [
@@ -104,5 +104,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

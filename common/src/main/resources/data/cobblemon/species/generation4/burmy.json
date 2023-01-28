@@ -1,5 +1,5 @@
 {
-  "name": "burmy",
+  "name": "Burmy",
   "nationalPokedexNumber": 412,
   "primaryType": "bug",
   "abilities": [
@@ -113,5 +113,6 @@
   },
   "height": 2,
   "weight": 34,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

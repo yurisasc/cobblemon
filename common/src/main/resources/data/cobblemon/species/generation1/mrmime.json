@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "mrmime",
+  "name": "Mr. Mime",
   "nationalPokedexNumber": 122,
   "primaryType": "psychic",
   "secondaryType": "fairy",
@@ -22,7 +22,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "ice",
       "secondaryType": "psychic",
       "abilities": [

@@ -1,5 +1,5 @@
 {
-  "name": "shelgon",
+  "name": "Shelgon",
   "nationalPokedexNumber": 372,
   "primaryType": "dragon",
   "abilities": [
@@ -141,5 +141,6 @@
   },
   "height": 11,
   "weight": 1105,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

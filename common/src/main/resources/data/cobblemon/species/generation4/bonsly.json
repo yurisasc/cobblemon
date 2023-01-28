@@ -1,5 +1,5 @@
 {
-  "name": "bonsly",
+  "name": "Bonsly",
   "nationalPokedexNumber": 438,
   "primaryType": "rock",
   "abilities": [
@@ -144,5 +144,6 @@
   },
   "height": 5,
   "weight": 150,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

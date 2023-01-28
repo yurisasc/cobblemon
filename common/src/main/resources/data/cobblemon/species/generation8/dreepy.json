@@ -1,5 +1,5 @@
 {
-  "name": "dreepy",
+  "name": "Dreepy",
   "nationalPokedexNumber": 885,
   "primaryType": "dragon",
   "secondaryType": "ghost",
@@ -97,5 +97,6 @@
   },
   "height": 5,
   "weight": 20,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

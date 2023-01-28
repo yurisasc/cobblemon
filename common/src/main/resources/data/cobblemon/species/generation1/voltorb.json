@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "voltorb",
+  "name": "Voltorb",
   "nationalPokedexNumber": 100,
   "primaryType": "electric",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "electric",
       "secondaryType": "grass",
       "abilities": [

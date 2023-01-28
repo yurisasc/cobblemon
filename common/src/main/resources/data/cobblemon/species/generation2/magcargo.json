@@ -1,5 +1,5 @@
 {
-  "name": "magcargo",
+  "name": "Magcargo",
   "nationalPokedexNumber": 219,
   "primaryType": "fire",
   "secondaryType": "rock",
@@ -152,5 +152,6 @@
   },
   "height": 8,
   "weight": 550,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

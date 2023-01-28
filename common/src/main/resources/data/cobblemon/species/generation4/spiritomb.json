@@ -1,5 +1,5 @@
 {
-  "name": "spiritomb",
+  "name": "Spiritomb",
   "nationalPokedexNumber": 442,
   "primaryType": "ghost",
   "secondaryType": "dark",
@@ -142,5 +142,6 @@
   },
   "height": 10,
   "weight": 1080,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "golurk",
+  "name": "Golurk",
   "nationalPokedexNumber": 623,
   "primaryType": "ground",
   "secondaryType": "ghost",
@@ -154,5 +154,6 @@
   },
   "height": 28,
   "weight": 3300,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

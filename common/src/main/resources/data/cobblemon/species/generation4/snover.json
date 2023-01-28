@@ -1,5 +1,5 @@
 {
-  "name": "snover",
+  "name": "Snover",
   "nationalPokedexNumber": 459,
   "primaryType": "grass",
   "secondaryType": "ice",
@@ -143,5 +143,6 @@
   },
   "height": 10,
   "weight": 505,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

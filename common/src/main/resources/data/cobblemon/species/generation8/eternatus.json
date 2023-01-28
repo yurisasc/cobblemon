@@ -1,5 +1,5 @@
 {
-  "name": "eternatus",
+  "name": "Eternatus",
   "nationalPokedexNumber": 890,
   "primaryType": "poison",
   "secondaryType": "dragon",
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "eternamax",
+      "name": "Eternamax",
       "primaryType": "poison",
       "secondaryType": "dragon",
       "abilities": [
@@ -61,6 +61,7 @@
       "height": 1000,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": true,
       "battleOnly": false
     }
   ],
@@ -162,5 +163,6 @@
   "height": 200,
   "weight": 9500,
   "dynamaxBlocked": true,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": true
 }

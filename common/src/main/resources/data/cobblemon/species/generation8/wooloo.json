@@ -1,5 +1,5 @@
 {
-  "name": "wooloo",
+  "name": "Wooloo",
   "nationalPokedexNumber": 831,
   "primaryType": "normal",
   "abilities": [
@@ -97,5 +97,6 @@
   },
   "height": 6,
   "weight": 60,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

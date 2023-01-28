@@ -1,5 +1,5 @@
 {
-  "name": "swirlix",
+  "name": "Swirlix",
   "nationalPokedexNumber": 684,
   "primaryType": "fairy",
   "abilities": [
@@ -127,5 +127,6 @@
   },
   "height": 4,
   "weight": 35,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

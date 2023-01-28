@@ -1,5 +1,5 @@
 {
-  "name": "vullaby",
+  "name": "Vullaby",
   "nationalPokedexNumber": 629,
   "primaryType": "dark",
   "secondaryType": "flying",
@@ -140,5 +140,6 @@
   },
   "height": 5,
   "weight": 90,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "lokix",
+  "name": "Lokix",
   "nationalPokedexNumber": 920,
   "primaryType": "bug",
   "secondaryType": "dark",
@@ -89,5 +89,6 @@
   "height": 10,
   "weight": 175,
   "preEvolution": "nymble",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

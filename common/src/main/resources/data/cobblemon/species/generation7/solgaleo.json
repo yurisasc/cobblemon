@@ -1,5 +1,5 @@
 {
-  "name": "solgaleo",
+  "name": "Solgaleo",
   "nationalPokedexNumber": 791,
   "primaryType": "psychic",
   "secondaryType": "steel",
@@ -147,5 +147,6 @@
   },
   "height": 34,
   "weight": 2300,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

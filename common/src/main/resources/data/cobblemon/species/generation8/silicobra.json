@@ -1,5 +1,5 @@
 {
-  "name": "silicobra",
+  "name": "Silicobra",
   "nationalPokedexNumber": 843,
   "primaryType": "ground",
   "abilities": [
@@ -114,5 +114,6 @@
   },
   "height": 22,
   "weight": 76,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

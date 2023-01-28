@@ -1,5 +1,5 @@
 {
-  "name": "charcadet",
+  "name": "Charcadet",
   "nationalPokedexNumber": 935,
   "primaryType": "fire",
   "abilities": [
@@ -94,5 +94,6 @@
       "requirements": [],
       "requiredContext": "cobblemon:malicious_armor"
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "deerling",
+  "name": "Deerling",
   "nationalPokedexNumber": 585,
   "primaryType": "normal",
   "secondaryType": "grass",
@@ -160,5 +160,6 @@
   },
   "height": 6,
   "weight": 195,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

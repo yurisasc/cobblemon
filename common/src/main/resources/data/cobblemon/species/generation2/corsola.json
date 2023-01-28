@@ -1,5 +1,5 @@
 {
-  "name": "corsola",
+  "name": "Corsola",
   "nationalPokedexNumber": 222,
   "primaryType": "water",
   "secondaryType": "rock",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "ghost",
       "abilities": [
         "weakarmor",
@@ -152,6 +152,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -296,5 +297,6 @@
   },
   "height": 6,
   "weight": 50,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

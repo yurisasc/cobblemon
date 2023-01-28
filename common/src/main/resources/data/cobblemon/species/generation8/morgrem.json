@@ -1,5 +1,5 @@
 {
-  "name": "morgrem",
+  "name": "Morgrem",
   "nationalPokedexNumber": 860,
   "primaryType": "dark",
   "secondaryType": "fairy",
@@ -126,5 +126,6 @@
   },
   "height": 8,
   "weight": 125,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

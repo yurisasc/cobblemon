@@ -1,5 +1,5 @@
 {
-  "name": "manectric",
+  "name": "Manectric",
   "nationalPokedexNumber": 310,
   "primaryType": "electric",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "electric",
       "abilities": [
         "intimidate"
@@ -61,6 +61,7 @@
       "height": 18,
       "weight": 440,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -174,5 +175,6 @@
   },
   "height": 15,
   "weight": 402,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

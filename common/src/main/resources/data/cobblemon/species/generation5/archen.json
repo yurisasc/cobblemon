@@ -1,5 +1,5 @@
 {
-  "name": "archen",
+  "name": "Archen",
   "nationalPokedexNumber": 566,
   "primaryType": "rock",
   "secondaryType": "flying",
@@ -146,5 +146,6 @@
   },
   "height": 5,
   "weight": 95,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

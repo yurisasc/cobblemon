@@ -1,5 +1,5 @@
 {
-  "name": "combee",
+  "name": "Combee",
   "nationalPokedexNumber": 415,
   "primaryType": "bug",
   "secondaryType": "flying",
@@ -84,5 +84,6 @@
   },
   "height": 3,
   "weight": 55,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

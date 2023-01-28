@@ -1,5 +1,5 @@
 {
-  "name": "froslass",
+  "name": "Froslass",
   "nationalPokedexNumber": 478,
   "primaryType": "ice",
   "secondaryType": "ghost",
@@ -156,5 +156,6 @@
   },
   "height": 13,
   "weight": 266,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

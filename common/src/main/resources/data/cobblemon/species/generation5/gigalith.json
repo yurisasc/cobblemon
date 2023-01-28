@@ -1,5 +1,5 @@
 {
-  "name": "gigalith",
+  "name": "Gigalith",
   "nationalPokedexNumber": 526,
   "primaryType": "rock",
   "abilities": [
@@ -115,5 +115,6 @@
   },
   "height": 17,
   "weight": 2600,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

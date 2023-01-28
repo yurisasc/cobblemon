@@ -1,5 +1,5 @@
 {
-  "name": "amaura",
+  "name": "Amaura",
   "nationalPokedexNumber": 698,
   "primaryType": "rock",
   "secondaryType": "ice",
@@ -157,5 +157,6 @@
   },
   "height": 13,
   "weight": 252,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

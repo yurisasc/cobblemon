@@ -1,5 +1,5 @@
 {
-  "name": "hippopotas",
+  "name": "Hippopotas",
   "nationalPokedexNumber": 449,
   "primaryType": "ground",
   "abilities": [
@@ -137,5 +137,6 @@
   },
   "height": 8,
   "weight": 495,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

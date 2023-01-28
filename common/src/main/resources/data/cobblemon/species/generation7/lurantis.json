@@ -1,5 +1,5 @@
 {
-  "name": "lurantis",
+  "name": "Lurantis",
   "nationalPokedexNumber": 754,
   "primaryType": "grass",
   "abilities": [
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "totem",
+      "name": "Totem",
       "primaryType": "grass",
       "abilities": [
         "leafguard"
@@ -123,6 +123,7 @@
       "height": 15,
       "weight": 580,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -232,5 +233,6 @@
   },
   "height": 9,
   "weight": 185,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

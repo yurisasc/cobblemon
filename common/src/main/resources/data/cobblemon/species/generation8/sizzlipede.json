@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "sizzlipede",
+  "name": "Sizzlipede",
   "nationalPokedexNumber": 850,
   "primaryType": "fire",
   "secondaryType": "bug",
@@ -114,5 +114,6 @@
   },
   "height": 7,
   "weight": 10,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

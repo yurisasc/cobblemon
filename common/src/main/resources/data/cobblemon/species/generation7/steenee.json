@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "steenee",
+  "name": "Steenee",
   "nationalPokedexNumber": 762,
   "primaryType": "grass",
   "abilities": [
@@ -135,5 +135,6 @@
   },
   "height": 7,
   "weight": 82,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

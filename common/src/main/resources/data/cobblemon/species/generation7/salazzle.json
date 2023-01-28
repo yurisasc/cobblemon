@@ -1,5 +1,5 @@
 {
-  "name": "salazzle",
+  "name": "Salazzle",
   "nationalPokedexNumber": 758,
   "primaryType": "poison",
   "secondaryType": "fire",
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "totem",
+      "name": "Totem",
       "primaryType": "poison",
       "secondaryType": "fire",
       "abilities": [
@@ -131,6 +131,7 @@
       "height": 21,
       "weight": 810,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -264,5 +265,6 @@
   },
   "height": 12,
   "weight": 222,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "solrock",
+  "name": "Solrock",
   "nationalPokedexNumber": 338,
   "primaryType": "rock",
   "secondaryType": "psychic",
@@ -158,5 +158,6 @@
   },
   "height": 12,
   "weight": 1540,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

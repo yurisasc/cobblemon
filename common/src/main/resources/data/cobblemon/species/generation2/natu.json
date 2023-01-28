@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "natu",
+  "name": "Natu",
   "nationalPokedexNumber": 177,
   "primaryType": "psychic",
   "secondaryType": "flying",
@@ -183,5 +183,6 @@
   },
   "height": 2,
   "weight": 20,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

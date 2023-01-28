@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "blastoise",
+  "name": "Blastoise",
   "nationalPokedexNumber": 9,
   "primaryType": "water",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "water",
       "abilities": [
         "megalauncher"
@@ -65,7 +65,7 @@
       "battleOnly": true
     },
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "water",
       "abilities": [
         "torrent",

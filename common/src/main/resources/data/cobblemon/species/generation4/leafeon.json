@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "leafeon",
+  "name": "Leafeon",
   "nationalPokedexNumber": 470,
   "primaryType": "grass",
   "abilities": [
@@ -147,5 +147,6 @@
   },
   "height": 10,
   "weight": 255,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

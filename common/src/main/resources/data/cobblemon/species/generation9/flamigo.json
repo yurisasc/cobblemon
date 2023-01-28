@@ -1,5 +1,5 @@
 {
-  "name": "flamigo",
+  "name": "Flamigo",
   "nationalPokedexNumber": 973,
   "primaryType": "flying",
   "secondaryType": "fighting",
@@ -92,5 +92,6 @@
   "aspects": [],
   "height": 16,
   "weight": 370,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

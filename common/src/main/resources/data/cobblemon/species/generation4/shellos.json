@@ -1,5 +1,5 @@
 {
-  "name": "shellos",
+  "name": "Shellos",
   "nationalPokedexNumber": 422,
   "primaryType": "water",
   "abilities": [
@@ -147,5 +147,6 @@
   },
   "height": 3,
   "weight": 63,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

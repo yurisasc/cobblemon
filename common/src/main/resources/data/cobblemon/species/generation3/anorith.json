@@ -1,5 +1,5 @@
 {
-  "name": "anorith",
+  "name": "Anorith",
   "nationalPokedexNumber": 347,
   "primaryType": "rock",
   "secondaryType": "bug",
@@ -135,5 +135,6 @@
   },
   "height": 7,
   "weight": 125,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

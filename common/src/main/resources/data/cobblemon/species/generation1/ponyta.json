@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "ponyta",
+  "name": "Ponyta",
   "nationalPokedexNumber": 77,
   "primaryType": "fire",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "psychic",
       "abilities": [
         "runaway",

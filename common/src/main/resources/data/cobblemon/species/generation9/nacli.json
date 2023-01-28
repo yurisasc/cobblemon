@@ -1,5 +1,5 @@
 {
-  "name": "nacli",
+  "name": "Nacli",
   "nationalPokedexNumber": 932,
   "primaryType": "rock",
   "abilities": [
@@ -102,5 +102,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

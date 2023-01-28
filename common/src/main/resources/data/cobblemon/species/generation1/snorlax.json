@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "snorlax",
+  "name": "Snorlax",
   "nationalPokedexNumber": 143,
   "primaryType": "normal",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "normal",
       "abilities": [
         "immunity",

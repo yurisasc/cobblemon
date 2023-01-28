@@ -1,5 +1,5 @@
 {
-  "name": "wynaut",
+  "name": "Wynaut",
   "nationalPokedexNumber": 360,
   "primaryType": "psychic",
   "abilities": [
@@ -78,5 +78,6 @@
   },
   "height": 6,
   "weight": 140,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

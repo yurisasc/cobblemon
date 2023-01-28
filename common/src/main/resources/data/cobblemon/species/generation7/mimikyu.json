@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "mimikyu",
+  "name": "Mimikyu",
   "nationalPokedexNumber": 778,
   "primaryType": "ghost",
   "secondaryType": "fairy",
@@ -144,7 +144,7 @@
   "weight": 7,
   "forms": [
     {
-      "name": "busted",
+      "name": "Busted",
       "primaryType": "ghost",
       "secondaryType": "fairy",
       "abilities": [
@@ -185,10 +185,11 @@
       "height": 2,
       "weight": 7,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     },
     {
-      "name": "totem",
+      "name": "Totem",
       "primaryType": "ghost",
       "secondaryType": "fairy",
       "abilities": [
@@ -304,10 +305,11 @@
       "height": 4,
       "weight": 28,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "bustedtotem",
+      "name": "Busted-Totem",
       "primaryType": "ghost",
       "secondaryType": "fairy",
       "abilities": [
@@ -349,8 +351,10 @@
       "height": 4,
       "weight": 28,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

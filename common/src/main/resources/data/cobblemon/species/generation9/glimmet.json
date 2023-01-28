@@ -1,5 +1,5 @@
 {
-  "name": "glimmet",
+  "name": "Glimmet",
   "nationalPokedexNumber": 969,
   "primaryType": "rock",
   "secondaryType": "poison",
@@ -101,5 +101,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

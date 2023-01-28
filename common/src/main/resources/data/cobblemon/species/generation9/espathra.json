@@ -1,5 +1,5 @@
 {
-  "name": "espathra",
+  "name": "Espathra",
   "nationalPokedexNumber": 956,
   "primaryType": "psychic",
   "abilities": [
@@ -104,5 +104,6 @@
   "height": 19,
   "weight": 900,
   "preEvolution": "flittle",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

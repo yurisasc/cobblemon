@@ -1,5 +1,5 @@
 {
-  "name": "boltund",
+  "name": "Boltund",
   "nationalPokedexNumber": 836,
   "primaryType": "electric",
   "abilities": [
@@ -99,5 +99,6 @@
   },
   "height": 10,
   "weight": 340,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

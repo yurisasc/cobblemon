@@ -1,5 +1,5 @@
 {
-  "name": "garchomp",
+  "name": "Garchomp",
   "nationalPokedexNumber": 445,
   "primaryType": "dragon",
   "secondaryType": "ground",
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "dragon",
       "secondaryType": "ground",
       "abilities": [
@@ -64,6 +64,7 @@
       "height": 19,
       "weight": 950,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -199,5 +200,6 @@
   },
   "height": 19,
   "weight": 950,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

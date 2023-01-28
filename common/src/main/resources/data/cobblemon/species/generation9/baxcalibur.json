@@ -1,5 +1,5 @@
 {
-  "name": "baxcalibur",
+  "name": "Baxcalibur",
   "nationalPokedexNumber": 998,
   "primaryType": "dragon",
   "secondaryType": "ice",
@@ -98,5 +98,6 @@
   "height": 21,
   "weight": 2100,
   "preEvolution": "arctibax",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

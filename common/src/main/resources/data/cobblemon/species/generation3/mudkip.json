@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "mudkip",
+  "name": "Mudkip",
   "nationalPokedexNumber": 258,
   "primaryType": "water",
   "abilities": [
@@ -170,5 +170,6 @@
   },
   "height": 4,
   "weight": 76,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

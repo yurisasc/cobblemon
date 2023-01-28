@@ -1,5 +1,5 @@
 {
-  "name": "urshifu",
+  "name": "Urshifu",
   "nationalPokedexNumber": 892,
   "primaryType": "fighting",
   "secondaryType": "dark",
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "rapidstrike",
+      "name": "Rapid-Strike",
       "primaryType": "fighting",
       "secondaryType": "water",
       "abilities": [
@@ -140,10 +140,11 @@
       "weight": 1050,
       "preEvolution": "kubfu",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "fighting",
       "secondaryType": "dark",
       "abilities": [
@@ -186,10 +187,11 @@
       "height": 30,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "rapidstrikegmax",
+      "name": "Rapid-Strike-Gmax",
       "primaryType": "fighting",
       "secondaryType": "water",
       "abilities": [
@@ -232,6 +234,7 @@
       "height": 19,
       "weight": 1050,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -349,5 +352,6 @@
   },
   "height": 19,
   "weight": 1050,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

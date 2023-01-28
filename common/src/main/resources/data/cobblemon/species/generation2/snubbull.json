@@ -1,5 +1,5 @@
 {
-  "name": "snubbull",
+  "name": "Snubbull",
   "nationalPokedexNumber": 209,
   "primaryType": "fairy",
   "abilities": [
@@ -208,5 +208,6 @@
   },
   "height": 6,
   "weight": 78,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

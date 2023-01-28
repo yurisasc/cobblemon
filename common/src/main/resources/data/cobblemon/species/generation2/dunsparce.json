@@ -1,5 +1,5 @@
 {
-  "name": "dunsparce",
+  "name": "Dunsparce",
   "nationalPokedexNumber": 206,
   "primaryType": "normal",
   "abilities": [
@@ -206,5 +206,6 @@
   },
   "height": 15,
   "weight": 140,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

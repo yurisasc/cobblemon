@@ -1,5 +1,5 @@
 {
-  "name": "reuniclus",
+  "name": "Reuniclus",
   "nationalPokedexNumber": 579,
   "primaryType": "psychic",
   "abilities": [
@@ -154,5 +154,6 @@
   },
   "height": 10,
   "weight": 201,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

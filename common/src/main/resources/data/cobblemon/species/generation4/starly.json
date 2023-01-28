@@ -1,5 +1,5 @@
 {
-  "name": "starly",
+  "name": "Starly",
   "nationalPokedexNumber": 396,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -135,5 +135,6 @@
   },
   "height": 3,
   "weight": 20,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

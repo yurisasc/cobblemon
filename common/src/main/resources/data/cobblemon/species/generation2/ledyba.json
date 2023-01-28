@@ -1,5 +1,5 @@
 {
-  "name": "ledyba",
+  "name": "Ledyba",
   "nationalPokedexNumber": 165,
   "primaryType": "bug",
   "secondaryType": "flying",
@@ -180,5 +180,6 @@
   },
   "height": 10,
   "weight": 108,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

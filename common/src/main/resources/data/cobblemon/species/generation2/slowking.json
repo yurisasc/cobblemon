@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "slowking",
+  "name": "Slowking",
   "nationalPokedexNumber": 199,
   "primaryType": "water",
   "secondaryType": "psychic",
@@ -22,7 +22,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "poison",
       "secondaryType": "psychic",
       "abilities": [
@@ -183,6 +183,7 @@
       "weight": 795,
       "preEvolution": "slowpoke form=galar",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -377,5 +378,6 @@
   },
   "height": 20,
   "weight": 795,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "crawdaunt",
+  "name": "Crawdaunt",
   "nationalPokedexNumber": 342,
   "primaryType": "water",
   "secondaryType": "dark",
@@ -147,5 +147,6 @@
   },
   "height": 11,
   "weight": 328,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

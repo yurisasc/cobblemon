@@ -1,5 +1,5 @@
 {
-  "name": "delcatty",
+  "name": "Delcatty",
   "nationalPokedexNumber": 301,
   "primaryType": "normal",
   "abilities": [
@@ -126,5 +126,6 @@
   },
   "height": 11,
   "weight": 326,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

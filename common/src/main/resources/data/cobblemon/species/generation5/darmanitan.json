@@ -1,5 +1,5 @@
 {
-  "name": "darmanitan",
+  "name": "Darmanitan",
   "nationalPokedexNumber": 555,
   "primaryType": "fire",
   "abilities": [
@@ -145,7 +145,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "zen",
+      "name": "Zen",
       "primaryType": "fire",
       "secondaryType": "psychic",
       "abilities": [
@@ -186,10 +186,11 @@
       "height": 13,
       "weight": 929,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     },
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "ice",
       "abilities": [
         "gorillatactics",
@@ -306,10 +307,11 @@
       "weight": 1200,
       "preEvolution": "darumaka form=galar",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "galarzen",
+      "name": "Galar-Zen",
       "primaryType": "ice",
       "secondaryType": "fire",
       "abilities": [
@@ -351,8 +353,10 @@
       "height": 17,
       "weight": 1200,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

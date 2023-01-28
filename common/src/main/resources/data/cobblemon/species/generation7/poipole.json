@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "poipole",
+  "name": "Poipole",
   "nationalPokedexNumber": 803,
   "primaryType": "poison",
   "abilities": [
@@ -115,5 +115,6 @@
   },
   "height": 6,
   "weight": 18,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

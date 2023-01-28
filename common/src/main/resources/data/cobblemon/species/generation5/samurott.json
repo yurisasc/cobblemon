@@ -1,5 +1,5 @@
 {
-  "name": "samurott",
+  "name": "Samurott",
   "nationalPokedexNumber": 503,
   "primaryType": "water",
   "abilities": [
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "water",
       "secondaryType": "dark",
       "abilities": [
@@ -126,6 +126,7 @@
       "weight": 582,
       "preEvolution": "dewott",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -250,5 +251,6 @@
   },
   "height": 15,
   "weight": 946,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

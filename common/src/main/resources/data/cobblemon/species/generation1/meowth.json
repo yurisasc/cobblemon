@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "meowth",
+  "name": "Meowth",
   "nationalPokedexNumber": 52,
   "primaryType": "normal",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "dark",
       "abilities": [
         "pickup",
@@ -180,7 +180,7 @@
       "battleOnly": false
     },
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "steel",
       "abilities": [
         "pickup",
@@ -317,7 +317,7 @@
       "battleOnly": false
     },
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "normal",
       "abilities": [
         "pickup",

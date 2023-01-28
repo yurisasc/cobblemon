@@ -1,5 +1,5 @@
 {
-  "name": "charjabug",
+  "name": "Charjabug",
   "nationalPokedexNumber": 737,
   "primaryType": "bug",
   "secondaryType": "electric",
@@ -113,5 +113,6 @@
   },
   "height": 5,
   "weight": 105,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

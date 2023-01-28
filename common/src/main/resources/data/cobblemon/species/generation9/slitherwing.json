@@ -1,5 +1,5 @@
 {
-  "name": "slitherwing",
+  "name": "Slither Wing",
   "nationalPokedexNumber": 988,
   "primaryType": "bug",
   "secondaryType": "fighting",
@@ -100,5 +100,6 @@
   "aspects": [],
   "height": 32,
   "weight": 920,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

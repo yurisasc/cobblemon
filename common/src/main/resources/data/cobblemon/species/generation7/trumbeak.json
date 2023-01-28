@@ -1,5 +1,5 @@
 {
-  "name": "trumbeak",
+  "name": "Trumbeak",
   "nationalPokedexNumber": 732,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -116,5 +116,6 @@
   },
   "height": 6,
   "weight": 148,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

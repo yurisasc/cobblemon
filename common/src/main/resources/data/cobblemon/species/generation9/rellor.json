@@ -1,5 +1,5 @@
 {
-  "name": "rellor",
+  "name": "Rellor",
   "nationalPokedexNumber": 953,
   "primaryType": "bug",
   "abilities": [
@@ -91,5 +91,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

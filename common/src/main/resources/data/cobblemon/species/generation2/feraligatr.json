@@ -1,5 +1,5 @@
 {
-  "name": "feraligatr",
+  "name": "Feraligatr",
   "nationalPokedexNumber": 160,
   "primaryType": "water",
   "abilities": [
@@ -180,5 +180,6 @@
   },
   "height": 23,
   "weight": 888,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

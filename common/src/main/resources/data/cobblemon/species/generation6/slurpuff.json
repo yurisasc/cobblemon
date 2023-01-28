@@ -1,5 +1,5 @@
 {
-  "name": "slurpuff",
+  "name": "Slurpuff",
   "nationalPokedexNumber": 685,
   "primaryType": "fairy",
   "abilities": [
@@ -116,5 +116,6 @@
   },
   "height": 8,
   "weight": 50,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

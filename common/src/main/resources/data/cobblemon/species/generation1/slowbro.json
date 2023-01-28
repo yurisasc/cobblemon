@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "slowbro",
+  "name": "Slowbro",
   "nationalPokedexNumber": 80,
   "primaryType": "water",
   "secondaryType": "psychic",
@@ -22,7 +22,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "water",
       "secondaryType": "psychic",
       "abilities": [
@@ -68,7 +68,7 @@
       "battleOnly": true
     },
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "poison",
       "secondaryType": "psychic",
       "abilities": [

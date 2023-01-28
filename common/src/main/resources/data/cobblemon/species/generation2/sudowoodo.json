@@ -1,5 +1,5 @@
 {
-  "name": "sudowoodo",
+  "name": "Sudowoodo",
   "nationalPokedexNumber": 185,
   "primaryType": "rock",
   "abilities": [
@@ -162,5 +162,6 @@
   },
   "height": 12,
   "weight": 380,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

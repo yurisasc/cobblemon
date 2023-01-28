@@ -1,5 +1,5 @@
 {
-  "name": "sandyshocks",
+  "name": "Sandy Shocks",
   "nationalPokedexNumber": 989,
   "primaryType": "electric",
   "secondaryType": "ground",
@@ -99,5 +99,6 @@
   "aspects": [],
   "height": 23,
   "weight": 600,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

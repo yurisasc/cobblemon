@@ -1,5 +1,5 @@
 {
-  "name": "darumaka",
+  "name": "Darumaka",
   "nationalPokedexNumber": 554,
   "primaryType": "fire",
   "abilities": [
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "ice",
       "abilities": [
         "hustle",
@@ -139,6 +139,7 @@
           "requiredContext": "cobblemon:ice_stone"
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -268,5 +269,6 @@
   },
   "height": 6,
   "weight": 375,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

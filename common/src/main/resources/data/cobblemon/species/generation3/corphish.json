@@ -1,5 +1,5 @@
 {
-  "name": "corphish",
+  "name": "Corphish",
   "nationalPokedexNumber": 341,
   "primaryType": "water",
   "abilities": [
@@ -154,5 +154,6 @@
   },
   "height": 6,
   "weight": 115,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

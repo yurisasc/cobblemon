@@ -1,5 +1,5 @@
 {
-  "name": "mesprit",
+  "name": "Mesprit",
   "nationalPokedexNumber": 481,
   "primaryType": "psychic",
   "abilities": [
@@ -152,5 +152,6 @@
   },
   "height": 3,
   "weight": 3,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

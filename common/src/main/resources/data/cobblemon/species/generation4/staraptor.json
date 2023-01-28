@@ -1,5 +1,5 @@
 {
-  "name": "staraptor",
+  "name": "Staraptor",
   "nationalPokedexNumber": 398,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -117,5 +117,6 @@
   },
   "height": 12,
   "weight": 249,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

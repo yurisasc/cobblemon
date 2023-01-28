@@ -1,5 +1,5 @@
 {
-  "name": "dachsbun",
+  "name": "Dachsbun",
   "nationalPokedexNumber": 927,
   "primaryType": "fairy",
   "abilities": [
@@ -90,5 +90,6 @@
   "height": 5,
   "weight": 149,
   "preEvolution": "fidough",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

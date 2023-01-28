@@ -1,5 +1,5 @@
 {
-  "name": "vibrava",
+  "name": "Vibrava",
   "nationalPokedexNumber": 329,
   "primaryType": "ground",
   "secondaryType": "dragon",
@@ -159,5 +159,6 @@
   },
   "height": 11,
   "weight": 153,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

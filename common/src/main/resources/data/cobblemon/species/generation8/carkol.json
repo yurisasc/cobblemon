@@ -1,5 +1,5 @@
 {
-  "name": "carkol",
+  "name": "Carkol",
   "nationalPokedexNumber": 838,
   "primaryType": "rock",
   "secondaryType": "fire",
@@ -125,5 +125,6 @@
   },
   "height": 11,
   "weight": 780,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "dartrix",
+  "name": "Dartrix",
   "nationalPokedexNumber": 723,
   "primaryType": "grass",
   "secondaryType": "flying",
@@ -177,5 +177,6 @@
   },
   "height": 7,
   "weight": 160,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "lairon",
+  "name": "Lairon",
   "nationalPokedexNumber": 305,
   "primaryType": "steel",
   "secondaryType": "rock",
@@ -147,5 +147,6 @@
   },
   "height": 9,
   "weight": 1200,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

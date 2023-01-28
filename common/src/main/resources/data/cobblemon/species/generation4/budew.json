@@ -1,5 +1,5 @@
 {
-  "name": "budew",
+  "name": "Budew",
   "nationalPokedexNumber": 406,
   "primaryType": "grass",
   "secondaryType": "poison",
@@ -130,5 +130,6 @@
   },
   "height": 2,
   "weight": 12,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

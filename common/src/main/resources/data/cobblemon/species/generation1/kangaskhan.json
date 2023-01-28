@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "kangaskhan",
+  "name": "Kangaskhan",
   "nationalPokedexNumber": 115,
   "primaryType": "normal",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "normal",
       "abilities": [
         "parentalbond"

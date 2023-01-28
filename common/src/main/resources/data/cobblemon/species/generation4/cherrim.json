@@ -1,5 +1,5 @@
 {
-  "name": "cherrim",
+  "name": "Cherrim",
   "nationalPokedexNumber": 421,
   "primaryType": "grass",
   "abilities": [
@@ -18,7 +18,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "sunshine",
+      "name": "Sunshine",
       "primaryType": "grass",
       "abilities": [
         "flowergift"
@@ -59,6 +59,7 @@
       "height": 5,
       "weight": 93,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -156,5 +157,6 @@
   },
   "height": 5,
   "weight": 93,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

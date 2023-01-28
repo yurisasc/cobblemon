@@ -1,5 +1,5 @@
 {
-  "name": "mandibuzz",
+  "name": "Mandibuzz",
   "nationalPokedexNumber": 630,
   "primaryType": "dark",
   "secondaryType": "flying",
@@ -127,5 +127,6 @@
   },
   "height": 12,
   "weight": 395,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

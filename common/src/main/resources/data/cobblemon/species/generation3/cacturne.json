@@ -1,5 +1,5 @@
 {
-  "name": "cacturne",
+  "name": "Cacturne",
   "nationalPokedexNumber": 332,
   "primaryType": "grass",
   "secondaryType": "dark",
@@ -159,5 +159,6 @@
   },
   "height": 13,
   "weight": 774,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

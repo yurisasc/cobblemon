@@ -1,5 +1,5 @@
 {
-  "name": "azelf",
+  "name": "Azelf",
   "nationalPokedexNumber": 482,
   "primaryType": "psychic",
   "abilities": [
@@ -154,5 +154,6 @@
   },
   "height": 3,
   "weight": 3,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

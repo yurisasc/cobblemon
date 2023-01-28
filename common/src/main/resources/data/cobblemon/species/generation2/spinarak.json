@@ -1,5 +1,5 @@
 {
-  "name": "spinarak",
+  "name": "Spinarak",
   "nationalPokedexNumber": 167,
   "primaryType": "bug",
   "secondaryType": "poison",
@@ -173,5 +173,6 @@
   },
   "height": 5,
   "weight": 85,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

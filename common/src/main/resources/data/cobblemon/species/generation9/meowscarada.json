@@ -1,5 +1,5 @@
 {
-  "name": "meowscarada",
+  "name": "Meowscarada",
   "nationalPokedexNumber": 908,
   "primaryType": "grass",
   "secondaryType": "dark",
@@ -114,5 +114,6 @@
   "height": 15,
   "weight": 312,
   "preEvolution": "floragato",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

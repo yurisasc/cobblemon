@@ -1,5 +1,5 @@
 {
-  "name": "ambipom",
+  "name": "Ambipom",
   "nationalPokedexNumber": 424,
   "primaryType": "normal",
   "abilities": [
@@ -138,5 +138,6 @@
   },
   "height": 12,
   "weight": 203,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

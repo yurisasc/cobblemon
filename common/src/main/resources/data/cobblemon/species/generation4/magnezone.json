@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "magnezone",
+  "name": "Magnezone",
   "nationalPokedexNumber": 462,
   "primaryType": "electric",
   "secondaryType": "steel",
@@ -146,5 +146,6 @@
   },
   "height": 12,
   "weight": 1800,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

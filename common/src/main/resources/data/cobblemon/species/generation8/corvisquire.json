@@ -1,5 +1,5 @@
 {
-  "name": "corvisquire",
+  "name": "Corvisquire",
   "nationalPokedexNumber": 822,
   "primaryType": "flying",
   "abilities": [
@@ -114,5 +114,6 @@
   },
   "height": 8,
   "weight": 160,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "togetic",
+  "name": "Togetic",
   "nationalPokedexNumber": 176,
   "primaryType": "fairy",
   "secondaryType": "flying",
@@ -190,5 +190,6 @@
   },
   "height": 6,
   "weight": 32,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

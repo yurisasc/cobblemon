@@ -1,5 +1,5 @@
 {
-  "name": "terrakion",
+  "name": "Terrakion",
   "nationalPokedexNumber": 639,
   "primaryType": "rock",
   "secondaryType": "fighting",
@@ -131,5 +131,6 @@
   },
   "height": 19,
   "weight": 2600,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

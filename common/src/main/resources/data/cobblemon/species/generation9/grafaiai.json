@@ -1,5 +1,5 @@
 {
-  "name": "grafaiai",
+  "name": "Grafaiai",
   "nationalPokedexNumber": 945,
   "primaryType": "poison",
   "secondaryType": "normal",
@@ -95,5 +95,6 @@
   "height": 7,
   "weight": 272,
   "preEvolution": "shroodle",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

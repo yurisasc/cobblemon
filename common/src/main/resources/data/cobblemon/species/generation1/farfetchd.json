@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "farfetchd",
+  "name": "Farfetch’d",
   "nationalPokedexNumber": 83,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -22,7 +22,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "galar",
+      "name": "Galar",
       "primaryType": "fighting",
       "abilities": [
         "steadfast",

@@ -1,5 +1,5 @@
 {
-  "name": "roserade",
+  "name": "Roserade",
   "nationalPokedexNumber": 407,
   "primaryType": "grass",
   "secondaryType": "poison",
@@ -128,5 +128,6 @@
   },
   "height": 9,
   "weight": 145,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

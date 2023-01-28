@@ -1,5 +1,5 @@
 {
-  "name": "beldum",
+  "name": "Beldum",
   "nationalPokedexNumber": 374,
   "primaryType": "steel",
   "secondaryType": "psychic",
@@ -76,5 +76,6 @@
   },
   "height": 6,
   "weight": 952,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

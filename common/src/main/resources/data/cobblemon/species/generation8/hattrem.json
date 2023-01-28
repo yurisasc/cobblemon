@@ -1,5 +1,5 @@
 {
-  "name": "hattrem",
+  "name": "Hattrem",
   "nationalPokedexNumber": 857,
   "primaryType": "psychic",
   "abilities": [
@@ -119,5 +119,6 @@
   },
   "height": 6,
   "weight": 48,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

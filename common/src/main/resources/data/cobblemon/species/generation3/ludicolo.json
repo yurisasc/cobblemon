@@ -1,5 +1,5 @@
 {
-  "name": "ludicolo",
+  "name": "Ludicolo",
   "nationalPokedexNumber": 272,
   "primaryType": "water",
   "secondaryType": "grass",
@@ -151,5 +151,6 @@
   },
   "height": 15,
   "weight": 550,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

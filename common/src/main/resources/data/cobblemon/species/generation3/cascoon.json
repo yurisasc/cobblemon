@@ -1,5 +1,5 @@
 {
-  "name": "cascoon",
+  "name": "Cascoon",
   "nationalPokedexNumber": 268,
   "primaryType": "bug",
   "abilities": [
@@ -78,5 +78,6 @@
   },
   "height": 7,
   "weight": 115,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

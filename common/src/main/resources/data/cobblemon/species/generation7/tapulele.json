@@ -1,5 +1,5 @@
 {
-  "name": "tapulele",
+  "name": "Tapu Lele",
   "nationalPokedexNumber": 786,
   "primaryType": "psychic",
   "secondaryType": "fairy",
@@ -131,5 +131,6 @@
   },
   "height": 12,
   "weight": 186,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

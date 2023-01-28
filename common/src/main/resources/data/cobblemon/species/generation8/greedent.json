@@ -1,5 +1,5 @@
 {
-  "name": "greedent",
+  "name": "Greedent",
   "nationalPokedexNumber": 820,
   "primaryType": "normal",
   "abilities": [
@@ -108,5 +108,6 @@
   },
   "height": 6,
   "weight": 60,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

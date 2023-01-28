@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "crobat",
+  "name": "Crobat",
   "nationalPokedexNumber": 169,
   "primaryType": "poison",
   "secondaryType": "flying",
@@ -152,5 +152,6 @@
   },
   "height": 18,
   "weight": 750,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

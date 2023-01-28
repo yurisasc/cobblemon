@@ -1,5 +1,5 @@
 {
-  "name": "eiscue",
+  "name": "Eiscue",
   "nationalPokedexNumber": 875,
   "primaryType": "ice",
   "abilities": [
@@ -99,9 +99,10 @@
   "height": 14,
   "weight": 890,
   "evolutions": [],
+  "cannotDynamax": false,
   "forms": [
     {
-      "name": "noice",
+      "name": "Noice",
       "primaryType": "ice",
       "abilities": [
         "iceface"
@@ -142,6 +143,7 @@
       "height": 14,
       "weight": 890,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ]

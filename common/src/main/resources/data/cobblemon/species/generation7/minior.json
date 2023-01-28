@@ -1,5 +1,5 @@
 {
-  "name": "minior",
+  "name": "Minior",
   "nationalPokedexNumber": 774,
   "primaryType": "rock",
   "secondaryType": "flying",
@@ -112,7 +112,7 @@
   "weight": 3,
   "forms": [
     {
-      "name": "meteor",
+      "name": "Meteor",
       "primaryType": "rock",
       "secondaryType": "flying",
       "abilities": [
@@ -153,8 +153,10 @@
       "height": 3,
       "weight": 400,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

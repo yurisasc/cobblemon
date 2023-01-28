@@ -1,5 +1,5 @@
 {
-  "name": "carbink",
+  "name": "Carbink",
   "nationalPokedexNumber": 703,
   "primaryType": "rock",
   "secondaryType": "fairy",
@@ -135,5 +135,6 @@
   },
   "height": 3,
   "weight": 57,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "arctovish",
+  "name": "Arctovish",
   "nationalPokedexNumber": 883,
   "primaryType": "water",
   "secondaryType": "ice",
@@ -104,5 +104,6 @@
   },
   "height": 20,
   "weight": 1750,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

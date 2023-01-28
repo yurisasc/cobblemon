@@ -1,5 +1,5 @@
 {
-  "name": "liepard",
+  "name": "Liepard",
   "nationalPokedexNumber": 510,
   "primaryType": "dark",
   "abilities": [
@@ -133,5 +133,6 @@
   },
   "height": 11,
   "weight": 375,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

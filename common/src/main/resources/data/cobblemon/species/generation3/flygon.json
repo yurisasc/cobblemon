@@ -1,5 +1,5 @@
 {
-  "name": "flygon",
+  "name": "Flygon",
   "nationalPokedexNumber": 330,
   "primaryType": "ground",
   "secondaryType": "dragon",
@@ -165,5 +165,6 @@
   },
   "height": 20,
   "weight": 820,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "regirock",
+  "name": "Regirock",
   "nationalPokedexNumber": 377,
   "primaryType": "rock",
   "abilities": [
@@ -144,5 +144,6 @@
   },
   "height": 17,
   "weight": 2300,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

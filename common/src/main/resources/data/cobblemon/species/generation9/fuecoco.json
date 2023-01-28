@@ -1,5 +1,5 @@
 {
-  "name": "fuecoco",
+  "name": "Fuecoco",
   "nationalPokedexNumber": 909,
   "primaryType": "fire",
   "abilities": [
@@ -102,5 +102,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

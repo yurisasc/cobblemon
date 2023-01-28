@@ -1,5 +1,5 @@
 {
-  "name": "greattusk",
+  "name": "Great Tusk",
   "nationalPokedexNumber": 984,
   "primaryType": "ground",
   "secondaryType": "fighting",
@@ -107,5 +107,6 @@
   "aspects": [],
   "height": 22,
   "weight": 3200,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

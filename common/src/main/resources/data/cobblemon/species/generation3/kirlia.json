@@ -1,5 +1,5 @@
 {
-  "name": "kirlia",
+  "name": "Kirlia",
   "nationalPokedexNumber": 281,
   "primaryType": "psychic",
   "secondaryType": "fairy",
@@ -181,5 +181,6 @@
   },
   "height": 8,
   "weight": 202,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "grimer",
+  "name": "Grimer",
   "nationalPokedexNumber": 88,
   "primaryType": "poison",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "poison",
       "secondaryType": "dark",
       "abilities": [

@@ -1,5 +1,5 @@
 {
-  "name": "cetoddle",
+  "name": "Cetoddle",
   "nationalPokedexNumber": 974,
   "primaryType": "ice",
   "abilities": [
@@ -101,5 +101,6 @@
       "requirements": [],
       "requiredContext": "cobblemon:ice_stone"
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

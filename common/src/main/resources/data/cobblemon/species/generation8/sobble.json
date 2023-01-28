@@ -1,5 +1,5 @@
 {
-  "name": "sobble",
+  "name": "Sobble",
   "nationalPokedexNumber": 816,
   "primaryType": "water",
   "abilities": [
@@ -115,5 +115,6 @@
   },
   "height": 3,
   "weight": 40,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

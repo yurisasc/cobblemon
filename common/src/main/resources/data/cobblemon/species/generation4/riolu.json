@@ -1,5 +1,5 @@
 {
-  "name": "riolu",
+  "name": "Riolu",
   "nationalPokedexNumber": 447,
   "primaryType": "fighting",
   "abilities": [
@@ -172,5 +172,6 @@
   },
   "height": 7,
   "weight": 202,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

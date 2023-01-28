@@ -1,5 +1,5 @@
 {
-  "name": "lunala",
+  "name": "Lunala",
   "nationalPokedexNumber": 792,
   "primaryType": "psychic",
   "secondaryType": "ghost",
@@ -143,5 +143,6 @@
   },
   "height": 40,
   "weight": 1200,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

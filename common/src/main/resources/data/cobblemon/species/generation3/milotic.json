@@ -1,5 +1,5 @@
 {
-  "name": "milotic",
+  "name": "Milotic",
   "nationalPokedexNumber": 350,
   "primaryType": "water",
   "abilities": [
@@ -135,5 +135,6 @@
   },
   "height": 62,
   "weight": 1620,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "tornadus",
+  "name": "Tornadus",
   "nationalPokedexNumber": 641,
   "primaryType": "flying",
   "abilities": [
@@ -136,7 +136,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "therian",
+      "name": "Therian",
       "primaryType": "flying",
       "abilities": [
         "regenerator"
@@ -177,8 +177,10 @@
       "height": 14,
       "weight": 630,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

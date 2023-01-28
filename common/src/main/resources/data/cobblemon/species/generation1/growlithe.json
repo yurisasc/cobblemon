@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "growlithe",
+  "name": "Growlithe",
   "nationalPokedexNumber": 58,
   "primaryType": "fire",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "fire",
       "secondaryType": "rock",
       "abilities": [

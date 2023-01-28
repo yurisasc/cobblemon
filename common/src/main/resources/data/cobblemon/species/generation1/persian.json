@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "persian",
+  "name": "Persian",
   "nationalPokedexNumber": 53,
   "primaryType": "normal",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "dark",
       "abilities": [
         "furcoat",

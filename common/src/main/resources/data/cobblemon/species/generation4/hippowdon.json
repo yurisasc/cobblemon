@@ -1,5 +1,5 @@
 {
-  "name": "hippowdon",
+  "name": "Hippowdon",
   "nationalPokedexNumber": 450,
   "primaryType": "ground",
   "abilities": [
@@ -127,5 +127,6 @@
   },
   "height": 20,
   "weight": 3000,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

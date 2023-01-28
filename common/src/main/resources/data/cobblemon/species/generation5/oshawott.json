@@ -1,5 +1,5 @@
 {
-  "name": "oshawott",
+  "name": "Oshawott",
   "nationalPokedexNumber": 501,
   "primaryType": "water",
   "abilities": [
@@ -145,5 +145,6 @@
   },
   "height": 5,
   "weight": 59,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

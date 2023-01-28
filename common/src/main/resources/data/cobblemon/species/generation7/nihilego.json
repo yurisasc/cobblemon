@@ -1,5 +1,5 @@
 {
-  "name": "nihilego",
+  "name": "Nihilego",
   "nationalPokedexNumber": 793,
   "primaryType": "rock",
   "secondaryType": "poison",
@@ -133,5 +133,6 @@
   },
   "height": 12,
   "weight": 555,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

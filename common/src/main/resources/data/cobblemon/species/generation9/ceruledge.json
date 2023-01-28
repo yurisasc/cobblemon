@@ -1,5 +1,5 @@
 {
-  "name": "ceruledge",
+  "name": "Ceruledge",
   "nationalPokedexNumber": 937,
   "primaryType": "fire",
   "secondaryType": "ghost",
@@ -99,5 +99,6 @@
   "height": 16,
   "weight": 620,
   "preEvolution": "charcadet",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

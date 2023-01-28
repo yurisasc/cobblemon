@@ -1,5 +1,5 @@
 {
-  "name": "scatterbug",
+  "name": "Scatterbug",
   "nationalPokedexNumber": 664,
   "primaryType": "bug",
   "abilities": [
@@ -76,5 +76,6 @@
   },
   "height": 3,
   "weight": 25,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

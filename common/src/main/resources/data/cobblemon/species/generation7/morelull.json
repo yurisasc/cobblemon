@@ -1,5 +1,5 @@
 {
-  "name": "morelull",
+  "name": "Morelull",
   "nationalPokedexNumber": 755,
   "primaryType": "grass",
   "secondaryType": "fairy",
@@ -124,5 +124,6 @@
   },
   "height": 2,
   "weight": 15,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

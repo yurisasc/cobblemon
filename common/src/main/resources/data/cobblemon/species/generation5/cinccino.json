@@ -1,5 +1,5 @@
 {
-  "name": "cinccino",
+  "name": "Cinccino",
   "nationalPokedexNumber": 573,
   "primaryType": "normal",
   "abilities": [
@@ -124,5 +124,6 @@
   },
   "height": 5,
   "weight": 75,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

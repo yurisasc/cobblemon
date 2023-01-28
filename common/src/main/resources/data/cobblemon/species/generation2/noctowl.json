@@ -1,5 +1,5 @@
 {
-  "name": "noctowl",
+  "name": "Noctowl",
   "nationalPokedexNumber": 164,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -143,5 +143,6 @@
   },
   "height": 16,
   "weight": 408,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

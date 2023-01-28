@@ -1,5 +1,5 @@
 {
-  "name": "guzzlord",
+  "name": "Guzzlord",
   "nationalPokedexNumber": 799,
   "primaryType": "dark",
   "secondaryType": "dragon",
@@ -137,5 +137,6 @@
   },
   "height": 55,
   "weight": 8880,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

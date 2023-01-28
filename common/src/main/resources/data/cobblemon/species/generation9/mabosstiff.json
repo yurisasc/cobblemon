@@ -1,5 +1,5 @@
 {
-  "name": "mabosstiff",
+  "name": "Mabosstiff",
   "nationalPokedexNumber": 943,
   "primaryType": "dark",
   "abilities": [
@@ -90,5 +90,6 @@
   "height": 11,
   "weight": 610,
   "preEvolution": "maschiff",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

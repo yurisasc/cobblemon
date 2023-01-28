@@ -1,5 +1,5 @@
 {
-  "name": "unown",
+  "name": "Unown",
   "nationalPokedexNumber": 201,
   "primaryType": "psychic",
   "abilities": [
@@ -52,5 +52,6 @@
   },
   "height": 5,
   "weight": 50,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

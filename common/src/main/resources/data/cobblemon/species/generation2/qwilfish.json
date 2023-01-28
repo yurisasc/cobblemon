@@ -1,5 +1,5 @@
 {
-  "name": "qwilfish",
+  "name": "Qwilfish",
   "nationalPokedexNumber": 211,
   "primaryType": "water",
   "secondaryType": "poison",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "dark",
       "secondaryType": "poison",
       "abilities": [
@@ -146,6 +146,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -293,5 +294,6 @@
   },
   "height": 5,
   "weight": 39,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

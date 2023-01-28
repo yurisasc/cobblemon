@@ -1,5 +1,5 @@
 {
-  "name": "vanillish",
+  "name": "Vanillish",
   "nationalPokedexNumber": 583,
   "primaryType": "ice",
   "abilities": [
@@ -121,5 +121,6 @@
   },
   "height": 11,
   "weight": 410,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

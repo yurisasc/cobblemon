@@ -1,5 +1,5 @@
 {
-  "name": "duskull",
+  "name": "Duskull",
   "nationalPokedexNumber": 355,
   "primaryType": "ghost",
   "abilities": [
@@ -150,5 +150,6 @@
   },
   "height": 8,
   "weight": 150,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

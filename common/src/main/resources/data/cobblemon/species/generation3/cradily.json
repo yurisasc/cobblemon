@@ -1,5 +1,5 @@
 {
-  "name": "cradily",
+  "name": "Cradily",
   "nationalPokedexNumber": 346,
   "primaryType": "rock",
   "secondaryType": "grass",
@@ -135,5 +135,6 @@
   },
   "height": 15,
   "weight": 604,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

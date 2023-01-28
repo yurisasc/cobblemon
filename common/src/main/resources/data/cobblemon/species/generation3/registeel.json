@@ -1,5 +1,5 @@
 {
-  "name": "registeel",
+  "name": "Registeel",
   "nationalPokedexNumber": 379,
   "primaryType": "steel",
   "abilities": [
@@ -147,5 +147,6 @@
   },
   "height": 19,
   "weight": 2050,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

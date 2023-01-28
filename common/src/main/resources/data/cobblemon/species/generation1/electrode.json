@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "electrode",
+  "name": "Electrode",
   "nationalPokedexNumber": 101,
   "primaryType": "electric",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "electric",
       "secondaryType": "grass",
       "abilities": [

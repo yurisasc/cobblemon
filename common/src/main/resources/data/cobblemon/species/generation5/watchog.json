@@ -1,5 +1,5 @@
 {
-  "name": "watchog",
+  "name": "Watchog",
   "nationalPokedexNumber": 505,
   "primaryType": "normal",
   "abilities": [
@@ -133,5 +133,6 @@
   },
   "height": 11,
   "weight": 270,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

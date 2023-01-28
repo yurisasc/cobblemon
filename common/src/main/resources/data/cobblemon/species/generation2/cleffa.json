@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "cleffa",
+  "name": "Cleffa",
   "nationalPokedexNumber": 173,
   "primaryType": "fairy",
   "abilities": [
@@ -178,5 +178,6 @@
   },
   "height": 3,
   "weight": 30,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

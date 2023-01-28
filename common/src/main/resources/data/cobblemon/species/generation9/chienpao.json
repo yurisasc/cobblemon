@@ -1,5 +1,5 @@
 {
-  "name": "chienpao",
+  "name": "Chien-Pao",
   "nationalPokedexNumber": 1002,
   "primaryType": "dark",
   "secondaryType": "ice",
@@ -92,5 +92,6 @@
   "aspects": [],
   "height": 19,
   "weight": 1522,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

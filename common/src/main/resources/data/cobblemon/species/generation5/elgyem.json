@@ -1,5 +1,5 @@
 {
-  "name": "elgyem",
+  "name": "Elgyem",
   "nationalPokedexNumber": 605,
   "primaryType": "psychic",
   "abilities": [
@@ -153,5 +153,6 @@
   },
   "height": 5,
   "weight": 90,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

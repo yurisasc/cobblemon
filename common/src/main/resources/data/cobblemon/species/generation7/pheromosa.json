@@ -1,5 +1,5 @@
 {
-  "name": "pheromosa",
+  "name": "Pheromosa",
   "nationalPokedexNumber": 795,
   "primaryType": "bug",
   "secondaryType": "fighting",
@@ -128,5 +128,6 @@
   },
   "height": 18,
   "weight": 250,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

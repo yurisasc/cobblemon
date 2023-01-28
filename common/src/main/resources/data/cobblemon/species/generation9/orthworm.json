@@ -1,5 +1,5 @@
 {
-  "name": "orthworm",
+  "name": "Orthworm",
   "nationalPokedexNumber": 968,
   "primaryType": "steel",
   "abilities": [
@@ -91,5 +91,6 @@
   "aspects": [],
   "height": 25,
   "weight": 3100,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

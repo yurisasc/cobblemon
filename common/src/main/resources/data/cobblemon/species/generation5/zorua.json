@@ -1,5 +1,5 @@
 {
-  "name": "zorua",
+  "name": "Zorua",
   "nationalPokedexNumber": 570,
   "primaryType": "dark",
   "abilities": [
@@ -18,7 +18,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "normal",
       "secondaryType": "ghost",
       "abilities": [
@@ -131,6 +131,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -276,5 +277,6 @@
   },
   "height": 7,
   "weight": 125,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "beartic",
+  "name": "Beartic",
   "nationalPokedexNumber": 614,
   "primaryType": "ice",
   "abilities": [
@@ -154,5 +154,6 @@
   },
   "height": 26,
   "weight": 2600,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

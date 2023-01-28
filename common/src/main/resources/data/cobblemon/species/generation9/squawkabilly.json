@@ -1,5 +1,5 @@
 {
-  "name": "squawkabilly",
+  "name": "Squawkabilly",
   "nationalPokedexNumber": 931,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -91,9 +91,10 @@
   "height": 6,
   "weight": 24,
   "evolutions": [],
+  "cannotDynamax": false,
   "forms": [
     {
-      "name": "blue",
+      "name": "Blue",
       "primaryType": "normal",
       "secondaryType": "flying",
       "abilities": [
@@ -136,10 +137,11 @@
       "height": 6,
       "weight": 24,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "yellow",
+      "name": "Yellow",
       "primaryType": "normal",
       "secondaryType": "flying",
       "abilities": [
@@ -182,10 +184,11 @@
       "height": 6,
       "weight": 24,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "white",
+      "name": "White",
       "primaryType": "normal",
       "secondaryType": "flying",
       "abilities": [
@@ -228,6 +231,7 @@
       "height": 6,
       "weight": 24,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ]

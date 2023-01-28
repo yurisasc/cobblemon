@@ -1,5 +1,5 @@
 {
-  "name": "buzzwole",
+  "name": "Buzzwole",
   "nationalPokedexNumber": 794,
   "primaryType": "bug",
   "secondaryType": "fighting",
@@ -127,5 +127,6 @@
   },
   "height": 24,
   "weight": 3336,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

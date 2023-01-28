@@ -1,5 +1,5 @@
 {
-  "name": "chatot",
+  "name": "Chatot",
   "nationalPokedexNumber": 441,
   "primaryType": "normal",
   "secondaryType": "flying",
@@ -121,5 +121,6 @@
   },
   "height": 5,
   "weight": 19,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

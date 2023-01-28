@@ -1,5 +1,5 @@
 {
-  "name": "sneasler",
+  "name": "Sneasler",
   "nationalPokedexNumber": 903,
   "primaryType": "fighting",
   "secondaryType": "poison",
@@ -109,5 +109,6 @@
   "weight": 430,
   "preEvolution": "sneasel form=hisui",
   "evolutions": [],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

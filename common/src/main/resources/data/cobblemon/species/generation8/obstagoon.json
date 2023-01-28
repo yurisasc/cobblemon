@@ -1,5 +1,5 @@
 {
-  "name": "obstagoon",
+  "name": "Obstagoon",
   "nationalPokedexNumber": 862,
   "primaryType": "dark",
   "secondaryType": "normal",
@@ -138,5 +138,6 @@
   },
   "height": 16,
   "weight": 460,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

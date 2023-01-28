@@ -1,5 +1,5 @@
 {
-  "name": "deoxys",
+  "name": "Deoxys",
   "nationalPokedexNumber": 386,
   "primaryType": "psychic",
   "abilities": [
@@ -171,7 +171,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "attack",
+      "name": "Attack",
       "primaryType": "psychic",
       "abilities": [
         "pressure"
@@ -213,10 +213,11 @@
       "height": 17,
       "weight": 608,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "defense",
+      "name": "Defense",
       "primaryType": "psychic",
       "abilities": [
         "pressure"
@@ -258,10 +259,11 @@
       "height": 17,
       "weight": 608,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "speed",
+      "name": "Speed",
       "primaryType": "psychic",
       "abilities": [
         "pressure"
@@ -303,8 +305,10 @@
       "height": 17,
       "weight": 608,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

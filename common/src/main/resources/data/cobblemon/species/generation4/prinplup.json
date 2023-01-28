@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "prinplup",
+  "name": "Prinplup",
   "nationalPokedexNumber": 394,
   "primaryType": "water",
   "abilities": [
@@ -153,5 +153,6 @@
   },
   "height": 8,
   "weight": 230,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

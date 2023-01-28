@@ -1,5 +1,5 @@
 {
-  "name": "cinderace",
+  "name": "Cinderace",
   "nationalPokedexNumber": 815,
   "primaryType": "fire",
   "abilities": [
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "fire",
       "abilities": [
         "blaze",
@@ -62,6 +62,7 @@
       "height": 30,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -171,5 +172,6 @@
   },
   "height": 14,
   "weight": 330,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

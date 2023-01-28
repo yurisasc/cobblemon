@@ -1,5 +1,5 @@
 {
-  "name": "houndoom",
+  "name": "Houndoom",
   "nationalPokedexNumber": 229,
   "primaryType": "dark",
   "secondaryType": "fire",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "dark",
       "secondaryType": "fire",
       "abilities": [
@@ -63,6 +63,7 @@
       "height": 19,
       "weight": 495,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -208,5 +209,6 @@
   },
   "height": 14,
   "weight": 350,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "carvanha",
+  "name": "Carvanha",
   "nationalPokedexNumber": 318,
   "primaryType": "water",
   "secondaryType": "dark",
@@ -144,5 +144,6 @@
   },
   "height": 8,
   "weight": 208,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "lileep",
+  "name": "Lileep",
   "nationalPokedexNumber": 345,
   "primaryType": "rock",
   "secondaryType": "grass",
@@ -140,5 +140,6 @@
   },
   "height": 10,
   "weight": 238,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

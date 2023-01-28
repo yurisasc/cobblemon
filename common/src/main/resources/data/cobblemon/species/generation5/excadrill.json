@@ -1,5 +1,5 @@
 {
-  "name": "excadrill",
+  "name": "Excadrill",
   "nationalPokedexNumber": 530,
   "primaryType": "ground",
   "secondaryType": "steel",
@@ -122,5 +122,6 @@
   },
   "height": 7,
   "weight": 404,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

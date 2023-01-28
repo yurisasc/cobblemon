@@ -1,5 +1,5 @@
 {
-  "name": "reshiram",
+  "name": "Reshiram",
   "nationalPokedexNumber": 643,
   "primaryType": "dragon",
   "secondaryType": "fire",
@@ -147,5 +147,6 @@
   },
   "height": 32,
   "weight": 3300,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

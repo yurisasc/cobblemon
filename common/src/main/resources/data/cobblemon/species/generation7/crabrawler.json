@@ -1,5 +1,5 @@
 {
-  "name": "crabrawler",
+  "name": "Crabrawler",
   "nationalPokedexNumber": 739,
   "primaryType": "fighting",
   "abilities": [
@@ -138,5 +138,6 @@
   },
   "height": 6,
   "weight": 70,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

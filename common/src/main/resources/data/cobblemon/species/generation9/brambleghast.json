@@ -1,5 +1,5 @@
 {
-  "name": "brambleghast",
+  "name": "Brambleghast",
   "nationalPokedexNumber": 947,
   "primaryType": "grass",
   "secondaryType": "ghost",
@@ -83,5 +83,6 @@
   "height": 12,
   "weight": 60,
   "preEvolution": "bramblin",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

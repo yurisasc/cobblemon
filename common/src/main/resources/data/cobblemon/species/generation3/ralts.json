@@ -1,5 +1,5 @@
 {
-  "name": "ralts",
+  "name": "Ralts",
   "nationalPokedexNumber": 280,
   "primaryType": "psychic",
   "secondaryType": "fairy",
@@ -179,5 +179,6 @@
   },
   "height": 4,
   "weight": 66,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

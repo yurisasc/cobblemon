@@ -1,5 +1,5 @@
 {
-  "name": "pyroar",
+  "name": "Pyroar",
   "nationalPokedexNumber": 668,
   "primaryType": "fire",
   "secondaryType": "normal",
@@ -127,5 +127,6 @@
   },
   "height": 15,
   "weight": 815,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

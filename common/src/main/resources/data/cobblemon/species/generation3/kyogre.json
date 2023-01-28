@@ -1,5 +1,5 @@
 {
-  "name": "kyogre",
+  "name": "Kyogre",
   "nationalPokedexNumber": 382,
   "primaryType": "water",
   "abilities": [
@@ -18,7 +18,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "primal",
+      "name": "Primal",
       "primaryType": "water",
       "abilities": [
         "primordialsea"
@@ -60,6 +60,7 @@
       "height": 98,
       "weight": 4300,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -176,5 +177,6 @@
   },
   "height": 45,
   "weight": 3520,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

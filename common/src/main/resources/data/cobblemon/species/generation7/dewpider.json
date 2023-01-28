@@ -1,5 +1,5 @@
 {
-  "name": "dewpider",
+  "name": "Dewpider",
   "nationalPokedexNumber": 751,
   "primaryType": "water",
   "secondaryType": "bug",
@@ -126,5 +126,6 @@
   },
   "height": 3,
   "weight": 40,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "bombirdier",
+  "name": "Bombirdier",
   "nationalPokedexNumber": 962,
   "primaryType": "flying",
   "secondaryType": "dark",
@@ -104,5 +104,6 @@
   "aspects": [],
   "height": 15,
   "weight": 429,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

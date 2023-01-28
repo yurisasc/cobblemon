@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "naganadel",
+  "name": "Naganadel",
   "nationalPokedexNumber": 804,
   "primaryType": "poison",
   "secondaryType": "dragon",
@@ -137,5 +137,6 @@
   },
   "height": 36,
   "weight": 1500,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

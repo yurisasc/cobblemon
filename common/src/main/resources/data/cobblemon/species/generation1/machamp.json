@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "machamp",
+  "name": "Machamp",
   "nationalPokedexNumber": 68,
   "primaryType": "fighting",
   "abilities": [
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "fighting",
       "abilities": [
         "guts",

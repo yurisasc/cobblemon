@@ -1,5 +1,5 @@
 {
-  "name": "frigibax",
+  "name": "Frigibax",
   "nationalPokedexNumber": 996,
   "primaryType": "dragon",
   "secondaryType": "ice",
@@ -97,5 +97,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

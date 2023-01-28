@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "butterfree",
+  "name": "Butterfree",
   "nationalPokedexNumber": 12,
   "primaryType": "bug",
   "secondaryType": "flying",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "bug",
       "secondaryType": "flying",
       "abilities": [

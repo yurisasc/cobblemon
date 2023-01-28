@@ -1,5 +1,5 @@
 {
-  "name": "tyranitar",
+  "name": "Tyranitar",
   "nationalPokedexNumber": 248,
   "primaryType": "rock",
   "secondaryType": "dark",
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "rock",
       "secondaryType": "dark",
       "abilities": [
@@ -63,6 +63,7 @@
       "height": 25,
       "weight": 2550,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -254,5 +255,6 @@
   },
   "height": 20,
   "weight": 2020,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

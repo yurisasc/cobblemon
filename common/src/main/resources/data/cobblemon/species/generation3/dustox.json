@@ -1,5 +1,5 @@
 {
-  "name": "dustox",
+  "name": "Dustox",
   "nationalPokedexNumber": 269,
   "primaryType": "bug",
   "secondaryType": "poison",
@@ -116,5 +116,6 @@
   },
   "height": 12,
   "weight": 316,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

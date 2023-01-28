@@ -1,5 +1,5 @@
 {
-  "name": "toedscool",
+  "name": "Toedscool",
   "nationalPokedexNumber": 948,
   "primaryType": "ground",
   "secondaryType": "grass",
@@ -114,5 +114,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

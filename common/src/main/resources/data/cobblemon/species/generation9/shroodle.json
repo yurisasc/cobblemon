@@ -1,5 +1,5 @@
 {
-  "name": "shroodle",
+  "name": "Shroodle",
   "nationalPokedexNumber": 944,
   "primaryType": "poison",
   "secondaryType": "normal",
@@ -110,5 +110,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

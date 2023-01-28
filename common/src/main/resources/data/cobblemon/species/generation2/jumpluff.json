@@ -1,5 +1,5 @@
 {
-  "name": "jumpluff",
+  "name": "Jumpluff",
   "nationalPokedexNumber": 189,
   "primaryType": "grass",
   "secondaryType": "flying",
@@ -144,5 +144,6 @@
   },
   "height": 8,
   "weight": 30,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

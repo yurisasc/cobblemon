@@ -1,5 +1,5 @@
 {
-  "name": "foongus",
+  "name": "Foongus",
   "nationalPokedexNumber": 590,
   "primaryType": "grass",
   "secondaryType": "poison",
@@ -124,5 +124,6 @@
   },
   "height": 2,
   "weight": 10,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

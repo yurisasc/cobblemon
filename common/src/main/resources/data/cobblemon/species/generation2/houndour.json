@@ -1,5 +1,5 @@
 {
-  "name": "houndour",
+  "name": "Houndour",
   "nationalPokedexNumber": 228,
   "primaryType": "dark",
   "secondaryType": "fire",
@@ -179,5 +179,6 @@
   },
   "height": 6,
   "weight": 108,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

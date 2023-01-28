@@ -1,5 +1,5 @@
 {
-  "name": "pangoro",
+  "name": "Pangoro",
   "nationalPokedexNumber": 675,
   "primaryType": "fighting",
   "secondaryType": "dark",
@@ -170,5 +170,6 @@
   },
   "height": 21,
   "weight": 1360,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

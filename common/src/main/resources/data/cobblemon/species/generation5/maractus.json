@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "maractus",
+  "name": "Maractus",
   "nationalPokedexNumber": 556,
   "primaryType": "grass",
   "abilities": [
@@ -121,5 +121,6 @@
   },
   "height": 10,
   "weight": 280,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

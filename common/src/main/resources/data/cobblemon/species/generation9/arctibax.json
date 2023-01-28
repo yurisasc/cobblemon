@@ -1,5 +1,5 @@
 {
-  "name": "arctibax",
+  "name": "Arctibax",
   "nationalPokedexNumber": 997,
   "primaryType": "dragon",
   "secondaryType": "ice",
@@ -99,5 +99,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

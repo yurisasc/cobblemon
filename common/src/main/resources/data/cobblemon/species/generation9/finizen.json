@@ -1,5 +1,5 @@
 {
-  "name": "finizen",
+  "name": "Finizen",
   "nationalPokedexNumber": 963,
   "primaryType": "water",
   "abilities": [
@@ -102,5 +102,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

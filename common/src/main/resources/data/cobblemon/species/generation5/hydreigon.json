@@ -1,5 +1,5 @@
 {
-  "name": "hydreigon",
+  "name": "Hydreigon",
   "nationalPokedexNumber": 635,
   "primaryType": "dark",
   "secondaryType": "dragon",
@@ -162,5 +162,6 @@
   },
   "height": 18,
   "weight": 1600,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "whirlipede",
+  "name": "Whirlipede",
   "nationalPokedexNumber": 544,
   "primaryType": "bug",
   "secondaryType": "poison",
@@ -121,5 +121,6 @@
   },
   "height": 12,
   "weight": 585,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

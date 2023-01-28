@@ -1,5 +1,5 @@
 {
-  "name": "swanna",
+  "name": "Swanna",
   "nationalPokedexNumber": 581,
   "primaryType": "water",
   "secondaryType": "flying",
@@ -106,5 +106,6 @@
   },
   "height": 13,
   "weight": 242,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

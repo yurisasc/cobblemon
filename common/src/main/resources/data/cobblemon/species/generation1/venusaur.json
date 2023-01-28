@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "venusaur",
+  "name": "Venusaur",
   "nationalPokedexNumber": 3,
   "primaryType": "grass",
   "secondaryType": "poison",
@@ -28,7 +28,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "mega",
+      "name": "Mega",
       "primaryType": "grass",
       "secondaryType": "poison",
       "abilities": [
@@ -74,7 +74,7 @@
       "battleOnly": true
     },
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "grass",
       "secondaryType": "poison",
       "abilities": [

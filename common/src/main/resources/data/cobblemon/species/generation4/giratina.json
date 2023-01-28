@@ -1,5 +1,5 @@
 {
-  "name": "giratina",
+  "name": "Giratina",
   "nationalPokedexNumber": 487,
   "primaryType": "ghost",
   "secondaryType": "dragon",
@@ -150,7 +150,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "origin",
+      "name": "Origin",
       "primaryType": "ghost",
       "secondaryType": "dragon",
       "abilities": [
@@ -192,8 +192,10 @@
       "height": 69,
       "weight": 6500,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

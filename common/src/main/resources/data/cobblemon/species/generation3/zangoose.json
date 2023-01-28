@@ -1,5 +1,5 @@
 {
-  "name": "zangoose",
+  "name": "Zangoose",
   "nationalPokedexNumber": 335,
   "primaryType": "normal",
   "abilities": [
@@ -181,5 +181,6 @@
   },
   "height": 13,
   "weight": 403,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

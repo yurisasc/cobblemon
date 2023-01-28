@@ -1,5 +1,5 @@
 {
-  "name": "shedinja",
+  "name": "Shedinja",
   "nationalPokedexNumber": 292,
   "primaryType": "bug",
   "secondaryType": "ghost",
@@ -126,5 +126,6 @@
   },
   "height": 8,
   "weight": 12,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

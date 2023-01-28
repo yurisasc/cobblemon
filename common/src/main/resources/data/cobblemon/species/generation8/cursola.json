@@ -1,5 +1,5 @@
 {
-  "name": "cursola",
+  "name": "Cursola",
   "nationalPokedexNumber": 864,
   "primaryType": "ghost",
   "abilities": [
@@ -123,5 +123,6 @@
   },
   "height": 10,
   "weight": 4,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "vikavolt",
+  "name": "Vikavolt",
   "nationalPokedexNumber": 738,
   "primaryType": "bug",
   "secondaryType": "electric",
@@ -19,7 +19,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "totem",
+      "name": "Totem",
       "primaryType": "bug",
       "secondaryType": "electric",
       "abilities": [
@@ -121,6 +121,7 @@
       "height": 26,
       "weight": 1475,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -229,5 +230,6 @@
   },
   "height": 15,
   "weight": 450,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

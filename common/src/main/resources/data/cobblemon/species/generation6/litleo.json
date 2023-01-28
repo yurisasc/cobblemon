@@ -1,5 +1,5 @@
 {
-  "name": "litleo",
+  "name": "Litleo",
   "nationalPokedexNumber": 667,
   "primaryType": "fire",
   "secondaryType": "normal",
@@ -141,5 +141,6 @@
   },
   "height": 6,
   "weight": 135,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

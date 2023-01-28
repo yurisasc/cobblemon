@@ -1,5 +1,5 @@
 {
-  "name": "ursaluna",
+  "name": "Ursaluna",
   "nationalPokedexNumber": 901,
   "primaryType": "ground",
   "secondaryType": "normal",
@@ -115,5 +115,6 @@
   "weight": 2900,
   "preEvolution": "ursaring",
   "evolutions": [],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

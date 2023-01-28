@@ -1,5 +1,5 @@
 {
-  "name": "malamar",
+  "name": "Malamar",
   "nationalPokedexNumber": 687,
   "primaryType": "dark",
   "secondaryType": "psychic",
@@ -138,5 +138,6 @@
   },
   "height": 15,
   "weight": 470,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

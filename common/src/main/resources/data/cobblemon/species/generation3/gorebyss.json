@@ -1,5 +1,5 @@
 {
-  "name": "gorebyss",
+  "name": "Gorebyss",
   "nationalPokedexNumber": 368,
   "primaryType": "water",
   "abilities": [
@@ -110,5 +110,6 @@
   },
   "height": 18,
   "weight": 226,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

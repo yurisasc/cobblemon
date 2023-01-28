@@ -1,5 +1,5 @@
 {
-  "name": "bastiodon",
+  "name": "Bastiodon",
   "nationalPokedexNumber": 411,
   "primaryType": "rock",
   "secondaryType": "steel",
@@ -123,5 +123,6 @@
   },
   "height": 13,
   "weight": 1495,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

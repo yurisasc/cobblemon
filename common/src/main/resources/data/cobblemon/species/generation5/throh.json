@@ -1,5 +1,5 @@
 {
-  "name": "throh",
+  "name": "Throh",
   "nationalPokedexNumber": 538,
   "primaryType": "fighting",
   "abilities": [
@@ -127,5 +127,6 @@
   },
   "height": 13,
   "weight": 555,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

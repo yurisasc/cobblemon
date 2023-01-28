@@ -1,5 +1,5 @@
 {
-  "name": "palossand",
+  "name": "Palossand",
   "nationalPokedexNumber": 770,
   "primaryType": "ghost",
   "secondaryType": "ground",
@@ -130,5 +130,6 @@
   },
   "height": 13,
   "weight": 2500,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "vanilluxe",
+  "name": "Vanilluxe",
   "nationalPokedexNumber": 584,
   "primaryType": "ice",
   "abilities": [
@@ -113,5 +113,6 @@
   },
   "height": 13,
   "weight": 575,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

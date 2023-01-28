@@ -1,5 +1,5 @@
 {
-  "name": "sandaconda",
+  "name": "Sandaconda",
   "nationalPokedexNumber": 844,
   "primaryType": "ground",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "ground",
       "abilities": [
         "sandspit",
@@ -64,6 +64,7 @@
       "height": 220,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -157,5 +158,6 @@
   },
   "height": 38,
   "weight": 655,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

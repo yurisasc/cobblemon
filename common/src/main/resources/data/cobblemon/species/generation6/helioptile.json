@@ -1,5 +1,5 @@
 {
-  "name": "helioptile",
+  "name": "Helioptile",
   "nationalPokedexNumber": 694,
   "primaryType": "electric",
   "secondaryType": "normal",
@@ -131,5 +131,6 @@
   },
   "height": 5,
   "weight": 60,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

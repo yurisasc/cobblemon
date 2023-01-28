@@ -1,5 +1,5 @@
 {
-  "name": "veluza",
+  "name": "Veluza",
   "nationalPokedexNumber": 976,
   "primaryType": "water",
   "secondaryType": "psychic",
@@ -85,5 +85,6 @@
   "aspects": [],
   "height": 25,
   "weight": 900,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "glimmora",
+  "name": "Glimmora",
   "nationalPokedexNumber": 970,
   "primaryType": "rock",
   "secondaryType": "poison",
@@ -91,5 +91,6 @@
   "height": 15,
   "weight": 450,
   "preEvolution": "glimmet",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

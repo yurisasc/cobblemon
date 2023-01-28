@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "geodude",
+  "name": "Geodude",
   "nationalPokedexNumber": 74,
   "primaryType": "rock",
   "secondaryType": "ground",
@@ -22,7 +22,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "rock",
       "secondaryType": "electric",
       "abilities": [

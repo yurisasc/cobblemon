@@ -1,5 +1,5 @@
 {
-  "name": "lampent",
+  "name": "Lampent",
   "nationalPokedexNumber": 608,
   "primaryType": "ghost",
   "secondaryType": "fire",
@@ -132,5 +132,6 @@
   },
   "height": 6,
   "weight": 130,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

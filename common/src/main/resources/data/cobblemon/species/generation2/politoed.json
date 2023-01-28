@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "politoed",
+  "name": "Politoed",
   "nationalPokedexNumber": 186,
   "primaryType": "water",
   "abilities": [
@@ -154,5 +154,6 @@
   },
   "height": 11,
   "weight": 339,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

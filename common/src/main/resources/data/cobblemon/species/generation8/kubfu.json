@@ -1,5 +1,5 @@
 {
-  "name": "kubfu",
+  "name": "Kubfu",
   "nationalPokedexNumber": 891,
   "primaryType": "fighting",
   "abilities": [
@@ -128,5 +128,6 @@
   },
   "height": 6,
   "weight": 120,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

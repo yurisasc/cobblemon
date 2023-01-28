@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "wooper",
+  "name": "Wooper",
   "nationalPokedexNumber": 194,
   "primaryType": "water",
   "secondaryType": "ground",
@@ -22,7 +22,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "paldea",
+      "name": "Paldea",
       "primaryType": "poison",
       "secondaryType": "ground",
       "abilities": [
@@ -147,6 +147,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -319,5 +320,6 @@
   },
   "height": 4,
   "weight": 85,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

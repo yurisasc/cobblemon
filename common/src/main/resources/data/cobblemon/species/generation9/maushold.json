@@ -1,5 +1,5 @@
 {
-  "name": "maushold",
+  "name": "Maushold",
   "nationalPokedexNumber": 925,
   "primaryType": "normal",
   "abilities": [
@@ -97,9 +97,10 @@
   "weight": 23,
   "preEvolution": "tandemaus",
   "evolutions": [],
+  "cannotDynamax": false,
   "forms": [
     {
-      "name": "four",
+      "name": "Four",
       "primaryType": "normal",
       "abilities": [
         "friendguard",
@@ -198,6 +199,7 @@
       "weight": 28,
       "preEvolution": "tandemaus",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ]

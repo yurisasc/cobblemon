@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "pichu",
+  "name": "Pichu",
   "nationalPokedexNumber": 172,
   "primaryType": "electric",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "spikyeared",
+      "name": "Spiky-eared",
       "primaryType": "electric",
       "abilities": [
         "static"
@@ -108,6 +108,7 @@
       "height": 3,
       "weight": 20,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -257,5 +258,6 @@
   },
   "height": 3,
   "weight": 20,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

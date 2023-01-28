@@ -1,5 +1,5 @@
 {
-  "name": "gossifleur",
+  "name": "Gossifleur",
   "nationalPokedexNumber": 829,
   "primaryType": "grass",
   "abilities": [
@@ -108,5 +108,6 @@
   },
   "height": 4,
   "weight": 22,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

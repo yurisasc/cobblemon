@@ -1,5 +1,5 @@
 {
-  "name": "smeargle",
+  "name": "Smeargle",
   "nationalPokedexNumber": 235,
   "primaryType": "normal",
   "abilities": [
@@ -62,5 +62,6 @@
   },
   "height": 12,
   "weight": 580,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

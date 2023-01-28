@@ -1,5 +1,5 @@
 {
-  "name": "wimpod",
+  "name": "Wimpod",
   "nationalPokedexNumber": 767,
   "primaryType": "bug",
   "secondaryType": "water",
@@ -105,5 +105,6 @@
   },
   "height": 5,
   "weight": 120,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

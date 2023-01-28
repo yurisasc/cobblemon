@@ -1,5 +1,5 @@
 {
-  "name": "blitzle",
+  "name": "Blitzle",
   "nationalPokedexNumber": 522,
   "primaryType": "electric",
   "abilities": [
@@ -121,5 +121,6 @@
   },
   "height": 8,
   "weight": 298,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

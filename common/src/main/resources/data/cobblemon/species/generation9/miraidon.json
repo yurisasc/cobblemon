@@ -1,5 +1,5 @@
 {
-  "name": "miraidon",
+  "name": "Miraidon",
   "nationalPokedexNumber": 1008,
   "primaryType": "electric",
   "secondaryType": "dragon",
@@ -109,5 +109,6 @@
   "aspects": [],
   "height": 35,
   "weight": 2400,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

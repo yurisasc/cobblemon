@@ -1,5 +1,5 @@
 {
-  "name": "passimian",
+  "name": "Passimian",
   "nationalPokedexNumber": 766,
   "primaryType": "fighting",
   "abilities": [
@@ -145,5 +145,6 @@
   },
   "height": 20,
   "weight": 828,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "whismur",
+  "name": "Whismur",
   "nationalPokedexNumber": 293,
   "primaryType": "normal",
   "abilities": [
@@ -145,5 +145,6 @@
   },
   "height": 6,
   "weight": 163,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

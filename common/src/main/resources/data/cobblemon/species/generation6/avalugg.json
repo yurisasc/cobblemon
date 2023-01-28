@@ -1,5 +1,5 @@
 {
-  "name": "avalugg",
+  "name": "Avalugg",
   "nationalPokedexNumber": 713,
   "primaryType": "ice",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "ice",
       "secondaryType": "rock",
       "abilities": [
@@ -122,6 +122,7 @@
       "weight": 2624,
       "preEvolution": "bergmite",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -243,5 +244,6 @@
   },
   "height": 20,
   "weight": 5050,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

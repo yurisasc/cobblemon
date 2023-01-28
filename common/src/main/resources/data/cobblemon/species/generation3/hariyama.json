@@ -1,5 +1,5 @@
 {
-  "name": "hariyama",
+  "name": "Hariyama",
   "nationalPokedexNumber": 297,
   "primaryType": "fighting",
   "abilities": [
@@ -154,5 +154,6 @@
   },
   "height": 23,
   "weight": 2538,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

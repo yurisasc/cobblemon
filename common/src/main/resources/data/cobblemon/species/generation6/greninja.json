@@ -1,5 +1,5 @@
 {
-  "name": "greninja",
+  "name": "Greninja",
   "nationalPokedexNumber": 658,
   "primaryType": "water",
   "secondaryType": "dark",
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "ash",
+      "name": "Ash",
       "primaryType": "water",
       "secondaryType": "dark",
       "abilities": [
@@ -147,6 +147,7 @@
       "height": 15,
       "weight": 400,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -276,5 +277,6 @@
   },
   "height": 15,
   "weight": 400,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

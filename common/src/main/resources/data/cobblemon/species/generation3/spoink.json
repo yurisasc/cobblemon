@@ -1,5 +1,5 @@
 {
-  "name": "spoink",
+  "name": "Spoink",
   "nationalPokedexNumber": 325,
   "primaryType": "psychic",
   "abilities": [
@@ -166,5 +166,6 @@
   },
   "height": 7,
   "weight": 306,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

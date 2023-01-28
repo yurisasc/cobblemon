@@ -1,5 +1,5 @@
 {
-  "name": "vivillon",
+  "name": "Vivillon",
   "nationalPokedexNumber": 666,
   "primaryType": "bug",
   "secondaryType": "flying",
@@ -21,7 +21,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "fancy",
+      "name": "Fancy",
       "primaryType": "bug",
       "secondaryType": "flying",
       "abilities": [
@@ -137,10 +137,11 @@
       "weight": 170,
       "preEvolution": "spewpa",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
-      "name": "pokeball",
+      "name": "Pokeball",
       "primaryType": "bug",
       "secondaryType": "flying",
       "abilities": [
@@ -253,6 +254,7 @@
       "height": 12,
       "weight": 170,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -360,5 +362,6 @@
   },
   "height": 12,
   "weight": 170,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "meditite",
+  "name": "Meditite",
   "nationalPokedexNumber": 307,
   "primaryType": "fighting",
   "secondaryType": "psychic",
@@ -182,5 +182,6 @@
   },
   "height": 6,
   "weight": 112,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "flittle",
+  "name": "Flittle",
   "nationalPokedexNumber": 955,
   "primaryType": "psychic",
   "abilities": [
@@ -104,5 +104,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

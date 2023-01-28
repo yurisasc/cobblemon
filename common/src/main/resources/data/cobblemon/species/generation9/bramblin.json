@@ -1,5 +1,5 @@
 {
-  "name": "bramblin",
+  "name": "Bramblin",
   "nationalPokedexNumber": 946,
   "primaryType": "grass",
   "secondaryType": "ghost",
@@ -99,5 +99,6 @@
         }
       ]
     }
-  ]
+  ],
+  "cannotDynamax": false
 }

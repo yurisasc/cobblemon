@@ -1,5 +1,5 @@
 {
-  "name": "cubchoo",
+  "name": "Cubchoo",
   "nationalPokedexNumber": 613,
   "primaryType": "ice",
   "abilities": [
@@ -155,5 +155,6 @@
   },
   "height": 5,
   "weight": 85,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

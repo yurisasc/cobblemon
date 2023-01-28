@@ -1,5 +1,5 @@
 {
-  "name": "tapukoko",
+  "name": "Tapu Koko",
   "nationalPokedexNumber": 785,
   "primaryType": "electric",
   "secondaryType": "fairy",
@@ -137,5 +137,6 @@
   },
   "height": 18,
   "weight": 205,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

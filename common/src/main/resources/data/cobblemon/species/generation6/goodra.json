@@ -1,5 +1,5 @@
 {
-  "name": "goodra",
+  "name": "Goodra",
   "nationalPokedexNumber": 706,
   "primaryType": "dragon",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "hisui",
+      "name": "Hisui",
       "primaryType": "steel",
       "secondaryType": "dragon",
       "abilities": [
@@ -132,6 +132,7 @@
       "weight": 3341,
       "preEvolution": "sliggoo form=hisui",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -259,5 +260,6 @@
   },
   "height": 20,
   "weight": 1505,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

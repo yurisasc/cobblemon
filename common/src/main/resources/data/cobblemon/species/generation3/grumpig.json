@@ -1,5 +1,5 @@
 {
-  "name": "grumpig",
+  "name": "Grumpig",
   "nationalPokedexNumber": 326,
   "primaryType": "psychic",
   "abilities": [
@@ -173,5 +173,6 @@
   },
   "height": 9,
   "weight": 715,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

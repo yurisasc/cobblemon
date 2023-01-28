@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "pikachu",
+  "name": "Pikachu",
   "nationalPokedexNumber": 25,
   "primaryType": "electric",
   "abilities": [
@@ -20,7 +20,7 @@
   "shoulderMountable": false,
   "forms": [
     {
-      "name": "cosplay",
+      "name": "Cosplay",
       "primaryType": "electric",
       "abilities": [
         "lightningrod"
@@ -128,7 +128,7 @@
       "battleOnly": false
     },
     {
-      "name": "rockstar",
+      "name": "Rock-Star",
       "primaryType": "electric",
       "abilities": [
         "lightningrod"
@@ -173,7 +173,7 @@
       "battleOnly": false
     },
     {
-      "name": "belle",
+      "name": "Belle",
       "primaryType": "electric",
       "abilities": [
         "lightningrod"
@@ -218,7 +218,7 @@
       "battleOnly": false
     },
     {
-      "name": "popstar",
+      "name": "Pop-Star",
       "primaryType": "electric",
       "abilities": [
         "lightningrod"
@@ -263,7 +263,7 @@
       "battleOnly": false
     },
     {
-      "name": "phd",
+      "name": "PhD",
       "primaryType": "electric",
       "abilities": [
         "lightningrod"
@@ -308,7 +308,7 @@
       "battleOnly": false
     },
     {
-      "name": "libre",
+      "name": "Libre",
       "primaryType": "electric",
       "abilities": [
         "lightningrod"
@@ -353,7 +353,7 @@
       "battleOnly": false
     },
     {
-      "name": "original",
+      "name": "Original",
       "primaryType": "electric",
       "abilities": [
         "static",
@@ -490,7 +490,7 @@
       "battleOnly": false
     },
     {
-      "name": "hoenn",
+      "name": "Hoenn",
       "primaryType": "electric",
       "abilities": [
         "static",
@@ -627,7 +627,7 @@
       "battleOnly": false
     },
     {
-      "name": "sinnoh",
+      "name": "Sinnoh",
       "primaryType": "electric",
       "abilities": [
         "static",
@@ -764,7 +764,7 @@
       "battleOnly": false
     },
     {
-      "name": "unova",
+      "name": "Unova",
       "primaryType": "electric",
       "abilities": [
         "static",
@@ -901,7 +901,7 @@
       "battleOnly": false
     },
     {
-      "name": "kalos",
+      "name": "Kalos",
       "primaryType": "electric",
       "abilities": [
         "static",
@@ -1038,7 +1038,7 @@
       "battleOnly": false
     },
     {
-      "name": "alola",
+      "name": "Alola",
       "primaryType": "electric",
       "abilities": [
         "static",
@@ -1176,7 +1176,7 @@
       "battleOnly": false
     },
     {
-      "name": "partner",
+      "name": "Partner",
       "primaryType": "electric",
       "abilities": [
         "static",
@@ -1313,7 +1313,7 @@
       "battleOnly": false
     },
     {
-      "name": "starter",
+      "name": "Starter",
       "primaryType": "electric",
       "abilities": [
         "static",
@@ -1389,7 +1389,7 @@
       "battleOnly": false
     },
     {
-      "name": "gmax",
+      "name": "Gmax",
       "primaryType": "electric",
       "abilities": [
         "static",
@@ -1435,7 +1435,7 @@
       "battleOnly": false
     },
     {
-      "name": "world",
+      "name": "World",
       "primaryType": "electric",
       "abilities": [
         "static",

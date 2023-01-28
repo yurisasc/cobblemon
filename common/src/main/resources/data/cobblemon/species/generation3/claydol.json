@@ -1,5 +1,5 @@
 {
-  "name": "claydol",
+  "name": "Claydol",
   "nationalPokedexNumber": 344,
   "primaryType": "ground",
   "secondaryType": "psychic",
@@ -151,5 +151,6 @@
   },
   "height": 15,
   "weight": 1080,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "lickilicky",
+  "name": "Lickilicky",
   "nationalPokedexNumber": 463,
   "primaryType": "normal",
   "abilities": [
@@ -155,5 +155,6 @@
   },
   "height": 17,
   "weight": 1400,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

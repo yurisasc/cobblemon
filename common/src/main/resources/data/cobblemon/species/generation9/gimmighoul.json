@@ -1,5 +1,5 @@
 {
-  "name": "gimmighoul",
+  "name": "Gimmighoul",
   "nationalPokedexNumber": 999,
   "primaryType": "ghost",
   "abilities": [
@@ -68,9 +68,10 @@
       "requirements": []
     }
   ],
+  "cannotDynamax": false,
   "forms": [
     {
-      "name": "roaming",
+      "name": "Roaming",
       "primaryType": "ghost",
       "abilities": [
         "runaway"
@@ -119,6 +120,7 @@
           "requirements": []
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ]

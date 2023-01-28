@@ -1,5 +1,5 @@
 {
-  "name": "enamorus",
+  "name": "Enamorus",
   "nationalPokedexNumber": 905,
   "primaryType": "fairy",
   "secondaryType": "flying",
@@ -100,7 +100,7 @@
   "evolutions": [],
   "forms": [
     {
-      "name": "therian",
+      "name": "Therian",
       "primaryType": "fairy",
       "secondaryType": "flying",
       "abilities": [
@@ -195,8 +195,10 @@
       "height": 16,
       "weight": 480,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

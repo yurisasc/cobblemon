@@ -1,5 +1,5 @@
 {
-  "name": "klawf",
+  "name": "Klawf",
   "nationalPokedexNumber": 950,
   "primaryType": "rock",
   "abilities": [
@@ -101,5 +101,6 @@
   "aspects": [],
   "height": 13,
   "weight": 790,
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

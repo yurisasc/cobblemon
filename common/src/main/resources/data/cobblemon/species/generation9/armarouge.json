@@ -1,5 +1,5 @@
 {
-  "name": "armarouge",
+  "name": "Armarouge",
   "nationalPokedexNumber": 936,
   "primaryType": "fire",
   "secondaryType": "psychic",
@@ -100,5 +100,6 @@
   "height": 15,
   "weight": 850,
   "preEvolution": "charcadet",
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

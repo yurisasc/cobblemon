@@ -1,5 +1,5 @@
 {
-  "name": "lumineon",
+  "name": "Lumineon",
   "nationalPokedexNumber": 457,
   "primaryType": "water",
   "abilities": [
@@ -123,5 +123,6 @@
   },
   "height": 12,
   "weight": 240,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

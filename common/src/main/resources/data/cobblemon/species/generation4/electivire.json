@@ -1,6 +1,6 @@
 {
   "implemented": true,
-  "name": "electivire",
+  "name": "Electivire",
   "nationalPokedexNumber": 466,
   "primaryType": "electric",
   "abilities": [
@@ -153,5 +153,6 @@
   },
   "height": 18,
   "weight": 1386,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "perrserker",
+  "name": "Perrserker",
   "nationalPokedexNumber": 863,
   "primaryType": "steel",
   "abilities": [
@@ -128,5 +128,6 @@
   },
   "height": 8,
   "weight": 280,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

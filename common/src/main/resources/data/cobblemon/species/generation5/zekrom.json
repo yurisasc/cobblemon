@@ -1,5 +1,5 @@
 {
-  "name": "zekrom",
+  "name": "Zekrom",
   "nationalPokedexNumber": 644,
   "primaryType": "dragon",
   "secondaryType": "electric",
@@ -148,5 +148,6 @@
   },
   "height": 29,
   "weight": 3450,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

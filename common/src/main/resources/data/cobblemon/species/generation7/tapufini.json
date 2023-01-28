@@ -1,5 +1,5 @@
 {
-  "name": "tapufini",
+  "name": "Tapu Fini",
   "nationalPokedexNumber": 788,
   "primaryType": "water",
   "secondaryType": "fairy",
@@ -132,5 +132,6 @@
   },
   "height": 13,
   "weight": 212,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -1,5 +1,5 @@
 {
-  "name": "grotle",
+  "name": "Grotle",
   "nationalPokedexNumber": 388,
   "primaryType": "grass",
   "abilities": [
@@ -124,5 +124,6 @@
   },
   "height": 11,
   "weight": 970,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }
