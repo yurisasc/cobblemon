@@ -226,7 +226,6 @@ object Cobblemon {
         SpeciesFeatures.types["flag"] = FlagSpeciesFeatureProvider::class.java
 
         GlobalSpeciesFeatures.register(DamageTakenFeature.ID, EvolutionRequirementFeatureProvider({ DamageTakenFeature() }, { requirement -> requirement is DamageTakenRequirement }))
-        GlobalSpeciesFeatures.register(BattleCriticalHitsFeature.ID, EvolutionRequirementFeatureProvider({ BattleCriticalHitsFeature() }, { requirement -> requirement is BattleCriticalHitsRequirement }))
         GlobalSpeciesFeatures.register(UseMoveCountFeature.ID, EvolutionRequirementFeatureProvider({ UseMoveCountFeature() }, { requirement -> requirement is UseMoveCountRequirement }))
 
         CustomPokemonProperty.register(UntradeableProperty)

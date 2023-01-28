@@ -39,7 +39,6 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPac
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
-import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
 import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
 import com.cobblemon.mod.common.pokemon.feature.UseMoveCountFeature
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
@@ -639,8 +638,8 @@ object ShowdownInterpreter {
             this.lastMover[battle.battleId]?.let { message ->
                 val editMessaged = message.replace("|move|", "")
                 val userPNX = editMessaged.split("|")[0].split(":")[0].trim()
-                val pokemon = battle.getActorAndActiveSlotFromPNX(userPNX).second.battlePokemon?.effectedPokemon ?: return@let
-                pokemon.getFeature<BattleCriticalHitsFeature>(BattleCriticalHitsFeature.ID)?.let { it.currentValue++ }
+                val battlePokemon = battle.getActorAndActiveSlotFromPNX(userPNX).second.battlePokemon ?: return@let
+                battlePokemon.criticalHits++
             }
             GO
         }
