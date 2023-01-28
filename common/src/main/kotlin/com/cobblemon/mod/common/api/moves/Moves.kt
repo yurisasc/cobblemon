@@ -47,7 +47,7 @@ object Moves : DataRegistry {
                 val elementalType = ElementalTypes.getOrException(jsMove.getMember("type").asString())
                 val damageCategory = DamageCategories.getOrException(jsMove.getMember("category").asString())
                 val power = jsMove.getMember("basePower").asDouble()
-                val target = MoveTarget.byName(jsMove.getMember("target").asString())
+                val target = MoveTarget.fromShowdownId(jsMove.getMember("target").asString())
                 // If not a double it's always true
                 val accuracy = if (!jsMove.getMember("accuracy").fitsInDouble()) -1.0 else jsMove.getMember("accuracy").asDouble()
                 val pp = jsMove.getMember("pp").asInt()

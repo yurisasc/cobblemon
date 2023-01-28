@@ -17,7 +17,7 @@ class InBattleMove {
     lateinit var move: String
     var pp: Int = 100
     var maxpp: Int = 100
-    var target: MoveTarget = MoveTarget.SELF
+    var target: MoveTarget = MoveTarget.self
     var disabled: Boolean = false
 
     companion object {
@@ -27,7 +27,7 @@ class InBattleMove {
                 move = buffer.readString()
                 pp = buffer.readSizedInt(IntSize.U_BYTE)
                 maxpp = buffer.readSizedInt(IntSize.U_BYTE)
-                target = MoveTarget.values()[buffer.readSizedInt(IntSize.U_BYTE)]
+                target = buffer.readEnumConstant(MoveTarget::class.java)
                 disabled = buffer.readBoolean()
             }
         }
@@ -35,13 +35,13 @@ class InBattleMove {
 
     fun getTargets(user: ActiveBattlePokemon) = target.targetList(user)
     fun canBeUsed() = (pp > 0 && !disabled) || mustBeUsed() // Second case is like Thrash, forced choice
-    fun mustBeUsed() = maxpp == 100 && pp == 100 && target == MoveTarget.SELF
+    fun mustBeUsed() = maxpp == 100 && pp == 100 && target == MoveTarget.self
     fun saveToBuffer(buffer: PacketByteBuf) {
         buffer.writeString(id)
         buffer.writeString(move)
         buffer.writeSizedInt(IntSize.U_BYTE, pp)
         buffer.writeSizedInt(IntSize.U_BYTE, maxpp)
-        buffer.writeSizedInt(IntSize.U_BYTE, target.ordinal)
+        buffer.writeEnumConstant(target)
         buffer.writeBoolean(disabled)
     }
 }

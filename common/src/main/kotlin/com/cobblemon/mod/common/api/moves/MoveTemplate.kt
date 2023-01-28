@@ -58,7 +58,7 @@ open class MoveTemplate(
         elementalType = ElementalTypes.NORMAL,
         damageCategory = DamageCategories.STATUS,
         power = 0.0,
-        target = MoveTarget.ALL,
+        target = MoveTarget.all,
         accuracy = 100.0,
         pp = 5,
         priority = 0,

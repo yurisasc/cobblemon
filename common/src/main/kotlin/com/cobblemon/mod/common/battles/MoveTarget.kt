@@ -82,35 +82,35 @@ interface Targetable {
 }
 
 enum class MoveTarget(val targetList: (Targetable) -> List<Targetable>? = { null }) {
-    ANY({ pokemon -> pokemon.getAllActivePokemon().filter { it != pokemon } }),
-    ALL,
-    ALL_ADJACENT,
-    ALL_ADJACENT_FOES,
-    SELF,
-    NORMAL({ pokemon -> pokemon.getAdjacent() }),
-    RANDOM_NORMAL,
-    ALLIES,
-    ALLY_SIDE,
-    ALLY_TEAM,
-    ADJACENT_ALLY({ pokemon -> pokemon.getAdjacentAllies() }),
-    ADJACENT_ALLY_OR_SELF({ pokemon -> pokemon.getAdjacentAllies() + pokemon }),
-    ADJACENT_FOE({ pokemon -> pokemon.getAdjacentOpponents() }),
-    FOE_SIDE,
-    SCRIPTED;
+    any({ pokemon -> pokemon.getAllActivePokemon().filter { it != pokemon } }),
+    all,
+    allAdjacent,
+    allAdjacentFoes,
+    self,
+    normal({ pokemon -> pokemon.getAdjacent() }),
+    randomNormal,
+    allies,
+    allySide,
+    allyTeam,
+    adjacentAlly({ pokemon -> pokemon.getAdjacentAllies() }),
+    adjacentAllyOrSelf({ pokemon -> pokemon.getAdjacentAllies() + pokemon }),
+    adjacentFoe({ pokemon -> pokemon.getAdjacentOpponents() }),
+    foeSide,
+    scripted;
+
 
     companion object {
 
         private val VALUES = values()
 
         /**
-         * TODO
+         * Attempts to parse a [MoveTarget] from the given [showdownId].
          *
-         * @param name
+         * @param showdownId The showdown ID fo the move target.
+         *
+         * @throws NoSuchElementException if the value cannot be found.
          */
-        fun byName(name: String): MoveTarget {
-            val id = name.split(Regex("(?=\\p{Upper})")).joinToString("_") { it.lowercase() }
-            return VALUES.first { value -> value.name.equals(id, true) }
-        }
+        fun fromShowdownId(showdownId: String): MoveTarget = VALUES.first { target -> target.name.equals(showdownId, true) }
 
     }
 
