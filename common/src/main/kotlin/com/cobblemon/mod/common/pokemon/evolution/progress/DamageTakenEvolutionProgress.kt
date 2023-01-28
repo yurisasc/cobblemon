@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.pokemon.evolution.progress
 
 import com.cobblemon.mod.common.api.pokemon.evolution.progress.EvolutionProgress
@@ -14,7 +22,7 @@ import net.minecraft.util.Identifier
  * @author Licious
  * @since January 28th, 2022
  */
-class DamageTakenProgress : EvolutionProgress<DamageTakenProgress.Progress> {
+class DamageTakenEvolutionProgress : EvolutionProgress<DamageTakenEvolutionProgress.Progress> {
 
     private var progress = Progress(0)
 

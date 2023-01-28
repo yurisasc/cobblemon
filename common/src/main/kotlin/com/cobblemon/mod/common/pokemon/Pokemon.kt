@@ -66,7 +66,7 @@ import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy
-import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenProgress
+import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
@@ -196,7 +196,7 @@ open class Pokemon {
                 }
                 // These are meant to reset on faint
                 this.evolutionProxy.current().progress()
-                    .filter { it is RecoilEvolutionProgress || it is DamageTakenProgress }
+                    .filter { it is RecoilEvolutionProgress || it is DamageTakenEvolutionProgress }
                     .forEach { it.reset() }
             }
             this.healTimer = Cobblemon.config.healTimer

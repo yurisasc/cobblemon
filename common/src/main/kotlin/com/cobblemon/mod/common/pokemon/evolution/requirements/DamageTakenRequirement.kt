@@ -10,7 +10,7 @@ package com.cobblemon.mod.common.pokemon.evolution.requirements
 
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
-import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenProgress
+import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 
 /**
  * An [EvolutionRequirement] which requires a specific [amount] of damage taken in battle without fainting in order to pass.
@@ -32,7 +32,7 @@ class DamageTakenRequirement(amount: Int) : EvolutionRequirement {
 
     override fun check(pokemon: Pokemon): Boolean = pokemon.evolutionProxy.current()
         .progress()
-        .filterIsInstance<DamageTakenProgress>()
+        .filterIsInstance<DamageTakenEvolutionProgress>()
         .any { progress -> progress.currentProgress().amount >= this.amount }
 
     companion object {
