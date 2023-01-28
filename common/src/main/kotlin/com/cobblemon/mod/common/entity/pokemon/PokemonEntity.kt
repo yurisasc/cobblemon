@@ -65,7 +65,6 @@ import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
-import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
@@ -414,7 +413,7 @@ class PokemonEntity(
     override fun saveAdditionalSpawnData(buffer: PacketByteBuf) {
         buffer.writeFloat(pokemon.scaleModifier)
         buffer.writeIdentifier(pokemon.species.resourceIdentifier)
-        buffer.writeString(pokemon.form.name)
+        buffer.writeString(pokemon.form.formOnlyShowdownId())
         buffer.writeInt(phasingTargetId.get())
         buffer.writeByte(beamModeEmitter.get().toInt())
         buffer.writeCollection(pokemon.aspects, PacketByteBuf::writeString)
@@ -427,8 +426,8 @@ class PokemonEntity(
             // TODO exception handling
             pokemon.species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
             // TODO exception handling
-            val formName = buffer.readString()
-            pokemon.form = pokemon.species.forms.find { form -> form.name == formName } ?: pokemon.species.standardForm
+            val formId = buffer.readString()
+            pokemon.form = pokemon.species.forms.find { form -> form.formOnlyShowdownId() == formId } ?: pokemon.species.standardForm
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
             this.aspects.set(buffer.readList(PacketByteBuf::readString).toSet())
@@ -491,8 +490,7 @@ class PokemonEntity(
 
     override fun playAmbientSound() {
         if (!this.isSilent) {
-            val subPath = if (this.pokemon.form == this.pokemon.species.standardForm) this.pokemon.species.name else "${this.pokemon.species.name}-${this.pokemon.form.name}"
-            val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.$subPath.ambient")
+            val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
             // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
             UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
                 .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.registryKey)

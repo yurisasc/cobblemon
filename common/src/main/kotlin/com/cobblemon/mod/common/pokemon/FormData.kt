@@ -10,6 +10,7 @@ package com.cobblemon.mod.common.pokemon
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.AbilityPool
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.moves.MoveTemplate
 import com.cobblemon.mod.common.api.net.Decodable
@@ -35,7 +36,7 @@ import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
 
 class FormData(
-    name: String = "normal",
+    name: String = "Normal",
     // Internal for the sake of the base stat provider
     @SerializedName("baseStats")
     internal var _baseStats: MutableMap<Stat, Int>? = null,
@@ -93,7 +94,7 @@ class FormData(
      * This is always null on any form aside G-Max.
      */
     val gigantamaxMove: MoveTemplate? = null
-) : Decodable, Encodable {
+) : Decodable, Encodable, ShowdownIdentifiable {
     @SerializedName("name")
     var name: String = name
         private set
@@ -208,15 +209,9 @@ class FormData(
         this.evolutions.size
     }
 
-    override fun equals(other: Any?): Boolean {
-        return other is FormData
-                && other.species.name.equals(this.species.name, true)
-                && other.name.equals(this.name, true)
-    }
+    override fun equals(other: Any?): Boolean = other is FormData && other.showdownId() == this.showdownId()
 
-    override fun hashCode(): Int {
-        return this.species.name.hashCode() and this.name.hashCode()
-    }
+    override fun hashCode(): Int = this.showdownId().hashCode()
 
     override fun encode(buffer: PacketByteBuf) {
         buffer.writeString(this.name)
@@ -263,4 +258,22 @@ class FormData(
         }
         this._experienceGroup = ExperienceGroups.findByName(buffer.readString())
     }
+
+    /**
+     * The literal Showdown ID of this [formOnlyShowdownId] appended to [Species.showdownId].
+     * For example Alolan Vulpix becomes 'vulpixalola'
+     *
+     * @return The literal Showdown ID of this species and form.
+     */
+    override fun showdownId(): String = this.species.showdownId() + this.formOnlyShowdownId()
+
+    /**
+     * The literal Showdown ID of this form [name].
+     * This will be a lowercase version of the [name] with all the non-alphanumeric characters removed.
+     * For example Alolan Vulpix becomes 'alola'
+     *
+     * @return The literal Showdown ID of this form only.
+     */
+    fun formOnlyShowdownId(): String = ShowdownIdentifiable.REGEX.replace(this.name.lowercase(), "")
+
 }
