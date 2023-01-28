@@ -38,6 +38,7 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatu
 import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
 import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
 import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
 import com.cobblemon.mod.common.pokemon.feature.UseMoveCountFeature
@@ -52,6 +53,7 @@ import java.util.UUID
 import java.util.concurrent.CompletableFuture
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
+import kotlin.math.roundToInt
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String, MutableList<String>) -> Unit>()
@@ -853,7 +855,23 @@ object ShowdownInterpreter {
 
     fun handleDamageInstruction(battle: PokemonBattle, actor: BattleActor, publicMessage: String, privateMessage: String) {
         val pnx = publicMessage.split("|")[2].split(":")[0]
-        val (_, activePokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+        val battleMessage = BattleMessage(publicMessage)
+        val (_, activePokemon) = battleMessage.actorAndActivePokemon(0, battle)!!
+        if (battleMessage.optionalArgument("from")?.equals("recoil", true) == true) {
+            activePokemon.battlePokemon?.effectedPokemon?.let { pokemon ->
+                val recoilProgress = RecoilEvolutionProgress()
+                // Lazy cheat to see if it's necessary to use this
+                if (recoilProgress.shouldKeep(pokemon)) {
+                    val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is RecoilEvolutionProgress }) { recoilProgress }
+                    val newPercentage = battleMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toIntOrNull() ?: 0
+                    val newHealth = (pokemon.hp * (newPercentage / 100.0)).roundToInt()
+                    val difference = pokemon.currentHealth - newHealth
+                    if (difference > 0) {
+                        progress.updateProgress(RecoilEvolutionProgress.Progress(progress.currentProgress().recoil + difference))
+                    }
+                }
+            }
+        }
         val newHealth = privateMessage.split("|")[3].split(" ")[0]
         val cause = if ("[from]" in publicMessage) publicMessage.substringAfter("[from]").trim() else null
 
