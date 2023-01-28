@@ -65,6 +65,7 @@ import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.fluid.FluidState
+import net.minecraft.fluid.Fluids
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
@@ -77,7 +78,11 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import kotlin.math.round
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 class PokemonEntity(
     world: World,
@@ -114,6 +119,12 @@ class PokemonEntity(
         get() = this.battleId.get().isPresent
 
     var drops: DropTable? = null
+
+    /**
+     * The amount of steps this entity has taken.
+     */
+    var steps: Int = 0
+
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val species = addEntityProperty(SPECIES, pokemon.species.resourceIdentifier.toString())
@@ -608,6 +619,34 @@ class PokemonEntity(
     override fun updatePostDeath() {
         super.updatePostDeath()
         delegate.updatePostDeath()
+    }
+
+    override fun travel(movementInput: Vec3d) {
+        val previousX = this.x
+        val previousY = this.y
+        val previousZ = this.z
+        super.travel(movementInput)
+        val xDiff = this.x - previousX
+        val yDiff = this.y - previousY
+        val zDiff = this.z - previousZ
+        this.updateWalkedSteps(xDiff, yDiff, zDiff)
+    }
+
+    private fun updateWalkedSteps(xDiff: Double, yDiff: Double, zDiff: Double) {
+        // Riding or falling shouldn't count, other movement sources are fine
+        if (!this.hasVehicle() || !this.isFallFlying) {
+            return
+        }
+        val stepsTaken = when {
+            this.isSwimming || this.isSubmergedIn(FluidTags.WATER) -> round(sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff) * 100F)
+            this.isClimbing -> round(yDiff * 100F)
+            this.isFallFlying -> 0.0
+            // Walking, flying or touching water
+            else -> round(sqrt(xDiff * xDiff + zDiff * zDiff) * 100F)
+        }
+        if (stepsTaken > 0) {
+            this.steps += stepsTaken.roundToInt()
+        }
     }
 
     private fun updateEyeHeight() {

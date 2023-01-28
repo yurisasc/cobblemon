@@ -8,7 +8,6 @@
 
 package com.cobblemon.mod.common.pokemon.evolution.adapters
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.pokemon.evolution.adapters.RequirementAdapter
 import com.cobblemon.mod.common.api.pokemon.evolution.requirement.EvolutionRequirement
 import com.cobblemon.mod.common.pokemon.Pokemon
@@ -52,6 +51,7 @@ object CobblemonRequirementAdapter : RequirementAdapter {
         this.registerType(MoonPhaseRequirement.ADAPTER_VARIANT, MoonPhaseRequirement::class)
         this.registerType(RecoilRequirement.ADAPTER_VARIANT, RecoilRequirement::class)
         this.registerType(DefeatRequirement.ADAPTER_VARIANT, DefeatRequirement::class)
+        this.registerType(WalkedStepsRequirement.ADAPTER_VARIANT, WalkedStepsRequirement::class)
     }
 
     override fun <T : EvolutionRequirement> registerType(id: String, type: KClass<T>) {
@@ -60,10 +60,7 @@ object CobblemonRequirementAdapter : RequirementAdapter {
 
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): EvolutionRequirement {
         val variant = json.asJsonObject.get(VARIANT).asString.lowercase()
-        val type = this.types[variant] ?: run {
-            Cobblemon.LOGGER.info("Need to implement evolution requirement type for '{}'", variant)
-            DummyVariant::class
-        }//throw IllegalArgumentException("Cannot resolve evolution requirement type for variant $variant")
+        val type = this.types[variant] ?: throw IllegalArgumentException("Cannot resolve evolution requirement type for variant $variant")
         return context.deserialize(json, type.java)
     }
 
