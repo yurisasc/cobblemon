@@ -26,10 +26,9 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
-import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.battles.runner.GraalShowdown
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
-import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
+import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
 import com.cobblemon.mod.common.util.battleLang
 import com.cobblemon.mod.common.util.getPlayer
 import java.util.UUID
@@ -55,7 +54,7 @@ open class PokemonBattle(
         side2.battle = this
         this.actors.forEach { actor ->
             actor.pokemonList.forEach { battlePokemon ->
-                battlePokemon.effectedPokemon.getFeature<BattleCriticalHitsFeature>(BattleCriticalHitsFeature.ID)?.reset()
+                battlePokemon.criticalHits = 0
             }
         }
     }
@@ -171,21 +170,29 @@ open class PokemonBattle(
             actor.getSide().getOppositeSide().actors.forEach { opponent ->
                 val opponentNonFaintedPokemons = opponent.pokemonList.filter { it.health > 0 }
                 faintedPokemons.forEach { faintedPokemon ->
-                    opponentNonFaintedPokemons.forEach { opponentPokemon ->
-                            val facedFainted = opponentPokemon.facedOpponents.contains(faintedPokemon)
-                            val multiplier = when {
-                                // ToDo when Exp. All is implement if enabled && !facedFainted return 2.0, probably should be a configurable value too, this will have priority over the Exp. Share
-                                !facedFainted && opponentPokemon.effectedPokemon.heldItemNoCopy().isIn(CobblemonItemTags.EXPERIENCE_SHARE) -> Cobblemon.config.experienceShareMultiplier
-                                else -> 1.0
-                            }
-                            val experience = Cobblemon.experienceCalculator.calculate(opponentPokemon, faintedPokemon, multiplier)
-                            if (experience > 0) {
-                                opponent.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
-                            }
-                            Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
-                                opponentPokemon.effectedPokemon.evs.add(stat, amount)
-                            }
+                    for (opponentPokemon in opponentNonFaintedPokemons) {
+                        val facedFainted = opponentPokemon.facedOpponents.contains(faintedPokemon)
+                        val defeatProgress = DefeatEvolutionProgress()
+                        val pokemon = opponentPokemon.effectedPokemon
+                        if (facedFainted && defeatProgress.shouldKeep(pokemon)) {
+                            val progress = pokemon.evolutionProxy.current().progressFirstOrCreate({ it is DefeatEvolutionProgress && it.currentProgress().target.matches(faintedPokemon.effectedPokemon) }) { defeatProgress }
+                            progress.updateProgress(DefeatEvolutionProgress.Progress(progress.currentProgress().target, progress.currentProgress().amount + 1))
                         }
+                        val multiplier = when {
+                            // ToDo when Exp. All is implement if enabled && !facedFainted return 2.0, probably should be a configurable value too, this will have priority over the Exp. Share
+                            !facedFainted && pokemon.heldItemNoCopy().isIn(CobblemonItemTags.EXPERIENCE_SHARE) -> Cobblemon.config.experienceShareMultiplier
+                            // ToDo when Exp. All is implemented the facedFainted and else can be collapsed into the 1.0 return value
+                            facedFainted -> 1.0
+                            else -> continue
+                        }
+                        val experience = Cobblemon.experienceCalculator.calculate(opponentPokemon, faintedPokemon, multiplier)
+                        if (experience > 0) {
+                            opponent.awardExperience(opponentPokemon, (experience * Cobblemon.config.experienceMultiplier).toInt())
+                        }
+                        Cobblemon.evYieldCalculator.calculate(opponentPokemon).forEach { (stat, amount) ->
+                            pokemon.evs.add(stat, amount)
+                        }
+                    }
                 }
             }
         }

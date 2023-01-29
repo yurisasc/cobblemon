@@ -284,7 +284,6 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     }
 
     private fun createShowdownRepresentation(dataHolder: StringBuilder, species: Species) {
-        val showdownName = this.createShowdownName(species)
         // ToDo types will need a refresh when we introduce custom typing support
         /**
          * THINGS TO NOTE:
@@ -294,9 +293,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
          *
          */
         dataHolder.append("""
-            ${this.createShowdownKey(species)}: {
+            ${species.showdownId()}: {
                 num: ${species.nationalPokedexNumber},
-                name: "$showdownName",
+                name: "${species.name}",
                 ${this.generateTypeDetails(species)},
                 ${this.generateGenderDetails(species)},
                 ${this.generateBaseStatsDetails(species)},
@@ -305,15 +304,15 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 weightkg: ${species.weight},
                 ${this.generateEggGroupDetails(species)},
         """.trimIndent())
-        species.preEvolution?.let { dataHolder.append("prevo: \"${createShowdownName(it.species, it.form)}\",") }
+        species.preEvolution?.let { dataHolder.append("prevo: \"${{it.species.name}}-${it.form.name}\",") }
         if (species.evolutions.isNotEmpty()) {
             dataHolder.append("evos: [${species.evolutions.joinToString(", ") { "\"$DUMMY_SPECIES_NAME\"" }}],")
         }
         if (species.forms.isNotEmpty()) {
-            val otherForms = species.forms.joinToString(", ") { "\"${this.createShowdownName(species, it)}\"" }
+            val otherForms = species.forms.joinToString(", ") { "\"${species.name}-${it.name}\"" }
             dataHolder.append("""
                 otherFormes: [$otherForms],
-                formeOrder: ["$showdownName", $otherForms],
+                formeOrder: ["${species.name}", $otherForms],
             """.trimIndent())
         }
         if (species.dynamaxBlocked) {
@@ -321,37 +320,40 @@ object PokemonSpecies : JsonDataRegistry<Species> {
         }
         dataHolder.append("},")
         species.forms.forEach { form ->
-            this.createFormShowdownRepresentation(dataHolder, species, form)
+            if (form != species.standardForm) {
+                this.createFormShowdownRepresentation(dataHolder, species, form)
+            }
         }
     }
 
     private fun createTierRepresentation(dataHolder: StringBuilder, species: Species) {
         dataHolder.append("""
-            ${this.createShowdownKey(species)}: {
+            ${species.showdownId()}: {
 		        tier: "$DUMMY_SINGLES_TIER",
                 doublesTier: "$DUMMY_DOUBLES_TIER",
             },
         """.trimIndent())
         species.forms.forEach { form ->
-            dataHolder.append("""
-                ${this.createShowdownKey(species, form)}: {
+            if (form != species.standardForm) {
+                dataHolder.append("""
+                ${form.showdownId()}: {
                     tier: "$DUMMY_SINGLES_TIER",
                     doublesTier: "$DUMMY_DOUBLES_TIER",
             """.trimIndent())
-            if (form.gigantamaxMove != null) {
-                dataHolder.append("isNonstandard: \"Gigantamax\",")
+                if (form.gigantamaxMove != null) {
+                    dataHolder.append("isNonstandard: \"Gigantamax\",")
+                }
+                dataHolder.append("},")
             }
-            dataHolder.append("},")
         }
     }
 
     private fun createFormShowdownRepresentation(dataHolder: StringBuilder, species: Species, form: FormData) {
-        val showdownName = this.createShowdownName(species, form)
         dataHolder.append("""
-            ${this.createShowdownKey(species, form)}: {
+            ${form.showdownId()}: {
                 num: ${species.nationalPokedexNumber},
-                name: "$showdownName",
-                baseSpecies: "${this.createShowdownName(species)}",
+                name: "${species.name}-${form.name}",
+                baseSpecies: "${species.name}",
                 forme: "${form.name}",
                 ${this.generateTypeDetails(species, form)},
                 ${this.generateGenderDetails(species, form)},
@@ -361,7 +363,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 weightkg: ${form.weight * .1},
                 ${this.generateEggGroupDetails(species, form)},
         """.trimIndent())
-        form.preEvolution?.let { dataHolder.append("prevo: \"${createShowdownName(it.species, it.form)}\",") }
+        form.preEvolution?.let { dataHolder.append("prevo: \"${{it.species.name}}-${it.form.name}\",") }
         if (form.evolutions.isNotEmpty()) {
             dataHolder.append("evos: [${form.evolutions.joinToString(", ") { "\"$DUMMY_SPECIES_NAME\"" }}],")
         }
@@ -372,17 +374,6 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             dataHolder.append("canGigantamax: \"${form.gigantamaxMove.name.replace("_", " ")}\",")
         }
         dataHolder.append("},")
-    }
-
-    // Converts a species into a showdown key resulting in '<namespace><path><form-name(if not base)>'
-    private fun createShowdownKey(species: Species, form: FormData? = null): String {
-        val baseSpeciesKey = species.resourceIdentifier.toString().lowercase().replaceFirst(":", "")
-        return "$baseSpeciesKey${if (form == null || form.name.equals(species.standardForm.name, true)) "" else form.name.replace("-", "").lowercase()}"
-    }
-
-    // Converts a species into a showdown name resulting in '<namespace>:<species_name>-<form-name(if not base)>'
-    private fun createShowdownName(species: Species, form: FormData? = null): String {
-        return "${species.resourceIdentifier.namespace}:${species.name}${if (form == null || form.name.equals(species.standardForm.name, true)) "" else "-${form.name}"}"
     }
 
     private fun generateTypeDetails(species: Species, form: FormData? = null): String {

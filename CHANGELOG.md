@@ -3,7 +3,7 @@
 ## [1.2.1](#1-2-1)
 ### Additions
 - Added `/giveallpokemon` command which is definitely safe and not insane.
-- Added generation 9 move and ability data.
+- Added generation 9 Pokémon species, move and ability data.
 - Added a cap of Pokémon spawns in an area because waiting a while made things insane. Controlled by a new `pokemonPerChunk` config option.
 - Pokémon now save to the world by default, meaning the same Pokémon will remain in the world and not disappear after you log out and log back in.
 - [Dispensers](https://minecraft.fandom.com/wiki/Dispenser) can now use shears to automatically harvest fully grown Apricorns.
@@ -12,11 +12,15 @@
 - Added a few held items that are currently obtainable in Creative Mode.
 - Added the Item [tags](https://minecraft.fandom.com/wiki/Tag) `cobblemon:held/experience_share` and `cobblemon:held/lucky_egg` allowing you to mark any items you desire to have the effects implied in the tag name.
 - Added an interface that appears when interacting with your Pokémon while sneaking. The interface allows for interactive options such as shouldering and exchanging held items.
-- Added a new item for representing pokemon within native UI menus
+- Added a new item for representing Pokémon within native UI menus.
 - Added support for Pokémon species data appending making it so datapack developers no longer need to overwrite files.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
+- Update the PC and Healing Machine models and bounding boxes.
+- The PC and Healing Machine now emit light when fully charged and when turned on respectively.
+- The PC block screen will now turn on when being used.
+- The Healing Machine will now visually display its charge level using 6 stages.
 - The Healing Machine will now emit a redstone signal with the strength of 1 for every 10% charge it has when attached to a [Redstone Comparator](https://minecraft.fandom.com/wiki/Redstone_Comparator).
 
 ### Fixes
@@ -29,7 +33,13 @@
 - Fixed a soft-duplicate that could occur when a party Pokémon is pushed through a Nether Portal.
 - Fixed missing multiplier on the experience calculator when a Pokémon is at or past the level where it would be able to evolve, but it has not.
 - Fixed missing multiplier on the experience calculator based on Pokémon affection.
-- Fixed not all Pokéballs being associated with the `cobblemon:pokeballs` item tag.
+- Fixed not all Poké Balls being associated with the `cobblemon:pokeballs` item tag.
+- Fixed `pokemoneditother` failing execution.
+- Fixed positioning of Poké Balls when rendered in Healing Machines.
+- Fixed ambient sound file path for Porygon2.
+- Fixed a desync issue on servers where all Pokémon seemed like they were special forms when they weren't.
+- Fixed an incompatibility with [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium).
+- Fixed missing lang and interpretation for bide
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
