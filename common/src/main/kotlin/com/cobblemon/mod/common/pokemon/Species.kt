@@ -118,7 +118,7 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     fun initialize() {
         Cobblemon.statProvider.provide(this)
-        if (this.forms.isNotEmpty() && this.forms.none { it.name == this.standardForm.name }) {
+        if (this.forms.isNotEmpty() && this.forms.none { it == this.standardForm }) {
             this.forms.add(0, this.standardForm)
         }
         this.forms.forEach { it.initialize(this) }
