@@ -715,6 +715,9 @@ object ShowdownInterpreter {
             if (message.contains("|protect")){
                 battle.broadcastChatMessage(battleLang("protect_start",pokemon.battlePokemon?.getName() ?: ""))
             }
+            if (message.contains("move: Bide")){
+                battle.broadcastChatMessage(battleLang("bide_start",pokemon.battlePokemon?.getName() ?: ""))
+            }
             WaitDispatch(2F)
         }
     }
@@ -729,6 +732,7 @@ object ShowdownInterpreter {
             when {
                 "|protect" in message -> battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon!!.getName()))
                 "move: Magnitude" in message -> battle.broadcastChatMessage(battleLang("magnitude_level", message.substringAfterLast("|").toIntOrNull() ?: 1))
+                "move: Bide" in message -> battle.broadcastChatMessage(battleLang("bide_activate",pokemon.battlePokemon!!.getName()))
                 // ToDo Focus Band, use battleLang("item.hung_on.end", battlerName, itemName)
             }
             GO
@@ -744,6 +748,7 @@ object ShowdownInterpreter {
 
             when (fromWhat) {
                 "confusion" -> battle.broadcastChatMessage(battleLang("confusion_snapped", pokemon.battlePokemon!!.getName()))
+                "move: Bide" -> battle.broadcastChatMessage(battleLang("bide_end", pokemon.battlePokemon!!.getName()))
                 else -> battle.broadcastChatMessage(editedMessage.text())
             }
 
