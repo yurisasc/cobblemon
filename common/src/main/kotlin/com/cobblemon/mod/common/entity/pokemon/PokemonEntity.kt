@@ -77,7 +77,11 @@ import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import kotlin.math.round
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 class PokemonEntity(
     world: World,
@@ -114,6 +118,12 @@ class PokemonEntity(
         get() = this.battleId.get().isPresent
 
     var drops: DropTable? = null
+
+    /**
+     * The amount of steps this entity has taken.
+     */
+    var steps: Int = 0
+
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val species = addEntityProperty(SPECIES, pokemon.species.resourceIdentifier.toString())
@@ -403,7 +413,7 @@ class PokemonEntity(
     override fun saveAdditionalSpawnData(buffer: PacketByteBuf) {
         buffer.writeFloat(pokemon.scaleModifier)
         buffer.writeIdentifier(pokemon.species.resourceIdentifier)
-        buffer.writeString(pokemon.form.name)
+        buffer.writeString(pokemon.form.formOnlyShowdownId())
         buffer.writeInt(phasingTargetId.get())
         buffer.writeByte(beamModeEmitter.get().toInt())
         buffer.writeCollection(pokemon.aspects, PacketByteBuf::writeString)
@@ -416,8 +426,8 @@ class PokemonEntity(
             // TODO exception handling
             pokemon.species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
             // TODO exception handling
-            val formName = buffer.readString()
-            pokemon.form = pokemon.species.forms.find { form -> form.name == formName } ?: pokemon.species.standardForm
+            val formId = buffer.readString()
+            pokemon.form = pokemon.species.forms.find { form -> form.formOnlyShowdownId() == formId } ?: pokemon.species.standardForm
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
             this.aspects.set(buffer.readList(PacketByteBuf::readString).toSet())
@@ -480,8 +490,7 @@ class PokemonEntity(
 
     override fun playAmbientSound() {
         if (!this.isSilent) {
-            val subPath = if (this.pokemon.form == this.pokemon.species.standardForm) this.pokemon.species.name else "${this.pokemon.species.name}-${this.pokemon.form.name}"
-            val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.$subPath.ambient")
+            val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
             // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
             UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
                 .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.registryKey)
@@ -608,6 +617,33 @@ class PokemonEntity(
     override fun updatePostDeath() {
         super.updatePostDeath()
         delegate.updatePostDeath()
+    }
+
+    override fun travel(movementInput: Vec3d) {
+        val previousX = this.x
+        val previousY = this.y
+        val previousZ = this.z
+        super.travel(movementInput)
+        val xDiff = this.x - previousX
+        val yDiff = this.y - previousY
+        val zDiff = this.z - previousZ
+        this.updateWalkedSteps(xDiff, yDiff, zDiff)
+    }
+
+    private fun updateWalkedSteps(xDiff: Double, yDiff: Double, zDiff: Double) {
+        // Riding or falling shouldn't count, other movement sources are fine
+        if (!this.hasVehicle() || !this.isFallFlying) {
+            return
+        }
+        val stepsTaken = when {
+            this.isSwimming || this.isSubmergedIn(FluidTags.WATER) -> round(sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff) * 100F)
+            this.isClimbing -> round(yDiff * 100F)
+            // Walking, flying or touching water
+            else -> round(sqrt(xDiff * xDiff + zDiff * zDiff) * 100F)
+        }
+        if (stepsTaken > 0) {
+            this.steps += stepsTaken.roundToInt()
+        }
     }
 
     private fun updateEyeHeight() {

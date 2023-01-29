@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.pokemon
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.abilities.AbilityPool
 import com.cobblemon.mod.common.api.data.ClientDataSynchronizer
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.drop.DropTable
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffect
 import com.cobblemon.mod.common.api.pokemon.egg.EggGroup
@@ -34,10 +35,10 @@ import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
 import net.minecraft.util.Identifier
 
-class Species : ClientDataSynchronizer<Species> {
-    var name: String = "bulbasaur"
+class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
+    var name: String = "Bulbasaur"
     val translatedName: MutableText
-        get() = lang("species.$name.name")
+        get() = lang("species.${this.showdownId()}.name")
     var nationalPokedexNumber = 1
 
     val baseStats = hashMapOf<Stat, Int>()
@@ -183,7 +184,7 @@ class Species : ClientDataSynchronizer<Species> {
     override fun shouldSynchronize(other: Species): Boolean {
         if (other.resourceIdentifier.toString() != other.resourceIdentifier.toString())
             return false
-        return other.name != this.name
+        return other.showdownId() != this.showdownId()
                 || other.nationalPokedexNumber != this.nationalPokedexNumber
                 || other.baseStats != this.baseStats
                 || other.hitbox != this.hitbox
@@ -199,7 +200,22 @@ class Species : ClientDataSynchronizer<Species> {
                 || this.moves.shouldSynchronize(other.moves)
     }
 
-    override fun toString() = name
+    /**
+     * The literal Showdown ID of this species.
+     * This will be a lowercase version of the [name] with all the non-alphanumeric characters removed. For example, "Mr. Mime" becomes "mrmime".
+     * If a Species is not a part of the Cobblemon mon the [resourceIdentifier] will have the namespace appended at the start of the ID resulting in something such as 'somemodaspecies'
+     *
+     * @return The literal Showdown ID of this species.
+     */
+    override fun showdownId(): String {
+        val id = ShowdownIdentifiable.REGEX.replace(this.name.lowercase(), "")
+        if (this.resourceIdentifier.namespace == Cobblemon.MODID) {
+            return id
+        }
+        return this.resourceIdentifier.namespace + id
+    }
+
+    override fun toString() = this.showdownId()
 
     companion object {
         private const val VANILLA_DEFAULT_EYE_HEIGHT = .85F

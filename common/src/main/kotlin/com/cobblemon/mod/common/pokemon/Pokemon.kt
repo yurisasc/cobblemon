@@ -13,6 +13,7 @@ import com.cobblemon.mod.common.CobblemonNetwork.sendToPlayers
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.abilities.Abilities
 import com.cobblemon.mod.common.api.abilities.Ability
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.CobblemonEvents.FRIENDSHIP_UPDATED
 import com.cobblemon.mod.common.api.events.CobblemonEvents.POKEMON_FAINTED
@@ -66,7 +67,8 @@ import com.cobblemon.mod.common.pokemon.activestate.InactivePokemonState
 import com.cobblemon.mod.common.pokemon.activestate.PokemonState
 import com.cobblemon.mod.common.pokemon.activestate.SentOutState
 import com.cobblemon.mod.common.pokemon.evolution.CobblemonEvolutionProxy
-import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
+import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
+import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.pokemon.status.PersistentStatusContainer
@@ -105,7 +107,7 @@ import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.clamp
 import net.minecraft.util.math.Vec3d
 
-open class Pokemon {
+open class Pokemon : ShowdownIdentifiable {
     var uuid = UUID.randomUUID()
     var species = PokemonSpecies.random()
         set(value) {
@@ -190,10 +192,13 @@ open class Pokemon {
             if (this.isFainted()) {
                 decrementFriendship(1)
                 val faintTime = Cobblemon.config.defaultFaintTimer
-                this.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.reset()
                 POKEMON_FAINTED.post(PokemonFaintedEvent(this, faintTime)) {
                     this.faintedTimer = it.faintedTimer
                 }
+                // These are meant to reset on faint
+                this.evolutionProxy.current().progress()
+                    .filter { it is RecoilEvolutionProgress || it is DamageTakenEvolutionProgress }
+                    .forEach { it.reset() }
             }
             this.healTimer = Cobblemon.config.healTimer
         }
@@ -356,6 +361,19 @@ open class Pokemon {
 
     open fun getStat(stat: Stat) = Cobblemon.statProvider.getStatForPokemon(this, stat)
 
+    /**
+     * The literal Showdown ID of this Pokémon.
+     * This will either use [Species.showdownId] or [FormData.showdownId] depending on if the [form] is the base one or not.
+     *
+     * @return The literal Showdown ID of this Pokémon.
+     */
+    override fun showdownId(): String {
+        if (this.form == this.species.standardForm) {
+            return this.species.showdownId()
+        }
+        return this.form.showdownId()
+    }
+
     fun sendOut(level: ServerWorld, position: Vec3d, mutation: (PokemonEntity) -> Unit = {}): PokemonEntity {
         SeasonFeatureHandler.updateSeason(this, level, position.toBlockPos())
         val entity = PokemonEntity(level, this)
@@ -394,7 +412,6 @@ open class Pokemon {
         this.status = null
         this.faintedTimer = -1
         this.healTimer = -1
-        this.getFeature<DamageTakenFeature>(DamageTakenFeature.ID)?.reset()
         val entity = entity
         entity?.heal(entity.maxHealth - entity.health)
     }
@@ -494,7 +511,7 @@ open class Pokemon {
         nbt.putString(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         nbt.putUuid(DataKeys.POKEMON_UUID, uuid)
         nbt.putString(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
-        nbt.putString(DataKeys.POKEMON_FORM_ID, form.name)
+        nbt.putString(DataKeys.POKEMON_FORM_ID, form.formOnlyShowdownId())
         nbt.putInt(DataKeys.POKEMON_EXPERIENCE, experience)
         nbt.putShort(DataKeys.POKEMON_LEVEL, level.toShort())
         nbt.putShort(DataKeys.POKEMON_FRIENDSHIP, friendship.toShort())
@@ -534,7 +551,7 @@ open class Pokemon {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to read a species identifier from NBT")
         }
-        form = species.forms.find { it.name == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm
+        form = species.forms.find { it.formOnlyShowdownId() == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
         experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE).takeIf { experienceGroup.getLevel(experience) != level } ?: experienceGroup.getExperience(level)
         friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt().coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonLevel)
@@ -588,7 +605,7 @@ open class Pokemon {
         json.addProperty(DataKeys.POKEMON_LAST_SAVED_VERSION, Cobblemon.VERSION)
         json.addProperty(DataKeys.POKEMON_UUID, uuid.toString())
         json.addProperty(DataKeys.POKEMON_SPECIES_IDENTIFIER, species.resourceIdentifier.toString())
-        json.addProperty(DataKeys.POKEMON_FORM_ID, form.name)
+        json.addProperty(DataKeys.POKEMON_FORM_ID, form.formOnlyShowdownId())
         json.addProperty(DataKeys.POKEMON_EXPERIENCE, experience)
         json.addProperty(DataKeys.POKEMON_LEVEL, level)
         json.addProperty(DataKeys.POKEMON_FRIENDSHIP, friendship)
@@ -627,7 +644,7 @@ open class Pokemon {
         } catch (e: InvalidIdentifierException) {
             throw IllegalStateException("Failed to deserialize a species identifier")
         }
-        form = species.forms.find { it.name == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
+        form = species.forms.find { it.formOnlyShowdownId() == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
         experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(experience) != level } ?: experienceGroup.getExperience(level)
         friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt.coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonLevel)
