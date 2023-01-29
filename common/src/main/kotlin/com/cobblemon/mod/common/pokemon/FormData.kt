@@ -195,18 +195,11 @@ class FormData(
         this.species = species
         this.behaviour.parent = species.behaviour
         Cobblemon.statProvider.provide(this)
-        return this
-    }
-
-    /**
-     * Initialize properties that relied on all species and forms to be loaded.
-     *
-     */
-    internal fun initializePostLoads() {
-        // These properties are lazy
+        // These properties are lazy, these need all species to be reloaded but SpeciesAdditions is what will eventually trigger this after all species have been loaded
         this.preEvolution?.species
         this.preEvolution?.form
         this.evolutions.size
+        return this
     }
 
     override fun equals(other: Any?): Boolean = other is FormData && other.showdownId() == this.showdownId()
