@@ -357,6 +357,9 @@
   "cobblemon.battle.protect_start": "%1$s starts protecting itself!",
   "cobblemon.battle.protect_activate": "%1$s protected itself!",
   "cobblemon.battle.magnitude_level": "Magnitude %1$s!",
+  "cobblemon.battle.bide_start": "%1$s begins storing energy!",
+  "cobblemon.battle.bide_activate": "%1$s is storing energy!",
+  "cobblemon.battle.bide_end": "%1$s unleashed it's energy!",
 
   "cobblemon.battle.errors.busy": "%1$s is busy!",
   "cobblemon.battle.error.in_battle": "%1$s is already in a battle.",
