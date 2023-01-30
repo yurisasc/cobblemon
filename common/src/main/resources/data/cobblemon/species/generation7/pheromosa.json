@@ -107,8 +107,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.pheromosa.desc1",
-    "cobblemon.species.pheromosa.desc2"
+    "cobblemon.species.pheromosa.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

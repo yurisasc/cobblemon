@@ -84,8 +84,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.unfezant.desc1",
-    "cobblemon.species.unfezant.desc2"
+    "cobblemon.species.unfezant.desc"
   ],
   "preEvolution": "tranquill",
   "evolutions": [],

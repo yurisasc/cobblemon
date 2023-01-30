@@ -134,8 +134,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.froslass.desc1",
-    "cobblemon.species.froslass.desc2"
+    "cobblemon.species.froslass.desc"
   ],
   "preEvolution": "snorunt",
   "evolutions": [],

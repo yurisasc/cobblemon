@@ -94,5 +94,8 @@
   "height": 6,
   "weight": 110,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.ironbundle.desc"
+  ]
 }

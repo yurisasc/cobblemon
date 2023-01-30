@@ -84,8 +84,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.grapploct.desc1",
-    "cobblemon.species.grapploct.desc2"
+    "cobblemon.species.grapploct.desc"
   ],
   "preEvolution": "clobbopus",
   "evolutions": [],

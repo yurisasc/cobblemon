@@ -123,8 +123,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.zeraora.desc1",
-    "cobblemon.species.zeraora.desc2"
+    "cobblemon.species.zeraora.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

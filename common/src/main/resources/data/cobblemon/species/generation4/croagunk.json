@@ -148,8 +148,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.croagunk.desc1",
-    "cobblemon.species.croagunk.desc2"
+    "cobblemon.species.croagunk.desc"
   ],
   "evolutions": [
     {

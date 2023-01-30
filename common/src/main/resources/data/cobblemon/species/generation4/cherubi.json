@@ -90,8 +90,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.cherubi.desc1",
-    "cobblemon.species.cherubi.desc2"
+    "cobblemon.species.cherubi.desc"
   ],
   "evolutions": [
     {

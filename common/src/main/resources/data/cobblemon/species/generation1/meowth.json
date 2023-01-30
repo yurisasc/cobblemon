@@ -177,6 +177,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
@@ -314,6 +315,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
@@ -360,6 +362,7 @@
       "height": 330,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -510,8 +513,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.meowth.desc1",
-    "cobblemon.species.meowth.desc2"
+    "cobblemon.species.meowth.desc"
   ],
   "baseScale": 0.7,
   "hitbox": {
@@ -547,5 +549,6 @@
       ]
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -102,5 +102,8 @@
       "requiredContext": "cobblemon:ice_stone"
     }
   ],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.cetoddle.desc"
+  ]
 }

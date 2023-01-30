@@ -82,8 +82,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.thievul.desc1",
-    "cobblemon.species.thievul.desc2"
+    "cobblemon.species.thievul.desc"
   ],
   "preEvolution": "nickit",
   "evolutions": [],

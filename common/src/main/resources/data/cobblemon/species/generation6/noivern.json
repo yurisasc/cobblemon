@@ -118,8 +118,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.noivern.desc1",
-    "cobblemon.species.noivern.desc2"
+    "cobblemon.species.noivern.desc"
   ],
   "preEvolution": "noibat",
   "evolutions": [],

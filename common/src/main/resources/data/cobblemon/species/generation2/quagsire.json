@@ -162,8 +162,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.quagsire.desc1",
-    "cobblemon.species.quagsire.desc2"
+    "cobblemon.species.quagsire.desc"
   ],
   "preEvolution": "wooper",
   "evolutions": [],

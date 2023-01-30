@@ -107,8 +107,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.carvanha.desc1",
-    "cobblemon.species.carvanha.desc2"
+    "cobblemon.species.carvanha.desc"
   ],
   "evolutions": [
     {

@@ -75,8 +75,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.swadloon.desc1",
-    "cobblemon.species.swadloon.desc2"
+    "cobblemon.species.swadloon.desc"
   ],
   "preEvolution": "sewaddle",
   "evolutions": [

@@ -97,8 +97,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.steenee.desc1",
-    "cobblemon.species.steenee.desc2"
+    "cobblemon.species.steenee.desc"
   ],
   "preEvolution": "bounsweet",
   "evolutions": [

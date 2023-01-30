@@ -125,8 +125,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.haxorus.desc1",
-    "cobblemon.species.haxorus.desc2"
+    "cobblemon.species.haxorus.desc"
   ],
   "preEvolution": "fraxure",
   "evolutions": [],

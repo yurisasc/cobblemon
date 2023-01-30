@@ -116,6 +116,7 @@
       "height": 14,
       "weight": 884,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
@@ -221,6 +222,7 @@
       "height": 14,
       "weight": 884,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
@@ -323,6 +325,7 @@
       "height": 14,
       "weight": 884,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -460,8 +463,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.tauros.desc1",
-    "cobblemon.species.tauros.desc2"
+    "cobblemon.species.tauros.desc"
   ],
   "evolutions": [],
   "baseScale": 1.3,
@@ -481,5 +483,6 @@
   },
   "height": 14,
   "weight": 884,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -115,8 +115,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.naganadel.desc1",
-    "cobblemon.species.naganadel.desc2"
+    "cobblemon.species.naganadel.desc"
   ],
   "preEvolution": "poipole",
   "evolutions": [],

@@ -102,8 +102,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.sneasler.desc1",
-    "cobblemon.species.sneasler.desc2"
+    "cobblemon.species.sneasler.desc"
   ],
   "height": 13,
   "weight": 430,

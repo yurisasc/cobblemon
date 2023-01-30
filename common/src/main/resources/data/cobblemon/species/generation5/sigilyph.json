@@ -120,8 +120,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.sigilyph.desc1",
-    "cobblemon.species.sigilyph.desc2"
+    "cobblemon.species.sigilyph.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

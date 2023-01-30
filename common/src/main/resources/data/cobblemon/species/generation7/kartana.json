@@ -82,8 +82,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.kartana.desc1",
-    "cobblemon.species.kartana.desc2"
+    "cobblemon.species.kartana.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

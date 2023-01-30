@@ -126,8 +126,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.nuzleaf.desc1",
-    "cobblemon.species.nuzleaf.desc2"
+    "cobblemon.species.nuzleaf.desc"
   ],
   "preEvolution": "seedot",
   "evolutions": [

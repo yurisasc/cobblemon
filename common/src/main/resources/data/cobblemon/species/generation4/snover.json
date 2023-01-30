@@ -106,8 +106,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.snover.desc1",
-    "cobblemon.species.snover.desc2"
+    "cobblemon.species.snover.desc"
   ],
   "evolutions": [
     {

@@ -173,8 +173,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.abomasnow.desc1",
-    "cobblemon.species.abomasnow.desc2"
+    "cobblemon.species.abomasnow.desc"
   ],
   "preEvolution": "snover",
   "evolutions": [],

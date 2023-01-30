@@ -106,8 +106,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.sawk.desc1",
-    "cobblemon.species.sawk.desc2"
+    "cobblemon.species.sawk.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

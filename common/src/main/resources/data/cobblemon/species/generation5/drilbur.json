@@ -92,8 +92,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.drilbur.desc1",
-    "cobblemon.species.drilbur.desc2"
+    "cobblemon.species.drilbur.desc"
   ],
   "evolutions": [
     {

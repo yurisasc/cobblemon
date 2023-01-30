@@ -86,5 +86,8 @@
   "height": 25,
   "weight": 900,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.veluza.desc"
+  ]
 }

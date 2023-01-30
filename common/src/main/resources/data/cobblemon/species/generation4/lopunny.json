@@ -204,8 +204,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.lopunny.desc1",
-    "cobblemon.species.lopunny.desc2"
+    "cobblemon.species.lopunny.desc"
   ],
   "preEvolution": "buneary",
   "evolutions": [],

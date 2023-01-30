@@ -156,8 +156,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.kyogre.desc1",
-    "cobblemon.species.kyogre.desc2"
+    "cobblemon.species.kyogre.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

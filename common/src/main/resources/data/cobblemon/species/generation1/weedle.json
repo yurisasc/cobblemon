@@ -58,8 +58,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.weedle.desc1",
-    "cobblemon.species.weedle.desc2"
+    "cobblemon.species.weedle.desc"
   ],
   "evolutions": [
     {
@@ -93,5 +92,6 @@
   },
   "height": 3,
   "weight": 32,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -88,8 +88,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.grotle.desc1",
-    "cobblemon.species.grotle.desc2"
+    "cobblemon.species.grotle.desc"
   ],
   "preEvolution": "turtwig",
   "evolutions": [

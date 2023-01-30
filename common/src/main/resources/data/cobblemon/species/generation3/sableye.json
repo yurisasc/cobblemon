@@ -238,8 +238,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.sableye.desc1",
-    "cobblemon.species.sableye.desc2"
+    "cobblemon.species.sableye.desc"
   ],
   "evolutions": [],
   "baseScale": 0.65,

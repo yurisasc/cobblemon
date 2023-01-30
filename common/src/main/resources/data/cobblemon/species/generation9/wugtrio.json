@@ -84,5 +84,8 @@
   "weight": 54,
   "preEvolution": "wiglett",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.wugtrio.desc"
+  ]
 }

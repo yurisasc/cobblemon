@@ -97,5 +97,8 @@
   "height": 12,
   "weight": 210,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.brutebonnet.desc"
+  ]
 }

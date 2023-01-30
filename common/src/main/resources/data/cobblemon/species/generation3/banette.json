@@ -174,8 +174,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.banette.desc1",
-    "cobblemon.species.banette.desc2"
+    "cobblemon.species.banette.desc"
   ],
   "preEvolution": "shuppet",
   "evolutions": [],

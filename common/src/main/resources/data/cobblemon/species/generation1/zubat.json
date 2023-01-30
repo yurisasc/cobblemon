@@ -154,8 +154,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.zubat.desc1",
-    "cobblemon.species.zubat.desc2"
+    "cobblemon.species.zubat.desc"
   ],
   "evolutions": [
     {
@@ -189,5 +188,6 @@
   },
   "height": 8,
   "weight": 75,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

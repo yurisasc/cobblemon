@@ -129,8 +129,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.flaaffy.desc1",
-    "cobblemon.species.flaaffy.desc2"
+    "cobblemon.species.flaaffy.desc"
   ],
   "preEvolution": "mareep",
   "evolutions": [

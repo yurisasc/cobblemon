@@ -76,8 +76,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.regidrago.desc1",
-    "cobblemon.species.regidrago.desc2"
+    "cobblemon.species.regidrago.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

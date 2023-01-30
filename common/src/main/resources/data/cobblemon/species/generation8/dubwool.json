@@ -70,8 +70,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.dubwool.desc1",
-    "cobblemon.species.dubwool.desc2"
+    "cobblemon.species.dubwool.desc"
   ],
   "preEvolution": "wooloo",
   "evolutions": [],

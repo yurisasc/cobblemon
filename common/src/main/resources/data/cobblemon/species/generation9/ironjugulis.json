@@ -104,5 +104,8 @@
   "height": 13,
   "weight": 1110,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.ironjugulis.desc"
+  ]
 }

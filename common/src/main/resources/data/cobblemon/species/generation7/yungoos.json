@@ -103,8 +103,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.yungoos.desc1",
-    "cobblemon.species.yungoos.desc2"
+    "cobblemon.species.yungoos.desc"
   ],
   "evolutions": [
     {

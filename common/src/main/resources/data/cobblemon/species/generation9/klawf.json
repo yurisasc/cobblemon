@@ -102,5 +102,8 @@
   "height": 13,
   "weight": 790,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.klawf.desc"
+  ]
 }

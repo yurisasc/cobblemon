@@ -135,8 +135,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.cherrim.desc1",
-    "cobblemon.species.cherrim.desc2"
+    "cobblemon.species.cherrim.desc"
   ],
   "preEvolution": "cherubi",
   "evolutions": [],

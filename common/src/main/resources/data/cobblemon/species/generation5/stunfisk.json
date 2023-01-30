@@ -227,8 +227,7 @@
     "unova_regional"
   ],
   "pokedex": [
-    "cobblemon.species.stunfisk.desc1",
-    "cobblemon.species.stunfisk.desc2"
+    "cobblemon.species.stunfisk.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

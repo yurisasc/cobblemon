@@ -211,8 +211,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.indeedee.desc1",
-    "cobblemon.species.indeedee.desc2"
+    "cobblemon.species.indeedee.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

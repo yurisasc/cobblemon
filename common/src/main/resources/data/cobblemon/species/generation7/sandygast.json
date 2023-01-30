@@ -108,8 +108,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.sandygast.desc1",
-    "cobblemon.species.sandygast.desc2"
+    "cobblemon.species.sandygast.desc"
   ],
   "evolutions": [
     {

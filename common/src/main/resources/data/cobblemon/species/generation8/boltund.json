@@ -77,8 +77,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.boltund.desc1",
-    "cobblemon.species.boltund.desc2"
+    "cobblemon.species.boltund.desc"
   ],
   "preEvolution": "yamper",
   "evolutions": [],

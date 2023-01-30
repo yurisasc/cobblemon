@@ -132,8 +132,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.drapion.desc1",
-    "cobblemon.species.drapion.desc2"
+    "cobblemon.species.drapion.desc"
   ],
   "preEvolution": "skorupi",
   "evolutions": [],

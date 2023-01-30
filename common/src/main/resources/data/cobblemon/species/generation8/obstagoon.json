@@ -116,8 +116,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.obstagoon.desc1",
-    "cobblemon.species.obstagoon.desc2"
+    "cobblemon.species.obstagoon.desc"
   ],
   "preEvolution": "linoone form=galar",
   "evolutions": [],

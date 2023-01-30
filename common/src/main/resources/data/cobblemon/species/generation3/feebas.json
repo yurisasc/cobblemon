@@ -82,8 +82,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.feebas.desc1",
-    "cobblemon.species.feebas.desc2"
+    "cobblemon.species.feebas.desc"
   ],
   "evolutions": [
     {

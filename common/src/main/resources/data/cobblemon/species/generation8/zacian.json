@@ -148,8 +148,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.zacian.desc1",
-    "cobblemon.species.zacian.desc2"
+    "cobblemon.species.zacian.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

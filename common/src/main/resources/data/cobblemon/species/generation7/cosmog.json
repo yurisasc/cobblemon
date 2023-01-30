@@ -33,8 +33,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.cosmog.desc1",
-    "cobblemon.species.cosmog.desc2"
+    "cobblemon.species.cosmog.desc"
   ],
   "evolutions": [
     {

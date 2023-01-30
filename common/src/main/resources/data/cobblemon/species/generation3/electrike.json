@@ -99,8 +99,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.electrike.desc1",
-    "cobblemon.species.electrike.desc2"
+    "cobblemon.species.electrike.desc"
   ],
   "evolutions": [
     {

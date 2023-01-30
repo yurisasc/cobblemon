@@ -208,8 +208,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.swampert.desc1",
-    "cobblemon.species.swampert.desc2"
+    "cobblemon.species.swampert.desc"
   ],
   "preEvolution": "marshtomp",
   "evolutions": [],

@@ -104,8 +104,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.aromatisse.desc1",
-    "cobblemon.species.aromatisse.desc2"
+    "cobblemon.species.aromatisse.desc"
   ],
   "preEvolution": "spritzee",
   "evolutions": [],

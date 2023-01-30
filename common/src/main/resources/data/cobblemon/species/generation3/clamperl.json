@@ -85,8 +85,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.clamperl.desc1",
-    "cobblemon.species.clamperl.desc2"
+    "cobblemon.species.clamperl.desc"
   ],
   "evolutions": [
     {

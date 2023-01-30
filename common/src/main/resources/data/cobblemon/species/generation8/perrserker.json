@@ -106,8 +106,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.perrserker.desc1",
-    "cobblemon.species.perrserker.desc2"
+    "cobblemon.species.perrserker.desc"
   ],
   "preEvolution": "meowth form=galar",
   "evolutions": [],

@@ -95,5 +95,8 @@
       "requiredContext": "cobblemon:malicious_armor"
     }
   ],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.charcadet.desc"
+  ]
 }

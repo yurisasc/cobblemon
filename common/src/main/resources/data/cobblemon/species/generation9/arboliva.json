@@ -91,5 +91,8 @@
   "weight": 482,
   "preEvolution": "dolliv",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.arboliva.desc"
+  ]
 }

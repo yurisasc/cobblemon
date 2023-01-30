@@ -122,8 +122,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.glaceon.desc1",
-    "cobblemon.species.glaceon.desc2"
+    "cobblemon.species.glaceon.desc"
   ],
   "preEvolution": "eevee",
   "evolutions": [],

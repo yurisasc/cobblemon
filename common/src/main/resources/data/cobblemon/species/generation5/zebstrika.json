@@ -82,8 +82,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.zebstrika.desc1",
-    "cobblemon.species.zebstrika.desc2"
+    "cobblemon.species.zebstrika.desc"
   ],
   "preEvolution": "blitzle",
   "evolutions": [],

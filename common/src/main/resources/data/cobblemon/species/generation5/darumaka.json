@@ -232,8 +232,7 @@
     "unova_regional"
   ],
   "pokedex": [
-    "cobblemon.species.darumaka.desc1",
-    "cobblemon.species.darumaka.desc2"
+    "cobblemon.species.darumaka.desc"
   ],
   "evolutions": [
     {

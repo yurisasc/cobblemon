@@ -241,8 +241,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.castform.desc1",
-    "cobblemon.species.castform.desc2"
+    "cobblemon.species.castform.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

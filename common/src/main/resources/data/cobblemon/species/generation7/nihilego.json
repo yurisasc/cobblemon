@@ -112,8 +112,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.nihilego.desc1",
-    "cobblemon.species.nihilego.desc2"
+    "cobblemon.species.nihilego.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

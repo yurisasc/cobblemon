@@ -175,8 +175,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.rhyhorn.desc1",
-    "cobblemon.species.rhyhorn.desc2"
+    "cobblemon.species.rhyhorn.desc"
   ],
   "evolutions": [
     {
@@ -212,5 +211,6 @@
   },
   "height": 10,
   "weight": 1150,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

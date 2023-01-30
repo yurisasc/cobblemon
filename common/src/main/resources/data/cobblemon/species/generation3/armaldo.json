@@ -113,8 +113,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.armaldo.desc1",
-    "cobblemon.species.armaldo.desc2"
+    "cobblemon.species.armaldo.desc"
   ],
   "preEvolution": "anorith",
   "evolutions": [],

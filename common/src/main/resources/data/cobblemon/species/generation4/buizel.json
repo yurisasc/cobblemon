@@ -121,8 +121,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.buizel.desc1",
-    "cobblemon.species.buizel.desc2"
+    "cobblemon.species.buizel.desc"
   ],
   "evolutions": [
     {

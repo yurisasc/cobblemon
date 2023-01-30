@@ -107,8 +107,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.jellicent.desc1",
-    "cobblemon.species.jellicent.desc2"
+    "cobblemon.species.jellicent.desc"
   ],
   "preEvolution": "frillish",
   "evolutions": [],

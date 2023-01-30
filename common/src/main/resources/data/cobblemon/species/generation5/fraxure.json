@@ -115,8 +115,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.fraxure.desc1",
-    "cobblemon.species.fraxure.desc2"
+    "cobblemon.species.fraxure.desc"
   ],
   "preEvolution": "axew",
   "evolutions": [

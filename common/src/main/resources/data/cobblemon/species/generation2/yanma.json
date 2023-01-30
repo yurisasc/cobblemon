@@ -136,8 +136,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.yanma.desc1",
-    "cobblemon.species.yanma.desc2"
+    "cobblemon.species.yanma.desc"
   ],
   "evolutions": [
     {

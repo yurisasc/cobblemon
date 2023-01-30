@@ -284,8 +284,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.pumpkaboo.desc1",
-    "cobblemon.species.pumpkaboo.desc2"
+    "cobblemon.species.pumpkaboo.desc"
   ],
   "evolutions": [
     {

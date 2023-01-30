@@ -142,8 +142,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.duraludon.desc1",
-    "cobblemon.species.duraludon.desc2"
+    "cobblemon.species.duraludon.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

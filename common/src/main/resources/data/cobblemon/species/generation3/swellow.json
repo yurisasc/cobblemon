@@ -90,8 +90,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.swellow.desc1",
-    "cobblemon.species.swellow.desc2"
+    "cobblemon.species.swellow.desc"
   ],
   "preEvolution": "taillow",
   "evolutions": [],

@@ -105,8 +105,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.gurdurr.desc1",
-    "cobblemon.species.gurdurr.desc2"
+    "cobblemon.species.gurdurr.desc"
   ],
   "preEvolution": "timburr",
   "evolutions": [

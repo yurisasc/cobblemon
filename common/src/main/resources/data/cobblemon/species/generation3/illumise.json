@@ -121,8 +121,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.illumise.desc1",
-    "cobblemon.species.illumise.desc2"
+    "cobblemon.species.illumise.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

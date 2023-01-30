@@ -149,8 +149,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.scyther.desc1",
-    "cobblemon.species.scyther.desc2"
+    "cobblemon.species.scyther.desc"
   ],
   "evolutions": [
     {
@@ -193,5 +192,6 @@
   },
   "height": 15,
   "weight": 560,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

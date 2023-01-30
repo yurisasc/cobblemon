@@ -132,8 +132,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.suicune.desc1",
-    "cobblemon.species.suicune.desc2"
+    "cobblemon.species.suicune.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

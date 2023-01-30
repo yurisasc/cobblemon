@@ -141,8 +141,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.copperajah.desc1",
-    "cobblemon.species.copperajah.desc2"
+    "cobblemon.species.copperajah.desc"
   ],
   "preEvolution": "cufant",
   "evolutions": [],

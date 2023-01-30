@@ -146,6 +146,7 @@
       "weight": 3160,
       "preEvolution": "graveler form=alola",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -275,8 +276,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.golem.desc1",
-    "cobblemon.species.golem.desc2"
+    "cobblemon.species.golem.desc"
   ],
   "preEvolution": "graveler",
   "evolutions": [],
@@ -297,5 +297,6 @@
   },
   "height": 14,
   "weight": 3000,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

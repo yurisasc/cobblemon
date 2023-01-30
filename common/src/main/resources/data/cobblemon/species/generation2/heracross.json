@@ -186,8 +186,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.heracross.desc1",
-    "cobblemon.species.heracross.desc2"
+    "cobblemon.species.heracross.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

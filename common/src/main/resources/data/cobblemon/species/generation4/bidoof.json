@@ -126,8 +126,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.bidoof.desc1",
-    "cobblemon.species.bidoof.desc2"
+    "cobblemon.species.bidoof.desc"
   ],
   "evolutions": [
     {

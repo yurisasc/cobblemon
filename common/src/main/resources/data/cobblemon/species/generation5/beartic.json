@@ -132,8 +132,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.beartic.desc1",
-    "cobblemon.species.beartic.desc2"
+    "cobblemon.species.beartic.desc"
   ],
   "preEvolution": "cubchoo",
   "evolutions": [],

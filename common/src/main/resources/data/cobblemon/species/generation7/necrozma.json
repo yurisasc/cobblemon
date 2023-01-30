@@ -272,8 +272,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.necrozma.desc1",
-    "cobblemon.species.necrozma.desc2"
+    "cobblemon.species.necrozma.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

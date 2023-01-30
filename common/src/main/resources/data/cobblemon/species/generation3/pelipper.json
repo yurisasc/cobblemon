@@ -124,8 +124,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.pelipper.desc1",
-    "cobblemon.species.pelipper.desc2"
+    "cobblemon.species.pelipper.desc"
   ],
   "preEvolution": "wingull",
   "evolutions": [],

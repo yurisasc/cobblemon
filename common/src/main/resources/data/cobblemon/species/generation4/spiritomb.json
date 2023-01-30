@@ -121,8 +121,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.spiritomb.desc1",
-    "cobblemon.species.spiritomb.desc2"
+    "cobblemon.species.spiritomb.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -151,8 +151,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.grumpig.desc1",
-    "cobblemon.species.grumpig.desc2"
+    "cobblemon.species.grumpig.desc"
   ],
   "preEvolution": "spoink",
   "evolutions": [],

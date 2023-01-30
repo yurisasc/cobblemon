@@ -90,8 +90,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.amoonguss.desc1",
-    "cobblemon.species.amoonguss.desc2"
+    "cobblemon.species.amoonguss.desc"
   ],
   "preEvolution": "foongus",
   "evolutions": [],

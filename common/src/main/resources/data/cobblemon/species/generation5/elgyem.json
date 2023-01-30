@@ -118,8 +118,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.elgyem.desc1",
-    "cobblemon.species.elgyem.desc2"
+    "cobblemon.species.elgyem.desc"
   ],
   "evolutions": [
     {

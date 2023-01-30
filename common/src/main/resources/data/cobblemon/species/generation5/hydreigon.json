@@ -140,8 +140,7 @@
     "pseudo_legendary"
   ],
   "pokedex": [
-    "cobblemon.species.hydreigon.desc1",
-    "cobblemon.species.hydreigon.desc2"
+    "cobblemon.species.hydreigon.desc"
   ],
   "preEvolution": "zweilous",
   "evolutions": [],

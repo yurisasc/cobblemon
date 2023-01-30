@@ -146,8 +146,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.stantler.desc1",
-    "cobblemon.species.stantler.desc2"
+    "cobblemon.species.stantler.desc"
   ],
   "evolutions": [
     {

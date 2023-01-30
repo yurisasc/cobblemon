@@ -111,8 +111,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.bouffalant.desc1",
-    "cobblemon.species.bouffalant.desc2"
+    "cobblemon.species.bouffalant.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

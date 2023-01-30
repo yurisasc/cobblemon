@@ -91,8 +91,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.mudbray.desc1",
-    "cobblemon.species.mudbray.desc2"
+    "cobblemon.species.mudbray.desc"
   ],
   "evolutions": [
     {

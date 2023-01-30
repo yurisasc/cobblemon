@@ -132,8 +132,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.lunatone.desc1",
-    "cobblemon.species.lunatone.desc2"
+    "cobblemon.species.lunatone.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

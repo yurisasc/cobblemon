@@ -91,5 +91,8 @@
   "weight": 1128,
   "preEvolution": "tinkatuff",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.tinkaton.desc"
+  ]
 }

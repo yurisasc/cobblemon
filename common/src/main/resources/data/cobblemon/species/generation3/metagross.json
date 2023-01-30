@@ -179,8 +179,7 @@
     "pseudo_legendary"
   ],
   "pokedex": [
-    "cobblemon.species.metagross.desc1",
-    "cobblemon.species.metagross.desc2"
+    "cobblemon.species.metagross.desc"
   ],
   "preEvolution": "metang",
   "evolutions": [],

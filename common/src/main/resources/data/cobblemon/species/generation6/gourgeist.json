@@ -260,8 +260,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.gourgeist.desc1",
-    "cobblemon.species.gourgeist.desc2"
+    "cobblemon.species.gourgeist.desc"
   ],
   "preEvolution": "pumpkaboo",
   "evolutions": [],

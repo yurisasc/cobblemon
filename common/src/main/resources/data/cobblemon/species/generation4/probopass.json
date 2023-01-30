@@ -113,8 +113,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.probopass.desc1",
-    "cobblemon.species.probopass.desc2"
+    "cobblemon.species.probopass.desc"
   ],
   "preEvolution": "nosepass",
   "evolutions": [],

@@ -93,5 +93,8 @@
       "requiredContext": "cobblemon:thunder_stone"
     }
   ],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.tadbulb.desc"
+  ]
 }

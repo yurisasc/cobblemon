@@ -47,8 +47,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.combee.desc1",
-    "cobblemon.species.combee.desc2"
+    "cobblemon.species.combee.desc"
   ],
   "evolutions": [
     {

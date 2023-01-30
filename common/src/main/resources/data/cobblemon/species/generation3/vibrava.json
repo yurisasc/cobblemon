@@ -121,8 +121,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.vibrava.desc1",
-    "cobblemon.species.vibrava.desc2"
+    "cobblemon.species.vibrava.desc"
   ],
   "preEvolution": "trapinch",
   "evolutions": [

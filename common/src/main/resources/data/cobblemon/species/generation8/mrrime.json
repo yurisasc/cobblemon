@@ -132,8 +132,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.mrrime.desc1",
-    "cobblemon.species.mrrime.desc2"
+    "cobblemon.species.mrrime.desc"
   ],
   "preEvolution": "mrmime form=galar",
   "evolutions": [],

@@ -132,8 +132,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.hoppip.desc1",
-    "cobblemon.species.hoppip.desc2"
+    "cobblemon.species.hoppip.desc"
   ],
   "evolutions": [
     {

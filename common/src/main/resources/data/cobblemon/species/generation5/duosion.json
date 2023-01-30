@@ -114,8 +114,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.duosion.desc1",
-    "cobblemon.species.duosion.desc2"
+    "cobblemon.species.duosion.desc"
   ],
   "preEvolution": "solosis",
   "evolutions": [

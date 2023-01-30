@@ -122,8 +122,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.bisharp.desc1",
-    "cobblemon.species.bisharp.desc2"
+    "cobblemon.species.bisharp.desc"
   ],
   "preEvolution": "pawniard",
   "evolutions": [

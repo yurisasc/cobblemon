@@ -122,8 +122,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.beheeyem.desc1",
-    "cobblemon.species.beheeyem.desc2"
+    "cobblemon.species.beheeyem.desc"
   ],
   "preEvolution": "elgyem",
   "evolutions": [],

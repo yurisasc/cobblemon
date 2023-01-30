@@ -107,8 +107,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.shaymin.desc1",
-    "cobblemon.species.shaymin.desc2"
+    "cobblemon.species.shaymin.desc"
   ],
   "height": 2,
   "weight": 21,

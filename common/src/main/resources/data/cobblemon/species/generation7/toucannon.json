@@ -84,8 +84,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.toucannon.desc1",
-    "cobblemon.species.toucannon.desc2"
+    "cobblemon.species.toucannon.desc"
   ],
   "preEvolution": "trumbeak",
   "evolutions": [],

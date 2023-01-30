@@ -104,5 +104,8 @@
       ]
     }
   ],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.maschiff.desc"
+  ]
 }

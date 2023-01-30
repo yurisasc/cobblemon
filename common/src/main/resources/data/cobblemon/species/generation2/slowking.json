@@ -356,8 +356,7 @@
     "johto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.slowking.desc1",
-    "cobblemon.species.slowking.desc2"
+    "cobblemon.species.slowking.desc"
   ],
   "preEvolution": "slowpoke",
   "evolutions": [],

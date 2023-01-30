@@ -97,8 +97,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.morpeko.desc1",
-    "cobblemon.species.morpeko.desc2"
+    "cobblemon.species.morpeko.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

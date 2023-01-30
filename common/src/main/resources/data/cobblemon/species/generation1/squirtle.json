@@ -188,8 +188,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.squirtle.desc1",
-    "cobblemon.species.squirtle.desc2"
+    "cobblemon.species.squirtle.desc"
   ],
   "evolutions": [
     {
@@ -223,5 +222,6 @@
   },
   "height": 5,
   "weight": 90,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

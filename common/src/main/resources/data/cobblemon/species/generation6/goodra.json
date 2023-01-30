@@ -238,8 +238,7 @@
     "kalos_regional"
   ],
   "pokedex": [
-    "cobblemon.species.goodra.desc1",
-    "cobblemon.species.goodra.desc2"
+    "cobblemon.species.goodra.desc"
   ],
   "preEvolution": "sliggoo",
   "evolutions": [],

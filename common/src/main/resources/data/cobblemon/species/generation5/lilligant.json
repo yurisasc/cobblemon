@@ -213,8 +213,7 @@
     "unova_regional"
   ],
   "pokedex": [
-    "cobblemon.species.lilligant.desc1",
-    "cobblemon.species.lilligant.desc2"
+    "cobblemon.species.lilligant.desc"
   ],
   "preEvolution": "petilil",
   "evolutions": [],

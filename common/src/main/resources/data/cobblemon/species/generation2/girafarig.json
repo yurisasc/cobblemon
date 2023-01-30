@@ -159,8 +159,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.girafarig.desc1",
-    "cobblemon.species.girafarig.desc2"
+    "cobblemon.species.girafarig.desc"
   ],
   "evolutions": [
     {

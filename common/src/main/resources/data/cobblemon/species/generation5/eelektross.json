@@ -123,8 +123,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.eelektross.desc1",
-    "cobblemon.species.eelektross.desc2"
+    "cobblemon.species.eelektross.desc"
   ],
   "preEvolution": "eelektrik",
   "evolutions": [],

@@ -121,8 +121,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.cyndaquil.desc1",
-    "cobblemon.species.cyndaquil.desc2"
+    "cobblemon.species.cyndaquil.desc"
   ],
   "evolutions": [
     {

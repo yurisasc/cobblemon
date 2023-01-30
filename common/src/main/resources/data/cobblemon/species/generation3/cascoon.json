@@ -42,8 +42,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.cascoon.desc1",
-    "cobblemon.species.cascoon.desc2"
+    "cobblemon.species.cascoon.desc"
   ],
   "preEvolution": "wurmple",
   "evolutions": [

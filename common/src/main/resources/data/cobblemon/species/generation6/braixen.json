@@ -120,8 +120,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.braixen.desc1",
-    "cobblemon.species.braixen.desc2"
+    "cobblemon.species.braixen.desc"
   ],
   "preEvolution": "fennekin",
   "evolutions": [

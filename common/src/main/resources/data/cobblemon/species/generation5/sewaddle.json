@@ -87,8 +87,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.sewaddle.desc1",
-    "cobblemon.species.sewaddle.desc2"
+    "cobblemon.species.sewaddle.desc"
   ],
   "evolutions": [
     {

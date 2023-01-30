@@ -109,5 +109,8 @@
   "weight": 410,
   "preEvolution": "pawmo",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.pawmot.desc"
+  ]
 }

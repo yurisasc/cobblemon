@@ -141,8 +141,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.marshtomp.desc1",
-    "cobblemon.species.marshtomp.desc2"
+    "cobblemon.species.marshtomp.desc"
   ],
   "preEvolution": "mudkip",
   "evolutions": [

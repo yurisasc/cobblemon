@@ -31,8 +31,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.ditto.desc1",
-    "cobblemon.species.ditto.desc2"
+    "cobblemon.species.ditto.desc"
   ],
   "evolutions": [],
   "baseScale": 1,
@@ -52,5 +51,6 @@
   },
   "height": 3,
   "weight": 40,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

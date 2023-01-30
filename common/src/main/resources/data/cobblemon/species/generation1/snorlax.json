@@ -64,6 +64,7 @@
       "height": 350,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -273,8 +274,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.snorlax.desc1",
-    "cobblemon.species.snorlax.desc2"
+    "cobblemon.species.snorlax.desc"
   ],
   "preEvolution": "munchlax",
   "evolutions": [],
@@ -295,5 +295,6 @@
   },
   "height": 21,
   "weight": 4600,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

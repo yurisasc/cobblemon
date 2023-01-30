@@ -136,8 +136,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.sandaconda.desc1",
-    "cobblemon.species.sandaconda.desc2"
+    "cobblemon.species.sandaconda.desc"
   ],
   "preEvolution": "silicobra",
   "evolutions": [],

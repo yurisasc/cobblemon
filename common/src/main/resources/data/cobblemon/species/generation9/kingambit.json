@@ -102,5 +102,8 @@
   "weight": 1200,
   "preEvolution": "bisharp",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.kingambit.desc"
+  ]
 }

@@ -153,6 +153,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -269,8 +270,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.rattata.desc1",
-    "cobblemon.species.rattata.desc2"
+    "cobblemon.species.rattata.desc"
   ],
   "evolutions": [
     {
@@ -304,5 +304,6 @@
   },
   "height": 3,
   "weight": 35,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

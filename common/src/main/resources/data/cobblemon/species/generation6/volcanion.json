@@ -120,8 +120,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.volcanion.desc1",
-    "cobblemon.species.volcanion.desc2"
+    "cobblemon.species.volcanion.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

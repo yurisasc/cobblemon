@@ -87,8 +87,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.roggenrola.desc1",
-    "cobblemon.species.roggenrola.desc2"
+    "cobblemon.species.roggenrola.desc"
   ],
   "evolutions": [
     {

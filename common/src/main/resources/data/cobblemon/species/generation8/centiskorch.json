@@ -138,8 +138,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.centiskorch.desc1",
-    "cobblemon.species.centiskorch.desc2"
+    "cobblemon.species.centiskorch.desc"
   ],
   "preEvolution": "sizzlipede",
   "evolutions": [],

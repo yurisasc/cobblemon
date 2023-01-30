@@ -123,8 +123,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.skitty.desc1",
-    "cobblemon.species.skitty.desc2"
+    "cobblemon.species.skitty.desc"
   ],
   "evolutions": [
     {

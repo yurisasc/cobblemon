@@ -146,8 +146,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.natu.desc1",
-    "cobblemon.species.natu.desc2"
+    "cobblemon.species.natu.desc"
   ],
   "evolutions": [
     {

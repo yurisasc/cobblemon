@@ -86,8 +86,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.impidimp.desc1",
-    "cobblemon.species.impidimp.desc2"
+    "cobblemon.species.impidimp.desc"
   ],
   "evolutions": [
     {

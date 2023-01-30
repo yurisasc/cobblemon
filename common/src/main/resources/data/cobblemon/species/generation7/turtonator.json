@@ -118,8 +118,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.turtonator.desc1",
-    "cobblemon.species.turtonator.desc2"
+    "cobblemon.species.turtonator.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

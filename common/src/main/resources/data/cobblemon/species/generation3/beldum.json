@@ -38,8 +38,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.beldum.desc1",
-    "cobblemon.species.beldum.desc2"
+    "cobblemon.species.beldum.desc"
   ],
   "evolutions": [
     {

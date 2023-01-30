@@ -113,8 +113,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.dhelmise.desc1",
-    "cobblemon.species.dhelmise.desc2"
+    "cobblemon.species.dhelmise.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

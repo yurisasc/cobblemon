@@ -93,8 +93,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.herdier.desc1",
-    "cobblemon.species.herdier.desc2"
+    "cobblemon.species.herdier.desc"
   ],
   "preEvolution": "lillipup",
   "evolutions": [

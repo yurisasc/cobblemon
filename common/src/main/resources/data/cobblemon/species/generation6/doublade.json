@@ -87,8 +87,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.doublade.desc1",
-    "cobblemon.species.doublade.desc2"
+    "cobblemon.species.doublade.desc"
   ],
   "preEvolution": "honedge",
   "evolutions": [

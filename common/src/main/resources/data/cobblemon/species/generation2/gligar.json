@@ -156,8 +156,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.gligar.desc1",
-    "cobblemon.species.gligar.desc2"
+    "cobblemon.species.gligar.desc"
   ],
   "evolutions": [
     {

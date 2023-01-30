@@ -119,8 +119,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.axew.desc1",
-    "cobblemon.species.axew.desc2"
+    "cobblemon.species.axew.desc"
   ],
   "evolutions": [
     {

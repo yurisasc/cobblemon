@@ -199,8 +199,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.araquanid.desc1",
-    "cobblemon.species.araquanid.desc2"
+    "cobblemon.species.araquanid.desc"
   ],
   "preEvolution": "dewpider",
   "evolutions": [],

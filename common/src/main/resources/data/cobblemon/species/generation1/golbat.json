@@ -150,8 +150,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.golbat.desc1",
-    "cobblemon.species.golbat.desc2"
+    "cobblemon.species.golbat.desc"
   ],
   "preEvolution": "zubat",
   "evolutions": [
@@ -186,5 +185,6 @@
   },
   "height": 16,
   "weight": 550,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

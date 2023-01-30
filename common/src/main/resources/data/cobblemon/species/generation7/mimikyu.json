@@ -121,8 +121,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.mimikyu.desc1",
-    "cobblemon.species.mimikyu.desc2"
+    "cobblemon.species.mimikyu.desc"
   ],
   "evolutions": [],
   "baseScale": 0.7,

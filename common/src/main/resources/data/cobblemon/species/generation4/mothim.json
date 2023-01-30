@@ -97,8 +97,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.mothim.desc1",
-    "cobblemon.species.mothim.desc2"
+    "cobblemon.species.mothim.desc"
   ],
   "preEvolution": "burmy",
   "evolutions": [],

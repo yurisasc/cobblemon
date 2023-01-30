@@ -88,5 +88,8 @@
   "weight": 386,
   "preEvolution": "wattrel",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.kilowattrel.desc"
+  ]
 }

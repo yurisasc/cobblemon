@@ -136,8 +136,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.thundurus.desc1",
-    "cobblemon.species.thundurus.desc2"
+    "cobblemon.species.thundurus.desc"
   ],
   "height": 15,
   "weight": 610,

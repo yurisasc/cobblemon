@@ -133,8 +133,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.arbok.desc1",
-    "cobblemon.species.arbok.desc2"
+    "cobblemon.species.arbok.desc"
   ],
   "preEvolution": "ekans",
   "evolutions": [],
@@ -155,5 +154,6 @@
   },
   "height": 35,
   "weight": 650,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

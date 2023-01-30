@@ -200,8 +200,7 @@
     "kalos_regional"
   ],
   "pokedex": [
-    "cobblemon.species.sliggoo.desc1",
-    "cobblemon.species.sliggoo.desc2"
+    "cobblemon.species.sliggoo.desc"
   ],
   "preEvolution": "goomy",
   "evolutions": [

@@ -102,8 +102,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.kricketune.desc1",
-    "cobblemon.species.kricketune.desc2"
+    "cobblemon.species.kricketune.desc"
   ],
   "preEvolution": "kricketot",
   "evolutions": [],

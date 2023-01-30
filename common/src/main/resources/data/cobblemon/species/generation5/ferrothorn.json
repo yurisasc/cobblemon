@@ -111,8 +111,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.ferrothorn.desc1",
-    "cobblemon.species.ferrothorn.desc2"
+    "cobblemon.species.ferrothorn.desc"
   ],
   "preEvolution": "ferroseed",
   "evolutions": [],

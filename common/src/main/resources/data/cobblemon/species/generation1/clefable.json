@@ -224,8 +224,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.clefable.desc1",
-    "cobblemon.species.clefable.desc2"
+    "cobblemon.species.clefable.desc"
   ],
   "preEvolution": "clefairy",
   "evolutions": [],
@@ -246,5 +245,6 @@
   },
   "height": 13,
   "weight": 400,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

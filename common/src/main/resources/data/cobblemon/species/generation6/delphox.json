@@ -139,8 +139,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.delphox.desc1",
-    "cobblemon.species.delphox.desc2"
+    "cobblemon.species.delphox.desc"
   ],
   "preEvolution": "braixen",
   "evolutions": [],

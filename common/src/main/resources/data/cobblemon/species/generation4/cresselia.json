@@ -111,8 +111,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.cresselia.desc1",
-    "cobblemon.species.cresselia.desc2"
+    "cobblemon.species.cresselia.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

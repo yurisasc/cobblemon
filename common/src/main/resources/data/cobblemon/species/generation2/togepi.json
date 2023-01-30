@@ -146,8 +146,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.togepi.desc1",
-    "cobblemon.species.togepi.desc2"
+    "cobblemon.species.togepi.desc"
   ],
   "evolutions": [
     {

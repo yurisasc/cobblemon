@@ -115,8 +115,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.monferno.desc1",
-    "cobblemon.species.monferno.desc2"
+    "cobblemon.species.monferno.desc"
   ],
   "preEvolution": "chimchar",
   "evolutions": [

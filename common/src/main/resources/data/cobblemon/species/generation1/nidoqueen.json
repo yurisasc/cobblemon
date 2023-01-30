@@ -212,8 +212,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.nidoqueen.desc1",
-    "cobblemon.species.nidoqueen.desc2"
+    "cobblemon.species.nidoqueen.desc"
   ],
   "preEvolution": "nidorina",
   "evolutions": [],
@@ -234,5 +233,6 @@
   },
   "height": 13,
   "weight": 600,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

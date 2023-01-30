@@ -174,6 +174,7 @@
       "weight": 550,
       "preEvolution": "sandshrew form=alola",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -318,8 +319,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.sandslash.desc1",
-    "cobblemon.species.sandslash.desc2"
+    "cobblemon.species.sandslash.desc"
   ],
   "preEvolution": "sandshrew",
   "evolutions": [],
@@ -340,5 +340,6 @@
   },
   "height": 10,
   "weight": 295,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

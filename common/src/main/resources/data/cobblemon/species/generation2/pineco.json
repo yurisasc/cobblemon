@@ -121,8 +121,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.pineco.desc1",
-    "cobblemon.species.pineco.desc2"
+    "cobblemon.species.pineco.desc"
   ],
   "evolutions": [
     {

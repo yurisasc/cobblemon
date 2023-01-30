@@ -128,8 +128,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.magneton.desc1",
-    "cobblemon.species.magneton.desc2"
+    "cobblemon.species.magneton.desc"
   ],
   "preEvolution": "magnemite",
   "evolutions": [
@@ -160,5 +159,6 @@
   },
   "height": 10,
   "weight": 600,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

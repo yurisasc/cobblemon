@@ -111,8 +111,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.liepard.desc1",
-    "cobblemon.species.liepard.desc2"
+    "cobblemon.species.liepard.desc"
   ],
   "preEvolution": "purrloin",
   "evolutions": [],

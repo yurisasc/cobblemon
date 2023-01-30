@@ -111,8 +111,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.watchog.desc1",
-    "cobblemon.species.watchog.desc2"
+    "cobblemon.species.watchog.desc"
   ],
   "preEvolution": "patrat",
   "evolutions": [],

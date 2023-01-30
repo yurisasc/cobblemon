@@ -89,8 +89,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.grookey.desc1",
-    "cobblemon.species.grookey.desc2"
+    "cobblemon.species.grookey.desc"
   ],
   "evolutions": [
     {

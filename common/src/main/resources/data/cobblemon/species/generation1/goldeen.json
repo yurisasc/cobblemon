@@ -156,8 +156,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.goldeen.desc1",
-    "cobblemon.species.goldeen.desc2"
+    "cobblemon.species.goldeen.desc"
   ],
   "evolutions": [
     {
@@ -191,5 +190,6 @@
   },
   "height": 6,
   "weight": 150,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

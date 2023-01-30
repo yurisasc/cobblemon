@@ -116,8 +116,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.mienfoo.desc1",
-    "cobblemon.species.mienfoo.desc2"
+    "cobblemon.species.mienfoo.desc"
   ],
   "evolutions": [
     {

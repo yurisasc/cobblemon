@@ -140,8 +140,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.sudowoodo.desc1",
-    "cobblemon.species.sudowoodo.desc2"
+    "cobblemon.species.sudowoodo.desc"
   ],
   "preEvolution": "bonsly",
   "evolutions": [],

@@ -74,8 +74,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.drizzile.desc1",
-    "cobblemon.species.drizzile.desc2"
+    "cobblemon.species.drizzile.desc"
   ],
   "preEvolution": "sobble",
   "evolutions": [

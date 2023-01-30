@@ -149,8 +149,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.jirachi.desc1",
-    "cobblemon.species.jirachi.desc2"
+    "cobblemon.species.jirachi.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

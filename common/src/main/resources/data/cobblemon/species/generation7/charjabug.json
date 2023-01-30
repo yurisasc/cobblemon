@@ -79,8 +79,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.charjabug.desc1",
-    "cobblemon.species.charjabug.desc2"
+    "cobblemon.species.charjabug.desc"
   ],
   "preEvolution": "grubbin",
   "evolutions": [

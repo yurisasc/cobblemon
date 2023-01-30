@@ -276,8 +276,7 @@
     "johto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.corsola.desc1",
-    "cobblemon.species.corsola.desc2"
+    "cobblemon.species.corsola.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -100,8 +100,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.helioptile.desc1",
-    "cobblemon.species.helioptile.desc2"
+    "cobblemon.species.helioptile.desc"
   ],
   "evolutions": [
     {

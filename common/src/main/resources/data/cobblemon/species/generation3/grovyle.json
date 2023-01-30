@@ -124,8 +124,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.grovyle.desc1",
-    "cobblemon.species.grovyle.desc2"
+    "cobblemon.species.grovyle.desc"
   ],
   "preEvolution": "treecko",
   "evolutions": [

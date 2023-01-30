@@ -146,8 +146,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.seel.desc1",
-    "cobblemon.species.seel.desc2"
+    "cobblemon.species.seel.desc"
   ],
   "evolutions": [
     {
@@ -181,5 +180,6 @@
   },
   "height": 11,
   "weight": 900,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

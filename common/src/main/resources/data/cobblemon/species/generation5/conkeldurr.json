@@ -110,8 +110,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.conkeldurr.desc1",
-    "cobblemon.species.conkeldurr.desc2"
+    "cobblemon.species.conkeldurr.desc"
   ],
   "preEvolution": "gurdurr",
   "evolutions": [],

@@ -120,8 +120,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.masquerain.desc1",
-    "cobblemon.species.masquerain.desc2"
+    "cobblemon.species.masquerain.desc"
   ],
   "preEvolution": "surskit",
   "evolutions": [],

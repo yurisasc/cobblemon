@@ -89,8 +89,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.pincurchin.desc1",
-    "cobblemon.species.pincurchin.desc2"
+    "cobblemon.species.pincurchin.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

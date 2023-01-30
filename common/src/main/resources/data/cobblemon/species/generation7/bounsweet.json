@@ -90,8 +90,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.bounsweet.desc1",
-    "cobblemon.species.bounsweet.desc2"
+    "cobblemon.species.bounsweet.desc"
   ],
   "evolutions": [
     {

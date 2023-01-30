@@ -93,8 +93,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.dracozolt.desc1",
-    "cobblemon.species.dracozolt.desc2"
+    "cobblemon.species.dracozolt.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

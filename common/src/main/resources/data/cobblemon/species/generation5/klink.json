@@ -85,8 +85,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.klink.desc1",
-    "cobblemon.species.klink.desc2"
+    "cobblemon.species.klink.desc"
   ],
   "evolutions": [
     {

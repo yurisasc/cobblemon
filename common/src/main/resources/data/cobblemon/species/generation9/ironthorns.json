@@ -124,5 +124,8 @@
   "height": 16,
   "weight": 3030,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.ironthorns.desc"
+  ]
 }

@@ -107,8 +107,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.frogadier.desc1",
-    "cobblemon.species.frogadier.desc2"
+    "cobblemon.species.frogadier.desc"
   ],
   "preEvolution": "froakie",
   "evolutions": [

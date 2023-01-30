@@ -85,8 +85,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.kleavor.desc1",
-    "cobblemon.species.kleavor.desc2"
+    "cobblemon.species.kleavor.desc"
   ],
   "preEvolution": "scyther",
   "evolutions": [],

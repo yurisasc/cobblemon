@@ -41,8 +41,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.smeargle.desc1",
-    "cobblemon.species.smeargle.desc2"
+    "cobblemon.species.smeargle.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -135,8 +135,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.makuhita.desc1",
-    "cobblemon.species.makuhita.desc2"
+    "cobblemon.species.makuhita.desc"
   ],
   "evolutions": [
     {

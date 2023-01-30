@@ -84,8 +84,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.kubfu.desc1",
-    "cobblemon.species.kubfu.desc2"
+    "cobblemon.species.kubfu.desc"
   ],
   "evolutions": [
     {

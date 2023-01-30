@@ -104,8 +104,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.aegislash.desc1",
-    "cobblemon.species.aegislash.desc2"
+    "cobblemon.species.aegislash.desc"
   ],
   "height": 17,
   "weight": 530,

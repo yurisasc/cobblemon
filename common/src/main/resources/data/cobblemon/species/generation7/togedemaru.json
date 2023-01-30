@@ -228,8 +228,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.togedemaru.desc1",
-    "cobblemon.species.togedemaru.desc2"
+    "cobblemon.species.togedemaru.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

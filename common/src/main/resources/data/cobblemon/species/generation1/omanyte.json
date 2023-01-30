@@ -150,8 +150,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.omanyte.desc1",
-    "cobblemon.species.omanyte.desc2"
+    "cobblemon.species.omanyte.desc"
   ],
   "evolutions": [
     {
@@ -187,5 +186,6 @@
   },
   "height": 4,
   "weight": 75,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

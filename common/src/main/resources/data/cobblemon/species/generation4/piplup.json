@@ -129,8 +129,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.piplup.desc1",
-    "cobblemon.species.piplup.desc2"
+    "cobblemon.species.piplup.desc"
   ],
   "evolutions": [
     {

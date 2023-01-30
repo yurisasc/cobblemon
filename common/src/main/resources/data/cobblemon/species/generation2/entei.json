@@ -127,8 +127,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.entei.desc1",
-    "cobblemon.species.entei.desc2"
+    "cobblemon.species.entei.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

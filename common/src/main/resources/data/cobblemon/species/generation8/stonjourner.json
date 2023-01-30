@@ -84,8 +84,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.stonjourner.desc1",
-    "cobblemon.species.stonjourner.desc2"
+    "cobblemon.species.stonjourner.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

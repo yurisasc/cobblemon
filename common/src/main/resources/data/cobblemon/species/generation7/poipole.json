@@ -78,8 +78,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.poipole.desc1",
-    "cobblemon.species.poipole.desc2"
+    "cobblemon.species.poipole.desc"
   ],
   "evolutions": [
     {

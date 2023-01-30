@@ -340,8 +340,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.rotom.desc1",
-    "cobblemon.species.rotom.desc2"
+    "cobblemon.species.rotom.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

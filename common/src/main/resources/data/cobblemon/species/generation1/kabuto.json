@@ -155,8 +155,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.kabuto.desc1",
-    "cobblemon.species.kabuto.desc2"
+    "cobblemon.species.kabuto.desc"
   ],
   "evolutions": [
     {
@@ -192,5 +191,6 @@
   },
   "height": 5,
   "weight": 115,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

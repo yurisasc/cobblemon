@@ -141,8 +141,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.porygon2.desc1",
-    "cobblemon.species.porygon2.desc2"
+    "cobblemon.species.porygon2.desc"
   ],
   "preEvolution": "porygon",
   "evolutions": [

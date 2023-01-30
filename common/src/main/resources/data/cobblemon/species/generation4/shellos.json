@@ -112,8 +112,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.shellos.desc1",
-    "cobblemon.species.shellos.desc2"
+    "cobblemon.species.shellos.desc"
   ],
   "evolutions": [
     {

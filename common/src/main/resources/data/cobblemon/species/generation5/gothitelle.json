@@ -129,8 +129,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.gothitelle.desc1",
-    "cobblemon.species.gothitelle.desc2"
+    "cobblemon.species.gothitelle.desc"
   ],
   "preEvolution": "gothorita",
   "evolutions": [],

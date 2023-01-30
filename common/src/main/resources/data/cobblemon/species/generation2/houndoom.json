@@ -187,8 +187,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.houndoom.desc1",
-    "cobblemon.species.houndoom.desc2"
+    "cobblemon.species.houndoom.desc"
   ],
   "preEvolution": "houndour",
   "evolutions": [],

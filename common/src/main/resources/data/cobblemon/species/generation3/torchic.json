@@ -126,8 +126,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.torchic.desc1",
-    "cobblemon.species.torchic.desc2"
+    "cobblemon.species.torchic.desc"
   ],
   "evolutions": [
     {

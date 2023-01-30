@@ -145,8 +145,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.coalossal.desc1",
-    "cobblemon.species.coalossal.desc2"
+    "cobblemon.species.coalossal.desc"
   ],
   "preEvolution": "carkol",
   "evolutions": [],

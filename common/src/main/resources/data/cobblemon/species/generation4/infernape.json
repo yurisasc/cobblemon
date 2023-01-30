@@ -125,8 +125,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.infernape.desc1",
-    "cobblemon.species.infernape.desc2"
+    "cobblemon.species.infernape.desc"
   ],
   "preEvolution": "monferno",
   "evolutions": [],

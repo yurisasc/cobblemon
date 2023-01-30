@@ -129,8 +129,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.remoraid.desc1",
-    "cobblemon.species.remoraid.desc2"
+    "cobblemon.species.remoraid.desc"
   ],
   "evolutions": [
     {

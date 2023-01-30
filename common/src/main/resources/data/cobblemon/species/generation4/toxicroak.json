@@ -145,8 +145,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.toxicroak.desc1",
-    "cobblemon.species.toxicroak.desc2"
+    "cobblemon.species.toxicroak.desc"
   ],
   "preEvolution": "croagunk",
   "evolutions": [],

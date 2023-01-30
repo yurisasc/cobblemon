@@ -124,8 +124,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.regigigas.desc1",
-    "cobblemon.species.regigigas.desc2"
+    "cobblemon.species.regigigas.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

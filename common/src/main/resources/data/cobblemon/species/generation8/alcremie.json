@@ -129,8 +129,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.alcremie.desc1",
-    "cobblemon.species.alcremie.desc2"
+    "cobblemon.species.alcremie.desc"
   ],
   "preEvolution": "milcery",
   "evolutions": [],

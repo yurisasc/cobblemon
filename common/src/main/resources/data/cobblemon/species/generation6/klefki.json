@@ -99,8 +99,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.klefki.desc1",
-    "cobblemon.species.klefki.desc2"
+    "cobblemon.species.klefki.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -102,8 +102,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.galvantula.desc1",
-    "cobblemon.species.galvantula.desc2"
+    "cobblemon.species.galvantula.desc"
   ],
   "preEvolution": "joltik",
   "evolutions": [],

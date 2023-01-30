@@ -109,8 +109,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.poochyena.desc1",
-    "cobblemon.species.poochyena.desc2"
+    "cobblemon.species.poochyena.desc"
   ],
   "evolutions": [
     {

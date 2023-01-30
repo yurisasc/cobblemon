@@ -114,8 +114,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.inkay.desc1",
-    "cobblemon.species.inkay.desc2"
+    "cobblemon.species.inkay.desc"
   ],
   "evolutions": [
     {

@@ -197,8 +197,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.mawile.desc1",
-    "cobblemon.species.mawile.desc2"
+    "cobblemon.species.mawile.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

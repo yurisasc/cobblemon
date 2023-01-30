@@ -158,8 +158,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.togetic.desc1",
-    "cobblemon.species.togetic.desc2"
+    "cobblemon.species.togetic.desc"
   ],
   "preEvolution": "togepi",
   "evolutions": [

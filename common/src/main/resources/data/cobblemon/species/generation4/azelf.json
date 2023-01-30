@@ -133,8 +133,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.azelf.desc1",
-    "cobblemon.species.azelf.desc2"
+    "cobblemon.species.azelf.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -106,8 +106,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.buzzwole.desc1",
-    "cobblemon.species.buzzwole.desc2"
+    "cobblemon.species.buzzwole.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

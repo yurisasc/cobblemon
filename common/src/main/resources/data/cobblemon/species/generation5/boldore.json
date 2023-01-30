@@ -84,8 +84,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.boldore.desc1",
-    "cobblemon.species.boldore.desc2"
+    "cobblemon.species.boldore.desc"
   ],
   "preEvolution": "roggenrola",
   "evolutions": [

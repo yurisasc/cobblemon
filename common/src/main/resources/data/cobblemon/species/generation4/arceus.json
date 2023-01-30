@@ -988,8 +988,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.arceus.desc1",
-    "cobblemon.species.arceus.desc2"
+    "cobblemon.species.arceus.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

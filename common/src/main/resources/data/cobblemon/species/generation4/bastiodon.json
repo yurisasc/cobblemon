@@ -101,8 +101,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.bastiodon.desc1",
-    "cobblemon.species.bastiodon.desc2"
+    "cobblemon.species.bastiodon.desc"
   ],
   "preEvolution": "shieldon",
   "evolutions": [],

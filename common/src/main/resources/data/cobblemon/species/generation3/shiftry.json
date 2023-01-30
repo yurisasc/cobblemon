@@ -147,8 +147,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.shiftry.desc1",
-    "cobblemon.species.shiftry.desc2"
+    "cobblemon.species.shiftry.desc"
   ],
   "preEvolution": "nuzleaf",
   "evolutions": [],

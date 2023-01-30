@@ -155,8 +155,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.hypno.desc1",
-    "cobblemon.species.hypno.desc2"
+    "cobblemon.species.hypno.desc"
   ],
   "preEvolution": "drowzee",
   "evolutions": [],
@@ -177,5 +176,6 @@
   },
   "height": 16,
   "weight": 756,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -110,8 +110,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.sunflora.desc1",
-    "cobblemon.species.sunflora.desc2"
+    "cobblemon.species.sunflora.desc"
   ],
   "preEvolution": "sunkern",
   "evolutions": [],

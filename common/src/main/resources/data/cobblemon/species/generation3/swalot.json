@@ -123,8 +123,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.swalot.desc1",
-    "cobblemon.species.swalot.desc2"
+    "cobblemon.species.swalot.desc"
   ],
   "preEvolution": "gulpin",
   "evolutions": [],

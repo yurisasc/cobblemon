@@ -148,8 +148,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.misdreavus.desc1",
-    "cobblemon.species.misdreavus.desc2"
+    "cobblemon.species.misdreavus.desc"
   ],
   "evolutions": [
     {

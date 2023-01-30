@@ -224,8 +224,7 @@
     "unova_regional"
   ],
   "pokedex": [
-    "cobblemon.species.yamask.desc1",
-    "cobblemon.species.yamask.desc2"
+    "cobblemon.species.yamask.desc"
   ],
   "evolutions": [
     {

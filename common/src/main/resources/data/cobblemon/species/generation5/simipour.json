@@ -97,8 +97,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.simipour.desc1",
-    "cobblemon.species.simipour.desc2"
+    "cobblemon.species.simipour.desc"
   ],
   "preEvolution": "panpour",
   "evolutions": [],

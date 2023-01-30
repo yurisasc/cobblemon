@@ -137,8 +137,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.delibird.desc1",
-    "cobblemon.species.delibird.desc2"
+    "cobblemon.species.delibird.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -167,8 +167,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.psyduck.desc1",
-    "cobblemon.species.psyduck.desc2"
+    "cobblemon.species.psyduck.desc"
   ],
   "evolutions": [
     {
@@ -202,5 +201,6 @@
   },
   "height": 8,
   "weight": 196,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

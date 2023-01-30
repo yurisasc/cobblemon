@@ -118,8 +118,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.solosis.desc1",
-    "cobblemon.species.solosis.desc2"
+    "cobblemon.species.solosis.desc"
   ],
   "evolutions": [
     {

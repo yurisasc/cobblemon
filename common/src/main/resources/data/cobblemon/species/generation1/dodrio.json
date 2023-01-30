@@ -128,8 +128,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.dodrio.desc1",
-    "cobblemon.species.dodrio.desc2"
+    "cobblemon.species.dodrio.desc"
   ],
   "preEvolution": "doduo",
   "evolutions": [],
@@ -150,5 +149,6 @@
   },
   "height": 18,
   "weight": 852,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

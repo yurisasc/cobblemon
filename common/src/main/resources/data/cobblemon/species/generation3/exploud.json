@@ -133,8 +133,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.exploud.desc1",
-    "cobblemon.species.exploud.desc2"
+    "cobblemon.species.exploud.desc"
   ],
   "preEvolution": "loudred",
   "evolutions": [],

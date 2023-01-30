@@ -179,6 +179,7 @@
       "weight": 4156,
       "preEvolution": "exeggcute",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -324,8 +325,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.exeggutor.desc1",
-    "cobblemon.species.exeggutor.desc2"
+    "cobblemon.species.exeggutor.desc"
   ],
   "features": [
     "alolan"
@@ -349,5 +349,6 @@
   },
   "height": 20,
   "weight": 1200,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

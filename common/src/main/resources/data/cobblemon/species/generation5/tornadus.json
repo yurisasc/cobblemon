@@ -128,8 +128,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.tornadus.desc1",
-    "cobblemon.species.tornadus.desc2"
+    "cobblemon.species.tornadus.desc"
   ],
   "height": 15,
   "weight": 630,

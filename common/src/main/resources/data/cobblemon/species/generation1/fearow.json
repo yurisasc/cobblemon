@@ -135,8 +135,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.fearow.desc1",
-    "cobblemon.species.fearow.desc2"
+    "cobblemon.species.fearow.desc"
   ],
   "preEvolution": "spearow",
   "evolutions": [],
@@ -157,5 +156,6 @@
   },
   "height": 12,
   "weight": 380,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

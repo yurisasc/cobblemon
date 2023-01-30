@@ -129,8 +129,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.claydol.desc1",
-    "cobblemon.species.claydol.desc2"
+    "cobblemon.species.claydol.desc"
   ],
   "preEvolution": "baltoy",
   "evolutions": [],

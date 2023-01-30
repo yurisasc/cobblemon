@@ -128,8 +128,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.pachirisu.desc1",
-    "cobblemon.species.pachirisu.desc2"
+    "cobblemon.species.pachirisu.desc"
   ],
   "evolutions": [],
   "baseScale": 0.5,

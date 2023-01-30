@@ -107,8 +107,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.toxapex.desc1",
-    "cobblemon.species.toxapex.desc2"
+    "cobblemon.species.toxapex.desc"
   ],
   "preEvolution": "mareanie",
   "evolutions": [],

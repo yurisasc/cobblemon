@@ -110,5 +110,8 @@
   "height": 35,
   "weight": 2400,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.miraidon.desc"
+  ]
 }

@@ -100,8 +100,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.lampent.desc1",
-    "cobblemon.species.lampent.desc2"
+    "cobblemon.species.lampent.desc"
   ],
   "preEvolution": "litwick",
   "evolutions": [

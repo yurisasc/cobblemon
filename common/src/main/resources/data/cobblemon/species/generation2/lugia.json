@@ -164,8 +164,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.lugia.desc1",
-    "cobblemon.species.lugia.desc2"
+    "cobblemon.species.lugia.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -90,8 +90,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.palpitoad.desc1",
-    "cobblemon.species.palpitoad.desc2"
+    "cobblemon.species.palpitoad.desc"
   ],
   "preEvolution": "tympole",
   "evolutions": [

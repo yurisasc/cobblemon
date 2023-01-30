@@ -116,8 +116,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.guzzlord.desc1",
-    "cobblemon.species.guzzlord.desc2"
+    "cobblemon.species.guzzlord.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

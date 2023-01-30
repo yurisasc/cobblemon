@@ -122,8 +122,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.pupitar.desc1",
-    "cobblemon.species.pupitar.desc2"
+    "cobblemon.species.pupitar.desc"
   ],
   "preEvolution": "larvitar",
   "evolutions": [

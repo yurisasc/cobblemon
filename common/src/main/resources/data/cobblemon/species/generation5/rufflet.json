@@ -101,8 +101,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.rufflet.desc1",
-    "cobblemon.species.rufflet.desc2"
+    "cobblemon.species.rufflet.desc"
   ],
   "evolutions": [
     {

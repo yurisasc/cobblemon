@@ -105,5 +105,8 @@
   "weight": 3265,
   "preEvolution": "crocalor",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.skeledirge.desc"
+  ]
 }

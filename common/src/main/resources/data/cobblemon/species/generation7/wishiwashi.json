@@ -95,8 +95,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.wishiwashi.desc1",
-    "cobblemon.species.wishiwashi.desc2"
+    "cobblemon.species.wishiwashi.desc"
   ],
   "height": 2,
   "weight": 3,

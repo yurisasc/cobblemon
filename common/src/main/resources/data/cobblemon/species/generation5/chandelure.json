@@ -103,8 +103,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.chandelure.desc1",
-    "cobblemon.species.chandelure.desc2"
+    "cobblemon.species.chandelure.desc"
   ],
   "preEvolution": "lampent",
   "evolutions": [],

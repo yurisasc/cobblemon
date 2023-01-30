@@ -206,8 +206,7 @@
     "pseudo_legendary"
   ],
   "pokedex": [
-    "cobblemon.species.dragonite.desc1",
-    "cobblemon.species.dragonite.desc2"
+    "cobblemon.species.dragonite.desc"
   ],
   "preEvolution": "dragonair",
   "evolutions": [],
@@ -228,5 +227,6 @@
   },
   "height": 22,
   "weight": 2100,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

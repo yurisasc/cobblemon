@@ -70,8 +70,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.eldegoss.desc1",
-    "cobblemon.species.eldegoss.desc2"
+    "cobblemon.species.eldegoss.desc"
   ],
   "preEvolution": "gossifleur",
   "evolutions": [],

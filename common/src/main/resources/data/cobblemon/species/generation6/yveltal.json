@@ -110,8 +110,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.yveltal.desc1",
-    "cobblemon.species.yveltal.desc2"
+    "cobblemon.species.yveltal.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

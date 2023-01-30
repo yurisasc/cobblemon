@@ -129,6 +129,7 @@
           "requiredContext": "cobblemon:leaf_stone"
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -231,8 +232,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.voltorb.desc1",
-    "cobblemon.species.voltorb.desc2"
+    "cobblemon.species.voltorb.desc"
   ],
   "evolutions": [
     {
@@ -266,5 +266,6 @@
   },
   "height": 5,
   "weight": 104,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

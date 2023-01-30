@@ -98,8 +98,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.popplio.desc1",
-    "cobblemon.species.popplio.desc2"
+    "cobblemon.species.popplio.desc"
   ],
   "evolutions": [
     {

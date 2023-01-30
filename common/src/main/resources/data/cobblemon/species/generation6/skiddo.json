@@ -101,8 +101,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.skiddo.desc1",
-    "cobblemon.species.skiddo.desc2"
+    "cobblemon.species.skiddo.desc"
   ],
   "evolutions": [
     {

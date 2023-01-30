@@ -113,8 +113,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.quilava.desc1",
-    "cobblemon.species.quilava.desc2"
+    "cobblemon.species.quilava.desc"
   ],
   "preEvolution": "cyndaquil",
   "evolutions": [

@@ -178,8 +178,7 @@
     "pseudo_legendary"
   ],
   "pokedex": [
-    "cobblemon.species.garchomp.desc1",
-    "cobblemon.species.garchomp.desc2"
+    "cobblemon.species.garchomp.desc"
   ],
   "preEvolution": "gabite",
   "evolutions": [],

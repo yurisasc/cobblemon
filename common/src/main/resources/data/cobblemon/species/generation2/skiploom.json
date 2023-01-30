@@ -118,8 +118,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.skiploom.desc1",
-    "cobblemon.species.skiploom.desc2"
+    "cobblemon.species.skiploom.desc"
   ],
   "preEvolution": "hoppip",
   "evolutions": [

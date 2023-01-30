@@ -110,8 +110,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.emolga.desc1",
-    "cobblemon.species.emolga.desc2"
+    "cobblemon.species.emolga.desc"
   ],
   "evolutions": [],
   "baseScale": 0.5,

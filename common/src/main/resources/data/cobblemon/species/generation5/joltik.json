@@ -103,8 +103,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.joltik.desc1",
-    "cobblemon.species.joltik.desc2"
+    "cobblemon.species.joltik.desc"
   ],
   "evolutions": [
     {

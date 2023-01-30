@@ -113,8 +113,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.milotic.desc1",
-    "cobblemon.species.milotic.desc2"
+    "cobblemon.species.milotic.desc"
   ],
   "preEvolution": "feebas",
   "evolutions": [],

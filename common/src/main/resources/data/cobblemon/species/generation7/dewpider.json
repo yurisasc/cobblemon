@@ -91,8 +91,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.dewpider.desc1",
-    "cobblemon.species.dewpider.desc2"
+    "cobblemon.species.dewpider.desc"
   ],
   "evolutions": [
     {

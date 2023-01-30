@@ -140,8 +140,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.igglybuff.desc1",
-    "cobblemon.species.igglybuff.desc2"
+    "cobblemon.species.igglybuff.desc"
   ],
   "evolutions": [
     {

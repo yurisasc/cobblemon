@@ -113,8 +113,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.loudred.desc1",
-    "cobblemon.species.loudred.desc2"
+    "cobblemon.species.loudred.desc"
   ],
   "preEvolution": "whismur",
   "evolutions": [

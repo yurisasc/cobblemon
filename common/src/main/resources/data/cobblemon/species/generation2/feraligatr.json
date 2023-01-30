@@ -158,8 +158,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.feraligatr.desc1",
-    "cobblemon.species.feraligatr.desc2"
+    "cobblemon.species.feraligatr.desc"
   ],
   "preEvolution": "croconaw",
   "evolutions": [],

@@ -127,8 +127,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.drampa.desc1",
-    "cobblemon.species.drampa.desc2"
+    "cobblemon.species.drampa.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

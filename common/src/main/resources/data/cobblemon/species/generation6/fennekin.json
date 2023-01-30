@@ -114,8 +114,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.fennekin.desc1",
-    "cobblemon.species.fennekin.desc2"
+    "cobblemon.species.fennekin.desc"
   ],
   "evolutions": [
     {

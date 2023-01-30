@@ -87,8 +87,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.furfrou.desc1",
-    "cobblemon.species.furfrou.desc2"
+    "cobblemon.species.furfrou.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

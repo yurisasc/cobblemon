@@ -89,8 +89,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.foongus.desc1",
-    "cobblemon.species.foongus.desc2"
+    "cobblemon.species.foongus.desc"
   ],
   "evolutions": [
     {

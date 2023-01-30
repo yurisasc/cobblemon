@@ -112,8 +112,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.carracosta.desc1",
-    "cobblemon.species.carracosta.desc2"
+    "cobblemon.species.carracosta.desc"
   ],
   "preEvolution": "tirtouga",
   "evolutions": [],

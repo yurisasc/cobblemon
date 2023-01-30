@@ -103,8 +103,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.shelgon.desc1",
-    "cobblemon.species.shelgon.desc2"
+    "cobblemon.species.shelgon.desc"
   ],
   "preEvolution": "bagon",
   "evolutions": [

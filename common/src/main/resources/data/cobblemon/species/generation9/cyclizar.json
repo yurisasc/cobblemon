@@ -95,5 +95,8 @@
   "height": 16,
   "weight": 630,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.cyclizar.desc"
+  ]
 }

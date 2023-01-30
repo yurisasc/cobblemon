@@ -170,8 +170,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.golduck.desc1",
-    "cobblemon.species.golduck.desc2"
+    "cobblemon.species.golduck.desc"
   ],
   "preEvolution": "psyduck",
   "evolutions": [],
@@ -192,5 +191,6 @@
   },
   "height": 17,
   "weight": 766,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -129,8 +129,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.swoobat.desc1",
-    "cobblemon.species.swoobat.desc2"
+    "cobblemon.species.swoobat.desc"
   ],
   "preEvolution": "woobat",
   "evolutions": [],

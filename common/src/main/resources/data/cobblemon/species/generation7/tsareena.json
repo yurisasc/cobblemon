@@ -108,8 +108,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.tsareena.desc1",
-    "cobblemon.species.tsareena.desc2"
+    "cobblemon.species.tsareena.desc"
   ],
   "preEvolution": "steenee",
   "evolutions": [],

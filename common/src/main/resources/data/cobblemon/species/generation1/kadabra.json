@@ -184,8 +184,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.kadabra.desc1",
-    "cobblemon.species.kadabra.desc2"
+    "cobblemon.species.kadabra.desc"
   ],
   "preEvolution": "abra",
   "evolutions": [
@@ -215,5 +214,6 @@
   },
   "height": 13,
   "weight": 565,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

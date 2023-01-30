@@ -39,8 +39,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.burmy.desc1",
-    "cobblemon.species.burmy.desc2"
+    "cobblemon.species.burmy.desc"
   ],
   "evolutions": [
     {

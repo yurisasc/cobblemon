@@ -243,8 +243,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.zarude.desc1",
-    "cobblemon.species.zarude.desc2"
+    "cobblemon.species.zarude.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -99,8 +99,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.leavanny.desc1",
-    "cobblemon.species.leavanny.desc2"
+    "cobblemon.species.leavanny.desc"
   ],
   "preEvolution": "swadloon",
   "evolutions": [],

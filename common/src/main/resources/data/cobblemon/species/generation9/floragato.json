@@ -109,5 +109,8 @@
       ]
     }
   ],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.floragato.desc"
+  ]
 }

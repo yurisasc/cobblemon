@@ -126,8 +126,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.raikou.desc1",
-    "cobblemon.species.raikou.desc2"
+    "cobblemon.species.raikou.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

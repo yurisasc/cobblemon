@@ -135,8 +135,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.parasect.desc1",
-    "cobblemon.species.parasect.desc2"
+    "cobblemon.species.parasect.desc"
   ],
   "preEvolution": "paras",
   "evolutions": [],
@@ -157,5 +156,6 @@
   },
   "height": 10,
   "weight": 295,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

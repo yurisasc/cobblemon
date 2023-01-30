@@ -92,8 +92,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.dracovish.desc1",
-    "cobblemon.species.dracovish.desc2"
+    "cobblemon.species.dracovish.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

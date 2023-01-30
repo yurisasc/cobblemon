@@ -108,5 +108,8 @@
       ]
     }
   ],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.pawmi.desc"
+  ]
 }

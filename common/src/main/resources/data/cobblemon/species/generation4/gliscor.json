@@ -117,8 +117,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.gliscor.desc1",
-    "cobblemon.species.gliscor.desc2"
+    "cobblemon.species.gliscor.desc"
   ],
   "preEvolution": "gligar",
   "evolutions": [],

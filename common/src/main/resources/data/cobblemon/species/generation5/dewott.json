@@ -100,8 +100,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.dewott.desc1",
-    "cobblemon.species.dewott.desc2"
+    "cobblemon.species.dewott.desc"
   ],
   "preEvolution": "oshawott",
   "evolutions": [

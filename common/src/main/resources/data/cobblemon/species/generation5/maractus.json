@@ -100,8 +100,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.maractus.desc1",
-    "cobblemon.species.maractus.desc2"
+    "cobblemon.species.maractus.desc"
   ],
   "evolutions": [],
   "baseScale": 0.8,

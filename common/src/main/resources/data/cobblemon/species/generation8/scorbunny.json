@@ -86,8 +86,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.scorbunny.desc1",
-    "cobblemon.species.scorbunny.desc2"
+    "cobblemon.species.scorbunny.desc"
   ],
   "evolutions": [
     {

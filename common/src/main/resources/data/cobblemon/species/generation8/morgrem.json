@@ -88,8 +88,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.morgrem.desc1",
-    "cobblemon.species.morgrem.desc2"
+    "cobblemon.species.morgrem.desc"
   ],
   "preEvolution": "impidimp",
   "evolutions": [

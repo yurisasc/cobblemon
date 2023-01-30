@@ -99,8 +99,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.minccino.desc1",
-    "cobblemon.species.minccino.desc2"
+    "cobblemon.species.minccino.desc"
   ],
   "evolutions": [
     {

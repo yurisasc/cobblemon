@@ -124,8 +124,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.mamoswine.desc1",
-    "cobblemon.species.mamoswine.desc2"
+    "cobblemon.species.mamoswine.desc"
   ],
   "preEvolution": "piloswine",
   "evolutions": [],

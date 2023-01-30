@@ -155,8 +155,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.xerneas.desc1",
-    "cobblemon.species.xerneas.desc2"
+    "cobblemon.species.xerneas.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

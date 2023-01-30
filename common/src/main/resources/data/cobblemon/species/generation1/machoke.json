@@ -164,8 +164,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.machoke.desc1",
-    "cobblemon.species.machoke.desc2"
+    "cobblemon.species.machoke.desc"
   ],
   "preEvolution": "machop",
   "evolutions": [
@@ -195,5 +194,6 @@
   },
   "height": 15,
   "weight": 705,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

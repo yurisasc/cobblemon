@@ -148,8 +148,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.ursaring.desc1",
-    "cobblemon.species.ursaring.desc2"
+    "cobblemon.species.ursaring.desc"
   ],
   "preEvolution": "teddiursa",
   "evolutions": [

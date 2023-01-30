@@ -234,8 +234,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.clefairy.desc1",
-    "cobblemon.species.clefairy.desc2"
+    "cobblemon.species.clefairy.desc"
   ],
   "preEvolution": "cleffa",
   "evolutions": [
@@ -266,5 +265,6 @@
   },
   "height": 6,
   "weight": 75,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

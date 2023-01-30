@@ -121,8 +121,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.metang.desc1",
-    "cobblemon.species.metang.desc2"
+    "cobblemon.species.metang.desc"
   ],
   "preEvolution": "beldum",
   "evolutions": [

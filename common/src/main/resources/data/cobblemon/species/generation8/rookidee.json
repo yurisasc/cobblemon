@@ -81,8 +81,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.rookidee.desc1",
-    "cobblemon.species.rookidee.desc2"
+    "cobblemon.species.rookidee.desc"
   ],
   "evolutions": [
     {

@@ -111,8 +111,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.surskit.desc1",
-    "cobblemon.species.surskit.desc2"
+    "cobblemon.species.surskit.desc"
   ],
   "evolutions": [
     {

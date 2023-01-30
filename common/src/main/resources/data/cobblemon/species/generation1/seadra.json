@@ -150,8 +150,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.seadra.desc1",
-    "cobblemon.species.seadra.desc2"
+    "cobblemon.species.seadra.desc"
   ],
   "preEvolution": "horsea",
   "evolutions": [
@@ -186,5 +185,6 @@
   },
   "height": 12,
   "weight": 250,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

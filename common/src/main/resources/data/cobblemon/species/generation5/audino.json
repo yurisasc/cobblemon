@@ -192,8 +192,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.audino.desc1",
-    "cobblemon.species.audino.desc2"
+    "cobblemon.species.audino.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

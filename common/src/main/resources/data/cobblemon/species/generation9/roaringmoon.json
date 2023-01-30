@@ -116,5 +116,8 @@
   "height": 20,
   "weight": 3800,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.roaringmoon.desc"
+  ]
 }

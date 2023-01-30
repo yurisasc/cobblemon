@@ -173,8 +173,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.snubbull.desc1",
-    "cobblemon.species.snubbull.desc2"
+    "cobblemon.species.snubbull.desc"
   ],
   "evolutions": [
     {

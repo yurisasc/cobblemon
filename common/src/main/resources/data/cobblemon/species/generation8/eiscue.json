@@ -146,5 +146,8 @@
       "cannotDynamax": false,
       "battleOnly": true
     }
+  ],
+  "pokedex": [
+    "cobblemon.species.eiscue.desc"
   ]
 }

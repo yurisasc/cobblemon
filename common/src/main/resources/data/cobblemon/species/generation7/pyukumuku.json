@@ -96,8 +96,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.pyukumuku.desc1",
-    "cobblemon.species.pyukumuku.desc2"
+    "cobblemon.species.pyukumuku.desc"
   ],
   "evolutions": [],
   "baseScale": 0.75,

@@ -114,8 +114,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.lanturn.desc1",
-    "cobblemon.species.lanturn.desc2"
+    "cobblemon.species.lanturn.desc"
   ],
   "preEvolution": "chinchou",
   "evolutions": [],

@@ -146,6 +146,7 @@
           "requirements": []
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -270,8 +271,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.graveler.desc1",
-    "cobblemon.species.graveler.desc2"
+    "cobblemon.species.graveler.desc"
   ],
   "preEvolution": "geodude",
   "evolutions": [
@@ -301,5 +301,6 @@
   },
   "height": 10,
   "weight": 1050,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

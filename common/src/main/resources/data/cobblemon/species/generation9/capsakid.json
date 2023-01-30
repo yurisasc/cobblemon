@@ -96,5 +96,8 @@
       "requiredContext": "cobblemon:fire_stone"
     }
   ],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.capsakid.desc"
+  ]
 }

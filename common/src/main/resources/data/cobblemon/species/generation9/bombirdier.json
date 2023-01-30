@@ -105,5 +105,8 @@
   "height": 15,
   "weight": 429,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.bombirdier.desc"
+  ]
 }

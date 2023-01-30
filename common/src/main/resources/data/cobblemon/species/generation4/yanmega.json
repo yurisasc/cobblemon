@@ -109,8 +109,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.yanmega.desc1",
-    "cobblemon.species.yanmega.desc2"
+    "cobblemon.species.yanmega.desc"
   ],
   "preEvolution": "yanma",
   "evolutions": [],

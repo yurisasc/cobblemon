@@ -100,5 +100,8 @@
   "weight": 620,
   "preEvolution": "charcadet",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.ceruledge.desc"
+  ]
 }

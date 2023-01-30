@@ -133,6 +133,7 @@
       "weight": 1680,
       "preEvolution": "growlithe form=hisui",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -261,8 +262,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.arcanine.desc1",
-    "cobblemon.species.arcanine.desc2"
+    "cobblemon.species.arcanine.desc"
   ],
   "preEvolution": "growlithe",
   "evolutions": [],
@@ -283,5 +283,6 @@
   },
   "height": 19,
   "weight": 1550,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -103,5 +103,8 @@
       ]
     }
   ],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.fuecoco.desc"
+  ]
 }

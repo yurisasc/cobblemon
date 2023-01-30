@@ -116,8 +116,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.bruxish.desc1",
-    "cobblemon.species.bruxish.desc2"
+    "cobblemon.species.bruxish.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

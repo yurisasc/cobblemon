@@ -156,8 +156,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.staryu.desc1",
-    "cobblemon.species.staryu.desc2"
+    "cobblemon.species.staryu.desc"
   ],
   "evolutions": [
     {
@@ -187,5 +186,6 @@
   },
   "height": 8,
   "weight": 345,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

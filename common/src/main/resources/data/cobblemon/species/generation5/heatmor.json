@@ -114,8 +114,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.heatmor.desc1",
-    "cobblemon.species.heatmor.desc2"
+    "cobblemon.species.heatmor.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

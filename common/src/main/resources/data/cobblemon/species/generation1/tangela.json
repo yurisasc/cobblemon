@@ -142,8 +142,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.tangela.desc1",
-    "cobblemon.species.tangela.desc2"
+    "cobblemon.species.tangela.desc"
   ],
   "evolutions": [
     {
@@ -177,5 +176,6 @@
   },
   "height": 10,
   "weight": 350,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

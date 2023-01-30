@@ -149,8 +149,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.meloetta.desc1",
-    "cobblemon.species.meloetta.desc2"
+    "cobblemon.species.meloetta.desc"
   ],
   "height": 6,
   "weight": 65,

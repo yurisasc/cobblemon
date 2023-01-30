@@ -150,8 +150,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.hooh.desc1",
-    "cobblemon.species.hooh.desc2"
+    "cobblemon.species.hooh.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -109,8 +109,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.tirtouga.desc1",
-    "cobblemon.species.tirtouga.desc2"
+    "cobblemon.species.tirtouga.desc"
   ],
   "evolutions": [
     {

@@ -138,8 +138,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.seviper.desc1",
-    "cobblemon.species.seviper.desc2"
+    "cobblemon.species.seviper.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -167,8 +167,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.camerupt.desc1",
-    "cobblemon.species.camerupt.desc2"
+    "cobblemon.species.camerupt.desc"
   ],
   "preEvolution": "numel",
   "evolutions": [],

@@ -123,8 +123,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.zygarde.desc1",
-    "cobblemon.species.zygarde.desc2"
+    "cobblemon.species.zygarde.desc"
   ],
   "height": 50,
   "weight": 3050,

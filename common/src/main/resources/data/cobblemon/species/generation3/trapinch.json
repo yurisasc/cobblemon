@@ -99,8 +99,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.trapinch.desc1",
-    "cobblemon.species.trapinch.desc2"
+    "cobblemon.species.trapinch.desc"
   ],
   "evolutions": [
     {

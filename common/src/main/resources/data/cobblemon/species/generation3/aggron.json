@@ -207,8 +207,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.aggron.desc1",
-    "cobblemon.species.aggron.desc2"
+    "cobblemon.species.aggron.desc"
   ],
   "preEvolution": "lairon",
   "evolutions": [],

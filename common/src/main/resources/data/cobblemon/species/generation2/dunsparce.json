@@ -158,8 +158,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.dunsparce.desc1",
-    "cobblemon.species.dunsparce.desc2"
+    "cobblemon.species.dunsparce.desc"
   ],
   "evolutions": [
     {

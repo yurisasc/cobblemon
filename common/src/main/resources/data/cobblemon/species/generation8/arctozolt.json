@@ -90,8 +90,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.arctozolt.desc1",
-    "cobblemon.species.arctozolt.desc2"
+    "cobblemon.species.arctozolt.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

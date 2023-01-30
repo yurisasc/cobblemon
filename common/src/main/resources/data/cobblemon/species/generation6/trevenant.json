@@ -119,8 +119,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.trevenant.desc1",
-    "cobblemon.species.trevenant.desc2"
+    "cobblemon.species.trevenant.desc"
   ],
   "preEvolution": "phantump",
   "evolutions": [],

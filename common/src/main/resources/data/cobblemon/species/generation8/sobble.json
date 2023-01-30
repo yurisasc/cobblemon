@@ -80,8 +80,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.sobble.desc1",
-    "cobblemon.species.sobble.desc2"
+    "cobblemon.species.sobble.desc"
   ],
   "evolutions": [
     {

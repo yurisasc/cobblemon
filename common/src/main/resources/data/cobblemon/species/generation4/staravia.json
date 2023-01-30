@@ -90,8 +90,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.staravia.desc1",
-    "cobblemon.species.staravia.desc2"
+    "cobblemon.species.staravia.desc"
   ],
   "preEvolution": "starly",
   "evolutions": [

@@ -128,8 +128,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.slakoth.desc1",
-    "cobblemon.species.slakoth.desc2"
+    "cobblemon.species.slakoth.desc"
   ],
   "evolutions": [
     {

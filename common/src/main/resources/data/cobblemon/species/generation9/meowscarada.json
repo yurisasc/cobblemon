@@ -115,5 +115,8 @@
   "weight": 312,
   "preEvolution": "floragato",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.meowscarada.desc"
+  ]
 }

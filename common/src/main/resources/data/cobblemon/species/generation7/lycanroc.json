@@ -119,8 +119,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.lycanroc.desc1",
-    "cobblemon.species.lycanroc.desc2"
+    "cobblemon.species.lycanroc.desc"
   ],
   "height": 8,
   "weight": 250,

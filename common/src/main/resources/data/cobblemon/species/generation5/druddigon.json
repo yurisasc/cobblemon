@@ -129,8 +129,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.druddigon.desc1",
-    "cobblemon.species.druddigon.desc2"
+    "cobblemon.species.druddigon.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

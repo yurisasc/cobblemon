@@ -105,8 +105,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.turtwig.desc1",
-    "cobblemon.species.turtwig.desc2"
+    "cobblemon.species.turtwig.desc"
   ],
   "evolutions": [
     {

@@ -62,8 +62,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.wooloo.desc1",
-    "cobblemon.species.wooloo.desc2"
+    "cobblemon.species.wooloo.desc"
   ],
   "evolutions": [
     {

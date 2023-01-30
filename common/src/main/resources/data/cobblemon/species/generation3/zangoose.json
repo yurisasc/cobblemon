@@ -160,8 +160,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.zangoose.desc1",
-    "cobblemon.species.zangoose.desc2"
+    "cobblemon.species.zangoose.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

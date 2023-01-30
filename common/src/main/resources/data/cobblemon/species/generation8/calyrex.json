@@ -425,8 +425,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.calyrex.desc1",
-    "cobblemon.species.calyrex.desc2"
+    "cobblemon.species.calyrex.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

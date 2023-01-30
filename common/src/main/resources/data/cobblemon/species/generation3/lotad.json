@@ -99,8 +99,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.lotad.desc1",
-    "cobblemon.species.lotad.desc2"
+    "cobblemon.species.lotad.desc"
   ],
   "evolutions": [
     {

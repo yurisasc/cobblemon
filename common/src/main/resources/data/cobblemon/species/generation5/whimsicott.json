@@ -107,8 +107,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.whimsicott.desc1",
-    "cobblemon.species.whimsicott.desc2"
+    "cobblemon.species.whimsicott.desc"
   ],
   "preEvolution": "cottonee",
   "evolutions": [],

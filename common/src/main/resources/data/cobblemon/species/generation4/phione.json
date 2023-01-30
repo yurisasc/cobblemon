@@ -87,8 +87,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.phione.desc1",
-    "cobblemon.species.phione.desc2"
+    "cobblemon.species.phione.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

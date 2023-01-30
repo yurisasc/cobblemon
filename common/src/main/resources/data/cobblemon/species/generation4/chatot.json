@@ -100,8 +100,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.chatot.desc1",
-    "cobblemon.species.chatot.desc2"
+    "cobblemon.species.chatot.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

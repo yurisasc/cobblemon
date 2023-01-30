@@ -186,6 +186,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -373,8 +374,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.mrmime.desc1",
-    "cobblemon.species.mrmime.desc2"
+    "cobblemon.species.mrmime.desc"
   ],
   "preEvolution": "mimejr",
   "baseScale": 0.7,
@@ -395,5 +395,6 @@
   "height": 13,
   "weight": 545,
   "aspects": [],
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

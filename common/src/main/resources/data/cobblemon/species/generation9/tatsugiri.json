@@ -84,5 +84,8 @@
   "height": 3,
   "weight": 80,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.tatsugiri.desc"
+  ]
 }

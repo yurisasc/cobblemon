@@ -93,8 +93,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.gigalith.desc1",
-    "cobblemon.species.gigalith.desc2"
+    "cobblemon.species.gigalith.desc"
   ],
   "preEvolution": "boldore",
   "evolutions": [],

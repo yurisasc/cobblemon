@@ -206,8 +206,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.steelix.desc1",
-    "cobblemon.species.steelix.desc2"
+    "cobblemon.species.steelix.desc"
   ],
   "preEvolution": "onix",
   "evolutions": [],

@@ -87,8 +87,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.fomantis.desc1",
-    "cobblemon.species.fomantis.desc2"
+    "cobblemon.species.fomantis.desc"
   ],
   "evolutions": [
     {

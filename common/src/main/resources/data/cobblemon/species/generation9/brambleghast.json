@@ -84,5 +84,8 @@
   "weight": 60,
   "preEvolution": "bramblin",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.brambleghast.desc"
+  ]
 }

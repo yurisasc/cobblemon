@@ -106,8 +106,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.stakataka.desc1",
-    "cobblemon.species.stakataka.desc2"
+    "cobblemon.species.stakataka.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

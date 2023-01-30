@@ -141,8 +141,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.eternatus.desc1",
-    "cobblemon.species.eternatus.desc2"
+    "cobblemon.species.eternatus.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

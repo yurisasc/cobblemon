@@ -100,8 +100,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.luxio.desc1",
-    "cobblemon.species.luxio.desc2"
+    "cobblemon.species.luxio.desc"
   ],
   "preEvolution": "shinx",
   "evolutions": [

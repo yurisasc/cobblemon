@@ -100,8 +100,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.taillow.desc1",
-    "cobblemon.species.taillow.desc2"
+    "cobblemon.species.taillow.desc"
   ],
   "evolutions": [
     {

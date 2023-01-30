@@ -155,8 +155,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.omastar.desc1",
-    "cobblemon.species.omastar.desc2"
+    "cobblemon.species.omastar.desc"
   ],
   "preEvolution": "omanyte",
   "evolutions": [],
@@ -177,5 +176,6 @@
   },
   "height": 10,
   "weight": 350,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

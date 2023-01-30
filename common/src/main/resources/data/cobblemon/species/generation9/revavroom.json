@@ -89,5 +89,8 @@
   "weight": 1200,
   "preEvolution": "varoom",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.revavroom.desc"
+  ]
 }

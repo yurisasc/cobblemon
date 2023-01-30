@@ -98,8 +98,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.sealeo.desc1",
-    "cobblemon.species.sealeo.desc2"
+    "cobblemon.species.sealeo.desc"
   ],
   "preEvolution": "spheal",
   "evolutions": [

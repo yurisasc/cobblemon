@@ -136,8 +136,7 @@
     "unova_regional"
   ],
   "pokedex": [
-    "cobblemon.species.darmanitan.desc1",
-    "cobblemon.species.darmanitan.desc2"
+    "cobblemon.species.darmanitan.desc"
   ],
   "height": 13,
   "weight": 929,

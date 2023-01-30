@@ -116,8 +116,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.sylveon.desc1",
-    "cobblemon.species.sylveon.desc2"
+    "cobblemon.species.sylveon.desc"
   ],
   "preEvolution": "eevee",
   "evolutions": [],

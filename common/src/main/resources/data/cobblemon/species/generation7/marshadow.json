@@ -125,8 +125,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.marshadow.desc1",
-    "cobblemon.species.marshadow.desc2"
+    "cobblemon.species.marshadow.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

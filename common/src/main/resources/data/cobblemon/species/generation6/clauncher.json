@@ -97,8 +97,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.clauncher.desc1",
-    "cobblemon.species.clauncher.desc2"
+    "cobblemon.species.clauncher.desc"
   ],
   "evolutions": [
     {

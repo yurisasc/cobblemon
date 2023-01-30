@@ -103,8 +103,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.manaphy.desc1",
-    "cobblemon.species.manaphy.desc2"
+    "cobblemon.species.manaphy.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

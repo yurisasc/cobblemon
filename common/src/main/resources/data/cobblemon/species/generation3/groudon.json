@@ -192,8 +192,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.groudon.desc1",
-    "cobblemon.species.groudon.desc2"
+    "cobblemon.species.groudon.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -132,8 +132,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.bronzong.desc1",
-    "cobblemon.species.bronzong.desc2"
+    "cobblemon.species.bronzong.desc"
   ],
   "preEvolution": "bronzor",
   "evolutions": [],

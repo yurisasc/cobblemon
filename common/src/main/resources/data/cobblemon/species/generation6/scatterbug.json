@@ -39,8 +39,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.scatterbug.desc1",
-    "cobblemon.species.scatterbug.desc2"
+    "cobblemon.species.scatterbug.desc"
   ],
   "evolutions": [
     {

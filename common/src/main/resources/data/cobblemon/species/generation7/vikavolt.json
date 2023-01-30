@@ -208,8 +208,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.vikavolt.desc1",
-    "cobblemon.species.vikavolt.desc2"
+    "cobblemon.species.vikavolt.desc"
   ],
   "preEvolution": "charjabug",
   "evolutions": [],

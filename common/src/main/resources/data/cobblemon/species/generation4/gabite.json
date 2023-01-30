@@ -114,8 +114,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.gabite.desc1",
-    "cobblemon.species.gabite.desc2"
+    "cobblemon.species.gabite.desc"
   ],
   "preEvolution": "gible",
   "evolutions": [

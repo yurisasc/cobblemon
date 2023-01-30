@@ -279,8 +279,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.magearna.desc1",
-    "cobblemon.species.magearna.desc2"
+    "cobblemon.species.magearna.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

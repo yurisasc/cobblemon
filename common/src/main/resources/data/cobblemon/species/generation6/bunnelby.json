@@ -101,8 +101,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.bunnelby.desc1",
-    "cobblemon.species.bunnelby.desc2"
+    "cobblemon.species.bunnelby.desc"
   ],
   "evolutions": [
     {

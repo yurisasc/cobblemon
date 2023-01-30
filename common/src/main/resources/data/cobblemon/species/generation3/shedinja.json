@@ -104,8 +104,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.shedinja.desc1",
-    "cobblemon.species.shedinja.desc2"
+    "cobblemon.species.shedinja.desc"
   ],
   "preEvolution": "nincada",
   "evolutions": [],

@@ -176,8 +176,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.altaria.desc1",
-    "cobblemon.species.altaria.desc2"
+    "cobblemon.species.altaria.desc"
   ],
   "preEvolution": "swablu",
   "evolutions": [],

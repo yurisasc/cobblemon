@@ -117,8 +117,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.tangrowth.desc1",
-    "cobblemon.species.tangrowth.desc2"
+    "cobblemon.species.tangrowth.desc"
   ],
   "preEvolution": "tangela",
   "evolutions": [],

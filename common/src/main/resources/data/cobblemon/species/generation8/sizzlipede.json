@@ -79,8 +79,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.sizzlipede.desc1",
-    "cobblemon.species.sizzlipede.desc2"
+    "cobblemon.species.sizzlipede.desc"
   ],
   "evolutions": [
     {

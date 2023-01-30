@@ -70,8 +70,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.dottler.desc1",
-    "cobblemon.species.dottler.desc2"
+    "cobblemon.species.dottler.desc"
   ],
   "preEvolution": "blipbug",
   "evolutions": [

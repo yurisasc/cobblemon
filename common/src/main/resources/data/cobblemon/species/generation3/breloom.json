@@ -135,8 +135,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.breloom.desc1",
-    "cobblemon.species.breloom.desc2"
+    "cobblemon.species.breloom.desc"
   ],
   "preEvolution": "shroomish",
   "evolutions": [],

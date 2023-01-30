@@ -147,8 +147,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.hatterene.desc1",
-    "cobblemon.species.hatterene.desc2"
+    "cobblemon.species.hatterene.desc"
   ],
   "preEvolution": "hattrem",
   "evolutions": [],

@@ -106,8 +106,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.torterra.desc1",
-    "cobblemon.species.torterra.desc2"
+    "cobblemon.species.torterra.desc"
   ],
   "preEvolution": "grotle",
   "evolutions": [],

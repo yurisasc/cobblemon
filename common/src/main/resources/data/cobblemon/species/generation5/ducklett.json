@@ -90,8 +90,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.ducklett.desc1",
-    "cobblemon.species.ducklett.desc2"
+    "cobblemon.species.ducklett.desc"
   ],
   "evolutions": [
     {

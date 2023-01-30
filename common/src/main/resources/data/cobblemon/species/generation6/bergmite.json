@@ -101,8 +101,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.bergmite.desc1",
-    "cobblemon.species.bergmite.desc2"
+    "cobblemon.species.bergmite.desc"
   ],
   "evolutions": [
     {

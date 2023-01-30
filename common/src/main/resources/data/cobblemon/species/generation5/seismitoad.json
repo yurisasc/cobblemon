@@ -114,8 +114,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.seismitoad.desc1",
-    "cobblemon.species.seismitoad.desc2"
+    "cobblemon.species.seismitoad.desc"
   ],
   "preEvolution": "palpitoad",
   "evolutions": [],

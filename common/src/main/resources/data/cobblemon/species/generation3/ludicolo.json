@@ -129,8 +129,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.ludicolo.desc1",
-    "cobblemon.species.ludicolo.desc2"
+    "cobblemon.species.ludicolo.desc"
   ],
   "preEvolution": "lombre",
   "evolutions": [],

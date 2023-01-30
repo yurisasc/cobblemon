@@ -94,8 +94,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.slurpuff.desc1",
-    "cobblemon.species.slurpuff.desc2"
+    "cobblemon.species.slurpuff.desc"
   ],
   "preEvolution": "swirlix",
   "evolutions": [],

@@ -108,8 +108,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.ursaluna.desc1",
-    "cobblemon.species.ursaluna.desc2"
+    "cobblemon.species.ursaluna.desc"
   ],
   "height": 24,
   "weight": 2900,

@@ -119,8 +119,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.volbeat.desc1",
-    "cobblemon.species.volbeat.desc2"
+    "cobblemon.species.volbeat.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

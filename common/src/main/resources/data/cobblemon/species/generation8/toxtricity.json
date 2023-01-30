@@ -340,8 +340,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.toxtricity.desc1",
-    "cobblemon.species.toxtricity.desc2"
+    "cobblemon.species.toxtricity.desc"
   ],
   "preEvolution": "toxel",
   "evolutions": [],

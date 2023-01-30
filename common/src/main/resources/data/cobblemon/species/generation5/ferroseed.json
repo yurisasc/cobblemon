@@ -97,8 +97,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.ferroseed.desc1",
-    "cobblemon.species.ferroseed.desc2"
+    "cobblemon.species.ferroseed.desc"
   ],
   "evolutions": [
     {

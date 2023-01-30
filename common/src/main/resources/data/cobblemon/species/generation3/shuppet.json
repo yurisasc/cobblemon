@@ -127,8 +127,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.shuppet.desc1",
-    "cobblemon.species.shuppet.desc2"
+    "cobblemon.species.shuppet.desc"
   ],
   "evolutions": [
     {

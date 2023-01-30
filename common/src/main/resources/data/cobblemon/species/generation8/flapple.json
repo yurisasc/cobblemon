@@ -140,8 +140,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.flapple.desc1",
-    "cobblemon.species.flapple.desc2"
+    "cobblemon.species.flapple.desc"
   ],
   "preEvolution": "applin",
   "evolutions": [],

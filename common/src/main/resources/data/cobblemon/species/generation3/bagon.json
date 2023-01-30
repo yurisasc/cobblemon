@@ -106,8 +106,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.bagon.desc1",
-    "cobblemon.species.bagon.desc2"
+    "cobblemon.species.bagon.desc"
   ],
   "evolutions": [
     {

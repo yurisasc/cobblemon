@@ -60,8 +60,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.dreepy.desc1",
-    "cobblemon.species.dreepy.desc2"
+    "cobblemon.species.dreepy.desc"
   ],
   "evolutions": [
     {

@@ -233,8 +233,7 @@
     "pseudo_legendary"
   ],
   "pokedex": [
-    "cobblemon.species.tyranitar.desc1",
-    "cobblemon.species.tyranitar.desc2"
+    "cobblemon.species.tyranitar.desc"
   ],
   "preEvolution": "pupitar",
   "evolutions": [],

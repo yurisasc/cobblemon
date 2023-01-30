@@ -98,8 +98,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.cottonee.desc1",
-    "cobblemon.species.cottonee.desc2"
+    "cobblemon.species.cottonee.desc"
   ],
   "evolutions": [
     {

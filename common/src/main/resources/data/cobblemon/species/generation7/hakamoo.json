@@ -106,8 +106,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.hakamoo.desc1",
-    "cobblemon.species.hakamoo.desc2"
+    "cobblemon.species.hakamoo.desc"
   ],
   "preEvolution": "jangmoo",
   "evolutions": [

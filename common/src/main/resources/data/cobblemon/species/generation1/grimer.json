@@ -181,6 +181,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -320,8 +321,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.grimer.desc1",
-    "cobblemon.species.grimer.desc2"
+    "cobblemon.species.grimer.desc"
   ],
   "baseScale": 1,
   "hitbox": {
@@ -355,5 +355,6 @@
       ]
     }
   ],
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

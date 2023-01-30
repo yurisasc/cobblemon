@@ -108,8 +108,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.dragalge.desc1",
-    "cobblemon.species.dragalge.desc2"
+    "cobblemon.species.dragalge.desc"
   ],
   "preEvolution": "skrelp",
   "evolutions": [],

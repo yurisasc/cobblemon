@@ -142,8 +142,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.miltank.desc1",
-    "cobblemon.species.miltank.desc2"
+    "cobblemon.species.miltank.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

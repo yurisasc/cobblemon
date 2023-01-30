@@ -122,8 +122,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.basculin.desc1",
-    "cobblemon.species.basculin.desc2"
+    "cobblemon.species.basculin.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

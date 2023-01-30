@@ -115,8 +115,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.heliolisk.desc1",
-    "cobblemon.species.heliolisk.desc2"
+    "cobblemon.species.heliolisk.desc"
   ],
   "preEvolution": "helioptile",
   "evolutions": [],

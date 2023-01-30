@@ -137,8 +137,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.chikorita.desc1",
-    "cobblemon.species.chikorita.desc2"
+    "cobblemon.species.chikorita.desc"
   ],
   "evolutions": [
     {

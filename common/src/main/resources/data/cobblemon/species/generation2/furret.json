@@ -149,8 +149,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.furret.desc1",
-    "cobblemon.species.furret.desc2"
+    "cobblemon.species.furret.desc"
   ],
   "preEvolution": "sentret",
   "evolutions": [],

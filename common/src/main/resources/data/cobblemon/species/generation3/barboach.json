@@ -106,8 +106,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.barboach.desc1",
-    "cobblemon.species.barboach.desc2"
+    "cobblemon.species.barboach.desc"
   ],
   "evolutions": [
     {

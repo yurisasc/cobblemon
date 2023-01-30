@@ -117,8 +117,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.archeops.desc1",
-    "cobblemon.species.archeops.desc2"
+    "cobblemon.species.archeops.desc"
   ],
   "preEvolution": "archen",
   "evolutions": [],

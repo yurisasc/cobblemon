@@ -101,8 +101,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.crustle.desc1",
-    "cobblemon.species.crustle.desc2"
+    "cobblemon.species.crustle.desc"
   ],
   "preEvolution": "dwebble",
   "evolutions": [],

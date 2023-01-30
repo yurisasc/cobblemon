@@ -144,8 +144,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.ralts.desc1",
-    "cobblemon.species.ralts.desc2"
+    "cobblemon.species.ralts.desc"
   ],
   "evolutions": [
     {

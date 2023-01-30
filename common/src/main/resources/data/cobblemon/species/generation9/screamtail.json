@@ -125,5 +125,8 @@
   "height": 12,
   "weight": 80,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.screamtail.desc"
+  ]
 }

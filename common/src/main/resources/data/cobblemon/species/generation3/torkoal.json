@@ -124,8 +124,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.torkoal.desc1",
-    "cobblemon.species.torkoal.desc2"
+    "cobblemon.species.torkoal.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

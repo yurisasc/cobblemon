@@ -93,8 +93,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.fletchling.desc1",
-    "cobblemon.species.fletchling.desc2"
+    "cobblemon.species.fletchling.desc"
   ],
   "evolutions": [
     {

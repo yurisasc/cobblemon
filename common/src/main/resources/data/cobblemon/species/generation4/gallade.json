@@ -235,8 +235,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.gallade.desc1",
-    "cobblemon.species.gallade.desc2"
+    "cobblemon.species.gallade.desc"
   ],
   "preEvolution": "kirlia",
   "evolutions": [],

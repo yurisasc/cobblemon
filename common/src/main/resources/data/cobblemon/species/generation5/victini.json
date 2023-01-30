@@ -143,8 +143,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.victini.desc1",
-    "cobblemon.species.victini.desc2"
+    "cobblemon.species.victini.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

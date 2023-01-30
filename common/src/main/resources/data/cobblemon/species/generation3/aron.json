@@ -112,8 +112,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.aron.desc1",
-    "cobblemon.species.aron.desc2"
+    "cobblemon.species.aron.desc"
   ],
   "evolutions": [
     {
