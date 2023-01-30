@@ -73,6 +73,7 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.FluidTags
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
@@ -653,4 +654,12 @@ class PokemonEntity(
 
     fun getIsSubmerged() = isInLava || isSubmergedInWater
     override fun getPoseType(): PoseType = this.poseType.get()
+
+    override fun getDefaultName(): Text = this.pokemon.species.translatedName
+
+    // This should be a check if the pokemon display name is a nickname once the feature is implemented.
+    override fun hasCustomName(): Boolean = true
+
+    override fun getCustomName(): Text? = this.pokemon.displayName
+
 }
