@@ -40,6 +40,8 @@
 - Fixed a desync issue on servers where all Pokémon seemed like they were special forms when they weren't.
 - Fixed an incompatibility with [Exordium](https://www.curseforge.com/minecraft/mc-mods/exordium).
 - Fixed missing lang and interpretation for bide
+- Fixed datapack Pokémon not being able to battle.
+- Fixed datapack Pokémon lang key generation, a Pokémon under the namespace ``example`` named ``Pogemon`` will now correctly look for the lang key ``example.species.pogemon.name``.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions

@@ -27,18 +27,18 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.SWIMMING_POSES
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.IntSize
 import com.cobblemon.mod.common.pokemon.ai.PokemonBehaviour
-import com.cobblemon.mod.common.util.lang
 import com.cobblemon.mod.common.util.readSizedInt
 import com.cobblemon.mod.common.util.writeSizedInt
 import net.minecraft.entity.EntityDimensions
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 
 class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
     var name: String = "Bulbasaur"
     val translatedName: MutableText
-        get() = lang("species.${this.showdownId()}.name")
+        get() = Text.translatable("${this.resourceIdentifier.namespace}.species.${this.unformattedShowdownId()}.name")
     var nationalPokedexNumber = 1
 
     var baseStats = hashMapOf<Stat, Int>()
@@ -118,10 +118,10 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
 
     fun initialize() {
         Cobblemon.statProvider.provide(this)
+        this.forms.forEach { it.initialize(this) }
         if (this.forms.isNotEmpty() && this.forms.none { it == this.standardForm }) {
             this.forms.add(0, this.standardForm)
         }
-        this.forms.forEach { it.initialize(this) }
         // These properties are lazy, these need all species to be reloaded but SpeciesAdditions is what will eventually trigger this after all species have been loaded
         this.preEvolution?.species
         this.preEvolution?.form
@@ -219,12 +219,22 @@ class Species : ClientDataSynchronizer<Species>, ShowdownIdentifiable {
      * @return The literal Showdown ID of this species.
      */
     override fun showdownId(): String {
-        val id = ShowdownIdentifiable.REGEX.replace(this.name.lowercase(), "")
+        val id = this.unformattedShowdownId()
         if (this.resourceIdentifier.namespace == Cobblemon.MODID) {
             return id
         }
         return this.resourceIdentifier.namespace + id
     }
+
+    /**
+     * The unformatted literal Showdown ID of this species.
+     * This will be a lowercase version of the [name] with all the non-alphanumeric characters removed. For example, "Mr. Mime" becomes "mrmime".
+     * Unlike [showdownId] the [resourceIdentifier] namespace will not be appended at the start regardless if the species is from Cobblemon or a 3rd party addon.
+     * The primary purpose of this is for lang keys.
+     *
+     * @return The unformatted literal Showdown ID of this species.
+     */
+    private fun unformattedShowdownId(): String = ShowdownIdentifiable.REGEX.replace(this.name.lowercase(), "")
 
     override fun toString() = this.showdownId()
 
