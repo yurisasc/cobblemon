@@ -292,10 +292,11 @@ object PokemonSpecies : JsonDataRegistry<Species> {
          * Evolutions will affect battle mechanics however we do not to specifically say what the result will be, to adapt to the potential result being unknown from a property until it is created we will just assign a fake result.
          *
          */
+        val speciesName = this.createShowdownName(species)
         dataHolder.append("""
             ${species.showdownId()}: {
                 num: ${species.nationalPokedexNumber},
-                name: "${species.name}",
+                name: "$speciesName",
                 ${this.generateTypeDetails(species)},
                 ${this.generateGenderDetails(species)},
                 ${this.generateBaseStatsDetails(species)},
@@ -304,15 +305,15 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 weightkg: ${species.weight},
                 ${this.generateEggGroupDetails(species)},
         """.trimIndent())
-        species.preEvolution?.let { dataHolder.append("prevo: \"${{it.species.name}}-${it.form.name}\",") }
+        species.preEvolution?.let { dataHolder.append("prevo: \"${if (it.form == species.standardForm) this.createShowdownName(it.species) else "${this.createShowdownName(it.species)}-${it.form.name}"}\",") }
         if (species.evolutions.isNotEmpty()) {
             dataHolder.append("evos: [${species.evolutions.joinToString(", ") { "\"$DUMMY_SPECIES_NAME\"" }}],")
         }
         if (species.forms.isNotEmpty()) {
-            val otherForms = species.forms.joinToString(", ") { "\"${species.name}-${it.name}\"" }
+            val otherForms = species.forms.joinToString(", ") { "\"${speciesName}-${it.name}\"" }
             dataHolder.append("""
                 otherFormes: [$otherForms],
-                formeOrder: ["${species.name}", $otherForms],
+                formeOrder: ["$speciesName", $otherForms],
             """.trimIndent())
         }
         if (species.dynamaxBlocked) {
@@ -323,6 +324,9 @@ object PokemonSpecies : JsonDataRegistry<Species> {
             if (form != species.standardForm) {
                 this.createFormShowdownRepresentation(dataHolder, species, form)
             }
+        }
+        if (species.resourceIdentifier.namespace == "eikomon") {
+            Cobblemon.LOGGER.info("Created pitipole")
         }
     }
 
@@ -349,11 +353,12 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     }
 
     private fun createFormShowdownRepresentation(dataHolder: StringBuilder, species: Species, form: FormData) {
+        val speciesName = this.createShowdownName(species)
         dataHolder.append("""
             ${form.showdownId()}: {
                 num: ${species.nationalPokedexNumber},
-                name: "${species.name}-${form.name}",
-                baseSpecies: "${species.name}",
+                name: "$speciesName-${form.name}",
+                baseSpecies: "$speciesName",
                 forme: "${form.name}",
                 ${this.generateTypeDetails(species, form)},
                 ${this.generateGenderDetails(species, form)},
@@ -363,7 +368,7 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 weightkg: ${form.weight * .1},
                 ${this.generateEggGroupDetails(species, form)},
         """.trimIndent())
-        form.preEvolution?.let { dataHolder.append("prevo: \"${{it.species.name}}-${it.form.name}\",") }
+        form.preEvolution?.let { dataHolder.append("prevo: \"${if (it.form == species.standardForm) this.createShowdownName(it.species) else "${this.createShowdownName(it.species)}-${it.form.name}"}\",") }
         if (form.evolutions.isNotEmpty()) {
             dataHolder.append("evos: [${form.evolutions.joinToString(", ") { "\"$DUMMY_SPECIES_NAME\"" }}],")
         }
@@ -394,6 +399,13 @@ object PokemonSpecies : JsonDataRegistry<Species> {
     private fun generateEggGroupDetails(species: Species, form: FormData? = null): String {
         val eggGroups = form?.eggGroups ?: species.eggGroups
         return "eggGroups: [${eggGroups.joinToString(", ") { "\"${it.showdownID}\"" }}]"
+    }
+
+    private fun createShowdownName(species: Species): String {
+        if (species.resourceIdentifier.namespace == Cobblemon.MODID) {
+            return species.name
+        }
+        return "${species.resourceIdentifier.namespace}:${species.name}"
     }
 
 }

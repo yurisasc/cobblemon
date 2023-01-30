@@ -25,7 +25,7 @@ interface ShowdownIdentifiable {
 
     companion object {
 
-        internal val REGEX = Regex("/[^a-z0-9]+/g")
+        internal val REGEX = Regex("[^a-z0-9]+")
 
     }
 
