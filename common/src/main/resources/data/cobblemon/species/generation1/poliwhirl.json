@@ -160,8 +160,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.poliwhirl.desc1",
-    "cobblemon.species.poliwhirl.desc2"
+    "cobblemon.species.poliwhirl.desc"
   ],
   "preEvolution": "poliwag",
   "evolutions": [
@@ -207,5 +206,6 @@
   },
   "height": 10,
   "weight": 200,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

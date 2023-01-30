@@ -112,8 +112,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.chinchou.desc1",
-    "cobblemon.species.chinchou.desc2"
+    "cobblemon.species.chinchou.desc"
   ],
   "evolutions": [
     {

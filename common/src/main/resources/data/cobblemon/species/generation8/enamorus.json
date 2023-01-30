@@ -92,8 +92,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.enamorus.desc1",
-    "cobblemon.species.enamorus.desc2"
+    "cobblemon.species.enamorus.desc"
   ],
   "height": 16,
   "weight": 480,

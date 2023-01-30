@@ -157,8 +157,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.drednaw.desc1",
-    "cobblemon.species.drednaw.desc2"
+    "cobblemon.species.drednaw.desc"
   ],
   "preEvolution": "chewtle",
   "evolutions": [],

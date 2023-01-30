@@ -115,8 +115,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.swablu.desc1",
-    "cobblemon.species.swablu.desc2"
+    "cobblemon.species.swablu.desc"
   ],
   "evolutions": [
     {

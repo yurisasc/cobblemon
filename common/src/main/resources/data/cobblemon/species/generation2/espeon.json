@@ -141,8 +141,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.espeon.desc1",
-    "cobblemon.species.espeon.desc2"
+    "cobblemon.species.espeon.desc"
   ],
   "preEvolution": "eevee",
   "evolutions": [],

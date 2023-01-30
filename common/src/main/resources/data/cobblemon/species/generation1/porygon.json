@@ -169,8 +169,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.porygon.desc1",
-    "cobblemon.species.porygon.desc2"
+    "cobblemon.species.porygon.desc"
   ],
   "evolutions": [
     {
@@ -204,5 +203,6 @@
   },
   "height": 8,
   "weight": 365,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

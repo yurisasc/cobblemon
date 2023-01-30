@@ -156,8 +156,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.primeape.desc1",
-    "cobblemon.species.primeape.desc2"
+    "cobblemon.species.primeape.desc"
   ],
   "preEvolution": "mankey",
   "evolutions": [
@@ -193,5 +192,6 @@
   },
   "height": 10,
   "weight": 320,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

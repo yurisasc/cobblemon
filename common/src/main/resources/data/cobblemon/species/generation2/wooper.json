@@ -285,8 +285,7 @@
     "johto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.wooper.desc1",
-    "cobblemon.species.wooper.desc2"
+    "cobblemon.species.wooper.desc"
   ],
   "evolutions": [
     {

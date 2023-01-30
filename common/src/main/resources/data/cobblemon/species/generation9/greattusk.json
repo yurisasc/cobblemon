@@ -108,5 +108,8 @@
   "height": 22,
   "weight": 3200,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.greattusk.desc"
+  ]
 }

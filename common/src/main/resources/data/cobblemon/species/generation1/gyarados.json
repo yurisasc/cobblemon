@@ -64,6 +64,7 @@
       "height": 65,
       "weight": 3050,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -203,8 +204,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.gyarados.desc1",
-    "cobblemon.species.gyarados.desc2"
+    "cobblemon.species.gyarados.desc"
   ],
   "preEvolution": "magikarp",
   "evolutions": [],
@@ -225,5 +225,6 @@
   },
   "height": 65,
   "weight": 2350,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

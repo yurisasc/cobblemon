@@ -108,8 +108,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.luxray.desc1",
-    "cobblemon.species.luxray.desc2"
+    "cobblemon.species.luxray.desc"
   ],
   "preEvolution": "luxio",
   "evolutions": [],

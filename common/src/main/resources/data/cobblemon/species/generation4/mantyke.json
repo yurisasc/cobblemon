@@ -101,8 +101,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.mantyke.desc1",
-    "cobblemon.species.mantyke.desc2"
+    "cobblemon.species.mantyke.desc"
   ],
   "evolutions": [
     {

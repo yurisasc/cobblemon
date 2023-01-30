@@ -84,8 +84,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.swanna.desc1",
-    "cobblemon.species.swanna.desc2"
+    "cobblemon.species.swanna.desc"
   ],
   "preEvolution": "ducklett",
   "evolutions": [],

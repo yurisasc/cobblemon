@@ -223,8 +223,7 @@
     "unova_regional"
   ],
   "pokedex": [
-    "cobblemon.species.braviary.desc1",
-    "cobblemon.species.braviary.desc2"
+    "cobblemon.species.braviary.desc"
   ],
   "preEvolution": "rufflet",
   "evolutions": [],

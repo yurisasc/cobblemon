@@ -142,8 +142,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.orbeetle.desc1",
-    "cobblemon.species.orbeetle.desc2"
+    "cobblemon.species.orbeetle.desc"
   ],
   "preEvolution": "dottler",
   "evolutions": [],

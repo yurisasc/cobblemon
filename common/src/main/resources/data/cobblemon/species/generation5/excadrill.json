@@ -100,8 +100,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.excadrill.desc1",
-    "cobblemon.species.excadrill.desc2"
+    "cobblemon.species.excadrill.desc"
   ],
   "preEvolution": "drilbur",
   "evolutions": [],

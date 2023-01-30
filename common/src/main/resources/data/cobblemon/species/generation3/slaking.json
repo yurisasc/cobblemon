@@ -147,8 +147,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.slaking.desc1",
-    "cobblemon.species.slaking.desc2"
+    "cobblemon.species.slaking.desc"
   ],
   "preEvolution": "vigoroth",
   "evolutions": [],

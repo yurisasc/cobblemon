@@ -89,8 +89,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.minior.desc1",
-    "cobblemon.species.minior.desc2"
+    "cobblemon.species.minior.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

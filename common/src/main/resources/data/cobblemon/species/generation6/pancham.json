@@ -127,8 +127,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.pancham.desc1",
-    "cobblemon.species.pancham.desc2"
+    "cobblemon.species.pancham.desc"
   ],
   "evolutions": [
     {

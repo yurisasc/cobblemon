@@ -167,8 +167,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.sharpedo.desc1",
-    "cobblemon.species.sharpedo.desc2"
+    "cobblemon.species.sharpedo.desc"
   ],
   "preEvolution": "carvanha",
   "evolutions": [],

@@ -89,8 +89,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.karrablast.desc1",
-    "cobblemon.species.karrablast.desc2"
+    "cobblemon.species.karrablast.desc"
   ],
   "evolutions": [
     {

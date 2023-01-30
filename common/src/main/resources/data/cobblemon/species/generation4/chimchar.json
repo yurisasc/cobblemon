@@ -122,8 +122,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.chimchar.desc1",
-    "cobblemon.species.chimchar.desc2"
+    "cobblemon.species.chimchar.desc"
   ],
   "evolutions": [
     {

@@ -111,8 +111,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.archen.desc1",
-    "cobblemon.species.archen.desc2"
+    "cobblemon.species.archen.desc"
   ],
   "evolutions": [
     {

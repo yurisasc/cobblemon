@@ -216,8 +216,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.nidoking.desc1",
-    "cobblemon.species.nidoking.desc2"
+    "cobblemon.species.nidoking.desc"
   ],
   "preEvolution": "nidorino",
   "evolutions": [],
@@ -238,5 +237,6 @@
   },
   "height": 14,
   "weight": 620,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

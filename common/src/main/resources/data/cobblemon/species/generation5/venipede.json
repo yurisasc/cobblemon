@@ -89,8 +89,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.venipede.desc1",
-    "cobblemon.species.venipede.desc2"
+    "cobblemon.species.venipede.desc"
   ],
   "evolutions": [
     {

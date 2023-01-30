@@ -71,6 +71,7 @@
       "height": 24,
       "weight": 1555,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     },
     {
@@ -118,6 +119,7 @@
       "height": 20,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -264,8 +266,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.venusaur.desc1",
-    "cobblemon.species.venusaur.desc2"
+    "cobblemon.species.venusaur.desc"
   ],
   "preEvolution": "ivysaur",
   "evolutions": [],
@@ -286,5 +287,6 @@
   },
   "height": 20,
   "weight": 1000,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

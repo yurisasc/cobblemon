@@ -157,8 +157,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.totodile.desc1",
-    "cobblemon.species.totodile.desc2"
+    "cobblemon.species.totodile.desc"
   ],
   "evolutions": [
     {

@@ -162,8 +162,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.grimmsnarl.desc1",
-    "cobblemon.species.grimmsnarl.desc2"
+    "cobblemon.species.grimmsnarl.desc"
   ],
   "preEvolution": "morgrem",
   "evolutions": [],

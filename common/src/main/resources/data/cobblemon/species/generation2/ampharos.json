@@ -193,8 +193,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.ampharos.desc1",
-    "cobblemon.species.ampharos.desc2"
+    "cobblemon.species.ampharos.desc"
   ],
   "preEvolution": "flaaffy",
   "evolutions": [],

@@ -101,8 +101,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.stoutland.desc1",
-    "cobblemon.species.stoutland.desc2"
+    "cobblemon.species.stoutland.desc"
   ],
   "preEvolution": "herdier",
   "evolutions": [],

@@ -101,5 +101,8 @@
   "height": 32,
   "weight": 920,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.slitherwing.desc"
+  ]
 }

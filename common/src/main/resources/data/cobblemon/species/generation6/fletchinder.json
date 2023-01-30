@@ -95,8 +95,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.fletchinder.desc1",
-    "cobblemon.species.fletchinder.desc2"
+    "cobblemon.species.fletchinder.desc"
   ],
   "preEvolution": "fletchling",
   "evolutions": [

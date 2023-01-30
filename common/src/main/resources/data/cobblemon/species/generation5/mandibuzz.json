@@ -105,8 +105,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.mandibuzz.desc1",
-    "cobblemon.species.mandibuzz.desc2"
+    "cobblemon.species.mandibuzz.desc"
   ],
   "preEvolution": "vullaby",
   "evolutions": [],

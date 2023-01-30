@@ -167,5 +167,8 @@
       "cannotDynamax": false,
       "battleOnly": false
     }
+  ],
+  "pokedex": [
+    "cobblemon.species.dudunsparce.desc"
   ]
 }

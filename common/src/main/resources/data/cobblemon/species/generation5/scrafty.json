@@ -129,8 +129,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.scrafty.desc1",
-    "cobblemon.species.scrafty.desc2"
+    "cobblemon.species.scrafty.desc"
   ],
   "preEvolution": "scraggy",
   "evolutions": [],

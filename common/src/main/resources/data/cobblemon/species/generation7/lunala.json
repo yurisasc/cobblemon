@@ -121,8 +121,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.lunala.desc1",
-    "cobblemon.species.lunala.desc2"
+    "cobblemon.species.lunala.desc"
   ],
   "preEvolution": "cosmoem",
   "evolutions": [],

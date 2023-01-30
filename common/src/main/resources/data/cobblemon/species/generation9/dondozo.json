@@ -92,5 +92,8 @@
   "height": 120,
   "weight": 2200,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.dondozo.desc"
+  ]
 }

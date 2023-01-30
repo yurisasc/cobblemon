@@ -134,8 +134,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.cacnea.desc1",
-    "cobblemon.species.cacnea.desc2"
+    "cobblemon.species.cacnea.desc"
   ],
   "evolutions": [
     {

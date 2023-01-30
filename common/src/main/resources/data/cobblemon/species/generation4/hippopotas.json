@@ -102,8 +102,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.hippopotas.desc1",
-    "cobblemon.species.hippopotas.desc2"
+    "cobblemon.species.hippopotas.desc"
   ],
   "evolutions": [
     {

@@ -124,8 +124,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.passimian.desc1",
-    "cobblemon.species.passimian.desc2"
+    "cobblemon.species.passimian.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

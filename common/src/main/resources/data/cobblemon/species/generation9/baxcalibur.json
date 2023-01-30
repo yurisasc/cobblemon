@@ -99,5 +99,8 @@
   "weight": 2100,
   "preEvolution": "arctibax",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.baxcalibur.desc"
+  ]
 }

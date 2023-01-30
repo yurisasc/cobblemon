@@ -147,8 +147,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.meditite.desc1",
-    "cobblemon.species.meditite.desc2"
+    "cobblemon.species.meditite.desc"
   ],
   "evolutions": [
     {

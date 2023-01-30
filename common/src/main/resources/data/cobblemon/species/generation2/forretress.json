@@ -137,8 +137,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.forretress.desc1",
-    "cobblemon.species.forretress.desc2"
+    "cobblemon.species.forretress.desc"
   ],
   "preEvolution": "pineco",
   "evolutions": [],

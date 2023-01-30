@@ -137,8 +137,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.vigoroth.desc1",
-    "cobblemon.species.vigoroth.desc2"
+    "cobblemon.species.vigoroth.desc"
   ],
   "preEvolution": "slakoth",
   "evolutions": [

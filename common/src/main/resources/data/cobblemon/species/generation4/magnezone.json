@@ -124,8 +124,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.magnezone.desc1",
-    "cobblemon.species.magnezone.desc2"
+    "cobblemon.species.magnezone.desc"
   ],
   "preEvolution": "magneton",
   "evolutions": [],

@@ -138,8 +138,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.spinarak.desc1",
-    "cobblemon.species.spinarak.desc2"
+    "cobblemon.species.spinarak.desc"
   ],
   "evolutions": [
     {

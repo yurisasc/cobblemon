@@ -153,8 +153,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.manectric.desc1",
-    "cobblemon.species.manectric.desc2"
+    "cobblemon.species.manectric.desc"
   ],
   "preEvolution": "electrike",
   "evolutions": [],

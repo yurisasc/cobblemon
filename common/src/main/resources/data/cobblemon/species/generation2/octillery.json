@@ -125,8 +125,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.octillery.desc1",
-    "cobblemon.species.octillery.desc2"
+    "cobblemon.species.octillery.desc"
   ],
   "preEvolution": "remoraid",
   "evolutions": [],

@@ -77,8 +77,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.clobbopus.desc1",
-    "cobblemon.species.clobbopus.desc2"
+    "cobblemon.species.clobbopus.desc"
   ],
   "evolutions": [
     {

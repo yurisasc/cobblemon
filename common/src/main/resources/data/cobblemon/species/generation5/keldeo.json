@@ -123,8 +123,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.keldeo.desc1",
-    "cobblemon.species.keldeo.desc2"
+    "cobblemon.species.keldeo.desc"
   ],
   "height": 14,
   "weight": 485,

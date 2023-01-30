@@ -114,8 +114,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.salandit.desc1",
-    "cobblemon.species.salandit.desc2"
+    "cobblemon.species.salandit.desc"
   ],
   "evolutions": [
     {

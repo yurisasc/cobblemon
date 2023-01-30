@@ -150,8 +150,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.ivysaur.desc1",
-    "cobblemon.species.ivysaur.desc2"
+    "cobblemon.species.ivysaur.desc"
   ],
   "preEvolution": "bulbasaur",
   "evolutions": [
@@ -188,5 +187,6 @@
   },
   "height": 10,
   "weight": 130,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -169,8 +169,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.wartortle.desc1",
-    "cobblemon.species.wartortle.desc2"
+    "cobblemon.species.wartortle.desc"
   ],
   "preEvolution": "squirtle",
   "evolutions": [
@@ -207,5 +206,6 @@
   },
   "height": 10,
   "weight": 225,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

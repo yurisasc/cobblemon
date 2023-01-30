@@ -137,8 +137,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.solrock.desc1",
-    "cobblemon.species.solrock.desc2"
+    "cobblemon.species.solrock.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

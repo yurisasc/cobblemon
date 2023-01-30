@@ -163,6 +163,7 @@
       "weight": 330,
       "preEvolution": "meowth form=alola",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -308,8 +309,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.persian.desc1",
-    "cobblemon.species.persian.desc2"
+    "cobblemon.species.persian.desc"
   ],
   "preEvolution": "meowth",
   "evolutions": [],
@@ -330,5 +330,6 @@
   },
   "height": 10,
   "weight": 320,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -116,8 +116,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.golett.desc1",
-    "cobblemon.species.golett.desc2"
+    "cobblemon.species.golett.desc"
   ],
   "evolutions": [
     {

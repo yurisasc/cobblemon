@@ -101,5 +101,8 @@
   "height": 14,
   "weight": 40,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.fluttermane.desc"
+  ]
 }

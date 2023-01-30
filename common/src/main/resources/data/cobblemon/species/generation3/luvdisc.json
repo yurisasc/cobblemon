@@ -98,8 +98,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.luvdisc.desc1",
-    "cobblemon.species.luvdisc.desc2"
+    "cobblemon.species.luvdisc.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

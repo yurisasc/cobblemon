@@ -124,8 +124,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.dartrix.desc1",
-    "cobblemon.species.dartrix.desc2"
+    "cobblemon.species.dartrix.desc"
   ],
   "preEvolution": "rowlet",
   "evolutions": [

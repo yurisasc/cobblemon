@@ -155,8 +155,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.sentret.desc1",
-    "cobblemon.species.sentret.desc2"
+    "cobblemon.species.sentret.desc"
   ],
   "evolutions": [
     {

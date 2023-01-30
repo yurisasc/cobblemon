@@ -113,8 +113,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.cradily.desc1",
-    "cobblemon.species.cradily.desc2"
+    "cobblemon.species.cradily.desc"
   ],
   "preEvolution": "lileep",
   "evolutions": [],

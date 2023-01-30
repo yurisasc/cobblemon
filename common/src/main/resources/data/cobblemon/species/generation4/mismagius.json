@@ -121,8 +121,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.mismagius.desc1",
-    "cobblemon.species.mismagius.desc2"
+    "cobblemon.species.mismagius.desc"
   ],
   "preEvolution": "misdreavus",
   "evolutions": [],

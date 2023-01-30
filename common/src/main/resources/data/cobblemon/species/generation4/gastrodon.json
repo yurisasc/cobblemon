@@ -115,8 +115,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.gastrodon.desc1",
-    "cobblemon.species.gastrodon.desc2"
+    "cobblemon.species.gastrodon.desc"
   ],
   "preEvolution": "shellos",
   "evolutions": [],

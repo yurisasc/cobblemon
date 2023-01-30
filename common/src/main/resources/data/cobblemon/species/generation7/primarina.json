@@ -112,8 +112,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.primarina.desc1",
-    "cobblemon.species.primarina.desc2"
+    "cobblemon.species.primarina.desc"
   ],
   "preEvolution": "brionne",
   "evolutions": [],

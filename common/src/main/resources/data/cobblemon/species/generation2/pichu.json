@@ -223,8 +223,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.pichu.desc1",
-    "cobblemon.species.pichu.desc2"
+    "cobblemon.species.pichu.desc"
   ],
   "evolutions": [
     {

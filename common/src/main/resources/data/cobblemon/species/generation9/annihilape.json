@@ -114,5 +114,8 @@
   "weight": 560,
   "preEvolution": "primeape",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.annihilape.desc"
+  ]
 }

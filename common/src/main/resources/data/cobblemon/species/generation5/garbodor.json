@@ -150,8 +150,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.garbodor.desc1",
-    "cobblemon.species.garbodor.desc2"
+    "cobblemon.species.garbodor.desc"
   ],
   "preEvolution": "trubbish",
   "evolutions": [],

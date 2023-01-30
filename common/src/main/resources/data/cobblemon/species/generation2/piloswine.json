@@ -128,8 +128,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.piloswine.desc1",
-    "cobblemon.species.piloswine.desc2"
+    "cobblemon.species.piloswine.desc"
   ],
   "preEvolution": "swinub",
   "evolutions": [

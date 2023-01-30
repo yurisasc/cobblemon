@@ -129,8 +129,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.rowlet.desc1",
-    "cobblemon.species.rowlet.desc2"
+    "cobblemon.species.rowlet.desc"
   ],
   "evolutions": [
     {

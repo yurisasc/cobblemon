@@ -89,8 +89,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.tympole.desc1",
-    "cobblemon.species.tympole.desc2"
+    "cobblemon.species.tympole.desc"
   ],
   "evolutions": [
     {

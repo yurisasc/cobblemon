@@ -135,8 +135,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.dewgong.desc1",
-    "cobblemon.species.dewgong.desc2"
+    "cobblemon.species.dewgong.desc"
   ],
   "preEvolution": "seel",
   "evolutions": [],
@@ -157,5 +156,6 @@
   },
   "height": 17,
   "weight": 1200,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

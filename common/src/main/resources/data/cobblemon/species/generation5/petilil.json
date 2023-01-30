@@ -95,8 +95,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.petilil.desc1",
-    "cobblemon.species.petilil.desc2"
+    "cobblemon.species.petilil.desc"
   ],
   "evolutions": [
     {

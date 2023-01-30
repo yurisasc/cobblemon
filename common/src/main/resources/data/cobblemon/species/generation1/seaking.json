@@ -154,8 +154,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.seaking.desc1",
-    "cobblemon.species.seaking.desc2"
+    "cobblemon.species.seaking.desc"
   ],
   "preEvolution": "goldeen",
   "evolutions": [],
@@ -176,5 +175,6 @@
   },
   "height": 13,
   "weight": 390,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

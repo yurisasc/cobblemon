@@ -120,8 +120,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.lombre.desc1",
-    "cobblemon.species.lombre.desc2"
+    "cobblemon.species.lombre.desc"
   ],
   "preEvolution": "lotad",
   "evolutions": [

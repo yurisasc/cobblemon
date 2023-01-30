@@ -112,5 +112,8 @@
   "weight": 1600,
   "preEvolution": "girafarig",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.farigiraf.desc"
+  ]
 }

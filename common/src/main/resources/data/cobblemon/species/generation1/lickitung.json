@@ -199,8 +199,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.lickitung.desc1",
-    "cobblemon.species.lickitung.desc2"
+    "cobblemon.species.lickitung.desc"
   ],
   "evolutions": [
     {
@@ -234,5 +233,6 @@
   },
   "height": 12,
   "weight": 655,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

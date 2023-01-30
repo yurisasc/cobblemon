@@ -87,8 +87,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.glastrier.desc1",
-    "cobblemon.species.glastrier.desc2"
+    "cobblemon.species.glastrier.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

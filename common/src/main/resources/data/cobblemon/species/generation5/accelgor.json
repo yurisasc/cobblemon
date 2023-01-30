@@ -100,8 +100,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.accelgor.desc1",
-    "cobblemon.species.accelgor.desc2"
+    "cobblemon.species.accelgor.desc"
   ],
   "preEvolution": "shelmet",
   "evolutions": [],

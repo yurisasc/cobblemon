@@ -103,8 +103,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.durant.desc1",
-    "cobblemon.species.durant.desc2"
+    "cobblemon.species.durant.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

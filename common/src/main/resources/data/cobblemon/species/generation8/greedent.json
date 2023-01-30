@@ -86,8 +86,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.greedent.desc1",
-    "cobblemon.species.greedent.desc2"
+    "cobblemon.species.greedent.desc"
   ],
   "preEvolution": "skwovet",
   "evolutions": [],

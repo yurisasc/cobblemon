@@ -126,8 +126,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.drifloon.desc1",
-    "cobblemon.species.drifloon.desc2"
+    "cobblemon.species.drifloon.desc"
   ],
   "evolutions": [
     {

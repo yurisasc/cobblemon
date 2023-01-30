@@ -131,8 +131,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.kingdra.desc1",
-    "cobblemon.species.kingdra.desc2"
+    "cobblemon.species.kingdra.desc"
   ],
   "preEvolution": "seadra",
   "evolutions": [],

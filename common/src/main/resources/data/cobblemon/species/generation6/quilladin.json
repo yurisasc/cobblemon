@@ -126,8 +126,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.quilladin.desc1",
-    "cobblemon.species.quilladin.desc2"
+    "cobblemon.species.quilladin.desc"
   ],
   "preEvolution": "chespin",
   "evolutions": [

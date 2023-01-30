@@ -115,8 +115,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.walrein.desc1",
-    "cobblemon.species.walrein.desc2"
+    "cobblemon.species.walrein.desc"
   ],
   "preEvolution": "sealeo",
   "evolutions": [],

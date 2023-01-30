@@ -148,8 +148,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.appletun.desc1",
-    "cobblemon.species.appletun.desc2"
+    "cobblemon.species.appletun.desc"
   ],
   "preEvolution": "applin",
   "evolutions": [],

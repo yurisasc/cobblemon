@@ -143,8 +143,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.croconaw.desc1",
-    "cobblemon.species.croconaw.desc2"
+    "cobblemon.species.croconaw.desc"
   ],
   "preEvolution": "totodile",
   "evolutions": [

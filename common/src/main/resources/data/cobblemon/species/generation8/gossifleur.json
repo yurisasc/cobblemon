@@ -71,8 +71,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.gossifleur.desc1",
-    "cobblemon.species.gossifleur.desc2"
+    "cobblemon.species.gossifleur.desc"
   ],
   "evolutions": [
     {

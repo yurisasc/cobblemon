@@ -43,8 +43,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.applin.desc1",
-    "cobblemon.species.applin.desc2"
+    "cobblemon.species.applin.desc"
   ],
   "evolutions": [
     {

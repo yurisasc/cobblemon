@@ -97,8 +97,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.simisear.desc1",
-    "cobblemon.species.simisear.desc2"
+    "cobblemon.species.simisear.desc"
   ],
   "preEvolution": "pansear",
   "evolutions": [],

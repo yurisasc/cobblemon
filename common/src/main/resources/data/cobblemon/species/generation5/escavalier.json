@@ -108,8 +108,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.escavalier.desc1",
-    "cobblemon.species.escavalier.desc2"
+    "cobblemon.species.escavalier.desc"
   ],
   "preEvolution": "karrablast",
   "evolutions": [],

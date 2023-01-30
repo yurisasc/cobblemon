@@ -138,8 +138,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.elekid.desc1",
-    "cobblemon.species.elekid.desc2"
+    "cobblemon.species.elekid.desc"
   ],
   "evolutions": [
     {

@@ -200,8 +200,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.lucario.desc1",
-    "cobblemon.species.lucario.desc2"
+    "cobblemon.species.lucario.desc"
   ],
   "preEvolution": "riolu",
   "evolutions": [],

@@ -129,8 +129,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.hoothoot.desc1",
-    "cobblemon.species.hoothoot.desc2"
+    "cobblemon.species.hoothoot.desc"
   ],
   "evolutions": [
     {

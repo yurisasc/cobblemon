@@ -110,8 +110,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.tapulele.desc1",
-    "cobblemon.species.tapulele.desc2"
+    "cobblemon.species.tapulele.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -125,8 +125,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.krokorok.desc1",
-    "cobblemon.species.krokorok.desc2"
+    "cobblemon.species.krokorok.desc"
   ],
   "preEvolution": "sandile",
   "evolutions": [

@@ -144,8 +144,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.corviknight.desc1",
-    "cobblemon.species.corviknight.desc2"
+    "cobblemon.species.corviknight.desc"
   ],
   "preEvolution": "corvisquire",
   "evolutions": [],

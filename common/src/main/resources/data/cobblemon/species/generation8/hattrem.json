@@ -81,8 +81,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.hattrem.desc1",
-    "cobblemon.species.hattrem.desc2"
+    "cobblemon.species.hattrem.desc"
   ],
   "preEvolution": "hatenna",
   "evolutions": [

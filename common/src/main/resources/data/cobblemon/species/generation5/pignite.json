@@ -102,8 +102,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.pignite.desc1",
-    "cobblemon.species.pignite.desc2"
+    "cobblemon.species.pignite.desc"
   ],
   "preEvolution": "tepig",
   "evolutions": [

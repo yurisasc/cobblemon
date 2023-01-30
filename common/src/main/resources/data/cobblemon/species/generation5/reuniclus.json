@@ -132,8 +132,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.reuniclus.desc1",
-    "cobblemon.species.reuniclus.desc2"
+    "cobblemon.species.reuniclus.desc"
   ],
   "preEvolution": "duosion",
   "evolutions": [],

@@ -204,6 +204,7 @@
       "weight": 340,
       "preEvolution": "cubone",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
@@ -337,6 +338,7 @@
       "height": 17,
       "weight": 980,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -497,8 +499,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.marowak.desc1",
-    "cobblemon.species.marowak.desc2"
+    "cobblemon.species.marowak.desc"
   ],
   "preEvolution": "cubone",
   "evolutions": [],
@@ -519,5 +520,6 @@
   },
   "height": 10,
   "weight": 450,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

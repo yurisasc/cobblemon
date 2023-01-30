@@ -31,8 +31,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.unown.desc1",
-    "cobblemon.species.unown.desc2"
+    "cobblemon.species.unown.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -99,8 +99,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.snorunt.desc1",
-    "cobblemon.species.snorunt.desc2"
+    "cobblemon.species.snorunt.desc"
   ],
   "evolutions": [
     {
@@ -123,9 +122,7 @@
       "variant": "item_interact",
       "result": "froslass",
       "consumeHeldItem": false,
-      "learnableMoves": [
-        "hex"
-      ],
+      "learnableMoves": [],
       "requirements": [],
       "requiredContext": "cobblemon:dawn_stone"
     }

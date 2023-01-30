@@ -144,8 +144,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.chesnaught.desc1",
-    "cobblemon.species.chesnaught.desc2"
+    "cobblemon.species.chesnaught.desc"
   ],
   "preEvolution": "quilladin",
   "evolutions": [],

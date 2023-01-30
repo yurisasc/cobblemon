@@ -107,8 +107,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.alomomola.desc1",
-    "cobblemon.species.alomomola.desc2"
+    "cobblemon.species.alomomola.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

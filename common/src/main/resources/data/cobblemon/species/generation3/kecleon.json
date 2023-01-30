@@ -150,8 +150,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.kecleon.desc1",
-    "cobblemon.species.kecleon.desc2"
+    "cobblemon.species.kecleon.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

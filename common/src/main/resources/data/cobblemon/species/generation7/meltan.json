@@ -63,8 +63,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.meltan.desc1",
-    "cobblemon.species.meltan.desc2"
+    "cobblemon.species.meltan.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

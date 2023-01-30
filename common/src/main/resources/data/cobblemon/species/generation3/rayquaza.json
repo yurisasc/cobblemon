@@ -198,8 +198,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.rayquaza.desc1",
-    "cobblemon.species.rayquaza.desc2"
+    "cobblemon.species.rayquaza.desc"
   ],
   "evolutions": [],
   "baseScale": 1.5,

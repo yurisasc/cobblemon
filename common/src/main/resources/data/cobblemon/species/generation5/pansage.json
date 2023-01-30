@@ -110,8 +110,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.pansage.desc1",
-    "cobblemon.species.pansage.desc2"
+    "cobblemon.species.pansage.desc"
   ],
   "evolutions": [
     {

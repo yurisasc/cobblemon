@@ -114,8 +114,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.plusle.desc1",
-    "cobblemon.species.plusle.desc2"
+    "cobblemon.species.plusle.desc"
   ],
   "evolutions": [],
   "baseScale": 0.6,

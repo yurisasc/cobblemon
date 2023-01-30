@@ -90,8 +90,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.honedge.desc1",
-    "cobblemon.species.honedge.desc2"
+    "cobblemon.species.honedge.desc"
   ],
   "evolutions": [
     {

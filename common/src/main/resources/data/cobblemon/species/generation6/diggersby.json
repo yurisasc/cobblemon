@@ -125,8 +125,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.diggersby.desc1",
-    "cobblemon.species.diggersby.desc2"
+    "cobblemon.species.diggersby.desc"
   ],
   "preEvolution": "bunnelby",
   "evolutions": [],

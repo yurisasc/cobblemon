@@ -60,8 +60,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.magikarp.desc1",
-    "cobblemon.species.magikarp.desc2"
+    "cobblemon.species.magikarp.desc"
   ],
   "evolutions": [
     {
@@ -97,5 +96,6 @@
   },
   "height": 9,
   "weight": 100,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -51,8 +51,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.snom.desc1",
-    "cobblemon.species.snom.desc2"
+    "cobblemon.species.snom.desc"
   ],
   "evolutions": [
     {

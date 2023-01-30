@@ -100,8 +100,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.komala.desc1",
-    "cobblemon.species.komala.desc2"
+    "cobblemon.species.komala.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

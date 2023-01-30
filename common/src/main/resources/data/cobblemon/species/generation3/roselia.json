@@ -110,8 +110,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.roselia.desc1",
-    "cobblemon.species.roselia.desc2"
+    "cobblemon.species.roselia.desc"
   ],
   "preEvolution": "budew",
   "evolutions": [

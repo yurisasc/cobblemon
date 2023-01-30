@@ -105,5 +105,8 @@
   "weight": 900,
   "preEvolution": "flittle",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.espathra.desc"
+  ]
 }

@@ -87,8 +87,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.shelmet.desc1",
-    "cobblemon.species.shelmet.desc2"
+    "cobblemon.species.shelmet.desc"
   ],
   "evolutions": [
     {

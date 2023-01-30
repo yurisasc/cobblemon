@@ -124,8 +124,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.hitmontop.desc1",
-    "cobblemon.species.hitmontop.desc2"
+    "cobblemon.species.hitmontop.desc"
   ],
   "preEvolution": "tyrogue",
   "evolutions": [],

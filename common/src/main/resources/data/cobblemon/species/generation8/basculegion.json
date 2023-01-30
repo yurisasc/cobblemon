@@ -92,8 +92,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.basculegion.desc1",
-    "cobblemon.species.basculegion.desc2"
+    "cobblemon.species.basculegion.desc"
   ],
   "height": 30,
   "weight": 1100,

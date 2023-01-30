@@ -90,5 +90,8 @@
   "weight": 7000,
   "preEvolution": "cetoddle",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.cetitan.desc"
+  ]
 }

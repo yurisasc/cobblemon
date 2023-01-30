@@ -105,8 +105,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.gogoat.desc1",
-    "cobblemon.species.gogoat.desc2"
+    "cobblemon.species.gogoat.desc"
   ],
   "preEvolution": "skiddo",
   "evolutions": [],

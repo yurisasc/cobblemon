@@ -132,8 +132,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.golurk.desc1",
-    "cobblemon.species.golurk.desc2"
+    "cobblemon.species.golurk.desc"
   ],
   "preEvolution": "golett",
   "evolutions": [],

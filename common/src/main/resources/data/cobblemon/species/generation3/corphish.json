@@ -117,8 +117,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.corphish.desc1",
-    "cobblemon.species.corphish.desc2"
+    "cobblemon.species.corphish.desc"
   ],
   "evolutions": [
     {

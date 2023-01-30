@@ -61,8 +61,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.kakuna.desc1",
-    "cobblemon.species.kakuna.desc2"
+    "cobblemon.species.kakuna.desc"
   ],
   "preEvolution": "weedle",
   "evolutions": [
@@ -97,5 +96,6 @@
   },
   "height": 6,
   "weight": 100,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

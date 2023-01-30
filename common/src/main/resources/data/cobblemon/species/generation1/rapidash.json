@@ -126,6 +126,7 @@
       "weight": 800,
       "preEvolution": "ponyta form=galar",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -263,8 +264,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.rapidash.desc1",
-    "cobblemon.species.rapidash.desc2"
+    "cobblemon.species.rapidash.desc"
   ],
   "preEvolution": "ponyta",
   "evolutions": [],
@@ -285,5 +285,6 @@
   },
   "height": 17,
   "weight": 950,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

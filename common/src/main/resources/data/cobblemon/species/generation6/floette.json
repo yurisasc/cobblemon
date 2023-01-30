@@ -201,8 +201,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.floette.desc1",
-    "cobblemon.species.floette.desc2"
+    "cobblemon.species.floette.desc"
   ],
   "preEvolution": "flabebe",
   "evolutions": [

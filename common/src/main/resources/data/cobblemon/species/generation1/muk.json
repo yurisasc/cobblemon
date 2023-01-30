@@ -164,6 +164,7 @@
       "weight": 520,
       "preEvolution": "grimer form=alola",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -307,8 +308,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.muk.desc1",
-    "cobblemon.species.muk.desc2"
+    "cobblemon.species.muk.desc"
   ],
   "preEvolution": "grimer",
   "evolutions": [],
@@ -329,5 +329,6 @@
   },
   "height": 12,
   "weight": 300,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

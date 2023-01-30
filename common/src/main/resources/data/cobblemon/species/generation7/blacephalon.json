@@ -108,8 +108,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.blacephalon.desc1",
-    "cobblemon.species.blacephalon.desc2"
+    "cobblemon.species.blacephalon.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

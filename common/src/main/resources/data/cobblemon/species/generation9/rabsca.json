@@ -107,5 +107,8 @@
   "weight": 35,
   "preEvolution": "rellor",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.rabsca.desc"
+  ]
 }

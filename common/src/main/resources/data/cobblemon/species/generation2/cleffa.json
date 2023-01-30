@@ -143,8 +143,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.cleffa.desc1",
-    "cobblemon.species.cleffa.desc2"
+    "cobblemon.species.cleffa.desc"
   ],
   "evolutions": [
     {

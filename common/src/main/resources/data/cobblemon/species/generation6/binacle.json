@@ -118,8 +118,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.binacle.desc1",
-    "cobblemon.species.binacle.desc2"
+    "cobblemon.species.binacle.desc"
   ],
   "evolutions": [
     {

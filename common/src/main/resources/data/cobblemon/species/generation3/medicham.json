@@ -192,8 +192,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.medicham.desc1",
-    "cobblemon.species.medicham.desc2"
+    "cobblemon.species.medicham.desc"
   ],
   "preEvolution": "meditite",
   "evolutions": [],

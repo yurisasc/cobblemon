@@ -145,8 +145,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.nidoranm.desc1",
-    "cobblemon.species.nidoranm.desc2"
+    "cobblemon.species.nidoranm.desc"
   ],
   "evolutions": [
     {
@@ -180,5 +179,6 @@
   },
   "height": 5,
   "weight": 90,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -98,8 +98,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.xurkitree.desc1",
-    "cobblemon.species.xurkitree.desc2"
+    "cobblemon.species.xurkitree.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

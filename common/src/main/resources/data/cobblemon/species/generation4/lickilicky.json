@@ -133,8 +133,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.lickilicky.desc1",
-    "cobblemon.species.lickilicky.desc2"
+    "cobblemon.species.lickilicky.desc"
   ],
   "preEvolution": "lickitung",
   "evolutions": [],

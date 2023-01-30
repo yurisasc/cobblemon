@@ -130,8 +130,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.scraggy.desc1",
-    "cobblemon.species.scraggy.desc2"
+    "cobblemon.species.scraggy.desc"
   ],
   "evolutions": [
     {

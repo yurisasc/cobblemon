@@ -104,8 +104,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.bewear.desc1",
-    "cobblemon.species.bewear.desc2"
+    "cobblemon.species.bewear.desc"
   ],
   "preEvolution": "stufful",
   "evolutions": [],

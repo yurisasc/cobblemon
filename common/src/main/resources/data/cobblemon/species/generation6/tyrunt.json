@@ -111,8 +111,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.tyrunt.desc1",
-    "cobblemon.species.tyrunt.desc2"
+    "cobblemon.species.tyrunt.desc"
   ],
   "evolutions": [
     {

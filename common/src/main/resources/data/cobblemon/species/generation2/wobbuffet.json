@@ -37,8 +37,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.wobbuffet.desc1",
-    "cobblemon.species.wobbuffet.desc2"
+    "cobblemon.species.wobbuffet.desc"
   ],
   "preEvolution": "wynaut",
   "evolutions": [],

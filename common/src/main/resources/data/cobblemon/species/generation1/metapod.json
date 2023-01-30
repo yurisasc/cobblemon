@@ -63,8 +63,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.metapod.desc1",
-    "cobblemon.species.metapod.desc2"
+    "cobblemon.species.metapod.desc"
   ],
   "preEvolution": "caterpie",
   "evolutions": [
@@ -101,5 +100,6 @@
   },
   "height": 7,
   "weight": 99,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

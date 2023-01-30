@@ -108,8 +108,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.oricorio.desc1",
-    "cobblemon.species.oricorio.desc2"
+    "cobblemon.species.oricorio.desc"
   ],
   "height": 6,
   "weight": 34,

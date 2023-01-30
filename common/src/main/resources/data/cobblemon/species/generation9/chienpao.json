@@ -93,5 +93,8 @@
   "height": 19,
   "weight": 1522,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.chienpao.desc"
+  ]
 }

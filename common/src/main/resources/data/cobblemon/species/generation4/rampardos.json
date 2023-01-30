@@ -116,8 +116,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.rampardos.desc1",
-    "cobblemon.species.rampardos.desc2"
+    "cobblemon.species.rampardos.desc"
   ],
   "preEvolution": "cranidos",
   "evolutions": [],

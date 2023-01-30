@@ -139,8 +139,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.poliwag.desc1",
-    "cobblemon.species.poliwag.desc2"
+    "cobblemon.species.poliwag.desc"
   ],
   "evolutions": [
     {
@@ -174,5 +173,6 @@
   },
   "height": 6,
   "weight": 124,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -109,8 +109,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.musharna.desc1",
-    "cobblemon.species.musharna.desc2"
+    "cobblemon.species.musharna.desc"
   ],
   "preEvolution": "munna",
   "evolutions": [],

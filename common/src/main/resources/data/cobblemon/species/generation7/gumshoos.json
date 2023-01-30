@@ -221,8 +221,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.gumshoos.desc1",
-    "cobblemon.species.gumshoos.desc2"
+    "cobblemon.species.gumshoos.desc"
   ],
   "preEvolution": "yungoos",
   "evolutions": [],

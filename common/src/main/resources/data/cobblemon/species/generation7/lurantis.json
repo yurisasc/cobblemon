@@ -211,8 +211,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.lurantis.desc1",
-    "cobblemon.species.lurantis.desc2"
+    "cobblemon.species.lurantis.desc"
   ],
   "preEvolution": "fomantis",
   "evolutions": [],

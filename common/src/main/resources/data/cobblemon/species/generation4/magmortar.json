@@ -128,8 +128,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.magmortar.desc1",
-    "cobblemon.species.magmortar.desc2"
+    "cobblemon.species.magmortar.desc"
   ],
   "preEvolution": "magmar",
   "evolutions": [],

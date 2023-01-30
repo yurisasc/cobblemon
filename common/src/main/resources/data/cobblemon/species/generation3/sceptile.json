@@ -193,8 +193,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.sceptile.desc1",
-    "cobblemon.species.sceptile.desc2"
+    "cobblemon.species.sceptile.desc"
   ],
   "preEvolution": "grovyle",
   "evolutions": [],

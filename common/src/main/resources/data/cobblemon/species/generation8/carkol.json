@@ -87,8 +87,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.carkol.desc1",
-    "cobblemon.species.carkol.desc2"
+    "cobblemon.species.carkol.desc"
   ],
   "preEvolution": "rolycoly",
   "evolutions": [

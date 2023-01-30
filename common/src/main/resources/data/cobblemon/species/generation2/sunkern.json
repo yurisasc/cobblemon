@@ -111,8 +111,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.sunkern.desc1",
-    "cobblemon.species.sunkern.desc2"
+    "cobblemon.species.sunkern.desc"
   ],
   "evolutions": [
     {

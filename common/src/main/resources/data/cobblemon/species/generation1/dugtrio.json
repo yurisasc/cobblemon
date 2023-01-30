@@ -150,6 +150,7 @@
       "weight": 666,
       "preEvolution": "diglett form=alola",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -269,8 +270,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.dugtrio.desc1",
-    "cobblemon.species.dugtrio.desc2"
+    "cobblemon.species.dugtrio.desc"
   ],
   "preEvolution": "diglett",
   "evolutions": [],
@@ -291,5 +291,6 @@
   },
   "height": 7,
   "weight": 333,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -229,8 +229,7 @@
     "unova_regional"
   ],
   "pokedex": [
-    "cobblemon.species.samurott.desc1",
-    "cobblemon.species.samurott.desc2"
+    "cobblemon.species.samurott.desc"
   ],
   "preEvolution": "dewott",
   "evolutions": [],

@@ -120,8 +120,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.bayleef.desc1",
-    "cobblemon.species.bayleef.desc2"
+    "cobblemon.species.bayleef.desc"
   ],
   "preEvolution": "chikorita",
   "evolutions": [

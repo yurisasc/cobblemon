@@ -259,8 +259,7 @@
     "hoenn_regional"
   ],
   "pokedex": [
-    "cobblemon.species.linoone.desc1",
-    "cobblemon.species.linoone.desc2"
+    "cobblemon.species.linoone.desc"
   ],
   "preEvolution": "zigzagoon",
   "baseScale": 1,

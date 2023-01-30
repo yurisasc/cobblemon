@@ -196,8 +196,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.gardevoir.desc1",
-    "cobblemon.species.gardevoir.desc2"
+    "cobblemon.species.gardevoir.desc"
   ],
   "preEvolution": "kirlia",
   "evolutions": [],

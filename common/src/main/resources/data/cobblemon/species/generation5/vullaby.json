@@ -103,8 +103,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.vullaby.desc1",
-    "cobblemon.species.vullaby.desc2"
+    "cobblemon.species.vullaby.desc"
   ],
   "evolutions": [
     {

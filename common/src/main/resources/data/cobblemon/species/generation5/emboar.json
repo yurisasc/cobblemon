@@ -113,8 +113,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.emboar.desc1",
-    "cobblemon.species.emboar.desc2"
+    "cobblemon.species.emboar.desc"
   ],
   "preEvolution": "pignite",
   "evolutions": [],

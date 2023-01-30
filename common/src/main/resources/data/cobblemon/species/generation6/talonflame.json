@@ -103,8 +103,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.talonflame.desc1",
-    "cobblemon.species.talonflame.desc2"
+    "cobblemon.species.talonflame.desc"
   ],
   "preEvolution": "fletchinder",
   "evolutions": [],

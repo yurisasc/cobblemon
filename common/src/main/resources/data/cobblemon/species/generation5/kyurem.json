@@ -390,8 +390,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.kyurem.desc1",
-    "cobblemon.species.kyurem.desc2"
+    "cobblemon.species.kyurem.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

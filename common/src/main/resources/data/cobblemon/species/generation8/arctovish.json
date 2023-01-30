@@ -83,8 +83,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.arctovish.desc1",
-    "cobblemon.species.arctovish.desc2"
+    "cobblemon.species.arctovish.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

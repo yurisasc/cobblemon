@@ -151,8 +151,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.marill.desc1",
-    "cobblemon.species.marill.desc2"
+    "cobblemon.species.marill.desc"
   ],
   "preEvolution": "azurill",
   "evolutions": [

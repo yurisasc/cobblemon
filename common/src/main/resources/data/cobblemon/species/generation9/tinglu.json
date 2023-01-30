@@ -96,5 +96,8 @@
   "height": 27,
   "weight": 6997,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.tinglu.desc"
+  ]
 }

@@ -145,8 +145,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.ledyba.desc1",
-    "cobblemon.species.ledyba.desc2"
+    "cobblemon.species.ledyba.desc"
   ],
   "evolutions": [
     {

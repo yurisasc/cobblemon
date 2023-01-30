@@ -90,5 +90,8 @@
   "weight": 300,
   "preEvolution": "gimmighoul",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.gholdengo.desc"
+  ]
 }

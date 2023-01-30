@@ -138,6 +138,7 @@
       "weight": 255,
       "preEvolution": "rattata form=alola",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     },
     {
@@ -254,6 +255,7 @@
       "height": 14,
       "weight": 1050,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -368,8 +370,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.raticate.desc1",
-    "cobblemon.species.raticate.desc2"
+    "cobblemon.species.raticate.desc"
   ],
   "preEvolution": "rattata",
   "evolutions": [],
@@ -390,5 +391,6 @@
   },
   "height": 7,
   "weight": 185,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

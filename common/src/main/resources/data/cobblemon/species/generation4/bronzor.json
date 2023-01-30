@@ -120,8 +120,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.bronzor.desc1",
-    "cobblemon.species.bronzor.desc2"
+    "cobblemon.species.bronzor.desc"
   ],
   "evolutions": [
     {

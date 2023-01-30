@@ -892,8 +892,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.silvally.desc1",
-    "cobblemon.species.silvally.desc2"
+    "cobblemon.species.silvally.desc"
   ],
   "preEvolution": "typenull",
   "evolutions": [],

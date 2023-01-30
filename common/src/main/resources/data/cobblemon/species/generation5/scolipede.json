@@ -110,8 +110,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.scolipede.desc1",
-    "cobblemon.species.scolipede.desc2"
+    "cobblemon.species.scolipede.desc"
   ],
   "preEvolution": "whirlipede",
   "evolutions": [],

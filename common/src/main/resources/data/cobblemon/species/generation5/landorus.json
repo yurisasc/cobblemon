@@ -127,8 +127,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.landorus.desc1",
-    "cobblemon.species.landorus.desc2"
+    "cobblemon.species.landorus.desc"
   ],
   "height": 15,
   "weight": 680,

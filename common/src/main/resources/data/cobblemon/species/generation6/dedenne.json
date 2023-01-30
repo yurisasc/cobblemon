@@ -111,8 +111,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.dedenne.desc1",
-    "cobblemon.species.dedenne.desc2"
+    "cobblemon.species.dedenne.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -128,8 +128,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.oranguru.desc1",
-    "cobblemon.species.oranguru.desc2"
+    "cobblemon.species.oranguru.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

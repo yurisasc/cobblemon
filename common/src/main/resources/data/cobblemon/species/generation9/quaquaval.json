@@ -105,5 +105,8 @@
   "weight": 619,
   "preEvolution": "quaxwell",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.quaquaval.desc"
+  ]
 }

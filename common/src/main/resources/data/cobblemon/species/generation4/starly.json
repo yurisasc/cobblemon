@@ -100,8 +100,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.starly.desc1",
-    "cobblemon.species.starly.desc2"
+    "cobblemon.species.starly.desc"
   ],
   "evolutions": [
     {

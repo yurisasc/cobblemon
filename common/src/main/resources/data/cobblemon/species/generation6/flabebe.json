@@ -101,8 +101,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.flabebe.desc1",
-    "cobblemon.species.flabebe.desc2"
+    "cobblemon.species.flabebe.desc"
   ],
   "evolutions": [
     {

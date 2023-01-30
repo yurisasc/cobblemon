@@ -77,8 +77,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.regieleki.desc1",
-    "cobblemon.species.regieleki.desc2"
+    "cobblemon.species.regieleki.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

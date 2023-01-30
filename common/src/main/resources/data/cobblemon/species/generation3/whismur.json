@@ -108,8 +108,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.whismur.desc1",
-    "cobblemon.species.whismur.desc2"
+    "cobblemon.species.whismur.desc"
   ],
   "evolutions": [
     {

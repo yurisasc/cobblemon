@@ -88,8 +88,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.gorebyss.desc1",
-    "cobblemon.species.gorebyss.desc2"
+    "cobblemon.species.gorebyss.desc"
   ],
   "preEvolution": "clamperl",
   "evolutions": [],

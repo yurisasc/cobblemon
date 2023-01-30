@@ -135,8 +135,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.bibarel.desc1",
-    "cobblemon.species.bibarel.desc2"
+    "cobblemon.species.bibarel.desc"
   ],
   "preEvolution": "bidoof",
   "evolutions": [],

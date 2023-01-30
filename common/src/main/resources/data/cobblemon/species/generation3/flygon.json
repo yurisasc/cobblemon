@@ -143,8 +143,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.flygon.desc1",
-    "cobblemon.species.flygon.desc2"
+    "cobblemon.species.flygon.desc"
   ],
   "preEvolution": "vibrava",
   "evolutions": [],

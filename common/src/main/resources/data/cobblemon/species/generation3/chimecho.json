@@ -119,8 +119,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.chimecho.desc1",
-    "cobblemon.species.chimecho.desc2"
+    "cobblemon.species.chimecho.desc"
   ],
   "preEvolution": "chingling",
   "evolutions": [],

@@ -139,8 +139,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.spinda.desc1",
-    "cobblemon.species.spinda.desc2"
+    "cobblemon.species.spinda.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

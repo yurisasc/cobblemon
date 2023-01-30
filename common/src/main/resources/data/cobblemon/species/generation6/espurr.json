@@ -106,8 +106,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.espurr.desc1",
-    "cobblemon.species.espurr.desc2"
+    "cobblemon.species.espurr.desc"
   ],
   "evolutions": [
     {

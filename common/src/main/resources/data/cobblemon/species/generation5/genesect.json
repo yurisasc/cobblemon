@@ -312,8 +312,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.genesect.desc1",
-    "cobblemon.species.genesect.desc2"
+    "cobblemon.species.genesect.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -91,8 +91,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.frosmoth.desc1",
-    "cobblemon.species.frosmoth.desc2"
+    "cobblemon.species.frosmoth.desc"
   ],
   "preEvolution": "snom",
   "evolutions": [],

@@ -111,8 +111,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.timburr.desc1",
-    "cobblemon.species.timburr.desc2"
+    "cobblemon.species.timburr.desc"
   ],
   "evolutions": [
     {

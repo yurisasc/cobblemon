@@ -142,8 +142,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.cloyster.desc1",
-    "cobblemon.species.cloyster.desc2"
+    "cobblemon.species.cloyster.desc"
   ],
   "preEvolution": "shellder",
   "evolutions": [],
@@ -164,5 +163,6 @@
   },
   "height": 15,
   "weight": 1325,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

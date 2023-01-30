@@ -152,8 +152,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.murkrow.desc1",
-    "cobblemon.species.murkrow.desc2"
+    "cobblemon.species.murkrow.desc"
   ],
   "evolutions": [
     {

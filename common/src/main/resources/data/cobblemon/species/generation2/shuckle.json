@@ -124,8 +124,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.shuckle.desc1",
-    "cobblemon.species.shuckle.desc2"
+    "cobblemon.species.shuckle.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

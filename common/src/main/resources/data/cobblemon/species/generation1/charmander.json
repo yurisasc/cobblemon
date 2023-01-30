@@ -174,8 +174,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.charmander.desc1",
-    "cobblemon.species.charmander.desc2"
+    "cobblemon.species.charmander.desc"
   ],
   "evolutions": [
     {
@@ -209,5 +208,6 @@
   },
   "height": 6,
   "weight": 85,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

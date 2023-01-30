@@ -86,8 +86,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.nincada.desc1",
-    "cobblemon.species.nincada.desc2"
+    "cobblemon.species.nincada.desc"
   ],
   "evolutions": [
     {

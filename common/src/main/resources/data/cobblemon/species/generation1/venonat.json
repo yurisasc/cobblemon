@@ -121,8 +121,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.venonat.desc1",
-    "cobblemon.species.venonat.desc2"
+    "cobblemon.species.venonat.desc"
   ],
   "evolutions": [
     {
@@ -158,5 +157,6 @@
   },
   "height": 10,
   "weight": 300,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

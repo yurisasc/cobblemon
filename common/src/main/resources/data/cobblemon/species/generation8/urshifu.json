@@ -330,8 +330,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.urshifu.desc1",
-    "cobblemon.species.urshifu.desc2"
+    "cobblemon.species.urshifu.desc"
   ],
   "preEvolution": "kubfu",
   "evolutions": [],

@@ -104,8 +104,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.delcatty.desc1",
-    "cobblemon.species.delcatty.desc2"
+    "cobblemon.species.delcatty.desc"
   ],
   "preEvolution": "skitty",
   "evolutions": [],

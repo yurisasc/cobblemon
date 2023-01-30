@@ -112,8 +112,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.cranidos.desc1",
-    "cobblemon.species.cranidos.desc2"
+    "cobblemon.species.cranidos.desc"
   ],
   "evolutions": [
     {

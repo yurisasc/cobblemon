@@ -130,8 +130,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.meowstic.desc1",
-    "cobblemon.species.meowstic.desc2"
+    "cobblemon.species.meowstic.desc"
   ],
   "height": 6,
   "weight": 85,

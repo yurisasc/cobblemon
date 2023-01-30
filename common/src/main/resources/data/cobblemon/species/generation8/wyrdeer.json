@@ -98,8 +98,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.wyrdeer.desc1",
-    "cobblemon.species.wyrdeer.desc2"
+    "cobblemon.species.wyrdeer.desc"
   ],
   "height": 18,
   "weight": 951,

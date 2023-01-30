@@ -101,8 +101,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.snivy.desc1",
-    "cobblemon.species.snivy.desc2"
+    "cobblemon.species.snivy.desc"
   ],
   "evolutions": [
     {

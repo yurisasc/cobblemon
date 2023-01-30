@@ -102,8 +102,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.tyrogue.desc1",
-    "cobblemon.species.tyrogue.desc2"
+    "cobblemon.species.tyrogue.desc"
   ],
   "evolutions": [
     {

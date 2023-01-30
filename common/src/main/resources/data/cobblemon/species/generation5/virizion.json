@@ -114,8 +114,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.virizion.desc1",
-    "cobblemon.species.virizion.desc2"
+    "cobblemon.species.virizion.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

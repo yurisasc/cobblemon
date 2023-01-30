@@ -147,8 +147,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.xatu.desc1",
-    "cobblemon.species.xatu.desc2"
+    "cobblemon.species.xatu.desc"
   ],
   "preEvolution": "natu",
   "evolutions": [],

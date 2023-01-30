@@ -143,8 +143,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.krookodile.desc1",
-    "cobblemon.species.krookodile.desc2"
+    "cobblemon.species.krookodile.desc"
   ],
   "preEvolution": "krokorok",
   "evolutions": [],

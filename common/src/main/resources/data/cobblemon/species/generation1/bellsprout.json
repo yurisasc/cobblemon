@@ -124,8 +124,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.bellsprout.desc1",
-    "cobblemon.species.bellsprout.desc2"
+    "cobblemon.species.bellsprout.desc"
   ],
   "evolutions": [
     {
@@ -159,5 +158,6 @@
   },
   "height": 7,
   "weight": 40,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

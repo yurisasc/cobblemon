@@ -92,5 +92,8 @@
   "height": 25,
   "weight": 3100,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.orthworm.desc"
+  ]
 }

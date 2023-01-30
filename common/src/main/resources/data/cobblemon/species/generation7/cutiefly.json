@@ -106,8 +106,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.cutiefly.desc1",
-    "cobblemon.species.cutiefly.desc2"
+    "cobblemon.species.cutiefly.desc"
   ],
   "evolutions": [
     {

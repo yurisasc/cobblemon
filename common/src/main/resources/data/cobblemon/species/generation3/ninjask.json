@@ -103,8 +103,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.ninjask.desc1",
-    "cobblemon.species.ninjask.desc2"
+    "cobblemon.species.ninjask.desc"
   ],
   "preEvolution": "nincada",
   "evolutions": [],

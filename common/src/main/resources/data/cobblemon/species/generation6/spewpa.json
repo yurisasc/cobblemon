@@ -37,8 +37,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.spewpa.desc1",
-    "cobblemon.species.spewpa.desc2"
+    "cobblemon.species.spewpa.desc"
   ],
   "preEvolution": "scatterbug",
   "evolutions": [

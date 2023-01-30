@@ -118,8 +118,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.cubchoo.desc1",
-    "cobblemon.species.cubchoo.desc2"
+    "cobblemon.species.cubchoo.desc"
   ],
   "evolutions": [
     {

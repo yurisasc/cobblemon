@@ -255,8 +255,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.greninja.desc1",
-    "cobblemon.species.greninja.desc2"
+    "cobblemon.species.greninja.desc"
   ],
   "preEvolution": "frogadier",
   "evolutions": [],

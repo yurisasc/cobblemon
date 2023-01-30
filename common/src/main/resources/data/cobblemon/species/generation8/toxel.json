@@ -53,8 +53,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.toxel.desc1",
-    "cobblemon.species.toxel.desc2"
+    "cobblemon.species.toxel.desc"
   ],
   "evolutions": [
     {

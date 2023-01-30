@@ -111,8 +111,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.tapufini.desc1",
-    "cobblemon.species.tapufini.desc2"
+    "cobblemon.species.tapufini.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

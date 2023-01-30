@@ -126,8 +126,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.skarmory.desc1",
-    "cobblemon.species.skarmory.desc2"
+    "cobblemon.species.skarmory.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

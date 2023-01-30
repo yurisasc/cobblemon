@@ -108,8 +108,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.palossand.desc1",
-    "cobblemon.species.palossand.desc2"
+    "cobblemon.species.palossand.desc"
   ],
   "preEvolution": "sandygast",
   "evolutions": [],

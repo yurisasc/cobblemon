@@ -102,8 +102,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.mareanie.desc1",
-    "cobblemon.species.mareanie.desc2"
+    "cobblemon.species.mareanie.desc"
   ],
   "evolutions": [
     {

@@ -131,8 +131,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.barbaracle.desc1",
-    "cobblemon.species.barbaracle.desc2"
+    "cobblemon.species.barbaracle.desc"
   ],
   "preEvolution": "binacle",
   "evolutions": [],

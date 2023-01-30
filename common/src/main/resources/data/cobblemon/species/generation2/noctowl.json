@@ -121,8 +121,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.noctowl.desc1",
-    "cobblemon.species.noctowl.desc2"
+    "cobblemon.species.noctowl.desc"
   ],
   "preEvolution": "hoothoot",
   "evolutions": [],

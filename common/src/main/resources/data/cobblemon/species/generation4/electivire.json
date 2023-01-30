@@ -131,8 +131,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.electivire.desc1",
-    "cobblemon.species.electivire.desc2"
+    "cobblemon.species.electivire.desc"
   ],
   "preEvolution": "electabuzz",
   "evolutions": [],

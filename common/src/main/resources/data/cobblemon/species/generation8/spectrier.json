@@ -82,8 +82,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.spectrier.desc1",
-    "cobblemon.species.spectrier.desc2"
+    "cobblemon.species.spectrier.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

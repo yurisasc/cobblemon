@@ -116,8 +116,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.malamar.desc1",
-    "cobblemon.species.malamar.desc2"
+    "cobblemon.species.malamar.desc"
   ],
   "preEvolution": "inkay",
   "evolutions": [],

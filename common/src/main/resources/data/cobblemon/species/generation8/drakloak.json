@@ -95,8 +95,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.drakloak.desc1",
-    "cobblemon.species.drakloak.desc2"
+    "cobblemon.species.drakloak.desc"
   ],
   "preEvolution": "dreepy",
   "evolutions": [

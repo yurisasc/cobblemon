@@ -145,8 +145,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.koffing.desc1",
-    "cobblemon.species.koffing.desc2"
+    "cobblemon.species.koffing.desc"
   ],
   "evolutions": [
     {
@@ -200,5 +199,6 @@
   },
   "height": 6,
   "weight": 10,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

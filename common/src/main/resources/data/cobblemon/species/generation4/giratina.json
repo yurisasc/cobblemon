@@ -142,8 +142,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.giratina.desc1",
-    "cobblemon.species.giratina.desc2"
+    "cobblemon.species.giratina.desc"
   ],
   "height": 45,
   "weight": 7500,

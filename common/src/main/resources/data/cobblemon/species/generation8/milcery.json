@@ -64,8 +64,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.milcery.desc1",
-    "cobblemon.species.milcery.desc2"
+    "cobblemon.species.milcery.desc"
   ],
   "evolutions": [
     {

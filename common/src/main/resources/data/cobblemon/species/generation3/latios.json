@@ -198,8 +198,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.latios.desc1",
-    "cobblemon.species.latios.desc2"
+    "cobblemon.species.latios.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

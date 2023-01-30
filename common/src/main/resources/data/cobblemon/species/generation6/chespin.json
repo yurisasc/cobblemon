@@ -130,8 +130,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.chespin.desc1",
-    "cobblemon.species.chespin.desc2"
+    "cobblemon.species.chespin.desc"
   ],
   "evolutions": [
     {

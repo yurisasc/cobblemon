@@ -64,6 +64,7 @@
       "height": 170,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -211,8 +212,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.butterfree.desc1",
-    "cobblemon.species.butterfree.desc2"
+    "cobblemon.species.butterfree.desc"
   ],
   "preEvolution": "metapod",
   "evolutions": [],
@@ -233,5 +233,6 @@
   },
   "height": 11,
   "weight": 320,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

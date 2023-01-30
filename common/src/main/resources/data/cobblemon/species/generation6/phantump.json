@@ -112,8 +112,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.phantump.desc1",
-    "cobblemon.species.phantump.desc2"
+    "cobblemon.species.phantump.desc"
   ],
   "evolutions": [
     {

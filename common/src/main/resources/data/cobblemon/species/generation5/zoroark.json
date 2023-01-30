@@ -244,8 +244,7 @@
     "unova_regional"
   ],
   "pokedex": [
-    "cobblemon.species.zoroark.desc1",
-    "cobblemon.species.zoroark.desc2"
+    "cobblemon.species.zoroark.desc"
   ],
   "preEvolution": "zorua",
   "evolutions": [],

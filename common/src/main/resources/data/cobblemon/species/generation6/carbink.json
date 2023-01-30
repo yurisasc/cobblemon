@@ -114,8 +114,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.carbink.desc1",
-    "cobblemon.species.carbink.desc2"
+    "cobblemon.species.carbink.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

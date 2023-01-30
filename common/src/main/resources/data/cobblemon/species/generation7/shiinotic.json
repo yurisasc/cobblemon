@@ -91,8 +91,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.shiinotic.desc1",
-    "cobblemon.species.shiinotic.desc2"
+    "cobblemon.species.shiinotic.desc"
   ],
   "preEvolution": "morelull",
   "evolutions": [],

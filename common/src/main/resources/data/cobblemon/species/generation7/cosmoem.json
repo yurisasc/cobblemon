@@ -31,8 +31,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.cosmoem.desc1",
-    "cobblemon.species.cosmoem.desc2"
+    "cobblemon.species.cosmoem.desc"
   ],
   "preEvolution": "cosmog",
   "evolutions": [

@@ -121,8 +121,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.pawniard.desc1",
-    "cobblemon.species.pawniard.desc2"
+    "cobblemon.species.pawniard.desc"
   ],
   "evolutions": [
     {

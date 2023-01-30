@@ -147,8 +147,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.teddiursa.desc1",
-    "cobblemon.species.teddiursa.desc2"
+    "cobblemon.species.teddiursa.desc"
   ],
   "evolutions": [
     {

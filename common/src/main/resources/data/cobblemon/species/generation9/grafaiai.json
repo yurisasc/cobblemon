@@ -96,5 +96,8 @@
   "weight": 272,
   "preEvolution": "shroodle",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.grafaiai.desc"
+  ]
 }

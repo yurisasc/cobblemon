@@ -240,8 +240,7 @@
     "unova_regional"
   ],
   "pokedex": [
-    "cobblemon.species.zorua.desc1",
-    "cobblemon.species.zorua.desc2"
+    "cobblemon.species.zorua.desc"
   ],
   "evolutions": [
     {

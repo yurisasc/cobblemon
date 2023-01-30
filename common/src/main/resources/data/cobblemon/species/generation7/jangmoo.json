@@ -99,8 +99,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.jangmoo.desc1",
-    "cobblemon.species.jangmoo.desc2"
+    "cobblemon.species.jangmoo.desc"
   ],
   "evolutions": [
     {

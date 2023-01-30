@@ -117,8 +117,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.happiny.desc1",
-    "cobblemon.species.happiny.desc2"
+    "cobblemon.species.happiny.desc"
   ],
   "evolutions": [
     {

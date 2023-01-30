@@ -243,8 +243,7 @@
     "hoenn_regional"
   ],
   "pokedex": [
-    "cobblemon.species.zigzagoon.desc1",
-    "cobblemon.species.zigzagoon.desc2"
+    "cobblemon.species.zigzagoon.desc"
   ],
   "evolutions": [
     {

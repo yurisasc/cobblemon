@@ -113,8 +113,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.relicanth.desc1",
-    "cobblemon.species.relicanth.desc2"
+    "cobblemon.species.relicanth.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

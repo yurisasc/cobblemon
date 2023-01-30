@@ -131,8 +131,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.mantine.desc1",
-    "cobblemon.species.mantine.desc2"
+    "cobblemon.species.mantine.desc"
   ],
   "preEvolution": "mantyke",
   "evolutions": [],

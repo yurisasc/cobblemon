@@ -141,8 +141,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.combusken.desc1",
-    "cobblemon.species.combusken.desc2"
+    "cobblemon.species.combusken.desc"
   ],
   "preEvolution": "torchic",
   "evolutions": [

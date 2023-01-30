@@ -221,8 +221,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.ribombee.desc1",
-    "cobblemon.species.ribombee.desc2"
+    "cobblemon.species.ribombee.desc"
   ],
   "preEvolution": "cutiefly",
   "evolutions": [],

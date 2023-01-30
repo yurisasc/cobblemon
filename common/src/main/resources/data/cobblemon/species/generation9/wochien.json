@@ -100,5 +100,8 @@
   "height": 15,
   "weight": 742,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.wochien.desc"
+  ]
 }

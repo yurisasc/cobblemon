@@ -94,8 +94,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.brionne.desc1",
-    "cobblemon.species.brionne.desc2"
+    "cobblemon.species.brionne.desc"
   ],
   "preEvolution": "popplio",
   "evolutions": [

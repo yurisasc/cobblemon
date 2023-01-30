@@ -147,5 +147,8 @@
       "cannotDynamax": false,
       "battleOnly": true
     }
+  ],
+  "pokedex": [
+    "cobblemon.species.palafin.desc"
   ]
 }

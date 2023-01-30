@@ -123,8 +123,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.deerling.desc1",
-    "cobblemon.species.deerling.desc2"
+    "cobblemon.species.deerling.desc"
   ],
   "evolutions": [
     {

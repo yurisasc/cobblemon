@@ -132,8 +132,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.tropius.desc1",
-    "cobblemon.species.tropius.desc2"
+    "cobblemon.species.tropius.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

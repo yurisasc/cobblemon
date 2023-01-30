@@ -171,8 +171,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.onix.desc1",
-    "cobblemon.species.onix.desc2"
+    "cobblemon.species.onix.desc"
   ],
   "evolutions": [
     {
@@ -206,5 +205,6 @@
   },
   "height": 88,
   "weight": 2100,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

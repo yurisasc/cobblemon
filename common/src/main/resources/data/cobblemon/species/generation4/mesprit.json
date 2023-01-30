@@ -131,8 +131,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.mesprit.desc1",
-    "cobblemon.species.mesprit.desc2"
+    "cobblemon.species.mesprit.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

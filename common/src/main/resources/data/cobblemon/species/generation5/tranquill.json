@@ -79,8 +79,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.tranquill.desc1",
-    "cobblemon.species.tranquill.desc2"
+    "cobblemon.species.tranquill.desc"
   ],
   "preEvolution": "pidove",
   "evolutions": [

@@ -92,8 +92,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.beautifly.desc1",
-    "cobblemon.species.beautifly.desc2"
+    "cobblemon.species.beautifly.desc"
   ],
   "preEvolution": "silcoon",
   "evolutions": [],

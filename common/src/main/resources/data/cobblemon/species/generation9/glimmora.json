@@ -92,5 +92,8 @@
   "weight": 450,
   "preEvolution": "glimmet",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.glimmora.desc"
+  ]
 }

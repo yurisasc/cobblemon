@@ -132,8 +132,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.hariyama.desc1",
-    "cobblemon.species.hariyama.desc2"
+    "cobblemon.species.hariyama.desc"
   ],
   "preEvolution": "makuhita",
   "evolutions": [],

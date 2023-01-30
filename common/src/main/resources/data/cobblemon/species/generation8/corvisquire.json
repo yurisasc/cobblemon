@@ -76,8 +76,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.corvisquire.desc1",
-    "cobblemon.species.corvisquire.desc2"
+    "cobblemon.species.corvisquire.desc"
   ],
   "preEvolution": "rookidee",
   "evolutions": [

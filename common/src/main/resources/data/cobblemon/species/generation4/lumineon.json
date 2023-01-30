@@ -101,8 +101,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.lumineon.desc1",
-    "cobblemon.species.lumineon.desc2"
+    "cobblemon.species.lumineon.desc"
   ],
   "preEvolution": "finneon",
   "evolutions": [],

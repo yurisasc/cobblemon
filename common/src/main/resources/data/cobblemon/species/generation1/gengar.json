@@ -62,6 +62,7 @@
       "height": 14,
       "weight": 405,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     },
     {
@@ -107,6 +108,7 @@
       "height": 200,
       "weight": 0,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -266,8 +268,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.gengar.desc1",
-    "cobblemon.species.gengar.desc2"
+    "cobblemon.species.gengar.desc"
   ],
   "preEvolution": "haunter",
   "evolutions": [],
@@ -288,5 +289,6 @@
   },
   "height": 15,
   "weight": 405,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

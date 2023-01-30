@@ -143,8 +143,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.hawlucha.desc1",
-    "cobblemon.species.hawlucha.desc2"
+    "cobblemon.species.hawlucha.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

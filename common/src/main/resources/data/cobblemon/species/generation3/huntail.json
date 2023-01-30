@@ -86,8 +86,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.huntail.desc1",
-    "cobblemon.species.huntail.desc2"
+    "cobblemon.species.huntail.desc"
   ],
   "preEvolution": "clamperl",
   "evolutions": [],

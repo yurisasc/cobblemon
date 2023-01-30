@@ -99,5 +99,8 @@
   "weight": 2400,
   "preEvolution": "naclstack",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.garganacl.desc"
+  ]
 }

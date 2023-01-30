@@ -146,8 +146,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.buneary.desc1",
-    "cobblemon.species.buneary.desc2"
+    "cobblemon.species.buneary.desc"
   ],
   "evolutions": [
     {

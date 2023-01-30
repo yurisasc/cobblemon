@@ -99,8 +99,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.spritzee.desc1",
-    "cobblemon.species.spritzee.desc2"
+    "cobblemon.species.spritzee.desc"
   ],
   "evolutions": [
     {

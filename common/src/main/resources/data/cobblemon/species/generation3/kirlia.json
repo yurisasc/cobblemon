@@ -134,8 +134,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.kirlia.desc1",
-    "cobblemon.species.kirlia.desc2"
+    "cobblemon.species.kirlia.desc"
   ],
   "preEvolution": "ralts",
   "evolutions": [

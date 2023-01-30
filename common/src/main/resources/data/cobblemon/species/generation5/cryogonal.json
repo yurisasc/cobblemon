@@ -100,8 +100,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.cryogonal.desc1",
-    "cobblemon.species.cryogonal.desc2"
+    "cobblemon.species.cryogonal.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -124,8 +124,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.stunky.desc1",
-    "cobblemon.species.stunky.desc2"
+    "cobblemon.species.stunky.desc"
   ],
   "evolutions": [
     {

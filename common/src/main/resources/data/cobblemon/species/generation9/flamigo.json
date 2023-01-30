@@ -93,5 +93,8 @@
   "height": 16,
   "weight": 370,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.flamigo.desc"
+  ]
 }

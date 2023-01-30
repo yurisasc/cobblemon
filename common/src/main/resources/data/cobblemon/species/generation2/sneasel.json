@@ -294,8 +294,7 @@
     "johto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.sneasel.desc1",
-    "cobblemon.species.sneasel.desc2"
+    "cobblemon.species.sneasel.desc"
   ],
   "evolutions": [
     {

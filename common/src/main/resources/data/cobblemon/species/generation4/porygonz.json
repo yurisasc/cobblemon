@@ -123,8 +123,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.porygonz.desc1",
-    "cobblemon.species.porygonz.desc2"
+    "cobblemon.species.porygonz.desc"
   ],
   "preEvolution": "porygon2",
   "evolutions": [],

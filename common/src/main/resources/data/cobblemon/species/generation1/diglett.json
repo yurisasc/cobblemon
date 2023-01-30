@@ -166,6 +166,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -284,8 +285,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.diglett.desc1",
-    "cobblemon.species.diglett.desc2"
+    "cobblemon.species.diglett.desc"
   ],
   "evolutions": [
     {
@@ -321,5 +321,6 @@
   },
   "height": 2,
   "weight": 8,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

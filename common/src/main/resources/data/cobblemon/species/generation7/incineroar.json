@@ -132,8 +132,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.incineroar.desc1",
-    "cobblemon.species.incineroar.desc2"
+    "cobblemon.species.incineroar.desc"
   ],
   "preEvolution": "torracat",
   "evolutions": [],

@@ -117,8 +117,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.volcarona.desc1",
-    "cobblemon.species.volcarona.desc2"
+    "cobblemon.species.volcarona.desc"
   ],
   "preEvolution": "larvesta",
   "evolutions": [],

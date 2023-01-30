@@ -101,8 +101,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.cursola.desc1",
-    "cobblemon.species.cursola.desc2"
+    "cobblemon.species.cursola.desc"
   ],
   "preEvolution": "corsola form=galar",
   "evolutions": [],

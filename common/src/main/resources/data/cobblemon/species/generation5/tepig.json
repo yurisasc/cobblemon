@@ -99,8 +99,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.tepig.desc1",
-    "cobblemon.species.tepig.desc2"
+    "cobblemon.species.tepig.desc"
   ],
   "evolutions": [
     {

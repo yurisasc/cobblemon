@@ -117,8 +117,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.skorupi.desc1",
-    "cobblemon.species.skorupi.desc2"
+    "cobblemon.species.skorupi.desc"
   ],
   "evolutions": [
     {

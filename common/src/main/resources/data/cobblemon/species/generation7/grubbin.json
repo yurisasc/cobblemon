@@ -75,8 +75,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.grubbin.desc1",
-    "cobblemon.species.grubbin.desc2"
+    "cobblemon.species.grubbin.desc"
   ],
   "evolutions": [
     {

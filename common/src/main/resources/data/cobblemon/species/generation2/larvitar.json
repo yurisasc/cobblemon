@@ -129,8 +129,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.larvitar.desc1",
-    "cobblemon.species.larvitar.desc2"
+    "cobblemon.species.larvitar.desc"
   ],
   "evolutions": [
     {

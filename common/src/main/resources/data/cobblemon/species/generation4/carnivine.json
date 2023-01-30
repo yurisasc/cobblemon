@@ -101,8 +101,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.carnivine.desc1",
-    "cobblemon.species.carnivine.desc2"
+    "cobblemon.species.carnivine.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

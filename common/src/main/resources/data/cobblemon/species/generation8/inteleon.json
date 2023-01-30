@@ -146,8 +146,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.inteleon.desc1",
-    "cobblemon.species.inteleon.desc2"
+    "cobblemon.species.inteleon.desc"
   ],
   "preEvolution": "drizzile",
   "evolutions": [],

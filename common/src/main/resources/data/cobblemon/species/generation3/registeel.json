@@ -126,8 +126,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.registeel.desc1",
-    "cobblemon.species.registeel.desc2"
+    "cobblemon.species.registeel.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

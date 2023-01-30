@@ -163,8 +163,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.glalie.desc1",
-    "cobblemon.species.glalie.desc2"
+    "cobblemon.species.glalie.desc"
   ],
   "preEvolution": "snorunt",
   "evolutions": [],

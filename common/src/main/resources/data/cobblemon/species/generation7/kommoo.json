@@ -272,8 +272,7 @@
     "pseudo_legendary"
   ],
   "pokedex": [
-    "cobblemon.species.kommoo.desc1",
-    "cobblemon.species.kommoo.desc2"
+    "cobblemon.species.kommoo.desc"
   ],
   "preEvolution": "hakamoo",
   "evolutions": [],

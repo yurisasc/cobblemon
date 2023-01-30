@@ -85,8 +85,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.goomy.desc1",
-    "cobblemon.species.goomy.desc2"
+    "cobblemon.species.goomy.desc"
   ],
   "evolutions": [
     {

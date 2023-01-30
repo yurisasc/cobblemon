@@ -179,8 +179,7 @@
     "pseudo_legendary"
   ],
   "pokedex": [
-    "cobblemon.species.salamence.desc1",
-    "cobblemon.species.salamence.desc2"
+    "cobblemon.species.salamence.desc"
   ],
   "preEvolution": "shelgon",
   "evolutions": [],

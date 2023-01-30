@@ -103,8 +103,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.runerigus.desc1",
-    "cobblemon.species.runerigus.desc2"
+    "cobblemon.species.runerigus.desc"
   ],
   "preEvolution": "yamask form=galar",
   "evolutions": [],

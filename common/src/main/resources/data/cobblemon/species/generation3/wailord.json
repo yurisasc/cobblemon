@@ -121,8 +121,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.wailord.desc1",
-    "cobblemon.species.wailord.desc2"
+    "cobblemon.species.wailord.desc"
   ],
   "preEvolution": "wailmer",
   "evolutions": [],

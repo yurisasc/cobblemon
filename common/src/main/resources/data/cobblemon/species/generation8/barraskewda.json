@@ -79,8 +79,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.barraskewda.desc1",
-    "cobblemon.species.barraskewda.desc2"
+    "cobblemon.species.barraskewda.desc"
   ],
   "preEvolution": "arrokuda",
   "evolutions": [],

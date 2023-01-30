@@ -152,8 +152,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.togekiss.desc1",
-    "cobblemon.species.togekiss.desc2"
+    "cobblemon.species.togekiss.desc"
   ],
   "preEvolution": "togetic",
   "evolutions": [],

@@ -105,8 +105,7 @@
     "pseudo_legendary"
   ],
   "pokedex": [
-    "cobblemon.species.dragapult.desc1",
-    "cobblemon.species.dragapult.desc2"
+    "cobblemon.species.dragapult.desc"
   ],
   "preEvolution": "drakloak",
   "evolutions": [],

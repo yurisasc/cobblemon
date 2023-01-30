@@ -97,8 +97,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.dwebble.desc1",
-    "cobblemon.species.dwebble.desc2"
+    "cobblemon.species.dwebble.desc"
   ],
   "evolutions": [
     {

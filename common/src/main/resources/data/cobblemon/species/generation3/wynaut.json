@@ -43,8 +43,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.wynaut.desc1",
-    "cobblemon.species.wynaut.desc2"
+    "cobblemon.species.wynaut.desc"
   ],
   "evolutions": [
     {

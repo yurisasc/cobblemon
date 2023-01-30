@@ -97,8 +97,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.lillipup.desc1",
-    "cobblemon.species.lillipup.desc2"
+    "cobblemon.species.lillipup.desc"
   ],
   "evolutions": [
     {

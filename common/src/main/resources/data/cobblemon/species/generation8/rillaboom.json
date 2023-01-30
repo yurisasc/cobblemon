@@ -155,8 +155,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.rillaboom.desc1",
-    "cobblemon.species.rillaboom.desc2"
+    "cobblemon.species.rillaboom.desc"
   ],
   "preEvolution": "thwackey",
   "evolutions": [],

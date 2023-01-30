@@ -122,8 +122,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.vespiquen.desc1",
-    "cobblemon.species.vespiquen.desc2"
+    "cobblemon.species.vespiquen.desc"
   ],
   "preEvolution": "combee",
   "evolutions": [],

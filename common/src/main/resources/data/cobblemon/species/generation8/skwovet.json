@@ -76,8 +76,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.skwovet.desc1",
-    "cobblemon.species.skwovet.desc2"
+    "cobblemon.species.skwovet.desc"
   ],
   "evolutions": [
     {

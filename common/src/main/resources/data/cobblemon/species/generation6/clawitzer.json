@@ -106,8 +106,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.clawitzer.desc1",
-    "cobblemon.species.clawitzer.desc2"
+    "cobblemon.species.clawitzer.desc"
   ],
   "preEvolution": "clauncher",
   "evolutions": [],

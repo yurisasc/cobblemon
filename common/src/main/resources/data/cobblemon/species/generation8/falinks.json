@@ -86,8 +86,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.falinks.desc1",
-    "cobblemon.species.falinks.desc2"
+    "cobblemon.species.falinks.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

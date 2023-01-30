@@ -108,8 +108,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.frillish.desc1",
-    "cobblemon.species.frillish.desc2"
+    "cobblemon.species.frillish.desc"
   ],
   "evolutions": [
     {

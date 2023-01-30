@@ -101,8 +101,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.florges.desc1",
-    "cobblemon.species.florges.desc2"
+    "cobblemon.species.florges.desc"
   ],
   "preEvolution": "floette",
   "evolutions": [],

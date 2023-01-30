@@ -109,8 +109,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.mightyena.desc1",
-    "cobblemon.species.mightyena.desc2"
+    "cobblemon.species.mightyena.desc"
   ],
   "preEvolution": "poochyena",
   "evolutions": [],

@@ -113,8 +113,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.gible.desc1",
-    "cobblemon.species.gible.desc2"
+    "cobblemon.species.gible.desc"
   ],
   "evolutions": [
     {

@@ -125,8 +125,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.crawdaunt.desc1",
-    "cobblemon.species.crawdaunt.desc2"
+    "cobblemon.species.crawdaunt.desc"
   ],
   "preEvolution": "corphish",
   "evolutions": [],

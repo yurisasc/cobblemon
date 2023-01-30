@@ -121,8 +121,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.swinub.desc1",
-    "cobblemon.species.swinub.desc2"
+    "cobblemon.species.swinub.desc"
   ],
   "evolutions": [
     {

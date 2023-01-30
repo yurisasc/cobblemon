@@ -133,8 +133,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.meganium.desc1",
-    "cobblemon.species.meganium.desc2"
+    "cobblemon.species.meganium.desc"
   ],
   "preEvolution": "bayleef",
   "evolutions": [],

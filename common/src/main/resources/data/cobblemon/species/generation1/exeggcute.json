@@ -154,8 +154,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.exeggcute.desc1",
-    "cobblemon.species.exeggcute.desc2"
+    "cobblemon.species.exeggcute.desc"
   ],
   "features": [
     "alolan"
@@ -201,5 +200,6 @@
   },
   "height": 4,
   "weight": 25,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

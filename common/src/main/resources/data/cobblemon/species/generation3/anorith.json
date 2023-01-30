@@ -100,8 +100,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.anorith.desc1",
-    "cobblemon.species.anorith.desc2"
+    "cobblemon.species.anorith.desc"
   ],
   "evolutions": [
     {

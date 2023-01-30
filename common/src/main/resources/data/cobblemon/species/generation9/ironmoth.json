@@ -103,5 +103,8 @@
   "height": 12,
   "weight": 360,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.ironmoth.desc"
+  ]
 }

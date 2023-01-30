@@ -97,8 +97,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.patrat.desc1",
-    "cobblemon.species.patrat.desc2"
+    "cobblemon.species.patrat.desc"
   ],
   "evolutions": [
     {

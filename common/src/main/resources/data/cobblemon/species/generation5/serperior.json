@@ -99,8 +99,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.serperior.desc1",
-    "cobblemon.species.serperior.desc2"
+    "cobblemon.species.serperior.desc"
   ],
   "preEvolution": "servine",
   "evolutions": [],

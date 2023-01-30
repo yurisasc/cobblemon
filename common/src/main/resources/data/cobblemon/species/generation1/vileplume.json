@@ -126,8 +126,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.vileplume.desc1",
-    "cobblemon.species.vileplume.desc2"
+    "cobblemon.species.vileplume.desc"
   ],
   "preEvolution": "gloom",
   "evolutions": [],
@@ -148,5 +147,6 @@
   },
   "height": 12,
   "weight": 186,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

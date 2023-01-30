@@ -263,8 +263,7 @@
     "alola_regional"
   ],
   "pokedex": [
-    "cobblemon.species.decidueye.desc1",
-    "cobblemon.species.decidueye.desc2"
+    "cobblemon.species.decidueye.desc"
   ],
   "preEvolution": "dartrix",
   "evolutions": [],

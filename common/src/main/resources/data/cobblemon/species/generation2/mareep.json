@@ -125,8 +125,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.mareep.desc1",
-    "cobblemon.species.mareep.desc2"
+    "cobblemon.species.mareep.desc"
   ],
   "evolutions": [
     {

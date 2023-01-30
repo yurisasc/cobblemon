@@ -99,8 +99,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.rockruff.desc1",
-    "cobblemon.species.rockruff.desc2"
+    "cobblemon.species.rockruff.desc"
   ],
   "evolutions": [
     {

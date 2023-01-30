@@ -117,8 +117,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.aurorus.desc1",
-    "cobblemon.species.aurorus.desc2"
+    "cobblemon.species.aurorus.desc"
   ],
   "preEvolution": "amaura",
   "evolutions": [],

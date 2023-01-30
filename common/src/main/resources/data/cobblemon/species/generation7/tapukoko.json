@@ -116,8 +116,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.tapukoko.desc1",
-    "cobblemon.species.tapukoko.desc2"
+    "cobblemon.species.tapukoko.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

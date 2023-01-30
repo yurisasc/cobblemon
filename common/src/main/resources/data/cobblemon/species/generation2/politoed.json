@@ -132,8 +132,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.politoed.desc1",
-    "cobblemon.species.politoed.desc2"
+    "cobblemon.species.politoed.desc"
   ],
   "preEvolution": "poliwhirl",
   "evolutions": [],

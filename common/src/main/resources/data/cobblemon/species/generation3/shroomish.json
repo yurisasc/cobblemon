@@ -100,8 +100,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.shroomish.desc1",
-    "cobblemon.species.shroomish.desc2"
+    "cobblemon.species.shroomish.desc"
   ],
   "evolutions": [
     {

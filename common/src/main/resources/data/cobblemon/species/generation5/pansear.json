@@ -111,8 +111,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.pansear.desc1",
-    "cobblemon.species.pansear.desc2"
+    "cobblemon.species.pansear.desc"
   ],
   "evolutions": [
     {

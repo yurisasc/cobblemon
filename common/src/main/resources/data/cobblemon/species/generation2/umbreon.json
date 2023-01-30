@@ -145,8 +145,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.umbreon.desc1",
-    "cobblemon.species.umbreon.desc2"
+    "cobblemon.species.umbreon.desc"
   ],
   "preEvolution": "eevee",
   "evolutions": [],

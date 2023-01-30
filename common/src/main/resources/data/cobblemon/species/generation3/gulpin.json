@@ -122,8 +122,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.gulpin.desc1",
-    "cobblemon.species.gulpin.desc2"
+    "cobblemon.species.gulpin.desc"
   ],
   "evolutions": [
     {

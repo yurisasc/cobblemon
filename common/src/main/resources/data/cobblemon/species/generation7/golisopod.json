@@ -116,8 +116,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.golisopod.desc1",
-    "cobblemon.species.golisopod.desc2"
+    "cobblemon.species.golisopod.desc"
   ],
   "preEvolution": "wimpod",
   "evolutions": [],

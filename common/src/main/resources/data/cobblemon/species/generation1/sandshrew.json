@@ -187,6 +187,7 @@
           "requiredContext": "cobblemon:ice_stone"
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -327,8 +328,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.sandshrew.desc1",
-    "cobblemon.species.sandshrew.desc2"
+    "cobblemon.species.sandshrew.desc"
   ],
   "evolutions": [
     {
@@ -362,5 +362,6 @@
   },
   "height": 6,
   "weight": 120,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

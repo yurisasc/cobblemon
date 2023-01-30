@@ -63,6 +63,7 @@
       "height": 17,
       "weight": 590,
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": true
     }
   ],
@@ -195,8 +196,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.pinsir.desc1",
-    "cobblemon.species.pinsir.desc2"
+    "cobblemon.species.pinsir.desc"
   ],
   "evolutions": [],
   "baseScale": 0.75,
@@ -216,5 +216,6 @@
   },
   "height": 15,
   "weight": 550,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

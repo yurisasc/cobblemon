@@ -126,8 +126,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.drifblim.desc1",
-    "cobblemon.species.drifblim.desc2"
+    "cobblemon.species.drifblim.desc"
   ],
   "preEvolution": "drifloon",
   "evolutions": [],

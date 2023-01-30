@@ -124,8 +124,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.sawsbuck.desc1",
-    "cobblemon.species.sawsbuck.desc2"
+    "cobblemon.species.sawsbuck.desc"
   ],
   "preEvolution": "deerling",
   "evolutions": [],

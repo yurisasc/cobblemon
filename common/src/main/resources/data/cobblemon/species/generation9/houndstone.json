@@ -93,5 +93,8 @@
   "weight": 150,
   "preEvolution": "greavard",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.houndstone.desc"
+  ]
 }

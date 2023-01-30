@@ -112,8 +112,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.cofagrigus.desc1",
-    "cobblemon.species.cofagrigus.desc2"
+    "cobblemon.species.cofagrigus.desc"
   ],
   "preEvolution": "yamask",
   "evolutions": [],

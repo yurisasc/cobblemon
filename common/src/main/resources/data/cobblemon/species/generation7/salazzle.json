@@ -243,8 +243,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.salazzle.desc1",
-    "cobblemon.species.salazzle.desc2"
+    "cobblemon.species.salazzle.desc"
   ],
   "preEvolution": "salandit",
   "evolutions": [],

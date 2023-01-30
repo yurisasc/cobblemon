@@ -94,5 +94,8 @@
   "height": 4,
   "weight": 49,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.chiyu.desc"
+  ]
 }

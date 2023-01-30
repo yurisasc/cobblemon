@@ -126,8 +126,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.oddish.desc1",
-    "cobblemon.species.oddish.desc2"
+    "cobblemon.species.oddish.desc"
   ],
   "evolutions": [
     {
@@ -161,5 +160,6 @@
   },
   "height": 5,
   "weight": 54,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

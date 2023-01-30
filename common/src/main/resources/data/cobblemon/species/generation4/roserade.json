@@ -106,8 +106,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.roserade.desc1",
-    "cobblemon.species.roserade.desc2"
+    "cobblemon.species.roserade.desc"
   ],
   "preEvolution": "roselia",
   "evolutions": [],

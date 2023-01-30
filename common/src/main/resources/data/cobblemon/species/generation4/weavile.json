@@ -148,8 +148,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.weavile.desc1",
-    "cobblemon.species.weavile.desc2"
+    "cobblemon.species.weavile.desc"
   ],
   "preEvolution": "sneasel",
   "evolutions": [],

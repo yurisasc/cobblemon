@@ -185,8 +185,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.palkia.desc1",
-    "cobblemon.species.palkia.desc2"
+    "cobblemon.species.palkia.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

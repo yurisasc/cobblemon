@@ -86,8 +86,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.blitzle.desc1",
-    "cobblemon.species.blitzle.desc2"
+    "cobblemon.species.blitzle.desc"
   ],
   "evolutions": [
     {

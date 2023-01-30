@@ -42,8 +42,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.silcoon.desc1",
-    "cobblemon.species.silcoon.desc2"
+    "cobblemon.species.silcoon.desc"
   ],
   "preEvolution": "wurmple",
   "evolutions": [

@@ -113,8 +113,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.comfey.desc1",
-    "cobblemon.species.comfey.desc2"
+    "cobblemon.species.comfey.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

@@ -93,8 +93,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.klinklang.desc1",
-    "cobblemon.species.klinklang.desc2"
+    "cobblemon.species.klinklang.desc"
   ],
   "preEvolution": "klang",
   "evolutions": [],

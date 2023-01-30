@@ -134,6 +134,7 @@
       "weight": 160,
       "preEvolution": "koffing",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -264,8 +265,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.weezing.desc1",
-    "cobblemon.species.weezing.desc2"
+    "cobblemon.species.weezing.desc"
   ],
   "preEvolution": "koffing",
   "evolutions": [],
@@ -286,5 +286,6 @@
   },
   "height": 12,
   "weight": 95,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

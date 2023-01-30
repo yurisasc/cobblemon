@@ -109,8 +109,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.noibat.desc1",
-    "cobblemon.species.noibat.desc2"
+    "cobblemon.species.noibat.desc"
   ],
   "evolutions": [
     {

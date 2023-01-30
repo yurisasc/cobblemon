@@ -124,8 +124,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.slugma.desc1",
-    "cobblemon.species.slugma.desc2"
+    "cobblemon.species.slugma.desc"
   ],
   "evolutions": [
     {

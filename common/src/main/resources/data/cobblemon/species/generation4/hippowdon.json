@@ -105,8 +105,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.hippowdon.desc1",
-    "cobblemon.species.hippowdon.desc2"
+    "cobblemon.species.hippowdon.desc"
   ],
   "preEvolution": "hippopotas",
   "evolutions": [],

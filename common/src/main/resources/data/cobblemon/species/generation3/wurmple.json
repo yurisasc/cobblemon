@@ -36,8 +36,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.wurmple.desc1",
-    "cobblemon.species.wurmple.desc2"
+    "cobblemon.species.wurmple.desc"
   ],
   "evolutions": [
     {

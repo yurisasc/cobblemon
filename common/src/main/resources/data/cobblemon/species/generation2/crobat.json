@@ -130,8 +130,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.crobat.desc1",
-    "cobblemon.species.crobat.desc2"
+    "cobblemon.species.crobat.desc"
   ],
   "preEvolution": "golbat",
   "evolutions": [],

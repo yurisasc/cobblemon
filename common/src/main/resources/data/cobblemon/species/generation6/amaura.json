@@ -118,8 +118,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.amaura.desc1",
-    "cobblemon.species.amaura.desc2"
+    "cobblemon.species.amaura.desc"
   ],
   "evolutions": [
     {

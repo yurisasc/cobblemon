@@ -79,8 +79,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.silicobra.desc1",
-    "cobblemon.species.silicobra.desc2"
+    "cobblemon.species.silicobra.desc"
   ],
   "evolutions": [
     {

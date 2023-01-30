@@ -85,8 +85,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.vanillish.desc1",
-    "cobblemon.species.vanillish.desc2"
+    "cobblemon.species.vanillish.desc"
   ],
   "preEvolution": "vanillite",
   "evolutions": [

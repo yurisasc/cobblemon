@@ -191,8 +191,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.jigglypuff.desc1",
-    "cobblemon.species.jigglypuff.desc2"
+    "cobblemon.species.jigglypuff.desc"
   ],
   "preEvolution": "igglybuff",
   "evolutions": [
@@ -223,5 +222,6 @@
   },
   "height": 5,
   "weight": 55,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

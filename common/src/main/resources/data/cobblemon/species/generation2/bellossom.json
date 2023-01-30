@@ -109,8 +109,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.bellossom.desc1",
-    "cobblemon.species.bellossom.desc2"
+    "cobblemon.species.bellossom.desc"
   ],
   "preEvolution": "gloom",
   "evolutions": [],

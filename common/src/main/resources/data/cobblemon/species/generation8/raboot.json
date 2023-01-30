@@ -84,8 +84,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.raboot.desc1",
-    "cobblemon.species.raboot.desc2"
+    "cobblemon.species.raboot.desc"
   ],
   "preEvolution": "scorbunny",
   "evolutions": [

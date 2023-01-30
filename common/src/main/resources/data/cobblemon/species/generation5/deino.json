@@ -102,8 +102,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.deino.desc1",
-    "cobblemon.species.deino.desc2"
+    "cobblemon.species.deino.desc"
   ],
   "evolutions": [
     {

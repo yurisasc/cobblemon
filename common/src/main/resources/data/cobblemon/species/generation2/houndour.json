@@ -144,8 +144,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.houndour.desc1",
-    "cobblemon.species.houndour.desc2"
+    "cobblemon.species.houndour.desc"
   ],
   "evolutions": [
     {

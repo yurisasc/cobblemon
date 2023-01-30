@@ -113,8 +113,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.wingull.desc1",
-    "cobblemon.species.wingull.desc2"
+    "cobblemon.species.wingull.desc"
   ],
   "evolutions": [
     {

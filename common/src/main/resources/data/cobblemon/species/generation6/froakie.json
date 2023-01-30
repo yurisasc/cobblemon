@@ -112,8 +112,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.froakie.desc1",
-    "cobblemon.species.froakie.desc2"
+    "cobblemon.species.froakie.desc"
   ],
   "evolutions": [
     {

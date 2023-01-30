@@ -117,8 +117,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.sandile.desc1",
-    "cobblemon.species.sandile.desc2"
+    "cobblemon.species.sandile.desc"
   ],
   "evolutions": [
     {

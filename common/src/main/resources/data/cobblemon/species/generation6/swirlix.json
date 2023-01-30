@@ -92,8 +92,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.swirlix.desc1",
-    "cobblemon.species.swirlix.desc2"
+    "cobblemon.species.swirlix.desc"
   ],
   "evolutions": [
     {

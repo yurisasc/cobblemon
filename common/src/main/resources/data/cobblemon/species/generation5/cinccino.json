@@ -102,8 +102,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.cinccino.desc1",
-    "cobblemon.species.cinccino.desc2"
+    "cobblemon.species.cinccino.desc"
   ],
   "preEvolution": "minccino",
   "evolutions": [],

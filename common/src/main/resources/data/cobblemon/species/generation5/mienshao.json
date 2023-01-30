@@ -120,8 +120,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.mienshao.desc1",
-    "cobblemon.species.mienshao.desc2"
+    "cobblemon.species.mienshao.desc"
   ],
   "preEvolution": "mienfoo",
   "evolutions": [],

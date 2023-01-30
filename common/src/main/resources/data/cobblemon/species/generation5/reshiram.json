@@ -126,8 +126,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.reshiram.desc1",
-    "cobblemon.species.reshiram.desc2"
+    "cobblemon.species.reshiram.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

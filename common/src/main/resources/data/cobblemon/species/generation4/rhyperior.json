@@ -158,8 +158,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.rhyperior.desc1",
-    "cobblemon.species.rhyperior.desc2"
+    "cobblemon.species.rhyperior.desc"
   ],
   "preEvolution": "rhydon",
   "evolutions": [],

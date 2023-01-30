@@ -119,8 +119,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.phanpy.desc1",
-    "cobblemon.species.phanpy.desc2"
+    "cobblemon.species.phanpy.desc"
   ],
   "evolutions": [
     {

@@ -77,8 +77,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.arrokuda.desc1",
-    "cobblemon.species.arrokuda.desc2"
+    "cobblemon.species.arrokuda.desc"
   ],
   "evolutions": [
     {

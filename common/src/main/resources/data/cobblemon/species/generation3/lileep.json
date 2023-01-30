@@ -105,8 +105,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.lileep.desc1",
-    "cobblemon.species.lileep.desc2"
+    "cobblemon.species.lileep.desc"
   ],
   "evolutions": [
     {

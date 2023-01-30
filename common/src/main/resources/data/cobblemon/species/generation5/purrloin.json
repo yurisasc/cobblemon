@@ -108,8 +108,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.purrloin.desc1",
-    "cobblemon.species.purrloin.desc2"
+    "cobblemon.species.purrloin.desc"
   ],
   "evolutions": [
     {

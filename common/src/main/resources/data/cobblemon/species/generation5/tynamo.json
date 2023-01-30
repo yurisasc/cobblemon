@@ -36,8 +36,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.tynamo.desc1",
-    "cobblemon.species.tynamo.desc2"
+    "cobblemon.species.tynamo.desc"
   ],
   "evolutions": [
     {

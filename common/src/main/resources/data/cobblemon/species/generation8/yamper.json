@@ -71,8 +71,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.yamper.desc1",
-    "cobblemon.species.yamper.desc2"
+    "cobblemon.species.yamper.desc"
   ],
   "evolutions": [
     {

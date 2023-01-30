@@ -125,8 +125,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.gothita.desc1",
-    "cobblemon.species.gothita.desc2"
+    "cobblemon.species.gothita.desc"
   ],
   "evolutions": [
     {

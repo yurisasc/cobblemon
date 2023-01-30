@@ -147,8 +147,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.dragonair.desc1",
-    "cobblemon.species.dragonair.desc2"
+    "cobblemon.species.dragonair.desc"
   ],
   "preEvolution": "dratini",
   "evolutions": [
@@ -185,5 +184,6 @@
   },
   "height": 40,
   "weight": 165,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

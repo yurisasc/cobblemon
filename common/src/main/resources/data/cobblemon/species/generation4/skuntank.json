@@ -120,8 +120,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.skuntank.desc1",
-    "cobblemon.species.skuntank.desc2"
+    "cobblemon.species.skuntank.desc"
   ],
   "preEvolution": "stunky",
   "evolutions": [],

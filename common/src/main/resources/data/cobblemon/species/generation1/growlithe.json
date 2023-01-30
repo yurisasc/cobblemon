@@ -136,6 +136,7 @@
           "requiredContext": "cobblemon:fire_stone"
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -256,8 +257,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.growlithe.desc1",
-    "cobblemon.species.growlithe.desc2"
+    "cobblemon.species.growlithe.desc"
   ],
   "evolutions": [
     {
@@ -289,5 +289,6 @@
   },
   "height": 7,
   "weight": 190,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

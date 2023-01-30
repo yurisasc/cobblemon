@@ -105,8 +105,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.crabrawler.desc1",
-    "cobblemon.species.crabrawler.desc2"
+    "cobblemon.species.crabrawler.desc"
   ],
   "evolutions": [
     {

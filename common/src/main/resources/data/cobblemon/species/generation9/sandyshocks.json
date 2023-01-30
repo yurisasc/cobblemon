@@ -100,5 +100,8 @@
   "height": 23,
   "weight": 600,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.sandyshocks.desc"
+  ]
 }

@@ -102,8 +102,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.zweilous.desc1",
-    "cobblemon.species.zweilous.desc2"
+    "cobblemon.species.zweilous.desc"
   ],
   "preEvolution": "deino",
   "evolutions": [

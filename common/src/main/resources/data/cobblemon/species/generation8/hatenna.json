@@ -84,8 +84,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.hatenna.desc1",
-    "cobblemon.species.hatenna.desc2"
+    "cobblemon.species.hatenna.desc"
   ],
   "evolutions": [
     {

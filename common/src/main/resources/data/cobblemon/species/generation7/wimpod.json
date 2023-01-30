@@ -68,8 +68,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.wimpod.desc1",
-    "cobblemon.species.wimpod.desc2"
+    "cobblemon.species.wimpod.desc"
   ],
   "evolutions": [
     {

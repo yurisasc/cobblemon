@@ -340,8 +340,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.vivillon.desc1",
-    "cobblemon.species.vivillon.desc2"
+    "cobblemon.species.vivillon.desc"
   ],
   "preEvolution": "spewpa",
   "evolutions": [],

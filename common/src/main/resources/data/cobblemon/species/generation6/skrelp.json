@@ -104,8 +104,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.skrelp.desc1",
-    "cobblemon.species.skrelp.desc2"
+    "cobblemon.species.skrelp.desc"
   ],
   "evolutions": [
     {

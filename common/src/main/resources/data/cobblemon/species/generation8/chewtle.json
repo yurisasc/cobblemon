@@ -78,8 +78,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.chewtle.desc1",
-    "cobblemon.species.chewtle.desc2"
+    "cobblemon.species.chewtle.desc"
   ],
   "evolutions": [
     {

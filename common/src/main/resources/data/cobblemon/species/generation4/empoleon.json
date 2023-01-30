@@ -129,8 +129,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.empoleon.desc1",
-    "cobblemon.species.empoleon.desc2"
+    "cobblemon.species.empoleon.desc"
   ],
   "preEvolution": "prinplup",
   "evolutions": [],

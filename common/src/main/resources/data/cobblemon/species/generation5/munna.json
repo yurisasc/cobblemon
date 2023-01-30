@@ -113,8 +113,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.munna.desc1",
-    "cobblemon.species.munna.desc2"
+    "cobblemon.species.munna.desc"
   ],
   "evolutions": [
     {

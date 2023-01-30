@@ -89,8 +89,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.morelull.desc1",
-    "cobblemon.species.morelull.desc2"
+    "cobblemon.species.morelull.desc"
   ],
   "evolutions": [
     {

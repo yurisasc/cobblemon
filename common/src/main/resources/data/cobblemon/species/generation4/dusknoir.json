@@ -132,8 +132,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.dusknoir.desc1",
-    "cobblemon.species.dusknoir.desc2"
+    "cobblemon.species.dusknoir.desc"
   ],
   "preEvolution": "dusclops",
   "evolutions": [],

@@ -103,5 +103,8 @@
   "height": 18,
   "weight": 3807,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.ironhands.desc"
+  ]
 }

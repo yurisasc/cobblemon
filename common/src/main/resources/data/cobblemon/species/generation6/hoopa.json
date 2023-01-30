@@ -183,8 +183,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.hoopa.desc1",
-    "cobblemon.species.hoopa.desc2"
+    "cobblemon.species.hoopa.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

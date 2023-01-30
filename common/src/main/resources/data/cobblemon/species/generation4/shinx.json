@@ -107,8 +107,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.shinx.desc1",
-    "cobblemon.species.shinx.desc2"
+    "cobblemon.species.shinx.desc"
   ],
   "evolutions": [
     {

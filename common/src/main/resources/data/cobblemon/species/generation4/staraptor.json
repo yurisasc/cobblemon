@@ -95,8 +95,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.staraptor.desc1",
-    "cobblemon.species.staraptor.desc2"
+    "cobblemon.species.staraptor.desc"
   ],
   "preEvolution": "staravia",
   "evolutions": [],

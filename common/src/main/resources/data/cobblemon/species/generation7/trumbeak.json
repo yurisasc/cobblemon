@@ -80,8 +80,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.trumbeak.desc1",
-    "cobblemon.species.trumbeak.desc2"
+    "cobblemon.species.trumbeak.desc"
   ],
   "preEvolution": "pikipek",
   "evolutions": [

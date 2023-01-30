@@ -92,8 +92,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.litten.desc1",
-    "cobblemon.species.litten.desc2"
+    "cobblemon.species.litten.desc"
   ],
   "evolutions": [
     {

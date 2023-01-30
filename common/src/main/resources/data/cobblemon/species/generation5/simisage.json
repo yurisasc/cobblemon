@@ -94,8 +94,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.simisage.desc1",
-    "cobblemon.species.simisage.desc2"
+    "cobblemon.species.simisage.desc"
   ],
   "preEvolution": "pansage",
   "evolutions": [],

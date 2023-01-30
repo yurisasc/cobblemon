@@ -106,8 +106,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.throh.desc1",
-    "cobblemon.species.throh.desc2"
+    "cobblemon.species.throh.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

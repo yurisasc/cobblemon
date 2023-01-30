@@ -116,8 +116,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.ambipom.desc1",
-    "cobblemon.species.ambipom.desc2"
+    "cobblemon.species.ambipom.desc"
   ],
   "preEvolution": "aipom",
   "evolutions": [],

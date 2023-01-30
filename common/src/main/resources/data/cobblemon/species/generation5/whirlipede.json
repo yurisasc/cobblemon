@@ -85,8 +85,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.whirlipede.desc1",
-    "cobblemon.species.whirlipede.desc2"
+    "cobblemon.species.whirlipede.desc"
   ],
   "preEvolution": "venipede",
   "evolutions": [

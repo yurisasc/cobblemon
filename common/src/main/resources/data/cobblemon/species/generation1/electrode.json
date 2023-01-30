@@ -118,6 +118,7 @@
       "weight": 710,
       "preEvolution": "voltorb form=hisui",
       "evolutions": [],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -224,8 +225,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.electrode.desc1",
-    "cobblemon.species.electrode.desc2"
+    "cobblemon.species.electrode.desc"
   ],
   "preEvolution": "voltorb",
   "evolutions": [],
@@ -246,5 +246,6 @@
   },
   "height": 12,
   "weight": 666,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -151,8 +151,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.gastly.desc1",
-    "cobblemon.species.gastly.desc2"
+    "cobblemon.species.gastly.desc"
   ],
   "evolutions": [
     {
@@ -188,5 +187,6 @@
   },
   "height": 13,
   "weight": 1,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

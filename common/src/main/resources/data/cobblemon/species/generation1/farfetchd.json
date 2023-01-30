@@ -135,6 +135,7 @@
           ]
         }
       ],
+      "cannotDynamax": false,
       "battleOnly": false
     }
   ],
@@ -304,8 +305,7 @@
     "kanto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.farfetchd.desc1",
-    "cobblemon.species.farfetchd.desc2"
+    "cobblemon.species.farfetchd.desc"
   ],
   "baseScale": 1,
   "hitbox": {
@@ -325,5 +325,6 @@
   "height": 8,
   "weight": 150,
   "aspects": [],
-  "evolutions": []
+  "evolutions": [],
+  "cannotDynamax": false
 }

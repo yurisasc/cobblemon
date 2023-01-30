@@ -174,8 +174,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.aipom.desc1",
-    "cobblemon.species.aipom.desc2"
+    "cobblemon.species.aipom.desc"
   ],
   "evolutions": [
     {

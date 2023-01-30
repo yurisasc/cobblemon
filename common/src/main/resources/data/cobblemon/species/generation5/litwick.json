@@ -106,8 +106,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.litwick.desc1",
-    "cobblemon.species.litwick.desc2"
+    "cobblemon.species.litwick.desc"
   ],
   "evolutions": [
     {

@@ -150,8 +150,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.cinderace.desc1",
-    "cobblemon.species.cinderace.desc2"
+    "cobblemon.species.cinderace.desc"
   ],
   "preEvolution": "raboot",
   "evolutions": [],

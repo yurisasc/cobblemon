@@ -101,5 +101,8 @@
   "weight": 850,
   "preEvolution": "charcadet",
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.armarouge.desc"
+  ]
 }

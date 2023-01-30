@@ -133,8 +133,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.dusclops.desc1",
-    "cobblemon.species.dusclops.desc2"
+    "cobblemon.species.dusclops.desc"
   ],
   "preEvolution": "duskull",
   "evolutions": [

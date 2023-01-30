@@ -83,8 +83,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.thwackey.desc1",
-    "cobblemon.species.thwackey.desc2"
+    "cobblemon.species.thwackey.desc"
   ],
   "preEvolution": "grookey",
   "evolutions": [

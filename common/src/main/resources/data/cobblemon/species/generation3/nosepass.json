@@ -112,8 +112,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.nosepass.desc1",
-    "cobblemon.species.nosepass.desc2"
+    "cobblemon.species.nosepass.desc"
   ],
   "evolutions": [
     {

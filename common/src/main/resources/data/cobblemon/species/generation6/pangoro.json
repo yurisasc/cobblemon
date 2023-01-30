@@ -148,8 +148,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.pangoro.desc1",
-    "cobblemon.species.pangoro.desc2"
+    "cobblemon.species.pangoro.desc"
   ],
   "preEvolution": "pancham",
   "evolutions": [],

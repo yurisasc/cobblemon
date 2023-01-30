@@ -129,8 +129,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.spoink.desc1",
-    "cobblemon.species.spoink.desc2"
+    "cobblemon.species.spoink.desc"
   ],
   "evolutions": [
     {

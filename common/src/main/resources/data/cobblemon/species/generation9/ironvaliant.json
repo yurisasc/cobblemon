@@ -123,5 +123,8 @@
   "height": 14,
   "weight": 350,
   "evolutions": [],
-  "cannotDynamax": false
+  "cannotDynamax": false,
+  "pokedex": [
+    "cobblemon.species.ironvaliant.desc"
+  ]
 }

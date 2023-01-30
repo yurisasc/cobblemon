@@ -166,8 +166,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.tentacruel.desc1",
-    "cobblemon.species.tentacruel.desc2"
+    "cobblemon.species.tentacruel.desc"
   ],
   "preEvolution": "tentacool",
   "evolutions": [],
@@ -188,5 +187,6 @@
   },
   "height": 16,
   "weight": 550,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

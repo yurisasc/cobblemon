@@ -179,8 +179,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.dialga.desc1",
-    "cobblemon.species.dialga.desc2"
+    "cobblemon.species.dialga.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

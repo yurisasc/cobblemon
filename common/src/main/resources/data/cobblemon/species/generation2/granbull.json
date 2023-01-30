@@ -166,8 +166,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.granbull.desc1",
-    "cobblemon.species.granbull.desc2"
+    "cobblemon.species.granbull.desc"
   ],
   "preEvolution": "snubbull",
   "evolutions": [],

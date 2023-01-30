@@ -169,8 +169,7 @@
     "gen1"
   ],
   "pokedex": [
-    "cobblemon.species.electabuzz.desc1",
-    "cobblemon.species.electabuzz.desc2"
+    "cobblemon.species.electabuzz.desc"
   ],
   "preEvolution": "elekid",
   "evolutions": [
@@ -205,5 +204,6 @@
   },
   "height": 11,
   "weight": 300,
-  "aspects": []
+  "aspects": [],
+  "cannotDynamax": false
 }

@@ -90,8 +90,7 @@
     "gen7"
   ],
   "pokedex": [
-    "cobblemon.species.torracat.desc1",
-    "cobblemon.species.torracat.desc2"
+    "cobblemon.species.torracat.desc"
   ],
   "preEvolution": "litten",
   "evolutions": [

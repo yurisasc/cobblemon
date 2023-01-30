@@ -256,8 +256,7 @@
     "johto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.typhlosion.desc1",
-    "cobblemon.species.typhlosion.desc2"
+    "cobblemon.species.typhlosion.desc"
   ],
   "preEvolution": "quilava",
   "evolutions": [],

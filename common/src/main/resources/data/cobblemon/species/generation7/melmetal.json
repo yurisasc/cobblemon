@@ -161,8 +161,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.melmetal.desc1",
-    "cobblemon.species.melmetal.desc2"
+    "cobblemon.species.melmetal.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

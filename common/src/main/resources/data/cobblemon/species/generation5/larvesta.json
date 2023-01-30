@@ -98,8 +98,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.larvesta.desc1",
-    "cobblemon.species.larvesta.desc2"
+    "cobblemon.species.larvesta.desc"
   ],
   "evolutions": [
     {

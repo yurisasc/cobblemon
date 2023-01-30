@@ -273,8 +273,7 @@
     "johto_regional"
   ],
   "pokedex": [
-    "cobblemon.species.qwilfish.desc1",
-    "cobblemon.species.qwilfish.desc2"
+    "cobblemon.species.qwilfish.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

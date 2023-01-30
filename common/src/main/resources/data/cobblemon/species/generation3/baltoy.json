@@ -119,8 +119,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.baltoy.desc1",
-    "cobblemon.species.baltoy.desc2"
+    "cobblemon.species.baltoy.desc"
   ],
   "evolutions": [
     {

@@ -135,8 +135,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.ledian.desc1",
-    "cobblemon.species.ledian.desc2"
+    "cobblemon.species.ledian.desc"
   ],
   "preEvolution": "ledyba",
   "evolutions": [],

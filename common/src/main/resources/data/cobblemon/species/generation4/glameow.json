@@ -106,8 +106,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.glameow.desc1",
-    "cobblemon.species.glameow.desc2"
+    "cobblemon.species.glameow.desc"
   ],
   "evolutions": [
     {

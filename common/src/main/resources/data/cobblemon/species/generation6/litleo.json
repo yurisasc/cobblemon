@@ -106,8 +106,7 @@
     "gen6"
   ],
   "pokedex": [
-    "cobblemon.species.litleo.desc1",
-    "cobblemon.species.litleo.desc2"
+    "cobblemon.species.litleo.desc"
   ],
   "evolutions": [
     {

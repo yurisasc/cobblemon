@@ -131,8 +131,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.ariados.desc1",
-    "cobblemon.species.ariados.desc2"
+    "cobblemon.species.ariados.desc"
   ],
   "preEvolution": "spinarak",
   "evolutions": [],

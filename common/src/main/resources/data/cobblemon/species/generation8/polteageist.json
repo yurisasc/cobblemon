@@ -133,8 +133,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.polteageist.desc1",
-    "cobblemon.species.polteageist.desc2"
+    "cobblemon.species.polteageist.desc"
   ],
   "preEvolution": "sinistea",
   "evolutions": [],

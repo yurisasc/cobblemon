@@ -131,8 +131,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.riolu.desc1",
-    "cobblemon.species.riolu.desc2"
+    "cobblemon.species.riolu.desc"
   ],
   "evolutions": [
     {

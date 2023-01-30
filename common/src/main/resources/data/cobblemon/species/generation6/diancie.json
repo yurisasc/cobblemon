@@ -176,8 +176,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.diancie.desc1",
-    "cobblemon.species.diancie.desc2"
+    "cobblemon.species.diancie.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

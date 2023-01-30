@@ -178,8 +178,7 @@
     "gen8"
   ],
   "pokedex": [
-    "cobblemon.species.cramorant.desc1",
-    "cobblemon.species.cramorant.desc2"
+    "cobblemon.species.cramorant.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

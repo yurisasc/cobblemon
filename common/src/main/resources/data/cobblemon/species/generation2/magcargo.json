@@ -130,8 +130,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.magcargo.desc1",
-    "cobblemon.species.magcargo.desc2"
+    "cobblemon.species.magcargo.desc"
   ],
   "preEvolution": "slugma",
   "evolutions": [],

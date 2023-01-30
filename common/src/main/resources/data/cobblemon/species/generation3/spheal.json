@@ -108,8 +108,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.spheal.desc1",
-    "cobblemon.species.spheal.desc2"
+    "cobblemon.species.spheal.desc"
   ],
   "evolutions": [
     {

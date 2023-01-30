@@ -178,8 +178,7 @@
     "gen2"
   ],
   "pokedex": [
-    "cobblemon.species.blissey.desc1",
-    "cobblemon.species.blissey.desc2"
+    "cobblemon.species.blissey.desc"
   ],
   "preEvolution": "chansey",
   "evolutions": [],

@@ -133,8 +133,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.mudkip.desc1",
-    "cobblemon.species.mudkip.desc2"
+    "cobblemon.species.mudkip.desc"
   ],
   "evolutions": [
     {

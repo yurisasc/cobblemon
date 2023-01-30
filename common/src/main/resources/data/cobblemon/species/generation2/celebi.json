@@ -152,8 +152,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.celebi.desc1",
-    "cobblemon.species.celebi.desc2"
+    "cobblemon.species.celebi.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

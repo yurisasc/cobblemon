@@ -214,8 +214,7 @@
     "gen3"
   ],
   "pokedex": [
-    "cobblemon.species.blaziken.desc1",
-    "cobblemon.species.blaziken.desc2"
+    "cobblemon.species.blaziken.desc"
   ],
   "preEvolution": "combusken",
   "evolutions": [],

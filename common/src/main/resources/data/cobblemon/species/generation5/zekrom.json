@@ -127,8 +127,7 @@
     "legendary"
   ],
   "pokedex": [
-    "cobblemon.species.zekrom.desc1",
-    "cobblemon.species.zekrom.desc2"
+    "cobblemon.species.zekrom.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

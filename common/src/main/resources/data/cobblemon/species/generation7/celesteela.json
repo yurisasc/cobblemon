@@ -103,8 +103,7 @@
     "ultra_beast"
   ],
   "pokedex": [
-    "cobblemon.species.celesteela.desc1",
-    "cobblemon.species.celesteela.desc2"
+    "cobblemon.species.celesteela.desc"
   ],
   "evolutions": [],
   "baseScale": 1,

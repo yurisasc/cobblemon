@@ -41,8 +41,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.kricketot.desc1",
-    "cobblemon.species.kricketot.desc2"
+    "cobblemon.species.kricketot.desc"
   ],
   "evolutions": [
     {

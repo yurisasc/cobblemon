@@ -120,8 +120,7 @@
     "gen4"
   ],
   "pokedex": [
-    "cobblemon.species.floatzel.desc1",
-    "cobblemon.species.floatzel.desc2"
+    "cobblemon.species.floatzel.desc"
   ],
   "preEvolution": "buizel",
   "evolutions": [],

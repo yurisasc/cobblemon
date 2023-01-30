@@ -91,8 +91,7 @@
     "gen5"
   ],
   "pokedex": [
-    "cobblemon.species.eelektrik.desc1",
-    "cobblemon.species.eelektrik.desc2"
+    "cobblemon.species.eelektrik.desc"
   ],
   "preEvolution": "tynamo",
   "evolutions": [

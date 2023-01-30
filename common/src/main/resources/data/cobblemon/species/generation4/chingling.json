@@ -106,8 +106,7 @@
     "baby"
   ],
   "pokedex": [
-    "cobblemon.species.chingling.desc1",
-    "cobblemon.species.chingling.desc2"
+    "cobblemon.species.chingling.desc"
   ],
   "evolutions": [
     {
