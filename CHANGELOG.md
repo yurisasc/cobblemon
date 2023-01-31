@@ -55,6 +55,7 @@
 - Fixed datapack Pokémon not being able to battle.
 - Fixed datapack Pokémon lang key generation, a Pokémon under the namespace ``example`` named ``Pogemon`` will now correctly look for the lang key ``example.species.pogemon.name``.
 - Fixed missing lang and interpretation for bide.
+- Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
