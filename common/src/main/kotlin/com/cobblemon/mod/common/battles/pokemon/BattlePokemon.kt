@@ -60,6 +60,11 @@ open class BattlePokemon(
     val facedOpponents = mutableSetOf<BattlePokemon>()
 
     /**
+     * A counter of critical hits during this battle, this is used for an evolution requirement.
+     */
+    var criticalHits: Int = 0
+
+    /**
      * The [HeldItemManager] backing this [BattlePokemon].
      */
     lateinit var heldItemManager: HeldItemManager

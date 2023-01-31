@@ -9,8 +9,11 @@
 package com.cobblemon.mod.common.config
 
 import com.cobblemon.mod.common.api.drop.ItemDropMethod
+import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.config.constraint.IntConstraint
+import com.cobblemon.mod.common.pokeball.catching.calculators.CobblemonCaptureCalculator
+import com.cobblemon.mod.common.util.adapters.CaptureCalculatorAdapter
 import com.cobblemon.mod.common.util.adapters.IntRangeAdapter
 import com.google.gson.GsonBuilder
 
@@ -21,6 +24,7 @@ class CobblemonConfig {
             .setPrettyPrinting()
             .registerTypeAdapter(IntRange::class.java, IntRangeAdapter)
             .registerTypeAdapter(ItemDropMethod::class.java, ItemDropMethod.adapter)
+            .registerTypeAdapter(CaptureCalculator::class.java, CaptureCalculatorAdapter)
             .create()
     }
 
@@ -170,5 +174,8 @@ class CobblemonConfig {
 
     @NodeCategory(Category.World)
     var apricornSeedChance = 0.1
+
+    @NodeCategory(Category.Pokemon)
+    var captureCalculator: CaptureCalculator = CobblemonCaptureCalculator
 
 }

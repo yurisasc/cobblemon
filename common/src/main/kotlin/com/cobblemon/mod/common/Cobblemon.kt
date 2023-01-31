@@ -29,7 +29,8 @@ import com.cobblemon.mod.common.api.net.serializers.StringSetDataSerializer
 import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.permission.PermissionValidator
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
-import com.cobblemon.mod.common.api.pokeball.catching.calculators.CobblemonGen348CaptureCalculator
+import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculators
+import com.cobblemon.mod.common.pokeball.catching.calculators.CobblemonCaptureCalculator
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceCalculator
@@ -37,7 +38,6 @@ import com.cobblemon.mod.common.api.pokemon.experience.ExperienceGroups
 import com.cobblemon.mod.common.api.pokemon.experience.StandardExperienceCalculator
 import com.cobblemon.mod.common.api.pokemon.feature.ChoiceSpeciesFeatureProvider
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeatureProvider
-import com.cobblemon.mod.common.api.pokemon.feature.GlobalSpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider
 import com.cobblemon.mod.common.api.pokemon.stats.EvCalculator
@@ -84,9 +84,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.aspects.GENDER_ASPECT
 import com.cobblemon.mod.common.pokemon.aspects.SHINY_ASPECT
 import com.cobblemon.mod.common.pokemon.evolution.variants.BlockClickEvolution
-import com.cobblemon.mod.common.pokemon.feature.BattleCriticalHitsFeature
-import com.cobblemon.mod.common.pokemon.feature.DamageTakenFeature
-import com.cobblemon.mod.common.pokemon.feature.TagSeasonResolver
+import com.cobblemon.mod.common.pokemon.feature.*
 import com.cobblemon.mod.common.pokemon.helditem.CobblemonHeldItemManager
 import com.cobblemon.mod.common.pokemon.properties.HiddenAbilityPropertyType
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty
@@ -101,7 +99,7 @@ import com.cobblemon.mod.common.util.ifDedicatedServer
 import com.cobblemon.mod.common.util.isLaterVersion
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.removeAmountIf
-import com.cobblemon.mod.common.world.CobblemonGameRules
+import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
 import com.cobblemon.mod.common.world.feature.CobblemonOrePlacedFeatures
 import com.cobblemon.mod.common.world.placement.CobblemonPlacementTypes
 import dev.architectury.event.EventResult
@@ -132,7 +130,12 @@ object Cobblemon {
     val LOGGER = LogManager.getLogger()
 
     lateinit var implementation: CobblemonImplementation
-    var captureCalculator: CaptureCalculator = CobblemonGen348CaptureCalculator
+    @Deprecated("This field is now a config value", ReplaceWith("Cobblemon.config.captureCalculator"))
+    var captureCalculator: CaptureCalculator
+        get() = this.config.captureCalculator
+        set(value) {
+            this.config.captureCalculator = value
+        }
     var experienceCalculator: ExperienceCalculator = StandardExperienceCalculator
     var evYieldCalculator: EvCalculator = Generation8EvCalculator
     var starterHandler: StarterHandler = CobblemonStarterHandler()
@@ -169,6 +172,7 @@ object Cobblemon {
         CobblemonSounds.register()
         CobblemonFeatures.register()
         CobblemonGameRules.register()
+        CaptureCalculators.registerDefaults()
         CobblemonParticles.register()
 
         ShoulderEffectRegistry.register()
@@ -184,6 +188,7 @@ object Cobblemon {
             BattleRegistry.getBattleByParticipatingPlayer(it)?.stop()
         }
         LIVING_DEATH.pipe(filter { it is ServerPlayerEntity }, map { it as ServerPlayerEntity }).subscribe {
+            PCLinkManager.removeLink(it.uuid)
             battleRegistry.getBattleByParticipatingPlayer(it)?.stop()
         }
 
@@ -224,9 +229,6 @@ object Cobblemon {
 
         SpeciesFeatures.types["choice"] = ChoiceSpeciesFeatureProvider::class.java
         SpeciesFeatures.types["flag"] = FlagSpeciesFeatureProvider::class.java
-
-        GlobalSpeciesFeatures.register(DamageTakenFeature.ID) { DamageTakenFeature() }
-        GlobalSpeciesFeatures.register(BattleCriticalHitsFeature.ID) { BattleCriticalHitsFeature() }
 
         CustomPokemonProperty.register(UntradeableProperty)
         CustomPokemonProperty.register(UncatchableProperty)
