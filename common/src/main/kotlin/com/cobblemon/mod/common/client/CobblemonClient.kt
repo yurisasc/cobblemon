@@ -18,6 +18,7 @@ import com.cobblemon.mod.common.client.battle.ClientBattle
 import com.cobblemon.mod.common.client.gui.PartyOverlay
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay
 import com.cobblemon.mod.common.client.net.ClientPacketRegistrar
+import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.client.render.block.HealingMachineRenderer
 import com.cobblemon.mod.common.client.render.item.CobblemonBuiltinItemRendererRegistry
 import com.cobblemon.mod.common.client.render.item.PokemonItemRenderer
@@ -30,11 +31,14 @@ import com.cobblemon.mod.common.client.render.pokemon.PokemonRenderer
 import com.cobblemon.mod.common.client.starter.ClientPlayerData
 import com.cobblemon.mod.common.client.storage.ClientStorageManager
 import com.cobblemon.mod.common.data.CobblemonDataProvider
+import com.cobblemon.mod.common.particle.CobblemonParticles
+import com.cobblemon.mod.common.particle.SnowstormParticleType
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_JOIN
 import dev.architectury.event.events.client.ClientPlayerEvent.CLIENT_PLAYER_QUIT
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry
 import dev.architectury.registry.client.rendering.RenderTypeRegistry
+import net.minecraft.client.MinecraftClient
 import net.minecraft.client.color.block.BlockColorProvider
 import net.minecraft.client.color.item.ItemColorProvider
 import net.minecraft.client.render.RenderLayer
@@ -93,6 +97,9 @@ object CobblemonClient {
         registerColors()
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
+        CobblemonParticles.completed.thenAccept {
+            implementation.registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE_TYPE.get(), SnowstormParticleType::Factory)
+        }
     }
 
     fun registerColors() {

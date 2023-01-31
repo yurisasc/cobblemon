@@ -32,6 +32,7 @@ import com.cobblemon.mod.common.net.messages.client.data.AbilityRegistrySyncPack
 import com.cobblemon.mod.common.net.messages.client.data.MovesRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.PropertiesCompletionRegistrySyncPacket
 import com.cobblemon.mod.common.net.messages.client.data.SpeciesRegistrySyncPacket
+import com.cobblemon.mod.common.net.messages.client.effect.SpawnSnowstormParticlePacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.AddEvolutionPacket
 import com.cobblemon.mod.common.net.messages.client.pokemon.update.evolution.ClearEvolutionsPacket
@@ -196,6 +197,9 @@ object CobblemonNetwork {
         buildClientMessage<MovesRegistrySyncPacket>()
         buildClientMessage<SpeciesRegistrySyncPacket>()
         buildClientMessage<PropertiesCompletionRegistrySyncPacket>()
+
+        // Effects
+        buildClientMessage<SpawnSnowstormParticlePacket>()
 
         // Hax
         buildClientMessage<UnvalidatedPlaySoundS2CPacket>()

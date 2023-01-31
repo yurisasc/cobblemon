@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.api.snowstorm
 
 import com.bedrockk.molang.Expression
@@ -5,16 +13,14 @@ import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.ast.NumberExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.codec.CodecMapped
-import com.cobblemon.mod.common.api.serialization.ClassMapAdapter
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
-import com.cobblemon.mod.common.util.getFromJSON
+import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.resolveDouble
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import kotlin.reflect.jvm.internal.impl.types.model.DynamicTypeMarker
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Vec3d
 
@@ -83,20 +89,30 @@ class DynamicParticleMotion(
         return if (drag.length() > nextVelocity.length()) {
             Vec3d.ZERO
         } else {
-            nextVelocity.subtract(drag)
+            nextVelocity.subtract(drag).subtract(velocity)
         }
     }
 
-    override fun <T> encode(ops: DynamicOps<T>): DataResult<T> {
-        TODO("Not yet implemented")
-    }
+    override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
 
     override fun readFromBuffer(buffer: PacketByteBuf) {
-        TODO("Not yet implemented")
+        direction = ParticleMotionDirection.readFromBuffer(buffer)
+        speed = MoLang.createParser(buffer.readString()).parseExpression()
+        acceleration = Triple(
+            MoLang.createParser(buffer.readString()).parseExpression(),
+            MoLang.createParser(buffer.readString()).parseExpression(),
+            MoLang.createParser(buffer.readString()).parseExpression()
+        )
+        drag = MoLang.createParser(buffer.readString()).parseExpression()
     }
 
     override fun writeToBuffer(buffer: PacketByteBuf) {
-        TODO("Not yet implemented")
+        ParticleMotionDirection.writeToBuffer(buffer, direction)
+        buffer.writeString(speed.getString())
+        buffer.writeString(acceleration.first.getString())
+        buffer.writeString(acceleration.second.getString())
+        buffer.writeString(acceleration.third.getString())
+        buffer.writeString(drag.getString())
     }
 }
 
@@ -106,13 +122,11 @@ interface ParticleMotionDirection : CodecMapped {
         stringFromKey = { it.name },
         keyFromValue = { it.type }
     ) {
-        val directions = mutableMapOf<ParticleMotionDirectionType, Class<out ParticleMotionDirection>>()
-        val adapter = ClassMapAdapter(directions) { ParticleMotionDirectionType.values().getFromJSON(it, "type") }
-
         init {
-            directions[ParticleMotionDirectionType.INWARDS] = InwardsMotionDirection::class.java
-            directions[ParticleMotionDirectionType.OUTWARDS] = OutwardsMotionDirection::class.java
-            directions[ParticleMotionDirectionType.CUSTOM] = CustomMotionDirection::class.java
+            // class map adapter
+            registerSubtype(ParticleMotionDirectionType.INWARDS, InwardsMotionDirection::class.java, InwardsMotionDirection.CODEC)
+            registerSubtype(ParticleMotionDirectionType.OUTWARDS, OutwardsMotionDirection::class.java, OutwardsMotionDirection.CODEC)
+            registerSubtype(ParticleMotionDirectionType.CUSTOM, CustomMotionDirection::class.java, CustomMotionDirection.CODEC)
         }
     }
     val type: ParticleMotionDirectionType
@@ -143,7 +157,9 @@ class OutwardsMotionDirection : ParticleMotionDirection {
     }
 
     override val type = ParticleMotionDirectionType.OUTWARDS
-    override fun getDirectionVector(runtime: MoLangRuntime, emitterPos: Vec3d, particlePos: Vec3d) = particlePos.subtract(emitterPos).normalize()
+    override fun getDirectionVector(runtime: MoLangRuntime, emitterPos: Vec3d, particlePos: Vec3d): Vec3d {
+        return particlePos.subtract(emitterPos).normalize()
+    }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
     override fun readFromBuffer(buffer: PacketByteBuf) {}
@@ -188,9 +204,9 @@ class CustomMotionDirection(
     }
 
     override fun writeToBuffer(buffer: PacketByteBuf) {
-        buffer.writeString(direction.first.attributes["string"] as String)
-        buffer.writeString(direction.second.attributes["string"] as String)
-        buffer.writeString(direction.third.attributes["string"] as String)
+        buffer.writeString(direction.first.getString())
+        buffer.writeString(direction.second.getString())
+        buffer.writeString(direction.third.getString())
     }
 }
 

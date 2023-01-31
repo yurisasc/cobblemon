@@ -22,7 +22,7 @@ object CobblemonFabric : CobblemonImplementation {
     override fun isModInstalled(id: String) = FabricLoader.getInstance().isModLoaded(id)
     fun initialize() {
         CobblemonNetwork.networkDelegate = CobblemonFabricNetworkDelegate
-        Cobblemon.preinitialize(this)
+        Cobblemon.preInitialize(this)
 
         CobblemonConfiguredFeatures.register()
         CobblemonPlacements.register()

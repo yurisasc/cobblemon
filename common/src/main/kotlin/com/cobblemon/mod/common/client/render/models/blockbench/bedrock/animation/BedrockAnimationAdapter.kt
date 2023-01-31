@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.client.render.models.blockbench.bedrock.animation
 
+import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.parser.MoLangParser
 import com.bedrockk.molang.parser.tokenizer.TokenIterator
 import com.bedrockk.molang.runtime.MoLangRuntime
@@ -76,9 +77,9 @@ object BedrockAnimationAdapter : JsonDeserializer<BedrockAnimation> {
     fun deserializeMolangBoneValue(array: JsonArray, transformation: Transformation): MolangBoneValue {
         try {
             return MolangBoneValue(
-                x = MoLangParser(TokenIterator(cleanExpression(array[0].asString))).parseExpression(),
-                y = MoLangParser(TokenIterator(cleanExpression(array[1].asString))).parseExpression(),
-                z = MoLangParser(TokenIterator(cleanExpression(array[2].asString))).parseExpression(),
+                x = MoLang.createParser(cleanExpression(array[0].asString)).parseExpression(),
+                y = MoLang.createParser(cleanExpression(array[1].asString)).parseExpression(),
+                z = MoLang.createParser(cleanExpression(array[2].asString)).parseExpression(),
                 transformation = transformation
             )
         } catch (e: Exception) {

@@ -17,12 +17,20 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.function.Supplier
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
+import net.fabricmc.fabric.api.client.particle.v1.FabricSpriteProvider
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener
 import net.minecraft.client.model.TexturedModelData
+import net.minecraft.client.particle.ParticleFactory
+import net.minecraft.client.particle.SpriteProvider
 import net.minecraft.client.render.entity.model.EntityModelLayer
+import net.minecraft.client.texture.Sprite
+import net.minecraft.client.texture.SpriteAtlasTexture
+import net.minecraft.particle.ParticleEffect
+import net.minecraft.particle.ParticleType
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.ResourceType
 
@@ -42,5 +50,9 @@ class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation
 
     override fun registerLayer(modelLayer: EntityModelLayer, supplier: Supplier<TexturedModelData>) {
         EntityModelLayerRegistry.registerModelLayer(modelLayer) { supplier.get() }
+    }
+
+    override fun <T : ParticleEffect> registerParticleFactory(type: ParticleType<T>, factory: (SpriteProvider) -> ParticleFactory<T>) {
+        ParticleFactoryRegistry.getInstance().register(type, ParticleFactoryRegistry.PendingParticleFactory { factory(it) })
     }
 }

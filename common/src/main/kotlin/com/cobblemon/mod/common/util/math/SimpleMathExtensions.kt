@@ -14,6 +14,7 @@ import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.random.Random
+import net.minecraft.util.math.Matrix3f
 import net.minecraft.util.math.Vec3d
 
 infix fun Int.pow(power: Int): Int {
@@ -82,32 +83,26 @@ fun Double.remap(start: DoubleRange, end: DoubleRange): Double{
 
 
 
-class FloatRange(override val start: Float, override val endInclusive: Float) : ClosedFloatingPointRange<Float>, Iterable<Float> {
+class FloatRange(override val start: Float, override val endInclusive: Float) : ClosedFloatingPointRange<Float> {
     override fun contains(value: Float): Boolean = value in start..endInclusive
     override fun isEmpty(): Boolean = start > endInclusive
     override fun lessThanOrEquals(a: Float, b: Float): Boolean {
-        TODO("Not yet implemented")
+        return a <= b
     }
     override fun equals(other: Any?): Boolean = other is FloatRange && start == other.start && endInclusive == other.endInclusive
     override fun hashCode(): Int = 31 * start.hashCode() + endInclusive.hashCode()
-    override fun iterator(): Iterator<Float> {
-        TODO("Not yet implemented")
-    }
 
     override fun toString(): String = "$start..$endInclusive"
 }
 
-class DoubleRange(override val start: Double, override val endInclusive: Double) : ClosedFloatingPointRange<Double>, Iterable<Double> {
+class DoubleRange(override val start: Double, override val endInclusive: Double) : ClosedFloatingPointRange<Double> {
     override fun contains(value: Double): Boolean = value in start..endInclusive
     override fun isEmpty(): Boolean = start > endInclusive
     override fun lessThanOrEquals(a: Double, b: Double): Boolean {
-        TODO("Not yet implemented")
+        return a <= b
     }
     override fun equals(other: Any?): Boolean = other is DoubleRange && start == other.start && endInclusive == other.endInclusive
     override fun hashCode(): Int = 31 * start.hashCode() + endInclusive.hashCode()
-    override fun iterator(): Iterator<Double> {
-        TODO("Not yet implemented")
-    }
 
     override fun toString(): String = "$start..$endInclusive"
 }
@@ -117,3 +112,45 @@ fun convertSphericalToCartesian(radius: Double, theta: Double, psi: Double): Vec
     radius * sin(theta) * sin(psi),
     radius * cos(psi)
 )
+
+/** Based on [this answer](https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d) */
+fun getRotationMatrix(from: Vec3d, to: Vec3d): Matrix3f {
+    val v = from.crossProduct(to)
+    val c = from.dotProduct(to)
+
+    val identity = Matrix3f()
+    identity.loadIdentity()
+
+    if (c == -1.0) {
+        identity.multiply(-1F)
+        return identity
+    } else if (c == 1.0) {
+        return identity
+    }
+
+    val vx = Matrix3f()
+    vx.set(0, 1, -v.z.toFloat())
+    vx.set(0, 2, v.y.toFloat())
+    vx.set(1, 0, v.z.toFloat())
+    vx.set(1, 2, -v.x.toFloat())
+    vx.set(2, 0, -v.y.toFloat())
+    vx.set(2, 1, v.x.toFloat())
+
+    val vx2 = Matrix3f(vx)
+    vx2.multiply(vx2)
+
+    val r = Matrix3f(identity)
+    vx2.multiply((1 / (1 + c)).toFloat())
+    r.add(vx)
+    r.add(vx2)
+
+    return r
+}
+
+operator fun Matrix3f.times(vec3d: Vec3d): Vec3d {
+    return Vec3d(
+        a00 * vec3d.x + a01 * vec3d.y + a02 * vec3d.z,
+        a10 * vec3d.x + a11 * vec3d.y + a12 * vec3d.z,
+        a20 * vec3d.x + a21 * vec3d.y + a22 * vec3d.z
+    )
+}

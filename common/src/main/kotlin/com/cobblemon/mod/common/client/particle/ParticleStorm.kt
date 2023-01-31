@@ -1,16 +1,26 @@
+/*
+ * Copyright (C) 2022 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.particle
 
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.struct.VariableStruct
 import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
+import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
 import com.cobblemon.mod.common.client.render.SnowstormParticle
+import com.cobblemon.mod.common.particle.SnowstormParticleEffect
+import com.mojang.serialization.JsonOps
 import kotlin.random.Random
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.NoRenderParticle
-import net.minecraft.client.particle.Particle
 import net.minecraft.client.world.ClientWorld
-import net.minecraft.particle.ParticleEffect
-import net.minecraft.particle.ParticleTypes
+import net.minecraft.entity.Entity
 
 /**
  * An instance of a bedrock particle effect.
@@ -23,38 +33,82 @@ class ParticleStorm(
     val origin: SnowstormParticleOrigin,
     val world: ClientWorld
 ): NoRenderParticle(world, origin.position.x, origin.position.y, origin.position.z) {
-    val runtime = MoLangRuntime()
+    val runtime = MoLangRuntime().also {
+        it.environment.structs["variable"] = VariableStruct()
+    }
     val particles = mutableListOf<SnowstormParticle>()
     var started = false
-    var stormAge = 0F
+    var emitterAge = 0.0
+    var stopped = false
+
+    var entity: Entity? = null
+
+    companion object {
+        val stormRegistry = mutableMapOf<BedrockParticleEffect, ParticleStorm>()
+    }
+
+    val particleEffect = SnowstormParticleEffect(effect)
+
+    init {
+        val codec = BedrockParticleEffect.CODEC
+        codec.encodeStart(JsonOps.INSTANCE, effect).map { println(it.toString()) }
+        stormRegistry[effect] = this
+        runtime.execute(effect.emitter.startExpressions)
+    }
+
+    override fun getMaxAge(): Int {
+        return if (stopped) 0.also {
+            stormRegistry.remove(effect)
+        } else Int.MAX_VALUE
+    }
 
     override fun tick() {
+        setMaxAge(getMaxAge())
         super.tick()
+
         val pos = origin.position
         x = pos.x
         y = pos.y
         z = pos.z
 
-        val delta = MinecraftClient.getInstance().tickDelta / 20
-        runtime.environment.setValue("variable.emitter_random_1", DoubleValue(Random.Default.nextDouble()))
-        runtime.environment.setValue("variable.emitter_random_2", DoubleValue(Random.Default.nextDouble()))
-        runtime.environment.setValue("variable.emitter_random_3", DoubleValue(Random.Default.nextDouble()))
-        runtime.environment.setValue("variable.emitter_random_4", DoubleValue(Random.Default.nextDouble()))
-        stormAge += delta
-        val toEmit = effect.emitter.rate.getEmitCount(runtime, particles.size, delta)
-        repeat(times = toEmit) {
-            spawnParticle()
+        val delta = MinecraftClient.getInstance().tickDelta / 50
+        runtime.environment.setSimpleVariable("emitter_random_1", DoubleValue(Random.Default.nextDouble()))
+        runtime.environment.setSimpleVariable("emitter_random_2", DoubleValue(Random.Default.nextDouble()))
+        runtime.environment.setSimpleVariable("emitter_random_3", DoubleValue(Random.Default.nextDouble()))
+        runtime.environment.setSimpleVariable("emitter_random_4", DoubleValue(Random.Default.nextDouble()))
+        emitterAge += delta
+        runtime.environment.setSimpleVariable("emitter_age", DoubleValue(emitterAge))
+        runtime.execute(effect.emitter.updateExpressions)
+
+
+        when (effect.emitter.lifetime.getAction(runtime, started, emitterAge)) {
+            ParticleEmitterAction.GO -> {
+                started = true
+                val toEmit = effect.emitter.rate.getEmitCount(runtime, particles.size, delta)
+                repeat(times = toEmit) {
+                    spawnParticle()
+                }
+            }
+            ParticleEmitterAction.NOTHING -> {}
+            ParticleEmitterAction.STOP -> stopped = true
+            ParticleEmitterAction.RESET -> started = false
         }
     }
 
     fun spawnParticle() {
-        val center = effect.emitter.shape.getCenter(runtime)
-        val newPosition = effect.emitter.shape.getNewParticlePosition(runtime).add(x, y, z)
-        val velocity = effect.particle.motion.getInitialVelocity(runtime, newPosition, center)
-        val particle = SnowstormParticle(this, world, x, y, z, velocity)
+        runtime.environment.setSimpleVariable("particle_random_1", DoubleValue(Random.Default.nextDouble()))
+        runtime.environment.setSimpleVariable("particle_random_2", DoubleValue(Random.Default.nextDouble()))
+        runtime.environment.setSimpleVariable("particle_random_3", DoubleValue(Random.Default.nextDouble()))
+        runtime.environment.setSimpleVariable("particle_random_4", DoubleValue(Random.Default.nextDouble()))
+
+        val center = effect.emitter.shape.getCenter(runtime, entity).add(x, y, z)
+        val newPosition = effect.emitter.shape.getNewParticlePosition(runtime, entity).add(x, y, z)
+        val velocity = effect.particle.motion.getInitialVelocity(runtime, particlePos = newPosition, emitterPos = center).multiply(1/50.0)
+        velocity.multiply(1 / 20.0)
+//        MinecraftClient.getInstance().world!!.addParticle(effect, newPosition.x, newPosition.y, newPosition.z, velocity.x, velocity.y, velocity.z)
+//        val particle = SnowstormParticle(this, world, newPosition.x, newPosition.y, newPosition.z, velocity, invisible = mode == ParticlesMode.MINIMAL)
 //        world.addParticle()
 //        ParticleTypes
-        MinecraftClient.getInstance().particleManager.addParticle(particle)
-        particles.add(particle)
+        world.addParticle(particleEffect, newPosition.x, newPosition.y, newPosition.z, velocity.x, velocity.y, velocity.z)
     }
 }

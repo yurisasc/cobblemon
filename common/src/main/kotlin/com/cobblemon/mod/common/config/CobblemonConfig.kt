@@ -39,7 +39,8 @@ class CobblemonConfig {
     @NodeCategory(Category.Pokemon)
     var defaultDropItemMethod = ItemDropMethod.ON_ENTITY
     @NodeCategory(Category.Pokemon)
-    var ambientPokemonCryTicks = 160
+    @LastChangedVersion("1.3.0")
+    var ambientPokemonCryTicks = 360
 
     @NodeCategory(Category.Storage)
     @IntConstraint(min = 1, max = 1000)

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 internal class BitUtilitiesKtTest {
+
     @Nested
     inner class SetTests {
         @Test

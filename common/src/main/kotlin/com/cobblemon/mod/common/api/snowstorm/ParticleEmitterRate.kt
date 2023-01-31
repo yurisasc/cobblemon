@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.api.snowstorm
 
 import com.bedrockk.molang.Expression
@@ -5,16 +13,15 @@ import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.ast.NumberExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.codec.CodecMapped
-import com.cobblemon.mod.common.api.serialization.ClassMapAdapter
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
-import com.cobblemon.mod.common.util.getFromJSON
+import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.resolveDouble
 import com.mojang.serialization.Codec
-import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.lang.Integer.min
+import kotlin.random.Random
 import net.minecraft.network.PacketByteBuf
 
 interface ParticleEmitterRate : CodecMapped {
@@ -91,8 +98,15 @@ class SteadyParticleEmitterRate(
         }
 
         val perSecond = runtime.resolveDouble(rate)
-        val trySpawn = (perSecond * deltaSeconds).toInt()
-        return min(trySpawn, max - currentlyActive)
+        val trySpawn = perSecond * deltaSeconds
+        var intComponent = trySpawn.toInt()
+        val doubleComponent = trySpawn - intComponent
+        if (doubleComponent > 0.0) {
+            if ((1 - Random.Default.nextDouble()) <= doubleComponent) {
+                intComponent++
+            }
+        }
+        return min(intComponent, max - currentlyActive)
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)
@@ -102,7 +116,7 @@ class SteadyParticleEmitterRate(
     }
 
     override fun writeToBuffer(buffer: PacketByteBuf) {
-        buffer.writeString(rate.attributes["string"] as String)
-        buffer.writeString(maximum.attributes["string"] as String)
+        buffer.writeString(rate.getString())
+        buffer.writeString(maximum.getString())
     }
 }

@@ -78,6 +78,7 @@ import com.cobblemon.mod.common.events.ServerTickHandler
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.net.messages.client.settings.ServerSettingsPacket
 import com.cobblemon.mod.common.net.serverhandling.ServerPacketRegistrar
+import com.cobblemon.mod.common.particle.CobblemonParticles
 import com.cobblemon.mod.common.permission.LaxPermissionValidator
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.aspects.GENDER_ASPECT
@@ -150,7 +151,7 @@ object Cobblemon {
     var statProvider: StatProvider = CobblemonStatProvider
     var seasonResolver: SeasonResolver = TagSeasonResolver
 
-    fun preinitialize(implementation: CobblemonImplementation) {
+    fun preInitialize(implementation: CobblemonImplementation) {
         DropEntry.register("command", CommandDropEntry::class.java)
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
 
@@ -168,6 +169,7 @@ object Cobblemon {
         CobblemonSounds.register()
         CobblemonFeatures.register()
         CobblemonGameRules.register()
+        CobblemonParticles.register()
 
         ShoulderEffectRegistry.register()
 

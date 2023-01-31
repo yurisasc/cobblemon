@@ -1,3 +1,11 @@
+/*
+ * Copyright (C) 2022 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.api.snowstorm
 
 import com.bedrockk.molang.Expression
@@ -5,9 +13,9 @@ import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.ast.NumberExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.codec.CodecMapped
-import com.cobblemon.mod.common.api.serialization.ClassMapAdapter
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
-import com.cobblemon.mod.common.util.getFromJSON
+import com.cobblemon.mod.common.util.getString
+import com.cobblemon.mod.common.util.resolveDouble
 import com.cobblemon.mod.common.util.resolveInt
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DataResult
@@ -29,12 +37,14 @@ abstract class ParticleUVMode : CodecMapped {
     }
 
     abstract val type: ParticleUVModeType
-    val startU: Expression = NumberExpression(0.0)
-    val startV: Expression = NumberExpression(0.0)
-    val uSize: Expression = NumberExpression(8.0)
-    val vSize: Expression = NumberExpression(8.0)
+    open var startU: Expression = NumberExpression(0.0)
+    open var startV: Expression = NumberExpression(0.0)
+    open var textureSizeX: Int = 8
+    open var textureSizeY: Int = 8
+    open var uSize: Expression = NumberExpression(8.0)
+    open var vSize: Expression = NumberExpression(8.0)
 
-    abstract fun get(moLangRuntime: MoLangRuntime, age: Float, maxAge: Expression): UVDetails
+    abstract fun get(moLangRuntime: MoLangRuntime, age: Double, maxAge: Expression): UVDetails
 }
 
 enum class ParticleUVModeType {
@@ -43,7 +53,15 @@ enum class ParticleUVModeType {
 }
 
 class AnimatedParticleUVMode(
-    var maxFrame: Expression = NumberExpression(1.0),
+    override var startU: Expression = NumberExpression(0.0),
+    override var startV: Expression = NumberExpression(0.0),
+    override var textureSizeX: Int = 8,
+    override var textureSizeY: Int = 8,
+    override var uSize: Expression = NumberExpression(8.0),
+    override var vSize: Expression = NumberExpression(8.0),
+    var stepU: Expression = NumberExpression(8.0),
+    var stepV: Expression = NumberExpression(0.0),
+    var maxFrame: Expression = NumberExpression(0.0),
     var fps: Expression = NumberExpression(1.0),
     var stretchToLifetime: Boolean = false,
     var loop: Boolean = false
@@ -54,11 +72,21 @@ class AnimatedParticleUVMode(
         val CODEC: Codec<AnimatedParticleUVMode> = RecordCodecBuilder.create { instance ->
             instance.group(
                 PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type.name },
+                EXPRESSION_CODEC.fieldOf("startU").forGetter { it.startU },
+                EXPRESSION_CODEC.fieldOf("startV").forGetter { it.startV },
+                PrimitiveCodec.INT.fieldOf("textureSizeX").forGetter { it.textureSizeX },
+                PrimitiveCodec.INT.fieldOf("textureSizeY").forGetter { it.textureSizeY },
+                EXPRESSION_CODEC.fieldOf("uSize").forGetter { it.uSize },
+                EXPRESSION_CODEC.fieldOf("vSize").forGetter { it.vSize },
+                EXPRESSION_CODEC.fieldOf("stepU").forGetter { it.stepU },
+                EXPRESSION_CODEC.fieldOf("stepV").forGetter { it.stepV },
                 EXPRESSION_CODEC.fieldOf("maxFrame").forGetter { it.maxFrame },
                 EXPRESSION_CODEC.fieldOf("fps").forGetter { it.fps },
                 PrimitiveCodec.BOOL.fieldOf("stretchToLifetime").forGetter { it.stretchToLifetime },
                 PrimitiveCodec.BOOL.fieldOf("loop").forGetter { it.loop }
-            ).apply(instance) { _, maxFrame, fps, stretchToLifetime, loop -> AnimatedParticleUVMode(maxFrame, fps, stretchToLifetime, loop)}
+            ).apply(instance) { _, startU, startV, textureSizeX, textureSizeY, uSize, vSize, stepU, stepV, maxFrame, fps, stretchToLifetime, loop ->
+                AnimatedParticleUVMode(startU, startV, textureSizeX, textureSizeY, uSize, vSize, stepU, stepV, maxFrame, fps, stretchToLifetime, loop)
+            }
         }
     }
 
@@ -67,6 +95,14 @@ class AnimatedParticleUVMode(
     }
 
     override fun readFromBuffer(buffer: PacketByteBuf) {
+        startU = MoLang.createParser(buffer.readString()).parseExpression()
+        startV = MoLang.createParser(buffer.readString()).parseExpression()
+        textureSizeX = buffer.readInt()
+        textureSizeY = buffer.readInt()
+        uSize = MoLang.createParser(buffer.readString()).parseExpression()
+        vSize = MoLang.createParser(buffer.readString()).parseExpression()
+        stepU = MoLang.createParser(buffer.readString()).parseExpression()
+        stepV = MoLang.createParser(buffer.readString()).parseExpression()
         maxFrame = MoLang.createParser(buffer.readString()).parseExpression()
         fps = MoLang.createParser(buffer.readString()).parseExpression()
         stretchToLifetime = buffer.readBoolean()
@@ -74,34 +110,93 @@ class AnimatedParticleUVMode(
     }
 
     override fun writeToBuffer(buffer: PacketByteBuf) {
-        buffer.writeString(maxFrame.attributes["string"] as String)
-        buffer.writeString(fps.attributes["fps"] as String)
+        buffer.writeString(startU.getString())
+        buffer.writeString(startV.getString())
+        buffer.writeInt(textureSizeX)
+        buffer.writeInt(textureSizeY)
+        buffer.writeString(uSize.getString())
+        buffer.writeString(vSize.getString())
+        buffer.writeString(stepU.getString())
+        buffer.writeString(stepV.getString())
+        buffer.writeString(maxFrame.getString())
+        buffer.writeString(fps.getString())
         buffer.writeBoolean(stretchToLifetime)
         buffer.writeBoolean(loop)
     }
 
-    override fun get(moLangRuntime: MoLangRuntime, age: Float, maxAge: Expression): UVDetails {
-        TODO("Animated particle mode not yet implemented")
+    override fun get(runtime: MoLangRuntime, age: Double, maxAge: Expression): UVDetails {
+        val maxFrame = runtime.resolveInt(maxFrame)
+        val stepU = runtime.resolveDouble(stepU)
+        val stepV = runtime.resolveDouble(stepV)
+        val uSize = runtime.resolveDouble(uSize)
+        val vSize = runtime.resolveDouble(vSize)
+
+
+        if (stretchToLifetime) {
+            val lifetimeSeconds = runtime.resolveDouble(maxAge)
+            val frame = ((age / lifetimeSeconds) * maxFrame).toInt()
+            val startU = runtime.resolveDouble(startU) + frame * stepU
+            val startV = runtime.resolveDouble(startV) + frame * stepV
+            return UVDetails.set(
+                startU = startU / textureSizeX,
+                startV = startV / textureSizeY,
+                endU = (startU + uSize) / textureSizeX,
+                endV = (startV + vSize) / textureSizeY
+            )
+        } else {
+            val fps = runtime.resolveDouble(fps)
+            val effectiveFrame = ((age * fps) % maxFrame).toInt()
+            val frame = if (!loop && age * fps > maxFrame) {
+                maxFrame
+            } else {
+                effectiveFrame
+            }
+
+            val startU = runtime.resolveDouble(startU) + frame * stepU
+            val startV = runtime.resolveDouble(startV) + frame * stepV
+
+            return UVDetails.set(
+                startU = startU / textureSizeX,
+                startV = startV / textureSizeY,
+                endU = (startU + uSize) / textureSizeX,
+                endV = (startV + vSize) / textureSizeY
+            )
+        }
     }
 }
 
-class StaticParticleUVMode : ParticleUVMode() {
+class StaticParticleUVMode(
+    override var startU: Expression = NumberExpression(0.0),
+    override var startV: Expression = NumberExpression(0.0),
+    override var textureSizeX: Int = 8,
+    override var textureSizeY: Int = 8,
+    override var uSize: Expression = NumberExpression(8.0),
+    override var vSize: Expression = NumberExpression(8.0),
+) : ParticleUVMode() {
     override val type = ParticleUVModeType.STATIC
 
     companion object {
         val CODEC: Codec<StaticParticleUVMode> = RecordCodecBuilder.create { instance ->
             instance.group(
-                PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type.name }
-            ).apply(instance) { StaticParticleUVMode() }
+                PrimitiveCodec.STRING.fieldOf("type").forGetter { it.type.name },
+                EXPRESSION_CODEC.fieldOf("startU").forGetter { it.startU },
+                EXPRESSION_CODEC.fieldOf("startV").forGetter { it.startV },
+                PrimitiveCodec.INT.fieldOf("textureSizeX").forGetter { it.textureSizeX },
+                PrimitiveCodec.INT.fieldOf("textureSizeY").forGetter { it.textureSizeY },
+                EXPRESSION_CODEC.fieldOf("uSize").forGetter { it.uSize },
+                EXPRESSION_CODEC.fieldOf("vSize").forGetter { it.vSize },
+            ).apply(instance) { _, startU, startV, textureSizeX, textureSizeY, uSize, vSize ->
+                StaticParticleUVMode(startU, startV, textureSizeX, textureSizeY, uSize, vSize)
+            }
         }
     }
 
-    override fun get(moLangRuntime: MoLangRuntime, age: Float, maxAge: Expression): UVDetails {
+    override fun get(moLangRuntime: MoLangRuntime, age: Double, maxAge: Expression): UVDetails {
         return UVDetails.set(
-            startU = moLangRuntime.resolveInt(startU),
-            startV = moLangRuntime.resolveInt(startV),
-            uSize = moLangRuntime.resolveInt(uSize),
-            vSize = moLangRuntime.resolveInt(vSize)
+            startU = moLangRuntime.resolveDouble(startU) / textureSizeX,
+            startV = moLangRuntime.resolveDouble(startV) / textureSizeY,
+            endU = (moLangRuntime.resolveDouble(startU) + moLangRuntime.resolveDouble(uSize)) / textureSizeX,
+            endV = (moLangRuntime.resolveDouble(startV) + moLangRuntime.resolveDouble(vSize)) / textureSizeY
         )
     }
 
@@ -109,21 +204,35 @@ class StaticParticleUVMode : ParticleUVMode() {
         return CODEC.encodeStart(ops, this)
     }
 
-    override fun readFromBuffer(buffer: PacketByteBuf) {}
-    override fun writeToBuffer(buffer: PacketByteBuf) {}
+    override fun readFromBuffer(buffer: PacketByteBuf) {
+        startU = MoLang.createParser(buffer.readString()).parseExpression()
+        startV = MoLang.createParser(buffer.readString()).parseExpression()
+        textureSizeX = buffer.readInt()
+        textureSizeY = buffer.readInt()
+        uSize = MoLang.createParser(buffer.readString()).parseExpression()
+        vSize = MoLang.createParser(buffer.readString()).parseExpression()
+    }
+    override fun writeToBuffer(buffer: PacketByteBuf) {
+        buffer.writeString(startU.getString())
+        buffer.writeString(startV.getString())
+        buffer.writeInt(textureSizeX)
+        buffer.writeInt(textureSizeY)
+        buffer.writeString(uSize.getString())
+        buffer.writeString(vSize.getString())
+    }
 }
 
 object UVDetails {
-    var startU: Int = 0
-    var startV: Int = 0
-    var uSize: Int = 0
-    var vSize: Int = 0
+    var startU: Float = 0F
+    var startV: Float = 0F
+    var endU: Float = 0F
+    var endV: Float = 0F
 
-    fun set(startU: Int, startV: Int, uSize: Int, vSize: Int): UVDetails {
-        this.startU = startU
-        this.startV = startV
-        this.uSize = uSize
-        this.vSize = vSize
+    fun set(startU: Double, startV: Double, endU: Double, endV: Double): UVDetails {
+        this.startU = startU.toFloat()
+        this.startV = startV.toFloat()
+        this.endU = endU.toFloat()
+        this.endV = endV.toFloat()
         return this
     }
 }
