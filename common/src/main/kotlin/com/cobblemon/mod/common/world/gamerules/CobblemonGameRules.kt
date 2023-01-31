@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.world
+package com.cobblemon.mod.common.world.gamerules
 
 import net.minecraft.world.GameRules
 

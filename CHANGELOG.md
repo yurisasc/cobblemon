@@ -14,6 +14,18 @@
 - Added an interface that appears when interacting with your Pokémon while sneaking. The interface allows for interactive options such as shouldering and exchanging held items.
 - Added a new item for representing Pokémon within native UI menus.
 - Added support for Pokémon species data appending making it so datapack developers no longer need to overwrite files.
+- Added an implementation of every [catch rate](https://bulbapedia.bulbagarden.net/wiki/Catch_rate) from generation 1 to 9, these can be used by changing the ``captureCalculator`` config value:
+  - ``generation_1`` Sets the calculator to the generation 1 implementation.
+  - ``generation_2`` Sets the calculator to the generation 2 implementation.
+  - ``generation_2_fixed`` Sets the calculator to the generation 2 implementation with the status multiplier bug fixed.
+  - ``generation_3_4`` Sets the calculator to the generation 3 and 4 implementation.
+  - ``generation_5`` Sets the calculator to the generation 5 implementation.
+  - ``generation_6`` Sets the calculator to the generation 6 implementation.
+  - ``generation_7`` Sets the calculator to the generation 7 implementation.
+  - ``generation_8`` Sets the calculator to the generation 8 implementation.
+  - ``generation_9`` Sets the calculator to the generation 9 implementation.
+  - ``cobblemon`` Sets the calculator to the custom Cobblemon implementation, this is the default value.
+  - ``debug`` Sets the calculator to the debug/cheat implementation, every attempt will be a successful critical capture.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -42,6 +54,10 @@
 - Fixed missing lang and interpretation for bide
 - Fixed datapack Pokémon not being able to battle.
 - Fixed datapack Pokémon lang key generation, a Pokémon under the namespace ``example`` named ``Pogemon`` will now correctly look for the lang key ``example.species.pogemon.name``.
+- Fixed missing lang and interpretation for bide.
+
+### Developer
+- Reworked CatchRateModifier, as such, existing implementations need to be updated.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
