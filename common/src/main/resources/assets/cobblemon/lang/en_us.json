@@ -361,6 +361,15 @@
   "cobblemon.battle.bide_activate": "%1$s is storing energy!",
   "cobblemon.battle.bide_end": "%1$s unleashed its energy!",
 
+  "cobblemon.battle.mud_sport_field": "Electricity's power was weakened!",
+  "cobblemon.battle.electric_terrain_field": "An electric current ran across the battlefield!",
+  "cobblemon.battle.grassy_terrain_field": "Grass grew to cover the battlefield!",
+  "cobblemon.battle.misty_terrain_field": "Mist swirled around the battlefield!",
+  "cobblemon.battle.psychic_terrain_field": "The battlefield got weird!",
+  "cobblemon.battle.water_sport_field": "Fire's power was weakened!",
+
+  "cobblemon.battle.speed_boost_ability": "%1$s's Speed Boost Activated!",
+
   "cobblemon.battle.errors.busy": "%1$s is busy!",
   "cobblemon.battle.error.in_battle": "%1$s is already in a battle.",
   "cobblemon.battle.error.in_battle.personal": "You are already in a battle!",

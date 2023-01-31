@@ -88,6 +88,8 @@ object ShowdownInterpreter {
         updateInstructions["|-start|"] = this::handleStartInstructions
         updateInstructions["|-activate|"] = this::handleActivateInstructions
         updateInstructions["|-curestatus|"] = this::handleCureStatusInstruction
+        updateInstructions["|-fieldstart|"] = this::handleFieldStartInstructions
+        updateInstructions["|-ability|"] = this::handleAbilityInstructions
         updateInstructions["|-nothing"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
         }
@@ -734,6 +736,31 @@ object ShowdownInterpreter {
                 "move: Magnitude" in message -> battle.broadcastChatMessage(battleLang("magnitude_level", message.substringAfterLast("|").toIntOrNull() ?: 1))
                 "move: Bide" in message -> battle.broadcastChatMessage(battleLang("bide_activate",pokemon.battlePokemon!!.getName()))
                 // ToDo Focus Band, use battleLang("item.hung_on.end", battlerName, itemName)
+            }
+            GO
+        }
+    }
+
+    private fun handleFieldStartInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+        battle.dispatch{
+            when {
+                "move: Mud Sport" in message -> battle.broadcastChatMessage(battleLang("mud_sport_field"))
+                "move: Electric Terrain" in message -> battle.broadcastChatMessage(battleLang("electric_terrain_field"))
+                "move: Grassy Terrain" in message -> battle.broadcastChatMessage(battleLang("grassy_terrain_field"))
+                "move: Misty Terrain" in message -> battle.broadcastChatMessage(battleLang("misty_terrain_field"))
+                "move: Psychic Terrain" in message -> battle.broadcastChatMessage(battleLang("psychic_terrain_field"))
+                "move: Water Sport" in message -> battle.broadcastChatMessage(battleLang("water_sport_field"))
+            }
+            GO
+        }
+    }
+
+    private fun handleAbilityInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        battle.dispatch {
+            val pnx = message.split("|-ability|")[1].substring(0, 3)
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            when {
+                "Speed Boost" in message -> battle.broadcastChatMessage(battleLang("speed_boost_ability",pokemon.battlePokemon!!.getName()))
             }
             GO
         }
