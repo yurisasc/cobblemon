@@ -15,17 +15,17 @@ import net.minecraft.entity.LivingEntity
 /**
  * A [CatchRateModifier] that just applies a basic multiplier if a [condition] is met.
  *
- * @property multiplier The value of the multiplier.
+ * @property multiplier A lambda that determines value of the multiplier.
  * @property condition A lambda that checks if a [Pokemon] can have this multiplier applied.
  *
- * @author landonjw
- * @since  December 1st, 2021
+ * @author Licious
+ * @since January 29th, 2023
  */
-class MultiplierModifier(private val multiplier: Float, private val condition: (thrower: LivingEntity, pokemon: Pokemon) -> Boolean = { _, _ -> true }) : CatchRateModifier {
+class DynamicMultiplierModifier(private val multiplier: (thrower: LivingEntity, pokemon: Pokemon) -> Float, private val condition: (thrower: LivingEntity, pokemon: Pokemon) -> Boolean) : CatchRateModifier {
 
     override fun isGuaranteed(): Boolean = false
 
-    override fun value(thrower: LivingEntity, pokemon: Pokemon): Float = this.multiplier
+    override fun value(thrower: LivingEntity, pokemon: Pokemon): Float = this.multiplier(thrower, pokemon)
 
     override fun behavior(thrower: LivingEntity, pokemon: Pokemon): CatchRateModifier.Behavior = CatchRateModifier.Behavior.MULTIPLY
 
@@ -33,7 +33,7 @@ class MultiplierModifier(private val multiplier: Float, private val condition: (
 
     override fun modifyCatchRate(currentCatchRate: Float, thrower: LivingEntity, pokemon: Pokemon): Float {
         return if(this.isValid(thrower, pokemon)) {
-            this.behavior(thrower, pokemon).mutator(currentCatchRate, this.value(thrower, pokemon))
+            currentCatchRate * this.behavior(thrower, pokemon).mutator(currentCatchRate, this.value(thrower, pokemon))
         } else {
             currentCatchRate
         }
