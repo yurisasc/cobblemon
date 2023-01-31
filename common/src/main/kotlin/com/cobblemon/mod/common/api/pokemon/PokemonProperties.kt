@@ -315,9 +315,13 @@ open class PokemonProperties {
         apply(pokemon)
         // Force the setter to initialize it
         pokemon.species = pokemon.species
+        // This should only be a thing once we have moveset control in properties until then a creation should require a moveset init.
+        /*
         if (pokemon.moveSet.none { it != null }) {
             pokemon.initializeMoveset()
         }
+         */
+        pokemon.initializeMoveset()
         return pokemon
     }
 
