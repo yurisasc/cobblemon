@@ -96,7 +96,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:prism_scale"
+          "itemCondition": "cobblemon:prism_scale"
         }
       ]
     }

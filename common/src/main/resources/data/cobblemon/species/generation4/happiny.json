@@ -129,7 +129,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:oval_stone"
+          "itemCondition": "cobblemon:oval_stone"
         },
         {
           "variant": "time_range",

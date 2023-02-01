@@ -179,7 +179,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:magmarizer"
+          "itemCondition": "cobblemon:magmarizer"
         }
       ]
     }

@@ -114,7 +114,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 20
+          "minLevel": 20
         },
         {
           "variant": "attack_defence_ratio",
@@ -131,7 +131,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 20
+          "minLevel": 20
         },
         {
           "variant": "attack_defence_ratio",
@@ -150,7 +150,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 20
+          "minLevel": 20
         },
         {
           "variant": "attack_defence_ratio",

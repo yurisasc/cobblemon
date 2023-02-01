@@ -97,7 +97,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:deep_sea_tooth"
+          "itemCondition": "cobblemon:deep_sea_tooth"
         }
       ]
     },
@@ -110,7 +110,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:deep_sea_scale"
+          "itemCondition": "cobblemon:deep_sea_scale"
         }
       ]
     }

@@ -124,7 +124,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 32
+          "minLevel": 32
         }
       ]
     }

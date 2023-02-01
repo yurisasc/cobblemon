@@ -163,7 +163,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:dragon_scale"
+          "itemCondition": "cobblemon:dragon_scale"
         }
       ]
     }

@@ -104,7 +104,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:whipped_dream"
+          "itemCondition": "cobblemon:whipped_dream"
         }
       ]
     }

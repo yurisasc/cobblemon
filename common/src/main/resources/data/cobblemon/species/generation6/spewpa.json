@@ -52,7 +52,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 12
+          "minLevel": 12
         }
       ]
     },
@@ -67,7 +67,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 12
+          "minLevel": 12
         }
       ]
     }

@@ -181,7 +181,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:up_grade"
+          "itemCondition": "cobblemon:up_grade"
         }
       ]
     }

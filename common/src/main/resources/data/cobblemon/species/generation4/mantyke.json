@@ -113,7 +113,7 @@
       "requirements": [
         {
           "variant": "party_member",
-          "property": "remoraid",
+          "target": "remoraid",
           "contains": true
         }
       ]
