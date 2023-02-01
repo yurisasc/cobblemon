@@ -222,8 +222,7 @@ class EmptyPokeBallEntity(
             if (isOnGround && captureState.get() == CaptureState.FALL.ordinal.toByte()) {
                 capturingPokemon?.setPositionSafely(pos)
                 captureState.set(CaptureState.SHAKE.ordinal.toByte())
-
-                val captureResult = Cobblemon.captureCalculator.processCapture(owner as ServerPlayerEntity, pokeBall, capturingPokemon!!.pokemon, null)
+                val captureResult = Cobblemon.config.captureCalculator.processCapture(owner as ServerPlayerEntity, pokeBall, capturingPokemon!!.pokemon)
 
                 var rollsRemaining = captureResult.numberOfShakes
                 if (rollsRemaining == 4) {
