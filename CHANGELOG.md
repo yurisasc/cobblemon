@@ -42,6 +42,7 @@
 - Fixed missing lang and interpretation for bide
 - Fixed datapack Pokémon not being able to battle.
 - Fixed datapack Pokémon lang key generation, a Pokémon under the namespace ``example`` named ``Pogemon`` will now correctly look for the lang key ``example.species.pogemon.name``.
+- Fixed and Added interpretation for 'FieldStart' and 'Abilities' that take effect in battle and gave them lang.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions
