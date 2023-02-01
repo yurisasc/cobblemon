@@ -325,9 +325,6 @@ object PokemonSpecies : JsonDataRegistry<Species> {
                 this.createFormShowdownRepresentation(dataHolder, species, form)
             }
         }
-        if (species.resourceIdentifier.namespace == "eikomon") {
-            Cobblemon.LOGGER.info("Created pitipole")
-        }
     }
 
     private fun createTierRepresentation(dataHolder: StringBuilder, species: Species) {
