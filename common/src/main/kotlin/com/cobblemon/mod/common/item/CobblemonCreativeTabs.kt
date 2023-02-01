@@ -14,9 +14,10 @@ import dev.architectury.registry.CreativeTabRegistry.create
 import java.util.function.Supplier
 import net.minecraft.item.ItemStack
 
-object CobblemonItemGroups {
+object CobblemonCreativeTabs {
     val POKE_BALL_GROUP = create(cobblemonResource("pokeball"), Supplier { ItemStack(CobblemonItems.POKE_BALL.get()) })
     val EVOLUTION_ITEM_GROUP = create(cobblemonResource("evolution_item"), Supplier { ItemStack(CobblemonItems.BLACK_AUGURITE.get()) })
     val MEDICINE_ITEM_GROUP = create(cobblemonResource("medicine"), Supplier { ItemStack(CobblemonItems.RARE_CANDY.get()) })
     val HELD_ITEM_GROUP = create(cobblemonResource("held_item"), Supplier { ItemStack(CobblemonItems.EXP_SHARE.get()) })
+    val PLANTS = create(cobblemonResource("plants"), Supplier { ItemStack(CobblemonItems.RED_APRICORN_SEED.get()) })
 }

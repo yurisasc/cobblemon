@@ -12,8 +12,10 @@ import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
 import com.cobblemon.mod.common.api.pokemon.experience.CandyExperienceSource
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
+import com.cobblemon.mod.common.item.CobblemonCreativeTabs
 import com.cobblemon.mod.common.item.interactive.CandyItem.Calculator
 import com.cobblemon.mod.common.pokemon.Pokemon
+import dev.architectury.registry.CreativeTabRegistry
 import net.minecraft.item.ItemStack
 import net.minecraft.server.network.ServerPlayerEntity
 
@@ -29,6 +31,10 @@ import net.minecraft.server.network.ServerPlayerEntity
 class CandyItem(
     val calculator: Calculator
 ) : PokemonInteractiveItem(Settings(), Ownership.OWNER) {
+
+    init {
+        CreativeTabRegistry.append(CobblemonCreativeTabs.MEDICINE_ITEM_GROUP, this)
+    }
 
     override fun processInteraction(player: ServerPlayerEntity, entity: PokemonEntity, stack: ItemStack): Boolean {
         val pokemon = entity.pokemon

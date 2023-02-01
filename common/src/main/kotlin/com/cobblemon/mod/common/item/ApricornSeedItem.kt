@@ -9,15 +9,17 @@
 package com.cobblemon.mod.common.item
 
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
+import dev.architectury.registry.CreativeTabRegistry
 import net.minecraft.block.ComposterBlock
 import net.minecraft.item.AliasedBlockItem
 import net.minecraft.item.ItemGroup
 
-class ApricornSeedItem(block: ApricornSaplingBlock, group: ItemGroup) : AliasedBlockItem(block, Settings().group(group)) {
+class ApricornSeedItem(block: ApricornSaplingBlock, group: ItemGroup) : AliasedBlockItem(block, Settings()) {
 
     init {
         // 65% to raise composter level
         ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE[this] = .65F
+        CreativeTabRegistry.append(CobblemonCreativeTabs.PLANTS, this)
     }
 
 }

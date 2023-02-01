@@ -13,7 +13,7 @@ import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.item.ApricornItem
 import com.cobblemon.mod.common.item.ApricornSeedItem
 import com.cobblemon.mod.common.item.CobblemonItem
-import com.cobblemon.mod.common.item.CobblemonItemGroups
+import com.cobblemon.mod.common.item.CobblemonCreativeTabs
 import com.cobblemon.mod.common.item.PokeBallItem
 import com.cobblemon.mod.common.item.PokemonItem
 import com.cobblemon.mod.common.item.interactive.CandyItem
@@ -119,18 +119,18 @@ object CobblemonItems : CompletableRegistry<Item>(RegistryKeys.ITEM) {
     val DUBIOUS_DISC = queue("dubious_disc") { evolutionItem() }
 
     // Medicine
-    val RARE_CANDY = queue("rare_candy", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { CandyItem { _, pokemon -> pokemon.getExperienceToNextLevel() } }
-    val EXPERIENCE_CANDY_XS = queue("exp_candy_xs", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { CandyItem { _, _ -> CandyItem.DEFAULT_XS_CANDY_YIELD } }
-    val EXPERIENCE_CANDY_S = queue("exp_candy_s", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { CandyItem { _, _ -> CandyItem.DEFAULT_S_CANDY_YIELD } }
-    val EXPERIENCE_CANDY_M = queue("exp_candy_m", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { CandyItem { _, _ -> CandyItem.DEFAULT_M_CANDY_YIELD } }
-    val EXPERIENCE_CANDY_L = queue("exp_candy_l", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { CandyItem { _, _ -> CandyItem.DEFAULT_L_CANDY_YIELD } }
-    val EXPERIENCE_CANDY_XL = queue("exp_candy_xl", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { CandyItem { _, _ -> CandyItem.DEFAULT_XL_CANDY_YIELD } }
-    val CALCIUM = queue("calcium", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.SPECIAL_ATTACK) }
-    val CARBOS = queue("carbos", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.SPEED) }
-    val HP_UP = queue("hp_up", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.HP) }
-    val IRON = queue("iron", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.DEFENCE) }
-    val PROTEIN = queue("protein", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.ATTACK) }
-    val ZINC = queue("zinc", CobblemonItemGroups.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.SPECIAL_DEFENCE) }
+    val RARE_CANDY = this.candyItem("rare_candy") { _, pokemon -> pokemon.getExperienceToNextLevel() }
+    val EXPERIENCE_CANDY_XS = this.candyItem("exp_candy_xs") { _, _ -> CandyItem.DEFAULT_XS_CANDY_YIELD }
+    val EXPERIENCE_CANDY_S = this.candyItem("exp_candy_s") { _, _ -> CandyItem.DEFAULT_S_CANDY_YIELD }
+    val EXPERIENCE_CANDY_M = this.candyItem("exp_candy_m") { _, _ -> CandyItem.DEFAULT_M_CANDY_YIELD }
+    val EXPERIENCE_CANDY_L = this.candyItem("exp_candy_l") { _, _ -> CandyItem.DEFAULT_L_CANDY_YIELD }
+    val EXPERIENCE_CANDY_XL = this.candyItem("exp_candy_xl") { _, _ -> CandyItem.DEFAULT_XL_CANDY_YIELD }
+    val CALCIUM = queue("calcium", CobblemonCreativeTabs.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.SPECIAL_ATTACK) }
+    val CARBOS = queue("carbos", CobblemonCreativeTabs.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.SPEED) }
+    val HP_UP = queue("hp_up", CobblemonCreativeTabs.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.HP) }
+    val IRON = queue("iron", CobblemonCreativeTabs.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.DEFENCE) }
+    val PROTEIN = queue("protein", CobblemonCreativeTabs.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.ATTACK) }
+    val ZINC = queue("zinc", CobblemonCreativeTabs.MEDICINE_ITEM_GROUP) { VitaminItem(Stats.SPECIAL_DEFENCE) }
 
     /**
      * Evolution Ores and Stones
@@ -195,13 +195,14 @@ object CobblemonItems : CompletableRegistry<Item>(RegistryKeys.ITEM) {
 
     private fun queue(name: String, tab: TabSupplier, item: Supplier<Item>) = queue(name) {
         val it = item.get()
+        ItemGroups.BUILDING_BLOCKS
         CreativeTabRegistry.append(tab, it)
         return@queue it
     }
 
     private fun evolutionItem(): CobblemonItem {
         val item = CobblemonItem(Item.Settings())
-        CreativeTabRegistry.append(CobblemonItemGroups.EVOLUTION_ITEM_GROUP, item)
+        CreativeTabRegistry.append(CobblemonCreativeTabs.EVOLUTION_ITEM_GROUP, item)
         return item
     }
 
@@ -215,8 +216,13 @@ object CobblemonItems : CompletableRegistry<Item>(RegistryKeys.ITEM) {
     private fun heldItem(name: String): RegistrySupplier<CobblemonItem> {
         return queue(name) {
             val item = CobblemonItem(Item.Settings())
-            CreativeTabRegistry.append(CobblemonItemGroups.HELD_ITEM_GROUP, item)
+            CreativeTabRegistry.append(CobblemonCreativeTabs.HELD_ITEM_GROUP, item)
             return@queue item
         }
     }
+
+    private fun candyItem(name: String, calculator: CandyItem.Calculator): RegistrySupplier<CandyItem> {
+        return queue(name) { CandyItem(calculator) }
+    }
+
 }
