@@ -22,7 +22,6 @@ import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.sound.SoundEvents
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.intprovider.UniformIntProvider
-import net.minecraft.util.registry.Registry
 import java.util.function.ToIntFunction
 
 object CobblemonBlocks : CompletableRegistry<Block>(RegistryKeys.BLOCK) {

@@ -199,12 +199,6 @@ object CobblemonItems : CompletableRegistry<Item>(RegistryKeys.ITEM) {
         return@queue it
     }
 
-    private fun queue(name: String, tab: ItemGroup, item: Supplier<Item>) = queue(name) {
-        val it = item.get()
-        CreativeTabRegistry.append(tab, it)
-        return@queue it
-    }
-
     private fun evolutionItem(): CobblemonItem {
         val item = CobblemonItem(Item.Settings())
         CreativeTabRegistry.append(CobblemonItemGroups.EVOLUTION_ITEM_GROUP, item)
