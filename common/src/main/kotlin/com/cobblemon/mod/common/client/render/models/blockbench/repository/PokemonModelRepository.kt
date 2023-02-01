@@ -249,6 +249,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.Tsa
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.CentiskorchModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.KleavorModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.SizzlipedeModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.CharcadetModel
 import com.cobblemon.mod.common.client.render.pokemon.ModelLayer
 import com.cobblemon.mod.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cobblemon.mod.common.client.render.pokemon.SpeciesVariationSet
@@ -514,6 +515,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("wailord", ::WailordModel)
         inbuilt("murkrow", ::MurkrowModel)
         inbuilt("honchkrow", ::HonchkrowModel)
+        inbuilt("charcadet", ::CharcadetModel)
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {

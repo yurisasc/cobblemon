@@ -5,7 +5,7 @@
 		{
 			"aspects": [],
 			"poser": "cobblemon:charcadet",
-			"model": "cobblemon:charcadet.get",
+			"model": "cobblemon:charcadet.geo",
 			"texture": "cobblemon:textures/pokemon/0935_charcadet/charcadet.png",
 			"layers": []
 		},
