@@ -73,8 +73,8 @@ class BattleMessagePane(
         const val TEXT_BOX_HEIGHT = 46
         const val EXPAND_TOGGLE_SIZE = 5
 
-        private val battleMessagePaneFrameResource = cobblemonResource("ui/battle/battle_log.png")
-        private val battleMessagePaneFrameExpandedResource = cobblemonResource("ui/battle/battle_log_expanded.png")
+        private val battleMessagePaneFrameResource = cobblemonResource("textures/gui/battle/battle_log.png")
+        private val battleMessagePaneFrameExpandedResource = cobblemonResource("textures/gui/battle/battle_log_expanded.png")
         private var expanded = false
     }
 

@@ -51,8 +51,8 @@ class BattleMoveSelection(
         const val MOVE_VERTICAL_SPACING = 5F
         const val MOVE_HORIZONTAL_SPACING = 13F
 
-        val moveTexture = cobblemonResource("ui/battle/battle_move.png")
-        val moveOverlayTexture = cobblemonResource("ui/battle/battle_move_overlay.png")
+        val moveTexture = cobblemonResource("textures/gui/battle/battle_move.png")
+        val moveOverlayTexture = cobblemonResource("textures/gui/battle/battle_move_overlay.png")
     }
 
     val moveSet = request.moveSet!!

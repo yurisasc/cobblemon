@@ -27,14 +27,14 @@ class PokemonInteractGUI(
     companion object {
         const val SIZE = 138
 
-        private val baseBackgroundResource = cobblemonResource("ui/interact/interact_base.png")
-        private val topLeftResource = cobblemonResource("ui/interact/button_left_top.png")
-        private val topRightResource = cobblemonResource("ui/interact/button_right_top.png")
-        private val bottomLeftResource = cobblemonResource("ui/interact/button_left_bottom.png")
-        private val bottomRightResource = cobblemonResource("ui/interact/button_right_bottom.png")
+        private val baseBackgroundResource = cobblemonResource("textures/gui/interact/interact_base.png")
+        private val topLeftResource = cobblemonResource("textures/gui/interact/button_left_top.png")
+        private val topRightResource = cobblemonResource("textures/gui/interact/button_right_top.png")
+        private val bottomLeftResource = cobblemonResource("textures/gui/interact/button_left_bottom.png")
+        private val bottomRightResource = cobblemonResource("textures/gui/interact/button_right_bottom.png")
 
-        private val iconShoulderResource = cobblemonResource("ui/interact/icon_shoulder.png")
-        private val iconHeldItemResource = cobblemonResource("ui/interact/icon_held_item.png")
+        private val iconShoulderResource = cobblemonResource("textures/gui/interact/icon_shoulder.png")
+        private val iconHeldItemResource = cobblemonResource("textures/gui/interact/icon_held_item.png")
     }
 
     override fun init() {

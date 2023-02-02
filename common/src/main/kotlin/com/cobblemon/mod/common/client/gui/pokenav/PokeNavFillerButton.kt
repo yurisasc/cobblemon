@@ -45,7 +45,7 @@ class PokeNavFillerButton(
         const val BLUE = .30980
         const val ALPHA = .9
 
-        private val FILLER = cobblemonResource("ui/pokenav/pokenav_filler.png")
+        private val FILLER = cobblemonResource("textures/gui/pokenav/pokenav_filler.png")
 
     }
 

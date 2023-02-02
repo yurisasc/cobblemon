@@ -41,8 +41,8 @@ class EvolutionSelectScreen(
         const val SLOT_SPACING = 5
         const val PORTRAIT_DIAMETER = 25
 
-        private val slotResource = cobblemonResource("ui/summary/summary_evolve_slot.png")
-        private val buttonResource = cobblemonResource("ui/summary/summary_evolve_select_button.png")
+        private val slotResource = cobblemonResource("textures/gui/summary/summary_evolve_slot.png")
+        private val buttonResource = cobblemonResource("textures/gui/summary/summary_evolve_select_button.png")
     }
 
     private var entriesCreated = false
@@ -136,7 +136,7 @@ class EvolutionSelectScreen(
                 species = form.species,
                 aspects = form.aspects.toSet(),
                 matrixStack = poseStack,
-                rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(0F),
+                rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(90F),
                 state = null,
                 scale = 6F
             )

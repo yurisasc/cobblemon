@@ -38,10 +38,10 @@ class PartyWidget(
         const val HEIGHT = 113
         private const val SCALE = 0.5F
 
-        private val backgroundResource = cobblemonResource("ui/summary/summary_party_background.png")
-        private val swapButtonResource = cobblemonResource("ui/summary/summary_party_swap.png")
-        private val swapButtonActiveResource = cobblemonResource("ui/summary/summary_party_swap_active.png")
-        private val swapButtonIconResource = cobblemonResource("ui/summary/summary_party_swap_icon.png")
+        private val backgroundResource = cobblemonResource("textures/gui/summary/summary_party_background.png")
+        private val swapButtonResource = cobblemonResource("textures/gui/summary/summary_party_swap.png")
+        private val swapButtonActiveResource = cobblemonResource("textures/gui/summary/summary_party_swap_active.png")
+        private val swapButtonIconResource = cobblemonResource("textures/gui/summary/summary_party_swap_icon.png")
     }
 
     var swapEnabled: Boolean = false

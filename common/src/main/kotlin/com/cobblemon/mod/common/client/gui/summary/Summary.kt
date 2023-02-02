@@ -69,12 +69,12 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
         const val EVOLVE = 2
 
         // Resources
-        private val baseResource = cobblemonResource("ui/summary/summary_base.png")
-        private val portraitBackgroundResource = cobblemonResource("ui/summary/portrait_background.png")
-        private val typeSpacerResource = cobblemonResource("ui/summary/type_spacer.png")
-        private val typeSpacerDoubleResource = cobblemonResource("ui/summary/type_spacer_double.png")
-        private val sideSpacerResource = cobblemonResource("ui/summary/summary_side_spacer.png")
-        private val evolveButtonResource = cobblemonResource("ui/summary/summary_evolve_button.png")
+        private val baseResource = cobblemonResource("textures/gui/summary/summary_base.png")
+        private val portraitBackgroundResource = cobblemonResource("textures/gui/summary/portrait_background.png")
+        private val typeSpacerResource = cobblemonResource("textures/gui/summary/type_spacer.png")
+        private val typeSpacerDoubleResource = cobblemonResource("textures/gui/summary/type_spacer_double.png")
+        private val sideSpacerResource = cobblemonResource("textures/gui/summary/summary_side_spacer.png")
+        private val evolveButtonResource = cobblemonResource("textures/gui/summary/summary_evolve_button.png")
     }
 
     internal lateinit var selectedPokemon: Pokemon
@@ -405,7 +405,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
             val statusName = if (selectedPokemon.isFainted()) "fnt" else status?.showdownName
             blitk(
                 matrixStack = pMatrixStack,
-                texture = cobblemonResource("ui/battle/battle_status_$statusName.png"),
+                texture = cobblemonResource("textures/gui/battle/battle_status_$statusName.png"),
                 x = x + 34,
                 y = y + 4,
                 height = 7,
@@ -416,7 +416,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
 
             blitk(
                 matrixStack = pMatrixStack,
-                texture = cobblemonResource("ui/summary/status_trim.png"),
+                texture = cobblemonResource("textures/gui/summary/status_trim.png"),
                 x = x + 34,
                 y = y + 5,
                 height = 6,

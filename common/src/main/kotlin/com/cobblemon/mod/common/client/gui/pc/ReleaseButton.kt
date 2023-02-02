@@ -29,7 +29,7 @@ class ReleaseButton(
         private const val WIDTH = 58
         private const val HEIGHT = 16
 
-        private val buttonResource = cobblemonResource("ui/pc/pc_release_button.png")
+        private val buttonResource = cobblemonResource("textures/gui/pc/pc_release_button.png")
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {

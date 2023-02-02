@@ -40,7 +40,7 @@ class SwapMoveButton(
         private const val OFFSET_X = 114.5F
         private const val OFFSET_Y = 6.5F
         private const val SCALE = 0.5F
-        private val switchMoveButtonResource = cobblemonResource("ui/summary/summary_move_swap.png")
+        private val switchMoveButtonResource = cobblemonResource("textures/gui/summary/summary_move_swap.png")
     }
 
     override fun renderButton(poseStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

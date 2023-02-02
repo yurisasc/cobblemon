@@ -31,7 +31,7 @@ class SummaryTab(
         if (isActive) {
             blitk(
                 matrixStack = pMatrixStack,
-                texture = cobblemonResource("ui/summary/summary_tab.png"),
+                texture = cobblemonResource("textures/gui/summary/summary_tab.png"),
                 x = x,
                 y = y,
                 width = width,

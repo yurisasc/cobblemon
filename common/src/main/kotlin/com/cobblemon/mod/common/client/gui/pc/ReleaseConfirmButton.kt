@@ -30,7 +30,7 @@ class ReleaseConfirmButton(
         private const val WIDTH = 30
         private const val HEIGHT = 13
 
-        private val buttonResource = cobblemonResource("ui/pc/pc_release_button_confirm.png")
+        private val buttonResource = cobblemonResource("textures/gui/pc/pc_release_button_confirm.png")
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {

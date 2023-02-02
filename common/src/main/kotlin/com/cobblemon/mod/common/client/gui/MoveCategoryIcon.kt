@@ -24,7 +24,7 @@ class MoveCategoryIcon(
         private const val HEIGHT = 16
         private const val SCALE = 0.5F
 
-        private val categoriesResource = cobblemonResource("ui/categories.png")
+        private val categoriesResource = cobblemonResource("textures/gui/categories.png")
     }
 
     fun render(pMatrixStack: MatrixStack) {

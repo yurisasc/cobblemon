@@ -41,8 +41,8 @@ class MoveSwapScreen(
         const val SLOT_HEIGHT = 18
         const val SLOT_SPACING = 3
 
-        private val moveResource = cobblemonResource("ui/summary/summary_move_condensed.png")
-        private val moveOverlayResource = cobblemonResource("ui/summary/summary_move_overlay_condensed.png")
+        private val moveResource = cobblemonResource("textures/gui/summary/summary_move_condensed.png")
+        private val moveOverlayResource = cobblemonResource("textures/gui/summary/summary_move_overlay_condensed.png")
     }
 
     public override fun addEntry(entry: MoveSlot): Int {

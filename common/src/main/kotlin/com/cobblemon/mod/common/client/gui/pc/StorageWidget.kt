@@ -57,7 +57,7 @@ class StorageWidget(
         const val BOX_SLOT_PADDING = 2
         const val PARTY_SLOT_PADDING = 6
 
-        private val screenOverlayResource = cobblemonResource("ui/pc/pc_screen_overlay.png")
+        private val screenOverlayResource = cobblemonResource("textures/gui/pc/pc_screen_overlay.png")
     }
 
     private val partySlots = arrayListOf<PartyStorageSlot>()

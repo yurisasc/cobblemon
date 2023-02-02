@@ -60,7 +60,7 @@ class ModelWidget(
         drawProfilePokemon(
             renderablePokemon = pokemon,
             matrixStack = poseStack,
-            rotation = RotationAxis.of(rotVec).rotationDegrees(0F),
+            rotation = RotationAxis.of(rotVec).rotationDegrees(90F),
             state = state
         )
 

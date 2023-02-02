@@ -40,7 +40,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         matrices.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
         matrices.scale(model.profileScale, model.profileScale, 0.1F)
 
-        val rotation = RotationAxis.of(Vector3f(transformations.rotation.x, transformations.rotation.y, transformations.rotation.z)).rotationDegrees(0F)
+        val rotation = RotationAxis.of(Vector3f(transformations.rotation.x, transformations.rotation.y, transformations.rotation.z)).rotationDegrees(90F)
         matrices.multiply(rotation)
         rotation.conjugate()
         MinecraftClient.getInstance().entityRenderDispatcher.rotation = rotation

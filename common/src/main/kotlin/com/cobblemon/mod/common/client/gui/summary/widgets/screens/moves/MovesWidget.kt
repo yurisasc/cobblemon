@@ -41,10 +41,10 @@ class MovesWidget(
             it.roundingMode = RoundingMode.CEILING
         }
 
-        private val movesBaseResource = cobblemonResource("ui/summary/summary_moves_base.png")
-        val movesPowerIconResource = cobblemonResource("ui/summary/summary_moves_icon_power.png")
-        val movesAccuracyIconResource = cobblemonResource("ui/summary/summary_moves_icon_accuracy.png")
-        val movesEffectIconResource = cobblemonResource("ui/summary/summary_moves_icon_effect.png")
+        private val movesBaseResource = cobblemonResource("textures/gui/summary/summary_moves_base.png")
+        val movesPowerIconResource = cobblemonResource("textures/gui/summary/summary_moves_icon_power.png")
+        val movesAccuracyIconResource = cobblemonResource("textures/gui/summary/summary_moves_icon_accuracy.png")
+        val movesEffectIconResource = cobblemonResource("textures/gui/summary/summary_moves_icon_effect.png")
     }
 
     var selectedMove: Move? = null

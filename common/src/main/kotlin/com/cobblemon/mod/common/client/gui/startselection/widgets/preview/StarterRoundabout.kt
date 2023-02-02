@@ -67,7 +67,7 @@ class StarterRoundabout(
         drawProfilePokemon(
             renderablePokemon = pokemon,
             matrixStack = matrices,
-            rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(0F),
+            rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(90F),
             state = null,
             scale = 18F
         )

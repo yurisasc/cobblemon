@@ -27,8 +27,8 @@ class NavigationButton(
         private const val WIDTH = 8F
         private const val HEIGHT = 10F
         private const val SCALE = 0.5F
-        private val forwardButtonResource = cobblemonResource("ui/pc/pc_arrow_next.png")
-        private val backwardsButtonResource = cobblemonResource("ui/pc/pc_arrow_previous.png")
+        private val forwardButtonResource = cobblemonResource("textures/gui/pc/pc_arrow_next.png")
+        private val backwardsButtonResource = cobblemonResource("textures/gui/pc/pc_arrow_previous.png")
     }
 
     override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

@@ -30,8 +30,8 @@ class ReorderMoveButton(
         private const val OFFSET_Y_UP = 6
         private const val OFFSET_Y_DOWN = 13
         private const val SCALE = 0.5F
-        private val moveReorderUpResource = cobblemonResource("ui/summary/summary_move_reorder_up.png")
-        private val moveReorderDownResource = cobblemonResource("ui/summary/summary_move_reorder_down.png")
+        private val moveReorderUpResource = cobblemonResource("textures/gui/summary/summary_move_reorder_up.png")
+        private val moveReorderDownResource = cobblemonResource("textures/gui/summary/summary_move_reorder_down.png")
         private var blocked = false
     }
 

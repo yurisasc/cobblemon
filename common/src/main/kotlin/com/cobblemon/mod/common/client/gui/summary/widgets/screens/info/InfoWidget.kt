@@ -33,7 +33,7 @@ class InfoWidget(
     companion object {
         private const val WIDTH = 134
         private const val HEIGHT = 148
-        private val infoBaseResource = cobblemonResource("ui/summary/summary_info_base.png")
+        private val infoBaseResource = cobblemonResource("textures/gui/summary/summary_info_base.png")
     }
 
     override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

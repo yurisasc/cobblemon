@@ -50,13 +50,13 @@ class StarterSelectionScreen private constructor(): Screen("cobblemon.ui.starter
         private const val BASE_HEIGHT = 175
 
         // Resources
-        private val base = cobblemonResource("ui/starterselection/starterselection_base.png")
-        private val baseUnderlay = cobblemonResource("ui/starterselection/starterselection_base_underlay.png")
-        private val baseFrame = cobblemonResource("ui/starterselection/starterselection_base_frame.png")
+        private val base = cobblemonResource("textures/gui/starterselection/starterselection_base.png")
+        private val baseUnderlay = cobblemonResource("textures/gui/starterselection/starterselection_base_underlay.png")
+        private val baseFrame = cobblemonResource("textures/gui/starterselection/starterselection_base_frame.png")
 
         // Type Backgrounds
-        private val singleTypeBackground = cobblemonResource("ui/starterselection/starterselection_type_slot1.png")
-        private val doubleTypeBackground = cobblemonResource("ui/starterselection/starterselection_type_slot2.png")
+        private val singleTypeBackground = cobblemonResource("textures/gui/starterselection/starterselection_type_slot1.png")
+        private val doubleTypeBackground = cobblemonResource("textures/gui/starterselection/starterselection_type_slot2.png")
     }
 
     lateinit var categories: List<RenderableStarterCategory>

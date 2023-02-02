@@ -21,7 +21,7 @@ class BattleBackButton(val x: Float, val y: Float) {
     fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
         blitk(
             matrixStack = matrices,
-            texture = cobblemonResource("ui/battle/battle_back.png"),
+            texture = cobblemonResource("textures/gui/battle/battle_back.png"),
             x = x * 2,
             y = y * 2,
             height = HEIGHT,

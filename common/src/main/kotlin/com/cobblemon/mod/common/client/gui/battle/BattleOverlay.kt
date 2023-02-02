@@ -71,11 +71,11 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
 
         private val PROMPT_TEXT_OPACITY_CURVE = sineFunction(period = 4F, verticalShift = 0.5F, amplitude = 0.5F)
 
-        val battleInfoBase = cobblemonResource("ui/battle/battle_info_base.png")
-        val battleInfoBaseFlipped = cobblemonResource("ui/battle/battle_info_base_flipped.png")
-        val battleInfoRole = cobblemonResource("ui/battle/battle_info_role.png")
-        val battleInfoRoleFlipped = cobblemonResource("ui/battle/battle_info_role_flipped.png")
-        val battleInfoUnderlay = cobblemonResource("ui/battle/battle_info_underlay.png")
+        val battleInfoBase = cobblemonResource("textures/gui/battle/battle_info_base.png")
+        val battleInfoBaseFlipped = cobblemonResource("textures/gui/battle/battle_info_base_flipped.png")
+        val battleInfoRole = cobblemonResource("textures/gui/battle/battle_info_role.png")
+        val battleInfoRoleFlipped = cobblemonResource("textures/gui/battle/battle_info_role_flipped.png")
+        val battleInfoUnderlay = cobblemonResource("textures/gui/battle/battle_info_underlay.png")
     }
 
     var opacity = MIN_OPACITY
@@ -278,7 +278,7 @@ class BattleOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.g
             val statusWidth = 37
             blitk(
                 matrixStack = matrices,
-                texture = cobblemonResource("ui/battle/battle_status_" + status.showdownName + ".png"),
+                texture = cobblemonResource("textures/gui/battle/battle_status_" + status.showdownName + ".png"),
                 x = x + if (reversed) 56 else 38,
                 y = y + 28,
                 height = 7,

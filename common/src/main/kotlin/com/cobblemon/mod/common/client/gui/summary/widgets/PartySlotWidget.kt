@@ -41,11 +41,11 @@ class PartySlotWidget(
         const val HEIGHT = 27
         private const val PORTRAIT_DIAMETER = 25
 
-        private val slotResource = cobblemonResource("ui/summary/summary_party_slot.png")
-        private val slotFaintedResource = cobblemonResource("ui/summary/summary_party_slot_fainted.png")
-        private val slotEmptyResource = cobblemonResource("ui/summary/summary_party_slot_empty.png")
-        private val genderIconMale = cobblemonResource("ui/party/party_gender_male.png")
-        private val genderIconFemale = cobblemonResource("ui/party/party_gender_female.png")
+        private val slotResource = cobblemonResource("textures/gui/summary/summary_party_slot.png")
+        private val slotFaintedResource = cobblemonResource("textures/gui/summary/summary_party_slot_fainted.png")
+        private val slotEmptyResource = cobblemonResource("textures/gui/summary/summary_party_slot_empty.png")
+        private val genderIconMale = cobblemonResource("textures/gui/party/party_gender_male.png")
+        private val genderIconFemale = cobblemonResource("textures/gui/party/party_gender_female.png")
     }
 
     private fun getSlotTexture(pokemon: Pokemon?): Identifier {
@@ -101,7 +101,7 @@ class PartySlotWidget(
                 )
             }
 
-            val ballIcon = cobblemonResource("ui/ball/" + slotPokemon.caughtBall.name.path + ".png")
+            val ballIcon = cobblemonResource("textures/gui/ball/" + slotPokemon.caughtBall.name.path + ".png")
             val ballHeight = 22
             blitk(
                 matrixStack = matrices,
@@ -119,7 +119,7 @@ class PartySlotWidget(
                 val statusName = status.showdownName
                     blitk(
                     matrixStack = matrices,
-                    texture = cobblemonResource("ui/party/status_$statusName.png"),
+                    texture = cobblemonResource("textures/gui/party/status_$statusName.png"),
                     x = x + 42,
                     y = y + 5,
                     height = 14,
@@ -154,7 +154,7 @@ class PartySlotWidget(
                 species = slotPokemon.species,
                 aspects = slotPokemon.aspects.toSet(),
                 matrixStack = matrices,
-                rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(0F),
+                rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(90F),
                 state = null,
                 scale = 4.5F
             )

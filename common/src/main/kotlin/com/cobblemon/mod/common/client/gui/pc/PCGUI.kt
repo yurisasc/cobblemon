@@ -47,14 +47,14 @@ class PCGUI(
         const val PORTRAIT_SIZE = 66
         const val SCALE = 0.5F
 
-        private val baseResource = cobblemonResource("ui/pc/pc_base.png")
-        private val portraitBackgroundResource = cobblemonResource("ui/pc/portrait_background.png")
-        private val topSpacerResource = cobblemonResource("ui/pc/pc_spacer_top.png")
-        private val bottomSpacerResource = cobblemonResource("ui/pc/pc_spacer_bottom.png")
-        private val rightSpacerResource = cobblemonResource("ui/pc/pc_spacer_right.png")
-        private val typeSpacerResource = cobblemonResource("ui/pc/type_spacer.png")
-        private val typeSpacerSingleResource = cobblemonResource("ui/pc/type_spacer_single.png")
-        private val typeSpacerDoubleResource = cobblemonResource("ui/pc/type_spacer_double.png")
+        private val baseResource = cobblemonResource("textures/gui/pc/pc_base.png")
+        private val portraitBackgroundResource = cobblemonResource("textures/gui/pc/portrait_background.png")
+        private val topSpacerResource = cobblemonResource("textures/gui/pc/pc_spacer_top.png")
+        private val bottomSpacerResource = cobblemonResource("textures/gui/pc/pc_spacer_bottom.png")
+        private val rightSpacerResource = cobblemonResource("textures/gui/pc/pc_spacer_right.png")
+        private val typeSpacerResource = cobblemonResource("textures/gui/pc/type_spacer.png")
+        private val typeSpacerSingleResource = cobblemonResource("textures/gui/pc/type_spacer_single.png")
+        private val typeSpacerDoubleResource = cobblemonResource("textures/gui/pc/type_spacer_double.png")
     }
 
     private lateinit var storageWidget: StorageWidget
@@ -175,7 +175,7 @@ class PCGUI(
                 val statusName = if (pokemon.isFainted()) "fnt" else status?.showdownName
                 blitk(
                     matrixStack = matrices,
-                    texture = cobblemonResource("ui/battle/battle_status_$statusName.png"),
+                    texture = cobblemonResource("textures/gui/battle/battle_status_$statusName.png"),
                     x = x + 34,
                     y = y + 1,
                     height = 7,
@@ -186,7 +186,7 @@ class PCGUI(
 
                 blitk(
                     matrixStack = matrices,
-                    texture = cobblemonResource("ui/summary/status_trim.png"),
+                    texture = cobblemonResource("textures/gui/summary/status_trim.png"),
                     x = x + 34,
                     y = y + 2,
                     height = 6,

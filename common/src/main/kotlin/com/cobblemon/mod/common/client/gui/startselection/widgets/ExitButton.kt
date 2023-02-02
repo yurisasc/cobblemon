@@ -22,7 +22,7 @@ class ExitButton(
     companion object {
         private const val EXIT_BUTTON_WIDTH = 15.95F
         private const val EXIT_BUTTON_HEIGHT = 11.95F
-        private val exitButtonResource = cobblemonResource("ui/starterselection/starterselection_exit.png")
+        private val exitButtonResource = cobblemonResource("textures/gui/starterselection/starterselection_exit.png")
     }
 
     override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

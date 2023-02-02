@@ -28,8 +28,8 @@ class TypeIcon(
         private const val TYPE_ICON_DIAMETER = 36
         private const val SCALE = 0.5F
 
-        private val typesResource = cobblemonResource("ui/types.png")
-        private val smallTypesResource = cobblemonResource("ui/types_small.png")
+        private val typesResource = cobblemonResource("textures/gui/types.png")
+        private val smallTypesResource = cobblemonResource("textures/gui/types_small.png")
     }
 
     fun render(pMatrixStack: MatrixStack) {

@@ -55,13 +55,13 @@ class StatWidget(
         private const val BLUE = 0x00548BFB
         private const val RED = 0x00FB5454
 
-        private val statsBaseResource = cobblemonResource("ui/summary/summary_stats_chart_base.png")
-        private val statsChartResource = cobblemonResource("ui/summary/summary_stats_chart.png")
-        private val statsOtherBaseResource = cobblemonResource("ui/summary/summary_stats_other_base.png")
-        private val friendshipOverlayResource = cobblemonResource("ui/summary/summary_stats_friendship_overlay.png")
-        private val tabMarkerResource = cobblemonResource("ui/summary/summary_stats_tab_marker.png")
-        private val statIncreaseResource = cobblemonResource("ui/summary/summary_stats_icon_increase.png")
-        private val statDecreaseResource = cobblemonResource("ui/summary/summary_stats_icon_decrease.png")
+        private val statsBaseResource = cobblemonResource("textures/gui/summary/summary_stats_chart_base.png")
+        private val statsChartResource = cobblemonResource("textures/gui/summary/summary_stats_chart.png")
+        private val statsOtherBaseResource = cobblemonResource("textures/gui/summary/summary_stats_other_base.png")
+        private val friendshipOverlayResource = cobblemonResource("textures/gui/summary/summary_stats_friendship_overlay.png")
+        private val tabMarkerResource = cobblemonResource("textures/gui/summary/summary_stats_tab_marker.png")
+        private val statIncreaseResource = cobblemonResource("textures/gui/summary/summary_stats_icon_increase.png")
+        private val statDecreaseResource = cobblemonResource("textures/gui/summary/summary_stats_icon_decrease.png")
 
         private val statsLabel = lang("ui.stats")
         private val baseLabel = lang("ui.stats.base")

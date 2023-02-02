@@ -24,8 +24,8 @@ class ExitButton(
         private const val WIDTH = 26F
         private const val HEIGHT = 13F
         private const val SCALE = 0.5F
-        private val buttonResource = cobblemonResource("ui/common/back_button.png")
-        private val iconResource = cobblemonResource("ui/common/back_button_icon.png")
+        private val buttonResource = cobblemonResource("textures/gui/common/back_button.png")
+        private val iconResource = cobblemonResource("textures/gui/common/back_button_icon.png")
     }
 
     override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

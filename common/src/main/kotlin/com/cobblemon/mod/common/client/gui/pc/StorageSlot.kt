@@ -33,9 +33,9 @@ open class StorageSlot(
     companion object {
         const val SIZE = 25
 
-        private val genderIconMale = cobblemonResource("ui/pc/gender_icon_male.png")
-        private val genderIconFemale = cobblemonResource("ui/pc/gender_icon_female.png")
-        private val selectPointerResource = cobblemonResource("ui/pc/pc_pointer.png")
+        private val genderIconMale = cobblemonResource("textures/gui/pc/gender_icon_male.png")
+        private val genderIconFemale = cobblemonResource("textures/gui/pc/gender_icon_female.png")
+        private val selectPointerResource = cobblemonResource("textures/gui/pc/pc_pointer.png")
     }
 
     override fun playDownSound(soundManager: SoundManager) {
@@ -64,7 +64,7 @@ open class StorageSlot(
         drawProfilePokemon(
             renderablePokemon = pokemon.asRenderablePokemon(),
             matrixStack = matrices,
-            rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(0F),
+            rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(90F),
             state = null,
             scale = 4.5F
         )
