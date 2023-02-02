@@ -222,7 +222,7 @@ class PCGUI(
             )
 
             // Poké Ball
-            val ballResource = cobblemonResource("textures/items/poke_balls/" + pokemon.caughtBall.name.path + ".png")
+            val ballResource = cobblemonResource("textures/item/poke_balls/" + pokemon.caughtBall.name.path + ".png")
             blitk(
                 matrixStack = matrices,
                 texture = ballResource,

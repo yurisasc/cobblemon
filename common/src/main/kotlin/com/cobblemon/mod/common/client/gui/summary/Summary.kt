@@ -433,7 +433,7 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
         }
 
         // Poké Ball
-        val ballResource = cobblemonResource("textures/items/poke_balls/" + selectedPokemon.caughtBall.name.path + ".png")
+        val ballResource = cobblemonResource("textures/item/poke_balls/" + selectedPokemon.caughtBall.name.path + ".png")
         blitk(
             matrixStack = pMatrixStack,
             texture = ballResource,
