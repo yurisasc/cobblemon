@@ -6,15 +6,9 @@
       "predicate": {
         "type": "minecraft:would_survive",
         "state": {
-          "Name": "cobblemon:white_apricorn_sapling",
-          "Properties": {
-            "stage": "0"
-          }
+          "Name": "cobblemon:white_apricorn_sapling"
         }
       }
-    },
-    {
-      "type": "minecraft:biome"
     }
   ]
 }

@@ -9,21 +9,11 @@
 package com.cobblemon.mod.common.world.feature.apricorn
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonBlocks
-import com.cobblemon.mod.common.util.cobblemonResource
 import dev.architectury.registry.level.biome.BiomeModifications
 import net.minecraft.registry.RegistryKey
-import net.minecraft.registry.RegistryKeys
-import net.minecraft.registry.entry.RegistryEntry
-import net.minecraft.registry.entry.RegistryEntryList
 import net.minecraft.world.gen.GenerationStep
-import net.minecraft.world.gen.feature.ConfiguredFeatures
-import net.minecraft.world.gen.feature.Feature
 import net.minecraft.world.gen.feature.PlacedFeature
 import net.minecraft.world.gen.feature.PlacedFeatures
-import net.minecraft.world.gen.feature.SimpleRandomFeatureConfig
-import net.minecraft.world.gen.feature.VegetationPlacedFeatures
-import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier
 
 object CobblemonApricornPlacedFeatures {
 
