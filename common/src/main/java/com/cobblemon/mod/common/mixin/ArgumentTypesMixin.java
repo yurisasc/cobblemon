@@ -13,7 +13,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.serialize.ArgumentSerializer;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,7 +28,7 @@ public class ArgumentTypesMixin {
         throw new AssertionError("Should not be executed.");
     }
 
-    @Inject(method = "register(Lnet/minecraft/util/registry/Registry;)Lnet/minecraft/command/argument/serialize/ArgumentSerializer;", at = @At("RETURN"))
+    @Inject(method = "register(Lnet/minecraft/registry/Registry;)Lnet/minecraft/command/argument/serialize/ArgumentSerializer;", at = @At("RETURN"))
     private static void register(Registry<ArgumentSerializer<?, ?>> registry, CallbackInfoReturnable<ArgumentSerializer<?, ?>> ci) {
         register(registry, "cobblemon:pokemon", PokemonArgumentType.class, ConstantArgumentSerializer.of(PokemonArgumentType.Companion::pokemon));
         register(registry, "cobblemon:pokemonproperties", PokemonPropertiesArgumentType.class, ConstantArgumentSerializer.of(PokemonPropertiesArgumentType.Companion::properties));

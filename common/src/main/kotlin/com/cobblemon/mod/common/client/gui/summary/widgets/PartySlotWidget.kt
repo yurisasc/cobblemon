@@ -23,8 +23,8 @@ import com.cobblemon.mod.common.util.lang
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Vector3f
 
 class PartySlotWidget(
     private val pX: Number,
@@ -154,7 +154,7 @@ class PartySlotWidget(
                 species = slotPokemon.species,
                 aspects = slotPokemon.aspects.toSet(),
                 matrixStack = matrices,
-                rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
+                rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(0F),
                 state = null,
                 scale = 4.5F
             )

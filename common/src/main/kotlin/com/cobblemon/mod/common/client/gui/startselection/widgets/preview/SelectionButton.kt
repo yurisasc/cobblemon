@@ -21,7 +21,7 @@ class SelectionButton(
     pX: Int, pY: Int,
     pWidth: Int, pHeight: Int,
     onPress: PressAction
-): ButtonWidget(pX, pY, pWidth, pHeight, Text.literal("SelectionButton"), onPress) {
+): ButtonWidget(pX, pY, pWidth, pHeight, Text.literal("SelectionButton"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private val buttonTexture = cobblemonResource("ui/starterselection/starterselection_button.png")

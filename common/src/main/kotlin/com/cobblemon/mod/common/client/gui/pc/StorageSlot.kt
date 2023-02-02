@@ -21,14 +21,14 @@ import net.minecraft.client.gui.widget.ButtonWidget
 import net.minecraft.client.sound.SoundManager
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Vector3f
 
 open class StorageSlot(
     x: Int, y: Int,
     private val parent: StorageWidget,
     onPress: PressAction
-) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("StorageSlot"), onPress) {
+) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("StorageSlot"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         const val SIZE = 25
@@ -64,7 +64,7 @@ open class StorageSlot(
         drawProfilePokemon(
             renderablePokemon = pokemon.asRenderablePokemon(),
             matrixStack = matrices,
-            rotation = Quaternion.fromEulerXyzDegrees(Vec3f(13F, 35F, 0F)),
+            rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(0F),
             state = null,
             scale = 4.5F
         )

@@ -30,7 +30,6 @@ import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.permission.PermissionValidator
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculators
-import com.cobblemon.mod.common.pokeball.catching.calculators.CobblemonCaptureCalculator
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceCalculator
@@ -98,10 +97,10 @@ import com.cobblemon.mod.common.util.ifDedicatedServer
 import com.cobblemon.mod.common.util.isLaterVersion
 import com.cobblemon.mod.common.util.party
 import com.cobblemon.mod.common.util.removeAmountIf
+import com.cobblemon.mod.common.world.feature.CobblemonFeatures
+import com.cobblemon.mod.common.world.feature.apricorn.CobblemonApricornPlacedFeatures
 import com.cobblemon.mod.common.world.gamerules.CobblemonGameRules
-import com.cobblemon.mod.common.world.feature.CobblemonOrePlacedFeatures
-import com.cobblemon.mod.common.world.placement.CobblemonPlacementTypes
-import com.mojang.bridge.game.PackType
+import com.cobblemon.mod.common.world.feature.ore.CobblemonOrePlacedFeatures
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.event.events.common.InteractionEvent
@@ -219,8 +218,8 @@ object Cobblemon {
             LOGGER.info("All registries loaded.")
         }
 
-        CobblemonPlacementTypes.register()
         CobblemonOrePlacedFeatures.register()
+        CobblemonApricornPlacedFeatures.register()
 
         // Start up the data provider.
         CobblemonDataProvider.registerDefaults()

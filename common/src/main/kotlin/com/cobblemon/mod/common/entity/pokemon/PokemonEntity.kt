@@ -68,11 +68,11 @@ import net.minecraft.fluid.FluidState
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NbtCompound
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
-import net.minecraft.tag.FluidTags
 import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
@@ -347,7 +347,7 @@ class PokemonEntity(
         if (pokemon != null) {
             moveControl = PokemonMoveControl(this)
             navigation = PokemonNavigation(world, this)
-            goalSelector.clear()
+            goalSelector.clear { true }
             goalSelector.add(0, PokemonInBattleMovementGoal(this, 10))
             goalSelector.add(0, object : Goal() {
                 override fun canStart() = this@PokemonEntity.phasingTargetId.get() != -1 || pokemon.status?.status == Statuses.SLEEP || deathEffectsStarted.get()

@@ -48,6 +48,7 @@ import net.minecraft.entity.projectile.thrown.ThrownItemEntity
 import net.minecraft.item.Item
 import net.minecraft.network.Packet
 import net.minecraft.network.PacketByteBuf
+import net.minecraft.network.listener.ClientPlayPacketListener
 import net.minecraft.particle.ParticleTypes
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.hit.BlockHitResult
@@ -299,7 +300,7 @@ class EmptyPokeBallEntity(
 
     override fun getDefaultItem(): Item = pokeBall.item()
 
-    override fun createSpawnPacket(): Packet<*> {
+    override fun createSpawnPacket(): Packet<ClientPlayPacketListener> {
         return NetworkManager.createAddEntityPacket(this)
     }
 

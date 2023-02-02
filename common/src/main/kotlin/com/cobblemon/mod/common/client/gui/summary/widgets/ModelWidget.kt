@@ -15,8 +15,8 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Vector3f
 
 class ModelWidget(
     pX: Int, pY: Int,
@@ -33,7 +33,7 @@ class ModelWidget(
 
     var state = PokemonFloatingState()
     private val minecraft = MinecraftClient.getInstance()
-    private var rotVec = Vec3f(13F, rotationY, 0F)
+    private var rotVec = Vector3f(13F, rotationY, 0F)
 
     override fun render(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {
         if (!render) {
@@ -60,7 +60,7 @@ class ModelWidget(
         drawProfilePokemon(
             renderablePokemon = pokemon,
             matrixStack = poseStack,
-            rotation = Quaternion.fromEulerXyzDegrees(rotVec),
+            rotation = RotationAxis.of(rotVec).rotationDegrees(0F),
             state = state
         )
 

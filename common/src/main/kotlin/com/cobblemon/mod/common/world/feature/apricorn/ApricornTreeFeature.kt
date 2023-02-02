@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.world.feature
+package com.cobblemon.mod.common.world.feature.apricorn
 
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.CobblemonBlocks
@@ -14,13 +14,12 @@ import com.cobblemon.mod.common.api.tags.CobblemonBiomeTags
 import com.cobblemon.mod.common.util.randomNoCopy
 import com.cobblemon.mod.common.block.ApricornBlock
 import com.google.common.collect.Lists
-import com.mojang.serialization.Codec
 import kotlin.random.Random.Default.nextInt
 import net.minecraft.block.BlockState
 import net.minecraft.block.Blocks
 import net.minecraft.block.HorizontalFacingBlock
 import net.minecraft.block.LeavesBlock
-import net.minecraft.tag.BlockTags
+import net.minecraft.registry.tag.BlockTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.Direction.*
@@ -33,9 +32,7 @@ import net.minecraft.world.gen.feature.SingleStateFeatureConfig
 import net.minecraft.world.gen.feature.TreeFeature
 import net.minecraft.world.gen.feature.util.FeatureContext
 
-class ApricornTreeFeature(
-    codec: Codec<SingleStateFeatureConfig>
-) : Feature<SingleStateFeatureConfig>(codec) {
+class ApricornTreeFeature : Feature<SingleStateFeatureConfig>(SingleStateFeatureConfig.CODEC) {
 
     override fun generate(context: FeatureContext<SingleStateFeatureConfig>) : Boolean {
         val worldGenLevel: StructureWorldAccess = context.world

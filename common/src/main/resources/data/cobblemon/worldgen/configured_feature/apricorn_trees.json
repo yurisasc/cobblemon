@@ -1,0 +1,14 @@
+{
+  "type": "simple_random_selector",
+  "config": {
+    "features": [
+      "cobblemon:black_apricorn_tree",
+      "cobblemon:blue_apricorn_tree",
+      "cobblemon:green_apricorn_tree",
+      "cobblemon:pink_apricorn_tree",
+      "cobblemon:red_apricorn_tree",
+      "cobblemon:white_apricorn_tree",
+      "cobblemon:yellow_apricorn_tree"
+    ]
+  }
+}

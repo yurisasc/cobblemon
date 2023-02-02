@@ -30,7 +30,7 @@ import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper.ceil
 import net.minecraft.util.math.MathHelper.floor
 import net.minecraft.util.math.Vec2f
-import net.minecraft.util.math.Vec3f
+import org.joml.Vector3f
 
 class StatWidget(
     pX: Int, pY: Int,
@@ -80,7 +80,7 @@ class StatWidget(
     var statTabIndex = tabIndex
 
     private fun drawTriangle(
-        colour: Vec3f,
+        colour: Vector3f,
         v1: Vec2f,
         v2: Vec2f,
         v3: Vec2f
@@ -92,10 +92,10 @@ class StatWidget(
         bufferBuilder.vertex(v1.x.toDouble(), v1.y.toDouble(), 10.0).next()
         bufferBuilder.vertex(v2.x.toDouble(), v2.y.toDouble(), 10.0).next()
         bufferBuilder.vertex(v3.x.toDouble(), v3.y.toDouble(), 10.0).next()
-        BufferRenderer.drawWithShader(bufferBuilder.end())
+        BufferRenderer.draw(bufferBuilder.end())
     }
 
-    private fun drawStatHexagon(stats: Map<Stat, Int>, colour: Vec3f, maximum: Int) {
+    private fun drawStatHexagon(stats: Map<Stat, Int>, colour: Vector3f, maximum: Int) {
         val hexLeftX = x + 25.5
         val hexTopY = y + 22
         val hexAttackY = hexTopY + 24.5
@@ -204,22 +204,22 @@ class StatWidget(
                     Stats.SPECIAL_DEFENCE to pokemon.specialDefence,
                     Stats.SPEED to pokemon.speed
                 ),
-                colour = Vec3f(50F/255, 215F/255F, 1F),
+                colour = Vector3f(50F/255, 215F/255F, 1F),
                 maximum = 400
             )
             BASE -> drawStatHexagon(
                 pokemon.form.baseStats,
-                colour = Vec3f(1F, 107F/255, 50F/255),
+                colour = Vector3f(1F, 107F/255, 50F/255),
                 maximum = 200
             )
             IV -> drawStatHexagon(
                 pokemon.ivs.associate { it.key to it.value },
-                colour = Vec3f(216F/255, 100F/255, 1F),
+                colour = Vector3f(216F/255, 100F/255, 1F),
                 maximum = 31
             )
             EV -> drawStatHexagon(
                 pokemon.evs.associate { it.key to it.value },
-                colour = Vec3f(1F, 1F, 100F/255),
+                colour = Vector3f(1F, 1F, 100F/255),
                 maximum = 252
             )
         }

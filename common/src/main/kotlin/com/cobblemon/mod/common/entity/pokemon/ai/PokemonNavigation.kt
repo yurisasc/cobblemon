@@ -22,7 +22,7 @@ import net.minecraft.entity.ai.pathing.Path
 import net.minecraft.entity.ai.pathing.PathNode
 import net.minecraft.entity.ai.pathing.PathNodeNavigator
 import net.minecraft.entity.ai.pathing.PathNodeType
-import net.minecraft.tag.FluidTags
+import net.minecraft.registry.tag.FluidTags
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d

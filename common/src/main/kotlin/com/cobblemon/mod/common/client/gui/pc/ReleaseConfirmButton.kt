@@ -24,7 +24,7 @@ class ReleaseConfirmButton(
     private val parent: StorageWidget,
     private val subKey: String,
     onPress: PressAction
-) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("ReleaseConfirm"), onPress) {
+) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("ReleaseConfirm"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 30

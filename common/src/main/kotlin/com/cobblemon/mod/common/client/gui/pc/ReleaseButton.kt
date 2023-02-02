@@ -23,7 +23,7 @@ class ReleaseButton(
     x: Int, y: Int,
     private val parent: StorageWidget,
     onPress: PressAction
-) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("Release"), onPress) {
+) : ButtonWidget(x, y, WIDTH, HEIGHT, Text.literal("Release"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 58

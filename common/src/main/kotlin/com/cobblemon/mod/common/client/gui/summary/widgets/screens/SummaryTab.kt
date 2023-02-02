@@ -24,7 +24,7 @@ class SummaryTab(
     pX: Int, pY: Int,
     val label: MutableText,
     onPress: PressAction
-): ButtonWidget(pX, pY, 50, 13, label, onPress) {
+): ButtonWidget(pX, pY, 50, 13, label, onPress, DEFAULT_NARRATION_SUPPLIER) {
     private var isActive = false
 
     override fun renderButton(pMatrixStack: MatrixStack, pMouseX: Int, pMouseY: Int, pPartialTicks: Float) {

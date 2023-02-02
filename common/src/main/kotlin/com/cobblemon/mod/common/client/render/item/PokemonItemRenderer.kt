@@ -13,15 +13,14 @@ import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.item.PokemonItem
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.render.LightmapTextureManager
 import net.minecraft.client.render.OverlayTexture
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
-import net.minecraft.util.math.Quaternion
-import net.minecraft.util.math.Vec3f
+import net.minecraft.util.math.RotationAxis
+import org.joml.Vector3f
 
 class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
     override fun render(stack: ItemStack, mode: ModelTransformation.Mode, matrices: MatrixStack, vertexConsumers: VertexConsumerProvider, light: Int, overlay: Int) {
@@ -41,13 +40,13 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         matrices.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
         matrices.scale(model.profileScale, model.profileScale, 0.1F)
 
-        val rotation = Quaternion.fromEulerXyzDegrees(Vec3f(transformations.rotation.x, transformations.rotation.y, transformations.rotation.z))
+        val rotation = RotationAxis.of(Vector3f(transformations.rotation.x, transformations.rotation.y, transformations.rotation.z)).rotationDegrees(0F)
         matrices.multiply(rotation)
         rotation.conjugate()
         MinecraftClient.getInstance().entityRenderDispatcher.rotation = rotation
 
-        val light1 = Vec3f(-1F, 1F, 1.0F)
-        val light2 = Vec3f(1.3F, -1F, 1.0F)
+        val light1 = Vector3f(-1F, 1F, 1.0F)
+        val light2 = Vector3f(1.3F, -1F, 1.0F)
         RenderSystem.setShaderLights(light1, light2)
 //        val packedLight = LightmapTextureManager.pack(12, 12)
         val vertexConsumer: VertexConsumer = vertexConsumers.getBuffer(renderLayer)

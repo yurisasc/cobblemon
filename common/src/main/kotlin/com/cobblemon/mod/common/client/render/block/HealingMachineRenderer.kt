@@ -20,8 +20,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory
 import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.Direction
-import net.minecraft.util.math.Vec3f
-
+import net.minecraft.util.math.RotationAxis
 
 class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Context): BlockEntityRenderer<T> {
     companion object {
@@ -46,7 +45,8 @@ class HealingMachineRenderer<T: BlockEntity>(ctx: BlockEntityRendererFactory.Con
 
         // Position Poké Balls
         poseStack.translate(0.5, 0.5, 0.5)
-        poseStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-yRot))
+
+        poseStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yRot))
         poseStack.scale(0.65F, 0.65F, 0.65F)
 
         for ((index, pokeBall) in blockEntity.pokeBalls.withIndex()) {

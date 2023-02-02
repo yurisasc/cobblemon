@@ -18,8 +18,8 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.Identifier
-import net.minecraft.util.math.Vec3f
-import net.minecraft.util.math.Vector4f
+import org.joml.Vector3f
+import org.joml.Vector4f
 
 /**
  * All the information required for rendering a Pokémon [Species] with aspects.
@@ -77,7 +77,7 @@ class RegisteredSpeciesRendering(
         val GSON = GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
-            .registerTypeAdapter(Vec3f::class.java, Vector3fAdapter)
+            .registerTypeAdapter(Vector3f::class.java, Vector3fAdapter)
             .registerTypeAdapter(Vector4f::class.java, Vector4fAdapter)
             .disableHtmlEscaping()
             .setLenient()
@@ -153,7 +153,7 @@ class ModelAssetVariation(
 
 class ModelLayer {
     val name: String = ""
-    val scale: Vec3f = Vec3f(1F, 1F, 1F)
+    val scale: Vector3f = Vector3f(1F, 1F, 1F)
     val tint: Vector4f = Vector4f(1F, 1F, 1F, 1F)
     val texture: Identifier? = null
     val emissive: Boolean = false

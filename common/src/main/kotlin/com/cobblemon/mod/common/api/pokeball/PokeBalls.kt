@@ -27,6 +27,7 @@ import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.resource.ResourceType
 import net.minecraft.server.network.ServerPlayerEntity
 import net.minecraft.util.Identifier
@@ -188,8 +189,8 @@ object PokeBalls : JsonDataRegistry<PokeBall> {
         name: String,
         modifier: CatchRateModifier = MultiplierModifier(1F) { _, _ -> true },
         effects: List<CaptureEffect> = emptyList(),
-        model2d: String = "${Cobblemon.MODID}:${name}#inventory",
-        model3d: String = "${Cobblemon.MODID}:${name}_model#inventory"
+        model2d: ModelIdentifier = ModelIdentifier(Cobblemon.MODID, name, "inventory"),
+        model3d: ModelIdentifier = ModelIdentifier(Cobblemon.MODID, "${name}_model", "inventory")
     ): PokeBall {
         val identifier = cobblemonResource(name)
         //val finalModifiers = if (appendUltraBeastPenalty) modifiers + listOf(LabelModifier(0.1F, true, CobblemonPokemonLabels.ULTRA_BEAST)) else modifiers

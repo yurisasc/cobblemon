@@ -1,4 +1,8 @@
 {
-  "type": "yellow_apricorn_tree",
-  "config": {}
+  "type": "cobblemon:apricorn_tree",
+  "config": {
+    "state": {
+      "Name": "cobblemon:yellow_apricorn"
+    }
+  }
 }

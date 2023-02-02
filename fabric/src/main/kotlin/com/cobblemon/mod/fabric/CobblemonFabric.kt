@@ -9,10 +9,8 @@
 package com.cobblemon.mod.fabric
 
 import com.cobblemon.mod.common.Cobblemon
-import com.cobblemon.mod.common.CobblemonConfiguredFeatures
 import com.cobblemon.mod.common.CobblemonImplementation
 import com.cobblemon.mod.common.CobblemonNetwork
-import com.cobblemon.mod.common.CobblemonPlacements
 import com.cobblemon.mod.fabric.net.CobblemonFabricNetworkDelegate
 import com.cobblemon.mod.fabric.permission.FabricPermissionValidator
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -23,9 +21,6 @@ object CobblemonFabric : CobblemonImplementation {
     fun initialize() {
         CobblemonNetwork.networkDelegate = CobblemonFabricNetworkDelegate
         Cobblemon.preinitialize(this)
-
-        CobblemonConfiguredFeatures.register()
-        CobblemonPlacements.register()
 
         Cobblemon.initialize()
         /*

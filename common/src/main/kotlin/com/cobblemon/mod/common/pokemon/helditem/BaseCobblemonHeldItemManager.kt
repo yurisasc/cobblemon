@@ -44,7 +44,7 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
             showdownIds += arrayResult.getArrayElement(i).asString()
         }
         Registries.ITEM.forEach { item ->
-            val identifier = Registry.ITEM.getId(item)
+            val identifier = Registries.ITEM.getId(item)
             if (identifier.namespace == Cobblemon.MODID) {
                 val formattedPath = identifier.path.replace("_", "")
                 if (showdownIds.contains(formattedPath)) {
@@ -85,7 +85,7 @@ abstract class BaseCobblemonHeldItemManager : HeldItemManager {
      * @return The literal Showdown ID if any.
      */
     private fun showdownIdOf(item: Item): String? {
-        val identifier = Registry.ITEM.getId(item)
+        val identifier = Registries.ITEM.getId(item)
         val formattedPath = identifier.path.replace("_", "")
         if (this.itemIds.containsKey(formattedPath)) {
             return formattedPath

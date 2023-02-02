@@ -21,7 +21,7 @@ class NavigationButton(
     pX: Int, pY: Int,
     private val forward: Boolean,
     onPress: PressAction
-): ButtonWidget(pX, pY, (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal("Navigation"), onPress) {
+): ButtonWidget(pX, pY, (WIDTH * SCALE).toInt(), (HEIGHT * SCALE).toInt(), Text.literal("Navigation"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 8F

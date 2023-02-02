@@ -8,15 +8,16 @@
 
 package com.cobblemon.mod.forge
 
-import com.cobblemon.mod.common.*
+import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.CobblemonImplementation
+import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.filter
 import com.cobblemon.mod.common.api.reactive.Observable.Companion.takeFirst
 import com.cobblemon.mod.forge.net.CobblemonForgeNetworkDelegate
 import com.cobblemon.mod.forge.permission.ForgePermissionValidator
-import dev.architectury.event.events.common.LifecycleEvent
 import dev.architectury.platform.forge.EventBuses
-import java.util.*
 import net.minecraftforge.common.ForgeMod
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.OnDatapackSyncEvent
@@ -26,9 +27,11 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
+import java.util.*
 
 @Mod(Cobblemon.MODID)
 class CobblemonForge : CobblemonImplementation {
+
     init {
         with(FMLJavaModLoadingContext.get().modEventBus) {
             EventBuses.registerModEventBus(Cobblemon.MODID, this)
@@ -46,11 +49,6 @@ class CobblemonForge : CobblemonImplementation {
             CobblemonNetwork.networkDelegate = CobblemonForgeNetworkDelegate
 
             Cobblemon.preinitialize(this@CobblemonForge)
-
-            LifecycleEvent.SETUP.register {
-                CobblemonConfiguredFeatures.register()
-                CobblemonPlacements.register()
-            }
 
             // TODO: Make listener for BiomeLoadingEvent to register feature to biomes
         }

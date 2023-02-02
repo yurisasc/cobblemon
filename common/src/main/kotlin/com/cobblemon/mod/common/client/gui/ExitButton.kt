@@ -18,7 +18,7 @@ import net.minecraft.text.Text
 class ExitButton(
     pX: Int, pY: Int,
     onPress: PressAction
-): ButtonWidget(pX, pY, WIDTH.toInt(), HEIGHT.toInt(), Text.literal("Exit"), onPress) {
+): ButtonWidget(pX, pY, WIDTH.toInt(), HEIGHT.toInt(), Text.literal("Exit"), onPress, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         private const val WIDTH = 26F

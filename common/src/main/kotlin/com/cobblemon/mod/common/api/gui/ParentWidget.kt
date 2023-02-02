@@ -106,4 +106,6 @@ abstract class ParentWidget(
      */
     fun ishHovered(mouseX: Number, mouseY: Number) = mouseX in this.x..(this.x + this.width) && mouseY in this.y..(this.y + this.height)
 
+    override fun appendClickableNarrations(builder: NarrationMessageBuilder) {}
+
 }

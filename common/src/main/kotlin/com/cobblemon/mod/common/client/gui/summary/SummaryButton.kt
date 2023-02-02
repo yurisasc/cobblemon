@@ -37,7 +37,7 @@ class SummaryButton(
     private val boldText: Boolean = true,
     private val largeText: Boolean = true,
     private val textScale: Float = 1F
-): ButtonWidget(buttonX.toInt(), buttonY.toInt(), buttonWidth.toInt(), buttonHeight.toInt(), text, clickAction) {
+): ButtonWidget(buttonX.toInt(), buttonY.toInt(), buttonWidth.toInt(), buttonHeight.toInt(), text, clickAction, DEFAULT_NARRATION_SUPPLIER) {
 
     companion object {
         const val TEXT_HEIGHT = 9
