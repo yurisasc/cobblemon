@@ -11,11 +11,13 @@ package com.cobblemon.mod.common.client.gui.summary.widgets
 import com.cobblemon.mod.common.client.gui.drawProfilePokemon
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
 import com.cobblemon.mod.common.pokemon.RenderablePokemon
+import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawableHelper
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.text.Text
 import net.minecraft.util.math.RotationAxis
+import org.joml.Quaternionf
 import org.joml.Vector3f
 
 class ModelWidget(
@@ -60,7 +62,7 @@ class ModelWidget(
         drawProfilePokemon(
             renderablePokemon = pokemon,
             matrixStack = poseStack,
-            rotation = RotationAxis.of(rotVec).rotationDegrees(90F),
+            rotation = Quaternionf().fromEulerXYZDegrees(rotVec),
             state = state
         )
 

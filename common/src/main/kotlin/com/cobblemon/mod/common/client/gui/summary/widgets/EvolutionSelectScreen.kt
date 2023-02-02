@@ -21,9 +21,11 @@ import com.cobblemon.mod.common.pokemon.FormData
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.cobblemon.mod.common.util.lang
+import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.math.RotationAxis
+import org.joml.Quaternionf
 import org.joml.Vector3f
 
 class EvolutionSelectScreen(
@@ -136,7 +138,7 @@ class EvolutionSelectScreen(
                 species = form.species,
                 aspects = form.aspects.toSet(),
                 matrixStack = poseStack,
-                rotation = RotationAxis.of(Vector3f(13F, 35F, 0F)).rotationDegrees(90F),
+                rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(13F, 35F, 0F)),
                 state = null,
                 scale = 6F
             )

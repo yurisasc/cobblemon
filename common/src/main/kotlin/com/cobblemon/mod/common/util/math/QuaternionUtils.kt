@@ -1,0 +1,33 @@
+package com.cobblemon.mod.common.util.math
+
+import org.joml.Quaternionf
+import org.joml.Vector3f
+import kotlin.math.cos
+import kotlin.math.sin
+
+fun Quaternionf.fromEulerXYZDegrees(vector: Vector3f): Quaternionf {
+    return fromEulerXYZ(Math.toRadians(vector.x.toDouble()).toFloat(), Math.toRadians(vector.y.toDouble()).toFloat(), Math.toRadians(vector.z.toDouble()).toFloat())
+}
+
+fun Quaternionf.fromEulerXYZ(x: Float, y: Float, z: Float): Quaternionf {
+    this.hamiltonProduct(Quaternionf(sin(x / 2F), 0F, 0F, cos(x / 2F)))
+    this.hamiltonProduct(Quaternionf(0F, sin(y / 2F), 0F, cos(y / 2F)))
+    this.hamiltonProduct(Quaternionf(0F, 0F, sin(z / 2F), cos(z / 2F)))
+    return this
+}
+
+fun Quaternionf.hamiltonProduct(other: Quaternionf): Quaternionf {
+    val f = this.x
+    val g = this.y
+    val h = this.z
+    val i = this.w
+    val j = other.x
+    val k = other.y
+    val l = other.z
+    val m = other.w
+    this.x = i * j + f * m + g * l - h * k
+    this.y = i * k - f * l + g * m + h * j
+    this.z = i * l + f * k - g * j + h * m
+    this.w = i * m - f * j - g * k - h * l
+    return this
+}

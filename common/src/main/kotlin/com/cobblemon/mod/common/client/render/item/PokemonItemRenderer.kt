@@ -11,6 +11,7 @@ package com.cobblemon.mod.common.client.render.item
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.entity.PoseType
 import com.cobblemon.mod.common.item.PokemonItem
+import com.cobblemon.mod.common.util.math.fromEulerXYZDegrees
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.OverlayTexture
@@ -19,7 +20,7 @@ import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.model.json.ModelTransformation
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.item.ItemStack
-import net.minecraft.util.math.RotationAxis
+import org.joml.Quaternionf
 import org.joml.Vector3f
 
 class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
@@ -40,7 +41,7 @@ class PokemonItemRenderer : CobblemonBuiltinItemRenderer {
         matrices.translate(model.profileTranslation.x, model.profileTranslation.y,  model.profileTranslation.z - 4.0)
         matrices.scale(model.profileScale, model.profileScale, 0.1F)
 
-        val rotation = RotationAxis.of(Vector3f(transformations.rotation.x, transformations.rotation.y, transformations.rotation.z)).rotationDegrees(90F)
+        val rotation = Quaternionf().fromEulerXYZDegrees(Vector3f(transformations.rotation.x, transformations.rotation.y, transformations.rotation.z))
         matrices.multiply(rotation)
         rotation.conjugate()
         MinecraftClient.getInstance().entityRenderDispatcher.rotation = rotation
