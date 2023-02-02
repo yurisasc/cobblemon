@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "cobblemon:items/evolution/link_cable"
+    "layer0": "cobblemon:item/evolution/link_cable"
   }
 }
