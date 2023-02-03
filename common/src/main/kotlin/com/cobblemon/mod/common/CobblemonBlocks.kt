@@ -9,14 +9,13 @@
 package com.cobblemon.mod.common
 
 import com.cobblemon.mod.common.api.apricorn.Apricorn
-import com.cobblemon.mod.common.api.berry.Berries
-import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.registry.CompletableRegistry
 import com.cobblemon.mod.common.block.ApricornBlock
 import com.cobblemon.mod.common.block.ApricornSaplingBlock
 import com.cobblemon.mod.common.block.HealingMachineBlock
 import com.cobblemon.mod.common.block.PCBlock
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.world.block.BerryBlock
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.block.*
 import net.minecraft.entity.EntityType
