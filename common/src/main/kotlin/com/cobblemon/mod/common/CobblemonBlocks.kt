@@ -125,7 +125,19 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque().luminance(ToIntFunction { state: BlockState -> if ((state.get(
             PCBlock.ON) as Boolean) && (state.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 })) }
 
-    val PECHA_BERRY = this.berryBlock("pecha_berry")
+    // val AGUAV_BERRY = this.berryBlock("aguav")
+    // val ASPEAR_BERRY = this.berryBlock("aspear")
+    // val BLUK_BERRY = this.berryBlock("bluk")
+    // val CHARTI_BERRY = this.berryBlock("charti")
+    // val CHERI_BERRY = this.berryBlock("cheri")
+    // val CHESTO_BERRY = this.berryBlock("chesto")
+    // val NANAB_BERRY = this.berryBlock("nanab")
+    // val ORAN_BERRY = this.berryBlock("oran")
+    val PECHA_BERRY = this.berryBlock("pecha")
+    // val PINAP_BERRY = this.berryBlock("pinap")
+    // val RAZZ_BERRY = this.berryBlock("razz")
+    // val SITRUS_BERRY = this.berryBlock("sitrus")
+    // val WEPEAR_BERRY = this.berryBlock("wepear")
 
     fun berries() = this.berries.toMap()
 
@@ -134,7 +146,7 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     }
 
     private fun berryBlock(name: String): RegistrySupplier<BerryBlock> {
-        val identifier = cobblemonResource(name)
+        val identifier = cobblemonResource("${name}_berry")
         val supplier = queue(identifier.path) { BerryBlock(identifier, AbstractBlock.Settings.of(Material.PLANT).dynamicBounds().ticksRandomly().sounds(BlockSoundGroup.CROP)) }
         this.berries[supplier.id] = supplier
         return supplier

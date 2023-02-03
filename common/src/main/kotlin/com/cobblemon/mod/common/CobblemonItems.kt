@@ -114,7 +114,19 @@ object CobblemonItems : CompletableRegistry<Item>(Registry.ITEM_KEY) {
     val DUBIOUS_DISC = queue("dubious_disc") { evolutionItem() }
 
     // Plants
+    // val AGUAV_BERRY = berryItem("aguav", CobblemonBlocks.AGUAV_BERRY)
+    // val ASPEAR_BERRY = berryItem("aspear", CobblemonBlocks.ASPEAR_BERRY)
+    // val BLUK_BERRY = berryItem("bluk", CobblemonBlocks.BLUK_BERRY)
+    // val CHARTI_BERRY = berryItem("charti", CobblemonBlocks.CHARTI_BERRY)
+    // val CHERI_BERRY = berryItem("cheri", CobblemonBlocks.CHERI_BERRY)
+    // val CHESTO_BERRY = berryItem("chesto", CobblemonBlocks.CHESTO_BERRY)
+    // val NANAB_BERRY = berryItem("nanab", CobblemonBlocks.NANAB_BERRY)
+    // val ORAN_BERRY = berryItem("oran", CobblemonBlocks.ORAN_BERRY)
     val PECHA_BERRY = berryItem("pecha", CobblemonBlocks.PECHA_BERRY)
+    // val PINAP_BERRY = berryItem("pinap", CobblemonBlocks.PINAP_BERRY)
+    // val RAZZ_BERRY = berryItem("razz", CobblemonBlocks.RAZZ_BERRY)
+    // val SITRUS_BERRY = berryItem("sitrus", CobblemonBlocks.SITRUS_BERRY)
+    // val WEPEAR_BERRY = berryItem("wepear", CobblemonBlocks.WEPEAR_BERRY)
 
     // Medicine
     val RARE_CANDY = queue("rare_candy") { CandyItem { _, pokemon -> pokemon.getExperienceToNextLevel() } }
