@@ -959,7 +959,7 @@ open class Pokemon : ShowdownIdentifiable {
             event = ExperienceGainedPreEvent(this, source, appliedXP),
             ifSucceeded = { appliedXP = it.experience},
             ifCanceled = {
-                return AddExperienceResult(level, level, emptySet(), appliedXP)
+                return AddExperienceResult(level, level, emptySet(), 0)
             }
         )
 
