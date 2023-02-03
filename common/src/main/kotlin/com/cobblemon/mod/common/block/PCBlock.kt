@@ -153,13 +153,16 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
         }
     }
 
-    fun getBase(state: BlockState, pos: BlockPos): BlockPos {
-        return if (state.get(PART) == PCPart.TOP) {
-            pos.down()
-        } else {
+    fun getBasePosition(state: BlockState, pos: BlockPos): BlockPos {
+        return if (isBase(state)) {
             pos
+        } else {
+            pos.down()
         }
     }
+
+    private fun isBase(state: BlockState): Boolean = state.get(PART) == PCPart.BOTTOM
+
     override fun onBreak(world: World, pos: BlockPos, state: BlockState, player: PlayerEntity?) {
         super.onBreak(world, pos, state, player)
         val otherPart = world.getBlockState(getPositionOfOtherPart(state, pos))
@@ -212,24 +215,44 @@ class PCBlock(properties: Settings): BlockWithEntity(properties) {
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onUse(blockState: BlockState, world: World, blockPos: BlockPos, player: PlayerEntity, interactionHand: Hand, blockHitResult: BlockHitResult): ActionResult {
-        if (player !is ServerPlayerEntity) {
-            return ActionResult.SUCCESS
-        }
+    override fun onStateReplaced(state: BlockState, world: World, pos: BlockPos?, newState: BlockState, moved: Boolean) {
+        if (!state.isOf(newState.block)) super.onStateReplaced(state, world, pos, newState, moved)
+    }
 
-        val blockEntity = world.getBlockEntity(getBase(blockState, blockPos))
-        if (blockEntity !is PCBlockEntity) {
-            return ActionResult.SUCCESS
-        }
+    @Deprecated("Deprecated in Java")
+    override fun onUse(
+        blockState: BlockState,
+        world: World,
+        blockPos: BlockPos,
+        player: PlayerEntity,
+        interactionHand: Hand,
+        blockHitResult: BlockHitResult
+    ): ActionResult {
+        if (player !is ServerPlayerEntity) return ActionResult.SUCCESS
+
+        val basePos = getBasePosition(blockState, blockPos)
+
+        // Remove any duplicate block entities that may exist
+        world.getBlockEntity(basePos.up())?.markRemoved()
+
+        val baseEntity = world.getBlockEntity(basePos)
+        if (baseEntity !is PCBlockEntity) return ActionResult.SUCCESS
+
         if (player.isInBattle()) {
             player.sendMessage(lang("pc.inbattle").red())
             return ActionResult.SUCCESS
         }
-        val pc = Cobblemon.storage.getPCForPlayer(player, blockEntity) ?: return ActionResult.SUCCESS
+
+        val pc = Cobblemon.storage.getPCForPlayer(player, baseEntity) ?: return ActionResult.SUCCESS
         // TODO add event to check if they can open this PC?
-        PCLinkManager.addLink(ProximityPCLink(pc, player.uuid, blockEntity))
+        PCLinkManager.addLink(ProximityPCLink(pc, player.uuid, baseEntity))
         OpenPCPacket(pc.uuid).sendToPlayer(player)
-        world.playSoundServer(position = blockPos.toVec3d(), sound = CobblemonSounds.PC_ON.get(), volume = 1F, pitch = 1F)
+        world.playSoundServer(
+            position = blockPos.toVec3d(),
+            sound = CobblemonSounds.PC_ON.get(),
+            volume = 1F,
+            pitch = 1F
+        )
         return ActionResult.SUCCESS
     }
 

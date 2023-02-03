@@ -23,6 +23,7 @@ class PokemonInteractButton(
     private val iconResource: Identifier? = null,
     private val textureResource: Identifier,
     private val enabled: Boolean = true,
+    private val container: PokemonInteractGUI,
     onPress: PressAction
 ) : ButtonWidget(x, y, SIZE, SIZE, Text.literal("Interact"), onPress) {
 
@@ -33,7 +34,7 @@ class PokemonInteractButton(
     }
 
     override fun render(matrices: MatrixStack, mouseX: Int, mouseY: Int, delta: Float) {
-        blitk(
+            blitk(
             matrixStack = matrices,
             texture = textureResource,
             x = x,
@@ -62,5 +63,5 @@ class PokemonInteractButton(
     override fun playDownSound(pHandler: SoundManager) {
     }
 
-    fun isHovered(mouseX: Double, mouseY: Double) = mouseX.toFloat() in (x.toFloat()..(x.toFloat() + SIZE)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + SIZE))
+    fun isHovered(mouseX: Double, mouseY: Double) = (mouseX.toFloat() in (x.toFloat()..(x.toFloat() + SIZE)) && mouseY.toFloat() in (y.toFloat()..(y.toFloat() + SIZE))) && !container.isMouseInCenter(mouseX, mouseY)
 }

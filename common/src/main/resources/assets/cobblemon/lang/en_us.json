@@ -2176,6 +2176,8 @@
   "cobblemon.move.zippyzap": "Zippy Zap",
   "cobblemon.move.zippyzap.desc": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
 
+  "cobblemon.entity.pokemon": "Pokémon",
+
   "cobblemon.species.bulbasaur.name": "Bulbasaur",
   "cobblemon.species.bulbasaur.desc": "While it is young, it uses the nutrients that are stored in the seed on its back in order to grow.",
   "cobblemon.species.ivysaur.name": "Ivysaur",

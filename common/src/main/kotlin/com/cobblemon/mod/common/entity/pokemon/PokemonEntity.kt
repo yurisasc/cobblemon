@@ -560,7 +560,7 @@ class PokemonEntity(
         }
         player.giveItemStack(returned)
         player.sendMessage(text)
-        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
         return true
     }
 
@@ -579,7 +579,7 @@ class PokemonEntity(
                             pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
                             this.mountOnto(player)
                             this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
-                            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+                            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
                         }
                     }
                 }
