@@ -23,11 +23,7 @@ import com.cobblemon.mod.common.net.serverhandling.storage.SwapPCPartyPokemonHan
 import com.cobblemon.mod.common.net.serverhandling.storage.party.MovePartyPokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.storage.party.ReleasePCPokemonHandler
 import com.cobblemon.mod.common.net.serverhandling.storage.party.SwapPartyPokemonHandler
-import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePCPokemonHandler
-import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePCPokemonToPartyHandler
-import com.cobblemon.mod.common.net.serverhandling.storage.pc.MovePartyPokemonToPCHandler
-import com.cobblemon.mod.common.net.serverhandling.storage.pc.ReleasePartyPokemonHandler
-import com.cobblemon.mod.common.net.serverhandling.storage.pc.SwapPCPokemonHandler
+import com.cobblemon.mod.common.net.serverhandling.storage.pc.*
 
 /**
  * Registers packet handlers that the server will need. This is separated from the client ones
@@ -57,6 +53,7 @@ object ServerPacketRegistrar : SidedPacketRegistrar() {
         registerHandler(MovePCPokemonToPartyHandler)
         registerHandler(MovePartyPokemonToPCHandler)
         registerHandler(ReleasePCPokemonHandler)
+        registerHandler(UnlinkPlayerFromPCHandler)
 
         // Party actions
         registerHandler(MovePartyPokemonHandler)

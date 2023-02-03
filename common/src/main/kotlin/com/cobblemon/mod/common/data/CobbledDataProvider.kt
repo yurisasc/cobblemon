@@ -22,6 +22,7 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatureAssignments
 import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures
 import com.cobblemon.mod.common.api.spawning.CobblemonSpawnPools
 import com.cobblemon.mod.common.api.spawning.SpawnDetailPresets
+import com.cobblemon.mod.common.pokemon.SpeciesAdditions
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.BerryModelRepository
 import com.cobblemon.mod.common.pokemon.properties.PropertiesCompletionProvider
 import dev.architectury.registry.ReloadListenerRegistry
@@ -44,6 +45,7 @@ object CobblemonDataProvider : DataProvider {
         this.register(Moves)
         this.register(Abilities)
         this.register(PokemonSpecies)
+        this.register(SpeciesAdditions)
         this.register(PokeBalls)
         this.register(SpeciesFeatures)
         this.register(GlobalSpeciesFeatures)

@@ -65,11 +65,7 @@ import com.cobblemon.mod.common.net.messages.server.storage.SwapPCPartyPokemonPa
 import com.cobblemon.mod.common.net.messages.server.storage.party.MovePartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.party.ReleasePartyPokemonPacket
 import com.cobblemon.mod.common.net.messages.server.storage.party.SwapPartyPokemonPacket
-import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonPacket
-import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePCPokemonToPartyPacket
-import com.cobblemon.mod.common.net.messages.server.storage.pc.MovePartyPokemonToPCPacket
-import com.cobblemon.mod.common.net.messages.server.storage.pc.ReleasePCPokemonPacket
-import com.cobblemon.mod.common.net.messages.server.storage.pc.SwapPCPokemonPacket
+import com.cobblemon.mod.common.net.messages.server.storage.pc.*
 import com.cobblemon.mod.common.util.getServer
 import java.util.concurrent.CompletableFuture
 import net.minecraft.server.network.ServerPlayerEntity
@@ -221,6 +217,7 @@ object CobblemonNetwork {
         buildServerMessage<MovePartyPokemonToPCPacket>()
         buildServerMessage<ReleasePartyPokemonPacket>()
         buildServerMessage<ReleasePCPokemonPacket>()
+        buildServerMessage<UnlinkPlayerFromPCPacket>()
 
         // Starter packets
         buildServerMessage<SelectStarterPacket>()

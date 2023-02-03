@@ -283,7 +283,9 @@ class PartyOverlay : InGameHud(MinecraftClient.getInstance(), MinecraftClient.ge
                         itemStack = heldItem,
                         x = panelX + selectedOffsetX + 12.0,
                         y = indexY + 14.0,
-                        scale = 0.5
+                        scale = 0.5,
+                        matrixStack = matrixStack,
+                        zTranslation = 0.0F
                     )
                 }
             }

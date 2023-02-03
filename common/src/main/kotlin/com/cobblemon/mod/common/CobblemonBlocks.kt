@@ -12,33 +12,20 @@ import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.api.berry.Berries
 import com.cobblemon.mod.common.api.berry.Berry
 import com.cobblemon.mod.common.registry.CompletableRegistry
+import com.cobblemon.mod.common.block.ApricornBlock
+import com.cobblemon.mod.common.block.ApricornSaplingBlock
+import com.cobblemon.mod.common.block.HealingMachineBlock
+import com.cobblemon.mod.common.block.PCBlock
 import com.cobblemon.mod.common.util.cobblemonResource
-import com.cobblemon.mod.common.world.block.*
 import dev.architectury.registry.registries.RegistrySupplier
-import net.minecraft.block.AbstractBlock
-import net.minecraft.block.Block
-import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
-import net.minecraft.block.DoorBlock
-import net.minecraft.block.FenceBlock
-import net.minecraft.block.FenceGateBlock
-import net.minecraft.block.LeavesBlock
-import net.minecraft.block.MapColor
-import net.minecraft.block.Material
-import net.minecraft.block.OreBlock
-import net.minecraft.block.PillarBlock
-import net.minecraft.block.PressurePlateBlock
-import net.minecraft.block.SlabBlock
-import net.minecraft.block.StairsBlock
-import net.minecraft.block.TrapdoorBlock
-import net.minecraft.block.WoodenButtonBlock
+import net.minecraft.block.*
 import net.minecraft.entity.EntityType
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Direction
 import net.minecraft.util.math.intprovider.UniformIntProvider
 import net.minecraft.util.registry.Registry
-import net.minecraft.util.shape.VoxelShape
+import java.util.function.ToIntFunction
 
 object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
 
@@ -135,8 +122,9 @@ object CobblemonBlocks : CompletableRegistry<Block>(Registry.BLOCK_KEY) {
     val WHITE_APRICORN = registerApricornBlock("white_apricorn", Apricorn.WHITE)
     val YELLOW_APRICORN = registerApricornBlock("yellow_apricorn", Apricorn.YELLOW)
 
-    val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque()) }
-    val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque()) }
+    val HEALING_MACHINE = queue("healing_machine") { HealingMachineBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2f).nonOpaque().luminance(ToIntFunction { state: BlockState -> if (state.get(HealingMachineBlock.CHARGE_LEVEL) >= HealingMachineBlock.MAX_CHARGE_LEVEL) 7 else 2 })) }
+    val PC = queue("pc") { PCBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.IRON_GRAY).sounds(BlockSoundGroup.METAL).strength(2F).nonOpaque().luminance(ToIntFunction { state: BlockState -> if ((state.get(
+            PCBlock.ON) as Boolean) && (state.get(PCBlock.PART) == PCBlock.PCPart.TOP)) 10 else 0 })) }
 
     val PECHA_BERRY = this.berryBlock("pecha_berry")
 

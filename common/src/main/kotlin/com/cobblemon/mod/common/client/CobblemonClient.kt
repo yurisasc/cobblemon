@@ -57,8 +57,8 @@ object CobblemonClient {
     /** If true then we won't bother them anymore about choosing a starter even if it's a thing they can do. */
     var checkedStarterScreen = false
 
-    lateinit var overlay: PartyOverlay
-    lateinit var battleOverlay: BattleOverlay
+    val overlay: PartyOverlay by lazy { PartyOverlay() }
+    val battleOverlay: BattleOverlay by lazy { BattleOverlay() }
 
     fun onLogin() {
         clientPlayerData = ClientPlayerData()
@@ -69,7 +69,7 @@ object CobblemonClient {
     fun onLogout() {
         storage.onLogout()
         battle = null
-        battleOverlay = BattleOverlay()
+        battleOverlay.onLogout()
         ScheduledTaskTracker.clear()
         checkedStarterScreen = false
         CobblemonDataProvider.canReload = true
@@ -81,9 +81,6 @@ object CobblemonClient {
 
         CLIENT_PLAYER_JOIN.register { onLogin() }
         CLIENT_PLAYER_QUIT.register { onLogout() }
-
-        overlay = PartyOverlay()
-        battleOverlay = BattleOverlay()
 
         ClientPacketRegistrar.registerHandlers()
 

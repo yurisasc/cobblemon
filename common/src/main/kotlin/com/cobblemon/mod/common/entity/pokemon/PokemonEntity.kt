@@ -73,11 +73,16 @@ import net.minecraft.server.world.ServerWorld
 import net.minecraft.sound.SoundEvent
 import net.minecraft.sound.SoundEvents
 import net.minecraft.tag.FluidTags
+import net.minecraft.text.Text
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import kotlin.math.round
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 class PokemonEntity(
     world: World,
@@ -114,6 +119,12 @@ class PokemonEntity(
         get() = this.battleId.get().isPresent
 
     var drops: DropTable? = null
+
+    /**
+     * The amount of steps this entity has taken.
+     */
+    var steps: Int = 0
+
     val entityProperties = mutableListOf<EntityProperty<*>>()
 
     val species = addEntityProperty(SPECIES, pokemon.species.resourceIdentifier.toString())
@@ -403,7 +414,7 @@ class PokemonEntity(
     override fun saveAdditionalSpawnData(buffer: PacketByteBuf) {
         buffer.writeFloat(pokemon.scaleModifier)
         buffer.writeIdentifier(pokemon.species.resourceIdentifier)
-        buffer.writeString(pokemon.form.name)
+        buffer.writeString(pokemon.form.formOnlyShowdownId())
         buffer.writeInt(phasingTargetId.get())
         buffer.writeByte(beamModeEmitter.get().toInt())
         buffer.writeCollection(pokemon.aspects, PacketByteBuf::writeString)
@@ -416,8 +427,8 @@ class PokemonEntity(
             // TODO exception handling
             pokemon.species = PokemonSpecies.getByIdentifier(buffer.readIdentifier())!!
             // TODO exception handling
-            val formName = buffer.readString()
-            pokemon.form = pokemon.species.forms.find { form -> form.name == formName } ?: pokemon.species.standardForm
+            val formId = buffer.readString()
+            pokemon.form = pokemon.species.forms.find { form -> form.formOnlyShowdownId() == formId } ?: pokemon.species.standardForm
             phasingTargetId.set(buffer.readInt())
             beamModeEmitter.set(buffer.readByte())
             this.aspects.set(buffer.readList(PacketByteBuf::readString).toSet())
@@ -480,8 +491,7 @@ class PokemonEntity(
 
     override fun playAmbientSound() {
         if (!this.isSilent) {
-            val subPath = if (this.pokemon.form == this.pokemon.species.standardForm) this.pokemon.species.name else "${this.pokemon.species.name}-${this.pokemon.form.name}"
-            val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.$subPath.ambient")
+            val sound = Identifier(this.pokemon.species.resourceIdentifier.namespace, "pokemon.${this.pokemon.showdownId()}.ambient")
             // ToDo distance to travel is currently hardcoded to default we can maybe find a way to work around this down the line
             UnvalidatedPlaySoundS2CPacket(sound, this.soundCategory, this.x, this.y, this.z, this.soundVolume, this.soundPitch)
                 .sendToPlayersAround(this.x, this.y, this.z, 16.0, this.world.registryKey)
@@ -542,7 +552,7 @@ class PokemonEntity(
             player.sendMessage(lang("held_item.already_holding", this.pokemon.displayName, stack.name))
             return true
         }
-        val returned = this.pokemon.swapHeldItem(giving, !player.isCreative)
+        val returned = this.pokemon.swapHeldItem(stack, !player.isCreative)
         val text = when {
             giving.isEmpty -> lang("held_item.take", returned.name, this.pokemon.displayName)
             returned.isEmpty -> lang("held_item.give", this.pokemon.displayName, giving.name)
@@ -550,7 +560,7 @@ class PokemonEntity(
         }
         player.giveItemStack(returned)
         player.sendMessage(text)
-        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+        this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
         return true
     }
 
@@ -569,7 +579,7 @@ class PokemonEntity(
                             pokemon.state = ShoulderedState(player.uuid, isLeft, pokemon.uuid)
                             this.mountOnto(player)
                             this.pokemon.form.shoulderEffects.forEach { it.applyEffect(this.pokemon, player, isLeft) }
-                            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 1F, pitch = 1.4F)
+                            this.world.playSoundServer(position = this.pos, sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
                         }
                     }
                 }
@@ -610,6 +620,33 @@ class PokemonEntity(
         delegate.updatePostDeath()
     }
 
+    override fun travel(movementInput: Vec3d) {
+        val previousX = this.x
+        val previousY = this.y
+        val previousZ = this.z
+        super.travel(movementInput)
+        val xDiff = this.x - previousX
+        val yDiff = this.y - previousY
+        val zDiff = this.z - previousZ
+        this.updateWalkedSteps(xDiff, yDiff, zDiff)
+    }
+
+    private fun updateWalkedSteps(xDiff: Double, yDiff: Double, zDiff: Double) {
+        // Riding or falling shouldn't count, other movement sources are fine
+        if (!this.hasVehicle() || !this.isFallFlying) {
+            return
+        }
+        val stepsTaken = when {
+            this.isSwimming || this.isSubmergedIn(FluidTags.WATER) -> round(sqrt(xDiff * xDiff + yDiff * yDiff + zDiff * zDiff) * 100F)
+            this.isClimbing -> round(yDiff * 100F)
+            // Walking, flying or touching water
+            else -> round(sqrt(xDiff * xDiff + zDiff * zDiff) * 100F)
+        }
+        if (stepsTaken > 0) {
+            this.steps += stepsTaken.roundToInt()
+        }
+    }
+
     private fun updateEyeHeight() {
         @Suppress("CAST_NEVER_SUCCEEDS")
         (this as com.cobblemon.mod.common.mixin.accessor.AccessorEntity).standingEyeHeight(this.getActiveEyeHeight(EntityPose.STANDING, this.type.dimensions))
@@ -617,4 +654,12 @@ class PokemonEntity(
 
     fun getIsSubmerged() = isInLava || isSubmergedInWater
     override fun getPoseType(): PoseType = this.poseType.get()
+
+    override fun getDefaultName(): Text = this.pokemon.species.translatedName
+
+    // This should be a check if the pokemon display name is a nickname once the feature is implemented.
+    override fun hasCustomName(): Boolean = true
+
+    override fun getCustomName(): Text? = this.pokemon.displayName
+
 }
