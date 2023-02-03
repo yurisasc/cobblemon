@@ -249,11 +249,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.Tsa
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.CentiskorchModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.KleavorModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.SizzlipedeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.CharcadetModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.FuecocoModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.NacliModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.QuaxlyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.SprigatitoModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.*
 import com.cobblemon.mod.common.client.render.pokemon.ModelLayer
 import com.cobblemon.mod.common.client.render.pokemon.RegisteredSpeciesRendering
 import com.cobblemon.mod.common.client.render.pokemon.SpeciesVariationSet
@@ -524,6 +520,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("fuecoco", :: FuecocoModel)
         inbuilt("quaxly", :: QuaxlyModel)
         inbuilt("nacli", :: NacliModel)
+        inbuilt("naclstack", :: NaclstackModel)
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {

@@ -1,8 +1,19 @@
+/*
+ * Copyright (C) 2022 Cobblemon Contributors
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
 package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType
+import com.cobblemon.mod.common.entity.PoseType.Companion.MOVING_POSES
+import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
+import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
@@ -17,11 +28,17 @@ class NacliModel(root: ModelPart) : PokemonPoseableModel() {
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
+    lateinit var sleep: PokemonPose
 
     override fun registerPoses() {
+        sleep = registerPose(
+                poseType = PoseType.SLEEP,
+                idleAnimations = arrayOf(bedrock("nacli", "sleep"))
+        )
+
         standing = registerPose(
                 poseName = "standing",
-                poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+                poseTypes = STATIONARY_POSES + UI_POSES,
                 transformTicks = 10,
                 idleAnimations = arrayOf(
                         bedrock("nacli", "ground_idle")
@@ -30,7 +47,7 @@ class NacliModel(root: ModelPart) : PokemonPoseableModel() {
 
         walk = registerPose(
                 poseName = "walk",
-                poseTypes = PoseType.MOVING_POSES,
+                poseTypes = MOVING_POSES,
                 transformTicks = 10,
                 idleAnimations = arrayOf(
                         bedrock("nacli", "ground_walk")
