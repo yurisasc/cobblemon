@@ -106,10 +106,7 @@ class SnowstormParticle(
         setParticleAgeInRuntime()
         storm.effect.curves.forEach { it.apply(storm.runtime) }
         storm.runtime.execute(storm.effect.particle.renderExpressions)
-//        RenderSystem.depthMask(true)
-//        RenderSystem.enableBlend()
 //        // TODO need to implement the other materials but not sure exactly what they are GL wise
-////        RenderSystem.setShaderTexture(0, texture)
 //        when (storm.effect.particle.material) {
 //            ParticleMaterial.ALPHA -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
 //            ParticleMaterial.OPAQUE -> RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_COLOR, GlStateManager.DstFactor.ZERO)

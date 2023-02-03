@@ -17,7 +17,6 @@ accessible field net/minecraft/entity/effect/StatusEffectInstance permanent Z
 accessible method net/minecraft/client/render/WorldRenderer getRandomParticleSpawnChance (Z)Lnet/minecraft/client/option/ParticlesMode;
 accessible method net/minecraft/client/particle/ParticleManager registerFactory (Lnet/minecraft/particle/ParticleType;Lnet/minecraft/client/particle/ParticleFactory;)V
 accessible field net/minecraft/client/particle/ParticleManager particleAtlasTexture Lnet/minecraft/client/texture/SpriteAtlasTexture;
-accessible field net/minecraft/client/texture/SpriteAtlasTexture sprites Ljava.util.Map;
 accessible field net/minecraft/util/math/Matrix3f a00 F
 accessible field net/minecraft/util/math/Matrix3f a01 F
 accessible field net/minecraft/util/math/Matrix3f a02 F
