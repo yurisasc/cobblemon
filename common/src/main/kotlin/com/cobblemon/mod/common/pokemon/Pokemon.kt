@@ -59,7 +59,23 @@ import com.cobblemon.mod.common.api.types.ElementalType
 import com.cobblemon.mod.common.config.CobblemonConfig
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.net.messages.client.PokemonUpdatePacket
-import com.cobblemon.mod.common.net.messages.client.pokemon.update.*
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.AbilityUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.AspectsUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.BenchedMovesUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.CaughtBallUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.EVsUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.ExperienceUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.FriendshipUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.GenderUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.HealthUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.HeldItemUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.IVsUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.MoveSetUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.NatureUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.PokemonStateUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.ShinyUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.SpeciesUpdatePacket
+import com.cobblemon.mod.common.net.messages.client.pokemon.update.StatusUpdatePacket
 import com.cobblemon.mod.common.net.serverhandling.storage.SEND_OUT_DURATION
 import com.cobblemon.mod.common.pokeball.PokeBall
 import com.cobblemon.mod.common.pokemon.activestate.ActivePokemonState
@@ -284,11 +300,13 @@ open class Pokemon : ShowdownIdentifiable {
     var faintedTimer: Int = -1
         set(value) {
             field = value
+            anyChangeObservable.emit(this)
         }
 
     var healTimer: Int = -1
         set(value) {
             field = value
+            anyChangeObservable.emit(this)
         }
 
     /**
@@ -491,8 +509,8 @@ open class Pokemon : ShowdownIdentifiable {
     fun swapHeldItem(stack: ItemStack, decrement: Boolean = true): ItemStack {
         var giving = stack
         if (decrement) {
-            stack.decrement(1)
             giving = stack.copy().apply { count = 1 }
+            stack.decrement(1)
         }
         val existing = this.heldItem()
         this.heldItem = giving
