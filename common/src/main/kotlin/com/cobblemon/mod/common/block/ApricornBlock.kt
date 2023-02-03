@@ -11,12 +11,15 @@ package com.cobblemon.mod.common.block
 import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.api.apricorn.Apricorn
 import com.cobblemon.mod.common.api.tags.CobblemonBlockTags
+import com.cobblemon.mod.common.util.playSoundServer
+import com.cobblemon.mod.common.util.toVec3d
 import net.minecraft.block.*
 import net.minecraft.entity.ai.pathing.NavigationType
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.ItemPlacementContext
 import net.minecraft.item.ItemStack
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.sound.SoundEvents
 import net.minecraft.state.StateManager
 import net.minecraft.state.property.IntProperty
 import net.minecraft.state.property.Properties
@@ -115,6 +118,7 @@ class ApricornBlock(settings: Settings, val apricorn: Apricorn) : HorizontalFaci
         if (state.get(AGE) == MAX_AGE) {
             val resetState = this.harvest(world, state, pos)
             world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, resetState))
+            if (!world.isClient) world.playSoundServer(position = pos.toVec3d(), sound = SoundEvents.ENTITY_ITEM_PICKUP, volume = 0.7F, pitch = 1.4F)
             return ActionResult.success(world.isClient)
         }
         return super.onUse(state, world, pos, player, hand, hit)
