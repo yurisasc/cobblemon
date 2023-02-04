@@ -16,7 +16,7 @@ import net.minecraft.entity.Entity
 class SimpleQuirk<T : Entity>(
     name: String,
     private val secondsBetweenOccurrences: Pair<Float, Float>,
-    val condition: (state: PoseableEntityState<T>) -> Boolean ,
+    val condition: (state: PoseableEntityState<T>) -> Boolean = { true },
     val loopTimes: IntRange = 1..1,
     val animations: (state: PoseableEntityState<T>) -> Iterable<StatefulAnimation<T, *>>
 ) : ModelQuirk<T, SimpleQuirkData<T>>(name) {
