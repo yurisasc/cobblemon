@@ -29,11 +29,14 @@ public class GuiMixin {
             method = "render",
             at = @At(
                 value = "INVOKE",
-                target = "Lnet/minecraft/client/util/math/MatrixStack;push()V",
+                target = "Lnet/minecraft/client/MinecraftClient;getProfiler()Lnet/minecraft/util/profiler/Profiler;",
                 shift = At.Shift.BEFORE
             ),
             slice = @Slice(
-                from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderScoreboardSidebar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/scoreboard/ScoreboardObjective;)V")
+                from = @At(
+                        value = "INVOKE",
+                        target = "Lnet/minecraft/client/gui/hud/InGameHud;renderScoreboardSidebar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/scoreboard/ScoreboardObjective;)V"
+                )
             )
     )
     private void beforeChatHook(MatrixStack poseStack, float f, CallbackInfo ci) {

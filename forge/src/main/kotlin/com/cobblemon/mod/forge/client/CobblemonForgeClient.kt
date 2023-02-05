@@ -19,7 +19,6 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.TexturedModelData
 import net.minecraft.client.render.entity.EntityRenderers
 import net.minecraft.client.render.entity.model.EntityModelLayer
-import net.minecraft.client.util.ModelIdentifier
 import net.minecraft.resource.ReloadableResourceManagerImpl
 import net.minecraft.resource.ResourceManager
 import net.minecraft.resource.SynchronousResourceReloader
@@ -27,8 +26,6 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.client.ForgeHooksClient
 import net.minecraftforge.client.event.ModelEvent
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent
-import net.minecraftforge.client.event.RenderGuiOverlayEvent
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber
@@ -69,13 +66,6 @@ object CobblemonForgeClient : CobblemonClientImplementation {
         ForgeHooksClient.registerLayerDefinition(modelLayer, supplier)
     }
 
-    @SubscribeEvent
-    fun onRenderGameOverlay(event: RenderGuiOverlayEvent.Pre) {
-        if (event.overlay.id == VanillaGuiOverlay.CHAT_PANEL.id()) {
-            CobblemonClient.beforeChatRender(event.poseStack, event.partialTick)
-        }
-    }
-
     @JvmStatic
     @SubscribeEvent
     fun onKeyMappingRegister(event: RegisterKeyMappingsEvent) {
@@ -84,7 +74,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
 
     private fun register3dPokeballModels(event: ModelEvent.RegisterAdditional) {
         PokeBalls.all().forEach { pokeball ->
-            event.register(ModelIdentifier(pokeball.model3d))
+            event.register(pokeball.model3d)
         }
     }
 
