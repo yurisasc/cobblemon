@@ -202,29 +202,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.Swa
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.TorchicModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.WailmerModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.WailordModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.BibarelModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.BidoofModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.BunearyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.ElectivireModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.EmpoleonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.GlaceonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.HappinyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.HonchkrowModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.LeafeonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.LickilickyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.LopunnyModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.MagmortarModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.MagnezoneModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.MamoswineModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.MimejrModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.MunchlaxModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.PachirisuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.PiplupModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.PorygonzModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.PrinplupModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.RhyperiorModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.TangrowthModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.YanmegaModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.BasculinModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.CrustleModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.DeerlingModel
@@ -235,6 +213,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.Saw
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.SylveonModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.*
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.MilceryModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9.*
 import com.cobblemon.mod.common.client.render.pokemon.ModelLayer
 import com.cobblemon.mod.common.client.render.pokemon.RegisteredSpeciesRendering
@@ -510,6 +489,9 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("dhelmise", :: DhelmiseModel)
         inbuilt("alcremie", :: AlcremieModel)
         inbuilt("milcery", :: MilceryModel)
+        inbuilt("turtwig", :: TurtwigModel)
+        inbuilt("grotle", :: GrotleModel)
+        inbuilt("torterra", :: TorterraModel)
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
