@@ -46,6 +46,7 @@ import net.minecraft.util.math.Quaternion
 import net.minecraft.util.math.Vec3f
 import net.minecraft.util.math.Vector4f
 import kotlin.math.max
+import net.minecraft.text.Text
 
 class PokemonRenderer(
     context: EntityRendererFactory.Context

@@ -30,7 +30,6 @@ import com.cobblemon.mod.common.api.net.serializers.Vec3DataSerializer
 import com.cobblemon.mod.common.api.permission.PermissionValidator
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculator
 import com.cobblemon.mod.common.api.pokeball.catching.calculators.CaptureCalculators
-import com.cobblemon.mod.common.pokeball.catching.calculators.CobblemonCaptureCalculator
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.effect.ShoulderEffectRegistry
 import com.cobblemon.mod.common.api.pokemon.experience.ExperienceCalculator
@@ -173,7 +172,6 @@ object Cobblemon {
         CobblemonSounds.register()
         CobblemonFeatures.register()
         CobblemonGameRules.register()
-        CaptureCalculators.registerDefaults()
         CobblemonParticles.register()
 
         ShoulderEffectRegistry.register()
