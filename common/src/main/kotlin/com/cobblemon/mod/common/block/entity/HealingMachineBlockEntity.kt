@@ -72,7 +72,7 @@ class HealingMachineBlockEntity(
     }
 
     fun activate(player: ServerPlayerEntity) {
-        if (!Cobblemon.config.infiniteHealerCharge) {
+        if (!Cobblemon.config.infiniteHealerCharge && this.healingCharge != Cobblemon.config.maxHealerCharge) {
             val neededHealthPercent = player.party().getHealingRemainderPercent()
             this.healingCharge -= neededHealthPercent
             this.updateRedstoneSignal()
