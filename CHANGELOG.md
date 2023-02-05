@@ -60,6 +60,7 @@
 - Fixed missing lang and interpretation for bide.
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
 - Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
+- Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
