@@ -88,6 +88,8 @@ object ShowdownInterpreter {
         updateInstructions["|-start|"] = this::handleStartInstructions
         updateInstructions["|-activate|"] = this::handleActivateInstructions
         updateInstructions["|-curestatus|"] = this::handleCureStatusInstruction
+        updateInstructions["|-fieldstart|"] = this::handleFieldStartInstructions
+        updateInstructions["|-ability|"] = this::handleAbilityInstructions
         updateInstructions["|-nothing"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
         }
@@ -736,6 +738,38 @@ object ShowdownInterpreter {
                 // ToDo Focus Band, use battleLang("item.hung_on.end", battlerName, itemName)
             }
             GO
+        }
+    }
+
+    private fun handleFieldStartInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
+        battle.dispatch{
+            val editedMessage = message.split("|-fieldstart|")[1]
+            val pnx = editedMessage.substring(0, 3)
+            val fromWhat = editedMessage.split("|")[1]
+            when (fromWhat) {
+                "move: Mud Sport" -> battle.broadcastChatMessage(battleLang("mud_sport_field"))
+                "move: Electric Terrain" -> battle.broadcastChatMessage(battleLang("electric_terrain_field"))
+                "move: Grassy Terrain" -> battle.broadcastChatMessage(battleLang("grassy_terrain_field"))
+                "move: Misty Terrain" -> battle.broadcastChatMessage(battleLang("misty_terrain_field"))
+                "move: Psychic Terrain" -> battle.broadcastChatMessage(battleLang("psychic_terrain_field"))
+                "move: Water Sport" -> battle.broadcastChatMessage(battleLang("water_sport_field"))
+                else -> battle.broadcastChatMessage(editedMessage.text())
+            }
+            WaitDispatch(1F)
+        }
+    }
+
+    private fun handleAbilityInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
+        battle.dispatch {
+            val editedMessage = message.split("|-ability|")[1]
+            val pnx = editedMessage.substring(0, 3)
+            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
+            val fromWhat = editedMessage.split("|")[1]
+            when (fromWhat) {
+                "Speed Boost" -> battle.broadcastChatMessage(battleLang("speed_boost_ability", pokemon.battlePokemon!!.getName()))
+                else -> battle.broadcastChatMessage(editedMessage.text())
+            }
+            WaitDispatch(1F)
         }
     }
 
