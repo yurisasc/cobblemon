@@ -1,4 +1,5 @@
 {
+  "implemented": true,
   "name": "Alcremie",
   "nationalPokedexNumber": 869,
   "primaryType": "fairy",
@@ -35,6 +36,7 @@
       },
       "catchRate": 100,
       "maleRatio": 0,
+      "shoulderMountable": true,
       "baseExperienceYield": 173,
       "baseFriendship": 50,
       "evYield": {
@@ -133,10 +135,10 @@
   ],
   "preEvolution": "milcery",
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 0.3,
   "hitbox": {
-    "width": 1,
-    "height": 1,
+    "width": 0.9,
+    "height": 0.9,
     "fixed": false
   },
   "baseFriendship": 50,
