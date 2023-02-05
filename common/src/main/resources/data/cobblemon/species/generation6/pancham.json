@@ -141,11 +141,11 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 32
+          "minLevel": 32
         },
         {
           "variant": "party_member",
-          "property": "type=dark",
+          "target": "type=dark",
           "contains": true
         }
       ]

@@ -21,10 +21,10 @@ class KakunaModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("kakuna")
     override val head = getPart("head")
 
-    override val portraitScale = 1.9F
-    override val portraitTranslation = Vec3d(0.12, -0.44, 0.0)
-    override val profileScale = 1.1F
-    override val profileTranslation = Vec3d(0.0, 0.02, 0.0)
+    override val portraitScale = 1.7F
+    override val portraitTranslation = Vec3d(0.1, -0.4, 0.0)
+    override val profileScale = 0.96F
+    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var sleep: PokemonPose
     lateinit var standing: PokemonPose

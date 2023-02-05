@@ -106,7 +106,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 30
+          "minLevel": 30
         },
         {
           "variant": "time_range",

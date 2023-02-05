@@ -234,7 +234,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:protector"
+          "itemCondition": "cobblemon:protector"
         }
       ]
     }

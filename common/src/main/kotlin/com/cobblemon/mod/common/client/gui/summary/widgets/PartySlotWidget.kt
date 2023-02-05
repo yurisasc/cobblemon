@@ -197,7 +197,8 @@ class PartySlotWidget(
                     itemStack = heldItem,
                     x = x + 14.0,
                     y = y + 9.5,
-                    scale = 0.5
+                    scale = 0.5,
+                    matrixStack = matrices
                 )
             }
         }

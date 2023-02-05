@@ -99,7 +99,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 38
+          "minLevel": 38
         }
       ]
     }

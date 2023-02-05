@@ -184,7 +184,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:kings_rock"
+          "itemCondition": "cobblemon:kings_rock"
         }
       ]
     }

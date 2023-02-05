@@ -20,11 +20,11 @@ class SylveonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("sylveon")
     override val head = getPart("head")
 
-    override val portraitScale = 1.35F
-    override val portraitTranslation = Vec3d(-.15, 0.45, 0.0)
+    override val portraitScale = 2.4F
+    override val portraitTranslation = Vec3d(-0.55, -0.45, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileScale = 0.85F
+    override val profileTranslation = Vec3d(0.0, 0.43, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

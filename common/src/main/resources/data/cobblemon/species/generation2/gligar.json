@@ -168,7 +168,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:razor_fang"
+          "itemCondition": "cobblemon:razor_fang"
         },
         {
           "variant": "time_range",

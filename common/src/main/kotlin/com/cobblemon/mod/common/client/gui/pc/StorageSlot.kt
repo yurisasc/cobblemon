@@ -117,7 +117,8 @@ open class StorageSlot(
                 itemStack = heldItem,
                 x = posX + 16.0,
                 y = posY + 16.0,
-                scale = 0.5
+                scale = 0.5,
+                matrixStack = matrices
             )
         }
     }

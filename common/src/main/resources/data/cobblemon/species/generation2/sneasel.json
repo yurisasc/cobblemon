@@ -137,7 +137,7 @@
           "requirements": [
             {
               "variant": "held_item",
-              "item": "cobblemon:razor_claw"
+              "itemCondition": "cobblemon:razor_claw"
             },
             {
               "variant": "time_range",
@@ -306,7 +306,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:razor_claw"
+          "itemCondition": "cobblemon:razor_claw"
         },
         {
           "variant": "time_range",

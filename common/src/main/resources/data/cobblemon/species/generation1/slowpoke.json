@@ -339,7 +339,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 37
+          "minLevel": 37
         }
       ]
     },
@@ -352,7 +352,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:kings_rock"
+          "itemCondition": "cobblemon:kings_rock"
         }
       ]
     }

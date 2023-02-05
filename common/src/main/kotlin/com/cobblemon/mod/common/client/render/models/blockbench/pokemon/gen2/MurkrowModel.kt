@@ -23,11 +23,11 @@ class MurkrowModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.6F
-    override val portraitTranslation = Vec3d(0.0, -0.15, 0.0)
+    override val portraitScale = 3.0F
+    override val portraitTranslation = Vec3d(-0.1, -1.65, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.17, 0.0)
+    override val profileScale = 0.95F
+    override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

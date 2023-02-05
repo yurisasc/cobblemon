@@ -182,7 +182,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:electirizer"
+          "itemCondition": "cobblemon:electirizer"
         }
       ]
     }
