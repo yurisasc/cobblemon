@@ -10,7 +10,6 @@ package com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen9
 
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BimanualFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.frame.BipedFrame
-import com.cobblemon.mod.common.client.render.models.blockbench.frame.HeadedFrame
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPose
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
 import com.cobblemon.mod.common.entity.PoseType.Companion.STATIONARY_POSES
@@ -18,9 +17,8 @@ import com.cobblemon.mod.common.entity.PoseType.Companion.UI_POSES
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.math.Vec3d
 
-class FuecocoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedFrame, BimanualFrame {
+class FuecocoModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame, BimanualFrame {
     override val rootPart = root.registerChildWithAllChildren("fuecoco")
-    override val head = getPart("head")
     override val rightArm = getPart("arm_right")
     override val leftArm = getPart("arm_left")
     override val rightLeg = getPart("leg_right")
@@ -42,7 +40,6 @@ class FuecocoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
                 transformTicks = 10,
                 quirks = arrayOf(blink),
                 idleAnimations = arrayOf(
-                        singleBoneLook(),
                         bedrock("fuecoco", "ground_idle")
                 )
         )

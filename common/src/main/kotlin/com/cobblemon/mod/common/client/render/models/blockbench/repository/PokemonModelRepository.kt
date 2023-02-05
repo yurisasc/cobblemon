@@ -233,19 +233,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.Emo
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.MaractusModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.SawsbuckModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.SylveonModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.BounsweetModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.DartrixModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.DecidueyeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.IncineroarModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.LittenModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.MimikyuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.NaganadelModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.PoipoleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.PyukumukuModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.RowletModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.SteeneeModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.TorracatModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.TsareenaModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.CentiskorchModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.KleavorModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.SizzlipedeModel
@@ -521,6 +509,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("quaxly", :: QuaxlyModel)
         inbuilt("nacli", :: NacliModel)
         inbuilt("naclstack", :: NaclstackModel)
+        inbuilt("dhelmise", :: DhelmiseModel)
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
