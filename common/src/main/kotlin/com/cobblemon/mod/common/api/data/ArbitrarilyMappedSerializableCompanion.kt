@@ -1,12 +1,12 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-package com.cobblemon.mod.common.api.snowstorm
+package com.cobblemon.mod.common.api.data
 
 import com.cobblemon.mod.common.api.codec.CodecMapped
 import com.cobblemon.mod.common.api.codec.MappedCodec
@@ -14,6 +14,12 @@ import com.mojang.serialization.Codec
 import java.lang.IllegalArgumentException
 import net.minecraft.network.PacketByteBuf
 
+/**
+ * A utility class to help give Codec support for map adapted class hierarchies.
+ *
+ * @author Hiroku
+ * @since January 21st, 2023
+ */
 abstract class ArbitrarilyMappedSerializableCompanion<T : CodecMapped, K>(
     val keyFromString: (String) -> K,
     val stringFromKey: (K) -> String,

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,6 +18,12 @@ import com.mojang.serialization.codecs.ListCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.PacketByteBuf
 
+/**
+ * Configuration of the emitter component for a particle effect.
+ *
+ * @author Hiroku
+ * @since January 4th, 2023
+ */
 class BedrockParticleEmitter(
     var startExpressions: MutableList<Expression> = mutableListOf(),
     var updateExpressions: MutableList<Expression> = mutableListOf(),

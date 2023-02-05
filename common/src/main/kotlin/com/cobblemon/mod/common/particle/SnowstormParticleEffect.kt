@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -18,7 +18,7 @@ import net.minecraft.particle.ParticleType
 class SnowstormParticleEffect(val effect: BedrockParticleEffect) : ParticleEffect {
 
     override fun getType(): ParticleType<*> {
-        return CobblemonParticles.SNOWSTORM_PARTICLE_TYPE.get()
+        return CobblemonParticles.SNOWSTORM_PARTICLE
     }
 
     override fun write(buf: PacketByteBuf) {

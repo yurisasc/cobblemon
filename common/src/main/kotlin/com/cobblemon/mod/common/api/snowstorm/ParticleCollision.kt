@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -20,7 +20,7 @@ import net.minecraft.network.PacketByteBuf
 
 class ParticleCollision(
     var enabled: Expression = NumberExpression(0.0),
-    var radius: Expression = NumberExpression(0.0),
+    var radius: Expression = NumberExpression(0.1),
     var friction: Expression = NumberExpression(10.0),
     var bounciness: Expression = NumberExpression(0.0),
     var expiresOnContact: Boolean = false

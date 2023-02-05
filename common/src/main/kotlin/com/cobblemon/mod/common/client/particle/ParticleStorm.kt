@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -15,9 +15,7 @@ import com.cobblemon.mod.common.api.snowstorm.BedrockParticleEffect
 import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterAction
 import com.cobblemon.mod.common.client.render.SnowstormParticle
 import com.cobblemon.mod.common.particle.SnowstormParticleEffect
-import com.mojang.serialization.JsonOps
 import kotlin.random.Random
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.particle.NoRenderParticle
 import net.minecraft.client.world.ClientWorld
 import net.minecraft.entity.Entity
@@ -36,9 +34,9 @@ class ParticleStorm(
     val runtime = MoLangRuntime().also {
         it.environment.structs["variable"] = VariableStruct()
     }
+
     val particles = mutableListOf<SnowstormParticle>()
     var started = false
-    var emitterAge = 0.0
     var stopped = false
 
     var entity: Entity? = null
@@ -50,8 +48,6 @@ class ParticleStorm(
     val particleEffect = SnowstormParticleEffect(effect)
 
     init {
-        val codec = BedrockParticleEffect.CODEC
-        codec.encodeStart(JsonOps.INSTANCE, effect).map { println(it.toString()) }
         stormRegistry[effect] = this
         runtime.execute(effect.emitter.startExpressions)
     }
@@ -71,20 +67,18 @@ class ParticleStorm(
         y = pos.y
         z = pos.z
 
-        val delta = MinecraftClient.getInstance().tickDelta / 50
         runtime.environment.setSimpleVariable("emitter_random_1", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("emitter_random_2", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("emitter_random_3", DoubleValue(Random.Default.nextDouble()))
         runtime.environment.setSimpleVariable("emitter_random_4", DoubleValue(Random.Default.nextDouble()))
-        emitterAge += delta
-        runtime.environment.setSimpleVariable("emitter_age", DoubleValue(emitterAge))
+        runtime.environment.setSimpleVariable("emitter_age", DoubleValue(age / 20.0))
         runtime.execute(effect.emitter.updateExpressions)
 
 
-        when (effect.emitter.lifetime.getAction(runtime, started, emitterAge)) {
+        when (effect.emitter.lifetime.getAction(runtime, started, age / 20.0)) {
             ParticleEmitterAction.GO -> {
                 started = true
-                val toEmit = effect.emitter.rate.getEmitCount(runtime, particles.size, delta)
+                val toEmit = effect.emitter.rate.getEmitCount(runtime, particles.size)
                 repeat(times = toEmit) {
                     spawnParticle()
                 }
@@ -105,10 +99,6 @@ class ParticleStorm(
         val newPosition = effect.emitter.shape.getNewParticlePosition(runtime, entity).add(x, y, z)
         val velocity = effect.particle.motion.getInitialVelocity(runtime, particlePos = newPosition, emitterPos = center).multiply(1/50.0)
         velocity.multiply(1 / 20.0)
-//        MinecraftClient.getInstance().world!!.addParticle(effect, newPosition.x, newPosition.y, newPosition.z, velocity.x, velocity.y, velocity.z)
-//        val particle = SnowstormParticle(this, world, newPosition.x, newPosition.y, newPosition.z, velocity, invisible = mode == ParticlesMode.MINIMAL)
-//        world.addParticle()
-//        ParticleTypes
         world.addParticle(particleEffect, newPosition.x, newPosition.y, newPosition.z, velocity.x, velocity.y, velocity.z)
     }
 }

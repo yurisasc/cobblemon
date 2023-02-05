@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.CobblemonClient.reloadCodedAssets
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
+import com.cobblemon.mod.common.particle.CobblemonParticles
+import com.cobblemon.mod.common.particle.SnowstormParticleType
 import com.cobblemon.mod.common.util.cobblemonResource
 import java.util.function.Supplier
 import net.fabricmc.api.ClientModInitializer
@@ -36,6 +38,7 @@ import net.minecraft.resource.ResourceType
 
 class CobblemonFabricClient: ClientModInitializer, CobblemonClientImplementation {
     override fun onInitializeClient() {
+        registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE, SnowstormParticleType::Factory)
         CobblemonClient.initialize(this)
 
         EntityRendererRegistry.register(CobblemonEntities.POKEMON.get()) { CobblemonClient.registerPokemonRenderer(it) }

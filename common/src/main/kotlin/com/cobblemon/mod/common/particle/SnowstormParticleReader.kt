@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -84,7 +84,7 @@ object SnowstormParticleReader {
         val maxAge = particleLifetimeJson?.get("max_lifetime")?.asString?.asExpression() ?: 0.0.asExpression()
         val killExpression = particleLifetimeJson?.get("expiration_expression")?.asString?.asExpression() ?: 0.0.asExpression()
         val material = ParticleMaterial.valueOf(basicRenderParametersJson.get("material").asString.substringAfter("_").uppercase())
-        val texture = Identifier(basicRenderParametersJson.get("texture").asString?.let { if (it.endsWith(".png")) it else "$it.png" })
+        val texture = Identifier(basicRenderParametersJson.get("texture").asString?.let { if (it.endsWith(".png")) it.replace(".png", "") else it })
         val sizeX = sizeJson?.get(0)?.asString?.asExpression() ?: 1.0.asExpression()
         val sizeY = sizeJson?.get(1)?.asString?.asExpression() ?: 1.0.asExpression()
 
@@ -300,14 +300,15 @@ object SnowstormParticleReader {
         } else {
             ExpressionParticleTinting()
         }
+        val environmentLighting = componentsJson.has("minecraft:particle_appearance_lighting")
         val collision = collisionJson?.let {
-            var collides = false
+            var collides = true
             val radius = it.get("collision_radius")?.asString?.asExpression() ?: run {
                 collides = false
-                NumberExpression(0.0)
+                NumberExpression(0.1)
             }
             ParticleCollision(
-                enabled = it.get("enabled")?.asString?.asExpression() ?: BooleanExpression(collides),
+                enabled = it.get("enabled")?.asString?.asExpression() ?: NumberExpression(if (collides) 1.0 else 0.0),
                 radius = radius,
                 friction = it.get("collision_drag")?.asString?.asExpression() ?: NumberExpression(10.0),
                 bounciness = it.get("coefficient_of_restitution")?.asString?.asExpression() ?: NumberExpression(0.0),
@@ -339,6 +340,7 @@ object SnowstormParticleReader {
                 renderExpressions = particleRenderExpressions.toMutableList(),
                 cameraMode = cameraMode,
                 collision = collision,
+                environmentLighting = environmentLighting,
                 tinting = tinting
             )
         )

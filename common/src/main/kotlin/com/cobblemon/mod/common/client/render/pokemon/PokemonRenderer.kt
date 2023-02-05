@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -70,6 +70,7 @@ class PokemonRenderer(
         buffer: VertexConsumerProvider,
         packedLight: Int
     ) {
+        shadowRadius = min((entity.boundingBox.maxX - entity.boundingBox.minX), (entity.boundingBox.maxZ) - (entity.boundingBox.minZ)).toFloat()
         DELTA_TICKS = partialTicks // TODO move this somewhere universal // or just fecking remove it
         model = PokemonModelRepository.getPoser(entity.pokemon.species, entity.aspects.get())
 

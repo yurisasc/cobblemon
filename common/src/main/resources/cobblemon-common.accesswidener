@@ -26,5 +26,6 @@ accessible field net/minecraft/util/math/Matrix3f a12 F
 accessible field net/minecraft/util/math/Matrix3f a20 F
 accessible field net/minecraft/util/math/Matrix3f a21 F
 accessible field net/minecraft/util/math/Matrix3f a22 F
+accessible field net/minecraft/client/render/WorldRenderer frustum Lnet/minecraft/client/render/Frustum;
 #accessible method net/minecraft/world/block/state/properties/WoodType register (Lnet/minecraft/world/level/block/state/properties/WoodType;)Lnet/minecraft/world/level/block/state/properties/WoodType;
 #accessible method net/minecraft/client/renderer/entity/EntityRenderers register (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/client/renderer/entity/EntityRendererProvider;)V

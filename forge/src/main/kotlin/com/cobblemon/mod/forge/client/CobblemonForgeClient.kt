@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -14,6 +14,8 @@ import com.cobblemon.mod.common.CobblemonEntities
 import com.cobblemon.mod.common.api.pokeball.PokeBalls
 import com.cobblemon.mod.common.client.CobblemonClient
 import com.cobblemon.mod.common.client.keybind.CobblemonKeyBinds
+import com.cobblemon.mod.common.particle.CobblemonParticles
+import com.cobblemon.mod.common.particle.SnowstormParticleType
 import java.util.function.Supplier
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.model.TexturedModelData
@@ -56,6 +58,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
     }
     init {
         FMLJavaModLoadingContext.get().modEventBus.addListener(this::register3dPokeballModels)
+        registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE, SnowstormParticleType::Factory)
     }
 
     @JvmStatic
@@ -92,6 +95,7 @@ object CobblemonForgeClient : CobblemonClientImplementation {
         }
     }
 
+    @JvmStatic
     @SubscribeEvent
     fun onRegisterParticleProviders(event: RegisterParticleProvidersEvent) {
         for (factoryProviders in particleFactories) {

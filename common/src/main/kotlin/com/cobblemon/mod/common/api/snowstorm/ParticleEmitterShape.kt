@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,7 +13,7 @@ import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.ast.NumberExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.codec.CodecMapped
-import com.cobblemon.mod.common.api.codec.MappedCodec
+import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
@@ -30,8 +30,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
-import net.fabricmc.loader.impl.lib.sat4j.core.Vec
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.math.Box

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -124,8 +124,6 @@ object TestCommand {
 
             val player = context.source.entity as ServerPlayerEntity
             val position = player.pos.add(4.0, 1.0, 4.0)
-            val codec = BedrockParticleEffect.CODEC
-            codec.encodeStart(JsonOps.INSTANCE, effect).map { println(it.toString()) }
             val pkt = SpawnSnowstormParticlePacket(effect, position)
             player.sendPacket(pkt)
 //            extractMovesData()

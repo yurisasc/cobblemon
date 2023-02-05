@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -8,30 +8,25 @@
 
 package com.cobblemon.mod.common.api.snowstorm
 
-import com.bedrockk.molang.Expression
-import com.bedrockk.molang.MoLang
-import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
-import com.cobblemon.mod.common.util.getString
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.ListCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import java.nio.Buffer
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
 /**
  * This is an interpretation of the Bedrock Edition particle system. The behaviour of the effects are
- * intended to be the same, but the grouping of elements and the transfer JSON format is custom.
+ * intended to be the same, but the grouping of elements and the transfer JSON format is custom so that
+ * it actually makes some damn sense.
  *
  * @author Hiroku
- * @since January 2nd, 2022
+ * @since January 2nd, 2023
  */
 class BedrockParticleEffect(
     var id: Identifier = Identifier("effect"),
     var emitter: BedrockParticleEmitter = BedrockParticleEmitter(),
     var particle: BedrockParticle = BedrockParticle(),
     var curves: MutableList<MoLangCurve> = mutableListOf()
-//    var space = ParticleSpace(),
 ) {
     companion object {
         val CODEC: Codec<BedrockParticleEffect> = RecordCodecBuilder.create { instance ->

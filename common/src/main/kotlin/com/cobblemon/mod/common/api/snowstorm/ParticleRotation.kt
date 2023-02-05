@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -13,17 +13,16 @@ import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.ast.NumberExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.codec.CodecMapped
+import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.resolveDouble
 import com.mojang.serialization.Codec
-import com.mojang.serialization.DataResult
 import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import kotlin.math.abs
 import net.minecraft.network.PacketByteBuf
-import net.minecraft.util.math.Vec3d
 
 interface ParticleRotation : CodecMapped {
     companion object : ArbitrarilyMappedSerializableCompanion<ParticleRotation, ParticleRotationType>(

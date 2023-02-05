@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -21,6 +21,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.PacketByteBuf
 import net.minecraft.util.Identifier
 
+/**
+ * Effect details for the actual particles of a particle effect.
+ *
+ * @author Hiroku
+ * @since January 4th, 2023
+ */
 class BedrockParticle(
     var texture: Identifier = Identifier("minecraft:textures/particle/bubble.png"),
     var material: ParticleMaterial = ParticleMaterial.ALPHA,

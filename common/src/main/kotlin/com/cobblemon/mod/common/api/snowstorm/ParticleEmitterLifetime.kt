@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,6 +12,7 @@ import com.bedrockk.molang.Expression
 import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.runtime.MoLangRuntime
 import com.cobblemon.mod.common.api.codec.CodecMapped
+import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
 import com.cobblemon.mod.common.util.asExpression
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
@@ -19,7 +20,6 @@ import com.cobblemon.mod.common.util.resolveBoolean
 import com.cobblemon.mod.common.util.resolveDouble
 import com.mojang.serialization.Codec
 import com.mojang.serialization.DynamicOps
-import com.mojang.serialization.JsonOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.PacketByteBuf

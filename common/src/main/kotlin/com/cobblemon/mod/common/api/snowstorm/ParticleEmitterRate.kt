@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -12,7 +12,11 @@ import com.bedrockk.molang.Expression
 import com.bedrockk.molang.MoLang
 import com.bedrockk.molang.ast.NumberExpression
 import com.bedrockk.molang.runtime.MoLangRuntime
+import com.bedrockk.molang.runtime.struct.VariableStruct
+import com.bedrockk.molang.runtime.value.DoubleValue
 import com.cobblemon.mod.common.api.codec.CodecMapped
+import com.cobblemon.mod.common.api.data.ArbitrarilyMappedSerializableCompanion
+import com.cobblemon.mod.common.api.snowstorm.ParticleEmitterRate.Companion.OVERFLOW_VARIABLE
 import com.cobblemon.mod.common.util.codec.EXPRESSION_CODEC
 import com.cobblemon.mod.common.util.getString
 import com.cobblemon.mod.common.util.resolveDouble
@@ -21,7 +25,6 @@ import com.mojang.serialization.DynamicOps
 import com.mojang.serialization.codecs.PrimitiveCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import java.lang.Integer.min
-import kotlin.random.Random
 import net.minecraft.network.PacketByteBuf
 
 interface ParticleEmitterRate : CodecMapped {
@@ -30,6 +33,7 @@ interface ParticleEmitterRate : CodecMapped {
         keyFromString = ParticleEmitterRateType::valueOf,
         stringFromKey = { it.name }
     ) {
+        const val OVERFLOW_VARIABLE = "emitter_overflow"
         init {
             registerSubtype(ParticleEmitterRateType.INSTANT, InstantParticleEmitterRate::class.java, InstantParticleEmitterRate.CODEC)
             registerSubtype(ParticleEmitterRateType.STEADY, SteadyParticleEmitterRate::class.java, SteadyParticleEmitterRate.CODEC)
@@ -37,7 +41,7 @@ interface ParticleEmitterRate : CodecMapped {
     }
 
     val type: ParticleEmitterRateType
-    fun getEmitCount(runtime: MoLangRuntime, currentlyActive: Int, deltaTicks: Float): Int
+    fun getEmitCount(runtime: MoLangRuntime, currentlyActive: Int): Int
 }
 
 enum class ParticleEmitterRateType {
@@ -57,7 +61,7 @@ class InstantParticleEmitterRate(var amount: Int = 1) : ParticleEmitterRate {
 
     override val type = ParticleEmitterRateType.INSTANT
 
-    override fun getEmitCount(runtime: MoLangRuntime, currentlyActive: Int, deltaTicks: Float): Int {
+    override fun getEmitCount(runtime: MoLangRuntime, currentlyActive: Int): Int {
         if (currentlyActive > 0) {
             return 0
         } else {
@@ -79,6 +83,9 @@ class SteadyParticleEmitterRate(
     var rate: Expression = NumberExpression(0.0),
     var maximum: Expression = NumberExpression(0.0)
 ) : ParticleEmitterRate {
+
+    var time = System.currentTimeMillis()
+
     companion object {
         val CODEC: Codec<SteadyParticleEmitterRate> = RecordCodecBuilder.create { instance ->
             instance.group(
@@ -91,21 +98,23 @@ class SteadyParticleEmitterRate(
 
     override val type = ParticleEmitterRateType.STEADY
 
-    override fun getEmitCount(runtime: MoLangRuntime, currentlyActive: Int, deltaSeconds: Float): Int {
+    override fun getEmitCount(runtime: MoLangRuntime, currentlyActive: Int): Int {
         val max = runtime.resolveDouble(maximum).toInt()
+        val variables = runtime.environment.structs["variable"] as VariableStruct
+        var currentOverflow = variables.map[OVERFLOW_VARIABLE]?.asDouble() ?: 0.0
         if (currentlyActive >= max) {
             return 0
         }
 
         val perSecond = runtime.resolveDouble(rate)
-        val trySpawn = perSecond * deltaSeconds
-        var intComponent = trySpawn.toInt()
+        val trySpawn = perSecond / 20.0 + currentOverflow
+
+        val intComponent = trySpawn.toInt()
         val doubleComponent = trySpawn - intComponent
-        if (doubleComponent > 0.0) {
-            if ((1 - Random.Default.nextDouble()) <= doubleComponent) {
-                intComponent++
-            }
-        }
+
+        currentOverflow = doubleComponent
+
+        variables.map[OVERFLOW_VARIABLE] = DoubleValue(currentOverflow)
         return min(intComponent, max - currentlyActive)
     }
 
