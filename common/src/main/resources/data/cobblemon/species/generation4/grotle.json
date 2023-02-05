@@ -85,7 +85,7 @@
     {
       "id": "grotle_torterra_swamp",
       "variant": "level_up",
-      "result": "torterra tree-swamp",
+      "result": "torterra tree=swamp",
       "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
@@ -106,7 +106,7 @@
     {
       "id": "grotle_torterra_oak",
       "variant": "level_up",
-      "result": "torterra tree-oak",
+      "result": "torterra tree=oak",
       "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
@@ -123,7 +123,7 @@
     {
       "id": "grotle_torterra_birch",
       "variant": "level_up",
-      "result": "torterra tree-birch",
+      "result": "torterra tree=birch",
       "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
@@ -140,7 +140,7 @@
     {
       "id": "grotle_torterra_dark_oak",
       "variant": "level_up",
-      "result": "torterra tree-darkoak",
+      "result": "torterra tree=darkoak",
       "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
@@ -157,7 +157,7 @@
     {
       "id": "grotle_torterra_acacia",
       "variant": "level_up",
-      "result": "torterra tree-acacia",
+      "result": "torterra tree=acacia",
       "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
@@ -174,7 +174,7 @@
     {
       "id": "grotle_torterra_azalea",
       "variant": "level_up",
-      "result": "torterra tree-azalea",
+      "result": "torterra tree=azalea",
       "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
@@ -191,7 +191,7 @@
     {
       "id": "grotle_torterra_jungle",
       "variant": "level_up",
-      "result": "torterra tree-jungle",
+      "result": "torterra tree=jungle",
       "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
@@ -208,7 +208,7 @@
     {
       "id": "grotle_torterra_spruce",
       "variant": "level_up",
-      "result": "torterra tree-spruce",
+      "result": "torterra tree=spruce",
       "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
@@ -225,7 +225,7 @@
     {
       "id": "grotle_torterra_mangrove",
       "variant": "level_up",
-      "result": "torterra tree-mangrove",
+      "result": "torterra tree=mangrove",
       "consumeHeldItem": true,
       "learnableMoves": [],
       "requirements": [
