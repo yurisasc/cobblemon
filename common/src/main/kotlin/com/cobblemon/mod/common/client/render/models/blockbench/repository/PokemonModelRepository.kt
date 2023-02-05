@@ -233,6 +233,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.Emo
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.MaractusModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.SawsbuckModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.SylveonModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.XerneasModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.CentiskorchModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen8.KleavorModel
@@ -510,6 +511,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("nacli", :: NacliModel)
         inbuilt("naclstack", :: NaclstackModel)
         inbuilt("dhelmise", :: DhelmiseModel)
+        inbuilt("xerneas", :: XerneasModel)
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
