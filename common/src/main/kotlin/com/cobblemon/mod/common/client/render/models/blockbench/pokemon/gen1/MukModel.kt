@@ -24,7 +24,7 @@ class MukModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val portraitTranslation = Vec3d(-0.3, -0.1, 0.0)
 
     override val profileScale = 0.8F
-    override val profileTranslation = Vec3d(-0.04, -0.1, 0.0)
+    override val profileTranslation = Vec3d(-0.04, 0.44, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
