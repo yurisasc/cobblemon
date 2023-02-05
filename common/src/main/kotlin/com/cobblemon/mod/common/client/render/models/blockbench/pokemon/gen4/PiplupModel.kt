@@ -26,11 +26,11 @@ class PiplupModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3d(0.05, -.25, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(0.0, -0.65, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileScale = 0.85F
+    override val profileTranslation = Vec3d(0.0, 0.48, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

@@ -58,7 +58,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     val wseg12 = WaveSegment(seg12, 4F)
 
     override val portraitScale = 1.8F
-    override val portraitTranslation = Vec3d(-1.65, 0.35, 0.0)
+    override val portraitTranslation = Vec3d(-1.55, 0.35, 0.0)
     override val profileScale = 0.7F
     override val profileTranslation = Vec3d(-0.1, 0.65, 0.0)
 

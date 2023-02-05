@@ -46,7 +46,7 @@ class EkansModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val portraitTranslation = Vec3d(-1.3, -1.8, 0.0)
 
     override val profileScale = 0.7F
-    override val profileTranslation = Vec3d(0.75, -0.05, 0.0)
+    override val profileTranslation = Vec3d(-0.05, 0.6, 0.0)
 
     override fun registerPoses() {
         registerPose(

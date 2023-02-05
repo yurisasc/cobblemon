@@ -24,7 +24,7 @@ class BellsproutModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val portraitTranslation = Vec3d(-0.1, 0.41, 0.0)
 
     override val profileScale = 0.75F
-    override val profileTranslation = Vec3d(0.75, 0.64, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.64, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

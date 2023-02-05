@@ -23,11 +23,11 @@ import net.minecraft.util.math.Vec3d
 class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
     override val rootPart = root.registerChildWithAllChildren("cleffa")
 
-    override val portraitScale = 1.5F
-    override val portraitTranslation = Vec3d(0.1, -0.45, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(0.0, -1.3, 0.0)
 
-    override val profileScale = 0.6F
-    override val profileTranslation = Vec3d(0.0, 0.75, 0.0)
+    override val profileScale = 1.15F
+    override val profileTranslation = Vec3d(0.0, 0.05, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

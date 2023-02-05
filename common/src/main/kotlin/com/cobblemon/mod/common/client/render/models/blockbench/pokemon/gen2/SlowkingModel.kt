@@ -23,11 +23,11 @@ class SlowkingModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     override val rootPart = root.registerChildWithAllChildren("slowking")
     override val head = getPart("head")
 
-    override val portraitScale = 1.45F
-    override val portraitTranslation = Vec3d(-.015, 0.65, 0.0)
+    override val portraitScale = 2.0F
+    override val portraitTranslation = Vec3d(-0.2, 0.65, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileScale = 0.8F
+    override val profileTranslation = Vec3d(0.0, 0.55, 0.0)
 
     override val leftLeg = getPart("leftleg")
     override val rightLeg = getPart("rightleg")
