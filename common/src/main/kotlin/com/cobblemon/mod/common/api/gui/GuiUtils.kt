@@ -54,7 +54,7 @@ fun blitk(
     blend: Boolean = true,
     scale: Float = 1F
 ) {
-    RenderSystem.setShader { GameRenderer.getPositionTexColorProgram() }
+    RenderSystem.setShader { GameRenderer.getPositionTexProgram() }
     texture?.run { RenderSystem.setShaderTexture(0, this) }
     if (blend) {
         RenderSystem.enableBlend()
