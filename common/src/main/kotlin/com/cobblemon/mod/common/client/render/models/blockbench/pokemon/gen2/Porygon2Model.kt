@@ -20,10 +20,10 @@ class Porygon2Model(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val rootPart = root.registerChildWithAllChildren("porygon_2")
     override val head = getPart("head")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 2.5F
+    override val portraitTranslation = Vec3d(-0.3, -1.0, 0.0)
 
-    override val profileScale = 1.0F
+    override val profileScale = 1.1F
     override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
 
     lateinit var standing: PokemonPose

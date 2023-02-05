@@ -30,11 +30,11 @@ class IncineroarModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     override val leftLeg = getPart("leg_left1")
     override val rightLeg = getPart("leg_right1")
 
-    override val portraitScale = 2F
-    override val portraitTranslation = Vec3d(-.15, 1.75, 0.0)
+    override val portraitScale = 2.6F
+    override val portraitTranslation = Vec3d(-0.35, 1.9, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileScale = 0.65F
+    override val profileTranslation = Vec3d(0.0, 0.76, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

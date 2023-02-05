@@ -113,7 +113,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 25
+          "minLevel": 25
         },
         {
           "variant": "time_range",
@@ -132,7 +132,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 25
+          "minLevel": 25
         },
         {
           "variant": "time_range",
@@ -151,7 +151,7 @@
       "requirements": [
         {
           "variant": "level",
-          "amount": 25
+          "minLevel": 25
         },
         {
           "variant": "time_range",

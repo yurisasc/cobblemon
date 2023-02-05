@@ -29,11 +29,11 @@ class MudkipModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     override val foreLeftLeg = getPart("leg_front_left")
     override val foreRightLeg = getPart("leg_front_right")
 
-    override val portraitScale = 1.75F
-    override val portraitTranslation = Vec3d(-.05, -.4, 0.0)
+    override val portraitScale = 2.3F
+    override val portraitTranslation = Vec3d(-0.25, -1.2, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileScale = 0.9F
+    override val profileTranslation = Vec3d(0.0, 0.4, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

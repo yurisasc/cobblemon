@@ -41,7 +41,7 @@ fun renderImage(texture: Identifier, x: Double, y: Double, height: Double, width
     Tessellator.getInstance().draw()
 }
 
-fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: Double = 1.0) {
+fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: Double = 1.0, zTranslation: Float = 100.0F, matrixStack: MatrixStack? = null) {
     val itemRenderer = MinecraftClient.getInstance().itemRenderer
     val textureManager = MinecraftClient.getInstance().textureManager
     val model = itemRenderer.getModel(itemStack, null, null, 0)
@@ -51,14 +51,15 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
     RenderSystem.enableBlend()
     RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA)
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F)
-    val modelViewStack = RenderSystem.getModelViewStack()
+    val modelViewStack = matrixStack ?: RenderSystem.getModelViewStack()
     modelViewStack.push()
-    modelViewStack.translate(x, y, (100.0F + itemRenderer.zOffset).toDouble())
+    modelViewStack.translate(x, y, (zTranslation + itemRenderer.zOffset).toDouble())
     modelViewStack.translate(8.0 * scale, 8.0 * scale, 0.0)
     modelViewStack.scale(1.0F, -1.0F, 1.0F)
     modelViewStack.scale(16.0F * scale.toFloat(), 16.0F * scale.toFloat(), 16.0F * scale.toFloat())
     RenderSystem.applyModelViewMatrix()
-    val matrixStack = MatrixStack()
+
+    val stack = matrixStack ?: MatrixStack()
     val immediate = MinecraftClient.getInstance().bufferBuilders.entityVertexConsumers
     val bl = !model.isSideLit
     if (bl) DiffuseLighting.disableGuiDepthLighting()
@@ -67,7 +68,7 @@ fun renderScaledGuiItemIcon(itemStack: ItemStack, x: Double, y: Double, scale: D
         itemStack,
         ModelTransformation.Mode.GUI,
         false,
-        matrixStack,
+        stack,
         immediate,
         15728880,
         OverlayTexture.DEFAULT_UV,

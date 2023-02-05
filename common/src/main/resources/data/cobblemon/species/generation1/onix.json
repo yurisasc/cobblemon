@@ -183,7 +183,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:metal_coat"
+          "itemCondition": "cobblemon:metal_coat"
         }
       ]
     }

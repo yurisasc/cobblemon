@@ -159,6 +159,7 @@ object Cobblemon {
         DropEntry.register("item", ItemDropEntry::class.java, isDefault = true)
 
         ExperienceGroups.registerDefaults()
+        CaptureCalculators.registerDefaults()
 
         this.loadConfig()
         this.implementation = implementation

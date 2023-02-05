@@ -27,6 +27,8 @@
   - ``generation_9`` Sets the calculator to the generation 9 implementation.
   - ``cobblemon`` Sets the calculator to the custom Cobblemon implementation, this is the default value.
   - ``debug`` Sets the calculator to the debug/cheat implementation, every attempt will be a successful critical capture.
+- Added sound for harvesting apricorns.
+- Added icon to summary and PC interfaces to indicated if a Pokémon is shiny.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -55,8 +57,10 @@
 - Fixed missing lang and interpretation for bide
 - Fixed datapack Pokémon not being able to battle.
 - Fixed datapack Pokémon lang key generation, a Pokémon under the namespace ``example`` named ``Pogemon`` will now correctly look for the lang key ``example.species.pogemon.name``.
+- Fixed and Added interpretation for 'FieldStart' and 'Abilities' that take effect in battle and gave them lang.
 - Fixed missing lang and interpretation for bide.
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
+- Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.

@@ -1,6 +1,6 @@
 plugins {
     id("cobblemon.base-conventions")
-    id("maven-publish")
+    id("cobblemon.publish-conventions")
 }
 
 architectury {
@@ -37,25 +37,4 @@ dependencies {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-publishing {
-    repositories {
-        maven("https://maven.impactdev.net/repository/development/") {
-            name = "ImpactDev-Public"
-            credentials {
-                username = System.getenv("NEXUS_USER")
-                password = System.getenv("NEXUS_PW")
-            }
-        }
-    }
-
-    publications {
-        create<MavenPublication>("mod") {
-            from(components["java"])
-            groupId = "com.cobblemon"
-            artifactId = "mod"
-            version = rootProject.version.toString()
-        }
-    }
 }

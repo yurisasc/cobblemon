@@ -26,7 +26,7 @@ tasks {
         dependsOn(shadowJar)
         inputFile.set(shadowJar.flatMap { it.archiveFile })
         archiveBaseName.set("Cobblemon-${project.name}")
-        archiveClassifier.set("${rootProject.version}-remap")
+        archiveVersion.set("${rootProject.version}")
     }
 
 }

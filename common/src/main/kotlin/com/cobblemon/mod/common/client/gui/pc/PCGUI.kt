@@ -15,6 +15,7 @@ import com.cobblemon.mod.common.api.text.text
 import com.cobblemon.mod.common.client.CobblemonResources
 import com.cobblemon.mod.common.client.gui.ExitButton
 import com.cobblemon.mod.common.client.gui.TypeIcon
+import com.cobblemon.mod.common.client.gui.summary.Summary
 import com.cobblemon.mod.common.client.gui.summary.widgets.ModelWidget
 import com.cobblemon.mod.common.client.render.drawScaledText
 import com.cobblemon.mod.common.client.storage.ClientPC
@@ -272,6 +273,19 @@ class PCGUI(
                 y = y + 108.5,
                 scale = SCALE
             )
+
+            // Shiny Icon
+            if (pokemon.shiny) {
+                blitk(
+                    matrixStack = matrices,
+                    texture = Summary.iconShinyResource,
+                    x = (x + 63.5) / SCALE,
+                    y = (y + 28.5) / SCALE,
+                    width = 14,
+                    height = 14,
+                    scale = SCALE
+                )
+            }
 
             blitk(
                 matrixStack = matrices,

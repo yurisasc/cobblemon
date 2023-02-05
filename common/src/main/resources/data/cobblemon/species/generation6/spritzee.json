@@ -111,7 +111,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:sachet"
+          "itemCondition": "cobblemon:sachet"
         }
       ]
     }

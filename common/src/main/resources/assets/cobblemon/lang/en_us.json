@@ -361,6 +361,15 @@
   "cobblemon.battle.bide_activate": "%1$s is storing energy!",
   "cobblemon.battle.bide_end": "%1$s unleashed its energy!",
 
+  "cobblemon.battle.mud_sport_field": "Electricity's power was weakened!",
+  "cobblemon.battle.electric_terrain_field": "An electric current ran across the battlefield!",
+  "cobblemon.battle.grassy_terrain_field": "Grass grew to cover the battlefield!",
+  "cobblemon.battle.misty_terrain_field": "Mist swirled around the battlefield!",
+  "cobblemon.battle.psychic_terrain_field": "The battlefield got weird!",
+  "cobblemon.battle.water_sport_field": "Fire's power was weakened!",
+
+  "cobblemon.battle.speed_boost_ability": "%1$s's Speed Boost Activated!",
+
   "cobblemon.battle.errors.busy": "%1$s is busy!",
   "cobblemon.battle.error.in_battle": "%1$s is already in a battle.",
   "cobblemon.battle.error.in_battle.personal": "You are already in a battle!",
@@ -2175,6 +2184,8 @@
   "cobblemon.move.zingzap.desc": "A strong electric blast crashes down on the target, giving it an electric shock. This may also make the target flinch.",
   "cobblemon.move.zippyzap": "Zippy Zap",
   "cobblemon.move.zippyzap.desc": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
+
+  "cobblemon.entity.pokemon": "Pokémon",
 
   "cobblemon.species.bulbasaur.name": "Bulbasaur",
   "cobblemon.species.bulbasaur.desc": "While it is young, it uses the nutrients that are stored in the seed on its back in order to grow.",

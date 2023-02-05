@@ -154,7 +154,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:dubious_disc"
+          "itemCondition": "cobblemon:dubious_disc"
         }
       ]
     }

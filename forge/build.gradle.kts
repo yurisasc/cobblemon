@@ -1,5 +1,6 @@
 plugins {
     id("cobblemon.platform-conventions")
+    id("cobblemon.publish-conventions")
 }
 
 architectury {
@@ -46,16 +47,13 @@ dependencies {
         libs.molang
     ).forEach {
         forgeRuntimeLibrary(it)
-        bundle(it) {
-            //exclude("com.ibm.icu", "icu4j")
-        }
+        bundle(it)
     }
 }
 
 tasks {
     shadowJar {
         exclude("architectury-common.accessWidener")
-
         relocate ("com.ibm.icu", "com.cobblemon.mod.relocations.ibm.icu")
     }
 

@@ -75,6 +75,8 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
         private val typeSpacerDoubleResource = cobblemonResource("ui/summary/type_spacer_double.png")
         private val sideSpacerResource = cobblemonResource("ui/summary/summary_side_spacer.png")
         private val evolveButtonResource = cobblemonResource("ui/summary/summary_evolve_button.png")
+
+        val iconShinyResource = cobblemonResource("ui/summary/icon_shiny.png")
     }
 
     internal lateinit var selectedPokemon: Pokemon
@@ -484,6 +486,19 @@ class Summary private constructor(): Screen(Text.translatable("cobblemon.ui.summ
             y = y + 4.5,
             shadow = true
         )
+
+        // Shiny Icon
+        if (selectedPokemon.shiny) {
+            blitk(
+                matrixStack = pMatrixStack,
+                texture = iconShinyResource,
+                x = (x + 63.5) / SCALE,
+                y = (y + 33.5) / SCALE,
+                width = 14,
+                height = 14,
+                scale = SCALE
+            )
+        }
 
         // Type Icon(s)
         blitk(

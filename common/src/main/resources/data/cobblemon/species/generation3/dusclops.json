@@ -146,7 +146,7 @@
       "requirements": [
         {
           "variant": "held_item",
-          "item": "cobblemon:reaper_cloth"
+          "itemCondition": "cobblemon:reaper_cloth"
         }
       ]
     }

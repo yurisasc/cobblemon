@@ -25,11 +25,11 @@ class NatuModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     override val leftLeg = getPart("leg_left")
     override val rightLeg = getPart("leg_right")
 
-    override val portraitScale = 2.2F
-    override val portraitTranslation = Vec3d(0.2, -1.3, 0.0)
+    override val portraitScale = 3.0F
+    override val portraitTranslation = Vec3d(0.1, -2.5, 0.0)
 
-    override val profileScale = 1.2F
-    override val profileTranslation = Vec3d(0.0, -0.1, 0.0)
+    override val profileScale = 1.4F
+    override val profileTranslation = Vec3d(0.0, -0.35, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose
