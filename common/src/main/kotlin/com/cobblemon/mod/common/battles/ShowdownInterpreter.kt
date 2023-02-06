@@ -9,50 +9,34 @@
 package com.cobblemon.mod.common.battles
 
 import com.cobblemon.mod.common.Cobblemon.LOGGER
-import com.cobblemon.mod.common.CobblemonNetwork
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
+import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
+import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
 import com.cobblemon.mod.common.api.events.CobblemonEvents
 import com.cobblemon.mod.common.api.events.battles.BattleVictoryEvent
 import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
-import com.cobblemon.mod.common.api.text.aqua
-import com.cobblemon.mod.common.api.text.gold
-import com.cobblemon.mod.common.api.text.plus
-import com.cobblemon.mod.common.api.text.red
-import com.cobblemon.mod.common.api.text.text
-import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
-import com.cobblemon.mod.common.battles.dispatch.DispatchResult
-import com.cobblemon.mod.common.battles.dispatch.GO
-import com.cobblemon.mod.common.battles.dispatch.UntilDispatch
-import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
+import com.cobblemon.mod.common.api.text.*
+import com.cobblemon.mod.common.battles.actor.MultiPokemonBattleActor
+import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
+import com.cobblemon.mod.common.battles.dispatch.*
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
-import com.cobblemon.mod.common.net.messages.client.battle.BattleFaintPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleHealthChangePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleInitializePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleMakeChoicePacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattlePersistentStatusPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleQueueRequestPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleSetTeamPokemonPacket
-import com.cobblemon.mod.common.net.messages.client.battle.BattleSwitchPokemonPacket
+import com.cobblemon.mod.common.net.messages.client.battle.*
 import com.cobblemon.mod.common.pokemon.evolution.progress.DamageTakenEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.RecoilEvolutionProgress
 import com.cobblemon.mod.common.pokemon.evolution.progress.UseMoveEvolutionProgress
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
-import com.cobblemon.mod.common.util.asTranslated
-import com.cobblemon.mod.common.util.battleLang
-import com.cobblemon.mod.common.util.getPlayer
-import com.cobblemon.mod.common.util.lang
-import com.cobblemon.mod.common.util.runOnServer
-import com.cobblemon.mod.common.util.swap
-import java.util.UUID
-import java.util.concurrent.CompletableFuture
-import kotlin.math.roundToInt
+import com.cobblemon.mod.common.util.*
 import net.minecraft.entity.LivingEntity
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.text.Text
+import java.util.*
+import java.util.concurrent.CompletableFuture
+import kotlin.math.roundToInt
 
 object ShowdownInterpreter {
     private val updateInstructions = mutableMapOf<String, (PokemonBattle, String, MutableList<String>) -> Unit>()
@@ -1008,19 +992,43 @@ object ShowdownInterpreter {
         }
     }
 
-    private fun handleHealInstruction(battle: PokemonBattle, battleActor: BattleActor, rawPublic: String, rawPrivate: String) {
+    private fun handleHealInstruction(battle: PokemonBattle, actor: BattleActor, rawPublic: String, rawPrivate: String) {
         battle.dispatchWaiting({
             val publicMessage = BattleMessage(rawPublic)
             val privateMessage = BattleMessage(rawPrivate)
             val pnx = privateMessage.argumentAt(0)?.substring(0, 3) ?: return@dispatchWaiting
-            val (actor, activeMon) = privateMessage.actorAndActivePokemon(0, battle) ?: return@dispatchWaiting
-            val battlePokemon = activeMon.battlePokemon ?: return@dispatchWaiting
+            val battlePokemon = privateMessage.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchWaiting
             val rawHpAndStatus = privateMessage.argumentAt(1)?.split(" ") ?: return@dispatchWaiting
             val rawHpRatio = rawHpAndStatus.getOrNull(0) ?: return@dispatchWaiting
             val newHealth = rawHpRatio.split("/").getOrNull(0)?.toIntOrNull() ?: return@dispatchWaiting
             val newHealthRatio = publicMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toFloatOrNull()?.times(0.01F) ?: return@dispatchWaiting
             battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, newHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio))
-            // ToDo lang here: drain, heal self, etc.
+            if (!privateMessage.hasOptionalArgument("silent")) {
+                val message: Text = when {
+                    privateMessage.hasOptionalArgument("zeffect") -> battleLang("heal.zeffect", battlePokemon.getName())
+                    privateMessage.hasOptionalArgument("wisher") -> {
+                        val name = privateMessage.optionalArgument("wisher")!!
+                        val showdownId = name.lowercase().replace(ShowdownIdentifiable.REGEX, "")
+                        val wisher = actor.pokemonList.firstOrNull { it.effectedPokemon.showdownId() == showdownId }
+                        // If no Pokémon is found this is a nickname
+                        battleLang("heal.wish", wisher?.getName() ?: actor.nameOwned(name))
+                    }
+                    privateMessage.optionalArgument("from") == "drain" -> {
+                        TODO("[from] drain [of]")
+                    }
+                    privateMessage.hasOptionalArgument("from") -> {
+                        // [from] effect.fullname [of] source differs from target
+                        // [from] effect.fullname
+                        // [from] move:
+                        // [from] move: Healing Wish
+                        // [from] move: Lunar Dance
+                        // [from] move: Revival Blessing
+                        TODO("message")
+                    }
+                    else -> TODO("generic heal message")
+                }
+                battle.broadcastChatMessage(message)
+            }
             battlePokemon.effectedPokemon.currentHealth = newHealth
             // This part is not always present
             val rawStatus = rawHpAndStatus.getOrNull(1) ?: return@dispatchWaiting
@@ -1029,7 +1037,7 @@ object ShowdownInterpreter {
                 battlePokemon.effectedPokemon.applyStatus(status)
                 battle.sendUpdate(BattlePersistentStatusPacket(pnx, status))
                 if (!privateMessage.hasOptionalArgument("silent")) {
-                    // ToDo lang here
+                    status.applyMessage.let { battle.broadcastChatMessage(it.asTranslated(battlePokemon.getName())) }
                 }
             }
         })

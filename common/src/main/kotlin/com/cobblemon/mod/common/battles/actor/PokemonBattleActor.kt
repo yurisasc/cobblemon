@@ -21,6 +21,8 @@ import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import java.util.Optional
 import java.util.UUID
 import net.minecraft.server.world.ServerWorld
+import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.math.Vec3d
 
 open class PokemonBattleActor(
@@ -30,6 +32,7 @@ open class PokemonBattleActor(
     artificialDecider: BattleAI = RandomBattleAI()
 ) : AIBattleActor(uuid, listOf(pokemon), artificialDecider), EntityBackedBattleActor<PokemonEntity>, FleeableBattleActor {
     override fun getName() = pokemon.effectedPokemon.species.translatedName
+    override fun nameOwned(name: String): MutableText = Text.literal(name)
     override fun getWorldAndPosition(): Pair<ServerWorld, Vec3d>? {
         // This isn't a great solution, but basically capturing a Pokémon
         // removes the entity from the world, which sure does look similar

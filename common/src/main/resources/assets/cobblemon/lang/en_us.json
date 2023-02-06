@@ -406,6 +406,9 @@
   "cobblemon.battle.item.mirror_herb.end": "%1$s copied stat changes with its Mirror Herb!",
   "cobblemon.battle.item.white_herb.end": "%1$s returned its status to normal using its White Herb!",
 
+  "cobblemon.battle.heal.zeffect": "%1$s's HP was restored by the Z-Power!",
+  "cobblemon.battle.heal.wish": "%1$s's wish came true!",
+
   "cobblemon.experience.gained": "%1$s received %2$s experience.",
   "cobblemon.experience.level_up": "%1$s is now level %2$s!",
   "cobblemon.experience.learned_move": "%1$s has learned %2$s.",
