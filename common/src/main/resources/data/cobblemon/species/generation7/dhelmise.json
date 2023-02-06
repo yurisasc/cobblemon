@@ -125,9 +125,9 @@
     "cobblemon.species.dhelmise.desc"
   ],
   "evolutions": [],
-  "baseScale": 1,
+  "baseScale": 1.1,
   "hitbox": {
-    "width": 3,
+    "width": 2.5,
     "height": 4,
     "fixed": false
   },

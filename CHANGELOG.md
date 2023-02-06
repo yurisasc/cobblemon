@@ -28,6 +28,11 @@
   - ``debug`` Sets the calculator to the debug/cheat implementation, every attempt will be a successful critical capture.
 - Added sound for harvesting apricorns.
 - Added icon to summary and PC interfaces to indicated if a Pokémon is shiny.
+- Added the Haste shoulder effect.
+- Added the Water Breathing shoulder effect.
+- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra.
+- Added Water Breathing Effect to Wooper.
+- Added Haste Effect to Joltik.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -36,7 +41,9 @@
 - The PC block screen will now turn on when being used.
 - The Healing Machine will now visually display its charge level using 6 stages.
 - The Healing Machine will now emit a redstone signal with the strength of 1 for every 10% charge it has when attached to a [Redstone Comparator](https://minecraft.fandom.com/wiki/Redstone_Comparator).
-- The Healing Machine will now only require a one time charge to 100% after that it will no longer consume power this should help balance "static" healers you keep in your base.
+- Made it so that particles are not shown whenever you have a shoulder Pokémon that gives particle effects.
+- Changed the Imports in "PokemonModelReposity" to instead grab the entire Gen rather than each Pokémon Specifically.
+- Changed Hitbox and Size definitions for Decidueye, Blastoise, and magmorter
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
@@ -61,8 +68,6 @@
 - Fixed missing lang and interpretation for bide.
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
 - Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
-- Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.
-- Fixed PokéBalls taking forever to capture Pokémon if you are underwater or up in the air where it takes a long time to hit the ground.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
