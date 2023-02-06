@@ -17,7 +17,7 @@
   },
   "catchRate": 100,
   "maleRatio": 0,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "forms": [
     {
       "name": "Gmax",
