@@ -203,13 +203,7 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.Tor
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.WailmerModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen3.WailordModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen4.*
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.BasculinModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.CrustleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.DeerlingModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.DwebbleModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.EmolgaModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.MaractusModel
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.SawsbuckModel
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen5.*
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.SylveonModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen6.XerneasModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.gen7.*
@@ -494,6 +488,9 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("grotle", :: GrotleModel)
         inbuilt("torterra", :: TorterraModel)
         inbuilt("xerneas", :: XerneasModel)
+        inbuilt("klink", :: KlinkModel)
+        inbuilt("klang", :: KlangModel)
+        inbuilt("klinklang", :: KlinklangModel)
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
