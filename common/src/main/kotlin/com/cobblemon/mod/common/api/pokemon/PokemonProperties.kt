@@ -222,7 +222,7 @@ open class PokemonProperties {
         species?.let {
             return@let try {
                 if (it == "random") {
-                    PokemonSpecies.species.random()
+                    PokemonSpecies.implemented.random()
                 } else {
                     PokemonSpecies.getByIdentifier(it.asIdentifierDefaultingNamespace())
                 }
