@@ -406,8 +406,15 @@
   "cobblemon.battle.item.mirror_herb.end": "%1$s copied stat changes with its Mirror Herb!",
   "cobblemon.battle.item.white_herb.end": "%1$s returned its status to normal using its White Herb!",
 
-  "cobblemon.battle.heal.zeffect": "%1$s's HP was restored by the Z-Power!",
+  "cobblemon.battle.heal.z_effect": "%1$s's HP was restored by the Z-Power!",
   "cobblemon.battle.heal.wish": "%1$s's wish came true!",
+  "cobblemon.battle.heal.drain": "%1$s had its HP drained!",
+  "cobblemon.battle.heal.healing_wish": "The healing wish came true for %1$s!",
+  "cobblemon.battle.heal.revival_blessing": "%1$s was revived and is ready to fight again!",
+  "cobblemon.battle.heal.aqua_ring": "A veil of water restored %1$s's HP!",
+  "cobblemon.battle.heal.ingrain": "%1$s absorbed nutrients with its roots!",
+  "cobblemon.battle.heal.grassy_terrain": "%1$s's HP was restored.",
+  "cobblemon.battle.heal.generic": "%1$s restored its HP.",
 
   "cobblemon.experience.gained": "%1$s received %2$s experience.",
   "cobblemon.experience.level_up": "%1$s is now level %2$s!",

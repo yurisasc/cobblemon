@@ -8,6 +8,7 @@
 
 package com.cobblemon.mod.common.battles
 
+import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
@@ -729,6 +730,8 @@ object ShowdownInterpreter {
 
     private fun handleFieldStartInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
         battle.dispatch{
+            // ToDo fix me this is crashing
+            /*
             val editedMessage = message.split("|-fieldstart|")[1]
             val pnx = editedMessage.substring(0, 3)
             val fromWhat = editedMessage.split("|")[1]
@@ -741,6 +744,7 @@ object ShowdownInterpreter {
                 "move: Water Sport" -> battle.broadcastChatMessage(battleLang("water_sport_field"))
                 else -> battle.broadcastChatMessage(editedMessage.text())
             }
+             */
             WaitDispatch(1F)
         }
     }
@@ -1003,9 +1007,10 @@ object ShowdownInterpreter {
             val newHealth = rawHpRatio.split("/").getOrNull(0)?.toIntOrNull() ?: return@dispatchWaiting
             val newHealthRatio = publicMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toFloatOrNull()?.times(0.01F) ?: return@dispatchWaiting
             battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, newHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio))
-            if (!privateMessage.hasOptionalArgument("silent")) {
+            val silent = privateMessage.hasOptionalArgument("silent")
+            if (!silent) {
                 val message: Text = when {
-                    privateMessage.hasOptionalArgument("zeffect") -> battleLang("heal.zeffect", battlePokemon.getName())
+                    privateMessage.hasOptionalArgument("zeffect") -> battleLang("heal.z_effect", battlePokemon.getName())
                     privateMessage.hasOptionalArgument("wisher") -> {
                         val name = privateMessage.optionalArgument("wisher")!!
                         val showdownId = name.lowercase().replace(ShowdownIdentifiable.REGEX, "")
@@ -1014,18 +1019,26 @@ object ShowdownInterpreter {
                         battleLang("heal.wish", wisher?.getName() ?: actor.nameOwned(name))
                     }
                     privateMessage.optionalArgument("from") == "drain" -> {
-                        TODO("[from] drain [of]")
+                        val drained = privateMessage.actorAndActivePokemonFromOptional(battle, "of")?.second?.battlePokemon ?: return@dispatchWaiting
+                        battleLang("heal.drained", drained.getName())
                     }
                     privateMessage.hasOptionalArgument("from") -> {
-                        // [from] effect.fullname [of] source differs from target
-                        // [from] effect.fullname
-                        // [from] move:
-                        // [from] move: Healing Wish
-                        // [from] move: Lunar Dance
-                        // [from] move: Revival Blessing
-                        TODO("message")
+                        val effect = privateMessage.effect("from") ?: return@dispatchWaiting
+                        when (effect.id) {
+                            "healingwish" -> battleLang("heal.healing_wish", battlePokemon.getName())
+                            "lunardance" -> battleLang("heal.lunar_dance", battlePokemon.getName())
+                            "revivalblessing" -> battleLang("heal.revival_blessing", battlePokemon.getName())
+                            "aquaring" -> battleLang("heal.aqua_ring", battlePokemon.getName())
+                            "ingrain" -> battleLang("heal.ingrain", battlePokemon.getName())
+                            "grassyterrain" -> battleLang("heal.grassy_terrain", battlePokemon.getName())
+                            else -> {
+                                LOGGER.error("Failed to handle '-heal' action: \nPublic » {}\nPrivate » {}", publicMessage.rawMessage, privateMessage.rawMessage)
+                                // We don't send out the message here as we don't want to expose private data in case it can be abused
+                                Text.literal("Failed to handle '-heal' action please report to the developers").red()
+                            }
+                        }
                     }
-                    else -> TODO("generic heal message")
+                    else -> battleLang("heal.generic", battlePokemon.getName())
                 }
                 battle.broadcastChatMessage(message)
             }
@@ -1036,7 +1049,7 @@ object ShowdownInterpreter {
             if (status is PersistentStatus) {
                 battlePokemon.effectedPokemon.applyStatus(status)
                 battle.sendUpdate(BattlePersistentStatusPacket(pnx, status))
-                if (!privateMessage.hasOptionalArgument("silent")) {
+                if (!silent) {
                     status.applyMessage.let { battle.broadcastChatMessage(it.asTranslated(battlePokemon.getName())) }
                 }
             }
