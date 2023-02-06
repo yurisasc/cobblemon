@@ -109,6 +109,7 @@ object ShowdownInterpreter {
         splitUpdateInstructions["|switch|"] = this::handleSwitchInstruction
         splitUpdateInstructions["|-damage|"] = this::handleDamageInstruction
         splitUpdateInstructions["|drag|"] = this::handleDragInstruction
+        splitUpdateInstructions["|-heal|"] = this::handleHealInstruction
     }
 
     private fun boostInstruction(battle: PokemonBattle, line: String, remainingLines: MutableList<String>, isBoost: Boolean) {
@@ -421,15 +422,16 @@ object ShowdownInterpreter {
     private fun handleTurnInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
         if (!battle.started) {
             battle.started = true
-            val players = battle.actors.mapNotNull { it.uuid.getPlayer() }
-            if (players.isNotEmpty()) {
-                val initializePacket = BattleInitializePacket(battle)
-                players.forEach { CobblemonNetwork.sendToPlayer(it, initializePacket) }
+            battle.actors.forEach { actor ->
+                if (actor.uuid.getPlayer() != null) {
+                    val initializePacket = BattleInitializePacket(battle, actor.getSide())
+                    actor.sendUpdate(initializePacket)
+                }
             }
-            battle.actors.forEach {
-                it.sendUpdate(BattleSetTeamPokemonPacket(it.pokemonList.map { it.effectedPokemon }))
-                val req = it.request ?: return@forEach
-                it.sendUpdate(BattleQueueRequestPacket(req))
+            battle.actors.forEach { actor ->
+                actor.sendUpdate(BattleSetTeamPokemonPacket(actor.pokemonList.map { it.effectedPokemon }))
+                val req = actor.request ?: return@forEach
+                actor.sendUpdate(BattleQueueRequestPacket(req))
             }
         }
 
@@ -872,7 +874,7 @@ object ShowdownInterpreter {
             // Queue actual swap and send-in after the animation has ended
             actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(newPokemon))
             activePokemon.battlePokemon = newPokemon
-            battle.sendUpdate(BattleSwitchPokemonPacket(pnx, newPokemon))
+            battle.sendSidedUpdate(actor, BattleSwitchPokemonPacket(pnx, newPokemon, true), BattleSwitchPokemonPacket(pnx, newPokemon, false))
             if (newPokemon.entity != null) {
                 sendOutFuture.complete(Unit)
             } else {
@@ -895,13 +897,13 @@ object ShowdownInterpreter {
     private fun createNonEntitySwitch(battle: PokemonBattle, actor: BattleActor, pnx: String, activePokemon: ActiveBattlePokemon, newPokemon: BattlePokemon): DispatchResult {
         actor.pokemonList.swap(actor.activePokemon.indexOf(activePokemon), actor.pokemonList.indexOf(newPokemon))
         activePokemon.battlePokemon = newPokemon
-        battle.sendUpdate(BattleSwitchPokemonPacket(pnx, newPokemon))
+        battle.sendSidedUpdate(actor, BattleSwitchPokemonPacket(pnx, newPokemon, true), BattleSwitchPokemonPacket(pnx, newPokemon, false))
         return WaitDispatch(1.5F)
     }
 
     fun handleDamageInstruction(battle: PokemonBattle, actor: BattleActor, publicMessage: String, privateMessage: String) {
         val pnx = publicMessage.split("|")[2].split(":")[0]
-        val battleMessage = BattleMessage(publicMessage)
+        val battleMessage = BattleMessage(privateMessage)
         val (_, activePokemon) = battleMessage.actorAndActivePokemon(0, battle)!!
         if (battleMessage.optionalArgument("from")?.equals("recoil", true) == true) {
             activePokemon.battlePokemon?.effectedPokemon?.let { pokemon ->
@@ -951,7 +953,7 @@ object ShowdownInterpreter {
                     GO
                 }
             }
-            battle.sendUpdate(BattleHealthChangePacket(pnx, newHealthRatio, remainingHealth))
+            battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, remainingHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio))
             if (cause != null) {
                 when (cause) {
                     "confusion" -> battle.broadcastChatMessage(battleLang("confusion_activate", activePokemon.battlePokemon?.getName()!!))
@@ -1004,6 +1006,33 @@ object ShowdownInterpreter {
             val battlePokemon = battleMessage.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchGo
             battlePokemon.heldItemManager.handleEndInstruction(battlePokemon, battle, battleMessage)
         }
+    }
+
+    private fun handleHealInstruction(battle: PokemonBattle, battleActor: BattleActor, rawPublic: String, rawPrivate: String) {
+        battle.dispatchWaiting({
+            val publicMessage = BattleMessage(rawPublic)
+            val privateMessage = BattleMessage(rawPrivate)
+            val pnx = privateMessage.argumentAt(0)?.substring(0, 3) ?: return@dispatchWaiting
+            val (actor, activeMon) = privateMessage.actorAndActivePokemon(0, battle) ?: return@dispatchWaiting
+            val battlePokemon = activeMon.battlePokemon ?: return@dispatchWaiting
+            val rawHpAndStatus = privateMessage.argumentAt(1)?.split(" ") ?: return@dispatchWaiting
+            val rawHpRatio = rawHpAndStatus.getOrNull(0) ?: return@dispatchWaiting
+            val newHealth = rawHpRatio.split("/").getOrNull(0)?.toIntOrNull() ?: return@dispatchWaiting
+            val newHealthRatio = publicMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toFloatOrNull()?.times(0.01F) ?: return@dispatchWaiting
+            battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, newHealth.toFloat()), BattleHealthChangePacket(pnx, newHealthRatio))
+            // ToDo lang here: drain, heal self, etc.
+            battlePokemon.effectedPokemon.currentHealth = newHealth
+            // This part is not always present
+            val rawStatus = rawHpAndStatus.getOrNull(1) ?: return@dispatchWaiting
+            val status = Statuses.getStatus(rawStatus) ?: return@dispatchWaiting
+            if (status is PersistentStatus) {
+                battlePokemon.effectedPokemon.applyStatus(status)
+                battle.sendUpdate(BattlePersistentStatusPacket(pnx, status))
+                if (!privateMessage.hasOptionalArgument("silent")) {
+                    // ToDo lang here
+                }
+            }
+        })
     }
 
 }

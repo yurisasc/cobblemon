@@ -26,6 +26,7 @@ import com.cobblemon.mod.common.battles.BattleSide
 import com.cobblemon.mod.common.battles.dispatch.BattleDispatch
 import com.cobblemon.mod.common.battles.dispatch.DispatchResult
 import com.cobblemon.mod.common.battles.dispatch.GO
+import com.cobblemon.mod.common.battles.dispatch.WaitDispatch
 import com.cobblemon.mod.common.battles.runner.GraalShowdown
 import com.cobblemon.mod.common.net.messages.client.battle.BattleEndPacket
 import com.cobblemon.mod.common.pokemon.evolution.progress.DefeatEvolutionProgress
@@ -47,7 +48,7 @@ open class PokemonBattle(
     val side2: BattleSide
 ) {
     /** Whether or not logging will be silenced for this battle. */
-    var mute = true
+    var mute = false
 
     init {
         side1.battle = this
@@ -216,6 +217,20 @@ open class PokemonBattle(
         sendSpectatorUpdate(packet)
     }
 
+    /**
+     * Sends a packet depending on the side of an actor.
+     *
+     * @param source The actor that triggered the necessity for this update.
+     * @param allyPacket The packet sent to the [source] and their allies.
+     * @param opponentPacket The packet sent to the opposing actors.
+     * @param spectatorsAsAlly If the spectators receive the [allyPacket] or the [opponentPacket], default is false.
+     */
+    fun sendSidedUpdate(source: BattleActor, allyPacket: NetworkPacket, opponentPacket: NetworkPacket, spectatorsAsAlly: Boolean = false) {
+        source.getSide().actors.forEach { it.sendUpdate(allyPacket) }
+        source.getSide().getOppositeSide().actors.forEach { it.sendUpdate(opponentPacket) }
+        sendSpectatorUpdate(if (spectatorsAsAlly) allyPacket else opponentPacket)
+    }
+
     fun sendToActors(packet: NetworkPacket) {
         CobblemonNetwork.sendToPlayers(actors.flatMap { it.getPlayerUUIDs().mapNotNull { it.getPlayer() } }, packet)
     }
@@ -237,6 +252,13 @@ open class PokemonBattle(
         dispatch {
             dispatcher()
             GO
+        }
+    }
+
+    fun dispatchWaiting(dispatcher: () -> Unit, delaySeconds: Float = 1F) {
+        dispatch {
+            dispatcher()
+            WaitDispatch(delaySeconds)
         }
     }
 
