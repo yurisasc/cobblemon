@@ -32,9 +32,11 @@ class MewtwoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("mewtwo", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("mewtwo", "ground_idle")
@@ -44,6 +46,7 @@ class MewtwoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("mewtwo", "ground_idle")
@@ -53,6 +56,7 @@ class MewtwoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         hover = registerPose(
             poseName = "hover",
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("mewtwo", "air_idle")
@@ -62,6 +66,7 @@ class MewtwoModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         fly = registerPose(
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("mewtwo", "air_fly")

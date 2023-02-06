@@ -35,9 +35,11 @@ class MeowthModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("meowth", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("meowth", "ground_idle")
@@ -47,6 +49,7 @@ class MeowthModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 BipedWalkAnimation(this, periodMultiplier = .7F),

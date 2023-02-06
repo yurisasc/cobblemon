@@ -32,9 +32,11 @@ class PsyduckModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("psyduck", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("psyduck", "ground_idle")
@@ -44,6 +46,7 @@ class PsyduckModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("psyduck", "ground_walk")
@@ -52,6 +55,7 @@ class PsyduckModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         float = registerPose(
             poseType = PoseType.FLOAT,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("psyduck", "water_idle")
@@ -60,6 +64,7 @@ class PsyduckModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
 
         swim = registerPose(
             poseType = PoseType.SWIM,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("psyduck", "water_swim")

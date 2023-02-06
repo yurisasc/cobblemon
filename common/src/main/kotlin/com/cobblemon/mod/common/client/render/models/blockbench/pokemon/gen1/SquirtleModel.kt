@@ -41,9 +41,11 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("squirtle", "blink").setPreventsIdle(false)}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("squirtle", "sleep"))
         )
 
@@ -51,6 +53,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseName = "standing",
             poseTypes = UI_POSES + STATIONARY_POSES - PoseType.FLOAT,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("squirtle", "ground_idle")
@@ -60,6 +63,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
         walk = registerPose(
             poseType = PoseType.WALK,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("squirtle", "ground_walk")
@@ -70,6 +74,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseName = "swim_idle",
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("squirtle", "water_idle")
@@ -80,6 +85,7 @@ class SquirtleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bipe
             poseName = "swim",
             poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("squirtle", "water_swim")
