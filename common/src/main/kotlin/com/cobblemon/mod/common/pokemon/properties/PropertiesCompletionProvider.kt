@@ -126,7 +126,7 @@ internal object PropertiesCompletionProvider : DataRegistry {
         this.inject(setOf("level", "lvl", "l"), setOf("1", "${Cobblemon.config.maxPokemonLevel}") )
         this.inject(setOf("shiny", "s"), setOf("yes", "no"))
         this.inject(setOf("gender"), Gender.values().map { it.name.lowercase() })
-        this.inject(setOf("friendship"), setOf("0", Cobblemon.config.maxPokemonLevel.toString()))
+        this.inject(setOf("friendship"), setOf("0", Cobblemon.config.maxPokemonFriendship.toString()))
         this.inject(setOf("pokeball"), PokeBalls.all().map { if (it.name.namespace == Cobblemon.MODID) it.name.path else it.name.toString() })
         this.inject(setOf("nature"), Natures.all().map { if (it.name.namespace == Cobblemon.MODID) it.name.path else it.name.toString() })
     }

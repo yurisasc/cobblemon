@@ -37,6 +37,7 @@
 - The PC block screen will now turn on when being used.
 - The Healing Machine will now visually display its charge level using 6 stages.
 - The Healing Machine will now emit a redstone signal with the strength of 1 for every 10% charge it has when attached to a [Redstone Comparator](https://minecraft.fandom.com/wiki/Redstone_Comparator).
+- The Healing Machine will now only require a one time charge to 100% after that it will no longer consume power this should help balance "static" healers you keep in your base.
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
@@ -61,6 +62,8 @@
 - Fixed missing lang and interpretation for bide.
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
 - Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
+- Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.
+- Fixed PokéBalls taking forever to capture Pokémon if you are underwater or up in the air where it takes a long time to hit the ground.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.

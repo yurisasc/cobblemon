@@ -55,6 +55,7 @@ import net.minecraft.util.hit.EntityHitResult
 import net.minecraft.util.math.MathHelper.PI
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.World
+import com.cobblemon.mod.common.api.scheduling.after
 
 class EmptyPokeBallEntity(
     var pokeBall: PokeBall,
@@ -101,7 +102,7 @@ class EmptyPokeBallEntity(
                 CaptureState.NOT -> setNoGravity(false)
                 CaptureState.HIT -> {}
                 CaptureState.FALL -> setNoGravity(false)
-                CaptureState.SHAKE -> setNoGravity(false)
+                CaptureState.SHAKE -> setNoGravity(true)
             }
         }
     }
@@ -219,61 +220,68 @@ class EmptyPokeBallEntity(
                 return
             }
 
-            if (isOnGround && captureState.get() == CaptureState.FALL.ordinal.toByte()) {
-                capturingPokemon?.setPositionSafely(pos)
-                captureState.set(CaptureState.SHAKE.ordinal.toByte())
-                val captureResult = Cobblemon.config.captureCalculator.processCapture(owner as ServerPlayerEntity, pokeBall, capturingPokemon!!.pokemon)
-
-                var rollsRemaining = captureResult.numberOfShakes
-                if (rollsRemaining == 4) {
-                    rollsRemaining--
+            if (captureState.get() == CaptureState.FALL.ordinal.toByte()) {
+                after(ticks = 30) {
+                    velocity = Vec3d.ZERO
+                    setNoGravity(true)
+                    isOnGround = true
                 }
+                if (isOnGround) {
+                    capturingPokemon?.setPositionSafely(pos)
+                    captureState.set(CaptureState.SHAKE.ordinal.toByte())
+                    val captureResult = Cobblemon.config.captureCalculator.processCapture(owner as ServerPlayerEntity, pokeBall, capturingPokemon!!.pokemon)
 
-                taskBuilder()
-                    .iterations(captureResult.numberOfShakes + 1)
-                    .delay(SECONDS_BEFORE_SHAKE)
-                    .interval(SECONDS_BETWEEN_SHAKES)
-                    .execute {
-                        if (capturingPokemon?.isAlive != true) {
-                            discard()
-                        }
+                    var rollsRemaining = captureResult.numberOfShakes
+                    if (rollsRemaining == 4) {
+                        rollsRemaining--
+                    }
 
-                        if (!isAlive) {
-                            it.expire()
-                            return@execute
-                        }
-
-                        if (rollsRemaining <= 0) {
-                            if (captureResult.isSuccessfulCapture) {
-                                // Do a capture
-                                world.sendParticlesServer(ParticleTypes.CRIT, pos, 10, Vec3d(0.1, -0.5, 0.1), 0.2)
-                                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED.get(), volume = 0.3F, pitch = 1F)
-                                val pokemon = capturingPokemon ?: return@execute
-                                val player = this.owner as? ServerPlayerEntity ?: return@execute
-
-                                afterOnMain(seconds = 1F) {
-                                    pokemon.discard()
+                    taskBuilder()
+                            .iterations(captureResult.numberOfShakes + 1)
+                            .delay(SECONDS_BEFORE_SHAKE)
+                            .interval(SECONDS_BETWEEN_SHAKES)
+                            .execute {
+                                if (capturingPokemon?.isAlive != true) {
                                     discard()
-                                    captureFuture.complete(true)
-                                    val party = Cobblemon.storage.getParty(player.uuid)
-                                    pokemon.pokemon.caughtBall = pokeBall
-                                    pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
-                                    party.add(pokemon.pokemon)
-                                    CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
                                 }
 
-                                return@execute
-                            } else {
-                                breakFree()
-                            }
-                            return@execute
-                        }
+                                if (!isAlive) {
+                                    it.expire()
+                                    return@execute
+                                }
 
-                        rollsRemaining--
-                        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE.get())
-                        shakeEmitter.set(!shakeEmitter.get())
-                    }
-                    .build()
+                                if (rollsRemaining <= 0) {
+                                    if (captureResult.isSuccessfulCapture) {
+                                        // Do a capture
+                                        world.sendParticlesServer(ParticleTypes.CRIT, pos, 10, Vec3d(0.1, -0.5, 0.1), 0.2)
+                                        world.playSoundServer(pos, CobblemonSounds.POKE_BALL_CAPTURE_SUCCEEDED.get(), volume = 0.3F, pitch = 1F)
+                                        val pokemon = capturingPokemon ?: return@execute
+                                        val player = this.owner as? ServerPlayerEntity ?: return@execute
+
+                                        afterOnMain(seconds = 1F) {
+                                            pokemon.discard()
+                                            discard()
+                                            captureFuture.complete(true)
+                                            val party = Cobblemon.storage.getParty(player.uuid)
+                                            pokemon.pokemon.caughtBall = pokeBall
+                                            pokeBall.effects.forEach { effect -> effect.apply(player, pokemon.pokemon) }
+                                            party.add(pokemon.pokemon)
+                                            CobblemonEvents.POKEMON_CAPTURED.post(PokemonCapturedEvent(pokemon.pokemon, player))
+                                        }
+
+                                        return@execute
+                                    } else {
+                                        breakFree()
+                                    }
+                                    return@execute
+                                }
+
+                                rollsRemaining--
+                                world.playSoundServer(pos, CobblemonSounds.POKE_BALL_SHAKE.get())
+                                shakeEmitter.set(!shakeEmitter.get())
+                            }
+                            .build()
+                }
             }
         }
     }
