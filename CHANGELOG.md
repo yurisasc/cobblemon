@@ -28,6 +28,7 @@
   - ``debug`` Sets the calculator to the debug/cheat implementation, every attempt will be a successful critical capture.
 - Added sound for harvesting apricorns.
 - Added icon to summary and PC interfaces to indicated if a Pokémon is shiny.
+- Added animated texture support.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
