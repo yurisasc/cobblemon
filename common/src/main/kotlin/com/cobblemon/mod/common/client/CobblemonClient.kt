@@ -94,10 +94,6 @@ object CobblemonClient {
         registerColors()
         LOGGER.info("Registering custom BuiltinItemRenderers")
         CobblemonBuiltinItemRendererRegistry.register(CobblemonItems.POKEMON_MODEL, PokemonItemRenderer())
-
-//        CobblemonParticles.completed.thenAccept {
-//            implementation.registerParticleFactory(CobblemonParticles.SNOWSTORM_PARTICLE_TYPE.get(), SnowstormParticleType::Factory)
-//        }
     }
 
     fun registerColors() {

@@ -144,62 +144,6 @@ class CatmullRomMoLangCurve(
         val pso = (position + 1) / (segments + 2)
 
         return curve.getY(pso)
-
-//        val nodesKeyedByTime = nodes.mapIndexed { index, value -> index to value }.toMap()
-
-//        val nodesBelow = nodesKeyedByTime.filterKeys { it <= inputValue }.entries.sortedBy { it.key }
-//        val nodesAfter = nodesKeyedByTime.filterKeys { it >= inputValue }.entries.sortedBy { it.key }
-//        val spaceBetweenNodes = horizontalRange / (nodes.size - 1)
-//
-//        if (nodesBelow.isEmpty()) {
-//            return nodes[0]
-//        } else if (nodesAfter.isEmpty()) {
-//            return nodes[nodes.size - 1]
-//        } else {
-//
-//            val points = nodes.mapIndexed { index, y ->
-//                val t = index * spaceBetweenNodes
-//                Vec2f(t.toFloat(), y.toFloat())
-//            }
-//
-//            val p = (points.size - 1) * inputValue
-//            val intPoint = floor(p).toInt()
-//
-//            val weight = p - intPoint
-
-
-
-//            val preBefore = if (nodesBelow.size > 1) nodesBelow[nodesBelow.size - 2] else null
-//            val before = nodesBelow.last()
-//            val after = nodesAfter.first()
-//            val postAfter = if (nodesAfter.size > 1) nodesAfter[1] else null
-//
-//            val alpha = MathHelper.lerp(inputValue, (before.key - 1) * spaceBetweenNodes, (after.key - 1) * spaceBetweenNodes)
-//
-//            // Get the nearby nodes, might be 2, might be 3 or 4
-//            val nearbyNodes = mutableListOf(before, after)
-//            if (preBefore != null) {
-//                nearbyNodes.add(0, preBefore)
-//            }
-//            if (postAfter != null) {
-//                nearbyNodes.add(postAfter)
-//            }
-//
-//            val i = (inputValue - before) / (after - before) + if (preBefore != null) 1 else 0
-//            val intPoint = floor(i).toInt()
-//            val weight = i - intPoint
-//
-//            val p0 = nearbyNodes[if (intPoint == 0) 0 else intPoint - 1]
-//            val p1 = nearbyNodes[intPoint]
-//            val p2 = nearbyNodes[if (intPoint > nearbyNodes.size - 2) nearbyNodes.size - 1 else intPoint + 1]
-//            val p3 = nearbyNodes[if (intPoint > nearbyNodes.size - 3) nearbyNodes.size - 1 else intPoint + 2]
-//
-//            val v0 = (p2 - p0) * 0.5
-//            val v1 = (p3 - p1) * 0.5
-//
-//            val weightSquared = weight * weight
-//            val weightCubed = weight * weightSquared
-//            return (2 * p1 - 2 * p2 + v0 + v1) * weightCubed + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * weightSquared + v0 * weight + p1
     }
 
     override fun <T> encode(ops: DynamicOps<T>) = CODEC.encodeStart(ops, this)

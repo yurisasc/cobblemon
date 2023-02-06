@@ -64,68 +64,8 @@ object TestCommand {
         }
 
         try {
-//            val jsonEffect = File("something.json")
+            testParticles(context)
 
-//            val effect = BedrockParticleEffect(
-//                emitter = BedrockParticleEmitter(
-//                    rate = SteadyParticleEmitterRate(
-//                        rate = 200.0.asExpression(),
-//                        maximum = 200.0.asExpression()
-//                    ),
-//                    lifetime = OnceEmitterLifetime(
-//                        activeTime = 4.0.asExpression()
-//                    ),
-//                    shape = SphereParticleEmitterShape(
-//                        radius = 1.0.asExpression(),
-//                        surfaceOnly = true
-//                    )
-//                ),
-//                particle = BedrockParticle(
-//                    texture = Identifier("minecraft:textures/block/fire_0.png"),
-////                    texture = Identifier("minecraft:textures/particle/bubble.png"),
-//                    material = ParticleMaterial.BLEND,
-//                    sizeX = 0.12.asExpression(),
-//                    sizeY = 0.12.asExpression(),
-//                    maxAge = 3.5.asExpression(),
-//                    motion = DynamicParticleMotion(
-//                        direction = OutwardsMotionDirection(),
-//                        speed = 2.0.asExpression(),
-//                    ),
-//                    rotation = DynamicParticleRotation(
-//                        speed = 0.0.asExpression()
-//                    ),
-//                    uvMode = AnimatedParticleUVMode(
-//                        textureSizeX = 16,
-//                        textureSizeY = 512,
-//                        startU = 0.0.asExpression(),
-//                        startV = 0.0.asExpression(),
-//                        uSize = 16.0.asExpression(),
-//                        vSize = 16.0.asExpression(),
-//                        stepU = 0.0.asExpression(),
-//                        stepV = 16.0.asExpression(),
-//                        maxFrame = 32.0.asExpression(),
-//                        fps = 0.0.asExpression(),
-//                        stretchToLifetime = true,
-//                        loop = false
-//                    ),
-//                    cameraMode = RotateXYZCameraMode(),
-//                    tinting = GradientParticleTinting(
-//                        interpolant = "v.particle_age / v.particle_lifetime".asExpression(),
-//                        gradient = mapOf(
-//                            0.0 to Vector4f(1F, 1F, 1F, 1F),
-//                            1.0 to Vector4f(0F, 0F, 0F, 1F)
-//                        )
-//                    )
-//                )
-//            )
-
-            val file = File("particle.particle.json")
-            val effect = SnowstormParticleReader.loadEffect(GsonBuilder().create().fromJson<JsonObject>(file.readText()))
-
-            val player = context.source.entity as ServerPlayerEntity
-            val position = player.pos.add(4.0, 1.0, 4.0)
-            val pkt = SpawnSnowstormParticlePacket(effect, position)
-            player.sendPacket(pkt)
 //            extractMovesData()
 //            // Player variables
 //            val player = context.source.entity as ServerPlayerEntity
@@ -163,6 +103,16 @@ object TestCommand {
             e.printStackTrace()
         }
         return Command.SINGLE_SUCCESS
+    }
+
+    private fun testParticles(context: CommandContext<ServerCommandSource>) {
+        val file = File("particle.particle.json")
+        val effect = SnowstormParticleReader.loadEffect(GsonBuilder().create().fromJson<JsonObject>(file.readText()))
+
+        val player = context.source.entity as ServerPlayerEntity
+        val position = player.pos.add(4.0, 1.0, 4.0)
+        val pkt = SpawnSnowstormParticlePacket(effect, position)
+        player.sendPacket(pkt)
     }
 
     private fun extractMovesData() {
