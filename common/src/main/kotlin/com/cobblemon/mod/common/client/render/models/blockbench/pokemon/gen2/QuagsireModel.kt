@@ -31,9 +31,11 @@ class QuagsireModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("quagsire", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("quagsire", "ground_idle")
@@ -43,6 +45,7 @@ class QuagsireModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("quagsire", "ground_idle")

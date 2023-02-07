@@ -38,9 +38,11 @@ class TorracatModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("torracat", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("torracat", "ground_idle")
@@ -50,6 +52,7 @@ class TorracatModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quad
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("torracat", "ground_idle"),

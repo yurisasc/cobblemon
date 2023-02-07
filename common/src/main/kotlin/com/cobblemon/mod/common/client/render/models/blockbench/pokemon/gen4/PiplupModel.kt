@@ -36,9 +36,11 @@ class PiplupModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("piplup", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("piplup", "ground_idle")
@@ -48,6 +50,7 @@ class PiplupModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, BipedF
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("piplup", "ground_idle"),

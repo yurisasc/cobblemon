@@ -28,16 +28,10 @@ class ExeggcuteModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("exeggcute", "blink1").setPreventsIdle(false)}
-        val blink2 = quirk("blink2") { bedrockStateful("exeggcute", "blink2").setPreventsIdle(false)}
-        val blink3 = quirk("blink3") { bedrockStateful("exeggcute", "blink3").setPreventsIdle(false)}
-        val blink4 = quirk("blink4") { bedrockStateful("exeggcute", "blink4").setPreventsIdle(false)}
-        val blink5 = quirk("blink5") { bedrockStateful("exeggcute", "blink5").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink, blink2, blink3, blink4, blink5),
             idleAnimations = arrayOf(
                 //bedrock("exeggcute", "ground_idle")
             )
@@ -47,7 +41,6 @@ class ExeggcuteModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
-            quirks = arrayOf(blink, blink2, blink3, blink4, blink5),
             idleAnimations = arrayOf(
                 //bedrock("exeggcute", "ground_walk")
             )

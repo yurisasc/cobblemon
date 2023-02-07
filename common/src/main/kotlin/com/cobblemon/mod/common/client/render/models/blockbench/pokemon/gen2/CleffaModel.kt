@@ -35,10 +35,12 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var rightShoulder: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("cleffa", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("cleffa", "ground_idle")
             )
@@ -50,6 +52,7 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "left_shoulder",
             poseTypes = setOf(PoseType.SHOULDER_LEFT),
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("cleffa", "ground_idle")
             ),
@@ -62,6 +65,7 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "right_shoulder",
             poseTypes = setOf(PoseType.SHOULDER_RIGHT),
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("cleffa", "ground_idle")
             ),
@@ -74,6 +78,7 @@ class CleffaModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("cleffa", "ground_idle"),
                 bedrock("cleffa", "ground_walk")
