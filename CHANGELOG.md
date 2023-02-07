@@ -64,6 +64,8 @@
 - Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
 - Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.
 - Fixed PokéBalls taking forever to capture Pokémon if you are underwater or up in the air where it takes a long time to hit the ground.
+- Fixed Pokémon being unable to spawn on blocks such as snow layers.
+- Fixed Pokémon spawning inside of trees.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
