@@ -61,7 +61,7 @@ class PokemonRenderer(
     }
 
     override fun getTexture(entity: PokemonEntity): Identifier {
-        return PokemonModelRepository.getTexture(entity.pokemon.species, entity.aspects.get())
+        return PokemonModelRepository.getTexture(entity.pokemon.species, entity.aspects.get(), entity.delegate as PokemonClientDelegate)
     }
 
     override fun render(
@@ -99,7 +99,7 @@ class PokemonRenderer(
         }
 
         if (modelNow is PokemonPoseableModel) {
-            modelNow.setLayerContext(buffer, PokemonModelRepository.getLayers(entity.pokemon.species, entity.aspects.get()))
+            modelNow.setLayerContext(buffer, clientDelegate, PokemonModelRepository.getLayers(entity.pokemon.species, entity.aspects.get()))
         }
 
         super.render(entity, entityYaw, partialTicks, poseMatrix, buffer, packedLight)

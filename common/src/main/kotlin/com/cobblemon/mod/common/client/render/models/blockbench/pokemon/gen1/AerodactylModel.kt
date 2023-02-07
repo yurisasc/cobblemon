@@ -23,7 +23,7 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val portraitScale = 2.5F
     override val portraitTranslation = Vec3d(-1.0, -0.55, 0.0)
 
-    override val profileScale = 0.73F
+    override val profileScale = 0.95F
     override val profileTranslation = Vec3d(0.0, 0.35, 0.0)
 
     lateinit var standing: PokemonPose

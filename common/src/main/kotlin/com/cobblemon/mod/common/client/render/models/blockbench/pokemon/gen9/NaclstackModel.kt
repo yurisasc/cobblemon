@@ -24,11 +24,11 @@ class NaclstackModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 4.0F
+    override val portraitTranslation = Vec3d(-0.61, -3.0, 0.0)
 
-    override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileScale = 1.05F
+    override val profileTranslation = Vec3d(0.1, 0.1, 0.0)
 
     lateinit var standing: PokemonPose
     lateinit var walk: PokemonPose

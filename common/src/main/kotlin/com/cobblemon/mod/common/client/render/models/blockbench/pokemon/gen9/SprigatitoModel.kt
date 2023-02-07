@@ -26,11 +26,11 @@ class SprigatitoModel(root:ModelPart) :PokemonPoseableModel(), HeadedFrame, Quad
     override val hindLeftLeg = getPart("leg_back_left")
     override val hindRightLeg = getPart("leg_back_right")
 
-    override val portraitScale = 1.0F
-    override val portraitTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val portraitScale = 2.3F
+    override val portraitTranslation = Vec3d(-0.2, -1.0, 0.0)
 
     override val profileScale = 1.0F
-    override val profileTranslation = Vec3d(0.0, 0.0, 0.0)
+    override val profileTranslation = Vec3d(0.0, 0.25, 0.0)
 
     lateinit var standing: PokemonPose
 

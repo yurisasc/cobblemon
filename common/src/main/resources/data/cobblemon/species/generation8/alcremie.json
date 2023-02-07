@@ -17,7 +17,7 @@
   },
   "catchRate": 100,
   "maleRatio": 0,
-  "shoulderMountable": false,
+  "shoulderMountable": true,
   "forms": [
     {
       "name": "Gmax",
@@ -135,10 +135,10 @@
   ],
   "preEvolution": "milcery",
   "evolutions": [],
-  "baseScale": 0.3,
+  "baseScale": 0.5,
   "hitbox": {
-    "width": 0.9,
-    "height": 0.9,
+    "width": 1,
+    "height": 1.5,
     "fixed": false
   },
   "baseFriendship": 50,
