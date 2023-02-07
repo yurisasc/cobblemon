@@ -9,6 +9,7 @@
 package com.cobblemon.mod.common.client.render.models.blockbench.repository
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
 import com.cobblemon.mod.common.client.render.models.blockbench.TexturedModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.JsonPokemonPoseableModel
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonPoseableModel
@@ -268,6 +269,7 @@ import net.minecraft.util.Identifier
 object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     val posers = mutableMapOf<Identifier, (ModelPart) -> PokemonPoseableModel>()
     val renders = mutableMapOf<Identifier, RegisteredSpeciesRendering>()
+    val texturedModels = mutableMapOf<Identifier, TexturedModel>()
 
     fun registerPosers(resourceManager: ResourceManager) {
         posers.clear()
@@ -556,7 +558,6 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
     override fun registerAll() {
     }
 
-    val texturedModels = mutableMapOf<Identifier, TexturedModel>()
     fun registerModels(resourceManager: ResourceManager) {
         var models = 0
         resourceManager.findResources("bedrock/models") { path -> path.endsWith(".geo.json") }.forEach { identifier, resource ->
@@ -592,19 +593,19 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         return this.renders[cobblemonResource("substitute")]!!.getPoser(aspects)
     }
 
-    fun getTexture(species: Species, aspects: Set<String>): Identifier {
+    fun getTexture(species: Species, aspects: Set<String>, state: PoseableEntityState<PokemonEntity>?): Identifier {
         try {
-            val texture = this.renders[species.resourceIdentifier]?.getTexture(aspects)
+            val texture = this.renders[species.resourceIdentifier]?.getTexture(aspects, state?.animationSeconds ?: 0F)
             if (texture != null) {
                 if (texture.exists()) {
                     return texture
                 } else if (SHINY_ASPECT.aspect in aspects) {
                     // If the shiny texture doesn't exist, try parsing again but without the shiny - it doesn't seem to be implemented.
-                    return getTexture(species, aspects - SHINY_ASPECT.aspect)
+                    return getTexture(species, aspects - SHINY_ASPECT.aspect, state)
                 }
             }
         } catch(_: IllegalStateException) { }
-        return this.renders[cobblemonResource("substitute")]!!.getTexture(aspects)
+        return this.renders[cobblemonResource("substitute")]!!.getTexture(aspects, state?.animationSeconds ?: 0F)
     }
 
     fun getLayers(species: Species, aspects: Set<String>): Iterable<ModelLayer> {
