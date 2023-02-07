@@ -29,6 +29,11 @@
 - Added sound for harvesting apricorns.
 - Added icon to summary and PC interfaces to indicated if a Pokémon is shiny.
 - Added animated texture support.
+- Added the Haste shoulder effect.
+- Added the Water Breathing shoulder effect.
+- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, joltik, and galvantula.
+- Added Water Breathing Effect to Wooper.
+- Added Haste Effect to Joltik.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -37,7 +42,9 @@
 - The PC block screen will now turn on when being used.
 - The Healing Machine will now visually display its charge level using 6 stages.
 - The Healing Machine will now emit a redstone signal with the strength of 1 for every 10% charge it has when attached to a [Redstone Comparator](https://minecraft.fandom.com/wiki/Redstone_Comparator).
-- The Healing Machine will now only require a one time charge to 100% after that it will no longer consume power this should help balance "static" healers you keep in your base.
+- Made it so that particles are not shown whenever you have a shoulder Pokémon that gives particle effects.
+- Changed the Imports in "PokemonModelReposity" to instead grab the entire Gen rather than each Pokémon Specifically.
+- Changed Hitbox and Size definitions for Decidueye, Blastoise, and magmorter
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
