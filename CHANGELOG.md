@@ -28,6 +28,7 @@
   - ``debug`` Sets the calculator to the debug/cheat implementation, every attempt will be a successful critical capture.
 - Added sound for harvesting apricorns.
 - Added icon to summary and PC interfaces to indicated if a Pokémon is shiny.
+- Added animated texture support.
 - Added the Haste shoulder effect.
 - Added the Water Breathing shoulder effect.
 - Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, joltik, and galvantula.
@@ -68,6 +69,10 @@
 - Fixed missing lang and interpretation for bide.
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
 - Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
+- Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.
+- Fixed PokéBalls taking forever to capture Pokémon if you are underwater or up in the air where it takes a long time to hit the ground.
+- Fixed Pokémon being unable to spawn on blocks such as snow layers.
+- Fixed Pokémon spawning inside of trees.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
