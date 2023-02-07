@@ -47,6 +47,7 @@ object SpeciesFeatureAssignments : JsonDataRegistry<SpeciesFeatureAssignment> {
                 assignments.getOrPut(pokemon) { mutableSetOf() }.addAll(it.features)
             }
         }
+        this.observable.emit(this)
     }
 
     fun getFeatures(species: Species) = assignments[species.showdownId()] ?: emptySet()
