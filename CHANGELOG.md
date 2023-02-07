@@ -30,7 +30,7 @@
 - Added icon to summary and PC interfaces to indicated if a Pokémon is shiny.
 - Added the Haste shoulder effect.
 - Added the Water Breathing shoulder effect.
-- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra.
+- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, joltik, and galvantula.
 - Added Water Breathing Effect to Wooper.
 - Added Haste Effect to Joltik.
 

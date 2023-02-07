@@ -305,6 +305,7 @@ object PokemonModelRepository : ModelRepository<PokemonEntity>() {
         inbuilt("morelull", :: MorelullModel)
         inbuilt("shiinotic", :: ShiinoticModel)
         inbuilt("joltik", :: JoltikModel)
+        inbuilt("galvantula", :: GalvantulaModel)
     }
 
     fun inbuilt(name: String, model: (ModelPart) -> PokemonPoseableModel) {
