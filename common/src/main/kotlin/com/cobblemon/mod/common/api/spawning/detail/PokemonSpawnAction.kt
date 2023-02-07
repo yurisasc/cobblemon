@@ -9,11 +9,17 @@
 package com.cobblemon.mod.common.api.spawning.detail
 
 import com.cobblemon.mod.common.Cobblemon
+import com.cobblemon.mod.common.CobblemonEntities
+import com.cobblemon.mod.common.api.events.CobblemonEvents
+import com.cobblemon.mod.common.api.events.spawning.SpawnPokemonEvent
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.spawning.context.SpawningContext
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.feature.SeasonFeatureHandler
 import kotlin.random.Random
+import net.minecraft.entity.SpawnReason
+import net.minecraft.entity.SpawnRestriction
+import net.minecraft.server.world.ServerWorld
 
 /**
  * A [SpawnAction] that will spawn a single [PokemonEntity].
@@ -27,7 +33,21 @@ class PokemonSpawnAction(
     /** The [PokemonProperties] that are about to be used. */
     var props: PokemonProperties = detail.pokemon.copy()
 ) : SpawnAction<PokemonEntity>(ctx, detail) {
-    override fun createEntity(): PokemonEntity {
+    override fun createEntity(): PokemonEntity? {
+        if (
+            !SpawnRestriction.canSpawn(
+                CobblemonEntities.POKEMON.get(),
+                ctx.world as ServerWorld,
+                SpawnReason.NATURAL,
+                ctx.position,
+                ctx.world.random
+            )
+        ) {
+            return null
+        }
+
+        CobblemonEvents.POKEMON_SPAWNING.postThen(SpawnPokemonEvent(this), ifCanceled = { return null }) {}
+
         if (props.level == null) {
             props.level = detail.getDerivedLevelRange().random()
         }

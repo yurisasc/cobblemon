@@ -26,6 +26,7 @@ import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionAcceptedEv
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionCompleteEvent
 import com.cobblemon.mod.common.api.events.pokemon.evolution.EvolutionDisplayEvent
 import com.cobblemon.mod.common.api.events.pokemon.interaction.ExperienceCandyUseEvent
+import com.cobblemon.mod.common.api.events.spawning.SpawnPokemonEvent
 import com.cobblemon.mod.common.api.events.starter.StarterChosenEvent
 import com.cobblemon.mod.common.api.reactive.CancelableObservable
 import com.cobblemon.mod.common.api.reactive.EventObservable
@@ -72,6 +73,7 @@ object CobblemonEvents {
 
     val LOOT_DROPPED = CancelableObservable<LootDroppedEvent>()
     val STARTER_CHOSEN = CancelableObservable<StarterChosenEvent>()
+    val POKEMON_SPAWNING = CancelableObservable<SpawnPokemonEvent>()
 
     val SERVER_STARTING = LifecycleEvent.SERVER_STARTING.asServerObservable()
     val SERVER_STOPPING = LifecycleEvent.SERVER_STOPPING.asServerObservable()
