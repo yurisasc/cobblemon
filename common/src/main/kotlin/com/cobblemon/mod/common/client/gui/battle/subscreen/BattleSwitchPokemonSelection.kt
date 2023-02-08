@@ -87,6 +87,7 @@ class BattleSwitchPokemonSelection(
             }
             .filter { it.second.uuid !in battleGUI.actor!!.activePokemon.map { it.battlePokemon?.uuid } }
             .filter { it.second.uuid !in switchingInPokemon }
+            .filter { it.second.currentHealth > 0 }
 
         showdownPokemonToPokemon.forEachIndexed { index, (showdownPokemon, pokemon) ->
             val row = index / 2

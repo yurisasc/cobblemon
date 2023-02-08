@@ -78,6 +78,8 @@
 - Fixed Pokémon being unable to spawn on blocks such as snow layers.
 - Fixed Pokémon spawning inside of trees.
 - Fixed various strange battle issues such as Flying types being vulnerable to Ground type moves and status effects hitting despite vulnerabilities.
+- Fixed being able to use ``/healpokemon`` in battle.
+- Fixed being able to select fainted party members in the switch menu causing the battle to lock.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
