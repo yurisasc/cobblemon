@@ -37,6 +37,7 @@
 - Added Haste Effect to Joltik.
 - Added blink animations to many Pokémon.
 - Added client notification of in-battle field effects starting, ending and actions caused by them such as blocking certain moves.
+- Added the ``/spawnpokemonat <pos> <properties>`` command, the ``pos`` argument uses the same syntax as the Minecraft [summon](https://minecraft.fandom.com/wiki/Commands/summon) command.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -78,6 +79,7 @@
 - Fixed Pokémon being unable to spawn on blocks such as snow layers.
 - Fixed Pokémon spawning inside of trees.
 - Fixed various strange battle issues such as Flying types being vulnerable to Ground type moves and status effects hitting despite vulnerabilities.
+- Fixed ``/spawnpokemon`` command not supporting any command source other than players.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
