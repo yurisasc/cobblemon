@@ -388,6 +388,8 @@
   "cobblemon.battle.activate.gravity": "%1$s couldn't stay airborne because of gravity!",
   "cobblemon.battle.activate.misty_terrain": "%1$s surrounds itself with a protective mist!",
   "cobblemon.battle.activate.psychic_terrain": "%1$s surrounds itself with psychic terrain!",
+  "cobblemon.battle.activate.healbell": "A bell chimed!",
+  "cobblemon.battle.activate.aromatherapy": "A soothing aroma wafted through the area!",
 
   "cobblemon.battle.set_hp.pain_split": "The battlers shared their pain!",
 

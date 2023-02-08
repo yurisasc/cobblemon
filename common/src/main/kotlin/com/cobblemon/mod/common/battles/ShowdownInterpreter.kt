@@ -44,6 +44,7 @@ object ShowdownInterpreter {
     private val lastMover = mutableMapOf<UUID, String>()
 
     init {
+        // Note '-cureteam' is a legacy thing that is only used in generation 2 and 4 mods for heal bell and aromatherapy respectively as such we can just ignore that
         updateInstructions["|player|"] = this::handlePlayerInstruction
         updateInstructions["|teamsize|"] = this::handleTeamSizeInstruction
         updateInstructions["|gametype|"] = this::handleGameTypeInstruction
@@ -167,64 +168,67 @@ object ShowdownInterpreter {
         battle.log()
         battle.log(rawMessage)
         battle.log()
+        try {
+            val lines = rawMessage.split("\n").toMutableList()
+            if (lines[0] == "update") {
+                lines.removeAt(0)
+                while (lines.isNotEmpty()) {
+                    val line = lines.removeAt(0)
 
-        val lines = rawMessage.split("\n").toMutableList()
-        if (lines[0] == "update") {
-            lines.removeAt(0)
-            while (lines.isNotEmpty()) {
-                val line = lines.removeAt(0)
+                    // Split blocks have a public and private message below
+                    if (line.startsWith("|split|")) {
+                        val showdownId = line.split("|split|")[1]
+                        val targetActor = battle.getActor(showdownId)
 
-                // Split blocks have a public and private message below
-                if (line.startsWith("|split|")) {
-                    val showdownId = line.split("|split|")[1]
-                    val targetActor = battle.getActor(showdownId)
-
-                    if (targetActor == null) {
-                        battle.log("No actor could be found with the showdown id: $showdownId")
-                        return
-                    }
-
-                    val privateMessage = lines[0]
-                    val publicMessage = lines[1]
-
-                    for (instruction in splitUpdateInstructions.entries) {
-                        if (lines[0].startsWith(instruction.key)) {
-                            instruction.value(battle, targetActor, publicMessage, privateMessage)
-                            break
+                        if (targetActor == null) {
+                            battle.log("No actor could be found with the showdown id: $showdownId")
+                            return
                         }
-                    }
 
-                    lines.removeFirst()
-                    lines.removeFirst()
-                } else {
-                    if (line != "|") {
-                        val instruction = updateInstructions.entries.find { line.startsWith(it.key) }?.value
-                        if (instruction != null) {
-                            instruction(battle, line, lines)
-                        } else {
-                            battle.dispatch {
-                                battle.broadcastChatMessage(line.text())
-                                GO
+                        val privateMessage = lines[0]
+                        val publicMessage = lines[1]
+
+                        for (instruction in splitUpdateInstructions.entries) {
+                            if (lines[0].startsWith(instruction.key)) {
+                                instruction.value(battle, targetActor, publicMessage, privateMessage)
+                                break
+                            }
+                        }
+
+                        lines.removeFirst()
+                        lines.removeFirst()
+                    } else {
+                        if (line != "|") {
+                            val instruction = updateInstructions.entries.find { line.startsWith(it.key) }?.value
+                            if (instruction != null) {
+                                instruction(battle, line, lines)
+                            } else {
+                                battle.dispatch {
+                                    battle.broadcastChatMessage(line.text())
+                                    GO
+                                }
                             }
                         }
                     }
                 }
-            }
-        } else if (lines[0] == "sideupdate") {
-            val showdownId = lines[1]
-            val targetActor = battle.getActor(showdownId)
-            val line = lines[2]
+            } else if (lines[0] == "sideupdate") {
+                val showdownId = lines[1]
+                val targetActor = battle.getActor(showdownId)
+                val line = lines[2]
 
-            if (targetActor == null) {
-                battle.log("No actor could be found with the showdown id: $showdownId")
-                return
-            }
+                if (targetActor == null) {
+                    battle.log("No actor could be found with the showdown id: $showdownId")
+                    return
+                }
 
-            for (instruction in sideUpdateInstructions.entries) {
-                if (line.startsWith(instruction.key)) {
-                    instruction.value(battle, targetActor, line)
+                for (instruction in sideUpdateInstructions.entries) {
+                    if (line.startsWith(instruction.key)) {
+                        instruction.value(battle, targetActor, line)
+                    }
                 }
             }
+        } catch (e: Exception) {
+            LOGGER.error("Caught exception interpreting {}", e)
         }
     }
 
@@ -729,6 +733,8 @@ object ShowdownInterpreter {
                 "focusband" -> battleLang("item.hung_on.end", pokemonName, CobblemonItems.FOCUS_BAND.get().name)
                 "mistyterrain" -> battleLang("activate.misty_terrain", pokemonName)
                 "psychicterrain" -> battleLang("activate.psychic_terrain", pokemonName)
+                "healbell" -> battleLang("activate.heal_bell")
+                "aromatherapy" -> battleLang("activate.aromatherapy")
                 else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
@@ -1110,7 +1116,5 @@ object ShowdownInterpreter {
             battle.broadcastChatMessage(lang)
         })
     }
-
-    // ToDo -cureteam
 
 }

@@ -58,7 +58,7 @@
 - Fixed missing lang and interpretation for bide
 - Fixed datapack Pokémon not being able to battle.
 - Fixed datapack Pokémon lang key generation, a Pokémon under the namespace ``example`` named ``Pogemon`` will now correctly look for the lang key ``example.species.pogemon.name``.
-- Fixed HP recovery related battle actions not animating for the client.
+- Fixed HP recovery related battle actions not animating for the client nor updating the in-game Pokémon HP.
 - Fixed client not receiving messages for the different "stages" for the move Bide.
 - Fixed the ability Speed Boost not having a human-readable battle message, this is an ongoing effort to prettify all the different ability triggers.
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
