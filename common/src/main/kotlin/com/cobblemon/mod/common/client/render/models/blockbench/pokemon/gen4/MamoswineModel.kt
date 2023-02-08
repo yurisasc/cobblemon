@@ -36,9 +36,11 @@ class MamoswineModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("momoswine", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 //bedrock("mamoswine", "ground_idle")
             )
@@ -47,6 +49,7 @@ class MamoswineModel(root: ModelPart) : PokemonPoseableModel(), QuadrupedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.6F, amplitudeMultiplier = 0.9F)
                 //bedrock("mamoswine", "ground_walk")

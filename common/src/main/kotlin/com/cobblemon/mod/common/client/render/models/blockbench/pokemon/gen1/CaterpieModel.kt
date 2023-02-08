@@ -34,6 +34,7 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("caterpie", "blink").setPreventsIdle(false)}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
@@ -43,6 +44,7 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("caterpie", "ground_idle")
@@ -52,6 +54,7 @@ class CaterpieModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walking",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("caterpie", "ground_walk")

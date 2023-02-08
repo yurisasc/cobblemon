@@ -31,9 +31,11 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("aerodactyl", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("aerodactyl", "ground_idle")
@@ -43,6 +45,7 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         hover = registerPose(
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("aerodactyl", "air_idle")
@@ -52,6 +55,7 @@ class AerodactylModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         fly = registerPose(
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("aerodactyl", "air_fly")

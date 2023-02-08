@@ -30,9 +30,11 @@ class OnixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
     lateinit var ui: PokemonPose
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("onix", "blink").setPreventsIdle(false)}
         ui = registerPose(
             poseName = "ui",
             poseTypes = UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("onix", "summary_idle")
             )
@@ -41,6 +43,7 @@ class OnixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("onix", "ground_idle")
@@ -50,6 +53,7 @@ class OnixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("onix", "ground_walk")

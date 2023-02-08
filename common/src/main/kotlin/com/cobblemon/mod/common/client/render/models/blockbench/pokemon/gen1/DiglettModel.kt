@@ -26,15 +26,18 @@ class DiglettModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileTranslation = Vec3d(0.0, 0.15, 0.0)
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("diglett", "blink").setPreventsIdle(false)}
         registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("diglett", "ground_idle"))
         )
 
         registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("diglett", "ground_walk"))
         )
     }

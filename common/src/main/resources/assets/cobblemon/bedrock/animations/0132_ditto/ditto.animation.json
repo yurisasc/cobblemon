@@ -46,6 +46,25 @@
 					"rotation": [0, 0, "15+math.sin(q.anim_time*90*4+30)*8+4"]
 				}
 			}
+		},
+		"animation.ditto.blink": {
+			"animation_length": 0.16667,
+			"bones": {
+				"eyelid_right": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				},
+				"eyelid_left": {
+					"position": {
+						"0.0": [0, 0, -0.1],
+						"0.125": [0, 0, -0.1],
+						"0.1667": [0, 0, 0]
+					}
+				}
+			}
 		}
 	}
 }

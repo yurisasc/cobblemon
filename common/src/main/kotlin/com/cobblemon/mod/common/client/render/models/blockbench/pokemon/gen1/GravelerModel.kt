@@ -33,9 +33,11 @@ class GravelerModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("graveler", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("graveler", "ground_idle")
             )
@@ -44,6 +46,7 @@ class GravelerModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 BipedWalkAnimation(this, periodMultiplier = 1.1F),
                 bedrock("graveler", "ground_idle")
