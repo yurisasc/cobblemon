@@ -571,7 +571,7 @@ open class Pokemon : ShowdownIdentifiable {
         }
         form = species.forms.find { it.formOnlyShowdownId() == nbt.getString(DataKeys.POKEMON_FORM_ID) } ?: species.standardForm
         level = nbt.getShort(DataKeys.POKEMON_LEVEL).toInt()
-        experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE).takeIf { experienceGroup.getLevel(experience) != level } ?: experienceGroup.getExperience(level)
+        experience = nbt.getInt(DataKeys.POKEMON_EXPERIENCE).takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
         friendship = nbt.getShort(DataKeys.POKEMON_FRIENDSHIP).toInt().coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonFriendship)
         gender = Gender.valueOf(nbt.getString(DataKeys.POKEMON_GENDER).takeIf { it.isNotBlank() } ?: Gender.MALE.name)
         currentHealth = nbt.getShort(DataKeys.POKEMON_HEALTH).toInt()
@@ -664,7 +664,7 @@ open class Pokemon : ShowdownIdentifiable {
         }
         form = species.forms.find { it.formOnlyShowdownId() == json.get(DataKeys.POKEMON_FORM_ID).asString } ?: species.standardForm
         level = json.get(DataKeys.POKEMON_LEVEL).asInt
-        experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(experience) != level } ?: experienceGroup.getExperience(level)
+        experience = json.get(DataKeys.POKEMON_EXPERIENCE).asInt.takeIf { experienceGroup.getLevel(it) == level } ?: experienceGroup.getExperience(level)
         friendship = json.get(DataKeys.POKEMON_FRIENDSHIP).asInt.coerceIn(0, if (this.isClient) Int.MAX_VALUE else Cobblemon.config.maxPokemonFriendship)
         currentHealth = json.get(DataKeys.POKEMON_HEALTH).asInt
         gender = Gender.valueOf(json.get(DataKeys.POKEMON_GENDER)?.asString ?: "male")
