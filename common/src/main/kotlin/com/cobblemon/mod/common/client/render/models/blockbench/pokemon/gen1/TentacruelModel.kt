@@ -30,9 +30,11 @@ class TentacruelModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var float: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("tentacruel", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("tentacruel", "ground_idle")
             )

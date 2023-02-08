@@ -29,6 +29,12 @@ object CobblemonItemTags {
     val EXPERIENCE_SHARE = create("held/experience_share")
     val LUCKY_EGG = create("held/lucky_egg")
 
+    /**
+     * This tag is only used for a Torterra aspect based easter egg evolution at the moment.
+     * It simply includes the 'minecraft:azalea' and 'minecraft:flowering_azalea' items by default.
+     */
+    val AZALEA_TREE = create("azalea_tree")
+
     private fun create(path: String) = TagKey.of(Registry.ITEM_KEY, cobblemonResource(path))
 
 }

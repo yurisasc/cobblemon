@@ -26,15 +26,20 @@ class DugtrioModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileTranslation = Vec3d(0.0, 0.15, 0.0)
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("dugtrio", "blink1").setPreventsIdle(false)}
+        val blink2 = quirk("blink2") { bedrockStateful("dugtrio", "blink2").setPreventsIdle(false)}
+        val blink3 = quirk("blink3") { bedrockStateful("dugtrio", "blink3").setPreventsIdle(false)}
         registerPose(
             poseName = "stand",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink, blink2, blink3),
             idleAnimations = arrayOf(bedrock("dugtrio", "ground_idle"))
         )
 
         registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink, blink2, blink3),
             idleAnimations = arrayOf(bedrock("dugtrio", "ground_walk"))
         )
     }

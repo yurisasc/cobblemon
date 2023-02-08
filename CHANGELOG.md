@@ -28,6 +28,14 @@
   - ``debug`` Sets the calculator to the debug/cheat implementation, every attempt will be a successful critical capture.
 - Added sound for harvesting apricorns.
 - Added icon to summary and PC interfaces to indicated if a Pokémon is shiny.
+- Added animated texture support.
+- Added the Saturation shoulder effect
+- Added the Haste shoulder effect.
+- Added the Water Breathing shoulder effect.
+- Implemented the Pokémon Charcadet, Fuecoco, Nacli, Naclstack, Quaxly, Sprigatito, Alcremie, Milcery, Dhelmise, Morelull, Shiinotic, Xerneas, Joltik, Klink, Klang, Klinklang, Turtwig, Grotle, Torterra, joltik, and galvantula.
+- Added Water Breathing Effect to Wooper.
+- Added Haste Effect to Joltik.
+- Added blink animations to many Pokémon.
 - Added client notification of in-battle field effects starting, ending and actions caused by them such as blocking certain moves.
 
 ### Changes
@@ -37,7 +45,9 @@
 - The PC block screen will now turn on when being used.
 - The Healing Machine will now visually display its charge level using 6 stages.
 - The Healing Machine will now emit a redstone signal with the strength of 1 for every 10% charge it has when attached to a [Redstone Comparator](https://minecraft.fandom.com/wiki/Redstone_Comparator).
-- The Healing Machine will now only require a one time charge to 100% after that it will no longer consume power this should help balance "static" healers you keep in your base.
+- Made it so that particles are not shown whenever you have a shoulder Pokémon that gives particle effects.
+- Changed the Imports in "PokemonModelReposity" to instead grab the entire Gen rather than each Pokémon Specifically.
+- Changed Hitbox and Size definitions for Decidueye, Blastoise, and magmorter
 
 ### Fixes
 - Fixed layering logic so multiple texture layers can exist on a Pokémon (probably).
@@ -64,6 +74,10 @@
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
 - Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
 - Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.
+- Fixed PokéBalls taking forever to capture Pokémon if you are underwater or up in the air where it takes a long time to hit the ground.
+- Fixed Pokémon being unable to spawn on blocks such as snow layers.
+- Fixed Pokémon spawning inside of trees.
+- Fixed various strange battle issues such as Flying types being vulnerable to Ground type moves and status effects hitting despite vulnerabilities.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.

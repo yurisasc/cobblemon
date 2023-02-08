@@ -47,7 +47,7 @@ fun drawProfilePokemon(
     scale: Float = 20F
 ) {
     val model = PokemonModelRepository.getPoser(species, aspects)
-    val texture = PokemonModelRepository.getTexture(species, aspects)
+    val texture = PokemonModelRepository.getTexture(species, aspects, state)
 
     val renderType = model.getLayer(texture)
 
@@ -77,7 +77,7 @@ fun drawProfilePokemon(
     RenderSystem.setShaderLights(light1, light2)
     val packedLight = LightmapTextureManager.pack(8, 6)
 
-    model.withLayerContext(bufferSource, PokemonModelRepository.getLayers(species, aspects)) {
+    model.withLayerContext(bufferSource, state, PokemonModelRepository.getLayers(species, aspects)) {
         model.render(matrixStack, buffer, packedLight, OverlayTexture.DEFAULT_UV, 1F, 1F, 1F, 1F)
         bufferSource.draw()
     }
