@@ -389,6 +389,8 @@
   "cobblemon.battle.activate.misty_terrain": "%1$s surrounds itself with a protective mist!",
   "cobblemon.battle.activate.psychic_terrain": "%1$s surrounds itself with psychic terrain!",
 
+  "cobblemon.battle.set_hp.pain_split": "The battlers shared their pain!",
+
   "cobblemon.battle.speed_boost_ability": "%1$s's Speed Boost Activated!",
 
   "cobblemon.battle.errors.busy": "%1$s is busy!",

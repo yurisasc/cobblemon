@@ -28,6 +28,7 @@
   - ``debug`` Sets the calculator to the debug/cheat implementation, every attempt will be a successful critical capture.
 - Added sound for harvesting apricorns.
 - Added icon to summary and PC interfaces to indicated if a Pokémon is shiny.
+- Added client notification of in-battle field effects starting, ending and actions caused by them such as blocking certain moves.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -57,8 +58,9 @@
 - Fixed missing lang and interpretation for bide
 - Fixed datapack Pokémon not being able to battle.
 - Fixed datapack Pokémon lang key generation, a Pokémon under the namespace ``example`` named ``Pogemon`` will now correctly look for the lang key ``example.species.pogemon.name``.
-- Fixed and Added interpretation for 'FieldStart' and 'Abilities' that take effect in battle and gave them lang.
-- Fixed missing lang and interpretation for bide.
+- Fixed HP recovery related battle actions not animating for the client.
+- Fixed client not receiving messages for the different "stages" for the move Bide.
+- Fixed the ability Speed Boost not having a human-readable battle message, this is an ongoing effort to prettify all the different ability triggers.
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
 - Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
 - Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.

@@ -15,14 +15,18 @@ class HealthChangeAnimation(private val newHealth: Float, private val duration: 
     private var passedSeconds = 0F
     private var initialHealthRatio = -1F
     private var ratioDifference = 0F
+    private var coercedNewHealth = -1F
 
     override fun shouldHoldUntilNextAnimation() = false
     override fun invoke(activeBattlePokemon: ActiveClientBattlePokemon, deltaTicks: Float): Boolean {
         // We don't update the ClientBattlePokemon flat property since that's static since the start of a battle
         val pokemon = activeBattlePokemon.battlePokemon ?: return true
+        if (this.coercedNewHealth == -1F) {
+            this.coercedNewHealth = if (!pokemon.isHpFlat) this.newHealth.coerceAtMost(1F) else this.newHealth
+        }
         if (this.initialHealthRatio == -1F) {
             this.initialHealthRatio = pokemon.hpValue
-            this.ratioDifference = this.newHealth - this.initialHealthRatio
+            this.ratioDifference = this.coercedNewHealth - this.initialHealthRatio
         }
 
         this.passedSeconds += deltaTicks / 20

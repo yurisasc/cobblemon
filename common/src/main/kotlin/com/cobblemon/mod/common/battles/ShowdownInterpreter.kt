@@ -93,6 +93,7 @@ object ShowdownInterpreter {
         splitUpdateInstructions["|-damage|"] = this::handleDamageInstruction
         splitUpdateInstructions["|drag|"] = this::handleDragInstruction
         splitUpdateInstructions["|-heal|"] = this::handleHealInstruction
+        splitUpdateInstructions["|-sethp|"] = this::handleSetHpInstructions
     }
 
     private fun boostInstruction(battle: PokemonBattle, line: String, remainingLines: MutableList<String>, isBoost: Boolean) {
@@ -728,10 +729,7 @@ object ShowdownInterpreter {
                 "focusband" -> battleLang("item.hung_on.end", pokemonName, CobblemonItems.FOCUS_BAND.get().name)
                 "mistyterrain" -> battleLang("activate.misty_terrain", pokemonName)
                 "psychicterrain" -> battleLang("activate.psychic_terrain", pokemonName)
-                else -> {
-                    LOGGER.error("Failed to handle '-activate' action {}", message.rawMessage)
-                    Text.literal("Failed to handle '-activate' action ${message.rawMessage}").red()
-                }
+                else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
         }
@@ -756,10 +754,7 @@ object ShowdownInterpreter {
                 }
                 "move: Water Sport" -> battleLang("field_start.water_sport")
                 "move: Wonder Room" -> battleLang("field_start.wonder_room")
-                else -> {
-                    LOGGER.error("Failed to handle '-fieldstart' action {}", message.rawMessage)
-                    Text.literal("Failed to handle '-fieldstart' action ${message.rawMessage}").red()
-                }
+                else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
         })
@@ -784,10 +779,7 @@ object ShowdownInterpreter {
                 }
                 "move: Water Sport" -> battleLang("field_end.water_sport")
                 "move: Wonder Room" -> battleLang("field_start.wonder_room")
-                else -> {
-                    LOGGER.error("Failed to handle '-fieldend' action {}", message.rawMessage)
-                    Text.literal("Failed to handle '-fieldend' action ${message.rawMessage}").red()
-                }
+                else -> battle.createUnimplemented(message)
             }
             battle.broadcastChatMessage(lang)
         })
@@ -1064,7 +1056,7 @@ object ShowdownInterpreter {
                     }
                     privateMessage.optionalArgument("from") == "drain" -> {
                         val drained = privateMessage.actorAndActivePokemonFromOptional(battle, "of")?.second?.battlePokemon ?: return@dispatchWaiting
-                        battleLang("heal.drained", drained.getName())
+                        battleLang("heal.drain", drained.getName())
                     }
                     privateMessage.hasOptionalArgument("from") -> {
                         val effect = privateMessage.effect("from") ?: return@dispatchWaiting
@@ -1075,11 +1067,7 @@ object ShowdownInterpreter {
                             "aquaring" -> battleLang("heal.aqua_ring", battlePokemon.getName())
                             "ingrain" -> battleLang("heal.ingrain", battlePokemon.getName())
                             "grassyterrain" -> battleLang("heal.grassy_terrain", battlePokemon.getName())
-                            else -> {
-                                LOGGER.error("Failed to handle '-heal' action: \nPublic » {}\nPrivate » {}", publicMessage.rawMessage, privateMessage.rawMessage)
-                                // We don't send out the message here as we don't want to expose private data in case it can be abused
-                                Text.literal("Failed to handle '-heal' action please report to the developers").red()
-                            }
+                            else -> battle.createUnimplementedSplit(publicMessage, privateMessage)
                         }
                     }
                     else -> battleLang("heal.generic", battlePokemon.getName())
@@ -1100,6 +1088,29 @@ object ShowdownInterpreter {
         })
     }
 
-    // ToDo -sethp and -cureteam
+    private fun handleSetHpInstructions(battle: PokemonBattle, actor: BattleActor, rawPublic: String, rawPrivate: String){
+        battle.dispatchWaiting({
+            val publicMessage = BattleMessage(rawPublic)
+            val privateMessage = BattleMessage(rawPrivate)
+            val pnx = privateMessage.argumentAt(0)?.substring(0, 3) ?: return@dispatchWaiting
+            val flatHp = privateMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toFloatOrNull() ?: return@dispatchWaiting
+            val ratioHp = publicMessage.argumentAt(1)?.split("/")?.getOrNull(0)?.toFloatOrNull()?.times(0.01F) ?: return@dispatchWaiting
+            val battlePokemon = privateMessage.actorAndActivePokemon(0, battle)?.second?.battlePokemon ?: return@dispatchWaiting
+            battlePokemon.effectedPokemon.currentHealth = flatHp.roundToInt()
+            battle.sendSidedUpdate(actor, BattleHealthChangePacket(pnx, flatHp), BattleHealthChangePacket(pnx, ratioHp))
+            // It doesn't matter which we check when silent both have it
+            if (publicMessage.hasOptionalArgument("silent")) {
+                return@dispatchWaiting
+            }
+            val effect = publicMessage.effect() ?: return@dispatchWaiting
+            val lang: Text = when (effect.id) {
+                "painsplit" -> battleLang("set_hp.pain_split")
+                else -> battle.createUnimplemented(publicMessage)
+            }
+            battle.broadcastChatMessage(lang)
+        })
+    }
+
+    // ToDo -cureteam
 
 }
