@@ -79,6 +79,7 @@
 - Fixed Pokémon being unable to spawn on blocks such as snow layers.
 - Fixed Pokémon spawning inside of trees.
 - Fixed various strange battle issues such as Flying types being vulnerable to Ground type moves and status effects hitting despite vulnerabilities.
+- Fixed Pokémon experience not loading after a restart and instead going back to the minimal amount for the current level.
 - Fixed ``/spawnpokemon`` command not supporting any command source other than players.
 
 ### Developer
