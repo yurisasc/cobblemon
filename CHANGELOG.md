@@ -36,6 +36,7 @@
 - Added Water Breathing Effect to Wooper.
 - Added Haste Effect to Joltik.
 - Added blink animations to many Pokémon.
+- Added client notification of in-battle field effects starting, ending and actions caused by them such as blocking certain moves.
 
 ### Changes
 - Significantly sped up the Poké Ball shake animation so it takes less time to try to catch Pokémon.
@@ -67,8 +68,9 @@
 - Fixed missing lang and interpretation for bide
 - Fixed datapack Pokémon not being able to battle.
 - Fixed datapack Pokémon lang key generation, a Pokémon under the namespace ``example`` named ``Pogemon`` will now correctly look for the lang key ``example.species.pogemon.name``.
-- Fixed and Added interpretation for 'FieldStart' and 'Abilities' that take effect in battle and gave them lang.
-- Fixed missing lang and interpretation for bide.
+- Fixed HP recovery related battle actions not animating for the client nor updating the in-game Pokémon HP.
+- Fixed client not receiving messages for the different "stages" for the move Bide.
+- Fixed the ability Speed Boost not having a human-readable battle message, this is an ongoing effort to prettify all the different ability triggers.
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
 - Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
 - Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.
@@ -79,7 +81,6 @@
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
->>>>>>> CHANGELOG.md
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions

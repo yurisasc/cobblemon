@@ -129,6 +129,17 @@ class BattleMessage(rawMessage: String) {
     }
 
     /**
+     * Attempts to parse an [Effect] from an argument at the given [index].
+     *
+     * @param index The index of the expected argument.
+     * @return The parsed [Effect] or null.
+     */
+    fun effectAt(index: Int): Effect? {
+        val data = this.argumentAt(index) ?: return null
+        return Effect.parse(data)
+    }
+
+    /**
      * Attempts to parse an [Effect] from an optional argument.
      *
      * @param argumentName The name of the optional argument.

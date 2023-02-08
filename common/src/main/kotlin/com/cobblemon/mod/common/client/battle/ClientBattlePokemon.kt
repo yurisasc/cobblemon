@@ -11,19 +11,36 @@ package com.cobblemon.mod.common.client.battle
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.pokemon.stats.Stat
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState
 import com.cobblemon.mod.common.pokemon.Gender
+import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.pokemon.status.PersistentStatus
 import com.cobblemon.mod.common.util.asIdentifierDefaultingNamespace
 import java.util.UUID
 import net.minecraft.text.MutableText
+import kotlin.math.roundToInt
+
+/**
+ * The client side representation of a Pokémon in battle.
+ *
+ * @property uuid
+ * @property displayName
+ * @property properties
+ * @property aspects
+ * @property hpValue The current value of the HP.
+ * @property isHpFlat If this is a flat value, this will be true if the client is the player controlling the Pokémon or is an ally of the controller.
+ * @property status
+ * @property statChanges
+ */
 class ClientBattlePokemon(
     val uuid: UUID,
     var displayName: MutableText,
     var properties: PokemonProperties,
     var aspects: Set<String>,
-    var hpRatio: Float,
+    var hpValue: Float,
+    var isHpFlat: Boolean,
     var status: PersistentStatus?,
     var statChanges: MutableMap<Stat, Int>
 ) {
@@ -37,4 +54,5 @@ class ClientBattlePokemon(
         get() = properties.gender ?: Gender.GENDERLESS
 
     var state = PokemonFloatingState()
+
 }
