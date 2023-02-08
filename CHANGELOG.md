@@ -73,6 +73,7 @@
 - Fixed PokéBalls taking forever to capture Pokémon if you are underwater or up in the air where it takes a long time to hit the ground.
 - Fixed Pokémon being unable to spawn on blocks such as snow layers.
 - Fixed Pokémon spawning inside of trees.
+- Fixed various strange battle issues such as Flying types being vulnerable to Ground type moves and status effects hitting despite vulnerabilities.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
