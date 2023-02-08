@@ -65,7 +65,6 @@
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
->>>>>>> CHANGELOG.md
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions

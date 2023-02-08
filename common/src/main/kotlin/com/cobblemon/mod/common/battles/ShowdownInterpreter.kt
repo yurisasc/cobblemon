@@ -8,11 +8,10 @@
 
 package com.cobblemon.mod.common.battles
 
-import com.cobblemon.mod.common.Cobblemon
 import com.cobblemon.mod.common.Cobblemon.LOGGER
+import com.cobblemon.mod.common.CobblemonItems
 import com.cobblemon.mod.common.api.battles.interpreter.BattleMessage
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle
-import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor
 import com.cobblemon.mod.common.api.battles.model.actor.EntityBackedBattleActor
 import com.cobblemon.mod.common.api.data.ShowdownIdentifiable
@@ -22,8 +21,6 @@ import com.cobblemon.mod.common.api.moves.Moves
 import com.cobblemon.mod.common.api.pokemon.stats.Stats
 import com.cobblemon.mod.common.api.pokemon.status.Statuses
 import com.cobblemon.mod.common.api.text.*
-import com.cobblemon.mod.common.battles.actor.MultiPokemonBattleActor
-import com.cobblemon.mod.common.battles.actor.PokemonBattleActor
 import com.cobblemon.mod.common.battles.dispatch.*
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.net.messages.client.battle.*
@@ -74,6 +71,7 @@ object ShowdownInterpreter {
         updateInstructions["|-activate|"] = this::handleActivateInstructions
         updateInstructions["|-curestatus|"] = this::handleCureStatusInstruction
         updateInstructions["|-fieldstart|"] = this::handleFieldStartInstructions
+        updateInstructions["|-fieldend|"] = this::handleFieldEndInstructions
         updateInstructions["|-ability|"] = this::handleAbilityInstructions
         updateInstructions["|-nothing"] = { battle, _, _ ->
             battle.dispatchGo { battle.broadcastChatMessage(battleLang("nothing")) }
@@ -557,24 +555,23 @@ object ShowdownInterpreter {
         }
     }
 
-    private fun handleCantInstruction(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
-        battle.dispatch {
-            val editMessaged = message.replace("|cant|", "")
-
-            val pnx = editMessaged.split("|")[0].split(":")[0]
-            val (actor, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-            val action = editMessaged.split("|")[1]
+    private fun handleCantInstruction(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>) {
+        battle.dispatchGo {
+            val message = BattleMessage(rawMessage)
+            val pokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
+            val reason = message.argumentAt(1) ?: return@dispatchGo
+            // This may be null as it's not always given
+            val moveName = message.argumentAt(2)?.let { Moves.getByName(it)?.displayName } ?: Text.EMPTY
             val name = pokemon.battlePokemon?.getName() ?: "DEAD".text()
-            val actionText = when (action) {
+            val actionText = when (reason) {
                 Statuses.SLEEP.showdownName -> lang("status.sleep.is", name)
                 Statuses.PARALYSIS.showdownName -> lang("status.paralysis.is", name)
                 Statuses.FROZEN.showdownName -> lang("status.frozen.is", name)
+                "move: Gravity" -> battleLang("cant.gravity", name, moveName)
                 "flinch" -> battleLang("flinched", name)
-                else -> action.text() // Way for us to find those we have not implemented
+                else -> reason.text() // Way for us to find those we have not implemented
             }
-
             battle.broadcastChatMessage(actionText.red())
-            GO
         }
     }
 
@@ -711,42 +708,89 @@ object ShowdownInterpreter {
         }
     }
 
-    private fun handleActivateInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
-        battle.dispatch{
-            val pnx = message.split("|-activate|")[1].substring(0, 3)
-            val (_, pokemon) = battle.getActorAndActiveSlotFromPNX(pnx)
-//            if ("|confusion" in message) { // Don't even say anything about it, it's too spammy
-//                battle.broadcastChatMessage(battleLang("confusion_continues_idk", pokemon.battlePokemon!!.getName()))
-//            }
-            when {
-                "|protect" in message -> battle.broadcastChatMessage(battleLang("protect_activate",pokemon.battlePokemon!!.getName()))
-                "move: Magnitude" in message -> battle.broadcastChatMessage(battleLang("magnitude_level", message.substringAfterLast("|").toIntOrNull() ?: 1))
-                "move: Bide" in message -> battle.broadcastChatMessage(battleLang("bide_activate",pokemon.battlePokemon!!.getName()))
-                // ToDo Focus Band, use battleLang("item.hung_on.end", battlerName, itemName)
+    private fun handleActivateInstructions(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>){
+        battle.dispatchGo{
+            val message = BattleMessage(rawMessage)
+            // Sim protocol claims it's '|-activate|EFFECT' but it seems to always be '|-activate|POKEMON|EFFECT'
+            val pokemon = message.actorAndActivePokemon(0, battle)?.second ?: return@dispatchGo
+            val pokemonName = pokemon.battlePokemon?.getName() ?: return@dispatchGo
+            val effect = message.effectAt(1) ?: return@dispatchGo
+            // Don't say anything about it, it's too spammy
+            if (effect.id == "confusion") {
+                return@dispatchGo
             }
-            GO
+            val lang = when(effect.id) {
+                "protect" -> battleLang("protect_activate", pokemonName)
+                // Includes a 3rd argument being the magnitude level as a number
+                "magnitude" -> battleLang("magnitude_level", message.argumentAt(2)?.toIntOrNull() ?: 1)
+                "bide" -> battleLang("bide_activate", pokemonName)
+                "gravity" -> battleLang("activate.gravity", pokemonName)
+                "focusband" -> battleLang("item.hung_on.end", pokemonName, CobblemonItems.FOCUS_BAND.get().name)
+                "mistyterrain" -> battleLang("activate.misty_terrain", pokemonName)
+                "psychicterrain" -> battleLang("activate.psychic_terrain", pokemonName)
+                else -> {
+                    LOGGER.error("Failed to handle '-activate' action {}", message.rawMessage)
+                    Text.literal("Failed to handle '-activate' action ${message.rawMessage}").red()
+                }
+            }
+            battle.broadcastChatMessage(lang)
         }
     }
 
-    private fun handleFieldStartInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>){
-        battle.dispatch{
-            // ToDo fix me this is crashing
-            /*
-            val editedMessage = message.split("|-fieldstart|")[1]
-            val pnx = editedMessage.substring(0, 3)
-            val fromWhat = editedMessage.split("|")[1]
-            when (fromWhat) {
-                "move: Mud Sport" -> battle.broadcastChatMessage(battleLang("mud_sport_field"))
-                "move: Electric Terrain" -> battle.broadcastChatMessage(battleLang("electric_terrain_field"))
-                "move: Grassy Terrain" -> battle.broadcastChatMessage(battleLang("grassy_terrain_field"))
-                "move: Misty Terrain" -> battle.broadcastChatMessage(battleLang("misty_terrain_field"))
-                "move: Psychic Terrain" -> battle.broadcastChatMessage(battleLang("psychic_terrain_field"))
-                "move: Water Sport" -> battle.broadcastChatMessage(battleLang("water_sport_field"))
-                else -> battle.broadcastChatMessage(editedMessage.text())
+    private fun handleFieldStartInstructions(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>){
+        battle.dispatchWaiting({
+            val message = BattleMessage(rawMessage)
+            // Note persistent is a CAP ability only we can ignore the flag
+            val lang: Text = when (message.argumentAt(0)) {
+                // Covers ability starts too they share lang
+                "move: Electric Terrain" -> battleLang("field_start.electric_terrain")
+                "move: Grassy Terrain" -> battleLang("field_start.grassy_terrain")
+                "move: Gravity" -> battleLang("field_start.gravity")
+                "move: Magic Room" -> battleLang("field_start.magic_room")
+                "move: Misty Terrain" -> battleLang("field_start.misty_terrain")
+                "move: Mud Sport" -> battleLang("field_start.mud_sport")
+                "move: Psychic Terrain" -> battleLang("field_start.psychic_terrain")
+                "move: Trick Room" -> {
+                    val user = message.actorAndActivePokemonFromOptional(battle, "of")?.second?.battlePokemon
+                    battleLang("field_start.trick_room", user?.getName() ?: Text.literal("UNKNOWN"))
+                }
+                "move: Water Sport" -> battleLang("field_start.water_sport")
+                "move: Wonder Room" -> battleLang("field_start.wonder_room")
+                else -> {
+                    LOGGER.error("Failed to handle '-fieldstart' action {}", message.rawMessage)
+                    Text.literal("Failed to handle '-fieldstart' action ${message.rawMessage}").red()
+                }
             }
-             */
-            WaitDispatch(1F)
-        }
+            battle.broadcastChatMessage(lang)
+        })
+    }
+
+    private fun handleFieldEndInstructions(battle: PokemonBattle, rawMessage: String, remainingLines: MutableList<String>){
+        battle.dispatchWaiting({
+            val message = BattleMessage(rawMessage)
+            // Note persistent is a CAP ability only we can ignore the flag
+            val lang: Text = when (message.argumentAt(0)) {
+                // Covers ability starts too they share lang
+                "move: Electric Terrain" -> battleLang("field_end.electric_terrain")
+                "move: Grassy Terrain" -> battleLang("field_end.grassy_terrain")
+                "move: Gravity" -> battleLang("field_end.gravity")
+                "move: Magic Room" -> battleLang("field_end.magic_room")
+                "move: Misty Terrain" -> battleLang("field_end.misty_terrain")
+                "move: Mud Sport" -> battleLang("field_end.mud_sport")
+                "move: Psychic Terrain" -> battleLang("field_end.psychic_terrain")
+                "move: Trick Room" -> {
+                    val user = message.actorAndActivePokemonFromOptional(battle, "of")?.second?.battlePokemon
+                    battleLang("field_end.trick_room", user?.getName() ?: Text.literal("UNKNOWN"))
+                }
+                "move: Water Sport" -> battleLang("field_end.water_sport")
+                "move: Wonder Room" -> battleLang("field_start.wonder_room")
+                else -> {
+                    LOGGER.error("Failed to handle '-fieldend' action {}", message.rawMessage)
+                    Text.literal("Failed to handle '-fieldend' action ${message.rawMessage}").red()
+                }
+            }
+            battle.broadcastChatMessage(lang)
+        })
     }
 
     private fun handleAbilityInstructions(battle: PokemonBattle, message: String, remainingLines: MutableList<String>) {
@@ -1055,5 +1099,7 @@ object ShowdownInterpreter {
             }
         })
     }
+
+    // ToDo -sethp and -cureteam
 
 }
