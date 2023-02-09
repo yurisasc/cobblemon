@@ -115,6 +115,16 @@ abstract class BattleActor(
     }
 
     abstract fun getName(): MutableText
+
+    /**
+     * Appends the given name to this owner as the prefix.
+     * NPC and player actors expect to append their [getName] while wild Pokémon append nothing.
+     *
+     * @param name The name of an object being appended, typically a Pokémon nickname received from showdown.
+     * @return A [MutableText] of the [name] append with owner prefix.
+     */
+    abstract fun nameOwned(name: String): MutableText
+
     open fun sendMessage(component: Text) {
         sendUpdate(BattleMessagePacket(component))
     }

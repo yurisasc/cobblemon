@@ -41,9 +41,11 @@ class PoipoleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("poipole", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("poipole", "ground_idle")
@@ -53,6 +55,7 @@ class PoipoleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("poipole", "ground_idle"),

@@ -268,6 +268,7 @@
   "cobblemon.command.givepokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
   "cobblemon.command.spawnpokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
   "cobblemon.command.held_item": "%1$s' %2$s was given the %3$s to hold.",
+  "cobblemon.command.pokeheal.in_battle": "You cannot heal your party while in a battle!",
 
   "advancements.cobblemon.root": "Cobblemon",
   "advancements.cobblemon.root.description": "Started your adventure by picking a starter Pokémon",
@@ -361,12 +362,37 @@
   "cobblemon.battle.bide_activate": "%1$s is storing energy!",
   "cobblemon.battle.bide_end": "%1$s unleashed its energy!",
 
-  "cobblemon.battle.mud_sport_field": "Electricity's power was weakened!",
-  "cobblemon.battle.electric_terrain_field": "An electric current ran across the battlefield!",
-  "cobblemon.battle.grassy_terrain_field": "Grass grew to cover the battlefield!",
-  "cobblemon.battle.misty_terrain_field": "Mist swirled around the battlefield!",
-  "cobblemon.battle.psychic_terrain_field": "The battlefield got weird!",
-  "cobblemon.battle.water_sport_field": "Fire's power was weakened!",
+  "cobblemon.battle.field_start.electric_terrain": "An electric current ran across the battlefield!",
+  "cobblemon.battle.field_start.grassy_terrain": "Grass grew to cover the battlefield!",
+  "cobblemon.battle.field_start.gravity": "Gravity intensified!",
+  "cobblemon.battle.field_start.magic_room": "A bizarre area where held items lose their effects was created!",
+  "cobblemon.battle.field_start.misty_terrain": "Mist swirls around the battlefield!",
+  "cobblemon.battle.field_start.mud_sport": "Electricity's power was weakened!",
+  "cobblemon.battle.field_start.psychic_terrain": "The battlefield got weird!",
+  "cobblemon.battle.field_start.trick_room": "%1$s twisted the dimensions!",
+  "cobblemon.battle.field_start.water_sport": "Fire's power was weakened!",
+  "cobblemon.battle.field_start.wonder_room": "It created a bizarre area in which Defense and Sp. Def stats are swapped!",
+
+  "cobblemon.battle.field_end.electric_terrain": "The electricity disappeared from the battlefield.",
+  "cobblemon.battle.field_end.grassy_terrain": "The grass disappeared from the battlefield.",
+  "cobblemon.battle.field_end.gravity": "Gravity returned to normal!",
+  "cobblemon.battle.field_end.magic_room": "Magic Room wore off, and held items' effects returned to normal!",
+  "cobblemon.battle.field_end.misty_terrain": "The mist disappeared from the battlefield.",
+  "cobblemon.battle.field_end.mud_sport": "The effects of Mud Sport have faded.",
+  "cobblemon.battle.field_end.psychic_terrain": "The weirdness disappeared from the battlefield!",
+  "cobblemon.battle.field_end.trick_room": "The twisted dimensions returned to normal!",
+  "cobblemon.battle.field_end.water_sport": "The effects of Water Sport have faded.",
+  "cobblemon.battle.field_end.wonder_room": "Wonder Room wore off, and Defense and Sp. Def stats returned to normal!",
+
+  "cobblemon.battle.cant.gravity": "%1$s can't use %2$s because of gravity!",
+
+  "cobblemon.battle.activate.gravity": "%1$s couldn't stay airborne because of gravity!",
+  "cobblemon.battle.activate.misty_terrain": "%1$s surrounds itself with a protective mist!",
+  "cobblemon.battle.activate.psychic_terrain": "%1$s surrounds itself with psychic terrain!",
+  "cobblemon.battle.activate.healbell": "A bell chimed!",
+  "cobblemon.battle.activate.aromatherapy": "A soothing aroma wafted through the area!",
+
+  "cobblemon.battle.set_hp.pain_split": "The battlers shared their pain!",
 
   "cobblemon.battle.speed_boost_ability": "%1$s's Speed Boost Activated!",
 
@@ -405,6 +431,16 @@
   "cobblemon.battle.item.power_herb.end": "%1$s became fully charged due to its Power Herb!",
   "cobblemon.battle.item.mirror_herb.end": "%1$s copied stat changes with its Mirror Herb!",
   "cobblemon.battle.item.white_herb.end": "%1$s returned its status to normal using its White Herb!",
+
+  "cobblemon.battle.heal.z_effect": "%1$s's HP was restored by the Z-Power!",
+  "cobblemon.battle.heal.wish": "%1$s's wish came true!",
+  "cobblemon.battle.heal.drain": "%1$s had its HP drained!",
+  "cobblemon.battle.heal.healing_wish": "The healing wish came true for %1$s!",
+  "cobblemon.battle.heal.revival_blessing": "%1$s was revived and is ready to fight again!",
+  "cobblemon.battle.heal.aqua_ring": "A veil of water restored %1$s's HP!",
+  "cobblemon.battle.heal.ingrain": "%1$s absorbed nutrients with its roots!",
+  "cobblemon.battle.heal.grassy_terrain": "%1$s's HP was restored.",
+  "cobblemon.battle.heal.generic": "%1$s restored its HP.",
 
   "cobblemon.experience.gained": "%1$s received %2$s experience.",
   "cobblemon.experience.level_up": "%1$s is now level %2$s!",

@@ -36,9 +36,11 @@ class MaractusModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bima
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("maractus", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("maractus", "ground_idle")
@@ -48,6 +50,7 @@ class MaractusModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bima
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("maractus", "ground_idle"),

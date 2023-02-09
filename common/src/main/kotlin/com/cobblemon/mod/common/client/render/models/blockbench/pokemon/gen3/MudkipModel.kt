@@ -41,9 +41,11 @@ class MudkipModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("mudkip", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook()
             )
@@ -52,6 +54,7 @@ class MudkipModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.8F)
@@ -61,6 +64,7 @@ class MudkipModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
         float = registerPose(
             poseName = "float",
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("mudkip", "water_swim")
@@ -70,6 +74,7 @@ class MudkipModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
         swim = registerPose(
             poseName = "swim",
             poseTypes = setOf(PoseType.SWIM, PoseType.FLY),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("mudkip", "water_swim")

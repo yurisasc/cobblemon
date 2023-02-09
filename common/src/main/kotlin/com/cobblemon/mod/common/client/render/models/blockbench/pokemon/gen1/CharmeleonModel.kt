@@ -38,6 +38,7 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("charmeleon", "blink").setPreventsIdle(false)}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
@@ -48,6 +49,7 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT),
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charmeleon", "ground_idle")
@@ -58,6 +60,7 @@ class CharmeleonModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("charmeleon", "ground_idle"),

@@ -37,9 +37,11 @@ class PersianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("persian", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("persian", "ground_idle")
@@ -49,6 +51,7 @@ class PersianModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.5F, amplitudeMultiplier = 1.1F),
                 singleBoneLook(),

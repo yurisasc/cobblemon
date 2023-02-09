@@ -35,6 +35,7 @@ class NatuModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
     lateinit var walk: PokemonPose
     lateinit var sleep: PokemonPose
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("natu", "blink").setPreventsIdle(false) }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(
@@ -44,6 +45,7 @@ class NatuModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = PoseType.STATIONARY_POSES + PoseType.UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("natu", "ground_idle")
             )
@@ -51,6 +53,7 @@ class NatuModel(root: ModelPart) : PokemonPoseableModel(), BipedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = PoseType.MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("natu", "ground_idle"),
                 BipedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.6F)

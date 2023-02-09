@@ -38,6 +38,7 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("ivysaur", "blink").setPreventsIdle(false) }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
@@ -48,6 +49,7 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("ivysaur", "ground_idle")
@@ -58,6 +60,7 @@ class IvysaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
             poseName = "walking",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("ivysaur", "ground_walk")

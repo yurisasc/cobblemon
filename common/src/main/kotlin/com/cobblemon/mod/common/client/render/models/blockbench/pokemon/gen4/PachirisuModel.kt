@@ -36,9 +36,11 @@ class PachirisuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("pachirisu", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pachirisu", "ground_idle")
@@ -48,6 +50,7 @@ class PachirisuModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 BipedWalkAnimation(this, periodMultiplier = 0.8F, amplitudeMultiplier = 0.7F),

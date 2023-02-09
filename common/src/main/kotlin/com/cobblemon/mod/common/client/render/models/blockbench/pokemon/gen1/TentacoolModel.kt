@@ -30,9 +30,11 @@ class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var float: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("tentacool", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseType = PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("tentacool", "ground_idle")
             )
@@ -41,6 +43,7 @@ class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("tentacool", "ground_idle")
                 //bedrock("tentacool", "ground_walk")
@@ -50,6 +53,7 @@ class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
         float = registerPose(
             poseName = "float",
             poseTypes = UI_POSES + PoseType.FLOAT,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("tentacool", "water_idle")
             )
@@ -58,6 +62,7 @@ class TentacoolModel(root: ModelPart) : PokemonPoseableModel() {
         swim = registerPose(
             poseName = "swim",
             poseType = PoseType.SWIM,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("tentacool", "water_swim")
             )

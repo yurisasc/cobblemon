@@ -49,15 +49,18 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("wartortle", "blink").setPreventsIdle(false)}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("wartortle", "sleep"))
         )
 
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("wartortle", "ground_idle")
@@ -67,6 +70,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         swimIdle = registerPose(
             poseName = "swim_idle",
             poseTypes = setOf(PoseType.FLOAT),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("wartortle", "water_idle")
@@ -76,6 +80,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
         swim = registerPose(
             poseName = "swim",
             poseTypes = setOf(PoseType.SWIM),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("wartortle", "water_swim")
@@ -84,6 +89,7 @@ class WartortleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
 
         walk = registerPose(
             poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("wartortle", "ground_walk")

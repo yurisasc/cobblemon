@@ -35,7 +35,8 @@ object BattleSwitchPokemonHandler : ClientPacketHandler<BattleSwitchPokemonPacke
                         displayName = displayName,
                         properties = properties,
                         aspects = aspects,
-                        hpRatio = hpRatio,
+                        hpValue = hpValue,
+                        isHpFlat = packet.isAlly,
                         status = status,
                         statChanges = statChanges
                     ).also {

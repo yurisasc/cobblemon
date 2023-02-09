@@ -33,9 +33,11 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
     override val profileTranslation = Vec3d(0.0, 0.40, 0.0)
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("magikarp", "blink").setPreventsIdle(false)}
         registerPose(
             poseName = "land",
             poseTypes = STANDING_POSES + PoseType.PROFILE,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(bedrock("magikarp","flop")),
             transformedParts = arrayOf(
                 rootPart.asTransformed().addPosition(Y_AXIS, 6),
@@ -47,6 +49,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "swimming",
             poseTypes = SWIMMING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("magikarp", "water_swim")
             )
@@ -55,6 +58,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "fly",
             poseTypes = FLYING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("magikarp", "air_idle")
             )
@@ -63,6 +67,7 @@ class MagikarpModel(root: ModelPart) : PokemonPoseableModel() {
         registerPose(
             poseName = "portrait",
             poseTypes = setOf(PoseType.PORTRAIT),
+            quirks = arrayOf(blink),
             idleAnimations = emptyArray<StatelessAnimation<PokemonEntity, out ModelFrame>>(),
             transformedParts = arrayOf(
                 leftMustache.withRotation(Y_AXIS, (-75F).toRadians()),

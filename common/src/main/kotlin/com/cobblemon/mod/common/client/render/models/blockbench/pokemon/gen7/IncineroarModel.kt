@@ -40,9 +40,11 @@ class IncineroarModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("incineroar", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("incineroar", "ground_idle")
@@ -52,6 +54,7 @@ class IncineroarModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bi
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("incineroar", "ground_idle"),

@@ -35,6 +35,7 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("bulbasaur", "blink").setPreventsIdle(false) }
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             transformTicks = 10,
@@ -45,6 +46,7 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.STAND, PoseType.PORTRAIT, PoseType.PROFILE),
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("bulbasaur", "ground_idle")
@@ -55,6 +57,7 @@ class BulbasaurModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Qua
             poseName = "walking",
             poseTypes = setOf(PoseType.SWIM, PoseType.WALK),
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("bulbasaur", "ground_walk")

@@ -34,9 +34,11 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var fly: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("dragonite", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("dragonite", "ground_idle")
@@ -46,6 +48,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("dragonite", "ground_idle")
@@ -55,6 +58,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         hover = registerPose(
             poseName = "hover",
             poseTypes = setOf(PoseType.HOVER, PoseType.FLOAT),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("dragonite", "air_idle")
@@ -64,6 +68,7 @@ class DragoniteModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         fly = registerPose(
             poseName = "fly",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("dragonite", "air_fly")

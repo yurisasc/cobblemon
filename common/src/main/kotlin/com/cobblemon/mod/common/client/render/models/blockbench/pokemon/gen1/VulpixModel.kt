@@ -37,10 +37,12 @@ class VulpixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("vulpix", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook()
                 //bedrock("vulpix", "ground_idle")
@@ -51,6 +53,7 @@ class VulpixModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 QuadrupedWalkAnimation(this, periodMultiplier = 0.5F)

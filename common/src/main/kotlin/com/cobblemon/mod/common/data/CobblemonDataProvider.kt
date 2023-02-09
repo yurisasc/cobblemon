@@ -40,15 +40,15 @@ object CobblemonDataProvider : DataProvider {
     private val scheduledActions = mutableMapOf<UUID, MutableList<() -> Unit>>()
 
     fun registerDefaults() {
+        this.register(SpeciesFeatures)
+        this.register(GlobalSpeciesFeatures)
+        this.register(SpeciesFeatureAssignments)
         this.register(Moves)
         this.register(Abilities)
         this.register(PokemonSpecies)
         this.register(SpeciesAdditions)
         this.register(PokeBalls)
-        this.register(SpeciesFeatures)
-        this.register(GlobalSpeciesFeatures)
         this.register(PropertiesCompletionProvider)
-        this.register(SpeciesFeatureAssignments)
         this.register(SpawnDetailPresets)
 
         CobblemonSpawnPools.load()

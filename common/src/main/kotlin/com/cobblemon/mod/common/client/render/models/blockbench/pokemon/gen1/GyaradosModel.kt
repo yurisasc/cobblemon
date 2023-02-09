@@ -63,9 +63,11 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     override val profileTranslation = Vec3d(-0.1, 0.65, 0.0)
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("gyarados", "blink").setPreventsIdle(false)}
         registerPose(
             poseName = "land",
             poseTypes = STANDING_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             condition = { !it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -98,6 +100,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         registerPose(
             poseName = "surface",
             poseTypes = setOf(PoseType.STAND, PoseType.WALK),
+            quirks = arrayOf(blink),
             condition = { it.isTouchingWater },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -134,6 +137,7 @@ class GyaradosModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
             poseName = "swim",
             poseTypes = SWIMMING_POSES + FLYING_POSES,
 //            transformedParts = arrayOf(head.withRotation(X_AXIS, -70F.toRadians())),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 WaveAnimation(

@@ -36,9 +36,11 @@ class LopunnyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("lopunny", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("lopunny", "ground_idle")
@@ -48,6 +50,7 @@ class LopunnyModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("lopunny", "ground_idle"),

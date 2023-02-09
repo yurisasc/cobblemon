@@ -28,10 +28,12 @@ class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("electrode", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 0,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("electrode", "ground_idle")
             )
@@ -41,6 +43,7 @@ class ElectrodeModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 0,
+            quirks = arrayOf(blink),
             onTransitionedInto = { it?.animationSeconds = 0F },
             idleAnimations = arrayOf(
                 bedrock("electrode", "ground_walk")

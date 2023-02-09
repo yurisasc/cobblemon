@@ -13,6 +13,8 @@ import com.cobblemon.mod.common.api.battles.model.actor.ActorType
 import com.cobblemon.mod.common.api.battles.model.ai.BattleAI
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon
 import com.cobblemon.mod.common.util.asTranslated
+import com.cobblemon.mod.common.util.battleLang
+import net.minecraft.text.MutableText
 import java.util.UUID
 class TrainerBattleActor(
     val trainerName: String,
@@ -21,5 +23,6 @@ class TrainerBattleActor(
     artificialDecider: BattleAI
 ) : AIBattleActor(uuid, pokemonList, artificialDecider) {
     override fun getName() = trainerName.asTranslated()
+    override fun nameOwned(name: String): MutableText = battleLang("owned_pokemon", this.getName(), name)
     override val type = ActorType.NPC
 }

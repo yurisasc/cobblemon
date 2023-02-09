@@ -37,9 +37,11 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
     override val profileTranslation = Vec3d(0.0, -0.05, 0.0)
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("pidgeot", "blink").setPreventsIdle(false)}
         registerPose(
             poseName = "stand",
             poseTypes = UI_POSES + PoseType.STAND,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeot", "ground_idle")
@@ -49,6 +51,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         registerPose(
             poseName = "walk",
             poseType = PoseType.WALK,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeot", "ground_idle"),
@@ -129,6 +132,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         registerPose(
             poseName = "floating",
             poseTypes = setOf(PoseType.FLOAT, PoseType.HOVER),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeot", "air_idle")
@@ -138,6 +142,7 @@ class PidgeotModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biped
         registerPose(
             poseName = "flying",
             poseTypes = setOf(PoseType.FLY, PoseType.SWIM),
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("pidgeot", "air_fly")
