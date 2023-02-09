@@ -810,7 +810,7 @@
 					"rotation": [11.48188, -46.2281, -1.19445]
 				},
 				"arm_left": {
-					"rotation": ["-4.25-math.sin(q.anim_time*90*2)*.75", "14.75-math.sin(q.anim_time*90*2)*0.25", -107.5],
+					"rotation": ["-4.25-math.sin(q.anim_time*90*2)*0.75", "14.75-math.sin(q.anim_time*90*2)*0.25", -107.5],
 					"position": [0, -1.25, 0]
 				},
 				"arm_right": {

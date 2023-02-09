@@ -14,6 +14,7 @@
 - Added an interface that appears when interacting with your Pokémon while sneaking. The interface allows for interactive options such as shouldering and exchanging held items.
 - Added a new item for representing Pokémon within native UI menus.
 - Added support for Pokémon species data appending making it so datapack developers no longer need to overwrite files.
+- Added support for custom Pokémon to implement 'quirks' such as blinks.
 - Added an implementation of every [catch rate](https://bulbapedia.bulbagarden.net/wiki/Catch_rate) from generation 1 to 9, these can be used by changing the ``captureCalculator`` config value:
   - ``generation_1`` Sets the calculator to the generation 1 implementation.
   - ``generation_2`` Sets the calculator to the generation 2 implementation.
@@ -87,6 +88,7 @@
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
+- Fixed minimumDistanceBetweenEntities option being half of what it's set as.
 
 ## [1.2.0 - The Customization Update (January 1st, 2023)](#1-2-0)
 ### Additions

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -297,12 +297,26 @@ abstract class PoseableEntityModel<T : Entity>(
         secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
         loopTimes: IntRange = 1..1,
         condition: (state: PoseableEntityState<T>) -> Boolean = { true },
-        animation: () -> StatefulAnimation<T, *>
+        animation: (state: PoseableEntityState<T>) -> StatefulAnimation<T, *>
     ) = SimpleQuirk(
         name = name,
         secondsBetweenOccurrences = secondsBetweenOccurrences,
         loopTimes = loopTimes,
         condition = condition,
-        animations = { listOf(animation()) }
+        animations = { listOf(animation(it)) }
+    )
+
+    fun quirkMultiple(
+        name: String,
+        secondsBetweenOccurrences: Pair<Float, Float> = 8F to 30F,
+        loopTimes: IntRange = 1..1,
+        condition: (state: PoseableEntityState<T>) -> Boolean = { true },
+        animations: (state: PoseableEntityState<T>) -> List<StatefulAnimation<T, *>>
+    ) = SimpleQuirk(
+        name = name,
+        secondsBetweenOccurrences = secondsBetweenOccurrences,
+        loopTimes = loopTimes,
+        condition = condition,
+        animations = { animations(it) }
     )
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Cobblemon Contributors
+ * Copyright (C) 2023 Cobblemon Contributors
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -43,7 +43,8 @@ class CobblemonConfig {
     @NodeCategory(Category.Pokemon)
     var defaultDropItemMethod = ItemDropMethod.ON_ENTITY
     @NodeCategory(Category.Pokemon)
-    var ambientPokemonCryTicks = 160
+    @LastChangedVersion("1.3.0")
+    var ambientPokemonCryTicks = 360
 
     @NodeCategory(Category.Storage)
     @IntConstraint(min = 1, max = 1000)
