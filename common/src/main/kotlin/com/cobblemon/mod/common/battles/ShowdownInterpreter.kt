@@ -139,8 +139,7 @@ object ShowdownInterpreter {
         0 -> "cap.single"
         1 -> "slight"
         2 -> "sharp"
-        3 -> "severe"
-        else -> "HUH!?"
+        else -> "severe"
     }
 
     fun interpretMessage(battleId: UUID, message: String) {
