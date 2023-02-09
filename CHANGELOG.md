@@ -74,12 +74,15 @@
 - Fixed the ability Speed Boost not having a human-readable battle message, this is an ongoing effort to prettify all the different ability triggers.
 - Fixed Pokémon always being created with a moveset as if they're level 1 instead of their current level.
 - Fixed the Medium Slow and Medium Fast experience group IDs, they're now ```medium_slow``` and ``medium_fast``, any custom datapack Pokémon will require an update.
+- Fixed stat change messages for boosts over 3 stages
 - Fixed Pokémon friendship being capped to the maximum level config value instead of the friendship one when loading Pokémon data.
 - Fixed PokéBalls taking forever to capture Pokémon if you are underwater or up in the air where it takes a long time to hit the ground.
 - Fixed Pokémon being unable to spawn on blocks such as snow layers.
 - Fixed Pokémon spawning inside of trees.
 - Fixed various strange battle issues such as Flying types being vulnerable to Ground type moves and status effects hitting despite vulnerabilities.
 - Fixed Pokémon experience not loading after a restart and instead going back to the minimal amount for the current level.
+- Fixed being able to use ``/healpokemon`` in battle.
+- Fixed being able to select fainted party members in the switch menu causing the battle to lock.
 - Fixed ``/spawnpokemon`` command not supporting any command source other than players.
 
 ### Developer
