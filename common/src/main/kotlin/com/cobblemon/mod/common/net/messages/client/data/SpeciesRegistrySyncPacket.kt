@@ -20,6 +20,7 @@ class SpeciesRegistrySyncPacket : DataRegistrySyncPacket<Species> {
 
     override fun encodeEntry(buffer: PacketByteBuf, entry: Species) {
         try {
+            buffer.writeIdentifier(entry.resourceIdentifier)
             entry.encode(buffer)
         } catch (e: Exception) {
             Cobblemon.LOGGER.error("Caught exception encoding the species {}", entry.resourceIdentifier, e)
