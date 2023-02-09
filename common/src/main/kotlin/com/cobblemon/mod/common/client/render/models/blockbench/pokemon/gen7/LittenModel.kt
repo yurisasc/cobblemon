@@ -38,9 +38,11 @@ class LittenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("litten", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("litten", "ground_idle")
@@ -50,6 +52,7 @@ class LittenModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadru
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("litten", "ground_idle"),

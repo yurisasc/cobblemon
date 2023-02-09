@@ -30,9 +30,11 @@ class PoliwagModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var swim: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("poliwag", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STANDING_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("poliwag", "ground_idle")
             )
@@ -41,6 +43,7 @@ class PoliwagModel(root: ModelPart) : PokemonPoseableModel() {
         float = registerPose(
             poseName = "float",
             poseType = PoseType.FLOAT,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("poliwag", "water_idle")
             )
@@ -49,6 +52,7 @@ class PoliwagModel(root: ModelPart) : PokemonPoseableModel() {
         swim = registerPose(
             poseName = "swim",
             poseType = PoseType.SWIM,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("poliwag", "water_swim")
             )

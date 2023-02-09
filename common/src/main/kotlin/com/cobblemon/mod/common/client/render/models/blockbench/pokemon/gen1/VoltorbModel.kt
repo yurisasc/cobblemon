@@ -28,10 +28,12 @@ class VoltorbModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("voltorb", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 0,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("voltorb", "ground_idle")
             )

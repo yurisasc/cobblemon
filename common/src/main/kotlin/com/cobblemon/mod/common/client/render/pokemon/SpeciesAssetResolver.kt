@@ -12,10 +12,12 @@ import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonP
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.adapters.IdentifierAdapter
+import com.cobblemon.mod.common.util.adapters.ModelTextureSupplierAdapter
 import com.cobblemon.mod.common.util.adapters.Vec3fAdapter
 import com.cobblemon.mod.common.util.adapters.Vector4fAdapter
 import com.cobblemon.mod.common.util.cobblemonResource
 import com.google.gson.GsonBuilder
+import kotlin.math.floor
 import net.minecraft.client.model.ModelPart
 import net.minecraft.util.Identifier
 import net.minecraft.util.math.Vec3f
@@ -41,8 +43,8 @@ class RegisteredSpeciesRendering(
             ?: throw IllegalStateException("Unable to find a model for $species with aspects ${aspects.joinToString()}. This shouldn't be possible if you've defined the fallback variation.")
     }
 
-    fun getResolvedTexture(aspects: Set<String>): Identifier {
-        return getVariationValue(aspects) { texture }
+    fun getResolvedTexture(aspects: Set<String>, animationSeconds: Float): Identifier {
+        return getVariationValue(aspects) { texture }?.invoke(animationSeconds)
             ?: throw IllegalStateException("Unable to find a texture for $species with aspects ${aspects.joinToString()}. This shouldn't be possible if you've defined the fallback variation.")
     }
 
@@ -79,6 +81,7 @@ class RegisteredSpeciesRendering(
             .registerTypeAdapter(Identifier::class.java, IdentifierAdapter)
             .registerTypeAdapter(Vec3f::class.java, Vec3fAdapter)
             .registerTypeAdapter(Vector4f::class.java, Vector4fAdapter)
+            .registerTypeAdapter(ModelTextureSupplier::class.java, ModelTextureSupplierAdapter)
             .disableHtmlEscaping()
             .setLenient()
             .create()
@@ -109,9 +112,9 @@ class RegisteredSpeciesRendering(
         }
     }
 
-    fun getTexture(aspects: Set<String>): Identifier {
+    fun getTexture(aspects: Set<String>, animationSeconds: Float): Identifier {
         PokemonModelRepository.posers[getResolvedPoser(aspects)] ?: throw IllegalStateException("No poser for $species")
-        return getResolvedTexture(aspects)
+        return getResolvedTexture(aspects, animationSeconds)
     }
 
     fun getLayers(aspects: Set<String>): Iterable<ModelLayer> {
@@ -147,15 +150,46 @@ class ModelAssetVariation(
     val aspects: MutableSet<String> = mutableSetOf(),
     val poser: Identifier? = null,
     val model: Identifier? = null,
-    val texture: Identifier? = null,
+    val texture: ModelTextureSupplier? = null,
     val layers: List<ModelLayer>? = null
 )
+
+/**
+ * Given the animation seconds, returns a texture to use. Only implemented
+ * by [StaticModelTextureSupplier] and [AnimatedModelTextureSupplier].
+ *
+ * @author Hiroku
+ * @since February 6th, 2023
+ */
+fun interface ModelTextureSupplier {
+    operator fun invoke(animationSeconds: Float): Identifier
+}
+
+class StaticModelTextureSupplier(val texture: Identifier): ModelTextureSupplier {
+    override fun invoke(animationSeconds: Float): Identifier {
+        return texture
+    }
+}
+
+class AnimatedModelTextureSupplier(
+    val loop: Boolean,
+    val fps: Float,
+    val frames: List<Identifier>
+): ModelTextureSupplier {
+    override fun invoke(animationSeconds: Float): Identifier {
+        val frameIndex = floor(animationSeconds * fps).toInt()
+        if (frameIndex >= frames.size && !loop) {
+            return frames.last()
+        }
+        return frames[frameIndex % frames.size]
+    }
+}
 
 class ModelLayer {
     val name: String = ""
     val scale: Vec3f = Vec3f(1F, 1F, 1F)
     val tint: Vector4f = Vector4f(1F, 1F, 1F, 1F)
-    val texture: Identifier? = null
+    val texture: ModelTextureSupplier? = null
     val emissive: Boolean = false
 }
 

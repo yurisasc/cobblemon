@@ -33,6 +33,7 @@ class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("weedle", "blink").setPreventsIdle(false)}
         sleep = registerPose(
             poseType = PoseType.SLEEP,
             idleAnimations = arrayOf(bedrock("weedle", "sleep"))
@@ -41,6 +42,7 @@ class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("weedle", "ground_idle2")
@@ -50,6 +52,7 @@ class WeedleModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame {
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("weedle", "ground_walk")

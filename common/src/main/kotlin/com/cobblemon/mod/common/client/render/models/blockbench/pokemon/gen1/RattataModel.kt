@@ -42,10 +42,12 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("rattata", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = setOf(PoseType.NONE, PoseType.PROFILE, PoseType.STAND, PoseType.FLOAT, PoseType.PORTRAIT, PoseType.SHOULDER_LEFT, PoseType.SHOULDER_RIGHT),
             transformTicks = 10,
+            quirks = arrayOf(blink),
             condition = { !it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),
@@ -56,6 +58,7 @@ class RattataModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Quadr
         walk = registerPose(
             poseType = PoseType.WALK,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             condition = { it.isMoving.get() },
             idleAnimations = arrayOf(
                 singleBoneLook(),

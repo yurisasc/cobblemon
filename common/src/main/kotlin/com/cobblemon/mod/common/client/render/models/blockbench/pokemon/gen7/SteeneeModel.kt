@@ -40,9 +40,11 @@ class SteeneeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("steenee", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("steenee", "ground_idle")
@@ -52,6 +54,7 @@ class SteeneeModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Biman
         walk = registerPose(
             poseName = "walk",
             poseTypes = MOVING_POSES,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 singleBoneLook(),
                 bedrock("steenee", "ground_idle"),

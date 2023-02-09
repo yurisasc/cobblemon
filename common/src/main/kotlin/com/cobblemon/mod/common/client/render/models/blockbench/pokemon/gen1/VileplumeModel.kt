@@ -30,10 +30,12 @@ class VileplumeModel(root: ModelPart) : PokemonPoseableModel() {
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
+        val blink = quirk("blink") { bedrockStateful("vileplume", "blink").setPreventsIdle(false)}
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("vileplume", "idle")
             )
@@ -43,6 +45,7 @@ class VileplumeModel(root: ModelPart) : PokemonPoseableModel() {
             poseName = "walk",
             poseTypes = MOVING_POSES,
             transformTicks = 10,
+            quirks = arrayOf(blink),
             idleAnimations = arrayOf(
                 bedrock("vileplume", "ground_walk")
             )
