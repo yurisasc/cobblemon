@@ -268,6 +268,7 @@
   "cobblemon.command.givepokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
   "cobblemon.command.spawnpokemon.nospecies": "Error: You need to include a Pokémon name or 'random'",
   "cobblemon.command.held_item": "%1$s' %2$s was given the %3$s to hold.",
+  "cobblemon.command.pokeheal.in_battle": "You cannot heal your party while in a battle!",
 
   "advancements.cobblemon.root": "Cobblemon",
   "advancements.cobblemon.root.description": "Started your adventure by picking a starter Pokémon",
