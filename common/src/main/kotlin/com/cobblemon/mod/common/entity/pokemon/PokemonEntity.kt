@@ -61,6 +61,7 @@ import net.minecraft.entity.damage.DamageSource
 import net.minecraft.entity.data.DataTracker
 import net.minecraft.entity.data.TrackedData
 import net.minecraft.entity.data.TrackedDataHandlerRegistry
+import net.minecraft.entity.passive.AnimalEntity
 import net.minecraft.entity.passive.PassiveEntity
 import net.minecraft.entity.passive.TameableShoulderEntity
 import net.minecraft.entity.player.PlayerEntity
@@ -661,5 +662,15 @@ class PokemonEntity(
     override fun hasCustomName(): Boolean = true
 
     override fun getCustomName(): Text? = this.pokemon.displayName
+
+    override fun isBreedingItem(stack: ItemStack): Boolean = false
+
+    override fun getBreedingAge(): Int = -1
+
+    override fun setBreedingAge(age: Int) {}
+
+    override fun canBreedWith(other: AnimalEntity): Boolean = false
+
+    override fun breed(world: ServerWorld, other: AnimalEntity) {}
 
 }
