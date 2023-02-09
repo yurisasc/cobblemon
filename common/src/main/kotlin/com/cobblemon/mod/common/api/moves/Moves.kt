@@ -95,7 +95,10 @@ object Moves : DataRegistry {
     fun all() = this.allMoves.values.toList()
 
     internal fun receiveSyncPacket(moves: Collection<MoveTemplate>) {
-        moves.forEach { move -> this.register(move) }
+        moves.forEach { move ->
+            this.register(move)
+            this.idMapping[move.id] = move
+        }
     }
 
     private fun register(move: MoveTemplate) {
