@@ -36,7 +36,7 @@ class MarshtompModel(root: ModelPart) : PokemonPoseableModel(), HeadedFrame, Bip
     lateinit var walk: PokemonPose
 
     override fun registerPoses() {
-        val blink = quirk("blink") { bedrockStateful("marshstomp", "blink").setPreventsIdle(false) }
+        val blink = quirk("blink") { bedrockStateful("marshtomp", "blink").setPreventsIdle(false) }
         standing = registerPose(
             poseName = "standing",
             poseTypes = STATIONARY_POSES + UI_POSES,
