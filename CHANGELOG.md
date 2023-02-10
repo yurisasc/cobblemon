@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.2.1](#1-2-1)
+## [1.3.0](#1-3-0)
 ### Additions
 - Added `/giveallpokemon` command which is definitely safe and not insane.
 - Added generation 9 Pokémon species, move and ability data.
@@ -85,6 +85,7 @@
 - Fixed being able to use ``/healpokemon`` in battle.
 - Fixed being able to select fainted party members in the switch menu causing the battle to lock.
 - Fixed ``/spawnpokemon`` command not supporting any command source other than players.
+- Fixed shiny Gyarados not using the red Gyarados texture.
 
 ### Developer
 - Reworked CatchRateModifier, as such, existing implementations need to be updated.
